@@ -44,6 +44,20 @@ class Mail
 	}
 
 	/**
+	 * Get default smtp Id
+	 * @return int
+	 */
+	public static function getDefaultSmtp()
+	{
+		if (Cache::has('DefaultSmtp', '')) {
+			return Cache::get('DefaultSmtp', '');
+		}
+		$id = (new Db\Query())->select(['id'])->from('s_#__mail_smtp')->where(['default' => 1])->scalar(Db::getInstance('admin'));
+		Cache::save('DefaultSmtp', '', $id, Cache::LONG);
+		return $id;
+	}
+
+	/**
 	 * Get mail template
 	 * @param int|string $id
 	 * @return array

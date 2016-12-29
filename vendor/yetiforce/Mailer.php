@@ -11,11 +11,12 @@ class Mailer
 {
 
 	/** @var string[] Queue status */
-	public $statuses = [
+	public static $statuses = [
 		0 => 'LBL_PENDING_ACCEPTANCE',
 		1 => 'LBL_WAITING_TO_BE_SENT',
 		2 => 'LBL_ERROR_DURING_SENDING',
 	];
+	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments'];
 
 	/** @var \PHPMailer PHPMailer instance */
 	protected $mailer;
@@ -68,6 +69,31 @@ class Mailer
 		$this->smtp = $smtpInfo;
 		$this->setSmtp();
 		return $this;
+	}
+
+	/**
+	 * Add mail to quote for send
+	 * @param array $params
+	 */
+	public static function addMail($params)
+	{
+		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
+		if (empty($params['smtp_id'])) {
+			$params['smtp_id'] = Mail::getDefaultSmtp();
+		}
+		if (empty($params['owner'])) {
+			$params['owner'] = User::getCurrentUserRealId();
+		}
+		$params['date'] = date('Y-m-d H:i:s');
+		foreach (static::$quoteJsonColumn as $key) {
+			if (isset($params[$key])) {
+				if (!is_array($params[$key])) {
+					$params[$key] = [$params[$key]];
+				}
+				$params[$key] = Json::encode($params[$key]);
+			}
+		}
+		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
 	}
 
 	/**
