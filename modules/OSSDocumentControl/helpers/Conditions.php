@@ -181,8 +181,6 @@ class Conditions
 	{
 		$db = PearDatabase::getInstance();
 
-		// $this->createFunctionName('is not');
-
 		$sql = "SELECT "
 			. "vtiger_ossdocumentcontrol.ossdocumentcontrolid as id, "
 			. "vtiger_ossdocumentcontrol.doc_name as doc_name, "

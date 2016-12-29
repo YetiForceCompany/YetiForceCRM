@@ -62,9 +62,7 @@ class SessionManager
 			HTTP_Session::destroy();
 			throw new WebServiceException(WebServiceErrorCode::$SESSIONIDLE, "Session has been invalidated to due lack activity");
 		}
-		//echo "<br>is new: ", HTTP_Session::isNew();
-		//invalid sessionId provided.
-		//echo "<br>get: ",$this->get($this->sessionVar);
+
 		if (!$this->get($this->sessionVar) && !HTTP_Session::isNew()) {
 			$valid = false;
 			HTTP_Session::destroy();

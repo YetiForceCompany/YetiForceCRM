@@ -172,8 +172,8 @@ class HTMLPurifier_UnitConverter
         }
 
         // Useful for debugging:
-        //echo "<pre>n";
-        //echo "$n\nsigfigs = $sigfigs\nnew_log = $new_log\nlog = $log\nrp = $rp\n</pre>\n";
+        // "<pre>n";
+        // "$n\nsigfigs = $sigfigs\nnew_log = $new_log\nlog = $log\nrp = $rp\n</pre>\n";
 
         $n = $this->round($n, $sigfigs);
         if (strpos($n, '.') !== false) {

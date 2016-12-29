@@ -634,7 +634,6 @@ class Restler
                 $format = $this->format_map[$extension];
                 $format = is_string($format) ? new $format : $format;
                 $format->setExtension($extension);
-                //echo "Extension $extension";
                 return $format;
             }
         }
@@ -659,7 +658,6 @@ class Restler
                     $format = $this->format_map[$accept];
                     $format = is_string($format) ? new $format : $format;
                     $format->setMIME($accept);
-                    //echo "MIME $accept";
                     // Tell cache content is based on Accept header
                     header("Vary: Accept"); 
                     return $format;
@@ -731,7 +729,6 @@ class Restler
         $params += $this->request_data;
         $lc = strtolower($this->url);
         foreach ($urls as $url => $call) {
-            //echo PHP_EOL.$url.' = '.$this->url.PHP_EOL;
             $call = (object) $call;
             if (strstr($url, ':')) {
                 $regex = preg_replace('/\\\:([^\/]+)/', '(?P<$1>[^/]+)',

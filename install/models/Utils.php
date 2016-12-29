@@ -78,7 +78,7 @@ class Install_Utils_Model
 				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8' . ';port=' . $dbconfig['db_port'];
 				$conn = new PDO($dsn, $db_username, $db_password);
 			} catch (PDOException $e) {
-				//echo $e->getMessage();
+
 			}
 			$db_type_status = true;
 			if ($conn) {
