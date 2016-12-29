@@ -431,7 +431,6 @@ function getParentMailId($parentmodule, $parentid)
  */
 function getMailError($mail, $mail_status)
 {
-	//Error types in class.phpmailer.php
 	/*
 	  provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	  connect_host, recipients_failed, from_failed

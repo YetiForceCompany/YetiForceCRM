@@ -809,8 +809,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$current_user = vglobal('current_user');
 		$scheduledImports = self::getScheduledImport();
-		$vtigerMailer = new vtlib\Mailer();
-		$vtigerMailer->IsHTML(true);
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$current_user = $importDataController->user;
 			$importDataController->batchImport = false;
@@ -835,13 +833,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
-			$vtigerMailer->to = array(array($userEmail, $userName));
-			$vtigerMailer->Subject = $emailSubject;
-			$vtigerMailer->Body = $emailData;
+			\App\Mailer::addMail([
+				//'smtp_id' => 1,
+				'to' => [$userEmail => $userName],
+				'subject' => $emailSubject,
+				'content' => $emailData,
+			]);
 
 			$importDataController->finishImport();
 		}
-		vtlib\Mailer::dispatchQueue(null);
 	}
 
 	public static function getScheduledImport()
