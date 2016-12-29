@@ -2978,7 +2978,7 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => ['id', 'name', 'handler_file', 'frequency', 'laststart', 'lastend', 'status', 'module', 'sequence', 'description'],
 				'values' => [
 					[1, 'LBL_WORKFLOW', 'cron/modules/com_vtiger_workflow/com_vtiger_workflow.php', 900, NULL, NULL, 1, 'com_vtiger_workflow', 1, 'Recommended frequency for Workflow is 15 mins'],
-					[2, 'LBL_ADDRESS_BOOCK', 'cron/AddressBoock.php', 86400, NULL, NULL, 1, 'Vtiger', 22, ''],
+					[2, 'LBL_ADDRESS_BOOK', 'cron/AddressBook.php', 86400, NULL, NULL, 1, 'Vtiger', 22, ''],
 					[3, 'LBL_SEND_REMINDER', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 12, 'Recommended frequency for SendReminder is 15 mins'],
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
 					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],

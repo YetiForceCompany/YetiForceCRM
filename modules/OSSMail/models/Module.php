@@ -237,7 +237,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = AppConfig::module('Email', 'MAILTO_LIMIT');
+		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
 			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
