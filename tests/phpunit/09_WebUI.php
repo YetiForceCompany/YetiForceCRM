@@ -79,7 +79,7 @@ class WebUI extends TestCase
 		$request->set('limit', 15);
 
 		$webUI = new Vtiger_WebUI();
-		$webUI->process($request);
+		//$webUI->process($request);
 
 		file_put_contents('tests/GlobalSearch.txt', ob_get_contents());
 		ob_end_clean();
