@@ -19,7 +19,7 @@ class Mail
 		if (Cache::has('SmtpServers', 'all')) {
 			return Cache::get('SmtpServers', 'all');
 		}
-		$all = (new Db\Query())->from('s_#__mail_smtp')->indexBy('id')->all();
+		$all = (new Db\Query())->from('s_#__mail_smtp')->indexBy('id')->all(Db::getInstance('admin'));
 		Cache::save('SmtpServers', 'all', $all, Cache::LONG);
 		return $all;
 	}
