@@ -7,10 +7,17 @@
  */
 chdir(dirname(__FILE__) . '/../');
 error_reporting(E_ALL & ~E_NOTICE);
-ini_set('display_startup_errors', 1);	
-ini_set('display_errors', 'On' );
-ini_set('log_errors', 'On' );
-ini_set('error_log', 'cache/logs/phpError.log' ); 
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 'On');
+ini_set('log_errors', 'On');
+ini_set('error_log', 'cache/logs/phpError.log');
+ini_set('output_buffering', 'On');
+ini_set('max_execution_time', 600);
+ini_set('default_socket_timeout', 600);
+ini_set('post_max_size', '200M');
+ini_set('upload_max_filesize', '200M');
+ini_set('max_input_vars', 10000);
+ini_set('xdebug.enable', 'On');
 
 $startTime = microtime(true);
 define('REQUEST_MODE', 'TEST');
