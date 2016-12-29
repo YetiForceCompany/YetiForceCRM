@@ -2689,7 +2689,7 @@ class ReportRun extends CRMEntity
 						if (false != strpos($fld->name, 'Share__with__users')) {
 							$id = $custom_field_values[$this->primarymodule . '__LBL_ACTION'];
 							$usersSqlFullName = \App\Module::getSqlForNameInDisplayFormat('Users');
-							$query = 'SELECT '.$usersSqlFullName.' FROM  u_yf_crmentity_showners LEFT JOIN vtiger_users ON u_yf_crmentity_showners.userid = vtiger_users.id WHERE crmid = ?';
+							$query = sprintf('SELECT %s FROM  u_yf_crmentity_showners LEFT JOIN vtiger_users ON u_yf_crmentity_showners.userid = vtiger_users.id WHERE crmid = ?', $usersSqlFullName);
 							$resultOwners = $adb->pquery($query, [$id]);
 							$fieldvalue = implode(', ',$adb->getArrayColumn($resultOwners));
 						}
