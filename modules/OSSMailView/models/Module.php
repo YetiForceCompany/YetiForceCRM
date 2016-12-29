@@ -64,7 +64,8 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 		$response = array();
 
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$saleStage = $db->query_result($result, $i, 'ossmailview_sendtype');
 			$response[$i][0] = $saleStage;
 			$response[$i][1] = $db->query_result($result, $i, 'count');

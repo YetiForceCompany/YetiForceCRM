@@ -92,7 +92,9 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 			FROM vtiger_project
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
 			WHERE deleted = ? && servicecontractsid = ?;", array(0, $ServiceContractsID), true);
-		for ($i = 0; $i < $db->num_rows($project_result); $i++) {
+		
+		$numRowsCount = $db->num_rows($project_result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$ProjectID = $db->query_result($project_result, $i, 'projectid');
 			$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
 			$sum_time_p += number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
@@ -189,7 +191,9 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		//////// sum_time
 		$projectIDS = array();
 		$sum_time_result = $db->pquery("SELECT reservationsid FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_result); $i++) {
+		
+		$numRowsCount = $db->num_rows($sum_time_result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$projectIDS[] = $db->query_result($sum_time_result, $i, 'reservationsid');
 		}
 		//////// sum_time_h
@@ -202,7 +206,9 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 						AND reservations_status = ?
 						AND vtiger_troubletickets.projectid = ?;';
 		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_h_result); $i++) {
+		
+		$numRowsCount = $db->num_rows($sum_time_h_result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$ticketsIDS[] = $db->query_result($sum_time_h_result, $i, 'reservationsid');
 		}
 		//////// sum_time_pt
@@ -217,7 +223,9 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 						AND vtiger_reservations.reservations_status = ?
 						AND vtiger_projecttask.projectid = ?;';
 		$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
-		for ($i = 0; $i < $db->num_rows($sum_time_pt_result); $i++) {
+		
+		$numRowsCount = $db->num_rows($sum_time_pt_result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$taskIDS[] = $db->query_result($sum_time_pt_result, $i, 'reservationsid');
 		}
 		return array($taskIDS, $ticketsIDS, $projectIDS);

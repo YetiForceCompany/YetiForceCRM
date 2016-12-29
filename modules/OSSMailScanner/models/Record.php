@@ -39,7 +39,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";
 		$result = $db->pquery($sql, array($id), true);
 		$output = [];
-		for ($i = 0; $i < $db->getRowCount($result); $i++) {
+		$newRowCount = $db->getRowCount($result);
+		for ($i = 0; $i < $newRowCount; $i++) {
 			$output[$i]['name'] = $db->query_result($result, $i, 'name');
 			$output[$i]['email'] = $db->query_result($result, $i, 'email');
 			$output[$i]['identity_id'] = $db->query_result($result, $i, 'identity_id');

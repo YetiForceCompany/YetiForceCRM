@@ -297,7 +297,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex", array($this->getId()));
 
 		$selectedColumns = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
 			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
 			$fieldLabel = explode('__', $moduleFieldLabel);
@@ -323,7 +324,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid=?', array($this->getId()));
 
 		$columns = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$columns[] = $db->query_result($result, $i, 'columnname');
 		}
 		return $columns;
@@ -342,7 +344,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_reportsortcol.sortcolid', array($this->getId()));
 
 		$sortColumns = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
 			$order = $db->query_result($result, $i, 'sortorder');
 			$sortColumns[decode_html($column)] = $order;

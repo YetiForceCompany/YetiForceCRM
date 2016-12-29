@@ -124,8 +124,8 @@ class Conditions
 
 
 		$output = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsResult = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsResult; $i++) {
 			$id = $db->query_result($result, $i, 'id');
 			$output[$id][$i]['doc_name'] = $db->query_result($result, $i, 'doc_name');
 			$output[$id][$i]['doc_request'] = $db->query_result($result, $i, 'doc_request');
@@ -161,8 +161,8 @@ class Conditions
 		$result = $db->pquery($sql, array($docId), true);
 
 		$output = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsResult = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsResult; $i++) {
 			$id = $db->query_result($result, $i, 'id');
 			$output[$id][$i]['doc_name'] = $db->query_result($result, $i, 'doc_name');
 			$output[$id][$i]['doc_request'] = $db->query_result($result, $i, 'doc_request');
@@ -199,8 +199,8 @@ class Conditions
 
 
 		$output = array();
-
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsResult = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsResult; $i++) {
 			$output[$i]['doc_id'] = $db->query_result($result, $i, 'id');
 			$output[$i]['doc_name'] = $db->query_result($result, $i, 'doc_name');
 			$output[$i]['doc_request'] = $db->query_result($result, $i, 'doc_request');
@@ -221,8 +221,8 @@ class Conditions
 
 		$getListDocumentRelSql = "SELECT * FROM vtiger_senotesrel WHERE crmid = ?";
 		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), true);
-
-		for ($i = 0; $i < $db->num_rows($getListDocumentRelResult); $i++) {
+		$numRowsGetList = $db->num_rows($getListDocumentRelResult);
+		for ($i = 0; $i < $numRowsGetList; $i++) {
 			$docId = $db->query_result($getListDocumentRelResult, $i, 'notesid');
 
 			if (isRecordExists($docId)) {
@@ -243,8 +243,8 @@ class Conditions
 
 		$getListDocumentRelSql = "SELECT * FROM vtiger_senotesrel WHERE crmid = ?";
 		$getListDocumentRelResult = $db->pquery($getListDocumentRelSql, array($record), true);
-
-		for ($i = 0; $i < $db->num_rows($getListDocumentRelResult); $i++) {
+		$numRowsGetList = $db->num_rows($getListDocumentRelResult);
+		for ($i = 0; $i < $numRowsGetList; $i++) {
 			$docId = $db->query_result($getListDocumentRelResult, $i, 'notesid');
 
 			if (isRecordExists($docId)) {

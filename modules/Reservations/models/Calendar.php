@@ -120,7 +120,8 @@ class Reservations_Calendar_Model extends Vtiger_Base_Model
 		$templateId = $db->query_result($result, 0, 'fieldparams');
 		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);
 		$calendarConfig = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$calendarConfig[$db->query_result_raw($result, $i, 'tree')] = $db->query_result_raw($result, $i, 'label');
 		}
 		return $calendarConfig;

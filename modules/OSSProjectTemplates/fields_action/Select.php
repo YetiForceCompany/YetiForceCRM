@@ -22,7 +22,8 @@ class Field_Model_Select extends Field_Model_Base
 		$result = $db->query($sql, true);
 		$output = array();
 
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$output[] = $db->query_result($result, $i, $fieldName);
 		}
 

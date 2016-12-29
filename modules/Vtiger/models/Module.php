@@ -1065,7 +1065,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 && crmentity2.setype = ? %s
 			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $accessConditions);
 		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 			$commentModel->setData($row);
@@ -1106,7 +1107,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$activites = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			if (Users_Privileges_Model::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();

@@ -102,7 +102,8 @@ class GenerateRecords
 
 		$tpl = array();
 
-		for ($i = 0; $i < $db->num_rows($getListTplResult); $i++) {
+		$numRowsGetListTplResult = $db->num_rows($getListTplResult);
+		for ($i = 0; $i < $numRowsGetListTplResult; $i++) {
 			$tpl[] = $db->query_result($getListTplResult, $i, 'id_tpl');
 		}
 
