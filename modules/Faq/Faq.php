@@ -91,6 +91,12 @@ class Faq extends CRMEntity
 					left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
 					left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
                     left join vtiger_users as vtiger_lastModifiedBy" . $module . " on vtiger_lastModifiedBy" . $module . ".id = vtiger_crmentity.modifiedby";
+		if ($queryPlanner->requireTable("u_yf_crmentity_showners")) {
+			$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+		}
+		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
+			$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+		}
 		return $query;
 	}
 	/*

@@ -1879,6 +1879,9 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("u_yf_crmentity_showners")) {
 				$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
 			}
+			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
+				$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			}
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= " left join " . $customTable['refTable'] . " as " . $customTable['reference'] . " on " . $customTable['reference'] . "." . $customTable['refIndex'] . " = " . $customTable['table'] . "." . $customTable['field'];
 			}

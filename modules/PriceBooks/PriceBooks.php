@@ -116,6 +116,12 @@ class PriceBooks extends CRMEntity
 		if ($queryplanner->requireTable("vtiger_lastModifiedByPriceBooks")) {
 			$query .= " left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentity.modifiedby ";
 		}
+		if ($queryplanner->requireTable("u_yf_crmentity_showners")) {
+			$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+		}
+		if ($queryplanner->requireTable("vtiger_shOwners$module")) {
+			$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+		}
 		return $query;
 	}
 	/*
