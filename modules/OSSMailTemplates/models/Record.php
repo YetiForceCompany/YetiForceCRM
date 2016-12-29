@@ -56,8 +56,6 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 
 	public function sendMailFromTemplate($data)
 	{
-		require_once('modules/Emails/mail.php');
-
 		$id = key_exists('id', $data) ? $data['id'] : false;
 		$sysname = key_exists('sysname', $data) ? $data['sysname'] : false;
 		$output = self::getTemplete($id, $sysname);
@@ -108,7 +106,16 @@ class OSSMailTemplates_Record_Model extends Vtiger_Record_Model
 		$this->findVar($output['subject'], 0, $entityId, $module, 't', $data);
 
 		vglobal('translated_language', $translatedLanguage);
-		$mailStatus = send_mail($module, $toEmail, '', $fromEmail, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
+		\App\Mailer::addMail([
+			//'smtp_id' => 1,
+			'from' => $fromEmail,
+			'to' => $toEmail,
+			'cc' => $cc,
+			'bcc' => $bcc,
+			'subject' => $output['subject'],
+			'content' => $output['content'],
+		]);
+		//$mailStatus = send_mail($module, $toEmail, '', $fromEmail, $output['subject'], $output['content'], $cc, $bcc, $attachment, $emailid, $logo, false, $data['attachment_src']);
 		return $mailStatus;
 	}
 

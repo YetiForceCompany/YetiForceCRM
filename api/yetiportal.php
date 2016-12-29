@@ -11,7 +11,6 @@ if (!in_array('yetiportal', $enabledServices)) {
 require('include/main/WebUI.php');
 require('libraries/nusoap/nusoap.php');
 require('modules/HelpDesk/HelpDesk.php');
-require('modules/Emails/mail.php');
 require('modules/Settings/CustomerPortal/helpers/CustomerPortalPassword.php');
 
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/yetiportal.log');
@@ -695,7 +694,7 @@ function create_ticket($input_array)
 	$servicecontractid = (int) $input_array['serviceid'];
 	$projectid = (int) $input_array['projectid'];
 
-	if (!validateSession($id, $sessionid)){
+	if (!validateSession($id, $sessionid)) {
 		return null;
 	}
 	$fields = [

@@ -12,7 +12,6 @@ chdir(dirname(__FILE__) . '/../');
  * Start the cron services configured.
  */
 include_once 'include/main/WebUI.php';
-require_once 'modules/Emails/mail.php';
 
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');

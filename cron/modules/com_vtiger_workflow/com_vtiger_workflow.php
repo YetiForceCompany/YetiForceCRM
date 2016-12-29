@@ -8,15 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '../..');
-
-require_once 'include/utils/utils.php';
-require_once('include/utils/CommonUtils.php');
-require_once("config/config.php");
-require_once("libraries/HTTP_Session/Session.php");
-require_once('include/database/PearDatabase.php');
 require_once 'include/Webservices/Utils.php';
-require_once("modules/Users/Users.php");
 require_once("include/Webservices/State.php");
 require_once("include/Webservices/OperationManager.php");
 require_once("include/Webservices/SessionManager.php");
@@ -27,18 +19,15 @@ require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/UserInfoUtil.php';
 require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
 require_once 'include/Webservices/WebserviceEntityOperation.php';
 require_once 'include/Webservices/Retrieve.php';
-require_once('modules/Emails/mail.php');
-require_once 'modules/Users/Users.php';
 require_once('modules/com_vtiger_workflow/VTSimpleTemplate.php');
 require_once 'modules/com_vtiger_workflow/VTEntityCache.php';
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-
 require_once 'modules/com_vtiger_workflow/include.php';
+require_once 'modules/com_vtiger_workflow/WorkFlowScheduler.php';
 
 function vtRunTaskJob($adb)
 {
@@ -56,7 +45,6 @@ function vtRunTaskJob($adb)
 	}
 }
 $adb = PearDatabase::getInstance();
-require_once 'modules/com_vtiger_workflow/WorkFlowScheduler.php';
 $workflowScheduler = new WorkFlowScheduler($adb);
 $workflowScheduler->queueScheduledWorkflowTasks();
 vtRunTaskJob($adb);

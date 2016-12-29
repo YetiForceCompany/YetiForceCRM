@@ -563,9 +563,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_log_cron WHERE laststart = ?", array($checkCronStatus));
 			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status) VALUES (?,0)", array($checkCronStatus));
-				$SUPPORT_NAME = vglobal('HELPDESK_SUPPORT_NAME');
 				$config = self::getConfig('cron');
-				$mail_status = send_mail('Support', $config['email'], vtranslate('Email_FromName', 'OSSMailScanner'), $SUPPORT_NAME, vtranslate('Email_Subject', 'OSSMailScanner'), vtranslate('Email_Body', 'OSSMailScanner'), '', '', '', 1);
+				$mail_status = \App\Mailer::addMail([
+						//'smtp_id' => 1,
+						'to' => $config['email'],
+						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
+						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+				]);
 				$adb->pquery("update vtiger_ossmailscanner_log_cron set status = ? WHERE laststart = ?", array($mail_status, $checkCronStatus));
 			}
 		}

@@ -9,7 +9,6 @@
  * ********************************************************************************** */
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once('modules/com_vtiger_workflow/VTEmailRecipientsTemplate.php');
-require_once('modules/Emails/mail.php');
 require_once('include/simplehtmldom/simple_html_dom.php');
 
 class VTEmailTask extends VTTask
@@ -20,7 +19,7 @@ class VTEmailTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array("subject", "content", "recepient", 'emailcc', 'emailbcc', 'fromEmail');
+		return array('subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail');
 	}
 
 	/**
@@ -29,12 +28,6 @@ class VTEmailTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		$util = new VTWorkflowUtils();
-		$admin = $util->adminUser();
-		$module = $recordModel->getModuleName();
-
 		$taskContents = \App\Json::decode($this->getContents($recordModel));
 		$from_email = $taskContents['fromEmail'];
 		$from_name = $taskContents['fromName'];
@@ -45,13 +38,16 @@ class VTEmailTask extends VTTask
 		$content = $taskContents['content'];
 
 		if (!empty($to_email)) {
-			//Storing the details of emails
-			if (stripos($content, '<img src="cid:logo" />')) {
-				$logo = 1;
-			}
-			$status = send_mail($module, $to_email, $from_name, $from_email, $subject, $content, $cc, $bcc, '', '', $logo);
+			\App\Mailer::addMail([
+				//'smtp_id' => 1,
+				'from' => [$from_name => $from_email],
+				'to' => $to_email,
+				'cc' => $cc,
+				'bcc' => $bcc,
+				'subject' => $subject,
+				'content' => $content,
+			]);
 		}
-		$util->revertUser();
 	}
 
 	/**

@@ -10,7 +10,6 @@
  * ****************************************************************************** */
 
 
-require_once("modules/Emails/class.phpmailer.php");
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/VTCacheUtils.php';
 
@@ -202,7 +201,7 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 	} else {
 		$fromName = $userFullName;
 	}
-		$mail->FromName = decode_html($fromName);
+	$mail->FromName = decode_html($fromName);
 
 	if ($to_email != '') {
 		if (is_array($to_email)) {
