@@ -2251,7 +2251,7 @@ CREATE TABLE `u_yf_mail_compose_data` (
 /*Table structure for table `u_yf_notification` */
 
 CREATE TABLE `u_yf_notification` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `number` varchar(50) DEFAULT NULL,
   `notification_status` varchar(255) DEFAULT NULL,
@@ -2260,7 +2260,10 @@ CREATE TABLE `u_yf_notification` (
   `process` int(19) DEFAULT NULL,
   `subprocess` int(19) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `relatedid` (`link`)
+  KEY `link` (`link`),
+  KEY `process` (`process`),
+  KEY `subprocess` (`subprocess`),
+  CONSTRAINT `fk_1_notification` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap` */
