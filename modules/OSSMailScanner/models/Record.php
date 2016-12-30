@@ -524,21 +524,26 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $adb->getRowCount($result);
 	}
 
+	/**
+	 * Cron data
+	 * @return bool|array
+	 */
 	public function getCronStatus()
 	{
-		$adb = PearDatabase::getInstance();
-		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? AND status = '2'", array('MailScannerAction'));
-		if ($adb->getRowCount($result) > 0) {
-			$return = $adb->query_result_rowdata($result, 0);
-		}
-		return $return;
+		$return = (new \App\Db\Query())
+			->from('vtiger_cron_task')
+			->where(['status' => 2, 'name' => 'LBL_MAIL_SCANNER_ACTION'])
+			->one();
+		return $return ? $return : false;
 	}
 
+	/**
+	 * Set cron status
+	 * @param int $status
+	 */
 	public function setCronStatus($status)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_cron_task SET status = ? WHERE name = ?", array($status, 'MailScannerAction'));
+		App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => (int) $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 	}
 
 	public function checkCronStatus()
@@ -576,12 +581,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Restart cron
+	 */
 	public function runRestartCron()
 	{
-		$adb = PearDatabase::getInstance();
-		$user_name = Users_Record_Model::getCurrentUserModel()->user_name;
-		$adb->pquery("update vtiger_cron_task set status = 1 WHERE name = ?", array('MailScannerAction'));
-		$adb->pquery("update vtiger_ossmails_logs set status = 2,stop_user = ? ,end_time = ? WHERE status = 1", array($user_name, date("Y-m-d H:i:s")));
+		$db = App\Db::getInstance();
+		$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
+		$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
+		$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => $userName, 'end_time' => date('Y-m-d H:i:s')], ['status' => 1])->execute();
 	}
 
 	protected $user = false;
