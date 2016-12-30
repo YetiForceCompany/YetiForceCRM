@@ -288,4 +288,72 @@ class Mailer
 		$result = $this->send();
 		return ['result' => $result, 'error' => implode(PHP_EOL, $this->error)];
 	}
+
+	/**
+	 * Send mail by row queue
+	 * @param array $rowQueue
+	 * @return boolean
+	 */
+	public static function sendByRowQueue($rowQueue)
+	{
+		$mailer = (new self())
+			->loadSmtpByID($rowQueue['smtp_id'])
+			->subject($rowQueue['subject'])
+			->content($rowQueue['content']);
+		if ($rowQueue['from']) {
+			$from = Json::decode($rowQueue['from']);
+			$mailer->from($from['email'], $from['name']);
+		}
+		if ($rowQueue['cc']) {
+			foreach (Json::decode($rowQueue['cc']) as $email => $name) {
+				if (is_numeric($email)) {
+					$email = $name;
+					$name = '';
+				}
+				$mailer->cc($email, $name);
+			}
+		}
+		if ($rowQueue['bcc']) {
+			foreach (Json::decode($rowQueue['bcc']) as $email => $name) {
+				if (is_numeric($email)) {
+					$email = $name;
+					$name = '';
+				}
+				$mailer->bcc($email, $name);
+			}
+		}
+		if ($rowQueue['attachments']) {
+			foreach (Json::decode($rowQueue['attachments']) as $path => $name) {
+				if (is_numeric($path)) {
+					$path = $name;
+					$name = '';
+				}
+				$mailer->attachment($path, $name);
+			}
+		}
+		if ($mailer->getSmtp('individual_delivery')) {
+			foreach (Json::decode($rowQueue['to']) as $email => $name) {
+				$separateMailer = clone $mailer;
+				if (is_numeric($email)) {
+					$email = $name;
+					$name = '';
+				}
+				$separateMailer->to($email, $name);
+				$status = $separateMailer->send();
+				if (!$status) {
+					return false;
+				}
+			}
+		} else {
+			foreach (Json::decode($rowQueue['to']) as $email => $name) {
+				if (is_numeric($email)) {
+					$email = $name;
+					$name = '';
+				}
+				$mailer->to($email, $name);
+			}
+			$status = $mailer->send();
+		}
+		return $status;
+	}
 }
