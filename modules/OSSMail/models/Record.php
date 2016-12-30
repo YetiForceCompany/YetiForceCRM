@@ -398,7 +398,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $decoded != $string && urlencode($decoded) == $string;
 	}
 
-	protected function decodeRFC2231($string, $charset = 'utf-8')
+	protected static function decodeRFC2231($string, $charset = 'utf-8')
 	{
 		if (preg_match("/^(.*?)'.*?'(.*?)$/", $string, $matches)) {
 			$encoding = $matches[1];
