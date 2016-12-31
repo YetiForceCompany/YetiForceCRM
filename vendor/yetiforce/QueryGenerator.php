@@ -889,9 +889,6 @@ class QueryGenerator
 				if ($field->getFieldDataType() === 'time') {
 					$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
 				}
-				if ($field->getFieldDataType() === 'currency') {
-					$fieldValue = \CurrencyField::convertToDBFormat($fieldValue);
-				}
 				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);
 					//Indicate whether it is fist date in the between condition

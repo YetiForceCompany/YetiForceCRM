@@ -10,6 +10,31 @@ namespace App\QueryField;
 class IntegerField extends BaseField
 {
 
+	public static $extendedOperators = ['>=', '<=', '<', '>'];
+
+	/**
+	 * Auto operator, it allows you to use formulas: >10<40, >1, <7
+	 * @return array
+	 */
+	public function operatorA()
+	{
+		$value = html_entity_decode($this->value);
+		$condition = ['and'];
+		$conditionFound = false;
+		foreach (static::$extendedOperators as $exo) {
+			if (strpos($value, $exo) !== false) {
+				$ev = explode($exo, $value);
+				$condition[] = [$exo, $this->getColumnName(), (int) $ev[1]];
+				$value = str_replace($exo . (int) $ev[1], '', $value);
+				$conditionFound = true;
+			}
+		}
+		if (!$conditionFound) {
+			return parent::operatorE();
+		}
+		return $condition;
+	}
+
 	/**
 	 * Lower operator
 	 * @return array
