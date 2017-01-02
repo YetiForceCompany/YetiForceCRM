@@ -64,8 +64,8 @@
 		<span class="col-md-3">{vtranslate('LBL_MESSAGE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
 			{assign var=POPOVER value=vtranslate('LBL_MESSAGE_INFO', $QUALIFIED_MODULE)}
-			{foreach from=Vtiger_TextParser_Helper::getFunctionVariables() key=KEY item=ITEM}
-				{assign var=POPOVER value=$POPOVER|cat:'<br><strong>'|cat:$ITEM|cat:'</strong> - '|cat:vtranslate($KEY, $QUALIFIED_MODULE)}
+			{foreach from=\App\TextParser::$variableExamples key=KEY item=ITEM}
+				{assign var=POPOVER value=$POPOVER|cat:'<br><strong>'|cat:$ITEM|cat:'</strong> - '|cat:vtranslate($KEY)}
 			{/foreach}
 			<div class="input-group popoverTooltip" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER)}" data-placement="right">
 				<textarea class="form-control messageContent" name="message" rows="3" aria-describedby="messageaddon">

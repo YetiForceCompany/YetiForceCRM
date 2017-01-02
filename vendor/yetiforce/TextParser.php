@@ -90,12 +90,25 @@ class TextParser
 	}
 
 	/**
+	 * Set without translations
+	 * @param string $content
+	 * @return $this
+	 */
+	public function withoutTranslations($type = true)
+	{
+		$this->withoutTranslations = $type;
+		return $this;
+	}
+
+	/**
 	 * Set content
 	 * @param string $content
+	 * @return $this
 	 */
 	public function setContent($content)
 	{
 		$this->rawContent = $this->content = $content;
+		return $this;
 	}
 
 	/**
@@ -118,6 +131,19 @@ class TextParser
 				return $this->$function($params);
 			}
 			return '';
+		}, $this->content);
+		return $this;
+	}
+
+	/**
+	 * Text parse function
+	 * @return $this
+	 */
+	public function parseTranslations()
+	{
+		$this->content = preg_replace_callback('/\$\(translate : ([\w\s\|]+)\)\$/', function ($matches) {
+			list($fullText, $params) = $matches;
+			return $this->translate($params);
 		}, $this->content);
 		return $this;
 	}

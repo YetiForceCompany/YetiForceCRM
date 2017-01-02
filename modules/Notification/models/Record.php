@@ -21,16 +21,13 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$relatedId = $relatedRecords['id'];
 		$value = $this->get($fieldName);
 		if (\App\Record::isExists($relatedId)) {
-			$textParser = Vtiger_TextParser_Helper::getInstanceById($relatedId, $relatedModule);
-			$textParser->setContent($value);
-			$value = $textParser->parse();
-			return $value;
+			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
+			$textParser->setContent($value)->parse();
 		} else {
-			$textParser = Vtiger_TextParser_Helper::getCleanInstance();
-			$textParser->setContent($value);
-			$value = $textParser->parseTranslations();
+			$textParser = \App\TextParser::getInstance();
+			$textParser->setContent($value)->parseTranslations();
 		}
-		return $value;
+		return $textParser->getContent();
 	}
 
 	public function getTitle()
@@ -135,23 +132,16 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType != 'PLL_USERS' && !Users_Privileges_Model::isPermitted($relatedModule, 'DetailView', $relatedId)) {
+		if ($notificationType !== 'PLL_USERS' && !Users_Privileges_Model::isPermitted($relatedModule, 'DetailView', $relatedId)) {
 			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType != 'PLL_USERS' && \App\Record::isExists($relatedId)) {
-			$message = $this->get('description');
-			$textParser = Vtiger_TextParser_Helper::getInstanceById($relatedId, $relatedModule);
-			$textParser->set('withoutTranslations', true);
-			$textParser->setContent($message);
-			$message = $textParser->parse();
-			$this->set('description', $message);
-			$title = $this->get('title');
-			$textParser->setContent($title);
-			$title = $textParser->parse();
-			$this->set('title', $title);
+		if ($notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
+			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
+			$this->set('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
+			$this->set('title', $textParser->setContent($this->get('title'))->parse()->getContent());
 		}
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];
@@ -168,7 +158,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		}
 		$usersCollection = array_unique($usersCollection);
 		foreach ($usersCollection as $userId) {
-			if($relatedId && $notificationType === 'PLL_SYSTEM' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)){
+			if ($relatedId && $notificationType === 'PLL_SYSTEM' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId, $userId)) {
 				continue;
 			}
 			$this->set('assigned_user_id', $userId);
