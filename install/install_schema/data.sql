@@ -4114,7 +4114,7 @@ insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`e
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (107,'FCorectingInvoice','u_yf_fcorectinginvoice','subject','fcorectinginvoiceid','fcorectinginvoiceid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (108,'IGRNC','u_yf_igrnc','subject','igrncid','igrncid','subject',1,0);
 insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (109,'IGDNC','u_yf_igdnc','subject','igdncid','igdncid','subject',1,0);
-insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (111,'Notification','u_yf_notification','title','id','id','title',1,0);
+insert  into `vtiger_entityname`(`tabid`,`modulename`,`tablename`,`fieldname`,`entityidfield`,`entityidcolumn`,`searchcolumn`,`turn_off`,`sequence`) values (111,'Notification','u_yf_notification','title','notificationid','notificationid','title',1,0);
 
 /*Data for the table `vtiger_eventhandlers` */
 
