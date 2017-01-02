@@ -2206,7 +2206,7 @@ class Base1 extends \App\Db\Importers\Base
 						['notification_subprocess_idx', 'subprocess'],
 				],
 				'primaryKeys' => [
-						['notification_pk', 'id']
+						['notification_pk', 'notificationid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
