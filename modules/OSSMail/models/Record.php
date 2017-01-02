@@ -441,7 +441,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				];
 				$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
 				$attachid = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-				$isSaved = self::_SaveAttachmentFile($attachid, $fileName, $fileContent);
+				$isSaved = self::saveAttachmentFile($attachid, $fileName, $fileContent);
 				if ($issaved) {
 					$record = Vtiger_Record_Model::getCleanInstance('Documents');
 					$record->set('assigned_user_id', $userid);
@@ -502,7 +502,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $fileContent
 	 * @return int
 	 */
-	public function _SaveAttachmentFile($attachid, $fileName, $fileContent)
+	public static function saveAttachmentFile($attachid, $fileName, $fileContent)
 	{
 		require_once 'modules/OSSMail/MailAttachmentMIME.php';
 		$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
