@@ -11,7 +11,7 @@ class Notification extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_notification';
-	public $table_index = 'id';
+	public $table_index = 'notificationid';
 	protected $lockFields = ['notification_status' => ['PLL_READ']];
 
 	/**
@@ -29,7 +29,7 @@ class Notification extends Vtiger_CRMEntity
 	 */
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
-		'u_yf_notification' => 'id',
+		'u_yf_notification' => 'notificationid',
 	];
 
 	/**
