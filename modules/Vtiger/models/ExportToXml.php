@@ -67,20 +67,13 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function sanitizeInventoryValue($value, $columnName, $formated = false)
 	{
-		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
-		$inventoryFields = $inventoryFieldModel->getFields();
-		$field = $inventoryFields[$columnName];
+		$field = $this->inventoryFields[$columnName];
 		if (!empty($field)) {
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
 					$recordModule = \vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
-					if (!empty($displayValueArray)) {
-						foreach ($displayValueArray as $k => $v) {
-							$displayValue = $v;
-						}
-					}
+					$displayValue = \App\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;
 					} else {
@@ -89,19 +82,15 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				} else {
 					$value = '';
 				}
-			} elseif ($formated && !in_array($field->getName(), ['DiscountMode', 'TaxMode'])) {
+			} elseif ($field->getName() === 'Currency') {
 				$value = $field->getDisplayValue($value);
 			} else {
 				$value;
 			}
 		} elseif (in_array($columnName, ['taxparam', 'discountparam', 'currencyparam'])) {
 			switch ($columnName) {
-//				case 'taxparam':
-//					$tax = Vtiger_InventoryField_Model::getTaxParam($value, 0, false);
-//					$value = key($tax);
-//					break;
 				case 'currencyparam':
-					$field = $inventoryFields['currency'];
+					$field = $this->inventoryFields['currency'];
 					$valueData = $field->getCurrencyParam([], $value);
 					$valueNewData = [];
 					foreach ($valueData as $currencyId => &$data) {
