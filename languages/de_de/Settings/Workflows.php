@@ -209,8 +209,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Protokolliere Änderungen',
 	'LBL_UPDATE_WORK_TIME' => 'Arbeitszeit aktualisieren',
 	'LBL_SKIP_CURRENT_USER' => 'Aktuellen Benutzer überspringen',
-	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'Liste aller Änderungen des Datensatzes',
-	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'Liste aller Werte des Datensatzes',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Liste aller Änderungen des Datensatzes',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Liste aller Werte des Datensatzes',
 	//VTWatchdog
 	'LBL_SELECT_RECIPIENTS' => 'Empfänger',
 	'LBL_MESSAGE' => 'Nachricht',
