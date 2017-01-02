@@ -12,7 +12,7 @@
 class PriceBooks extends CRMEntity
 {
 
-	public $table_name = "vtiger_pricebook";
+	public $table_name = 'vtiger_pricebook';
 	public $table_index = 'pricebookid';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_pricebook', 'vtiger_pricebookcf');
 	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_pricebook' => 'pricebookid', 'vtiger_pricebookcf' => 'pricebookid');
@@ -58,26 +58,26 @@ class PriceBooks extends CRMEntity
 	public function get_pricebook_noproduct($id)
 	{
 
-		\App\Log::trace("Entering get_pricebook_noproduct(" . $id . ") method ...");
+		\App\Log::trace('Entering get_pricebook_noproduct(' . $id . ') method ...');
 
-		$query = "select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0";
+		$query = 'select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0';
 		$result = $this->db->pquery($query, array());
 		$no_count = $this->db->num_rows($result);
 		if ($no_count != 0) {
 			$pb_query = 'select vtiger_crmentity.crmid, vtiger_pricebook.pricebookid,vtiger_pricebookproductrel.productid from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid inner join vtiger_pricebookproductrel on vtiger_pricebookproductrel.pricebookid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0 and vtiger_pricebookproductrel.productid=?';
 			$result_pb = $this->db->pquery($pb_query, array($id));
 			if ($no_count == $this->db->num_rows($result_pb)) {
-				\App\Log::trace("Exiting get_pricebook_noproduct method ...");
+				\App\Log::trace('Exiting get_pricebook_noproduct method ...');
 				return false;
 			} elseif ($this->db->num_rows($result_pb) == 0) {
-				\App\Log::trace("Exiting get_pricebook_noproduct method ...");
+				\App\Log::trace('Exiting get_pricebook_noproduct method ...');
 				return true;
 			} elseif ($this->db->num_rows($result_pb) < $no_count) {
-				\App\Log::trace("Exiting get_pricebook_noproduct method ...");
+				\App\Log::trace('Exiting get_pricebook_noproduct method ...');
 				return true;
 			}
 		} else {
-			\App\Log::trace("Exiting get_pricebook_noproduct method ...");
+			\App\Log::trace('Exiting get_pricebook_noproduct method ...');
 			return false;
 		}
 	}
@@ -110,17 +110,17 @@ class PriceBooks extends CRMEntity
 		if ($queryplanner->requireTable("vtiger_users$module")) {
 			$query .= " left join vtiger_users as vtiger_users$module on vtiger_users$module.id = vtiger_crmentity.smownerid";
 		}
-		$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
+		$query .= ' left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= ' left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid';
 
-		if ($queryplanner->requireTable("vtiger_lastModifiedByPriceBooks")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentity.modifiedby ";
+		if ($queryplanner->requireTable('vtiger_lastModifiedByPriceBooks')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentity.modifiedby ';
 		}
-		if ($queryplanner->requireTable("u_yf_crmentity_showners")) {
-			$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+		if ($queryplanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
 		}
 		if ($queryplanner->requireTable("vtiger_shOwners$module")) {
-			$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 		}
 		return $query;
 	}
@@ -136,31 +136,31 @@ class PriceBooks extends CRMEntity
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency("vtiger_crmentityPriceBooks", array("vtiger_usersPriceBooks", "vtiger_groupsPriceBooks"));
-		$matrix->setDependency("vtiger_pricebook", array("vtiger_crmentityPriceBooks", "vtiger_currency_infoPriceBooks"));
+		$matrix->setDependency('vtiger_crmentityPriceBooks', array('vtiger_usersPriceBooks', 'vtiger_groupsPriceBooks'));
+		$matrix->setDependency('vtiger_pricebook', array('vtiger_crmentityPriceBooks', 'vtiger_currency_infoPriceBooks'));
 		if (!$queryplanner->requireTable('vtiger_pricebook', $matrix)) {
 			return '';
 		}
 
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_pricebook", "pricebookid", $queryplanner);
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_pricebook', 'pricebookid', $queryplanner);
 
-		if ($queryplanner->requireTable("vtiger_crmentityPriceBooks", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityPriceBooks on vtiger_crmentityPriceBooks.crmid=vtiger_pricebook.pricebookid and vtiger_crmentityPriceBooks.deleted=0";
+		if ($queryplanner->requireTable('vtiger_crmentityPriceBooks', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityPriceBooks on vtiger_crmentityPriceBooks.crmid=vtiger_pricebook.pricebookid and vtiger_crmentityPriceBooks.deleted=0';
 		}
-		if ($queryplanner->requireTable("vtiger_currency_infoPriceBooks")) {
-			$query .= " left join vtiger_currency_info as vtiger_currency_infoPriceBooks on vtiger_currency_infoPriceBooks.id = vtiger_pricebook.currency_id";
+		if ($queryplanner->requireTable('vtiger_currency_infoPriceBooks')) {
+			$query .= ' left join vtiger_currency_info as vtiger_currency_infoPriceBooks on vtiger_currency_infoPriceBooks.id = vtiger_pricebook.currency_id';
 		}
-		if ($queryplanner->requireTable("vtiger_usersPriceBooks")) {
-			$query .= " left join vtiger_users as vtiger_usersPriceBooks on vtiger_usersPriceBooks.id = vtiger_crmentityPriceBooks.smownerid";
+		if ($queryplanner->requireTable('vtiger_usersPriceBooks')) {
+			$query .= ' left join vtiger_users as vtiger_usersPriceBooks on vtiger_usersPriceBooks.id = vtiger_crmentityPriceBooks.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_groupsPriceBooks")) {
-			$query .= " left join vtiger_groups as vtiger_groupsPriceBooks on vtiger_groupsPriceBooks.groupid = vtiger_crmentityPriceBooks.smownerid";
+		if ($queryplanner->requireTable('vtiger_groupsPriceBooks')) {
+			$query .= ' left join vtiger_groups as vtiger_groupsPriceBooks on vtiger_groupsPriceBooks.groupid = vtiger_crmentityPriceBooks.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_lastModifiedByPriceBooks")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentityPriceBooks.smownerid";
+		if ($queryplanner->requireTable('vtiger_lastModifiedByPriceBooks')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByPriceBooks on vtiger_lastModifiedByPriceBooks.id = vtiger_crmentityPriceBooks.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_createdbyPriceBooks")) {
-			$query .= " left join vtiger_users as vtiger_createdbyPriceBooks on vtiger_createdbyPriceBooks.id = vtiger_crmentityPriceBooks.smcreatorid ";
+		if ($queryplanner->requireTable('vtiger_createdbyPriceBooks')) {
+			$query .= ' left join vtiger_users as vtiger_createdbyPriceBooks on vtiger_createdbyPriceBooks.id = vtiger_crmentityPriceBooks.smcreatorid ';
 		}
 		return $query;
 	}

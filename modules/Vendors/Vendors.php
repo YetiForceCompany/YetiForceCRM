@@ -12,7 +12,7 @@
 class Vendors extends CRMEntity
 {
 
-	public $table_name = "vtiger_vendor";
+	public $table_name = 'vtiger_vendor';
 	public $table_index = 'vendorid';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats');
 	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid');
@@ -27,7 +27,7 @@ class Vendors extends CRMEntity
 		'vtiger_vendoraddress' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
 	);
 	//Pavani: Assign value to entity_table
-	public $entity_table = "vtiger_crmentity";
+	public $entity_table = 'vtiger_crmentity';
 	public $sortby_fields = Array('vendorname', 'category');
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
@@ -76,12 +76,12 @@ class Vendors extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Vendors", "detail_view");
+		$sql = getPermittedFieldsQuery('Vendors', 'detail_view');
 		$fields_list = getFieldsListFromQuery($sql);
 
 		$query = "SELECT $fields_list FROM " . $this->entity_table . "
@@ -96,14 +96,14 @@ class Vendors extends CRMEntity
                                 LEFT JOIN vtiger_users
                                         ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'
                                 ";
-		$where_auto = " vtiger_crmentity.deleted = 0 ";
+		$where_auto = ' vtiger_crmentity.deleted = 0 ';
 
-		if ($where != "")
-			$query .= sprintf("  WHERE (%s) && %s", $where, $where_auto);
+		if ($where != '')
+			$query .= sprintf('  WHERE (%s) && %s', $where, $where_auto);
 		else
-			$query .= sprintf("  WHERE %s", $where_auto);
+			$query .= sprintf('  WHERE %s', $where_auto);
 
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log::trace('Exiting create_export_query method ...');
 		return $query;
 	}
 
@@ -141,7 +141,7 @@ class Vendors extends CRMEntity
 				}
 			}
 		}
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 	/*
 	 * Function to get the primary query part of a report
@@ -160,18 +160,18 @@ class Vendors extends CRMEntity
 			inner join $modulecftable as $modulecftable on $modulecftable.$modulecfindex=$moduletable.$moduleindex
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex
 			left join vtiger_groups as vtiger_groups$module on vtiger_groups$module.groupid = vtiger_crmentity.smownerid
-			left join vtiger_users as vtiger_users" . $module . " on vtiger_users" . $module . ".id = vtiger_crmentity.smownerid
+			left join vtiger_users as vtiger_users" . $module . ' on vtiger_users' . $module . '.id = vtiger_crmentity.smownerid
 			left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
 			left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-			left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentity.modifiedby ";
+			left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentity.modifiedby ';
 		if ($queryPlanner->requireTable('vtiger_entity_stats')) {
-			$query .= " inner join vtiger_entity_stats on vtiger_vendor.vendorid = vtiger_entity_stats.crmid";
+			$query .= ' inner join vtiger_entity_stats on vtiger_vendor.vendorid = vtiger_entity_stats.crmid';
 		}
-		if ($queryPlanner->requireTable("u_yf_crmentity_showners")) {
-			$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
 		}
 		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
-			$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 		}
 		return $query;
 	}
@@ -187,29 +187,29 @@ class Vendors extends CRMEntity
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency("vtiger_crmentityVendors", array("vtiger_usersVendors", "vtiger_lastModifiedByVendors"));
-		$matrix->setDependency("vtiger_vendor", array("vtiger_crmentityVendors", "vtiger_vendorcf", "vtiger_email_trackVendors"));
+		$matrix->setDependency('vtiger_crmentityVendors', array('vtiger_usersVendors', 'vtiger_lastModifiedByVendors'));
+		$matrix->setDependency('vtiger_vendor', array('vtiger_crmentityVendors', 'vtiger_vendorcf', 'vtiger_email_trackVendors'));
 		if (!$queryplanner->requireTable('vtiger_vendor', $matrix)) {
 			return '';
 		}
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_vendor", "vendorid", $queryplanner);
-		if ($queryplanner->requireTable("vtiger_crmentityVendors", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityVendors on vtiger_crmentityVendors.crmid=vtiger_vendor.vendorid and vtiger_crmentityVendors.deleted=0";
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_vendor', 'vendorid', $queryplanner);
+		if ($queryplanner->requireTable('vtiger_crmentityVendors', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityVendors on vtiger_crmentityVendors.crmid=vtiger_vendor.vendorid and vtiger_crmentityVendors.deleted=0';
 		}
-		if ($queryplanner->requireTable("vtiger_vendorcf")) {
-			$query .= " left join vtiger_vendorcf on vtiger_vendorcf.vendorid = vtiger_crmentityVendors.crmid";
+		if ($queryplanner->requireTable('vtiger_vendorcf')) {
+			$query .= ' left join vtiger_vendorcf on vtiger_vendorcf.vendorid = vtiger_crmentityVendors.crmid';
 		}
-		if ($queryplanner->requireTable("vtiger_email_trackVendors")) {
-			$query .= " LEFT JOIN vtiger_email_track AS vtiger_email_trackVendors ON vtiger_email_trackVendors.crmid = vtiger_vendor.vendorid";
+		if ($queryplanner->requireTable('vtiger_email_trackVendors')) {
+			$query .= ' LEFT JOIN vtiger_email_track AS vtiger_email_trackVendors ON vtiger_email_trackVendors.crmid = vtiger_vendor.vendorid';
 		}
-		if ($queryplanner->requireTable("vtiger_usersVendors")) {
-			$query .= " left join vtiger_users as vtiger_usersVendors on vtiger_usersVendors.id = vtiger_crmentityVendors.smownerid";
+		if ($queryplanner->requireTable('vtiger_usersVendors')) {
+			$query .= ' left join vtiger_users as vtiger_usersVendors on vtiger_usersVendors.id = vtiger_crmentityVendors.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_lastModifiedByVendors")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentityVendors.modifiedby ";
+		if ($queryplanner->requireTable('vtiger_lastModifiedByVendors')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByVendors on vtiger_lastModifiedByVendors.id = vtiger_crmentityVendors.modifiedby ';
 		}
-		if ($queryplanner->requireTable("vtiger_createdbyVendors")) {
-			$query .= " left join vtiger_users as vtiger_createdbyVendors on vtiger_createdbyVendors.id = vtiger_crmentityVendors.smcreatorid ";
+		if ($queryplanner->requireTable('vtiger_createdbyVendors')) {
+			$query .= ' left join vtiger_users as vtiger_createdbyVendors on vtiger_createdbyVendors.id = vtiger_crmentityVendors.smcreatorid ';
 		}
 		return $query;
 	}

@@ -578,12 +578,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -1030,35 +1030,35 @@ class CRMEntity
 		$query = "from $moduletable inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex";
 
 		// Add the pre-joined custom table query
-		$query .= " " . "$cfquery";
+		$query .= ' ' . $cfquery;
 
 		if ($queryPlanner->requireTable('vtiger_groups' . $module)) {
-			$query .= " left join vtiger_groups as vtiger_groups" . $module . " on vtiger_groups" . $module . ".groupid = vtiger_crmentity.smownerid";
+			$query .= ' left join vtiger_groups as vtiger_groups' . $module . ' on vtiger_groups' . $module . '.groupid = vtiger_crmentity.smownerid';
 		}
 
 		if ($queryPlanner->requireTable('vtiger_users' . $module)) {
-			$query .= " left join vtiger_users as vtiger_users" . $module . " on vtiger_users" . $module . ".id = vtiger_crmentity.smownerid";
+			$query .= ' left join vtiger_users as vtiger_users' . $module . ' on vtiger_users' . $module . '.id = vtiger_crmentity.smownerid';
 		}
 		if ($queryPlanner->requireTable('vtiger_lastModifiedBy' . $module)) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedBy" . $module . " on vtiger_lastModifiedBy" . $module . ".id = vtiger_crmentity.modifiedby";
+			$query .= ' left join vtiger_users as vtiger_lastModifiedBy' . $module . ' on vtiger_lastModifiedBy' . $module . '.id = vtiger_crmentity.modifiedby';
 		}
 		if ($queryPlanner->requireTable('vtiger_createdby' . $module)) {
-			$query .= " left join vtiger_users as vtiger_createdby" . $module . " on vtiger_createdby" . $module . ".id = vtiger_crmentity.smcreatorid";
+			$query .= ' left join vtiger_users as vtiger_createdby' . $module . ' on vtiger_createdby' . $module . '.id = vtiger_crmentity.smcreatorid';
 		}
 		if ($queryPlanner->requireTable('vtiger_entity_stats')) {
-			$query .= " inner join vtiger_entity_stats on $moduletable.$moduleindex = vtiger_entity_stats.crmid";
+			$query .= ' inner join vtiger_entity_stats on $moduletable.$moduleindex = vtiger_entity_stats.crmid';
 		}
-		if ($queryPlanner->requireTable("u_yf_crmentity_showners")) {
-			$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
 		}
-		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
-			$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+		if ($queryPlanner->requireTable('vtiger_shOwners$module')) {
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 		}
-		$query .= "	left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
+		$query .= '	left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= ' left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid';
 
 		// Add the pre-joined relation table query
-		$query .= " " . $relquery;
+		$query .= ' ' . $relquery;
 
 		return $query;
 	}

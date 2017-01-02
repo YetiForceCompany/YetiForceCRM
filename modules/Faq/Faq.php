@@ -25,13 +25,13 @@
 class Faq extends CRMEntity
 {
 
-	public $table_name = "vtiger_faq";
+	public $table_name = 'vtiger_faq';
 	public $table_index = 'id';
 	//fix for Custom Field for FAQ 
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_faq', 'vtiger_faqcf');
 	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_faq' => 'id', 'vtiger_faqcomments' => 'faqid', 'vtiger_faqcf' => 'faqid');
 	public $customFieldTable = Array('vtiger_faqcf', 'faqid');
-	public $entity_table = "vtiger_crmentity";
+	public $entity_table = 'vtiger_crmentity';
 	public $column_fields = Array();
 	public $sortby_fields = Array('question', 'category', 'id');
 	// This is the list of vtiger_fields that are in the lists.
@@ -90,12 +90,12 @@ class Faq extends CRMEntity
 					left join vtiger_users as vtiger_users$module on vtiger_users$module.id = vtiger_crmentity.smownerid
 					left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
 					left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-                    left join vtiger_users as vtiger_lastModifiedBy" . $module . " on vtiger_lastModifiedBy" . $module . ".id = vtiger_crmentity.modifiedby";
-		if ($queryPlanner->requireTable("u_yf_crmentity_showners")) {
-			$query .= " LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid";
+                    left join vtiger_users as vtiger_lastModifiedBy" . $module . ' on vtiger_lastModifiedBy' . $module . '.id = vtiger_crmentity.modifiedby';
+		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
 		}
 		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
-			$query .= " LEFT JOIN vtiger_users AS vtiger_shOwners" . $module . " ON vtiger_shOwners" . $module . ".id = u_yf_crmentity_showners.userid";
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 		}
 		return $query;
 	}
