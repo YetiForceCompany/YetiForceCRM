@@ -87,7 +87,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		$data = $this->request->getAll();
 		$newRequest = new Vtiger_Request($data);
 		$newRequest->set('type', $this->extension);
-		$fileReader = Import_Utils_Helper::getFileReader($newRequest, $this->user);
+		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
 			return false;
 		}
@@ -122,7 +122,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		$data = $this->request->getAll();
 		$newRequest = new Vtiger_Request($data);
 		$newRequest->set('type', $this->extension);
-		$fileReader = Import_Utils_Helper::getFileReader($newRequest, $this->user);
+		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
 			return false;
 		}

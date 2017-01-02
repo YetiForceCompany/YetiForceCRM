@@ -156,7 +156,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		$mapName = $this->request->get('save_map_as');
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
-			$fileReader = Import_Utils_Helper::getFileReader($this->request, $this->user);
+			$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
 			if ($fileReader === null) {
 				return false;
 			}
@@ -185,7 +185,7 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public function copyFromFileToDB()
 	{
-		$fileReader = Import_Utils_Helper::getFileReader($this->request, $this->user);
+		$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
 		$fileReader->read();
 		$fileReader->deleteFile();
 		if ($fileReader->getStatus() == 'success') {
@@ -200,8 +200,7 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public function queueDataImport()
 	{
-		$configReader = new Import_Config_Model();
-		$immediateImportRecordLimit = $configReader->get('immediateImportLimit');
+		$immediateImportRecordLimit = \AppConfig::module('Import', 'IMMEDIATE_IMPORT_LIMIT');
 
 		$numberOfRecordsToImport = $this->numberOfRecords;
 		if ($numberOfRecordsToImport > $immediateImportRecordLimit) {

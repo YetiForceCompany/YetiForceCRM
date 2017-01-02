@@ -187,8 +187,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		if ($this->batchImport) {
-			$configReader = new Import_Config_Model();
-			$importBatchLimit = $configReader->get('importBatchLimit');
+			$importBatchLimit = \AppConfig::module('Import', 'BATCH_LIMIT');
 			$sql .= sprintf(' LIMIT %s', $importBatchLimit);
 		}
 		$result = $adb->query($sql);

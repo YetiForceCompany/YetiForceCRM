@@ -104,7 +104,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
 			$user = Users_Record_Model::getCurrentUserModel();
-			$fileReader = Import_Utils_Helper::getFileReader($request, $user);
+			$fileReader = Import_Module_Model::getFileReader($request, $user);
 			if ($fileReader === null) {
 				$this->importBasicStep($request);
 				return;

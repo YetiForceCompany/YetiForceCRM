@@ -142,7 +142,7 @@ class Import_FileReader_Reader
 				}
 			}
 			$db->createTable($inventoryTableName, $columns);
-			$db->createCommand()->addPrimaryKey('id_pk', $inventoryTableName, 'id')->execute();
+			$db->createCommand()->createIndex('id_idx', $inventoryTableName, 'id')->execute();
 			$db->createCommand()->addForeignKey('fk_1_' . $inventoryTableName, $inventoryTableName, 'id', $tableName, 'id', 'CASCADE', 'RESTRICT')->execute();
 		}
 	}
