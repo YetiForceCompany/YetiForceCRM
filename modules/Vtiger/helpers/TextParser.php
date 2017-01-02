@@ -16,8 +16,8 @@ class Vtiger_TextParser_Helper extends Vtiger_Base_Model
 		return [
 			'Translate' => '(translate: [LBL_YEAR])',
 			'Company Detail' => '(companyDetail: organizationname)',
-			'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => '(recordChanges: listOfAllChanges)',
-			'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => '(recordChanges: listOfAllValues)',
+			'LBL_LIST_OF_CHANGES_IN_RECORD' => '(recordChanges: listOfAllChanges)',
+			'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(recordChanges: listOfAllValues)',
 			'Current Date' => '(general: CurrentDate)',
 			'Current Time' => '(general: CurrentTime)',
 			'CRM Detail View URL' => '(general: CrmDetailViewURL)',
