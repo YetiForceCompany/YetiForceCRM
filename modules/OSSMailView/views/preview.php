@@ -24,7 +24,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		return true;
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}
