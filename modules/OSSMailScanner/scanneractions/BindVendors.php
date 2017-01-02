@@ -9,7 +9,7 @@
 class OSSMailScanner_BindVendors_ScannerAction extends OSSMailScanner_EmailScannerAction_Model
 {
 
-	public function process(OSSMail_Mail_Model $mail)
+	public function process(OSSMail_Mail_Model $mail, $moduleName = 'Vendors')
 	{
 		return parent::process($mail, 'Vendors');
 	}
