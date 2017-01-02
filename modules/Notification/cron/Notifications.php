@@ -88,7 +88,7 @@ class Cron_Notification
 		$notifications = (new \App\Db\Query())
 				->select(['smownerid', 'crmid'])
 				->from('u_#__notification')
-				->innerJoin('vtiger_crmentity', 'u_#__notification.id = vtiger_crmentity.crmid')
+				->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
 				->where(['vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 				->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
 				->createCommand()->queryAllByGroup(2);
