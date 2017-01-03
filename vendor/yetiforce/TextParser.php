@@ -58,6 +58,7 @@ class TextParser
 	/** @var string Rwa content */
 	protected $rawContent;
 	protected $withoutTranslations = false;
+	protected $language = false;
 
 	public static function getOrganizationVar()
 	{
@@ -126,6 +127,17 @@ class TextParser
 	}
 
 	/**
+	 * 
+	 * @param type $name
+	 * @return $this
+	 */
+	public function setLanguage($name = true)
+	{
+		$this->language = $name;
+		return $this;
+	}
+
+	/**
 	 * Set content
 	 * @param string $content
 	 * @return $this
@@ -153,6 +165,10 @@ class TextParser
 		if (empty($this->content)) {
 			return $this;
 		}
+		if (isset($this->language)) {
+			$courentLanguage = \Vtiger_Language_Handler::$language;
+			\Vtiger_Language_Handler::$language = $this->language;
+		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
 			if (in_array($function, static::$baseFunctions)) {
@@ -160,6 +176,9 @@ class TextParser
 			}
 			return '';
 		}, $this->content);
+		if ($courentLanguage) {
+			\Vtiger_Language_Handler::$language = $courentLanguage;
+		}
 		return $this;
 	}
 
@@ -169,10 +188,17 @@ class TextParser
 	 */
 	public function parseTranslations()
 	{
+		if (isset($this->language)) {
+			$courentLanguage = \Vtiger_Language_Handler::$language;
+			\Vtiger_Language_Handler::$language = $this->language;
+		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
+		if ($courentLanguage) {
+			\Vtiger_Language_Handler::$language = $courentLanguage;
+		}
 		return $this;
 	}
 
@@ -189,7 +215,7 @@ class TextParser
 		$aparams = explode('|', $params);
 		$moduleName = array_shift($aparams);
 		if (Module::getModuleId($moduleName) !== false) {
-			return Language::translate(ltrim($params, "$moduleName|"), $moduleName);
+			return Language::translate(ltrim($params, "$moduleName|"), $moduleName, $this->language);
 		}
 		return Language::translate($params);
 	}
@@ -299,7 +325,7 @@ class TextParser
 					$oldValue = $this->recordDisplayValue($oldValue, $fieldModel);
 					$currentValue = $this->recordDisplayValue($this->recordModel->get($fieldName), $fieldModel);
 					if ($this->withoutTranslations !== true) {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName) . ' ';
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
 						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . PHP_EOL;
 					} else {
 						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$ $(translate: LBL_FROM)$ $oldValue $(translate: LBL_TO)$ " .
@@ -315,7 +341,7 @@ class TextParser
 					}
 					$currentValue = $this->recordDisplayValue($this->recordModel->get($fieldName), $fieldModel);
 					if ($this->withoutTranslations !== true) {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName) . ": $currentValue" . PHP_EOL;
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . PHP_EOL;
 					} else {
 						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$: $currentValue" . PHP_EOL;
 					}

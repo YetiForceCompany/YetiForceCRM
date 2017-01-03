@@ -158,7 +158,7 @@ class Vtiger_Language_Handler
 		return [];
 	}
 
-	protected static $lang = false;
+	public static $language = false;
 
 	/**
 	 * Function that returns current language
@@ -166,8 +166,8 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguage()
 	{
-		if (self::$lang) {
-			return self::$lang;
+		if (static::$language) {
+			return static::$language;
 		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
@@ -177,7 +177,7 @@ class Vtiger_Language_Handler
 			$language = \App\User::getCurrentUserModel()->getDetail('language');
 		}
 		$language = empty($language) ? vglobal('default_language') : strtolower($language);
-		self::$lang = $language;
+		static::$language = $language;
 		return $language;
 	}
 
