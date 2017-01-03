@@ -17,36 +17,6 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 		return this.memberSelectElement;
 	},
 	/**
-	 * Function to register event for select2 element
-	 */
-	registerEventForSelect2Element : function(){
-		var editViewForm = this.getForm();
-		var selectElement = this.getMemberSelectElement();
-		var params = {};
-		params.dropdownCss = {'z-index' : 0};
-		params.templateSelection = function(object,container){
-			var selectedId = object.id;
-			var selectedOptionTag = editViewForm.find('option[value="'+selectedId+'"]');
-			var selectedMemberType = selectedOptionTag.data('memberType');
-			container.addClass(selectedMemberType);
-			return selectedOptionTag.text();
-		}
-		params.templateResult = function(object,container){
-			var selectedId = object.id;
-			if(typeof selectedId == 'undefined'){
-				return object.text;
-			}
-			container = $(container);
-			var selectedOptionTag = editViewForm.find('option[value="'+selectedId+'"]');
-			var selectedMemberType = selectedOptionTag.data('memberType');
-			container.addClass(selectedMemberType);
-			var element = selectedOptionTag.text();
-			return element;
-		}
-	 	app.changeSelectElementView(selectElement, 'select2',params);
-	},
-	
-	/**
 	 * Function to register form for validation
 	 */
 	registerFormForValidation : function(){
@@ -131,7 +101,6 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 	 */
 	registerEvents : function() {
 		this._super();
-		this.registerEventForSelect2Element();
 		this.registerSubmitEvent();
 	}
 });

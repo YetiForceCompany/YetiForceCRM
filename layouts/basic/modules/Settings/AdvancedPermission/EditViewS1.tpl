@@ -70,6 +70,15 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-10 groupMembersColors">
+					<ul class="nav nav-pills">
+						<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
+						<li class="Groups padding5per textAlignCenter"><strong>{vtranslate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
+						<li class="Roles padding5per textAlignCenter"><strong>{vtranslate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
+						<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{vtranslate('RoleAndSubordinates', $QUALIFIED_MODULE)}</strong></li>
+					</ul>
+				</div>
 				<label class="col-sm-2 control-label">
 					<span class="redColor">*</span> {vtranslate('LBL_MEMBERS', $QUALIFIED_MODULE)}
 				</label>
@@ -83,16 +92,6 @@
 							</optgroup>
 						{/foreach}
 					</select>
-				</div>
-				<div class="col-sm-2"></div>
-				<div class="col-sm-10 groupMembersColors">
-					<br/>
-					<ul class="nav nav-pills">
-						<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
-						<li class="Groups padding5per textAlignCenter"><strong>{vtranslate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>
-						<li class="Roles padding5per textAlignCenter"><strong>{vtranslate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>
-						<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{vtranslate('RoleAndSubordinates', $QUALIFIED_MODULE)}</strong></li>
-					</ul>
 				</div>
 			</div>
 			<div class="row">
