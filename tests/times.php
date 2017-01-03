@@ -5,6 +5,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
 use PHPUnit\Framework\TestCase;
 // @codeCoverageIgnoreStart
 class Times implements PHPUnit_Framework_TestListener
@@ -65,3 +66,4 @@ class Times implements PHPUnit_Framework_TestListener
 		//printf("Ended all tests: %s.\n", $suite->getName());
 	}
 }
+// @codeCoverageIgnoreEnd
