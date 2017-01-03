@@ -13,6 +13,19 @@
 	<div id="VtEmailTaskContainer">
 		<div class="">
 			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2 control-label">{vtranslate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+					<div class="col-md-10 paddingLRZero">
+						<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+							<option value="">{vtranslate('LBL_DEFAULT')}</option>
+							{foreach from=App\Mail::getAll() item=ITEM key=ID}
+								<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}({$ITEM['host']})</option>
+							{/foreach}	
+						</select>
+					</div>
+				</span>
+			</div>
+			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
 					<span class="col-md-3 control-label">{vtranslate('LBL_FROM', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
@@ -23,7 +36,9 @@
 					<div class="col-md-12 paddingLRZero">
 						<select id="fromEmailOption" class="chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$FROM_EMAIL_FIELD_OPTION}
+							{foreach from=$FROM_EMAIL_FIELD_OPTION item=NAME key=KEY}
+								<option value="{$KEY}">{$NAME}</option>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -39,7 +54,9 @@
 					<div class="col-md-12 paddingLRZero">
 						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$EMAIL_FIELD_OPTION}
+							{foreach from=$EMAIL_FIELD_OPTION item=NAME key=KEY}
+								<option value="{$KEY}">{$NAME}</option>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -55,7 +72,9 @@
 					<div class="col-md-12 paddingLRZero">
 						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}" >
 							<option></option>
-							{$EMAIL_FIELD_OPTION}
+							{foreach from=$EMAIL_FIELD_OPTION item=NAME key=KEY}
+								<option value="{$KEY}">{$NAME}</option>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -71,7 +90,9 @@
 					<div class="col-md-12 paddingLRZero">
 						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$EMAIL_FIELD_OPTION}
+							{foreach from=$EMAIL_FIELD_OPTION item=NAME key=KEY}
+								<option value="{$KEY}">{$NAME}</option>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -94,31 +115,42 @@
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 paddingLRZero">
-					<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-						<option></option>
-						{$ALL_FIELD_OPTIONS}
-					</select>
+						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+							<option></option>
+							{foreach from=$ALL_FIELD_OPTIONS item=NAME key=KEY}
+								<option value="{$KEY}">{$NAME}</option>
+							{/foreach}
+						</select>
 					</div>
 				</div>
 			</div>
 			<div class="row padding-bottom1per">
-				<span class="col-md-7 row">
+				<span class="col-md-6 row">
 					<span class="col-md-3 control-label">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<select id="task-fieldnames" class="chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$ALL_FIELD_OPTIONS}
+							{foreach from=$ALL_FIELD_OPTIONS item=NAME key=KEY}
+								<option value="{$KEY}">{$NAME}</option>
+							{/foreach}
 						</select>
 					</div>	
 				</span>
-				<div class="col-md-5">
-					<div  class="col-md-3 paddingLRZero control-label addTime">{vtranslate('LBL_ADD_TIME',$QUALIFIED_MODULE)}</div>
-					<div class="col-md-9 paddingLRZero">
-						<select id="task_timefields" class="chzn-select form-control " data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+				<div class="col-md-6">
+					<div  class="col-md-4 paddingLRZero control-label addTime">{vtranslate('LBL_ADD_VARIABLE',$QUALIFIED_MODULE)}</div>
+					<div class="col-md-8 paddingLRZero">
+						<select id="task_timefields" class="chzn-select form-control " data-placeholder="{vtranslate('LBL_SELECT_VARIABLES',$QUALIFIED_MODULE)}">
 							<option></option>
-							{foreach from=$META_VARIABLES item=META_VARIABLE_KEY key=META_VARIABLE_VALUE}
-								<option value="${$META_VARIABLE_KEY}">{vtranslate($META_VARIABLE_VALUE,$QUALIFIED_MODULE)}</option>
-							{/foreach}	
+							<optgroup>
+								{foreach from=\App\TextParser::$variableGeneral item=KEY key=NAME}
+									<option value="{$KEY}">{vtranslate($NAME)}</option>
+								{/foreach}
+							</optgroup> 
+							<optgroup label="{vtranslate('LBL_COMPANY_DETAIL')}">
+								{foreach from=\App\TextParser::getOrganizationVar() item=KEY key=NAME}
+									<option value="$(organization : {$KEY})$">{vtranslate($KEY,'Settings:Vtiger')}</option>
+								{/foreach}
+							</optgroup> 
 						</select>
 					</div>	
 				</div>

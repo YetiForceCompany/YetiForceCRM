@@ -202,7 +202,7 @@ class Vtiger_AdvancedFilter_Helper
 							$fieldModel->setFieldInfo($fieldInfo);
 						}
 						// This will be used during editing task like email, sms etc
-						$fieldModel->set('workflow_columnname', $fieldName)->set('workflow_columnlabel', vtranslate($fieldModel->get('label'), $moduleModel->getName()));
+						$fieldModel->set('workflow_columnname', "$(record : $fieldName)$")->set('workflow_columnlabel', vtranslate($fieldModel->get('label'), $moduleModel->getName()));
 						// This is used to identify the field belongs to source module of workflow
 						$fieldModel->set('workflow_sourcemodule_field', true);
 						$values[$blockLabel][$fieldName] = clone $fieldModel;
@@ -216,8 +216,9 @@ class Vtiger_AdvancedFilter_Helper
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner')
+			if ($type === 'owner') {
 				$referenceModules = array('Users');
+			}
 			foreach ($referenceModules as $refModule) {
 				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
@@ -226,7 +227,7 @@ class Vtiger_AdvancedFilter_Helper
 					if (!empty($fieldModelList)) {
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
-								$name = "($parentFieldName : ($refModule) $fieldName)";
+								$name = "$(reletedRecord : $parentFieldName|$fieldName|$refModule)$";
 								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
 								$fieldModel->set('workflow_columnname', $name)->set('workflow_columnlabel', $label);
 								if (!empty($recordId)) {

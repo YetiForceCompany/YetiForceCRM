@@ -92,8 +92,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TASK_TYPES', $taskTypes);
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$metaVariables = Settings_Workflows_Module_Model::getMetaVariables();
-
 		// Adding option Line Item block for Individual tax mode
 		$individualTaxBlockLabel = vtranslate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);
 		$individualTaxBlockValue = $viewer->view('LineItemsGroupTemplate.tpl', $qualifiedModuleName, $fetch = true);
@@ -106,8 +104,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$individualTaxBlockValue => $individualTaxBlockLabel,
 			$groupTaxBlockValue => $groupTaxBlockLabel
 		);
-
-		$viewer->assign('META_VARIABLES', $metaVariables);
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
@@ -122,51 +118,32 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('timeFormat', $userModel->get('hour_format'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-
-
-
 		$emailFields = $recordStructureInstance->getAllEmailFields();
 		foreach ($emailFields as $metaKey => $emailField) {
-			$emailFieldoptions .= '<option value=",$' . $metaKey . '">' . $emailField->get('workflow_columnlabel') . '</option>';
+			$emailFieldoptions[',' . $metaKey] = $emailField->get('workflow_columnlabel');
 		}
-
 		$nameFields = $recordStructureInstance->getNameFields();
-		$fromEmailFieldOptions = '<option value="">' . vtranslate('Optional', $qualifiedModuleName) . '</option>';
-		$fromEmailFieldOptions .= '<option value="$(general : (__VtigerMeta__) supportName)<$(general : (__VtigerMeta__) supportEmailId)>"
-									>' . vtranslate('LBL_HELPDESK_SUPPORT_EMAILID', $qualifiedModuleName) .
-			'</option>';
-
+		$fromEmailFieldOptions = ['' => vtranslate('Optional', $qualifiedModuleName)];
 		foreach ($emailFields as $metaKey => $emailField) {
 			list($relationFieldName, $rest) = explode(' ', $metaKey);
-			$value = '<$' . $metaKey . '>';
-
+			$value = '<' . $emailField->get('workflow_columnname') . '>';
 			if ($nameFields) {
 				$nameFieldValues = '';
 				foreach (array_keys($nameFields) as $fieldName) {
 					if (strstr($fieldName, $relationFieldName) || (count(explode(' ', $metaKey)) === 1 && count(explode(' ', $fieldName)) === 1)) {
-						$fieldName = '$' . $fieldName;
-						$nameFieldValues .= ' ' . $fieldName;
+						$fieldName = $fieldName;
+						$nameFieldValues .= " $(record : $fieldName)$";
 					}
 				}
 				$value = trim($nameFieldValues) . $value;
 			}
-
-			$fromEmailFieldOptions .= '<option value="' . $value . '">' . $emailField->get('workflow_columnlabel') . '</option>';
+			$fromEmailFieldOptions[$value] = $emailField->get('workflow_columnlabel');
 		}
-
-		$structure = $recordStructureInstance->getStructure();
-		// for inventory modules we shouldn't show item detail fields
-		if ($taskType == "VTEmailTask" && in_array($workflowModel->getModule()->name, getInventoryModules())) {
-			$itemsBlock = "LBL_ITEM_DETAILS";
-			unset($structure[$itemsBlock]);
-		}
-		foreach ($structure as $fields) {
+		foreach ($recordStructureInstance->getStructure() as $fields) {
 			foreach ($fields as $field) {
-				$allFieldoptions .= '<option value="$' . $field->get('workflow_columnname') . '">' .
-					$field->get('workflow_columnlabel') . '</option>';
+				$allFieldoptions[$field->get('workflow_columnname')] = $field->get('workflow_columnlabel');
 			}
 		}
-
 		$userList = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$groupList = \App\Fields\Owner::getInstance()->getAccessibleGroups();
 		$assignedToValues = array();
