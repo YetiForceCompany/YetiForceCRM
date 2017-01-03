@@ -31,8 +31,9 @@ class TextParser
 		'LBL_RECORD_LABEL' => '$(record : RecordLabel)$',
 		'LBL_LIST_OF_CHANGES_IN_RECORD' => '(record: ChangesListChanges)',
 		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(record: ChangesListValues)',
-		'LBL_RECORD_COMMENT' => '$(record : Comments|5)$, $(record : Comments)$',
-		'LBL_RELETED_RECORD_LABEL' => '$(reletedRecord : parent_id|Accounts|phone)$',
+		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
+		'LBL_RELETED_RECORD_LABEL' => '$(reletedRecord : parent_id|email1|Accounts)$, $(reletedRecord : parent_id|email1)$',
+		'LBL_OWNER_EMAIL' => '$(reletedRecord : assigned_user_id|email1|Users)$',
 	];
 
 	/** @var int Record id */
@@ -250,6 +251,9 @@ class TextParser
 		if (!isset($this->recordModel) || !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) {
 			return '';
 		}
+		if ($this->recordModel->has($key)) {
+			return $this->recordModel->getDisplayValue($key, $this->record, true);
+		}
 		switch ($key) {
 			case 'CrmDetailViewURL' :
 				return \AppConfig::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
@@ -298,16 +302,13 @@ class TextParser
 				}
 				return $value;
 			default:
-				if (strpos($key, '|') !== false) {
-					list($key, $params) = explode('|', $key);
+				if (strpos($key, ' ') !== false) {
+					list($key, $params) = explode(' ', $key);
 				}
 				switch ($key) {
-					case 'Comment': return $this->getComments($params);
+					case 'Comments': return $this->getComments($params);
 				}
 				break;
-		}
-		if ($this->recordModel->has($key)) {
-			return $this->recordModel->get($key);
 		}
 		return '';
 	}
@@ -319,17 +320,22 @@ class TextParser
 	 */
 	private function reletedRecord($params)
 	{
-		list($fieldName, $reletedModule, $reletedField) = explode('|', $params);
+		list($fieldName, $reletedField, $reletedModule) = explode('|', $params);
 		if (!isset($this->recordModel) ||
 			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			!$this->recordModel->has($fieldName)) {
 			return '';
 		}
-		$moduleName = Record::getType($this->recordModel->get($fieldName));
-		$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($fieldName), $moduleName);
-		$content = \App\TextParser::getInstanceByModel($reletedRecordModel)->record();
-
-		return $key;
+		$reletedId = $this->recordModel->get($fieldName);
+		if ($reletedModule === 'Users') {
+			return \Users_Privileges_Model::getInstanceById($reletedId)->getDisplayValue($reletedField, $reletedId, true);
+		}
+		$moduleName = Record::getType($reletedId);
+		if (empty($moduleName) || ($reletedModule && $reletedModule !== $moduleName)) {
+			return '';
+		}
+		$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($reletedId, $moduleName);
+		return static::getInstanceByModel($reletedRecordModel)->record($reletedField);
 	}
 
 	/**
