@@ -311,7 +311,7 @@ class HTTP_Request
 	 * </ul>
 	 * @access public
 	 */
-	public function HTTP_Request($url = '', $params = array())
+	public function __construct($url = '', $params = array())
 	{
 		$this->_method = HTTP_REQUEST_METHOD_GET;
 		$this->_http = HTTP_REQUEST_HTTP_VER_1_1;
@@ -773,11 +773,7 @@ class HTTP_Request
 		}
 
 		// Check for redirection
-		if ($this->_allowRedirects
-			&& $this->_redirects <= $this->_maxRedirects
-			&& $this->getResponseCode() > 300
-			&& $this->getResponseCode() < 399
-			&& ! empty($this->_response->_headers['location'])) {
+		if ($this->_allowRedirects && $this->_redirects <= $this->_maxRedirects && $this->getResponseCode() > 300 && $this->getResponseCode() < 399 && !empty($this->_response->_headers['location'])) {
 
 
 			$redirect = $this->_response->_headers['location'];
@@ -1183,7 +1179,7 @@ class HTTP_Response
 	 * @param  Net_Socket    socket to read the response from
 	 * @param  array         listeners attached to request
 	 */
-	public function HTTP_Response(&$sock, &$listeners)
+	public function __construct(&$sock, &$listeners)
 	{
 		$this->_sock = & $sock;
 		$this->_listeners = & $listeners;

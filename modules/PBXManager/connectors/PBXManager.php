@@ -95,7 +95,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to get Settings edit view params
 	 * returns <array>
 	 */
-	public function getSettingsParameters()
+	public static function getSettingsParameters()
 	{
 		return self::$SETTINGS_REQUIRED_PARAMETERS;
 	}
