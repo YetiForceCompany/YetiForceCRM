@@ -10,21 +10,11 @@ namespace App;
 class TextParser
 {
 
-	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'organization', 'employee'];
-
 	/** @var array Examples of supported variables */
 	public static $variableExamples = [
-		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 		'LBL_ORGANIZATION_NAME' => '$(organization : organizationname)$',
 		'LBL_ORGANIZATION_LOGO' => '$(organization : mailLogo)$',
 		'LBL_EMPLOYEE_NAME' => '$(employee : last_name)$',
-		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
-		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
-		'LBL_BASE_TIMEZONE' => '$(general : BaseTimeZone)$',
-		'LBL_USER_TIMEZONE' => '$(general : UserTimeZone)$',
-		'LBL_SITE_URL' => '$(general : SiteUrl)$',
-		'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
 		'LBL_CRM_DETAIL_VIEW_URL' => '$(record : CrmDetailViewURL)$',
 		'LBL_PORTAL_DETAIL_VIEW_URL' => '$(record : PortalDetailViewURL)$',
 		'LBL_RECORD_ID' => '$(record : RecordId)$',
@@ -36,21 +26,47 @@ class TextParser
 		'LBL_OWNER_EMAIL' => '$(reletedRecord : assigned_user_id|email1|Users)$',
 	];
 
+	/** @var array Variables for entity modules */
+	public static $variableGeneral = [
+		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
+		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
+		'LBL_BASE_TIMEZONE' => '$(general : BaseTimeZone)$',
+		'LBL_USER_TIMEZONE' => '$(general : UserTimeZone)$',
+		'LBL_SITE_URL' => '$(general : SiteUrl)$',
+		'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
+		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
+	];
+
+	/** @var array Variables for entity modules */
+	public static $variableEntity = ['CrmDetailViewURL', 'PortalDetailViewURL', 'RecordId', 'RecordLabel', 'ChangesListChanges', 'ChangesListValues', 'Comments'];
+
+	/** @var string[] List of available functions */
+	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'organization', 'employee'];
+
 	/** @var int Record id */
-	private $record;
+	protected $record;
 
 	/** @var string Module name */
-	private $moduleName;
+	protected $moduleName;
 
 	/** @var \Vtiger_Record_Model Record model */
-	private $recordModel;
+	protected $recordModel;
 
 	/** @var string Content */
-	private $content;
+	protected $content;
 
 	/** @var string Rwa content */
-	private $rawContent;
-	private $withoutTranslations = false;
+	protected $rawContent;
+	protected $withoutTranslations = false;
+
+	public static function getOrganizationVar()
+	{
+		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById();
+		$fields = $companyDetails->getKeys();
+		$fields[] = 'mailLogo';
+		$fields[] = 'loginLogo';
+		return $fields;
+	}
 
 	/**
 	 * Get instanace by record id
@@ -60,7 +76,8 @@ class TextParser
 	 */
 	public static function getInstanceById($record, $moduleName)
 	{
-		$instance = new self();
+		$class = get_called_class();
+		$instance = new $class();
 		$instance->record = $record;
 		$instance->moduleName = $moduleName;
 		$instance->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
@@ -74,7 +91,8 @@ class TextParser
 	 */
 	public static function getInstanceByModel(\Vtiger_Record_Model $recordModel)
 	{
-		$instance = new self();
+		$class = get_called_class();
+		$instance = new $class();
 		$instance->record = $recordModel->getId();
 		$instance->moduleName = $recordModel->getModuleName();
 		$instance->recordModel = $recordModel;
@@ -88,7 +106,8 @@ class TextParser
 	 */
 	public static function getInstance($moduleName = '')
 	{
-		$instance = new self();
+		$class = get_called_class();
+		$instance = new $class();
 		if ($moduleName) {
 			$instance->moduleName = $moduleName;
 		}
@@ -120,9 +139,9 @@ class TextParser
 	/**
 	 * Get content 
 	 */
-	public function getContent()
+	public function getContent($trim = false)
 	{
-		return $this->content;
+		return $trim ? trim($this->content) : $this->content;
 	}
 
 	/**
@@ -131,6 +150,9 @@ class TextParser
 	 */
 	public function parse()
 	{
+		if (empty($this->content)) {
+			return $this;
+		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
 			if (in_array($function, static::$baseFunctions)) {
@@ -159,7 +181,7 @@ class TextParser
 	 * @param string $params
 	 * @return string
 	 */
-	private function translate($params)
+	protected function translate($params)
 	{
 		if (strpos($params, '|') === false) {
 			return Language::translate($params);
@@ -177,7 +199,7 @@ class TextParser
 	 * @param string $fieldName
 	 * @return string
 	 */
-	private function organization($fieldName)
+	protected function organization($fieldName)
 	{
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logoname' : 'panellogoname';
@@ -194,7 +216,7 @@ class TextParser
 	 * @param string $fieldName
 	 * @return mixed
 	 */
-	private function employee($fieldName)
+	protected function employee($fieldName)
 	{
 		$currentUserModel = \Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
@@ -204,20 +226,14 @@ class TextParser
 		if (Cache::has('TextParserEmployeeDetailRows', $userId)) {
 			$employee = Cache::get('TextParserEmployeeDetailRows', $userId);
 		} else {
-			$employee = (new Db\Query())->from('vtiger_ossemployees')
-					->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
-					->innerJoin('vtiger_ossemployeescf', 'vtiger_ossemployees.ossemployeesid = vtiger_ossemployeescf.ossemployeesid')
-					->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => $userId])->limit(1)->one();
-			if (!$employee) {
-				$employee = '';
-			}
+			$employee = (new Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $userId])
+					->limit(1)->scalar();
 			Cache::save('TextParserEmployeeDetailRows', $userId, $employee, Cache::LONG);
 		}
 		$value = '';
 		if ($employee) {
-			$moduleModel = \Vtiger_Module_Model::getInstance('OSSEmployees');
-			$fieldModel = $moduleModel->getFieldByName($fieldName);
-			$value = $fieldModel->getDisplayValue($employee[$fieldModel->get('column')], $employee['crmid'], false, true);
+			$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($employee, 'OSSEmployees');
+			$value = static::getInstanceByModel($reletedRecordModel)->record($fieldName);
 		}
 		Cache::save('TextParserEmployeeDetail', $userId . $fieldName, $value, Cache::LONG);
 		return $value;
@@ -228,7 +244,7 @@ class TextParser
 	 * @param string $key
 	 * @return mixed
 	 */
-	private function general($key)
+	protected function general($key)
 	{
 		switch ($key) {
 			case 'CurrentDate':
@@ -246,13 +262,17 @@ class TextParser
 	 * @param string $key
 	 * @return mixed
 	 */
-	private function record($key)
+	protected function record($key, $isPermitted = true)
 	{
-		if (!isset($this->recordModel) || !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) {
+		if (!isset($this->recordModel) || ($isPermitted && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))) {
 			return '';
 		}
 		if ($this->recordModel->has($key)) {
-			return $this->recordModel->getDisplayValue($key, $this->record, true);
+			$fieldModel = $this->recordModel->getModule()->getField($key);
+			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
+				return '';
+			}
+			return $this->recordDisplayValue($this->recordModel->get($key), $fieldModel);
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL' :
@@ -318,21 +338,24 @@ class TextParser
 	 * @param string $params
 	 * @return mixed
 	 */
-	private function reletedRecord($params)
+	protected function reletedRecord($params)
 	{
 		list($fieldName, $reletedField, $reletedModule) = explode('|', $params);
 		if (!isset($this->recordModel) ||
 			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
-			!$this->recordModel->has($fieldName)) {
+			$this->recordModel->isEmpty($fieldName)) {
 			return '';
 		}
 		$reletedId = $this->recordModel->get($fieldName);
 		if ($reletedModule === 'Users') {
-			return \Users_Privileges_Model::getInstanceById($reletedId)->getDisplayValue($reletedField, $reletedId, true);
+			$userRecordModel = \Users_Privileges_Model::getInstanceById($reletedId);
+			return static::getInstanceByModel($userRecordModel)->record($reletedField, false);
 		}
 		$moduleName = Record::getType($reletedId);
-		if (empty($moduleName) || ($reletedModule && $reletedModule !== $moduleName)) {
-			return '';
+		if (!empty($moduleName)) {
+			if (($reletedModule && $reletedModule !== $moduleName)) {
+				return '';
+			}
 		}
 		$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($reletedId, $moduleName);
 		return static::getInstanceByModel($reletedRecordModel)->record($reletedField);
@@ -344,9 +367,9 @@ class TextParser
 	 * @param \Vtiger_Field_Model $fieldModel
 	 * @return string
 	 */
-	private function recordDisplayValue($value, \Vtiger_Field_Model $fieldModel)
+	protected function recordDisplayValue($value, \Vtiger_Field_Model $fieldModel)
 	{
-		if ($value === '') {
+		if ($value === '' || !$fieldModel->isViewEnabled()) {
 			return '-';
 		}
 		if ($this->withoutTranslations !== true) {
@@ -423,7 +446,7 @@ class TextParser
 	 * @param int|bool $limit
 	 * @return string
 	 */
-	private function getComments($limit = false)
+	protected function getComments($limit = false)
 	{
 		$query = (new \App\Db\Query())->select(['commentcontent'])->from('vtiger_modcomments')->where(['related_to' => $this->record])->orderBy(['modcommentsid' => SORT_DESC]);
 		if ($limit) {
@@ -436,5 +459,16 @@ class TextParser
 			}
 		}
 		return ltrim($commentsList, '<br><br>');
+	}
+
+	/**
+	 * Check if this content can be used
+	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param string $moduleName
+	 * @return boolean
+	 */
+	protected function useValue($fieldModel, $moduleName)
+	{
+		return true;
 	}
 }
