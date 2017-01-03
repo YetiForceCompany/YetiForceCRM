@@ -662,7 +662,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues);
-			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
+			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);

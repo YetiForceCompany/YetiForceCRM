@@ -19,9 +19,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
 	public $webserviceField = false;
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
 
 	const REFERENCE_TYPE = 'reference';
-	const REFERENCE_TYPES = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
 	const OWNER_TYPE = 'owner';
 	const CURRENCY_LIST = 'currencyList';
 	const QUICKCREATE_MANDATORY = 0;
@@ -767,7 +767,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 		}
 
-		if (in_array($fieldDataType, Vtiger_Field_Model::REFERENCE_TYPES) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (in_array($fieldDataType, Vtiger_Field_Model::$referenceTypes) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
 		return $this->fieldInfo;
@@ -1105,7 +1105,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isReferenceField()
 	{
-		return in_array($this->getFieldDataType(), self::REFERENCE_TYPES);
+		return in_array($this->getFieldDataType(), self::$referenceTypes);
 	}
 
 	public function isOwnerField()
