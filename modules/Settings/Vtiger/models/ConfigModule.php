@@ -130,14 +130,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function getEditableFields()
 	{
 		return array(
-//			'CALENDAR_DISPLAY'				=> array('label' => 'LBL_MINI_CALENDAR_DISPLAY',			'fieldType' => 'checkbox'),
-//			'WORLD_CLOCK_DISPLAY'			=> array('label' => 'LBL_WORLD_CLOCK_DISPLAY',				'fieldType' => 'checkbox'),
-//			'CALCULATOR_DISPLAY'			=> array('label' => 'LBL_CALCULATOR_DISPLAY',				'fieldType' => 'checkbox'),
-//			'USE_RTE'						=> array('label' => 'LBL_USE_RTE',							'fieldType' => 'checkbox'),
-			'HELPDESK_SUPPORT_EMAIL_REPLY' => array('label' => 'LBL_HELPDESK_SUPPORT_EMAILID', 'fieldType' => 'input'),
-			'HELPDESK_SUPPORT_NAME' => array('label' => 'LBL_HELPDESK_SUPPORT_NAME', 'fieldType' => 'input'),
 			'upload_maxsize' => array('label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input'),
-//			'history_max_viewed'			=> array('label' => 'LBL_MAX_HISTORY_VIEWED',				'fieldType' => 'input'),
 			'default_module' => array('label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'),
 			'listview_max_textlength' => array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'),
 			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),

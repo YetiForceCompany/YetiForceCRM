@@ -22,8 +22,6 @@ class Vtiger_AdvancedFilter_Helper
 			'Site Url' => '(general : (__VtigerMeta__) siteurl)',
 			'Portal Url' => '(general : (__VtigerMeta__) portalurl)',
 			'Record Id' => '(general : (__VtigerMeta__) recordId)',
-			'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
-			'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
 		];
 	}
 
