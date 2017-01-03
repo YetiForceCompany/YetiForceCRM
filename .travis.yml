@@ -47,6 +47,7 @@ after_script:
 - cat DetailView.txt
 - cat ListView.txt
 - cat EditView.txt
+- cat records.log
 - cat cache/logs/Importer.log
 - php ocular code-coverage:upload --format=php-clover coverage.clover
 - bash <(curl -s https://codecov.io/bash) 
