@@ -11,15 +11,18 @@ class TextParser
 {
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'companyDetail', 'employeeDetail'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'organization', 'employee'];
 
 	/** @var array Examples of supported variables */
 	public static $variableExamples = [
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
-		'LBL_COMPANY_DETAIL' => '$(companyDetail : organizationname)$',
-		'LBL_EMPLOYEE_NAME' => '$(employeeDetail : last_name)$',
+		'LBL_ORGANIZATION_NAME' => '$(organization : organizationname)$',
+		'LBL_ORGANIZATION_LOGO' => '$(organization : mailLogo)$',
+		'LBL_EMPLOYEE_NAME' => '$(employee : last_name)$',
 		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
 		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
+		'LBL_BASE_TIMEZONE' => '$(general : BaseTimeZone)$',
+		'LBL_USER_TIMEZONE' => '$(general : UserTimeZone)$',
 		'LBL_SITE_URL' => '$(general : SiteUrl)$',
 		'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
 		'LBL_CRM_DETAIL_VIEW_URL' => '$(record : CrmDetailViewURL)$',
@@ -28,6 +31,8 @@ class TextParser
 		'LBL_RECORD_LABEL' => '$(record : RecordLabel)$',
 		'LBL_LIST_OF_CHANGES_IN_RECORD' => '(record: ChangesListChanges)',
 		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(record: ChangesListValues)',
+		'LBL_RECORD_COMMENT' => '$(record : Comments|5)$, $(record : Comments)$',
+		'LBL_RELETED_RECORD_LABEL' => '$(reletedRecord : parent_id|Accounts|phone)$',
 	];
 
 	/** @var int Record id */
@@ -167,12 +172,19 @@ class TextParser
 	}
 
 	/**
-	 * Parsing company detail
+	 * Parsing organization detail
 	 * @param string $fieldName
 	 * @return string
 	 */
-	private function companyDetail($fieldName)
+	private function organization($fieldName)
 	{
+		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
+			$fieldName = ($fieldName === 'mailLogo') ? 'logoname' : 'panellogoname';
+			$logoName = \Vtiger_CompanyDetails_Model::getInstanceById()->get($fieldName);
+			$url = \AppConfig::main('site_URL');
+			$logoTitle = Language::translate('LBL_COMPANY_LOGO_TITLE');
+			return "<img class=\"organizationLogo\" src=\"$url/storage/Logo/$logoName\" title=\"$logoTitle\" alt=\"$logoTitle\">";
+		}
 		return \Vtiger_CompanyDetails_Model::getInstanceById()->get($fieldName);
 	}
 
@@ -181,7 +193,7 @@ class TextParser
 	 * @param string $fieldName
 	 * @return mixed
 	 */
-	private function employeeDetail($fieldName)
+	private function employee($fieldName)
 	{
 		$currentUserModel = \Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
@@ -223,6 +235,7 @@ class TextParser
 			case 'CurrentTime' : return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \AppConfig::main('site_URL');
 			case 'PortalUrl' : return \AppConfig::main('PORTAL_URL');
+			case 'BaseTimeZone' : return \DateTimeField::getDBTimeZone();
 		}
 		return $key;
 	}
@@ -234,10 +247,7 @@ class TextParser
 	 */
 	private function record($key)
 	{
-		if (!isset($this->recordModel)) {
-			return '';
-		}
-		if (!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record)) {
+		if (!isset($this->recordModel) || !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record)) {
 			return '';
 		}
 		switch ($key) {
@@ -287,7 +297,38 @@ class TextParser
 					}
 				}
 				return $value;
+			default:
+				if (strpos($key, '|') !== false) {
+					list($key, $params) = explode('|', $key);
+				}
+				switch ($key) {
+					case 'Comment': return $this->getComments($params);
+				}
+				break;
 		}
+		if ($this->recordModel->has($key)) {
+			return $this->recordModel->get($key);
+		}
+		return '';
+	}
+
+	/**
+	 * Parsing record data
+	 * @param string $params
+	 * @return mixed
+	 */
+	private function reletedRecord($params)
+	{
+		list($fieldName, $reletedModule, $reletedField) = explode('|', $params);
+		if (!isset($this->recordModel) ||
+			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			!$this->recordModel->has($fieldName)) {
+			return '';
+		}
+		$moduleName = Record::getType($this->recordModel->get($fieldName));
+		$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($fieldName), $moduleName);
+		$content = \App\TextParser::getInstanceByModel($reletedRecordModel)->record();
+
 		return $key;
 	}
 
@@ -369,5 +410,25 @@ class TextParser
 				break;
 		}
 		return "$(translate : $value)$";
+	}
+
+	/**
+	 * Get last comments
+	 * @param int|bool $limit
+	 * @return string
+	 */
+	private function getComments($limit = false)
+	{
+		$query = (new \App\Db\Query())->select(['commentcontent'])->from('vtiger_modcomments')->where(['related_to' => $this->record])->orderBy(['modcommentsid' => SORT_DESC]);
+		if ($limit) {
+			$query->limit($limit);
+		}
+		$commentsList = '';
+		foreach ($query->column() as $comment) {
+			if ($comment != '') {
+				$commentsList .= '<br><br>' . nl2br($comment);
+			}
+		}
+		return ltrim($commentsList, '<br><br>');
 	}
 }
