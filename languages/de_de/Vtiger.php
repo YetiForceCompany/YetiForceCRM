@@ -1270,6 +1270,20 @@ $languageStrings = [
 	'LBL_UPDATE_DATE_FIELD' => 'Update %s field with current time',
 	'LBL_UPDATE_FIELD' => 'Update field',
 	'FL_IS_PRIVATE' => 'Private',
+	//TextParser
+ 	'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
+ 	'LBL_COMPANY_DETAIL' => '$(companyDetail : organizationname)$',
+  	'LBL_EMPLOYEE_NAME' => '$(employeeDetail : last_name)$',
+ 	'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
+ 	'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
+ 	'LBL_SITE_URL' => '$(general : SiteUrl)$',
+ 	'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
+ 	'LBL_CRM_DETAIL_VIEW_URL' => '$(record : CrmDetailViewURL)$',
+ 	'LBL_PORTAL_DETAIL_VIEW_URL' => '$(record : PortalDetailViewURL)$',
+ 	'LBL_RECORD_ID' => '$(record : RecordId)$',
+ 	'LBL_RECORD_LABEL' => '$(record : RecordLabel)$',
+ 	'LBL_LIST_OF_CHANGES_IN_RECORD' => '(record: ChangesListChanges)',
+ 	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(record: ChangesListValues)',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
