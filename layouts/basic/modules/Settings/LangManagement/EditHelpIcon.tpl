@@ -22,10 +22,9 @@
 			</div>
 			<label class="control-label col-md-1" >{vtranslate('Modules',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
-				{assign var=PICKLIST_VALUES value=Vtiger_Field_Model::getModulesListValues()}
 				<select class="form-control mods_list" name="mods_list" id="mods_list" data-target="HelpInfo">
-					{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-						<option value="{$PICKLIST_VALUE.name}" {if $PICKLIST_VALUE.name eq $REQUEST->get('mod')}selected{/if}>{$PICKLIST_VALUE.label}</option>
+					{foreach item=MODULE_INFO from=\vtlib\Functions::getAllModules(true, false, 0)}
+						<option value="{$MODULE_INFO['name']}" {if $MODULE_INFO['name'] eq $REQUEST->get('mod')}selected{/if}>{App\Language::translate($MODULE_INFO['name'], $MODULE_INFO['name'])}</option>
 					{/foreach}
 				</select>
 			</div>
