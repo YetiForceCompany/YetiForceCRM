@@ -28,22 +28,18 @@ require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/WorkFlowScheduler.php';
 
-function vtRunTaskJob($adb)
-{
-	$readyTasks = (new VTTaskQueue($adb))->getReadyTasks();
-	$tm = new VTTaskManager($adb);
-	foreach ($readyTasks as $taskDetails) {
-		list($taskId, $entityId, $taskContents) = $taskDetails;
-		$task = $tm->retrieveTask($taskId);
-		//If task is not there then continue
-		if (empty($task)) {
-			continue;
-		}
-		$task->setContents($taskContents);
-		$task->doTask(Vtiger_Record_Model::getInstanceById($entityId));
-	}
-}
 $adb = PearDatabase::getInstance();
 $workflowScheduler = new WorkFlowScheduler($adb);
 $workflowScheduler->queueScheduledWorkflowTasks();
-vtRunTaskJob($adb);
+$readyTasks = (new VTTaskQueue($adb))->getReadyTasks();
+$tm = new VTTaskManager($adb);
+foreach ($readyTasks as $taskDetails) {
+	list($taskId, $entityId, $taskContents) = $taskDetails;
+	$task = $tm->retrieveTask($taskId);
+	//If task is not there then continue
+	if (empty($task)) {
+		continue;
+	}
+	$task->setContents($taskContents);
+	$task->doTask(Vtiger_Record_Model::getInstanceById($entityId));
+}
