@@ -22,6 +22,6 @@ class Cron extends TestCase
 		foreach ($rows as $value) {
 			$c .= "{$value['modue']} = {$value['rows']}" . PHP_EOL;
 		}
-		file_put_contents('records.log', $c, FILE_APPEND);
+		file_put_contents('tests/records.log', $c, FILE_APPEND);
 	}
 }
