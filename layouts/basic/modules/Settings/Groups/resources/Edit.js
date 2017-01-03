@@ -24,15 +24,26 @@ Settings_Vtiger_Edit_Js('Settings_Groups_Edit_Js', {}, {
 		var selectElement = this.getMemberSelectElement();
 		var params = {};
 		params.dropdownCss = {'z-index' : 0};
-		params.formatSelection = function(object,container){
+		params.templateSelection = function(object,container){
 			var selectedId = object.id;
 			var selectedOptionTag = editViewForm.find('option[value="'+selectedId+'"]');
 			var selectedMemberType = selectedOptionTag.data('memberType');
 			container.addClass(selectedMemberType);
-			var element = '<div>'+selectedOptionTag.text()+'</div>';
+			return selectedOptionTag.text();
+		}
+		params.templateResult = function(object,container){
+			var selectedId = object.id;
+			if(typeof selectedId == 'undefined'){
+				return object.text;
+			}
+			container = $(container);
+			var selectedOptionTag = editViewForm.find('option[value="'+selectedId+'"]');
+			var selectedMemberType = selectedOptionTag.data('memberType');
+			container.addClass(selectedMemberType);
+			var element = selectedOptionTag.text();
 			return element;
 		}
-		app.changeSelectElementView(selectElement, 'select2',params);
+	 	app.changeSelectElementView(selectElement, 'select2',params);
 	},
 	
 	/**
