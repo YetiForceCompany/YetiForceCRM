@@ -77,7 +77,7 @@ function vtws_listtypes($fieldTypeList, $user)
 			}
 		}
 		//get All the CRM entity names.
-		if ($webserviceEntities === false || !CRMEntity::isBulkSaveMode()) {
+		if ($webserviceEntities === false) {
 			// Bulk Save Mode: For re-using information
 			$webserviceEntities = vtws_getWebserviceEntities();
 		}
