@@ -37,19 +37,6 @@ class CRMEntity
 		$this->column_fields = getColumnFields(get_class($this));
 	}
 
-	/**
-	 * Detect if we are in bulk save mode, where some features can be turned-off
-	 * to improve performance.
-	 */
-	static function isBulkSaveMode()
-	{
-		global $VTIGER_BULK_SAVE_MODE;
-		if (isset($VTIGER_BULK_SAVE_MODE) && $VTIGER_BULK_SAVE_MODE) {
-			return true;
-		}
-		return false;
-	}
-
 	static function getInstance($module)
 	{
 		$modName = $module;
