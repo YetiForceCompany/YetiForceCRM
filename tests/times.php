@@ -6,7 +6,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\TestCase;
-
+// @codeCoverageIgnoreStart
 class Times implements PHPUnit_Framework_TestListener
 {
 

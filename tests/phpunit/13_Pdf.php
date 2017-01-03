@@ -15,9 +15,8 @@ class Pdf extends TestCase
 
 	public function testPdf()
 	{
-		$row = (new \App\Db\Query())->from('vtiger_crmentity')->where(['setype' => 'SQuotes'])->all();
-		//var_dump($row);
 		/*
+		  $row = (new \App\Db\Query())->from('vtiger_crmentity')->where(['setype' => 'SQuotes'])->limit(1)->one();
 		  if ($row) {
 		  $request = AppRequest::init();
 		  $request->set('module', $row['setype']);
