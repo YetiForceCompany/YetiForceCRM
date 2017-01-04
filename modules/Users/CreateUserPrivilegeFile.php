@@ -36,7 +36,6 @@ function createUserPrivilegesfile($userid)
 				$userInfo[$field] = $user_focus->$field;
 			}
 		}
-
 		if ($user_focus->is_admin == 'on') {
 			$newbuf .= "\$is_admin=true;\n";
 			$newbuf .= "\$user_info=" . \vtlib\Functions::varExportMin($userInfo) . ";\n";
@@ -51,7 +50,6 @@ function createUserPrivilegesfile($userid)
 			$user_role_parent = $user_role_info['parentrole'];
 			$subRoles = \App\PrivilegeUtil::getRoleSubordinates($user_role);
 			$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
-			$def_org_share = getDefaultSharingAction();
 			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
