@@ -13,15 +13,24 @@
 				<p>{vtranslate('ERR_INACTIVE_ALERT_DESC', $QUALIFIED_MODULE)}</p>
 			</div>	
 		{/if}
+		{if !\AppConfig::security('CACHING_PERMISSION_TO_RECORD')}
+			<div class="alert alert-block alert-danger fade in">
+				<h4 class="alert-heading">{vtranslate('ERR_INACTIVE_ALERT_TITLE', $QUALIFIED_MODULE)}</h4>
+				<p>{vtranslate('ERR_INACTIVE_CACHING_PERM_ALERT_DESC', $QUALIFIED_MODULE)}</p>
+			</div>
+		
+		{/if}
 		<div class="listViewActionsDiv row">
 			<div class="col-md-8 btn-toolbar">
-				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-					<button class="btn btn-success addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-							{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
-									<span class="glyphicon glyphicon-plus"></span>&nbsp;
-									<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $QUALIFIED_MODULE)}</strong>
-								</button>
-								{/foreach}
+				{if \AppConfig::security('CACHING_PERMISSION_TO_RECORD')}
+					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+						<button class="btn btn-success addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+								{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
+										<span class="glyphicon glyphicon-plus"></span>&nbsp;
+										<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $QUALIFIED_MODULE)}</strong>
+									</button>
+									{/foreach}
+								{/if}
 								</div>
 								<div class="col-md-4">
 									{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
