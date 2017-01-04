@@ -1038,7 +1038,7 @@ class CRMEntity
 		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
 			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
 		}
-		if ($queryPlanner->requireTable('vtiger_shOwners$module')) {
+		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
 			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 		}
 		$query .= '	left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid';
