@@ -17,7 +17,7 @@
 									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
-											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl()}
+											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 											{assign var=POPUP value=$CONFIG['popup']}
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
