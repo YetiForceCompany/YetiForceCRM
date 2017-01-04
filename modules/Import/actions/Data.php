@@ -383,12 +383,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getName() == 'Currency') {
 						$curencyName = $value;
-						$value = getCurrencyId($entityLabel);
+						$value = \App\Currency::getCurrencyIdByName($entityLabel);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
 						foreach ($currencyParam as $key => $currencyData) {
-							$valueData = getCurrencyId($entityLabel);
+							$valueData = \App\Currency::getCurrencyIdByName($entityLabel);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
@@ -551,7 +551,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$referenceEntityId = $this->user->id;
 						}
 					} elseif ($referenceModule == 'Currency') {
-						$referenceEntityId = getCurrencyId($entityLabel);
+						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
 					} else {
 						$referenceEntityId = getEntityId($referenceModule, decode_html($entityLabel));
 					}
