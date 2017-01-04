@@ -1486,7 +1486,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns mandatory field Models
-	 * @return <Array of Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model[]
 	 */
 	public function getMandatoryFieldModels()
 	{
@@ -1495,7 +1495,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($fields) {
 			foreach ($fields as $field) {
 				if ($field->isMandatory()) {
-					$mandatoryFields[] = $field;
+					$mandatoryFields[$field->getName()] = $field;
 				}
 			}
 		}
