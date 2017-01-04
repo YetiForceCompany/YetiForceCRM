@@ -537,6 +537,19 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Function that returns all the fields by blocks
+	 * @return array
+	 */
+	public function getFieldsByBlocks()
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as &$field) {
+			$fieldList[$field->getBlockName()][$field->getName()] = $field;
+		}
+		return $fieldList;
+	}
+
+	/**
 	 * Function to get the field mode
 	 * @param string $fieldName - field name
 	 * @return Vtiger_Field_Model
@@ -975,7 +988,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
