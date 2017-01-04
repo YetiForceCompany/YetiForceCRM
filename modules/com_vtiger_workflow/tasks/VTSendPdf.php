@@ -41,15 +41,13 @@ class VTSendPdf extends VTTask
 			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
 			Vtiger_PDF_Model::exportToPdf($recordId, $module, $templateId, $pdfFile, 'F');
-			$data = [
-				'id' => $emailTemplateId,
-				'to_email' => $email,
-				'module' => $module,
-				'record' => $recordId,
-				'attachment_src' => [$fileName => $pdfFile],
-			];
-			$emailTemplateRecord = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-			$emailTemplateRecord->sendMailFromTemplate($data);
+			\App\Mailer::sendFromTemplate([
+				'template' => $emailTemplateId,
+				'moduleName' => $module,
+				'recordId' => $recordId,
+				'to' => $email,
+				'attachments' => [$pdfFile => $fileName],
+			]);
 		}
 	}
 
