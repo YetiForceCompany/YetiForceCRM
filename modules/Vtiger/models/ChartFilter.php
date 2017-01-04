@@ -94,13 +94,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$filterId = $this->widgetModel->get('filterid');
 		$groupField = $this->extraData['groupField'];
 		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
-		$groupField = $groupFieldModel->get('column');
-		$fieldName = $groupFieldModel->get('name');
-		$queryGenerator = new App\QueryGenerator($this->getTargetModule());
+		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
-		$fields = $queryGenerator->getFields();
-		$fields[] = $groupField;
-		$queryGenerator->setFields($fields);
+		$queryGenerator->setField($groupField);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$groupData = [];
 		if (empty($this->extraData['sector'])) {
