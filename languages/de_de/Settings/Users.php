@@ -38,7 +38,7 @@ $languageStrings = [
 	'LBL_VIEW_COLORS' => 'Farben',
 	'LBL_SWITCH_USERS' => 'Benutzer wechseln',
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Funktion um den Benutzer zu wechseln.',
-	'LBL_SU_BASE_ACCESS' => 'Bneutzer',
+	'LBL_SU_BASE_ACCESS' => 'Benutzer',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Es ist erlaubt, sich anzumelden.',
 	//Locks
 	'LBL_LOCKS' => 'Sperren',

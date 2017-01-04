@@ -880,7 +880,7 @@ $languageStrings = [
 	'LBL_RIGHT_PANEL_SHOW_HIDE' => 'Rechten Bereich anzeigen/ausblenden',
 	/* modules */
 	'Key Metrics' => 'Schlüssel Metriken',
-	'Share with users' => 'Teilen mit Benutzern:',
+	'Share with users' => 'Teilen mit Benutzern',
 	'LBL_PURCHASE' => 'Einkauf',
 	'LBL_MARGIN' => 'Marge',
 	'LBL_MARGINP' => 'Marge (%)',
