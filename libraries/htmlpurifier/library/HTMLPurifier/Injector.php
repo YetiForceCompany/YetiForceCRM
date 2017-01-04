@@ -9,10 +9,8 @@
  * value to the $token reference. These values can take a variety of forms and
  * are best described HTMLPurifier_Strategy_MakeWellFormed->processToken()
  * documentation.
- *
- * @todo Allow injectors to request a re-run on their output. This
- *       would help if an operation is recursive.
  */
+
 abstract class HTMLPurifier_Injector
 {
 

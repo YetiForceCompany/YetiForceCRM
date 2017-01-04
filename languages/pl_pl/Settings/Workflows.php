@@ -209,8 +209,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Śledzenie zmian',
 	'LBL_UPDATE_WORK_TIME' => 'Aktualizuj czas pracy',
 	'LBL_SKIP_CURRENT_USER' => 'Pomiń obecnego użytkownika',
-	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'Lista wszystkich zmian w rekordzie',
-	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'Lista wszystkich wartości w rekordzie',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Lista zmian w rekordzie',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Lista nowych wartości w rekordzie',
 	//VTWatchdog
 	'LBL_SELECT_ACTION_TYPE' => 'Wybierz typ powiadomienia',
 	'LBL_SELECT_RECIPIENTS' => 'Odbiorcy',

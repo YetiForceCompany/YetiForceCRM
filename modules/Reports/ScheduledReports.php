@@ -123,11 +123,10 @@ class VTScheduledReport extends Reports
 	{
 		$currentModule = vglobal('currentModule');
 
-		$vtigerMailer = new vtlib\Mailer();
-
 		$recipientEmails = $this->getRecipientEmails();
+		$to = [];
 		foreach ($recipientEmails as $name => $email) {
-			$vtigerMailer->AddAddress($email, $name);
+			$to[$email] = $name;
 		}
 
 		$currentTime = date('Y-m-d H:i:s');
@@ -137,36 +136,30 @@ class VTScheduledReport extends Reports
 		$contents .= '<b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
 		$contents .= '<b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
 
-		$vtigerMailer->Subject = $subject;
-		$vtigerMailer->Body = $contents;
-		$vtigerMailer->ContentType = "text/html";
-
 		$baseFileName = preg_replace('/[^a-zA-Z0-9_-\s]/', '', $this->reportname) . '__' . preg_replace('/[^a-zA-Z0-9_-\s]/', '', $currentTime);
 
 		$oReportRun = ReportRun::getInstance($this->id);
 		$reportFormat = $this->scheduledFormat;
-		$attachments = array();
-
-		if ($reportFormat == 'pdf' || $reportFormat == 'both') {
+		$attachments = [];
+		if ($reportFormat === 'pdf' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.pdf';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$fileName] = $filePath;
+			$attachments[$filePath] = $fileName;
 			$pdf = $oReportRun->getReportPDF();
 		}
-		if ($reportFormat == 'excel' || $reportFormat == 'both') {
+		if ($reportFormat === 'excel' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.xls';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$fileName] = $filePath;
+			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
-
-		foreach ($attachments as $attachmentName => $path) {
-			$vtigerMailer->AddAttachment($path, $attachmentName);
-		}
-
-		$vtigerMailer->Send(true);
-
-		foreach ($attachments as $attachmentName => $path) {
+		\App\Mailer::addMail([
+			'to' => $to,
+			'subject' => $subject,
+			'content' => $contents,
+			'attachments' => $attachments,
+		]);
+		foreach ($attachments as $path => $attachmentName) {
 			unlink($path);
 		}
 	}

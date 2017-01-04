@@ -1271,6 +1271,23 @@ $languageStrings = [
 	'LBL_NO_USERS_TO_ASSIGN' => 'Brak użytkowników do przypisania',
 	'BTN_ASSIGN_TO' => 'Przekaż',
 	'BTN_REALIZE' => 'Realizuj',
+	//TextParser
+	'LBL_TRANSLATE' => 'Tłumaczenie',
+	'LBL_COMPANY_DETAIL' => 'Dane firmy',
+	'LBL_EMPLOYEE_NAME' => 'Nazwisko pracownika',
+	'LBL_CURRENT_DATE' => 'Aktualna data',
+	'LBL_CURRENT_TIME' => 'Aktualny czas',
+	'LBL_SITE_URL' => 'Adres CRMu',
+	'LBL_PORTAL_URL' => 'Adres Portalu',
+	'LBL_CRM_DETAIL_VIEW_URL' => 'Adres widoku szczegółów CRM',
+	'LBL_PORTAL_DETAIL_VIEW_URL' => 'Adres widoku szczegółów Portalu',
+	'LBL_RECORD_ID' => 'ID rekordu',
+	'LBL_RECORD_LABEL' => 'Etykieta',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Lista zmian w rekordzie',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Lista nowych wartości w rekordzie',
+	'LBL_RECORD_COMMENT' => 'Komentarz',
+	'LBL_RELETED_RECORD_LABEL' => 'Powiązana etykieta',
+	'LBL_OWNER_EMAIL' => 'Email właściciela',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

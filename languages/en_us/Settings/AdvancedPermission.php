@@ -25,4 +25,6 @@ $languageStrings = [
 	'LBL_RECALCULATE_PERMISSION_BTN' => 'Recalculate permissions',
 	'LBL_RECALCULATE_CRON_INFO' => 'Permission recalculations requires enabled CRON, please check if the task is active.',
 	'LBL_MODULES_LIST' => 'Modules list',
+	'ERR_INACTIVE_CACHING_PERM_ALERT_DESC' => 'Special permissions have been disabled because they require enabling record permission caching. For the permissions to start working you should enable cron, and set CACHING_PERMISSION_TO_RECORD [config/security.php] variable to true.',
+
 ];

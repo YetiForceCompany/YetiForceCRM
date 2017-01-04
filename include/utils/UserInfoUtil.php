@@ -69,63 +69,6 @@ function getTabsUtilityActionPermission($profileid)
 	\App\Log::trace("Exiting getTabsUtilityActionPermission method ...");
 	return $check;
 }
-/* * This Function returns the Default Organisation Sharing Action Array for all modules whose sharing actions are editable
- * The result array will be in the following format:
- * Arr=(tabid1=>Sharing Action Id,
- *      tabid2=>SharingAction Id,
- *            |
- *            |
- *            |
- *      tabid3=>SharingAcion Id)
- */
-
-function getDefaultSharingEditAction()
-{
-
-	\App\Log::trace("Entering getDefaultSharingEditAction() method ...");
-	$adb = PearDatabase::getInstance();
-	//retreiving the standard permissions
-	$sql = "select * from vtiger_def_org_share where editstatus=0";
-	$result = $adb->pquery($sql, []);
-	$permissionRow = $adb->fetch_array($result);
-	do {
-		$countPermissionRow = count($permissionRow);
-		for ($j = 0; $j < $countPermissionRow; $j++) {
-			$copy[$permissionRow[1]] = $permissionRow[2];
-		}
-	} while ($permissionRow = $adb->fetch_array($result));
-
-	\App\Log::trace("Exiting getDefaultSharingEditAction method ...");
-	return $copy;
-}
-/* * This Function returns the Default Organisation Sharing Action Array for modules with edit status in (0,1)
- * The result array will be in the following format:
- * Arr=(tabid1=>Sharing Action Id,
- *      tabid2=>SharingAction Id,
- *            |
- *            |
- *            |
- *      tabid3=>SharingAcion Id)
- */
-
-function getDefaultSharingAction()
-{
-
-	\App\Log::trace("Entering getDefaultSharingAction() method ...");
-	$adb = PearDatabase::getInstance();
-	//retreivin the standard permissions
-	$sql = "select * from vtiger_def_org_share where editstatus in(0,1)";
-	$result = $adb->pquery($sql, []);
-	$permissionRow = $adb->fetch_array($result);
-	do {
-		$countPermissionRow = count($permissionRow);
-		for ($j = 0; $j < $countPermissionRow; $j++) {
-			$copy[$permissionRow[1]] = $permissionRow[2];
-		}
-	} while ($permissionRow = $adb->fetch_array($result));
-	\App\Log::trace("Exiting getDefaultSharingAction method ...");
-	return $copy;
-}
 
 /** Function to check if the currently logged in user is permitted to perform the specified action
  * @param $module -- Module Name:: Type varchar
@@ -1527,13 +1470,4 @@ function getNonAdminAccessControlQuery($module, $user, $scope = '')
 {
 	$instance = CRMEntity::getInstance($module);
 	return $instance->getNonAdminAccessControlQuery($module, $user, $scope);
-}
-
-function appendFromClauseToQuery($query, $fromClause)
-{
-	$query = preg_replace('/\s+/', ' ', $query);
-	$condition = substr($query, strripos($query, ' where '), strlen($query));
-	$newQuery = substr($query, 0, strripos($query, ' where '));
-	$query = $newQuery . $fromClause . $condition;
-	return $query;
 }

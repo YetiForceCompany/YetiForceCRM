@@ -120,7 +120,6 @@ class mt940_Alior extends mt940
 				default:
 					break;
 			}
-			//	echo '<pre>';print_r($subtransactionVal . ' transaction');echo '</pre>';
 		}
 		$this->operations[count($this->operations) - 1]['details'] = $transaction;
 	}

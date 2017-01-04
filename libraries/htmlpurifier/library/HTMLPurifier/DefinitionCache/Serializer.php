@@ -150,7 +150,6 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
      * the configuration and definition name
      * @param HTMLPurifier_Config $config
      * @return string
-     * @todo Make protected
      */
     public function generateFilePath($config)
     {
@@ -163,7 +162,6 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
      * @param HTMLPurifier_Config $config
      * @return string
      * @note No trailing slash
-     * @todo Make protected
      */
     public function generateDirectoryPath($config)
     {
@@ -176,7 +174,6 @@ class HTMLPurifier_DefinitionCache_Serializer extends HTMLPurifier_DefinitionCac
      * serials
      * @param HTMLPurifier_Config $config
      * @return mixed|string
-     * @todo Make protected
      */
     public function generateBaseDirectoryPath($config)
     {

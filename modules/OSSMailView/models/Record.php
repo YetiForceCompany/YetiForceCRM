@@ -111,7 +111,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					'toRaw' => $row['to_email'],
 					'ccRaw' => $row['cc_email'],
 					'to' => $to,
-					'url' => 'index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'],
+					'url' => "index.php?module=OSSMailView&view=preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 					'type' => $row['type'],
 					'teaser' => vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 					'body' => $content,

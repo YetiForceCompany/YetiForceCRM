@@ -22,7 +22,8 @@ class OSSMail_Autologin_Model
 			. 'INNER JOIN roundcube_users ON roundcube_users_autologin.rcuser_id = roundcube_users.user_id WHERE crmuser_id = ?;';
 		$result = $db->pquery($sql, [$user_id]);
 		$rcUser = isset($_SESSION['AutoLoginUser']) ? $_SESSION['AutoLoginUser'] : false;
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsResult = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsResult; $i++) {
 			$account = $db->raw_query_result_rowdata($result, $i);
 			$account['active'] = ($rcUser && $rcUser == $account['rcuser_id']) ? true : false;
 			$users[$account['rcuser_id']] = $account;

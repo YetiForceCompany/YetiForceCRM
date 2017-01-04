@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-require_once('modules/com_vtiger_workflow/VTSimpleTemplate.php');
 require_once('modules/SMSNotifier/SMSNotifier.php');
 
 class VTSMSTask extends VTTask
@@ -28,13 +27,10 @@ class VTSMSTask extends VTTask
 	public function doTask($recordModel)
 	{
 		if (SMSNotifier::checkServer()) {
-			$et = new VTSimpleTemplate($this->sms_recepient);
-			$recepient = $et->render($recordModel);
+			$textParser = \App\TextParser::getInstanceByModel($recordModel);
+			$content = $textParser->setContent($this->content)->parse()->getContent();
+			$recepient = $textParser->setContent($this->sms_recepient)->parse()->getContent();
 			$recepients = explode(',', $recepient);
-
-			$ct = new VTSimpleTemplate($this->content);
-			$content = $ct->render($recordModel);
-
 			/** Pickup only non-empty numbers */
 			$tonumbers = [];
 			foreach ($recepients as &$tonumber) {

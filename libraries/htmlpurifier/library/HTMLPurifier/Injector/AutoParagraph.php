@@ -3,9 +3,8 @@
 /**
  * Injector that auto paragraphs text in the root node based on
  * double-spacing.
- * @todo Ensure all states are unit tested, including variations as well.
- * @todo Make a graph of the flow control for this Injector.
  */
+
 class HTMLPurifier_Injector_AutoParagraph extends HTMLPurifier_Injector
 {
     /**

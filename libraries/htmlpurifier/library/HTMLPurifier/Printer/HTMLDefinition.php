@@ -275,7 +275,6 @@ class HTMLPurifier_Printer_HTMLDefinition extends HTMLPurifier_Printer
      * Listifies a list of objects by retrieving class names and internal state
      * @param array $array List of objects
      * @return string
-     * @todo Also add information about internal state
      */
     protected function listifyObjectList($array)
     {

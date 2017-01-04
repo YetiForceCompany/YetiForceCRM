@@ -456,7 +456,6 @@ class Users extends CRMEntity
 	 * @param string $userPassword - Must be non null and at least 1 character.
 	 * @param string $newPassword - Must be non null and at least 1 character.
 	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
-	 * @todo Add transactions
 	 * @desc Verify that the current password is correct and write the new password to the DB.
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
@@ -933,7 +932,6 @@ class Users extends CRMEntity
 	 * @param string $module
 	 * @param array $fileDetails
 	 * @return boolean
-	 * @todo Add transaction. Consider no possibility of uploading the file to the server (move_uploaded_file) as failure to save
 	 */
 	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
@@ -1324,7 +1322,6 @@ class Users extends CRMEntity
 	/**
 	 * Function to get the user if of the active admin user.
 	 * @return Integer - Active Admin User ID
-	 * @todo To remove, replace \App\User::getActiveAdminId()
 	 */
 	public static function getActiveAdminId()
 	{

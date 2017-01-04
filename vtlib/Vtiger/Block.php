@@ -162,7 +162,6 @@ class Block
 	 * Get instance of block
 	 * @param int|string block id or block label
 	 * @param \Module Module Instance of the module if block label is passed
-	 * @todo Improved cacheing, can not object serialization PDO
 	 * @return \self
 	 */
 	public static function getInstance($value, $moduleInstance = false)

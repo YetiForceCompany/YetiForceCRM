@@ -12,7 +12,6 @@
  *       correspond to the variables in HTMLPurifier_HTMLDefinition.
  *       However, the prefix info carries no special meaning in these
  *       objects (include it anyway if that's the correspondence though).
- * @todo Consider making some member functions protected
  */
 
 class HTMLPurifier_HTMLModule

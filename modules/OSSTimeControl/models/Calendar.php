@@ -49,7 +49,8 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 
 		$queryResult = $db->pquery($query, $params);
 		$result = [];
-		for ($i = 0; $i < $db->num_rows($queryResult); $i++) {
+		$numRowsCount = $db->num_rows($queryResult);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$record = $db->raw_query_result_rowdata($queryResult, $i);
 
 			$item = [];

@@ -121,9 +121,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
-
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
 
 		// Added to show filters only when saved from vtiger6
 		if ($workFlowModel->isFilterSavedInNew()) {

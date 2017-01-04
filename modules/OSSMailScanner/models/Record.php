@@ -39,7 +39,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";
 		$result = $db->pquery($sql, array($id), true);
 		$output = [];
-		for ($i = 0; $i < $db->getRowCount($result); $i++) {
+		$newRowCount = $db->getRowCount($result);
+		for ($i = 0; $i < $newRowCount; $i++) {
 			$output[$i]['name'] = $db->query_result($result, $i, 'name');
 			$output[$i]['email'] = $db->query_result($result, $i, 'email');
 			$output[$i]['identity_id'] = $db->query_result($result, $i, 'identity_id');
@@ -421,7 +422,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					imap_close($mbox);
 					if ($countEmails >= AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 						\App\Log::warning('Reached the maximum number of scanned mails');
-						$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+						self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 						self::setCronStatus('1');
 						return 'ok';
 					}
@@ -430,7 +431,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		$scannerModel->updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
+		self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
 		\App\Log::trace('End executeCron');
 		return 'ok';
@@ -490,7 +491,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $adb->getLastInsertID();
 	}
 
-	public function updateScanHistory($id, $array)
+	public static function updateScanHistory($id, $array)
 	{
 		$adb = PearDatabase::getInstance();
 		$sql = "update vtiger_ossmails_logs set end_time=?,status=? ,count=? ,action=? where id=?";
@@ -523,21 +524,26 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $adb->getRowCount($result);
 	}
 
+	/**
+	 * Cron data
+	 * @return bool|array
+	 */
 	public function getCronStatus()
 	{
-		$adb = PearDatabase::getInstance();
-		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE name = ? AND status = '2'", array('MailScannerAction'));
-		if ($adb->getRowCount($result) > 0) {
-			$return = $adb->query_result_rowdata($result, 0);
-		}
-		return $return;
+		$return = (new \App\Db\Query())
+			->from('vtiger_cron_task')
+			->where(['status' => 2, 'name' => 'LBL_MAIL_SCANNER_ACTION'])
+			->one();
+		return $return ? $return : false;
 	}
 
+	/**
+	 * Set cron status
+	 * @param int $status
+	 */
 	public function setCronStatus($status)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_cron_task SET status = ? WHERE name = ?", array($status, 'MailScannerAction'));
+		App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => (int) $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 	}
 
 	public function checkCronStatus()
@@ -563,20 +569,27 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_log_cron WHERE laststart = ?", array($checkCronStatus));
 			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status) VALUES (?,0)", array($checkCronStatus));
-				$SUPPORT_NAME = vglobal('HELPDESK_SUPPORT_NAME');
 				$config = self::getConfig('cron');
-				$mail_status = send_mail('Support', $config['email'], vtranslate('Email_FromName', 'OSSMailScanner'), $SUPPORT_NAME, vtranslate('Email_Subject', 'OSSMailScanner'), vtranslate('Email_Body', 'OSSMailScanner'), '', '', '', 1);
+				$mail_status = \App\Mailer::addMail([
+						//'smtp_id' => 1,
+						'to' => $config['email'],
+						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
+						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
+				]);
 				$adb->pquery("update vtiger_ossmailscanner_log_cron set status = ? WHERE laststart = ?", array($mail_status, $checkCronStatus));
 			}
 		}
 	}
 
+	/**
+	 * Restart cron
+	 */
 	public function runRestartCron()
 	{
-		$adb = PearDatabase::getInstance();
-		$user_name = Users_Record_Model::getCurrentUserModel()->user_name;
-		$adb->pquery("update vtiger_cron_task set status = 1 WHERE name = ?", array('MailScannerAction'));
-		$adb->pquery("update vtiger_ossmails_logs set status = 2,stop_user = ? ,end_time = ? WHERE status = 1", array($user_name, date("Y-m-d H:i:s")));
+		$db = App\Db::getInstance();
+		$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
+		$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
+		$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => $userName, 'end_time' => date('Y-m-d H:i:s')], ['status' => 1])->execute();
 	}
 
 	protected $user = false;

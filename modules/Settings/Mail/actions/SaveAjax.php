@@ -18,6 +18,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('updateUsers');
 		$this->exposeMethod('updateConfig');
 		$this->exposeMethod('updateSignature');
+		$this->exposeMethod('acceptanceRecord');
 	}
 
 	public function updateUsers(Vtiger_Request $request)
@@ -55,6 +56,17 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->setResult(array(
 			'success' => true,
 			'message' => vtranslate('LBL_SAVED_SIGNATURE', $request->getModule(false))
+		));
+		$response->emit();
+	}
+	
+	public function acceptanceRecord(Vtiger_Request $request)
+	{
+		Settings_Mail_Config_Model::acceptanceRecord($request->get('id'));
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => \App\Language::translate('LBL_UPDATED_STATUS', $request->getModule(false))
 		));
 		$response->emit();
 	}

@@ -12,7 +12,7 @@
 class Documents extends CRMEntity
 {
 
-	public $table_name = "vtiger_notes";
+	public $table_name = 'vtiger_notes';
 	public $table_index = 'notesid';
 	public $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
@@ -65,7 +65,7 @@ class Documents extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
-		/**    Function used to get the sort order for Documents listview
+	/**    Function used to get the sort order for Documents listview
 	 *      @return string  $sorder - first check the $_REQUEST['sorder'] if request value is empty then check in the $_SESSION['NOTES_SORT_ORDER'] if this session value is empty then default sort order will be returned.
 	 */
 	public function getSortOrder()
@@ -147,11 +147,11 @@ class Documents extends CRMEntity
 	{
 
 		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Documents", "detail_view");
+		$sql = getPermittedFieldsQuery('Documents', 'detail_view');
 		$fields_list = getFieldsListFromQuery($sql);
 
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
@@ -165,17 +165,16 @@ class Documents extends CRMEntity
 			" LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid "
 		;
 		$query .= getNonAdminAccessControlQuery('Documents', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
-		if ($where != "")
+		$where_auto = ' vtiger_crmentity.deleted=0';
+		if ($where != '')
 			$query .= "  WHERE ($where) && " . $where_auto;
 		else
 			$query .= '  WHERE %s';
 
 		$query = sprintf($query, $where_auto);
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log::trace('Exiting create_export_query method ...');
 		return $query;
 	}
-
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
@@ -188,20 +187,26 @@ class Documents extends CRMEntity
 		$moduleindex = $this->tab_name_index[$moduletable];
 		$query = "from $moduletable
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=$moduletable.$moduleindex";
-		if ($queryplanner->requireTable("`vtiger_trees_templates_data`")) {
+		if ($queryplanner->requireTable('`vtiger_trees_templates_data`')) {
 			$query .= " inner join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=$moduletable.folderid";
 		}
-		if ($queryplanner->requireTable("vtiger_groups" . $module)) {
-			$query .= " left join vtiger_groups as vtiger_groups" . $module . " on vtiger_groups" . $module . ".groupid = vtiger_crmentity.smownerid";
+		if ($queryplanner->requireTable('vtiger_groups' . $module)) {
+			$query .= ' left join vtiger_groups as vtiger_groups' . $module . ' on vtiger_groups' . $module . '.groupid = vtiger_crmentity.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_users" . $module)) {
-			$query .= " left join vtiger_users as vtiger_users" . $module . " on vtiger_users" . $module . ".id = vtiger_crmentity.smownerid";
+		if ($queryplanner->requireTable('vtiger_users' . $module)) {
+			$query .= ' left join vtiger_users as vtiger_users' . $module . ' on vtiger_users' . $module . '.id = vtiger_crmentity.smownerid';
 		}
-		$query .= " left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid";
-		$query .= " left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
-		if ($queryplanner->requireTable("vtiger_lastModifiedBy" . $module)) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedBy" . $module . " on vtiger_lastModifiedBy" . $module . ".id = vtiger_crmentity.modifiedby ";
+		$query .= ' left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid';
+		$query .= ' left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid';
+		$query .= ' left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid';
+		if ($queryplanner->requireTable('vtiger_lastModifiedBy' . $module)) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedBy' . $module . ' on vtiger_lastModifiedBy' . $module . '.id = vtiger_crmentity.modifiedby ';
+		}
+		if ($queryplanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
+		}
+		if ($queryplanner->requireTable("vtiger_shOwners$module")) {
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 		}
 		return $query;
 	}
@@ -217,31 +222,31 @@ class Documents extends CRMEntity
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency("vtiger_crmentityDocuments", array("vtiger_groupsDocuments", "vtiger_usersDocuments", "vtiger_lastModifiedByDocuments"));
-		$matrix->setDependency("vtiger_notes", array("vtiger_crmentityDocuments", "`vtiger_trees_templates_data`"));
+		$matrix->setDependency('vtiger_crmentityDocuments', array('vtiger_groupsDocuments', 'vtiger_usersDocuments', 'vtiger_lastModifiedByDocuments'));
+		$matrix->setDependency('vtiger_notes', array('vtiger_crmentityDocuments', '`vtiger_trees_templates_data`'));
 
 		if (!$queryplanner->requireTable('vtiger_notes', $matrix)) {
 			return '';
 		}
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_notes", "notesid", $queryplanner);
-		$query .= " left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid";
-		if ($queryplanner->requireTable("vtiger_crmentityDocuments", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityDocuments on vtiger_crmentityDocuments.crmid=vtiger_notes.notesid and vtiger_crmentityDocuments.deleted=0";
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_notes', 'notesid', $queryplanner);
+		$query .= ' left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid';
+		if ($queryplanner->requireTable('vtiger_crmentityDocuments', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityDocuments on vtiger_crmentityDocuments.crmid=vtiger_notes.notesid and vtiger_crmentityDocuments.deleted=0';
 		}
-		if ($queryplanner->requireTable("`vtiger_trees_templates_data`")) {
-			$query .= " left join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=vtiger_notes.folderid";
+		if ($queryplanner->requireTable('`vtiger_trees_templates_data`')) {
+			$query .= ' left join `vtiger_trees_templates_data` on `vtiger_trees_templates_data`.tree=vtiger_notes.folderid';
 		}
-		if ($queryplanner->requireTable("vtiger_groupsDocuments")) {
-			$query .= " left join vtiger_groups as vtiger_groupsDocuments on vtiger_groupsDocuments.groupid = vtiger_crmentityDocuments.smownerid";
+		if ($queryplanner->requireTable('vtiger_groupsDocuments')) {
+			$query .= ' left join vtiger_groups as vtiger_groupsDocuments on vtiger_groupsDocuments.groupid = vtiger_crmentityDocuments.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_usersDocuments")) {
-			$query .= " left join vtiger_users as vtiger_usersDocuments on vtiger_usersDocuments.id = vtiger_crmentityDocuments.smownerid";
+		if ($queryplanner->requireTable('vtiger_usersDocuments')) {
+			$query .= ' left join vtiger_users as vtiger_usersDocuments on vtiger_usersDocuments.id = vtiger_crmentityDocuments.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_lastModifiedByDocuments")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByDocuments on vtiger_lastModifiedByDocuments.id = vtiger_crmentityDocuments.modifiedby ";
+		if ($queryplanner->requireTable('vtiger_lastModifiedByDocuments')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByDocuments on vtiger_lastModifiedByDocuments.id = vtiger_crmentityDocuments.modifiedby ';
 		}
-		if ($queryplanner->requireTable("vtiger_createdbyDocuments")) {
-			$query .= " left join vtiger_users as vtiger_createdbyDocuments on vtiger_createdbyDocuments.id = vtiger_crmentityDocuments.smcreatorid ";
+		if ($queryplanner->requireTable('vtiger_createdbyDocuments')) {
+			$query .= ' left join vtiger_users as vtiger_createdbyDocuments on vtiger_createdbyDocuments.id = vtiger_crmentityDocuments.smcreatorid ';
 		}
 		return $query;
 	}
@@ -280,7 +285,7 @@ class Documents extends CRMEntity
 	public function isFolderPresent($folderid)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?", array($folderid));
+		$result = $adb->pquery('SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?', array($folderid));
 		if (!empty($result) && $adb->num_rows($result) > 0)
 			return true;
 		return false;
@@ -292,13 +297,13 @@ class Documents extends CRMEntity
 	public function getFolderDefault()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT `tree`,`name` FROM
+		$result = $adb->pquery('SELECT `tree`,`name` FROM
 				`vtiger_trees_templates_data` 
 			INNER JOIN `vtiger_field` 
 				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
 			WHERE `vtiger_field`.`columnname` = ? 
 				AND `vtiger_field`.`tablename` = ?
-				AND `vtiger_trees_templates_data`.`name` = ?;", array('folderid', 'vtiger_notes', 'Default'));
+				AND `vtiger_trees_templates_data`.`name` = ?;', array('folderid', 'vtiger_notes', 'Default'));
 		return $adb->query_result($result, 0, 'tree');
 	}
 
@@ -310,12 +315,12 @@ class Documents extends CRMEntity
 		parent::restore($modulename, $id);
 
 		$adb = PearDatabase::getInstance();
-		$fresult = $adb->pquery("SELECT folderid FROM vtiger_notes WHERE notesid = ?", array($id));
+		$fresult = $adb->pquery('SELECT folderid FROM vtiger_notes WHERE notesid = ?', array($id));
 		if (!empty($fresult) && $adb->num_rows($fresult)) {
 			$folderid = $adb->query_result($fresult, 0, 'folderid');
 			if (!$this->isFolderPresent($folderid)) {
 				// Re-link to default folder
-				$adb->pquery("UPDATE vtiger_notes set folderid = ? WHERE notesid = ?", array(self::getFolderDefault()));
+				$adb->pquery('UPDATE vtiger_notes set folderid = ? WHERE notesid = ?', array(self::getFolderDefault()));
 			}
 		}
 	}

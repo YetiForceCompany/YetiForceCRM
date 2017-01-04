@@ -17,7 +17,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	public static function getNumberOfEntries()
 	{
 		$count = (new App\Db\Query())->from('u_#__notification')
-			->innerJoin('vtiger_crmentity', 'u_#__notification.id = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.smownerid' => Users_Record_Model::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 			->count();
 		$max = AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
@@ -27,7 +27,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	public function getEntries($limit = false, $conditions = false)
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'smwonerid', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
+		$queryGenerator->setFields(['description', 'smwonerid', 'notificationid', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
 		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);
@@ -42,7 +42,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
-			$entries[$row['id']] = $recordModel;
+			$entries[$row['notificationid']] = $recordModel;
 		}
 		return $entries;
 	}
@@ -60,7 +60,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	{
 		$query = (new \App\Db\Query())
 			->from('u_#__notification')
-			->innerJoin('vtiger_crmentity', 'u_#__notification.id = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
 			->leftJoin('vtiger_crmentity as crmlink', 'u_#__notification.link = crmlink.crmid')
 			->leftJoin('vtiger_crmentity as crmprocess', 'u_#__notification.process = crmprocess.crmid')
 			->leftJoin('vtiger_crmentity as crmsubprocess', 'u_#__notification.subprocess = crmsubprocess.crmid')
@@ -77,7 +77,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
-			$entries[$row['notification_type']][$row['id']] = $recordModel;
+			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
 		return $entries;
 	}

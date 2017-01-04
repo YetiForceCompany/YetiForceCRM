@@ -537,6 +537,19 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Function that returns all the fields by blocks
+	 * @return array
+	 */
+	public function getFieldsByBlocks()
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as &$field) {
+			$fieldList[$field->getBlockName()][$field->getName()] = $field;
+		}
+		return $fieldList;
+	}
+
+	/**
 	 * Function to get the field mode
 	 * @param string $fieldName - field name
 	 * @return Vtiger_Field_Model
@@ -975,7 +988,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -1065,7 +1078,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 && crmentity2.setype = ? %s
 			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $accessConditions);
 		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 			$commentModel->setData($row);
@@ -1106,7 +1120,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$activites = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			if (Users_Privileges_Model::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();
@@ -1471,7 +1486,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns mandatory field Models
-	 * @return <Array of Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model[]
 	 */
 	public function getMandatoryFieldModels()
 	{
@@ -1480,7 +1495,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($fields) {
 			foreach ($fields as $field) {
 				if ($field->isMandatory()) {
-					$mandatoryFields[] = $field;
+					$mandatoryFields[$field->getName()] = $field;
 				}
 			}
 		}

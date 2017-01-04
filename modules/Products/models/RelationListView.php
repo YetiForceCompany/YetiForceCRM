@@ -56,17 +56,19 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	{
 		$headerFields = parent::getHeaders();
 		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
-			$unitPriceField = new Vtiger_Field_Model();
-			$unitPriceField->set('name', 'qtyinstock');
-			$unitPriceField->set('column', 'qtyinstock');
-			$unitPriceField->set('label', 'FL_QTY_IN_STOCK');
-			$unitPriceField->set('fromOutsideList', true);
-
-			$headerFields['qtyinstock'] = $unitPriceField;
+			$qtyInStockField = new Vtiger_Field_Model();
+			$qtyInStockField->setModule(Vtiger_Module_Model::getInstance('IStorages'));
+			$qtyInStockField->set('name', 'qtyinstock');
+			$qtyInStockField->set('column', 'qtyinstock');
+			$qtyInStockField->set('label', 'FL_QTY_IN_STOCK');
+			$qtyInStockField->set('fromOutsideList', true);
+			$headerFields['qtyinstock'] = $qtyInStockField;
 		}
 		if ($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
 			//Added to support Unit Price
+			$moduleModel = Vtiger_Module_Model::getInstance('PriceBooks');
 			$unitPriceField = new Vtiger_Field_Model();
+			$unitPriceField->setModule($moduleModel);
 			$unitPriceField->set('name', 'unit_price');
 			$unitPriceField->set('column', 'unit_price');
 			$unitPriceField->set('label', 'Unit Price');
@@ -76,6 +78,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 
 			//Added to support List Price
 			$field = new Vtiger_Field_Model();
+			$field->setModule($moduleModel);
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');
 			$field->set('label', 'List Price');

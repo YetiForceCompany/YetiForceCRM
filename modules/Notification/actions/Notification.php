@@ -103,22 +103,22 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		if (!is_array($users)) {
 			$users = [$users];
 		}
-		$sendStatus = true;
 		if (count($users)) {
-			require_once('modules/Emails/mail.php');
 			foreach ($users as $user) {
 				if (isset($accessibleUsers[$user])) {
 					$email = \App\User::getUserModel($user)->getDetail('email1');
-					$name = vtlib\Functions::getOwnerRecordLabel($user);
-					$status = send_mail('Users', $email, $name, $from_email, $subject, $content);
-					if (!$status) {
-						$sendStatus = false;
-					}
+					\App\Mailer::addMail([
+						//'smtp_id' => 1,
+						'to' => [$email => \App\Fields\Owner::getLabel($user)],
+						'owner' => $user,
+						'subject' => $subject,
+						'content' => $content,
+					]);
 				}
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($sendStatus);
+		$response->setResult(true);
 		$response->emit();
 	}
 }

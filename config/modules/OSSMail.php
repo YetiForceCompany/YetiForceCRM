@@ -61,6 +61,7 @@ $config['smtp_conn_options'] = [
 		'verfify_peer_name' => false,
 	],
 ];
+$config['smtp_helo_host'] = 'YetiForceCRM';
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 $config['site_URL'] = $site_URL;
 $config['imap_open_add_connection_type'] = true;

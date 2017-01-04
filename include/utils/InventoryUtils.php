@@ -222,16 +222,16 @@ function getPricesForProducts($currencyid, $productIds, $module = 'Products')
 	$priceList = [];
 	if (count($productIds) > 0) {
 		if ($module == 'Services') {
-			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate', 
-				'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price'])
+			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
+						'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price'])
 					->from('vtiger_service')
 					->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
 					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
 					->where(['vtiger_service.serviceid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
 					->createCommand()->query();
 		} else {
-			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate', 
-				'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price'])
+			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
+						'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price'])
 					->from('vtiger_products')
 					->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
 					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
@@ -253,17 +253,4 @@ function getPricesForProducts($currencyid, $productIds, $module = 'Products')
 		}
 	}
 	return $priceList;
-}
-
-function getCurrencyId($fieldValue)
-{
-	$adb = PearDatabase::getInstance();
-
-	$sql = 'SELECT id FROM vtiger_currency_info WHERE currency_name = ? AND deleted = 0';
-	$result = $adb->pquery($sql, array($fieldValue));
-	$currencyId = 1;
-	if ($adb->num_rows($result) > 0) {
-		$currencyId = $adb->query_result($result, 0, 'id');
-	}
-	return $currencyId;
 }

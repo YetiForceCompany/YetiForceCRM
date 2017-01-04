@@ -10,7 +10,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
@@ -73,7 +73,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULENAME', 'CurrencyUpdate');
-		$viewer->assign('DATE', ($request->has('duedate') ? Vtiger_Date_UIType::getDisplayValue($dateCur) : ''));
+		$viewer->assign('DATE', ($request->has('duedate') ? (new Vtiger_Date_UIType())->getDisplayValue($dateCur) : ''));
 		$viewer->assign('CURRNUM', $curr_num);
 		$viewer->assign('BANK', $bankTab);
 		$viewer->assign('HISTORIA', $history);

@@ -102,7 +102,7 @@ class Services extends CRMEntity
 
 		// Select Custom Field Table Columns if present
 		if (!empty($this->customFieldTable))
-			$query .= ", " . $this->customFieldTable[0] . ".* ";
+			$query .= ', ' . $this->customFieldTable[0] . '.* ';
 
 		$query .= " FROM $this->table_name";
 
@@ -154,16 +154,16 @@ class Services extends CRMEntity
 
 			// Build the query based on the group association of current user.
 			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
+				$sec_query .= ' vtiger_groups.groupid IN (' . implode(',', $current_user_groups) . ') || ';
 			}
-			$sec_query .= " vtiger_groups.groupid IN
+			$sec_query .= ' vtiger_groups.groupid IN
 						(
 							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
 							FROM vtiger_tmp_read_group_sharing_per
-							WHERE userid=" . $current_user->id . " and tabid=" . $tabid . "
-						)";
-			$sec_query .= ")
-				)";
+							WHERE userid=' . $current_user->id . ' and tabid=' . $tabid . '
+						)';
+			$sec_query .= ')
+				)';
 		}
 		return $sec_query;
 	}
@@ -175,10 +175,10 @@ class Services extends CRMEntity
 	{
 		$current_user = vglobal('current_user');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Services', "detail_view");
+		$sql = getPermittedFieldsQuery('Services', 'detail_view');
 
 		$fields_list = getFieldsListFromQuery($sql);
 
@@ -186,14 +186,14 @@ class Services extends CRMEntity
 					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
 
 		if (!empty($this->customFieldTable)) {
-			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+			$query .= ' INNER JOIN ' . $this->customFieldTable[0] . ' ON ' . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
 				" = $this->table_name.$this->table_index";
 		}
 
-		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
 		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
 		$query .= $this->getNonAdminAccessControlQuery('Services', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
+		$where_auto = ' vtiger_crmentity.deleted=0';
 
 		if ($where != '')
 			$query .= " WHERE ($where) && $where_auto";
@@ -228,12 +228,12 @@ class Services extends CRMEntity
 
 		// Consider custom table join as well.
 		if (isset($this->customFieldTable)) {
-			$from_clause .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+			$from_clause .= ' INNER JOIN ' . $this->customFieldTable[0] . ' ON ' . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
 				" = $this->table_name.$this->table_index";
 		}
-		$from_clause .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
-		$where_clause = "	WHERE vtiger_crmentity.deleted = 0";
+		$from_clause .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
+							LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
+		$where_clause = '	WHERE vtiger_crmentity.deleted = 0';
 		$where_clause .= $this->getListViewSecurityParameter($module);
 
 		if (isset($select_cols) && trim($select_cols) != '') {
@@ -241,7 +241,7 @@ class Services extends CRMEntity
 				" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t." . $this->table_index;
 			// Consider custom table join as well.
 			if (isset($this->customFieldTable)) {
-				$sub_query .= " INNER JOIN " . $this->customFieldTable[0] . " tcf ON tcf." . $this->customFieldTable[1] . " = t.$this->table_index";
+				$sub_query .= ' INNER JOIN ' . $this->customFieldTable[0] . ' tcf ON tcf.' . $this->customFieldTable[1] . " = t.$this->table_index";
 			}
 			$sub_query .= " WHERE crm.deleted=0 GROUP BY $select_cols HAVING COUNT(*)>1";
 		} else {
@@ -250,10 +250,10 @@ class Services extends CRMEntity
 
 
 		$query = $select_clause . $from_clause .
-			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			' LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=' . $this->table_name . '.' . $this->table_index .
+			' INNER JOIN (' . $sub_query . ') AS temp ON ' . get_on_clause($field_values, $ui_type_arr, $module) .
 			$where_clause .
-			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
+			" ORDER BY $table_cols," . $this->table_name . '.' . $this->table_index . ' ASC';
 
 		return $query;
 	}
@@ -267,7 +267,7 @@ class Services extends CRMEntity
 	public function getPriceBookRelatedServices($query, $focus, $returnset = '')
 	{
 
-		\App\Log::trace("Entering getPriceBookRelatedServices(" . $query . "," . get_class($focus) . "," . $returnset . ") method ...");
+		\App\Log::trace('Entering getPriceBookRelatedServices(' . $query . ',' . get_class($focus) . ',' . $returnset . ') method ...');
 
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
@@ -309,29 +309,29 @@ class Services extends CRMEntity
 		if (\App\Field::getFieldPermission('Services', 'unit_price'))
 			$header[] = $current_module_strings['LBL_SERVICE_UNIT_PRICE'];
 		$header[] = $current_module_strings['LBL_PB_LIST_PRICE'];
-		if (isPermitted("PriceBooks", "EditView", "") == 'yes' || isPermitted("PriceBooks", "Delete", "") == 'yes')
+		if (isPermitted('PriceBooks', 'EditView', '') == 'yes' || isPermitted('PriceBooks', 'Delete', '') == 'yes')
 			$header[] = \App\Language::translate('LBL_ACTION');
 
 		$currency_id = $focus->column_fields['currency_id'];
 		$numRows = $adb->num_rows($list_result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$entity_id = $adb->query_result($list_result, $i, "crmid");
-			$unit_price = $adb->query_result($list_result, $i, "unit_price");
+			$entity_id = $adb->query_result($list_result, $i, 'crmid');
+			$unit_price = $adb->query_result($list_result, $i, 'unit_price');
 			if ($currency_id != null) {
 				$prod_prices = getPricesForProducts($currency_id, array($entity_id), 'Services');
 				$unit_price = $prod_prices[$entity_id];
 			}
-			$listprice = $adb->query_result($list_result, $i, "listprice");
-			$field_name = $entity_id . "_listprice";
+			$listprice = $adb->query_result($list_result, $i, 'listprice');
+			$field_name = $entity_id . '_listprice';
 
 			$entries = [];
-			$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, "servicename"));
+			$entries[] = \vtlib\Functions::textLength($adb->query_result($list_result, $i, 'servicename'));
 			if (\App\Field::getFieldPermission('Services', 'unit_price'))
 				$entries[] = CurrencyField::convertToUserFormat($unit_price, null, true);
 
 			$entries[] = CurrencyField::convertToUserFormat($listprice, null, true);
-			$action = "";
-			if (isPermitted("PriceBooks", "EditView", "") == 'yes' && isPermitted('Services', 'EditView', $entity_id) == 'yes') {
+			$action = '';
+			if (isPermitted('PriceBooks', 'EditView', '') == 'yes' && isPermitted('Services', 'EditView', $entity_id) == 'yes') {
 				$action .= '<img style="cursor:pointer;" src="themes/images/editfield.gif" border="0" onClick="fnvshobj(this,\'editlistprice\'),editProductListPrice(\'' . $entity_id . '\',\'' . $pricebook_id . '\',\'' . number_format($listprice, $no_of_decimal_places, '.', '') . '\')" alt="' . \App\Language::translate('LBL_EDIT_BUTTON') . '" title="' . \App\Language::translate('LBL_EDIT_BUTTON') . '"/>';
 			} else {
 				$action .= '<img src="' . vtiger_imageurl('blank.gif', $theme) . '" border="0" />';
@@ -341,7 +341,7 @@ class Services extends CRMEntity
 					$action .= '&nbsp;|&nbsp;';
 				$action .= '<img src="themes/images/delete.gif" onclick="if(confirm(\'' . \App\Language::translate('ARE_YOU_SURE') . '\')) deletePriceBookProductRel(' . $entity_id . ',' . $pricebook_id . ');" alt="' . \App\Language::translate('LBL_DELETE') . '" title="' . \App\Language::translate('LBL_DELETE') . '" style="cursor:pointer;" border="0">';
 			}
-			if ($action != "")
+			if ($action != '')
 				$entries[] = $action;
 			$entries_list[] = $entries;
 		}
@@ -349,7 +349,7 @@ class Services extends CRMEntity
 		$navigationOutput[] = getRelatedTableHeaderNavigation($navigation_array, '', $module, $relatedmodule, $focus->id);
 		$return_data = array('header' => $header, 'entries' => $entries_list, 'navigation' => $navigationOutput);
 
-		\App\Log::trace("Exiting getPriceBookRelatedServices method ...");
+		\App\Log::trace('Exiting getPriceBookRelatedServices method ...');
 		return $return_data;
 	}
 
@@ -403,33 +403,39 @@ class Services extends CRMEntity
 
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_seproductsrel', array('vtiger_crmentityRelServices', 'vtiger_accountRelServices', 'vtiger_leaddetailsRelServices', 'vtiger_servicecf'));
-		$query = "from vtiger_service
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_service.serviceid";
-		if ($queryPlanner->requireTable("vtiger_servicecf")) {
-			$query .= " left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid";
+		$query = 'from vtiger_service
+				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_service.serviceid';
+		if ($queryPlanner->requireTable('vtiger_servicecf')) {
+			$query .= ' left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid';
 		}
-		if ($queryPlanner->requireTable("vtiger_usersServices")) {
-			$query .= " left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentity.smownerid";
+		if ($queryPlanner->requireTable('vtiger_usersServices')) {
+			$query .= ' left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentity.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_groupsServices")) {
-			$query .= " left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentity.smownerid";
+		if ($queryPlanner->requireTable('vtiger_groupsServices')) {
+			$query .= ' left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentity.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_seproductsrel")) {
-			$query .= " left join vtiger_seproductsrel on vtiger_seproductsrel.productid= vtiger_service.serviceid";
+		if ($queryPlanner->requireTable('vtiger_seproductsrel')) {
+			$query .= ' left join vtiger_seproductsrel on vtiger_seproductsrel.productid= vtiger_service.serviceid';
 		}
-		if ($queryPlanner->requireTable("vtiger_crmentityRelServices")) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityRelServices on vtiger_crmentityRelServices.crmid = vtiger_seproductsrel.crmid and vtiger_crmentityRelServices.deleted = 0";
+		if ($queryPlanner->requireTable('vtiger_crmentityRelServices')) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityRelServices on vtiger_crmentityRelServices.crmid = vtiger_seproductsrel.crmid and vtiger_crmentityRelServices.deleted = 0';
 		}
-		if ($queryPlanner->requireTable("vtiger_accountRelServices")) {
-			$query .= " left join vtiger_account as vtiger_accountRelServices on vtiger_accountRelServices.accountid=vtiger_seproductsrel.crmid";
+		if ($queryPlanner->requireTable('vtiger_accountRelServices')) {
+			$query .= ' left join vtiger_account as vtiger_accountRelServices on vtiger_accountRelServices.accountid=vtiger_seproductsrel.crmid';
 		}
-		if ($queryPlanner->requireTable("vtiger_leaddetailsRelServices")) {
-			$query .= " left join vtiger_leaddetails as vtiger_leaddetailsRelServices on vtiger_leaddetailsRelServices.leadid = vtiger_seproductsrel.crmid";
+		if ($queryPlanner->requireTable('vtiger_leaddetailsRelServices')) {
+			$query .= ' left join vtiger_leaddetails as vtiger_leaddetailsRelServices on vtiger_leaddetailsRelServices.leadid = vtiger_seproductsrel.crmid';
 		}
-		if ($queryPlanner->requireTable("vtiger_lastModifiedByServices")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentity.modifiedby";
+		if ($queryPlanner->requireTable('vtiger_lastModifiedByServices')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentity.modifiedby';
 		}
-		if ($queryPlanner->requireTable("innerService")) {
+		if ($queryplanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
+		}
+		if ($queryplanner->requireTable("vtiger_shOwners$module")) {
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
+		}
+		if ($queryPlanner->requireTable('innerService')) {
 			$query .= " LEFT JOIN (
 					SELECT vtiger_service.serviceid,
 							(CASE WHEN (vtiger_service.currency_id = 1 ) THEN vtiger_service.unit_price

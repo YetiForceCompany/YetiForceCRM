@@ -905,19 +905,8 @@ jQuery.Class("Vtiger_Popup_Js",{
 				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' ||
-					fieldInfo.type == "integer" || fieldInfo.type == "number") {
-				if (searchValue.substring(0, 2) == '>=') {
-					searchOperator = 'h';
-				} else if (searchValue.substring(0, 2) == '<=') {
-					searchOperator = 'm';
-				} else if (searchValue.substring(0, 1) == '>') {
-					searchOperator = 'g';
-				} else if (searchValue.substring(0, 1) == '<') {
-					searchOperator = 'l';
-				} else {
-					searchOperator = 'e';
-				}
+			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' || fieldInfo.type == "integer" || fieldInfo.type == "number") {
+				searchOperator = 'a';
 			}
 	         searchInfo.push(fieldName);
 	         searchInfo.push(searchOperator);

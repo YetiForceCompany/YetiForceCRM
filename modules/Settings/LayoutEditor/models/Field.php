@@ -229,16 +229,16 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get all fields list for all blocks
-	 * @param <Array> List of block ids
+	 * @param array List of block ids
 	 * @param Vtiger_Module_Model $moduleInstance
-	 * @return <Array> List of Field models <Settings_LayoutEditor_Field_Model>
+	 * @return array List of Field models Settings_LayoutEditor_Field_Model
 	 */
 	public static function getInstanceFromBlockIdList($blockId, $moduleInstance = false)
 	{
 		if (!is_array($blockId)) {
 			$blockId = [$blockId];
 		}
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'displaytype' => [1, 2, 4, 9, 10]])->orderBy('sequence');
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'displaytype' => [1, 2, 4, 5, 9, 10]])->orderBy('sequence');
 		$dataReader = $query->createCommand()->query();
 		$fieldModelsList = [];
 		while ($row = $dataReader->read()) {

@@ -6,11 +6,38 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Import_Module_Model extends Vtiger_Module_Model
 {
-	
-}
 
-?>
+	/**
+	 * Import table prefix
+	 * @var type 
+	 */
+	const IMPORT_TABLE_PREFIX = 'u_yf_import_';
+
+	/**
+	 * Components name
+	 * @var array 
+	 */
+	public static $componentReader = [
+		'csv' => 'CSVReader',
+		'vcf' => 'VCardReader',
+		'ics' => 'ICSReader',
+		'default' => 'FileReader',
+		'xml' => 'XmlReader',
+		'zip' => 'ZipReader'
+	];
+
+	public static function getFileReader($request, $user)
+	{
+		$type = $request->get('type');
+		if ($componentName = static::$componentReader[$type]) {
+			$modelClassName = Vtiger_Loader::getComponentClassName('Reader', $componentName, 'Import');
+			return new $modelClassName($request, $user);
+		}
+		return null;
+	}
+}

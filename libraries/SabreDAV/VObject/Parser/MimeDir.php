@@ -358,7 +358,6 @@ class MimeDir extends Parser {
             ) (?=[;:,])
             /xi";
 
-        //echo $regex, "\n"; die();
         preg_match_all($regex, $line, $matches,  PREG_SET_ORDER);
 
         $property = [

@@ -27,7 +27,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->smallInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
-						['adv_permission_idx', 'tabid']
+					['adv_permission_idx', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -52,7 +52,7 @@ class Admin extends \App\Db\Importers\Base
 					'userid' => $this->integer(),
 				],
 				'index' => [
-						['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
+					['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -62,7 +62,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['bruteforce_users_pk', 'id']
+					['bruteforce_users_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -73,7 +73,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull()
 				],
 				'primaryKeys' => [
-						['discounts_config_pk', 'param']
+					['discounts_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -104,7 +104,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-						['inventory_limits_idx', 'status'],
+					['inventory_limits_idx', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -120,9 +120,9 @@ class Admin extends \App\Db\Importers\Base
 					'params' => $this->stringType(),
 				],
 				'index' => [
-						['mapped_config_tabid_idx', 'tabid'],
-						['mapped_config_reltabid_idx', 'reltabid'],
-						['mapped_config_status_idx', ['tabid', 'status']],
+					['mapped_config_tabid_idx', 'tabid'],
+					['mapped_config_reltabid_idx', 'reltabid'],
+					['mapped_config_status_idx', ['tabid', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -137,7 +137,7 @@ class Admin extends \App\Db\Importers\Base
 					'default' => $this->stringType(),
 				],
 				'index' => [
-						['mapped_fields_idx', 'mappedid'],
+					['mapped_fields_idx', 'mappedid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -181,8 +181,8 @@ class Admin extends \App\Db\Importers\Base
 					'one_pdf' => $this->smallInteger(1),
 				],
 				'index' => [
-						['pdf_module_status_idx', ['module_name', 'status']],
-						['pdf_module_idx', 'module_name'],
+					['pdf_module_status_idx', ['module_name', 'status']],
+					['pdf_module_idx', 'module_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -194,7 +194,7 @@ class Admin extends \App\Db\Importers\Base
 					'sequence' => $this->smallInteger(1),
 				],
 				'index' => [
-						['relatedlists_inv_fields_id_idx', 'relation_id'],
+					['relatedlists_inv_fields_id_idx', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -205,7 +205,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-						['taxes_config_pk', 'param']
+					['taxes_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -235,7 +235,33 @@ class Admin extends \App\Db\Importers\Base
 					'roleid' => $this->stringType(200)
 				],
 				'index' => [
-						['automatic_assignment_idx', 'tabid'],
+					['automatic_assignment_idx', 'tabid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__mail_queue' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned()->notNull(),
+					'smtp_id' => $this->integer(6)->unsigned()->notNull()->defaultValue(1),
+					'date' => $this->dateTime()->notNull(),
+					'owner' => $this->integer()->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'from' => $this->text()->notNull(),
+					'subject' => $this->text(),
+					'to' => $this->text()->notNull(),
+					'content' => $this->text(),
+					'cc' => $this->text(),
+					'bcc' => $this->text(),
+					'attachments' => $this->text(),
+					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'status' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
+					'priority' => "tinyint(1) unsigned NOT NULL DEFAULT '1'",
+				],
+				'index' => [
+					['mail_queue_smtp_id_idx', 'smtp_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -246,7 +272,33 @@ class Admin extends \App\Db\Importers\Base
 					'crmid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-						['mail_updater_idx', 'tabid'],
+					['mail_updater_idx', 'tabid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			's_#__mail_smtp' => [
+				'columns' => [
+					'id' => $this->primaryKey(6)->unsigned()->notNull(),
+					'mailer_type' => $this->stringType()->defaultValue('smtp'),
+					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'name' => $this->stringType()->notNull(),
+					'host' => $this->stringType()->notNull(),
+					'port' => $this->smallInteger(6)->unsigned(),
+					'username' => $this->stringType(),
+					'password' => $this->stringType(),
+					'authentication' => $this->boolean()->defaultValue(1),
+					'secure' => $this->stringType(10),
+					'options' => $this->text(),
+					'from_email' => $this->stringType(),
+					'from_name' => $this->stringType(),
+					'replay_to' => $this->stringType(),
+					'individual_delivery' => $this->boolean()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'default' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
+					'authentication' => "tinyint(1) unsigned NOT NULL DEFAULT '1'",
+					'individual_delivery' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -259,7 +311,7 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['multireference_idx', ['source_module', 'dest_module']],
+					['multireference_idx', ['source_module', 'dest_module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -272,8 +324,8 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
-						['privileges_updater_crmid_idx', 'crmid'],
+					['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
+					['privileges_updater_crmid_idx', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -293,7 +345,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
-				['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
+			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
 
@@ -303,44 +355,44 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__bruteforce' => [
 				'columns' => ['attempsnumber', 'timelock', 'active', 'sent'],
 				'values' => [
-						[10, 15, 1, 0],
+					[10, 15, 1, 0],
 				]
 			],
 			'a_#__discounts_config' => [
 				'columns' => ['param', 'value'],
 				'values' => [
-						['active', '0'],
-						['aggregation', '0'],
-						['discounts', '0,1,2'],
+					['active', '0'],
+					['aggregation', '0'],
+					['discounts', '0,1,2'],
 				]
 			],
 			'a_#__mapped_config' => [
 				'columns' => ['id', 'tabid', 'reltabid', 'status', 'conditions', 'permissions', 'params'],
 				'values' => [
-						[1, 104, 106, 1, '[]', '', '{"autofill":"on"}'],
-						[2, 6, 18, 1, '[]', '', '{"autofill":"on"}'],
+					[1, 104, 106, 1, '[]', '', '{"autofill":"on"}'],
+					[2, 6, 18, 1, '[]', '', '{"autofill":"on"}'],
 				]
 			],
 			'a_#__mapped_fields' => [
 				'columns' => ['id', 'mappedid', 'type', 'source', 'target', 'default'],
 				'values' => [
-						[1, 1, 'INVENTORY', 'name', 'name', ''],
-						[2, 1, 'INVENTORY', 'ean', 'ean', ''],
-						[3, 1, 'INVENTORY', 'unit', 'unit', ''],
-						[4, 1, 'INVENTORY', 'qty', 'qty', ''],
-						[5, 1, 'INVENTORY', 'price', 'price', ''],
-						[6, 1, 'INVENTORY', 'comment1', 'comment1', ''],
-						[7, 1, 'INVENTORY', 'total', 'total', ''],
-						[8, 1, 'V', '2226', '2250', ''],
-						[9, 1, 'SELF', 'id', '2262', ''],
-						[10, 2, 'V', '1', '288', ''],
-						[11, 2, 'E', '9', '291', ''],
+					[1, 1, 'INVENTORY', 'name', 'name', ''],
+					[2, 1, 'INVENTORY', 'ean', 'ean', ''],
+					[3, 1, 'INVENTORY', 'unit', 'unit', ''],
+					[4, 1, 'INVENTORY', 'qty', 'qty', ''],
+					[5, 1, 'INVENTORY', 'price', 'price', ''],
+					[6, 1, 'INVENTORY', 'comment1', 'comment1', ''],
+					[7, 1, 'INVENTORY', 'total', 'total', ''],
+					[8, 1, 'V', '2226', '2250', ''],
+					[9, 1, 'SELF', 'id', '2262', ''],
+					[10, 2, 'V', '1', '288', ''],
+					[11, 2, 'E', '9', '291', ''],
 				]
 			],
 			'a_#__pdf' => [
 				'columns' => ['pdfid', 'module_name', 'header_content', 'body_content', 'footer_content', 'status', 'primary_name', 'secondary_name', 'meta_author', 'meta_creator', 'meta_keywords', 'metatags_status', 'meta_subject', 'meta_title', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'conditions', 'watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image', 'template_members', 'one_pdf'],
 				'values' => [
-						[1, 'SCalculations', '', '<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td bgcolor="#13181A" height="25" width="5%"> </td>
+					[1, 'SCalculations', '', '<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td bgcolor="#13181A" height="25" width="5%"> </td>
 			<td bgcolor="#13181A" height="25" width="65%"> </td>
 			<td bgcolor="#A42022" height="25" width="25%"> </td>
 			<td bgcolor="#A42022" height="25" width="5%"> </td>
@@ -402,7 +454,7 @@ class Admin extends \App\Db\Importers\Base
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
 		</tr></tbody></table>', 1, 'Kalkulacje', '*', '', '', '', 1, '', '', 'A4', 0, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'kalkulacje', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[2, 'SQuotes', '', '<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td bgcolor="#13181A" height="25" width="5%"> </td>
+					[2, 'SQuotes', '', '<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td bgcolor="#13181A" height="25" width="5%"> </td>
 			<td bgcolor="#13181A" height="25" width="65%"> </td>
 			<td bgcolor="#A42022" height="25" width="25%"> </td>
 			<td bgcolor="#A42022" height="25" width="5%"> </td>
@@ -459,7 +511,7 @@ class Admin extends \App\Db\Importers\Base
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
 		</tr></tbody></table>', 1, 'Oferty', '*', '', '', '', 1, '', '', 'A4', 0, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'oferty', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[3, 'SSingleOrders', '', '<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td bgcolor="#13181A" height="25" width="5%"> </td>
+					[3, 'SSingleOrders', '', '<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td bgcolor="#13181A" height="25" width="5%"> </td>
 			<td bgcolor="#13181A" height="25" width="65%"> </td>
 			<td bgcolor="#A42022" height="25" width="25%"> </td>
 			<td bgcolor="#A42022" height="25" width="5%"> </td>
@@ -519,7 +571,7 @@ class Admin extends \App\Db\Importers\Base
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
 		</tr></tbody></table>', 1, 'Zapytanie jednorazowe', '*', '', '', '', 1, '', '', 'A4', 0, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'zapytanie_jednorazowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, 'null', 0, '', 0, 0, '', 'Users:1', 0],
-						[4, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>
+					[4, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></tbody></table><hr /><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;">$Company+organizationname$<br />
 			$Company+address$<br />
@@ -531,7 +583,7 @@ class Admin extends \App\Db\Importers\Base
 		</tr></tbody></table></div>
 <br />
 #IStoragesProductsControlTable#', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>', 1, 'Arkusz kontrolny stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'arkusz_kont_stanow_magazynowych', 'PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[5, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT STANÓW MAGAZYNOWYCH</b></td>
+					[5, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT STANÓW MAGAZYNOWYCH</b></td>
 		</tr></tbody></table><hr /><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;">$Company+organizationname$<br />
 			$Company+address$<br />
@@ -544,7 +596,7 @@ class Admin extends \App\Db\Importers\Base
 <br />
 #IStoragesProductsTable#', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
 ', 1, 'Raport stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[6, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT WARTOŚCIOWY STANÓW MAGAZYNOWYCH</b></td>
+					[6, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT WARTOŚCIOWY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></tbody></table><hr /><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;">$Company+organizationname$<br />
 			$Company+address$<br />
@@ -557,7 +609,7 @@ class Admin extends \App\Db\Importers\Base
 <br />
 #IStoragesProductsValueTable#', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
 ', 1, 'Raport wartościowy stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_wart_stanow_magazynowych', 'PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[7, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie wewnętrzne</strong></span></td>
+					[7, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie wewnętrzne</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><b>FIRMA</b><br />
 			$Company+organizationname$<br />
@@ -578,7 +630,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Przyjęcie wewnętrzne', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_wewnetrzne', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[8, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie z zewnątrz</strong></span></td>
+					[8, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie z zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br />
 			$vendorid+Vendors+vendorname$<br />
@@ -599,7 +651,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Przyjęcie zewnętrzne', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_zewnetrzne', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[9, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Rozchód wewnętrzny</strong></span></td>
+					[9, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Rozchód wewnętrzny</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><b>FIRMA</b><br />
 			$Company+organizationname$<br />
@@ -620,7 +672,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Rozchód wewnętrzny', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'rozchod_wewnetrzny', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[10, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie na zewnątrz</strong></span></td>
+					[10, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie na zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -641,7 +693,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Wydanie na zewnątrz', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'wydanie_na_zewnatrz', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[11, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie magazynowe</strong></span></td>
+					[11, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie magazynowe</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br />
 			$vendorid+Vendors+vendorname$<br />
@@ -662,7 +714,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Przyjęcie magazynowe', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'przyjecie_magazynowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[12, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;line-height:25.6px;"><b>Rezerwacja magazynowa</b></span></td>
+					[12, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;line-height:25.6px;"><b>Rezerwacja magazynowa</b></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -683,7 +735,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Rezerwacja magazynowa', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'rezerwacja_magazynowa', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[13, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie magazynowe</strong></span></td>
+					[13, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Wydanie magazynowe</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -704,7 +756,7 @@ class Admin extends \App\Db\Importers\Base
 			.............................................</td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Wydanie magazynowe', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'wydanie_magazynowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[14, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Internal Delivery Notes</span></strong></td>
+					[14, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Internal Delivery Notes</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><b>COMPANY</b><br />
 			$Company+organizationname$<br />
@@ -725,7 +777,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Internal Delivery Notes', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'internal_delivery_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[15, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Received Note</span></strong></td>
+					[15, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Received Note</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><b>VENDOR</b><br />
 			$vendorid+Vendors+vendorname$<br />
@@ -746,7 +798,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Goods Received Note', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_received_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[16, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Issued Note</span></strong></td>
+					[16, 'IGIN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Issued Note</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><b>COMPANY</b><br />
 			$Company+organizationname$<br />
@@ -767,7 +819,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Goods Issued Note', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_issued_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[17, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Dispatched Note</span></strong></td>
+					[17, 'IGDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Goods Dispatched Note</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -788,7 +840,7 @@ class Admin extends \App\Db\Importers\Base
 			.............................................</td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Goods Dispatched Note', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'goods_dispatched_note', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[18, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Storage Transfer Received Notes</strong></span></td>
+					[18, 'ISTRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Storage Transfer Received Notes</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>VENDOR</strong><br />
 			$vendorid+Vendors+vendorname$<br />
@@ -809,7 +861,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Storage Transfer Received Notes', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'storage_transfer_received_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[19, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Pre-order</span></strong></td>
+					[19, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Pre-order</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -830,7 +882,7 @@ class Admin extends \App\Db\Importers\Base
 			............................................. </b></span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Pre-order', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'pre_order', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[20, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Storage Transfer Dispatched Notes</span></strong></td>
+					[20, 'ISTDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><strong><span style="font-size:16px;">Storage Transfer Dispatched Notes</span></strong></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -851,7 +903,7 @@ class Admin extends \App\Db\Importers\Base
 			.............................................</td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Storage Transfer Dispatched Notes', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'en_us', 'storage_transfer_dispatched_notes', 'PLL_LISTVIEW,PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[21, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT CAŁKOWITY STANÓW MAGAZYNOWYCH</b></td>
+					[21, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>RAPORT CAŁKOWITY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></tbody></table><hr /><div style="width:50%;float:left;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;">$Company+organizationname$<br />
 			$Company+address$<br />
@@ -859,7 +911,7 @@ class Admin extends \App\Db\Importers\Base
 		</tr></tbody></table></div>
 #IStoragesProductsTableHierarchy#', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
 ', 1, 'Raport całkowity stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_stanow_magazynowych', 'PLL_DETAILVIEW', 0, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[22, 'IGRNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta przyjęcia z zewnątrz</strong></span></td>
+					[22, 'IGRNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta przyjęcia z zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$<br /><strong>Data wystawienia:</strong> #TimeStamp#</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br />
 			$vendorid+Vendors+vendorname$<br />
@@ -881,7 +933,7 @@ class Admin extends \App\Db\Importers\Base
 			.............................................</span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Korekta przyjęcia zewnętrznego', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'korekta_przyjecia_zewnetrznego', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[23, 'IGDNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta wydania na zewnątrz</strong></span></td>
+					[23, 'IGDNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta wydania na zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>%acceptance_date%:</strong> $acceptance_date$</span><br /><span style="font-size:10px;"><strong>%assigned_user_id%:</strong> $assigned_user_id$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$<br /><strong>Data wystawienia:</strong> #TimeStamp#</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tbody><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br />
 			$accountid+Accounts+accountname$<br />
@@ -903,7 +955,7 @@ class Admin extends \App\Db\Importers\Base
 			.............................................</span></td>
 		</tr></tbody></table>', '<div style="text-align:center;"><span style="font-size:8px;"><span style="line-height:20.8px;">{PAGENO} / </span>{nb}</span> </div>
 ', 1, 'Korekta wydania na zewnątrz', '*', '', '', '', 1, '', '', 'A4', 0, 35, 15, 15, 15, 15, 15, 'PLL_PORTRAIT', 'pl_pl', 'korekta_wydania_na_zewnatrz', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', 0],
-						[24, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>HIERARCHIA MAGAZYNÓW</b></td>
+					[24, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>HIERARCHIA MAGAZYNÓW</b></td>
 		</tr></tbody></table><hr /><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tbody><tr><td style="padding:5px;">$Company+organizationname$<br />
 			$Company+address$<br />
@@ -921,9 +973,9 @@ class Admin extends \App\Db\Importers\Base
 			'a_#__taxes_config' => [
 				'columns' => ['param', 'value'],
 				'values' => [
-						['active', '0'],
-						['aggregation', '0'],
-						['taxs', '0,1,2,3'],
+					['active', '0'],
+					['aggregation', '0'],
+					['taxs', '0,1,2,3'],
 				]
 			],
 		];

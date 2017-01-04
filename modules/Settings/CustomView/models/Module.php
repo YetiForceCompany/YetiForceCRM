@@ -86,7 +86,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return false;
 	}
 
-	public function delete($params)
+	/**
+	 * Function to delete filter
+	 * @param array $params
+	 */
+	public static function delete($params)
 	{
 		$db = \App\Db::getInstance();
 		$cvId = $params['cvid'];

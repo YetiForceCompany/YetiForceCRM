@@ -187,8 +187,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 
 		if ($this->batchImport) {
-			$configReader = new Import_Config_Model();
-			$importBatchLimit = $configReader->get('importBatchLimit');
+			$importBatchLimit = \AppConfig::module('Import', 'BATCH_LIMIT');
 			$sql .= sprintf(' LIMIT %s', $importBatchLimit);
 		}
 		$result = $adb->query($sql);
@@ -384,12 +383,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getName() == 'Currency') {
 						$curencyName = $value;
-						$value = getCurrencyId($entityLabel);
+						$value = \App\Currency::getCurrencyIdByName($entityLabel);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
 						foreach ($currencyParam as $key => $currencyData) {
-							$valueData = getCurrencyId($entityLabel);
+							$valueData = \App\Currency::getCurrencyIdByName($entityLabel);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
@@ -552,7 +551,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$referenceEntityId = $this->user->id;
 						}
 					} elseif ($referenceModule == 'Currency') {
-						$referenceEntityId = getCurrencyId($entityLabel);
+						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
 					} else {
 						$referenceEntityId = getEntityId($referenceModule, decode_html($entityLabel));
 					}
@@ -663,7 +662,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue, $defaultFieldValues);
-			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::REFERENCE_TYPES)) {
+			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
 			} elseif ($fieldInstance->getFieldDataType() == 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($moduleMeta, $fieldInstance, $fieldValue, $defaultFieldValues);
@@ -809,8 +808,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$current_user = vglobal('current_user');
 		$scheduledImports = self::getScheduledImport();
-		$vtigerMailer = new vtlib\Mailer();
-		$vtigerMailer->IsHTML(true);
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$current_user = $importDataController->user;
 			$importDataController->batchImport = false;
@@ -835,13 +832,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
-			$vtigerMailer->to = array(array($userEmail, $userName));
-			$vtigerMailer->Subject = $emailSubject;
-			$vtigerMailer->Body = $emailData;
+			\App\Mailer::addMail([
+				//'smtp_id' => 1,
+				'to' => [$userEmail => $userName],
+				'subject' => $emailSubject,
+				'content' => $emailData,
+			]);
 
 			$importDataController->finishImport();
 		}
-		vtlib\Mailer::dispatchQueue(null);
 	}
 
 	public static function getScheduledImport()

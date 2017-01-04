@@ -47,9 +47,6 @@
  *          -# Invocation: purify($html, $config)
  *       These configurations are entirely independent of each other and
  *       are *not* merged (this behavior may change in the future).
- *
- * @todo We need an easier way to inject strategies using the configuration
- *       object.
  */
 class HTMLPurifier
 {

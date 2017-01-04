@@ -82,16 +82,15 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		if (!empty($orderBy)) {
-			if ($this->getForSql('sortorder') === 'ASC') {
-				$listQuery->orderBy([$orderBy => SORT_ASC]);
-			} else {
+			if ($this->getForSql('sortorder') === 'DASC') {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
+			} else {
+				$listQuery->orderBy([$orderBy => SORT_ASC]);
 			}
 		}
 		if ($module->isPagingSupported()) {
 			$listQuery->limit($pageLimit + 1)->offset($startIndex);
 		}
-
 		$dataReader = $listQuery->createCommand()->query();
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {

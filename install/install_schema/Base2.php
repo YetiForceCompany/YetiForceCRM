@@ -1851,6 +1851,16 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_email_template_type' => [
+				'columns' => [
+					'email_template_typeid' => $this->primaryKey(),
+					'email_template_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0)
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_emaildetails' => [
 				'columns' => [
 					'emailid' => $this->integer()->notNull(),
@@ -2711,6 +2721,8 @@ class Base2 extends \App\Db\Importers\Base
 					[373, 90, 'LBL_SYNCHRONIZE_POS', 2, 0, 0, 0, 0, 0, 1, 1],
 					[374, 111, 'LBL_NOTIFICATION_INFORMATION', 1, 0, 0, 0, 0, 0, 1, 0],
 					[375, 111, 'LBL_NOTIFICATION_CONTENTS', 2, 0, 0, 0, 0, 0, 1, 0],
+					[376, 112, 'LBL_BASIC_DETAILS', 1, 0, 0, 0, 0, 0, 1, 0],
+					[377, 112, 'LBL_CONTENT_MAIL', 2, 0, 0, 0, 0, 0, 1, 0],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -2977,29 +2989,30 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_cron_task' => [
 				'columns' => ['id', 'name', 'handler_file', 'frequency', 'laststart', 'lastend', 'status', 'module', 'sequence', 'description'],
 				'values' => [
-					[1, 'Workflow', 'cron/modules/com_vtiger_workflow/com_vtiger_workflow.php', 900, NULL, NULL, 1, 'com_vtiger_workflow', 1, 'Recommended frequency for Workflow is 15 mins'],
-					[2, 'LBL_ADDRESS_BOOCK', 'cron/AddressBoock.php', 86400, NULL, NULL, 1, 'Vtiger', 24, ''],
-					[3, 'SendReminder', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 3, 'Recommended frequency for SendReminder is 15 mins'],
-					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 4, 'Recommended frequency for Currency Update is 24 hours'],
+					[1, 'LBL_WORKFLOW', 'cron/modules/com_vtiger_workflow/com_vtiger_workflow.php', 900, NULL, NULL, 1, 'com_vtiger_workflow', 1, 'Recommended frequency for Workflow is 15 mins'],
+					[2, 'LBL_ADDRESS_BOOK', 'cron/AddressBook.php', 86400, NULL, NULL, 1, 'Vtiger', 22, ''],
+					[3, 'LBL_SEND_REMINDER', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 12, 'Recommended frequency for SendReminder is 15 mins'],
+					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
+					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],
 					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 1, 'Vtiger', 2, NULL],
-					[8, 'Scheduled Import', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 6, 'Recommended frequency for MailScanner is 15 mins'],
-					[9, 'ScheduleReports', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 7, 'Recommended frequency for ScheduleReports is 15 mins'],
-					[10, 'MailScannerAction', 'modules/OSSMailScanner/cron/action.php', 200, NULL, NULL, 1, 'OSSMailScanner', 8, ''],
-					[11, 'MailScannerVerification', 'modules/OSSMailScanner/cron/verification.php', 100, NULL, NULL, 1, 'OSSMailScanner', 9, ''],
-					[12, 'MailScannerBind', 'modules/OSSMailScanner/cron/bind.php', 600, NULL, NULL, 1, 'OSSMailScanner', 10, ''],
-					[14, 'CardDav', 'modules/API/cron/CardDav.php', 300, NULL, NULL, 1, 'Contacts', 12, NULL],
-					[15, 'CalDav', 'modules/API/cron/CalDav.php', 300, NULL, NULL, 1, 'Calendar', 13, NULL],
-					[16, 'Activity state', 'modules/Calendar/cron/ActivityState.php', 1800, NULL, NULL, 1, 'Calendar', 14, ''],
-					[17, 'LBL_MULTI_REFERENCE_VALUE', 'cron/MultiReference.php', 900, NULL, NULL, 1, 'com_vtiger_workflow', 15, NULL],
-					[18, 'LBL_CRMACTIVITY_DAYS', 'modules/Calendar/cron/SetCrmActivity.php', 86400, NULL, NULL, 1, 'Calendar', 16, ''],
-					[19, 'Assets Renewal', 'modules/Assets/cron/Renewal.php', 86400, NULL, NULL, 1, 'Assets', 17, ''],
-					[20, 'SoldServices Renewal', 'modules/OSSSoldServices/cron/Renewal.php', 86400, NULL, NULL, 1, 'OSSSoldServices', 18, ''],
-					[21, 'LBL_SEND_NOTIFICATIONS', 'modules/Notification/cron/Notifications.php', 900, NULL, NULL, 1, 'Notification', 19, ''],
-					[22, 'RecordLabelUpdater', 'cron/LabelUpdater.php', 900, NULL, NULL, 1, 'Vtiger', 20, ''],
-					[23, 'PrivilegesUpdater', 'cron/PrivilegesUpdater.php', 900, NULL, NULL, 1, 'Vtiger', 21, ''],
-					[24, 'UpdaterCoordinates', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, NULL, NULL, 1, 'OpenStreetMap', 22, ''],
-					[25, 'UpdaterRecordsCoordinates', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, NULL, NULL, 1, 'OpenStreetMap', 23, ''],
-					[26, 'LBL_MARK_RECORDS_AS_REVIEWED', 'modules/ModTracker/cron/ReviewChanges.php', 900, NULL, NULL, 1, 'ModTracker', 25, ''],
+					[8, 'LBL_SCHEDULED_IMPORT', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 4, 'Recommended frequency for MailScanner is 15 mins'],
+					[9, 'LBL_SCHEDULE_REPORTS', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 24, 'Recommended frequency for ScheduleReports is 15 mins'],
+					[10, 'LBL_MAIL_SCANNER_ACTION', 'modules/OSSMailScanner/cron/action.php', 200, NULL, NULL, 1, 'OSSMailScanner', 5, ''],
+					[11, 'LBL_MAIL_SCANNER_VERIFICATION', 'modules/OSSMailScanner/cron/verification.php', 100, NULL, NULL, 1, 'OSSMailScanner', 6, ''],
+					[12, 'LBL_MAIL_SCANNER_BIND', 'modules/OSSMailScanner/cron/bind.php', 600, NULL, NULL, 1, 'OSSMailScanner', 7, ''],
+					[14, 'LBL_CARD_DAV', 'modules/API/cron/CardDav.php', 300, NULL, NULL, 1, 'Contacts', 9, NULL],
+					[15, 'LBL_CAL_DAV', 'modules/API/cron/CalDav.php', 300, NULL, NULL, 1, 'Calendar', 10, NULL],
+					[16, 'LBL_ACTIVITY_STATE', 'modules/Calendar/cron/ActivityState.php', 1800, NULL, NULL, 1, 'Calendar', 11, ''],
+					[17, 'LBL_MULTI_REFERENCE_VALUE', 'cron/MultiReference.php', 900, NULL, NULL, 1, 'com_vtiger_workflow', 14, NULL],
+					[18, 'LBL_CRMACTIVITY_DAYS', 'modules/Calendar/cron/SetCrmActivity.php', 86400, NULL, NULL, 1, 'Calendar', 15, ''],
+					[19, 'LBL_ASSETS_RENEWAL', 'modules/Assets/cron/Renewal.php', 86400, NULL, NULL, 1, 'Assets', 16, ''],
+					[20, 'LBL_SOLD_SERVICES_RENEWAL', 'modules/OSSSoldServices/cron/Renewal.php', 86400, NULL, NULL, 1, 'OSSSoldServices', 17, ''],
+					[21, 'LBL_SEND_NOTIFICATIONS', 'modules/Notification/cron/Notifications.php', 900, NULL, NULL, 1, 'Notification', 13, ''],
+					[22, 'LBL_RECORD_LABEL_UPDATER', 'cron/LabelUpdater.php', 900, NULL, NULL, 1, 'Vtiger', 18, ''],
+					[23, 'LBL_PRIVILEGES_UPDATER', 'cron/PrivilegesUpdater.php', 900, NULL, NULL, 1, 'Vtiger', 19, ''],
+					[24, 'LBL_UPDATER_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, NULL, NULL, 1, 'OpenStreetMap', 20, ''],
+					[25, 'LBL_UPDATER_RECORDS_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, NULL, NULL, 1, 'OpenStreetMap', 21, ''],
+					[26, 'LBL_MARK_RECORDS_AS_REVIEWED', 'modules/ModTracker/cron/ReviewChanges.php', 900, NULL, NULL, 1, 'ModTracker', 23, ''],
 				]
 			],
 			'vtiger_currencies' => [
@@ -3329,6 +3342,7 @@ class Base2 extends \App\Db\Importers\Base
 					[102, 'All', 1, 0, 'IGRNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[103, 'All', 1, 0, 'IGDNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[104, 'All', 1, 0, 'Notification', 0, 1, 1, 0, 1, 0, NULL, NULL, ''],
+					[105, 'All', 1, 0, 'EmailTemplates', 0, 1, 1, 0, 0, 0, NULL, NULL, ''],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
@@ -3673,6 +3687,10 @@ class Base2 extends \App\Db\Importers\Base
 					[104, 1, 'u_yf_notification:number:number:Notification_FL_NUMBER:V'],
 					[104, 2, 'vtiger_crmentity:createdtime:createdtime:Notification_Created_Time:DT'],
 					[104, 3, 'vtiger_crmentity:smownerid:assigned_user_id:Notification_Assigned_To:V'],
+					[105, 0, 'vtiger_emailtemplates:name:name:EmailTemplates_name:V'],
+					[105, 1, 'vtiger_emailtemplates:number:number:EmailTemplates_FL_NUMBER:V'],
+					[105, 2, 'vtiger_crmentity:createdtime:createdtime:EmailTemplates_Created_Time:DT'],
+					[105, 3, 'vtiger_crmentity:smownerid:assigned_user_id:EmailTemplates_Assigned_To:V'],
 				]
 			],
 			'vtiger_dataaccess' => [
@@ -5334,6 +5352,18 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 2468, 0, 0],
 					[29, 2469, 0, 0],
 					[29, 2470, 0, 0],
+					[112, 2471, 0, 0],
+					[112, 2472, 0, 0],
+					[112, 2473, 0, 0],
+					[112, 2474, 0, 0],
+					[112, 2475, 0, 0],
+					[112, 2476, 0, 0],
+					[112, 2477, 0, 0],
+					[112, 2478, 0, 0],
+					[112, 2479, 0, 0],
+					[112, 2480, 0, 0],
+					[112, 2481, 0, 0],
+					[112, 2482, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5404,6 +5434,7 @@ class Base2 extends \App\Db\Importers\Base
 					[81, 108, 2, 0],
 					[82, 109, 2, 0],
 					[83, 111, 2, 0],
+					[84, 112, 2, 0],
 				]
 			],
 			'vtiger_default_record_view' => [
@@ -5458,6 +5489,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => ['id'],
 				'values' => [
 					[4],
+				]
+			],
+			'vtiger_email_template_type' => [
+				'columns' => ['email_template_typeid', 'email_template_type', 'presence', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_MODULE', 1, 1],
+					[2, 'PLL_RECORD', 1, 2],
+					[3, 'PLL_MAIL', 1, 3],
+					[4, 'PLL_LIST', 1, 4],
 				]
 			],
 			'vtiger_employee_education' => [
@@ -5591,7 +5631,8 @@ class Base2 extends \App\Db\Importers\Base
 					[107, 'FCorectingInvoice', 'u_yf_fcorectinginvoice', 'subject', 'fcorectinginvoiceid', 'fcorectinginvoiceid', 'subject', 1, 0],
 					[108, 'IGRNC', 'u_yf_igrnc', 'subject', 'igrncid', 'igrncid', 'subject', 1, 0],
 					[109, 'IGDNC', 'u_yf_igdnc', 'subject', 'igdncid', 'igdncid', 'subject', 1, 0],
-					[111, 'Notification', 'u_yf_notification', 'title', 'id', 'id', 'title', 1, 0],
+					[111, 'Notification', 'u_yf_notification', 'title', 'notificationid', 'notificationid', 'title', 1, 0],
+					[112, 'EmailTemplates', 'u_yf_emailtemplates', 'name', 'emailtemplatesid', 'emailtemplatesid', 'name', 1, 0],
 				]
 			],
 			'vtiger_eventhandlers' => [
@@ -7305,12 +7346,24 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 2468, 'available', 'vtiger_users', 1, 56, 'available', 'FL_AVAILABLE', 1, 0, '', 3, 24, 79, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 2469, 'auto_assign', 'vtiger_users', 1, 56, 'auto_assign', 'FL_AUTO_ASSIGN_RECORDS', 1, 0, '', 3, 25, 79, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 2470, 'records_limit', 'vtiger_users', 1, 7, 'records_limit', 'FL_RECORD_LIMIT_IN_MODULE', 1, 0, '', 3, 23, 79, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2471, 'name', 'u_yf_emailtemplates', 1, 2, 'name', 'FL_NAME', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2472, 'number', 'u_yf_emailtemplates', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2473, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2474, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 0, 376, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2475, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 0, 376, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2476, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 0, 376, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[112, 2477, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2478, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 2, '', 100, 0, 376, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2479, 'email_template_type', 'u_yf_emailtemplates', 1, 16, 'email_template_type', 'FL_TYPE', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2480, 'module', 'u_yf_emailtemplates', 1, 301, 'module', 'FL_MODULE', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2481, 'subject', 'u_yf_emailtemplates', 1, 1, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2482, 'content', 'u_yf_emailtemplates', 1, 300, 'content', 'FL_CONTENT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2470],
+					[2482],
 				]
 			],
 			'vtiger_fieldmodulerel' => [

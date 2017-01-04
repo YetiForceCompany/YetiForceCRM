@@ -10,7 +10,6 @@
  * ****************************************************************************** */
 
 
-require_once("modules/Emails/class.phpmailer.php");
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/VTCacheUtils.php';
 
@@ -202,7 +201,7 @@ function setMailerProperties($mail, $subject, $contents, $fromEmail, $fromName, 
 	} else {
 		$fromName = $userFullName;
 	}
-		$mail->FromName = decode_html($fromName);
+	$mail->FromName = decode_html($fromName);
 
 	if ($to_email != '') {
 		if (is_array($to_email)) {
@@ -432,7 +431,6 @@ function getParentMailId($parentmodule, $parentid)
  */
 function getMailError($mail, $mail_status)
 {
-	//Error types in class.phpmailer.php
 	/*
 	  provide_address, mailer_not_supported, execute, instantiate, file_access, file_open, encoding, data_not_accepted, authenticate,
 	  connect_host, recipients_failed, from_failed

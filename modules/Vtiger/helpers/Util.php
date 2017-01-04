@@ -292,28 +292,6 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to get Creator of this record
-	 * @param <Integer> $recordId
-	 * @return <Integer>
-	 */
-	public static function getCreator($recordId)
-	{
-		$cache = Vtiger_Cache::getInstance();
-		if ($cache->hasCreator($recordId)) {
-			return $cache->getCreator($recordId);
-		}
-
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT smcreatorid FROM vtiger_crmentity WHERE crmid = ?', array($recordId));
-		$creatorId = $db->query_result($result, 0, 'smcreatorid');
-
-		if ($creatorId) {
-			$cache->setCreator($recordId, $creatorId);
-		}
-		return $creatorId;
-	}
-
-	/**
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <DateTime> $dateTime
 	 * @param <Vtiger_Users_Model> $userObject

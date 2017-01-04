@@ -449,8 +449,6 @@ class HTMLPurifier_CSSDefinition extends HTMLPurifier_Definition
      * Performs extra config-based processing. Based off of
      * HTMLPurifier_HTMLDefinition.
      * @param HTMLPurifier_Config $config
-     * @todo Refactor duplicate elements into common class (probably using
-     *       composition, not inheritance).
      */
     protected function setupConfigStuff($config)
     {

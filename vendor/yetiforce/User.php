@@ -301,8 +301,26 @@ class User
 						->orderBy('id', SORT_ASC)
 						->limit(1)->scalar();
 			}
-			Cache::save(__METHOD__, $key, $adminId, \App\Cache::LONG);
+			Cache::save(__METHOD__, $key, $adminId, Cache::LONG);
 			return $adminId;
 		}
+	}
+
+	/**
+	 * Function gets user ID by name
+	 * @param string $name
+	 * @return int
+	 */
+	public static function getUserIdByName($name)
+	{
+		if (Cache::has(__METHOD__, $name)) {
+			return Cache::get(__METHOD__, $name);
+		}
+		$userId = (new Db\Query())->select('id')
+				->from('vtiger_users')
+				->where(['user_name' => $name])
+				->limit(1)->scalar();
+		Cache::save(__METHOD__, $name, $userId, Cache::LONG);
+		return $userId;
 	}
 }

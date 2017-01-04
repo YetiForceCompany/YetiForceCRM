@@ -180,7 +180,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function addConditions($conditions, $relId, $mendatory = true)
+	public static function addConditions($conditions, $relId, $mendatory = true)
 	{
 		$conditionObj = json_decode($conditions);
 		if (count($conditionObj)) {

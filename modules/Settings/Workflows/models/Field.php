@@ -53,7 +53,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function getCommentFieldsListForTasks($moduleModel)
 	{
-		$commentsFieldsInfo = array('lastComment' => 'Last Comment', 'last5Comments' => 'Last 5 Comments', 'allComments' => 'All Comments');
+		$commentsFieldsInfo = array('$(record : Comments 1)$' => 'Last Comment', 'last5Comments' => '$(record : Comments 5)$', 'allComments' => '$(record : Comments)$');
 
 		$commentFieldModelsList = array();
 		foreach ($commentsFieldsInfo as $fieldName => $fieldLabel) {

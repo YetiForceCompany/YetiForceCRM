@@ -70,21 +70,25 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			}
 		}
 
+		$translatedHeaders = [];
+		foreach ($headers as &$header) {
+			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
+		}
+
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
 			foreach ($inventoryFields as &$field) {
-				$headers[] = $field->get('label');
+				$translatedHeaders[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				foreach ($field->getCustomColumn() as $columnName => $dbType) {
+					$translatedHeaders[] = 'Inventory::' . $columnName;
+				}
 			}
 			$table = $inventoryFieldModel->getTableName('data');
 		}
 
-		$translatedHeaders = [];
-		foreach ($headers as &$header) {
-			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
-		}
 		$entries = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -302,19 +306,13 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	public function sanitizeInventoryValues($inventoryRow, $inventoryFields)
 	{
 		$inventoryEntries = [];
-		foreach ($inventoryFields as $field) {
-			$value = $inventoryRow[$field->getColumnName()];
-
+		foreach ($inventoryFields as $columnName => $field) {
+			$value = $inventoryRow[$columnName];
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = vtlib\Functions::getCRMRecordType($value);
-					$displayValueArray = App\Record::computeLabels($recordModule, $value);
-					if (!empty($displayValueArray)) {
-						foreach ($displayValueArray as $k => $v) {
-							$displayValue = $v;
-						}
-					}
+					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$displayValue = \App\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;
 					} else {
@@ -323,10 +321,31 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				} else {
 					$value = '';
 				}
-			} else {
+			} elseif ($field->getName() === 'Currency') {
 				$value = $field->getDisplayValue($value);
+			} else {
+				$value;
 			}
-			$inventoryEntries['inv_' . $field->getColumnName()] = $value;
+			$inventoryEntries['inv_' . $columnName] = $value;
+			foreach ($field->getCustomColumn() as $customColumnName => $dbType) {
+				$valueParam = $inventoryRow[$customColumnName];
+				switch ($customColumnName) {
+					case 'currencyparam':
+						$field = $inventoryFields['currency'];
+						$valueData = $field->getCurrencyParam([], $valueParam);
+						$valueNewData = [];
+						foreach ($valueData as $currencyId => &$data) {
+							$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+							$data['value'] = $currencyName;
+							$valueNewData[$currencyName] = $data;
+						}
+						$valueParam = \App\Json::encode($valueNewData);
+						break;
+					default:
+						break;
+				}
+				$inventoryEntries['inv_' . $customColumnName] = $valueParam;
+			}
 		}
 		return $inventoryEntries;
 	}

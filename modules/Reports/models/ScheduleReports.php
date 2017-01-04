@@ -193,12 +193,11 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 
 	public function sendEmail()
 	{
-		$vtigerMailer = new vtlib\Mailer();
-
 		$recipientEmails = $this->getRecipientEmails();
 		vtlib\Utils::ModuleLog('ScheduleReprots', $recipientEmails);
+		$to = [];
 		foreach ($recipientEmails as $name => $email) {
-			$vtigerMailer->AddAddress($email, $name);
+			$to[$email] = $name;
 		}
 		vimport('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
@@ -207,10 +206,6 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$reportname = decode_html($reportRecordModel->getName());
 		$subject = $reportname;
 		vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
-		$vtigerMailer->Subject = $subject;
-		$vtigerMailer->Body = $this->getEmailContent($reportRecordModel);
-		$vtigerMailer->IsHTML();
-
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
 
@@ -220,32 +215,31 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		}
 		$oReportRun = ReportRun::getInstance($this->get('reportid'));
 		$attachments = [];
-
 		if ($reportFormat == 'CSV') {
 			$fileName = $baseFileName . '.csv';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$fileName] = $filePath;
+			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToCSVFile($filePath);
 		}
 		if ($reportFormat == 'EXCEL') {
 			$fileName = $baseFileName . '.xls';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$fileName] = $filePath;
+			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToExcelFile($filePath);
-		}
-
-		foreach ($attachments as $attachmentName => $path) {
-			$vtigerMailer->AddAttachment($path, decode_html($attachmentName));
 		}
 		//Added cc to account owner
 		$accountOwnerId = Users::getActiveAdminId();
-		$vtigerMailer->AddCC(\App\User::getUserModel($accountOwnerId)->getDetail('email1'), \App\Fields\Owner::getUserLabel($accountOwnerId));
-		$status = $vtigerMailer->Send(true);
-
-		foreach ($attachments as $attachmentName => $path) {
-			//unlink($path);
+		\App\Mailer::addMail([
+			'to' => $to,
+			'cc' => [\App\User::getUserModel($accountOwnerId)->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
+			'subject' => $subject,
+			'content' => $this->getEmailContent($reportRecordModel),
+			'attachments' => $attachments,
+		]);
+		foreach ($attachments as $path => $attachmentName) {
+			unlink($path);
 		}
-		return $status;
+		return true;
 	}
 
 	/**

@@ -32,7 +32,8 @@ class Vtiger_Processes_Model
 			return [];
 		}
 		$config = [];
-		for ($i = 0; $i < $db->num_rows($result); ++$i) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; ++$i) {
 			$param = $db->query_result_raw($result, $i, 'param');
 			$value = $db->query_result_raw($result, $i, 'value');
 			if ($param == 'users') {

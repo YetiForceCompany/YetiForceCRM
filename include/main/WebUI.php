@@ -242,6 +242,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				echo '<pre>' . str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString()) . '</pre>';
 				$response = false;
 			}
+			if (AppConfig::main('systemMode') === 'test') {
+				throw $e;
+			}
 		}
 
 		if ($response) {

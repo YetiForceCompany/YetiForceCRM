@@ -5,8 +5,6 @@
 
 /**
  * Validates mailto (for E-mail) according to RFC 2368
- * @todo Validate the email address
- * @todo Filter allowed query parameters
  */
 
 class HTMLPurifier_URIScheme_mailto extends HTMLPurifier_URIScheme

@@ -25,4 +25,5 @@ $languageStrings = [
 	'LBL_RECALCULATE_PERMISSION_BTN' => 'Przelicz uprawnienia',
 	'LBL_RECALCULATE_CRON_INFO' => 'Przeliczenie uprawnień wymaga aktywnego CRON\'a, prosimy o sprawdzenie w ustawieniach czy zadanie jest aktywne.',
 	'LBL_MODULES_LIST' => 'Lista modułów',
+	'ERR_INACTIVE_CACHING_PERM_ALERT_DESC' => 'Zaawansowane uprawienia zostały wyłączone ponieważ wymagają włączenia cacheowania uprawnień rekordów. Aby uprawienia zaczęły działać należy włączyć crona oraz zmienną CACHING_PERMISSION_TO_RECORD [config/security.php] ustawić na true',
 ];

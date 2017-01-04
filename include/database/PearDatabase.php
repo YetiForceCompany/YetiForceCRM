@@ -321,12 +321,9 @@ class PearDatabase
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 		$params = $this->flatten_array($params);
-		if (count($params) > 0) {
-			
-		} else {
+		if (empty($params)) {
 			return $this->query($query, $dieOnError, $msg);
 		}
-
 		try {
 			$this->stmt = $this->database->prepare($query);
 

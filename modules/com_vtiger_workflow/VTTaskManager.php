@@ -207,23 +207,6 @@ abstract class VTTask
 		$AM_PM = array('am', 'pm');
 		return str_pad(($h % 12), 2, 0, STR_PAD_LEFT) . ':' . $mn . $AM_PM[($h / 12) % 2];
 	}
-
-	public function getMetaVariables()
-	{
-		return array(
-			'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
-			'Current Time' => '(general : (__VtigerMeta__) time)',
-			'System Timezone' => '(general : (__VtigerMeta__) dbtimezone)',
-			'User Timezone' => '(general : (__VtigerMeta__) usertimezone)',
-			'CRM Detail View URL' => '(general : (__VtigerMeta__) crmdetailviewurl)',
-			'Portal Detail View URL' => '(general : (__VtigerMeta__) portaldetailviewurl)',
-			'Site Url' => '(general : (__VtigerMeta__) siteurl)',
-			'Portal Url' => '(general : (__VtigerMeta__) portalurl)',
-			'Record Id' => '(general : (__VtigerMeta__) recordId)',
-			'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
-			'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
-		);
-	}
 }
 
 class VTTaskType
@@ -257,23 +240,9 @@ class VTTaskType
 	public static function registerTaskType($taskType)
 	{
 		$adb = PearDatabase::getInstance();
-		if (!vtlib\Utils::CheckTable('com_vtiger_workflow_tasktypes')) {
-			vtlib\Utils::CreateTable(
-				'com_vtiger_workflow_tasktypes', "(id int(11) NOTNULL,
-						tasktypename varchar(255) NOTNULL,
-						label varchar(255),
-						classname varchar(255),
-						classpath varchar(255),
-						templatepath varchar(255),
-						modules text(500),
-						sourcemodule varchar(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8", true);
-		}
-
 		$modules = \App\Json::encode($taskType['modules']);
-
-		$taskTypeId = $adb->getUniqueID("com_vtiger_workflow_tasktypes");
+		$taskTypeId = $adb->getUniqueID('com_vtiger_workflow_tasktypes');
 		$taskType['id'] = $taskTypeId;
-
 		$adb->pquery("INSERT INTO com_vtiger_workflow_tasktypes
 									(id, tasktypename, label, classname, classpath, templatepath, modules, sourcemodule)
 									values (?,?,?,?,?,?,?,?)", array($taskTypeId, $taskType['name'], $taskType['label'], $taskType['classname'], $taskType['classpath'], $taskType['templatepath'], $modules, $taskType['sourcemodule']));

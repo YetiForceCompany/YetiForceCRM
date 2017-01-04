@@ -39,7 +39,6 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get query which searching duplicate records
-	 * @todo Check if query is properly generated
 	 * @return App\Db\Query $query 
 	 */
 	public function getQuery()

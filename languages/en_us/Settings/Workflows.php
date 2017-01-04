@@ -223,8 +223,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Track changes',
 	'LBL_UPDATE_WORK_TIME' => 'Update working time',
 	'LBL_SKIP_CURRENT_USER' => 'Skip current user',
-	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'List of all changes in record',
-	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'List of all values in record',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'List of changes in record',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'List of new values in record',
 	//VTWatchdog
 	'LBL_SELECT_ACTION_TYPE' => 'Select notification type',
 	'LBL_SELECT_RECIPIENTS' => 'Recipients',

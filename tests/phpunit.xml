@@ -5,18 +5,11 @@
 		 processIsolation="false"
 		 stopOnFailure="true"
 		 syntaxCheck="false"
-		 bootstrap="tests_init.php"
->
-	<php>
-		<ini name="error_reporting" value="E_ALL &amp; E_ERROR &amp; ~E_NOTICE &amp; ~E_DEPRECATED &amp; ~E_STRICT"/>
-		<ini name="memory_limit" value="1G"/>
-		<ini name="output_buffering" value="On"/>
-		<ini name="display_errors" value="On"/>
-	</php>
+		 bootstrap="tests_init.php">
+
 	<testsuites>
 		<testsuite name="AllTests">
 			<directory suffix=".php">./phpunit/</directory>
-			<exclude>./phpunit/copy/</exclude>
 		</testsuite>
 	</testsuites>
 	<filter>
@@ -24,4 +17,7 @@
 			<directory suffix=".php">./</directory>
 		</whitelist>
 	</filter>
+	<listeners>
+		<listener class="Times" file="./times.php" />
+	</listeners>
 </phpunit>

@@ -19,7 +19,7 @@ class API_DAV_Model
 		$dav = new self();
 		\App\Log::trace(__METHOD__ . ' | Start CardDAV Sync ');
 		$crmUsers = Users_Record_Model::getAll();
-		$davUsers = $dav->getAllUser(1);
+		$davUsers = self::getAllUser(1);
 		foreach ($crmUsers as $key => $user) {
 			if (array_key_exists($key, $davUsers)) {
 				$user->set('david', $davUsers[$key]['david']);
@@ -43,7 +43,7 @@ class API_DAV_Model
 		$dav = new self();
 		\App\Log::trace(__METHOD__ . ' | Start CalDAV Sync ');
 		$crmUsers = Users_Record_Model::getAll();
-		$davUsers = $dav->getAllUser(2);
+		$davUsers = self::getAllUser(2);
 		foreach ($crmUsers as $key => $user) {
 			if (array_key_exists($key, $davUsers)) {
 				$user->set('david', $davUsers[$key]['david']);
@@ -62,7 +62,7 @@ class API_DAV_Model
 		\App\Log::trace(__METHOD__ . ' | End CalDAV Sync ');
 	}
 
-	public function getAllUser($type = 0)
+	public static function getAllUser($type = 0)
 	{
 		$db = new App\Db\Query();
 		if ($type == 0) {

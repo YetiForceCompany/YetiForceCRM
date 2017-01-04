@@ -2,6 +2,7 @@
 /.settings
 /.project
 /.buildpath
+/_private
 README.md
 /cache/templates_c
 /config/csrf_secret.php

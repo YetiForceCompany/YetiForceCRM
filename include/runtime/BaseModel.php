@@ -104,4 +104,12 @@ class Vtiger_Base_Model
 	{
 		unset($this->valueMap[$key]);
 	}
+
+	/**
+	 * Function to get keys
+	 */
+	public function getKeys()
+	{
+		return array_keys($this->valueMap);
+	}
 }

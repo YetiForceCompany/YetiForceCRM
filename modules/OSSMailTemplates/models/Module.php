@@ -20,7 +20,8 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($sql, [$tabId, 1, 'P~M', 0]);
 
 			$block = ['blockId' => '', 'blockLabel' => ''];
-			for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$numRowsCount = $db->num_rows($result);
+			for ($i = 0; $i < $numRowsCount; $i++) {
 				$blockid = $db->query_result($result, $i, 'block');
 				if ($block['blockId'] != $blockid) {
 					$block['blockId'] = $blockid;
@@ -119,7 +120,8 @@ class OSSMailTemplates_Module_Model extends Vtiger_Module_Model
 		$sql = 'SELECT * FROM vtiger_ossmailtemplates AS mail INNER JOIN vtiger_crmentity AS crm ON crm.crmid = mail.ossmailtemplatesid WHERE `deleted` = 0 && ossmailtemplates_type = ?';
 		$result = $db->pquery($sql, ['PLL_MAIL']);
 		$output = [];
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$moduleName = $db->query_result_raw($result, $i, 'oss_module_list');
 			$id = $db->query_result_raw($result, $i, 'ossmailtemplatesid');
 			$name = $db->query_result_raw($result, $i, 'name');

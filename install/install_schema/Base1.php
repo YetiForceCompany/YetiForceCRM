@@ -871,6 +871,32 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__emailtemplates' => [
+				'columns' => [
+					'emailtemplatesid' => $this->integer()->notNull(),
+					'name' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'email_template_type' => $this->stringType(),
+					'module' => $this->stringType(),
+					'subject' => $this->stringType(),
+					'content' => $this->text()
+				],
+				'primaryKeys' => [
+					['emailtemplates_pk', 'emailtemplatesid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__emailtemplatescf' => [
+				'columns' => [
+					'emailtemplatesid' => $this->integer()->notNull(),
+				],
+				'primaryKeys' => [
+					['vtiger_emailtemplatescf_pk', 'emailtemplatesid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__favorites' => [
 				'columns' => [
 					'crmid' => $this->integer(),
@@ -2191,7 +2217,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__notification' => [
 				'columns' => [
-					'id' => $this->integer()->unsigned()->notNull(),
+					'notificationid' => $this->integer()->notNull(),
 					'title' => $this->stringType(),
 					'number' => $this->stringType(50),
 					'notification_status' => $this->stringType(),
@@ -2201,10 +2227,12 @@ class Base1 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(),
 				],
 				'index' => [
-					['notification_idx', 'link'],
+					['notification_link_idx', 'link'],
+					['notification_process_idx', 'process'],
+					['notification_subprocess_idx', 'subprocess'],
 				],
 				'primaryKeys' => [
-					['notification_pk', 'id']
+					['notification_pk', 'notificationid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

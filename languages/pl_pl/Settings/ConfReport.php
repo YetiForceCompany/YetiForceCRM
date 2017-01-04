@@ -41,6 +41,7 @@ $languageStrings = [
 	'LBL_PCRE_LIBRARY' => 'PCRE',
 	'LBL_XML_LIBRARY' => 'XML',
 	'LBL_JSON_LIBRARY' => 'JSON',
+	'LBL_MYSQLND_LIBRARY' => 'MySQL Native Driver (mysqlnd)',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
 	'LBL_MBSTRING_LIBRARY' => 'php_mbstring (wymagane dla mPDF)',

@@ -41,7 +41,7 @@ class Privilege
 			} else {
 				$permission = true;
 			}
-			static::$isPermittedLevel = 'SEC_ADMINISTRATION_MODULE_' . $permission ? 'YES' : 'NO';
+			static::$isPermittedLevel = 'SEC_ADMINISTRATION_MODULE_' . ($permission ? 'YES' : 'NO');
 			\App\Log::trace('Exiting isPermitted method ... - ' . ($permission) ? 'YES' : 'NO');
 			return $permission;
 		}
@@ -77,7 +77,7 @@ class Privilege
 				} else {
 					$permission = false;
 				}
-				static::$isPermittedLevel = 'SEC_USER_IS_ADMIN' . $permission ? 'YES' : 'NO';
+				static::$isPermittedLevel = 'SEC_USER_IS_ADMIN' . ($permission ? 'YES' : 'NO');
 				\App\Log::trace('Exiting isPermitted method ... - ' . static::$isPermittedLevel);
 				return $permission;
 			}
@@ -260,7 +260,7 @@ class Privilege
 			if (\AppConfig::security('PERMITTED_BY_SHARING')) {
 				$permission = static::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
 			}
-			static::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . $permission ? 'YES' : 'NO';
+			static::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . ($permission ? 'YES' : 'NO');
 		} else {
 			$permission = false;
 			static::$isPermittedLevel = 'SEC_MODULE_IS_INACTIVE';

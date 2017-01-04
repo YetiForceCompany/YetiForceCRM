@@ -137,7 +137,8 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
 			$config = [];
-			for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$numRowsResult = $db->num_rows($result);
+			for ($i = 0; $i < $numRowsResult; $i++) {
 				$config[$db->query_result($result, $i, 'parameter')] = $db->query_result($result, $i, 'value');
 			}
 			$config['popup'] = $config['target'] == '_blank' ? true : false;
@@ -237,7 +238,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = AppConfig::module('Email', 'MAILTO_LIMIT');
+		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
 			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;

@@ -599,8 +599,10 @@ class VerticalbarChart extends Base_Chart
 						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
-						if (strlen($label) !== 4) {
-							$label = Vtiger_Date_UIType::getDisplayDateTimeValue($label);
+						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
+						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
+							$m = explode(' ', $label);
+							$label = App\Language::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
 						}
 					} else {
 						$label = $row[$gFieldModel->get('reportlabel')];

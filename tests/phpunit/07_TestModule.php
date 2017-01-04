@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class TestModule extends TestCase
 {
 
-	public function test()
+	public function testInstall()
 	{
 		$testModule = 'TestModule.zip';
 		try {
@@ -25,5 +25,15 @@ class TestModule extends TestCase
 			$package = new vtlib\Package();
 			$package->import($testModule);
 		}
+	}
+
+	public function testSetConfig()
+	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()
+			->update('vtiger_cron_task', [
+				'sequence' => 0,
+				], ['name' => 'TestData'])
+			->execute();
 	}
 }

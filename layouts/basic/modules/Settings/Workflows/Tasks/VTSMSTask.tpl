@@ -19,7 +19,7 @@
 			<div class="col-md-4">
 				<select class="chzn-select task-fields form-control">
 					{foreach from=$RECORD_STRUCTURE_MODEL->getFieldsByType('phone') item=FIELD key=FIELD_VALUE}
-						<option value=",${$FIELD_VALUE}">({vtranslate($FIELD->getModule()->get('name'),$FIELD->getModule()->get('name'))})  {vtranslate($FIELD->get('label'),$FIELD->getModule()->get('name'))}</option>
+						<option value=",{$FIELD_VALUE}">({vtranslate($FIELD->getModule()->get('name'),$FIELD->getModule()->get('name'))})  {vtranslate($FIELD->get('label'),$FIELD->getModule()->get('name'))}</option>
 					{/foreach}
 				</select>	
 			</div>			
@@ -30,7 +30,9 @@
 			<label class="col-md-2 control-label">{vtranslate('LBL_ADD_FIELDS',$QUALIFIED_MODULE)}</label>
 			<div class="col-md-4">
 				<select class="chzn-select task-fields form-control">
-					{$ALL_FIELD_OPTIONS}
+					{foreach from=$ALL_FIELD_OPTIONS item=NAME key=KEY}
+						<option value="{$KEY}">{$NAME}</option>
+					{/foreach}
 				</select>	
 			</div>
 		</div>
@@ -41,5 +43,5 @@
 			</div>
 		</div>	
 	</div>
-	
+
 {/strip}	

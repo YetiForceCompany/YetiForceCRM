@@ -12,7 +12,6 @@ chdir(dirname(__FILE__) . '/../');
  * Start the cron services configured.
  */
 include_once 'include/main/WebUI.php';
-require_once 'modules/Emails/mail.php';
 
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
@@ -89,6 +88,9 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
 			echo $e->getTraceAsString() . PHP_EOL;
+			if (AppConfig::main('systemMode') === 'test') {
+				throw $e;
+			}
 		}
 	}
 	echo sprintf('===============  %s (' . round(microtime(true) - $cronStart, 2) . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;

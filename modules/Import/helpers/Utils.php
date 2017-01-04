@@ -96,34 +96,9 @@ class Import_Utils_Helper
 		return $importDirectory . "IMPORT_" . $user->id;
 	}
 
-	public static function getFileReaderInfo($type)
-	{
-		$configReader = new Import_Config_Model();
-		$importTypeConfig = $configReader->get('importTypes');
-		if (isset($importTypeConfig[$type])) {
-			return $importTypeConfig[$type];
-		}
-		return null;
-	}
-
-	public static function getFileReader($request, $user)
-	{
-		$fileReaderInfo = self::getFileReaderInfo($request->get('type'));
-		if (!empty($fileReaderInfo)) {
-			require_once $fileReaderInfo['classpath'];
-			$fileReader = new $fileReaderInfo['reader']($request, $user);
-		} else {
-			$fileReader = null;
-		}
-		return $fileReader;
-	}
-
 	public static function getDbTableName($user)
 	{
-		$configReader = new Import_Config_Model();
-		$userImportTablePrefix = $configReader->get('userImportTablePrefix');
-
-		$tableName = $userImportTablePrefix;
+		$tableName = Import_Module_Model::IMPORT_TABLE_PREFIX;
 		if (method_exists($user, 'getId')) {
 			$tableName .= $user->getId();
 		} else {
@@ -264,7 +239,7 @@ class Import_Utils_Helper
 			$request->set('error_message', vtranslate('LBL_IMPORT_FILE_COPY_FAILED', 'Import'));
 			return false;
 		}
-		$fileReader = Import_Utils_Helper::getFileReader($request, $current_user);
+		$fileReader = Import_Module_Model::getFileReader($request, $current_user);
 
 		if ($fileReader === null) {
 			$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));

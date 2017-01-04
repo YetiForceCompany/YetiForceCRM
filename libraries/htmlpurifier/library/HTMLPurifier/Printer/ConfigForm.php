@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @todo Rewrite to use Interchange objects
- */
 class HTMLPurifier_Printer_ConfigForm extends HTMLPurifier_Printer
 {
 

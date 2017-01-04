@@ -53,6 +53,8 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER' => 10000,
 	// In how many records should the label be updated in cron
 	'CRON_MAX_NUMERS_RECORD_LABELS_UPDATER' => 1000,
+	// In how many mails should the send in cron (Mailer).
+	'CRON_MAX_NUMERS_SENDING_MAILS' => 1000,
 	// Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php 
 	'LOAD_CUSTOM_FILES' => false,
