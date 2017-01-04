@@ -66,7 +66,7 @@ class Mail
 	{
 		$detail = static::getTempleteDetail($id);
 		return array_merge(
-			$detail, static::getTempleteAttachments($detail['ossmailtemplatesid'])
+			$detail, static::getAttachmentsFromTemplete($detail['ossmailtemplatesid'])
 		);
 	}
 
@@ -92,14 +92,14 @@ class Mail
 	}
 
 	/**
-	 * Get mail template attachments
+	 * Get attachments email template
 	 * @param int|string $id
 	 * @return array
 	 */
-	public static function getTempleteAttachments($id)
+	public static function getAttachmentsFromTemplete($id)
 	{
-		if (Cache::has('MailTempleteAttachments', $id)) {
-			return Cache::get('MailTempleteAttachments', $id);
+		if (Cache::has('MailAttachmentsFromTemplete', $id)) {
+			return Cache::get('MailAttachmentsFromTemplete', $id);
 		}
 		$ids = (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')
 				->innerJoin('vtiger_crmentity', 'vtiger_senotesrel.notesid = vtiger_crmentity.crmid')
@@ -108,7 +108,35 @@ class Mail
 		if ($ids) {
 			$attachments['attachments'] = ['ids' => $ids];
 		}
-		Cache::save('MailTempleteAttachments', $id, $attachments, Cache::LONG);
+		Cache::save('MailAttachmentsFromTemplete', $id, $attachments, Cache::LONG);
+		return $attachments;
+	}
+
+	/**
+	 * Get attachments from document
+	 * @param int|int[] $ids
+	 * @return array
+	 */
+	public static function getAttachmentsFromDocument($ids)
+	{
+		$cacheId = is_array($ids) ? implode(',', $ids) : $ids;
+		if (Cache::has('MailAttachmentsFromDocument', $cacheId)) {
+			return Cache::get('MailAttachmentsFromDocument', $cacheId);
+		}
+		$query = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
+			->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seattachmentsrel.crmid' => $ids]);
+		$attachments = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$name = decode_html($row['name']);
+			$filePath = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'] . '_' . $name);
+			if (is_file($filePath)) {
+				$attachments[$filePath] = $name;
+			}
+		}
+		Cache::save('MailAttachmentsFromDocument', $cacheId, $attachments, Cache::LONG);
 		return $attachments;
 	}
 }

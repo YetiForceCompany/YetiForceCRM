@@ -41,7 +41,7 @@ class TextParser
 	public static $variableEntity = ['CrmDetailViewURL', 'PortalDetailViewURL', 'RecordId', 'RecordLabel', 'ChangesListChanges', 'ChangesListValues', 'Comments'];
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'organization', 'employee'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'organization', 'employee', 'params'];
 
 	/** @var int Record id */
 	protected $record;
@@ -58,7 +58,8 @@ class TextParser
 	/** @var string Rwa content */
 	protected $rawContent;
 	protected $withoutTranslations = false;
-	protected $language = false;
+	protected $language;
+	protected $params;
 
 	public static function getOrganizationVar()
 	{
@@ -127,13 +128,24 @@ class TextParser
 	}
 
 	/**
-	 * 
-	 * @param type $name
+	 * Set language
+	 * @param string $name
 	 * @return $this
 	 */
 	public function setLanguage($name = true)
 	{
 		$this->language = $name;
+		return $this;
+	}
+
+	/**
+	 * Set additional params
+	 * @param array $params
+	 * @return $this
+	 */
+	public function setParams($params)
+	{
+		$this->params = $params;
 		return $this;
 	}
 
@@ -171,6 +183,7 @@ class TextParser
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
+
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
 			}
@@ -496,5 +509,18 @@ class TextParser
 	protected function useValue($fieldModel, $moduleName)
 	{
 		return true;
+	}
+
+	/**
+	 * Parsing params
+	 * @param string $params
+	 * @return string
+	 */
+	protected function params($params)
+	{
+		if (isset($this->params[$params])) {
+			return $this->params[$params];
+		}
+		return '';
 	}
 }

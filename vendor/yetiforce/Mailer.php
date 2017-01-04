@@ -17,6 +17,7 @@ class Mailer
 		2 => 'LBL_ERROR_DURING_SENDING',
 	];
 	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments'];
+	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority'];
 
 	/** @var \PHPMailer PHPMailer instance */
 	protected $mailer;
@@ -72,11 +73,49 @@ class Mailer
 	}
 
 	/**
+	 * 
+	 * @param array $params
+	 * @return boolean
+	 */
+	public static function sendFromTemplate($params)
+	{
+		if (empty($params['template'])) {
+			return false;
+		}
+		$recordModel = false;
+		if (empty($params['recordModel'])) {
+			$moduleName = isset($params['moduleName']) ? $params['moduleName'] : null;
+			if (isset($params['recordId'])) {
+				$recordModel = \Vtiger_Record_Model::getInstanceById($params['recordId'], $moduleName);
+			}
+		} else {
+			$recordModel = $params['recordModel'];
+		}
+		$template = Mail::getTemplete($params['template']);
+		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
+		if (!empty($params['language'])) {
+			$textParser->setLanguage($params['language']);
+		}
+		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
+		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
+		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
+		if (empty($params['smtp_id'])) {
+			$params['smtp_id'] = $template['smtp_id'];
+		}
+		if (isset($template['attachments'])) {
+			$params['attachments'] = array_merge(empty($params['attachments']) ? [] : $params['attachments'], $template['attachments']);
+		}
+		static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
+		return true;
+	}
+
+	/**
 	 * Add mail to quote for send
 	 * @param array $params
 	 */
 	public static function addMail($params)
 	{
+
 		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
@@ -168,7 +207,12 @@ class Mailer
 	 */
 	public function content($message)
 	{
+		$this->mailer->isHTML(true);
 		$this->mailer->msgHTML($message);
+		//$this->mailer->Encoding = 'quoted-printable';
+		//$this->mailer->Body = $message;
+		//$this->mailer->AltBody = 'ppp';
+		//$this->mailer->CharSet = 'UTF-8';
 		return $this;
 	}
 
@@ -296,34 +340,29 @@ class Mailer
 	 */
 	public static function sendByRowQueue($rowQueue)
 	{
-		$mailer = (new self())
-			->loadSmtpByID($rowQueue['smtp_id'])
-			->subject($rowQueue['subject'])
-			->content($rowQueue['content']);
+		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);
 		if ($rowQueue['from']) {
 			$from = Json::decode($rowQueue['from']);
 			$mailer->from($from['email'], $from['name']);
 		}
-		if ($rowQueue['cc']) {
-			foreach (Json::decode($rowQueue['cc']) as $email => $name) {
-				if (is_numeric($email)) {
-					$email = $name;
-					$name = '';
+		foreach (['cc', 'bcc'] as $key) {
+			if ($rowQueue[$key]) {
+				foreach (Json::decode($rowQueue[$key]) as $email => $name) {
+					if (is_numeric($email)) {
+						$email = $name;
+						$name = '';
+					}
+					$mailer->$key($email, $name);
 				}
-				$mailer->cc($email, $name);
-			}
-		}
-		if ($rowQueue['bcc']) {
-			foreach (Json::decode($rowQueue['bcc']) as $email => $name) {
-				if (is_numeric($email)) {
-					$email = $name;
-					$name = '';
-				}
-				$mailer->bcc($email, $name);
 			}
 		}
 		if ($rowQueue['attachments']) {
-			foreach (Json::decode($rowQueue['attachments']) as $path => $name) {
+			$attachments = Json::decode($rowQueue['attachments']);
+			if (isset($attachments['ids'])) {
+				$attachments = array_merge($attachments, Mail::getAttachmentsFromDocument($attachments['ids']));
+				unset($attachments['ids']);
+			}
+			foreach ($attachments as $path => $name) {
 				if (is_numeric($path)) {
 					$path = $name;
 					$name = '';
