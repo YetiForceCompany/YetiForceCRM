@@ -3639,8 +3639,6 @@ class ReportRun extends CRMEntity
 
 				if ($moduleName == 'HelpDesk' && $referenceModule == 'Accounts') {
 					$referenceTableName = 'vtiger_accountRelHelpDesk';
-				} elseif ($moduleName == 'HelpDesk' && $referenceModule == 'Contacts') {
-					$referenceTableName = 'vtiger_contactdetailsRelHelpDesk';
 				} elseif ($moduleName == 'HelpDesk' && $referenceModule == 'Products') {
 					$referenceTableName = 'vtiger_productsRel';
 				} elseif ($moduleName == 'HelpDesk' && $referenceModule == 'Project') {
