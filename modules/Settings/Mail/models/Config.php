@@ -32,11 +32,18 @@ class Settings_Mail_Config_Model
 		}
 		return $config;
 	}
+	
+	public static function acceptanceRecord($id)
+	{
+		\App\Db::getInstance()->createCommand()->update('s_#__mail_queue', ['status' => 1], [
+			'id' => $id
+		])->execute();
+	}
 
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return <Settings_Mail_Config_Model>
+	 * @return Settings_Mail_Config_Model
 	 */
 	public static function getInstance()
 	{

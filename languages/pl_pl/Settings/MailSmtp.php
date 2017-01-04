@@ -39,10 +39,4 @@ $languageStrings = [
 	'LBL_ACCEPTANCE_RECORD' => 'Akceptacja rekordu',
 	'LBL_ATTACHMENTS' => 'Załączniki',
 	'LBL_FROM' => 'Od',
-	'LBL_SEND_EMAIL_MANUALLY' => 'Send email manually',
-	'LBL_SMTP' => 'Smtp',
-	'LBL_MASS_ACCEPT' => 'Mass accept',
-	'LBL_MANUAl_MASS_MAILING' => 'Manual mass mailing',
-	'LBL_MANUAL_SENDING' => 'Manual sending',
-	'LBL_EMAILS_TO_SEND' => 'Emails to send',
 ];
