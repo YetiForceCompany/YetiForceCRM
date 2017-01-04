@@ -13,6 +13,7 @@ class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model
 	public $baseIndex = 'id';
 	public $listFields = ['smtp_id' => 'LBL_SMTP_NAME', 'date' => 'LBL_DATE', 'owner' => 'LBL_CREATED_BY' , 'subject' => 'LBL_SUBJECT', 'status' => 'LBL_STATUS', 'priority' => 'LBL_PRIORITY'];
 	public $name = 'Mail';
+	public $filterFields = ['smtp_id', 'status', 'priority'];
 
 	/**
 	 * Function to get the url for default view of the module
@@ -31,5 +32,10 @@ class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return '';
 	}
-
+	
+	public function getFilterFields()
+	{
+		return $this->filterFields;
+	}
+	
 }

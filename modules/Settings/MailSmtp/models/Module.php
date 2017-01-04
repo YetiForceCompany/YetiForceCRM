@@ -31,5 +31,10 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return 'index.php?module=MailSmtp&parent=Settings&view=Create';
 	}
+	
+	public static function getSmtpNames()
+	{
+		return (new \App\Db\Query())->select(['id', 'name'])->from('s_#__mail_smtp')->all();
+	}
 
 }

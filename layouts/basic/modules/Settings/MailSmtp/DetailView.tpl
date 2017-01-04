@@ -18,15 +18,15 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{vtranslate('LBL_MAILER_TYPE', $QUALIFIED_MODULE)}</label></td>
-					<td class="{$WIDTHTYPE}">
-						{$RECORD_MODEL->getDisplayValue('mailer_type')}
-					</td>
-				</tr>
-				<tr>
 					<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE}">
 						{$RECORD_MODEL->getDisplayValue('name')}
+					</td>
+				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE}" style="width:25%"><label class="pull-right">{vtranslate('LBL_MAILER_TYPE', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE}">
+						{$RECORD_MODEL->getDisplayValue('mailer_type')}
 					</td>
 				</tr>
 				<tr>

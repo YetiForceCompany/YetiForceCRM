@@ -11,15 +11,23 @@
 			<div class="">
 				<div class="form-group">
 					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)} <span class="redColor"> *
+					</label>
+					<div class="controls col-md-8">
+						</span><input class="form-control" type="text" name="name" value="{$RECORD_MODEL->get('name')}" data-validation-engine="validate[required]"> 
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
 						{\App\Language::translate('LBL_MAILER_TYPE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-					<select class="select2 form-control sourceModule col-md-8" name="mailer_type" id="mailerType">
-						<option {if $RECORD_MODEL->get('mailer_type') eq 'smtp'} selected {/if} value="smtp">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</option>
-						<option {if $RECORD_MODEL->get('mailer_type') eq 'sendmail'} selected {/if} value="sendmail">{\App\Language::translate('LBL_SENDMAIL', $QUALIFIED_MODULE)}</option>
-						<option {if $RECORD_MODEL->get('mailer_type') eq 'mail'} selected {/if} value="mail">{\App\Language::translate('LBL_MAIL', $QUALIFIED_MODULE)}</option>
-						<option {if $RECORD_MODEL->get('mailer_type') eq 'qmail'} selected {/if} value="qmail">{\App\Language::translate('LBL_QMAIL', $QUALIFIED_MODULE)}</option>
-					</select>
+						<select class="select2 form-control sourceModule col-md-8" name="mailer_type" id="mailerType">
+							<option {if $RECORD_MODEL->get('mailer_type') eq 'smtp'} selected {/if} value="smtp">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</option>
+							<option {if $RECORD_MODEL->get('mailer_type') eq 'sendmail'} selected {/if} value="sendmail">{\App\Language::translate('LBL_SENDMAIL', $QUALIFIED_MODULE)}</option>
+							<option {if $RECORD_MODEL->get('mailer_type') eq 'mail'} selected {/if} value="mail">{\App\Language::translate('LBL_MAIL', $QUALIFIED_MODULE)}</option>
+							<option {if $RECORD_MODEL->get('mailer_type') eq 'qmail'} selected {/if} value="qmail">{\App\Language::translate('LBL_QMAIL', $QUALIFIED_MODULE)}</option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
@@ -32,6 +40,14 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="text" name="host" value="{$RECORD_MODEL->get('host')}" data-validation-engine="validate[custom[integer]]">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
 						{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
@@ -40,18 +56,10 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)} <span class="redColor"> *
+						{\App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						</span><input class="form-control" type="text" name="name" value="{$RECORD_MODEL->get('name')}" data-validation-engine="validate[required]"> 
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}
-					</label>
-					<div class="controls col-md-8">
-						<input class="form-control" type="text" name="host" value="{$RECORD_MODEL->get('host')}" data-validation-engine="validate[custom[integer]]">
+						<input type="checkbox" name="authentication"  {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
 					</div>
 				</div>
 				<div class="form-group">
@@ -75,8 +83,15 @@
 						{\App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						
 						<input type="checkbox" name="authentication"  {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}
+					</label>
+					<div class="controls col-md-8">
+						<input type="checkbox" name="individual_delivery"  {if $RECORD_MODEL->get('individual_delivery') eq 1} checked {/if}>
 					</div>
 				</div>
 				<div class="form-group">
@@ -113,14 +128,6 @@
 					</label>
 					<div class="controls col-md-8">
 						<input class="form-control" type="email" name="replay_to"  value="{$RECORD_MODEL->get('replay_to')}">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}
-					</label>
-					<div class="controls col-md-8">
-						<input type="checkbox" name="individual_delivery"  {if $RECORD_MODEL->get('individual_delivery') eq 1} checked {/if}>
 					</div>
 				</div>
 				<div class="form-group">
