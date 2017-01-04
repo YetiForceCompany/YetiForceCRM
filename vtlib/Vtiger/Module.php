@@ -209,7 +209,7 @@ class Module extends ModuleBasic
 						'_ModuleName_' => $this->name,
 					];
 					foreach ($replacevars as $key => $value) {
-						$fileContent = str_replace($key, $value, $fileContent);
+						$fileContent = str_replace($key, addslashes($value), $fileContent);
 					}
 					file_put_contents($targetPath, $fileContent);
 				}

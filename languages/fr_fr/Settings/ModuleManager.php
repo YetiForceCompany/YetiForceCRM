@@ -94,4 +94,6 @@ $jsLanguageStrings = [
 	'JS_CLICK_HERE' => 'Cliquer ici',
 	'JS_ON' => 'On',
 	'JS_REMOVED_MODULE' => 'Module supprimé',
+	'JS_SPECIAL_CHARACTERS' => 'Caractères spéciaux comme',
+	'JS_NOT_ALLOWED' => 'ne sont pas autorisés',
 ];
