@@ -1106,26 +1106,31 @@ CREATE TABLE `u_yf_dashboard_type` (
   PRIMARY KEY (`dashboard_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_documents_emailtemplates` */
+
+CREATE TABLE `u_yf_documents_emailtemplates` (
+  `crmid` int(11) DEFAULT NULL,
+  `relcrmid` int(11) DEFAULT NULL,
+  KEY `u_yf_documents_emailtemplates_crmid_idx` (`crmid`),
+  KEY `u_yf_documents_emailtemplates_relcrmid_idx` (`relcrmid`),
+  CONSTRAINT `fk_1_u_yf_documents_emailtemplates` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_2_u_yf_documents_emailtemplates` FOREIGN KEY (`relcrmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_emailtemplates` */
 
 CREATE TABLE `u_yf_emailtemplates` (
   `emailtemplatesid` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `number` varchar(32) DEFAULT NULL,
-  `email_template_type` varchar(255) DEFAULT NULL,
-  `module` varchar(255) DEFAULT NULL,
+  `email_template_type` varchar(50) DEFAULT NULL,
+  `module` varchar(50) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `content` text,
+  `sys_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`emailtemplatesid`),
+  KEY `sys_name` (`sys_name`),
   CONSTRAINT `fk_1_vtiger_emailtemplatesemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `u_yf_emailtemplatescf` */
-
-CREATE TABLE `u_yf_emailtemplatescf` (
-  `emailtemplatesid` int(11) NOT NULL,
-  PRIMARY KEY (`emailtemplatesid`),
-  CONSTRAINT `fk_1_vtiger_emailtemplatescfemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `u_yf_emailtemplates` (`emailtemplatesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_favorites` */
@@ -7501,7 +7506,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=525 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=526 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

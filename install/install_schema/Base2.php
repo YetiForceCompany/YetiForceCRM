@@ -3013,7 +3013,7 @@ class Base2 extends \App\Db\Importers\Base
 					[24, 'LBL_UPDATER_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, NULL, NULL, 1, 'OpenStreetMap', 20, ''],
 					[25, 'LBL_UPDATER_RECORDS_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, NULL, NULL, 1, 'OpenStreetMap', 21, ''],
 					[26, 'LBL_MARK_RECORDS_AS_REVIEWED', 'modules/ModTracker/cron/ReviewChanges.php', 900, NULL, NULL, 1, 'ModTracker', 23, ''],
-					[27,'LBL_CACHE','cron/Cache.php',86400,NULL,NULL,1,'Vtiger',25,''],
+					[27, 'LBL_CACHE', 'cron/Cache.php', 86400, NULL, NULL, 1, 'Vtiger', 25, ''],
 				]
 			],
 			'vtiger_currencies' => [
@@ -7356,7 +7356,7 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2477, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2478, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 2, '', 100, 0, 376, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2479, 'email_template_type', 'u_yf_emailtemplates', 1, 16, 'email_template_type', 'FL_TYPE', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2480, 'module', 'u_yf_emailtemplates', 1, 301, 'module', 'FL_MODULE', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2480, 'module', 'u_yf_emailtemplates', 1, 301, 'module_name', 'FL_MODULE', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2481, 'subject', 'u_yf_emailtemplates', 1, 1, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2482, 'content', 'u_yf_emailtemplates', 1, 300, 'content', 'FL_CONTENT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
