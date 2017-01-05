@@ -59,25 +59,21 @@ if ($adb->getRowCount($result) >= 1) {
 			$invitees = [];
 
 			if ($row['activitytype'] == 'Task') {
-				$sysname = 'ActivityReminderNotificationTask';
+				$template = 'ActivityReminderNotificationTask';
 			} else {
-				$sysname = 'ActivityReminderNotificationEvents';
+				$template = 'ActivityReminderNotificationEvents';
 				$eventsRecordModel->set('id', $activityId);
 				if (AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
 					$invitees = $eventsRecordModel->getInvities();
 				}
 			}
-
 			if (!empty($toEmail)) {
-				$data = [
-					'sysname' => $sysname,
-					'to_email' => $toEmail,
-					'module' => 'Calendar',
-					'record' => $activityId,
-				];
-				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-				$recordModel->sendMailFromTemplate($data);
-
+				\App\Mailer::sendFromTemplate([
+					'template' => $template,
+					'moduleName' => 'Calendar',
+					'recordId' => $activityId,
+					'to' => $toEmail,
+				]);
 				$params = ['reminder_sent' => 1];
 				$query = 'activity_id = ?';
 				$where = [$activityId];
@@ -87,17 +83,14 @@ if ($adb->getRowCount($result) >= 1) {
 				}
 				$adb->update('vtiger_activity_reminder', $params, $query, $where);
 			}
-
 			foreach ($invitees as &$invitation) {
 				if (!empty($invitation['email'])) {
-					$data = [
-						'sysname' => 'ActivityReminderNotificationInvitation',
-						'to_email' => $invitation['email'],
-						'module' => 'Calendar',
-						'record' => $activityId,
-					];
-					$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-					$recordModel->sendMailFromTemplate($data);
+					\App\Mailer::sendFromTemplate([
+						'template' => 'ActivityReminderNotificationInvitation',
+						'moduleName' => 'Calendar',
+						'recordId' => $activityId,
+						'to' => $invitation['email'],
+					]);
 				}
 			}
 			\App\Log::trace('End Send SendReminder');

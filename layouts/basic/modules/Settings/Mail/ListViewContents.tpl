@@ -1,5 +1,6 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -13,8 +14,8 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<div class="listViewEntriesDiv">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
-			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{App\Language::translate('LBL_LOADING', $MODULE)}"/>
+			<p class="listViewLoadingMsg">{App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 		</span>
 		{assign var="SEARCH_PARAMS" value=$SEARCH_PARAMS}
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
@@ -28,7 +29,7 @@
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th  width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
@@ -36,7 +37,9 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td></td>
+					<td class="listViewSearchTd">
+						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
 					{assign var="SMTP_NAMES" value=Settings_MailSmtp_Module_Model::getSmtpNames()}
 					{assign var="STATUSES" value=App\Mailer::$statuses}
@@ -60,7 +63,7 @@
 											<option {if !empty($SEARCH_PARAMS) && isset($SEARCH_PARAMS[$HEADER_NAME]) && in_array($STATUS_KEY, $SEARCH_PARAMS[$HEADER_NAME]['value'])}
 												selected
 												{/if}  value="{$STATUS_KEY}">
-												{vtranslate($STATUS, $QUALIFIED_MODULE)}</option>
+												{App\Language::translate($STATUS, $QUALIFIED_MODULE)}</option>
 										{/foreach}
 									</select>
 								</td>
@@ -88,9 +91,10 @@
 					<tr class="listViewEntries" data-id="{$ENTRY_ID}"
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 						>
-
 						<td>{if $LISTVIEW_ENTRY->get('status') eq 0}
-							<input type="checkbox" value="{$ENTRY_ID}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" />
+							<!--
+							<input type="checkbox" value="{$ENTRY_ID}" class="listViewEntriesCheckBox" title="{App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
+							-->
 							{/if}
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -98,18 +102,18 @@
 								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 
 								<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
-									&nbsp;{vtranslate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
+									&nbsp;{App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 									</td><td nowrap class="{$WIDTHTYPE}">
 										<div class="pull-right actions">
-											<span class="actionImages">
+											<span class="queuqActionImages">
 												{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 													{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 													<a class="{$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
 															if (event.stopPropagation){ldelim}
 																		event.stopPropagation();{rdelim} else{ldelim}
 																					event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
 													{if !$RECORD_LINK@last}
 														&nbsp;
@@ -132,7 +136,7 @@
 							<tbody>
 								<tr>
 									<td>
-										{vtranslate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
+										{App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
 									</td>
 								</tr>
 							</tbody>

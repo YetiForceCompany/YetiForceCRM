@@ -17,11 +17,7 @@ class Settings_Users_Auth_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$settingsModel = Settings_Users_Module_Model::getInstance();
-		$usersModel = Users_Module_Model::getInstance($moduleName);
-		$notAdminUsers = $usersModel::getNotAdminUsers();
-
 		$viewer = $this->getViewer($request);
-		$viewer->assign('NOT_ADMIN_USERS', $notAdminUsers);
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);

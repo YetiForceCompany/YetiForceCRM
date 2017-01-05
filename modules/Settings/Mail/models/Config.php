@@ -35,7 +35,7 @@ class Settings_Mail_Config_Model
 	
 	public static function acceptanceRecord($id)
 	{
-		\App\Db::getInstance()->createCommand()->update('s_#__mail_queue', ['status' => 1], [
+		\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_queue', ['status' => 1], [
 			'id' => $id
 		])->execute();
 	}

@@ -1,15 +1,20 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
-	<form class="form-horizontal validateForm" action="index.php?module=MailSmtp&parent=Settings&action=SaveAjax&mode=save" id="createForm">
-		<div class="modal-header">
-			<div class="pull-left">
-				<h3 class="modal-title">{\App\Language::translate('LBL_CREATE_SMTP', $QUALIFIED_MODULE)}</h3>
-			</div>
-			<div class="clearfix"></div>
+	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	<div class="row widget_header">
+		<div class="col-xs-12">
+			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
 		</div>
-		<div class="modal-body">
-			<div class="">
-				<div class="form-group">
+		
+	</div>
+	<div class="editViewContainer">
+		<form name="EditMailSmtp"  id="EditView" class="form-horizontal validateForm">
+			<input type="hidden" name="module" value="MailSmtp">
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" name="action" value="Save">
+			<input type="hidden" name="mode" value="save">
+			<input type="hidden" name="record" value="{$RECORD_ID}">
+			<div class="form-group">
 					<label class="control-label col-md-3">
 						{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
@@ -43,7 +48,7 @@
 						{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" name="host" value="{$RECORD_MODEL->get('host')}" data-validation-engine="validate[custom[integer]]">
+						<input class="form-control" type="text" name="host" value="{$RECORD_MODEL->get('host')}" >
 					</div>
 				</div>
 				<div class="form-group">
@@ -51,7 +56,7 @@
 						{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="text" name="port" value="{$RECORD_MODEL->get('port')}" >
+						<input class="form-control" type="text" name="port" value="{$RECORD_MODEL->get('port')}"  data-validation-engine="validate[custom[integer]]">
 					</div>
 				</div>
 				<div class="form-group">
@@ -111,7 +116,7 @@
 						{\App\Language::translate('LBL_FROM_EMAIL', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="email" value="{$RECORD_MODEL->get('from_email')}" name="from_email" >
+						<input class="form-control" type="text" value="{$RECORD_MODEL->get('from_email')}" name="from_email"  data-validation-engine="validate[custom[email]]">
 					</div>
 				</div>
 				<div class="form-group">
@@ -124,10 +129,10 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_REPLY_TO', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_REPLAY_TO', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						<input class="form-control" type="email" name="replay_to"  value="{$RECORD_MODEL->get('replay_to')}">
+						<input class="form-control" type="text" name="replay_to"  value="{$RECORD_MODEL->get('replay_to')}" data-validation-engine="validate[custom[email]]">
 					</div>
 				</div>
 				<div class="form-group">
@@ -138,13 +143,14 @@
 						<textarea class="form-control" name="options" value="{$RECORD_MODEL->get('options')}"></textarea>
 					</div>
 				</div>
+			<div class="row">
+				<div class="col-md-5 pull-right">
+					<span class="pull-right">
+						<button class="btn btn-success" type="submit"><strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+					</span>
+				</div>
 			</div>
-		</div>
-		<div class="modal-footer">
-			<button type="submit" class="btn btn-success submitButton">{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}</button>
-		</div>
-	</form>
-
-
+		</form>
+	</div>
 {/strip}

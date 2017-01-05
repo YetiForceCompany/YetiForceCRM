@@ -76,29 +76,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 		return app.vtranslate(dayOfWeekLabel);
 	},
 	/*
-	 * function to check server Configuration
-	 * returns boolean true or false
-	 */
-	checkServerConfig: function (module) {
-		var aDeferred = jQuery.Deferred();
-		var actionParams = {
-			"action": 'CheckServerInfo',
-			'module': module
-		};
-		AppConnector.request(actionParams).then(
-				function (data) {
-					var state = false;
-					if (data.result) {
-						state = true;
-					} else {
-						state = false;
-					}
-					aDeferred.resolve(state);
-				}
-		);
-		return aDeferred.promise();
-	},
-	/*
 	 * Function to get Date Instance
 	 * @params date---this is the field value
 	 * @params dateFormat---user date format
@@ -159,44 +136,6 @@ jQuery.Class("Vtiger_Helper_Js", {
 		month = month - 1;
 		var dateInstance = new Date(year, month, date, timeSections[0], timeSections[1], seconds);
 		return dateInstance;
-	},
-	requestToShowComposeEmailForm: function (selectedId, fieldname, fieldmodule) {
-		var selectedFields = new Array();
-		selectedFields.push(fieldname);
-		var selectedIds = new Array();
-		selectedIds.push(selectedId);
-		var params = {
-			'module': 'Emails',
-			'fieldModule': fieldmodule,
-			'selectedFields': selectedFields,
-			'selected_ids': selectedIds,
-			'view': 'ComposeEmail'
-		}
-		var emailsMassEditInstance = Vtiger_Helper_Js.getEmailMassEditInstance();
-		emailsMassEditInstance.showComposeEmailForm(params);
-	},
-	/*
-	 * Function to get the compose email popup
-	 */
-	getInternalMailer: function (selectedId, fieldname, fieldmodule) {
-		var module = 'Emails';
-		var cacheResponse = Vtiger_Helper_Js.checkServerConfigResponseCache;
-		var checkServerConfigPostOperations = function (data) {
-			if (data == true) {
-				Vtiger_Helper_Js.requestToShowComposeEmailForm(selectedId, fieldname, fieldmodule);
-			} else {
-				alert(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
-			}
-		}
-		if (cacheResponse === '') {
-			var checkServerConfig = Vtiger_Helper_Js.checkServerConfig(module);
-			checkServerConfig.then(function (data) {
-				Vtiger_Helper_Js.checkServerConfigResponseCache = data;
-				checkServerConfigPostOperations(Vtiger_Helper_Js.checkServerConfigResponseCache);
-			});
-		} else {
-			checkServerConfigPostOperations(Vtiger_Helper_Js.checkServerConfigResponseCache);
-		}
 	},
 	/*
 	 * Function to show the confirmation messagebox

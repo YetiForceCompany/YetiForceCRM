@@ -307,9 +307,9 @@ insert  into `roundcube_system`(`name`,`value`) values ('roundcube-version','201
 
 insert  into `u_yf_dashboard_type`(`dashboard_id`,`name`,`system`) values (1,'LBL_MAIN_PAGE',1);
 
-/*Data for the table `u_yf_emailtemplates` */
+/*Data for the table `u_yf_documents_emailtemplates` */
 
-/*Data for the table `u_yf_emailtemplatescf` */
+/*Data for the table `u_yf_emailtemplates` */
 
 /*Data for the table `u_yf_favorites` */
 
@@ -1551,6 +1551,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (24,'LBL_UPDATER_COORDINATES','modules/OpenStreetMap/cron/UpdaterCoordinates.php',60,NULL,NULL,1,'OpenStreetMap',20,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (25,'LBL_UPDATER_RECORDS_COORDINATES','modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php',300,NULL,NULL,1,'OpenStreetMap',21,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (26,'LBL_MARK_RECORDS_AS_REVIEWED','modules/ModTracker/cron/ReviewChanges.php',900,NULL,NULL,1,'ModTracker',23,'');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (27,'LBL_CACHE','cron/Cache.php',86400,NULL,NULL,1,'Vtiger',25,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
@@ -5853,7 +5854,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2477,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',1,2,'',100,0,376,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2478,'private','vtiger_crmentity',1,56,'private','FL_IS_PRIVATE',1,2,'',100,0,376,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2479,'email_template_type','u_yf_emailtemplates',1,16,'email_template_type','FL_TYPE',1,2,'',100,0,376,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2480,'module','u_yf_emailtemplates',1,301,'module','FL_MODULE',1,2,'',100,0,376,1,'V~M',1,0,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2480,'module','u_yf_emailtemplates',1,301,'module_name','FL_MODULE',1,2,'',100,0,376,1,'V~M',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2481,'subject','u_yf_emailtemplates',1,1,'subject','FL_SUBJECT',1,2,'',100,0,377,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (112,2482,'content','u_yf_emailtemplates',1,300,'content','FL_CONTENT',1,2,'',100,0,377,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 
@@ -21351,6 +21352,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (521,92,43,'getRelatedList',14,'Project',0,'SELECT,ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (523,43,18,'getRelatedList',11,'Vendors',0,'SELECT,ADD',0,0,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (524,43,92,'getRelatedList',12,'Partners',0,'SELECT,ADD',0,0,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`) values (525,112,8,'getManyToMany',1,'Documents',0,'SELECT',0,0,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -25319,6 +25321,8 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (101,1,'LBL_OWNER_ALLOCATION','adminIcon-owner','LBL_OWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=owner',9,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (102,1,'LBL_MULTIOWNER_ALLOCATION','adminIcon-shared-owner','LBL_MULTIOWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner',10,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (103,1,'LBL_AUTOMATIC_ASSIGNMENT','adminIcon-shared-owner','LBL_AUTOMATICASSIGNMENT_DESCRIPTION','index.php?module=AutomaticAssignment&view=List&parent=Settings',11,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (104,8,'LBL_EMAILS_TO_SEND',NULL,'LBL_EMAILS_TO_SEND_DESCRIPTION','index.php?module=Mail&parent=Settings&view=List',22,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (105,8,'LBL_EMAILS_TO_SEND',NULL,'LBL_MAILSMTP_TO_SEND_DESCRIPTION','index.php?module=MailSmtp&parent=Settings&view=List',23,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

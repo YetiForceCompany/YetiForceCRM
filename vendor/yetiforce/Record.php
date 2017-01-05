@@ -50,7 +50,15 @@ class Record
 
 	protected static $crmidByLabelCache = [];
 
-	public static function findCrmidByLabel($label, $moduleName = false, $limit = 20, $entityName = true)
+	/**
+	 * Function searches for record ID with given label
+	 * @param string $label
+	 * @param string $moduleName
+	 * @param int $limit
+	 * @param bool $entityName
+	 * @return array
+	 */
+	public static function getCrmIdBySearchLabel($label, $moduleName = false, $limit = 20, $entityName = true)
 	{
 		if (isset(static::$crmidByLabelCache[$label])) {
 			$crmIds = static::$crmidByLabelCache[$label];
@@ -82,6 +90,33 @@ class Record
 			static::$crmidByLabelCache[$label] = $crmIds;
 		}
 		return $crmIds;
+	}
+
+	/**
+	 * Function searches for record ID with given label
+	 * @param string $moduleName
+	 * @param string $label
+	 * @param int $userId
+	 * @return int
+	 */
+	public static function getCrmIdByLabel($moduleName, $label, $userId = false)
+	{
+		$key = $moduleName . $label . '_' . $userId;
+		if (\App\Cache::staticHas(__METHOD__, $key)) {
+			return \App\Cache::staticGet(__METHOD__, $key);
+		}
+		$query = (new \App\Db\Query())
+			->select(['cl.crmid'])
+			->from('u_#__crmentity_label cl')
+			->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.setype' => $moduleName])
+			->andWhere(['cl.label' => $label]);
+		if ($userId) {
+			$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
+		}
+		$crmId = $query->limit(1)->scalar();
+		\App\Cache::staticSave(__METHOD__, $key, $crmId);
+		return $crmId;
 	}
 
 	/**

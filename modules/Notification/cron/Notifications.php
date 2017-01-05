@@ -31,16 +31,13 @@ class Cron_Notification
 		if ($currentTime >= $timestampEndDate) {
 			$endDate = $this->getEndDate($currentTime, $timestampEndDate, $row['frequency']);
 			if (\App\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
-				$data = [
-					'sysname' => 'SendNotificationsViaMail',
-					'to_email' => \App\User::getUserModel($row['userid'])->getDetail('email1'),
-					'module' => 'System',
+				\App\Mailer::sendFromTemplate([
+					'template' => 'SendNotificationsViaMail',
+					'to' => \App\User::getUserModel($row['userid'])->getDetail('email1'),
 					'startDate' => $row['last_execution'],
 					'endDate' => $endDate,
 					'userId' => $row['userid']
-				];
-				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-				$recordModel->sendMailFromTemplate($data);
+				]);
 			}
 			\App\Db::getInstance()->createCommand()
 				->update('u_#__watchdog_schedule', ['last_execution' => $endDate], ['userid' => $row['userid']])

@@ -211,8 +211,7 @@ var Vtiger_Index_Js = {
 	 */
 
 	showComposeEmailPopup: function (params, cb) {
-		var currentModule = "Emails";
-		Vtiger_Helper_Js.checkServerConfig(currentModule).then(function (data) {
+		Vtiger_Index_Js.checkMailConfig().then(function (data) {
 			if (data == true) {
 				var css = jQuery.extend({'text-align': 'left'}, css);
 				AppConnector.request(params).then(
@@ -634,7 +633,7 @@ var Vtiger_Index_Js = {
 	assignToOwner: function (element, userId) {
 		var aDeferred = jQuery.Deferred();
 		element = jQuery(element);
-		if(userId == undefined){
+		if (userId == undefined) {
 			userId = app.getMainParams('current_user_id');
 		}
 		var params = {
@@ -653,6 +652,25 @@ var Vtiger_Index_Js = {
 	},
 	sendNotification: function () {
 		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
+	},
+	checkMailConfig: function () {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			module: app.getModuleName(),
+			action: 'Mail',
+			mode: 'checkSmtp',
+		}).then(function (response) {
+			var state = false;
+			if (response.result) {
+				state = true;
+			} else {
+				state = false;
+			}
+			aDeferred.resolve(state);
+		}, function (data, err) {
+			aDeferred.resolve(false);
+		})
+		return aDeferred.promise();
 	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()

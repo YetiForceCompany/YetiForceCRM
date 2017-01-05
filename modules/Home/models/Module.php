@@ -74,6 +74,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
+		$activities = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = new \App\Db\Query();
 		if (!$user) {
@@ -113,15 +114,16 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
 
-		$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
-		$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
-		if ($user != 'all' && $user != '' && (array_key_exists($user, $accessibleUsers) || array_key_exists($user, $accessibleGroups))) {
-			$query->andWhere(['vtiger_crmentity.smownerid' => $user]);
+		if ($user !== 'all' && !empty($user)) {
+			settype($user, 'int');
+			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_yf_crmentity_showners')->innerJoin('vtiger_activity', 'u_yf_crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
+			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $user], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
+
 		$query->orderBy($orderBy)
 			->limit($pagingModel->getPageLimit() + 1)
 			->offset($pagingModel->getStartIndex());
-		$activities = [];
+
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');

@@ -14,19 +14,15 @@ class VTSendPdf extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$templateId = $this->pdf_tpl;
-		$emailTemplateId = $this->email_tpl;
-		$emailField = $this->email_fld;
 		$recordId = $recordModel->getId();
 		$module = $recordModel->getModuleName();
-
-		if ((is_numeric($templateId) && $templateId != 0) && (is_numeric($emailTemplateId) && $emailTemplateId != 0)) {
-			if (false === strpos($emailField, '=')) {
-				$email = $recordModel->get($emailField);
+		if ((is_numeric($this->pdf_tpl) && $this->pdf_tpl != 0) && (is_numeric($this->email_tpl) && $this->email_tpl != 0)) {
+			if (false === strpos($this->email_fld, '=')) {
+				$email = $recordModel->get($this->email_fld);
 			} else {
-				list($parentIdFieldName, $relModuleName, $relModuleField) = explode('=', $emailField);
+				list($parentIdFieldName, $relModuleName, $relModuleField) = explode('=', $this->email_fld);
 				$relRecord = $recordModel->get($parentIdFieldName);
-				if ($module == $relModuleName) {
+				if ($module === $relModuleName) {
 					$relRecord = $recordId;
 				}
 				if (is_numeric($relRecord) && intval($relRecord) > 0) {
@@ -35,14 +31,13 @@ class VTSendPdf extends VTTask
 				}
 			}
 		}
-
 		if (!empty($email)) {
-			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
+			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdf_tpl);
 			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			Vtiger_PDF_Model::exportToPdf($recordId, $module, $templateId, $pdfFile, 'F');
+			Vtiger_PDF_Model::exportToPdf($recordId, $module, $this->pdf_tpl, $pdfFile, 'F');
 			\App\Mailer::sendFromTemplate([
-				'template' => $emailTemplateId,
+				'template' => $this->email_tpl,
 				'moduleName' => $module,
 				'recordId' => $recordId,
 				'to' => $email,

@@ -256,26 +256,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return $languages;
 	}
 
-	public static function getAdminUsers()
-	{
-		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
-		$result = $adb->query($query);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$output[] = $adb->query_result_rowdata($result, $i);
-		}
-
-		return $output;
-	}
-
-	public static function getNotAdminUsers()
-	{
-		return (new App\Db\Query())->from('vtiger_users')
-				->where(['is_admin' => 'off', 'deleted' => 0, 'status' => 'Active'])
-				->all();
-	}
-
 	/**
 	 * Get switch users
 	 * @param boolean $showRole

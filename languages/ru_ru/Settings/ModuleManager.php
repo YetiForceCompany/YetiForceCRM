@@ -94,6 +94,5 @@ $jsLanguageStrings = [
 	'JS_UPDATE_SUCCESSFULL' => 'Обновление успешно',
 	'JS_UPDATED_MODULE' => 'Модуль успешно обновлен',
 	'JS_REMOVED_MODULE' => 'Удалить модуль',
-	'JS_SPECIAL_CHARACTERS' => 'Специальные символы, такие как',
-	'JS_NOT_ALLOWED' => 'не допускаются',
+	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Специальные символы, такие как & < > \' " : , не допускаются',
 ];

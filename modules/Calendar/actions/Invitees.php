@@ -35,7 +35,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		if (empty($modules)) {
 			return [];
 		}
-		$rows = \App\Record::findCrmidByLabel($value, $modules);
+		$rows = \App\Record::getCrmIdBySearchLabel($value, $modules);
 
 		$matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {

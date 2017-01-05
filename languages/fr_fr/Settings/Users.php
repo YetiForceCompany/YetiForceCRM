@@ -25,6 +25,7 @@ $languageStrings = [
 	'LBL_COLORS' => 'Couleurs',
 	'LBL_PRIORITY' => 'Priorité',
 	'LBL_MODULE' => 'Module',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'We do not recommend selecting users with admin permissions for LDAP authorization. In case of authorization problems there must be a user who is able to log in without LDAP integration.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',

@@ -79,37 +79,45 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		//Opensource fix to make documents module mass editable
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassEdit')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
 				'linkicon' => ''
-			);
+			];
 		}
 
 		if ($moduleModel->isPermitted('MassDelete')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
 				'linkicon' => ''
-			);
+			];
 		}
 		if ($moduleModel->isPermitted('MassMoveDocuments')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
 				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
 				'linkicon' => ''
-			);
+			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => ''
-			);
+			];
+		}
+		if ($moduleModel->isPermitted('CreateView')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ADD',
+				'linkurl' => 'javascript:Documents_List_Js.massAdd("index.php?module=' . $moduleModel->getName() . '&view=MassAddDocuments")',
+				'linkicon' => ''
+			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);

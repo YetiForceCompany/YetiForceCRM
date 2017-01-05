@@ -1,12 +1,11 @@
 <?php
+
 /**
  * Email Template Task Class
  * @package YetiForce.WorkflowTask
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-
 class VTEmailTemplateTask extends VTTask
 {
 
@@ -24,36 +23,31 @@ class VTEmailTemplateTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$util = new VTWorkflowUtils();
-		$admin = $util->adminUser();
-		$module = $recordModel->getModuleName();
-		if (is_numeric($this->template) && $this->template > 0) {
+		if (is_numeric() && $this->template > 0) {
 			if (strpos($this->email, '=') === false) {
 				$email = $recordModel->get($this->email);
 			} else {
-				$emaildata = explode("=", $this->email);
+				$emaildata = explode('=', $this->email);
 				$parentRecord = $recordModel->get($emaildata[0]);
-				if (is_numeric($parentRecord) && $parentRecord != '' && $parentRecord != 0) {
-					$Record_Model = Vtiger_Record_Model::getInstanceById($parentRecord, $emaildata[1]);
-					$email = $Record_Model->get($emaildata[2]);
+				if (is_numeric($parentRecord) && !empty($parentRecord)) {
+					$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecord, $emaildata[1]);
+					$email = $parentRecordModel->get($emaildata[2]);
 					$emailMod = $emaildata[1];
-					if ($emaildata[1] == 'Contacts') {
-						$notifilanguage = $Record_Model->get('notifilanguage');
+					if ($emaildata[1] === 'Contacts') {
+						$notifilanguage = $parentRecordModel->get('notifilanguage');
 					}
 				}
 			}
-			if ($email != '') {
-				$data = array(
-					'id' => $this->template,
-					'to_email' => $email,
-					'to_email_mod' => $emailMod,
-					'notifilanguage' => $notifilanguage,
-					'module' => $module,
-					'record' => $recordModel->getId(),
-					'cc' => $TASK_OBJECT->copy_email,
-				);
-				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-				$recordModel->sendMailFromTemplate($data);
+			if (!empty($email)) {
+				\App\Mailer::sendFromTemplate([
+					'template' => $this->template,
+					'moduleName' => $recordModel->getModuleName(),
+					'recordId' => $recordModel->getId(),
+					'to' => $email,
+					'cc' => $this->copy_email,
+					'language' => $notifilanguage,
+					'to_email_mod' => $emailMod
+				]);
 			}
 		}
 	}

@@ -25,6 +25,7 @@ $languageStrings = [
 	'LBL_GROUP_NAME' => 'Nazwa grupy',
 	'LBL_PRIORITY' => 'Priorytet',
 	'LBL_MODULE' => 'Moduł',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Nie zaleca sie aby wybierać do autoryzacji użytkowników o uprawnieniach administratora. W razie problmeów z autoryzacją LDAP musi być dostępny użytkownik, który ma możliwości logowania się bez integracji LDAP.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',

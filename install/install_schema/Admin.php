@@ -255,6 +255,7 @@ class Admin extends \App\Db\Importers\Base
 					'bcc' => $this->text(),
 					'attachments' => $this->text(),
 					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'params' => $this->text()
 				],
 				'columns_mysql' => [
 					'status' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",

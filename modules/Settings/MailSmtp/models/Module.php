@@ -9,7 +9,7 @@
 class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public $baseTable = 's_yf_mail_smtp';
+	public $baseTable = 's_#__mail_smtp';
 	public $baseIndex = 'id';
 	public $listFields = ['name' => 'LBL_NAME', 'host' => 'LBL_HOST', 'port' => 'LBL_PORT' , 'username' => 'LBL_USERNAME', 'from_email' => 'LBL_FROM_EMAIL'];
 	public $name = 'MailSmtp';
@@ -29,12 +29,12 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 	*/ 
 	public function getCreateRecordUrl()
 	{
-		return 'index.php?module=MailSmtp&parent=Settings&view=Create';
+		return 'index.php?module=MailSmtp&parent=Settings&view=Edit';
 	}
 	
 	public static function getSmtpNames()
-	{
-		return (new \App\Db\Query())->select(['id', 'name'])->from('s_#__mail_smtp')->all();
+	{	
+		return (new \App\Db\Query())->select(['id', 'name'])->from('s_#__mail_smtp')->all(\App\Db::getInstance('admin'));
 	}
 
 }

@@ -269,17 +269,11 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 				$recordModel = Vtiger_Record_Model::getInstanceById($id, 'Users');
 				$emails[] = $recordModel->get('email1');
 			}
-			$data = [
-				'sysname' => 'BruteForceSecurityRiskHasBeenDetected',
-				'to_email' => implode(',', $emails),
-				'module' => 'Contacts',
-			];
-			$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
-			$mailStatus = $recordModel->sendMailFromTemplate($data);
-
-			if ($mailStatus !== 1) {
-				\App\Log::error('Do not sent mail with information about brute force attack');
-			}
+			\App\Mailer::sendFromTemplate([
+				'template' => 'BruteForceSecurityRiskHasBeenDetected',
+				'moduleName' => 'Contacts',
+				'to' => $emails,
+			]);
 		}
 		\App\Log::trace('End ' . __METHOD__);
 	}

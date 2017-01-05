@@ -876,23 +876,17 @@ class Base1 extends \App\Db\Importers\Base
 					'emailtemplatesid' => $this->integer()->notNull(),
 					'name' => $this->stringType(),
 					'number' => $this->stringType(32),
-					'email_template_type' => $this->stringType(),
-					'module' => $this->stringType(),
+					'email_template_type' => $this->stringType(50),
+					'module' => $this->stringType(50),
 					'subject' => $this->stringType(),
-					'content' => $this->text()
+					'content' => $this->text(),
+					'sys_name' => $this->stringType(50),
+				],
+				'index' => [
+					['emailtemplates_sys_name_idx', 'sys_name'],
 				],
 				'primaryKeys' => [
 					['emailtemplates_pk', 'emailtemplatesid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'u_#__emailtemplatescf' => [
-				'columns' => [
-					'emailtemplatesid' => $this->integer()->notNull(),
-				],
-				'primaryKeys' => [
-					['vtiger_emailtemplatescf_pk', 'emailtemplatesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

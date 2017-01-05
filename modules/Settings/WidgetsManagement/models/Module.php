@@ -98,15 +98,22 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public static function getDashboardInfo($dashboardId)
 	{
 		return (new App\Db\Query())->from('u_#__dashboard_type')
-				->where(['dashboard_id' => (int)$dashboardId])
+				->where(['dashboard_id' => (int) $dashboardId])
 				->one();
 	}
 
-	public static function getDefaultUserId($widgetModel, $moduleName = false)
+	/**
+	 * Function appoints the proper owner
+	 * @param Vtiger_Widget_Model $widgetModel
+	 * @param string $moduleName
+	 * @param mixed $owner
+	 * @return mixed
+	 */
+	public static function getDefaultUserId($widgetModel, $moduleName = false, $owner = false)
 	{
 
-		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...');
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		\App\Log::trace('Entering ' . __METHOD__);
+		$currentUser = \App\User::getCurrentUserModel();
 		$user = '';
 
 		if ($moduleName) {
@@ -117,30 +124,37 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		}
 		$owners = \App\Json::decode(html_entity_decode($widgetModel->get('owners')));
+		if ($owner) {
+			if (($owner !== 'all' && !isset($accessibleUsers[$owner]) && !isset($accessibleGroups[$owner])) || ($owner === 'all' && !in_array($owner, $owners['available']))) {
+				return false;
+			}
+			return $owner;
+		}
 		$defaultSelected = $owners['default'];
 
-		if (!is_array($owners['available']))
-			$owners['available'] = array($owners['available']);
+		if (!is_array($owners['available'])) {
+			$owners['available'] = [$owners['available']];
+		}
 
-		if ($defaultSelected == 'mine' && in_array($defaultSelected, $owners['available']))
-			$user = $currentUser->getId();
-		elseif ($defaultSelected == 'all' && in_array($defaultSelected, $owners['available']))
+		if ($defaultSelected == 'mine' && in_array($defaultSelected, $owners['available'])) {
+			$user = $currentUser->getUserId();
+		} elseif ($defaultSelected == 'all' && in_array($defaultSelected, $owners['available'])) {
 			$user = $defaultSelected;
-		elseif (in_array('users', $owners['available'])) {
-			if (key($accessibleUsers) == $currentUser->getId())
+		} elseif (in_array('users', $owners['available'])) {
+			if (key($accessibleUsers) == $currentUser->getUserId())
 				next($accessibleUsers);
 			$user = key($accessibleUsers);
-		}
-		elseif (in_array('groups', $owners['available'])) {
+		} elseif (in_array('groups', $owners['available'])) {
 			$user = key($accessibleGroups);
 		}
 		if (empty($user) && $owners['available']) {
 			reset($owners['available']);
 			$user = current($owners['available']);
 		}
-		if (empty($user))
+		if (empty($user)) {
 			$user = false;
-		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getDefaultUserId() method ...");
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
 		return $user;
 	}
 
@@ -240,9 +254,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		$db = \App\Db::getInstance();
 		$isWidgetExists = (new \App\Db\Query())
-				->from('vtiger_module_dashboard')
-				->where(['id' => $data['id']])
-				->exists();
+			->from('vtiger_module_dashboard')
+			->where(['id' => $data['id']])
+			->exists();
 		if ($isWidgetExists) {
 			$size = \App\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
@@ -262,11 +276,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
-					->execute();
+				->execute();
 
 			$insert['active'] = isset($data['isdefault']) ? 1 : 0;
 			$db->createCommand()->update('vtiger_module_dashboard_widgets', $insert, ['templateid' => $data['id']])
-					->execute();
+				->execute();
 		}
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::saveData() method ...");
 		return ['success' => true];
@@ -374,7 +388,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
 		$tabId = \App\Module::getModuleId($moduleName);
 		$data = [];
-		if($dashboard === false)
+		if ($dashboard === false)
 			$dashboard = null;
 		$query = (new \App\Db\Query())
 			->from('vtiger_module_dashboard_blocks')

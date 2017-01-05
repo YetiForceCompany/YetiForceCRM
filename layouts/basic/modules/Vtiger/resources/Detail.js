@@ -31,7 +31,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @params: send email url , module name.
 	 */
 	triggerSendEmail: function (detailActionUrl, module) {
-		Vtiger_Helper_Js.checkServerConfig(module).then(function (data) {
+		Vtiger_Index_Js.checkMailConfig().then(function (data) {
 			if (data == true) {
 				var currentInstance = Vtiger_Detail_Js.getInstance();
 				var parentRecord = new Array();
@@ -86,7 +86,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @params: send sms url , module name.
 	 */
 	triggerSendSms: function (detailActionUrl, module) {
-		Vtiger_Helper_Js.checkServerConfig(module).then(function (data) {
+		Vtiger_Index_Js.checkMailConfig().then(function (data) {
 			if (data == true) {
 				Vtiger_Detail_Js.triggerDetailViewAction(detailActionUrl);
 			} else {
@@ -1844,7 +1844,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		detailContentsHolder.on('click', '[name="emailsEditView"]', function (e) {
 			e.stopPropagation();
 			var module = "Emails";
-			Vtiger_Helper_Js.checkServerConfig(module).then(function (data) {
+			Vtiger_Index_Js.checkMailConfig().then(function (data) {
 				if (data == true) {
 					var element = jQuery(e.currentTarget);
 					var closestROw = element.closest('tr');

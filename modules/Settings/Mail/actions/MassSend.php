@@ -22,9 +22,12 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 		}
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
-
 		$selectedIds = $request->get('selected_ids');
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$db = \App\Db::getInstance('admin');

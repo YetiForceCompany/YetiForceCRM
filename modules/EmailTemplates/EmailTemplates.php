@@ -1,14 +1,10 @@
 <?php
-/* +**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ********************************************************************************** */
-
+/**
+ * EmailTemplates CRMEntity Class
+ * @package YetiForce.CRMEntity
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class EmailTemplates extends Vtiger_CRMEntity
@@ -20,20 +16,19 @@ class EmailTemplates extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = ['u_yf_emailtemplatescf', 'emailtemplatesid'];
+	public $customFieldTable = [];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = ['vtiger_crmentity', 'u_yf_emailtemplates', 'u_yf_emailtemplatescf'];
+	public $tab_name = ['vtiger_crmentity', 'u_yf_emailtemplates'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
-		'u_yf_emailtemplates' => 'emailtemplatesid',
-		'u_yf_emailtemplatescf' => 'emailtemplatesid'
+		'u_yf_emailtemplates' => 'emailtemplatesid'
 	];
 
 	/**

@@ -16,8 +16,8 @@ class Mailer
 		1 => 'LBL_WAITING_TO_BE_SENT',
 		2 => 'LBL_ERROR_DURING_SENDING',
 	];
-	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments'];
-	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority'];
+	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments', 'params'];
+	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params'];
 
 	/** @var \PHPMailer PHPMailer instance */
 	protected $mailer;
@@ -115,7 +115,6 @@ class Mailer
 	 */
 	public static function addMail($params)
 	{
-
 		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
@@ -356,6 +355,7 @@ class Mailer
 				}
 			}
 		}
+		$attachmentsToRemove = [];
 		if ($rowQueue['attachments']) {
 			$attachments = Json::decode($rowQueue['attachments']);
 			if (isset($attachments['ids'])) {
@@ -368,6 +368,14 @@ class Mailer
 					$name = '';
 				}
 				$mailer->attachment($path, $name);
+				if (strpos(realpath($path), 'cache' . DIRECTORY_SEPARATOR)) {
+					$attachmentsToRemove[] = $path;
+				}
+			}
+		}
+		if ($rowQueue['params']) {
+			foreach (Json::decode($rowQueue['params']) as $name => $param) {
+				$this->sendCustomParams($name, $param, $mailer);
 			}
 		}
 		if ($mailer->getSmtp('individual_delivery')) {
@@ -393,6 +401,26 @@ class Mailer
 			}
 			$status = $mailer->send();
 		}
+		if ($status) {
+			foreach ($attachmentsToRemove as $file) {
+				unlink($file);
+			}
+		}
 		return $status;
+	}
+
+	/**
+	 * Adding additional parameters
+	 * @param string $name
+	 * @param mixed $param
+	 * @param self $mailer
+	 */
+	public function sendCustomParams($name, $param, $mailer)
+	{
+		switch ($name) {
+			case 'ics':
+				$mailer->mailer->Ical = $param;
+				break;
+		}
 	}
 }

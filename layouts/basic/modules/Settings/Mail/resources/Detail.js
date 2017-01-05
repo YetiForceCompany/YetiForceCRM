@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
 Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
-		registerAcceptanceEvent: function () {
+	registerAcceptanceEvent: function () {
 		var thisInstance = this;
 		var container = jQuery('.contentsDiv');
 		container.on('click', '.acceptanceRecord', function (e) {
@@ -51,11 +50,8 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 			);
 		});
 	},
-
-	
 	registerEvents: function () {
 		this.registerAcceptanceEvent();
 		this.sendMailManually();
-
 	}
 });

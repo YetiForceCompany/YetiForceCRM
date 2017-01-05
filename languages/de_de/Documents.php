@@ -52,6 +52,7 @@ $languageStrings = [
 	'Default' => 'Standard',
 	'LBL_SELECT_Documents' => 'Dokument auswählen',
 	'LBL_RELATIONS' => 'Beziehungen',
+	'LBL_MASS_ADD' => 'Mass add'
 ];
 $jsLanguageStrings = [
 	'JS_NOT_ALLOWED' => 'sind nicht erlaubt',
