@@ -58,6 +58,27 @@ class Mail
 	}
 
 	/**
+	 * Get templte list for module
+	 * @param string|bool $moduleName
+	 * @return array
+	 */
+	public static function getTempleteList($moduleName = false)
+	{
+		if (Cache::has('MailTempleteList', $moduleName)) {
+			return Cache::get('MailTempleteList', $moduleName);
+		}
+		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid'])->from('u_#__emailtemplates')
+			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0]);
+		if ($moduleName) {
+			$query->andWhere(['u_#__emailtemplates.module' => $moduleName]);
+		}
+		$row = $query->all();
+		Cache::save('MailTempleteList', $moduleName, $row, Cache::LONG);
+		return $row;
+	}
+
+	/**
 	 * Get mail template
 	 * @param int|string $id
 	 * @return array
@@ -65,6 +86,9 @@ class Mail
 	public static function getTemplete($id, $parse = true)
 	{
 		$detail = static::getTempleteDetail($id);
+		if (!$detail) {
+			return false;
+		}
 		return array_merge(
 			$detail, static::getAttachmentsFromTemplete($detail['ossmailtemplatesid'])
 		);
@@ -80,11 +104,13 @@ class Mail
 		if (Cache::has('MailTempleteDetail', $id)) {
 			return Cache::get('MailTempleteDetail', $id);
 		}
-		$query = (new \App\Db\Query())->from('vtiger_ossmailtemplates');
+		$query = (new \App\Db\Query())->from('u_#__emailtemplates')
+			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		if (is_numeric($id)) {
-			$query->where(['ossmailtemplatesid' => $id]);
+			$query->andWhere(['u_#__emailtemplates.emailtemplatesid' => $id]);
 		} else {
-			$query->where(['sysname' => $id]);
+			$query->andWhere(['u_#__emailtemplates.sys_name' => $id]);
 		}
 		$row = $query->one();
 		Cache::save('MailTempleteDetail', $id, $row, Cache::LONG);
@@ -101,9 +127,9 @@ class Mail
 		if (Cache::has('MailAttachmentsFromTemplete', $id)) {
 			return Cache::get('MailAttachmentsFromTemplete', $id);
 		}
-		$ids = (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')
-				->innerJoin('vtiger_crmentity', 'vtiger_senotesrel.notesid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_senotesrel.crmid' => $id])->column();
+		$ids = (new \App\Db\Query())->select(['u_#__documents_emailtemplates.crmid'])->from('u_#__documents_emailtemplates')
+				->innerJoin('vtiger_crmentity', 'u_#__documents_emailtemplates.relcrmid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0, 'u_#__documents_emailtemplates.relcrmid' => $id])->column();
 		$attachments = [];
 		if ($ids) {
 			$attachments['attachments'] = ['ids' => $ids];

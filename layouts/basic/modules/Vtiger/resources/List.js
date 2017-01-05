@@ -48,32 +48,35 @@ jQuery.Class("Vtiger_List_Js", {
 		if (validationResult != true) {
 			var selectedIds = listInstance.readSelectedIds(true);
 			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
 			var postData = listInstance.getDefaultParams();
-
-			delete postData.module;
-			delete postData.view;
 			delete postData.parent;
+			postData.module = app.getModuleName();
+			postData.view = 'SendMailModal';
 			postData.selected_ids = selectedIds;
 			postData.excluded_ids = excludedIds;
-			postData.cvid = cvId;
-			postData.sourceModule = app.getModuleName();
+			postData.cvid = listInstance.getCurrentCvId();
 			if (params) {
 				jQuery.extend(postData, params);
 			}
-			var actionParams = {
-				"type": "POST",
-				"url": 'index.php?module=OSSMail&view=SendMailModal',
-				"dataType": "html",
-				"data": postData
-			};
-			AppConnector.request(actionParams).then(function (appData) {
-				app.showModalWindow(appData, function (data) {
+			AppConnector.request(postData).then(function (response) {
+				app.showModalWindow(response, function (data) {
 					data.find('[name="saveButton"]').click(function (e) {
-						var emails = data.find('#emails').val();
-						emails = $.parseJSON(emails);
-						app.hideModalWindow(data);
-						Vtiger_Index_Js.sendMailWindow(data.find('#url').val(), 1, {emails: emails});
+						if (data.find('form').validationEngine('validate')) {
+							jQuery.extend(postData, {
+								field: data.find('#field').val(),
+								template: data.find('#template').val(),
+								action: 'Mail',
+								mode: 'sendMails',
+							});
+							delete postData.view;
+							AppConnector.request(postData).then(function (response) {
+								if(response.result == true){
+									app.hideModalWindow();
+								}
+							}, function (data, err) {
+								app.hideModalWindow();
+							})
+						}
 					});
 				});
 			});
@@ -328,14 +331,14 @@ jQuery.Class("Vtiger_List_Js", {
 								if (data.success) {
 									var paginationObject = $('.pagination');
 									var totalCount = paginationObject.data('totalCount');
-									if(totalCount != '') {
+									if (totalCount != '') {
 										totalCount--;
 										paginationObject.data('totalCount', totalCount);
 									}
 									var orderBy = jQuery('#orderBy').val();
 									var sortOrder = jQuery("#sortOrder").val();
 									var pageNumber = parseInt($('#pageNumber').val());
-									if($('#noOfEntries').val() == 1 && pageNumber != 1){
+									if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
 										pageNumber--;
 									}
 									var urlParams = {
@@ -497,7 +500,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var excludedIds = listInstance.readExcludedIds(true);
 		var cvId = listInstance.getCurrentCvId();
 		var pageNumber = jQuery('#pageNumber').val();
-		if('undefined' === typeof cvId)
+		if ('undefined' === typeof cvId)
 			exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&page=' + pageNumber;
 		else
 			exportActionUrl += '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds + '&viewname=' + cvId + '&page=' + pageNumber;
@@ -1129,7 +1132,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		jQuery('#listViewNextPageButton').on('click', function (e) {
-			if($(this).hasClass('disabled')){
+			if ($(this).hasClass('disabled')) {
 				return;
 			}
 			var pageLimit = jQuery('#pageLimit').val();
@@ -1542,7 +1545,7 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewPageDiv.on('click', '.listViewHeaderValues', function (e) {
 			var fieldName = jQuery(e.currentTarget).data('columnname');
 			var sortOrderVal = jQuery(e.currentTarget).data('nextsortorderval');
-			if(typeof sortOrderVal === 'undefined')
+			if (typeof sortOrderVal === 'undefined')
 				return;
 			var cvId = thisInstance.getCurrentCvId();
 			var urlParams = {

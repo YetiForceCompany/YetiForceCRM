@@ -20,10 +20,8 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 		$relatedLinks = parent::getLinks();
 		$relationModel = $this->getRelationModel();
 		$relatedModuleName = $relationModel->getRelationModuleModel()->getName();
-
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			if (AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
+			if (AppConfig::main('isActiveSendingMails')) {
 				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),

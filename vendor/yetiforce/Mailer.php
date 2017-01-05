@@ -92,6 +92,9 @@ class Mailer
 			$recordModel = $params['recordModel'];
 		}
 		$template = Mail::getTemplete($params['template']);
+		if (!$template) {
+			return false;
+		}
 		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);
@@ -326,6 +329,9 @@ class Mailer
 		$currentUser = \Users_Record_Model::getCurrentUserModel();
 		$this->to($currentUser->get('email1'));
 		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
+		if (!$template) {
+			return ['result' => false, 'error' => Language::translate('LBL_NO_EMAIL_TEMPLATE')];
+		}
 		$this->subject($template['subject']);
 		$this->content($template['content']);
 		$result = $this->send();
