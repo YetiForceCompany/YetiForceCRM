@@ -1288,6 +1288,12 @@ $languageStrings = [
 	'LBL_RECORD_COMMENT' => 'Komentarz',
 	'LBL_RELETED_RECORD_LABEL' => 'Powiązana etykieta',
 	'LBL_OWNER_EMAIL' => 'Email właściciela',
+	//Mail modal
+	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
+	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',
+	'LBL_EMAIL_ADRESS' => 'Adres mail',
+	'LBL_EMAIL_TEMPLATE' => 'Szablon mailowy',
+	'LBL_MASS_SEND_EMAIL_INFO' => 'Wszystkie maile są kolejkowane i wysłane w cronie.',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
