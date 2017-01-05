@@ -45,5 +45,5 @@ $languageStrings = [
 	'LBL_MANUAl_MASS_MAILING' => 'Manuelle Massenmail',
 	'LBL_MANUAL_SENDING' => 'Manuell Senden',
 	'LBL_EMAILS_TO_SEND' => 'Zu versendende Emails',
-	'LBL_RECORD_ACCEPTED' => 'Record accepted',
+	'LBL_RECORD_ACCEPTED' => 'Datensatz bestätigt',
 ];
