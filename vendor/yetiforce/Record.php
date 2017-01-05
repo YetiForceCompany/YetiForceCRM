@@ -56,7 +56,7 @@ class Record
 	 * @param string $moduleName
 	 * @param int $limit
 	 * @param bool $entityName
-	 * @return int[]
+	 * @return array
 	 */
 	public static function getCrmIdBySearchLabel($label, $moduleName = false, $limit = 20, $entityName = true)
 	{
