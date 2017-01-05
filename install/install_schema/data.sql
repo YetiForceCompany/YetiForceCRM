@@ -1551,7 +1551,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (24,'LBL_UPDATER_COORDINATES','modules/OpenStreetMap/cron/UpdaterCoordinates.php',60,NULL,NULL,1,'OpenStreetMap',20,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (25,'LBL_UPDATER_RECORDS_COORDINATES','modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php',300,NULL,NULL,1,'OpenStreetMap',21,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (26,'LBL_MARK_RECORDS_AS_REVIEWED','modules/ModTracker/cron/ReviewChanges.php',900,NULL,NULL,1,'ModTracker',23,'');
-
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (27,'LBL_CACHE','cron/Cache.php',86400,NULL,NULL,1,'Vtiger',25,NULL);
 /*Data for the table `vtiger_currencies` */
 
 insert  into `vtiger_currencies`(`currencyid`,`currency_name`,`currency_code`,`currency_symbol`) values (1,'Albania, Leke','ALL','Lek');
@@ -25319,7 +25319,8 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (101,1,'LBL_OWNER_ALLOCATION','adminIcon-owner','LBL_OWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=owner',9,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (102,1,'LBL_MULTIOWNER_ALLOCATION','adminIcon-shared-owner','LBL_MULTIOWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner',10,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (103,1,'LBL_AUTOMATIC_ASSIGNMENT','adminIcon-shared-owner','LBL_AUTOMATICASSIGNMENT_DESCRIPTION','index.php?module=AutomaticAssignment&view=List&parent=Settings',11,0,0,NULL);
-
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (104,8,'LBL_EMAILS_TO_SEND',NULL,'LBL_EMAILS_TO_SEND_DESCRIPTION','index.php?module=Mail&parent=Settings&view=List',22,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (105,8,'LBL_EMAILS_TO_SEND',NULL,'LBL_MAILSMTP_TO_SEND_DESCRIPTION','index.php?module=MailSmtp&parent=Settings&view=List',23,0,0,NULL);
 /*Data for the table `vtiger_sharedcalendar` */
 
 /*Data for the table `vtiger_shareduserinfo` */

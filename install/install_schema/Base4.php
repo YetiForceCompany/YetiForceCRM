@@ -6998,6 +6998,8 @@ class Base4 extends \App\Db\Importers\Base
 					[101, 1, 'LBL_OWNER_ALLOCATION', 'adminIcon-owner', 'LBL_OWNER_ALLOCATION_DESCRIPTION', 'index.php?module=RecordAllocation&view=Index&parent=Settings&type=owner', 9, 0, 0, NULL],
 					[102, 1, 'LBL_MULTIOWNER_ALLOCATION', 'adminIcon-shared-owner', 'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION', 'index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner', 10, 0, 0, NULL],
 					[103, 1, 'LBL_AUTOMATIC_ASSIGNMENT', 'adminIcon-shared-owner', 'LBL_AUTOMATICASSIGNMENT_DESCRIPTION', 'index.php?module=AutomaticAssignment&view=List&parent=Settings', 11, 0, 0, NULL],
+					[104, 8, 'LBL_EMAILS_TO_SEND', NULL, 'LBL_EMAILS_TO_SEND_DESCRIPTION', 'index.php?module=Mail&parent=Settings&view=List', 22, 0, 0, NULL],
+					[105, 8, 'LBL_EMAILS_TO_SEND', NULL, 'LBL_MAILSMTP_TO_SEND_DESCRIPTION', 'index.php?module=MailSmtp&parent=Settings&view=List', 23, 0, 0, NULL],
 				]
 			],
 			'vtiger_squoteenquiries_status' => [
