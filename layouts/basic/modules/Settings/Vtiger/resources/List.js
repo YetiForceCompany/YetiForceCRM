@@ -8,7 +8,6 @@
  *************************************************************************************/
 
 Vtiger_List_Js("Settings_Vtiger_List_Js",{
-	
 	triggerDelete : function(event,url){
 		event.stopPropagation();
 		var instance = Vtiger_List_Js.getInstance();

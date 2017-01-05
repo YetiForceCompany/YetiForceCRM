@@ -21,7 +21,11 @@ class Settings_Mail_MassDelete_Action extends Vtiger_Mass_Action
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
-
+	
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$selectedIds = $request->get('selected_ids');

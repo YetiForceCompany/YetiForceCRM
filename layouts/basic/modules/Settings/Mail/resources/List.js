@@ -1,14 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
-	/*
-	 * Function to register the list view container
-	 */
-	getContainer: function () {
-		if (this.listViewContainer == false) {
-			this.listViewContainer = jQuery('div.listViewContentDiv');
-		}
-		return this.listViewContainer;
-	},
 	registerAcceptanceEvent: function () {
 		var thisInstance = this;
 		var list = jQuery('.listViewEntriesDiv');
@@ -113,7 +104,7 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 		});
 	},
 	getParams: function () {
-		var listViewContainer = this.getContainer();
+		var listViewContainer = this.getListViewContainer();
 		var searchParams = {};
 		listViewContainer.find('input.listSearchContributor, select.listSearchContributor').each(function (i, obj) {
 			if ($(obj).val() != null) {
@@ -122,7 +113,7 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				searchParams[column]['value'] = $(obj).val();
 			}
 		});
-		
+
 		var params = {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
@@ -134,7 +125,7 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 	},
 	registerListSearch: function () {
 		var thisInstance = this;
-		var listViewContainer = this.getContainer();
+		var listViewContainer = this.getListViewContainer();
 		listViewContainer.find('input.listSearchContributor').on('keypress', function (e) {
 			if (e.keyCode == 13) {
 				var params = thisInstance.getParams();
@@ -146,19 +137,29 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 				);
 			}
 		});
-	},
-	registerListViewSelect: function () {
-		var thisInstance = this;
-		var listViewContainer = this.getContainer();
-		listViewContainer.on('change','.listViewEntriesTable select', function (e){
+		listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
 			var params = thisInstance.getParams();
-			
 			thisInstance.getListViewRecords(params).then(
 					function (data) {
 						thisInstance.updatePagination();
 					}
 			);
 		});
+	},
+	registerListViewSelect: function () {
+		if (app.getMainParams('autoRefreshListOnChange') == '1') {
+			var thisInstance = this;
+			var listViewContainer = this.getListViewContainer();
+			listViewContainer.on('change', '.listViewEntriesTable select', function (e) {
+				var params = thisInstance.getParams();
+
+				thisInstance.getListViewRecords(params).then(
+						function (data) {
+							thisInstance.updatePagination();
+						}
+				);
+			});
+		}
 	},
 	registerEvents: function () {
 		this._super();

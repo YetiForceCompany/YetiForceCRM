@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_SAVED_SIGNATURE' => 'Signature saved',
 	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
 	'LBL_VIEW_CONFIG' => 'General configuration',
+	//Mail queue	
 	'LBL_PRIORITY' => 'Priority',
 	'LBL_CREATED_BY' => 'Created by',
 	'LBL_SMTP_NAME' => 'Smtp name',
@@ -45,4 +46,5 @@ $languageStrings = [
 	'LBL_MANUAl_MASS_MAILING' => 'Manual mass mailing',
 	'LBL_MANUAL_SENDING' => 'Manual sending',
 	'LBL_EMAILS_TO_SEND' => 'Emails to send',
+	'LBL_RECORD_ACCEPTED' => 'Record accepted',
 ];

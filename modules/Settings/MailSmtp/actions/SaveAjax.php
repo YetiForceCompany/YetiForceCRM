@@ -8,36 +8,18 @@
  */
 class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('save');
+		$this->exposeMethod('updateSmtp');
 	}
 
-	public function save(Vtiger_Request $request)
+	public function updateSmtp(Vtiger_Request $request)
 	{
-	//	$mailer = new \App\Mailer();
-		//$result = $mailer->test();
-		//if (isset($result['result']) && $result['result'] !== false) {
-		if(1){
-			$data = $request->get('param');
-			$recordId = $request->get('record');
-			if ($recordId) {
-				$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($recordId);
-			} else {
-				$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();
-			}
-			$dataFull = array_merge($recordModel->getData(), $data);
-			$recordModel->setData($dataFull);
-			$recordModel->save();
-			$return = ['success' => 'true', 'message' => \App\Language::translate('LBL_SUCCESS')];
-		} else {
-			$return = ['success' => 'false', 'message' => \App\Language::translate('LBL_MAIL_TEST_FAILED')];
-		}
+		$result = Settings_MailSmtp_Record_Model::updateSmtp($request);
 
-		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($return);
-		$responceToEmit->emit();
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 }

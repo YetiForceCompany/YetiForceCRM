@@ -21,7 +21,11 @@ class Settings_Mail_GetDownload_Action extends Vtiger_Mass_Action
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
-
+	
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$id = $request->get('id');
@@ -38,7 +42,11 @@ class Settings_Mail_GetDownload_Action extends Vtiger_Mass_Action
 			exit;
 		}
 	}
-
+	
+	/**
+	 * Validate Request
+	 * @param Vtiger_Request $request
+	 */
 	public function validateRequest(Vtiger_Request $request)
 	{
 		$request->validateReadAccess();

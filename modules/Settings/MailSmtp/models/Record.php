@@ -51,8 +51,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditViewUrl()
 	{
-
-		return 'index.php?module=MailSmtp&parent=Settings&view=Create&record=' . $this->getId();
+		return 'index.php?module=MailSmtp&parent=Settings&view=Edit&record=' . $this->getId();
 	}
 
 	/**
@@ -61,13 +60,12 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getSaveAjaxActionUrl()
 	{
-
 		return '?module=MailSmtp&parent=Settings&action=SaveAjax&mode=save';
 	}
-	
+
 	/**
 	 * Function to get the list view actions for the record
-	 * @return arraya - Associate array of Vtiger_Link_Model instances
+	 * @return array - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
 	{
@@ -76,7 +74,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => 'javascript:app.showModalWindow(null, \'index.php?module=MailSmtp&parent=Settings&view=Create&record=' . $this->getId() . '\')',
+				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
 			],
 			[
@@ -101,7 +99,10 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		switch ($key) {
-			case 'port':
+			case 'individual_delivery':
+				$value = $this->getDisplayCheckboxValue($value);
+				break;
+			case 'default':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'authentication':
@@ -125,7 +126,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (0 === $value) {
 			$value = \App\Language::translate('LBL_NO');
-		}else{
+		} else {
 			$value = \App\Language::translate('LBL_YES');
 		}
 		return $value;
@@ -136,12 +137,10 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db::getInstance('admin')->createCommand()
 			->delete('s_#__mail_smtp', ['id' => $this->getId()])
 			->execute();
 	}
-
-
 
 	/**
 	 * Function to get the instance of advanced permission record model
@@ -150,9 +149,9 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id)
 	{
-
-		$query = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id]);
-		$row = $query->createCommand()->queryOne();
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query($db))->from('s_#__mail_smtp')->where(['id' => $id]);
+		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
 			$instance = new self();
@@ -185,8 +184,53 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if ($params && empty($this->getId())) {
 			$db->createCommand()->insert('s_#__mail_smtp', $params)->execute();
+			$this->set('id', $db->getLastInsertID('s_#__mail_smtp_id_seq'));
 		} elseif (!empty($this->getId())) {
+			$this->set('id', $this->getId());
 			$db->createCommand()->update('s_#__mail_smtp', $params, ['id' => $this->getId()])->execute();
 		}
+		
+	}
+
+	/**
+	 * Function updates smtp configuration 
+	 * @param Vtiger_Request $request
+	 */
+	public static function updateSmtp($request)
+	{
+		//	$mailer = new \App\Mailer();
+		//$result = $mailer->test();
+		//if (isset($result['result']) && $result['result'] !== false) {
+		
+		if (1) {
+			$data = $request->get('param');
+			$recordId = $data['record'];
+			if ($recordId) {
+				$recordModel = self::getInstanceById($recordId);
+			} else {
+				$recordModel = self::getCleanInstance();
+			}
+			if ($recordModel) {
+				$recordModel->set('mailer_type', $data['mailer_type']);
+				$recordModel->set('default', (int) $data['default']);
+				$recordModel->set('name', $data['name']);
+				$recordModel->set('host', $data['host']);
+				$recordModel->set('port', $data['port']);
+				$recordModel->set('username', $data['username']);
+				$recordModel->set('password', $data['password']);
+				$recordModel->set('authentication', (int) $data['authentication']);
+				$recordModel->set('secure', $data['secure']);
+				$recordModel->set('options', $data['options']);
+				$recordModel->set('from_email', $data['from_email']);
+				$recordModel->set('from_name', $data['from_name']);
+				$recordModel->set('replay_to', $data['replay_to']);
+				$recordModel->set('individual_delivery', (int) $data['individual_delivery']);
+				$recordModel->save();
+			}
+			$return = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
+		} else {
+			$return = ['success' => false, 'message' => \App\Language::translate('LBL_MAIL_TEST_FAILED')];
+		}
+		return $return;
 	}
 }
