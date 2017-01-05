@@ -70,8 +70,7 @@ class Vtiger_ComposeEmail_View extends Vtiger_Footer_View
 				if ($documentRecordModel->get('filelocationtype') == 'I') {
 					$fileDetails = $documentRecordModel->getFileDetails();
 					if ($fileDetails) {
-						$fileDetails['fileid'] = $fileDetails['attachmentsid'];
-						$fileDetails['docid'] = $fileDetails['crmid'];
+						$fileDetails['id'] = $fileDetails['crmid'];
 						$fileDetails['attachment'] = $fileDetails['name'];
 						$fileDetails['size'] = filesize($fileDetails['path'] . $fileDetails['attachmentsid'] . "_" . $fileDetails['name']);
 						$attachements[] = $fileDetails;

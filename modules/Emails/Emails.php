@@ -68,19 +68,4 @@ class Emails extends CRMEntity
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('subject', 'assigned_user_id');
 
-	protected function setupTemporaryTable($tableName, $tabId, $user, $parentRole, $userGroups)
-	{
-		$module = null;
-		if (!empty($tabId)) {
-			$module = \App\Module::getModuleName($tabId);
-		}
-		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
-		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared int(1) default 0) ignore " . $query;
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, array());
-		if (is_object($result)) {
-			return true;
-		}
-		return false;
-	}
 }

@@ -972,14 +972,13 @@ function send_mail_for_password($mailid)
 		$adb->pquery($sql, $params);
 
 		$data = [
-			'sysname' => 'YetiPortalForgotPassword',
-			'to_email' => $mailid,
-			'module' => 'Contacts',
-			'record' => $record,
+			'template' => 'YetiPortalForgotPassword',
+			'to' => $mailid,
+			'moduleName' => 'Contacts',
+			'recordId' => $record,
 			'user_name' => $user_name,
 			'password' => $truePassword,
 		];
-		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailTemplates');
 	}
 	$succes = false;
 	if ($mailid == '') {
@@ -988,7 +987,7 @@ function send_mail_for_password($mailid)
 		$masage = 'LBL_EMAIL_ADDRESS_NOT_FOUND';
 	} elseif ($isactive == 0) {
 		$masage = 'LBL_LOGIN_REVOKED';
-	} elseif (!$recordModel->sendMailFromTemplate($data)) {
+	} elseif (!\App\Mailer::sendFromTemplate($data)) {
 		$masage = 'LBL_MAIL_COULDNOT_SENT';
 	} else {
 		$succes = true;

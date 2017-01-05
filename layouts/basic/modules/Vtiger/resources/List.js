@@ -91,7 +91,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
 			var progressIndicatorElement = jQuery.progressIndicator();
-			Vtiger_Helper_Js.checkServerConfig(module).then(function (data) {
+			Vtiger_Index_Js.checkMailConfig().then(function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				if (data == true) {
 					Vtiger_List_Js.triggerMassAction(massActionUrl);

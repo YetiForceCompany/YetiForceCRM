@@ -114,15 +114,9 @@
 							<span class="col-md-9">
 								<span class="row">
 									{foreach item=ATTACHMENT_DETAILS  from=$RECORD->getAttachmentDetails()}
-										<a &nbsp; 
-											{if array_key_exists('docid',$ATTACHMENT_DETAILS)} 
-												&nbsp; href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT_DETAILS['docid']} 
-														&fileid={$ATTACHMENT_DETAILS['fileid']}" 
-											{else} 
-												&nbsp; href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT_DETAILS['fileid']}" 
-										{/if}
-
-												>{$ATTACHMENT_DETAILS['attachment']}</a>&nbsp;&nbsp; 
+										<a href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT_DETAILS['docid']}">
+											{$ATTACHMENT_DETAILS['attachment']}
+										</a>&nbsp;&nbsp; 
 									{/foreach}
 								</span>
 							</span>
