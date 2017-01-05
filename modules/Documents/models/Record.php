@@ -137,19 +137,22 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
 		if ($this->get('filelocationtype') === 'I') {
-			if (!empty($_FILES[$fileNameByField]['name'])) {
-				$errCode = $_FILES[$fileNameByField]['error'];
+			if (!isset($this->file)) {
+				$file = $_FILES[$fileNameByField];
+			} else {
+				$file = $this->file;
+			}
+			if (!empty($file['name'])) {
+				$errCode = $file['error'];
 				if ($errCode === 0) {
-					foreach ($_FILES as $fileindex => $files) {
-						$fileInstance = \App\Fields\File::loadFromRequest($files);
-						if ($fileInstance->validate()) {
-							$fileName = $_FILES[$fileNameByField]['name'];
-							$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
-							$fileType = $_FILES[$fileNameByField]['type'];
-							$fileSize = $_FILES[$fileNameByField]['size'];
-							$fileLocationType = 'I';
-							$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
-						}
+					$fileInstance = \App\Fields\File::loadFromRequest($file);
+					if ($fileInstance->validate()) {
+						$fileName = $file['name'];
+						$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
+						$fileType = $file['type'];
+						$fileSize = $file['size'];
+						$fileLocationType = 'I';
+						$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
 					}
 				}
 			} elseif ($this->get($fileNameByField)) {
@@ -179,11 +182,14 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
 		if ($fileLocationType === 'I') {
-			foreach ($_FILES as $fileindex => $files) {
-				if ($files['name'] != '' && $files['size'] > 0) {
-					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
-					$this->uploadAndSaveFile($files);
-				}
+			if (!isset($this->file)) {
+				$file = $_FILES[$fileNameByField];
+			} else {
+				$file = $this->file;
+			}
+			if ($file['name'] != '' && $file['size'] > 0) {
+				$file['original_name'] = AppRequest::get('0_hidden');
+				$this->uploadAndSaveFile($file);
 			}
 		} else {
 			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
