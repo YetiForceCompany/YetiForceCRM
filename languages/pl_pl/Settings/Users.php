@@ -25,6 +25,7 @@ $languageStrings = [
 	'LBL_GROUP_NAME' => 'Nazwa grupy',
 	'LBL_PRIORITY' => 'Priorytet',
 	'LBL_MODULE' => 'Moduł',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Wybranie zbyt dużej ilości użytkowników do autoryzacji LDAP może spowodować problemy z logowaniem do CRM',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',

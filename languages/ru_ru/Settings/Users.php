@@ -26,6 +26,7 @@ $languageStrings = [
 	'LBL_COLORS' => 'Цвета',
 	'LBL_PRIORITY' => 'Приоритет',
 	'LBL_MODULE' => 'Модуль',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Selecting too many users for LDAP authorization might cause problems when logging into the CRM',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка способа Авторизации',

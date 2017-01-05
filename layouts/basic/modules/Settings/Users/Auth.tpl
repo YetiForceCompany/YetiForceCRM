@@ -25,6 +25,12 @@
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 				<div class="tab-pane active" id="ldap">
+					<div class="alert alert-info alert-dismissible col-md-5" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+						</button>
+						<p>{vtranslate('LBL_LDAP_RECOMMENDED_INFO', $QUALIFIED_MODULE)}</p>
+					</div>
+					<div class="clearfix"></div>
 					<div class="row">
 						<div class="col-md-1 col-sm-1 col-xs-2 pagination-centered">
 							<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
