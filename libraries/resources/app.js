@@ -575,6 +575,9 @@ var app = {
 			if (modalContainers.length == 0 && backdrop.length) {
 				backdrop.remove();
 			}
+			if(backdrop.length > 0) {
+				$('body').addClass('modal-open');
+			}
 		});
 		return container;
 	},
