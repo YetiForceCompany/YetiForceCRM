@@ -50,7 +50,15 @@ class Record
 
 	protected static $crmidByLabelCache = [];
 
-	public static function findCrmidByLabel($label, $moduleName = false, $limit = 20, $entityName = true)
+	/**
+	 * Function searches for record ID with given label
+	 * @param string $label
+	 * @param string $moduleName
+	 * @param int $limit
+	 * @param bool $entityName
+	 * @return int[]
+	 */
+	public static function getCrmIdBySearchLabel($label, $moduleName = false, $limit = 20, $entityName = true)
 	{
 		if (isset(static::$crmidByLabelCache[$label])) {
 			$crmIds = static::$crmidByLabelCache[$label];
@@ -102,7 +110,7 @@ class Record
 			->from('u_#__crmentity_label cl')
 			->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.setype' => $moduleName])
-			->andWhere(['like', 'cl.label', $label]);
+			->andWhere(['cl.label' => $label]);
 		if ($userId) {
 			$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 		}
