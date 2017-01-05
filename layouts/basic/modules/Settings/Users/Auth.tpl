@@ -25,10 +25,13 @@
 				<div class="tab-content layoutContent" style="padding-top: 10px;">
 					{assign var=CONFIG value=$MODULE_MODEL->getConfig('ldap')}
 					<div class="tab-pane active" id="ldap">
-						<div class="alert alert-info alert-dismissible col-md-5" role="alert">
+						<div class="alert alert-info alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
 							</button>
-							<p>{vtranslate('LBL_LDAP_RECOMMENDED_INFO', $QUALIFIED_MODULE)}</p>
+							<p>
+								<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+								{vtranslate('LBL_LDAP_RECOMMENDED_INFO', $QUALIFIED_MODULE)}
+							</p>
 						</div>
 						<div class="clearfix"></div>
 						<div class="row">
