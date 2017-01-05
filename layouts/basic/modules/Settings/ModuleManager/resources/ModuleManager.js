@@ -11,7 +11,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 	validateField: function(field, rules, i, options){
 		var specialChars = /[&\<\>\:\'\"\,]/;
 		if (specialChars.test(field.val())) {
-			return app.vtranslate('JS_SPECIAL_CHARACTERS') + " & < > ' \" : , " + app.vtranslate('JS_NOT_ALLOWED');
+			return app.vtranslate('JS_SPECIAL_CHARACTERS_NOT_ALLOWED');
 		}
 		return true;
 	},

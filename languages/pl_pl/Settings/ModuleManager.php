@@ -93,6 +93,5 @@ $jsLanguageStrings = [
 	'JS_CLICK_HERE' => 'Kliknij tutaj',
 	'JS_ON' => 'Na',
 	'JS_REMOVED_MODULE' => 'Usunięto moduł',
-	'JS_SPECIAL_CHARACTERS' => 'Znaków specjalnych takich jak',
-	'JS_NOT_ALLOWED' => 'nie są dozwolone',
+	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Znaków specjalnych takich jak  & < > \' " : , nie są dozwolone',
 ];
