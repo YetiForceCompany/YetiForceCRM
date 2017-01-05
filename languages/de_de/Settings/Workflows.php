@@ -144,7 +144,7 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Verkaufsphase - Verhandlung',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Aktualisiere das Datum der erzeugten Ereignisse wenn sich das Basisdaum ändert',
 	'LBL_CURRENT_USER' => 'Aktuell eingeloggtern Benutzer',
-	'LBL_SELECT_TEMPLATE' => 'Select template',
+	'LBL_SELECT_TEMPLATE' => 'Template auswählen',
 	//workflow trigger types
 	'ONCE' => 'Nur einmal, wenn alle Bedingungen erfüllt sind',
 	'ON_EVERY_SAVE' => 'Jederzeit wenn der Datensatz gespeichert wird (z.B. Anlegen, Ändern)',
@@ -176,7 +176,7 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Arbeitszeit automatisch aktualisieren',
 	'LBL_UPDATE_WORK_TIME' => 'Arbeitszeit aktualisieren',
 	'LBL_UPDATE_RELATED_FIELD' => 'Verknüpfter Datensatz aktualisieren',
-	'LBL_AUTO_ASSIGN' => 'Auto assign record',
+	'LBL_AUTO_ASSIGN' => 'Automatisierte Datensatzzuordnung',
 	//workflow add time
 	'Current Date' => 'Aktuelles Datum',
 	'Current Time' => 'Aktuelle Uhrzeit',
@@ -209,8 +209,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Protokolliere Änderungen',
 	'LBL_UPDATE_WORK_TIME' => 'Arbeitszeit aktualisieren',
 	'LBL_SKIP_CURRENT_USER' => 'Aktuellen Benutzer überspringen',
-	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'List of changes in record',
-	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'List of new values in record',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Liste von Änderungen in einem Datensatz',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Liste neuer Werte in einem Datensatz',
 	//VTWatchdog
 	'LBL_SELECT_RECIPIENTS' => 'Empfänger',
 	'LBL_MESSAGE' => 'Nachricht',
@@ -234,7 +234,7 @@ $languageStrings = [
 	'Notify Owner On Ticket Closed' => 'Benachrichtige Besitzer wenn Ticket geschlossen wurde',
 	'Notify Owner On Ticket Create' => 'Benachrichtige Besitzer wenn Ticket erzeugt wurde',
 	'Customer Portal Login Details' => 'Details zum Kundenportal Login',
-	'Send invitations' => 'Einaldungen senden',
+	'Send invitations' => 'Einladungen senden',
 	'Send Notification Email to Record Owner' => 'Sende Benachrichtigungsmail an den Besitzer',
 	'Activity Reminder Notification' => 'Erinnerungsbenachrichtigung zu Aktivitäten',
 	'Test mail about the mail server configuration' => 'Testmail zur Mailserver Konfiguration',
