@@ -104,6 +104,15 @@ class QueryGenerator
 	}
 
 	/**
+	 * Get module model
+	 * @return string
+	 */
+	public function getModuleModel()
+	{
+		return $this->moduleModel;
+	}
+
+	/**
 	 * Get query fields
 	 * @return array
 	 */
