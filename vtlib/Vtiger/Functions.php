@@ -1282,27 +1282,4 @@ class Functions
 			return var_export($var, true);
 		}
 	}
-
-	/**
-	 * Function to get the Entity Id of a given Entity Name
-	 * @param string $label
-	 * @param string $moduleName
-	 * @return int
-	 */
-	public static function getEntityIdByLabel($moduleName, $label)
-	{
-		$key = $moduleName . $label;
-		if (\App\Cache::staticHas(__METHOD__, $key)) {
-			return \App\Cache::staticGet(__METHOD__, $key);
-		}
-		$metaInfo = \App\Module::getEntityInfo($moduleName);
-		$concat = \App\Module::getSqlForNameInDisplayFormat($moduleName);
-		$fields = $metaInfo['fieldnameArr'];
-		array_unshift($fields, 'id');
-		$queryGenerator = new \App\QueryGenerator($moduleName, 1);
-		$queryGenerator->setFields($fields);
-		$entityId = $queryGenerator->createQuery()->where(['like', $concat, $label])->limit(1)->scalar();
-		\App\Cache::staticSave(__METHOD__, $key, $entityId);
-		return $entityId;
-	}
 }

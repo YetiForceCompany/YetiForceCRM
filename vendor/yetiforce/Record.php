@@ -85,6 +85,33 @@ class Record
 	}
 
 	/**
+	 * Function searches for record ID with given label
+	 * @param string $moduleName
+	 * @param string $label
+	 * @param int $userId
+	 * @return int
+	 */
+	public static function getCrmIdByLabel($moduleName, $label, $userId = false)
+	{
+		$key = $moduleName . $label . '_' . $userId;
+		if (\App\Cache::staticHas(__METHOD__, $key)) {
+			return \App\Cache::staticGet(__METHOD__, $key);
+		}
+		$query = (new \App\Db\Query())
+			->select(['cl.crmid'])
+			->from('u_#__crmentity_label cl')
+			->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.setype' => $moduleName])
+			->andWhere(['like', 'cl.label', $label]);
+		if ($userId) {
+			$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
+		}
+		$crmId = $query->limit(1)->scalar();
+		\App\Cache::staticSave(__METHOD__, $key, $crmId);
+		return $crmId;
+	}
+
+	/**
 	 * Function gets labels for record data
 	 * @param string $moduleName
 	 * @param int|array $ids
