@@ -28,8 +28,9 @@ class Settings_Mail_GetDownload_Action extends Vtiger_Mass_Action
 	 */
 	public function process(Vtiger_Request $request)
 	{
-		$id = $request->get('id');
-		$filePath = $request->get('path');
+		$id = $request->get('record');
+		$selectedFile = (int) $request->get('selectedFile');
+		$filePath = Settings_Mail_Module_Model::getAttachmentPath($id, $selectedFile);
 		if (file_exists($filePath)) {
 			header('Content-Description: File Transfer');
 			header('Content-Type: application/octet-stream');
@@ -39,7 +40,6 @@ class Settings_Mail_GetDownload_Action extends Vtiger_Mass_Action
 			header('Pragma: public');
 			header('Content-Length: ' . filesize($filePath));
 			readfile($filePath);
-			exit;
 		}
 	}
 	

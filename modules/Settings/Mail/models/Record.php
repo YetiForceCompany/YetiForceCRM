@@ -97,14 +97,17 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				if ($value) {
 					$attachments = $value;
 					$value = '';
+					$fileCounter = 0;
 					foreach (\App\Json::decode($attachments) as $path => $name) {
 						if (is_numeric($path)) {
 							$path = $name;
 							$name = 'LBL_FILE';
 						}
-						$actionPath = '?module=Mail&parent=Settings&action=GetDownload&record='. $this->getId().'&path='. $path;
-						$value .= '<a href='.$actionPath. ' title='.$path.'>' . $name . '</a> ';
+						$actionPath = '?module=Mail&parent=Settings&action=GetDownload&record='. $this->getId().'&selectedFile='.$fileCounter;
+						$value .= '<a href='.$actionPath. ' title='.$path.'>' . $name . '</a>, ';
+						$fileCounter++;
 					}
+					$value = rtrim($value,  ', ');
 				}
 				break;
 		}
