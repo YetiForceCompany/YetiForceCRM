@@ -24,6 +24,7 @@ class TextParser
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
 		'LBL_RELETED_RECORD_LABEL' => '$(reletedRecord : parent_id|email1|Accounts)$, $(reletedRecord : parent_id|email1)$',
 		'LBL_OWNER_EMAIL' => '$(reletedRecord : assigned_user_id|email1|Users)$',
+		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 	];
 
 	/** @var array Variables for entity modules */
@@ -41,7 +42,7 @@ class TextParser
 	public static $variableEntity = ['CrmDetailViewURL', 'PortalDetailViewURL', 'RecordId', 'RecordLabel', 'ChangesListChanges', 'ChangesListValues', 'Comments'];
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'organization', 'employee', 'params'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'sourceRecord', 'organization', 'employee', 'params'];
 
 	/** @var int Record id */
 	protected $record;
@@ -57,9 +58,18 @@ class TextParser
 
 	/** @var string Rwa content */
 	protected $rawContent;
+
+	/** @var bool without translations */
 	protected $withoutTranslations = false;
+
+	/** @var string Language content */
 	protected $language;
+
+	/** @var array Additional params */
 	protected $params;
+
+	/** @var \Vtiger_Record_Model Source record model */
+	protected $sourceRecordModel;
 
 	public static function getOrganizationVar()
 	{
@@ -146,6 +156,18 @@ class TextParser
 	public function setParams($params)
 	{
 		$this->params = $params;
+		return $this;
+	}
+
+	/**
+	 * Set source record
+	 * @param int $record
+	 * @param string|bool $moduleName
+	 * @return $this
+	 */
+	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
+	{
+		$this->sourceRecordModel = $recordModel ? $recordModel : \Vtiger_Record_Model::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
 		return $this;
 	}
 
@@ -373,7 +395,7 @@ class TextParser
 	}
 
 	/**
-	 * Parsing record data
+	 * Parsing releted record data
 	 * @param string $params
 	 * @return mixed
 	 */
@@ -398,6 +420,19 @@ class TextParser
 		}
 		$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($reletedId, $moduleName);
 		return static::getInstanceByModel($reletedRecordModel)->record($reletedField);
+	}
+
+	/**
+	 * Parsing source record data
+	 * @param string $fieldName
+	 * @return mixed
+	 */
+	protected function sourceRecord($fieldName)
+	{
+		if (empty($this->sourceRecordModel) || !\Users_Privileges_Model::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
+			return '';
+		}
+		return static::getInstanceByModel($this->sourceRecordModel)->record($fieldName);
 	}
 
 	/**
