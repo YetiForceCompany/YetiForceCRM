@@ -84,6 +84,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			//Get inventory headers
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
+			$headers[] = 'Inventory::recordIteration';
 			foreach ($inventoryFields as &$field) {
 				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
@@ -95,9 +96,11 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 
 		$entries = [];
 		$dataReader = $query->createCommand()->query();
+		$i = 0;
 		while ($row = $dataReader->read()) {
 			$sanitizedRow = $this->sanitizeValues($row);
 			if ($isInventory) {
+				$sanitizedRow[] = $i++;
 				$rows = (new \App\Db\Query())->from($table)->where(['id' => $row['id']])->orderBy('seq')->all();
 				if ($rows) {
 					foreach ($rows as &$row) {
