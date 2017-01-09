@@ -1861,6 +1861,16 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_email_template_priority' => [
+				'columns' => [
+					'email_template_priorityid' => $this->primaryKey(),
+					'email_template_priority' => $this->smallInteger(1),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0)
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_emaildetails' => [
 				'columns' => [
 					'emailid' => $this->integer()->notNull(),
@@ -2723,6 +2733,7 @@ class Base2 extends \App\Db\Importers\Base
 					[375, 111, 'LBL_NOTIFICATION_CONTENTS', 2, 0, 0, 0, 0, 0, 1, 0],
 					[376, 112, 'LBL_BASIC_DETAILS', 1, 0, 0, 0, 0, 0, 1, 0],
 					[377, 112, 'LBL_CONTENT_MAIL', 2, 0, 0, 0, 0, 0, 1, 0],
+					[378, 112, 'LBL_CUSTOM_INFORMATION', 3, 0, 0, 0, 0, 0, 0, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -3013,7 +3024,7 @@ class Base2 extends \App\Db\Importers\Base
 					[24, 'LBL_UPDATER_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, NULL, NULL, 1, 'OpenStreetMap', 20, ''],
 					[25, 'LBL_UPDATER_RECORDS_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, NULL, NULL, 1, 'OpenStreetMap', 21, ''],
 					[26, 'LBL_MARK_RECORDS_AS_REVIEWED', 'modules/ModTracker/cron/ReviewChanges.php', 900, NULL, NULL, 1, 'ModTracker', 23, ''],
-					[27, 'LBL_CACHE', 'cron/Cache.php', 86400, NULL, NULL, 1, 'Vtiger', 25, ''],
+					[27, 'LBL_CACHE', 'cron/Cache.php', 86400, NULL, NULL, 1, 'Vtiger', 25, NULL],
 				]
 			],
 			'vtiger_currencies' => [
@@ -5365,6 +5376,7 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2480, 0, 0],
 					[112, 2481, 0, 0],
 					[112, 2482, 0, 0],
+					[112, 2483, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5495,10 +5507,22 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_email_template_type' => [
 				'columns' => ['email_template_typeid', 'email_template_type', 'presence', 'sortorderid'],
 				'values' => [
-					[1, 'PLL_MODULE', 1, 1],
+					[1, 'PLL_MAIL', 1, 1],
 					[2, 'PLL_RECORD', 1, 2],
-					[3, 'PLL_MAIL', 1, 3],
-					[4, 'PLL_LIST', 1, 4],
+				]
+			],
+			'vtiger_email_template_priority' => [
+				'columns' => ['email_template_priorityid', 'email_template_priority', 'presence', 'sortorderid'],
+				'values' => [
+					[1, 1, 1, 1],
+					[2, 2, 1, 2],
+					[3, 3, 1, 3],
+					[4, 4, 1, 4],
+					[5, 5, 1, 5],
+					[6, 6, 1, 6],
+					[7, 7, 1, 7],
+					[8, 8, 1, 8],
+					[9, 9, 1, 9],
 				]
 			],
 			'vtiger_employee_education' => [
@@ -7348,23 +7372,24 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 2469, 'auto_assign', 'vtiger_users', 1, 56, 'auto_assign', 'FL_AUTO_ASSIGN_RECORDS', 1, 0, '', 3, 25, 79, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 2470, 'records_limit', 'vtiger_users', 1, 7, 'records_limit', 'FL_RECORD_LIMIT_IN_MODULE', 1, 0, '', 3, 23, 79, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2471, 'name', 'u_yf_emailtemplates', 1, 2, 'name', 'FL_NAME', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2472, 'number', 'u_yf_emailtemplates', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2473, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2474, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 0, 376, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2475, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 0, 376, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2476, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 0, 376, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[112, 2477, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[112, 2478, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 2, '', 100, 0, 376, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2472, 'number', 'u_yf_emailtemplates', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 3, 378, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2473, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 1, 378, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2474, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 5, 378, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2475, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 6, 378, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2476, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 4, 378, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[112, 2477, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 2, 378, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2478, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 2, '', 100, 7, 378, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2479, 'email_template_type', 'u_yf_emailtemplates', 1, 16, 'email_template_type', 'FL_TYPE', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2480, 'module', 'u_yf_emailtemplates', 1, 301, 'module_name', 'FL_MODULE', 1, 2, '', 100, 0, 376, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2481, 'subject', 'u_yf_emailtemplates', 1, 1, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2482, 'content', 'u_yf_emailtemplates', 1, 300, 'content', 'FL_CONTENT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 2483, 'email_template_priority', 'u_yf_emailtemplates', 1, 16, 'email_template_priority', 'FL_SMTP_PRIORITY', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2482],
+					[2483],
 				]
 			],
 			'vtiger_fieldmodulerel' => [

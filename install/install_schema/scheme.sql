@@ -1128,6 +1128,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `subject` varchar(255) DEFAULT NULL,
   `content` text,
   `sys_name` varchar(50) DEFAULT NULL,
+  `email_template_priority` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),
   CONSTRAINT `fk_1_vtiger_emailtemplatesemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -3498,7 +3499,7 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=378 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -4621,6 +4622,16 @@ CREATE TABLE `vtiger_durationmins` (
   PRIMARY KEY (`minsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_email_template_priority` */
+
+CREATE TABLE `vtiger_email_template_priority` (
+  `email_template_priorityid` int(11) NOT NULL AUTO_INCREMENT,
+  `email_template_priority` tinyint(1) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `sortorderid` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`email_template_priorityid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_email_template_type` */
 
 CREATE TABLE `vtiger_email_template_type` (
@@ -4909,7 +4920,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2483 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2484 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
