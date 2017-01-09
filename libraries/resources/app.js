@@ -276,15 +276,17 @@ var app = {
 				return '<span>' + data.name + '</span>';
 			}
 		};
-		params.templateSelection = function (data, container) {
-			if (data.element && data.element.className) {
-				$(container).addClass(data.element.className);
-			}
-			if (data.text === '') {
-				return data.name;
-			}
-			return data.text;
-		};
+		if(typeof params.templateSelection === 'undefined') {
+			params.templateSelection = function (data, container) {
+				if (data.element && data.element.className) {
+					$(container).addClass(data.element.className);
+				}
+				if (data.text === '') {
+					return data.name;
+				}
+				return data.text;
+			};
+		}
 		if (selectElement.data('ajaxSearch') === 1) {
 			params.tags = false;
 			params.language.searching = function () {
