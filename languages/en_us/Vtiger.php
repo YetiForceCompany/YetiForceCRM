@@ -1272,6 +1272,12 @@ $languageStrings = [
 	'LBL_RECORD_COMMENT' => 'Comment',
 	'LBL_RELETED_RECORD_LABEL' => 'Related record label',
 	'LBL_OWNER_EMAIL' => 'Email owner',
+	//Mail modal
+	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Number of found e-mail addresses',
+	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Number of selected records',
+	'LBL_EMAIL_ADRESS' => 'E-mail address',
+	'LBL_EMAIL_TEMPLATE' => 'E-mail template',
+	'LBL_MASS_SEND_EMAIL_INFO' => 'All e-mails are queued and sent in CRON.',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
