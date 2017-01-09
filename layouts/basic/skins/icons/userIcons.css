@@ -292,6 +292,9 @@
 .userIcon-VirtualDesk:before {
     content: "\e938";
 }
+.userIcon-EmailTemplates:before {
+    content: "\e916";
+}
 
 .userIcon-HelpDesk:before,.userIcon-Support:before {
 	content: "\f145";
