@@ -22,7 +22,7 @@ $languageStrings = [
 	'FL_TYPE' => 'Typ',
 	'FL_STATUS' => 'Status',
 	'FL_CAMPAIGN' => 'Kampagne',
-	'FL_MEMBER_OF' => 'Parent Sales Opportunity',
+	'FL_MEMBER_OF' => 'Übergeordnete Verkaufschance',
 	//Picklist
 	'PLL_WEBSITE' => 'Website',
 	'PLL_PHONE' => 'Telefon',

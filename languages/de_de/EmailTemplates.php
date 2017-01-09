@@ -1,20 +1,20 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'EmailTemplates' => 'Email templates',
-	'SINGLE_EmailTemplates' => 'Email template',
+	'EmailTemplates' => 'Email Templates',
+	'SINGLE_EmailTemplates' => 'Email Template',
 	//BLOCKS
-	'LBL_CONTENT_MAIL' => 'Email content',
-	'LBL_BASIC_DETAILS' => 'Basic information',
+	'LBL_CONTENT_MAIL' => 'Email Inhalt',
+	'LBL_BASIC_DETAILS' => 'Basic Information',
 	//FIELDS
 	'FL_NAME' => 'Name',
-	'FL_TYPE' => 'Type',
-	'FL_MODULE' => 'Module',
-	'FL_SUBJECT' => 'Subject',
-	'FL_CONTENT' => 'Content',
+	'FL_TYPE' => 'Typ',
+	'FL_MODULE' => 'Modul',
+	'FL_SUBJECT' => 'Betreff',
+	'FL_CONTENT' => 'Inhalt',
 	// PICKLIST
-	'PLL_MODULE' => 'Module',
+	'PLL_MODULE' => 'Modul',
 	'PLL_RECORD' => 'Record',
-	'PLL_MAIL' => 'Message',
-	'PLL_LIST' => 'List',
+	'PLL_MAIL' => 'Nachricht',
+	'PLL_LIST' => 'Liste',
 ];
