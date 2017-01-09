@@ -21,7 +21,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 		$relationModel = $this->getRelationModel();
 		$relatedModuleName = $relationModel->getRelationModuleModel()->getName();
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			if (AppConfig::main('isActiveSendingMails')) {
+			if (AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),

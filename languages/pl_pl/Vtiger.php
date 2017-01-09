@@ -1294,6 +1294,7 @@ $languageStrings = [
 	'LBL_EMAIL_ADRESS' => 'Adres mail',
 	'LBL_EMAIL_TEMPLATE' => 'Szablon mailowy',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Wszystkie maile są kolejkowane i wysłane w cronie.',
+	'ERR_NO_DEFAULT_SMTP' => 'Brak domyślnej skrzynki pocztowej do wysyłania wiadomości.',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

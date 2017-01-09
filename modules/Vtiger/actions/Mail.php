@@ -74,18 +74,21 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		$template = $request->get('template');
 		$sourceModule = $request->get('sourceModule');
 		$sourceRecord = $request->get('sourceRecord');
-		$dataReader = $this->getQuery($request)->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$result = \App\Mailer::sendFromTemplate([
-					'template' => $template,
-					'moduleName' => $moduleName,
-					'recordId' => $row['id'],
-					'to' => $row[$field],
-					'sourceModule' => $sourceModule,
-					'sourceRecord' => $sourceRecord,
-			]);
-			if (!$result) {
-				break;
+		$result = false;
+		if (!empty($template) && !empty($field)) {
+			$dataReader = $this->getQuery($request)->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$result = \App\Mailer::sendFromTemplate([
+						'template' => $template,
+						'moduleName' => $moduleName,
+						'recordId' => $row['id'],
+						'to' => $row[$field],
+						'sourceModule' => $sourceModule,
+						'sourceRecord' => $sourceRecord,
+				]);
+				if (!$result) {
+					break;
+				}
 			}
 		}
 		$response = new Vtiger_Response();

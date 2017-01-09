@@ -53,6 +53,9 @@ class Mail
 			return Cache::get('DefaultSmtp', '');
 		}
 		$id = (new Db\Query())->select(['id'])->from('s_#__mail_smtp')->where(['default' => 1])->scalar(Db::getInstance('admin'));
+		if (!$id) {
+			$id = (new Db\Query())->select(['id'])->from('s_#__mail_smtp')->limit(1)->scalar(Db::getInstance('admin'));
+		}
 		Cache::save('DefaultSmtp', '', $id, Cache::LONG);
 		return $id;
 	}

@@ -345,6 +345,9 @@ class Mailer
 	 */
 	public static function sendByRowQueue($rowQueue)
 	{
+		if (\AppConfig::main('systemMode') === 'demo') {
+			return true;
+		}
 		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);
 		if ($rowQueue['from']) {
 			$from = Json::decode($rowQueue['from']);
