@@ -1300,6 +1300,7 @@ $languageStrings = [
 	'LBL_EMAIL_ADRESS' => 'E-mail address',
 	'LBL_EMAIL_TEMPLATE' => 'E-mail template',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'All e-mails are queued and sent in CRON.',
+	'ERR_NO_DEFAULT_SMTP' => 'No default mailbox to send e-mails',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
