@@ -28,6 +28,7 @@ $languageStrings = [
 	'LBL_SAVED_SIGNATURE' => 'Gespeicherte Signatur',
 	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
 	'LBL_VIEW_CONFIG' => 'Allgemeine Konfiguration',
+	//Mail queue	
 	'LBL_PRIORITY' => 'Priorität',
 	'LBL_CREATED_BY' => 'Erzeugt von',
 	'LBL_SMTP_NAME' => 'Smtp Name',
@@ -35,7 +36,7 @@ $languageStrings = [
 	'LBL_PENDING_ACCEPTANCE' => 'Wartet auf Bestätigung',
 	'LBL_WAITING_TO_BE_SENT' => 'Wartet auf Versenden',
 	'LBL_ERROR_DURING_SENDING' => 'Fehler beim Senden',
-	'LBL_EMAIL_DETAIL' => 'Email Detail',
+	'LBL_EMAIL_DETAIL' => 'Email message details',
 	'LBL_ACCEPTANCE_RECORD' => 'Datensatz bestätigen',
 	'LBL_ATTACHMENTS' => 'Anhänge',
 	'LBL_FROM' => 'Von',
@@ -46,4 +47,6 @@ $languageStrings = [
 	'LBL_MANUAL_SENDING' => 'Manuell Senden',
 	'LBL_EMAILS_TO_SEND' => 'Zu versendende Emails',
 	'LBL_RECORD_ACCEPTED' => 'Datensatz bestätigt',
+	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'List of emails to send. Sending email messages takes place in cron.',
+	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Emails to send',
 ];

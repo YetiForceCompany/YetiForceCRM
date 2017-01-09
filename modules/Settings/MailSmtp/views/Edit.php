@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Edit View Class for MailSmtp
- * @package YetiForce.Settings.ModalView
+ * Edit view class for MailSmtp
+ * @package YetiForce.Settings.View
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_MailSmtp_Edit_View extends Settings_Vtiger_Index_View
 {
+
 	/**
 	 * Function proccess
 	 * @param Vtiger_Request $request
@@ -19,7 +20,6 @@ class Settings_MailSmtp_Edit_View extends Settings_Vtiger_Index_View
 		$record = $request->get('record');
 		if (!empty($record)) {
 			$recordModel = Settings_MailSmtp_Record_Model::getInstanceById($record);
-			
 		} else {
 			$recordModel = Settings_MailSmtp_Record_Model::getCleanInstance();
 		}
@@ -27,9 +27,8 @@ class Settings_MailSmtp_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->view('Edit.tpl', $moduleName);
-	
 	}
-	
+
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param Vtiger_Request $request

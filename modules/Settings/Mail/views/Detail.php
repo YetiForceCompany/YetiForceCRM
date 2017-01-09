@@ -57,4 +57,14 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
+
+	/**
+	 * Function to get the page title
+	 * @param Vtiger_Request $request
+	 * @return string
+	 */
+	public function getPageTitle(Vtiger_Request $request)
+	{
+		return 'LBL_MAIL_QUEUE_PAGE_TITLE';
+	}
 }

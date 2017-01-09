@@ -3,7 +3,9 @@
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
+			{if $RECORD_ID}
+				{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
+			{/if}
 		</div>
 		
 	</div>
@@ -85,15 +87,11 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}
-					</label>
-					<div class="controls col-md-8">
-						<input type="checkbox" name="authentication"  {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}&nbsp;
+							<span class="popoverTooltip"  data-placement="top"
+							  data-content="{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY_INFO',$QUALIFIED_MODULE)}">
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</span>
 					</label>
 					<div class="controls col-md-8">
 						<input type="checkbox" name="individual_delivery"  {if $RECORD_MODEL->get('individual_delivery') eq 1} checked {/if}>
@@ -113,18 +111,18 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_FROM_EMAIL', $QUALIFIED_MODULE)}
-					</label>
-					<div class="controls col-md-8">
-						<input class="form-control" type="text" value="{$RECORD_MODEL->get('from_email')}" name="from_email"  data-validation-engine="validate[custom[email]]">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-md-3">
 						{\App\Language::translate('LBL_FROM_NAME', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
 						<input class="form-control" type="text" name="from_name"  value="{$RECORD_MODEL->get('from_name')}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_FROM_EMAIL', $QUALIFIED_MODULE)}
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="text" value="{$RECORD_MODEL->get('from_email')}" name="from_email"  data-validation-engine="validate[custom[email]]">
 					</div>
 				</div>
 				<div class="form-group">
@@ -137,7 +135,11 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3">
-						{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
+						<span class="popoverTooltip delay0"  data-placement="top"
+							  data-content="{\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE)}">
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</span>
 					</label>
 					<div class="controls col-md-8">
 						<textarea class="form-control" name="options" value="{$RECORD_MODEL->get('options')}"></textarea>
@@ -146,8 +148,8 @@
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>
 			</div>

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Mail get download attachment action model class
+ * Mail download attachment action model class
  * @package YetiForce.Settings.Action
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Settings_Mail_GetDownload_Action extends Vtiger_Mass_Action
+class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 {
 
 	/**

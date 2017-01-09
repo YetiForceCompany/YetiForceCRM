@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_SAVED_SIGNATURE' => 'Zmieniono podpis',
 	'LBL_VIEW_AUTOLOGIN' => 'Autologowanie',
 	'LBL_VIEW_CONFIG' => 'Konfiguracja ogólna',
-	//Kolejka meili
+	//Mail queue
 	'LBL_PRIORITY' => 'Priorytet',
 	'LBL_CREATED_BY' => 'Utworzył',
 	'LBL_SMTP_NAME' => 'Nazwa smtp',
@@ -36,7 +36,7 @@ $languageStrings = [
 	'LBL_PENDING_ACCEPTANCE' => 'W trakcie akceptacji',
 	'LBL_WAITING_TO_BE_SENT' => 'Oczekuje na wysłanie',
 	'LBL_ERROR_DURING_SENDING' => 'Błąd podczas wysyłania',
-	'LBL_EMAIL_DETAIL' => 'Szczegóły email',
+	'LBL_EMAIL_DETAIL' => 'Szczegóły wiadomości mail',
 	'LBL_ACCEPTANCE_RECORD' => 'Akceptacja rekordu',
 	'LBL_ATTACHMENTS' => 'Załączniki',
 	'LBL_FROM' => 'Od',
@@ -45,7 +45,9 @@ $languageStrings = [
 	'LBL_MASS_ACCEPT' => 'Masowa akceptacja',
 	'LBL_MANUAl_MASS_MAILING' => 'Masowe wysłanie emaili',
 	'LBL_MANUAL_SENDING' => 'Wysłanie ręczne',
-	'LBL_EMAILS_TO_SEND' => 'Meile do wysłania',
+	'LBL_EMAILS_TO_SEND' => 'Wiadomości do wysłania',
 	'LBL_RECORD_ACCEPTED' => 'Rekord zaakceptowany',
 	'LBL_TO' => 'Do',
+	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'Lista emaili oczekujących na wysłanie. Wysyłanie wiadomości mailowych odbywa się w cronie.',
+	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Wiadomości do wysłania',
 ];

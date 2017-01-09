@@ -106,7 +106,7 @@
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 									</td><td nowrap class="{$WIDTHTYPE}">
 										<div class="pull-right actions">
-											<span class="queuqActionImages">
+											<span class="smActionImages">
 												{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 													{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 													<a class="{$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};

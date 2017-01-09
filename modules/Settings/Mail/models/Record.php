@@ -51,7 +51,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDetailViewUrl()
 	{
-		return 'index.php?module=Mail&parent=Settings&view=Detail&record=' . $this->getId();
+		$menu = Settings_Vtiger_MenuItem_Model::getInstance('LBL_EMAILS_TO_SEND');
+		return 'index.php?module=Mail&parent=Settings&view=Detail&record=' . $this->getId() . '&fieldid=' . $menu->get('fieldid');
 	}
 
 	/**
@@ -103,18 +104,18 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 							$path = $name;
 							$name = 'LBL_FILE';
 						}
-						$actionPath = '?module=Mail&parent=Settings&action=GetDownload&record='. $this->getId().'&selectedFile='.$fileCounter;
-						$value .= '<a href='.$actionPath. ' title='.$path.'>' . $name . '</a>, ';
+						$actionPath = '?module=Mail&parent=Settings&action=DownloadAttachment&record=' . $this->getId() . '&selectedFile=' . $fileCounter;
+						$value .= '<a href=' . $actionPath . ' title=' . $path . '>' . $name . '</a>, ';
 						$fileCounter++;
 					}
-					$value = rtrim($value,  ', ');
+					$value = rtrim($value, ', ');
 				}
 				break;
 		}
 		return $value;
 	}
-	
-		/**
+
+	/**
 	 * Function to get the display value for emails
 	 * @param array $emails
 	 * @return string
@@ -133,7 +134,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
-		return rtrim($value,  ', ');
+		return rtrim($value, ', ');
 	}
 
 	/**
@@ -169,7 +170,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			'linklabel' => 'LBL_DELETE_RECORD',
 			'linkurl' => $this->getDeleteActionUrl(),
 			'linkicon' => 'glyphicon glyphicon-trash',
-			'linkclass' => 'btn-xs btn-danger'  
+			'linkclass' => 'btn-xs btn-danger'
 		];
 
 		foreach ($recordLinks as &$recordLink) {

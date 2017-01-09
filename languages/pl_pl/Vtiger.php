@@ -912,7 +912,7 @@ $languageStrings = [
 	'LBL_EXECUTE' => 'Wykonaj',
 	'BTN_WORKFLOW_TRIGGER' => 'Narzędzie umożliwiające ręczne wywołanie obiegów informacji, które uruchomi automatycznie wszystkie podpięte zadania.',
 	//breadcrumbs view name
-	'LBL_VIEW_CREATE' => 'Dodawanie',
+	'LBL_VIEW_CREATE' => 'Tworzenie',
 	'LBL_VIEW_EDIT' => 'Edycja',
 	'LBL_VIEW_DETAIL' => 'Podgląd',
 	'LBL_VIEW_LIST' => 'Lista',

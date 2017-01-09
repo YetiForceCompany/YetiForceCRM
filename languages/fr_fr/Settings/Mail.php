@@ -36,7 +36,7 @@ $languageStrings = [
 	'LBL_PENDING_ACCEPTANCE' => 'Pending acceptance',
 	'LBL_WAITING_TO_BE_SENT' => 'Waiting to be sent',
 	'LBL_ERROR_DURING_SENDING' => 'Error while sending',
-	'LBL_EMAIL_DETAIL' => 'Email detail',
+	'LBL_EMAIL_DETAIL' => 'Email message details',
 	'LBL_ACCEPTANCE_RECORD' => 'Acceptance record',
 	'LBL_ATTACHMENTS' => 'Attachments',
 	'LBL_FROM' => 'From',
@@ -47,4 +47,6 @@ $languageStrings = [
 	'LBL_MANUAL_SENDING' => 'Manual sending',
 	'LBL_EMAILS_TO_SEND' => 'Emails to send',
 	'LBL_RECORD_ACCEPTED' => 'Record accepted',
+	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'List of emails to send. Sending email messages takes place in cron.',
+	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Emails to send',
 ];

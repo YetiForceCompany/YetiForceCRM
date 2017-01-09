@@ -4,7 +4,7 @@
 		<div class='widget_header row '>
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-				{App\Language::translate('LBL_MAILSMTP_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
+				{App\Language::translate('LBL_EMAILS_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<div class="listViewActionsDiv row">

@@ -25322,7 +25322,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (102,1,'LBL_MULTIOWNER_ALLOCATION','adminIcon-shared-owner','LBL_MULTIOWNER_ALLOCATION_DESCRIPTION','index.php?module=RecordAllocation&view=Index&parent=Settings&type=sharedOwner',10,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (103,1,'LBL_AUTOMATIC_ASSIGNMENT','adminIcon-shared-owner','LBL_AUTOMATICASSIGNMENT_DESCRIPTION','index.php?module=AutomaticAssignment&view=List&parent=Settings',11,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (104,8,'LBL_EMAILS_TO_SEND',NULL,'LBL_EMAILS_TO_SEND_DESCRIPTION','index.php?module=Mail&parent=Settings&view=List',22,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (105,8,'LBL_MAIL_SMTP',NULL,'LBL_MAILSMTP_TO_SEND_DESCRIPTION','index.php?module=MailSmtp&parent=Settings&view=List',23,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (105,8,'LBL_MAIL_SMTP','adminIcon-mail-configuration','LBL_MAILSMTP_TO_SEND_DESCRIPTION','index.php?module=MailSmtp&parent=Settings&view=List',23,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

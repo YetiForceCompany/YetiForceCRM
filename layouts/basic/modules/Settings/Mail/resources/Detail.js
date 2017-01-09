@@ -11,7 +11,7 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 				parent: app.getParentModuleName(),
 				action: 'SaveAjax',
 				mode: 'acceptanceRecord',
-				id: id
+				id:  $('#recordId').val()
 			}).then(
 					function (data) {
 						progressIndicator.progressIndicator({'mode': 'hide'});
@@ -24,7 +24,7 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 			);
 		});
 	},
-	sendMailManually: function (id) {
+	sendMailManually: function () {
 		var thisInstance = this;
 		var container = jQuery('.contentsDiv');
 		container.on('click', '.sendManually', function (e) {

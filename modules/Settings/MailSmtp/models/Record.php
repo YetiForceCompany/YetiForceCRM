@@ -75,13 +75,15 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn-xs btn-success'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn-xs btn-danger'
 			]
 		];
 		foreach ($recordLinks as &$recordLink) {
@@ -188,7 +190,6 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set('id', $this->getId());
 			$db->createCommand()->update('s_#__mail_smtp', $params, ['id' => $this->getId()])->execute();
 		}
-		
 	}
 
 	/**
@@ -200,10 +201,14 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		//	$mailer = new \App\Mailer();
 		//$result = $mailer->test();
 		//if (isset($result['result']) && $result['result'] !== false) {
-		
+
 		if (1) {
 			$data = $request->get('param');
 			$recordId = $data['record'];
+			if ('on' === $data['default']) {
+				App\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
+			}
+
 			if ($recordId) {
 				$recordModel = self::getInstanceById($recordId);
 			} else {
@@ -211,19 +216,19 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			if ($recordModel) {
 				$recordModel->set('mailer_type', $data['mailer_type']);
-				$recordModel->set('default', (int) $data['default']);
+				$recordModel->set('default', $data['default'] === 'on' ? 1 : 0);
 				$recordModel->set('name', $data['name']);
 				$recordModel->set('host', $data['host']);
 				$recordModel->set('port', $data['port']);
 				$recordModel->set('username', $data['username']);
 				$recordModel->set('password', $data['password']);
-				$recordModel->set('authentication', (int) $data['authentication']);
+				$recordModel->set('authentication', $data['authentication'] === 'on' ? 1 : 0);
 				$recordModel->set('secure', $data['secure']);
 				$recordModel->set('options', $data['options']);
 				$recordModel->set('from_email', $data['from_email']);
 				$recordModel->set('from_name', $data['from_name']);
 				$recordModel->set('replay_to', $data['replay_to']);
-				$recordModel->set('individual_delivery', (int) $data['individual_delivery']);
+				$recordModel->set('individual_delivery', $data['individual_delivery'] === 'on' ? 1 : 0);
 				$recordModel->save();
 			}
 			$return = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
