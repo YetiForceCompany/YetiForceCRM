@@ -7,18 +7,16 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			var elem = this;
 			var id = $(this).closest('tr').data('id');
 			var progressIndicator = jQuery.progressIndicator();
-			var params = {};
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'SaveAjax';
-			params['mode'] = 'acceptanceRecord';
-			params['id'] = id
-			AppConnector.request(params).then(
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SaveAjax',
+				mode: 'acceptanceRecord',
+				id: id
+			}).then(
 					function (data) {
 						progressIndicator.progressIndicator({'mode': 'hide'});
-						var params = {};
-						params['text'] = data.result.message;
-						Settings_Vtiger_Index_Js.showMessage(params);
+						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
 						$(elem).remove()
 					},
 					function (error) {
@@ -43,7 +41,6 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 							params['parent'] = app.getParentModuleName();
 							params['action'] = 'MassDelete';
 							params['selected_ids'] = selectedIds;
-							//	var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
 							var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
 							var progressIndicatorElement = jQuery.progressIndicator({
 								'message': deleteMessage,
@@ -59,11 +56,7 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 										});
 										listInstance.postMassDeleteRecords();
 										if (data.error) {
-											var params = {
-												text: app.vtranslate(data.error.message),
-												title: app.vtranslate('JS_LBL_PERMISSION')
-											}
-											Vtiger_Helper_Js.showPnotify(params);
+											Vtiger_Helper_Js.showPnotify({text: app.vtranslate(data.error.message), title: app.vtranslate('JS_LBL_PERMISSION')});
 										}
 									},
 									function (error) {
@@ -152,7 +145,6 @@ Settings_Vtiger_List_Js("Settings_Mail_List_Js", {}, {
 			var listViewContainer = this.getListViewContainer();
 			listViewContainer.on('change', '.listViewEntriesTable select', function (e) {
 				var params = thisInstance.getParams();
-
 				thisInstance.getListViewRecords(params).then(
 						function (data) {
 							thisInstance.updatePagination();

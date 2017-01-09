@@ -6,18 +6,16 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 		container.on('click', '.acceptanceRecord', function (e) {
 			var elem = this
 			var progressIndicator = jQuery.progressIndicator();
-			var params = {};
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'SaveAjax';
-			params['mode'] = 'acceptanceRecord';
-			params['id'] = $('#recordId').val();
-			AppConnector.request(params).then(
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SaveAjax',
+				mode: 'acceptanceRecord',
+				id: id
+			}).then(
 					function (data) {
 						progressIndicator.progressIndicator({'mode': 'hide'});
-						var params = {};
-						params['text'] = data.result.message;
-						Settings_Vtiger_Index_Js.showMessage(params);
+						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
 						$(elem).remove()
 					},
 					function (error) {
@@ -31,17 +29,15 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 		var container = jQuery('.contentsDiv');
 		container.on('click', '.sendManually', function (e) {
 			var progressIndicator = jQuery.progressIndicator();
-			var params = {};
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'SendManuallyAjax';
-			params['id'] = $('#recordId').val();
-			AppConnector.request(params).then(
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SendManuallyAjax',
+				id: $('#recordId').val()
+			}).then(
 					function (data) {
 						progressIndicator.progressIndicator({'mode': 'hide'});
-						var params = {};
-						params['text'] = data.result.message;
-						Settings_Vtiger_Index_Js.showMessage(params);
+						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
 						$('.sendManually').remove()
 					},
 					function (error) {
