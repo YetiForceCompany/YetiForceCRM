@@ -67,11 +67,11 @@ class Vtiger_Response
 	/**
 	 * Set error data to send
 	 */
-	public function setError($code, $message = null)
+	public function setError($code, $message = null, $trace = false)
 	{
 		if ($message === null)
 			$message = $code;
-		$error = array('code' => $code, 'message' => $message);
+		$error = array('code' => $code, 'message' => $message, 'trace' => $trace);
 		$this->error = $error;
 	}
 

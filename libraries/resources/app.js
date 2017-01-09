@@ -276,7 +276,7 @@ var app = {
 				return '<span>' + data.name + '</span>';
 			}
 		};
-		if(typeof params.templateSelection === 'undefined') {
+		if (typeof params.templateSelection === 'undefined') {
 			params.templateSelection = function (data, container) {
 				if (data.element && data.element.className) {
 					$(container).addClass(data.element.className);
@@ -577,7 +577,7 @@ var app = {
 			if (modalContainers.length == 0 && backdrop.length) {
 				backdrop.remove();
 			}
-			if(backdrop.length > 0) {
+			if (backdrop.length > 0) {
 				$('body').addClass('modal-open');
 			}
 		});
@@ -1501,9 +1501,15 @@ var app = {
 		if (typeof error == 'object' && error.statusText) {
 			error = error.statusText;
 		}
-		console.error(error);
-		console.warn(err);
-		console.warn(errorThrown);
+		if (error) {
+			console.error(error);
+		}
+		if (err) {
+			console.error(err);
+		}
+		if (errorThrown) {
+			console.error(errorThrown);
+		}
 		console.log('-----------------');
 	},
 	registerModal: function (container) {

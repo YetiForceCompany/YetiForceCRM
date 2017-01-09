@@ -829,24 +829,27 @@ class Functions
 		return $html->__toString();
 	}
 
-	public static function throwNewException($message, $die = true, $tpl = 'OperationNotPermitted.tpl')
+	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		if (REQUEST_MODE == 'API') {
-			throw new \APIException($message, 401);
+			throw new \APIException($e->getMessage(), 401);
 		}
 		$request = \AppRequest::init();
 		if ($request->isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
-			$response->setError($message);
+			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			}
+			$response->setError($e->getCode(), $e->getMessage(), $trace);
 			$response->emit();
 		} else {
 			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $message);
+			$viewer->assign('MESSAGE', $e->getMessage());
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
-			trigger_error(print_r($message, true), E_USER_ERROR);
+			trigger_error(print_r($e->getMessage(), true), E_USER_ERROR);
 			throw new \Exception('');
 		}
 	}

@@ -70,7 +70,7 @@ jQuery.Class("Vtiger_List_Js", {
 							});
 							delete postData.view;
 							AppConnector.request(postData).then(function (response) {
-								if(response.result == true){
+								if (response.result == true) {
 									app.hideModalWindow();
 								}
 							}, function (data, err) {
