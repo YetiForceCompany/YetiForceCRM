@@ -54,7 +54,10 @@ $languageStrings = [
 	'LBL_PRIVILEGES_UPDATER' => 'Berechtigungen aktualisieren',
 	'LBL_RECORD_LABEL_UPDATER' => 'Labels aktualisieren',
 	'Activity state' => 'Kalendar Status',
-	'LBL_HANDLER_UPDATER' => 'Schnellspeichern'
+	'LBL_HANDLER_UPDATER' => 'Schnellspeichern',
+	'LBL_MAILER' => 'Emails sender',
+	'LBL_CARD_DAV' => 'CardDav integration',
+	'LBL_CAL_DAV' => 'CalDav integration',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',
