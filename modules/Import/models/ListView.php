@@ -39,63 +39,46 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
-	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
-		$moduleName = $this->getModule()->get('name');
-		$moduleFocus = CRMEntity::getInstance($moduleName);
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		$queryGenerator = $this->get('query_generator');
-		$listViewContoller = $this->get('listview_controller');
-
-		$listQuery = $queryGenerator->getQuery();
-
-		$startIndex = $pagingModel->getStartIndex();
+		$moduleModel = $this->getModule();
+		$this->loadListViewCondition();
+		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
-
-		$importedRecordIds = $this->getLastImportedRecord();
-		$listViewRecordModels = array();
-		if (count($importedRecordIds) != 0) {
-			$moduleModel = $this->get('module');
-			$listQuery .= ' AND ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
-
-			$listQuery .= " LIMIT $startIndex, $pageLimit";
-
-			$listResult = $db->pquery($listQuery, array());
-
-			$listViewEntries = $listViewContoller->getListViewRecords($moduleFocus, $moduleName, $listResult);
-			$pagingModel->calculatePageRange(count($listViewEntries));
-			foreach ($listViewEntries as $recordId => $record) {
-				$record['id'] = $recordId;
-				$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record);
-			}
+		$query = $this->getQueryGenerator()->createQuery();
+		if ($pagingModel->get('limit') !== 'no_limit') {
+			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
+		$query = $this->addLastImportedRecordConditions($query);
+		$rows = $query->all();
+		$count = count($rows);
+		$pagingModel->calculatePageRange($count);
+		if ($count > $pageLimit) {
+			array_pop($rows);
+			$pagingModel->set('nextPageExists', true);
+		} else {
+			$pagingModel->set('nextPageExists', false);
+		}
+		$listViewRecordModels = [];
+		foreach ($rows as &$row) {
+			$recordModel = $moduleModel->getRecordFromArray($row);
+			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
+			$listViewRecordModels[$row['id']] = $recordModel;
+		}
+		unset($rows);
 		return $listViewRecordModels;
 	}
 
 	/**
-	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * ListView count
+	 * @return int
 	 */
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = $this->get('query_generator');
-
-		$listQuery = $queryGenerator->getQuery();
-
-		$importedRecordIds = $this->getLastImportedRecord();
-		if (count($importedRecordIds) != 0) {
-			$moduleModel = $this->get('module');
-			$listQuery .= ' AND ' . $moduleModel->basetable . '.' . $moduleModel->basetableid . ' IN (' . implode(',', $importedRecordIds) . ')';
-		}
-
-		$listResult = $db->pquery($listQuery, array());
-		return $db->num_rows($listResult);
+		$this->loadListViewCondition();
+		$query = $this->getQueryGenerator()->createQuery();
+		$query = $this->addLastImportedRecordConditions($query);
+		return $query->count();
 	}
 
 	/**
@@ -114,20 +97,13 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
-	public function getLastImportedRecord()
+	public function addLastImportedRecordConditions($query)
 	{
-		$db = PearDatabase::getInstance();
-
-		$user = Users_Record_Model::getCurrentUserModel();
+		$moduleModel = $this->getModule();
+		$user = \App\User::getCurrentUserId();
 		$userDBTableName = Import_Utils_Helper::getDbTableName($user);
-		$query = sprintf('SELECT recordid FROM %s WHERE temp_status NOT IN (?,?) && recordid IS NOT NULL', $userDBTableName);
-		$result = $db->pquery($query, [Import_Data_Action::$IMPORT_RECORD_FAILED, Import_Data_Action::$IMPORT_RECORD_SKIPPED]);
-		$noOfRecords = $db->num_rows($result);
-
-		$importedRecordIds = array();
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$importedRecordIds[] = $db->query_result($result, $i, 'recordid');
-		}
-		return $importedRecordIds;
+		$query->innerJoin($userDBTableName, $moduleModel->basetable . '.' . $moduleModel->basetableid . " = $userDBTableName.recordid");
+		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [Import_Data_Action::IMPORT_RECORD_FAILED, Import_Data_Action::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);
+		return $query;
 	}
 }

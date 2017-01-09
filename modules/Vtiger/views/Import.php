@@ -15,7 +15,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('continueImport');
 		$this->exposeMethod('uploadAndParse');
 		$this->exposeMethod('importBasicStep');
 		$this->exposeMethod('import');
@@ -74,31 +73,37 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
+	/**
+	 * First step to import records
+	 * @param Vtiger_Request $request
+	 */
 	public function importBasicStep(Vtiger_Request $request)
 	{
-		global $upload_maxsize;
-		$viewer = $this->getViewer($request);
+		$uploadMaxSize = AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$moduleMeta = $moduleModel->getModuleMeta();
-
+		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
+		$viewer = $this->getViewer($request);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
-		$viewer->assign('XML_IMPORT_TPL', Import_Utils_Helper::getListTplForXmlType($moduleName));
-		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Utils_Helper::getSupportedFileExtensions($moduleName));
-		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Utils_Helper::getSupportedFileExtensionsDescription($moduleName));
-		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Utils_Helper::getSupportedFileEncoding());
-		$viewer->assign('SUPPORTED_DELIMITERS', Import_Utils_Helper::getSupportedDelimiters());
-		$viewer->assign('AUTO_MERGE_TYPES', Import_Utils_Helper::getAutoMergeTypes());
-		$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getMergableFields(true));
-		$viewer->assign('ENTITY_FIELDS', $moduleMeta->getEntityFields());
+		$viewer->assign('XML_IMPORT_TPL', Import_Module_Model::getListTplForXmlType($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES', Import_Module_Model::getSupportedFileExtensions($moduleName));
+		$viewer->assign('SUPPORTED_FILE_TYPES_TEXT', Import_Module_Model::getSupportedFileExtensionsDescription($moduleName));
+		$viewer->assign('SUPPORTED_FILE_ENCODING', Import_Module_Model::getSupportedFileEncoding());
+		$viewer->assign('SUPPORTED_DELIMITERS', Import_Module_Model::getSupportedDelimiters());
+		$viewer->assign('AUTO_MERGE_TYPES', Import_Module_Model::getAutoMergeTypes());
+		$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
+		$viewer->assign('FOR_MODULE_MODEL', $importModule->getImportModuleModel());
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
-		$viewer->assign('IMPORT_UPLOAD_SIZE', $upload_maxsize);
-		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($upload_maxsize / 1024 / 1024, 2));
+		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
+		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
+	/**
+	 * Function verifies, validates and uploads data for import
+	 * @param Vtiger_Request $request
+	 */
 	public function uploadAndParse(Vtiger_Request $request)
 	{
 		if (Import_Utils_Helper::validateFileUpload($request)) {
@@ -143,14 +148,13 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				$viewer->assign('INVENTORY_BLOCKS', $inventoryFieldsBlock);
 				$viewer->assign('INVENTORY', true);
 			}
-
-			$viewer->assign('AVAILABLE_BLOCKS', $moduleMeta->getImportableFields(true));
+			$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
+			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
 			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->get('type'), ['xml', 'zip']));
-
 			return $viewer->view('ImportAdvanced.tpl', 'Import');
 		} else {
 			$this->importBasicStep($request);
@@ -196,7 +200,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function undoRecords($type, $moduleName)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
-		$dbTableName = Import_Utils_Helper::getDbTableName($user);
+		$dbTableName = Import_Module_Model::getDbTableName($user);
 		$query = (new \App\Db\Query())->select(['recordid'])->from($dbTableName)->where(['temp_status' => Import_Data_Action::$IMPORT_RECORD_CREATED, 'recordid' => null]);
 		$dataReader = $query->createCommand()->query();
 		$noOfRecords = $noOfRecordsDeleted = 0;
@@ -228,7 +232,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function clearCorruptedData(Vtiger_Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
-		Import_Utils_Helper::clearUserImportInfo($user);
+		Import_Module_Model::clearUserImportInfo($user);
 		$this->importBasicStep($request);
 	}
 
@@ -278,7 +282,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			}
 		}
 
-		if (Import_Utils_Helper::isUserImportBlocked($user)) {
+		if (Import_Module_Model::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
 			if ($importInfo != null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
@@ -288,6 +292,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				return;
 			}
 		}
-		Import_Utils_Helper::clearUserImportInfo($user);
+		Import_Module_Model::clearUserImportInfo($user);
 	}
 }

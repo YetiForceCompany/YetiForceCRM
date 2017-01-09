@@ -15,20 +15,6 @@ class Import_Utils_Helper
 	static $AUTO_MERGE_IGNORE = 1;
 	static $AUTO_MERGE_OVERWRITE = 2;
 	static $AUTO_MERGE_MERGEFIELDS = 3;
-	static $supportedFileEncoding = array(
-		'UTF-8' => 'UTF-8',
-		'ISO-8859-1' => 'ISO-8859-1',
-		'Windows-1250' => 'Windows-1250',
-		'Windows-1251' => 'Windows-1251',
-		'Windows-1252' => 'Windows-1252',
-		'Windows-1253' => 'Windows-1253',
-		'Windows-1254' => 'Windows-1254',
-		'Windows-1255' => 'Windows-1255',
-		'Windows-1256' => 'Windows-1256',
-		'Windows-1257' => 'Windows-1257',
-		'Windows-1258' => 'Windows-1258',
-	);
-	static $supportedDelimiters = array(',' => 'comma', ';' => 'semicolon');
 	static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
 	static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
 
@@ -59,24 +45,6 @@ class Import_Utils_Helper
 		return implode(', ', $description);
 	}
 
-	public function getSupportedFileEncoding()
-	{
-		return self::$supportedFileEncoding;
-	}
-
-	public function getSupportedDelimiters()
-	{
-		return self::$supportedDelimiters;
-	}
-
-	public static function getAutoMergeTypes()
-	{
-		return array(
-			self::$AUTO_MERGE_IGNORE => 'Skip',
-			self::$AUTO_MERGE_OVERWRITE => 'Overwrite',
-			self::$AUTO_MERGE_MERGEFIELDS => 'Merge');
-	}
-
 	public static function getMaxUploadSize()
 	{
 		global $upload_maxsize;
@@ -94,22 +62,6 @@ class Import_Utils_Helper
 	{
 		$importDirectory = self::getImportDirectory();
 		return $importDirectory . "IMPORT_" . $user->id;
-	}
-
-	public static function getDbTableName($user)
-	{
-		$tableName = Import_Module_Model::IMPORT_TABLE_PREFIX;
-		if (method_exists($user, 'getId')) {
-			$tableName .= $user->getId();
-		} else {
-			$tableName .= $user->id;
-		}
-		return $tableName;
-	}
-
-	public static function getInventoryDbTableName($user)
-	{
-		return self::getDbTableName($user) . '_inv';
 	}
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
@@ -142,33 +94,6 @@ class Import_Utils_Helper
 		$customActions = array('LBL_CLEAR_DATA' => "location.href='index.php?module={$moduleName}&view=Import&mode=clearCorruptedData'");
 
 		self::showErrorPage($errorMessage, '', $customActions);
-	}
-
-	public static function isUserImportBlocked($user)
-	{
-		$adb = PearDatabase::getInstance();
-		$tableName = self::getDbTableName($user);
-
-		if (vtlib\Utils::CheckTable($tableName)) {
-			$query = sprintf('SELECT 1 FROM %s WHERE temp_status = %s', $tableName, Import_Data_Action::$IMPORT_RECORD_NONE);
-			$result = $adb->query($query);
-			if ($adb->num_rows($result) > 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static function clearUserImportInfo($user)
-	{
-		$adb = PearDatabase::getInstance();
-		$tableName = self::getDbTableName($user);
-		$invTableName = self::getInventoryDbTableName($user);
-
-		$adb->query('DROP TABLE IF EXISTS ' . $invTableName);
-		$adb->query('DROP TABLE IF EXISTS ' . $tableName);
-		Import_Lock_Action::unLock($user);
-		Import_Queue_Action::removeForUser($user);
 	}
 
 	public static function getAssignedToUserList($module)
@@ -275,23 +200,5 @@ class Import_Utils_Helper
 			default:
 				return 'Unknown upload error';
 		}
-	}
-
-	public static function getListTplForXmlType($moduleName)
-	{
-		$output = [];
-		$path = 'modules/Import/tpl/';
-		if (is_dir($path)) {
-			$list = new DirectoryIterator($path);
-			foreach ($list as $singleFile) {
-				if (!$singleFile->isDot()) {
-					$fileName = $singleFile->getFilename();
-					if (0 === strpos($fileName, $moduleName)) {
-						$output[] = $fileName;
-					}
-				}
-			}
-		}
-		return $output;
 	}
 }

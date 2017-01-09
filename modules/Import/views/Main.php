@@ -188,7 +188,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
 		$fileReader->read();
 		$fileReader->deleteFile();
-		if ($fileReader->getStatus() == 'success') {
+		if ($fileReader->getStatus() === 'success') {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
 			return true;
 		} else {

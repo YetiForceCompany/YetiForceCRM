@@ -37,7 +37,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('PAGE', $page);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE', 'Export');
-		$viewer->assign('XML_TPL_LIST', Import_Utils_Helper::getListTplForXmlType($sourceModule));
+		$viewer->assign('XML_TPL_LIST', Import_Utils_Helper::Import_Module_Model($sourceModule));
 		$viewer->assign('EXPORT_TYPE', ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');

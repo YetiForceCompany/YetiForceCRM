@@ -55,7 +55,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	 */
 	public function createTable()
 	{
-		$tableName = Import_Utils_Helper::getDbTableName($this->user);
+		$tableName = Import_Module_Model::getDbTableName($this->user);
 		if (!\vtlib\Utils::CheckTable($tableName)) {
 			parent::createTable();
 		}
@@ -106,16 +106,16 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 							$inventoryMappedData[$index][$columnParamsName] = $data[$key];
 						}
 					}
-//					if ($this->request->get('file_encoding') != $default_charset) {
-//						$inventoryMappedData[$index][$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $default_charset);
-//					}
 				}
 			}
 		}
 		if (!$allValuesEmpty) {
 			$fieldNames = array_keys($mappedData);
 			$fieldValues = array_values($mappedData);
-			$this->addRecordToDB($fieldNames, $fieldValues, $inventoryMappedData);
+			$importId = $this->addRecordToDB($fieldNames, $fieldValues, $inventoryMappedData);
+			if ($importId && $inventoryMappedData) {
+				$this->addInventoryToDB($inventoryMappedData, $importId);
+			}
 		}
 	}
 

@@ -105,7 +105,7 @@ class Import_FileReader_Reader
 	{
 		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
-		$tableName = Import_Utils_Helper::getDbTableName($this->user);
+		$tableName = Import_Module_Model::getDbTableName($this->user);
 		$fieldMapping = $this->request->get('field_mapping');
 		$moduleFields = $this->moduleModel->getFields();
 		$columns = [
@@ -121,7 +121,7 @@ class Import_FileReader_Reader
 		$db->createTable($tableName, $columns);
 
 		if ($this->moduleModel->isInventory()) {
-			$inventoryTableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
+			$inventoryTableName = Import_Module_Model::getInventoryDbTableName($this->user);
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleModel->getName());
 			$columns = [
 				'id' => $schema->createColumnSchemaBuilder('integer', 19)
@@ -151,22 +151,30 @@ class Import_FileReader_Reader
 	 * Function adds imported data to database
 	 * @param array $columnNames
 	 * @param array $fieldValues
-	 * @param array $inventoryData
+	 * @return int
 	 */
-	public function addRecordToDB($columnNames, $fieldValues, $inventoryData = [])
+	public function addRecordToDB($columnNames, $fieldValues)
 	{
 		$db = \App\Db::getInstance();
-		$tableName = Import_Utils_Helper::getDbTableName($this->user);
+		$tableName = Import_Module_Model::getDbTableName($this->user);
 		$data = array_combine($columnNames, $fieldValues);
 		$result = $db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
-		if ($inventoryData) {
-			$id = $db->getLastInsertID($tableName . 'id_seq');
-			$tableName = Import_Utils_Helper::getInventoryDbTableName($this->user);
-			foreach ($inventoryData as $data) {
-				$data['id'] = $id;
-				$db->createCommand()->insert($tableName, $data)->execute();
-			}
+		return $db->getLastInsertID($tableName . 'id_seq');
+	}
+
+	/**
+	 * Function adds imported inventory data to database
+	 * @param array $inventoryData
+	 * @param int $importId
+	 */
+	public function addInventoryToDB($inventoryData, $importId)
+	{
+		$db = \App\Db::getInstance();
+		$tableName = Import_Module_Model::getInventoryDbTableName($this->user);
+		foreach ($inventoryData as $data) {
+			$data['id'] = $importId;
+			$db->createCommand()->insert($tableName, $data)->execute();
 		}
 	}
 }
