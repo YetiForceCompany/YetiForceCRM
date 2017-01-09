@@ -246,7 +246,9 @@ $languageStrings = [
 	'Security risk has been detected - Brute Force' => 'Wykryto zagrożenie bezpieczeństwa - Brute Force',
 	'Backup has been made' => 'Stworzono kopię zapasową',
 	'Notify Account On New comment added to ticket' => 'Powiadom kontrahenta o nowym komentarzu do zgłoszenia z portalu',
-	'LBL_OWNER_REKORD' => 'Właściciel rekordu'
+	'LBL_OWNER_REKORD' => 'Właściciel rekordu',
+	'LBL_SMTP' => 'SMTP',
+	'LBL_CHECK_EMAIL_OPTOUT' => 'Sprawdzaj zgode na kontakt mailowy odbiorców',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Te same pola zaznaczono więcej niż jedej raz',

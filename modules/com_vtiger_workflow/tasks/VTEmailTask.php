@@ -18,7 +18,7 @@ class VTEmailTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail', 'smtp');
+		return array('subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail', 'smtp', 'emailoptout');
 	}
 
 	/**
@@ -31,6 +31,7 @@ class VTEmailTask extends VTTask
 			'smtp_id' => ($this->smtp) ? $this->smtp : App\Mail::getDefaultSmtp(),
 		];
 		$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+		$emailParser->emailoptout = $this->emailoptout ? true : false;
 		if ($this->fromEmail) {
 			$fromEmailDetails = $emailParser->setContent($this->fromEmail)->parse()->getContent(true);
 			if ($fromEmailDetails) {

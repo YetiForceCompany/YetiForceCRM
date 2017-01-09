@@ -26,6 +26,14 @@
 				</span>
 			</div>
 			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2"></span>
+					<span class="col-md-10">
+						<label><input type="checkbox" class="alignTop" value="true" name="emailoptout" {if $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{vtranslate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
+					</span>
+				</span>
+			</div>
+			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
 					<span class="col-md-3 control-label">{vtranslate('LBL_FROM', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">

@@ -16,6 +16,7 @@ class EmailParser extends TextParser
 		'Users' => 'emailoptout',
 		'Leads' => 'noapprovalemails'
 	];
+	public $emailoptout = true;
 
 	/**
 	 * Check if this content can be used
@@ -25,7 +26,7 @@ class EmailParser extends TextParser
 	 */
 	protected function useValue($fieldModel, $moduleName)
 	{
-		if (isset(static::$permissionToSend[$moduleName])) {
+		if ($this->emailoptout && isset(static::$permissionToSend[$moduleName])) {
 			$checkFieldName = static::$permissionToSend[$moduleName];
 			$permissionFieldModel = $this->recordModel->getModule()->getField($checkFieldName);
 			return ($permissionFieldModel && $permissionFieldModel->isActiveField() && $this->recordModel->has($checkFieldName)) ? (bool) $this->recordModel->get($checkFieldName) : true;
