@@ -55,24 +55,28 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$query = $this->getExportQuery($request);
 
 		$headers = [];
+		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			foreach ($this->accessibleFields as &$fieldName) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
 				// Check added as querygenerator is not checking this for admin users
 				if ($fieldModel && $fieldModel->isViewEnabled()) {
-					$headers[] = $fieldModel->get('label');
+					$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+					if ($exportBlockName) {
+						$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+					}
+					$headers[] = $header;
 				}
 			}
 		} else {
 			foreach ($this->moduleFieldInstances as &$fieldModel) {
-				$headers[] = $fieldModel->get('label');
+				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+				if ($exportBlockName) {
+					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+				}
+				$headers[] = $header;
 			}
-		}
-
-		$translatedHeaders = [];
-		foreach ($headers as &$header) {
-			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 		}
 
 		$isInventory = $this->moduleInstance->isInventory();
@@ -81,9 +85,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
 			foreach ($inventoryFields as &$field) {
-				$translatedHeaders[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				$headers[] = 'Inventory::' . \App\Language::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
-					$translatedHeaders[] = 'Inventory::' . $columnName;
+					$headers[] = 'Inventory::' . $columnName;
 				}
 			}
 			$table = $inventoryFieldModel->getTableName('data');
@@ -107,7 +111,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				$entries[] = $sanitizedRow;
 			}
 		}
-		$this->output($request, $translatedHeaders, $entries);
+		$this->output($request, $headers, $entries);
 	}
 
 	/**
