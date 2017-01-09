@@ -9,6 +9,62 @@
  *************************************************************************************/
 
 var Vtiger_Index_Js = {
+	massAddDocuments: function (url) {
+		app.showModalWindow(null, url, function (container) {
+			var uploadButton = container.find('#filesToUpload');
+			var template = container.find('.fileContainer');
+			var uploadContainer = container.find('.uploadFileContainer');
+			var form = container.find('form');
+			uploadButton.change(function () {
+				uploadContainer.find('.fileItem').remove();
+				var files = uploadButton[0].files;
+				for (var i = 0; i < files.length; i++) {
+					uploadContainer.append(template.html());
+					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
+				}
+			});
+			form.submit(function (e) {
+				e.preventDefault();
+				var formData = new FormData(form[0]);
+				if (formData) {
+					url = 'index.php';
+					if(app.getViewName() === 'Detail'){
+						formData.append('createmode', 'link');
+						formData.append('return_module', app.getModuleName());
+						formData.append('return_id', app.getRecordId());
+					}
+					var params = {
+						url: url,
+						type: "POST",
+						data: formData,
+						processData: false,
+						contentType: false
+					};
+					var progressIndicatorElement = jQuery.progressIndicator({
+						blockInfo: {'enabled': true}
+					});
+					AppConnector.request(params).then(function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+						if(app.getViewName() === 'Detail'){
+							var detailView = Vtiger_Detail_Js.getInstance();
+							if(detailView.getSelectedTab().data('reference') === 'Documents') {
+								detailView.reloadTabContent();
+							} else {
+								var updatesWidget = detailView.getContentHolder().find("[data-type='RelatedModule'][data-name='Documents']");
+								if (updatesWidget.length > 0) {
+									var params = detailView.getFiltersData(updatesWidget);
+									detailView.loadWidget(updatesWidget, params['params']);
+								}
+							}
+						} else {
+							Vtiger_List_Js.getInstance().getListViewRecords();
+						}
+					});
+				}
+			});
+		});
+	},
 	/**
 	 * Function to show email preview in popup
 	 */

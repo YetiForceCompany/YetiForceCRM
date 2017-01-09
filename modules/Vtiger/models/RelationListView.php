@@ -484,14 +484,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		if ($relatedModel->get('label') == 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => vtranslate('LBL_ADD_EVENT'),
+				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => vtranslate('LBL_ADD_TASK'),
+				'linklabel' => App\Language::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
@@ -501,13 +501,20 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
 				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
-				'linklabel' => vtranslate('LBL_ADD_RELATION'),
+				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
 				'linkicon' => ''
 			]];
 		}
-
+		if ($relatedModel->get('label') == 'Documents') {
+			$addLinkList[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
+				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
+				'linkicon' => 'glyphicon glyphicon-plus',
+			];
+		}
 		foreach ($addLinkList as &$addLink) {
 			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($addLink);
 		}
@@ -540,11 +547,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function getFavoriteRecords()
 	{
 		return (new App\Db\Query())->select(['relcrmid'])->from('u_#__favorites')
-						->where([
-							'module' => $this->getParentRecordModel()->getModuleName(),
-							'relmodule' => $this->getRelatedModuleModel()->getName(),
-							'crmid' => $this->getParentRecordModel()->getId(),
-							'userid' => App\User::getCurrentUserId()])
-						->column();
+				->where([
+					'module' => $this->getParentRecordModel()->getModuleName(),
+					'relmodule' => $this->getRelatedModuleModel()->getName(),
+					'crmid' => $this->getParentRecordModel()->getId(),
+					'userid' => App\User::getCurrentUserId()])
+				->column();
 	}
 }

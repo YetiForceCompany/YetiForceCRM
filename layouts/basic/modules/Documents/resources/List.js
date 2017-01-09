@@ -8,43 +8,6 @@
  *************************************************************************************/
 
 Vtiger_List_Js("Documents_List_Js", {
-	massAdd: function (url) {
-		app.showModalWindow(null, url, function (container) {
-			var uploadButton = container.find('#filesToUpload');
-			var template = container.find('.fileContainer');
-			var uploadContainer = container.find('.uploadFileContainer');
-			var form = container.find('form');
-			uploadButton.change(function () {
-				uploadContainer.find('.fileItem').remove();
-				var files = uploadButton[0].files;
-				for (var i = 0; i < files.length; i++) {
-					uploadContainer.append(template.html());
-					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
-				}
-			});
-			form.submit(function (e) {
-				e.preventDefault();
-				var formData = new FormData(form[0]);
-				if (formData) {
-					var params = {
-						url: "index.php",
-						type: "POST",
-						data: formData,
-						processData: false,
-						contentType: false
-					};
-					var progressIndicatorElement = jQuery.progressIndicator({
-						blockInfo: {'enabled': true}
-					});
-					AppConnector.request(params).then(function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						app.hideModalWindow();
-						Vtiger_List_Js.getInstance().getListViewRecords();
-					});
-				}
-			});
-		});
-	},
 	massMove: function (url) {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();

@@ -115,7 +115,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
-				'linkurl' => 'javascript:Documents_List_Js.massAdd("index.php?module=' . $moduleModel->getName() . '&view=MassAddDocuments")',
+				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
 				'linkicon' => ''
 			];
 		}
