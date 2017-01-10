@@ -58,9 +58,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			});
 			app.showModalWindow(null, params, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'})
-				app.showScrollBar(jQuery('#addTaskContainer').find('#scrollContainer'), {
-					height: '450px'
-				});
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = jQuery('#taskType').val();
 				var functionName = 'register' + taskType + 'Events';
@@ -74,7 +71,14 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 
 				app.showBtnSwitch($(data).find('.switchBtn'));
 				app.showPopoverElementView($(data).find('.popoverTooltip'));
-			}, {'min-width': '900px'});
+				var contentHeight = parseInt(data.find('.modal-body').height());
+				var maxHeight = app.getScreenHeight(80);
+				if ((contentHeight) > maxHeight) {
+					app.showScrollBar(data.find('.modal-body'), {
+						'height': maxHeight + 'px'
+					});
+				}
+			});
 
 		});
 	},

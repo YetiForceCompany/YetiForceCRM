@@ -54,6 +54,10 @@ hr {
 	margin-bottom: 8px;
 	border-bottom: 1px solid #dddddd;
 }
+.borderBottom{
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 5px;
+}
 .imageHolder{
 	margin: 0 auto;
 	background-position: center;
