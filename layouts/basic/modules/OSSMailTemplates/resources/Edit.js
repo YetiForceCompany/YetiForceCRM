@@ -10,31 +10,7 @@
 Vtiger_Edit_Js("OSSMailTemplates_Edit_Js", {
 }, {
 	registerToZeroClipboard: function () {
-		jQuery('.copy-button').each(function () {
-			var clip = jQuery(this).data('prefix');
-			clip = new ZeroClipboard(
-					$(this), {
-				moviePath: 'libraries/jquery/ZeroClipboard/ZeroClipboard.swf'
-			});
-			clip.on('dataRequested', function (client, args) {
-				var selectName = jQuery(this).data('select'),
-						fieldPrefix = jQuery(this).data('prefix');
-				var txt = '';
-				var selectValue = jQuery('[name="' + selectName + '"]').val();
-				txt = '#' + fieldPrefix + '#' + selectValue + '#' + fieldPrefix + 'End#';
-				client.setText(txt);
-			});
-			clip.on('complete', function (client, args) {
-				// notification about copy to clipboard
-				var params = {
-					text: app.vtranslate('JS_NOTIF_PASS_COPIED'),
-					animation: 'show',
-					title: app.vtranslate('JS_NOTIF_PASS_TITLE'),
-					type: 'success'
-				};
-				Vtiger_Helper_Js.showPnotify(params);
-			});
-		});
+		
 	},
 	loadSpecialFunctionList: function (selectedModule) {
 		params = {};
