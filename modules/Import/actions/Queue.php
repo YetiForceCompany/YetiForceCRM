@@ -92,17 +92,17 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		return null;
 	}
 
+	/**
+	 * Import info
+	 * @param string $module
+	 * @param Users_Record_Model $user
+	 * @return null|array
+	 */
 	public static function getImportInfo($module, $user)
 	{
-		$db = PearDatabase::getInstance();
-
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? && userid=?', array(\App\Module::getModuleId($module), $user->id));
-
-			if ($queueResult && $db->num_rows($queueResult) > 0) {
-				$rowData = $db->raw_query_result_rowdata($queueResult, 0);
-				return self::getImportInfoFromResult($rowData);
-			}
+		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Module::getModuleId($module), 'userid' => $user->id])->one();
+		if ($rowData) {
+			return self::getImportInfoFromResult($rowData);
 		}
 		return null;
 	}

@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
+* Contributor(s): YetiForce.com
  ********************************************************************************/
 -->*}
 {strip}
@@ -25,9 +25,9 @@
 	</thead>
 	{foreach item=RECORD from=$IMPORT_RESULT_DATA}
 		<tr class="listViewEntries">
-			{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
+			{foreach key=FIELD_NAME item=VALUE from=$RECORD->getData()}
 				<td>
-					{vtranslate($RECORD->get($LISTVIEW_HEADER_NAME), $FOR_MODULE)}
+					{\App\Language::translate($VALUE, $FOR_MODULE)}
 				</td>
 			{/foreach}
 		</tr>

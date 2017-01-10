@@ -110,7 +110,7 @@ class Import_FileReader_Reader
 		$moduleFields = $this->moduleModel->getFields();
 		$columns = [
 			'id' => 'pk',
-			'temp_status' => 'string DEFAULT 0',
+			'temp_status' => $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_SMALLINT, 1)->defaultValue(0),
 			'recordid' => 'integer'
 		];
 		foreach ($fieldMapping as $fieldName => $index) {

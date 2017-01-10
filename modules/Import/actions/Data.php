@@ -202,6 +202,13 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				foreach ($mergeFields as $index => $mergeField) {
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
+					if ($fieldInstance->getFieldDataType() == 'owner') {
+						$ownerId = \App\User::getUserIdByName($comparisonValue);
+						if (empty($ownerId)) {
+							$ownerId = \App\Fields\Owner::getGroupId($comparisonValue);
+						}
+						$comparisonValue = $ownerId ? $ownerId : 0;
+					}
 					if ($fieldInstance->getFieldDataType() == 'reference') {
 						if (strpos($comparisonValue, '::::') > 0) {
 							$referenceFileValueComponents = explode('::::', $comparisonValue);
@@ -463,9 +470,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$fieldName = $fieldInstance->getFieldName();
 		$entityId = false;
 		if (!empty($fieldValue)) {
-			if (strpos($fieldValue, '::::')) {
+			if (strpos($fieldValue, '::::') !== false) {
 				$fieldValueDetails = explode('::::', $fieldValue);
-			} else if (strpos($fieldValue, ':::')) {
+			} else if (strpos($fieldValue, ':::') !== false) {
 				$fieldValueDetails = explode(':::', $fieldValue);
 			}
 			if ($fieldValueDetails && count($fieldValueDetails) > 1) {
@@ -593,18 +600,18 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$fieldInstance = $moduleModel->getFieldByName($fieldName);
 			if ($fieldInstance->getFieldDataType() === 'owner') {
 				$fieldData[$fieldName] = $this->transformOwner($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() == 'sharedOwner') {
+			} elseif ($fieldInstance->getFieldDataType() === 'sharedOwner') {
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() == 'multipicklist') {
+			} elseif ($fieldInstance->getFieldDataType() === 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
 			} elseif (in_array($fieldInstance->getFieldDataType(), Vtiger_Field_Model::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
-			} elseif ($fieldInstance->getFieldDataType() == 'picklist') {
+			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
-			} else if ($fieldInstance->getFieldDataType() == 'tree') {
+			} else if ($fieldInstance->getFieldDataType() === 'tree') {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
 			} else {
-				if ($fieldInstance->getFieldDataType() == 'datetime' && !empty($fieldValue)) {
+				if ($fieldInstance->getFieldDataType() === 'datetime' && !empty($fieldValue)) {
 					if ($fieldValue === null || $fieldValue === '0000-00-00 00:00:00') {
 						$fieldValue = '';
 					}
@@ -617,8 +624,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					}
 					$fieldData[$fieldName] = $fieldValue;
 				}
-				if ($fieldInstance->getFieldDataType() == 'date' && !empty($fieldValue)) {
-					if ($fieldValue === null || $fieldValue == '0000-00-00') {
+				if ($fieldInstance->getFieldDataType() === 'date' && !empty($fieldValue)) {
+					if ($fieldValue === null || $fieldValue === '0000-00-00') {
 						$fieldValue = '';
 					}
 					$fieldValue = getValidDBInsertDateValue($fieldValue);
@@ -788,35 +795,33 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	 */
 	public static function getImportDetails($user, $forModule)
 	{
-		$adb = PearDatabase::getInstance();
-		$tableName = Import_Module_Model::getDbTableName($user);
-		$result = $adb->pquery("SELECT * FROM $tableName where temp_status IN (?,?)", array(self::IMPORT_RECORD_SKIPPED, self::IMPORT_RECORD_FAILED));
+		$db = App\Db::getInstance();
 		$importRecords = [];
-		if ($result) {
+		$tableName = Import_Module_Model::getDbTableName($user);
+		$query = new \App\Db\Query();
+		$query->from($tableName)->where(['temp_status' => [self::IMPORT_RECORD_SKIPPED, self::IMPORT_RECORD_FAILED]]);
+		$dataReader = $query->createCommand()->query();
+		if ($dataReader->count()) {
 			$moduleModel = Vtiger_Module_Model::getInstance($forModule);
-			$headers = $adb->getColumnNames($tableName);
-			$numOfHeaders = count($headers);
-			for ($i = 0; $i < 10; $i++) {
-				if ($i >= 3 && $i < $numOfHeaders) {
-					$fieldModel = Vtiger_Field_Model::getInstance($headers[$i], $moduleModel);
-					$importRecords['headers'][] = $fieldModel->getFieldLabel();
+			$columnNames = $db->getTableSchema($tableName)->getColumnNames();
+			foreach ($columnNames as $key => $fieldName) {
+				if ($key > 2) {
+					$importRecords['headers'][$fieldName] = $moduleModel->getField($fieldName)->getFieldLabel();
 				}
 			}
-			$noOfRows = $adb->num_rows($result);
-			for ($i = 0; $i < $noOfRows; ++$i) {
-				$row = $adb->fetchByAssoc($result, $i);
+			while ($row = $dataReader->read()) {
 				$record = new Vtiger_Base_Model();
-				foreach ($importRecords['headers'] as $header) {
-					$record->set($header, $row[$header]);
+				foreach ($importRecords['headers'] as $columnName => $header) {
+					$record->set($columnName, $row[$columnName]);
 				}
-				if ($row['temp_status'] == self::IMPORT_RECORD_SKIPPED) {
+				if ($row['temp_status'] === self::IMPORT_RECORD_SKIPPED) {
 					$importRecords['skipped'][] = $record;
 				} else {
 					$importRecords['failed'][] = $record;
 				}
 			}
-			return $importRecords;
 		}
+		return $importRecords;
 	}
 
 	/**
