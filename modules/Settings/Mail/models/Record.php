@@ -153,7 +153,6 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getRecordLinks()
 	{
-
 		$links = [];
 		if ($this->get('status') === 0) {
 			$recordLinks[] = [
@@ -161,7 +160,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_ACCEPTANCE_RECORD',
 				'linkurl' => '#',
 				'linkicon' => 'glyphicon glyphicon-ok',
-				'linkclass' => 'btn-xs btn-success acceptanceRecord'
+				'linkclass' => 'btn btn-xs btn-success acceptanceRecord'
 			];
 		}
 
@@ -170,7 +169,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			'linklabel' => 'LBL_DELETE_RECORD',
 			'linkurl' => $this->getDeleteActionUrl(),
 			'linkicon' => 'glyphicon glyphicon-trash',
-			'linkclass' => 'btn-xs btn-danger'
+			'linkclass' => 'btn btn-xs btn-danger'
 		];
 
 		foreach ($recordLinks as &$recordLink) {

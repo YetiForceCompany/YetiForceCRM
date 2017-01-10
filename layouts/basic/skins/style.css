@@ -5790,3 +5790,6 @@ td.rightRecordActions.medium{
 .smActionImages .glyphicon{
 	top: -1px;
 }
+.smActionImages .btn{
+	float: none !important;
+}

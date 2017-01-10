@@ -100,7 +100,6 @@
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-
 								<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 									&nbsp;{App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
