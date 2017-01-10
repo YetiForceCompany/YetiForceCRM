@@ -260,6 +260,9 @@ $languageStrings = [
 	'Security risk has been detected - Brute Force' => 'Security risk has been detected - Brute Force',
 	'Backup has been made' => 'Backup has been made',
 	'Notify Account On New comment added to ticket' => 'Notify Account on new comment added to ticket'
+	'LBL_OWNER_REKORD' => 'Record Owner',
+	'LBL_SMTP' => 'SMTP',
+	'LBL_CHECK_EMAIL_OPTOUT' => 'Verify if recipient agreed to receive e-mails',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Same fields selected more than once',
