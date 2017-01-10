@@ -97,7 +97,7 @@ var AppConnector = {
 			params.url = 'index.php';
 		}
 		var success = function (data, status, jqXHR) {
-			if (typeof data == 'object' && data.error) {
+			if (data != null && typeof data == 'object' && data.error) {
 				app.errorLog(data.error);
 			}
 			aDeferred.resolve(data);
