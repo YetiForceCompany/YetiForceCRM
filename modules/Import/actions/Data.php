@@ -9,15 +9,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-require_once 'include/Webservices/Create.php';
-require_once 'include/Webservices/Update.php';
-require_once 'include/Webservices/Delete.php';
-require_once 'include/Webservices/Revise.php';
-require_once 'include/Webservices/Retrieve.php';
-require_once 'include/Webservices/DataTransform.php';
-require_once 'modules/Vtiger/CRMEntity.php';
-require_once 'include/events/include.php';
-
 class Import_Data_Action extends Vtiger_Action_Controller
 {
 
@@ -117,9 +108,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	 */
 	public function importData()
 	{
-		$focus = CRMEntity::getInstance($this->module);
-		$moduleModel = Vtiger_Module_Model::getInstance($this->module);
-		$this->createRecords();
+		$this->importRecords();
 		$this->updateModuleSequenceNumber();
 	}
 
@@ -164,10 +153,10 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Create records
+	 * Import records
 	 * @return boolean
 	 */
-	public function createRecords()
+	public function importRecords()
 	{
 		$moduleName = $this->module;
 		$tableName = Import_Module_Model::getDbTableName($this->user);
@@ -206,29 +195,13 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$createRecord = false;
 
 			if (!empty($mergeType) && $mergeType !== Import_Module_Model::AUTO_MERGE_NONE) {
-				$moduleHandler = vtws_getModuleHandlerFromName($moduleName, $this->user);
-				$moduleMeta = $moduleHandler->getMeta();
-				$moduleObjectId = $moduleMeta->getEntityId();
-				$moduleFields = $moduleMeta->getModuleFields();
 				$queryGenerator = new App\QueryGenerator($moduleName, $this->user->id);
-				$viewId = App\CustomView::getInstance($moduleName)->getViewIdByName('All');
-				if (!empty($viewId)) {
-					$queryGenerator->initForCustomViewById($viewId);
-				} else {
-					$queryGenerator->initForDefaultCustomView();
-				}
-
-				$fieldsList = ['id'];
-				$queryGenerator->setFields($fieldsList);
-
+				$queryGenerator->setFields(['id']);
+				$moduleFields = $queryGenerator->getModuleFields();
 				$mergeFields = $this->mergeFields;
 				foreach ($mergeFields as $index => $mergeField) {
 					$comparisonValue = $fieldData[$mergeField];
 					$fieldInstance = $moduleFields[$mergeField];
-					if ($fieldInstance->getFieldDataType() == 'owner') {
-						$userId = getUserId_Ol($comparisonValue);
-						$comparisonValue = \App\Fields\Owner::getUserLabel($userId);
-					}
 					if ($fieldInstance->getFieldDataType() == 'reference') {
 						if (strpos($comparisonValue, '::::') > 0) {
 							$referenceFileValueComponents = explode('::::', $comparisonValue);
@@ -239,66 +212,38 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$comparisonValue = trim($referenceFileValueComponents[1]);
 						}
 					}
+					if (in_array($fieldInstance->getFieldDataType(), ['date', 'datetime'])) {
+						$comparisonValue = DateTimeField::convertToUserFormat($comparisonValue);
+					}
 					$queryGenerator->addCondition($mergeField, $comparisonValue, 'e');
 				}
 				$query = $queryGenerator->createQuery();
-				$duplicatesResult = $query->all();
-				$noOfDuplicates = count($duplicatesResult);
-
-				if ($noOfDuplicates > 0) {
-					$fieldColumnMapping = $moduleMeta->getFieldColumnMapping();
-					if ($mergeType == Import_Utils_Helper::$AUTO_MERGE_IGNORE) {
-						$entityInfo['status'] = self::$IMPORT_RECORD_SKIPPED;
-					} elseif ($mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE ||
-						$mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS) {
-
-						for ($index = 0; $index < $noOfDuplicates - 1; ++$index) {
-							$duplicateRecordId = $duplicatesResult[$index][$fieldColumnMapping['id']];
-							$entityId = vtws_getId($moduleObjectId, $duplicateRecordId);
-							vtws_delete($entityId, $this->user);
-						}
-						$baseRecordId = $duplicatesResult[$noOfDuplicates - 1][$fieldColumnMapping['id']];
-						$baseEntityId = vtws_getId($moduleObjectId, $baseRecordId);
-
-						if ($mergeType == Import_Utils_Helper::$AUTO_MERGE_OVERWRITE) {
+				$baseRecordId = $query->scalar();
+				if ($baseRecordId) {
+					switch ($mergeType) {
+						case Import_Module_Model::AUTO_MERGE_IGNORE:
+							$entityInfo['status'] = self::IMPORT_RECORD_SKIPPED;
+							break;
+						case Import_Module_Model::AUTO_MERGE_OVERWRITE:
 							$fieldData = $this->transformForImport($fieldData);
-							$fieldData['id'] = $baseEntityId;
-							$entityInfo = vtws_update($fieldData, $this->user);
-							$entityInfo['status'] = self::$IMPORT_RECORD_UPDATED;
-						}
-
-						if ($mergeType == Import_Utils_Helper::$AUTO_MERGE_MERGEFIELDS) {
-							$filteredFieldData = array();
-							foreach ($fieldData as $fieldName => $fieldValue) {
-								// empty will give false for value = 0
-								if (!empty($fieldValue) || $fieldValue != "") {
-									$filteredFieldData[$fieldName] = $fieldValue;
-								}
-							}
-
-							// Custom handling for default values & mandatory fields
-							// need to be taken care than normal import as we merge
-							// existing record values with newer values.
-							$fillDefault = false;
-							$mandatoryValueChecks = false;
-
-							$existingFieldValues = vtws_retrieve($baseEntityId, $this->user);
+							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
+							$entityInfo['status'] = self::IMPORT_RECORD_UPDATED;
+							break;
+						case Import_Module_Model::$AUTO_MERGE_MERGEFIELDS:
 							$defaultFieldValues = $this->getDefaultFieldValues();
-
-							foreach ($existingFieldValues as $fieldName => $fieldValue) {
-								if (empty($fieldValue) && empty($filteredFieldData[$fieldName]) && !empty($defaultFieldValues[$fieldName])) {
-									$filteredFieldData[$fieldName] = $defaultFieldValues[$fieldName];
+							foreach ($fieldData as $fieldName => &$fieldValue) {
+								if (empty($fieldValue) && !empty($defaultFieldValues[$fieldName])) {
+									$fieldValue = $defaultFieldValues[$fieldName];
 								}
 							}
-
-							$filteredFieldData = $this->transformForImport($filteredFieldData, $fillDefault, $mandatoryValueChecks);
-							$filteredFieldData['id'] = $baseEntityId;
-							$entityInfo = vtws_revise($filteredFieldData, $this->user);
+							$fieldData = array_filter($fieldData);
+							$fieldData = $this->transformForImport($fieldData, false, false);
+							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
 							$entityInfo['status'] = self::$IMPORT_RECORD_MERGED;
-							$fieldData = $filteredFieldData;
-						}
-					} else {
-						$createRecord = true;
+							break;
+						default:
+							$createRecord = true;
+							break;
 					}
 				} else {
 					$createRecord = true;
@@ -924,6 +869,28 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			return ['id' => $ID, 'status' => self::IMPORT_RECORD_CREATED];
 		}
 		return null;
+	}
+
+	/**
+	 * Update rekord
+	 * @param int $rekord
+	 * @param array $fieldData
+	 * @param string $moduleName
+	 */
+	public function updateRecordByModel($rekord, $fieldData, $moduleName = false)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($rekord, $moduleName);
+		if (isset($fieldData['inventoryData'])) {
+			$inventoryData = $fieldData['inventoryData'];
+			unset($fieldData['inventoryData']);
+		}
+		if ($inventoryData) {
+			$recordModel->setInventoryRawData($this->convertInventoryDataToObject($inventoryData));
+		}
+		foreach ($fieldData as $fieldName => &$value) {
+			$recordModel->set($fieldName, $value);
+		}
+		$recordModel->save();
 	}
 
 	/**
