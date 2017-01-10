@@ -8,59 +8,59 @@
  *************************************************************************************/
 
 jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
-	
-	form : false,
-	getForm : function(){
-		if(this.form == false){
+
+	form: false,
+	getForm: function () {
+		if (this.form == false) {
 			this.form = jQuery('#EditView');
 		}
 		return this.form;
 	},
-	
+
 	/**
 	 * Function to register change event for source module field
 	 */
-	registerOnChangeEventOfSourceModule :function(){
+	registerOnChangeEventOfSourceModule: function () {
 		var editViewForm = this.getForm();
-		editViewForm.find('[name="sourceModule"]').on('change',function(e){
+		editViewForm.find('[name="sourceModule"]').on('change', function (e) {
 			jQuery('.saveButton').removeAttr('disabled');
 			var element = jQuery(e.currentTarget);
 			var params = {};
 			var sourceModule = element.val();
 
 			params = {
-				'module' : app.getModuleName(),
-				'parent' : app.getParentModuleName(),
-				'action' : "CustomRecordNumberingAjax",
-				'mode' : "getModuleCustomNumberingData",
-				'sourceModule' : sourceModule
+				'module': app.getModuleName(),
+				'parent': app.getParentModuleName(),
+				'action': "CustomRecordNumberingAjax",
+				'mode': "getModuleCustomNumberingData",
+				'sourceModule': sourceModule
 			}
-			
+
 			AppConnector.request(params).then(
-					function(data){
-						if(data){
+					function (data) {
+						if (data) {
 							editViewForm.find('[name="prefix"]').val(data.result.prefix);
 							editViewForm.find('[name="postfix"]').val(data.result.postfix);
 							editViewForm.find('[name="sequenceNumber"]').val(data.result.sequenceNumber);
-							editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber',data.result.sequenceNumber);
+							editViewForm.find('[name="sequenceNumber"]').data('oldSequenceNumber', data.result.sequenceNumber);
 						}
 					},
-					function(jqXHR,textStatus, errorThrown){
-			})
+					function (jqXHR, textStatus, errorThrown) {
+					})
 		})
 	},
-	
+
 	/**
 	 * Function to register event for saving module custom numbering
 	 */
-	saveModuleCustomNumbering : function(){
-		if(jQuery('.saveButton').attr("disabled")){
+	saveModuleCustomNumbering: function () {
+		if (jQuery('.saveButton').attr("disabled")) {
 			return;
 		}
 		var editViewForm = this.getForm();
 		var params = {}
 		var sourceModule = editViewForm.find('[name="sourceModule"]').val();
-		var sourceModuleLabel = editViewForm.find('option[value="'+sourceModule+'"]').text();
+		var sourceModuleLabel = editViewForm.find('option[value="' + sourceModule + '"]').text();
 		var prefix = editViewForm.find('[name="prefix"]');
 		var currentPrefix = jQuery.trim(prefix.val());
 		var oldPrefix = prefix.data('oldPrefix');
@@ -71,35 +71,35 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		var sequenceNumber = sequenceNumberElement.val();
 		var oldSequenceNumber = sequenceNumberElement.data('oldSequenceNumber');
 
-		if((sequenceNumber < oldSequenceNumber) && (currentPrefix == oldPrefix) && (currentPostfix == oldPostfix)){
-			var errorMessage = app.vtranslate('JS_SEQUENCE_NUMBER_MESSAGE')+" "+oldSequenceNumber;
-			sequenceNumberElement.validationEngine('showPrompt', errorMessage , 'error','topLeft',true);
+		if ((sequenceNumber < oldSequenceNumber) && (currentPrefix == oldPrefix) && (currentPostfix == oldPostfix)) {
+			var errorMessage = app.vtranslate('JS_SEQUENCE_NUMBER_MESSAGE') + " " + oldSequenceNumber;
+			sequenceNumberElement.validationEngine('showPrompt', errorMessage, 'error', 'topLeft', true);
 			return;
 		}
 
 		params = {
-			'module' : app.getModuleName(),
-			'parent' : app.getParentModuleName(),
-			'action' : "CustomRecordNumberingAjax",
-			'mode' : "saveModuleCustomNumberingData",
-			'sourceModule' : sourceModule,
-			'prefix' : currentPrefix,
-			'postfix' : currentPostfix,
-			'sequenceNumber' : sequenceNumber
+			'module': app.getModuleName(),
+			'parent': app.getParentModuleName(),
+			'action': "CustomRecordNumberingAjax",
+			'mode': "saveModuleCustomNumberingData",
+			'sourceModule': sourceModule,
+			'prefix': currentPrefix,
+			'postfix': currentPostfix,
+			'sequenceNumber': sequenceNumber
 		}
-		
-		jQuery('.saveButton').attr("disabled","disabled");
+
+		jQuery('.saveButton').attr("disabled", "disabled");
 		AppConnector.request(params).then(
-				function(data){
+				function (data) {
 					var params;
-					var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR')+" "+sourceModuleLabel;
-					if(data.success == true){
+					var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_SAVED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
+					if (data.success == true) {
 						params = {
 							text: successfullSaveMessage
 						};
 						Settings_Vtiger_Index_Js.showMessage(params);
-					}else{
-						var errorMessage = currentPrefix+" "+app.vtranslate(data.error.message);
+					} else {
+						var errorMessage = currentPrefix + " " + app.vtranslate(data.error.message);
 						params = {
 							text: errorMessage,
 							type: 'error'
@@ -107,51 +107,51 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 						Settings_Vtiger_Index_Js.showMessage(params);
 					}
 				},
-				function(jqXHR,textStatus, errorThrown){
-		})
+				function (jqXHR, textStatus, errorThrown) {
+				})
 	},
-	
+
 	/**
 	 * Function to handle update record with the given sequence number
 	 */
-	registerEventToUpdateRecordsWithSequenceNumber : function(){
+	registerEventToUpdateRecordsWithSequenceNumber: function () {
 		var editViewForm = this.getForm();
-		editViewForm.find('[name="updateRecordWithSequenceNumber"]').on('click',function(){
+		editViewForm.find('[name="updateRecordWithSequenceNumber"]').on('click', function () {
 			var params = {};
 			var sourceModule = editViewForm.find('[name="sourceModule"]').val();
-			var sourceModuleLabel = editViewForm.find('option[value="'+sourceModule+'"]').text();
-			
+			var sourceModuleLabel = editViewForm.find('option[value="' + sourceModule + '"]').text();
+
 			params = {
-				'module' : app.getModuleName(),
-				'parent' : app.getParentModuleName(),
-				'action' : "CustomRecordNumberingAjax",
-				'mode' : "updateRecordsWithSequenceNumber",
-				'sourceModule' : sourceModule
+				'module': app.getModuleName(),
+				'parent': app.getParentModuleName(),
+				'action': "CustomRecordNumberingAjax",
+				'mode': "updateRecordsWithSequenceNumber",
+				'sourceModule': sourceModule
 			}
-			
+
 			AppConnector.request(params).then(
-					function(data){
-						var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR')+" "+sourceModuleLabel;
-						if(data.success == true){
+					function (data) {
+						var successfullSaveMessage = app.vtranslate('JS_RECORD_NUMBERING_UPDATED_SUCCESSFULLY_FOR') + " " + sourceModuleLabel;
+						if (data.success == true) {
 							var params = {
 								text: successfullSaveMessage
 							};
 							Settings_Vtiger_Index_Js.showMessage(params);
-						}else{
+						} else {
 							Settings_Vtiger_Index_Js.showMessage(data.error.message);
 						}
 					},
-					function(jqXHR,textStatus, errorThrown){
-			})
+					function (jqXHR, textStatus, errorThrown) {
+					})
 		})
 	},
-	
+
 	/**
 	 * Function to register change event for prefix and sequence number
 	 */
-	registerChangeEventForPrefixAndSequenceNumber : function() {
+	registerChangeEventForPrefixAndSequenceNumber: function () {
 		var editViewForm = this.getForm();
-		editViewForm.find('[name="prefix"],[name="sequenceNumber"]').on('change',function(){
+		editViewForm.find('[name="prefix"],[name="sequenceNumber"]').on('change', function () {
 			jQuery('.saveButton').removeAttr('disabled');
 		})
 	},
@@ -168,49 +168,43 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		container.find('#customVariable').val(value);
 	},
 
-	registerCopyClipboard: function (element) {
-		var clip = new ZeroClipboard(
-				element, {
-					moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+	registerCopyClipboard: function (editViewForm) {
+		new Clipboard('#customVariableCopy', {
+			text: function (trigger) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
 				});
-
-		clip.on('complete', function (client, args) {
-			// notification about copy to clipboard
-			var params = {
-				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-				animation: 'show',
-				title: app.vtranslate('JS_NOTIFY_COPY_TITLE'),
-				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+				return editViewForm.find('#customVariables').val();
+			}
 		});
 	},
 
 	/**
 	 * Function to register events
 	 */
-	registerEvents : function(){
+	registerEvents: function () {
 		var thisInstance = this;
 		var editViewForm = this.getForm();
 		this.registerOnChangeEventOfSourceModule();
 		this.registerEventToUpdateRecordsWithSequenceNumber();
 		this.registerChangeEventForPrefixAndSequenceNumber();
-	
+
 		var params = app.validationEngineOptions;
-		params.onValidationComplete = function(editViewForm, valid){
-			if(valid) {
+		params.onValidationComplete = function (editViewForm, valid) {
+			if (valid) {
 				thisInstance.saveModuleCustomNumbering();
 			}
 			return false;
 		}
 		editViewForm.validationEngine('detach');
-		editViewForm.validationEngine('attach',params);
+		editViewForm.validationEngine('attach', params);
 		this.registerRelatedFieldsChangeEvent(editViewForm);
 		this.updateRelatedFieldsValue(editViewForm);
-		this.registerCopyClipboard(editViewForm.find('#customVariableCopy'));
+		this.registerCopyClipboard(editViewForm);
 	}
 })
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	var customRecordNumberingInstance = new Settings_CustomRecordNumbering_Js();
 	customRecordNumberingInstance.registerEvents();
 });

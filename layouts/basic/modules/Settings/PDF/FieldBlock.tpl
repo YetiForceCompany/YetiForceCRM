@@ -37,8 +37,8 @@
 					</select>
 				</div>
 				<div class="col-md-1 input-group">
-					<input type="hidden" value="" id="mainFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-right marginRight5px" data-clipboard-target="mainFieldValue{$STEP_NO}" id="mainFieldsValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
-					<input type="hidden" value="" id="mainFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" data-clipboard-target="mainFieldLabel{$STEP_NO}" id="mainFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+					<input type="hidden" value="" id="mainFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-right marginRight5px" type="button" data-target="mainFieldValue{$STEP_NO}" id="mainFieldsValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
+					<input type="hidden" value="" id="mainFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" type="button" data-target="mainFieldLabel{$STEP_NO}" id="mainFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -67,8 +67,8 @@
 					</select>
 				</div>
 				<div class="col-md-1 input-group">
-					<input type="hidden" value="" id="relatedFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-right marginRight5px" data-clipboard-target="relatedFieldValue{$STEP_NO}" id="relatedFieldsValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
-					<input type="hidden" value="" id="relatedFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" data-clipboard-target="relatedFieldLabel{$STEP_NO}" id="relatedFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+					<input type="hidden" value="" id="relatedFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-right marginRight5px" type="button" data-target="relatedFieldValue{$STEP_NO}" id="relatedFieldsValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
+					<input type="hidden" value="" id="relatedFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" type="button" data-target="relatedFieldLabel{$STEP_NO}" id="relatedFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -83,7 +83,7 @@
 					</select>
 				</div>
 				<div class="col-sm-2 control-label">
-					<input type="hidden" value="" id="specialFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" data-clipboard-target="specialFieldValue{$STEP_NO}" id="specialFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+					<input type="hidden" value="" id="specialFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" type="button" data-target="specialFieldValue{$STEP_NO}" id="specialFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
 						{vtranslate('LBL_COMPANY_FIELDS', $QUALIFIED_MODULE)}
 				</div>
 				<div class="col-sm-4 controls">
@@ -94,8 +94,8 @@
 					</select>
 				</div>
 				<div class="col-md-1 input-group">
-					<input type="hidden" value="" id="companyFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-right marginRight5px" data-clipboard-target="companyFieldValue{$STEP_NO}" id="companyFieldsValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
-					<input type="hidden" value="" id="companyFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" data-clipboard-target="companyFieldLabel{$STEP_NO}" id="companyFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+					<input type="hidden" value="" id="companyFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-right marginRight5px" type="button" data-target="companyFieldValue{$STEP_NO}" id="companyFieldsValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
+					<input type="hidden" value="" id="companyFieldLabel{$STEP_NO}" /><button class="btn btn-sm btn-warning pull-right marginRight5px" type="button" data-target="companyFieldLabel{$STEP_NO}" id="companyFieldsLabelCopy{$STEP_NO}"  title="{vtranslate('LBL_LABEL', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
 				</div>
 			</div>
 			{if $STEP_NO eq 3 || $STEP_NO eq 5}
@@ -111,7 +111,7 @@
 						</select>
 					</div>
 					<div class="col-sm-2 control-label">
-						<input type="hidden" value="" id="insertFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" data-clipboard-target="insertFieldValue{$STEP_NO}" id="insertFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+						<input type="hidden" value="" id="insertFieldValue{$STEP_NO}" /><button class="btn btn-sm btn-info pull-left marginRight5px" type="button" data-target="insertFieldValue{$STEP_NO}" id="insertFieldValueCopy{$STEP_NO}"  title="{vtranslate('LBL_FIELD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-copy"></span></button>
 					</div>
 				</div>
 			{/if}

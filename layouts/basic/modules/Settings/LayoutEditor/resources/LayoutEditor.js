@@ -784,8 +784,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		fieldContainer.find('.fieldLabel').html(result['label'] + ' [' + result['name'] + ']');
 		fieldContainer.find('#relatedFieldValue').val(result['name']).prop('id', 'relatedFieldValue' + result['id']);
-		fieldContainer.find('.copyFieldLabel').attr('data-clipboard-target', 'relatedFieldValue' + result['id']);
-		thisInstance.registerCopyClipboard(fieldContainer.find('.copyFieldLabel'));
+		fieldContainer.find('.copyFieldLabel').attr('data-target', 'relatedFieldValue' + result['id']);
+		thisInstance.registerCopyClipboard(fieldContainer);
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
@@ -2043,19 +2043,15 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Register label copy
 	 */
-	registerCopyClipboard : function (element) {
-		var clip = new ZeroClipboard(element, {
-			moviePath: 'libraries/jquery/ZeroClipboard/ZeroClipboard.swf',
-		});
-		clip.on('complete', function (client, args) {
-			// notification about copy to clipboard
-			var params = {
-				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-				animation: 'show',
-				title: app.vtranslate('JS_NOTIFY_COPY_TITLE'),
-				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+	registerCopyClipboard : function (form) {
+		new Clipboard('.copyFieldLabel', {
+			text: function (trigger) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				return form.find('#'+trigger.getAttribute('data-target')).val();
+			}
 		});
 	},
 	/**
@@ -2085,7 +2081,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerEditInventoryField();
 		thisInstance.registerInventoryFieldSequenceSaveClick();
 		thisInstance.registerDeleteInventoryField();
-		thisInstance.registerCopyClipboard(container.find('.copyFieldLabel'));
+		thisInstance.registerCopyClipboard(container);
 	}
 
 });

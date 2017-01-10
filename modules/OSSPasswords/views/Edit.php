@@ -23,7 +23,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 
 		$jsFileNames = array(
 			'modules.OSSPasswords.resources.gen_pass',
-			'libraries.jquery.ZeroClipboard.ZeroClipboard',
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.OSSPasswords.resources.zClipDetailView'
 		);
 

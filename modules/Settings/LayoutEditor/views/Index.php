@@ -104,7 +104,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = ['libraries.jquery.ZeroClipboard.ZeroClipboard'];
+		$jsFileNames = ['libraries.jquery.clipboardjs.clipboard'];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

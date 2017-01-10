@@ -182,21 +182,17 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		var value = '{' + container.find('[name="insert_functions"]').val() + '}';
 		container.find('#insertFieldValue5').val(value);
 	},
-	registerCopyClipboard: function (element) {
-		var clip = new ZeroClipboard(
-				element, {
-					moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+	registerCopyClipboard: function (name) {
+		var thisInstance = this;
+		new Clipboard(name, {
+			text: function (trigger) {
+				var container = thisInstance.getContainer();
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
 				});
-
-		clip.on('complete', function (client, args) {
-			// notification about copy to clipboard
-			var params = {
-				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-				animation: 'show',
-				title: app.vtranslate('JS_NOTIFY_COPY_TITLE'),
-				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+				return container.find('#'+trigger.getAttribute('data-target')).val();
+			}
 		});
 	},
 	/**
@@ -240,13 +236,13 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		this.registerNewCkEditor();
 
 		// zerocliboards
-		this.registerCopyClipboard(container.find('#mainFieldsValueCopy5'));
-		this.registerCopyClipboard(container.find('#mainFieldsLabelCopy5'));
-		this.registerCopyClipboard(container.find('#relatedFieldsValueCopy5'));
-		this.registerCopyClipboard(container.find('#relatedFieldsLabelCopy5'));
-		this.registerCopyClipboard(container.find('#companyFieldsValueCopy5'));
-		this.registerCopyClipboard(container.find('#companyFieldsLabelCopy5'));
-		this.registerCopyClipboard(container.find('#specialFieldValueCopy5'));
-		this.registerCopyClipboard(container.find('#insertFieldValueCopy5'));
+		this.registerCopyClipboard('#mainFieldsValueCopy5');
+		this.registerCopyClipboard('#mainFieldsLabelCopy5');
+		this.registerCopyClipboard('#relatedFieldsValueCopy5');
+		this.registerCopyClipboard('#relatedFieldsLabelCopy5');
+		this.registerCopyClipboard('#companyFieldsValueCopy5');
+		this.registerCopyClipboard('#companyFieldsLabelCopy5');
+		this.registerCopyClipboard('#specialFieldValueCopy5');
+		this.registerCopyClipboard('#insertFieldValueCopy5');
 	}
 });

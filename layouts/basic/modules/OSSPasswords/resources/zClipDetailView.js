@@ -7,18 +7,12 @@
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
  * All Rights Reserved.
  *************************************************************************************************************************************/
-var clip2 = new ZeroClipboard( 
-    document.getElementById('copy-button'), {
-    moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+new Clipboard('#copy-button', {
+	text: function (trigger) {
+		Vtiger_Helper_Js.showPnotify({
+			text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+			type: 'success'
+		});
+		return jQuery('#detailPassword').text();
+	}
 });
-    
-clip2.on( 'complete', function(client, args) {
-    // notification about copy to clipboard
-    var params = {
-        text: app.vtranslate('LBL_NotifPassCopied'),
-        animation: 'show',
-        title: app.vtranslate('LBL_NotifPassTitle'),
-        type: 'success'
-    };
-    Vtiger_Helper_Js.showPnotify(params);
-} );

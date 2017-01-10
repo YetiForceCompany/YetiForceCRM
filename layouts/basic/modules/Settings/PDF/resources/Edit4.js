@@ -172,21 +172,17 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		var value = '#' + container.find('[name="special_functions"]').val() + '#';
 		container.find('#specialFieldValue4').val(value);
 	},
-	registerCopyClipboard: function (element) {
-		var clip = new ZeroClipboard(
-				element, {
-					moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+	registerCopyClipboard: function (name) {
+		var thisInstance = this;
+		new Clipboard(name, {
+			text: function (trigger) {
+				var container = thisInstance.getContainer();
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
 				});
-
-		clip.on('complete', function (client, args) {
-			// notification about copy to clipboard
-			var params = {
-				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-				animation: 'show',
-				title: app.vtranslate('JS_NOTIFY_COPY_TITLE'),
-				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+				return container.find('#'+trigger.getAttribute('data-target')).val();
+			}
 		});
 	},
 	/**
@@ -228,12 +224,12 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		this.registerNewCkEditor();
 
 		// zerocliboards
-		this.registerCopyClipboard(container.find('#mainFieldsValueCopy4'));
-		this.registerCopyClipboard(container.find('#mainFieldsLabelCopy4'));
-		this.registerCopyClipboard(container.find('#relatedFieldsValueCopy4'));
-		this.registerCopyClipboard(container.find('#relatedFieldsLabelCopy4'));
-		this.registerCopyClipboard(container.find('#companyFieldsValueCopy4'));
-		this.registerCopyClipboard(container.find('#companyFieldsLabelCopy4'));
-		this.registerCopyClipboard(container.find('#specialFieldValueCopy4'));
+		this.registerCopyClipboard('#mainFieldsValueCopy4');
+		this.registerCopyClipboard('#mainFieldsLabelCopy4');
+		this.registerCopyClipboard('#relatedFieldsValueCopy4');
+		this.registerCopyClipboard('#relatedFieldsLabelCopy4');
+		this.registerCopyClipboard('#companyFieldsValueCopy4');
+		this.registerCopyClipboard('#companyFieldsLabelCopy4');
+		this.registerCopyClipboard('#specialFieldValueCopy4');
 	}
 });

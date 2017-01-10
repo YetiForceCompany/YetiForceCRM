@@ -63,19 +63,13 @@ function showRelatedListPassword(record) {
 		$('a#copybtn_' + record).addClass('hide');
 	}
 }
-
-// code to copy password to clipboardData
-var clip2 = new ZeroClipboard(
-		$('[id^=copybtn_]'), {
-	moviePath: "libraries/jquery/ZeroClipboard/ZeroClipboard.swf"
+new Clipboard('.copy_pass', {
+	text: function (trigger) {
+		Vtiger_Helper_Js.showPnotify({
+			text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+			type: 'success'
+		});
+		return $('#' + trigger.getAttribute('data-id')).text();
+	}
 });
 
-clip2.on('complete', function (client, args) {
-	// notification about copy to clipboard
-	var params = {
-		text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-		animation: 'show',
-		type: 'success'
-	};
-	Vtiger_Helper_Js.showPnotify(params);
-});
