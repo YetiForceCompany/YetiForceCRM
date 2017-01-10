@@ -245,6 +245,9 @@ $languageStrings = [
 	'Security risk has been detected - Brute Force' => 'Уведомление о попытке подбора пароля',
 	'Backup has been made' => 'Уведомление - Резервное копирование выполнено',
 	'Notify Account On New comment added to ticket' => 'Уведомлять пользователя портала о новом комментарии в Заявке',
+	'LBL_OWNER_REKORD' => 'Record Owner',
+	'LBL_SMTP' => 'SMTP',
+	'LBL_CHECK_EMAIL_OPTOUT' => 'Verify if recipient agreed to receive e-mails',
 ];
 
 $jsLanguageStrings = [
