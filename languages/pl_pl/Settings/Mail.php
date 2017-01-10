@@ -50,4 +50,5 @@ $languageStrings = [
 	'LBL_TO' => 'Do',
 	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'Lista emaili oczekujących na wysłanie. Wysyłanie wiadomości mailowych odbywa się w cronie.',
 	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Wiadomości do wysłania',
+	'LBL_EMAIL_WAS_SENT' => 'Email został wysłany, podgląd nie jest możliwy.',
 ];

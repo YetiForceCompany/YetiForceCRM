@@ -39,6 +39,7 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 						progressIndicator.progressIndicator({'mode': 'hide'});
 						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
 						$('.sendManually').remove()
+						$('.deleteButton').remove()
 					},
 					function (error) {
 						progressIndicator.progressIndicator({'mode': 'hide'});

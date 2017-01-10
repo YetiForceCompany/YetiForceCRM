@@ -7,7 +7,6 @@
 				{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
 			{/if}
 		</div>
-		
 	</div>
 	<div class="editViewContainer">
 		<form name="EditMailSmtp"  id="EditView" class="form-horizontal validateForm">
@@ -142,7 +141,7 @@
 						</span>
 					</label>
 					<div class="controls col-md-8">
-						<textarea class="form-control" name="options" value="{$RECORD_MODEL->get('options')}"></textarea>
+						<textarea class="form-control" name="options">{$RECORD_MODEL->get('options')}</textarea>
 					</div>
 				</div>
 			<div class="row">

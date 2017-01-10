@@ -49,4 +49,5 @@ $languageStrings = [
 	'LBL_RECORD_ACCEPTED' => 'Datensatz bestätigt',
 	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'List of emails to send. Sending email messages takes place in cron.',
 	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Emails to send',
+	'LBL_EMAIL_WAS_SENT' => 'Email has been sent, preview unavailable.'
 ];

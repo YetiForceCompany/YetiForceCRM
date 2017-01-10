@@ -107,6 +107,13 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			case 'default':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
+			case 'password':
+				$passLength = strlen($value);
+				$value = '';
+				for ($i = 0; $i < $passLength; $i++) {
+					$value .= '*';
+				}
+				break;
 			case 'authentication':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
@@ -151,10 +158,9 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id)
 	{
-		$query = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id]);
-		$row = $query->createCommand(\App\Db::getInstance('admin'))->queryOne();
+		$row = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id])->one(\App\Db::getInstance('admin'));;
 		$instance = false;
-		if ($row !== false) {
+		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
 		}

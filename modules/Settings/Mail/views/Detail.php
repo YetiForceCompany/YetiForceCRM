@@ -31,8 +31,11 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_Mail_Record_Model::getInstance($record);
-
 		$viewer = $this->getViewer($request);
+		if ($recordModel === false) {
+			$moduleModel = new Settings_Mail_Module_Model();
+			$viewer->assign('MODULE_MODEL', $moduleModel);
+		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

@@ -114,7 +114,7 @@
 				<tr>
 					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
-						{$RECORD_MODEL->getDisplayValue('LBL_OPTIONS')}
+						{$RECORD_MODEL->getDisplayValue('options')}
 					</td>
 				</tr>
 			</tbody>
