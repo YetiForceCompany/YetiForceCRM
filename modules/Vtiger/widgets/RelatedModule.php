@@ -58,7 +58,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 				}
 			}
 			$this->Config['buttonHeader'] = Settings_Widgets_Module_Model::getHeaderButtons($this->Data['relatedmodule']);
-			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] != '-') {
+			if (isset($this->Data['checkbox']) && $this->Data['checkbox'] !== '-') {
 				if (strpos($this->Data['checkbox'], '.') !== false) {
 					$separateData = explode('.', $this->Data['checkbox']);
 					$columnName = $separateData[1];

@@ -507,7 +507,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 				'linkicon' => ''
 			]];
 		}
-		if ($relatedModel->get('label') == 'Documents') {
+		if ($relatedModel->get('label') === 'Documents') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
