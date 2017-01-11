@@ -12,19 +12,25 @@ class Pdf_OverdueDeadlines extends Vtiger_SpecialFunction_Pdf
 	public $permittedModules = ['all'];
 	protected $columnNames = ['subject', 'activitytype', 'date_start', 'link'];
 
+	/**
+	 * Process
+	 * @param string $moduleName
+	 * @param int $id
+	 * @param Vtiger_PDF_Model $pdf
+	 * @return string
+	 */
 	public function process($moduleName, $id, Vtiger_PDF_Model $pdf)
 	{
 		$moduleName = 'Calendar';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFields();
-		$adminUser = $currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			$adminUser = Users::getActiveAdminUser();
-		}
-		$queryGenerator = new App\QueryGenerator($moduleName, $adminUser->getId());
+		$currentUserModel = \App\User::getCurrentUserModel();
+		$adminUser = !$currentUserModel->isAdmin() ? \App\User::getActiveAdminId() : $currentUserModel->getUserId();
+
+		$queryGenerator = new App\QueryGenerator($moduleName, $adminUser);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addNativeCondition(['vtiger_activity.status' => 'PLL_OVERDUE']);
-		$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);
+		$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $currentUserModel->getUserId()]);
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
