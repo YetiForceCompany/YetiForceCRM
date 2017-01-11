@@ -39,7 +39,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$templateModule = $moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule) {
+		if ($sourceModule && isset(\App\TextParser::$sourceModules[$sourceModule]) && in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
 			$templateModule = $sourceModule;
 		}
 		$viewer->assign('TEMPLATE_MODULE', $templateModule);

@@ -183,15 +183,6 @@ $languageStrings = [
 	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Dodawaj i zarządzaj modułami, które dostosują i spersonalizują system pod profil przedsiębiorstwa.',
 	'VTLIB_LBL_MODULE_MANAGER' => 'Moduły - instalacja',
 	'Webforms' => 'Formularze www',
-	'website' => 'Strona WWW',
-	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo firmowe widoczne w systemie',
-	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo firmowe widoczne w panelu logowania',
-	'vatid' => 'NIP',
-	'id1' => 'Regon',
-	'id2' => 'KRS',
-	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
-	'LBL_FIELD_NAME' => 'Nazwa pola',
-	'LBL_HEIGHT_LOGO' => 'Wysokość loga',
 	//YetiForce
 	'LBL_LOGS_MANAGEMENT' => 'Logi',
 	'LBL_SECURITY_MANAGEMENT' => 'Bezpieczeństwo',
@@ -380,6 +371,18 @@ $languageStrings = [
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 	'LBL_EXAMPLE_FIELD_NAME' => 'Pole',
+	//organization
+	'mailLogo' => 'Logo firmowe widoczne w systemie',
+	'loginLogo' => 'Logo firmowe widoczne w panelu logowania',
+	'website' => 'Strona WWW',
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo firmowe widoczne w systemie',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo firmowe widoczne w panelu logowania',
+	'vatid' => 'NIP',
+	'id1' => 'Regon',
+	'id2' => 'KRS',
+	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
+	'LBL_FIELD_NAME' => 'Nazwa pola',
+	'LBL_HEIGHT_LOGO' => 'Wysokość loga',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
@@ -406,6 +409,5 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'niewspierany format pliku',
 	'JS_COLUMN_ADDED' => 'Pole dodane',
 	'JS_COLUMN_EXIST' => 'Błąd przy dodaniu pola',
-	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano do schowka',
-	'JS_NOTIFY_COPY_TITLE' => 'Tekst',
+	'JS_NOTIFY_COPY_TEXT' => 'Skopiowano zmienną do schowka',
 ];
