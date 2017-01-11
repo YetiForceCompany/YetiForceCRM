@@ -182,11 +182,6 @@ $languageStrings = [
 	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Gérer les modules dans YetiForce CRM',
 	'VTLIB_LBL_MODULE_MANAGER' => 'Modules – Installation',
 	'Webforms' => 'Formulaires Web ',
-	'website' => 'Site Web',
-	'LBL_ADD_CUSTOM_FIELD' => 'Ajouter un champ',
-	'LBL_FIELD_NAME' => 'Nom du champ',
-	'email' => 'Email',
-	'LBL_HEIGHT_LOGO' => 'Hauteur Logo',
 	//YetiForce
 	'vatid' => 'ID TVA',
 	'id1' => 'ID 1',
@@ -379,6 +374,18 @@ $languageStrings = [
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 	'LBL_EXAMPLE_FIELD_NAME' => 'Field',
+	//organization
+	'mailLogo' => 'Company logo visible in the system',
+	'loginLogo' => 'Company logo visible in the login panel',
+	'website' => 'Website',
+	'LBL_ADD_CUSTOM_FIELD' => 'Add field',
+	'LBL_FIELD_NAME' => 'Field name',
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Company logo visible in the system',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Company logo visible in the login panel',
+	'vatid' => 'VAT ID',
+	'id1' => 'TAX number',
+	'id2' => 'NCR',
+	'LBL_HEIGHT_LOGO' => 'Logo height',
 ];
 
 $jsLanguageStrings = [
