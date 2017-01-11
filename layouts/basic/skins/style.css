@@ -5793,3 +5793,6 @@ td.rightRecordActions.medium{
 .smActionImages .btn{
 	float: none !important;
 }
+.bc-gray-lighter{
+	background-color: #f5f5f5;
+}
