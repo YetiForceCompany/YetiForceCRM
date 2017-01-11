@@ -1058,7 +1058,7 @@ class ReportRun extends CRMEntity
 						}
 						$selectedfields = explode(":", $fieldcolname);
 						$moduleFieldLabel = $selectedfields[2];
-						list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
+						list($moduleName, $fieldLabel) = explode('_', $moduleFieldLabel, 2);
 						$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
 						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
 						// Added to handle the crmentity table name for Primary module
@@ -2251,10 +2251,12 @@ class ReportRun extends CRMEntity
 		$groupTimeList = $this->getGroupByTimeList($reportid);
 		$stdfilterlist = $this->getStdFilterList($reportid);
 		$columnstotallist = $this->getColumnsTotal($reportid);
-		$advfiltersql = $this->getAdvFilterSql($reportid);
-
+		if (isset($filtersql) && $filtersql !== false && $filtersql != '') {
+			$advfiltersql = $filtersql;
+		} else {
+			$advfiltersql = $this->getAdvFilterSql($reportid);
+		}
 		$this->totallist = $columnstotallist;
-		$current_user = vglobal('current_user');
 		//Fix for ticket #4915.
 		$selectlist = $columnlist;
 		//columns list
@@ -2266,29 +2268,26 @@ class ReportRun extends CRMEntity
 		}
 		//groups list
 		if (isset($groupslist)) {
-			$groupsquery = implode(", ", $groupslist);
+			$groupsquery = implode(', ', $groupslist);
 		}
 		if (isset($groupTimeList)) {
-			$groupTimeQuery = implode(", ", $groupTimeList);
+			$groupTimeQuery = implode(', ', $groupTimeList);
 		}
 
 		//standard list
 		if (isset($stdfilterlist)) {
-			$stdfiltersql = implode(", ", $stdfilterlist);
+			$stdfiltersql = implode(', ', $stdfilterlist);
 		}
 		//columns to total list
 		if (isset($columnstotallist)) {
-			$columnstotalsql = implode(", ", $columnstotallist);
+			$columnstotalsql = implode(', ', $columnstotallist);
 		}
-		if ($stdfiltersql != "") {
-			$wheresql = " and " . $stdfiltersql;
+		if ($stdfiltersql != '') {
+			$wheresql = ' and ' . $stdfiltersql;
 		}
-
-		if (isset($filtersql) && $filtersql !== false && $filtersql != '') {
-			$advfiltersql = $filtersql;
-		}
-		if ($advfiltersql != "") {
-			$wheresql .= " and " . $advfiltersql;
+		
+		if ($advfiltersql != '') {
+			$wheresql .= ' and ' . $advfiltersql;
 		}
 
 		$reportquery = $this->getReportsQuery($this->primarymodule, $type);
@@ -2642,7 +2641,7 @@ class ReportRun extends CRMEntity
 				$return_data[] = $sSQL;
 				return $return_data;
 			}
-		} elseif ($outputformat == "PDF") {
+		} elseif ($outputformat == 'PDF') {
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, $outputformat, false, $startLimit, $endLimit);
 			$result = $adb->pquery($sSQL, array());
 			if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)

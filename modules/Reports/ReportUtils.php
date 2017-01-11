@@ -42,7 +42,7 @@ function getFieldByReportLabel($module, $label)
 	}
 
 	foreach ($cachedModuleFields as $fieldInfo) {
-		$fieldLabel = str_replace(' ', '__', $fieldInfo['fieldlabel']);
+		$fieldLabel = str_replace(' ', '_', $fieldInfo['fieldlabel']);
 		$fieldLabel = decode_html($fieldLabel);
 		if ($label == $fieldLabel) {
 			VTCacheUtils::setReportFieldByLabel($module, $label, $fieldInfo);
