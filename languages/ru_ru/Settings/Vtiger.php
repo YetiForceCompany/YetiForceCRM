@@ -222,13 +222,6 @@ $languageStrings = [
 	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Управление модулями системы',
 	'VTLIB_LBL_MODULE_MANAGER' => 'Менеджер модулей',
 	'Webforms' => 'Веб-Формы',
-	'website' => 'Сайт',
-	'LBL_ADD_CUSTOM_FIELD' => 'Добавить Поле',
-	'LBL_FIELD_NAME' => 'Название Поля',
-	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Показывать логотип компании в системе',
-	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Логотип компании на странице входа',
-	'email' => 'Почта',
-	'LBL_HEIGHT_LOGO' => 'Высота логотипа',
 	//YetiForce
 	'vatid' => 'ИНН',
 	'regon' => 'ОГРН',
@@ -404,6 +397,18 @@ $languageStrings = [
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
 	'LBL_EXAMPLE_FIELD_NAME' => 'Field',
+	//organization
+	'mailLogo' => 'Company logo visible in the system',
+	'loginLogo' => 'Company logo visible in the login panel',
+	'website' => 'Сайт',
+	'LBL_ADD_CUSTOM_FIELD' => 'Добавить Поле',
+	'LBL_FIELD_NAME' => 'Название Поля',
+	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Company logo visible in the system',
+	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Company logo visible in the login panel',
+	'vatid' => 'VAT ID',
+	'id1' => 'TAX number',
+	'id2' => 'NCR',
+	'LBL_HEIGHT_LOGO' => 'Высота логотипа',
 ];
 
 $jsLanguageStrings = [
