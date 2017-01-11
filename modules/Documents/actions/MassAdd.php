@@ -9,6 +9,11 @@
 class Documents_MassAdd_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param Vtiger_Request $request
+	 * @throws \Exception\NoPermitted
+	 */
 	public function checkPermission(Vtiger_Request $request)
 	{
 		if (!Users_Privileges_Model::isPermitted($request->getModule(), 'CreateView')) {
@@ -16,6 +21,10 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 		}
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
