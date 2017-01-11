@@ -1,5 +1,5 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
@@ -91,7 +91,6 @@
 					<div class="pull-left selectSearch">
 						<div class="input-group globalSearchInput">
 							<span class="input-group-btn">
-
 								<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 									<option value="">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
 									{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
@@ -103,11 +102,21 @@
 									{/foreach}
 								</select>
 							</span>
-							<input type="text" class="form-control globalSearchValue" title="{vtranslate('LBL_GLOBAL_SEARCH')}" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+							<input type="text" class="form-control globalSearchValue" title="{vtranslate('LBL_GLOBAL_SEARCH')}" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
 							<span class="input-group-btn">
 								<button class="btn btn-default searchIcon" type="button">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span class="glyphicon glyphicon-screenshot"></span>
+									</button>
+									<ul class="dropdown-menu globalSearchOperator">
+										<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
+										<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
+										<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
+									</ul>
+								</div>
 								<button class="btn btn-default globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
 									<span class="glyphicon glyphicon-th-large"></span>
 								</button>

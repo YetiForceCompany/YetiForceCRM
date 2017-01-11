@@ -534,6 +534,13 @@ jQuery.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
+		jQuery('.globalSearchOperator').on('click', function (e) {
+			var currentTarget = jQuery(e.target);
+			var block = currentTarget.closest('.globalSearchInput');
+			block.find('.globalSearchValue').data('operator',currentTarget.data('operator'));
+			block.find('.globalSearchOperator li').removeClass('active');
+			currentTarget.closest('li').addClass('active');
+		});
 		if (jQuery('#gsAutocomplete').val() == 1) {
 			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
 				_create: function () {

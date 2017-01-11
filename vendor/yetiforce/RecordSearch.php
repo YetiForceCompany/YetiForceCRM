@@ -17,7 +17,7 @@ class RecordSearch
 	public $useCache = true;
 	public $entityName = true;
 	public $table = 'searchLabel'; //searchLabel, label
-	public $operator = 'contains'; // contains,begin,ends,fulltext 
+	public $operator = 'contains'; // contains,starts,ends,fulltext 
 	public $checkPermissions = true;
 	private $moduleConditions = ['Leads' => ['vtiger_leaddetails.converted' => 0]];
 
