@@ -415,6 +415,5 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Nicht unterstütztes Bildformat',
 	'JS_COLUMN_ADDED' => 'Feld hinzugefügt',
 	'JS_COLUMN_EXIST' => 'Fehler beim Feld hinzufügen',
-	'JS_NOTIFY_COPY_TEXT' => 'In Zwischenablage kopiert',
-	'JS_NOTIFY_COPY_TITLE' => 'Text',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied variable to clipboard',
 ];
