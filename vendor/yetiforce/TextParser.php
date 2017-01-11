@@ -39,10 +39,23 @@ class TextParser
 	];
 
 	/** @var array Variables for entity modules */
-	public static $variableEntity = ['CrmDetailViewURL', 'PortalDetailViewURL', 'RecordId', 'RecordLabel', 'ChangesListChanges', 'ChangesListValues', 'Comments'];
+	public static $variableEntity = [
+		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
+		'PortalDetailViewURL' => 'LBL_PORTAL_DETAIL_VIEW_URL',
+		'RecordId' => 'LBL_RECORD_ID',
+		'RecordLabel' => 'LBL_RECORD_LABEL',
+		'ChangesListChanges' => 'LBL_LIST_OF_CHANGES_IN_RECORD',
+		'ChangesListValues' => 'LBL_LIST_OF_NEW_VALUES_IN_RECORD',
+		'Comments' => 'LBL_RECORD_COMMENT'
+	];
 
 	/** @var string[] List of available functions */
 	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'sourceRecord', 'organization', 'employee', 'params'];
+
+	/** @var string[] List of source modules */
+	public static $sourceModules = [
+		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
+	];
 
 	/** @var int Record id */
 	protected $record;
@@ -70,15 +83,6 @@ class TextParser
 
 	/** @var \Vtiger_Record_Model Source record model */
 	protected $sourceRecordModel;
-
-	public static function getOrganizationVar()
-	{
-		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById();
-		$fields = $companyDetails->getKeys();
-		$fields[] = 'mailLogo';
-		$fields[] = 'loginLogo';
-		return $fields;
-	}
 
 	/**
 	 * Get instanace by record id
@@ -557,5 +561,143 @@ class TextParser
 			return $this->params[$params];
 		}
 		return '';
+	}
+
+	public static function getOrganizationVar()
+	{
+		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById();
+		$fields = $companyDetails->getKeys();
+		$fields[] = 'mailLogo';
+		$fields[] = 'loginLogo';
+		return $fields;
+	}
+
+	/**
+	 * Get record variables
+	 * @return array
+	 */
+	public function getRecordVariable()
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$variables = [];
+		foreach (static::$variableEntity as $key => $name) {
+			$variables['LBL_ENTITY_VARIABLES'][] = [
+				'var_value' => "$(record : $key)$",
+				'var_label' => "$(translate : $name)$",
+				'label' => $name
+			];
+		}
+		foreach ($moduleModel->getBlocks() as $blockModel) {
+			foreach ($blockModel->getFields() as $fieldModel) {
+				if ($fieldModel->isViewable()) {
+					$variables[$blockModel->get('label')][] = [
+						'var_value' => "$(record : {$fieldModel->getName()})$",
+						'var_label' => "$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})$",
+						'label' => $fieldModel->getFieldLabel()
+					];
+				}
+			}
+		}
+		return $variables;
+	}
+
+	/**
+	 * Get source variables
+	 * @return array
+	 */
+	public function getSourceVariable()
+	{
+		if (empty(\App\TextParser::$sourceModules[$this->moduleName])) {
+			return false;
+		}
+		$variables = [];
+		foreach (static::$variableEntity as $key => $name) {
+			$variables['LBL_ENTITY_VARIABLES'][] = [
+				'var_value' => "$(sourceRecord : $key)$",
+				'var_label' => "$(translate : $name)$",
+				'label' => Language::translate($name)
+			];
+		}
+		foreach (\App\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
+			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+			foreach ($moduleModel->getBlocks() as $blockModel) {
+				foreach ($blockModel->getFields() as $fieldModel) {
+					if ($fieldModel->isViewable()) {
+						$variables[$moduleName][$blockModel->get('label')][] = [
+							'var_value' => "$(sourceRecord : {$fieldModel->getName()})$",
+							'var_label' => "$(translate : $moduleName|{$fieldModel->getFieldLabel()})$",
+							'label' => Language::translate($fieldModel->getFieldLabel(), $moduleName)
+						];
+					}
+				}
+			}
+		}
+		return $variables;
+	}
+
+	/**
+	 * Get releted variables
+	 * @return array
+	 */
+	public function getReletedVariable()
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$variables = [];
+		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES');
+		foreach ($moduleModel->getFieldsByType(['reference', 'owner', 'multireference']) as $parentFieldName => $field) {
+			if ($field->getFieldDataType() === 'owner') {
+				$reletedModules = ['Users'];
+			} else {
+				$reletedModules = $field->getReferenceList();
+			}
+			$parentFieldNameLabel = Language::translate($field->getFieldLabel(), $this->moduleName);
+			foreach (static::$variableEntity as $key => $name) {
+				$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
+					'var_value' => "$(reletedRecord : $parentFieldName|$key)$",
+					'var_label' => "$(translate : $key)$",
+					'label' => $parentFieldNameLabel . ': ' . Language::translate($name)
+				];
+			}
+			foreach ($reletedModules as $reletedModule) {
+				$reletedModuleLang = Language::translate($reletedModule, $reletedModule);
+				$moduleModel = \Vtiger_Module_Model::getInstance($reletedModule);
+				foreach ($moduleModel->getBlocks() as $blockModel) {
+					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
+						if ($fieldModel->isViewable()) {
+							$labelGroup = "$parentFieldNameLabel: ($reletedModuleLang) " . Language::translate($blockModel->get('label'), $reletedModule);
+							$variables[$parentFieldName][$labelGroup][] = [
+								'var_value' => "$(reletedRecord : $parentFieldName|$fieldName|$reletedModule)$",
+								'var_label' => "$(translate : $reletedModule|{$fieldModel->getFieldLabel()})$",
+								'label' => "$parentFieldNameLabel: ($reletedModuleLang) " . Language::translate($fieldModel->getFieldLabel(), $reletedModule)
+							];
+						}
+					}
+				}
+			}
+		}
+		return $variables;
+	}
+
+	/**
+	 * Get general variables
+	 * @return array
+	 */
+	public function getGeneralVariable()
+	{
+		$variables = [
+			'LBL_ENTITY_VARIABLES' => array_map(function($value) {
+					return Language::translate($value);
+				}, array_flip(static::$variableGeneral))
+		];
+		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById()->getData();
+		unset($companyDetails['organization_id'], $companyDetails['panellogoname'], $companyDetails['height_panellogo'], $companyDetails['panellogo'], $companyDetails['logoname']);
+		$companyVariables = [];
+		foreach (array_keys($companyDetails) as $name) {
+			$companyVariables["$(organization : $name)$"] = Language::translate($name, 'Settings:Vtiger');
+		}
+		$companyVariables['$(organization : mailLogo)$'] = Language::translate('mailLogo', 'Settings:Vtiger');
+		$companyVariables['$(organization : loginLogo)$'] = Language::translate('loginLogo', 'Settings:Vtiger');
+		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
+		return $variables;
 	}
 }
