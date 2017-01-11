@@ -1,6 +1,7 @@
 <?php
 $modulesHierarchy = [
 	'Accounts' => ['level' => 0],
+	'Contacts' => ['level' => 0],
 	'Leads' => ['level' => 0],
 	'Vendors' => ['level' => 0],
 	'Partners' => ['level' => 0],
