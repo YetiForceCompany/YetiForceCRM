@@ -161,10 +161,8 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 				}
 			}
 			if (!$allValuesEmpty) {
-				$fieldNames = array_keys($mappedData);
-				$fieldValues = array_values($mappedData);
 				if (!$skip || !$importId || ($skip && $skipData !== $data[$skip])) {
-					$importId = $this->addRecordToDB($fieldNames, $fieldValues);
+					$importId = $this->addRecordToDB($mappedData);
 				}
 				if ($importId && $inventoryMappedData) {
 					$this->addInventoryToDB($inventoryMappedData, $importId);

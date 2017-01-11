@@ -13,7 +13,6 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	protected $fields = false;
 	protected $columns = false;
 	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
-	public static $hideColumn = ['discountparam', 'taxparam', 'currencyparam', 'qtyparam', 'recordIteration'];
 
 	/**
 	 * Create the name of the Inventory data table

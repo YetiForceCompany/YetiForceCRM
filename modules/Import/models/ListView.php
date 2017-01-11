@@ -97,11 +97,16 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
+	/**
+	 * Function adds conditions to query
+	 * @param \App\Db\Query $query
+	 * @return \App\Db\Query
+	 */
 	public function addLastImportedRecordConditions($query)
 	{
 		$moduleModel = $this->getModule();
 		$user = \App\User::getCurrentUserId();
-		$userDBTableName = Import_Utils_Helper::getDbTableName($user);
+		$userDBTableName = Import_Module_Model::getDbTableName($user);
 		$query->innerJoin($userDBTableName, $moduleModel->basetable . '.' . $moduleModel->basetableid . " = $userDBTableName.recordid");
 		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [Import_Data_Action::IMPORT_RECORD_FAILED, Import_Data_Action::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);
 		return $query;

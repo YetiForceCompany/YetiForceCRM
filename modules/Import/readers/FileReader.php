@@ -149,18 +149,16 @@ class Import_FileReader_Reader
 
 	/**
 	 * Function adds imported data to database
-	 * @param array $columnNames
-	 * @param array $fieldValues
+	 * @param array $data
 	 * @return int
 	 */
-	public function addRecordToDB($columnNames, $fieldValues)
+	public function addRecordToDB($data)
 	{
 		$db = \App\Db::getInstance();
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		$data = array_combine($columnNames, $fieldValues);
 		$result = $db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
-		return $db->getLastInsertID($tableName . 'id_seq');
+		return $db->getLastInsertID($tableName . '_id_seq');
 	}
 
 	/**

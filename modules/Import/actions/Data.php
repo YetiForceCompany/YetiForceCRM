@@ -33,6 +33,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	const IMPORT_RECORD_MERGED = 4;
 	const IMPORT_RECORD_FAILED = 5;
 
+	/**
+	 * Constructor
+	 * @param array $importInfo
+	 * @param Users_Record_Model $user
+	 */
 	public function __construct($importInfo, $user)
 	{
 		$this->id = $importInfo['id'];
@@ -41,7 +46,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$this->mergeType = $importInfo['merge_type'];
 		$this->mergeFields = $importInfo['merge_fields'];
 		$this->defaultValues = $importInfo['default_values'];
-		$this->type = $importInfo['type'];
 		$this->user = $user;
 	}
 

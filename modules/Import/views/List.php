@@ -20,6 +20,10 @@ class Import_List_View extends Vtiger_Popup_View
 		$this->exposeMethod('getImportDetails');
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -33,6 +37,7 @@ class Import_List_View extends Vtiger_Popup_View
 			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
 			$companyLogo = $companyDetails->getLogo();
 			$viewer->assign('COMPANY_LOGO', $companyLogo);
+			$viewer->assign('MODULE_NAME', $moduleName);
 
 			$viewer->view('Popup.tpl', $moduleName);
 		}

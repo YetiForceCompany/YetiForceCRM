@@ -15,6 +15,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('continueImport');
 		$this->exposeMethod('uploadAndParse');
 		$this->exposeMethod('importBasicStep');
 		$this->exposeMethod('import');
@@ -34,16 +35,16 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
-		global $VTIGER_BULK_SAVE_MODE;
-		$previousBulkSaveMode = $VTIGER_BULK_SAVE_MODE;
-		$VTIGER_BULK_SAVE_MODE = true;
-
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			// Added to check the status of import
-			if ($mode == 'continueImport' || $mode == 'uploadAndParse' || $mode == 'importBasicStep') {
+			if ($mode === 'continueImport' || $mode === 'uploadAndParse' || $mode === 'importBasicStep') {
 				$this->checkImportStatus($request);
 			}
 			$this->invokeExposedMethod($mode, $request);
@@ -51,8 +52,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$this->checkImportStatus($request);
 			$this->importBasicStep($request);
 		}
-
-		$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 	}
 
 	/**

@@ -5354,7 +5354,7 @@ CREATE TABLE `vtiger_import_maps` (
 /*Table structure for table `vtiger_import_queue` */
 
 CREATE TABLE `vtiger_import_queue` (
-  `importid` int(11) NOT NULL,
+  `importid` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `tabid` int(11) NOT NULL,
   `field_mapping` text,

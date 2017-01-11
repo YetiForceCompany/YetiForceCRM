@@ -93,26 +93,23 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 			$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
 			foreach ($recordsInventoryData as $index => $data) {
-				foreach ($inventoryFieldMapping as $fieldName => $key) {
-					$fieldValue = $data[$key];
-					if (in_array($fieldName, ['qty', 'price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
-						$fieldValue = CurrencyField::convertToDBFormat($fieldValue, null, true);
-					}
-					$inventoryMappedData[$index][$fieldName] = $fieldValue;
+				foreach ($data as $key => $fieldValue) {
+					$fieldName = array_search($key, $inventoryFieldMapping);
 					$fieldModel = $inventoryFields[$fieldName];
-					foreach ($fieldModel->getCustomColumn() as $columnParamsName => $dataType) {
-						if (in_array($columnParamsName, $columnsName)) {
-							$key = array_search($columnParamsName, $columnsName);
-							$inventoryMappedData[$index][$columnParamsName] = $data[$key];
+					if ($fieldModel) {
+						$inventoryMappedData[$index][$fieldName] = $fieldValue;
+						foreach ($fieldModel->getCustomColumn() as $columnParamsName => $dataType) {
+							if (in_array($columnParamsName, $columnsName)) {
+								$key = array_search($columnParamsName, $columnsName);
+								$inventoryMappedData[$index][$columnParamsName] = $data[$key];
+							}
 						}
 					}
 				}
 			}
 		}
 		if (!$allValuesEmpty) {
-			$fieldNames = array_keys($mappedData);
-			$fieldValues = array_values($mappedData);
-			$importId = $this->addRecordToDB($fieldNames, $fieldValues, $inventoryMappedData);
+			$importId = $this->addRecordToDB($mappedData);
 			if ($importId && $inventoryMappedData) {
 				$this->addInventoryToDB($inventoryMappedData, $importId);
 			}
@@ -172,7 +169,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		$labels = [];
 		$columnsName = [];
 		$index = -1;
-		$inc = 0;
 		while ($xmlToImport->read()) {
 			if ($xmlToImport->nodeType == XMLReader::ELEMENT) {
 				if ($xmlToImport->localName == 'INVENTORY_ITEM') {
@@ -181,7 +177,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 				}
 				$label = $xmlToImport->getAttribute('label');
 				if (empty($label)) {
-					$label = $inc++;
+					$label = $xmlToImport->localName;
 				}
 				$labels[$index][] = $label;
 				$columnsName[$index][] = $xmlToImport->localName;

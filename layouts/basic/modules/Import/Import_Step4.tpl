@@ -43,10 +43,13 @@
 				<tbody>
 					{assign var="_COUNTER" value=0}
 					{foreach key=TYPE_NAME item=FIELDS_DATA from=$ROW_1_DATA name="rowData"}
+						{if in_array($USER_INPUT->get('type'), ['xml', 'zip'])}{assign var="_COUNTER" value=0}{/if}
 						<tr class=""><td class="textAlignCenter bg-primary" colspan="4">{$TYPE_NAME|@vtranslate:$MODULE}</td></tr>
 							{if $smarty.foreach.rowData.iteration gt 1}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 								{assign var="PREFIX" value='inventory_'}
+								{assign var="INVENTORY_FIELDS" value=Vtiger_InventoryField_Model::getInstance($FOR_MODULE)->getColumns()}
+								{array_push($INVENTORY_FIELDS, 'recordIteration')}
 							{else}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$AVAILABLE_BLOCKS}
 								{assign var="PREFIX" value=''}
@@ -58,7 +61,7 @@
 								{/if}
 								{assign var="_COUNTER" value=$_COUNTER+1}
 								{if $PREFIX && is_numeric($_HEADER_NAME)} {continue} {/if}
-							<tr class="fieldIdentifier {if $PREFIX && in_array($_HEADER_NAME, Vtiger_InventoryField_Model::$hideColumn)} hide {/if}" id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
+							<tr class="fieldIdentifier {if $PREFIX && in_array($_HEADER_NAME, $INVENTORY_FIELDS)} hide {/if}" id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
 								{if $HAS_HEADER eq true}
 									<td class="cellLabel">
 										<span name="header_name">{$_HEADER_NAME}</span>
