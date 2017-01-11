@@ -111,8 +111,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 
 		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
 		$reference = $fieldModel->getReferenceList();
-
-		$rows = \App\Record::getCrmIdBySearchLabel($searchValue, $reference);
+		$rows = (new \App\RecordSearch($searchValue, $reference))->search();
 		$data = $modules = $ids = [];
 		foreach ($rows as &$row) {
 			$ids[] = $row['crmid'];

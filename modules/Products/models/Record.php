@@ -155,7 +155,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
+	public static function getSearchResult($searchKey, $moduleName = false, $limit = false, $operator = false)
 	{
 		$query = false;
 		if ($moduleName !== false && ($moduleName == 'Products' || $moduleName == 'Services' )) {
@@ -201,7 +201,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$rows = [];
 		if (!$query) {
-			$rows = \App\Record::getCrmIdBySearchLabel($searchKey, $moduleName, $limit);
+			$recordSearch = new \App\RecordSearch($searchKey, $moduleName, $limit);
+			if ($operator) {
+				$recordSearch->operator = $operator;
+			}
+			$rows = $recordSearch->search();
 		} else {
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {

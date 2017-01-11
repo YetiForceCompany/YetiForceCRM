@@ -19,6 +19,7 @@ class RecordSearch
 	public $table = 'searchLabel'; //searchLabel, label
 	public $operator = 'contains'; // contains,begin,ends,fulltext 
 	public $checkPermissions = true;
+	private $moduleConditions = ['Leads' => ['vtiger_leaddetails.converted' => 0]];
 
 	/**
 	 * Construct
@@ -40,7 +41,7 @@ class RecordSearch
 	 */
 	public function search()
 	{
-		$cacheKey = "$this->searchValue,$this->moduleName,$this->limit";
+		$cacheKey = "$this->searchValue,$this->limit," . ($this->moduleName ? implode(',', $this->moduleName) : '');
 		if ($this->useCache && Cache::has('RecordSearch', $cacheKey)) {
 			return Cache::get('RecordSearch', $cacheKey);
 		}
@@ -91,6 +92,9 @@ class RecordSearch
 		}
 		if ($this->moduleName) {
 			$where[] = ['csl.setype' => $this->moduleName];
+			if (is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
+				$where[] = $this->moduleConditions[$this->moduleName];
+			}
 		} elseif ($this->entityName) {
 			$where[] = ['vtiger_entityname.turn_off' => 1];
 			$query->innerJoin('vtiger_entityname', 'csl.setype = vtiger_entityname.modulename');

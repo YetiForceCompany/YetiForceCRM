@@ -48,50 +48,6 @@ class Record
 		return $multiMode ? $result : array_shift($result);
 	}
 
-	protected static $crmidByLabelCache = [];
-
-	/**
-	 * Function searches for record ID with given label
-	 * @param string $label
-	 * @param string $moduleName
-	 * @param int $limit
-	 * @param bool $entityName
-	 * @return array
-	 */
-	public static function getCrmIdBySearchLabel($label, $moduleName = false, $limit = 20, $entityName = true)
-	{
-		if (isset(static::$crmidByLabelCache[$label])) {
-			$crmIds = static::$crmidByLabelCache[$label];
-		} else {
-			$userId = \App\User::getCurrentUserId();
-			$crmIds = [];
-			$query = (new \App\Db\Query())
-				->select(['csl.crmid', 'csl.setype', 'csl.searchlabel'])
-				->from('u_#__crmentity_search_label csl')
-				->where(['like', 'csl.userid', ",$userId,"])
-				->innerJoin('vtiger_crmentity', 'csl.crmid = vtiger_crmentity.crmid')
-				->andWhere(['like', 'csl.searchlabel', $label]);
-			if ($moduleName) {
-				$query->andWhere(['csl.setype' => $moduleName]);
-			} elseif ($entityName) {
-				$query->andWhere(['vtiger_entityname.turn_off' => 1]);
-				$query->innerJoin('vtiger_entityname', 'csl.setype = vtiger_entityname.modulename');
-				if (\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
-					$query->orderBy('vtiger_entityname.sequence');
-				}
-			}
-			if ($limit) {
-				$query->limit($limit);
-			}
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$crmIds[] = $row;
-			}
-			static::$crmidByLabelCache[$label] = $crmIds;
-		}
-		return $crmIds;
-	}
-
 	/**
 	 * Function searches for record ID with given label
 	 * @param string $moduleName
