@@ -166,6 +166,15 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		Import_Main_View::import($request, $user);
 	}
 
+	/**
+	 * Continue import
+	 * @param Vtiger_Request $request
+	 */
+	public function continueImport(Vtiger_Request $request)
+	{
+		$this->checkImportStatus($request);
+	}
+
 	public function undoImport(Vtiger_Request $request)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');

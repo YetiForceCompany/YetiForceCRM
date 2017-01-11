@@ -432,13 +432,16 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_import_queue' => [
 				'columns' => [
 					'importid' => $this->primaryKey(),
-					'userid' => $this->integer()->notNull(),
-					'tabid' => $this->integer()->notNull(),
+					'userid' => $this->integer(11)->notNull(),
+					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
 					'field_mapping' => $this->text(),
 					'default_values' => $this->text(),
 					'merge_type' => $this->integer(),
 					'merge_fields' => $this->text(),
-					'temp_status' => $this->integer()->defaultValue(0),
+					'temp_status' => $this->smallInteger(1)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'temp_status' => "tinyint(1) NULL DEFAULT '0'",
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

@@ -5356,12 +5356,12 @@ CREATE TABLE `vtiger_import_maps` (
 CREATE TABLE `vtiger_import_queue` (
   `importid` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
-  `tabid` int(11) NOT NULL,
+  `tabid` smallint(11) unsigned NOT NULL,
   `field_mapping` text,
   `default_values` text,
   `merge_type` int(11) DEFAULT NULL,
   `merge_fields` text,
-  `temp_status` int(11) DEFAULT '0',
+  `temp_status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`importid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
