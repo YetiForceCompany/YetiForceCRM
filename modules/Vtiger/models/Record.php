@@ -532,12 +532,16 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $module = false, $limit = false)
+	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
 	{
 		if (!$limit) {
 			$limit = AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
-		$rows = \App\Record::getCrmIdBySearchLabel($searchKey, $module, $limit);
+		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
+		if ($operator) {
+			$recordSearch->operator = $operator;
+		}
+		$rows = $recordSearch->search();
 		$ids = $matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
 			$ids[] = $row['crmid'];

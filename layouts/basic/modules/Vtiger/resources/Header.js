@@ -600,13 +600,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.focus();
 			return false;
 		}
-		var basicSearch = new Vtiger_BasicSearch_Js();
 		var progress = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
+		var basicSearch = new Vtiger_BasicSearch_Js();
 		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
 		basicSearch.search(val).then(function (data) {
 			basicSearch.showSearchResults(data);
