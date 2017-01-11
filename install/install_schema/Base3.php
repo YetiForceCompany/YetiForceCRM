@@ -438,7 +438,6 @@ class Base3 extends \App\Db\Importers\Base
 					'default_values' => $this->text(),
 					'merge_type' => $this->integer(),
 					'merge_fields' => $this->text(),
-					'type' => $this->smallInteger(1),
 					'temp_status' => $this->integer()->defaultValue(0),
 				],
 				'engine' => 'InnoDB',
