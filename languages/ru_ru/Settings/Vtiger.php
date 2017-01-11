@@ -437,6 +437,5 @@ $jsLanguageStrings = [
 	'LBL_WRONG_IMAGE_TYPE' => 'Не поддерживаемый формат изображения',
 	'JS_COLUMN_ADDED' => 'Поле успешно добавлено',
 	'JS_COLUMN_EXIST' => 'Ошибка добавления поля',
-	'JS_NOTIFY_COPY_TEXT' => 'Скопировать в буфер',
-	'JS_NOTIFY_COPY_TITLE' => 'Текст',
+	'JS_NOTIFY_COPY_TEXT' => 'Copied variable to clipboard',
 ];
