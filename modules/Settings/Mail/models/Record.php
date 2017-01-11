@@ -104,10 +104,11 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 							$path = $name;
 							$name = 'LBL_FILE';
 						}
-						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record=".$this->getId()."&selectedFile=$fileCounter";
-						$value .= '<a href="' . $actionPath . '" title="' . $path . '">' . $name . '</a>, ';
+						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record={$this->getId()}&selectedFile=$fileCounter";
+						$value .= "<a href=\"$actionPath\" title=\"$path\">$name</a>, ";
 						$fileCounter++;
 					}
+
 					$value = rtrim($value, ', ');
 				}
 				break;

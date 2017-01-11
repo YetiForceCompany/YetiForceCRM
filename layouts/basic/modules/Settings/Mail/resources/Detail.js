@@ -33,13 +33,13 @@ Settings_Vtiger_Detail_Js("Settings_Mail_Detail_Js", {}, {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				action: 'SendManuallyAjax',
-				id: $('#recordId').val()
+				id: container.find('#recordId').val()
 			}).then(
 					function (data) {
 						progressIndicator.progressIndicator({'mode': 'hide'});
 						Settings_Vtiger_Index_Js.showMessage({text: data.result.message});
-						$('.sendManually').remove()
-						$('.deleteButton').remove()
+						container.find('.sendManually').remove()
+						container.find('.deleteButton').remove()
 					},
 					function (error) {
 						progressIndicator.progressIndicator({'mode': 'hide'});

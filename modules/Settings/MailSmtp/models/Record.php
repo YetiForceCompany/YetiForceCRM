@@ -158,7 +158,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($id)
 	{
-		$row = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id])->one(\App\Db::getInstance('admin'));;
+		$row = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id])->one(\App\Db::getInstance('admin'));
 		$instance = false;
 		if ($row) {
 			$instance = new self();
