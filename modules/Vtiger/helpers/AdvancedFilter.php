@@ -94,6 +94,7 @@ class Vtiger_AdvancedFilter_Helper
 			'boolean' => ['is', 'is not', 'has changed'],
 			'reference' => ['has changed', 'is empty', 'is not empty'],
 			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
+			'sharedOwner' => ['has changed', 'is', 'is not'],
 			'recurrence' => ['is', 'is not', 'has changed'],
 			'comment' => ['is added'],
 			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],

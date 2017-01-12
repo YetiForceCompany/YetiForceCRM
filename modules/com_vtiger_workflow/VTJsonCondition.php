@@ -188,6 +188,14 @@ class VTJsonCondition
 				case 'multiReferenceValue':
 					$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
 					break;
+				case 'sharedOwner':
+					if ($condition === 'is' || $condition === 'is not') {
+						$fieldValueTemp = $value;
+						$value = explode(',', $fieldValue);
+						$fieldValue = $fieldValueTemp;
+						$condition = ($condition == 'is') ? 'contains' : 'does not contain';
+					}
+					break;
 				case 'owner':
 					if ($condition === 'is' || $condition === 'is not') {
 						//To avoid again checking whether it is user or not 
