@@ -1237,13 +1237,14 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				url += '&search_params=[[';
 				var owner = container.find('.widgetFilter.owner option:selected');
 				if (owner.val() != 'all') {
-					url += '["assigned_user_id","c","' + owner.val() + '"],';
+					url += '["assigned_user_id","e","' + owner.val() + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
 					url += '["activitystatus","e","' + status[params.time] + '"],';
 				}
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
+				var data = $(this).data('date');
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + data + ',' + data + '"]]]';
 			});
 		});
 	},

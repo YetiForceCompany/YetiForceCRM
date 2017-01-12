@@ -127,14 +127,4 @@ class DateField extends BaseField
 	{
 		return ['>', $this->getColumnName(), $this->getValue()];
 	}
-
-	/**
-	 * DashBoard Calendar widget listview operator
-	 * @return array
-	 */
-	public function operatorIr()
-	{
-		$value = $this->getValue();
-		return ['and', ['<=', $this->getColumnName(), $value . ' 00:00:00'], ['>=', 'vtiger_activity.due_date', $value . ' 23:59:59']];
-	}
 }
