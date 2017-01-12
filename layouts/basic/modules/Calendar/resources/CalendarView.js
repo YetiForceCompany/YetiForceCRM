@@ -623,7 +623,20 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 		});
 	},
+	loadDefaultValues: function() {
+		if (app.moduleCacheGet('defaultSwitchingDays') == 'all') {
+			app.setMainParams('switchingDays', 'all');
+		} else {
+			app.setMainParams('switchingDays', 'workDays');
+		}
+		if (app.moduleCacheGet('defaultShowType') == 'history') {
+			app.setMainParams('showType', 'history');
+		} else {
+			app.setMainParams('showType', 'current');
+		}
+	},
 	registerEvents: function () {
+		this.loadDefaultValues();
 		this.renderCalendar();
 		this.registerCacheSettings();
 		this.registerAddButton();
