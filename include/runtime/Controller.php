@@ -182,9 +182,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
-			if ($request->getModule() === 'Users') {
-				$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-			}
 			$this->viewer = $viewer;
 		}
 		return $this->viewer;
