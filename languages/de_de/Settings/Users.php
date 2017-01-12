@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_GROUPS_COLORS' => 'Farbgruppe',
 	'LBL_GROUP_NAME' => 'Gruppenname',
 	'LBL_PRIORITY' => 'Priorität',
-	'LBL_LDAP_RECOMMENDED_INFO' => 'We do not recommend selecting users with admin permissions for LDAP authorization. In case of authorization problems there must be a user who is able to log in without LDAP integration.',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Wir empfehlen keine Benutzer mit Adminberechtigung für die LDAP Anmeldung zu wählen. Zur Lösung von Anmeldeproblemen sollten dies Benutzer sein, welche keine LDAP Authentifizierung benötigen.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',

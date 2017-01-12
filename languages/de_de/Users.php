@@ -238,7 +238,7 @@ $languageStrings = [
 	'Invalid username or password.' => 'Ungültiger Benutzername oder Passwort.',
 	'Too many failed login attempts.' => 'Zu viele fehlgeschlagene Anmeldeversuche.',
 	'Outgoing mail server was not configured.' => 'Postausgangsserver wurde nicht konfiguriert.',
-	'Mail has been sent to your inbox, please check your e-mail.' => 'Mail wurde an Ihren Posteingang gesendet, prüfen Sie bitte Ihre E-Mail.',
+	'Mail has been sent to your inbox, please check your e-mail.' => 'E-Mail wurde an Ihren Posteingang gesendet, prüfen Sie bitte Ihre E-Mail.',
 	'Invalid Username or Email address.' => 'Ungültiger Benutzername oder E-Mail-Adresse.',
 	'Please enter valid username' => 'Bitte geben Sie einen gültigen Benutzernamen ein',
 	'Please enater valid email address' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
@@ -308,7 +308,7 @@ $languageStrings = [
 	"Marketing Department" => 'Marketing',
 	'LBL_MASS_PASSWORD_EDITING' => 'Massenbearbeitung der Benutzer Passwörter',
 	'LBL_MASS_PWD_EDIT' => 'Massenbearbeitung der Passwörter',
-	'Approval for email' => 'Berechtigung zum Senden von Mails',
+	'Approval for email' => 'Berechtigung zum Senden von E-Mails',
 	'LBL_GENERATED_COLOR' => 'Farbe generiert',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 	'LBL_EMAIL' => 'E-Mail',
@@ -328,7 +328,7 @@ $languageStrings = [
 
 $jsLanguageStrings = [
 	//Curency separator validation messages
-	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen darf nicht gleich sein',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Bitte Passwort bestätigen',
 	'JS_ENTER_NEW_PASSWORD' => 'Bitte geben Sie Ihr neues Passwort ein.',
 	'JS_ENTER_OLD_PASSWORD' => 'Bitte geben Sie Ihr altes Passwort ein.',
