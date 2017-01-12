@@ -32,7 +32,7 @@
 		<input type="hidden" name="schdayofthemonth" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('schdayofthemonth')))}">
 		<input type="hidden" name="schannualdates" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('schannualdates')))}">
 		<input type="hidden" name="recipients" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('recipients')))}">
-        <input type="hidden" name="specificemails" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('specificemails')))}">
+        <input type="hidden" name="specificemails" value="{$REPORT_MODEL->get('specificemails')}">
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
 		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
         <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
