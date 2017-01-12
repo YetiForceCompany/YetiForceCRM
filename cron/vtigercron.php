@@ -51,7 +51,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 			// Not ready to run yet?
 			if ($cronTask->isRunning()) {
-				\App\Log::error($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
+				\App\Log::trace($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
 				echo sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}

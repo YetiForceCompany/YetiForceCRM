@@ -427,7 +427,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 						return 'ok';
 					}
 				} else {
-					\App\Log::error('Incorrect mail access data: ' . $account['username'] . ' , ' . $folder);
+					\App\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , Error: " . imap_last_error());
 				}
 			}
 		}
