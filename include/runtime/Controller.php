@@ -178,9 +178,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				if ($request->get('parent') == 'Settings') {
+				if ($request->get('parent') === 'Settings') {
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
+			}
+			if ($request->getModule() === 'Users') {
+				$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 			}
 			$this->viewer = $viewer;
 		}
