@@ -37,7 +37,11 @@ class VTJsonCondition
 					list($full, $referenceField, $referenceModule, $fieldname) = $matches;
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
-						$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
+						if ($referenceModule === 'Users') {
+							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId, $referenceModule);
+						} else {
+							$referenceRecordModel = Vtiger_Record_Model::getInstanceById($referenceFieldId);
+						}
 						$cond['fieldname'] = $fieldname;
 						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($referenceRecordModel, $cond, $recordModel);
 					} else {
