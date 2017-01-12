@@ -524,7 +524,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$actionEnabled = false;
 		if ($moduleModel->isEntityModule() || $moduleModel->isUtilityActionEnabled()) {
 			if (isset($permissions['actions']) || $moduleModel->isUtilityActionEnabled()) {
-				$actionPermissions = $permissions['actions'];
+				$actionPermissions = isset($permissions['actions']) ? $permissions['actions'] : [];
 				$actionsIdsList = Vtiger_Action_Model::$standardActions;
 				//Dividing on actions
 				$utilityIdsList = [];
