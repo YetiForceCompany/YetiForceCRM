@@ -371,6 +371,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_senotesrel', 'vtiger_senotesrel.notesid= vtiger_notes.notesid']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentity crm2', 'crm2.crmid = vtiger_senotesrel.crmid']);
 		$queryGenerator->addNativeCondition(['crm2.crmid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->setOrder('id', 'DESC');
 	}
 
 	/**
