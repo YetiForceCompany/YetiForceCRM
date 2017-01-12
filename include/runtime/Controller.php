@@ -189,9 +189,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	public function getPageTitle(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleLabel = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = vtranslate($moduleLabel, $moduleName);
+		$moduleName = $request->getModule(false);
+		$moduleNameArray = explode(':', $moduleName);
+		$moduleLabel = end($moduleNameArray) == 'Vtiger' ? 'YetiForce' : end($moduleNameArray);
+		$title = App\Language::translate($moduleLabel, $moduleName);
 		$pageTitle = $this->getBreadcrumbTitle($request);
 		if ($pageTitle) {
 			$title .= ' - ' . $pageTitle;
