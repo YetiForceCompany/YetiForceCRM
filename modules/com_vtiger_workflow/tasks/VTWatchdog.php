@@ -50,7 +50,7 @@ class VTWatchdog extends VTTask
 		}
 		$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
 		$notification = Vtiger_Record_Model::getCleanInstance('Notification');
-		$notification->set('shownerid', $users);
+		$notification->set('shownerid', implode(',', $users));
 		$notification->set($relatedField, $recordId);
 		$notification->set('title', $this->title);
 		$notification->set('description', $this->message);
