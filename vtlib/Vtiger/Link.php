@@ -177,7 +177,7 @@ class Link
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
 					$permittedTabIdList = getPermittedModuleIdList();
-					if (!empty($permittedTabIdList) && !$currentUser->isAdminUser()) {
+					if (!empty($permittedTabIdList)) {
 						$permittedTabIdList [] = 0;  // Added to support one link for all modules
 						foreach ($permittedTabIdList as $moduleId) {
 							foreach ($type as $typ) {
