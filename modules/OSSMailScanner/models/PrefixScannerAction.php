@@ -53,7 +53,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 				->from($this->tableName)
 				->innerJoin('vtiger_crmentity', "$this->tableName.$tableIndex = vtiger_crmentity.crmid")
 				->where(['vtiger_crmentity.deleted' => 0, $this->tableName . '.' . $this->tableColumn => $this->prefix])
-				->one();
+				->scalar();
 			if ($crmId) {
 				\App\Cache::save('getRecordByPrefix', $this->prefix, $crmId, \App\Cache::LONG);
 			}

@@ -740,7 +740,7 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new GetGroupUsers();
+							$focusGrpUsers = new \GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -754,7 +754,7 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -768,7 +768,7 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -795,7 +795,7 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new GetGroupUsers();
+							$focusGrpUsers = new \GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -809,7 +809,7 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -823,7 +823,7 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -850,7 +850,7 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new GetGroupUsers();
+							$focusGrpUsers = new \GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -864,7 +864,7 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -878,7 +878,7 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -905,7 +905,7 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new GetGroupUsers();
+							$focusGrpUsers = new \GetGroupUsers();
 							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -919,7 +919,7 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -933,7 +933,7 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new GetGroupUsers();
+						$focusGrpUsers = new \GetGroupUsers();
 						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
 						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
 						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
@@ -953,7 +953,7 @@ class PrivilegeUtil
 			//Get roles from Us2Us 
 			$rows = static::getDatashare('user2user', $modTabId, $userid);
 			foreach ($rows as &$row) {
-				$shareUserId = $row['share_groupid'];
+				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;
@@ -977,7 +977,7 @@ class PrivilegeUtil
 			//Get roles from Us2Grp 
 			$rows = static::getDatashare('user2group', $modTabId, $groupList);
 			foreach ($rows as &$row) {
-				$shareUserId = $row['share_groupid'];
+				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
 				$shareIdUsers[] = $shareUserId;

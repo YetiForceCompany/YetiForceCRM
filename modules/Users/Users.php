@@ -344,7 +344,7 @@ class Users extends CRMEntity
 				}
 				return $bind;
 			} else {
-				\App\Log::error($userName . ' user does not belong to the LDAP');
+				\App\Log::trace($userName . ' user does not belong to the LDAP');
 			}
 			\App\Log::trace('End LDAP authentication');
 		}

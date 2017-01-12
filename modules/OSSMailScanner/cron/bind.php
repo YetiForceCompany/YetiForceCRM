@@ -48,12 +48,14 @@ while ($relationRow = $db->getRow($result)) {
 			}
 		}
 	}
-	$query = 'SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE ';
-	$query .= implode(' OR ', $where);
-	$resultMail = $db->query($query);
-	if ($db->getRowCount($resultMail)) {
-		while ($row = $db->getRow($resultMail)) {
-			$scanerModel->bindMail($row);
+	if (!empty($where)) {
+		$query = 'SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE ';
+		$query .= implode(' OR ', $where);
+		$resultMail = $db->query($query);
+		if ($db->getRowCount($resultMail)) {
+			while ($row = $db->getRow($resultMail)) {
+				$scanerModel->bindMail($row);
+			}
 		}
 	}
 	$db->delete('s_yf_mail_relation_updater', 'crmid = ?', [$relationRow['crmid']]);
