@@ -881,6 +881,7 @@ class Base1 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 					'content' => $this->text(),
 					'sys_name' => $this->stringType(50),
+					'email_template_priority' => $this->smallInteger(1)->defaultValue(1)
 				],
 				'index' => [
 					['emailtemplates_sys_name_idx', 'sys_name'],
