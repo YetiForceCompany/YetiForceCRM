@@ -17,7 +17,7 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
-		if(empty($currentDashboard)) {
+		if (empty($currentDashboard)) {
 			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$viewer = $this->getViewer($request);

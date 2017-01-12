@@ -20,9 +20,10 @@
 						<ul class="nav nav-tabs massEditTabs selectDashboard">
 							{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 								<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-									<a data-toggle="tab"><strong>{$DASHBOARD['name']}</strong></a>
+									<a data-toggle="tab"><strong>{vtranslate($DASHBOARD['name'])}</strong></a>
 								</li>
 							{/foreach}
 						</ul>
 					{/if}
+					{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
 				{/strip}

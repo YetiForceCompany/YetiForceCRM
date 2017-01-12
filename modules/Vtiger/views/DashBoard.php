@@ -25,9 +25,11 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-
+		if (empty($sourceModule)) {
+			$sourceModule = $moduleName;
+		}
 		$currentDashboard = $request->get('dashboardId');
-		if(empty($currentDashboard)) {
+		if (empty($currentDashboard)) {
 			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
@@ -61,7 +63,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
-		if(empty($currentDashboard)) {
+		if (empty($currentDashboard)) {
 			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
@@ -76,7 +78,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			$widgets = [];
 		}
-		
+
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
@@ -99,7 +101,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
-		if(empty($currentDashboard)) {
+		if (empty($currentDashboard)) {
 			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
 		}
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
