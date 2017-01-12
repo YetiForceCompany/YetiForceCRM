@@ -270,7 +270,7 @@ class VTJsonCondition
 				if ($hasChanged === false) {
 					return false;
 				} else {
-					return $fieldValue == $value;
+					return $fieldValue != $hasChanged;
 				}
 			case 'is empty':
 				if (empty($fieldValue)) {
