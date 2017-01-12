@@ -149,7 +149,7 @@ class Install_Utils_Model
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..') {
 				if (file_exists($dir . $ff . '/Install.php')) {
-					$langs[$ff] = \App\Language::translateArgs('LANGNAME', 'Install', $ff);
+					$langs[$ff] = \App\Language::translate('LANGNAME', 'Install', $ff);
 				}
 			}
 		}

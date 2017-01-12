@@ -26,7 +26,7 @@ class Install_ConfigFileUtils_Model
 	private $default_language;
 	private $timezone;
 
-	public function Install_ConfigFileUtils_Model($configFileParameters)
+	public function __construct($configFileParameters)
 	{
 		if (isset($configFileParameters['db_hostname'])) {
 			if (strpos($configFileParameters['db_hostname'], ":")) {

@@ -16,9 +16,9 @@ class Language
 	 * @param string $moduleName - module scope in which the translation need to be check
 	 * @return string - translated string
 	 */
-	public static function translate($key, $moduleName = 'Vtiger')
+	public static function translate($key, $moduleName = 'Vtiger', $currentLanguage = false)
 	{
-		return \Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+		return \Vtiger_Language_Handler::getTranslatedString($key, $moduleName, $currentLanguage);
 	}
 
 	/**
