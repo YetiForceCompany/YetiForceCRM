@@ -65,7 +65,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Prepare value to save
 	 * @return array
@@ -76,6 +76,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$forSave['vtiger_modcomments']['userid'] = App\User::getCurrentUserId();
 		return $forSave;
 	}
+
 	/**
 	 * Function to create an instance of ModComment_Record_Model
 	 * @param <Integer> $record
@@ -186,7 +187,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setFields(['id', 'parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'from_mailconverter']);
 		$queryGenerator->setSourceRecord($parentRecordId);
 		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
-		$query = $queryGenerator->createQuery();
+		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
 		if ($pagingModel->get('limit') !== 'no_limit') {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
@@ -220,7 +221,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$queryGenerator->addNativeCondition(['related_to' => $recordIds]);
 		}
 		$queryGenerator->addNativeCondition(['parent_comments' => 0]);
-		$dataReader =$queryGenerator->createQuery()
+		$dataReader = $queryGenerator->createQuery()
 				->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC])
 				->createCommand()->query();
 		$recordInstances = [];

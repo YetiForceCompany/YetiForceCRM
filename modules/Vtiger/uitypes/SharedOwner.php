@@ -168,8 +168,8 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($cvId);
 		$queryGenerator->setFields([]);
-		$queryGenerator->setCustomColumn('u_yf_crmentity_showners.userid');
-		$queryGenerator->addJoin(['INNER JOIN', 'u_yf_crmentity_showners', "{$queryGenerator->getColumnName('id')} = u_yf_crmentity_showners.crmid"]);
+		$queryGenerator->setCustomColumn('u_#__crmentity_showners.userid');
+		$queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "{$queryGenerator->getColumnName('id')} = u_#__crmentity_showners.crmid"]);
 		$dataReader = $queryGenerator->createQuery()->distinct()->createCommand()->query();
 		$users = $group = [];
 		while ($id = $dataReader->readColumn(0)) {
