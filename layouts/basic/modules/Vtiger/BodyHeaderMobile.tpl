@@ -4,11 +4,11 @@
 		<div class="row">
 			<div class="dropdown quickAction historyBtn">
 				<div class="pull-left">
-					{vtranslate('LBL_PAGES_HISTORY',$MODULE)}
+					{\App\Language::translate('LBL_PAGES_HISTORY')}
 				</div>						
 				<div class="pull-right">
 					<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-						<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+						<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{\App\Language::translate('LBL_PAGES_HISTORY')}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
 					</a>
 				</div>
 			</div>
@@ -17,10 +17,10 @@
 			<div class="row">
 				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
-						{vtranslate('LBL_REMINDER',$MODULE)}
+						{\App\Language::translate('LBL_REMINDER')}
 					</div>	
 					<div class="pull-right">
-						<a class="btn btn-default" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
+						<a class="btn btn-default" title="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 							<span class="badge hide bgDanger">0</span>
 						</a>
@@ -32,10 +32,10 @@
 			<div class="row">
 				<div class="headerLinksAJAXChat quickAction">
 					<div class="pull-left">
-						{vtranslate('LBL_CHAT',$MODULE)}
+						{\App\Language::translate('LBL_CHAT')}
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-default ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+						<a class="btn btn-default ChatIcon" title="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
 					</div>
@@ -46,10 +46,10 @@
 			<div class="row">
 				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
-						{vtranslate('LBL_NOTIFICATIONS',$MODULE)}
+						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
  					<div class="pull-right">
- 						<a class="btn btn-default isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Notification&view=List">
+ 						<a class="btn btn-default isBadge" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
@@ -60,17 +60,17 @@
 		<div class='row'>
 			<div class="dropdown quickAction">
 				<div class='pull-left'>
-					{vtranslate('LBL_QUICK_CREATE',$MODULE)}
+					{\App\Language::translate('LBL_QUICK_CREATE')}
 				</div>
 				<div class='pull-right'>
-					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
+					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 						<li class="quickCreateModules">
 							<div class="panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
+									<h4 class="panel-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
 								</div>
 								<div class="panel-body paddingLRZero">
 									{assign var='count' value=0}
@@ -86,7 +86,7 @@
 												{/if}
 												<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 													<a class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-														<span>{vtranslate($singularLabel,$NAME)}</span>
+														<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 													</a>
 												</div>
 												{if $count % 3 == 2}
@@ -109,8 +109,8 @@
 	{if AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="searchMenu globalSearchInput">
 			<div class="input-group">
-				<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
-					<option value="" class="globalSearch_module_All">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
+				<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+					<option value="" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 					{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
 							<option value="{$MODULE_NAME}" selected>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>

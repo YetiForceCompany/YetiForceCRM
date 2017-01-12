@@ -7,14 +7,14 @@
 				<div class="pull-right rightHeaderBtn">
 					<div class="dropdown quickAction historyBtn">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-							<img class='dropdown-toggle alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+							<img class='dropdown-toggle alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{\App\Language::translate('LBL_PAGES_HISTORY')}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
 						</a>
 					</div>
 				</div>
 				{if $REMINDER_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
 						<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-							<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_REMINDER',$MODULE)}" href="#">
+							<a class="btn btn-default btn-sm isBadge" title="{\App\Language::translate('LBL_REMINDER')}" href="#">
 								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 								<span class="badge bgDanger hide">0</span>
 							</a>
@@ -24,7 +24,7 @@
 				{if $CHAT_ACTIVE}
 					<div class="pull-right rightHeaderBtn">
 						<div class="headerLinksAJAXChat quickAction">
-							<a class="btn btn-default btn-sm ChatIcon" title="{vtranslate('LBL_CHAT',$MODULE)}" href="#">
+							<a class="btn btn-default btn-sm ChatIcon" title="{\App\Language::translate('LBL_CHAT')}" href="#">
 								<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 							</a>
 						</div>
@@ -34,7 +34,7 @@
 					<div class="pull-right rightHeaderBtn">
 						<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 							<div class="btn-group">
-								<a class="btn btn-default btn-sm isBadge" title="{vtranslate('LBL_NOTIFICATIONS',$MODULE)}" href="index.php?module=Notification&view=List">
+								<a class="btn btn-default btn-sm isBadge" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
 									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 									<span class="badge hide">0</span>
 								</a>
@@ -46,14 +46,14 @@
 				{if !empty($QUICKCREATE_MODULES)}
 					<div class="pull-right rightHeaderBtn">
 						<div class="dropdown quickAction">
-							<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" href="#">
+						<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 								<li class="quickCreateModules">
 									<div class="panel-default">
 										<div class="panel-heading">
-											<h4 class="panel-title"><strong>{vtranslate('LBL_QUICK_CREATE',$MODULE)}</strong></h4>
+											<h4 class="panel-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
 										</div>
 										<div class="panel-body paddingLRZero">
 											{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
@@ -91,8 +91,8 @@
 					<div class="pull-left selectSearch">
 						<div class="input-group globalSearchInput">
 							<span class="input-group-btn">
-								<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
-									<option value="">{vtranslate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
+								<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+									<option value="">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 									{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
 										{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
 											<option value="{$SEARCHABLE_MODULE}" selected>{vtranslate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>

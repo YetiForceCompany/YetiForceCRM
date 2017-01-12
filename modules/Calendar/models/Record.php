@@ -269,7 +269,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get recurring information for the current record in detail view
-	 * @return <Array> - which contains Recurring Information
+	 * @return array - which contains Recurring Information
 	 */
 	public function getRecurringDetails()
 	{
@@ -278,7 +278,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$recurringInfoDisplayData = $recurringObject->getDisplayRecurringInfo();
 			$recurringEndDate = $recurringObject->getRecurringEndDate();
 		} else {
-			$recurringInfoDisplayData['recurringcheck'] = vtranslate('LBL_NO', $currentModule);
+			$recurringInfoDisplayData['recurringcheck'] = \App\Language::translate('LBL_NO');
 			$recurringInfoDisplayData['repeat_str'] = '';
 		}
 		if (!empty($recurringEndDate)) {
