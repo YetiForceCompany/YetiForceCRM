@@ -6,7 +6,7 @@
 	<nav>		
 		<ul class="pagination" data-total-count="{$LISTVIEW_COUNT}">
 			<li class="{if $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage" data-id="1" >
-				<span aria-hidden="true">{vtranslate('LBL_FIRST', $MODULE)}</span>
+				<span aria-hidden="true">{vtranslate('LBL_FIRST')}</span>
 			</li>
 			<li class="{if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if}" id="{$VIEWNAME}ViewPreviousPageButton">
 				<span aria-hidden="true">&laquo;</span>
