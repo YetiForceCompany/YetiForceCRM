@@ -83,14 +83,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				$value = DateTimeField::convertToUserFormat($value);
 				break;
 			case 'from':
-				$value = $this->getDisplayValueForEmail($value);
-				break;
 			case 'to':
-				$value = $this->getDisplayValueForEmail($value);
-				break;
 			case 'cc':
-				$value = $this->getDisplayValueForEmail($value);
-				break;
 			case 'bcc':
 				$value = $this->getDisplayValueForEmail($value);
 				break;

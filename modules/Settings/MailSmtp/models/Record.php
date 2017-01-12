@@ -101,10 +101,9 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key);
 		switch ($key) {
-			case 'individual_delivery':
-				$value = $this->getDisplayCheckboxValue($value);
-				break;
 			case 'default':
+			case 'authentication':
+			case 'individual_delivery':	
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'password':
@@ -113,9 +112,6 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				for ($i = 0; $i < $passLength; $i++) {
 					$value .= '*';
 				}
-				break;
-			case 'authentication':
-				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
