@@ -65,19 +65,23 @@ class Mail
 	 * @param string|bool $moduleName
 	 * @return array
 	 */
-	public static function getTempleteList($moduleName = false)
+	public static function getTempleteList($moduleName = false, $type = false)
 	{
-		if (Cache::has('MailTempleteList', $moduleName)) {
-			return Cache::get('MailTempleteList', $moduleName);
+		$cacheKey = "$moduleName.$type";
+		if (Cache::has('MailTempleteList', $cacheKey)) {
+			return Cache::get('MailTempleteList', $cacheKey);
 		}
-		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid'])->from('u_#__emailtemplates')
+		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module'])->from('u_#__emailtemplates')
 			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		if ($moduleName) {
 			$query->andWhere(['u_#__emailtemplates.module' => $moduleName]);
 		}
+		if ($type) {
+			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
+		}
 		$row = $query->all();
-		Cache::save('MailTempleteList', $moduleName, $row, Cache::LONG);
+		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);
 		return $row;
 	}
 
