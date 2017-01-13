@@ -21,17 +21,13 @@ Where else can you find YetiForce?
 - [Sourceforge] (https://sourceforge.net/projects/yetiforce/)
 - [Softaculous] (http://www.softaculous.com/apps/erp/YetiForce)  
 
-The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).
-
-Check Milestone to verify release due date
+1. The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).
+2. Check Milestone to verify release due date
 https://github.com/YetiForceCompany/YetiForceCRM/milestones
-
-Update PKG link.
+3. Update PKG link.
 https://github.com/YetiForceCompany/UpdatePackages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
-
-Gallery:
 
 ![](https://yetiforce.com/images/yeti/1_Home_page.png)
 
