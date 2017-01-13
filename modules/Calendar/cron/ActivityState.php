@@ -6,7 +6,7 @@ $dataReader = (new App\Db\Query())->select(['vtiger_activity.activityid', 'vtige
 			'vtiger_activity.date_start', 'vtiger_activity.time_start', 'activitystatus' => 'vtiger_activity.status'])
 		->from('vtiger_activity')
 		->innerJoin(['crm' => 'vtiger_crmentity'], 'crm.crmid = vtiger_activity.activityid')
-		->where(['vtiger_activity.status' => [$statusActivity['not_started'], $statusActivity['in_realization']], 'crm.deleted' => 0])
+		->where(['vtiger_activity.status' => [$statusActivity['not_started'], $statusActivity['in_realization']], 'crm.deleted' => 0, 'crm.setype' => 'Calendar'])
 		->limit(AppConfig::module('Calendar', 'CRON_MAX_NUMERS_ACTIVITY_STATE'))
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
