@@ -1243,8 +1243,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					var status = parent.find('.widgetFilterSwitch').data();
 					url += '["activitystatus","e","' + status[params.time] + '"],';
 				}
-				var data = $(this).data('date');
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + data + ',' + data + '"]]]';
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
 			});
 		});
 	},
