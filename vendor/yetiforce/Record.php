@@ -13,6 +13,11 @@ use vtlib\Functions;
 class Record
 {
 
+	/**
+	 * Get label
+	 * @param mixed $mixedId
+	 * @return mixed
+	 */
 	public static function getLabel($mixedId)
 	{
 		$multiMode = is_array($mixedId);
@@ -24,10 +29,10 @@ class Record
 			}
 		}
 		if (!empty($missing)) {
-			$query = (new \App\Db\Query())->select('crmid, label')->from('u_#__crmentity_label')->where(['crmid' => $missing]);
+			$query = (new \App\Db\Query())->select(['crmid', 'label'])->from('u_#__crmentity_label')->where(['crmid' => $missing]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				Cache::save('recordLabel', $id, $row['label']);
+				Cache::save('recordLabel', $row['crmid'], $row['label']);
 			}
 			foreach ($ids as $id) {
 				if ($id && !Cache::has('recordLabel', $id)) {
