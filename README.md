@@ -38,3 +38,9 @@ Gallery:
 ![](https://yetiforce.com/images/yeti/24_Detail_Projects_Gantt_Months.png)
 
 The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).
+
+Check Milestone to verify release due date
+https://github.com/YetiForceCompany/YetiForceCRM/milestones
+
+Update PKG link.
+https://github.com/YetiForceCompany/UpdatePackages
