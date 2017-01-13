@@ -28,16 +28,24 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return $fieldName;
 	}
 
+	/**
+	 * Set crm activity
+	 * @param array $referenceIds
+	 * @param string $refModuleName
+	 */
 	public static function setCrmActivity($referenceIds, $refModuleName = false)
 	{
-		$adb = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		foreach ($referenceIds as $id => $fieldName) {
 			if (empty($fieldName)) {
 				$fieldName = self::getNameByReference($refModuleName);
 			}
-			$result = $adb->pquery("SELECT vtiger_activity.status,date_start FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = ? AND vtiger_activity.$fieldName = ? AND vtiger_activity.status IN ('" . implode("','", Calendar_Module_Model::getComponentActivityStateLabel('current')) . "') ORDER BY date_start ASC LIMIT 1;", [0, $ID]);
-			if ($row = $adb->getRow($result)) {
+			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
+					->from('vtiger_activity')
+					->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid=vtiger_crmentity.crmid')
+					->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])
+					->orderBy(['date_start' => SORT_ASC])->limit(1)->one();
+			if ($row) {
 				$date = new DateTime(date('Y-m-d'));
 				$diff = $date->diff(new DateTime($row['date_start']));
 				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) $diff->format("%r%a")], ['crmid' => $id])->execute();
