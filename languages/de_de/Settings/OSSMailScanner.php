@@ -20,6 +20,7 @@ $languageStrings = [
 	'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
 	'Sent' => 'SENT',
+	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'The folders below will be removed after saving',
 ];
 $jsLanguageStrings = [
 	'start_cron' => 'E-Mail-Scanner gestartet',
