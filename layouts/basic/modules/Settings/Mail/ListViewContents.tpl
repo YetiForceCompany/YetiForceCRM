@@ -14,8 +14,8 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 	<div class="listViewEntriesDiv">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{App\Language::translate('LBL_LOADING', $MODULE)}"/>
-			<p class="listViewLoadingMsg">{App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="SEARCH_PARAMS" value=$SEARCH_PARAMS}
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
