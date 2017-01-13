@@ -25,6 +25,7 @@ class TextParser
 		'LBL_RELETED_RECORD_LABEL' => '$(reletedRecord : parent_id|email1|Accounts)$, $(reletedRecord : parent_id|email1)$',
 		'LBL_OWNER_EMAIL' => '$(reletedRecord : assigned_user_id|email1|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
+		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
 	];
 
 	/** @var array Variables for entity modules */
@@ -50,7 +51,7 @@ class TextParser
 	];
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'sourceRecord', 'organization', 'employee', 'params'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom'];
 
 	/** @var string[] List of source modules */
 	public static $sourceModules = [
@@ -58,13 +59,13 @@ class TextParser
 	];
 
 	/** @var int Record id */
-	protected $record;
+	public $record;
 
 	/** @var string Module name */
-	protected $moduleName;
+	public $moduleName;
 
 	/** @var \Vtiger_Record_Model Record model */
-	protected $recordModel;
+	public $recordModel;
 
 	/** @var string Content */
 	protected $content;
@@ -562,6 +563,26 @@ class TextParser
 		return '';
 	}
 
+	/**
+	 * Parsing custom
+	 * @param string $params
+	 * @return string
+	 */
+	protected function custom($params)
+	{
+		$params = explode('|', $params);
+		$className = '\App\TextParser\\' . array_shift($params);
+		if (!class_exists($className)) {
+			Log::error('Not found custom class');
+			throw new \Exception\AppException('ERR_NOT_FOUND_CUSTOM_CLASS');
+		}
+		$instance = new $className($this, $params);
+		if ($instance->isActive()) {
+			return $instance->process();
+		}
+		return '';
+	}
+
 	public static function getOrganizationVar()
 	{
 		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById();
@@ -643,7 +664,7 @@ class TextParser
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES');
-		foreach ($moduleModel->getFieldsByType(['reference', 'owner', 'multireference']) as $parentFieldName => $field) {
+		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
 			if ($field->getFieldDataType() === 'owner') {
 				$reletedModules = ['Users'];
 			} else {
@@ -697,6 +718,9 @@ class TextParser
 		$companyVariables['$(organization : mailLogo)$'] = Language::translate('mailLogo', 'Settings:Vtiger');
 		$companyVariables['$(organization : loginLogo)$'] = Language::translate('loginLogo', 'Settings:Vtiger');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
+
+
+
 		return $variables;
 	}
 }
