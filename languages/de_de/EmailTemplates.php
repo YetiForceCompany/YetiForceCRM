@@ -1,10 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'EmailTemplates' => 'Email Templates',
-	'SINGLE_EmailTemplates' => 'Email Template',
+	'EmailTemplates' => 'E-Mail Templates',
+	'SINGLE_EmailTemplates' => 'E-Mail Template',
 	//BLOCKS
-	'LBL_CONTENT_MAIL' => 'Email Inhalt',
+	'LBL_CONTENT_MAIL' => 'E-Mail Inhalt',
 	'LBL_BASIC_DETAILS' => 'Basic Information',
 	//FIELDS
 	'FL_NAME' => 'Name',

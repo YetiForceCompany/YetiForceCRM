@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 $languageStrings = [
-	'Email Flag' => 'Email Flag',
+	'Email Flag' => 'E-Mail Flag',
 	'Activtiy Type' => 'Aktivitätstyp',
 	'Parent ID' => 'Übergeordnete ID',
 	'Owner' => 'Eigentümer',
@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_CC' => 'CC :',
 	'LBL_COMPOSE_EMAIL' => 'neue E-Mail',
 	'LBL_DESCRIPTION' => 'Beschreibung',
-	'LBL_MAIL_DATE' => 'E-Maildatum',
+	'LBL_MAIL_DATE' => 'E-Mail Datum',
 	'LBL_DRAFTED_ON' => 'entwerfen',
 	'LBL_DRAFT' => 'Entwurf',
 	'LBL_EMAIL_INFORMATION' => 'E-Mail Informationen',
@@ -45,7 +45,7 @@ $languageStrings = [
 	'LBL_TO' => 'An',
 	'SINGLE_Emails' => 'E-Mail',
 	'Time Start' => 'Sendezeit',
-	'Emails_Block1' => 'Email Block 1',
-	'Emails_Block2' => 'Email Block 2',
-	'Emails_Block3' => 'Email Block 3',
+	'Emails_Block1' => 'E-Mail Block 1',
+	'Emails_Block2' => 'E-Mail Block 2',
+	'Emails_Block3' => 'E-Mail Block 3',
 ];
