@@ -216,7 +216,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
-			App\Log::warning('ERR_NO_DATA');
+			App\Log::info('ERR_NO_DATA');
 			return $recordModel;
 		}
 		$eventHandler = new App\EventHandler();
@@ -988,7 +988,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
