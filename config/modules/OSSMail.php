@@ -36,6 +36,8 @@ $config['time_format'] = 'H:i';
 $config['show_images'] = '0';
 $config['imap_cache'] = 'db';
 $config['messages_cache'] = 'db';
+$config['reply_mode'] = 1;
+// Debug
 $config['debug_level'] = AppConfig::debug('ROUNDCUBE_DEBUG_LEVEL');
 $config['per_user_logging'] = AppConfig::debug('ROUNDCUBE_PER_USER_LOGGING');
 $config['smtp_log'] = AppConfig::debug('ROUNDCUBE_SMTP_LOG');
@@ -45,25 +47,27 @@ $config['sql_debug'] = AppConfig::debug('ROUNDCUBE_SQL_DEBUG');
 $config['imap_debug'] = AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
 $config['ldap_debug'] = AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
 $config['smtp_debug'] = AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
+$config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
 $config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
 $config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/mail/';
-$config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
+//Socket context options
 $config['imap_conn_options'] = [
 	'ssl' => [
 		'verify_peer' => false,
 		'verfify_peer_name' => false,
 	],
 ];
-$config['smtp_timeout'] = 5;
 $config['smtp_conn_options'] = [
 	'ssl' => [
 		'verify_peer' => false,
 		'verfify_peer_name' => false,
 	],
 ];
+$config['smtp_timeout'] = 5;
 $config['smtp_helo_host'] = 'YetiForceCRM';
+$config['skin'] = 'yetiforce';
+//CRM Additional configuration parameters
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 $config['site_URL'] = $site_URL;
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;
-$config['skin'] = 'yetiforce';
