@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
-	'ModuleManager' => 'Modul Manager',
+	'ModuleManager' => 'Modulmanager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle von Datei',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
 	'LBL_IMPORTED_UPDATE' => 'System wurde erfolgreich aktualisiert.',
@@ -94,5 +94,5 @@ $jsLanguageStrings = [
 	'JS_CLICK_HERE' => 'Hier Klicken',
 	'JS_ON' => 'Ein',
 	'JS_REMOVED_MODULE' => 'Gelöschtes Modul',
-	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Sonderzeichen wie & < > \' " : , ist nicht erlaubt',
+	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Sonderzeichen wie & < > \' " : , sind nicht erlaubt',
 ];

@@ -10,10 +10,10 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_PAGE_NUMBER' => 'Gehe zur Seite',
-	'OSSMailScanner_manual' => 'Mail Scanner',
-	'OSSMailScanner' => 'Mail Scanner',
-	'Mail Scanner' => 'Mail Scanner',
-	'LBL_VIEW_LOGS' => 'Mail Protokolle',
+	'OSSMailScanner_manual' => 'E-Mail Scanner',
+	'OSSMailScanner' => 'E-Mail Scanner',
+	'Mail Scanner' => 'E-Mail Scanner',
+	'LBL_VIEW_LOGS' => 'E-Mail Protokolle',
 	'CRM Archive' => 'CRM Archiv',
 	'CRM Archive Sent' => 'CRM Archiv Gesendet',
 	'Drafts' => 'Drafts',

@@ -41,13 +41,13 @@ $languageStrings = [
 	'LBL_ATTACHMENTS' => 'Anhänge',
 	'LBL_FROM' => 'Von',
 	'LBL_SEND_EMAIL_MANUALLY' => 'Email manuell versenden',
-	'LBL_SMTP' => 'Smtp',
+	'LBL_SMTP' => 'SMTP',
 	'LBL_MASS_ACCEPT' => 'Massenbestätigung',
 	'LBL_MANUAl_MASS_MAILING' => 'Manuelle Massenmail',
 	'LBL_MANUAL_SENDING' => 'Manuell Senden',
 	'LBL_EMAILS_TO_SEND' => 'Zu versendende Emails',
 	'LBL_RECORD_ACCEPTED' => 'Datensatz bestätigt',
-	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'List of emails to send. Sending email messages takes place in cron.',
-	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Emails to send',
-	'LBL_EMAIL_WAS_SENT' => 'Email has been sent, preview unavailable.'
+	'LBL_EMAILS_TO_SEND_DESCRIPTION' => 'Liste der zu sendenden E-Mails. Gesendet wird über CRON.',
+	'LBL_MAIL_QUEUE_PAGE_TITLE' => 'Zu sendende E-Mails',
+	'LBL_EMAIL_WAS_SENT' => 'E-Mail wurde versendet, Vorschau nicht verfügbar.'
 ];
