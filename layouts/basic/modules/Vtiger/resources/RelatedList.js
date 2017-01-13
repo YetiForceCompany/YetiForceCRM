@@ -128,7 +128,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 
 		params['related_module'] = relatedModuleName;
 		params['src_record'] = sourceRecordId;
-		params['related_record_list'] = JSON.stringify(idList);
+		params['related_record_list'] = jQuery.isArray(idList) ? JSON.stringify(idList) : idList;
 
 		AppConnector.request(params).then(
 				function (responseData) {
