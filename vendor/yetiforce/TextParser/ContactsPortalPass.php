@@ -10,6 +10,9 @@ namespace App\TextParser;
 class ContactsPortalPass extends Base
 {
 
+	/** @var string Class name */
+	public $name = 'LBL_CONTACTS_PORTAL_PASS';
+
 	/** @var array Allowed modules */
 	public $allowedModules = ['Contacts'];
 

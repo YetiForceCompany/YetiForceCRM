@@ -10,6 +10,9 @@ namespace App\TextParser;
 class Base
 {
 
+	/** @var string Class name */
+	public $name = '';
+
 	/** @var array Allowed modules */
 	public $allowedModules;
 
@@ -24,7 +27,7 @@ class Base
 	 * @param \App\TextParser $textParser
 	 * @param mixed $params
 	 */
-	public function __construct(\App\TextParser $textParser, $params)
+	public function __construct(\App\TextParser $textParser, $params = '')
 	{
 		$this->textParser = $textParser;
 		$this->params = $params;

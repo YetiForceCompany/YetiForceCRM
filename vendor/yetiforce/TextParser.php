@@ -165,6 +165,16 @@ class TextParser
 	}
 
 	/**
+	 * Get additional params
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getParam($key)
+	{
+		return isset($this->params[$key]) ? $this->params[$key] : false;
+	}
+
+	/**
 	 * Set source record
 	 * @param int $record
 	 * @param string|bool $moduleName
@@ -718,9 +728,18 @@ class TextParser
 		$companyVariables['$(organization : mailLogo)$'] = Language::translate('mailLogo', 'Settings:Vtiger');
 		$companyVariables['$(organization : loginLogo)$'] = Language::translate('loginLogo', 'Settings:Vtiger');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
-
-
-
+		foreach ((new \DirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . 'TextParser')) as $fileInfo) {
+			$fileName = $fileInfo->getBasename('.php');
+			if ($fileInfo->getType() !== 'dir' && $fileName !== 'Base' && $fileInfo->getExtension() === 'php') {
+				$className = '\App\TextParser\\' . $fileName;
+				if (!class_exists($className)) {
+					Log::warning('Not found custom class');
+					continue;
+				}
+				$instance = new $className($this);
+				$variables['LBL_CUSTOM_VARIABLES']["$(custom : $fileName)$"] = Language::translate($instance->name);
+			}
+		}
 		return $variables;
 	}
 }

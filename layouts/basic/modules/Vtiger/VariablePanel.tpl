@@ -30,36 +30,39 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6 fieldRow">
-			<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">
-				<label class="muted">{\App\Language::translate('LBL_RELETED_MODULE_FIELDS')}</label>
-			</div>
-			<div class="medium col-md-9 fieldValue">
-				<div class="row">
-					<div class="input-group">
-						<select class="select2" id="relatedVariable">
-							{foreach item=FIELDS from=$TEXT_PARSER->getReletedVariable()}
-								{foreach item=RELETED_FIELDS key=BLOCK_NAME from=$FIELDS}
-									<optgroup label="{$BLOCK_NAME}">
-										{foreach item=ITEM from=$RELETED_FIELDS}
-											<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
-										{/foreach}
-									</optgroup> 
+		{assign var=RELETED_VARIABLE value=$TEXT_PARSER->getReletedVariable()}
+		{if $RELETED_VARIABLE}
+			<div class="col-md-6 fieldRow">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">
+					<label class="muted">{\App\Language::translate('LBL_RELETED_MODULE_FIELDS')}</label>
+				</div>
+				<div class="medium col-md-9 fieldValue">
+					<div class="row">
+						<div class="input-group">
+							<select class="select2" id="relatedVariable">
+								{foreach item=FIELDS from=$RELETED_VARIABLE}
+									{foreach item=RELETED_FIELDS key=BLOCK_NAME from=$FIELDS}
+										<optgroup label="{$BLOCK_NAME}">
+											{foreach item=ITEM from=$RELETED_FIELDS}
+												<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+											{/foreach}
+										</optgroup> 
+									{/foreach}
 								{/foreach}
-							{/foreach}
-						</select>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')} - {vtranslate('LBL_COPY_VALUE')}">
-								<span class="glyphicon glyphicon-copy"></span>
-							</button>
-							<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable" data-copy-type="label" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')}  - {vtranslate('LBL_COPY_LABEL')}">
-								<span class="glyphicon glyphicon-copy"></span>
-							</button>
+							</select>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')} - {vtranslate('LBL_COPY_VALUE')}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+								<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable" data-copy-type="label" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')}  - {vtranslate('LBL_COPY_LABEL')}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
 			<div class="col-md-6 fieldRow">

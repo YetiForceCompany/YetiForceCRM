@@ -1274,6 +1274,7 @@ $languageStrings = [
 	//TextParser
 	'LBL_TRANSLATE' => 'Tłumaczenie',
 	'LBL_COMPANY_VARIABLES' => 'Dane firmy',
+	'LBL_CUSTOM_VARIABLES' => 'Zmienne niestandardowe',
 	'LBL_EMPLOYEE_NAME' => 'Nazwisko pracownika',
 	'LBL_CURRENT_DATE' => 'Aktualna data',
 	'LBL_CURRENT_TIME' => 'Aktualny czas',
