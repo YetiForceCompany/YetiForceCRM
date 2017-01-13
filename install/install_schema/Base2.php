@@ -745,23 +745,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_campaignrelstatus' => [
-				'columns' => [
-					'campaignrelstatusid' => $this->integer(),
-					'campaignrelstatus' => $this->stringType(256),
-					'sortorderid' => $this->integer(),
-					'presence' => $this->integer(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_campaignrelstatus_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_campaignscf' => [
 				'columns' => [
 					'campaignid' => $this->integer()->notNull()->defaultValue(0),
@@ -2827,21 +2810,6 @@ class Base2 extends \App\Db\Importers\Base
 					[5],
 				]
 			],
-			'vtiger_campaignrelstatus' => [
-				'columns' => ['campaignrelstatusid', 'campaignrelstatus', 'sortorderid', 'presence'],
-				'values' => [
-					[1, 'Message sent', 0, 0],
-					[2, 'Contacted - Successful', 1, 1],
-					[3, 'Contacted - Unsuccessful', 2, 1],
-					[4, 'Contacted - Never Contact Again', 3, 1],
-				]
-			],
-			'vtiger_campaignrelstatus_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[4],
-				]
-			],
 			'vtiger_campaignstatus' => [
 				'columns' => ['campaignstatusid', 'campaignstatus', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
@@ -3873,10 +3841,6 @@ class Base2 extends \App\Db\Importers\Base
 					[26, 148, 0, 0],
 					[26, 149, 0, 0],
 					[26, 150, 0, 0],
-					[4, 151, 0, 0],
-					[6, 152, 0, 0],
-					[7, 153, 0, 0],
-					[26, 154, 0, 0],
 					[13, 155, 0, 0],
 					[13, 156, 0, 0],
 					[13, 157, 0, 0],
@@ -5860,10 +5824,6 @@ class Base2 extends \App\Db\Importers\Base
 					[26, 148, 'actualsalescount', 'vtiger_campaign', 1, 1, 'actualsalescount', 'Actual Sales Count', 1, 2, '', 100, 6, 76, 1, 'I~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[26, 149, 'actualroi', 'vtiger_campaign', 1, 71, 'actualroi', 'Actual ROI', 1, 2, '', 100, 10, 76, 1, 'N~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[26, 150, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 1, 81, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[4, 151, 'campaignrelstatus', 'vtiger_campaignrelstatus', 1, 16, 'campaignrelstatus', 'FL_CAMPAIGN_STATUS', 1, 0, '0', 100, 1, 0, 1, 'V~O', 1, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[6, 152, 'campaignrelstatus', 'vtiger_campaignrelstatus', 1, 16, 'campaignrelstatus', 'FL_CAMPAIGN_STATUS', 1, 0, '0', 100, 1, 0, 1, 'V~O', 1, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[7, 153, 'campaignrelstatus', 'vtiger_campaignrelstatus', 1, 16, 'campaignrelstatus', 'FL_CAMPAIGN_STATUS', 1, 0, '0', 100, 1, 0, 1, 'V~O', 1, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[26, 154, 'campaignrelstatus', 'vtiger_campaignrelstatus', 1, 16, 'campaignrelstatus', 'FL_CAMPAIGN_STATUS', 1, 0, '0', 100, 1, 0, 1, 'V~O', 1, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[13, 155, 'ticket_no', 'vtiger_troubletickets', 1, 4, 'ticket_no', 'Ticket No', 1, 0, '', 100, 1, 27, 1, 'V~O', 3, NULL, 'BAS', 0, '', 1, '', NULL, 0, 0],
 					[13, 156, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 0, '', 100, 5, 25, 1, 'V~M', 0, 7, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[13, 157, 'parent_id', 'vtiger_troubletickets', 1, 10, 'parent_id', 'Related To', 1, 2, '', 100, 8, 25, 1, 'I~M', 2, 2, 'BAS', 1, '', 1, '', NULL, 0, 0],

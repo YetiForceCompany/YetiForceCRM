@@ -3682,21 +3682,6 @@ CREATE TABLE `vtiger_campaign_records` (
   CONSTRAINT `fk_vtiger_crmentity` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_campaignrelstatus` */
-
-CREATE TABLE `vtiger_campaignrelstatus` (
-  `campaignrelstatusid` int(19) DEFAULT NULL,
-  `campaignrelstatus` varchar(256) DEFAULT NULL,
-  `sortorderid` int(19) DEFAULT NULL,
-  `presence` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_campaignrelstatus_seq` */
-
-CREATE TABLE `vtiger_campaignrelstatus_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_campaignscf` */
 
 CREATE TABLE `vtiger_campaignscf` (

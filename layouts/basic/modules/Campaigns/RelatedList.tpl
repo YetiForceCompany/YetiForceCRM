@@ -174,6 +174,7 @@
 									</td>
 								{/foreach}
 								<td nowrap class="{$WIDTHTYPE}">
+									<!--
 									<span class="currentStatus btn-group">
 										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}</span>
 										<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
@@ -185,6 +186,7 @@
 											{/foreach}
 										</ul>
 									</span>
+									-->
 								</td>
 								<td nowrap class="{$WIDTHTYPE}">
 									<div class="pull-right actions">
