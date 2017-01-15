@@ -99,7 +99,9 @@ class ReportRunQueryPlanner
 
 	public function addCustomTable($table)
 	{
-		$this->customTables[] = $table;
+		if (!in_array($table, $this->customTables)) {
+			$this->customTables[] = $table;
+		}
 	}
 
 	public function requireTable($table, $dependencies = null)
@@ -630,6 +632,7 @@ class ReportRun extends CRMEntity
 		$moduleFieldLabel = $selectedfields[2];
 		$fieldName = $selectedfields[3];
 		list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
+		$fieldLabel = str_replace('__', '_', $fieldLabel);
 		$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
 
 		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
