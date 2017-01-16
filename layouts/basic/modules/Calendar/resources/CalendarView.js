@@ -578,6 +578,16 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	registerCacheSettings: function () {
 		var thisInstance = this;
 		var calendar = thisInstance.getCalendarView();
+		if (app.moduleCacheGet('defaultSwitchingDays') == 'all') {
+			app.setMainParams('switchingDays', 'all');
+		} else {
+			app.setMainParams('switchingDays', 'workDays');
+		}
+		if (app.moduleCacheGet('defaultShowType') == 'history') {
+			app.setMainParams('showType', 'history');
+		} else {
+			app.setMainParams('showType', 'current');
+		}
 		$('.siteBarRight .filterField').each(function (index) {
 			var name = $(this).attr('id');
 			var value = app.moduleCacheGet(name);
@@ -623,22 +633,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			}
 		});
 	},
-	loadDefaultValues: function() {
-		if (app.moduleCacheGet('defaultSwitchingDays') == 'all') {
-			app.setMainParams('switchingDays', 'all');
-		} else {
-			app.setMainParams('switchingDays', 'workDays');
-		}
-		if (app.moduleCacheGet('defaultShowType') == 'history') {
-			app.setMainParams('showType', 'history');
-		} else {
-			app.setMainParams('showType', 'current');
-		}
-	},
 	registerEvents: function () {
-		this.loadDefaultValues();
-		this.renderCalendar();
 		this.registerCacheSettings();
+		this.renderCalendar();
 		this.registerAddButton();
 		this.registerLoadCalendarData();
 		this.registerButtonSelectAll();
