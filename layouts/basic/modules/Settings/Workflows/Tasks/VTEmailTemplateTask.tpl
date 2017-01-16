@@ -60,7 +60,7 @@
 				</div>
 			</div>
 			<div class="row padding-bottom1per">
-				<span class="col-md-4 control-label">{vtranslate('Send a copy to email', $QUALIFIED_MODULE)}</span>
+				<span class="col-md-4 control-label">{vtranslate('LBL_BCC')}</span>
 				<div class="col-md-4">
 					<input class="form-control" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="copy_email" value="{$TASK_OBJECT->copy_email}">
 				</div>
