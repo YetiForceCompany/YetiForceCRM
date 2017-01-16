@@ -15,7 +15,7 @@
 									{foreach item=ITEM from=$FIELDS}
 										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{\App\Language::translate($ITEM['label'], $SELECTED_MODULE)}</option>
 									{/foreach}
-								</optgroup> 
+								</optgroup>
 							{/foreach}
 						</select>
 						<div class="input-group-btn">

@@ -9,12 +9,16 @@
 class VTEmailTemplateTask extends VTTask
 {
 
-	// Sending email takes more time, this should be handled via queue all the time.
+	/** @var bool Sending email takes more time, this should be handled via queue all the time. */
 	public $executeImmediately = true;
 
+	/**
+	 * Get field names
+	 * @return string[]
+	 */
 	public function getFieldNames()
 	{
-		return ['template', 'attachments', 'email', 'copy_email'];
+		return ['template', 'email', 'emailoptout', 'smtp', 'copy_email'];
 	}
 
 	/**
@@ -23,32 +27,29 @@ class VTEmailTemplateTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		if (is_numeric() && $this->template > 0) {
-			if (strpos($this->email, '=') === false) {
-				$email = $recordModel->get($this->email);
-			} else {
-				$emaildata = explode('=', $this->email);
-				$parentRecord = $recordModel->get($emaildata[0]);
-				if (is_numeric($parentRecord) && !empty($parentRecord)) {
-					$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecord, $emaildata[1]);
-					$email = $parentRecordModel->get($emaildata[2]);
-					$emailMod = $emaildata[1];
-					if ($emaildata[1] === 'Contacts') {
-						$notifilanguage = $parentRecordModel->get('notifilanguage');
-					}
-				}
+		if (!empty($this->template)) {
+			$mailerContent = [];
+			if (!empty($this->smtp)) {
+				$mailerContent['smtp_id'] = $this->smtp;
 			}
-			if (!empty($email)) {
-				\App\Mailer::sendFromTemplate([
-					'template' => $this->template,
-					'moduleName' => $recordModel->getModuleName(),
-					'recordId' => $recordModel->getId(),
-					'to' => $email,
-					'cc' => $this->copy_email,
-					'language' => $notifilanguage,
-					'to_email_mod' => $emailMod
-				]);
+			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+			$emailParser->emailoptout = $this->emailoptout ? true : false;
+			if ($this->email) {
+				$mailerContent['to'] = $emailParser->setContent(implode(',', $this->email))->parse()->getContent(true);
 			}
+			unset($emailParser);
+			if (empty($mailerContent['to'])) {
+				return false;
+			}
+			if ($recordModel->getModuleName() === 'Contacts' && !$recordModel->isEmpty('notifilanguage')) {
+				$mailerContent['language'] = $recordModel->get('notifilanguage');
+			}
+			$mailerContent['template'] = $this->template;
+			$mailerContent['recordModel'] = $recordModel;
+			if (!empty($this->copy_email)) {
+				$mailerContent['bcc'] = $this->copy_email;
+			}
+			\App\Mailer::sendFromTemplate($mailerContent);
 		}
 	}
 }
