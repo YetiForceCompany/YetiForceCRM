@@ -749,7 +749,7 @@ class Functions
 	{
 		$short = [];
 		$full = [];
-		$years = ($timeMinutesRange) / (60 * 24 * 365);
+		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
 			$short[] = $years == 1 ? $years . vtranslate('LBL_Y') : $years . vtranslate('LBL_YRS');
