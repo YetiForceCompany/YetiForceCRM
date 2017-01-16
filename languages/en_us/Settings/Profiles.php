@@ -70,7 +70,6 @@ $languageStrings = [
 	'RecordMappingList' => 'Generating mapped fields records',
 	'WatchingRecords' => 'Track changes in record',
 	'WatchingModule' => 'Track changes in module',
-	'NotificationCreateMessage' => 'Send notifications',
 	'NotificationCreateMail' => 'Send email notifications',
 	'NotificationPreview' => 'Preview notifications',
 	'NotificationSendToAll' => 'Send notifications to all users',

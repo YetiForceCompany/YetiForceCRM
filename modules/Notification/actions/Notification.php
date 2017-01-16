@@ -21,7 +21,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			}
 		}
 		$mode = $request->getMode();
-		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMessage')) {
+		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');

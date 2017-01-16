@@ -71,7 +71,6 @@ $languageStrings = [
 	'RecordMappingList' => 'Generowanie rekordów zmapowanych pól',
 	'WatchingRecords' => 'Śledzenie zmian w rekordzie',
 	'WatchingModule' => 'Śledzenie zmian w module',
-	'NotificationCreateMessage' => 'Wysyłanie powiadomień zwykłych',
 	'NotificationCreateMail' => 'Wysyłanie powiadomień mailowych',
 	'NotificationPreview' => 'Podgląd powiadomień',
 	'NotificationSendToAll' => 'Wysyłanie powiadomień do wszystkich użytkowników',

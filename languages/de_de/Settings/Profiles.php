@@ -70,7 +70,6 @@ $languageStrings = [
 	'RecordMappingList' => 'Erzeugung zugeordneter Felder',
 	'WatchingRecords' => 'Änderungen im Datensatz protokollieren',
 	'WatchingModule' => 'Änderungen im Modul protokollieren',
-	'NotificationCreateMessage' => 'Benachrichtigung senden',
 	'NotificationCreateMail' => 'E-Mail Benachrichtigung senden',
 	'NotificationPreview' => 'Benachrichtigungsvorschau',
 	'NotificationSendToAll' => 'Benachrichtigung an alle Benutzer senden',

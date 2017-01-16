@@ -2346,7 +2346,6 @@ class Base2 extends \App\Db\Importers\Base
 					[40, 'FavoriteRecords', 0],
 					[41, 'WatchingRecords', 0],
 					[42, 'WatchingModule', 0],
-					[43, 'NotificationCreateMessage', 0],
 					[44, 'NotificationCreateMail', 0],
 					[45, 'NotificationPreview', 0],
 					[46, 'RemoveRelation', 0],

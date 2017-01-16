@@ -73,7 +73,6 @@ $languageStrings = [
 	'RecordMappingList' => 'Отображаемые поля записи',
 	'WatchingRecords' => 'Отслеживать изменения в записи',
 	'WatchingModule' => 'Отслеживать изменения в модуле',
-	'NotificationCreateMessage' => 'Отправка уведомлений',
 	'NotificationCreateMail' => 'Отправка уведомлений на E-mail',
 	'NotificationPreview' => 'Предварительный просмотр уведомлений',
 	'NotificationSendToAll' => 'Отправить уведомления всем пользователям',

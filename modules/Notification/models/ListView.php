@@ -18,10 +18,8 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['LIST_VIEW_HEADER'], $linkParams);
 		$headerLinks = [];
-		$moduleModel = $this->getModule();
-
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_NOTIFICATION_SETTINGS',
@@ -30,8 +28,7 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 				'modalView' => true
 			];
 		}
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'NotificationCreateMessage')) {
+		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
