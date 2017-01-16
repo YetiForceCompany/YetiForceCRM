@@ -95,6 +95,7 @@ class Mailer
 		if (!$template) {
 			return false;
 		}
+
 		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);

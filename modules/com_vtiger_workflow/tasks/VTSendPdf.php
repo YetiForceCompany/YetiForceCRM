@@ -1,12 +1,25 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-require_once('modules/com_vtiger_workflow/VTEntityCache.php');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
+/**
+ * Email PDF Template Task Class
+ * @package YetiForce.WorkflowTask
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class VTSendPdf extends VTTask
 {
 
+	/** @var bool Sending email takes more time, this should be handled via queue all the time. */
 	public $executeImmediately = true;
+
+	/**
+	 * Get field names
+	 * @return string[]
+	 */
+	public function getFieldNames()
+	{
+		return ['pdfTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'copy_email'];
+	}
 
 	/**
 	 * Execute task
@@ -14,40 +27,41 @@ class VTSendPdf extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$recordId = $recordModel->getId();
-		$module = $recordModel->getModuleName();
-		if ((is_numeric($this->pdf_tpl) && $this->pdf_tpl != 0) && (is_numeric($this->email_tpl) && $this->email_tpl != 0)) {
-			if (false === strpos($this->email_fld, '=')) {
-				$email = $recordModel->get($this->email_fld);
-			} else {
-				list($parentIdFieldName, $relModuleName, $relModuleField) = explode('=', $this->email_fld);
-				$relRecord = $recordModel->get($parentIdFieldName);
-				if ($module === $relModuleName) {
-					$relRecord = $recordId;
-				}
-				if (is_numeric($relRecord) && intval($relRecord) > 0) {
-					$recordModel = Vtiger_Record_Model::getInstanceById($relRecord, $relModuleName);
-					$email = $recordModel->get($relModuleField);
-				}
+		if (!empty($this->mailTemplate) && !empty($this->pdfTemplate)) {
+			$mailerContent = [];
+			if (!empty($this->smtp)) {
+				$mailerContent['smtp_id'] = $this->smtp;
 			}
-		}
-		if (!empty($email)) {
-			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdf_tpl);
+			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+			$emailParser->emailoptout = $this->emailoptout ? true : false;
+			if ($this->email) {
+				$mailerContent['to'] = $emailParser->setContent(implode(',', $this->email))->parse()->getContent(true);
+			}
+			unset($emailParser);
+			if (empty($mailerContent['to'])) {
+				return false;
+			}
+			if ($recordModel->getModuleName() === 'Contacts' && !$recordModel->isEmpty('notifilanguage')) {
+				$mailerContent['language'] = $recordModel->get('notifilanguage');
+			}
+			$mailerContent['template'] = $this->mailTemplate;
+			$mailerContent['recordModel'] = $recordModel;
+			if (!empty($this->copy_email)) {
+				$mailerContent['bcc'] = $this->copy_email;
+			}
+			$templateRecord = Vtiger_PDF_Model::getInstanceById($this->pdfTemplate);
 			$fileName = vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			Vtiger_PDF_Model::exportToPdf($recordId, $module, $this->pdf_tpl, $pdfFile, 'F');
-			\App\Mailer::sendFromTemplate([
-				'template' => $this->email_tpl,
-				'moduleName' => $module,
-				'recordId' => $recordId,
-				'to' => $email,
-				'attachments' => [$pdfFile => $fileName],
-			]);
+			Vtiger_PDF_Model::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
+			if (!file_exists($pdfFile)) {
+				App\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
+				return false;
+			}
+			if (!$templateRecord->isEmpty('filename')) {
+				$fileName = $templateRecord->get('filename');
+			}
+			$mailerContent['attachments'] = [$pdfFile => $fileName];
+			\App\Mailer::sendFromTemplate($mailerContent);
 		}
-	}
-
-	public function getFieldNames()
-	{
-		return ['pdf_tpl', 'email_tpl', 'email_fld'];
 	}
 }

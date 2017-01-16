@@ -163,6 +163,12 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		return $templates;
 	}
 
+	/**
+	 * Get PDF instance by id
+	 * @param int $recordId
+	 * @param string $moduleName
+	 * @return Vtiger_PDF_Model|boolean
+	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 		$pdf = Vtiger_Cache::get('PDFModel', $recordId);
