@@ -440,9 +440,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 					'modifiedtime' => $useTime
 				];
 				$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
-				$attachid = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-				$isSaved = self::saveAttachmentFile($attachid, $fileName, $fileContent);
-				if ($issaved) {
+				$attachId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
+				$isSaved = self::saveAttachmentFile($attachId, $fileName, $fileContent);
+				if ($isSaved) {
 					$record = Vtiger_Record_Model::getCleanInstance('Documents');
 					$record->set('assigned_user_id', $userid);
 					$record->set('notes_title', $fileName);
@@ -452,10 +452,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 					$record->set('folderid', 'T2');
 					$record->save();
 					$IDs[] = $record->getId();
-
 					$db->createCommand()->insert('vtiger_seattachmentsrel', [
 						'crmid' => $record->getId(),
-						'attachmentsid' => $attachid
+						'attachmentsid' => $attachId
 					])->execute();
 					$db->createCommand()->update('vtiger_crmentity', [
 						'createdtime' => $useTime,
@@ -463,13 +462,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 						'modifiedby' => $userid,
 						], ['crmid' => $record->getId()]
 					)->execute();
-					if ($relID && $relID != 0 && $relID != '') {
-						$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
-						$url_to_image = $dirname . $attachid . '_' . $fileName;
+					if (!empty($relID)) {
+						$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
+						$urlToImage = "$dirName{$attachId}_$fileName";
 						$db->createCommand()->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
 							'documentsid' => $record->getId(),
-							'attachmentsid' => $attachid
+							'attachmentsid' => $attachId
 						])->execute();
 						$content = (new App\Db\Query())->select(['content'])->from('vtiger_ossmailview')->where(['ossmailviewid' => $relID])->scalar();
 						preg_match_all('/src="cid:(.*)"/Uims', $content, $matches);
@@ -479,7 +478,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 							foreach ($matches[1] as $match) {
 								if (strpos($fileName, $match) !== false || strpos($match, $fileName) !== false) {
 									$search[] = "src=\"cid:$match\"";
-									$replace[] = "src=\"$url_to_image\"";
+									$replace[] = "src=\"$urlToImage\"";
 								}
 							}
 							$content = str_replace($search, $replace, $content);
@@ -497,36 +496,32 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to saving attachments files
-	 * @param int $attachid
+	 * @param int $attachId
 	 * @param string $fileName
 	 * @param string $fileContent
 	 * @return int
 	 */
-	public static function saveAttachmentFile($attachid, $fileName, $fileContent)
+	public static function saveAttachmentFile($attachId, $fileName, $fileContent)
 	{
-		require_once 'modules/OSSMail/MailAttachmentMIME.php';
 		$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
 		if (!is_dir($dirName)) {
 			mkdir($dirName);
 		}
-		$fileName = str_replace(' ', '-', $fileName);
-		$fileName = str_replace(':', '-', $fileName);
-		$fileName = str_replace('/', '-', $fileName);
-		$saveAsFile = "$dirName$attachid_$fileName";
+		$fileName = str_replace([' ', ':', '/'], '-', $fileName);
+		$saveAsFile = "$dirName{$attachId}_$fileName";
 		if (!file_exists($saveAsFile)) {
 			$fh = fopen($saveAsFile, 'wb');
 			fwrite($fh, $fileContent);
 			fclose($fh);
+			return \App\Db::getInstance()->createCommand()->insert('vtiger_attachments', [
+					'attachmentsid' => $attachId,
+					'name' => $fileName,
+					'description' => '',
+					'type' => \App\Fields\File::getMimeContentType($saveAsFile),
+					'path' => $dirName
+				])->execute();
 		}
-		$mimeType = \App\Fields\File::getMimeContentType($saveAsFile);
-		$params = [
-			'attachmentsid' => $attachid,
-			'name' => $fileName,
-			'description' => $description,
-			'type' => $mimeType,
-			'path' => $dirName
-		];
-		return \App\Db::getInstance()->createCommand()->insert('vtiger_attachments', $params)->execute();
+		return false;
 	}
 
 	public static function getFolders($user)
