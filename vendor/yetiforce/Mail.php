@@ -97,7 +97,7 @@ class Mail
 			return false;
 		}
 		return array_merge(
-			$detail, static::getAttachmentsFromTemplete($detail['ossmailtemplatesid'])
+			$detail, static::getAttachmentsFromTemplete($detail['emailtemplatesid'])
 		);
 	}
 
