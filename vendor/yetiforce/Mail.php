@@ -63,9 +63,11 @@ class Mail
 	/**
 	 * Get templte list for module
 	 * @param string|bool $moduleName
+	 * @param string|bool $type
+	 * @param bool $hideSystem
 	 * @return array
 	 */
-	public static function getTempleteList($moduleName = false, $type = false)
+	public static function getTempleteList($moduleName = false, $type = false, $hideSystem = true)
 	{
 		$cacheKey = "$moduleName.$type";
 		if (Cache::has('MailTempleteList', $cacheKey)) {
@@ -79,6 +81,9 @@ class Mail
 		}
 		if ($type) {
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
+		}
+		if ($hideSystem) {
+			$query->andWhere(['u_#__emailtemplates.sys_name' => null]);
 		}
 		$row = $query->all();
 		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);

@@ -45,7 +45,7 @@ class EmailParser extends TextParser
 		$emails = [];
 		foreach (explode(',', $this->content) as $content) {
 			$content = trim($content);
-			if (empty($content)) {
+			if (empty($content) || $content === '-') {
 				continue;
 			}
 			if (strpos($content, '&lt;') && strpos($content, '&gt;')) {
