@@ -371,6 +371,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
 		$query = Vtiger_HistoryRelation_Widget::getQuery($sourceId, $sourceModule, Vtiger_HistoryRelation_Widget::getActions());
+		if (!$query) {
+			return false;
+		}
 		$data = $query->limit(1)->one();
 		$type = $data ? $data['type'] : '';
 

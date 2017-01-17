@@ -108,7 +108,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 * @param int $recordId
 	 * @param string $moduleName
 	 * @param array $type
-	 * @return query
+	 * @return \App\Db\Query()|false
 	 */
 	public static function getQuery($recordId, $moduleName, $type)
 	{
@@ -182,7 +182,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 
 				$index++;
 			}
-			$sql = (new \App\Db\Query)->from(['records' => $subQuery]);
+			if ($subQuery) {
+				$sql = (new \App\Db\Query)->from(['records' => $subQuery]);
+			} else {
+				return false;
+			}
 		}
 		return $sql->orderBy(['time' => SORT_DESC]);
 	}
