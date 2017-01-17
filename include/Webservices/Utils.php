@@ -779,11 +779,11 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$db = \App\Db::getInstance();
 	//Updating the smcreatorid,smownerid, modifiedby, smcreatorid in vtiger_crmentity
 	$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId], ['smcreatorid' => $ownerId, 'setype' => 'ModComments'])
-			->execute();
+		->execute();
 	$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $newOwnerId], ['smownerid' => $ownerId, 'setype' => 'ModComments'])
-			->execute();
+		->execute();
 	$db->createCommand()->update('vtiger_crmentity', ['modifiedby' => $newOwnerId], ['modifiedby' => $ownerId])
-			->execute();
+		->execute();
 	//deleting from vtiger_tracker
 	if ($delete) {
 		$db->createCommand()->delete('vtiger_tracker', ['user_id' => $ownerId])
@@ -791,7 +791,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	}
 	//updating the vtiger_import_maps
 	$db->createCommand()->update('vtiger_import_maps', ['assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
-			->execute();
+		->execute();
 	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
 		$db->createCommand()->update('vtiger_customerportal_prefs', ['prefvalue' => $newOwnerId], ['prefkey' => 'defaultassignee', 'prefvalue' => $ownerId])
 			->execute();
@@ -817,10 +817,10 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 			$columnList[] = $column;
 			if ($row['columnname'] === 'smcreatorid' || $row['columnname'] === 'smownerid') {
 				$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newOwnerId], ['and', [$row['columnname'] => $ownerId], ['<>', 'setype', 'ModComments']])
-						->execute();
+					->execute();
 			} else {
 				$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newOwnerId], [$row['columnname'] => $ownerId])
-						->execute();
+					->execute();
 			}
 		}
 	}
@@ -828,41 +828,6 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	$newOwnerModel = Users_Record_Model::getInstanceById($newOwnerId, 'Users');
 	$ownerModel = Users_Record_Model::getInstanceById($ownerId, 'Users');
 	vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
-	vtws_updateWebformsRoundrobinUsersLists($ownerId, $newOwnerId);
-}
-
-function vtws_updateWebformsRoundrobinUsersLists($ownerId, $newOwnerId)
-{
-	$db = App\Db::getInstance();
-	$dataReader = (new \App\Db\Query())->select(['id', 'roundrobin_userid'])
-			->from('vtiger_webforms')
-			->createCommand()->query();
-	while ($row = $dataReader->read()) {
-		$webformId = $row['id'];
-		$encodedUsersList = $row['roundrobin_userid'];
-		$encodedUsersList = str_replace("&quot;", "\"", $encodedUsersList);
-		$usersList =  App\Json::decode($encodedUsersList, true);
-		if (is_array($usersList)) {
-			if (($key = array_search($ownerId, $usersList)) !== false) {
-				if (!in_array($newOwnerId, $usersList)) {
-					$usersList[$key] = $newOwnerId;
-				} else {
-					unset($usersList[$key]);
-					$revisedUsersList = [];
-					$j = 0;
-					foreach ($usersList as $uid) {
-						$revisedUsersList[$j++] = $uid;
-					}
-					$usersList = $revisedUsersList;
-				}
-				if (count($usersList) == 0) {
-					$db->createCommand()->update('vtiger_webforms', ['roundrobin_userid' => '--None--', 'roundrobin' => 0], ['id' => $webformId])->execute();
-				} else {
-					$db->createCommand()->update('vtiger_webforms', ['roundrobin_userid' => App\Json::encode($usersList)], ['id' => $webformId])->execute();
-				}
-			}
-		}
-	}
 }
 
 function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)

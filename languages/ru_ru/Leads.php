@@ -69,7 +69,6 @@ $languageStrings = [
 	'Website' => 'Сайт',
 	'Verification data' => 'Проверка данных',
 	'Attorney General\'s Office' => 'Прокуратура',
-	'LBL_SETUP_WEBFORMS' => 'Установка Веб-Форм',
 	'LBL_RELATION' => 'Отношение',
 	'LBL_LEGAL_FORM' => 'Юридическая форма',
 	//PICKLIST VALUES
@@ -80,7 +79,6 @@ $languageStrings = [
 	'PLL_PENDING' => 'Pending',
 	'PLL_IN_REALIZATION' => 'In realization',
 	'PLL_INCORRECT' => 'Incorrect',
-	
 	'PLL_B2C' => 'B2C',
 	'PLL_B2B' => 'B2B',
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',

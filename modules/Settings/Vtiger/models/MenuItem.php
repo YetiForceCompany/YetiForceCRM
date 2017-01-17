@@ -45,7 +45,6 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		'index.php?module=PickList&action=PickListDependencySetup&parenttab=Settings' => 'index.php?parent=Settings&module=PickListDependency&view=List',
 		'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker' => 'index.php?module=Settings&submodule=ModTracker&view=Index',
 		'index.php?module=CronTasks&action=ListCronJobs&parenttab=Settings' => 'index.php?module=CronTasks&parent=Settings&view=List',
-		'index.php?module=Webforms&action=index&parenttab=Settings' => 'index.php?module=Webforms&parent=Settings&view=List',
 		'index.php?module=ExchangeConnector&action=index&parenttab=Settings' => 'index.php?module=ExchangeConnector&parent=Settings&view=Index'
 	);
 
@@ -246,7 +245,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	{
 		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
 			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor'];
+			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT'];
 		$query = (new App\Db\Query())->from(self::$itemsTable);
 		$conditionsSqls = [];
 		if ($menuModel !== false) {
@@ -284,7 +283,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 	{
 		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
 			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT', 'Webforms Configuration Editor'];
+			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT'];
 		$query = (new App\Db\Query())->from(self::$itemsTable)
 			->where(['pinned' => 1, 'active' => 0]);
 		if (!empty($fieldList)) {

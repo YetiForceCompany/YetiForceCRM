@@ -31,7 +31,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get module of this record instance
-	 * @return <Settings_Webforms_Module_Model> $moduleModel
+	 * @return Settings_SMSNotifier_Module_Model $moduleModel
 	 */
 	public function getModule()
 	{
@@ -40,8 +40,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to set module instance to this record instance
-	 * @param <Settings_Webforms_Module_Model> $moduleModel
-	 * @return <Settings_Webforms_Record_Model> this record
+	 * @param Settings_SMSNotifier_Module_Model $moduleModel
+	 * @return Settings_SMSNotifier_Record_Model this record
 	 */
 	public function setModule($moduleModel)
 	{
@@ -146,9 +146,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get record instance by using id and moduleName
-	 * @param <Integer> $recordId
+	 * @param int $recordId
 	 * @param string $qualifiedModuleName
-	 * @return <Settings_Webforms_Record_Model> RecordModel
+	 * @return Settings_SMSNotifier_Record_Model RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{

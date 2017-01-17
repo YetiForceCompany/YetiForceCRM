@@ -39,12 +39,12 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get list of Blocks
-	 * @return <Array> list of Block models <Settings_Webforms_Block_Model>
+	 * @return <Array> list of Block models Settings_HideBlocks_Module_Model
 	 */
 	public function getBlocks()
 	{
 		if (empty($this->blocks)) {
-			$this->blocks = Settings_Webforms_Block_Model::getAllForModule($this);
+			//$this->blocks = Settings_Webforms_Block_Model::getAllForModule($this);
 		}
 		return $this->blocks;
 	}

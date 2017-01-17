@@ -147,9 +147,9 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get record instance by using id and moduleName
-	 * @param <Integer> $recordId
+	 * @param int $recordId
 	 * @param string $qualifiedModuleName
-	 * @return <Settings_Webforms_Record_Model> RecordModel
+	 * @return Settings_HideBlocks_Record_Model RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{

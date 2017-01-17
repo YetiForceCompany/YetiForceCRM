@@ -11,7 +11,6 @@
 $languageStrings = [
 	'address' => 'Ulica',
 	'Allows you to Configure Cron Task' => 'Wywołuje okresowo kolejno zdefiniowane zadania w celu automatyzacji procesów w systemie CRM.',
-	'Allows you to manage Webforms' => 'Twórz formularze, które będą zintegrowane z Twoim systemem CRM.',
 	'city' => 'Miejscowość',
 	'code' => 'Kod pocztowy',
 	'Configuration Editor' => 'Ustawienia',
@@ -155,7 +154,6 @@ $languageStrings = [
 	'LBL_USER_MANAGEMENT' => 'Uprawnienia',
 	'LBL_USER_NAME' => 'Nazwa użytkownika', //Duplicated key-value pair
 	'LBL_USE_RTE' => 'Używaj RTE',
-	'LBL_WEBFORMS_DESCRIPTION' => 'Twórz formularze, które możesz udostępniać na swojej stronie WWW, będą one zintegrowane z systemem CRM.',
 	'LBL_WORKFLOW_LIST' => 'Lista obiegów informacji',
 	'LBL_WORKFLOWS_ACTIVE' => 'Obiegów informacji',
 	'LBL_WORLD_CLOCK_DISPLAY' => 'Zagar światowy',
@@ -171,7 +169,6 @@ $languageStrings = [
 	'USERGROUPLIST' => 'Grupy',
 	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Dodawaj i zarządzaj modułami, które dostosują i spersonalizują system pod profil przedsiębiorstwa.',
 	'VTLIB_LBL_MODULE_MANAGER' => 'Moduły - instalacja',
-	'Webforms' => 'Formularze www',
 	//YetiForce
 	'LBL_LOGS_MANAGEMENT' => 'Logi',
 	'LBL_SECURITY_MANAGEMENT' => 'Bezpieczeństwo',

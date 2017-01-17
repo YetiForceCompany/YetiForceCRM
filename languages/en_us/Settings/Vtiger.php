@@ -11,7 +11,6 @@
 $languageStrings = [
 	'address' => 'Address',
 	'Allows you to Configure Cron Task' => 'Allows you to configure Cron task',
-	'Allows you to manage Webforms' => 'Manage Webforms',
 	'city' => 'City',
 	'code' => 'Postal code',
 	'Configuration Editor' => 'Configuration editor',
@@ -167,7 +166,6 @@ $languageStrings = [
 	'LBL_USER_MANAGEMENT' => 'Permissions',
 	'LBL_USER_NAME' => 'User name', //Duplicated key-value pair
 	'LBL_USE_RTE' => 'Use RTE',
-	'LBL_WEBFORMS_DESCRIPTION' => 'Create and manage webforms which can be used to capture Leads',
 	'LBL_WORKFLOW_LIST' => 'Workflow list',
 	'LBL_WORKFLOWS_ACTIVE' => 'Workflows',
 	'LBL_WORLD_CLOCK_DISPLAY' => 'World clock',
@@ -183,7 +181,6 @@ $languageStrings = [
 	'USERGROUPLIST' => 'Groups',
 	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Manage module behavior inside YetiForce CRM',
 	'VTLIB_LBL_MODULE_MANAGER' => 'Modules – Installation',
-	'Webforms' => 'Webforms',
 	//YetiForce
 	'vatid' => 'VAT ID',
 	'id1' => 'ID 1',

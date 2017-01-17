@@ -11,7 +11,6 @@
 $languageStrings = [
 	'address' => 'Adresse',
 	'Allows you to Configure Cron Task' => 'Permets de configurer les tâches Cron',
-	'Allows you to manage Webforms' => 'Gestion des formulaires Web',
 	'city' => 'Ville',
 	'code' => 'Code postal',
 	'Configuration Editor' => 'Editeur de configuration',
@@ -165,7 +164,6 @@ $languageStrings = [
 	'LBL_USER_MANAGEMENT' => 'Droits d\'accès',
 	'LBL_USER_NAME' => 'Nom d\'utilisateur', //Duplicated key-value pair
 	'LBL_USE_RTE' => 'Utiliser RTE',
-	'LBL_WEBFORMS_DESCRIPTION' => 'Créer et gérer les formulaires webs utilisés pour capturer les prospects',
 	'LBL_WORKFLOW_LIST' => 'Liste Workflow',
 	'LBL_WORKFLOWS_ACTIVE' => 'Workflows',
 	'LBL_WORLD_CLOCK_DISPLAY' => 'Afficher horloge mondial',
@@ -181,7 +179,6 @@ $languageStrings = [
 	'USERGROUPLIST' => 'Groupes',
 	'VTLIB_LBL_MODULE_MANAGER_DESCRIPTION' => 'Gérer les modules dans YetiForce CRM',
 	'VTLIB_LBL_MODULE_MANAGER' => 'Modules – Installation',
-	'Webforms' => 'Formulaires Web ',
 	//YetiForce
 	'vatid' => 'ID TVA',
 	'id1' => 'ID 1',

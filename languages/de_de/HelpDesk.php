@@ -12,7 +12,6 @@ $languageStrings = [
 	'PLL_SUBMITTED_COMMENTS' => 'Gesendete Kommentare',
 	'PLL_FOR_APPROVAL' => 'Zur Freigabe',
 	'PLL_TO_CLOSE' => 'Zum Schließen',
-	'LBL_SETUP_WEBFORMS' => 'Web Forms einrichten',
 	'LBL_STATUS_CLOSED' => 'Geschlossen',
 	'Big Problem' => 'großes Problem',
 	'Closed' => 'Geschlossen',

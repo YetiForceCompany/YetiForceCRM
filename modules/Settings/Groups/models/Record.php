@@ -308,7 +308,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$ownerModel = $this->getInstance($groupId);
 		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
-		vtws_updateWebformsRoundrobinUsersLists($groupId, $transferGroupId);
 	}
 
 	/**

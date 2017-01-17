@@ -32,7 +32,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get module of this record instance
-	 * @return <Settings_Webforms_Module_Model> $moduleModel
+	 * @return Settings_TreesManager_Record_Model $moduleModel
 	 */
 	public function getModule()
 	{
@@ -253,9 +253,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 
 		$templateId = (new App\Db\Query())->select(['fieldparams'])
-				->from('vtiger_field')
-				->where(['tabid' => $moduleModel->getId(), 'columnname' => $fieldName, 'presence' => [0,2]])
-				->scalar();
+			->from('vtiger_field')
+			->where(['tabid' => $moduleModel->getId(), 'columnname' => $fieldName, 'presence' => [0, 2]])
+			->scalar();
 		$values = explode(',', $fieldValue);
 		$dataReader = (new App\Db\Query())->from('vtiger_trees_templates_data')
 				->where(['templateid' => $templateId])

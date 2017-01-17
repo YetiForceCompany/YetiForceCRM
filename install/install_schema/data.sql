@@ -15252,7 +15252,6 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,4
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,43,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,44,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,45,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,46,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,48,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,50,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (1,51,0);
@@ -15290,7 +15289,6 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,4
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,43,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,44,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,45,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,46,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,48,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,50,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (2,51,0);
@@ -15328,7 +15326,6 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,4
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,43,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,44,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,45,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,46,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,48,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,50,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (3,51,0);
@@ -15366,7 +15363,6 @@ insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,4
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,43,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,44,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,45,0);
-insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,46,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,48,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,50,0);
 insert  into `vtiger_profile2tab`(`profileid`,`tabid`,`permissions`) values (4,51,0);
@@ -24979,7 +24975,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (28,4,'ModTracker','adminIcon-modules-track-chanegs','LBL_MODTRACKER_DESCRIPTION','index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker',9,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (29,5,'LBL_PBXMANAGER','adminIcon-pbx-manager','LBL_PBXMANAGER_DESCRIPTION','index.php?module=PBXManager&parent=Settings&view=Index',22,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (30,5,'LBL_CUSTOMER_PORTAL','adminIcon-customer-portal','PORTAL_EXTENSION_DESCRIPTION','index.php?module=CustomerPortal&action=index&parenttab=Settings',3,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (31,5,'Webforms','adminIcon-online-forms','LBL_WEBFORMS_DESCRIPTION','index.php?module=Webforms&action=index&parenttab=Settings',4,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (33,2,'LBL_EDIT_FIELDS','adminIcon-modules-fields','LBL_LAYOUT_EDITOR_DESCRIPTION','index.php?module=LayoutEditor&parent=Settings&view=Index',2,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',10,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (38,7,'LBL_PASSWORD_CONF','adminIcon-passwords-configuration','LBL_PASSWORD_DESCRIPTION','index.php?module=Password&parent=Settings&view=Index',1,0,0,NULL);
@@ -25321,7 +25316,6 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (43,'Project',0,-1,'Project',NULL,NULL,0,0,1,'3.3','Support',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (44,'RecycleBin',0,-1,'Recycle Bin',NULL,NULL,0,0,0,'1.5','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (45,'SMSNotifier',0,-1,'SMSNotifier',NULL,NULL,0,0,1,'1.9','Tools',NULL,0,0);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (46,'Webforms',0,-1,'Webforms',NULL,NULL,0,0,0,'1.5','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (48,'OSSMail',1,-1,'OSSMail',NULL,NULL,0,0,0,'1.50','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (50,'Password',0,-1,'Password',NULL,NULL,0,0,0,'1.00','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (51,'OSSTimeControl',0,-1,'OSSTimeControl',NULL,NULL,0,0,1,'1.0.4','Tools',NULL,0,0);
@@ -25399,8 +25393,6 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (44,'vtige
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (44,'vtiger_max_version','6.*');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (45,'vtiger_min_version','6.0.0rc');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (45,'vtiger_max_version','6.*');
-insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (46,'vtiger_min_version','6.0.0rc');
-insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (46,'vtiger_max_version','6.*');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (48,'vtiger_min_version','6.0.0');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (48,'vtiger_max_version','6.*');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (50,'vtiger_min_version','6.0.0');
@@ -25801,10 +25793,6 @@ insert  into `vtiger_visibility`(`visibilityid`,`visibility`,`sortorderid`,`pres
 /*Data for the table `vtiger_visibility_seq` */
 
 insert  into `vtiger_visibility_seq`(`id`) values (2);
-
-/*Data for the table `vtiger_webforms` */
-
-/*Data for the table `vtiger_webforms_field` */
 
 /*Data for the table `vtiger_widgets` */
 

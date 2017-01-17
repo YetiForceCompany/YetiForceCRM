@@ -12,7 +12,6 @@ $languageStrings = [
 	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
 	'PLL_FOR_APPROVAL' => 'For approval',
 	'PLL_TO_CLOSE' => 'To close',
-	'LBL_SETUP_WEBFORMS' => 'Configurer le formulaire Web',
 	'LBL_ORDER_TIME' => 'Heure de commande',
 	'Big Problem' => 'Problème important',
 	'Closed' => 'Accepted',

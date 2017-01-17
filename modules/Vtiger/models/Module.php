@@ -1377,15 +1377,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linkicon' => ''
 			);
 		}
-
-		$webformSupportedModule = Settings_Webforms_Module_Model :: getSupportedModulesList();
-		if (array_key_exists($this->getName(), $webformSupportedModule)) {
-			$settingsLinks[] = array(
-				'linktype' => 'LISTVIEWSETTING',
-				'linklabel' => 'LBL_SETUP_WEBFORMS',
-				'linkurl' => 'index.php?module=Webforms&parent=Settings&view=Edit&sourceModule=' . $this->getName(),
-				'linkicon' => '');
-		}
 		return $settingsLinks;
 	}
 

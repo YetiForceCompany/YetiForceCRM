@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Setup Webforms',
 	'Verification data' => 'Verification data',
 	'Orders accepted' => 'Orders accepted',
 	'Attempted to Contact' => 'Attempted to contact',

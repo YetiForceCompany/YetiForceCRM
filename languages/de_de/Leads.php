@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Webformulare einstellen',
 	'Verification data' => 'Daten überprüfen',
 	'Attempted to Contact' => 'Kontaktierung versucht',
 	'CANNOT_CONVERT' => 'Umwandlung nicht möglich',

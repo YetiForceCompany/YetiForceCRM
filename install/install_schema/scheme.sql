@@ -8967,48 +8967,6 @@ CREATE TABLE `vtiger_visibility_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_webforms` */
-
-CREATE TABLE `vtiger_webforms` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `publicid` varchar(100) NOT NULL,
-  `enabled` int(1) NOT NULL DEFAULT '1',
-  `targetmodule` varchar(50) NOT NULL,
-  `description` text,
-  `ownerid` int(19) NOT NULL,
-  `returnurl` varchar(250) DEFAULT NULL,
-  `captcha` int(1) NOT NULL DEFAULT '0',
-  `roundrobin` int(1) NOT NULL DEFAULT '0',
-  `roundrobin_userid` varchar(256) DEFAULT NULL,
-  `roundrobin_logic` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `webformname` (`name`),
-  UNIQUE KEY `publicid` (`id`),
-  KEY `webforms_webforms_id_idx` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_webforms_field` */
-
-CREATE TABLE `vtiger_webforms_field` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `webformid` int(19) NOT NULL,
-  `fieldname` varchar(50) NOT NULL,
-  `fieldid` int(11) DEFAULT NULL,
-  `neutralizedfield` varchar(50) NOT NULL,
-  `defaultvalue` varchar(200) DEFAULT NULL,
-  `required` int(10) NOT NULL DEFAULT '0',
-  `sequence` int(10) DEFAULT NULL,
-  `hidden` int(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `webforms_webforms_field_idx` (`id`),
-  KEY `fk_1_vtiger_webforms_field` (`webformid`),
-  KEY `fk_2_vtiger_webforms_field` (`fieldname`),
-  KEY `fk_3_vtiger_webforms_field` (`fieldid`),
-  CONSTRAINT `fk_1_vtiger_webforms_field` FOREIGN KEY (`webformid`) REFERENCES `vtiger_webforms` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_3_vtiger_webforms_field` FOREIGN KEY (`fieldid`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_widgets` */
 
 CREATE TABLE `vtiger_widgets` (

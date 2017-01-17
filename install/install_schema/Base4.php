@@ -1859,49 +1859,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_webforms' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'name' => $this->stringType(100)->notNull(),
-					'publicid' => $this->stringType(100)->notNull(),
-					'enabled' => $this->integer(1)->notNull()->defaultValue(1),
-					'targetmodule' => $this->stringType(50)->notNull(),
-					'description' => $this->text(),
-					'ownerid' => $this->integer()->notNull(),
-					'returnurl' => $this->stringType(250),
-					'captcha' => $this->integer(1)->notNull()->defaultValue(0),
-					'roundrobin' => $this->integer(1)->notNull()->defaultValue(0),
-					'roundrobin_userid' => $this->stringType(256),
-					'roundrobin_logic' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'index' => [
-					['webforms_webformname_idx', 'name', true],
-					['webforms_publicid_idx', 'id', true],
-					['webforms_webforms_id_idx', 'id'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_webforms_field' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'webformid' => $this->integer()->notNull(),
-					'fieldname' => $this->stringType(50)->notNull(),
-					'fieldid' => $this->integer()->notNull(),
-					'neutralizedfield' => $this->stringType(50)->notNull(),
-					'defaultvalue' => $this->stringType(200),
-					'required' => $this->integer(10)->notNull()->defaultValue(0),
-					'sequence' => $this->integer(10),
-					'hidden' => $this->integer(10),
-				],
-				'index' => [
-					['webforms_field_idx', 'id'],
-					['webforms_field_id_idx', 'webformid'],
-					['webforms_field_field_idx', 'fieldname'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_widgets' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
@@ -2651,8 +2608,6 @@ class Base4 extends \App\Db\Importers\Base
 			['vtiger_vendoraddress_ibfk_1', 'vtiger_vendoraddress', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_vendorcf', 'vtiger_vendorcf', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_vendorcontactrel', 'vtiger_vendorcontactrel', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_webforms_field', 'vtiger_webforms_field', 'webformid', 'vtiger_webforms', 'id', 'CASCADE', 'RESTRICT'],
-			['fk_3_vtiger_webforms_field', 'vtiger_webforms_field', 'fieldid', 'vtiger_field', 'fieldid', 'CASCADE', 'RESTRICT'],
 			['vtiger_widgets_ibfk_1', 'vtiger_widgets', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
 			['vtiger_fk_1_actors_referencetype', 'vtiger_ws_entity_referencetype', 'fieldtypeid', 'vtiger_ws_entity_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_ws_actor_tables', 'vtiger_ws_entity_tables', 'webservice_entity_id', 'vtiger_ws_entity', 'id', 'CASCADE', 'RESTRICT'],
@@ -6922,7 +6877,6 @@ class Base4 extends \App\Db\Importers\Base
 					[28, 4, 'ModTracker', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_DESCRIPTION', 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', 9, 0, 0, NULL],
 					[29, 5, 'LBL_PBXMANAGER', 'adminIcon-pbx-manager', 'LBL_PBXMANAGER_DESCRIPTION', 'index.php?module=PBXManager&parent=Settings&view=Index', 22, 0, 0, NULL],
 					[30, 5, 'LBL_CUSTOMER_PORTAL', 'adminIcon-customer-portal', 'PORTAL_EXTENSION_DESCRIPTION', 'index.php?module=CustomerPortal&action=index&parenttab=Settings', 3, 0, 0, NULL],
-					[31, 5, 'Webforms', 'adminIcon-online-forms', 'LBL_WEBFORMS_DESCRIPTION', 'index.php?module=Webforms&action=index&parenttab=Settings', 4, 0, 0, NULL],
 					[33, 2, 'LBL_EDIT_FIELDS', 'adminIcon-modules-fields', 'LBL_LAYOUT_EDITOR_DESCRIPTION', 'index.php?module=LayoutEditor&parent=Settings&view=Index', 2, 0, 0, NULL],
 					[35, 4, 'LBL_PDF', 'adminIcon-modules-pdf-templates', 'LBL_PDF_DESCRIPTION', 'index.php?module=PDF&parent=Settings&view=List', 10, 0, 0, NULL],
 					[38, 7, 'LBL_PASSWORD_CONF', 'adminIcon-passwords-configuration', 'LBL_PASSWORD_DESCRIPTION', 'index.php?module=Password&parent=Settings&view=Index', 1, 0, 0, NULL],
@@ -7294,7 +7248,6 @@ class Base4 extends \App\Db\Importers\Base
 					[43, 'Project', 0, -1, 'Project', NULL, NULL, 0, 0, 1, '3.3', 'Support', NULL, 0, 0],
 					[44, 'RecycleBin', 0, -1, 'Recycle Bin', NULL, NULL, 0, 0, 0, '1.5', 'Tools', NULL, 0, 0],
 					[45, 'SMSNotifier', 0, -1, 'SMSNotifier', NULL, NULL, 0, 0, 1, '1.9', 'Tools', NULL, 0, 0],
-					[46, 'Webforms', 0, -1, 'Webforms', NULL, NULL, 0, 0, 0, '1.5', '', NULL, 0, 0],
 					[48, 'OSSMail', 1, -1, 'OSSMail', NULL, NULL, 0, 0, 0, '1.50', 'Tools', NULL, 0, 0],
 					[50, 'Password', 0, -1, 'Password', NULL, NULL, 0, 0, 0, '1.00', '', NULL, 0, 0],
 					[51, 'OSSTimeControl', 0, -1, 'OSSTimeControl', NULL, NULL, 0, 0, 1, '1.0.4', 'Tools', NULL, 0, 0],
@@ -7374,8 +7327,6 @@ class Base4 extends \App\Db\Importers\Base
 					[44, 'vtiger_max_version', '6.*'],
 					[45, 'vtiger_min_version', '6.0.0rc'],
 					[45, 'vtiger_max_version', '6.*'],
-					[46, 'vtiger_min_version', '6.0.0rc'],
-					[46, 'vtiger_max_version', '6.*'],
 					[48, 'vtiger_min_version', '6.0.0'],
 					[48, 'vtiger_max_version', '6.*'],
 					[50, 'vtiger_min_version', '6.0.0'],
