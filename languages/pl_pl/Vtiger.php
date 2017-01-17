@@ -1421,7 +1421,6 @@ $jsLanguageStrings = [
 	'JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO' => 'powinna być większa lub równa obecnej dacie',
 	'JS_SHOULD_BE_LESS_THAN_CURRENT_DATE' => 'powinna być mniejsza niż obecna data', //Duplicated key-value pairs
 	'JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO' => 'powinna być mniejsza lub równa obecnej dacie',
-	'JS_SMS_SERVER_CONFIGURATION' => 'Skonfiguruj poprawnie powiadomienia SMS poprzez Ustawienia',
 	'JS_START_DATE_TIME' => 'Czas rozpoczęcia',
 	'JS_SUCCESSFULLY_PINNED' => 'Pomyślnie dodano skrót',
 	'JS_SUCCESSFULLY_UNPINNED' => 'Pomyślnie usunięto skrót',
