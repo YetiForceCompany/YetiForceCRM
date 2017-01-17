@@ -760,8 +760,8 @@ class Base1 extends \App\Db\Importers\Base
 					'internal_designation' => $this->stringType(),
 					'date_production' => $this->date(),
 					'date_acquisition' => $this->date(),
-					'purchase_price' => $this->decimal(25, 8),
-					'actual_price' => $this->decimal(25, 8),
+					'purchase_price' => $this->decimal('25,8'),
+					'actual_price' => $this->decimal('25,8'),
 					'reservation' => $this->smallInteger(1),
 					'pscategory' => $this->stringType(),
 					'fuel_type' => $this->stringType(),
@@ -781,6 +781,30 @@ class Base1 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 					['cfixedassetscf_pk', 'cfixedassetsid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__cinternaltickets' => [
+				'columns' => [
+					'cinternalticketsid' => $this->integer()->notNull()->defaultValue(0),
+					'subject' => $this->stringType(100),
+					'cinternaltickets_no' => $this->stringType(32),
+					'internal_tickets_status' => $this->stringType(150),
+					'resolution' => $this->text()
+				],
+				'primaryKeys' => [
+					['cinternalticketsid_pk', 'cinternalticketsid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__cinternalticketscf' => [
+				'columns' => [
+					'cinternalticketsid' => $this->integer()->notNull()->defaultValue(0),
+				],
+				'primaryKeys' => [
+					['cinternalticketscf_pk', 'cinternalticketsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

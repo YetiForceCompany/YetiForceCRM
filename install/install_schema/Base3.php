@@ -467,6 +467,17 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_internal_tickets_status' => [
+				'columns' => [
+					'internal_tickets_statusid' => $this->primaryKey(),
+					'internal_tickets_status' => $this->stringType()->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_inventory_tandc' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
@@ -2938,6 +2949,19 @@ class Base3 extends \App\Db\Importers\Base
 					[43],
 				]
 			],
+			'vtiger_internal_tickets_status' => [
+				'columns' => ['internal_tickets_statusid', 'internal_tickets_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_UNASSIGNED', 1, 738, 1],
+					[2, 'PLL_AWAITING_REALIZATION', 1, 739, 2],
+					[3, 'PLL_FOR_PROCESSING', 1, 740, 3],
+					[4, 'PLL_IN_PROGRESSING', 1, 741, 4],
+					[5, 'PLL_SUBMITTED_COMMENTS', 1, 742, 5],
+					[6, 'PLL_FOR_APPROVAL', 1, 743, 6],
+					[7, 'PLL_CANCELLED', 1, 744, 7],
+					[8, 'PLL_ACCEPTED', 1, 745, 8],
+				]
+			],
 			'vtiger_inventory_tandc' => [
 				'columns' => ['id', 'type', 'tandc'],
 				'values' => [
@@ -3334,6 +3358,7 @@ class Base3 extends \App\Db\Importers\Base
 					[307, 111, 'DASHBOARDWIDGET', 'LBL_NOTIFICATION_BY_RECIPIENT', 'index.php?module=Notification&view=ShowWidget&name=NotificationsByRecipient', '', 0, NULL, NULL, NULL, NULL],
 					[308, 3, 'DASHBOARDWIDGET', 'LBL_EXPIRING_SOLD_PRODUCTS', 'index.php?module=Assets&view=ShowWidget&name=ExpiringSoldProducts', '', 0, NULL, NULL, NULL, NULL],
 					[309, 113, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
+					[310, 114, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
 				]
 			],
 			'vtiger_lout_dimensions' => [
@@ -3489,6 +3514,7 @@ class Base3 extends \App\Db\Importers\Base
 					[57, 111, 'NT', '', 1, 1],
 					[58, 112, 'N', '', 1, 1],
 					[59, 113, 'FA', '', 1, 1],
+					[60, 114, 'IT', '', 1, 3],
 				]
 			],
 			'vtiger_modtracker_tabs' => [
@@ -3560,6 +3586,7 @@ class Base3 extends \App\Db\Importers\Base
 					[108, 1],
 					[109, 1],
 					[113, 1],
+					[114, 1],
 				]
 			],
 			'vtiger_no_of_currency_decimals' => [
@@ -3873,6 +3900,10 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 113],
 					[2, 113],
 					[3, 113],
+					[0, 114],
+					[1, 114],
+					[2, 114],
+					[3, 114],
 				]
 			],
 			'vtiger_org_share_action_mapping' => [
@@ -4081,6 +4112,7 @@ class Base3 extends \App\Db\Importers\Base
 					[47, 'hour_format'],
 					[71, 'ideasstatus'],
 					[11, 'industry'],
+					[102, 'internal_tickets_status'],
 					[13, 'leadsource'],
 					[14, 'leadstatus'],
 					[77, 'lin_type_doc'],
@@ -4149,7 +4181,7 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_picklistvalues_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[737],
+					[745],
 				]
 			],
 			'vtiger_profile' => [
@@ -5746,6 +5778,17 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 113, 2506, 0, 0],
 					[1, 113, 2507, 0, 0],
 					[1, 113, 2508, 0, 0],
+					[1, 114, 2509, 0, 0],
+					[1, 114, 2510, 0, 0],
+					[1, 114, 2511, 0, 0],
+					[1, 114, 2512, 0, 0],
+					[1, 114, 2513, 0, 0],
+					[1, 114, 2514, 0, 0],
+					[1, 114, 2515, 0, 0],
+					[1, 114, 2516, 0, 0],
+					[1, 114, 2517, 0, 0],
+					[1, 114, 2518, 0, 0],
+					[1, 114, 2519, 0, 0],
 					[2, 6, 1, 0, 0],
 					[2, 6, 2, 0, 0],
 					[2, 6, 3, 0, 0],
@@ -7328,6 +7371,17 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 113, 2506, 0, 0],
 					[2, 113, 2507, 0, 0],
 					[2, 113, 2508, 0, 0],
+					[2, 114, 2509, 0, 0],
+					[2, 114, 2510, 0, 0],
+					[2, 114, 2511, 0, 0],
+					[2, 114, 2512, 0, 0],
+					[2, 114, 2513, 0, 0],
+					[2, 114, 2514, 0, 0],
+					[2, 114, 2515, 0, 0],
+					[2, 114, 2516, 0, 0],
+					[2, 114, 2517, 0, 0],
+					[2, 114, 2518, 0, 0],
+					[2, 114, 2519, 0, 0],
 					[3, 6, 1, 0, 0],
 					[3, 6, 2, 0, 0],
 					[3, 6, 3, 0, 0],
@@ -8910,6 +8964,17 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 113, 2506, 0, 0],
 					[3, 113, 2507, 0, 0],
 					[3, 113, 2508, 0, 0],
+					[3, 114, 2509, 0, 0],
+					[3, 114, 2510, 0, 0],
+					[3, 114, 2511, 0, 0],
+					[3, 114, 2512, 0, 0],
+					[3, 114, 2513, 0, 0],
+					[3, 114, 2514, 0, 0],
+					[3, 114, 2515, 0, 0],
+					[3, 114, 2516, 0, 0],
+					[3, 114, 2517, 0, 0],
+					[3, 114, 2518, 0, 0],
+					[3, 114, 2519, 0, 0],
 					[4, 6, 1, 0, 0],
 					[4, 6, 2, 0, 0],
 					[4, 6, 3, 0, 0],
@@ -10492,6 +10557,17 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 113, 2506, 0, 0],
 					[4, 113, 2507, 0, 0],
 					[4, 113, 2508, 0, 0],
+					[4, 114, 2509, 0, 0],
+					[4, 114, 2510, 0, 0],
+					[4, 114, 2511, 0, 0],
+					[4, 114, 2512, 0, 0],
+					[4, 114, 2513, 0, 0],
+					[4, 114, 2514, 0, 0],
+					[4, 114, 2515, 0, 0],
+					[4, 114, 2516, 0, 0],
+					[4, 114, 2517, 0, 0],
+					[4, 114, 2518, 0, 0],
+					[4, 114, 2519, 0, 0],
 				]
 			],
 			'vtiger_profile2globalpermissions' => [
@@ -10911,6 +10987,12 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 113, 3, 0],
 					[1, 113, 4, 0],
 					[1, 113, 7, 0],
+					[1, 114, 0, 0],
+					[1, 114, 1, 0],
+					[1, 114, 2, 0],
+					[1, 114, 3, 0],
+					[1, 114, 4, 0],
+					[1, 114, 7, 0],
 					[2, 4, 0, 0],
 					[2, 4, 1, 0],
 					[2, 4, 2, 1],
@@ -11312,6 +11394,12 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 113, 3, 0],
 					[2, 113, 4, 0],
 					[2, 113, 7, 0],
+					[2, 114, 0, 0],
+					[2, 114, 1, 0],
+					[2, 114, 2, 0],
+					[2, 114, 3, 0],
+					[2, 114, 4, 0],
+					[2, 114, 7, 0],
 					[3, 4, 0, 0],
 					[3, 4, 1, 0],
 					[3, 4, 2, 1],
@@ -11713,6 +11801,12 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 113, 3, 0],
 					[3, 113, 4, 0],
 					[3, 113, 7, 0],
+					[3, 114, 0, 0],
+					[3, 114, 1, 0],
+					[3, 114, 2, 0],
+					[3, 114, 3, 0],
+					[3, 114, 4, 0],
+					[3, 114, 7, 0],
 					[4, 4, 0, 0],
 					[4, 4, 1, 1],
 					[4, 4, 2, 1],
@@ -12114,6 +12208,12 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 113, 3, 0],
 					[4, 113, 4, 0],
 					[4, 113, 7, 0],
+					[4, 114, 0, 0],
+					[4, 114, 1, 0],
+					[4, 114, 2, 0],
+					[4, 114, 3, 0],
+					[4, 114, 4, 0],
+					[4, 114, 7, 0],
 				]
 			],
 			'vtiger_profile2tab' => [
@@ -12427,6 +12527,10 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 113, 0],
 					[3, 113, 0],
 					[4, 113, 0],
+					[1, 114, 0],
+					[2, 114, 0],
+					[3, 114, 0],
+					[4, 114, 0],
 				]
 			],
 			'vtiger_profile2utility' => [

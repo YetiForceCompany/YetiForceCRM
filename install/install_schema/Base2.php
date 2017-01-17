@@ -2731,6 +2731,11 @@ class Base2 extends \App\Db\Importers\Base
 					[380, 113, 'LBL_VEHICLE', 2, 0, 0, 0, 0, 0, 1, 0],
 					[381, 113, 'LBL_ATTENTION_BLOCK', 3, 0, 0, 0, 0, 0, 1, 1],
 					[382, 113, 'LBL_DESCRIPTION_BLOCK', 4, 0, 0, 0, 0, 0, 1, 1],
+					[383, 114, 'LBL_BASIC_INFORMATION', 1, 0, 0, 0, 0, 0, 1, 0],
+					[384, 114, 'LBL_ADDITIONAL_INFORMATION', 2, 0, 0, 0, 0, 0, 1, 0],
+					[385, 114, 'LBL_DESCRIPTION_BLOCK', 3, 0, 0, 0, 0, 0, 1, 1],
+					[386, 114, 'LBL_ATTENTION_BLOCK', 4, 0, 0, 0, 0, 0, 1, 1],
+					[387, 114, 'LBL_TICKET_RESOLUTION', 5, 0, 0, 0, 0, 0, 1, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -3336,6 +3341,7 @@ class Base2 extends \App\Db\Importers\Base
 					[104, 'All', 1, 0, 'Notification', 0, 1, 1, 0, 1, 0, NULL, NULL, ''],
 					[105, 'All', 1, 0, 'EmailTemplates', 0, 1, 1, 0, 0, 0, NULL, NULL, ''],
 					[106, 'All', 1, 0, 'CFixedAssets', 0, 1, 1, 0, 0, 0, '', '', ''],
+					[107, 'All', 1, 0, 'CInternalTickets', 0, 1, 1, 0, 0, 0, '', '', ''],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
@@ -3683,6 +3689,10 @@ class Base2 extends \App\Db\Importers\Base
 					[106, 1, 'u_yf_cfixedassets:number:number:CFixedAssets_FL_NUMBER:V'],
 					[106, 2, 'vtiger_crmentity:createdtime:createdtime:CFixedAssets_Created_Time:DT'],
 					[106, 3, 'vtiger_crmentity:smownerid:assigned_user_id:CFixedAssets_Assigned_To:V'],
+					[107, 0, 'u_yf_cinternaltickets:subject:subject:CInternalTickets_FL_SUBJECT:V'],
+					[107, 1, 'u_yf_cinternaltickets:number:number:CInternalTickets_FL_NUMBER:V'],
+					[107, 2, 'vtiger_crmentity:createdtime:createdtime:CInternalTickets_Created_Time:DT'],
+					[107, 3, 'vtiger_crmentity:smownerid:assigned_user_id:CInternalTickets_Assigned_To:V'],
 				]
 			],
 			'vtiger_dataaccess' => [
@@ -5349,6 +5359,17 @@ class Base2 extends \App\Db\Importers\Base
 					[113, 2506, 0, 0],
 					[113, 2507, 0, 0],
 					[113, 2508, 0, 0],
+					[114, 2509, 0, 0],
+					[114, 2510, 0, 0],
+					[114, 2511, 0, 0],
+					[114, 2512, 0, 0],
+					[114, 2513, 0, 0],
+					[114, 2514, 0, 0],
+					[114, 2515, 0, 0],
+					[114, 2516, 0, 0],
+					[114, 2517, 0, 0],
+					[114, 2518, 0, 0],
+					[114, 2519, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5419,6 +5440,7 @@ class Base2 extends \App\Db\Importers\Base
 					[83, 111, 2, 0],
 					[84, 112, 2, 0],
 					[85, 113, 2, 0],
+					[86, 114, 2, 0],
 				]
 			],
 			'vtiger_default_record_view' => [
@@ -5628,6 +5650,7 @@ class Base2 extends \App\Db\Importers\Base
 					[111, 'Notification', 'u_yf_notification', 'title', 'notificationid', 'notificationid', 'title', 1, 0],
 					[112, 'EmailTemplates', 'u_yf_emailtemplates', 'name', 'emailtemplatesid', 'emailtemplatesid', 'name', 1, 0],
 					[113, 'CFixedAssets', 'u_yf_cfixedassets', 'subject', 'cfixedassetsid', 'cfixedassetsid', 'subject', 1, 0],
+					[114, 'CInternalTickets', 'u_yf_cinternaltickets', 'subject', 'cinternalticketsid', 'cinternalticketsid', 'subject', 1, 0],
 				]
 			],
 			'vtiger_eventhandlers' => [
@@ -7346,12 +7369,23 @@ class Base2 extends \App\Db\Importers\Base
 					[113, 2506, 'fuel_consumption', 'u_yf_cfixedassets', 1, 7, 'fuel_consumption', 'FL_AVARAGE_FUEL_CONSUPTION', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2507, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 381, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2508, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 1, 382, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2509, 'subject', 'u_yf_cinternaltickets', 1, 2, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 0, 383, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2510, 'internal_tickets_status', 'u_yf_cinternaltickets', 1, 15, 'internal_tickets_status', 'FL_STATUS', 1, 2, '', 100, 0, 383, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2511, 'cinternaltickets_no', 'u_yf_cinternaltickets', 1, 4, 'cinternaltickets_no', 'FL_NUMBER', 1, 2, '', 100, 4, 384, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2512, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 1, 384, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2513, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 6, 384, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2514, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 5, 384, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2515, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 3, 384, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[114, 2516, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 2, 384, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2517, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 385, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2518, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 386, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[114, 2519, 'resolution', 'u_yf_cinternaltickets', 1, 300, 'resolution', 'FL_RESOLUTION', 1, 2, '', 100, 0, 387, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2508],
+					[2519],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7519,6 +7553,7 @@ class Base2 extends \App\Db\Importers\Base
 					[2386, 'Project', 'SSalesProcesses', NULL, 0],
 					[2404, 'SSalesProcesses', 'SSalesProcesses', NULL, 0],
 					[601, 'ModComments', 'CFixedAssets', NULL, 0],
+					[601, 'ModComments', 'CInternalTickets', NULL, 0],
 				]
 			],
 			'vtiger_finvoice_formpayment' => [
