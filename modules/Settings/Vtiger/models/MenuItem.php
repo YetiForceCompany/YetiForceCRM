@@ -32,7 +32,6 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		'index.php?module=Settings&action=listnotificationschedulers&parenttab=Settings' => 'index.php?module=Settings&submodule=Vtiger&view=Schedulers',
 		'index.php?module=Settings&action=listinventorynotifications&parenttab=Settings' => 'index.php?module=Settings&submodule=Notifications&view=InventoryAlerts',
 		'index.php?module=Settings&action=OrganizationConfig&parenttab=Settings' => 'index.php?parent=Settings&module=Vtiger&view=CompanyDetails',
-		'index.php?module=Settings&action=EmailConfig&parenttab=Settings' => 'index.php?parent=Settings&module=Vtiger&view=OutgoingServerDetail',
 		'index.php?module=Settings&action=CurrencyListView&parenttab=Settings' => 'index.php?parent=Settings&module=Currency&view=List',
 		'index.php?module=Settings&action=TaxConfig&parenttab=Settings' => 'index.php?module=Vtiger&parent=Settings&view=TaxIndex',
 		'index.php?module=Settings&action=ProxyServerConfig&parenttab=Settings' => 'index.php?module=Settings&submodule=Server&view=ProxyConfig',
@@ -146,7 +145,7 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 		if ($pinned) {
 			$pinnedStaus = 1;
 		}
-		\App\Db::getInstance()->createCommand()->update(self::$itemsTable, ['pinned' => $pinnedStaus], [ self::$itemId => $this->getId()])->execute();
+		\App\Db::getInstance()->createCommand()->update(self::$itemsTable, ['pinned' => $pinnedStaus], [self::$itemId => $this->getId()])->execute();
 	}
 
 	/**
