@@ -2353,6 +2353,7 @@ class Base2 extends \App\Db\Importers\Base
 					[48, 'ReviewingUpdates', 0],
 					[49, 'CreateDashboardChartFilter', 0],
 					[50, 'ReloadRelationRecord', 0],
+					[51, 'TimeLineList', 0],
 				]
 			],
 			'vtiger_activity_view' => [

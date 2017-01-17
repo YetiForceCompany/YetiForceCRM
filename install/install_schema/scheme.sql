@@ -3005,6 +3005,16 @@ CREATE TABLE `u_yf_ssingleorderscf` (
   CONSTRAINT `fk_1_u_yf_ssingleorderscf` FOREIGN KEY (`ssingleordersid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_timeline` */
+
+CREATE TABLE `u_yf_timeline` (
+  `crmid` int(11) NOT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `userid` int(11) NOT NULL,
+  KEY `timeline_crmid_idx` (`crmid`),
+  CONSTRAINT `fk_1_u_yf_timeline` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_watchdog_module` */
 
 CREATE TABLE `u_yf_watchdog_module` (
