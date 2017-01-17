@@ -517,28 +517,48 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
+	/**
+	 * Delete relation
+	 * @param int $sourceRecordId
+	 * @param int $relatedRecordId
+	 * @return boolean
+	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 
-		if ($destinationModuleName == 'OSSMailView' || $sourceModuleName == 'OSSMailView') {
-			if ($destinationModuleName == 'OSSMailView') {
+		if ($destinationModuleName === 'OSSMailView' || $sourceModuleName === 'OSSMailView') {
+			$moduleName = 'OSSMailView';
+			if ($destinationModuleName === 'OSSMailView') {
+				$destinationModuleName = $sourceModuleName;
 				$mailId = $relatedRecordId;
 				$crmid = $sourceRecordId;
 			} else {
 				$mailId = $sourceRecordId;
 				$crmid = $relatedRecordId;
 			}
-			$db = PearDatabase::getInstance();
-			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
+			$data = [
+				'CRMEntity' => CRMEntity::getInstance($destinationModuleName),
+				'sourceModule' => $destinationModuleName,
+				'sourceRecordId' => $crmid,
+				'destinationModule' => $moduleName,
+				'destinationRecordId' => $mailId
+			];
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setModuleName($destinationModuleName);
+			$eventHandler->setParams($data);
+			$eventHandler->trigger('EntityBeforeUnLink');
+			$query = \App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
+			if ($query->execute()) {
+				$eventHandler->trigger('EntityAfterUnLink');
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			if ($destinationModuleName == 'ModComments') {
+			if ($destinationModuleName === 'ModComments') {
 				include_once('modules/ModTracker/ModTracker.php');
 				ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
 				return true;
