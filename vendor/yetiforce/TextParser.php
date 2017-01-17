@@ -57,6 +57,8 @@ class TextParser
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
 	];
+	private static $recordVariable;
+	private static $reletedVariable;
 
 	/** @var int Record id */
 	public $record;
@@ -633,6 +635,10 @@ class TextParser
 	 */
 	public function getRecordVariable($fieldType = false)
 	{
+		$cacheKey = "$this->moduleName|$fieldType";
+		if (isset(static::$recordVariable[$cacheKey])) {
+			return static::$recordVariable[$cacheKey];
+		}
 		$variables = [];
 		if (!$fieldType) {
 			foreach (static::$variableEntity as $key => $name) {
@@ -655,6 +661,7 @@ class TextParser
 				}
 			}
 		}
+		static::$recordVariable[$cacheKey] = $variables;
 		return $variables;
 	}
 
@@ -699,6 +706,10 @@ class TextParser
 	 */
 	public function getReletedVariable($fieldType = false)
 	{
+		$cacheKey = "$this->moduleName|$fieldType";
+		if (isset(static::$reletedVariable[$cacheKey])) {
+			return static::$reletedVariable[$cacheKey];
+		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES');
@@ -735,6 +746,7 @@ class TextParser
 				}
 			}
 		}
+		static::$reletedVariable[$cacheKey] = $variables;
 		return $variables;
 	}
 

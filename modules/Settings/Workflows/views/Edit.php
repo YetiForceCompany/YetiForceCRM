@@ -106,13 +106,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		}
 		//Added to support advance filters
 		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workFlowModel, Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
-
-		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$recordStructure = $recordStructureInstance->getStructure();
-		if (in_array($selectedModuleName, getInventoryModules())) {
-			$itemsBlock = "LBL_ITEM_DETAILS";
-			unset($recordStructure[$itemsBlock]);
-		}
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
 		$viewer->assign('MODULE_MODEL', $selectedModule);
@@ -173,6 +167,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
