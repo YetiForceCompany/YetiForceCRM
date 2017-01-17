@@ -1,6 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
+	{if empty($TEXT_PARSER)}
+		{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
+	{/if}
 	{if $SELECTED_MODULE}
 		<div class="col-md-6 fieldRow">
 			<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">

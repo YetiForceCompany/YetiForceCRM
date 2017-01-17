@@ -47,6 +47,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerEditTaskEvent: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
+		app.registerCopyClipboard();
 		container.on('click', '[data-url]', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var params = currentElement.data('url');
@@ -68,7 +69,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				jQuery('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
-
 				app.showBtnSwitch($(data).find('.switchBtn'));
 				app.showPopoverElementView($(data).find('.popoverTooltip'));
 				var contentHeight = parseInt(data.find('.modal-body').height());

@@ -536,9 +536,6 @@ var app = {
 							if ($(e.target).hasClass('select2-search__field')) {
 								return true;
 							}
-							if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-								this.$element.trigger('focus')
-							}
 						}, this))
 			};
 			var modalContainer = container.find('.modal:first');

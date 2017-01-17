@@ -18,24 +18,26 @@
 			</div>
 			<div class="col-md-4">
 				<select class="chzn-select task-fields form-control">
-					{foreach from=$RECORD_STRUCTURE_MODEL->getFieldsByType('phone') item=FIELD key=FIELD_VALUE}
-						<option value=",{$FIELD_VALUE}">({vtranslate($FIELD->getModule()->get('name'),$FIELD->getModule()->get('name'))})  {vtranslate($FIELD->get('label'),$FIELD->getModule()->get('name'))}</option>
+					<option value="none"></option>
+					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('phone')}
+						<optgroup label="{\App\Language::translate($BLOCK_NAME, $SOURCE_MODULE)}">
+							{foreach item=ITEM from=$FIELDS}
+								<option value=",{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+									{\App\Language::translate($ITEM['label'], $SOURCE_MODULE)}
+								</option>
+							{/foreach}
+						</optgroup>
 					{/foreach}
 				</select>	
 			</div>			
 		</div>			
 	</div>
+	<hr/>
 	<div class="row">
-		<div class="form-group">
-			<label class="col-md-2 control-label">{vtranslate('LBL_ADD_FIELDS',$QUALIFIED_MODULE)}</label>
-			<div class="col-md-4">
-				<select class="chzn-select task-fields form-control">
-					{foreach from=$ALL_FIELD_OPTIONS item=NAME key=KEY}
-						<option value="{$KEY}">{$NAME}</option>
-					{/foreach}
-				</select>	
-			</div>
-		</div>
+		{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE}
+	</div>
+	<hr/>
+	<div class="row">
 		<div class="form-group">
 			<label class="col-md-2 control-label">{vtranslate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</label>
 			<div class="col-md-8">
@@ -43,5 +45,4 @@
 			</div>
 		</div>	
 	</div>
-
 {/strip}	
