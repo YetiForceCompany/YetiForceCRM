@@ -327,8 +327,12 @@ class Field extends FieldBasic
 			$modulePicklists = array_diff($modulePicklists, $picklists);
 		}
 		foreach ($modulePicklists as &$picklistName) {
-			$db->createCommand()->dropTable('vtiger_' . $picklistName . '')->execute();
-			$db->createCommand()->dropTable('vtiger_' . $picklistName . '_seq')->execute();
+			if ($db->isTableExists("vtiger_$picklistName")) {
+				$db->createCommand()->dropTable("vtiger_$picklistName")->execute();
+			}
+			if ($db->isTableExists("vtiger_{$picklistName}_seq")) {
+				$db->createCommand()->dropTable("vtiger_{$picklistName}_seq")->execute();
+			}
 			$picklistId = (new \App\Db\Query)->select('picklistid')->from('vtiger_picklist')->where(['name' => $picklistName])->scalar();
 			$db->createCommand()->delete('vtiger_role2picklist', ['picklistid' => $picklistId])->execute();
 			$db->createCommand()->delete('vtiger_picklist', ['name' => $picklistName])->execute();
