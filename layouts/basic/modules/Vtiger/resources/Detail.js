@@ -25,30 +25,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		return Vtiger_Detail_Js.detailInstance;
 	},
-	// function to remove in the future
-	/*
-	 * function to trigger send Email
-	 * @params: send email url , module name.
-	 */
-	triggerSendEmail: function (detailActionUrl, module) {
-		Vtiger_Index_Js.checkMailConfig().then(function (data) {
-			if (data == true) {
-				var currentInstance = Vtiger_Detail_Js.getInstance();
-				var parentRecord = new Array();
-				var params = {};
-				parentRecord.push(currentInstance.getRecordId());
-				params['module'] = app.getModuleName();
-				params['view'] = "MassActionAjax";
-				params['selected_ids'] = parentRecord;
-				params['mode'] = "showComposeEmailForm";
-				params['step'] = "step1";
-				params['relatedLoad'] = true;
-				Vtiger_Index_Js.showComposeEmailPopup(params);
-			} else {
-				alert(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
-			}
-		});
-	},
 	/*
 	 * function to trigger Detail view actions
 	 * @params: Action url , callback function.
@@ -86,13 +62,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * @params: send sms url , module name.
 	 */
 	triggerSendSms: function (detailActionUrl, module) {
-		Vtiger_Index_Js.checkMailConfig().then(function (data) {
-			if (data == true) {
-				Vtiger_Detail_Js.triggerDetailViewAction(detailActionUrl);
-			} else {
-				alert(app.vtranslate('JS_SMS_SERVER_CONFIGURATION'));
-			}
-		});
+		Vtiger_Detail_Js.triggerDetailViewAction(detailActionUrl);
 	},
 	triggerTransferOwnership: function (massActionUrl) {
 		var thisInstance = this;
@@ -1821,72 +1791,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		)
 	},
-	/**
-	 * Function to register event for emails related record click
-	 */
-	registerEventForEmailsRelatedRecord: function () {
-		var detailContentsHolder = this.getContentHolder();
-		var emailsRelatedContainer = detailContentsHolder.find('[name="emailsRelatedRecord"]');
-		var parentId = this.getRecordId();
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		detailContentsHolder.on('click', '[name="emailsRelatedRecord"]', function (e) {
-			var element = jQuery(e.currentTarget);
-			var recordId = element.data('id');
-			var params = {};
-			params['module'] = "Emails";
-			params['view'] = "ComposeEmail";
-			params['mode'] = "emailPreview";
-			params['record'] = recordId;
-			params['parentId'] = parentId;
-			params['relatedLoad'] = true;
-			popupInstance.show(params);
-		})
-		detailContentsHolder.on('click', '[name="emailsEditView"]', function (e) {
-			e.stopPropagation();
-			var module = "Emails";
-			Vtiger_Index_Js.checkMailConfig().then(function (data) {
-				if (data == true) {
-					var element = jQuery(e.currentTarget);
-					var closestROw = element.closest('tr');
-					var recordId = closestROw.data('id');
-					var parentRecord = new Array();
-					parentRecord.push(parentId);
-					var params = {};
-					params['module'] = "Emails";
-					params['view'] = "ComposeEmail";
-					params['mode'] = "emailEdit";
-					params['record'] = recordId;
-					params['selected_ids'] = parentRecord;
-					params['parentId'] = parentId;
-					params['relatedLoad'] = true;
-					popupInstance.show(params);
-				} else {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
-				}
-			})
-		})
-	},
-	/**
-	 * Function to register event for adding email from related list
-	 */
-	registerEventForAddingEmailFromRelatedList: function () {
-		var detailContentsHolder = this.getContentHolder();
-		var parentId = this.getRecordId();
-		detailContentsHolder.on('click', '[name="composeEmail"]', function (e) {
-			e.stopPropagation();
-			var element = jQuery(e.currentTarget);
-			var parentRecord = new Array();
-			var params = {};
-			parentRecord.push(parentId);
-			params['module'] = app.getModuleName();
-			params['view'] = "MassActionAjax";
-			params['selected_ids'] = parentRecord;
-			params['mode'] = "showComposeEmailForm";
-			params['step'] = "step1";
-			params['relatedLoad'] = true;
-			Vtiger_Index_Js.showComposeEmailPopup(params);
-		})
-	},
 	registerChangeEventForModulesList: function () {
 		jQuery('#tagSearchModulesList').on('change', function (e) {
 			var modulesSelectElement = jQuery(e.currentTarget);
@@ -2885,8 +2789,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerBlockStatusCheckOnLoad();
 		this.registerEmailFieldClickEvent();
 		this.registerPhoneFieldClickEvent();
-		this.registerEventForEmailsRelatedRecord();
-		this.registerEventForAddingEmailFromRelatedList();
 		this.registerEventForRelatedTabClick();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.registerUrlFieldClickEvent();

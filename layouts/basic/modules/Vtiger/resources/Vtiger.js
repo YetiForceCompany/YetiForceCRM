@@ -65,20 +65,6 @@ var Vtiger_Index_Js = {
 			});
 		});
 	},
-	/**
-	 * Function to show email preview in popup
-	 */
-	showEmailPreview: function (recordId, parentId) {
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var params = {};
-		params['module'] = "Emails";
-		params['view'] = "ComposeEmail";
-		params['mode'] = "emailPreview";
-		params['record'] = recordId;
-		params['parentId'] = parentId;
-		params['relatedLoad'] = true;
-		popupInstance.show(params);
-	},
 	getEmailFromRecord: function (record, module, maxEmails) {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.request({
@@ -255,63 +241,6 @@ var Vtiger_Index_Js = {
 					function (error, err) {
 					});
 		})
-	},
-	/**
-	 * Function to show compose email popup based on number of
-	 * email fields in given module,if email fields are more than
-	 * one given option for user to select email for whom mail should
-	 * be sent,or else straight away open compose email popup
-	 * @params : accepts params object
-	 *
-	 * @cb: callback function to recieve the child window reference.
-	 */
-
-	showComposeEmailPopup: function (params, cb) {
-		Vtiger_Index_Js.checkMailConfig().then(function (data) {
-			if (data == true) {
-				var css = jQuery.extend({'text-align': 'left'}, css);
-				AppConnector.request(params).then(
-						function (data) {
-							var cbargs = [];
-							if (data) {
-								data = jQuery(data);
-								var form = data.find('#SendEmailFormStep1');
-								var emailFields = form.find('.emailField');
-								var length = emailFields.length;
-								var emailEditInstance = new Emails_MassEdit_Js();
-								if (length > 1) {
-									app.showModalWindow(data, function (data) {
-										emailEditInstance.registerEmailFieldSelectionEvent();
-										if (jQuery('#multiEmailContainer').height() > 300) {
-											jQuery('#multiEmailContainer').slimScroll({
-												height: '300px',
-												railVisible: true,
-												alwaysVisible: true,
-												size: '6px'
-											});
-										}
-									}, css);
-								} else {
-									emailFields.attr('checked', 'checked');
-									var params = form.serializeFormData();
-									// http://stackoverflow.com/questions/13953321/how-can-i-call-a-window-child-function-in-javascript
-									// This could be useful for the caller to invoke child window methods post load.
-									var win = emailEditInstance.showComposeEmailForm(params);
-									cbargs.push(win);
-								}
-							}
-							if (typeof cb == 'function')
-								cb.apply(null, cbargs);
-						},
-						function (error, err) {
-
-						}
-				);
-			} else {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
-			}
-		})
-
 	},
 	registerCheckNotifications: function (repeat) {
 		var thisInstance = this;
@@ -708,25 +637,6 @@ var Vtiger_Index_Js = {
 	},
 	sendNotification: function () {
 		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
-	},
-	checkMailConfig: function () {
-		var aDeferred = jQuery.Deferred();
-		AppConnector.request({
-			module: app.getModuleName(),
-			action: 'Mail',
-			mode: 'checkSmtp',
-		}).then(function (response) {
-			var state = false;
-			if (response.result) {
-				state = true;
-			} else {
-				state = false;
-			}
-			aDeferred.resolve(state);
-		}, function (data, err) {
-			aDeferred.resolve(false);
-		})
-		return aDeferred.promise();
 	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()

@@ -709,23 +709,6 @@ function dateDiffAsString($d1, $d2)
 	return $diffString;
 }
 
-//Function returns Email related Modules
-function getEmailRelatedModules()
-{
-	$current_user = vglobal('current_user');
-	$handler = vtws_getModuleHandlerFromName('Emails', $current_user);
-	$meta = $handler->getMeta();
-	$moduleFields = $meta->getModuleFields();
-	$fieldModel = $moduleFields['parent_id'];
-	$relatedModules = $fieldModel->getReferenceList();
-	foreach ($relatedModules as $key => $value) {
-		if ($value == 'Users') {
-			unset($relatedModules[$key]);
-		}
-	}
-	return $relatedModules;
-}
-
 //Get the User selected NumberOfCurrencyDecimals
 function getCurrencyDecimalPlaces()
 {

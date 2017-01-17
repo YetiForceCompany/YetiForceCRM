@@ -223,7 +223,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	}
 	// Added to render html tag for description fields
-	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails'))) {
+	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents'))) {
 		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
 	}
 	if ($fieldvalue !== '-' && $fieldvalue !== null && $fieldvalue !== '') {

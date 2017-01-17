@@ -23,13 +23,10 @@ class Users_List_View extends Settings_Vtiger_List_View
 	public function getFooterScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-
 		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			'modules.Users.resources.List',
-			'modules.Emails.resources.MassEdit',
 		];
-
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

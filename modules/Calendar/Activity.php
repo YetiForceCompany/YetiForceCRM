@@ -214,38 +214,6 @@ class Activity extends CRMEntity
 		}
 	}
 
-	/** Function to insert values in vtiger_salesmanactivityrel table for the specified module
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoSmActivityRel($module)
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		if ($this->mode == 'edit') {
-			$sql = "delete from vtiger_salesmanactivityrel where activityid=?";
-			$adb->pquery($sql, array($this->id));
-		}
-
-		$userName = vtlib\Functions::getUserName($this->column_fields['assigned_user_id']);
-		if (!empty($userName)) {
-			$sql_qry = "insert into vtiger_salesmanactivityrel (smid,activityid) values(?,?)";
-			$adb->pquery($sql_qry, array($this->column_fields['assigned_user_id'], $this->id));
-
-			if (!AppRequest::isEmpty('inviteesid')) {
-				$invitees = AppRequest::get('inviteesid');
-				foreach ($invitees as $inviteeid) {
-					if ($inviteeid != '') {
-						$resultcheck = $adb->pquery("select * from vtiger_salesmanactivityrel where activityid=? and smid=?", array($this->id, $inviteeid));
-						if ($adb->num_rows($resultcheck) != 1) {
-							$query = "insert into vtiger_salesmanactivityrel values(?,?)";
-							$adb->pquery($query, array($inviteeid, $this->id));
-						}
-					}
-				}
-			}
-		}
-	}
-
 	/**
 	 *
 	 * @param String $tableName
@@ -295,25 +263,6 @@ class Activity extends CRMEntity
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
-	}
-
-//calendarsync
-	/**
-	 * Function to get task count
-	 * @param  string   $user_name        - User Name
-	 * return  integer  $row["count(*)"]  - count
-	 */
-	public function getCount($user_name)
-	{
-
-		\App\Log::trace("Entering getCount(" . $user_name . ") method ...");
-		$query = "select count(*) from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.activityid=vtiger_activity.activityid inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid where user_name=? and vtiger_crmentity.deleted=0 and vtiger_activity.activitytype='Task'";
-		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
-		$rows_found = $this->db->getRowCount($result);
-		$row = $this->db->fetchByAssoc($result, 0);
-
-		\App\Log::trace("Exiting getCount method ...");
-		return $row["count(*)"];
 	}
 
 	/**

@@ -72,7 +72,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 */
 	public static function getSupportedModules()
 	{
-		return Vtiger_Module_Model::getAll([0], ['SMSNotifier', 'OSSMailView', 'Emails', 'Dashboard', 'ModComments', 'Notification'], true);
+		return Vtiger_Module_Model::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 
 	/**

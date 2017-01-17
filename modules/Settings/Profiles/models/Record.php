@@ -538,7 +538,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				//Update process
 				if ($profileActionPermissions || isset($profileTabPermissionsBase[$tabId]) || isset($profileUtilityPermissions[$tabId])) {
 					//Standard permissions
-					if (!$moduleModel->isEntityModule() || $this->isRestrictedModule($moduleModel->getName())) {
+					if (!$moduleModel->isEntityModule()) {
 						$actionEnabled = true;
 					} elseif ($actionsIdsList) {
 						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
@@ -593,7 +593,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						}
 						$i++;
 					}
-					if ($actionsIdsList && ($moduleModel->isEntityModule() && !$this->isRestrictedModule($moduleModel->getName()))) {
+					if ($actionsIdsList && ($moduleModel->isEntityModule())) {
 						$db->query($actionsInsertQuery);
 					}
 
@@ -615,9 +615,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$db->pquery($utilityInsertQuery, []);
 					}
 				}
-			} elseif ($this->isRestrictedModule($moduleModel->getName())) {
-				//To check the module is restricted or not(Emails)
-				$actionEnabled = true;
 			}
 		} else {
 			$actionEnabled = true;
@@ -816,16 +813,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * Function to check whether module is restricted for to show actions and field access
-	 * @param string $moduleName
-	 * @return <boolean> true/false
-	 */
-	public function isRestrictedModule($moduleName)
-	{
-		return in_array($moduleName, array('Emails'));
 	}
 
 	/**

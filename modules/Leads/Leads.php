@@ -185,9 +185,6 @@ class Leads extends CRMEntity
 		if ($queryPlanner->requireTable("vtiger_leadscf")) {
 			$query .= " left join vtiger_leadscf on vtiger_leadscf.leadid = vtiger_leaddetails.leadid";
 		}
-		if ($queryPlanner->requireTable("vtiger_email_trackLeads")) {
-			$query .= " LEFT JOIN vtiger_email_track AS vtiger_email_trackLeads ON vtiger_email_trackLeads.crmid = vtiger_leaddetails.leadid";
-		}
 		if ($queryPlanner->requireTable("vtiger_groupsLeads")) {
 			$query .= " left join vtiger_groups as vtiger_groupsLeads on vtiger_groupsLeads.groupid = vtiger_crmentityLeads.smownerid";
 		}

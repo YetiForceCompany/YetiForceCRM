@@ -271,11 +271,6 @@ class Reports extends CRMEntity
 						}
 					}
 				}
-				foreach ($this->related_modules as $module => $related_modules) {
-					if ($module == 'Emails') {
-						$this->related_modules[$module] = getEmailRelatedModules();
-					}
-				}
 				// Put the information in cache for re-use
 				VTCacheUtils::updateReport_ListofModuleInfos($this->module_list, $this->related_modules);
 			}
@@ -505,15 +500,6 @@ class Reports extends CRMEntity
 				$ret_module_list[$module][$value] = $temp;
 			}
 		}
-		if ($module == 'Emails') {
-			foreach ($ret_module_list[$module] as $key => $value) {
-				foreach ($value as $key1 => $value1) {
-					if ($key1 == 'vtiger_activity:time_start:Emails_Time_Start:time_start:T') {
-						unset($ret_module_list[$module][$key][$key1]);
-					}
-				}
-			}
-		}
 		$this->pri_module_columnslist = $ret_module_list;
 		return true;
 	}
@@ -536,15 +522,6 @@ class Reports extends CRMEntity
 						if ($this->module_list['Events']) {
 							$this->sec_module_columnslist['Events'] = $this->getModuleFieldList(
 								'Events');
-						}
-					}
-				}
-			}
-			if ($module == 'Emails') {
-				foreach ($this->sec_module_columnslist[$module] as $key => $value) {
-					foreach ($value as $key1 => $value1) {
-						if ($key1 == 'vtiger_activity:time_start:Emails_Time_Start:time_start:T') {
-							unset($this->sec_module_columnslist[$module][$key][$key1]);
 						}
 					}
 				}
@@ -595,8 +572,8 @@ class Reports extends CRMEntity
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		if (is_string($block))
-			$block = explode(",", $block);
-		$skipTalbes = array('vtiger_emaildetails', 'vtiger_attachments');
+			$block = explode(',', $block);
+		$skipTalbes = array('vtiger_attachments');
 
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
@@ -648,12 +625,7 @@ class Reports extends CRMEntity
 				$fieldtablename = "vtiger_usersRel1";
 				$fieldcolname = "user_name";
 			}
-
 			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-			if ($module == 'Emails' && $fieldlabel == 'Date & Time Sent') {
-				$fieldlabel = 'Date Sent';
-				$fieldtypeofdata = 'D';
-			}
 			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
 			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
 

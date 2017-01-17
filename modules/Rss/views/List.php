@@ -87,8 +87,7 @@ class Rss_List_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			"modules.Emails.resources.MassEdit",
-			"modules.Vtiger.resources.CkEditor"
+			'modules.Vtiger.resources.CkEditor'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

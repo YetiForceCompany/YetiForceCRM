@@ -281,9 +281,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if (strcasecmp('calendar', $this->out['moduleName']) === 0) {
 			$this->query = $this->query . " $nextToken activitytype='Task' AND ";
 		} elseif (strcasecmp('events', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype!='Emails' AND activitytype!='Task' AND ";
-		} else if (strcasecmp('emails', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype='Emails' AND ";
+			$this->query = $this->query . "$nextToken activitytype!='Task' AND ";
 		} elseif (!empty($deletedQuery)) {
 			$this->query = $this->query . $nextToken;
 		}

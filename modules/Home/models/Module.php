@@ -98,10 +98,8 @@ class Home_Module_Model extends Vtiger_Module_Model
 			->where(['vtiger_crmentity.deleted' => 0]);
 		\App\PrivilegeQuery::getConditions($query, 'Calendar');
 		if ($mode === 'upcoming') {
-			$query->andWhere(['<>', 'vtiger_activity.activitytype', 'Emails']);
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'overdue') {
-			$query->andWhere(['<>', 'vtiger_activity.activitytype', 'Emails']);
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'assigned_upcoming') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);

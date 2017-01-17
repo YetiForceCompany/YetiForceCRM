@@ -21,7 +21,7 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if (($sourceModule === 'Accounts' && $field === 'account_id' && $record) || in_array($sourceModule, ['Campaigns', 'Products', 'Services', 'Emails'])) {
+		if (($sourceModule === 'Accounts' && $field === 'account_id' && $record) || in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			if ($sourceModule === 'Campaigns' && $record) {
 				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_campaign_records')->where(['campaignid' => $record]);
 				$queryGenerator->addNativeCondition(['not in', 'vtiger_account.accountid', $subQuery]);
@@ -32,8 +32,6 @@ class Accounts_Module_Model extends Vtiger_Module_Model
 				$subQuery = (new \App\Db\Query())->select(['relcrmid'])->from('vtiger_crmentityrel')->where(['crmid' => $record]);
 				$secondSubQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['relcrmid' => $record]);
 				$queryGenerator->addNativeCondition(['and', ['not in', 'vtiger_account.accountid', $subQuery], ['not in', 'vtiger_account.accountid', $secondSubQuery]]);
-			} elseif ($sourceModule === 'Emails') {
-				$queryGenerator->addNativeCondition(['vtiger_account.emailoptout' => 0]);
 			} else {
 				$queryGenerator->addNativeCondition(['<>', 'vtiger_account.accountid', 0]);
 			}

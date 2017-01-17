@@ -173,9 +173,6 @@ class Accounts extends CRMEntity
 		if ($queryPlanner->requireTable('vtiger_accountAccounts', $matrix)) {
 			$query .= "	left join vtiger_account as vtiger_accountAccounts on vtiger_accountAccounts.accountid = vtiger_account.parentid";
 		}
-		if ($queryPlanner->requireTable('vtiger_email_track')) {
-			$query .= " LEFT JOIN vtiger_email_track AS vtiger_email_trackAccounts ON vtiger_email_trackAccounts .crmid = vtiger_account.accountid";
-		}
 		if ($queryPlanner->requireTable('vtiger_groupsAccounts')) {
 			$query .= "	left join vtiger_groups as vtiger_groupsAccounts on vtiger_groupsAccounts.groupid = vtiger_crmentityAccounts.smownerid";
 		}

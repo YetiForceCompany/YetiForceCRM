@@ -93,15 +93,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
-			var progressIndicatorElement = jQuery.progressIndicator();
-			Vtiger_Index_Js.checkMailConfig().then(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				if (data == true) {
-					Vtiger_List_Js.triggerMassAction(massActionUrl);
-				} else {
-					alert(app.vtranslate('JS_SMS_SERVER_CONFIGURATION'));
-				}
-			});
+			Vtiger_List_Js.triggerMassAction(massActionUrl);
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}

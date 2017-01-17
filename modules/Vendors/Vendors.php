@@ -199,9 +199,6 @@ class Vendors extends CRMEntity
 		if ($queryplanner->requireTable('vtiger_vendorcf')) {
 			$query .= ' left join vtiger_vendorcf on vtiger_vendorcf.vendorid = vtiger_crmentityVendors.crmid';
 		}
-		if ($queryplanner->requireTable('vtiger_email_trackVendors')) {
-			$query .= ' LEFT JOIN vtiger_email_track AS vtiger_email_trackVendors ON vtiger_email_trackVendors.crmid = vtiger_vendor.vendorid';
-		}
 		if ($queryplanner->requireTable('vtiger_usersVendors')) {
 			$query .= ' left join vtiger_users as vtiger_usersVendors on vtiger_usersVendors.id = vtiger_crmentityVendors.smownerid';
 		}

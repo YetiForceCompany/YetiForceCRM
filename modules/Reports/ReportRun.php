@@ -415,11 +415,7 @@ class ReportRun extends CRMEntity
 		} elseif ($selectedfields[4] == 'D' || $selectedfields[4] == 'DT') {
 			if ($selectedfields[5] == 'Y') {
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
-					if ($module == 'Emails') {
-						$columnSQL = "YEAR(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE)) AS Emails__Date__Sent__Year";
-					} else {
-						$columnSQL = "YEAR(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME)) AS Calendar__Start__Date__and__Time__Year";
-					}
+					$columnSQL = "YEAR(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME)) AS Calendar__Start__Date__and__Time__Year";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
 					$columnSQL = 'YEAR(vtiger_crmentity.' . $selectedfields[1] . ") AS '" . decode_html($header_label) . "__Year'";
 				} else {
@@ -428,11 +424,7 @@ class ReportRun extends CRMEntity
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} elseif ($selectedfields[5] == 'M') {
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
-					if ($module == 'Emails') {
-						$columnSQL = "MONTHNAME(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE)) AS Emails__Date__Sent__Month";
-					} else {
-						$columnSQL = "MONTHNAME(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME)) AS Calendar__Start__Date__and__Time__Month";
-					}
+					$columnSQL = "MONTHNAME(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME)) AS Calendar__Start__Date__and__Time__Month";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
 					$columnSQL = "MONTHNAME(vtiger_crmentity." . $selectedfields[1] . ") AS '" . decode_html($header_label) . "__Month'";
 				} else {
@@ -441,11 +433,7 @@ class ReportRun extends CRMEntity
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} elseif ($selectedfields[5] == 'MY') { // used in charts to get the year also, which will be used for click throughs
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
-					if ($module == 'Emails') {
-						$columnSQL = "date_format(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE), '%M %Y') AS Emails__Date__Sent__Month";
-					} else {
-						$columnSQL = "date_format(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME), '%M %Y') AS Calendar__Start__Date__and__Time__Month";
-					}
+					$columnSQL = "date_format(cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME), '%M %Y') AS Calendar__Start__Date__and__Time__Month";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
 					$columnSQL = 'date_format(vtiger_crmentity.' . $selectedfields[1] . ", '%M %Y') AS '" . decode_html($header_label) . "__Month'";
 				} else {
@@ -460,11 +448,7 @@ class ReportRun extends CRMEntity
 				$userformat = str_replace('rrrr', '%Y', $userformat);
 				$userformat = str_replace('mm', '%m', $userformat);
 				if ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
-					if ($module == 'Emails') {
-						$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE) AS Emails__Date__Sent";
-					} else {
-						$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME) AS Calendar__Start__Date__and__Time";
-					}
+					$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME) AS Calendar__Start__Date__and__Time";
 				} else if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule) {
 					$columnSQL = "date_format(vtiger_crmentity." . $selectedfields[1] . ",'$userformat') AS '" . decode_html($header_label) . "'";
 				} else {
@@ -476,11 +460,7 @@ class ReportRun extends CRMEntity
 		} elseif ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'status') {
 			$columnSQL = 'vtiger_activity.status AS Calendar__Status';
 		} elseif ($selectedfields[0] == 'vtiger_activity' && $selectedfields[1] == 'date_start') {
-			if ($module == 'Emails') {
-				$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATE) AS Emails__Date__Sent";
-			} else {
-				$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME) AS Calendar__Start__Date__and__Time";
-			}
+			$columnSQL = "cast(concat(vtiger_activity.date_start,'  ',vtiger_activity.time_start) as DATETIME) AS Calendar__Start__Date__and__Time";
 		} elseif (stristr($selectedfields[0], 'vtiger_users') && ($selectedfields[1] == 'user_name')) {
 			$temp_module_from_tablename = str_replace('vtiger_users', '', $selectedfields[0]);
 			if ($module != $this->primarymodule) {
@@ -2288,7 +2268,7 @@ class ReportRun extends CRMEntity
 		if ($stdfiltersql != '') {
 			$wheresql = ' and ' . $stdfiltersql;
 		}
-		
+
 		if ($advfiltersql != '') {
 			$wheresql .= ' and ' . $advfiltersql;
 		}

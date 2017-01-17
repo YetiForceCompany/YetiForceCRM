@@ -12,21 +12,6 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 {
 
 	/**
-	 * Function to get Campaigns Relation status values
-	 * @return <array> List of status values
-	 */
-	public function getCampaignRelationStatusValues()
-	{
-		$statusValues = [];
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT campaignrelstatusid, campaignrelstatus FROM vtiger_campaignrelstatus WHERE presence = ?', [1]);
-		while ($row = $db->getRow($result)) {
-			$statusValues[$row['campaignrelstatusid']] = $row['campaignrelstatus'];
-		}
-		return $statusValues;
-	}
-
-	/**
 	 * Function to update the status of relation
 	 * @param <Number> Campaign record id
 	 * @param <array> $statusDetails
@@ -92,7 +77,6 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_campaign_records', 'vtiger_campaign_records.crmid = vtiger_crmentity.crmid']);
-		//$queryGenerator->addJoin(['LEFT JOIN', 'vtiger_campaignrelstatus', 'vtiger_campaignrelstatus.campaignrelstatusid = vtiger_campaign_records.campaignrelstatusid']);
 		$queryGenerator->addNativeCondition(['vtiger_campaign_records.campaignid' => $this->get('parentRecord')->getId()]);
 	}
 }

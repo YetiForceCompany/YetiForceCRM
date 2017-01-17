@@ -103,7 +103,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getActionsRestrictedModulesList()
 	{
-		return ['Home', 'Emails'];
+		return ['Home'];
 	}
 
 	public static function createModule($moduleInformation)

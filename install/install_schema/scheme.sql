@@ -4638,20 +4638,6 @@ CREATE TABLE `vtiger_email_template_type` (
   PRIMARY KEY (`email_template_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_emaildetails` */
-
-CREATE TABLE `vtiger_emaildetails` (
-  `emailid` int(19) NOT NULL,
-  `from_email` varchar(50) NOT NULL DEFAULT '',
-  `to_email` text,
-  `cc_email` text,
-  `bcc_email` text,
-  `assigned_user_email` varchar(50) NOT NULL DEFAULT '',
-  `idlists` text,
-  `email_flag` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`emailid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_employee_education` */
 
 CREATE TABLE `vtiger_employee_education` (
@@ -7763,17 +7749,6 @@ CREATE TABLE `vtiger_rss` (
   `rsstype` int(10) DEFAULT '0',
   `starred` int(1) DEFAULT '0',
   PRIMARY KEY (`rssid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_salesmanactivityrel` */
-
-CREATE TABLE `vtiger_salesmanactivityrel` (
-  `smid` int(19) NOT NULL DEFAULT '0',
-  `activityid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`smid`,`activityid`),
-  KEY `salesmanactivityrel_activityid_idx` (`activityid`),
-  KEY `salesmanactivityrel_smid_idx` (`smid`),
-  CONSTRAINT `fk_2_vtiger_salesmanactivityrel` FOREIGN KEY (`smid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_salesmanattachmentsrel` */

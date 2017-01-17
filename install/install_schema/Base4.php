@@ -463,21 +463,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_salesmanactivityrel' => [
-				'columns' => [
-					'smid' => $this->integer()->notNull()->defaultValue(0),
-					'activityid' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'index' => [
-					['salesmanactivityrel_activityid_idx', 'activityid'],
-					['salesmanactivityrel_smid_idx', 'smid'],
-				],
-				'primaryKeys' => [
-					['salesmanactivityrel_pk', ['smid', 'activityid']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_salesmanattachmentsrel' => [
 				'columns' => [
 					'smid' => $this->integer()->notNull()->defaultValue(0),
@@ -2632,7 +2617,6 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_2_vtiger_role2picklist', 'vtiger_role2picklist', 'picklistid', 'vtiger_picklist', 'picklistid', 'CASCADE', 'RESTRICT'],
 			['vtiger_role2profile_ibfk_1', 'vtiger_role2profile', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
 			['vtiger_role2profile_ibfk_2', 'vtiger_role2profile', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-			['fk_2_vtiger_salesmanactivityrel', 'vtiger_salesmanactivityrel', 'smid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel', 'attachmentsid', 'vtiger_attachments', 'attachmentsid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_salesmanticketrel', 'vtiger_salesmanticketrel', 'smid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
 			['vtiger_scheduled_reports_ibfk_1', 'vtiger_scheduled_reports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
@@ -7285,7 +7269,6 @@ class Base4 extends \App\Db\Importers\Base
 					[7, 'Leads', 0, 4, 'Leads', NULL, NULL, 0, 0, 1, NULL, 'Sales', NULL, 0, 0],
 					[8, 'Documents', 0, 9, 'Documents', NULL, NULL, 0, 0, 1, NULL, 'Tools', NULL, 0, 0],
 					[9, 'Calendar', 0, 3, 'Calendar', NULL, NULL, 0, 0, 1, NULL, 'Tools', NULL, 0, 0],
-					[10, 'Emails', 0, 10, 'Emails', NULL, NULL, 0, 1, 1, NULL, 'Tools', NULL, 0, 0],
 					[13, 'HelpDesk', 0, 11, 'HelpDesk', NULL, NULL, 0, 0, 1, NULL, 'Support', NULL, 0, 0],
 					[14, 'Products', 0, 8, 'Products', NULL, NULL, 0, 0, 1, NULL, 'Inventory', NULL, 0, 0],
 					[15, 'Faq', 0, -1, 'Faq', NULL, NULL, 0, 1, 1, NULL, 'Support', NULL, 0, 0],
@@ -7982,7 +7965,6 @@ class Base4 extends \App\Db\Importers\Base
 					[12, 'Contacts', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[14, 'Products', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[15, 'Documents', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
-					[16, 'Emails', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[17, 'HelpDesk', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[18, 'Events', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[19, 'Users', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],

@@ -4,7 +4,7 @@
 class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 {
 
-	protected $skipModules = ['Emails'];
+	protected $skipModules = [];
 
 	public function getSkipModules()
 	{

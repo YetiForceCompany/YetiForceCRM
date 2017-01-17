@@ -352,16 +352,16 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$moduleName = $this->getModule()->getName();
 		$query = (new App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'vtiger_ws_referencetype.type'])
-				->from('vtiger_field')
-				->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
-				->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid');
+			->from('vtiger_field')
+			->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
+			->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid');
 		$querySecond = (new App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'relmodule'])
-				->from('vtiger_field')
-				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid');
+			->from('vtiger_field')
+			->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid');
 		$dataReader = $query->union($querySecond)->createCommand()->query();
 		$dependentFields = [];
 		// List of modules which will not be supported by 'Create Entity' workflow task
-		$filterModules = ['Emails', 'Calendar', 'Events', 'Accounts'];
+		$filterModules = ['Calendar', 'Events', 'Accounts'];
 		$skipFieldsList = [];
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];

@@ -901,49 +901,6 @@ class CustomView extends CRMEntity
 		return $rtvalue;
 	}
 
-	/** to get the customview query for the given customview
-	 * @param $viewid (custom view id):: type Integer
-	 * @param $listquery (List View Query):: type string
-	 * @param $module (Module Name):: type string
-	 * @returns  $query
-	 */
-	//CHANGE : TO IMPROVE PERFORMANCE
-	public function getModifiedCvListQuery($viewid, $listquery, $module)
-	{
-		if ($viewid != "" && $listquery != "") {
-
-			$listviewquery = substr($listquery, strpos($listquery, 'FROM'), strlen($listquery));
-			if ($module == "Calendar" || $module == "Emails") {
-				$query = 'select %s, vtiger_activity.activityid, vtiger_activity.activitytype as type, vtiger_activity.priority, vtiger_activity.status as status, vtiger_crmentity.crmid,vtiger_contactdetails.contactid %s';
-			} else if ($module == "Documents") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_notes.* %s';
-			} else if ($module == "Products") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_products.* %s';
-			} else if ($module == "Vendors") {
-				$query = 'select %s ,vtiger_crmentity.crmid %s';
-			} else if ($module == "PriceBooks") {
-				$query = 'select %s ,vtiger_crmentity.crmid %s';
-			} else if ($module == "Faq") {
-				$query = 'select %s ,vtiger_crmentity.crmid %s';
-			} else if ($module == "Contacts") {
-				$query = 'select %s ,vtiger_crmentity.crmid,vtiger_account.accountid %s';
-			} else {
-				$query = 'select %s ,vtiger_crmentity.crmid %s';
-			}
-
-			$query = sprintf($query, $this->getCvColumnListSQL($viewid), $listviewquery);
-			$stdfiltersql = $this->getCVStdFilterSQL($viewid);
-			$advfiltersql = $this->getCVAdvFilterSQL($viewid);
-			if (isset($stdfiltersql) && $stdfiltersql != '') {
-				$query .= ' and ' . $stdfiltersql;
-			}
-			if (isset($advfiltersql) && $advfiltersql != '') {
-				$query .= ' and ' . $advfiltersql;
-			}
-		}
-		return $query;
-	}
-
 	/** to get the Key Metrics for the home page query for the given customview  to find the no of records
 	 * @param $viewid (custom view id):: type Integer
 	 * @param $listquery (List View Query):: type string

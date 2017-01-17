@@ -13,7 +13,7 @@ class Vtiger_PreviewMail_Widget extends Vtiger_Basic_Widget
 {
 
 	public $allowedModules = ['PreviewMail'];
-	public $dbParams = array('relatedmodule' => 'Emails');
+	public $dbParams = array();
 
 	public function getUrl()
 	{

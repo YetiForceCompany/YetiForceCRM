@@ -14,7 +14,7 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getModTrackerModules($active = false)
 	{
-		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$restrictedModules = ['Integration', 'Dashboard', 'PBXManager'];
 		$query = (new \App\Db\Query())->select(['vtiger_tab.name', 'vtiger_tab.tabid', 'vtiger_modtracker_tabs.visible'])
 			->from('vtiger_tab')
 			->leftJoin('vtiger_modtracker_tabs', 'vtiger_tab.tabid = vtiger_modtracker_tabs.tabid')

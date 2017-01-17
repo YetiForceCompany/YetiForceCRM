@@ -53,9 +53,4 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 			$viewer->view('dashboards/MiniList.tpl', $moduleName);
 		}
 	}
-
-	public function getFooterScripts(Vtiger_Request $request)
-	{
-		return $this->checkAndConvertJsScripts(array('modules.Emails.resources.MassEdit'));
-	}
 }

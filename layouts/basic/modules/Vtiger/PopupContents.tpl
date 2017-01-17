@@ -27,9 +27,6 @@
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-		{if $SOURCE_MODULE eq "Emails"}
-			<input type="hidden" value="Vtiger_EmailsRelatedModule_Popup_Js" id="popUpClassName"/>
-		{/if}
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">

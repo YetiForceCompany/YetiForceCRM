@@ -105,7 +105,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			$db = PearDatabase::getInstance();
 
 			$presence = [0];
-			$restrictedModules = array('Emails', 'Integration', 'Dashboard');
+			$restrictedModules = array('Integration', 'Dashboard');
 			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND name NOT IN (%s)';
 			$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
 			$result = $db->pquery($query, [$presence, '1', $restrictedModules]);

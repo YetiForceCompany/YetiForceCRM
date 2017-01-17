@@ -114,20 +114,6 @@ class DataTransform
 				$row[$field] = $ownerDetails[1];
 			}
 		}
-		if (strtolower($meta->getEntityName()) == "emails") {
-			if (isset($row['parent_id'])) {
-				if ($associatedToUser === true) {
-					AppRequest::set('module', 'Emails');
-					$row['parent_id'] = $row['parent_id'] . "@-1|";
-					AppRequest::set('parent_id', $row['parent_id']);
-				} else {
-					$referenceHandler = vtws_getModuleHandlerFromId($parentTypeId, $meta->getUser());
-					$referenceMeta = $referenceHandler->getMeta();
-					$fieldId = getEmailFieldId($referenceMeta, $row['parent_id']);
-					$row['parent_id'] .= "@$fieldId|";
-				}
-			}
-		}
 		if ($row["id"]) {
 			unset($row["id"]);
 		}

@@ -28,7 +28,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	public static function getEntityModulesList()
 	{
 		$presence = [0, 2];
-		$restrictedModules = ['Emails', 'Integration', 'Dashboard', 'ModComments', 'PBXManager', 'vtmessages', 'vttwitter'];
+		$restrictedModules = ['Integration', 'Dashboard', 'ModComments', 'PBXManager'];
 
 		$dataReader = (new \App\Db\Query())->select('name')
 				->from('vtiger_tab')

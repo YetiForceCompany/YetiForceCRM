@@ -427,7 +427,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public static function getEntityModulesList()
 	{
 		$presence = [0, 2];
-		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
+		$restrictedModules = ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments'];
 
 		$query = (new \App\Db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
 		$dataReader = $query->createCommand()->query();

@@ -57,7 +57,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if (in_array($sourceModule, array('Campaigns', 'Vendors', 'Products', 'Services', 'Emails')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
+		if (in_array($sourceModule, array('Campaigns', 'Vendors', 'Products', 'Services')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns' :
 					$tableName = 'vtiger_campaign_records';
@@ -85,8 +85,6 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 					->from('vtiger_crmentityrel')
 					->where(['relcrmid' => $record]);
 				$condition = ['and', ['not in', 'vtiger_contactdetails.contactid', $subQuery], ['not in', 'vtiger_contactdetails.contactid', $secondSubQuery]];
-			} elseif ($sourceModule === 'Emails') {
-				$condition = ['vtiger_contactdetails.emailoptout' => 0];
 			} elseif ($sourceModule === 'Contacts' && $field === 'contact_id') {
 				$condition = ['<>', 'vtiger_contactdetails.contactid', $record];
 			} else {

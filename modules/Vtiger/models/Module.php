@@ -890,7 +890,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$moduleModels) {
 			$presence = array(0, 2);
 			$moduleModels = self::getAll($presence);
-			$restrictedModules = array('Emails', 'Integration', 'Dashboard');
+			$restrictedModules = array('Integration', 'Dashboard');
 			foreach ($moduleModels as $key => $moduleModel) {
 				if (in_array($moduleModel->getName(), $restrictedModules) || $moduleModel->get('isentitytype') != 1) {
 					unset($moduleModels[$key]);
@@ -947,7 +947,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
 			$entityInfo = \App\Module::getEntityInfo($tabid);
-			if ($moduleName == 'Users' || $moduleName == 'Emails' || $moduleName == 'Events' || !$entityInfo['turn_off'])
+			if ($moduleName == 'Users' || $moduleName == 'Events' || !$entityInfo['turn_off'])
 				continue;
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
 				$searchableModules[$moduleName] = $moduleModel;

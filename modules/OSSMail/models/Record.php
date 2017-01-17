@@ -43,11 +43,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function ComposeEmail($params, $ModuleName)
-	{
-		header('Location: ' . self::getSiteUrl() . 'index.php?module=OSSMail&view=compose');
-	}
-
 	public static function load_roundcube_config()
 	{
 		include 'modules/OSSMail/roundcube/config/defaults.inc.php';

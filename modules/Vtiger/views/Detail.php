@@ -251,7 +251,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$jsFileNames = array(
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
-			'modules.Emails.resources.MassEdit',
 			'modules.Vtiger.resources.Widgets',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch",

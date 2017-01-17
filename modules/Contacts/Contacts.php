@@ -119,25 +119,6 @@ class Contacts extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'lastname';
 
-	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
-	/** Function to get the number of Contacts assigned to a particular User.
-	 *  @param varchar $user name - Assigned to User
-	 *  Returns the count of contacts assigned to user.
-	 */
-	public function getCount($user_name)
-	{
-
-		\App\Log::trace("Entering getCount(" . $user_name . ") method ...");
-		$query = "select count(*) from vtiger_contactdetails  inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid inner join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid where user_name=? and vtiger_crmentity.deleted=0";
-		$result = $this->db->pquery($query, array($user_name), true, "Error retrieving contacts count");
-		$rows_found = $this->db->getRowCount($result);
-		$row = $this->db->fetchByAssoc($result, 0);
-
-
-		\App\Log::trace("Exiting getCount method ...");
-		return $row["count(*)"];
-	}
-
 	/** Function to export the contact records in CSV Format
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Contacts Query.
@@ -266,9 +247,6 @@ class Contacts extends CRMEntity
 		}
 		if ($queryplanner->requireTable("vtiger_contactscf")) {
 			$query .= " left join vtiger_contactscf on vtiger_contactdetails.contactid = vtiger_contactscf.contactid";
-		}
-		if ($queryplanner->requireTable("vtiger_email_trackContacts")) {
-			$query .= " LEFT JOIN vtiger_email_track AS vtiger_email_trackContacts ON vtiger_email_trackContacts.crmid = vtiger_contactdetails.contactid";
 		}
 		if ($queryplanner->requireTable("vtiger_groupsContacts")) {
 			$query .= " left join vtiger_groups as vtiger_groupsContacts on vtiger_groupsContacts.groupid = vtiger_crmentityContacts.smownerid";

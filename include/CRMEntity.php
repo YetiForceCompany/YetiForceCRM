@@ -165,9 +165,7 @@ class CRMEntity
 			$multiRowTables = $this->multirow_tables;
 		} else {
 			$multiRowTables = array(
-				'vtiger_campaignrelstatus',
 				'vtiger_attachments',
-				'vtiger_email_track'
 			);
 		}
 
@@ -1241,15 +1239,13 @@ class CRMEntity
 			$instance = self::getInstance($module);
 			$sectableindex = $instance->tab_name_index[$sectablename];
 			$condition = "$table_name.$column_name=$tmpname.$secfieldname";
-			if ($pritablename == 'vtiger_senotesrel') {
+			if ($pritablename === 'vtiger_senotesrel') {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
                     && $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' && deleted = 0))";
 			} else {
 				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname)";
 			}
-			if ($secmodule == 'Calendar') {
-				$condition .= " && $table_name.activitytype != 'Emails'";
-			} else if ($secmodule == 'Leads') {
+			if ($secmodule === 'Leads') {
 				$condition .= " && $table_name.converted = 0";
 			}
 		}

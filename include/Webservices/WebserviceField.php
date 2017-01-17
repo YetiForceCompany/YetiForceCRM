@@ -378,21 +378,6 @@ class WebserviceField
 		if ($cache->getPicklistDetails($this->getTabId(), $this->getFieldName())) {
 			return $cache->getPicklistDetails($this->getTabId(), $this->getFieldName());
 		} else {
-			$hardCodedPickListNames = array("hdntaxtype", "email_flag");
-			$hardCodedPickListValues = array(
-				"hdntaxtype" => array(
-					array("label" => "Individual", "value" => "individual"),
-					array("label" => "Group", "value" => "group")
-				),
-				"email_flag" => array(
-					array('label' => 'SAVED', 'value' => 'SAVED'),
-					array('label' => 'SENT', 'value' => 'SENT'),
-					array('label' => 'MAILSCANNER', 'value' => 'MAILSCANNER')
-				)
-			);
-			if (in_array(strtolower($this->getFieldName()), $hardCodedPickListNames)) {
-				return $hardCodedPickListValues[strtolower($this->getFieldName())];
-			}
 			$picklistDetails = $this->getPickListOptions($this->getFieldName());
 			$cache->setPicklistDetails($this->getTabId(), $this->getFieldName(), $picklistDetails);
 			return $picklistDetails;

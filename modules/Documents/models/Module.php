@@ -30,15 +30,6 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns the url which gives Documents that have Internal file upload
-	 * @return string
-	 */
-	public function getInternalDocumentsURL()
-	{
-		return 'view=Popup&module=Documents&src_module=Emails&src_field=composeEmail';
-	}
-
-	/**
 	 * Function to get list view query for popup window
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
@@ -47,15 +38,10 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if ($sourceModule === 'Emails' && $field === 'composeEmail') {
-			$condition = ['and', ['vtiger_notes.filelocationtype' => 'I'], ['<>', 'vtiger_notes.filename', ''], ['vtiger_notes.filestatus' => 1]];
-		} else {
-			$condition = ['and',
-				['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
-				['vtiger_notes.filestatus' => 1]
-			];
-		}
-		$queryGenerator->addNativeCondition($condition);
+		$queryGenerator->addNativeCondition(['and',
+			['not in', 'vtiger_notes.notesid', (new App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
+			['vtiger_notes.filestatus' => 1]
+		]);
 	}
 
 	/**

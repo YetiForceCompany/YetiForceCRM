@@ -96,7 +96,7 @@ class VTWorkflowUtils
 	{
 		$moduleName = $entityData->getModuleName();
 		if ($moduleName == 'Activity') {
-			$arr = array('Task' => 'Calendar', 'Emails' => 'Emails');
+			$arr = array('Task' => 'Calendar');
 			$type = \vtlib\Functions::getActivityType($entityData->getId());
 			$moduleName = $arr[$type];
 			if ($moduleName === null) {
@@ -135,14 +135,14 @@ class VTWorkflowUtils
 	public static function checkModuleWorkflow($modulename)
 	{
 		return (new \App\Db\Query())->from('vtiger_tab')
-				->where(['NOT IN', 'name', ['Calendar', 'Emails', 'Faq', 'Events', 'Users']])
+				->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Events', 'Users']])
 				->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])
 				->exists();
 	}
 
 	public function vtGetModules($adb)
 	{
-		$modules_not_supported = ['Emails', 'PBXManager'];
+		$modules_not_supported = ['PBXManager'];
 		$sql = sprintf('select distinct vtiger_field.tabid, name
 			from vtiger_field
 			inner join vtiger_tab
