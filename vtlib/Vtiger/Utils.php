@@ -191,7 +191,7 @@ class Utils
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($tableName, true);
-		if (is_null($tableSchema->getColumn($columnName))) {
+		if (is_null($tableSchema->getColumn((string) $columnName))) {
 			if (is_array($criteria)) {
 				$criteria = $db->getSchema()->createColumnSchemaBuilder($criteria[0], $criteria[1]);
 			}

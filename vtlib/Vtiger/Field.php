@@ -280,9 +280,9 @@ class Field extends FieldBasic
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_trees_templates', ['name' => $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
-		$templateId = $db->getLastInsertID();
+		$templateId = $db->getLastInsertID('vtiger_trees_templates_templateid_seq');
 
-		foreach ($tree->tree_values->tree_value as &$treeValue) {
+		foreach ($tree->tree_values->tree_value as $treeValue) {
 			$db->createCommand()->insert('vtiger_trees_templates_data', ['templateid' => $templateId, 'name' => $treeValue->name, 'tree' => $treeValue->tree,
 				'parenttrre' => $treeValue->parenttrre, 'depth' => $treeValue->depth, 'label' => $treeValue->label, 'state' => $treeValue->state
 			])->execute();
