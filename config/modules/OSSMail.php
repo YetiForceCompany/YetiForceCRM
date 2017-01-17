@@ -13,7 +13,7 @@ $config['support_url'] = 'http://yetiforce.com';
 $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
-$config['plugins'] = array('identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive');
+$config['plugins'] = array('identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive','authres_status');
 $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array('*' => '/images/null.png');
