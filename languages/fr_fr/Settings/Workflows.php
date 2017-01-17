@@ -171,7 +171,6 @@ $languageStrings = [
 	'EmailTempleteList' => 'Sélectionner un modèle d\'email à envoyer',
 	'Do you send all attachments' => 'Envoyer tous les attachements?',
 	'Select e-mail address' => 'Sélectionner l\'adresse email',
-	'Send a copy to email' => 'Envoyer une copie à email',
 	//workflow task types
 	'Send Mail' => 'Envoyer Mail',
 	'Invoke Custom Function' => 'Invoquer une fonction personnalisée',
