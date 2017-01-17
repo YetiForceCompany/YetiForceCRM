@@ -820,7 +820,6 @@ $languageStrings = [
 	'OSSMailView' => 'Maile firmowe',
 	'OSSEmployees' => 'Pracownicy',
 	'HolidaysEntitlement' => 'Roczny wymiar urlopu',
-	'OSSMailTemplates' => 'Lista szablonów mailowych',
 	'Faq' => 'Instrukcje',
 	'Events' => 'Terminy',
 	'TAG_PLACEHOLDER' => ' Oznacz',
