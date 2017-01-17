@@ -2879,6 +2879,7 @@ class Base1 extends \App\Db\Importers\Base
 					'ssalesprocesses_status' => $this->stringType(),
 					'campaignid' => $this->integer(),
 					'parentid' => $this->integer(),
+					'startdate' => $this->date(),
 				],
 				'index' => [
 						['ssalesprocesses_rel_idx', 'related_to'],

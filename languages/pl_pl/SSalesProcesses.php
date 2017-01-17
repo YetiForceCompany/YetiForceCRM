@@ -23,6 +23,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Status',
 	'FL_CAMPAIGN' => 'Kampania marketingowa',
 	'FL_MEMBER_OF' => 'Szansa sprzedaży nadrzędna',
+	'FL_START_DATE' => 'Czas rozpoczęcia',
 	//Picklist
 	'PLL_WEBSITE' => 'Strona WWW',
 	'PLL_PHONE' => 'Telefon',

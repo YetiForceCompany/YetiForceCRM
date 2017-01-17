@@ -2861,6 +2861,7 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   `ssalesprocesses_status` varchar(255) DEFAULT NULL,
   `campaignid` int(19) DEFAULT NULL,
   `parentid` int(19) DEFAULT '0',
+  `startdate` date DEFAULT NULL,
   PRIMARY KEY (`ssalesprocessesid`),
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
@@ -4915,7 +4916,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2484 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2485 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

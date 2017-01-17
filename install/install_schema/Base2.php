@@ -5340,6 +5340,7 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2481, 0, 0],
 					[112, 2482, 0, 0],
 					[112, 2483, 0, 0],
+					[86, 2484, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -6980,7 +6981,7 @@ class Base2 extends \App\Db\Importers\Base
 					[86, 2095, 'estimated', 'u_yf_ssalesprocesses', 1, 71, 'estimated', 'FL_ESTIMATED', 1, 2, '', 100, 1, 320, 1, 'N~M', 1, 7, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[86, 2096, 'actual_sale', 'u_yf_ssalesprocesses', 1, 71, 'actual_sale', 'FL_ACTUAL_SALE', 1, 2, '', 100, 2, 320, 10, 'N~O', 2, 9, 'BAS', 1, '', 0, '', '0', 0, 0],
 					[86, 2097, 'estimated_date', 'u_yf_ssalesprocesses', 1, 5, 'estimated_date', 'FL_ESTIMATED_DATE', 1, 2, '', 100, 12, 269, 1, 'D~M', 2, 6, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[86, 2098, 'actual_date', 'u_yf_ssalesprocesses', 1, 5, 'actual_date', 'FL_ACTUAL_DATE', 1, 2, '', 100, 11, 269, 10, 'D~O', 2, 8, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[86, 2098, 'actual_date', 'u_yf_ssalesprocesses', 1, 5, 'actual_date', 'FL_ACTUAL_DATE', 1, 2, '', 100, 13, 269, 10, 'D~O', 2, 8, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[86, 2099, 'probability', 'u_yf_ssalesprocesses', 1, 9, 'probability', 'FL_PROBABILITY', 1, 2, '', 100, 9, 269, 1, 'N~O~2~2', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[86, 2100, 'ssalesprocesses_source', 'u_yf_ssalesprocesses', 1, 16, 'ssalesprocesses_source', 'FL_SOURCE', 1, 2, '', 100, 8, 269, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[86, 2101, 'ssalesprocesses_type', 'u_yf_ssalesprocesses', 1, 16, 'ssalesprocesses_type', 'FL_TYPE', 1, 2, 'PLL_NEW_SALES', 100, 7, 269, 1, 'V~M', 1, 4, 'BAS', 1, '', 0, '', NULL, 0, 0],
@@ -7245,7 +7246,7 @@ class Base2 extends \App\Db\Importers\Base
 					[61, 2382, 'secondary_phone', 'vtiger_ossemployees', 1, 11, 'secondary_phone', 'FL_SECONDARY_PHONE', 1, 2, '', 100, 5, 152, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[61, 2383, 'position', 'vtiger_ossemployees', 1, 1, 'position', 'FL_POSITION', 1, 2, '', 100, 17, 151, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[61, 2384, 'rbh', 'vtiger_ossemployees', 1, 71, 'rbh', 'FL_RBH', 1, 2, '', 100, 18, 151, 1, 'N~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[86, 2385, 'campaignid', 'u_yf_ssalesprocesses', 1, 10, 'campaignid', 'FL_CAMPAIGN', 1, 2, '', 100, 13, 269, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[86, 2385, 'campaignid', 'u_yf_ssalesprocesses', 1, 10, 'campaignid', 'FL_CAMPAIGN', 1, 2, '', 100, 15, 269, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[43, 2386, 'ssalesprocessesid', 'vtiger_project', 1, 10, 'ssalesprocessesid', 'SINGLE_SSalesProcesses', 1, 2, '', 100, 14, 107, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[111, 2387, 'title', 'u_yf_notification', 1, 2, 'title', 'FL_TITLE', 1, 2, '', 100, 1, 374, 1, 'V~M', 1, 1, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[111, 2388, 'number', 'u_yf_notification', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 2, 374, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
@@ -7343,12 +7344,13 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2481, 'subject', 'u_yf_emailtemplates', 1, 1, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2482, 'content', 'u_yf_emailtemplates', 1, 300, 'content', 'FL_CONTENT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2483, 'email_template_priority', 'u_yf_emailtemplates', 1, 16, 'email_template_priority', 'FL_SMTP_PRIORITY', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[86, 2484, 'startdate', 'u_yf_ssalesprocesses', 1, 5, 'startdate', 'FL_START_DATE', 1, 2, '', 100, 11, 269, 1, 'D~O', 2, 5, 'BAS', 1, '', 1, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2483],
+					[2484],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
