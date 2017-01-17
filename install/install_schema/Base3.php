@@ -24,7 +24,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['glacct_glacct_idx', 'glacct', true],
+					['glacct_glacct_idx', 'glacct', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -42,11 +42,11 @@ class Base3 extends \App\Db\Importers\Base
 					'containsgroupid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-						['group2grouprel_containsgroupid_idx', 'containsgroupid'],
-						['group2grouprel_groupid_idx', 'groupid'],
+					['group2grouprel_containsgroupid_idx', 'containsgroupid'],
+					['group2grouprel_groupid_idx', 'groupid'],
 				],
 				'primaryKeys' => [
-						['group2grouprel_pk', ['groupid', 'containsgroupid']]
+					['group2grouprel_pk', ['groupid', 'containsgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -57,8 +57,8 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['group2modules_groupid_idx', 'groupid'],
-						['group2modules_tabid_idx', 'tabid'],
+					['group2modules_groupid_idx', 'groupid'],
+					['group2modules_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -69,10 +69,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-						['group2role_idx', 'roleid'],
+					['group2role_idx', 'roleid'],
 				],
 				'primaryKeys' => [
-						['group2role_pk', ['groupid', 'roleid']]
+					['group2role_pk', ['groupid', 'roleid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -83,10 +83,10 @@ class Base3 extends \App\Db\Importers\Base
 					'roleandsubid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-						['group2rs_idx', 'roleandsubid'],
+					['group2rs_idx', 'roleandsubid'],
 				],
 				'primaryKeys' => [
-						['group2rs_pk', ['groupid', 'roleandsubid']]
+					['group2rs_pk', ['groupid', 'roleandsubid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -100,10 +100,10 @@ class Base3 extends \App\Db\Importers\Base
 					'modules' => $this->stringType(),
 				],
 				'index' => [
-						['groups_groupname_idx', 'groupname', true],
+					['groups_groupname_idx', 'groupname', true],
 				],
 				'primaryKeys' => [
-						['groups_pk', 'groupid']
+					['groups_pk', 'groupid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -117,10 +117,10 @@ class Base3 extends \App\Db\Importers\Base
 					'ossemployeesid' => $this->integer(),
 				],
 				'index' => [
-						['holidaysentitlement_idx', 'ossemployeesid'],
+					['holidaysentitlement_idx', 'ossemployeesid'],
 				],
 				'primaryKeys' => [
-						['holidaysentitlement_pk', 'holidaysentitlementid']
+					['holidaysentitlement_pk', 'holidaysentitlementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -148,7 +148,7 @@ class Base3 extends \App\Db\Importers\Base
 					'holidaysentitlementid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['holidaysentitlementcf_pk', 'holidaysentitlementid']
+					['holidaysentitlementcf_pk', 'holidaysentitlementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -159,7 +159,7 @@ class Base3 extends \App\Db\Importers\Base
 					'layout' => $this->integer()->notNull()->defaultValue(4),
 				],
 				'primaryKeys' => [
-						['home_layout_pk', 'userid']
+					['home_layout_pk', 'userid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -171,10 +171,10 @@ class Base3 extends \App\Db\Importers\Base
 					'dashbdtype' => $this->stringType(100),
 				],
 				'index' => [
-						['homedashbd_idx', 'stuffid'],
+					['homedashbd_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-						['homedashbd_pk', 'stuffid']
+					['homedashbd_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -187,10 +187,10 @@ class Base3 extends \App\Db\Importers\Base
 					'setype' => $this->stringType(30),
 				],
 				'index' => [
-						['homedefault_idx', 'stuffid'],
+					['homedefault_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-						['homedefault_pk', 'stuffid']
+					['homedefault_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -204,10 +204,10 @@ class Base3 extends \App\Db\Importers\Base
 					'setype' => $this->stringType(30)->notNull(),
 				],
 				'index' => [
-						['homemodule_idx', 'stuffid'],
+					['homemodule_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-						['homemodule_pk', 'stuffid']
+					['homemodule_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -218,7 +218,7 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(100),
 				],
 				'index' => [
-						['homemoduleflds_idx', 'stuffid'],
+					['homemoduleflds_idx', 'stuffid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -230,7 +230,7 @@ class Base3 extends \App\Db\Importers\Base
 					'reportcharttype' => $this->stringType(100),
 				],
 				'primaryKeys' => [
-						['homereportchart_pk', 'stuffid']
+					['homereportchart_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -242,10 +242,10 @@ class Base3 extends \App\Db\Importers\Base
 					'maxentries' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['homerss_idx', 'stuffid'],
+					['homerss_idx', 'stuffid'],
 				],
 				'primaryKeys' => [
-						['homerss_pk', 'stuffid']
+					['homerss_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -260,11 +260,11 @@ class Base3 extends \App\Db\Importers\Base
 					'stufftitle' => $this->stringType(100),
 				],
 				'index' => [
-						['homestuff_idx', 'stuffid'],
-						['homestuff_user_idx', 'userid'],
+					['homestuff_idx', 'stuffid'],
+					['homestuff_user_idx', 'userid'],
 				],
 				'primaryKeys' => [
-						['homestuff_pk', 'stuffid']
+					['homestuff_pk', 'stuffid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -303,7 +303,7 @@ class Base3 extends \App\Db\Importers\Base
 					'extent_description' => $this->text(),
 				],
 				'primaryKeys' => [
-						['ideas_pk', 'ideasid']
+					['ideas_pk', 'ideasid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -313,7 +313,7 @@ class Base3 extends \App\Db\Importers\Base
 					'ideasid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['ideascf_pk', 'ideasid']
+					['ideascf_pk', 'ideasid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -405,7 +405,7 @@ class Base3 extends \App\Db\Importers\Base
 					'locked_since' => $this->dateTime(),
 				],
 				'primaryKeys' => [
-						['import_locks_pk', 'vtiger_import_lock_id']
+					['import_locks_pk', 'vtiger_import_lock_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -424,7 +424,7 @@ class Base3 extends \App\Db\Importers\Base
 					'is_published' => $this->stringType(3)->notNull()->defaultValue('no'),
 				],
 				'index' => [
-						['import_maps_idx', ['assigned_user_id', 'module', 'name', 'deleted']],
+					['import_maps_idx', ['assigned_user_id', 'module', 'name', 'deleted']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -455,7 +455,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['industry_industry_idx', 'industry', true],
+					['industry_industry_idx', 'industry', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -498,8 +498,8 @@ class Base3 extends \App\Db\Importers\Base
 					'marginp' => $this->decimal('10,2'),
 				],
 				'index' => [
-						['inventoryproductrel_id_idx', 'id'],
-						['inventoryproductrel_productid_idx', 'productid'],
+					['inventoryproductrel_id_idx', 'id'],
+					['inventoryproductrel_productid_idx', 'productid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -602,7 +602,7 @@ class Base3 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['language_prefix', 'prefix'],
+					['language_prefix', 'prefix'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -624,7 +624,7 @@ class Base3 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1),
 				],
 				'primaryKeys' => [
-						['layout_pk', 'id']
+					['layout_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -665,7 +665,7 @@ class Base3 extends \App\Db\Importers\Base
 					'poboxa' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['leadaddress_pk', 'leadaddressid']
+					['leadaddress_pk', 'leadaddressid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -718,13 +718,13 @@ class Base3 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
-						['leaddetails_converted_leadstatus_idx', ['converted', 'leadstatus']],
-						['leaddetails_email_idx', 'email'],
-						['leaddetails_lastname_idx', 'lastname'],
-						['leaddetails_converted_idx', 'converted'],
+					['leaddetails_converted_leadstatus_idx', ['converted', 'leadstatus']],
+					['leaddetails_email_idx', 'email'],
+					['leaddetails_lastname_idx', 'lastname'],
+					['leaddetails_converted_idx', 'converted'],
 				],
 				'primaryKeys' => [
-						['leaddetails_pk', 'leadid']
+					['leaddetails_pk', 'leadid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -751,7 +751,7 @@ class Base3 extends \App\Db\Importers\Base
 					'leadid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['leadscf_pk', 'leadid']
+					['leadscf_pk', 'leadid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -782,7 +782,7 @@ class Base3 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['leadstage_idx', 'stage', true],
+					['leadstage_idx', 'stage', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -815,7 +815,7 @@ class Base3 extends \App\Db\Importers\Base
 					'empct' => $this->integer(10)->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['leadsubdetails_pk', 'leadsubscriptionid']
+					['leadsubdetails_pk', 'leadsubscriptionid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -855,7 +855,7 @@ class Base3 extends \App\Db\Importers\Base
 					'lin_dimensions' => $this->stringType()->defaultValue(''),
 				],
 				'primaryKeys' => [
-						['lettersin_pk', 'lettersinid']
+					['lettersin_pk', 'lettersinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -865,7 +865,7 @@ class Base3 extends \App\Db\Importers\Base
 					'lettersinid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['lettersincf_pk', 'lettersinid']
+					['lettersincf_pk', 'lettersinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -888,7 +888,7 @@ class Base3 extends \App\Db\Importers\Base
 					'lout_dimensions' => $this->stringType()->defaultValue(''),
 				],
 				'primaryKeys' => [
-						['lettersout_pk', 'lettersoutid']
+					['lettersout_pk', 'lettersoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -898,7 +898,7 @@ class Base3 extends \App\Db\Importers\Base
 					'lettersoutid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['lettersoutcf_pk', 'lettersoutid']
+					['lettersoutcf_pk', 'lettersoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -987,10 +987,10 @@ class Base3 extends \App\Db\Importers\Base
 					'params' => $this->stringType(),
 				],
 				'index' => [
-						['links_tabidtype_idx', ['tabid', 'linktype']],
-						['links_linklabel_idx', 'linklabel'],
-						['links_linkid_idx', ['linkid', 'tabid', 'linktype', 'linklabel']],
-						['links_linktype_idx', 'linktype'],
+					['links_tabidtype_idx', ['tabid', 'linktype']],
+					['links_linklabel_idx', 'linklabel'],
+					['links_linkid_idx', ['linkid', 'tabid', 'linktype', 'linklabel']],
+					['links_linktype_idx', 'linktype'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1006,8 +1006,8 @@ class Base3 extends \App\Db\Importers\Base
 					'browser' => $this->stringType(25),
 				],
 				'index' => [
-						['loginhistory_user_name_idx', 'user_name'],
-						['loginhistory_user_idx', ['user_ip', 'login_time', 'status']],
+					['loginhistory_user_name_idx', 'user_name'],
+					['loginhistory_user_idx', ['user_ip', 'login_time', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1102,7 +1102,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sent_folder' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['mail_accounts_pk', 'account_id']
+					['mail_accounts_pk', 'account_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1116,7 +1116,7 @@ class Base3 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['manufacturer_manufacturer_idx', 'manufacturer', true],
+					['manufacturer_manufacturer_idx', 'manufacturer', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1139,14 +1139,14 @@ class Base3 extends \App\Db\Importers\Base
 					'reasontoedit' => $this->stringType(100),
 				],
 				'index' => [
-						['modcomments_relatedto_idx', 'related_to'],
-						['modcomments_modcommentsid_idx', 'modcommentsid'],
-						['modcomments_comments_idx', 'parent_comments'],
-						['modcomments_userid_idx', 'userid'],
-						['modcomments_related_to_idx', ['related_to', 'parent_comments']],
+					['modcomments_relatedto_idx', 'related_to'],
+					['modcomments_modcommentsid_idx', 'modcommentsid'],
+					['modcomments_comments_idx', 'parent_comments'],
+					['modcomments_userid_idx', 'userid'],
+					['modcomments_related_to_idx', ['related_to', 'parent_comments']],
 				],
 				'primaryKeys' => [
-						['modcomments_pk', 'modcommentsid']
+					['modcomments_pk', 'modcommentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1156,7 +1156,7 @@ class Base3 extends \App\Db\Importers\Base
 					'modcommentsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['modcommentscf_pk', 'modcommentsid']
+					['modcommentscf_pk', 'modcommentsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1171,10 +1171,10 @@ class Base3 extends \App\Db\Importers\Base
 					'cur_id' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-						['modentity_num_semodule_idx', 'cur_id'],
-						['modentity_num_prefix_idx', ['prefix', 'postfix', 'cur_id']],
-						['modentity_num_tabid_idx', 'tabid'],
-						['modentity_num_tabid_cur_idx', ['tabid', 'cur_id']],
+					['modentity_num_semodule_idx', 'cur_id'],
+					['modentity_num_prefix_idx', ['prefix', 'postfix', 'cur_id']],
+					['modentity_num_tabid_idx', 'tabid'],
+					['modentity_num_tabid_cur_idx', ['tabid', 'cur_id']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1190,10 +1190,10 @@ class Base3 extends \App\Db\Importers\Base
 					'last_reviewed_users' => $this->stringType()->defaultValue(''),
 				],
 				'index' => [
-						['modtracker_basic_crmid_idx', 'crmid'],
-						['modtracker_basic_id_idx', 'id'],
-						['modtracker_basic_change_mod_idx', ['id', 'module', 'changedon']],
-						['modtracker_basic_change_idx', ['crmid', 'changedon']],
+					['modtracker_basic_crmid_idx', 'crmid'],
+					['modtracker_basic_id_idx', 'id'],
+					['modtracker_basic_change_mod_idx', ['id', 'module', 'changedon']],
+					['modtracker_basic_change_idx', ['crmid', 'changedon']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1206,7 +1206,7 @@ class Base3 extends \App\Db\Importers\Base
 					'postvalue' => $this->text(),
 				],
 				'index' => [
-						['modtracker_detail_idx', 'id'],
+					['modtracker_detail_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1219,7 +1219,7 @@ class Base3 extends \App\Db\Importers\Base
 					'changedon' => $this->dateTime(),
 				],
 				'primaryKeys' => [
-						['modtracker_relations_pk', 'id']
+					['modtracker_relations_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1230,10 +1230,10 @@ class Base3 extends \App\Db\Importers\Base
 					'visible' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['modtracker_tabs_tabid_idx', ['tabid', 'visible']],
+					['modtracker_tabs_tabid_idx', ['tabid', 'visible']],
 				],
 				'primaryKeys' => [
-						['modtracker_tabs_pk', 'tabid']
+					['modtracker_tabs_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1254,7 +1254,7 @@ class Base3 extends \App\Db\Importers\Base
 					'date' => $this->stringType(20),
 				],
 				'index' => [
-						['module_dashboard_idx', 'blockid'],
+					['module_dashboard_idx', 'blockid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1267,8 +1267,8 @@ class Base3 extends \App\Db\Importers\Base
 					'dashboard_id' => $this->integer(),
 				],
 				'index' => [
-						['module_dashboard_blocks_authorized_idx', ['authorized', 'tabid']],
-						['module_dashboard_blocks_tabid_idx', 'tabid'],
+					['module_dashboard_blocks_authorized_idx', ['authorized', 'tabid']],
+					['module_dashboard_blocks_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1294,8 +1294,8 @@ class Base3 extends \App\Db\Importers\Base
 					'dashboardid' => $this->integer(),
 				],
 				'index' => [
-						['module_dashboard_widgets_temp_idx', 'templateid'],
-						['module_dashboard_widgets_idx', ['userid', 'active', 'module']],
+					['module_dashboard_widgets_temp_idx', 'templateid'],
+					['module_dashboard_widgets_idx', ['userid', 'active', 'module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1343,11 +1343,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ossdc_status' => $this->stringType(),
 				],
 				'index' => [
-						['notes_title_idx', 'title'],
-						['notes_notesid_idx', 'notesid'],
+					['notes_title_idx', 'title'],
+					['notes_notesid_idx', 'notesid'],
 				],
 				'primaryKeys' => [
-						['notes_pk', 'notesid']
+					['notes_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1357,7 +1357,7 @@ class Base3 extends \App\Db\Importers\Base
 					'notesid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['notescf_pk', 'notesid']
+					['notescf_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1392,7 +1392,7 @@ class Base3 extends \App\Db\Importers\Base
 					'probability' => $this->decimal('3,2')->defaultValue(0),
 				],
 				'index' => [
-						['opportunitystage_idx', 'stage', true],
+					['opportunitystage_idx', 'stage', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1421,10 +1421,10 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['oproductstatus_idx', 'tabid'],
+					['oproductstatus_idx', 'tabid'],
 				],
 				'primaryKeys' => [
-						['oproductstatus_pk', ['share_action_id', 'tabid']]
+					['oproductstatus_pk', ['share_action_id', 'tabid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1435,7 +1435,7 @@ class Base3 extends \App\Db\Importers\Base
 					'share_action_name' => $this->stringType(200),
 				],
 				'primaryKeys' => [
-						['share_action_mapping_pk', 'share_action_id']
+					['share_action_mapping_pk', 'share_action_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1463,7 +1463,7 @@ class Base3 extends \App\Db\Importers\Base
 					'email' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['organizationdetails_pk', 'organization_id']
+					['organizationdetails_pk', 'organization_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1516,7 +1516,7 @@ class Base3 extends \App\Db\Importers\Base
 					'doc_order' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['ossdocumentcontrol_idx', 'ossdocumentcontrolid'],
+					['ossdocumentcontrol_idx', 'ossdocumentcontrolid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1567,7 +1567,7 @@ class Base3 extends \App\Db\Importers\Base
 					'rbh' => $this->decimal('25,8'),
 				],
 				'primaryKeys' => [
-						['ossemployees_pk', 'ossemployeesid']
+					['ossemployees_pk', 'ossemployeesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1577,7 +1577,7 @@ class Base3 extends \App\Db\Importers\Base
 					'ossemployeesid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['ossemployeescf_pk', 'ossemployeesid']
+					['ossemployeescf_pk', 'ossemployeesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1644,53 +1644,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_ossmailtemplates' => [
-				'columns' => [
-					'ossmailtemplatesid' => $this->integer(),
-					'name' => $this->stringType(),
-					'sysname' => $this->stringType(50)->defaultValue(''),
-					'oss_module_list' => $this->stringType()->defaultValue(''),
-					'subject' => $this->stringType()->defaultValue(''),
-					'content' => $this->text(),
-					'ossmailtemplates_type' => $this->stringType(),
-				],
-				'index' => [
-						['ossmailtemplates_temp_idx', 'ossmailtemplatesid'],
-						['ossmailtemplates_mod_idx', 'oss_module_list'],
-				],
-				'primaryKeys' => [
-						['vtiger_ossmailtemplates_pk', 'ossmailtemplatesid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailtemplates_type' => [
-				'columns' => [
-					'ossmailtemplates_typeid' => $this->primaryKey(),
-					'ossmailtemplates_type' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->integer(),
-					'presence' => $this->integer()->notNull()->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailtemplates_type_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailtemplatescf' => [
-				'columns' => [
-					'ossmailtemplatesid' => $this->integer()->notNull(),
-				],
-				'primaryKeys' => [
-						['ossmailtemplatescf_pk', 'ossmailtemplatesid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ossmailview' => [
 				'columns' => [
 					'ossmailviewid' => $this->integer()->notNull(),
@@ -1717,11 +1670,11 @@ class Base3 extends \App\Db\Importers\Base
 					'date' => $this->dateTime(),
 				],
 				'index' => [
-						['ossmailview_id_idx', 'id'],
-						['ossmailview_message_idx', 'uid'],
+					['ossmailview_id_idx', 'id'],
+					['ossmailview_message_idx', 'uid'],
 				],
 				'primaryKeys' => [
-						['ossmailview_pk', 'ossmailviewid']
+					['ossmailview_pk', 'ossmailviewid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1733,8 +1686,8 @@ class Base3 extends \App\Db\Importers\Base
 					'attachmentsid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['ossmailview_files_id_idx', 'ossmailviewid'],
-						['ossmailview_files_doc_idx', 'documentsid'],
+					['ossmailview_files_id_idx', 'ossmailviewid'],
+					['ossmailview_files_doc_idx', 'documentsid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1747,12 +1700,12 @@ class Base3 extends \App\Db\Importers\Base
 					'deleted' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
-						['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
-						['ossmailview_relation_id_idx', 'ossmailviewid'],
-						['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
+					['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
+					['ossmailview_relation_id_idx', 'ossmailviewid'],
+					['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
 				],
 				'primaryKeys' => [
-						['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
+					['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1780,7 +1733,7 @@ class Base3 extends \App\Db\Importers\Base
 					'ossmailviewid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['ossmailviewcf_pk', 'ossmailviewid']
+					['ossmailviewcf_pk', 'ossmailviewid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1799,11 +1752,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-						['ossoutsourcedservices_id_idx', 'parent_id'],
-						['ossoutsourcedservices_process_idx', 'ssalesprocessesid'],
+					['ossoutsourcedservices_id_idx', 'parent_id'],
+					['ossoutsourcedservices_process_idx', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-						['ossoutsourcedservices_pk', 'ossoutsourcedservicesid']
+					['ossoutsourcedservices_pk', 'ossoutsourcedservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1813,7 +1766,7 @@ class Base3 extends \App\Db\Importers\Base
 					'ossoutsourcedservicesid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['ossoutsourcedservicescf_pk', 'ossoutsourcedservicesid']
+					['ossoutsourcedservicescf_pk', 'ossoutsourcedservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1829,7 +1782,7 @@ class Base3 extends \App\Db\Importers\Base
 					'linkto' => $this->integer(),
 				],
 				'primaryKeys' => [
-						['osspasswords_pk', 'osspasswordsid']
+					['osspasswords_pk', 'osspasswordsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1839,7 +1792,7 @@ class Base3 extends \App\Db\Importers\Base
 					'osspasswordsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['osspasswordscf_pk', 'osspasswordsid']
+					['osspasswordscf_pk', 'osspasswordsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1862,13 +1815,13 @@ class Base3 extends \App\Db\Importers\Base
 					'renewalinvoice' => $this->integer(),
 				],
 				'index' => [
-						['osssoldservices_parent_idx', 'parent_id'],
-						['osssoldservices_service_idx', 'serviceid'],
-						['osssoldservices_sales_idx', 'ssalesprocessesid'],
-						['osssoldservices_renew_idx', 'renewalinvoice'],
+					['osssoldservices_parent_idx', 'parent_id'],
+					['osssoldservices_service_idx', 'serviceid'],
+					['osssoldservices_sales_idx', 'ssalesprocessesid'],
+					['osssoldservices_renew_idx', 'renewalinvoice'],
 				],
 				'primaryKeys' => [
-						['osssoldservices_pk', 'osssoldservicesid']
+					['osssoldservices_pk', 'osssoldservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1889,7 +1842,7 @@ class Base3 extends \App\Db\Importers\Base
 					'osssoldservicesid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['osssoldservicescf_pk', 'osssoldservicesid']
+					['osssoldservicescf_pk', 'osssoldservicesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1912,15 +1865,15 @@ class Base3 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(),
 				],
 				'index' => [
-						['osstimecontrol_del_idx', 'deleted'],
-						['osstimecontrol_idx', ['osstimecontrol_status', 'deleted']],
-						['osstimecontrol_status_idx', 'osstimecontrol_status'],
-						['osstimecontrol_sub_idx', 'subprocess'],
-						['osstimecontrol_link_idx', 'link'],
-						['osstimecontrol_proc_idx', 'process'],
+					['osstimecontrol_del_idx', 'deleted'],
+					['osstimecontrol_idx', ['osstimecontrol_status', 'deleted']],
+					['osstimecontrol_status_idx', 'osstimecontrol_status'],
+					['osstimecontrol_sub_idx', 'subprocess'],
+					['osstimecontrol_link_idx', 'link'],
+					['osstimecontrol_proc_idx', 'process'],
 				],
 				'primaryKeys' => [
-						['osstimecontrol_pk', 'osstimecontrolid']
+					['osstimecontrol_pk', 'osstimecontrolid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1947,7 +1900,7 @@ class Base3 extends \App\Db\Importers\Base
 					'osstimecontrolid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['osstimecontrolcf_pk', 'osstimecontrolid']
+					['osstimecontrolcf_pk', 'osstimecontrolid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1984,11 +1937,11 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-						['parent_id', 'parent_id'],
-						['ssalesprocessesid', 'ssalesprocessesid'],
+					['parent_id', 'parent_id'],
+					['ssalesprocessesid', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-						['outsourcedproducts_pk', 'outsourcedproductsid']
+					['outsourcedproducts_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1998,7 +1951,7 @@ class Base3 extends \App\Db\Importers\Base
 					'outsourcedproductsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['outsourcedproductscf_pk', 'outsourcedproductsid']
+					['outsourcedproductscf_pk', 'outsourcedproductsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2034,7 +1987,7 @@ class Base3 extends \App\Db\Importers\Base
 					'relatedid' => $this->integer(),
 				],
 				'primaryKeys' => [
-						['paymentsin_pk', 'paymentsinid']
+					['paymentsin_pk', 'paymentsinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2062,7 +2015,7 @@ class Base3 extends \App\Db\Importers\Base
 					'paymentsinid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['paymentsincf_pk', 'paymentsinid']
+					['paymentsincf_pk', 'paymentsinid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2081,7 +2034,7 @@ class Base3 extends \App\Db\Importers\Base
 					'parentid' => $this->integer(),
 				],
 				'primaryKeys' => [
-						['paymentsout_pk', 'paymentsoutid']
+					['paymentsout_pk', 'paymentsoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2109,7 +2062,7 @@ class Base3 extends \App\Db\Importers\Base
 					'paymentsoutid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['paymentsoutcf_pk', 'paymentsoutid']
+					['paymentsoutcf_pk', 'paymentsoutid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2132,8 +2085,8 @@ class Base3 extends \App\Db\Importers\Base
 					'customertype' => $this->stringType(100),
 				],
 				'index' => [
-						['pbxmanager_sourceuuid_idx', 'sourceuuid'],
-						['pbxmanager_id_idx', 'pbxmanagerid'],
+					['pbxmanager_sourceuuid_idx', 'sourceuuid'],
+					['pbxmanager_id_idx', 'pbxmanagerid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2156,8 +2109,8 @@ class Base3 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType(50),
 				],
 				'index' => [
-						['pbxmanager_phonelookup_unique_key_idx', ['crmid', 'setype', 'fieldname'], true],
-						['pbxmanager_phonelookup_phone_idx', ['fnumber', 'rnumber']],
+					['pbxmanager_phonelookup_unique_key_idx', ['crmid', 'setype', 'fieldname'], true],
+					['pbxmanager_phonelookup_phone_idx', ['fnumber', 'rnumber']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2167,7 +2120,7 @@ class Base3 extends \App\Db\Importers\Base
 					'pbxmanagerid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['pbxmanagercf_pk', 'pbxmanagerid']
+					['pbxmanagercf_pk', 'pbxmanagerid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2178,7 +2131,7 @@ class Base3 extends \App\Db\Importers\Base
 					'name' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-						['picklist_name_idx', 'name', true],
+					['picklist_name_idx', 'name', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2194,7 +2147,7 @@ class Base3 extends \App\Db\Importers\Base
 					'criteria' => $this->text(),
 				],
 				'primaryKeys' => [
-						['picklist_dependency_pk', 'id']
+					['picklist_dependency_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2223,7 +2176,7 @@ class Base3 extends \App\Db\Importers\Base
 					'createdtime' => $this->dateTime(),
 				],
 				'index' => [
-						['portal_portalname_idx', 'portalname'],
+					['portal_portalname_idx', 'portalname'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2242,7 +2195,7 @@ class Base3 extends \App\Db\Importers\Base
 					'password_sent' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-						['portalinfo_pk', 'id']
+					['portalinfo_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2256,7 +2209,7 @@ class Base3 extends \App\Db\Importers\Base
 					'currency_id' => $this->integer()->notNull()->defaultValue(1),
 				],
 				'primaryKeys' => [
-						['pricebook_pk', 'pricebookid']
+					['pricebook_pk', 'pricebookid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2266,7 +2219,7 @@ class Base3 extends \App\Db\Importers\Base
 					'pricebookid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['pricebookcf_pk', 'pricebookid']
+					['pricebookcf_pk', 'pricebookid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2279,11 +2232,11 @@ class Base3 extends \App\Db\Importers\Base
 					'usedcurrency' => $this->integer()->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['pricebookproductrel_pricebookid_idx', 'pricebookid'],
-						['pricebookproductrel_productid_idx', 'productid'],
+					['pricebookproductrel_pricebookid_idx', 'pricebookid'],
+					['pricebookproductrel_productid_idx', 'productid'],
 				],
 				'primaryKeys' => [
-						['pricebookproductrel_pk', ['pricebookid', 'productid']]
+					['pricebookproductrel_pk', ['pricebookid', 'productid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2296,7 +2249,7 @@ class Base3 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['priority_priority_idx', 'priority', true],
+					['priority_priority_idx', 'priority', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2306,7 +2259,7 @@ class Base3 extends \App\Db\Importers\Base
 					'productid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['productcf_pk', 'productid']
+					['productcf_pk', 'productid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2319,7 +2272,7 @@ class Base3 extends \App\Db\Importers\Base
 					'actual_price' => $this->decimal('28,8'),
 				],
 				'index' => [
-						['productcurrencyrel_idx', 'productid'],
+					['productcurrencyrel_idx', 'productid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2365,7 +2318,7 @@ class Base3 extends \App\Db\Importers\Base
 					'category_multipicklist' => $this->text(),
 				],
 				'primaryKeys' => [
-						['products_pk', 'productid']
+					['products_pk', 'productid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2389,12 +2342,12 @@ class Base3 extends \App\Db\Importers\Base
 					'readonly' => $this->integer(),
 				],
 				'index' => [
-						['profile2field_profileid_tabid_fieldname_idx', ['profileid', 'tabid']],
-						['profile2field_tabid_profileid_idx', ['tabid', 'profileid']],
-						['profile2field_visible_profileid_idx', ['visible', 'profileid']],
+					['profile2field_profileid_tabid_fieldname_idx', ['profileid', 'tabid']],
+					['profile2field_tabid_profileid_idx', ['tabid', 'profileid']],
+					['profile2field_visible_profileid_idx', ['visible', 'profileid']],
 				],
 				'primaryKeys' => [
-						['profile2field_pk', ['profileid', 'fieldid']]
+					['profile2field_pk', ['profileid', 'fieldid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2406,10 +2359,10 @@ class Base3 extends \App\Db\Importers\Base
 					'globalactionpermission' => $this->integer(),
 				],
 				'index' => [
-						['profile2globalpermissions_idx', ['profileid', 'globalactionid']],
+					['profile2globalpermissions_idx', ['profileid', 'globalactionid']],
 				],
 				'primaryKeys' => [
-						['profile2globalpermissions_pk', ['profileid', 'globalactionid']]
+					['profile2globalpermissions_pk', ['profileid', 'globalactionid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2422,11 +2375,11 @@ class Base3 extends \App\Db\Importers\Base
 					'permissions' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['profile2standardpermissions_profileid_tabid_idx', ['profileid', 'tabid', 'operation']],
-						['profile2standardpermissions_profileid_idx', ['profileid', 'tabid']],
+					['profile2standardpermissions_profileid_tabid_idx', ['profileid', 'tabid', 'operation']],
+					['profile2standardpermissions_profileid_idx', ['profileid', 'tabid']],
 				],
 				'primaryKeys' => [
-						['profile2standardpermissions_pk', ['profileid', 'tabid', 'operation']]
+					['profile2standardpermissions_pk', ['profileid', 'tabid', 'operation']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2438,7 +2391,7 @@ class Base3 extends \App\Db\Importers\Base
 					'permissions' => $this->integer(10)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['profile2tab_tabid_idx', ['profileid', 'tabid']],
+					['profile2tab_tabid_idx', ['profileid', 'tabid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2451,11 +2404,11 @@ class Base3 extends \App\Db\Importers\Base
 					'permission' => $this->integer(1),
 				],
 				'index' => [
-						['profile2utility_tabid_idx', ['tabid', 'activityid']],
-						['profile2utility_profileid_idx', 'profileid'],
+					['profile2utility_tabid_idx', ['tabid', 'activityid']],
+					['profile2utility_profileid_idx', 'profileid'],
 				],
 				'primaryKeys' => [
-						['profile2utility_pk', ['profileid', 'tabid', 'activityid']]
+					['profile2utility_pk', ['profileid', 'tabid', 'activityid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2498,13 +2451,13 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(),
 				],
 				'index' => [
-						['project_service_idx', 'servicecontractsid'],
-						['project_link_idx', 'linktoaccountscontacts'],
-						['project_name_idx', 'projectname'],
-						['project_sales_idx', 'ssalesprocessesid'],
+					['project_service_idx', 'servicecontractsid'],
+					['project_link_idx', 'linktoaccountscontacts'],
+					['project_name_idx', 'projectname'],
+					['project_sales_idx', 'ssalesprocessesid'],
 				],
 				'primaryKeys' => [
-						['project_pk', 'projectid']
+					['project_pk', 'projectid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2514,7 +2467,7 @@ class Base3 extends \App\Db\Importers\Base
 					'projectid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['projectcf_pk', 'projectid']
+					['projectcf_pk', 'projectid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2532,10 +2485,10 @@ class Base3 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-						['projectid', 'projectid'],
+					['projectid', 'projectid'],
 				],
 				'primaryKeys' => [
-						['projectmilestone_pk', 'projectmilestoneid']
+					['projectmilestone_pk', 'projectmilestoneid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2563,7 +2516,7 @@ class Base3 extends \App\Db\Importers\Base
 					'projectmilestoneid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['projectmilestonecf_pk', 'projectmilestoneid']
+					['projectmilestonecf_pk', 'projectmilestoneid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2643,13 +2596,13 @@ class Base3 extends \App\Db\Importers\Base
 					'estimated_work_time' => $this->decimal('8,2'),
 				],
 				'index' => [
-						['projecttask_parentid_idx', 'parentid'],
-						['projecttask_projectmilestoneid_idx', 'projectmilestoneid'],
-						['projecttask_projectid_idx', 'projectid'],
-						['projecttask_projecttaskname_idx', 'projecttaskname'],
+					['projecttask_parentid_idx', 'parentid'],
+					['projecttask_projectmilestoneid_idx', 'projectmilestoneid'],
+					['projecttask_projectid_idx', 'projectid'],
+					['projecttask_projecttaskname_idx', 'projecttaskname'],
 				],
 				'primaryKeys' => [
-						['projecttask_pk', 'projecttaskid']
+					['projecttask_pk', 'projecttaskid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2659,7 +2612,7 @@ class Base3 extends \App\Db\Importers\Base
 					'projecttaskid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['projecttaskcf_pk', 'projecttaskid']
+					['projecttaskcf_pk', 'projecttaskid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3741,10 +3694,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 45],
 					[2, 45],
 					[3, 45],
-					[0, 49],
-					[1, 49],
-					[2, 49],
-					[3, 49],
 					[0, 51],
 					[1, 51],
 					[2, 51],
@@ -3986,21 +3935,6 @@ class Base3 extends \App\Db\Importers\Base
 					['email_list', 'permissions', 'vtiger'],
 					['exceptions', 'crating_mails', NULL],
 					['exceptions', 'crating_tickets', NULL],
-				]
-			],
-			'vtiger_ossmailtemplates_type' => [
-				'columns' => ['ossmailtemplates_typeid', 'ossmailtemplates_type', 'sortorderid', 'presence'],
-				'values' => [
-					[1, 'PLL_MODULE', 1, 0],
-					[2, 'PLL_RECORD', 2, 0],
-					[3, 'PLL_MAIL', 3, 0],
-					[4, 'PLL_LIST', 4, 1],
-				]
-			],
-			'vtiger_ossmailtemplates_type_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[4],
 				]
 			],
 			'vtiger_ossmailview_sendtype' => [
@@ -4623,13 +4557,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 42, 747, 0, 1],
 					[1, 43, 748, 0, 1],
 					[1, 45, 749, 0, 1],
-					[1, 49, 773, 0, 0],
-					[1, 49, 774, 0, 0],
-					[1, 49, 775, 0, 1],
-					[1, 49, 776, 0, 1],
-					[1, 49, 777, 0, 0],
-					[1, 49, 778, 0, 0],
-					[1, 49, 779, 0, 0],
 					[1, 51, 780, 0, 0],
 					[1, 51, 781, 0, 0],
 					[1, 51, 782, 0, 0],
@@ -4887,7 +4814,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 37, 1421, 0, 0],
 					[1, 41, 1423, 0, 0],
 					[1, 42, 1425, 0, 0],
-					[1, 49, 1429, 0, 0],
 					[1, 51, 1431, 0, 0],
 					[1, 54, 1433, 0, 0],
 					[1, 57, 1435, 0, 0],
@@ -4913,7 +4839,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 41, 1468, 0, 0],
 					[1, 42, 1469, 0, 0],
 					[1, 43, 1470, 0, 0],
-					[1, 49, 1472, 0, 0],
 					[1, 51, 1473, 0, 0],
 					[1, 54, 1474, 0, 0],
 					[1, 57, 1475, 0, 0],
@@ -4970,7 +4895,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 41, 1542, 0, 0],
 					[1, 42, 1543, 0, 0],
 					[1, 43, 1544, 0, 0],
-					[1, 49, 1546, 0, 0],
 					[1, 51, 1547, 0, 0],
 					[1, 54, 1548, 0, 0],
 					[1, 57, 1549, 0, 0],
@@ -5098,7 +5022,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 7, 1736, 0, 0],
 					[1, 7, 1737, 0, 0],
 					[1, 6, 1738, 0, 0],
-					[1, 49, 1739, 0, 0],
 					[1, 29, 1740, 0, 0],
 					[1, 41, 1741, 0, 0],
 					[1, 42, 1742, 0, 0],
@@ -5783,7 +5706,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 95, 2454, 0, 0],
 					[1, 96, 2455, 0, 0],
 					[1, 111, 2456, 0, 0],
-					[1, 49, 2457, 0, 0],
 					[1, 85, 2458, 0, 0],
 					[1, 87, 2459, 0, 0],
 					[1, 89, 2460, 0, 0],
@@ -6210,13 +6132,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 42, 747, 0, 1],
 					[2, 43, 748, 0, 1],
 					[2, 45, 749, 0, 1],
-					[2, 49, 773, 0, 0],
-					[2, 49, 774, 0, 0],
-					[2, 49, 775, 0, 1],
-					[2, 49, 776, 0, 1],
-					[2, 49, 777, 0, 0],
-					[2, 49, 778, 0, 0],
-					[2, 49, 779, 0, 0],
 					[2, 51, 780, 0, 0],
 					[2, 51, 781, 0, 0],
 					[2, 51, 782, 0, 0],
@@ -6474,7 +6389,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 37, 1421, 0, 0],
 					[2, 41, 1423, 0, 0],
 					[2, 42, 1425, 0, 0],
-					[2, 49, 1429, 0, 0],
 					[2, 51, 1431, 0, 0],
 					[2, 54, 1433, 0, 0],
 					[2, 57, 1435, 0, 0],
@@ -6500,7 +6414,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 41, 1468, 0, 0],
 					[2, 42, 1469, 0, 0],
 					[2, 43, 1470, 0, 0],
-					[2, 49, 1472, 0, 0],
 					[2, 51, 1473, 0, 0],
 					[2, 54, 1474, 0, 0],
 					[2, 57, 1475, 0, 0],
@@ -6557,7 +6470,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 41, 1542, 0, 0],
 					[2, 42, 1543, 0, 0],
 					[2, 43, 1544, 0, 0],
-					[2, 49, 1546, 0, 0],
 					[2, 51, 1547, 0, 0],
 					[2, 54, 1548, 0, 0],
 					[2, 57, 1549, 0, 0],
@@ -6685,7 +6597,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 7, 1736, 0, 0],
 					[2, 7, 1737, 0, 0],
 					[2, 6, 1738, 0, 0],
-					[2, 49, 1739, 0, 0],
 					[2, 29, 1740, 0, 0],
 					[2, 41, 1741, 0, 0],
 					[2, 42, 1742, 0, 0],
@@ -7370,7 +7281,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 95, 2454, 0, 0],
 					[2, 96, 2455, 0, 0],
 					[2, 111, 2456, 0, 0],
-					[2, 49, 2457, 0, 0],
 					[2, 85, 2458, 0, 0],
 					[2, 87, 2459, 0, 0],
 					[2, 89, 2460, 0, 0],
@@ -7797,13 +7707,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 42, 747, 0, 1],
 					[3, 43, 748, 0, 1],
 					[3, 45, 749, 0, 1],
-					[3, 49, 773, 0, 0],
-					[3, 49, 774, 0, 0],
-					[3, 49, 775, 0, 1],
-					[3, 49, 776, 0, 1],
-					[3, 49, 777, 0, 0],
-					[3, 49, 778, 0, 0],
-					[3, 49, 779, 0, 0],
 					[3, 51, 780, 0, 0],
 					[3, 51, 781, 0, 0],
 					[3, 51, 782, 0, 0],
@@ -8061,7 +7964,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 37, 1421, 0, 0],
 					[3, 41, 1423, 0, 0],
 					[3, 42, 1425, 0, 0],
-					[3, 49, 1429, 0, 0],
 					[3, 51, 1431, 0, 0],
 					[3, 54, 1433, 0, 0],
 					[3, 57, 1435, 0, 0],
@@ -8087,7 +7989,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 41, 1468, 0, 0],
 					[3, 42, 1469, 0, 0],
 					[3, 43, 1470, 0, 0],
-					[3, 49, 1472, 0, 0],
 					[3, 51, 1473, 0, 0],
 					[3, 54, 1474, 0, 0],
 					[3, 57, 1475, 0, 0],
@@ -8144,7 +8045,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 41, 1542, 0, 0],
 					[3, 42, 1543, 0, 0],
 					[3, 43, 1544, 0, 0],
-					[3, 49, 1546, 0, 0],
 					[3, 51, 1547, 0, 0],
 					[3, 54, 1548, 0, 0],
 					[3, 57, 1549, 0, 0],
@@ -8272,7 +8172,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 7, 1736, 0, 0],
 					[3, 7, 1737, 0, 0],
 					[3, 6, 1738, 0, 0],
-					[3, 49, 1739, 0, 0],
 					[3, 29, 1740, 0, 0],
 					[3, 41, 1741, 0, 0],
 					[3, 42, 1742, 0, 0],
@@ -8957,7 +8856,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 95, 2454, 0, 0],
 					[3, 96, 2455, 0, 0],
 					[3, 111, 2456, 0, 0],
-					[3, 49, 2457, 0, 0],
 					[3, 85, 2458, 0, 0],
 					[3, 87, 2459, 0, 0],
 					[3, 89, 2460, 0, 0],
@@ -9384,13 +9282,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 42, 747, 0, 1],
 					[4, 43, 748, 0, 1],
 					[4, 45, 749, 0, 1],
-					[4, 49, 773, 0, 0],
-					[4, 49, 774, 0, 0],
-					[4, 49, 775, 0, 1],
-					[4, 49, 776, 0, 1],
-					[4, 49, 777, 0, 0],
-					[4, 49, 778, 0, 0],
-					[4, 49, 779, 0, 0],
 					[4, 51, 780, 0, 0],
 					[4, 51, 781, 0, 0],
 					[4, 51, 782, 0, 0],
@@ -9648,7 +9539,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 37, 1421, 0, 0],
 					[4, 41, 1423, 0, 0],
 					[4, 42, 1425, 0, 0],
-					[4, 49, 1429, 0, 0],
 					[4, 51, 1431, 0, 0],
 					[4, 54, 1433, 0, 0],
 					[4, 57, 1435, 0, 0],
@@ -9674,7 +9564,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 41, 1468, 0, 0],
 					[4, 42, 1469, 0, 0],
 					[4, 43, 1470, 0, 0],
-					[4, 49, 1472, 0, 0],
 					[4, 51, 1473, 0, 0],
 					[4, 54, 1474, 0, 0],
 					[4, 57, 1475, 0, 0],
@@ -9731,7 +9620,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 41, 1542, 0, 0],
 					[4, 42, 1543, 0, 0],
 					[4, 43, 1544, 0, 0],
-					[4, 49, 1546, 0, 0],
 					[4, 51, 1547, 0, 0],
 					[4, 54, 1548, 0, 0],
 					[4, 57, 1549, 0, 0],
@@ -9859,7 +9747,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 7, 1736, 0, 0],
 					[4, 7, 1737, 0, 0],
 					[4, 6, 1738, 0, 0],
-					[4, 49, 1739, 0, 0],
 					[4, 29, 1740, 0, 0],
 					[4, 41, 1741, 0, 0],
 					[4, 42, 1742, 0, 0],
@@ -10544,7 +10431,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 95, 2454, 0, 0],
 					[4, 96, 2455, 0, 0],
 					[4, 111, 2456, 0, 0],
-					[4, 49, 2457, 0, 0],
 					[4, 85, 2458, 0, 0],
 					[4, 87, 2459, 0, 0],
 					[4, 89, 2460, 0, 0],
@@ -10721,12 +10607,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 45, 3, 0],
 					[1, 45, 4, 0],
 					[1, 45, 7, 0],
-					[1, 49, 0, 0],
-					[1, 49, 1, 0],
-					[1, 49, 2, 0],
-					[1, 49, 3, 0],
-					[1, 49, 4, 0],
-					[1, 49, 7, 0],
 					[1, 51, 0, 0],
 					[1, 51, 1, 0],
 					[1, 51, 2, 0],
@@ -11122,12 +11002,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 45, 3, 0],
 					[2, 45, 4, 0],
 					[2, 45, 7, 0],
-					[2, 49, 0, 0],
-					[2, 49, 1, 0],
-					[2, 49, 2, 1],
-					[2, 49, 3, 0],
-					[2, 49, 4, 0],
-					[2, 49, 7, 0],
 					[2, 51, 0, 0],
 					[2, 51, 1, 0],
 					[2, 51, 2, 1],
@@ -11523,12 +11397,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 45, 3, 0],
 					[3, 45, 4, 0],
 					[3, 45, 7, 0],
-					[3, 49, 0, 0],
-					[3, 49, 1, 0],
-					[3, 49, 2, 1],
-					[3, 49, 3, 0],
-					[3, 49, 4, 0],
-					[3, 49, 7, 0],
 					[3, 51, 0, 0],
 					[3, 51, 1, 0],
 					[3, 51, 2, 1],
@@ -11924,12 +11792,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 45, 3, 0],
 					[4, 45, 4, 0],
 					[4, 45, 7, 1],
-					[4, 49, 0, 0],
-					[4, 49, 1, 1],
-					[4, 49, 2, 1],
-					[4, 49, 3, 0],
-					[4, 49, 4, 0],
-					[4, 49, 7, 1],
 					[4, 51, 0, 0],
 					[4, 51, 1, 1],
 					[4, 51, 2, 1],
@@ -12230,7 +12092,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 45, 0],
 					[1, 46, 0],
 					[1, 48, 0],
-					[1, 49, 0],
 					[1, 50, 0],
 					[1, 51, 0],
 					[1, 54, 0],
@@ -12270,7 +12131,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 45, 0],
 					[2, 46, 0],
 					[2, 48, 0],
-					[2, 49, 0],
 					[2, 50, 0],
 					[2, 51, 0],
 					[2, 54, 0],
@@ -12310,7 +12170,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 45, 0],
 					[3, 46, 0],
 					[3, 48, 0],
-					[3, 49, 0],
 					[3, 50, 0],
 					[3, 51, 0],
 					[3, 54, 0],
@@ -12350,7 +12209,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 45, 0],
 					[4, 46, 0],
 					[4, 48, 0],
-					[4, 49, 0],
 					[4, 50, 0],
 					[4, 51, 0],
 					[4, 54, 0],
@@ -12956,28 +12814,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 43, 49, 0],
 					[1, 43, 51, 1],
 					[1, 45, 14, 0],
-					[1, 49, 5, 0],
-					[1, 49, 6, 0],
-					[1, 49, 8, 0],
-					[1, 49, 14, 0],
-					[1, 49, 15, 0],
-					[1, 49, 17, 0],
-					[1, 49, 18, 0],
-					[1, 49, 19, 0],
-					[1, 49, 22, 0],
-					[1, 49, 24, 0],
-					[1, 49, 25, 0],
-					[1, 49, 26, 0],
-					[1, 49, 27, 0],
-					[1, 49, 28, 0],
-					[1, 49, 30, 0],
-					[1, 49, 34, 0],
-					[1, 49, 40, 0],
-					[1, 49, 41, 0],
-					[1, 49, 42, 0],
-					[1, 49, 46, 0],
-					[1, 49, 48, 0],
-					[1, 49, 49, 0],
 					[1, 51, 5, 0],
 					[1, 51, 6, 0],
 					[1, 51, 8, 0],
@@ -14241,28 +14077,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 43, 49, 0],
 					[2, 43, 51, 1],
 					[2, 45, 14, 0],
-					[2, 49, 5, 0],
-					[2, 49, 6, 0],
-					[2, 49, 8, 0],
-					[2, 49, 14, 0],
-					[2, 49, 15, 0],
-					[2, 49, 17, 0],
-					[2, 49, 18, 0],
-					[2, 49, 19, 0],
-					[2, 49, 22, 0],
-					[2, 49, 24, 0],
-					[2, 49, 25, 0],
-					[2, 49, 26, 0],
-					[2, 49, 27, 0],
-					[2, 49, 28, 0],
-					[2, 49, 30, 0],
-					[2, 49, 34, 0],
-					[2, 49, 40, 0],
-					[2, 49, 41, 0],
-					[2, 49, 42, 0],
-					[2, 49, 46, 0],
-					[2, 49, 48, 0],
-					[2, 49, 49, 0],
 					[2, 51, 5, 0],
 					[2, 51, 6, 0],
 					[2, 51, 8, 0],
@@ -15526,28 +15340,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 43, 49, 0],
 					[3, 43, 51, 1],
 					[3, 45, 14, 0],
-					[3, 49, 5, 0],
-					[3, 49, 6, 0],
-					[3, 49, 8, 0],
-					[3, 49, 14, 0],
-					[3, 49, 15, 0],
-					[3, 49, 17, 0],
-					[3, 49, 18, 0],
-					[3, 49, 19, 0],
-					[3, 49, 22, 0],
-					[3, 49, 24, 0],
-					[3, 49, 25, 0],
-					[3, 49, 26, 0],
-					[3, 49, 27, 0],
-					[3, 49, 28, 0],
-					[3, 49, 30, 0],
-					[3, 49, 34, 0],
-					[3, 49, 40, 0],
-					[3, 49, 41, 0],
-					[3, 49, 42, 0],
-					[3, 49, 46, 0],
-					[3, 49, 48, 0],
-					[3, 49, 49, 0],
 					[3, 51, 5, 0],
 					[3, 51, 6, 0],
 					[3, 51, 8, 0],
@@ -16811,28 +16603,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 43, 49, 0],
 					[4, 43, 51, 1],
 					[4, 45, 14, 0],
-					[4, 49, 5, 0],
-					[4, 49, 6, 0],
-					[4, 49, 8, 0],
-					[4, 49, 14, 0],
-					[4, 49, 15, 0],
-					[4, 49, 17, 0],
-					[4, 49, 18, 0],
-					[4, 49, 19, 0],
-					[4, 49, 22, 0],
-					[4, 49, 24, 0],
-					[4, 49, 25, 0],
-					[4, 49, 26, 0],
-					[4, 49, 27, 0],
-					[4, 49, 28, 0],
-					[4, 49, 30, 0],
-					[4, 49, 34, 0],
-					[4, 49, 40, 0],
-					[4, 49, 41, 0],
-					[4, 49, 42, 0],
-					[4, 49, 46, 0],
-					[4, 49, 48, 0],
-					[4, 49, 49, 0],
 					[4, 51, 5, 0],
 					[4, 51, 6, 0],
 					[4, 51, 8, 0],
