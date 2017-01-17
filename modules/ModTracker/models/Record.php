@@ -359,4 +359,58 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#'
 		])->execute();
 	}
+
+	/**
+	 * Function sets the closest time-wise related record from selected modules
+	 * @param int $sourceId
+	 * @param string $sourceModule
+	 * @return array
+	 */
+	public static function setLastRelation($sourceId, $sourceModule)
+	{
+		$db = \App\Db::getInstance();
+		$userId = \App\User::getCurrentUserId();
+		$query = Vtiger_HistoryRelation_Widget::getQuery($sourceId, $sourceModule, Vtiger_HistoryRelation_Widget::getActions());
+		$data = $query->limit(1)->one();
+		$type = $data ? $data['type'] : '';
+
+		$db->createCommand()->delete('u_#__timeline', ['crmid' => $sourceId, 'userid' => $userId])->execute();
+		$db->createCommand()->insert('u_#__timeline', [
+			'crmid' => $sourceId,
+			'type' => $type,
+			'userid' => $userId
+		])->execute();
+		return [$sourceId => $type];
+	}
+
+	/**
+	 * Function gets the closest time-wise related record from database
+	 * @param int $sourceIds
+	 * @param string $sourceModule
+	 * @return array
+	 */
+	public static function getLastRelation($sourceIds, $sourceModule)
+	{
+		$colors = Vtiger_HistoryRelation_Widget::$colors;
+		if (!is_array($sourceIds)) {
+			$sourceIds = [$sourceIds];
+		}
+		$data = (new \App\Db\Query())->from('u_#__timeline')->where(['crmid' => $sourceIds, 'userid' => \App\User::getCurrentUserId()])->createCommand()->queryAllByGroup(1);
+		if (count($data) !== count($sourceIds)) {
+			$reSearch = array_diff_key(array_flip($sourceIds), $data);
+			foreach (array_keys($reSearch) as $id) {
+				$result = ModTracker_Record_Model::setLastRelation($id, $sourceModule);
+				if ($result) {
+					$data[key($result)]['type'] = current($result);
+				}
+			}
+		}
+		foreach ($data as $id => &$type) {
+			$type['color'] = $colors[$type['type']];
+			if (strpos($type['type'], 'OSSMailView') !== false) {
+				$type['type'] = 'OSSMailView';
+			}
+		}
+		return $data;
+	}
 }

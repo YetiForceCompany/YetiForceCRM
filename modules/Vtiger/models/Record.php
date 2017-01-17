@@ -263,6 +263,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Timeline view URL
+	 * @return string
+	 */
+	public function getTimeLineUrl()
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=TimeLineModal&record=' . $this->getId();
+	}
+
+	/**
 	 * Function to get the Delete Action url for the record
 	 * @return string - Record Delete Action Url
 	 */

@@ -348,13 +348,33 @@ class ModTracker
 		}
 	}
 
+	/**
+	 * Function is executed when adding related record
+	 * @param string $sourceModule
+	 * @param int $sourceId
+	 * @param string $targetModule
+	 * @param int $targetId
+	 */
 	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
+		if (in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
+		}
 	}
 
+	/**
+	 * Function is executed when removing related record
+	 * @param string $sourceModule
+	 * @param int $sourceId
+	 * @param string $targetModule
+	 * @param int $targetId
+	 */
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
+		if (in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			ModTracker_Record_Model::setLastRelation($sourceId, $sourceModule);
+		}
 	}
 }

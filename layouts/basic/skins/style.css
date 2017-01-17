@@ -1062,6 +1062,7 @@ td.fieldValue .input-group {
 	color: inherit !important;
 }
 .listViewEntriesTable .listViewEntries .unreviewed .badge,
+.listViewEntriesTable .listViewEntries .timeLineIconList span,
 .listViewEntriesTable .listViewEntries .actions{
 	margin: -4px 0 0 5px;
 }
@@ -5486,6 +5487,18 @@ select.form-control {
 	left: 0;
 	top: 0;
 }
+.timeLineIconList > .glyphicon{
+	display: inline-block !important;
+	width: 30px;
+	height: 30px;
+	font-size: 15px;
+	line-height: 30px;
+	position: relative;
+	color: #666;
+	background: #d2d6de;
+	border-radius: 50%;
+	text-align: center;
+}
 .timeline .userImage{
 	margin: 0 auto;
 	width: 40px;
@@ -5735,12 +5748,14 @@ td.rightRecordActions.medium{
 .rightRecordActions .actions{
 	padding-top: 8px;
 }
-.leftRecordActions .actions:hover + div .unreviewed{
+.leftRecordActions .actions:hover + div .unreviewed,
+.leftRecordActions .actions:hover + div .timeLineIconList{
 	margin-left: 20px;
 }
 .leftRecordActions .actions{
 	background: inherit;
 	padding: 4px 2px 0 0;
+	z-index: 1;
 }
 .listViewEntries{
 	background: #fff;

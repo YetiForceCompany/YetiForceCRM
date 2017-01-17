@@ -19,14 +19,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	];
 
 	/**
-	 * Function gets module names
+	 * Function gets modules name
 	 * @return string[]
 	 */
 	static public function getActions()
 	{
 		$modules = ['ModComments', 'OSSMailView', 'Calendar'];
 		foreach ($modules as $key => $module) {
-			if (!\App\Module::isModuleActive($module)) {
+			if (!\App\Privilege::isPermitted($module)) {
 				unset($modules[$key]);
 			}
 		}

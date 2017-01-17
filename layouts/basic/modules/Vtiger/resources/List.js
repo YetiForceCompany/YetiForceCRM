@@ -1748,6 +1748,8 @@ jQuery.Class("Vtiger_List_Js", {
 				return;
 			if ($.contains(jQuery(e.currentTarget).find('td:last-child').get(0), e.target))
 				return;
+			if ($.contains(jQuery(e.currentTarget).find('td:first-child').get(0), e.target))
+				return;
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
 			if (typeof recordUrl == 'undefined') {
@@ -1973,6 +1975,43 @@ jQuery.Class("Vtiger_List_Js", {
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
+	registerLastRelationsEvent: function () {
+		var thisInstance = this;
+		var ids = [];
+		var listViewContentDiv = this.getListViewContentContainer();
+		var isTimeLineActive = listViewContentDiv.find('.timeLineIconList').length;
+		listViewContentDiv.find('tr.listViewEntries').each(function () {
+			var id = jQuery(this).data('id');
+			if (id) {
+				ids.push(id);
+			}
+		})
+		if (!ids || isTimeLineActive < 1) {
+			return;
+		}
+		var actionParams = {
+			action: 'LastRelation',
+			module: 'ModTracker',
+			sourceModule: app.getModuleName(),
+			recordsId: ids
+		};
+		AppConnector.request(actionParams).then(function (appData) {
+			var data = appData.result;
+			$.each(data, function (id, value) {
+				if (value.type) {
+					listViewContentDiv.find('tr[data-id="' + id + '"] .timeLineIconList span').addClass(value.color + ' userIcon-' + value.type).parent().removeClass('hide')
+							.on('click', function (e) {
+								var element = jQuery(e.currentTarget);
+								var url = element.data('url');
+								app.showModalWindow(null, url, function (data) {
+									Vtiger_Index_Js.registerMailButtons(data);
+								});
+							});
+				}
+			});
+			Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2007,6 +2046,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerListViewSpecialOptiopn();
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
+		this.registerLastRelationsEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOptiopn: function () {
