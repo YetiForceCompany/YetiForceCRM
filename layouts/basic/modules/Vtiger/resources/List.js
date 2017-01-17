@@ -816,6 +816,7 @@ jQuery.Class("Vtiger_List_Js", {
 						app.notifyPostAjaxReady();
 					});
 					thisInstance.registerUnreviewedCountEvent();
+					thisInstance.registerLastRelationsEvent();
 				},
 				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
