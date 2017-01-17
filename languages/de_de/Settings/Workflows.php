@@ -158,7 +158,6 @@ $languageStrings = [
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
 	'Do you send all attachments' => 'Alle Anhänge senden?',
 	'Select e-mail address' => 'E-Mail-Adresse auswählen',
-	'Send a copy to email' => 'Senden einer Kopie an E-Mail-Adresse',
 	//workflow task types
 	'Send Mail' => 'E-Mail senden',
 	'Invoke Custom Function' => 'Benutzerdefinierte Funktion aufrufen',
