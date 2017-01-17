@@ -2230,6 +2230,39 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_fixed_assets_status' => [
+				'columns' => [
+					'fixed_assets_statusid' => $this->primaryKey(),
+					'fixed_assets_status' => $this->stringType()->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->integer()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_fixed_assets_type' => [
+				'columns' => [
+					'fixed_assets_typeid' => $this->primaryKey(),
+					'fixed_assets_type' => $this->stringType()->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_fuel_type' => [
+				'columns' => [
+					'fuel_typeid' => $this->primaryKey(),
+					'fuel_type' => $this->stringType()->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 		];
 
 		$this->foreignKey = [
@@ -2694,6 +2727,10 @@ class Base2 extends \App\Db\Importers\Base
 					[376, 112, 'LBL_BASIC_DETAILS', 1, 0, 0, 0, 0, 0, 1, 0],
 					[377, 112, 'LBL_CONTENT_MAIL', 2, 0, 0, 0, 0, 0, 1, 0],
 					[378, 112, 'LBL_CUSTOM_INFORMATION', 3, 0, 0, 0, 0, 0, 0, 1],
+					[379, 113, 'LBL_BASIC_INFORMATION', 1, 0, 0, 0, 0, 0, 1, 0],
+					[380, 113, 'LBL_VEHICLE', 2, 0, 0, 0, 0, 0, 1, 0],
+					[381, 113, 'LBL_ATTENTION_BLOCK', 3, 0, 0, 0, 0, 0, 1, 1],
+					[382, 113, 'LBL_DESCRIPTION_BLOCK', 4, 0, 0, 0, 0, 0, 1, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -3298,6 +3335,7 @@ class Base2 extends \App\Db\Importers\Base
 					[103, 'All', 1, 0, 'IGDNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[104, 'All', 1, 0, 'Notification', 0, 1, 1, 0, 1, 0, NULL, NULL, ''],
 					[105, 'All', 1, 0, 'EmailTemplates', 0, 1, 1, 0, 0, 0, NULL, NULL, ''],
+					[106, 'All', 1, 0, 'CFixedAssets', 0, 1, 1, 0, 0, 0, '', '', ''],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
@@ -3641,6 +3679,10 @@ class Base2 extends \App\Db\Importers\Base
 					[105, 1, 'vtiger_emailtemplates:number:number:EmailTemplates_FL_NUMBER:V'],
 					[105, 2, 'vtiger_crmentity:createdtime:createdtime:EmailTemplates_Created_Time:DT'],
 					[105, 3, 'vtiger_crmentity:smownerid:assigned_user_id:EmailTemplates_Assigned_To:V'],
+					[106, 0, 'u_yf_cfixedassets:subject:subject:CFixedAssets_FL_SUBJECT:V'],
+					[106, 1, 'u_yf_cfixedassets:number:number:CFixedAssets_FL_NUMBER:V'],
+					[106, 2, 'vtiger_crmentity:createdtime:createdtime:CFixedAssets_Created_Time:DT'],
+					[106, 3, 'vtiger_crmentity:smownerid:assigned_user_id:CFixedAssets_Assigned_To:V'],
 				]
 			],
 			'vtiger_dataaccess' => [
@@ -5283,6 +5325,30 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2482, 0, 0],
 					[112, 2483, 0, 0],
 					[86, 2484, 0, 0],
+					[113, 2485, 0, 0],
+					[113, 2486, 0, 0],
+					[113, 2487, 0, 0],
+					[113, 2488, 0, 0],
+					[113, 2489, 0, 0],
+					[113, 2490, 0, 0],
+					[113, 2491, 0, 0],
+					[113, 2492, 0, 0],
+					[113, 2493, 0, 0],
+					[113, 2494, 0, 0],
+					[113, 2495, 0, 0],
+					[113, 2496, 0, 0],
+					[113, 2497, 0, 0],
+					[113, 2498, 0, 0],
+					[113, 2499, 0, 0],
+					[113, 2500, 0, 0],
+					[113, 2501, 0, 0],
+					[113, 2502, 0, 0],
+					[113, 2503, 0, 0],
+					[113, 2504, 0, 0],
+					[113, 2505, 0, 0],
+					[113, 2506, 0, 0],
+					[113, 2507, 0, 0],
+					[113, 2508, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5352,6 +5418,7 @@ class Base2 extends \App\Db\Importers\Base
 					[82, 109, 2, 0],
 					[83, 111, 2, 0],
 					[84, 112, 2, 0],
+					[85, 113, 2, 0],
 				]
 			],
 			'vtiger_default_record_view' => [
@@ -5560,6 +5627,7 @@ class Base2 extends \App\Db\Importers\Base
 					[109, 'IGDNC', 'u_yf_igdnc', 'subject', 'igdncid', 'igdncid', 'subject', 1, 0],
 					[111, 'Notification', 'u_yf_notification', 'title', 'notificationid', 'notificationid', 'title', 1, 0],
 					[112, 'EmailTemplates', 'u_yf_emailtemplates', 'name', 'emailtemplatesid', 'emailtemplatesid', 'name', 1, 0],
+					[113, 'CFixedAssets', 'u_yf_cfixedassets', 'subject', 'cfixedassetsid', 'cfixedassetsid', 'subject', 1, 0],
 				]
 			],
 			'vtiger_eventhandlers' => [
@@ -7254,12 +7322,36 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2482, 'content', 'u_yf_emailtemplates', 1, 300, 'content', 'FL_CONTENT', 1, 2, '', 100, 0, 377, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2483, 'email_template_priority', 'u_yf_emailtemplates', 1, 16, 'email_template_priority', 'FL_SMTP_PRIORITY', 1, 2, '', 100, 0, 376, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[86, 2484, 'startdate', 'u_yf_ssalesprocesses', 1, 5, 'startdate', 'FL_START_DATE', 1, 2, '', 100, 11, 269, 1, 'D~O', 2, 5, 'BAS', 1, '', 1, '', NULL, 0, 0],
+					[113, 2485, 'subject', 'u_yf_cfixedassets', 1, 2, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 1, 379, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2486, 'number', 'u_yf_cfixedassets', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 2, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2487, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 3, 379, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2488, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 18, 379, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2489, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 16, 379, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2490, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 17, 379, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[113, 2491, 'fixed_assets_type', 'u_yf_cfixedassets', 1, 16, 'fixed_assets_type', 'FL_TYPE', 1, 2, '', 100, 5, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2492, 'fixed_assets_status', 'u_yf_cfixedassets', 1, 15, 'fixed_assets_status', 'FL_STATUS', 1, 2, '', 100, 6, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2493, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 4, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2494, 'producent_designation', 'u_yf_cfixedassets', 1, 1, 'producent_designation', 'FL_PRODUCENT_DESIGNATION', 1, 2, '', 100, 8, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2495, 'additional_designation', 'u_yf_cfixedassets', 1, 1, 'additional_designation', 'FL_ADDITIONAL_DESIGNATION', 1, 2, '', 100, 9, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2496, 'internal_designation', 'u_yf_cfixedassets', 1, 1, 'internal_designation', 'FL_INTERNAL_DESIGNATION', 1, 2, '', 100, 10, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2497, 'date_production', 'u_yf_cfixedassets', 1, 5, 'date_production', 'FL_DATE_PRODUCTION', 1, 2, '', 100, 11, 379, 1, 'D~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2498, 'date_acquisition', 'u_yf_cfixedassets', 1, 5, 'date_acquisition', 'FL_DATE_ACQUISITION', 1, 2, '', 100, 12, 379, 1, 'D~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2499, 'purchase_price', 'u_yf_cfixedassets', 1, 71, 'purchase_price', 'FL_PURCHASE_PRICE', 1, 2, '', 100, 14, 379, 1, 'N~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2500, 'actual_price', 'u_yf_cfixedassets', 1, 71, 'actual_price', 'FL_ACTUAL_PRICE', 1, 2, '', 100, 13, 379, 1, 'N~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2501, 'reservation', 'u_yf_cfixedassets', 1, 56, 'reservation', 'FL_RESERVATION', 1, 2, '', 100, 15, 379, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2502, 'pscategory', 'u_yf_cfixedassets', 1, 302, 'pscategory', 'FL_CATEGORY', 1, 2, '', 100, 7, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '19', NULL, 0, 0],
+					[113, 2503, 'fuel_type', 'u_yf_cfixedassets', 1, 16, 'fuel_type', 'FL_FUEL_TYPE', 1, 2, '', 100, 0, 380, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2504, 'timing_change', 'u_yf_cfixedassets', 2, 7, 'timing_change', 'FL_TIMING_CHANGE', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2505, 'oil_change', 'u_yf_cfixedassets', 1, 7, 'oil_change', 'FL_OIL_TYPE', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2506, 'fuel_consumption', 'u_yf_cfixedassets', 1, 7, 'fuel_consumption', 'FL_AVARAGE_FUEL_CONSUPTION', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2507, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 381, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2508, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 1, 382, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2484],
+					[2508],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7426,6 +7518,7 @@ class Base2 extends \App\Db\Importers\Base
 					[2385, 'SSalesProcesses', 'Campaigns', NULL, 0],
 					[2386, 'Project', 'SSalesProcesses', NULL, 0],
 					[2404, 'SSalesProcesses', 'SSalesProcesses', NULL, 0],
+					[601, 'ModComments', 'CFixedAssets', NULL, 0],
 				]
 			],
 			'vtiger_finvoice_formpayment' => [
@@ -7469,6 +7562,36 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => ['finvoiceproforma_statusid', 'finvoiceproforma_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
 					[1, 'None', 1, 670, 1],
+				]
+			],
+			'vtiger_fixed_assets_status' => [
+				'columns' => ['fixed_assets_statusid', 'fixed_assets_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_UNAVAILABLE', 1, 728, 1],
+					[2, 'PLL_AVAILABLE', 1, 729, 2],
+					[3, 'PLL_DEMAGED', 1, 730, 3],
+					[4, 'PLL_IN_USE', 1, 731, 4],
+					[5, 'PLL_UNDER_REPAIR', 1, 732, 5],
+					[6, 'PLL_PENDING_FOR_REPROCESSING', 1, 733, 6],
+					[7, 'PLL_PENDING_FOR_SALE', 1, 734, 7],
+					[8, 'PLL_REPROCESSED', 1, 735, 8],
+					[9, 'PLL_SOLD', 1, 736, 9],
+				]
+			],
+			'vtiger_fixed_assets_type' => [
+				'columns' => ['fixed_assets_typeid', 'fixed_assets_type', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_DEVICE', 1, 723, 1],
+					[2, 'PLL_MACHINE', 1, 724, 2],
+					[3, 'PLL_VEHICLE', 1, 725, 3],
+					[4, 'PLL_PROPERTY', 1, 726, 4],
+					[5, 'PLL_INVENTORY', 1, 727, 5],
+				]
+			],
+			'vtiger_fuel_type' => [
+				'columns' => ['fuel_typeid', 'fuel_type', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_DIESEL', 1, 737, 1],
 				]
 			],
 		];
