@@ -2456,13 +2456,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				thisInstance.registerMailPreviewWidget(data);
 				Vtiger_Index_Js.registerMailButtons(data);
 				data.find('.expandAllMails').click();
-				data.find('.showMailModal').click(function (e) {
-					var progressIndicatorElement = jQuery.progressIndicator();
-					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
-					app.showModalWindow("", url, function () {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					});
-				});
 			});
 		});
 		container.find('.expandAllMails').click(function (e) {

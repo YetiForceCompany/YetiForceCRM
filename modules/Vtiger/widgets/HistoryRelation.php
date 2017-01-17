@@ -18,9 +18,19 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		'Calendar' => 'bgOrange',
 	];
 
+	/**
+	 * Function gets module names
+	 * @return string[]
+	 */
 	static public function getActions()
 	{
-		return ['ModComments', 'Emails', 'Calendar'];
+		$modules = ['ModComments', 'OSSMailView', 'Calendar'];
+		foreach ($modules as $key => $module) {
+			if (!\App\Module::isModuleActive($module)) {
+				unset($modules[$key]);
+			}
+		}
+		return $modules;
 	}
 
 	public function getUrl()
@@ -141,7 +151,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			\App\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('Emails', $type)) {
+		if (in_array('OSSMailView', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
 					'body' => 'o.content',

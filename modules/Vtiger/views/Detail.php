@@ -823,6 +823,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		echo $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 
+	/**
+	 * Show recent relation
+	 * @param Vtiger_Request $request
+	 * @return string
+	 */
 	public function showRecentRelation(Vtiger_Request $request)
 	{
 		$pageNumber = $request->get('page');
@@ -846,6 +851,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('NO_MORE', $request->get('noMore'));
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 

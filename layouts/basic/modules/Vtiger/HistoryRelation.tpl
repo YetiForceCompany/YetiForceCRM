@@ -29,7 +29,7 @@
 								{/if}
 								{if $HISTORY['type'] eq 'OSSMailView'}
 									<div class="pull-right marginRight10 btn-group" role="group">
-										<button data-url="{$HISTORY['url']}" type="button" title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailModal btn btn-xs btn-default">
+										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showModal btn btn-xs btn-default">
 											<span class="body-icon glyphicon glyphicon-search"></span>
 										</button>
 									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
@@ -52,7 +52,7 @@
 					</li>
 				{/foreach}
 			</ul>
-			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit()}
+			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
 				<div id="moreRelatedUpdates">
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary btn-xs moreRelatedUpdates cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
