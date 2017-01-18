@@ -245,6 +245,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned()->notNull(),
 					'name' => $this->stringType(100),
 					'short_name' => $this->stringType(100),
+					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'street' => $this->stringType(150),
 					'city' => $this->stringType(100),
 					'code' => $this->stringType(30),
@@ -1012,9 +1013,9 @@ class Admin extends \App\Db\Importers\Base
 				]
 			],
 			's_#__companies' => [
-				'columns' => ['id', 'name', 'short_name', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
+				'columns' => ['id', 'name', 'short_name', 'default', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
 				'values' => [
-					[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
+					[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
 				]
 			],
 		];
