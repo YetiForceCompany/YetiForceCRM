@@ -7729,7 +7729,7 @@ insert  into `vtiger_picklist_dependency_seq`(`id`) values (17);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
-insert  into `vtiger_picklistvalues_seq`(`id`) values (763);
+insert  into `vtiger_picklistvalues_seq`(`id`) values (765);
 
 /*Data for the table `vtiger_portal` */
 
@@ -21938,12 +21938,14 @@ insert  into `vtiger_reportfolder`(`folderid`,`foldername`,`description`,`state`
 
 /*Data for the table `vtiger_reservations_status` */
 
-insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`) values (1,'PLL_ACCEPTED',1,1);
-insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`) values (2,'PLL_TO_APPROVAL',2,1);
+insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`) values (1,'PLL_ACCEPTED',2,1);
+insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`) values (2,'PLL_TO_APPROVAL',3,1);
+insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`) values (3,'PLL_DRAFT',1,1);
+insert  into `vtiger_reservations_status`(`reservations_statusid`,`reservations_status`,`sortorderid`,`presence`) values (4,'PLL_CANCELLED',4,1);
 
 /*Data for the table `vtiger_reservations_status_seq` */
 
-insert  into `vtiger_reservations_status_seq`(`id`) values (2);
+insert  into `vtiger_reservations_status_seq`(`id`) values (4);
 
 /*Data for the table `vtiger_reservationscf` */
 

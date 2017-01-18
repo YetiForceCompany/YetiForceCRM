@@ -33,6 +33,8 @@ $languageStrings = [
 	'LBL_MEETING_ROOMS' => 'Salles de réunion',
 	'LBL_EQUIPMENT' => 'Equipement',
 	'LBL_CARS' => 'Voiture',
+	'PLL_DRAFT' => 'Draft',
+	'PLL_CANCELLED' => 'Cancelled',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Allowed characters: [0-9]',

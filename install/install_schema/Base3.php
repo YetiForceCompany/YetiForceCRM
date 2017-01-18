@@ -4198,7 +4198,7 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_picklistvalues_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[763],
+					[765],
 				]
 			],
 			'vtiger_profile' => [

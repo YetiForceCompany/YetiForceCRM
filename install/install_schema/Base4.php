@@ -3034,14 +3034,16 @@ class Base4 extends \App\Db\Importers\Base
 			'vtiger_reservations_status' => [
 				'columns' => ['reservations_statusid', 'reservations_status', 'sortorderid', 'presence'],
 				'values' => [
-					[1, 'PLL_ACCEPTED', 1, 1],
-					[2, 'PLL_TO_APPROVAL', 2, 1],
+					[1, 'PLL_ACCEPTED', 2, 1],
+					[2, 'PLL_TO_APPROVAL', 3, 1],
+					[3, 'PLL_DRAFT', 1, 1],
+					[4, 'PLL_CANCELLED', 4, 1],
 				]
 			],
 			'vtiger_reservations_status_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2],
+					[4],
 				]
 			],
 			'vtiger_role' => [

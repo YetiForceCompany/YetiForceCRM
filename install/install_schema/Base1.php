@@ -4089,6 +4089,25 @@ Failed login attempts have been detected. </span>', 'BruteForceSecurityRiskHasBe
 					['Products', 'usageunit', 'unit'],
 				]
 			],
+			'u_#__finvoicecost_invfield' => [
+				'columns' => ['id', 'columnname', 'label', 'invtype', 'presence', 'defaultvalue', 'sequence', 'block', 'displaytype', 'params', 'colspan'],
+				'values' => [
+					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 20],
+					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 7],
+					[3, 'discount', 'LBL_DISCOUNT', 'Discount', 0, '0', 6, 1, 0, '{}', 7],
+					[4, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 11, 2, 0, '{}', 0],
+					[5, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, '', 7],
+					[6, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 13, 0, 0, '', 7],
+					[7, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 14, 0, 0, '', 7],
+					[8, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, '', 7],
+					[9, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 9, 1, 0, '', 7],
+					[10, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, '', 7],
+					[11, 'tax', 'LBL_TAX', 'Tax', 0, '0', 8, 1, 0, '', 7],
+					[12, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, '', 7],
+					[13, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, '', 7],
+					[14, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, '', 7],
+				]
+			],
 			'u_#__finvoiceproforma_invfield' => [
 				'columns' => ['id', 'columnname', 'label', 'invtype', 'presence', 'defaultvalue', 'sequence', 'block', 'displaytype', 'params', 'colspan'],
 				'values' => [
