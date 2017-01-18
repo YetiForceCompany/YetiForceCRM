@@ -28,7 +28,7 @@ class Notifications extends Base
 		$modules = $scheduleData['modules'];
 
 		$notificationInstance = \Notification_Module_Model::getInstance('Notification');
-		$entries = \Notification_Module_Model::getEmailSendEntries($data['userId'], $modules, $data['startDate'], $data['endDate']);
+		$entries = \Notification_Module_Model::getEmailSendEntries($this->textParser->getParam('userId'), $modules, $this->textParser->getParam('startDate'), $this->textParser->getParam('endDate'));
 		foreach ($notificationInstance->getTypes() as $typeId => $type) {
 			if (isset($entries[$typeId])) {
 				$html .= "<hr><strong>$type</strong><ul>";
@@ -41,7 +41,7 @@ class Notifications extends Base
 			}
 		}
 		if (empty($html)) {
-			$html = \App\Language::translate('LBL_NO_NOTIFICATIONS', 'Home');
+			$html = \App\Language::translate('LBL_NO_NOTIFICATIONS', 'Notification');
 		}
 		return $html;
 	}
