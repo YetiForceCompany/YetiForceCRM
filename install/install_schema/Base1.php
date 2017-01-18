@@ -1338,7 +1338,7 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__finvoice_inventory' => [
+			'u_#__finvoicecost_inventory' => [
 				'columns' => [
 					'id' => $this->integer(),
 					'seq' => $this->integer(10),
@@ -1367,7 +1367,7 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__finvoice_invfield' => [
+			'u_#__finvoicecost_invfield' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
 					'columnname' => $this->stringType(30)->notNull(),
@@ -1384,7 +1384,7 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__finvoice_invmap' => [
+			'u_#__finvoicecost_invmap' => [
 				'columns' => [
 					'module' => $this->stringType(50)->notNull(),
 					'field' => $this->stringType(50)->notNull(),
@@ -1396,7 +1396,7 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__finvoicecf' => [
+			'u_#__finvoicecostcf' => [
 				'columns' => [
 					'finvoicecostid' => $this->integer()->notNull(),
 				],
