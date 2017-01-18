@@ -8,7 +8,9 @@
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
-
+	STATIC $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
+	public $logoPath = 'storage/Logo/';
+	
 	/**
 	 * Function to get the Id
 	 * @return int Id
@@ -100,6 +102,11 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'tabid':
 				$value = \App\Module::getModuleName($value);
 				break;
+			case 'logo_login':
+			case 'logo_main':
+			case 'logo_mail':
+				$value = "<img src='{$this->getLogoPath($value)}' class='alignMiddle'/>";
+				break;
 		}
 		return $value;
 	}
@@ -122,25 +129,59 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getRecordLinks()
 	{
-
 		$links = [];
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn btn-xs btn-success'
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn btn-xs btn-danger'
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
 		return $links;
 	}
+	
+	/**
+	 * Function to get Logo path to display
+	 * @param string $name logo name
+	 * @return string path
+	 */
+	public function getLogoPath($name)
+	{
+		$logoPath = $this->logoPath;
+		$handler = @opendir($logoPath);
+		if ($name && $handler) {
+			while ($file = readdir($handler)) {
+				if ($name === $file && in_array(str_replace('.', '', strtolower(substr($file, -4))), self::$logoSupportedFormats) && $file != "." && $file != "..") {
+					closedir($handler);
+					return $logoPath . $name;
+				}
+			}
+		}
+		return '';
+	}
+	
+			/**
+	 * Function to save the logoinfo
+	 */
+	public function saveLogo($name)
+	{
+		$uploadDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $this->logoPath;
+		$logoName = $uploadDir . \App\Fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
+		move_uploaded_file($_FILES[$name]['tmp_name'], $logoName);
+		copy($logoName, $uploadDir . 'application.ico');
+	}
+	
+	
 }

@@ -31,4 +31,18 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		return 'index.php?module=Companies&parent=Settings&view=Edit';
 	}
+
+	/**
+	 * Function to get the column names
+	 * @return array|false
+	 */
+	public static function getColumnNames()
+	{
+		$tableSchema = \App\Db::getInstance('admin')->getTableSchema('s_#__companies', true);
+		if($tableSchema){
+			return $tableSchema->getColumnNames();
+		}
+		return false;
+	}
+
 }

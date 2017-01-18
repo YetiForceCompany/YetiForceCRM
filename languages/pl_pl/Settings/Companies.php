@@ -5,6 +5,7 @@ $languageStrings = [
 	'Companies' => 'Dane firm',
 	'LBL_COMPANIES_DESCRIPTION' => 'Zarządzenie danymi firmowymi',
 	// Fields
+	'LBL_ID' => 'Id',
 	'LBL_NAME' => 'Pełna nazwa firmy',
 	'LBL_SHORT_NAME' => 'Skrócona nazwa firmy',
 	'LBL_PHONE' => 'Telefon',

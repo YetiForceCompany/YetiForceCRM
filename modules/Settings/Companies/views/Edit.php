@@ -25,10 +25,11 @@ class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
+		$viewer->assign('COMPANY_COLUMNS', Settings_Companies_Module_Model::getColumnNames());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('EditViewS1.tpl', $qualifiedModuleName);
+		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
 	/**
