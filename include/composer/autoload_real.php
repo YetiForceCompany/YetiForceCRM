@@ -24,12 +24,12 @@ class ComposerAutoloaderInit
 		self::$loader = $loader = new \Composer\Autoload\ClassLoader();
 		spl_autoload_unregister(array('ComposerAutoloaderInit', 'loadClassLoader'));
 
-		/*
-		  $map = require __DIR__ . '/autoload_namespaces.php';
-		  foreach ($map as $namespace => $path) {
-		  $loader->set($namespace, $path);
-		  }
-		 */
+
+		$map = require __DIR__ . '/autoload_namespaces.php';
+		foreach ($map as $namespace => $path) {
+			$loader->set($namespace, $path);
+		}
+
 		$map = require __DIR__ . '/autoload_psr4.php';
 		foreach ($map as $namespace => $path) {
 			$loader->setPsr4($namespace, $path);
