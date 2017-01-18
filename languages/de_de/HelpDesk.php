@@ -99,9 +99,9 @@ $languageStrings = [
 	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Zuordnen der SLA zum Ticket.',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Willkommen',
-	'LBL_NOTICE_CREATED' => 'wurde erstellt (von',
-	'LBL_NOTICE_CLOSED' => 'wurde geschlossen (von',
-	'LBL_NOTICE_UPDATED' => 'wurde aktualisiert (von',
+	'LBL_NOTICE_CREATED' => 'wurde erstellt von:',
+	'LBL_NOTICE_CLOSED' => 'wurde geschlossen von:',
+	'LBL_NOTICE_UPDATED' => 'wurde aktualisiert von:',
 	'LBL_NOTICE_CREATE' => 'Hinzugefügt',
 	'LBL_NOTICE_MODIFICATION' => 'Veränderung',
 	'LBL_NOTICE_CLOSE' => 'Geschlossen',

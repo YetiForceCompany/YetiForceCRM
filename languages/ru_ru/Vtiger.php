@@ -811,6 +811,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Выберите поля связанного модуля',
 	'LBL_COMPARISON_VALUE' => 'Значения для сравнения',
 	'Website' => 'Сайт',
+	'LBL_EMAIL_TEMPLATE_FOOTER' => 'Yetiforce CRM',
 	/* industry */
 	'Administration' => 'Правительство',
 	'Construction Industry' => 'Строительство',

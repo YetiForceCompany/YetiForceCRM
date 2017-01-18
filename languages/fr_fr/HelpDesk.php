@@ -98,9 +98,9 @@ $languageStrings = [
 	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Pressing this button will relate this SLA to ticket.',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Bienvenue sur le portail',
-	'LBL_NOTICE_CREATED' => 'a été créé (par',
-	'LBL_NOTICE_CLOSED' => 'a été fermé (par',
-	'LBL_NOTICE_UPDATED' => 'a été mis à jour (par',
+	'LBL_NOTICE_CREATED' => 'a été créé par:',
+	'LBL_NOTICE_CLOSED' => 'a été fermé par:',
+	'LBL_NOTICE_UPDATED' => 'a été mis à jour par:',
 	'LBL_NOTICE_CREATE' => 'Ajouté',
 	'LBL_NOTICE_MODIFICATION' => 'Modification',
 	'LBL_NOTICE_CLOSE' => 'Fermé',

@@ -907,6 +907,7 @@ $languageStrings = [
 	'LBL_WORKFLOWS_TRIGGER' => 'Wyzwalacz obiegów informacji',
 	'LBL_EXECUTE' => 'Wykonaj',
 	'BTN_WORKFLOW_TRIGGER' => 'Narzędzie umożliwiające ręczne wywołanie obiegów informacji, które uruchomi automatycznie wszystkie podpięte zadania.',
+	'LBL_EMAIL_TEMPLATE_FOOTER' => 'Yetiforce CRM',
 	//breadcrumbs view name
 	'LBL_VIEW_CREATE' => 'Tworzenie',
 	'LBL_VIEW_EDIT' => 'Edycja',

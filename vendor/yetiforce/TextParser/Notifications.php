@@ -24,7 +24,7 @@ class Notifications extends Base
 	{
 		$siteURL = \AppConfig::main('site_URL');
 		$html = '';
-		$scheduleData = Vtiger_Watchdog_Model::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
+		$scheduleData = \Vtiger_Watchdog_Model::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
 
 		$notificationInstance = \Notification_Module_Model::getInstance('Notification');

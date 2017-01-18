@@ -105,9 +105,9 @@ $languageStrings = [
 	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Naciśnięcie tego przycisku spowoduje powiązanie tej umowy ze zgłoszeniem',
 	//notifications translation 
 	'LBL_NOTICE_WELCOME' => 'Witaj w platformie',
-	'LBL_NOTICE_CREATED' => 'zostało utworzone (przez',
-	'LBL_NOTICE_CLOSED' => 'zostało zamknięte (przez',
-	'LBL_NOTICE_UPDATED' => 'zostało zaktualizowane (przez',
+	'LBL_NOTICE_CREATED' => 'zostało utworzone przez:',
+	'LBL_NOTICE_CLOSED' => 'zostało zamknięte przez:',
+	'LBL_NOTICE_UPDATED' => 'zostało zaktualizowane przez:',
 	'LBL_NOTICE_CREATE' => 'Dodano',
 	'LBL_NOTICE_MODIFICATION' => 'Modyfikacja',
 	'LBL_NOTICE_CLOSE' => 'Zamknięto',

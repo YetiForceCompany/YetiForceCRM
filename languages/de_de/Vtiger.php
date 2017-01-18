@@ -816,6 +816,7 @@ $languageStrings = [
 	'LBL_COMPARISON_VALUE' => 'Wert vergleichen',
 	'Website' => 'Webseite',
 	'FL_TOTAL_TIME_H' => 'Gesamtzeit [h]',
+	'LBL_EMAIL_TEMPLATE_FOOTER' => 'Yetiforce CRM',
 	/* industry */
 	'Administration' => 'Verwaltung',
 	'Construction Industry' => 'Baubranche',

@@ -789,6 +789,7 @@ $languageStrings = [
 	'LBL_SELECT_RELATED_FIELD' => 'Select related module field',
 	'LBL_COMPARISON_VALUE' => 'Comparison value',
 	'Website' => 'Web Site',
+	'LBL_EMAIL_TEMPLATE_FOOTER' => 'Yetiforce CRM',
 	/* industry */
 	'Administration' => 'Administration',
 	'Construction Industry' => 'Construction Industry',

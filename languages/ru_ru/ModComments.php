@@ -25,7 +25,7 @@ $languageStrings = [
 	'Customer' => 'Клиент',
 	//Email notifications
 	'LBL_ADDED_COMMENT_TO_TICKET' => 'Добавлен комментарий к заявке',
-	'LBL_NEW_COMMENT_FOR_TICKET' => 'Добавлен комментарий к заявке, содержание комментария, можно найти ниже',
+	'LBL_NEW_COMMENT_FOR_TICKET' => 'A comment was added to the ticket',
 	'LBL_NOTICE_WELCOME' => 'Добро пожаловать в систему',
 	'LBL_NOTICE_FOOTER' => 'Если вы не хотите получать уведомления от нашей системы управления проектами, пожалуйста, сообщите нам, отправив письмо на <a href=\"mailto:help@yetiforce.com\">help@yetiforce.com</a>. Если вы не являетесь адресатом этого сообщения, пожалуйста, сообщите нам об этом и удалить сообщение.',
 	'LBL_NOTICE_CREATED' => 'Успешно',

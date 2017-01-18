@@ -3415,166 +3415,361 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__emailtemplates' => [
 				'columns' => ['emailtemplatesid', 'name', 'number', 'email_template_type', 'module', 'subject', 'content', 'sys_name', 'email_template_priority'],
 				'values' => [
-					[35, 'Notify Owner On Ticket Change', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div> 
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_UPDATED)$  $(record : modifiedby)$. $(record : ChangesListChanges)$<br>
- 
-<hr> 
-<h1><a href="$(record%20%3A%20CrmDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
- 
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-
-	<li>$(translate : HelpDesk|Priority)$:$(record : ticketpriorities)$</li>
-
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$<br></li></ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr> $(translate : HelpDesk|Solution)$: $(record : solution)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-<br><br>
- ', NULL, 1],
-					[36, 'Notify Account On Ticket Change', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_COPY_BILLING_ADDRESS)$  $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_UPDATED)$  $(record : modifiedby)$. $(record : ChangesListChanges)$
-<hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$:$(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul><hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr> $(translate : HelpDesk|Solution)$: $(record : solution)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', NULL, 1],
-					[37, 'Notify Contact On Ticket Closed', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CLOSED)$  $(record : modifiedby)$. $(record : ChangesListChanges)$<br><hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_CLOSED)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li><br></li><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$:$(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr> $(translate : HelpDesk|Solution)$: $(record : solution)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', 'NotifyContactOnTicketClosed', 1],
-					[38, 'Notify Account On Ticket Closed', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CLOSED)$  $(record : modifiedby)$. $(record : ChangesListChanges)$
-<hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_CLOSED)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li> </li>
-	<li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$:$(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr> $(translate : HelpDesk|Solution)$: $(record : solution)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', NULL, 1],
-					[39, 'Notify Contact On Ticket Create', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(record : ticket_no)$ ($(translate : HelpDesk|LBL_NOTICE_CREATED)$ $(record : modifiedby)$).
-<hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$: $(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', 'NotifyContactOnTicketCreate', 1],
-					[40, 'Notify Account On Ticket Create', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(record : ticket_no)$ ($(translate : HelpDesk|LBL_NOTICE_CREATED)$ $(record : modifiedby)$).
-<hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$:$(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', NULL, 1],
-					[41, 'Notify Contact On Ticket Change', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(record : ticket_no)$ ($(translate : HelpDesk|LBL_NOTICE_UPDATED)$ $(record : modifiedby)$). $(record : ChangesListChanges)$
-<hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$: $(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', 'NotifyContactOnTicketChange', 1],
-					[42, 'Notify Owner On Ticket Closed', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(record : ticket_no)$ ($(translate : HelpDesk|LBL_NOTICE_CLOSED)$ $(record : modifiedby)$). $(record : ChangesListChanges)$
-<hr><h1><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$: $(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr> $(translate : HelpDesk|Solution)$: $(record : solution)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', NULL, 1],
-					[43, 'Notify Owner On Ticket Create', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate :  HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<div>
-<h3>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o. </strong></h3>
-<br>
-$(translate : HelpDesk|SINGLE_HelpDesk)$ $(record : ticket_no)$ ($(translate : HelpDesk|LBL_NOTICE_CREATED)$ $(record : modifiedby)$).
-<hr><h1><a href="$(record%20%3A%20CrmDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$</a></h1>
-
-<ul><li>$(translate : HelpDesk|Status)$: $(record : ticketstatus)$ </li>
-	<li>$(translate : HelpDesk|Priority)$: $(record : ticketpriorities)$</li>
-	<li>$(translate : HelpDesk|Assigned To)$: $(record : assigned_user_id)$</li>
-	<li>$(translate : HelpDesk|Related To)$: $(record : parent_id)$</li>
-</ul>
- 
-
-<hr> $(translate : HelpDesk|Description)$: $(record : description)$
-<hr><span><em>$(translate : HelpDesk|LBL_NOTICE_FOOTER#tEnd)$</em></span></div>
-', NULL, 1],
+					[35, 'Notify Owner On Ticket Change', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticket_no)$:$(record : ticket_title)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(translate : HelpDesk|LBL_NOTICE_UPDATED)$ $(record : modifiedby)$ $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Solution)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[36, 'Notify Account On Ticket Change', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_COPY_BILLING_ADDRESS)$  $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|LBL_NOTICE_UPDATED)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$. $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><a href="$(record%20%3A%20PortalDetailViewURL)$">$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$</a></td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Solution)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[37, 'Notify Contact On Ticket Closed', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|LBL_NOTICE_CLOSED)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$ <a href="$(record%20%3A%20PortalDetailViewURL)$">$(record : ticket_no)$:$(record : ticket_title)$</a> . $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Solution)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'NotifyContactOnTicketClosed', 1],
+					[38, 'Notify Account On Ticket Closed', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CLOSED)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><a href="$(record%20%3A%20PortalDetailViewURL)$">$(record : ticket_no)$:$(record : ticket_title)$</a> $(record : modifiedby)$. $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Solution)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[39, 'Notify Contact On Ticket Create', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CREATE)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"> .<a href="$(record%20%3A%20PortalDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a> </td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'NotifyContactOnTicketCreate', 1],
+					[40, 'Notify Account On Ticket Create', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CREATE)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$ <a href="$(record%20%3A%20PortalDetailViewURL)$">$(record : ticket_no)$:$(record : ticket_title)$</a></td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[41, 'Notify Contact On Ticket Change', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_UPDATED)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$ <a href="$(record%20%3A%20PortalDetailViewURL)$">$(record : ticket_no)$:$(record : ticket_title)$</a> $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Solution)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'NotifyContactOnTicketChange', 1],
+					[42, 'Notify Owner On Ticket Closed', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CLOSED)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$<a href="$(record%20%3A%20CrmDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a> $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Solution)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[43, 'Notify Owner On Ticket Create', NULL, 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CREATED)$ </i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$. <a href="$(record%20%3A%20PortalDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a> $(record : ChangesListChanges)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketstatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : ticketpriorities)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Assigned To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : assigned_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Related To)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : parent_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : HelpDesk|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
 					[44, 'Customer Portal Login Details', NULL, 'PLL_RECORD', 'Contacts', 'Customer Portal Login Details', '<p>$(organization : logo)$</p>
 
-<p>Dear $(record : firstname)$  $(record : lastname)$</p>
+<p>Dear $(record : firstname)$ Â $(record : lastname)$</p>
 
 <p>Created for your account in the customer portal, below sending data access.</p>
 
-<p>Login: $(record : email)$<br>
-Password: #s#ContactsPortalPass#sEnd#</p>
+<p>Login:Â $(record : email)$<br>
+Password:Â $(custom : ContactsPortalPass)$</p>
 
 <p>Regards</p>
 ', NULL, 1],
@@ -3584,15 +3779,15 @@ Password: #s#ContactsPortalPass#sEnd#</p>
 		</tr><tr><td>
 			<div style="padding:2px;">
 			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
-						<div><i>$(translate : Calendar|Start Date & Time)$</i></div>
+						<div><i>$(translate : Events|</i>Start Date & Time<i>)$</i></div>
 						</td>
-						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : date_start)$  $(record : time_start)$</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : date_start)$ $(record : time_start)$</td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|End Time)$</i></div>
 						</td>
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : due_date)$ $(record : time_end)$</td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
-						<div><i>$(translate : Calendar|FL_PROCESS)$End#</i></div>
+						<div><i>$(translate : Calendar|FL_PROCESS)$</i></div>
 						</td>
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : process)$</td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
@@ -3610,7 +3805,7 @@ Password: #s#ContactsPortalPass#sEnd#</p>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|Location)$</i></div>
 						</td>
-						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><span><span>$(record : location)$</span><span> (<a href="https://maps.google.pl/maps?q=%23a%23268%23aEnd%23">mapa</a>)</span></span></td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><span><span>$(record : location)$</span><span> (<a href="https://maps.google.pl/maps?q=$(record%20:%20location)$">mapa</a>)</span></span></td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : Calendar|Status)$</i></div>
 						</td>
@@ -3629,66 +3824,193 @@ Password: #s#ContactsPortalPass#sEnd#</p>
 			<p>YetiForce CRM - Notification activities on the calendar</p>
 			</td>
 		</tr></table>', NULL, 1],
-					[46, 'Send Notification Email to Record Owner', NULL, 'PLL_RECORD', 'Calendar', 'Task : $(record : subject)$', '$(record : assigned_user_id)$<br><br>
-Activity Notification Details:<br>
-$(translate : Calendar|Subject)$: $(record : subject)$<br>
-$(translate : Calendar|Start Date & Time)$ : $(record : date_start)$ $(record : time_start)$<br>
-$(translate : Calendar|End Time)$ : $(record : due_date) $(record : time_end)$<br>
-$(translate : Calendar|Status)$ : $(record : activitystatus)$<br>
-$(translate : Calendar|Priority)$: $(record : taskpriority)$<br>
-$(translate : Calendar|FL_PROCESS)$ :$(record : process)$<br>
-$(translate : Calendar|FL_RELATION)$: $(record : link)$<br>
-$(translate : Calendar|Location)$ : $(record : location)$<br>
-$(translate : Calendar|Description)$ : $(record : description)$', NULL, 1],
-					[93, 'Activity Reminder Notification', NULL, 'PLL_RECORD', 'Calendar', 'Reminder:  $(record : subject)$', 'This is a reminder notification for the Activity: <br>
-$(record : subject)$: $(record : subject)$  <br>
-$(translate : Calendar|Start Date & Time)$: $(record : date_start)$ $(record : time_start)$  <br>
-$(translate : Calendar|FL_RELATION)$: $(record : link)$  <br>
-$(translate : Calendar|FL_PROCESS)$: $(record : process)$  <br>
-$(translate : Calendar|Description)$: $(record : description)$', 'ActivityReminderNotificationTask', 1],
-					[94, 'Activity Reminder Notification', NULL, 'PLL_RECORD', 'Events', 'Reminder: $(record : subject)$', 'This is a reminder notification for the Activity:<br>
-$(record : subject)$: $(record : subject)$<br>
-$(translate : Calendar|Start Date & Time)$: $(record : date_start)$ $(record : time_start)$<br>
-$(translate : Calendar|FL_RELATION)$: $(record : link)$ <br>
-$(translate : Calendar|FL_PROCESS)$: $(record : process)$#<br>
-$(translate : Calendar|Description)$: $(record : description)$', 'ActivityReminderNotificationEvents', 1],
-					[95, 'Test mail about the mail server configuration.', NULL, 'PLL_RECORD', 'Users', 'Test mail about the mail server configuration.', '<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span> $(record : first_name)$ $(record :last_name)$<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">, </span><br><br><b>This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured. </b><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail. <br>
-CRM </span>address: $(general : SiteUrl)$<br><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>', 'TestMailAboutTheMailServerConfiguration', 1],
-					[103, 'ForgotPassword', NULL, 'PLL_RECORD', 'Users', 'Request: ForgotPassword', 'Dear user,<br><br>
+					[46, 'Send Notification Email to Record Owner', NULL, 'PLL_RECORD', 'Calendar', 'Task : $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>Activity Notification Details</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Subject)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : subject)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Start Date & Time)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : date_start)$ $(record : time_start)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|End Time)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : due_date) $(record : time_end)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Status)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : activitystatus)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Priority)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : taskpriority)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|FL_PROCESS)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : process)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|FL_RELATION)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : link)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Location)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : location)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[93, 'Activity Reminder Notification', NULL, 'PLL_RECORD', 'Calendar', 'Reminder:  $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>This is a reminder notification for the Activity</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Subject)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : subject)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Start Date & Time)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : date_start)$ $(record : time_start)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|FL_RELATION)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : link)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|FL_PROCESS)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : process)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'ActivityReminderNotificationTask', 1],
+					[94, 'Activity Reminder Notification', NULL, 'PLL_RECORD', 'Events', 'Reminder: $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>This is a reminder notification for the Activity</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Subject)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">
+						$(record : subject)$
+						</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Start Date & Time)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : date_start)$ $(record : time_start)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|FL_RELATION)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : link)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|FL_PROCESS)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : process)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Calendar|Description)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : description)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'ActivityReminderNotificationEvents', 1],
+					[95, 'Test mail about the mail server configuration.', NULL, 'PLL_RECORD', 'Users', 'Test mail about the mail server configuration.', '<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>Â $(record : first_name)$Â $(record : last_name)$<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">,Â </span><br><br><b>This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured.Â </b><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail.Â <br>
+CRMÂ </span>address:Â $(general : SiteUrl)$<br><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>', 'TestMailAboutTheMailServerConfiguration', 1],
+					[103, 'ForgotPassword', NULL, 'PLL_RECORD', 'Users', 'Request: ForgotPassword', 'Dear user,<br>
+$(custom : UsersLinkToForgotPassword)$<br>
 You recently requested a password reset for your YetiForce CRM.<br>
-To create a new password, click on the link #s#LinkToForgotPassword#sEnd#.<br><br>
-This request was made on $(general : CurrentDate)$ $(general : CurrentTime)$  and will expire in next 24 hours.<br><br>
+To create a new password, click on the link $(custom : UsersLinkToForgotPassword)$<br><br>
+This request was made on $(general : CurrentDate)$ $(general : CurrentTime)$Â  and will expire in next 24 hours.<br><br>
 Regards,<br>
 YetiForce CRM Support Team.', 'UsersForgotPassword', 1],
-					[104, 'Customer Portal - ForgotPassword', NULL, 'PLL_RECORD', 'Contacts', 'Request: ForgotPassword', 'Dear $(record : firstname)$ $(translate : Contacts|Last Name)$,<br><br>
+					[104, 'Customer Portal - ForgotPassword', NULL, 'PLL_RECORD', 'Contacts', 'Request: ForgotPassword', 'Dear $(record : firstname)$Â $(translate : Contacts|Last Name)$,<br><br>
 You recently requested a reminder of your access data for the YetiForce Portal.<br><br>
 You can login by entering the following data:<br><br>
-Your username: $(record : email)$<br>
-Your password: #s#ContactsPortalPass#sEnd#<br><br><br>
+Your username:Â $(record : email)$<br>
+Your password:Â $(custom : ContactsPortalPass)$<br><br><br>
 Regards,<br>
 YetiForce CRM Support Team.', 'YetiPortalForgotPassword', 1],
-					[105, 'Notify Owner On new comment added to ticket from portal', NULL, 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<div>
-<h3>$(translate : ModComments|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o.</strong></h3> $(record : customer)$
-$(translate : ModComments|LBL_NEW_COMMENT_FOR_TICKET)$ ($(translate : ModComments|LBL_NOTICE_CREATED) $(record : customer)$).
-
-<hr>$(translate : ModComments|Comment)$  $(record : commentcontent)$</div>
-', 'NewCommentAddedToTicketOwner', 1],
-					[106, 'Notify Contact On New comment added to ticket', NULL, 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<div>
-<h3>$(translate : ModComments|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o.</strong></h3>
-$(record : customer)$ $(translate : ModComments|LBL_NEW_COMMENT_FOR_TICKET)$ ($(translate : ModComments|LBL_NOTICE_CREATED) $(record : created_user_id)$).
-
-<hr>$(translate : ModComments|Comment)$ $(record : commentcontent)$</div>
-<hr><span><em>$(translate : ModComments|LBL_NOTICE_FOOTER)$</em></span>', 'NewCommentAddedToTicketContact', 1],
+					[105, 'Notify Owner On new comment added to ticket from portal', NULL, 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : ModComments|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o.</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : ModComments|LBL_NEW_COMMENT_FOR_TICKET)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(translate : ModComments|LBL_NOTICE_CREATED)$ $(record : customer)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div>$(translate : ModComments|Comment)$</div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : commentcontent)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'NewCommentAddedToTicketOwner', 1],
+					[106, 'Notify Contact On New comment added to ticket', NULL, 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : ModComments|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o.</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : ModComments|LBL_NEW_COMMENT_FOR_TICKET)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(translate : ModComments|LBL_NOTICE_CREATED)$ $(record : created_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : ModComments|Comment)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : commentcontent)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'NewCommentAddedToTicketContact', 1],
 					[107, 'Security risk has been detected - Brute Force', NULL, 'PLL_MODULE', 'Contacts', 'Security risk has been detected', '<span class="value">Dear user,<br>
 Failed login attempts have been detected. </span>', 'BruteForceSecurityRiskHasBeenDetected', 1],
-					[109, 'Notify Account On New comment added to ticket', NULL, 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<div>
-<h3>$(translate : ModComments|LBL_NOTICE_WELCOME)$ <strong>YetiForce Sp. z o.o.</strong></h3>
-$(record : customer)$ $(translate : ModComments|LBL_NEW_COMMENT_FOR_TICKET)$ ($(translate : ModComments|LBL_NOTICE_CREATED) $(record : created_user_id)$).
-
-<hr>$(translate : ModComments|Comment)$ $(record : commentcontent)$</div>
-<hr><span><em>$(translate : ModComments|LBL_NOTICE_FOOTER)$</em></span>
-', 'NewCommentAddedToTicketAccount', 1],
-					[110, 'Send notifications', NULL, 'PLL_MODULE', 'System', 'Notifications $(general : CurrentDate)$', '#s#Notifications#sEnd#', 'SendNotificationsViaMail', 1],
+					[109, 'Notify Account On New comment added to ticket', NULL, 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : ModComments|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o.</span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : ModComments|LBL_NEW_COMMENT_FOR_TICKET)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(translate : ModComments|LBL_NOTICE_CREATED)$ $(record : created_user_id)$</td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : ModComments|Comment)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : commentcontent)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'NewCommentAddedToTicketAccount', 1],
+					[110, 'Send notifications', NULL, 'PLL_MODULE', 'System', 'Notifications $(general : CurrentDate)$', '$(custom : Notifications)$', 'SendNotificationsViaMail', 1],
 				]
 			],
 			'u_#__fcorectinginvoice_invfield' => [
