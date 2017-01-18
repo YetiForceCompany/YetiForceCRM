@@ -125,7 +125,8 @@ class Mailer
 			$params['smtp_id'] = Mail::getDefaultSmtp();
 		}
 		if (empty($params['owner'])) {
-			$params['owner'] = User::getCurrentUserRealId();
+			$owner = User::getCurrentUserRealId();
+			$params['owner'] = $owner ? $owner : 0;
 		}
 		$params['date'] = date('Y-m-d H:i:s');
 		foreach (static::$quoteJsonColumn as $key) {

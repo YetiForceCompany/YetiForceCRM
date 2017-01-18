@@ -86,7 +86,7 @@
 					{/if}
 					{if $STATUS}
 						<div class="alert alert-success">
-							<p>{vtranslate('Mail has been sent to your inbox, please check your e-mail.',$MODULE)}</p>
+							<p>{vtranslate('LBL_MAIL_WAITING_TO_SENT',$MODULE)}</p>
 						</div>
 					{/if}
 					{if $STATUS_ERROR}

@@ -71,15 +71,16 @@ class Users_ForgotPassword_Action
 					'hash' => md5($username . $time)
 				)
 			);
-			\App\Mailer::sendFromTemplate([
-				'template' => 'UsersForgotPassword',
-				'moduleName' => 'Users',
-				'recordId' => $userId,
-				'to' => $email,
-				'trackURL' => Vtiger_ShortURL_Helper::generateURL($options)
+			$status = \App\Mailer::sendFromTemplate([
+					'template' => 'UsersForgotPassword',
+					'moduleName' => 'Users',
+					'recordId' => $userId,
+					'to' => $email,
+					'priority' => 9,
+					'trackURL' => Vtiger_ShortURL_Helper::generateURL($options)
 			]);
 			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
-			if ($status === 1)
+			if ($status)
 				header('Location:  ' . $site_URL . '&status=1');
 			else
 				header('Location:  ' . $site_URL . '&statusError=1');
