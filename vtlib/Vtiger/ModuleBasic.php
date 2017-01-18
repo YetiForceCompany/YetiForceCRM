@@ -566,11 +566,12 @@ class ModuleBasic
 	public function deleteDir($moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
-		$modulePath = 'modules/' . $moduleInstance->name;
-		Functions::recurseDelete($modulePath);
+		Functions::recurseDelete("config/modules/{$moduleInstance->name}.php");
+		Functions::recurseDelete('modules/' . $moduleInstance->name);
+		Functions::recurseDelete('modules/Settings/' . $moduleInstance->name);
 		foreach (\Yeti_Layout::getAllLayouts() as $name => $label) {
-			$layoutPath = 'layouts/' . $name . '/modules/' . $moduleInstance->name;
-			Functions::recurseDelete($layoutPath);
+			Functions::recurseDelete("layouts/$name/modules/{$moduleInstance->name}");
+			Functions::recurseDelete("layouts/$name/modules/Settings/{$moduleInstance->name}");
 		}
 		self::log(__METHOD__ . ' | END');
 	}
