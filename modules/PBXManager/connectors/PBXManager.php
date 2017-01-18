@@ -9,7 +9,6 @@
  * *********************************************************************************** */
 
 require_once 'include/utils/utils.php';
-require_once 'vtlib/Vtiger/Net/Client.php';
 
 class PBXManager_PBXManager_Connector
 {
@@ -342,9 +341,8 @@ class PBXManager_PBXManager_Connector
 		$serviceURL .= 'to=' . urlencode($number) . '&';
 		$serviceURL .= 'context=' . urlencode($context);
 
-		$httpClient = new Vtiger_Net_Client($serviceURL);
-		$response = $httpClient->doPost(array());
-		$response = trim($response);
+		$httpClient = Requests::post($serviceURL);
+		$response = trim($httpClient->body);
 
 		if ($response == "Error" || $response == "" || $response === null || $response == "Authentication Failure") {
 			return false;

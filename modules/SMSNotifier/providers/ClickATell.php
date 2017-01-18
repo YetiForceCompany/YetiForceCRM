@@ -116,10 +116,8 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 		$params['text'] = $message;
 		$params['to'] = implode(',', $toNumbers);
 
-		$serviceURL = $this->getServiceURL(self::SERVICE_SEND);
-		$httpClient = new Vtiger_Net_Client($serviceURL);
-		$response = $httpClient->doPost($params);
-		$responseLines = explode("\n", $response);
+		$httpClient = Requests::post($this->getServiceURL(self::SERVICE_SEND), [], $params);
+		$responseLines = explode("\n", $httpClient->body);
 
 		$results = array();
 		$i = 0;
@@ -156,10 +154,8 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 		$params = $this->prepareParameters();
 		$params['apimsgid'] = $messageId;
 
-		$serviceURL = $this->getServiceURL(self::SERVICE_QUERY);
-		$httpClient = new Vtiger_Net_Client($serviceURL);
-		$response = $httpClient->doPost($params);
-		$response = trim($response);
+		$httpClient = Requests::post($this->getServiceURL(self::SERVICE_QUERY), [], $params);
+		$response = trim($httpClient->body);
 
 		$result = array('error' => false, 'needlookup' => 1, 'statusmessage' => '');
 
@@ -207,5 +203,3 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 		return $result;
 	}
 }
-
-?>

@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-vimport('~vtlib/Vtiger/Net/Client.php');
-
 interface SMSNotifier_ISMSProvider_Model
 {
 
