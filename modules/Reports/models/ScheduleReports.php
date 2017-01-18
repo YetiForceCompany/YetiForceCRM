@@ -215,15 +215,15 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		}
 		$oReportRun = ReportRun::getInstance($this->get('reportid'));
 		$attachments = [];
-		if ($reportFormat == 'CSV') {
+		if ($reportFormat === 'CSV') {
 			$fileName = $baseFileName . '.csv';
-			$filePath = 'storage/' . $fileName;
+			$filePath = 'cache/mail/' . $fileName;
 			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToCSVFile($filePath);
 		}
-		if ($reportFormat == 'EXCEL') {
+		if ($reportFormat === 'EXCEL') {
 			$fileName = $baseFileName . '.xls';
-			$filePath = 'storage/' . $fileName;
+			$filePath = 'cache/mail/' . $fileName;
 			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
@@ -236,9 +236,6 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			'content' => $this->getEmailContent($reportRecordModel),
 			'attachments' => $attachments,
 		]);
-		foreach ($attachments as $path => $attachmentName) {
-			unlink($path);
-		}
 		return true;
 	}
 

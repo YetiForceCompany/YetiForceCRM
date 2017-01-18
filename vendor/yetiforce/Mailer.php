@@ -214,10 +214,6 @@ class Mailer
 	{
 		$this->mailer->isHTML(true);
 		$this->mailer->msgHTML($message);
-		//$this->mailer->Encoding = 'quoted-printable';
-		//$this->mailer->Body = $message;
-		//$this->mailer->AltBody = 'ppp';
-		//$this->mailer->CharSet = 'UTF-8';
 		return $this;
 	}
 
