@@ -35,7 +35,8 @@ class VTEmailTemplateTask extends VTTask
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			if ($this->email) {
-				$mailerContent['to'] = $emailParser->setContent(implode(',', $this->email))->parse()->getContent(true);
+				$email = is_array($this->email) ? implode(',', $this->email) : $this->email;
+				$mailerContent['to'] = $emailParser->setContent($email)->parse()->getContent(true);
 			}
 			unset($emailParser);
 			if (empty($mailerContent['to'])) {
