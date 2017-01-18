@@ -299,7 +299,7 @@ class Mailer
 	public function send()
 	{
 		if ($this->mailer->FromName === 'Root User') {
-			$this->mailer->FromName = \Vtiger_CompanyDetails_Model::getInstanceById()->get('organizationname');
+			$this->mailer->FromName = Company::getInstanceById()->get('name');
 		}
 		if ($this->mailer->send()) {
 			Log::trace('Mailer sent mail', 'Mailer');

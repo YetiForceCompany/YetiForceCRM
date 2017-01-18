@@ -34,9 +34,8 @@ class Import_List_View extends Vtiger_Popup_View
 			$this->initializeListViewContents($request, $viewer);
 			$moduleName = $request->get('for_module');
 
-			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
-			$companyLogo = $companyDetails->getLogo();
-			$viewer->assign('COMPANY_LOGO', $companyLogo);
+			$companyDetails = App\Company::getInstanceById();
+			$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo());
 			$viewer->assign('MODULE_NAME', $moduleName);
 
 			$viewer->view('Popup.tpl', $moduleName);

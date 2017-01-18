@@ -10,13 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
+	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="MODULE" value='Users'}
 	<div class="container">
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
 			<div class="logo">
-				<img title="{$COMPANY_DETAILS->get('companyname')}" height='{$COMPANY_DETAILS->get('height_panellogo')}' class="logo" src="storage/Logo/{$COMPANY_DETAILS->get('panellogoname')}" alt="{$COMPANY_DETAILS->get('companyname')}">
+				<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" class="logo" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
 			</div>
 			<div class="" id="loginDiv">
 				<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>

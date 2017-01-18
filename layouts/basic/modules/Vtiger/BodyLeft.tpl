@@ -1,12 +1,12 @@
 {strip}
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-	{assign var="COMPANY_DETAILS" value=Vtiger_CompanyDetails_Model::getInstanceById()}
+	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="container-fluid userDetailsContainer">
 		<div class="row padding0">
 			<div class="col-md-2 noSpaces">
 				<a class="companyLogoContainer" href="index.php">
-					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}"/>
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">
@@ -17,7 +17,7 @@
 							<p class="noSpaces name textOverflowEllipsis">{$NAME}&nbsp;</p>
 						{/if}
 					{/foreach}
-					<p class="companyName noSpaces textOverflowEllipsis">{$COMPANY_DETAILS->get('organizationname')}&nbsp;</p>
+					<p class="companyName noSpaces textOverflowEllipsis">{$COMPANY_DETAILS->get('name')}&nbsp;</p>
 				</div>
 				<div class="col-xs-4 noSpaces">
 					<ul class="headerLink noSpaces pull-right">

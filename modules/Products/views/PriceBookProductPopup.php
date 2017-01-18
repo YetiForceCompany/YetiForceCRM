@@ -15,7 +15,7 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);

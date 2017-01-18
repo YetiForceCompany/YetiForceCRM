@@ -48,8 +48,6 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 			}
 			$selectedModule = $request->getModule();
-			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
-			$companyLogo = $companyDetails->getLogo();
 			$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
 			$viewer->assign('CURRENTDATE', $currentDate);
 			$viewer->assign('MODULE', $selectedModule);
@@ -58,7 +56,6 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 			$viewer->assign('PARENT_MODULE', $request->get('parent'));
 			$viewer->assign('MENUS', Vtiger_Menu_Model::getAll(true));
 			$viewer->assign('VIEW', $request->get('view'));
-			$viewer->assign('COMPANY_LOGO', $companyLogo);
 			$viewer->assign('USER_MODEL', $currentUser);
 
 			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');

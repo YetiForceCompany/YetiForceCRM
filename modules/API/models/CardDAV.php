@@ -138,7 +138,7 @@ class API_CardDAV_Model
 		} else if ($moduleName == 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
 			$vcard->N = [$record['last_name'], $record['name']];
-			$vcard->ORG = Vtiger_CompanyDetails_Model::getInstanceById()->get('organizationname');
+			$vcard->ORG = App\Company::getInstanceById()->get('name');
 		}
 		$vcard->add('FN', trim($name));
 		if (!empty($record['description'])) {
@@ -196,7 +196,7 @@ class API_CardDAV_Model
 		if ($moduleName == 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
 			$vcard->N = [$record['last_name'], $record['name']];
-			$vcard->ORG = Vtiger_CompanyDetails_Model::getInstanceById()->get('organizationname');
+			$vcard->ORG = App\Company::getInstanceById()->get('name');
 		}
 		$vcard->FN = $name;
 		if (!empty($record['description'])) {

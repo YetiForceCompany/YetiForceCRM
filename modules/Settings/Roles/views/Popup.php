@@ -27,7 +27,7 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 
 		$sourceRecord = $request->get('src_record');
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$sourceRole = Settings_Roles_Record_Model::getInstanceById($sourceRecord);

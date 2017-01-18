@@ -38,7 +38,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
