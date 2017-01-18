@@ -5499,6 +5499,9 @@ class Base2 extends \App\Db\Importers\Base
 					[95, 2571, 0, 0],
 					[95, 2572, 0, 0],
 					[95, 2573, 0, 0],
+					[113, 2574, 0, 0],
+					[113, 2575, 0, 0],
+					[113, 2576, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -7567,12 +7570,15 @@ class Base2 extends \App\Db\Importers\Base
 					[95, 2571, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 399, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[95, 2572, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 398, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[95, 2573, 'pscategory', 'u_yf_finvoice', 1, 302, 'pscategory', 'FL_CATEGORY', 1, 2, '', 100, 16, 310, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '21', NULL, 0, 0],
+					[113, 2574, 'current_odometer_reading', 'u_yf_cfixedassets', 1, 7, 'current_odometer_reading', 'FL_CURRENT_ODOMETER_READING', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2575, 'number_repair', 'u_yf_cfixedassets', 1, 7, 'number_repair', 'FL_NUMBER_REPAIR', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2576, 'date_last_repair', 'u_yf_cfixedassets', 1, 5, 'date_last_repair', 'FL_DATE_OF_LAST_REPAIR', 1, 2, '', 100, 0, 380, 1, 'D~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2573],
+					[2576],
 				]
 			],
 			'vtiger_fieldmodulerel' => [

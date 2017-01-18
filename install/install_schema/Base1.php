@@ -767,7 +767,10 @@ class Base1 extends \App\Db\Importers\Base
 					'fuel_type' => $this->stringType(),
 					'timing_change' => $this->integer()->defaultValue(0),
 					'oil_change' => $this->integer(),
-					'fuel_consumption' => $this->integer()
+					'fuel_consumption' => $this->integer(),
+					'current_odometer_reading' => $this->integer(),
+					'number_repair' => $this->smallInteger(),
+					'date_last_repair' => $this->date(),
 				],
 				'primaryKeys' => [
 					['cfixedassets_pk', 'cfixedassetsid']

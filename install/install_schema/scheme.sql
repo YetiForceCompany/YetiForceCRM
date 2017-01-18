@@ -1050,6 +1050,9 @@ CREATE TABLE `u_yf_cfixedassets` (
   `timing_change` int(11) DEFAULT '0',
   `oil_change` int(11) DEFAULT NULL,
   `fuel_consumption` int(11) DEFAULT NULL,
+  `current_odometer_reading` int(11) DEFAULT NULL,
+  `number_repair` smallint(6) DEFAULT NULL,
+  `date_last_repair` date DEFAULT NULL,
   PRIMARY KEY (`cfixedassetsid`),
   CONSTRAINT `fk_1_vtiger_cfixedassetscfixedassetsid` FOREIGN KEY (`cfixedassetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5122,7 +5125,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2574 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2577 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 

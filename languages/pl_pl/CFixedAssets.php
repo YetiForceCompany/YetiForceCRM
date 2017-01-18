@@ -25,6 +25,9 @@ $languageStrings = [
 	'FL_TIMING_CHANGE' => 'Okres wymiany rozrządu',
 	'FL_OIL_TYPE' => 'Okres wymiany oleju',
 	'FL_AVARAGE_FUEL_CONSUPTION' => 'Średnie spalanie na 100 km',
+	'FL_CURRENT_ODOMETER_READING' => 'Aktualny stan licznika',
+	'FL_NUMBER_REPAIR' => 'Ilość napraw',
+	'FL_DATE_OF_LAST_REPAIR' => 'Data ostaniej naprawy',
 	// Picklist
 	'PLL_UNAVAILABLE' => 'Niedostępny',
 	'PLL_AVAILABLE' => 'Dostępny',
