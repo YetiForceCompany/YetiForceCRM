@@ -113,4 +113,19 @@ class FileTarget extends \yii\log\FileTarget
 		return date('Y-m-d H:i:s', $timestamp) . ".$micro [$level]$category - $text"
 			. (empty($traces) ? '' : "\n" . $traces);
 	}
+
+	/**
+	 * Generates the context information to be logged.
+	 * The default implementation will dump user information, system variables, etc.
+	 * @return string the context information. If an empty string, it means no context information.
+	 */
+	protected function getContextMessage()
+	{
+		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
+		$result = '';
+		foreach ($context as $key => $value) {
+			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+		}
+		return $result . "====================================================================================================================================\n";
+	}
 }
