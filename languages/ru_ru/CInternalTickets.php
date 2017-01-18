@@ -1,25 +1,25 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'CInternalTickets' => 'Zgłoszenia wewnętrzne',
-	'SINGLE_CInternalTickets' => 'Zgłoszenie wewnętrzne',
+	'CInternalTickets' => 'Internal tickets',
+	'SINGLE_CInternalTickets' => 'Internal ticket',
 	//BLOCKS
-	'LBL_ADDITIONAL_INFORMATION' => 'Dodatkowe informacje',
-	'LBL_BASIC_INFORMATION' => 'Podstawowe informacje',
-	'LBL_TICKET_RESOLUTION' => 'Rozwiązanie',
-	'LBL_ATTENTION_BLOCK' => 'Uwagi',
-	'LBL_DESCRIPTION_BLOCK' => 'Opis',
+	'LBL_ADDITIONAL_INFORMATION' => 'Additional information',
+	'LBL_BASIC_INFORMATION' => 'Basic information',
+	'LBL_TICKET_RESOLUTION' => 'Solution',
+	'LBL_ATTENTION_BLOCK' => 'Notes',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	//FIELDS
-	'FL_SUBJECT' => 'Nazwa',
+	'FL_SUBJECT' => 'Subject',
 	'FL_STATUS' => 'Status',
-	'FL_RESOLUTION' => 'Rozwiązanie',
+	'FL_RESOLUTION' => 'Solution',
 	// Picklist
-	'PLL_UNASSIGNED' => 'Nieprzydzielone',
-	'PLL_AWAITING_REALIZATION' => 'Oczekuje na realizacje',
-	'PLL_FOR_PROCESSING' => 'Do realizacji',
-	'PLL_IN_PROGRESSING' => 'W realizacji',
-	'PLL_SUBMITTED_COMMENTS' => 'Zgłoszono uwagi',
-	'PLL_FOR_APPROVAL' => 'Do akceptacji',
-	'PLL_CANCELLED' => 'Anulowano',
-	'PLL_ACCEPTED' => 'Zaakceptowano'
+	'PLL_UNASSIGNED' => 'Unassigned',
+	'PLL_AWAITING_REALIZATION' => 'Awaiting realization',
+	'PLL_FOR_PROCESSING' => 'For realization',
+	'PLL_IN_PROGRESSING' => 'In progress',
+	'PLL_SUBMITTED_COMMENTS' => 'Comments submitted',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Accepted',
 ];
