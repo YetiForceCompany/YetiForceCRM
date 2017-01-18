@@ -179,7 +179,7 @@ class Vtiger_Inventory_Model
 	/**
 	 * Create inventory tables
 	 */
-	private function createInventoryTables()
+	public function createInventoryTables()
 	{
 		$db = \App\Db::getInstance();
 		$focus = CRMEntity::getInstance($this->name);
@@ -194,7 +194,7 @@ class Vtiger_Inventory_Model
 					'seq' => $importer->integer(10),
 				],
 				'index' => [
-						[$moduleLowerCase . '_inventory_idx', 'id'],
+					[$moduleLowerCase . '_inventory_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -223,7 +223,7 @@ class Vtiger_Inventory_Model
 					'tofield' => $importer->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-						[$moduleLowerCase . '_invmap_pk', ['module', 'field', 'tofield']]
+					[$moduleLowerCase . '_invmap_pk', ['module', 'field', 'tofield']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

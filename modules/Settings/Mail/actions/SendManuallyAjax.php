@@ -28,7 +28,7 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 	 */
 	public function process(Vtiger_Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->get('id');
 		$db = \App\Db::getInstance('admin');
 		$row = (new \App\Db\Query())->from('s_#__mail_queue')
 				->where(['id' => $record])->one($db);
@@ -42,7 +42,7 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SEND_EMAIL_MANUALLY', $request->getModule(false))]);
 		$response->emit();
 	}
-	
+
 	/**
 	 * Validate Request
 	 * @param Vtiger_Request $request
