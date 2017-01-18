@@ -29,7 +29,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	public function ExportToExcel(Vtiger_Request $request)
 	{
 		vimport('libraries.PHPExcel.PHPExcel');
-		$db = PearDatabase::getInstance();
 		$module = $request->getModule(false); //this is the type of things in the current view
 		$filter = $request->get('viewname'); //this is the cvid of the current custom filter
 		$recordIds = $this->getRecordsListFromRequest($request); //this handles the 'all' situation.
@@ -68,7 +67,11 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 				switch ($fieldsModel->getUIType()) {
 					case 25:
 					case 7:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						if ($fieldsModel->getFieldName() === 'sum_time') {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_STRING);
+						} else {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						}
 						break;
 					case 71:
 					case 72:
