@@ -220,9 +220,8 @@ class TextParser
 			$courentLanguage = \Vtiger_Language_Handler::$language;
 			\Vtiger_Language_Handler::$language = $this->language;
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\((\w+) : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
-
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
 			}
@@ -244,7 +243,7 @@ class TextParser
 			$courentLanguage = \Vtiger_Language_Handler::$language;
 			\Vtiger_Language_Handler::$language = $this->language;
 		}
-		$this->content = preg_replace_callback('/\$\(translate : ([\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
@@ -267,7 +266,8 @@ class TextParser
 		$aparams = explode('|', $params);
 		$moduleName = array_shift($aparams);
 		if (Module::getModuleId($moduleName) !== false) {
-			return Language::translate(ltrim($params, "$moduleName|"), $moduleName, $this->language);
+			$params = reset($aparams);
+			return Language::translate($params, $moduleName, $this->language);
 		}
 		return Language::translate($params);
 	}
