@@ -1259,6 +1259,129 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__finvoicecost' => [
+				'columns' => [
+					'finvoicecostid' => $this->integer()->notNull(),
+					'subject' => $this->stringType(),
+					'number' => $this->stringType(32),
+					'paymentdate' => $this->date(),
+					'saledate' => $this->date(),
+					'accountid' => $this->integer(),
+					'finvoicecost_formpayment' => $this->stringType()->defaultValue(''),
+					'sum_total' => $this->decimal('16,5'),
+					'sum_gross' => $this->decimal('16,5'),
+					'finvoicecost_status' => $this->stringType()->defaultValue(''),
+					'finvoicecost_paymentstatus' => $this->stringType(),
+					'pscategory' => $this->stringType(50),
+				],
+				'index' => [
+				],
+				'primaryKeys' => [
+					['finvoicecost_pk', 'finvoicecostid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__finvoice_address' => [
+				'columns' => [
+					'finvoicecostaddressid' => $this->integer()->notNull(),
+					'addresslevel1a' => $this->stringType(),
+					'addresslevel2a' => $this->stringType(),
+					'addresslevel3a' => $this->stringType(),
+					'addresslevel4a' => $this->stringType(),
+					'addresslevel5a' => $this->stringType(),
+					'addresslevel6a' => $this->stringType(),
+					'addresslevel7a' => $this->stringType(),
+					'addresslevel8a' => $this->stringType(),
+					'buildingnumbera' => $this->stringType(50),
+					'localnumbera' => $this->stringType(50),
+					'poboxa' => $this->stringType(50),
+					'addresslevel1c' => $this->stringType(),
+					'addresslevel2c' => $this->stringType(),
+					'addresslevel3c' => $this->stringType(),
+					'addresslevel4c' => $this->stringType(),
+					'addresslevel5c' => $this->stringType(),
+					'addresslevel6c' => $this->stringType(),
+					'addresslevel7c' => $this->stringType(),
+					'addresslevel8c' => $this->stringType(),
+					'buildingnumberc' => $this->stringType(),
+					'localnumberc' => $this->stringType(),
+					'poboxc' => $this->stringType(),
+				],
+				'primaryKeys' => [
+					['finvoicecost_address_pk', 'finvoicecostaddressid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__finvoice_inventory' => [
+				'columns' => [
+					'id' => $this->integer(),
+					'seq' => $this->integer(10),
+					'name' => $this->integer()->notNull()->defaultValue(0),
+					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
+					'discountmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'taxmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'price' => $this->decimal('27,8')->notNull()->defaultValue(0),
+					'discount' => $this->decimal('27,8')->defaultValue(0),
+					'gross' => $this->decimal('27,8')->notNull()->defaultValue(0),
+					'net' => $this->decimal('27,8')->notNull()->defaultValue(0),
+					'tax' => $this->decimal('27,8')->notNull()->defaultValue(0),
+					'total' => $this->decimal('27,8')->notNull()->defaultValue(0),
+					'taxparam' => $this->stringType()->notNull(),
+					'discountparam' => $this->stringType(),
+					'comment1' => $this->text(),
+					'currency' => $this->integer(10),
+					'currencyparam' => $this->stringType(1024),
+					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
+					'unit' => $this->stringType(),
+					'subunit' => $this->stringType(),
+				],
+				'index' => [
+					['finvoicecost_inventory_idx', 'id'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__finvoice_invfield' => [
+				'columns' => [
+					'id' => $this->primaryKey(),
+					'columnname' => $this->stringType(30)->notNull(),
+					'label' => $this->stringType(50)->notNull(),
+					'invtype' => $this->stringType(30)->notNull(),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'defaultvalue' => $this->stringType(),
+					'sequence' => $this->integer(10)->unsigned()->notNull(),
+					'block' => $this->smallInteger(1)->unsigned()->notNull(),
+					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'params' => $this->text(),
+					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__finvoice_invmap' => [
+				'columns' => [
+					'module' => $this->stringType(50)->notNull(),
+					'field' => $this->stringType(50)->notNull(),
+					'tofield' => $this->stringType(50)->notNull(),
+				],
+				'primaryKeys' => [
+					['finvoicecost_invmap_pk', ['module', 'field', 'tofield']]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__finvoicecf' => [
+				'columns' => [
+					'finvoicecostid' => $this->integer()->notNull(),
+				],
+				'primaryKeys' => [
+					['finvoicecostcf_pk', 'finvoicecostid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__finvoiceproforma' => [
 				'columns' => [
 					'finvoiceproformaid' => $this->integer()->notNull(),

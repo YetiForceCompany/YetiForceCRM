@@ -2208,6 +2208,39 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_finvoicecost_formpayment' => [
+				'columns' => [
+					'finvoicecost_formpaymentid' => $this->primaryKey(),
+					'finvoicecost_formpayment' => $this->stringType(200)->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_finvoicecost_paymentstatus' => [
+				'columns' => [
+					'finvoicecost_paymentstatusid' => $this->primaryKey(),
+					'finvoicecost_paymentstatus' => $this->stringType(200)->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_finvoicecost_status' => [
+				'columns' => [
+					'finvoicecost_statusid' => $this->primaryKey(),
+					'finvoicecost_status' => $this->stringType(200)->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_finvoiceproforma_formpayment' => [
 				'columns' => [
 					'finvoiceproforma_formpaymentid' => $this->primaryKey(),
@@ -2736,6 +2769,12 @@ class Base2 extends \App\Db\Importers\Base
 					[385, 114, 'LBL_DESCRIPTION_BLOCK', 3, 0, 0, 0, 0, 0, 1, 1],
 					[386, 114, 'LBL_ATTENTION_BLOCK', 4, 0, 0, 0, 0, 0, 1, 1],
 					[387, 114, 'LBL_TICKET_RESOLUTION', 5, 0, 0, 0, 0, 0, 1, 1],
+					[388, 115, 'LBL_BASIC_DETAILS', 1, 0, 0, 0, 0, 0, 1, 0],
+					[389, 115, 'LBL_CUSTOM_INFORMATION', 2, 0, 0, 0, 0, 0, 1, 0],
+					[390, 115, 'LBL_ADDRESS_INFORMATION', 3, 0, 0, 0, 0, 0, 1, 1],
+					[391, 115, 'LBL_ADDRESS_DELIVERY_INFORMATION', 4, 0, 0, 0, 0, 0, 1, 1],
+					[392, 115, 'LBL_DESCRIPTION_BLOCK', 5, 0, 0, 0, 0, 0, 1, 1],
+					[393, 115, 'LBL_ATTENTION_BLOCK', 6, 0, 0, 0, 0, 0, 1, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -3342,6 +3381,7 @@ class Base2 extends \App\Db\Importers\Base
 					[105, 'All', 1, 0, 'EmailTemplates', 0, 1, 1, 0, 0, 0, NULL, NULL, ''],
 					[106, 'All', 1, 0, 'CFixedAssets', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[107, 'All', 1, 0, 'CInternalTickets', 0, 1, 1, 0, 0, 0, '', '', ''],
+					[108, 'All', 1, 0, 'FInvoiceCost', 0, 1, 1, 0, 0, 0, '', '', ''],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
@@ -3693,6 +3733,10 @@ class Base2 extends \App\Db\Importers\Base
 					[107, 1, 'u_yf_cinternaltickets:number:number:CInternalTickets_FL_NUMBER:V'],
 					[107, 2, 'vtiger_crmentity:createdtime:createdtime:CInternalTickets_Created_Time:DT'],
 					[107, 3, 'vtiger_crmentity:smownerid:assigned_user_id:CInternalTickets_Assigned_To:V'],
+					[108, 0, 'u_yf_finvoicecost:subject:subject:FInvoiceCost_FL_SUBJECT:V'],
+					[108, 1, 'u_yf_finvoicecost:number:number:FInvoiceCost_FL_NUMBER:V'],
+					[108, 3, 'vtiger_crmentity:smownerid:assigned_user_id:FInvoiceCost_Assigned_To:V'],
+					[108, 4, 'u_yf_finvoicecost:saledate:saledate:FInvoiceCost_FL_SALE_DATE:D'],
 				]
 			],
 			'vtiger_dataaccess' => [
@@ -5370,6 +5414,45 @@ class Base2 extends \App\Db\Importers\Base
 					[114, 2517, 0, 0],
 					[114, 2518, 0, 0],
 					[114, 2519, 0, 0],
+					[115, 2520, 0, 0],
+					[115, 2521, 0, 0],
+					[115, 2522, 0, 0],
+					[115, 2523, 0, 0],
+					[115, 2524, 0, 0],
+					[115, 2525, 0, 0],
+					[115, 2526, 0, 0],
+					[115, 2527, 0, 0],
+					[115, 2528, 0, 0],
+					[115, 2529, 0, 0],
+					[115, 2530, 0, 0],
+					[115, 2531, 0, 0],
+					[115, 2532, 0, 0],
+					[115, 2533, 0, 0],
+					[115, 2534, 0, 0],
+					[115, 2535, 0, 0],
+					[115, 2536, 0, 0],
+					[115, 2537, 0, 0],
+					[115, 2538, 0, 0],
+					[115, 2539, 0, 0],
+					[115, 2540, 0, 0],
+					[115, 2541, 0, 0],
+					[115, 2542, 0, 0],
+					[115, 2543, 0, 0],
+					[115, 2544, 0, 0],
+					[115, 2545, 0, 0],
+					[115, 2546, 0, 0],
+					[115, 2547, 0, 0],
+					[115, 2548, 0, 0],
+					[115, 2549, 0, 0],
+					[115, 2550, 0, 0],
+					[115, 2551, 0, 0],
+					[115, 2552, 0, 0],
+					[115, 2553, 0, 0],
+					[115, 2554, 0, 0],
+					[115, 2555, 0, 0],
+					[115, 2556, 0, 0],
+					[115, 2557, 0, 0],
+					[115, 2558, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5441,6 +5524,7 @@ class Base2 extends \App\Db\Importers\Base
 					[84, 112, 2, 0],
 					[85, 113, 2, 0],
 					[86, 114, 2, 0],
+					[87, 115, 2, 0],
 				]
 			],
 			'vtiger_default_record_view' => [
@@ -5651,6 +5735,7 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 'EmailTemplates', 'u_yf_emailtemplates', 'name', 'emailtemplatesid', 'emailtemplatesid', 'name', 1, 0],
 					[113, 'CFixedAssets', 'u_yf_cfixedassets', 'subject', 'cfixedassetsid', 'cfixedassetsid', 'subject', 1, 0],
 					[114, 'CInternalTickets', 'u_yf_cinternaltickets', 'subject', 'cinternalticketsid', 'cinternalticketsid', 'subject', 1, 0],
+					[115, 'FInvoiceCost', 'u_yf_finvoicecost', 'subject', 'finvoicecostid', 'finvoicecostid', 'subject', 1, 0],
 				]
 			],
 			'vtiger_eventhandlers' => [
@@ -7380,12 +7465,51 @@ class Base2 extends \App\Db\Importers\Base
 					[114, 2517, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 385, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[114, 2518, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 386, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[114, 2519, 'resolution', 'u_yf_cinternaltickets', 1, 300, 'resolution', 'FL_RESOLUTION', 1, 2, '', 100, 0, 387, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2520, 'subject', 'u_yf_finvoicecost', 1, 2, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 1, 388, 1, 'V~M', 1, 0, 'BAS', 1, '', 1, '', NULL, 0, 0],
+					[115, 2521, 'paymentdate', 'u_yf_finvoicecost', 1, 5, 'paymentdate', 'FL_PAYMENT_DATE', 1, 2, '', 100, 2, 388, 1, 'D~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2522, 'saledate', 'u_yf_finvoicecost', 1, 5, 'saledate', 'FL_SALE_DATE', 1, 2, '', 100, 3, 388, 1, 'D~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2523, 'finvoicecost_formpayment', 'u_yf_finvoicecost', 1, 15, 'finvoicecost_formpayment', 'FL_FORM_PAYMENT', 1, 2, '', 100, 4, 388, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2524, 'finvoicecost_status', 'u_yf_finvoicecost', 1, 15, 'finvoicecost_status', 'FL_STATUS', 1, 2, '', 100, 5, 388, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2525, 'finvoicecost_paymentstatus', 'u_yf_finvoicecost', 1, 15, 'finvoicecost_paymentstatus', 'FL_PAYMENT_STATUS', 1, 2, '', 100, 6, 388, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2526, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 0, '', 1, 7, 388, 1, 'C~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[115, 2527, 'pscategory', 'u_yf_finvoicecost', 1, 302, 'pscategory', 'FL_CATEGORY', 1, 2, '', 100, 8, 388, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '20', NULL, 0, 0],
+					[115, 2528, 'number', 'u_yf_finvoicecost', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 1, 389, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2529, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 2, 389, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2530, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 3, 389, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2531, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 4, 389, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2532, 'sum_total', 'u_yf_finvoicecost', 1, 7, 'sum_total', 'FL_TOTAL', 1, 2, '', 100, 5, 389, 2, 'NN~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2533, 'sum_gross', 'u_yf_finvoicecost', 1, 7, 'sum_gross', 'FL_GROSS', 1, 2, '', 100, 6, 389, 2, 'NN~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2534, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 7, 389, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2535, 'poboxa', 'u_yf_finvoicecost_address', 1, 1, 'poboxa', 'Po Box', 1, 2, '', 100, 4, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2536, 'localnumbera', 'u_yf_finvoicecost_address', 1, 306, 'localnumbera', 'Local number', 1, 2, '', 100, 2, 390, 2, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2537, 'buildingnumbera', 'u_yf_finvoicecost_address', 1, 306, 'buildingnumbera', 'Building number', 1, 2, '', 100, 3, 390, 2, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2538, 'addresslevel8a', 'u_yf_finvoicecost_address', 1, 306, 'addresslevel8a', 'AddressLevel8', 1, 2, '', 100, 1, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2539, 'addresslevel7a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel7a', 'AddressLevel7', 1, 2, '', 100, 5, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2540, 'addresslevel6a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel6a', 'AddressLevel6', 1, 2, '', 100, 6, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2541, 'addresslevel5a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel5a', 'AddressLevel5', 1, 2, '', 100, 7, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2542, 'addresslevel4a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel4a', 'AddressLevel4', 1, 2, '', 100, 8, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2543, 'addresslevel3a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel3a', 'AddressLevel3', 1, 2, '', 100, 9, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2544, 'addresslevel2a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel2a', 'AddressLevel2', 1, 2, '', 100, 10, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2545, 'addresslevel1a', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel1a', 'AddressLevel1', 1, 2, '', 100, 11, 390, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2546, 'addresslevel1c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel1c', 'AddressLevel1', 1, 2, '', 100, 11, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2547, 'addresslevel2c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel2c', 'AddressLevel2', 1, 2, '', 100, 10, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2548, 'addresslevel3c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel3c', 'AddressLevel3', 1, 2, '', 100, 9, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2549, 'addresslevel4c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel4c', 'AddressLevel4', 1, 2, '', 100, 8, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2550, 'addresslevel5c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel5c', 'AddressLevel5', 1, 2, '', 100, 7, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2551, 'addresslevel6c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel6c', 'AddressLevel6', 1, 2, '', 100, 6, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2552, 'addresslevel7c', 'u_yf_finvoicecost_address', 1, 1, 'addresslevel7c', 'AddressLevel7', 1, 2, '', 100, 5, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2553, 'addresslevel8c', 'u_yf_finvoicecost_address', 1, 306, 'addresslevel8c', 'AddressLevel8', 1, 2, '', 100, 1, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2554, 'buildingnumberc', 'u_yf_finvoicecost_address', 1, 306, 'buildingnumberc', 'Building number', 1, 2, '', 100, 3, 391, 2, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2555, 'localnumberc', 'u_yf_finvoicecost_address', 1, 306, 'localnumberc', 'Local number', 1, 2, '', 100, 2, 391, 2, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2556, 'poboxc', 'u_yf_finvoicecost_address', 1, 1, 'poboxc', 'Po Box', 1, 2, '', 100, 4, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2557, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 392, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[115, 2558, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 393, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2519],
+					[2558],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7554,6 +7678,7 @@ class Base2 extends \App\Db\Importers\Base
 					[2404, 'SSalesProcesses', 'SSalesProcesses', NULL, 0],
 					[601, 'ModComments', 'CFixedAssets', NULL, 0],
 					[601, 'ModComments', 'CInternalTickets', NULL, 0],
+					[601, 'ModComments', 'FInvoiceCost', NULL, 0],
 				]
 			],
 			'vtiger_finvoice_formpayment' => [
@@ -7584,6 +7709,35 @@ class Base2 extends \App\Db\Importers\Base
 					[1, 'PLL_DOMESTIC_INVOICE', 0, 717, 1],
 					[2, 'PLL_FOREIGN_INVOICE', 0, 718, 2],
 					[3, 'PLL_IC_INVOICE', 0, 719, 3],
+				]
+			],
+			'vtiger_finvoicecost_formpayment' => [
+				'columns' => ['finvoicecost_formpaymentid', 'finvoicecost_formpayment', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_TRANSFER', 1, 746, 1],
+					[2, 'PLL_CASH', 1, 747, 2],
+					[3, 'PLL_WIRE_TRANSFER', 1, 748, 3],
+				]
+			],
+			'vtiger_finvoicecost_paymentstatus' => [
+				'columns' => ['finvoicecost_paymentstatusid', 'finvoicecost_paymentstatus', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_AWAITING_PAYMENT', 1, 757, 1],
+					[2, 'PLL_PARTIALLY_PAID', 1, 758, 2],
+					[3, 'PLL_FULLY_PAID', 1, 759, 3],
+				]
+			],
+			'vtiger_finvoicecost_status' => [
+				'columns' => ['finvoicecost_statusid', 'finvoicecost_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_UNASSIGNED', 1, 749, 1],
+					[2, 'PLL_AWAITING_REALIZATION', 1, 750, 2],
+					[3, 'PLL_FOR_PROCESSING', 1, 751, 3],
+					[4, 'PLL_IN_PROGRESSING', 1, 752, 4],
+					[5, 'PLL_SUBMITTED_COMMENTS', 1, 753, 5],
+					[6, 'PLL_FOR_APPROVAL', 1, 754, 6],
+					[7, 'PLL_CANCELLED', 1, 755, 7],
+					[8, 'PLL_ACCEPTED', 1, 756, 8],
 				]
 			],
 			'vtiger_finvoiceproforma_formpayment' => [
