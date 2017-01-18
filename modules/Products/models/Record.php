@@ -512,7 +512,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * 
+	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
 	 */
 	public function insertAttachment()
 	{
@@ -521,6 +521,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$module = AppRequest::get('module');
 		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 		foreach ($_FILES as $fileindex => $files) {
+			if (empty($files['tmp_name'])) {
+				continue;
+			}
 			$fileInstance = \App\Fields\File::loadFromRequest($files);
 			if ($fileInstance->validate('image')) {
 				if (AppRequest::get($fileindex . '_hidden') != '')

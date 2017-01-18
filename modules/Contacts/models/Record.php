@@ -118,9 +118,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 *      This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
-	 *      @param string $module  - the current module name
+	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
 	 */
 	public function insertAttachment()
 	{
@@ -134,6 +132,9 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
 		if ($_FILES) {
 			foreach ($_FILES as $fileindex => $files) {
+				if (empty($files['tmp_name'])) {
+					continue;
+				}
 				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
 					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
