@@ -195,7 +195,7 @@ class TextParser
 	 */
 	public function setContent($content)
 	{
-		$this->rawContent = $this->content = $content;
+		$this->rawContent = $this->content = str_replace('%20%3A%20', ' : ', $content);
 		return $this;
 	}
 
