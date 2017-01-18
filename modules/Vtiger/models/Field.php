@@ -278,12 +278,36 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getReferenceList()
 	{
-		if (method_exists($this->getUITypeModel(), 'getReferenceList')) {
-			return $this->getUITypeModel()->getReferenceList();
+		if (\App\Cache::has('getReferenceList', $this->getId())) {
+			return \App\Cache::get('getReferenceList', $this->getId());
 		}
-
-		$webserviceField = $this->getWebserviceFieldObject();
-		return $webserviceField->getReferenceList();
+		if (method_exists($this->getUITypeModel(), 'getReferenceList')) {
+			$list = $this->getUITypeModel()->getReferenceList();
+		} else {
+			if ($this->getUIType() === 10) {
+				$query = (new \App\Db\Query())->select(['module' => 'relmodule'])
+					->from('vtiger_fieldmodulerel')
+					->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_fieldmodulerel.relmodule')
+					->where(['fieldid' => $this->getId()])
+					->andWhere(['not in', 'vtiger_tab.presence', [1]])
+					->orderBy(['sequence' => SORT_ASC]);
+			} else {
+				$query = (new \App\Db\Query())->select(['module' => 'vtiger_ws_referencetype.type'])
+					->from('vtiger_ws_referencetype')
+					->innerJoin('vtiger_ws_fieldtype', 'vtiger_ws_referencetype.fieldtypeid = vtiger_ws_fieldtype.fieldtypeid')
+					->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_ws_referencetype.type')
+					->where(['vtiger_ws_fieldtype.uitype' => $this->getUIType()])
+					->andWhere(['not in', 'vtiger_tab.presence', [1]]);
+			}
+			$list = [];
+			foreach ($query->column() as $moduleName) {
+				if (\App\Privilege::isPermitted($moduleName)) {
+					$list[] = $moduleName;
+				}
+			}
+		}
+		\App\Cache::save('getReferenceList', $this->getId(), $list);
+		return $list;
 	}
 
 	/**
