@@ -20,11 +20,6 @@ class VtigerWebserviceObject
 	{
 		$this->id = $entityId;
 		$this->name = $entityName;
-		// Quick Fix to override default Actor class & path (good to update DB itself)
-		if ($entityName == 'CompanyDetails') {
-			$handler_path = 'include/Webservices/Custom/VtigerCompanyDetails.php';
-			$handler_class = 'VtigerCompanyDetails';
-		}
 		// END
 		$this->handlerPath = $handler_path;
 		$this->handlerClass = $handler_class;

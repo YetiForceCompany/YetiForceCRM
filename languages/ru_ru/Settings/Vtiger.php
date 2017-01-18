@@ -191,7 +191,6 @@ $languageStrings = [
 	'LBL_WORLD_CLOCK_DISPLAY' => 'Показывать часы',
 	'LoginHistory' => 'Журнал регистрации в системе',
 	'ModTracker' => 'Трекер',
-	'organizationname' => 'Название организации',
 	'PORTAL_EXTENSION_DESCRIPTION' => 'Разрешает вам настроить плагин Клиентского портала',
 	'Scheduler' => 'Обработчик',
 	'Settings' => 'Настройки',

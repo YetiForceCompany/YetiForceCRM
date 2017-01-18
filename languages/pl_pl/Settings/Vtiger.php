@@ -160,7 +160,6 @@ $languageStrings = [
 	'LoginHistory' => 'Historia logowania',
 	'logoname' => 'Logo firmy',
 	'ModTracker' => 'Śledzenie zmian w systemie',
-	'organizationname' => 'Nazwa Twojej firmy',
 	'phone' => 'Telefon',
 	'PORTAL_EXTENSION_DESCRIPTION' => 'Zarządzają modułami i uprawnieniami jakie mają być ustawione dla kontrahentów logujących się do portalu.',
 	'Scheduler' => 'CRON',
@@ -290,7 +289,6 @@ $languageStrings = [
 	'LBL_VIEW_TAXINDEX' => 'Podatki',
 	'LBL_VIEW_CUSTOMRECORDNUMBERING' => 'Dostosowanie prefiksów dla rekordów',
 	'LBL_VIEW_TERMSANDCONDITIONSEDIT' => 'Warunki i ustalenia',
-	'LBL_VIEW_COMPANYDETAILS' => 'Dane firmy',
 	'LBL_VIEW_ANNOUNCEMENTEDIT' => 'Komunikaty',
 	'LBL_VIEW_SWITCHUSERS' => 'Przełączanie użytkowników',
 	//end history

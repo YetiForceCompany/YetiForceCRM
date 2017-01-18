@@ -309,14 +309,14 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
 		} else {
-			$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById()->getData();
+			$companyDetails = App\Company::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
 			$parameters['author'] = $companyDetails['organizationname'];
 			$parameters['creator'] = $companyDetails['organizationname'];
 			$parameters['subject'] = $this->get('secondary_name');
 
 			// preparing keywords
-			unset($companyDetails['organization_id']);
+			unset($companyDetails['id']);
 			unset($companyDetails['logo']);
 			unset($companyDetails['logoname']);
 			$parameters['keywords'] = implode(', ', $companyDetails);
@@ -510,7 +510,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if (empty($content)) {
 			return $content;
 		}
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById()->getData();
+		$companyDetails = App\Company::getInstanceById()->getData();
 
 		foreach ($companyDetails as $name => $value) {
 			if ($name === 'logoname') {

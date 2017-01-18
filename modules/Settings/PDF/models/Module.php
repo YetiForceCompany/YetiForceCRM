@@ -251,9 +251,9 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$company = [];
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById()->getData();
+		$companyDetails = App\Company::getInstanceById()->getData();
 		foreach ($companyDetails as $key => $value) {
-			if ($key == 'organization_id') {
+			if ($key == 'id') {
 				continue;
 			}
 			$company[$key] = vtranslate($key, 'Settings:Vtiger');

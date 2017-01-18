@@ -19,12 +19,10 @@ class Users_ForgotPassword_Handler
 		$userName = $request->get('username');
 		$viewer = Vtiger_Viewer::getInstance();
 		$companyModel = App\Company::getInstanceById();
-		$companyName = $companyModel->get('name');
 		$logo = $companyModel->getLogo();
 		$moduleName = 'Users';
 		$viewer->assign('LOGOURL', $logo->get('imageUrl'));
 		$viewer->assign('TITLE', $logo->get('title'));
-		$viewer->assign('COMPANYNAME', $companyName);
 		$viewer->assign('USERNAME', $userName);
 		$changePasswordTrackUrl = $site_URL . "/modules/Users/actions/ForgotPassword.php";
 		$viewer->assign('TRACKURL', $changePasswordTrackUrl);

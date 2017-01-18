@@ -468,30 +468,6 @@ function vtws_getModuleHandlerFromId($id, $user)
 	return $handler;
 }
 
-function vtws_CreateCompanyLogoFile($fieldname)
-{
-	$uploaddir = ROOT_DIRECTORY . '/storage/Logo/';
-	$allowedFileTypes = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png');
-	$binFile = $_FILES[$fieldname]['name'];
-	$fileType = $_FILES[$fieldname]['type'];
-	$fileSize = $_FILES[$fieldname]['size'];
-	$fileTypeArray = explode("/", $fileType);
-	$fileTypeValue = strtolower($fileTypeArray[1]);
-	if ($fileTypeValue == '') {
-		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
-	}
-	$fileInstance = \App\Fields\File::loadFromRequest($_FILES[$fieldname]);
-	if ($fileInstance->validate()) {
-		if (in_array($fileTypeValue, $allowedFileTypes)) {
-			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
-			copy($uploaddir . $_FILES[$fieldname]['name'], $uploaddir . 'application.ico');
-			return $binFile;
-		}
-		throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname wrong file type given for upload");
-	}
-	throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname file upload failed");
-}
-
 function vtws_getActorEntityName($name, $idList)
 {
 	$db = PearDatabase::getInstance();
