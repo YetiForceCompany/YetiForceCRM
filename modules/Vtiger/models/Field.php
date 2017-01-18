@@ -274,7 +274,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get list of modules the field refernced to
-	 * @return <Array> -  list of modules for which field is refered to
+	 * @return string[] list of modules for which field is refered to
 	 */
 	public function getReferenceList()
 	{
