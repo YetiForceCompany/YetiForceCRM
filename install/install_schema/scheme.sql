@@ -1407,6 +1407,7 @@ CREATE TABLE `u_yf_finvoice` (
   `finvoice_status` varchar(255) DEFAULT '',
   `finvoice_paymentstatus` varchar(255) DEFAULT NULL,
   `finvoice_type` varchar(255) DEFAULT NULL,
+  `pscategory` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`finvoiceid`),
   KEY `accountid` (`accountid`),
   CONSTRAINT `fk_1_vtiger_finvoice` FOREIGN KEY (`finvoiceid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -3718,7 +3719,7 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=398 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=400 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -5121,7 +5122,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2570 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2574 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5171,7 +5172,7 @@ CREATE TABLE `vtiger_finvoice_status` (
   `picklist_valueid` int(11) NOT NULL DEFAULT '0',
   `sortorderid` int(11) DEFAULT '0',
   PRIMARY KEY (`finvoice_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_finvoice_type` */
 
@@ -8922,7 +8923,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `access` int(1) DEFAULT '1',
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
 

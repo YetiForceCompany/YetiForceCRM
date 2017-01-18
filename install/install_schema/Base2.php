@@ -1,5 +1,4 @@
 <?php
-
 namespace Importers;
 
 /**
@@ -2791,6 +2790,8 @@ class Base2 extends \App\Db\Importers\Base
 					[395, 116, 'LBL_ATTENTION_BLOCK', 3, 0, 0, 0, 0, 0, 1, 0],
 					[396, 116, 'LBL_DESCRIPTION_BLOCK', 4, 0, 0, 0, 0, 0, 1, 1],
 					[397, 116, 'LBL_ADDITIONAL_INFORMATION', 2, 0, 0, 0, 0, 0, 1, 1],
+					[398, 95, 'LBL_DESCRIPTION_BLOCK', 5, 0, 0, 0, 0, 0, 1, 1],
+					[399, 95, 'LBL_ATTENTION_BLOCK', 6, 0, 0, 0, 0, 0, 1, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -5494,6 +5495,10 @@ class Base2 extends \App\Db\Importers\Base
 					[116, 2567, 0, 0],
 					[116, 2568, 0, 0],
 					[116, 2569, 0, 0],
+					[95, 2570, 0, 0],
+					[95, 2571, 0, 0],
+					[95, 2572, 0, 0],
+					[95, 2573, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -7558,12 +7563,16 @@ class Base2 extends \App\Db\Importers\Base
 					[116, 2567, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 4, 397, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[116, 2568, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 6, 397, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[116, 2569, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 2, 397, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[95, 2570, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 7, 311, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[95, 2571, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 399, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[95, 2572, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 398, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[95, 2573, 'pscategory', 'u_yf_finvoice', 1, 302, 'pscategory', 'FL_CATEGORY', 1, 2, '', 100, 16, 310, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '21', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2569],
+					[2573],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7754,7 +7763,14 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_finvoice_status' => [
 				'columns' => ['finvoice_statusid', 'finvoice_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
-					[1, 'None', 1, 668, 1],
+					[1, 'PLL_AWAITING_REALIZATION', 1, 668, 2],
+					[2, 'PLL_UNASSIGNED', 1, 766, 1],
+					[3, 'PLL_FOR_PROCESSING', 1, 767, 3],
+					[4, 'PLL_IN_PROGRESSING', 1, 768, 4],
+					[5, 'PLL_SUBMITTED_COMMENTS', 1, 769, 5],
+					[6, 'PLL_FOR_APPROVAL', 1, 770, 6],
+					[7, 'PLL_CANCELLED', 1, 771, 7],
+					[8, 'PLL_ACCEPTED', 1, 772, 8],
 				]
 			],
 			'vtiger_finvoice_type' => [

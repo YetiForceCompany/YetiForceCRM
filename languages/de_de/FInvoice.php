@@ -13,6 +13,8 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Systeminformationen',
 	'LBL_INVOICE_ADDRESS' => 'Rechnungsadresse',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Lieferadresse',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_ATTENTION_BLOCK' => 'Comments',
 	//FIELDS
 	'FL_SUBJECT' => 'Betreff',
 	'FL_PAYMENT_DATE' => 'Zahlungsdatum',
@@ -26,6 +28,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Status',
 	'FL_PAYMENT_STATUS' => 'Zahlungsstatus',
 	'FL_INVOICE_TYPE' => 'Rechnungstyp',
+	'FL_CATEGORY' => 'Category',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Überweisung',
 	'PLL_WIRE_TRANSFER' => 'Banküberweisung',
@@ -36,6 +39,14 @@ $languageStrings = [
 	'PLL_DOMESTIC_INVOICE' => 'Inländische Rechnung',
 	'PLL_FOREIGN_INVOICE' => 'Fremdwährungsrechnung',
 	'PLL_IC_INVOICE' => 'Gemeinschaftliche Warenrechnung',
+	'PLL_UNASSIGNED' => 'Unassigned',
+	'PLL_AWAITING_REALIZATION' => 'Awaiting realization',
+	'PLL_FOR_PROCESSING' => 'For processing',
+	'PLL_IN_PROGRESSING' => 'In progressing',
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Accepted',
 	//OTHERS
 	'LBL_YEAR' => 'Jahr',
 ];

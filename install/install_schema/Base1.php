@@ -1173,6 +1173,7 @@ class Base1 extends \App\Db\Importers\Base
 					'finvoice_status' => $this->stringType()->defaultValue(''),
 					'finvoice_paymentstatus' => $this->stringType(),
 					'finvoice_type' => $this->stringType(),
+					'pscategory' => $this->stringType(100),
 				],
 				'index' => [
 					['finvoice_idx', 'accountid'],
