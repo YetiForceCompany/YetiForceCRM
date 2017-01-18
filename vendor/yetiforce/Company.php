@@ -24,7 +24,7 @@ class Company extends Base
 			return Cache::get('CompanyDetail', $id);
 		}
 		if ($id) {
-			$row = (new \App\Db\Query())->from('s_#__companies')->where(['organization_id' => $id])->one();
+			$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one();
 		} else {
 			$row = (new \App\Db\Query())->from('s_#__companies')->where(['default' => 1])->one();
 		}

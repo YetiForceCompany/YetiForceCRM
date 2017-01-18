@@ -12,7 +12,7 @@ class TextParser
 
 	/** @var array Examples of supported variables */
 	public static $variableExamples = [
-		'LBL_ORGANIZATION_NAME' => '$(organization : organizationname)$',
+		'LBL_ORGANIZATION_NAME' => '$(organization : name)$',
 		'LBL_ORGANIZATION_LOGO' => '$(organization : mailLogo)$',
 		'LBL_EMPLOYEE_NAME' => '$(employee : last_name)$',
 		'LBL_CRM_DETAIL_VIEW_URL' => '$(record : CrmDetailViewURL)$',
@@ -279,14 +279,26 @@ class TextParser
 	 */
 	protected function organization($fieldName)
 	{
-		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
-			$fieldName = ($fieldName === 'mailLogo') ? 'logoname' : 'panellogoname';
-			$logoName = \Vtiger_CompanyDetails_Model::getInstanceById()->get($fieldName);
-			$url = \AppConfig::main('site_URL');
-			$logoTitle = Language::translate('LBL_COMPANY_LOGO_TITLE');
-			return "<img class=\"organizationLogo\" src=\"$url/storage/Logo/$logoName\" title=\"$logoTitle\" alt=\"$logoTitle\">";
+		$id = false;
+		if (strpos($fieldName, '|') !== false) {
+			$params = explode('|', $fieldName);
+			$fieldName = array_shift($params);
+			$id = array_shift($params);
 		}
-		return \Vtiger_CompanyDetails_Model::getInstanceById()->get($fieldName);
+		$company = Company::getInstanceById($id);
+		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
+			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
+			$logo = $company->getLogo($fieldName);
+			if (!$logo) {
+				return '';
+			}
+			$logoName = $logo->get('imageUrl');
+			$logoTitle = $company->get('name');
+			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
+			$logoHeight = $company->get($fieldName . '_height');
+			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
+		}
+		return $company->get($fieldName);
 	}
 
 	/**
@@ -619,15 +631,6 @@ class TextParser
 		return '';
 	}
 
-	public static function getOrganizationVar()
-	{
-		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById();
-		$fields = $companyDetails->getKeys();
-		$fields[] = 'mailLogo';
-		$fields[] = 'loginLogo';
-		return $fields;
-	}
-
 	/**
 	 * Get record variables
 	 * @param bool|string $fieldType
@@ -761,14 +764,14 @@ class TextParser
 					return Language::translate($value);
 				}, array_flip(static::$variableGeneral))
 		];
-		$companyDetails = \Vtiger_CompanyDetails_Model::getInstanceById()->getData();
-		unset($companyDetails['organization_id'], $companyDetails['panellogoname'], $companyDetails['height_panellogo'], $companyDetails['panellogo'], $companyDetails['logoname']);
+		$companyDetails = Company::getInstanceById()->getData();
+		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
 		$companyVariables = [];
 		foreach (array_keys($companyDetails) as $name) {
-			$companyVariables["$(organization : $name)$"] = Language::translate($name, 'Settings:Vtiger');
+			$companyVariables["$(organization : $name)$"] = Language::translate('LBL_' . strtoupper($name), 'Settings:Companies');
 		}
-		$companyVariables['$(organization : mailLogo)$'] = Language::translate('mailLogo', 'Settings:Vtiger');
-		$companyVariables['$(organization : loginLogo)$'] = Language::translate('loginLogo', 'Settings:Vtiger');
+		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_MAIL', 'Settings:Companies');
+		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_LOGIN', 'Settings:Companies');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		foreach ((new \DirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . 'TextParser')) as $fileInfo) {
 			$fileName = $fileInfo->getBasename('.php');
