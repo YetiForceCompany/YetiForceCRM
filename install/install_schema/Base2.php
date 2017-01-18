@@ -1,4 +1,5 @@
 <?php
+
 namespace Importers;
 
 /**
@@ -793,6 +794,17 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_campaigntype_seq' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_cmileage_logbook_status' => [
+				'columns' => [
+					'cmileage_logbook_statusid' => $this->primaryKey(),
+					'cmileage_logbook_status' => $this->stringType()->notNull(),
+					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2775,6 +2787,10 @@ class Base2 extends \App\Db\Importers\Base
 					[391, 115, 'LBL_ADDRESS_DELIVERY_INFORMATION', 4, 0, 0, 0, 0, 0, 1, 1],
 					[392, 115, 'LBL_DESCRIPTION_BLOCK', 5, 0, 0, 0, 0, 0, 1, 1],
 					[393, 115, 'LBL_ATTENTION_BLOCK', 6, 0, 0, 0, 0, 0, 1, 1],
+					[394, 116, 'LBL_BASIC_INFORMATION', 1, 0, 0, 0, 0, 0, 1, 0],
+					[395, 116, 'LBL_ATTENTION_BLOCK', 3, 0, 0, 0, 0, 0, 1, 0],
+					[396, 116, 'LBL_DESCRIPTION_BLOCK', 4, 0, 0, 0, 0, 0, 1, 1],
+					[397, 116, 'LBL_ADDITIONAL_INFORMATION', 2, 0, 0, 0, 0, 0, 1, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -2905,6 +2921,15 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => ['id'],
 				'values' => [
 					[13],
+				]
+			],
+			'vtiger_cmileage_logbook_status' => [
+				'columns' => ['cmileage_logbook_statusid', 'cmileage_logbook_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_DRAFT', 1, 760, 1],
+					[2, 'PLL_FOR_APPROVAL', 1, 761, 2],
+					[3, 'PLL_ACCEPTED', 1, 762, 3],
+					[4, 'PLL_CANCELLED', 1, 763, 4],
 				]
 			],
 			'vtiger_contactstatus' => [
@@ -3382,6 +3407,7 @@ class Base2 extends \App\Db\Importers\Base
 					[106, 'All', 1, 0, 'CFixedAssets', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[107, 'All', 1, 0, 'CInternalTickets', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[108, 'All', 1, 0, 'FInvoiceCost', 0, 1, 1, 0, 0, 0, '', '', ''],
+					[109, 'All', 1, 0, 'CMileageLogbook', 0, 1, 1, 0, 0, 0, '', '', ''],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
@@ -3737,6 +3763,10 @@ class Base2 extends \App\Db\Importers\Base
 					[108, 1, 'u_yf_finvoicecost:number:number:FInvoiceCost_FL_NUMBER:V'],
 					[108, 3, 'vtiger_crmentity:smownerid:assigned_user_id:FInvoiceCost_Assigned_To:V'],
 					[108, 4, 'u_yf_finvoicecost:saledate:saledate:FInvoiceCost_FL_SALE_DATE:D'],
+					[109, 0, 'u_yf_cmileagelogbook:subject:subject:CMileageLogbook_FL_SUBJECT:V'],
+					[109, 1, 'u_yf_cmileagelogbook:number:number:CMileageLogbook_FL_NUMBER:V'],
+					[109, 2, 'vtiger_crmentity:createdtime:createdtime:CMileageLogbook_Created_Time:DT'],
+					[109, 3, 'vtiger_crmentity:smownerid:assigned_user_id:CMileageLogbook_Assigned_To:V'],
 				]
 			],
 			'vtiger_dataaccess' => [
@@ -5453,6 +5483,17 @@ class Base2 extends \App\Db\Importers\Base
 					[115, 2556, 0, 0],
 					[115, 2557, 0, 0],
 					[115, 2558, 0, 0],
+					[116, 2559, 0, 0],
+					[116, 2560, 0, 0],
+					[116, 2561, 0, 0],
+					[116, 2562, 0, 0],
+					[116, 2563, 0, 0],
+					[116, 2564, 0, 0],
+					[116, 2565, 0, 0],
+					[116, 2566, 0, 0],
+					[116, 2567, 0, 0],
+					[116, 2568, 0, 0],
+					[116, 2569, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5525,6 +5566,7 @@ class Base2 extends \App\Db\Importers\Base
 					[85, 113, 2, 0],
 					[86, 114, 2, 0],
 					[87, 115, 2, 0],
+					[88, 116, 2, 0],
 				]
 			],
 			'vtiger_default_record_view' => [
@@ -5736,6 +5778,7 @@ class Base2 extends \App\Db\Importers\Base
 					[113, 'CFixedAssets', 'u_yf_cfixedassets', 'subject', 'cfixedassetsid', 'cfixedassetsid', 'subject', 1, 0],
 					[114, 'CInternalTickets', 'u_yf_cinternaltickets', 'subject', 'cinternalticketsid', 'cinternalticketsid', 'subject', 1, 0],
 					[115, 'FInvoiceCost', 'u_yf_finvoicecost', 'subject', 'finvoicecostid', 'finvoicecostid', 'subject', 1, 0],
+					[116, 'CMileageLogbook', 'u_yf_cmileagelogbook', 'subject', 'cmileagelogbookid', 'cmileagelogbookid', 'subject', 1, 0],
 				]
 			],
 			'vtiger_eventhandlers' => [
@@ -7504,12 +7547,23 @@ class Base2 extends \App\Db\Importers\Base
 					[115, 2556, 'poboxc', 'u_yf_finvoicecost_address', 1, 1, 'poboxc', 'Po Box', 1, 2, '', 100, 4, 391, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[115, 2557, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 392, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[115, 2558, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 393, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2559, 'subject', 'u_yf_cmileagelogbook', 1, 2, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 1, 394, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2560, 'cmileage_logbook_status', 'u_yf_cmileagelogbook', 1, 15, 'cmileage_logbook_status', 'FL_STATUS', 1, 2, '', 100, 2, 394, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2561, 'number_kilometers', 'u_yf_cmileagelogbook', 2, 7, 'number_kilometers', 'FL_NUMBER_KILOMETERS', 1, 2, '', 100, 3, 394, 1, 'NN~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2562, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 0, 395, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2563, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 0, 396, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2564, 'number', 'u_yf_cmileagelogbook', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 3, 397, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2565, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 1, 397, 1, 'V~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2566, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 5, 397, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2567, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 4, 397, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[116, 2568, 'smcreatorid', 'vtiger_crmentity', 1, 53, 'created_user_id', 'Created By', 1, 2, '', 100, 6, 397, 2, 'V~O', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[116, 2569, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 2, 397, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2558],
+					[2569],
 				]
 			],
 			'vtiger_fieldmodulerel' => [

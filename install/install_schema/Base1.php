@@ -809,6 +809,30 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__cmileagelogbook' => [
+				'columns' => [
+					'cmileagelogbookid' => $this->integer()->notNull()->defaultValue(0),
+					'number' => $this->stringType()->defaultValue(''),
+					'subject' => $this->stringType(),
+					'cmileage_logbook_status' => $this->stringType(150),
+					'number_kilometers' => $this->decimal('13,2')->defaultValue(0),
+				],
+				'primaryKeys' => [
+					['cmileagelogbook_pk', 'cmileagelogbookid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__cmileagelogbookcf' => [
+				'columns' => [
+					'cmileagelogbookid' => $this->integer()->notNull(),
+				],
+				'primaryKeys' => [
+					['cmileagelogbookcf_pk', 'cmileagelogbookid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__competition' => [
 				'columns' => [
 					'competitionid' => $this->integer()->notNull()->defaultValue(0),
@@ -1282,7 +1306,7 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__finvoice_address' => [
+			'u_#__finvoicecost_address' => [
 				'columns' => [
 					'finvoicecostaddressid' => $this->integer()->notNull(),
 					'addresslevel1a' => $this->stringType(),

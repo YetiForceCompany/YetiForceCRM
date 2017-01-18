@@ -1082,6 +1082,26 @@ CREATE TABLE `u_yf_cinternalticketscf` (
   CONSTRAINT `fk_1_vtiger_cinternalticketscfcinternalticketsid` FOREIGN KEY (`cinternalticketsid`) REFERENCES `u_yf_cinternaltickets` (`cinternalticketsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_cmileagelogbook` */
+
+CREATE TABLE `u_yf_cmileagelogbook` (
+  `cmileagelogbookid` int(11) NOT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `cmileage_logbook_status` varchar(150) DEFAULT NULL,
+  `number_kilometers` decimal(13,2) DEFAULT NULL,
+  PRIMARY KEY (`cmileagelogbookid`),
+  CONSTRAINT `fk_1_vtiger_cmileagelogbookcmileagelogbookid` FOREIGN KEY (`cmileagelogbookid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_cmileagelogbookcf` */
+
+CREATE TABLE `u_yf_cmileagelogbookcf` (
+  `cmileagelogbookid` int(11) NOT NULL,
+  PRIMARY KEY (`cmileagelogbookid`),
+  CONSTRAINT `fk_1_vtiger_cmileagelogbookcfcmileagelogbookid` FOREIGN KEY (`cmileagelogbookid`) REFERENCES `u_yf_cmileagelogbook` (`cmileagelogbookid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_competition` */
 
 CREATE TABLE `u_yf_competition` (
@@ -3698,7 +3718,7 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=394 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=398 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -3924,6 +3944,17 @@ CREATE TABLE `vtiger_campaigntype` (
 CREATE TABLE `vtiger_campaigntype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_cmileage_logbook_status` */
+
+CREATE TABLE `vtiger_cmileage_logbook_status` (
+  `cmileage_logbook_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `cmileage_logbook_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `picklist_valueid` smallint(6) DEFAULT '0',
+  `sortorderid` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`cmileage_logbook_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_contactaddress` */
 
@@ -4335,7 +4366,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `customview_entitytype_idx` (`entitytype`),
   KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
@@ -4708,7 +4739,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5090,7 +5121,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2559 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2570 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6279,7 +6310,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -7123,7 +7154,7 @@ CREATE TABLE `vtiger_picklist` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklist_dependency` */
 
@@ -9257,7 +9288,7 @@ CREATE TABLE `vtiger_ws_entity` (
   `handler_class` varchar(64) NOT NULL,
   `ismodule` int(3) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_entity_fieldtype` */
 
