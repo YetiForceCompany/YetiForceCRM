@@ -240,6 +240,38 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			's_#__companies' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned()->notNull(),
+					'name' => $this->stringType(100),
+					'short_name' => $this->stringType(100),
+					'street' => $this->stringType(150),
+					'city' => $this->stringType(100),
+					'code' => $this->stringType(30),
+					'state' => $this->stringType(100),
+					'country' => $this->stringType(100),
+					'phone' => $this->stringType(30),
+					'fax' => $this->stringType(30),
+					'website' => $this->stringType(100),
+					'vatid' => $this->stringType(30),
+					'id1' => $this->stringType(30),
+					'id2' => $this->stringType(30),
+					'email' => $this->stringType(50),
+					'logo_login' => $this->stringType(50),
+					'logo_login_height' => $this->smallInteger(3)->unsigned(),
+					'logo_main' => $this->stringType(50),
+					'logo_main_height' => $this->smallInteger(3)->unsigned(),
+					'logo_mail' => $this->stringType(50),
+					'logo_mail_height' => $this->smallInteger(3)->unsigned(),
+				],
+				'columns_mysql' => [
+					'logo_login_height' => 'tinyint(3) unsigned DEFAULT NULL',
+					'logo_main_height' => 'tinyint(3) unsigned DEFAULT NULL',
+					'logo_mail_height' => 'tinyint(3) unsigned DEFAULT NULL',
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			's_#__mail_queue' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned()->notNull(),
@@ -977,6 +1009,12 @@ class Admin extends \App\Db\Importers\Base
 					['active', '0'],
 					['aggregation', '0'],
 					['taxs', '0,1,2,3'],
+				]
+			],
+			's_#__companies' => [
+				'columns' => ['id', 'name', 'short_name', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
+				'values' => [
+					[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
 				]
 			],
 		];
