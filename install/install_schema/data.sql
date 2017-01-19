@@ -27728,9 +27728,6 @@ insert  into `vtiger_ws_entity_name`(`entity_id`,`name_fields`,`index_field`,`ta
 
 /*Data for the table `vtiger_ws_entity_referencetype` */
 
-insert  into `vtiger_ws_entity_referencetype`(`fieldtypeid`,`type`) values (5,'Users');
-insert  into `vtiger_ws_entity_referencetype`(`fieldtypeid`,`type`) values (6,'Products');
-
 /*Data for the table `vtiger_ws_entity_seq` */
 
 insert  into `vtiger_ws_entity_seq`(`id`) values (92);

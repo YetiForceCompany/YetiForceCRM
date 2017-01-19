@@ -8652,13 +8652,6 @@ class Base4 extends \App\Db\Importers\Base
 					[22, 'foldername', 'folderid', 'vtiger_attachmentsfolder'],
 				]
 			],
-			'vtiger_ws_entity_referencetype' => [
-				'columns' => ['fieldtypeid', 'type'],
-				'values' => [
-					[5, 'Users'],
-					[6, 'Products'],
-				]
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => ['id'],
 				'values' => [
