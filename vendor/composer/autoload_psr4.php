@@ -4,11 +4,11 @@
 $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
-return [
-	'vtlib\\' => [$baseDir . '/vtlib/Vtiger'],
-	'includes\\' => [$baseDir . '/include'],
-	'App\\' => [$baseDir . '/vendor/yetiforce'],
-	'Exception\\' => [$baseDir . '/include/exceptions'],
-	'DebugBar\\' => [$baseDir . '/vendor/php-debugbar/src/DebugBar'],
-	'Symfony\\Component\\VarDumper\\' => [$baseDir . '/vendor/symfony/var-dumper'],
-];
+return array(
+	'vtlib\\' => array($baseDir . '/vtlib/Vtiger'),
+	'includes\\' => array($baseDir . '/include'),
+	'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
+	'Exception\\' => array($baseDir . '/include/exceptions'),
+	'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+	'App\\' => array($vendorDir . '/yetiforce'),
+);
