@@ -3,6 +3,9 @@
 	{if empty($TEXT_PARSER)}
 		{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
 	{/if}
+	{if $PARSER_TYPE}
+		{assign var=TEXT_PARSER value=$TEXT_PARSER->setType($PARSER_TYPE)}
+	{/if}
 	{if $SELECTED_MODULE}
 		<div class="col-md-6 fieldRow">
 			<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">

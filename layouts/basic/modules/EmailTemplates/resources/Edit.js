@@ -12,6 +12,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			module: 'EmailTemplates',
 			record: app.getRecordId(),
 			view: 'VariablePanel',
+			type: 'mail',
 			selectedModule: form.find('[name="module_name"]').val()
 		}).then(function (response) {
 			panel.html(response);

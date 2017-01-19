@@ -1,5 +1,4 @@
 <?php
-namespace App\TextParser;
 
 /**
  * Users link to forgot password parser class

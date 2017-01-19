@@ -38,7 +38,7 @@
 	</div>
 	<hr/>
 	<div class="row">
-		{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE}
+		{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail'}
 	</div>
 	<hr/>
 	<div class="row padding-bottom1per">
