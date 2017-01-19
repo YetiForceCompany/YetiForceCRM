@@ -24,10 +24,16 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		return $count > $max ? $max : $count;
 	}
 
+	/**
+	 * Function returns notifications list
+	 * @param int $limit
+	 * @param array $conditions
+	 * @return Vtiger_Record_Model[]
+	 */
 	public function getEntries($limit = false, $conditions = false)
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'smwonerid', 'notificationid', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
+		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
 		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);
@@ -42,7 +48,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance('Notification');
 			$recordModel->setData($row);
-			$entries[$row['notificationid']] = $recordModel;
+			$entries[$row['id']] = $recordModel;
 		}
 		return $entries;
 	}
