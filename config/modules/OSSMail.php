@@ -13,7 +13,7 @@ $config['support_url'] = 'http://yetiforce.com';
 $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
 $config['username_domain'] = 'gmail.com';
 $config['product_name'] = 'YetiForce';
-$config['plugins'] = array('identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive','authres_status');
+$config['plugins'] = array('identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status');
 $config['language'] = 'en_US';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array('*' => '/images/null.png');
@@ -66,8 +66,12 @@ $config['smtp_conn_options'] = [
 $config['smtp_timeout'] = 5;
 $config['smtp_helo_host'] = 'YetiForceCRM';
 $config['skin'] = 'yetiforce';
+// plugin authres_status
+$config['enable_authres_status_column'] = true;
+$config['show_statuses'] = 127;
 //CRM Additional configuration parameters
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 $config['site_URL'] = $site_URL;
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;
+
