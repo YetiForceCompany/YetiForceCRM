@@ -6066,7 +6066,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2500,'actual_price','u_yf_cfixedassets',1,71,'actual_price','FL_ACTUAL_PRICE',1,2,'',100,13,379,1,'N~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2501,'reservation','u_yf_cfixedassets',1,56,'reservation','FL_RESERVATION',1,2,'',100,15,379,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2502,'pscategory','u_yf_cfixedassets',1,302,'pscategory','FL_CATEGORY',1,2,'',100,7,379,1,'V~O',1,0,'BAS',1,'',0,'19',NULL,0,0);
-insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2503,'fuel_type','u_yf_cfixedassets',1,16,'fuel_type','FL_FUEL_TYPE',1,2,'',100,0,380,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2503,'fixed_assets_fuel_type','u_yf_cfixedassets',1,16,'fixed_assets_fuel_type','FL_FUEL_TYPE',1,2,'',100,0,380,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2504,'timing_change','u_yf_cfixedassets',2,7,'timing_change','FL_TIMING_CHANGE',1,2,'',100,0,380,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2505,'oil_change','u_yf_cfixedassets',1,7,'oil_change','FL_OIL_TYPE',1,2,'',100,0,380,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0);
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`) values (113,2506,'fuel_consumption','u_yf_cfixedassets',1,7,'fuel_consumption','FL_AVARAGE_FUEL_CONSUPTION',1,2,'',100,0,380,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0);
@@ -6400,6 +6400,10 @@ insert  into `vtiger_finvoiceproforma_formpayment`(`finvoiceproforma_formpayment
 
 insert  into `vtiger_finvoiceproforma_status`(`finvoiceproforma_statusid`,`finvoiceproforma_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'None',1,670,1);
 
+/*Data for the table `vtiger_fixed_assets_fuel_type` */
+
+insert  into `vtiger_fixed_assets_fuel_type`(`fixed_assets_fuel_typeid`,`fixed_assets_fuel_type`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_DIESEL',1,737,1);
+
 /*Data for the table `vtiger_fixed_assets_status` */
 
 insert  into `vtiger_fixed_assets_status`(`fixed_assets_statusid`,`fixed_assets_status`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_UNAVAILABLE',1,728,1);
@@ -6419,10 +6423,6 @@ insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type
 insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type`,`presence`,`picklist_valueid`,`sortorderid`) values (3,'PLL_VEHICLE',1,725,3);
 insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type`,`presence`,`picklist_valueid`,`sortorderid`) values (4,'PLL_PROPERTY',1,726,4);
 insert  into `vtiger_fixed_assets_type`(`fixed_assets_typeid`,`fixed_assets_type`,`presence`,`picklist_valueid`,`sortorderid`) values (5,'PLL_INVENTORY',1,727,5);
-
-/*Data for the table `vtiger_fuel_type` */
-
-insert  into `vtiger_fuel_type`(`fuel_typeid`,`fuel_type`,`presence`,`picklist_valueid`,`sortorderid`) values (1,'PLL_DIESEL',1,737,1);
 
 /*Data for the table `vtiger_glacct` */
 

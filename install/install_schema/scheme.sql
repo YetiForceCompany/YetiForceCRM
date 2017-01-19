@@ -1047,7 +1047,7 @@ CREATE TABLE `u_yf_cfixedassets` (
   `actual_price` decimal(25,8) DEFAULT NULL,
   `reservation` smallint(1) DEFAULT NULL,
   `pscategory` varchar(255) DEFAULT NULL,
-  `fuel_type` varchar(255) DEFAULT NULL,
+  `fixed_assets_fuel_type` varchar(255) DEFAULT NULL,
   `timing_change` int(11) DEFAULT '0',
   `oil_change` int(11) DEFAULT NULL,
   `fuel_consumption` int(11) DEFAULT NULL,
@@ -5322,6 +5322,17 @@ CREATE TABLE `vtiger_finvoiceproforma_status` (
   PRIMARY KEY (`finvoiceproforma_statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_fixed_assets_fuel_type` */
+
+CREATE TABLE `vtiger_fixed_assets_fuel_type` (
+  `fixed_assets_fuel_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `fixed_assets_fuel_type` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `picklist_valueid` smallint(6) DEFAULT '0',
+  `sortorderid` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`fixed_assets_fuel_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_fixed_assets_status` */
 
 CREATE TABLE `vtiger_fixed_assets_status` (
@@ -5343,17 +5354,6 @@ CREATE TABLE `vtiger_fixed_assets_type` (
   `sortorderid` smallint(6) DEFAULT '0',
   PRIMARY KEY (`fixed_assets_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_fuel_type` */
-
-CREATE TABLE `vtiger_fuel_type` (
-  `fuel_typeid` int(11) NOT NULL AUTO_INCREMENT,
-  `fuel_type` varchar(255) DEFAULT NULL,
-  `presence` tinyint(1) DEFAULT '1',
-  `picklist_valueid` smallint(6) DEFAULT '0',
-  `sortorderid` smallint(6) DEFAULT '0',
-  PRIMARY KEY (`fuel_typeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_glacct` */
 

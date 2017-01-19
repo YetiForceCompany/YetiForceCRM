@@ -2296,10 +2296,10 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_fuel_type' => [
+			'vtiger_fixed_assets_fuel_type' => [
 				'columns' => [
-					'fuel_typeid' => $this->primaryKey(),
-					'fuel_type' => $this->stringType()->notNull(),
+					'fixed_assets_fuel_typeid' => $this->primaryKey(),
+					'fixed_assets_fuel_type' => $this->stringType()->notNull(),
 					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
@@ -7534,7 +7534,7 @@ class Base2 extends \App\Db\Importers\Base
 					[113, 2500, 'actual_price', 'u_yf_cfixedassets', 1, 71, 'actual_price', 'FL_ACTUAL_PRICE', 1, 2, '', 100, 13, 379, 1, 'N~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2501, 'reservation', 'u_yf_cfixedassets', 1, 56, 'reservation', 'FL_RESERVATION', 1, 2, '', 100, 15, 379, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2502, 'pscategory', 'u_yf_cfixedassets', 1, 302, 'pscategory', 'FL_CATEGORY', 1, 2, '', 100, 7, 379, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '19', NULL, 0, 0],
-					[113, 2503, 'fuel_type', 'u_yf_cfixedassets', 1, 16, 'fuel_type', 'FL_FUEL_TYPE', 1, 2, '', 100, 0, 380, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[113, 2503, 'fixed_assets_fuel_type', 'u_yf_cfixedassets', 1, 16, 'fixed_assets_fuel_type', 'FL_FUEL_TYPE', 1, 2, '', 100, 0, 380, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2504, 'timing_change', 'u_yf_cfixedassets', 2, 7, 'timing_change', 'FL_TIMING_CHANGE', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2505, 'oil_change', 'u_yf_cfixedassets', 1, 7, 'oil_change', 'FL_OIL_TYPE', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2506, 'fuel_consumption', 'u_yf_cfixedassets', 1, 7, 'fuel_consumption', 'FL_AVARAGE_FUEL_CONSUPTION', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
@@ -7915,8 +7915,8 @@ class Base2 extends \App\Db\Importers\Base
 					[5, 'PLL_INVENTORY', 1, 727, 5],
 				]
 			],
-			'vtiger_fuel_type' => [
-				'columns' => ['fuel_typeid', 'fuel_type', 'presence', 'picklist_valueid', 'sortorderid'],
+			'vtiger_fixed_assets_fuel_type' => [
+				'columns' => ['fixed_assets_fuel_typeid', 'fixed_assets_fuel_type', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
 					[1, 'PLL_DIESEL', 1, 737, 1],
 				]

@@ -764,7 +764,7 @@ class Base1 extends \App\Db\Importers\Base
 					'actual_price' => $this->decimal('25,8'),
 					'reservation' => $this->smallInteger(1),
 					'pscategory' => $this->stringType(),
-					'fuel_type' => $this->stringType(),
+					'fixed_assets_fuel_type' => $this->stringType(),
 					'timing_change' => $this->integer()->defaultValue(0),
 					'oil_change' => $this->integer(),
 					'fuel_consumption' => $this->integer(),
