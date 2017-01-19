@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * CMileageLogbook language
+ * @package YetiForce.Language
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 $languageStrings = [
 	'CMileageLogbook' => 'Ewidencja przebegu',
 	'SINGLE_CMileageLogbook' => 'Ewidencja przebegu',

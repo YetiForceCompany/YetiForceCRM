@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * CFixedAssets language
+ * @package YetiForce.Language
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 $languageStrings = [
 	'CFixedAssets' => 'Środki trwałe',
 	'SINGLE_CFixedAssets' => 'Środki trwałe',

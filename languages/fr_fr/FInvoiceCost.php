@@ -1,14 +1,13 @@
 <?php
 /**
- * FInvoice language
+ * FInvoiceCost language
  * @package YetiForce.Language
  * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
-	'FInvoice' => 'Factures',
-	'SINGLE_FInvoice' => 'Facture',
+	'FInvoiceCost' => 'Invoices cost',
+	'SINGLE_FInvoiceCost' => 'Invoices cost',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Information système',
 	'LBL_INVOICE_ADDRESS' => 'Adresse de facturation',
@@ -36,6 +35,12 @@ $languageStrings = [
 	'PLL_DOMESTIC_INVOICE' => 'Domestic invoice',
 	'PLL_FOREIGN_INVOICE' => 'Foreign invoice',
 	'PLL_IC_INVOICE' => 'Intra-Community supply of goods invoice',
-	//OTHERS
-	'LBL_YEAR' => 'Années',
+	'PLL_UNASSIGNED' => 'Unassigned',
+	'PLL_AWAITING_REALIZATION' => 'Oczekuje na realizacje',
+	'PLL_FOR_PROCESSING' => 'For processing',
+	'PLL_IN_PROGRESSING' => 'In progressing',
+	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
+	'PLL_FOR_APPROVAL' => 'For approval',
+	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Accepted',
 ];

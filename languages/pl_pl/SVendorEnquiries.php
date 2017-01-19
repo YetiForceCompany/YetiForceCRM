@@ -1,8 +1,13 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SVendorEnquiries language
+ * @package YetiForce.Language
+ * @license licenses/License.html
+ * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
 $languageStrings = [
-	'SVendorEnquiries' => 'Zapytanie do dostawców',
-	'SINGLE_SVendorEnquiries' => 'Zapytanie do dostawców',
+	'SVendorEnquiries' => 'Zapytanie do dostawcy',
+	'SINGLE_SVendorEnquiries' => 'Zapytanie do dostawcy',
 	//BLOCKS
 	'LBL_SCALCULATIONS_INFORMATION' => 'Informacje podstawowe',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',

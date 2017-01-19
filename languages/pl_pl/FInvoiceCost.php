@@ -1,10 +1,9 @@
 <?php
 /**
- * FInvoice language
+ * FInvoiceCost language
  * @package YetiForce.Language
  * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
 	'FInvoiceCost' => 'Faktury Kosztowe',
@@ -47,6 +46,4 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Do akceptacji',
 	'PLL_CANCELLED' => 'Anulowano',
 	'PLL_ACCEPTED' => 'Zaakceptowano',
-	//OTHERS
-	'LBL_YEAR' => 'Rok',
 ];
