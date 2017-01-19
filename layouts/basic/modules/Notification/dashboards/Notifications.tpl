@@ -13,22 +13,23 @@
 		</div>
 		<hr class="widgetHr"/>
 		<div class="row" >
-			<div class="col-md-12 textAlignRight">
-				{if Users_Privileges_Model::isPermitted('Notification', 'CreateView')}
-					<a class="btn btn-default btn-xs marginTop5" onclick="Vtiger_Index_Js.sendNotification()">
-						<span class="glyphicon glyphicon-plus" title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
-					</a>
-				{/if}
-				&nbsp;
-				<a class="btn btn-xs btn-default marginTop5" href="index.php?module=Notification&view=List">
-					<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_RECORDS_LIST')}" alt="{vtranslate('LBL_GO_TO_RECORDS_LIST')}"></span>
-				</a>
-				<div class="col-xs-6">
-					<select class="widgetFilter select2" name="type">
-						{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
-							<option value="{$KEY}">{$TYPE}</option>
-						{/foreach}
-					</select>
+			<div class="col-xs-6">
+				<select class="widgetFilter select2" name="type">
+					{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
+						<option value="{$KEY}">{$TYPE}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="col-xs-6">
+				<div class="btn-toolbar pull-right">
+					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
+						<button type="button" class="btn btn-default" onclick="Vtiger_Index_Js.sendNotification()">
+							<span class="glyphicon glyphicon-plus" title="{vtranslate('LBL_ADD_RECORD')}" alt="{vtranslate('LBL_ADD_RECORD')}"></span>
+						</button>
+					{/if}
+					<button type="button"  class="btn btn-default" href="index.php?module=Notification&view=List">
+						<span class="glyphicon glyphicon-th-list" title="{vtranslate('LBL_GO_TO_RECORDS_LIST')}" alt="{vtranslate('LBL_GO_TO_RECORDS_LIST')}"></span>
+					</button>
 				</div>
 			</div>
 		</div>
