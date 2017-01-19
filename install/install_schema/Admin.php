@@ -266,6 +266,7 @@ class Admin extends \App\Db\Importers\Base
 					'logo_mail_height' => $this->smallInteger(3)->unsigned(),
 				],
 				'columns_mysql' => [
+					'default' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
 					'logo_login_height' => 'tinyint(3) unsigned DEFAULT NULL',
 					'logo_main_height' => 'tinyint(3) unsigned DEFAULT NULL',
 					'logo_mail_height' => 'tinyint(3) unsigned DEFAULT NULL',

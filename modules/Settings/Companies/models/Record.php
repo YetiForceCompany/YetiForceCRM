@@ -156,13 +156,15 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil btn btn-xs btn-success',
 			],
-			[
+		];
+		if (0 === $this->get('default')) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => $this->getDeleteActionUrl(),
 				'linkicon' => 'glyphicon glyphicon-trash btn btn-xs btn-danger',
-			]
-		];
+			];
+		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
