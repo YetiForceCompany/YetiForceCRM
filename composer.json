@@ -1,7 +1,7 @@
 {
 	"name": "yetiforce/yetiforce-crm",
 	"description": "An open and innovative CRM system.",
-	"keywords": ["yetiforcecrm", "crm", "open source crm", "best crm"],
+	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm"],
 	"license": "YetiForce Public License 1.1",
 	"homepage": "https://yetiforce.com/",
 	"type": "project",
@@ -18,9 +18,24 @@
 		}
 	],
 	"require": {
-		"php": ">=5.6.0",
-		"ext-mbstring": "*"
-
+		"php": ">=5.6.0"
+	},
+	"require-dev": {
+		"ext-imap": "*",
+		"ext-openssl": "*",
+		"ext-mbstring": "*",
+		"ext-spl": "*",
+		"ext-json": "*",
+		"ext-dom": "*",
+		"ext-zlib": "*",
+		"ext-pdo": "*",
+		"ext-curl": "*",
+		"ext-gd": "*",
+		"ext-pcre": "*",
+		"ext-session": "*",
+		"ext-soap": "*",
+		"ext-zip": "*",
+		"ext-xml": "*"
 	},
 	"archive": {
 		"exclude": [
