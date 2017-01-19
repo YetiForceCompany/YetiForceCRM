@@ -66,6 +66,7 @@ $config['smtp_conn_options'] = [
 $config['smtp_timeout'] = 5;
 $config['smtp_helo_host'] = 'YetiForceCRM';
 $config['skin'] = 'yetiforce';
+$config['list_cols'] = array('flag', 'status', 'subject', 'fromto', 'date', 'size', 'attachment', 'authres_status', 'threads');
 // plugin authres_status
 $config['enable_authres_status_column'] = true;
 $config['show_statuses'] = 127;
