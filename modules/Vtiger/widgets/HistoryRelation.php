@@ -10,10 +10,14 @@
 class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 {
 
+	/**
+	 * Names od classes that define color
+	 * @var string[] 
+	 */
 	public static $colors = [
 		'ModComments' => 'bgBlue',
-		'OSSMailViewReceived' => 'bgGreen',
-		'OSSMailViewSent' => 'bgDanger',
+		'OSSMailViewReceived' => 'bgDanger',
+		'OSSMailViewSent' => 'bgGreen',
 		'OSSMailViewInternal' => 'bgBlue',
 		'Calendar' => 'bgOrange',
 	];
