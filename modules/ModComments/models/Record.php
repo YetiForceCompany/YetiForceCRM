@@ -87,7 +87,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT 
 					comm.*,
-					crm.smownerid AS assigned_user_id,
+					crm.smownerid,
 					crm.createdtime,
 					crm.modifiedtime 
 				FROM
@@ -133,7 +133,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the commentor Model (Users Model)
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model|false
 	 */
 	public function getCommentedByModel()
 	{
@@ -141,7 +141,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (!empty($customer)) {
 			return Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
 		} else {
-			$commentedBy = $this->get('assigned_user_id');
+			$commentedBy = $this->get('smownerid');
 			if ($commentedBy) {
 				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
