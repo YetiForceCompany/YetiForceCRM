@@ -225,23 +225,22 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		return false;
 	}
 
+	/**
+	 * Function to check filters for record
+	 * @param int $recordId
+	 * @return boolean
+	 */
 	public function checkFiltersForRecord($recordId)
 	{
-		$test = Vtiger_Cache::get('PdfCheckFiltersForRecord' . $this->getId(), $recordId);
-		if ($test !== false) {
-			return (bool) $test;
+		$key = $this->getId() . '_' . $recordId;
+		if (\App\Cache::staticHas(__METHOD__, $key)) {
+			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		vimport("~/modules/com_vtiger_workflow/VTJsonCondition.php");
-		vimport("~/modules/com_vtiger_workflow/VTEntityCache.php");
-		vimport("~/include/Webservices/Retrieve.php");
-
 		$conditionStrategy = new VTJsonCondition();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$entityCache = new VTEntityCache($currentUser);
-		$wsId = vtws_getWebserviceEntityId($this->get('module_name'), $recordId);
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
-		$test = $conditionStrategy->evaluate($conditions, $entityCache, $wsId);
-		Vtiger_Cache::set('PdfCheckFiltersForRecord' . $this->getId(), $recordId, intval($test));
+		$test = $conditionStrategy->evaluate($conditions, $recordModel);
+		\App\Cache::staticSave(__METHOD__, $key, $test);
 		return $test;
 	}
 

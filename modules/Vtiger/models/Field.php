@@ -542,7 +542,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isActiveReference()
 	{
-		if ($this->getFieldDataType() === 'reference' && !count($this->getReferenceList())) {
+		if ($this->getFieldDataType() === 'reference' && empty($this->getReferenceList())) {
 			return false;
 		}
 		return true;

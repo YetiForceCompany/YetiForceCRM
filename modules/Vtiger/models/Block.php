@@ -70,30 +70,32 @@ class Vtiger_Block_Model extends vtlib\Block
 		$db->pquery($query, $params);
 	}
 
+	/**
+	 * Function to check whether the current block is hide
+	 * @param Vtiger_Record_Model $record
+	 * @param string $view
+	 * @return boolean
+	 */
 	public function isHideBlock($record, $view)
 	{
+		$key = $this->get('id') . '_' . $record->getId() . '_' . $view;
+		if (\App\Cache::staticHas(__METHOD__, $key)) {
+			return \App\Cache::staticGet(__METHOD__, $key);
+		}
+		$showBlock = false;
 		$query = (new \App\Db\Query())->from('vtiger_blocks_hide')->where(['enabled' => 1, 'blockid' => $this->get('id')])->andWhere(['like', 'view', $view]);
 		$hideBlocks = $query->all();
-		if (count($hideBlocks) == 0) {
-			return true;
-		}
-		require_once("modules/com_vtiger_workflow/VTJsonCondition.php");
-		require_once("modules/com_vtiger_workflow/VTEntityCache.php");
-		require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
-		$conditionStrategy = new VTJsonCondition();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$util = new VTWorkflowUtils();
-		$entityCache = new VTEntityCache($currentUser);
-		$wsId = vtws_getWebserviceEntityId($record->getModuleName(), $record->getId());
-
-		$showBlock = false;
-		foreach ($hideBlocks as $hideBlock) {
-			$expr = \App\Json::decode($hideBlock['conditions']);
-			if (!$record->getId() && $expr) {
-				continue;
+		if ($hideBlocks) {
+			$conditionStrategy = new VTJsonCondition();
+			foreach ($hideBlocks as $hideBlock) {
+				$expr = \App\Json::decode($hideBlock['conditions']);
+				if (!$record->getId() && $expr) {
+					continue;
+				}
+				$showBlock = $conditionStrategy->evaluate($hideBlock['conditions'], $record);
 			}
-			$showBlock = $conditionStrategy->evaluate($hideBlock['conditions'], $entityCache, $wsId);
 		}
+		\App\Cache::staticSave(__METHOD__, $key, !$showBlock);
 		return !$showBlock;
 	}
 

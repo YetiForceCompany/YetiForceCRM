@@ -73,15 +73,13 @@ class PrivilegeAdvanced
 			return false;
 		}
 		Log::trace("Check advanced permissions: $record,$moduleName,$userId");
-		$currentUser = \Users_Privileges_Model::getInstanceById($userId);
 		foreach ($privileges as $id => &$privilege) {
 			if (!isset($privilege['members'][$userId])) {
 				continue;
 			}
 			static::$webservice = false;
-			$entityCache = new \VTEntityCache($currentUser);
-			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
-			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $entityCache, $wsId);
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $recordModel);
 			static::$webservice = true;
 			if ($test) {
 				Log::trace("Check advanced permissions test OK,action: {$privilege['action']},id: $id");
