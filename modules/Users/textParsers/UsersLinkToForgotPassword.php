@@ -3,18 +3,18 @@ namespace App\TextParser;
 
 /**
  * Users link to forgot password parser class
- * @package YetiForce.App
+ * @package YetiForce.TextParser
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class UsersLinkToForgotPassword extends Base
+class Users_UsersLinkToForgotPassword_TextParser extends \App\TextParser\Base
 {
 
 	/** @var string Class name */
 	public $name = 'LBL_USERS_LINK_TO_FORGOT_PASSWORD';
 
-	/** @var array Allowed modules */
-	public $allowedModules = ['Users'];
+	/** @var mixed Parser type */
+	public $type = 'mail';
 
 	/**
 	 * Process

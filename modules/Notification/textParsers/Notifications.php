@@ -1,20 +1,19 @@
 <?php
-namespace App\TextParser;
 
 /**
  * Notifications parser class
- * @package YetiForce.App
+ * @package YetiForce.TextParser
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Notifications extends Base
+class Notification_Notifications_TextParser extends \App\TextParser\Base
 {
 
 	/** @var string Class name */
 	public $name = 'LBL_NOTIFICATIONS';
 
-	/** @var array Allowed modules */
-	public $allowedModules = ['Notification'];
+	/** @var mixed Parser type */
+	public $type = 'mail';
 
 	/**
 	 * Process

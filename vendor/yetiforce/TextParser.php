@@ -69,6 +69,12 @@ class TextParser
 	/** @var \Vtiger_Record_Model Record model */
 	public $recordModel;
 
+	/** @var string|null Parser type */
+	public $type;
+
+	/** @var \Vtiger_Record_Model Source record model */
+	protected $sourceRecordModel;
+
 	/** @var string Content */
 	protected $content;
 
@@ -83,9 +89,6 @@ class TextParser
 
 	/** @var array Additional params */
 	protected $params;
-
-	/** @var \Vtiger_Record_Model Source record model */
-	protected $sourceRecordModel;
 
 	/**
 	 * Get instanace by record id
@@ -152,6 +155,17 @@ class TextParser
 	public function setLanguage($name = true)
 	{
 		$this->language = $name;
+		return $this;
+	}
+
+	/**
+	 * Set parser type
+	 * @param string $type
+	 * @return $this
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
 		return $this;
 	}
 
@@ -619,12 +633,23 @@ class TextParser
 	protected function custom($params)
 	{
 		$params = explode('|', $params);
-		$className = '\App\TextParser\\' . array_shift($params);
-		if (!class_exists($className)) {
-			Log::error('Not found custom class');
-			throw new \Exception\AppException('ERR_NOT_FOUND_CUSTOM_CLASS');
+		$parserName = array_shift($params);
+		$aparams = $params;
+		$moduleName = array_shift($params);
+		if (Module::getModuleId($moduleName)) {
+			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $this->moduleName, false);
+			if (!$handlerClass) {
+				Log::error("Not found custom class: $parserName|{$this->moduleName}");
+			}
+			$instance = new $handlerClass($this, $params);
+		} else {
+			$className = "\App\TextParser\{$parserName}";
+			if (!class_exists($className)) {
+				Log::error("Not found custom class $parserName");
+				return '';
+			}
+			$instance = new $className($this, $aparams);
 		}
-		$instance = new $className($this, $params);
 		if ($instance->isActive()) {
 			return $instance->process();
 		}
@@ -773,6 +798,17 @@ class TextParser
 		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_MAIL', 'Settings:Companies');
 		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_LOGIN', 'Settings:Companies');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
+		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
+		return $variables;
+	}
+
+	/**
+	 * Get general variables base function
+	 * @return array
+	 */
+	protected function getBaseGeneralVariable()
+	{
+		$variables = [];
 		foreach ((new \DirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . 'TextParser')) as $fileInfo) {
 			$fileName = $fileInfo->getBasename('.php');
 			if ($fileInfo->getType() !== 'dir' && $fileName !== 'Base' && $fileInfo->getExtension() === 'php') {
@@ -782,7 +818,33 @@ class TextParser
 					continue;
 				}
 				$instance = new $className($this);
-				$variables['LBL_CUSTOM_VARIABLES']["$(custom : $fileName)$"] = Language::translate($instance->name);
+				if (isset($this->type) && $this->type !== $instance->type) {
+					continue;
+				}
+				$variables["$(custom : $fileName)$"] = Language::translate($instance->name);
+			}
+		}
+		return $variables;
+	}
+
+	/**
+	 * Get general variables module function
+	 * @return array
+	 */
+	protected function getModuleGeneralVariable()
+	{
+		$variables = [];
+		if ($this->moduleName && is_dir(("modules/{$this->moduleName}/textParsers/"))) {
+			foreach ((new \DirectoryIterator("modules/{$this->moduleName}/textParsers/")) as $fileInfo) {
+				$fileName = $fileInfo->getBasename('.php');
+				if ($fileInfo->getType() !== 'dir' && $fileInfo->getExtension() === 'php') {
+					$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $fileName, $this->moduleName);
+					$instanceClass = new $handlerClass($this);
+					if (isset($this->type) && $this->type !== $instanceClass->type) {
+						continue;
+					}
+					$variables["$(custom : $fileName|{$this->moduleName})$"] = Language::translate($instanceClass->name, $this->moduleName);
+				}
 			}
 		}
 		return $variables;

@@ -3,7 +3,7 @@ namespace App\TextParser;
 
 /**
  * Base TextParser parser class
- * @package YetiForce.App
+ * @package YetiForce.TextParser
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -19,8 +19,11 @@ class Base
 	/** @var \App\TextParser TextParser instance */
 	public $textParser;
 
-	/** @var mixed */
+	/** @var mixed Additional params */
 	public $params;
+
+	/** @var mixed Parser type */
+	public $type;
 
 	/**
 	 * Construct
@@ -40,6 +43,9 @@ class Base
 	public function isActive()
 	{
 		if (isset($this->textParser->moduleName) && isset($this->allowedModules) && !in_array($this->textParser->moduleName, $this->allowedModules)) {
+			return false;
+		}
+		if (isset($this->textParser->type) && $this->textParser->type !== $this->type) {
 			return false;
 		}
 		return true;
