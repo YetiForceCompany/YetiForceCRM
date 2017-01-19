@@ -44,9 +44,15 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$query = new \App\Db\Query();
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smownerid'])
 			->from('vtiger_crmentity')
-			->where(['setype' => $moduleName, 'deleted' => 0, 'smcreatorid' => array_keys($accessibleUsers)])
-			->andWhere(['between', 'createdtime', $time['start'], $time['end']]);
-		\App\PrivilegeQuery::getConditions($query, $module);
+			->where([
+				'and',
+				['setype' => $moduleName],
+				['deleted' => 0],
+				['smcreatorid' => array_keys($accessibleUsers)],
+				['>=', 'createdtime', $time['start'] . ' 00:00:00'],
+				['<=', 'createdtime', $time['end'] . ' 23:59:59']
+		]);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smownerid']);
 		$dataReader = $query->createCommand()->query();
 		$data = [];
@@ -68,9 +74,9 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 		$time = $request->get('time');
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time === false) {
+			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));	
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
 			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
 			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);

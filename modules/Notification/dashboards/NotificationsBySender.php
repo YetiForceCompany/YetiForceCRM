@@ -39,16 +39,22 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
 		$listView = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		
+
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 
 		$query = new \App\Db\Query();
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smcreatorid'])
 			->from('vtiger_crmentity')
-			->where(['setype' => $moduleName, 'deleted' => 0, 'smcreatorid' => array_keys($accessibleUsers)])
-			->andWhere(['between', 'createdtime', $time['start'], $time['end']]);
-		\App\PrivilegeQuery::getConditions($query, $module);
+			->where([
+				'and',
+				['setype' => $moduleName],
+				['deleted' => 0],
+				['smcreatorid' => array_keys($accessibleUsers)],
+				['>=', 'createdtime', $time['start'] . ' 00:00:00'],
+				['<=', 'createdtime', $time['end'] . ' 23:59:59']
+		]);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smcreatorid']);
 		$dataReader = $query->createCommand()->query();
 		$data = [];
@@ -70,7 +76,7 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 		$time = $request->get('time');
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time === false) {
+			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
