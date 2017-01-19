@@ -536,20 +536,14 @@ class Vtiger_Field_Model extends vtlib\Field
 		return ($this->get('summaryfield')) ? true : false;
 	}
 
+	/**
+	 * Function to check whether the current reference field is active
+	 * @return boolean
+	 */
 	public function isActiveReference()
 	{
-		if ($this->getFieldDataType() === 'reference') {
-			$webserviceField = $this->getWebserviceFieldObject();
-			$referenceList = $webserviceField->getReferenceList();
-			foreach ($referenceList as $key => $module) {
-				if (!\App\Module::isModuleActive($module)) {
-					unset($referenceList[$key]);
-				}
-			}
-			$webserviceField->setReferenceList($referenceList);
-			if (count($referenceList) == 0) {
-				return false;
-			}
+		if ($this->getFieldDataType() === 'reference' && !count($this->getReferenceList())) {
+			return false;
 		}
 		return true;
 	}
