@@ -36,15 +36,15 @@
 							<div class="col-sm-10">
 								<input class="form-control" name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
 							</div>
-			
+
 						{else}
 							<div class="col-sm-3">
 								{$RECORD_MODEL->getDisplayValue($COLUMN)}
 							</div>
 							<div class="col-sm-9">
-										<div class='col-xs-12'>
+								<div class='col-xs-12'>
 									<div class=''>
-										<input type="file" name="{$COLUMN}" id="{$COLUMN}" />&nbsp;&nbsp;
+										<input type="file" name="{$COLUMN}" id="{$COLUMN}" data-validation-engine="validate[required]"/>&nbsp;&nbsp;
 									</div>
 									<div class=" col-xs-12 alert alert-info pull-right">
 										{App\Language::translate('LBL_PANELLOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}

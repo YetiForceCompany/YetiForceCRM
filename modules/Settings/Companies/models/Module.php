@@ -39,10 +39,9 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getColumnNames()
 	{
 		$tableSchema = \App\Db::getInstance('admin')->getTableSchema('s_#__companies', true);
-		if($tableSchema){
+		if ($tableSchema) {
 			return $tableSchema->getColumnNames();
 		}
 		return false;
 	}
-
 }

@@ -8,8 +8,13 @@
 			{/if}
 		</div>
 		<div class="col-md-4 ">
-			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right">
+			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right marginLeft5">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
 				<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
+			</a>
+			<a href="{$RECORD_MODEL->getDeleteActionUrl()}" class="btn btn-danger pull-right">
+				<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;
+				<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
 			</a>
 		</div>
 	</div>

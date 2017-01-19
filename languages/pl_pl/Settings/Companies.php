@@ -27,4 +27,5 @@ $languageStrings = [
 	'LBL_LOGO_MAIL' => 'Logo firmy (wiadomości mail)',
 	'LBL_LOGO_MAIL_HEIGHT' => 'Wysokość loga (wiadomości mail)',
 	// Others
+	'LBL_COMPANY_NAMES_EXIST' => 'Firma o podanej nazwie już istnieje',
 ];

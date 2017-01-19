@@ -5802,10 +5802,7 @@ td.rightRecordActions.medium{
     right: 30px;
     position: absolute;
 }
-.smActionImages .glyphicon{
-	top: -1px;
-}
-.smActionImages .btn{
+.actionImages .btn{
 	float: none !important;
 }
 .bc-gray-lighter{
