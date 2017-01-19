@@ -1,0 +1,37 @@
+{
+	"name": "yetiforce/yetiforce-crm",
+	"description": "An open and innovative CRM system.",
+	"keywords": [
+		"YetiForceCRM",
+		"CRM",
+		"open source crm"
+	],
+	"license": "YetiForce Public License 1.1",
+	"homepage": "https://yetiforce.com/",
+	"type": "project",
+	"support": {
+		"issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
+		"wiki": "https://yetiforce.com/en/documentation.html",
+		"source": "https://github.com/YetiForceCompany/YetiForceCRM"
+	},
+	"require": {
+		"php": ">=5.6.0",
+		"ext-mbstring": "*"
+		
+	},
+	"autoload": {
+		"psr-0": {
+            "Requests": "vendor/Requests/library/"
+        },
+		"psr-4": {
+			"vtlib\\": "vtlib/Vtiger/",
+			"includes\\": "include/",
+			"App\\": "vendor/yetiforce/",
+			"Exception\\": "include/exceptions/",
+			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/",
+			"Symfony\\Component\\VarDumper\\": "vendor/symfony/var-dumper/"
+		},
+		"classmap": ["vendor/PHPMailer/"]
+	}
+
+}
