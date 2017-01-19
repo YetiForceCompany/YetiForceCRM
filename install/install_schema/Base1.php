@@ -3256,6 +3256,90 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__svendorenquiries' => [
+				'columns' => [
+					'svendorenquiriesid' => $this->integer()->notNull()->defaultValue(0),
+					'svendorenquiries_no' => $this->stringType()->defaultValue(''),
+					'subject' => $this->stringType(),
+					'salesprocessid' => $this->integer(),
+					'category' => $this->stringType(),
+					'svendorenquiries_status' => $this->stringType(),
+					'accountid' => $this->integer(),
+					'response_time' => $this->decimal('10,2')->defaultValue(0),
+					'sum_time' => $this->decimal('10,2')->defaultValue(0),
+					'sum_total' => $this->decimal('27,8'),
+					'sum_marginp' => $this->decimal('10,2'),
+					'vendorid' => $this->integer(),
+					'scalculationsid' => $this->integer(),
+				],
+				'index' => [
+					['squoteenquiries_salesprocessid_idx', 'salesprocessid'],
+					['squoteenquiries_accountid_idx', 'accountid'],
+					['squoteenquiries_vendorid_idx', 'salesprocessid'],
+					['squoteenquiries_scalculationsid_idx', 'accountid'],
+				],
+				'primaryKeys' => [
+					['svendorenquiries_pk', 'svendorenquiriesid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__svendorenquiries_inventory' => [
+				'columns' => [
+					'id' => $this->integer(),
+					'seq' => $this->integer(10),
+					'name' => $this->integer()->notNull()->defaultValue(0),
+					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
+					'comment1' => $this->text(),
+					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
+					'unit' => $this->stringType(),
+					'subunit' => $this->stringType(),
+				],
+				'index' => [
+					['svendorenquiries_inventory_idx', 'id'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__svendorenquiries_invfield' => [
+				'columns' => [
+					'id' => $this->primaryKey(),
+					'columnname' => $this->stringType(30)->notNull(),
+					'label' => $this->stringType(50)->notNull(),
+					'invtype' => $this->stringType(30)->notNull(),
+					'presence' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'defaultvalue' => $this->stringType(),
+					'sequence' => $this->integer(10)->unsigned()->notNull(),
+					'block' => $this->smallInteger(1)->unsigned()->notNull(),
+					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'params' => $this->text(),
+					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__svendorenquiries_invmap' => [
+				'columns' => [
+					'module' => $this->stringType(50)->notNull(),
+					'field' => $this->stringType(50)->notNull(),
+					'tofield' => $this->stringType(50)->notNull(),
+				],
+				'primaryKeys' => [
+					['svendorenquiries_invmap_pk', ['module', 'field', 'tofield']]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__svendorenquiriescf' => [
+				'columns' => [
+					'svendorenquiriesid' => $this->integer()->notNull(),
+				],
+				'primaryKeys' => [
+					['svendorenquiriescf_pk', 'svendorenquiriesid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__timeline' => [
 				'columns' => [
 					'crmid' => $this->integer(11)->notNull(),
@@ -4481,6 +4565,21 @@ Failed login attempts have been detected. </span>', 'BruteForceSecurityRiskHasBe
 				'values' => [
 					['Products', 'subunit', 'subunit'],
 					['Products', 'usageunit', 'unit'],
+				]
+			],
+			'u_#__svendorenquiries_invfield' => [
+				'columns' => ['id', 'columnname', 'label', 'invtype', 'presence', 'defaultvalue', 'sequence', 'block', 'displaytype', 'params', 'colspan'],
+				'values' => [
+					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 40],
+					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 10],
+					[3, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 3, 2, 0, '{}', 0],
+					[4, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, '', 10],
+					[5, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, '', 10],
+					[6, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 6, 1, 0, '', 10],
+					[7, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 7, 1, 0, '', 10],
+					[8, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 8, 1, 0, '', 10],
+					[9, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, '', 10],
+					[10, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, '', 10],
 				]
 			],
 		];

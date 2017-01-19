@@ -1104,6 +1104,17 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_svendorenquiries_status' => [
+				'columns' => [
+					'svendorenquiries_statusid' => $this->primaryKey(),
+					'svendorenquiries_status' => $this->stringType()->notNull(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_systems' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
@@ -2625,6 +2636,8 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_1_u_yf_finvoicecostcf', 'u_#__finvoicecostcf', 'finvoicecostid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cmileagelogbookcmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_cmileagelogbookcfcmileagelogbookid', 'u_#__cmileagelogbookcf', 'cmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_yf_svendorenquiries', 'u_#__svendorenquiries', 'svendorenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_yf_svendorenquiriescf', 'u_#__svendorenquiriescf', 'svendorenquiriesid', 'u_#__svendorenquiries', 'svendorenquiriesid', 'CASCADE', 'RESTRICT'],
 		];
 	}
 
@@ -2997,6 +3010,13 @@ class Base4 extends \App\Db\Importers\Base
 					[526, 113, 8, 'getAttachments', 1, 'Documents', 0, 'ADD,SELECT', 0, 0, 0],
 					[527, 114, 8, 'getAttachments', 1, 'Documents', 0, 'ADD,SELECT', 0, 0, 0],
 					[528, 115, 8, 'getAttachments', 1, 'Documents', 0, 'ADD,SELECT', 0, 0, 0],
+					[529, 117, 8, 'getAttachments', 1, 'Documents', 0, 'ADD,SELECT', 0, 0, 0],
+					[530, 117, 9, 'getActivities', 2, 'Activities', 0, 'ADD', 0, 0, 0],
+					[531, 117, 54, 'getEmails', 3, 'OSSMailView', 0, 'SEND', 0, 0, 0],
+					[532, 86, 117, 'getDependentsList', 23, 'SVendorEnquiries', 0, 'ADD', 0, 0, 0],
+					[533, 18, 117, 'getDependentsList', 18, 'SVendorEnquiries', 0, 'ADD', 0, 0, 0],
+					[534, 88, 117, 'getDependentsList', 5, 'SVendorEnquiries', 0, 'ADD', 0, 0, 0],
+					[535, 54, 117, 'getRecordToMails', 23, 'SVendorEnquiries', 0, 'ADD,SELECT', 0, 0, 0],
 				]
 			],
 			'vtiger_reminder_interval' => [
@@ -3151,6 +3171,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H1', 761, 106, 2],
 					['H1', 762, 106, 3],
 					['H1', 763, 106, 4],
+					['H1', 773, 107, 1],
+					['H1', 774, 107, 2],
+					['H1', 775, 107, 3],
+					['H1', 776, 107, 4],
+					['H1', 777, 107, 5],
 					['H10', 1, 1, 0],
 					['H10', 2, 1, 1],
 					['H10', 3, 1, 2],
@@ -3563,6 +3588,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H10', 770, 87, 6],
 					['H10', 771, 87, 7],
 					['H10', 772, 87, 8],
+					['H10', 773, 107, 1],
+					['H10', 774, 107, 2],
+					['H10', 775, 107, 3],
+					['H10', 776, 107, 4],
+					['H10', 777, 107, 5],
 					['H14', 1, 1, 0],
 					['H14', 2, 1, 1],
 					['H14', 3, 1, 2],
@@ -3975,6 +4005,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H14', 770, 87, 6],
 					['H14', 771, 87, 7],
 					['H14', 772, 87, 8],
+					['H14', 773, 107, 1],
+					['H14', 774, 107, 2],
+					['H14', 775, 107, 3],
+					['H14', 776, 107, 4],
+					['H14', 777, 107, 5],
 					['H18', 1, 1, 0],
 					['H18', 2, 1, 1],
 					['H18', 3, 1, 2],
@@ -4387,6 +4422,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H18', 770, 87, 6],
 					['H18', 771, 87, 7],
 					['H18', 772, 87, 8],
+					['H18', 773, 107, 1],
+					['H18', 774, 107, 2],
+					['H18', 775, 107, 3],
+					['H18', 776, 107, 4],
+					['H18', 777, 107, 5],
 					['H2', 1, 1, 0],
 					['H2', 2, 1, 1],
 					['H2', 3, 1, 2],
@@ -4799,6 +4839,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H2', 770, 87, 6],
 					['H2', 771, 87, 7],
 					['H2', 772, 87, 8],
+					['H2', 773, 107, 1],
+					['H2', 774, 107, 2],
+					['H2', 775, 107, 3],
+					['H2', 776, 107, 4],
+					['H2', 777, 107, 5],
 					['H22', 1, 1, 0],
 					['H22', 2, 1, 1],
 					['H22', 3, 1, 2],
@@ -5211,6 +5256,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H22', 770, 87, 6],
 					['H22', 771, 87, 7],
 					['H22', 772, 87, 8],
+					['H22', 773, 107, 1],
+					['H22', 774, 107, 2],
+					['H22', 775, 107, 3],
+					['H22', 776, 107, 4],
+					['H22', 777, 107, 5],
 					['H26', 1, 1, 0],
 					['H26', 2, 1, 1],
 					['H26', 3, 1, 2],
@@ -5623,6 +5673,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H26', 770, 87, 6],
 					['H26', 771, 87, 7],
 					['H26', 772, 87, 8],
+					['H26', 773, 107, 1],
+					['H26', 774, 107, 2],
+					['H26', 775, 107, 3],
+					['H26', 776, 107, 4],
+					['H26', 777, 107, 5],
 					['H3', 1, 1, 0],
 					['H3', 2, 1, 1],
 					['H3', 3, 1, 2],
@@ -6035,6 +6090,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H3', 770, 87, 6],
 					['H3', 771, 87, 7],
 					['H3', 772, 87, 8],
+					['H3', 773, 107, 1],
+					['H3', 774, 107, 2],
+					['H3', 775, 107, 3],
+					['H3', 776, 107, 4],
+					['H3', 777, 107, 5],
 					['H30', 1, 1, 0],
 					['H30', 2, 1, 1],
 					['H30', 3, 1, 2],
@@ -6447,6 +6507,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H30', 770, 87, 6],
 					['H30', 771, 87, 7],
 					['H30', 772, 87, 8],
+					['H30', 773, 107, 1],
+					['H30', 774, 107, 2],
+					['H30', 775, 107, 3],
+					['H30', 776, 107, 4],
+					['H30', 777, 107, 5],
 					['H34', 1, 1, 0],
 					['H34', 2, 1, 1],
 					['H34', 3, 1, 2],
@@ -6859,6 +6924,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H34', 770, 87, 6],
 					['H34', 771, 87, 7],
 					['H34', 772, 87, 8],
+					['H34', 773, 107, 1],
+					['H34', 774, 107, 2],
+					['H34', 775, 107, 3],
+					['H34', 776, 107, 4],
+					['H34', 777, 107, 5],
 					['H6', 1, 1, 0],
 					['H6', 2, 1, 1],
 					['H6', 3, 1, 2],
@@ -7271,6 +7341,11 @@ class Base4 extends \App\Db\Importers\Base
 					['H6', 770, 87, 6],
 					['H6', 771, 87, 7],
 					['H6', 772, 87, 8],
+					['H6', 773, 107, 1],
+					['H6', 774, 107, 2],
+					['H6', 775, 107, 3],
+					['H6', 776, 107, 4],
+					['H6', 777, 107, 5],
 				]
 			],
 			'vtiger_role2profile' => [
@@ -7747,6 +7822,16 @@ class Base4 extends \App\Db\Importers\Base
 					[1, ''],
 				]
 			],
+			'vtiger_svendorenquiries_status' => [
+				'columns' => ['svendorenquiries_statusid', 'svendorenquiries_status', 'presence', 'picklist_valueid', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_DRAFT', 1, 773, 1],
+					[2, 'PLL_IN_REALIZATION', 1, 774, 2],
+					[3, 'PLL_FOR_VERIFICATION', 1, 775, 3],
+					[4, 'PLL_CANCELLED', 1, 776, 4],
+					[5, 'PLL_COMPLETED', 1, 777, 5],
+				]
+			],
 			'vtiger_tab' => [
 				'columns' => ['tabid', 'name', 'presence', 'tabsequence', 'tablabel', 'modifiedby', 'modifiedtime', 'customized', 'ownedby', 'isentitytype', 'version', 'parent', 'color', 'coloractive', 'type'],
 				'values' => [
@@ -7837,6 +7922,7 @@ class Base4 extends \App\Db\Importers\Base
 					[114, 'CInternalTickets', 0, 15, 'CInternalTickets', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 0],
 					[115, 'FInvoiceCost', 0, 16, 'FInvoiceCost', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 1],
 					[116, 'CMileageLogbook', 0, 17, 'CMileageLogbook', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 0],
+					[117, 'SVendorEnquiries', 0, 18, 'SVendorEnquiries', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 1],
 				]
 			],
 			'vtiger_tab_info' => [
@@ -7930,6 +8016,7 @@ class Base4 extends \App\Db\Importers\Base
 					[114, 'vtiger_min_version', '3.5'],
 					[115, 'vtiger_min_version', '3.5'],
 					[116, 'vtiger_min_version', '3.4.1517'],
+					[117, 'vtiger_min_version', '3.5'],
 				]
 			],
 			'vtiger_taskpriority' => [
@@ -8169,6 +8256,7 @@ class Base4 extends \App\Db\Importers\Base
 					[19, 'Category', 113, 1],
 					[20, 'Category', 115, 1],
 					[21, 'Category', 95, 1],
+					[22, 'Category', 117, 0],
 				]
 			],
 			'vtiger_trees_templates_data' => [
@@ -8218,6 +8306,7 @@ class Base4 extends \App\Db\Importers\Base
 					[19, 'none', 'T1', 'T1', 0, 'none', '', ''],
 					[20, 'none', 'T1', 'T1', 0, 'none', '', ''],
 					[21, 'none', 'T1', 'T1', 0, 'none', '', ''],
+					[22, 'LBL_NONE', 'T1', 'T1', 0, 'LBL_NONE', '', ''],
 				]
 			],
 			'vtiger_usageunit' => [
@@ -8458,6 +8547,10 @@ class Base4 extends \App\Db\Importers\Base
 					[170, 115, 'Summary', NULL, 1, 0, 0, '[]'],
 					[171, 115, 'Comments', '', 2, 2, 0, '{"relatedmodule":"ModComments","limit":"5"}'],
 					[172, 115, 'RelatedModule', '', 1, 1, 0, '{"relatedmodule":"8","limit":"5","columns":"1","action":"1","switchHeader":"-","filter":"-","checkbox":"-"}'],
+					[173, 117, 'Activities', '', 2, 2, 0, '{"limit":"5"}'],
+					[174, 117, 'EmailList', 'Emails', 2, 3, 0, '{"limit":"5"}'],
+					[175, 117, 'Comments', '', 1, 1, 0, '{"relatedmodule":"ModComments","limit":"5"}'],
+					[176, 117, 'Summary', NULL, 1, 0, 0, '[]'],
 				]
 			],
 			'vtiger_ws_entity' => [
@@ -8536,6 +8629,7 @@ class Base4 extends \App\Db\Importers\Base
 					[95, 'CInternalTickets', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[96, 'FInvoiceCost', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[97, 'CMileageLogbook', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
+					[98, 'SVendorEnquiries', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 				]
 			],
 			'vtiger_ws_entity_fieldtype' => [
@@ -8823,7 +8917,7 @@ class Base4 extends \App\Db\Importers\Base
 					[51, 0, 47, 0, 1, 6, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[52, 0, 0, 2, 2, NULL, 'MEN_MARKETING', 0, NULL, 0, 'userIcon-Campaigns', NULL, NULL, NULL],
 					[54, 0, 52, 0, 0, 26, NULL, 0, NULL, 0, '', NULL, '', NULL],
-					[62, 0, 118, 0, 7, 19, NULL, 0, NULL, 0, '', NULL, '', NULL],
+					[62, 0, 118, 0, 8, 19, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[63, 0, 0, 2, 5, NULL, 'MEN_SUPPORT', 0, NULL, 0, 'userIcon-Support', NULL, NULL, NULL],
 					[64, 0, 63, 0, 0, 13, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[65, 0, 63, 0, 1, 34, NULL, 0, NULL, 0, '', NULL, '', NULL],
@@ -8902,6 +8996,7 @@ class Base4 extends \App\Db\Importers\Base
 					[148, 0, 76, 0, 4, 114, '', 0, NULL, 0, '', NULL, '', NULL],
 					[149, 0, 76, 0, 5, 116, '', 0, NULL, 0, '', NULL, '', NULL],
 					[150, 0, 71, 0, 6, 115, '', 0, NULL, 0, '', NULL, '', NULL],
+					[151, 0, 118, 0, 7, 117, '', 0, NULL, 0, '', NULL, '', NULL],
 				]
 			],
 			'yetiforce_proc_marketing' => [

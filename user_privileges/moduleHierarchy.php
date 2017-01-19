@@ -21,7 +21,8 @@ $modulesHierarchy = [
 	'SQuotes' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 	'SSingleOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 	'SRecurringOrders' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
-	'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping']
+	'FInvoice' => ['level' => 2, 'parentModule' => 'FBookkeeping'],
+	'SVendorEnquiries' => ['level' => 2, 'parentModule' => 'SSalesProcesses'],
 ];
 /*
  * Map links between modules
@@ -44,6 +45,9 @@ $modulesMapRelatedFields = [
 		'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
 	],
 	'SCalculations' => [
+		'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
+	],
+	'SVendorEnquiries' => [
 		'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]]
 	],
 	'SQuotes' => [

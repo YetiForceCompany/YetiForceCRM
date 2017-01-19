@@ -2792,6 +2792,10 @@ class Base2 extends \App\Db\Importers\Base
 					[397, 116, 'LBL_ADDITIONAL_INFORMATION', 2, 0, 0, 0, 0, 0, 1, 1],
 					[398, 95, 'LBL_DESCRIPTION_BLOCK', 5, 0, 0, 0, 0, 0, 1, 1],
 					[399, 95, 'LBL_ATTENTION_BLOCK', 6, 0, 0, 0, 0, 0, 1, 1],
+					[400, 117, 'LBL_SCALCULATIONS_INFORMATION', 1, 0, 0, 0, 0, 0, 1, 0],
+					[401, 117, 'LBL_DESCRIPTION_INFORMATION', 2, 0, 0, 0, 0, 0, 1, 1],
+					[402, 117, 'LBL_STATISTICS', 3, 0, 0, 0, 0, 0, 1, 1],
+					[403, 117, 'LBL_CUSTOM_INFORMATION', 4, 0, 0, 0, 0, 0, 1, 1],
 				]
 			],
 			'vtiger_blocks_seq' => [
@@ -3409,6 +3413,7 @@ class Base2 extends \App\Db\Importers\Base
 					[107, 'All', 1, 0, 'CInternalTickets', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[108, 'All', 1, 0, 'FInvoiceCost', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[109, 'All', 1, 0, 'CMileageLogbook', 0, 1, 1, 0, 0, 0, '', '', ''],
+					[110, 'All', 1, 0, 'SVendorEnquiries', 0, 1, 1, 0, 0, 0, '', '', ''],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
@@ -3768,6 +3773,12 @@ class Base2 extends \App\Db\Importers\Base
 					[109, 1, 'u_yf_cmileagelogbook:number:number:CMileageLogbook_FL_NUMBER:V'],
 					[109, 2, 'vtiger_crmentity:createdtime:createdtime:CMileageLogbook_Created_Time:DT'],
 					[109, 3, 'vtiger_crmentity:smownerid:assigned_user_id:CMileageLogbook_Assigned_To:V'],
+					[110, 0, 'u_yf_svendorenquiries:subject:subject:SVendorEnquiries_LBL_SUBJECT:V'],
+					[110, 1, 'u_yf_svendorenquiries:salesprocessid:salesprocessid:SVendorEnquiries_SINGLE_SSalesProcesses:V'],
+					[110, 2, 'u_yf_svendorenquiries:svendorenquiries_status:svendorenquiries_status:SVendorEnquiries_LBL_STATUS:V'],
+					[110, 3, 'u_yf_svendorenquiries:category:category:SVendorEnquiries_Category:V'],
+					[110, 4, 'vtiger_crmentity:smownerid:assigned_user_id:SVendorEnquiries_Assigned_To:V'],
+					[110, 5, 'vtiger_crmentity:createdtime:createdtime:SVendorEnquiries_Created_Time:DT'],
 				]
 			],
 			'vtiger_dataaccess' => [
@@ -5502,6 +5513,28 @@ class Base2 extends \App\Db\Importers\Base
 					[113, 2574, 0, 0],
 					[113, 2575, 0, 0],
 					[113, 2576, 0, 0],
+					[117, 2577, 0, 0],
+					[117, 2578, 0, 0],
+					[117, 2579, 0, 0],
+					[117, 2580, 0, 0],
+					[117, 2581, 0, 0],
+					[117, 2582, 0, 0],
+					[117, 2583, 0, 0],
+					[117, 2584, 0, 0],
+					[117, 2585, 0, 0],
+					[117, 2586, 0, 0],
+					[117, 2587, 0, 0],
+					[117, 2588, 0, 0],
+					[117, 2589, 0, 0],
+					[117, 2590, 0, 0],
+					[117, 2591, 0, 0],
+					[117, 2592, 0, 0],
+					[117, 2593, 0, 0],
+					[117, 2594, 0, 0],
+					[117, 2595, 0, 0],
+					[117, 2596, 0, 0],
+					[117, 2597, 0, 0],
+					[117, 2598, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5575,6 +5608,7 @@ class Base2 extends \App\Db\Importers\Base
 					[86, 114, 2, 0],
 					[87, 115, 2, 0],
 					[88, 116, 2, 0],
+					[89, 117, 2, 0],
 				]
 			],
 			'vtiger_default_record_view' => [
@@ -5787,6 +5821,7 @@ class Base2 extends \App\Db\Importers\Base
 					[114, 'CInternalTickets', 'u_yf_cinternaltickets', 'subject', 'cinternalticketsid', 'cinternalticketsid', 'subject', 1, 0],
 					[115, 'FInvoiceCost', 'u_yf_finvoicecost', 'subject', 'finvoicecostid', 'finvoicecostid', 'subject', 1, 0],
 					[116, 'CMileageLogbook', 'u_yf_cmileagelogbook', 'subject', 'cmileagelogbookid', 'cmileagelogbookid', 'subject', 1, 0],
+					[117, 'SVendorEnquiries', 'u_yf_svendorenquiries', 'subject', 'svendorenquiriesid', 'svendorenquiriesid', 'subject', 1, 0],
 				]
 			],
 			'vtiger_eventhandlers' => [
@@ -7573,12 +7608,34 @@ class Base2 extends \App\Db\Importers\Base
 					[113, 2574, 'current_odometer_reading', 'u_yf_cfixedassets', 1, 7, 'current_odometer_reading', 'FL_CURRENT_ODOMETER_READING', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2575, 'number_repair', 'u_yf_cfixedassets', 1, 7, 'number_repair', 'FL_NUMBER_REPAIR', 1, 2, '', 100, 0, 380, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2576, 'date_last_repair', 'u_yf_cfixedassets', 1, 5, 'date_last_repair', 'FL_DATE_OF_LAST_REPAIR', 1, 2, '', 100, 0, 380, 1, 'D~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2577, 'subject', 'u_yf_svendorenquiries', 1, 2, 'subject', 'LBL_SUBJECT', 1, 2, '', 100, 1, 400, 1, 'V~M', 1, 0, 'BAS', 0, '', 1, '', NULL, 0, 0],
+					[117, 2578, 'category', 'u_yf_svendorenquiries', 1, 302, 'category', 'Category', 1, 2, '', 250, 2, 400, 1, 'V~O', 2, 5, 'BAS', 1, '', 1, '22', NULL, 0, 0],
+					[117, 2579, 'salesprocessid', 'u_yf_svendorenquiries', 1, 10, 'salesprocessid', 'SINGLE_SSalesProcesses', 1, 2, '', 100, 3, 400, 1, 'V~M', 2, 2, 'BAS', 1, '', 1, '', NULL, 0, 0],
+					[117, 2580, 'svendorenquiries_status', 'u_yf_svendorenquiries', 1, 16, 'svendorenquiries_status', 'LBL_STATUS', 1, 0, 'PLL_DRAFT', 100, 7, 400, 1, 'V~O', 2, 6, 'BAS', 1, '', 1, '', NULL, 0, 0],
+					[117, 2581, 'accountid', 'u_yf_svendorenquiries', 1, 10, 'accountid', 'SINGLE_Accounts', 1, 2, '', 100, 4, 400, 10, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2582, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 2, '', 100, 8, 400, 1, 'V~M', 1, 0, 'BAS', 1, '', 1, '', NULL, 0, 0],
+					[117, 2583, 'shownerid', 'vtiger_crmentity', 1, 120, 'shownerid', 'Share with users', 1, 2, '', 100, 9, 400, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2584, 'private', 'vtiger_crmentity', 1, 56, 'private', 'FL_IS_PRIVATE', 1, 0, '', 1, 10, 400, 1, 'C~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[117, 2585, 'vendorid', 'u_yf_svendorenquiries', 1, 10, 'vendorid', 'FL_VENDOR', 1, 2, '', 100, 5, 400, 1, 'M~M', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2586, 'scalculationsid', 'u_yf_svendorenquiries', 1, 10, 'scalculationsid', 'FL_SCALCULATIONS', 1, 2, '', 100, 6, 400, 1, 'M~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2587, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 1, 401, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2588, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 2, 401, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2589, 'response_time', 'u_yf_svendorenquiries', 1, 7, 'response_time', 'LBL_RESPONSE_TIME', 1, 2, '', 100, 1, 402, 10, 'NN~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2590, 'sum_time', 'u_yf_svendorenquiries', 1, 7, 'sum_time', 'FL_TOTAL_TIME_H', 1, 2, '', 100, 2, 402, 10, 'NN~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2591, 'sum_total', 'u_yf_svendorenquiries', 1, 7, 'sum_total', 'FL_TOTAL_PRICE', 1, 2, '', 100, 3, 402, 2, 'NN~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2592, 'sum_marginp', 'u_yf_svendorenquiries', 1, 7, 'sum_marginp', 'FL_MARGINP', 1, 2, '', 100, 4, 402, 3, 'N~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2593, 'sum_margin', 'u_yf_svendorenquiries', 1, 7, 'sum_margin', 'FL_MARGIN', 1, 2, '', 100, 5, 402, 3, 'N~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2594, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 2, '', 100, 1, 403, 2, 'DT~O', 1, 0, 'BAS', 1, '', 1, '', NULL, 0, 0],
+					[117, 2595, 'svendorenquiries_no', 'u_yf_svendorenquiries', 1, 4, 'svendorenquiries_no', 'LBL_NUMBER', 1, 2, '', 100, 2, 403, 1, 'V~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[117, 2596, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 3, 403, 2, 'DT~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[117, 2597, 'closedtime', 'vtiger_crmentity', 1, 70, 'closedtime', 'LBL_CLOSED_TIME', 1, 2, '', 100, 4, 403, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[117, 2598, 'crmactivity', 'vtiger_entity_stats', 1, 307, 'crmactivity', 'LBL_CRMACTIVITY', 1, 0, '', 100, 5, 403, 10, 'NN~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2576],
+					[2598],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7748,6 +7805,11 @@ class Base2 extends \App\Db\Importers\Base
 					[601, 'ModComments', 'CFixedAssets', NULL, 0],
 					[601, 'ModComments', 'CInternalTickets', NULL, 0],
 					[601, 'ModComments', 'FInvoiceCost', NULL, 0],
+					[2579, 'SVendorEnquiries', 'SSalesProcesses', NULL, 0],
+					[2581, 'SVendorEnquiries', 'Accounts', NULL, 0],
+					[2585, 'SVendorEnquiries', 'Vendors', NULL, 0],
+					[2586, 'SVendorEnquiries', 'SCalculations', NULL, 0],
+					[601, 'ModComments', 'SVendorEnquiries', NULL, 0],
 				]
 			],
 			'vtiger_finvoice_formpayment' => [
