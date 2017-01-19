@@ -1451,41 +1451,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_organizationdetails' => [
-				'columns' => [
-					'organization_id' => $this->smallInteger(11)->notNull(),
-					'organizationname' => $this->stringType(60),
-					'address' => $this->stringType(150),
-					'city' => $this->stringType(100),
-					'state' => $this->stringType(100),
-					'country' => $this->stringType(100),
-					'code' => $this->stringType(30),
-					'phone' => $this->stringType(30),
-					'fax' => $this->stringType(30),
-					'website' => $this->stringType(100),
-					'panellogoname' => $this->stringType(50),
-					'height_panellogo' => $this->smallInteger(3),
-					'panellogo' => $this->text(),
-					'logoname' => $this->stringType(50),
-					'logo' => $this->text(),
-					'vatid' => $this->stringType(30),
-					'id1' => $this->stringType(30),
-					'id2' => $this->stringType(30),
-					'email' => $this->stringType(50),
-				],
-				'primaryKeys' => [
-					['organizationdetails_pk', 'organization_id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_organizationdetails_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_oss_project_templates' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
@@ -3937,18 +3902,6 @@ class Base3 extends \App\Db\Importers\Base
 					[5, 'Hide Details and Add Events'],
 					[6, 'Show Details'],
 					[7, 'Show Details and Add Events'],
-				]
-			],
-			'vtiger_organizationdetails' => [
-				'columns' => ['organization_id', 'organizationname', 'address', 'city', 'state', 'country', 'code', 'phone', 'fax', 'website', 'panellogoname', 'height_panellogo', 'panellogo', 'logoname', 'logo', 'vatid', 'id1', 'id2', 'email'],
-				'values' => [
-					[1, 'YetiForce', 'ul. Marszałkowska 111', 'Warszawa', 'Mazowieckie', 'Poland', '00-102', '+48 22 415 49 34', '', 'yetiforce.com', 'logo_yetiforce.png', NULL, NULL, 'blue_yetiforce_logo.png', NULL, 'PL5272638357', NULL, NULL, NULL],
-				]
-			],
-			'vtiger_organizationdetails_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[1],
 				]
 			],
 			'vtiger_ossdc_status' => [

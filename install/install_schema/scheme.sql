@@ -6620,37 +6620,6 @@ CREATE TABLE `vtiger_org_share_action_mapping` (
   PRIMARY KEY (`share_action_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_organizationdetails` */
-
-CREATE TABLE `vtiger_organizationdetails` (
-  `organization_id` smallint(11) NOT NULL,
-  `organizationname` varchar(60) DEFAULT NULL,
-  `address` varchar(150) DEFAULT NULL,
-  `city` varchar(100) DEFAULT NULL,
-  `state` varchar(100) DEFAULT NULL,
-  `country` varchar(100) DEFAULT NULL,
-  `code` varchar(30) DEFAULT NULL,
-  `phone` varchar(30) DEFAULT NULL,
-  `fax` varchar(30) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL,
-  `panellogoname` varchar(50) DEFAULT NULL,
-  `height_panellogo` smallint(3) DEFAULT NULL,
-  `panellogo` text,
-  `logoname` varchar(50) DEFAULT NULL,
-  `logo` text,
-  `vatid` varchar(30) DEFAULT NULL,
-  `id1` varchar(30) DEFAULT NULL,
-  `id2` varchar(30) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`organization_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_organizationdetails_seq` */
-
-CREATE TABLE `vtiger_organizationdetails_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_oss_project_templates` */
 
 CREATE TABLE `vtiger_oss_project_templates` (
