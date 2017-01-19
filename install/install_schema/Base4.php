@@ -3017,6 +3017,8 @@ class Base4 extends \App\Db\Importers\Base
 					[533, 18, 117, 'getDependentsList', 18, 'SVendorEnquiries', 0, 'ADD', 0, 0, 0],
 					[534, 88, 117, 'getDependentsList', 5, 'SVendorEnquiries', 0, 'ADD', 0, 0, 0],
 					[535, 54, 117, 'getRecordToMails', 23, 'SVendorEnquiries', 0, 'ADD,SELECT', 0, 0, 0],
+					[536, 6, 111, 'getDependentsList', 29, 'Notification', 0, 'ADD', 0, 0, 0],
+					[537, 13, 111, 'getDependentsList', 22, 'Notification', 0, 'ADD', 0, 0, 0],
 				]
 			],
 			'vtiger_reminder_interval' => [
