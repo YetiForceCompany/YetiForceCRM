@@ -1,41 +1,46 @@
 <?php
 
 /**
- * Special function displaying storage products table with storages hierarchy
- * @package YetiForce.SpecialFunction
+ * IStorages products table with storages hierarchy parser class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
- * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
+class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 {
 
-	public $permittedModules = ['IStorages'];
+	/** @var string Class name */
+	public $name = 'LBL_PRODUCTS_TABLE';
 
-	public function process($module, $id, Vtiger_PDF_Model $pdf)
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
 		$html = '';
-		$recordId = $id;
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 		$db = PearDatabase::getInstance();
 		// Products from main storage
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relationModuleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
 		// Summary table with products from all storages
-		$allEntries[$recordId] = $relationListView->getEntries($pagingModel);
+		$allEntries[$this->textParser->record] = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
 		// Hierarchy of main storage (contains child storages)
-		$focus = CRMEntity::getInstance($module);
-		$storageList[$recordId] = [
+		$focus = $this->textParser->recordModel->getEntity();
+		$storageList[$this->textParser->record] = [
 			'depth' => 0,
-			'subject' => $parentRecordModel->get('subject'),
-			'assigned_user_id' => $parentRecordModel->get('assigned_user_id_label'),
+			'subject' => $this->textParser->recordModel->get('subject'),
+			'assigned_user_id' => $this->textParser->recordModel->get('assigned_user_id_label'),
 		];
-		$storageList = $focus->getChildIStorages($recordId, $storageList[$recordId], $storageList[$recordId]['depth']);
-		$hierarchyList = [];
-		$hierarchyList = $focus->getHierarchyData($recordId, $storageList, $recordId, $hierarchyList, true);
+		$storageList = $focus->getChildIStorages($this->textParser->record, $storageList[$this->textParser->record], $storageList[$this->textParser->record]['depth']);
+		$hierarchyList = $focus->getHierarchyData($this->textParser->record, $storageList, $this->textParser->record, [], true);
 		// String with all storages (main and its children) names
 		$storageSubjectList = '';
 		$storegeSubjectArray = [];
@@ -45,18 +50,17 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 			$storegeSubjectArray[$storageId]['name'] = $storageInfo[0];
 			$storegeSubjectArray[$storageId]['rowNum'] = $rowNum;
 			$rowNum++;
-			if ($storageId != $recordId) {
-				$storageSubjectList.= $storageInfo[0] . ', ';
+			if ($storageId !== $this->textParser->record) {
+				$storageSubjectList .= $storageInfo[0] . ', ';
 			}
 			$storageIdsArray[] = $storageId;
-			if (is_array($storageInfo) && intval($storageId) && $storageId != $recordId) {
+			if (is_array($storageInfo) && intval($storageId) && $storageId != $this->textParser->record) {
 				// Getting storage products if it is child of main storage
 				$storageRecordModel = Vtiger_Record_Model::getInstanceById($storageId);
 				$storageRelationListView = Vtiger_RelationListView_Model::getInstance($storageRecordModel, $relationModuleName);
 				$allEntries[$storageId] = $storageRelationListView->getEntries($pagingModel);
 			}
 		}
-
 		$storageSubjectList = rtrim($storageSubjectList, ', ');
 		// Gets the sum of products quantity in all storages
 		$productsQty = [];
@@ -78,7 +82,7 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 			$storegeSubjectArray[$storageId]['products'][$productId] += floatval($qty);
 			$productsQty[$productId] += floatval($qty);
 		}
-		$html .='<style>' .
+		$html .= '<style>' .
 			'.productTable {color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
@@ -99,10 +103,7 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 			$html .= '</div>';
 		}
 		if (count($productsQty) > 0) {
-			$html .=
-				'<div style="width:100%"><table border="0" cellpadding="0" cellspacing="0" class="productTable">
-				<thead>
-					<tr>';
+			$html .= '<div style="width:100%"><table border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
 			foreach ($headers as $header) {
 				$label = $header->get('label');
 				if (in_array($label, $columns)) {
@@ -117,15 +118,12 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 							$class = 'class="width25"';
 							break;
 					}
-					$html .= '<th ' . $class . ' style="padding:10px">' . vtranslate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width15" style="padding:10px">' . vtranslate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . vtranslate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .=
-				'</tr>
-				</thead>
-				<tbody>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '</tr></thead><tbody>';
 			$productsInTable = [];
 			foreach ($allEntries as $entries) {
 				foreach ($entries as $entry) {
@@ -135,10 +133,10 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 					if (isset($productsQty[$productId]) && in_array($productId, $productsInTable) === false) {
 						$storagesQtyString = '[';
 						foreach ($storegeSubjectArray as $storageData) {
-							$storagesQtyString.= $storageData['products'][$productId] . ',';
+							$storagesQtyString .= $storageData['products'][$productId] . ',';
 						}
 						$storagesQtyString = rtrim($storagesQtyString, ',');
-						$storagesQtyString.= ']';
+						$storagesQtyString .= ']';
 						$productsInTable[] = $productId;
 						$html .= '<tr>';
 						foreach ($headers as $header) {
@@ -154,8 +152,7 @@ class Pdf_IStoragesProductsTableHierarchy extends Vtiger_SpecialFunction_Pdf
 					}
 				}
 			}
-			$html .= '</tbody>
-					</table></div>';
+			$html .= '</tbody></table></div>';
 		}
 		return $html;
 	}

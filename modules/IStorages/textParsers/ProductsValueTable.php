@@ -1,30 +1,35 @@
 <?php
 
 /**
- * Special function displaying storage products table
- * @package YetiForce.SpecialFunction
+ * IStorages storage products value table parser class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
- * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_IStoragesProductsValueTable extends Vtiger_SpecialFunction_Pdf
+class IStorages_ProductsValueTable_TextParser extends \App\TextParser\Base
 {
 
-	public $permittedModules = ['IStorages'];
+	/** @var string Class name */
+	public $name = 'LBL_PRODUCTS_VALUE_TABLE';
 
-	public function process($module, $id, Vtiger_PDF_Model $pdf)
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
 		$html = '';
-		$recordId = $id;
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$relationModuleName = 'Products';
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relationModuleName);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category', 'Unit Price'];
-
-		$html .='<style>' .
+		$html .= '<style>' .
 			'.productTable {color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
@@ -34,12 +39,8 @@ class Pdf_IStoragesProductsValueTable extends Vtiger_SpecialFunction_Pdf
 			'.productTable .width20 {width:20%}' .
 			'.productTable .width10 {width:10%}' .
 			'</style>';
-
-		if (count($entries) > 0) {
-			$html .=
-				'<table border="0" cellpadding="0" cellspacing="0" class="productTable">
-				<thead>
-					<tr>';
+		if ($entries) {
+			$html .= '<table border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
 			foreach ($headers as $header) {
 				$label = $header->get('label');
 				if (in_array($label, $columns)) {
@@ -52,17 +53,13 @@ class Pdf_IStoragesProductsValueTable extends Vtiger_SpecialFunction_Pdf
 							$class = 'class="width20"';
 							break;
 					}
-
-					$html .= '<th ' . $class . ' style="padding:10px">' . vtranslate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width10" style="padding:10px">' . vtranslate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . vtranslate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .= '<th class="width10" style="padding:10px">' . vtranslate('LBL_VALUE') . '</th>';
-			$html .=
-				'</tr>
-				</thead>
-				<tbody>';
+			$html .= '<th class="width10" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '<th class="width10" style="padding:10px">' . \App\Language::translate('LBL_VALUE') . '</th>';
+			$html .= '</tr></thead><tbody>';
 			$totalValue = 0;
 			foreach ($entries as $entry) {
 				$html .= '<tr>';
@@ -81,20 +78,16 @@ class Pdf_IStoragesProductsValueTable extends Vtiger_SpecialFunction_Pdf
 						$html .= '<td>' . $entry->getDisplayValue($colName) . '</td>';
 					}
 				}
-
 				$html .= '<td>' . $qtyInStock . '</td>';
 				$html .= '<td>' . $qtyPerUnit . '</td>';
 				$html .= '<td>' . $valueFormatted . '</td>';
 				$html .= '</tr>';
 			}
 			$totalValueFormatted = CurrencyField::convertToUserFormat($totalValue, null, true);
-			$html .=
-				'<tr style="background:#fff">
+			$html .= '<tr style="background:#fff">
 							<td colspan="6"></td>
 							<td style="background:#eee;"><b>' . $totalValueFormatted . '<b></td>
-						</tr>
-					</tbody>
-				</table>';
+						</tr></tbody></table>';
 		}
 		return $html;
 	}
