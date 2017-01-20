@@ -3,7 +3,7 @@
 $languageStrings = [
 	'LBL_COMPANIES' => 'Dane firm',
 	'Companies' => 'Dane firm',
-	'LBL_COMPANIES_DESCRIPTION' => 'Zarządzenie danymi firmowymi',
+	'LBL_COMPANIES_DESCRIPTION' => 'Zarządzenie danymi firmy',
 	// Fields
 	'LBL_ID' => 'Id',
 	'LBL_NAME' => 'Pełna nazwa firmy',

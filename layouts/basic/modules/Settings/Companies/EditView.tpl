@@ -12,14 +12,7 @@
 				<input type="hidden" name="record" value="{$RECORD_ID}">
 				{foreach from=$COMPANY_COLUMNS item=COLUMN}
 					<div class="form-group">
-						{if $COLUMN eq 'id' }
-							<label class="col-sm-2 control-label">
-								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
-							</label>
-							<div class="col-sm-10">
-								<input class="form-control" readonly name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
-							</div>
-						{elseif $COLUMN eq 'default'}
+						{if $COLUMN eq 'default'}
 							{if $RECORD_MODEL->get({$COLUMN}) eq 0}
 								<label class="col-sm-2 control-label">
 									{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
@@ -33,7 +26,9 @@
 								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
-								<input class="form-control" name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
+								<input class="form-control" {if $COLUMN eq 'id'} readonly {/if}
+									{if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if}
+									name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
 							</div>
 						{else}
 							<div class="col-sm-3">

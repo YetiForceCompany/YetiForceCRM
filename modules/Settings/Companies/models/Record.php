@@ -154,7 +154,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil btn btn-xs btn-success',
+				'linkicon' => 'glyphicon glyphicon-pencil btn btn-xs btn-info',
 			],
 		];
 		if (0 === $this->get('default')) {
