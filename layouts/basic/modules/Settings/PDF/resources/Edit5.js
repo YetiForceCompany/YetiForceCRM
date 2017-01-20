@@ -82,106 +82,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 			window.history.back();
 		});
 	},
-	registerMainFieldsChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('[name="main_fields"]').on('change', function () {
-			thisInstance.updateMainFieldsValue(form);
-			thisInstance.updateMainFieldsLabel(form);
-		});
-	},
-	registerRelatedModuleChangeEvent: function (form) {
-		form.find('[name="related_module"]').on('change', function () {
-			var relatedFields = form.find('[name="related_fields"]');
-			var params = {};
-			params.data = {
-				parent: app.getParentModuleName(),
-				module: app.getModuleName(),
-				action: 'GetMainFields',
-				for_module: jQuery(this).val()
-			};
-			params.dataType = 'json';
-			AppConnector.request(params).then(
-					function (data) {
-						var response = data['result'];
-						if (data['success']) {
-							relatedFields.prop('disabled', true);
-							relatedFields.find('optgroup').remove();
-							relatedFields.find('option').remove();
-							for (var prop in response) {
-								relatedFields.append('<optgroup label="' + prop + '">');
-								for (var field in response[prop]) {
-									relatedFields.append('<option value="' + response[prop][field]['name'] + '">' + response[prop][field]['label'] + '</option>');
-								}
-								relatedFields.append('</optgroup>');
-							}
-							relatedFields.prop('disabled', false).trigger('liszt:updated');
-							relatedFields.select2('val', relatedFields.find('option').first().val());
-						}
-					},
-					function (data, err) {
-						app.errorLog(data, err);
-					}
-			);
-		});
-	},
-	registerRelatedFieldsChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('[name="related_fields"]').on('change', function () {
-			thisInstance.updateRelatedFieldsValue(form);
-			thisInstance.updateRelatedFieldsLabel(form);
-		});
-	},
-	registerCompanyFieldsChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('[name="company_fields"]').on('change', function () {
-			thisInstance.updateCompanyFieldsValue(form);
-			thisInstance.updateCompanyFieldsLabel(form);
-		});
-	},
-	registerSpecialFunctionsChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('#special_functions').on('change', function () {
-			thisInstance.updateSpecialFunctionsFieldsValue(form);
-		});
-	},
-	registerInsertFunctionsChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('#insert_functions').on('change', function () {
-			thisInstance.updateInsertFunctionsFieldsValue(form);
-		});
-	},
-	updateMainFieldsValue: function (container) {
-		var value = '$' + container.find('[name="main_fields"]').val() + '$';
-		container.find('#mainFieldValue5').val(value);
-	},
-	updateMainFieldsLabel: function (container) {
-		var value = '%' + container.find('[name="main_fields"]').val() + '%';
-		container.find('#mainFieldLabel5').val(value);
-	},
-	updateRelatedFieldsValue: function (container) {
-		var value = '$' + container.find('[name="related_module"]').val() + '+' + container.find('[name="related_fields"]').val() + '$';
-		container.find('#relatedFieldValue5').val(value);
-	},
-	updateRelatedFieldsLabel: function (container) {
-		var value = '%' + container.find('[name="related_module"]').val() + '+' + container.find('[name="related_fields"]').val() + '%';
-		container.find('#relatedFieldLabel5').val(value);
-	},
-	updateCompanyFieldsValue: function (container) {
-		var value = '$Company+' + container.find('[name="company_fields"]').val() + '$';
-		container.find('#companyFieldValue5').val(value);
-	},
-	updateCompanyFieldsLabel: function (container) {
-		var value = '%Company+' + container.find('[name="company_fields"]').val() + '%';
-		container.find('#companyFieldLabel5').val(value);
-	},
-	updateSpecialFunctionsFieldsValue: function (container) {
-		var value = '#' + container.find('[name="special_functions"]').val() + '#';
-		container.find('#specialFieldValue5').val(value);
-	},
-	updateInsertFunctionsFieldsValue: function (container) {
-		var value = '{' + container.find('[name="insert_functions"]').val() + '}';
-		container.find('#insertFieldValue5').val(value);
-	},
 	/**
 	 * Registers updated version of CkEditor on textarea fields
 	 * spellcheck disabled
@@ -206,20 +106,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		container.validationEngine(opts);
 		app.showSelect2ElementView(container.find('select'));
 		this.registerCancelStepClickEvent(container);
-		this.registerRelatedModuleChangeEvent(container);
-		this.registerMainFieldsChangeEvent(container);
-		this.registerRelatedFieldsChangeEvent(container);
-		this.registerCompanyFieldsChangeEvent(container);
-		this.registerSpecialFunctionsChangeEvent(container);
-		this.registerInsertFunctionsChangeEvent(container);
-		this.updateMainFieldsValue(container);
-		this.updateMainFieldsLabel(container);
-		this.updateRelatedFieldsValue(container);
-		this.updateRelatedFieldsLabel(container);
-		this.updateCompanyFieldsValue(container);
-		this.updateCompanyFieldsLabel(container);
-		this.updateSpecialFunctionsFieldsValue(container);
-		this.updateInsertFunctionsFieldsValue(container);
 		this.registerNewCkEditor();
 	}
 });

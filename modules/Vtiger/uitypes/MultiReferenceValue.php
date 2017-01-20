@@ -69,58 +69,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Loading the list of multireference fields
-	 * @param string $sourceModule Source module name
-	 * @param string $destinationModule Destination module name
-	 * @return array
-	 */
-	public static function getRelatedModules($moduleName)
-	{
-		$return = Vtiger_Cache::get('mrvf', $moduleName);
-		if (!$return) {
-			$db = PearDatabase::getInstance();
-			$moduleId = vtlib\Functions::getModuleId($moduleName);
-			$query = 'SELECT DISTINCT vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_relatedlists ON vtiger_relatedlists.related_tabid = vtiger_field.tabid'
-				. ' LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid'
-				. ' WHERE vtiger_relatedlists.tabid = ? && vtiger_field.presence <> ? && vtiger_field.uitype = ? && fieldparams LIKE \'{"module":"' . $moduleName . '"%\';';
-			$result = $db->pquery($query, [$moduleId, 1, 305]);
-			$return = [];
-			while ($module = $db->getSingleValue($result)) {
-				$return[] = $module;
-			}
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$fieldsModel = $moduleModel->getFields();
-			$relatedModules = [];
-			foreach ($fieldsModel as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
-					$referenceList = $fieldModel->getReferenceList();
-					$relatedModules = array_merge($relatedModules, $referenceList);
-				}
-			}
-			$relatedModules = array_unique($relatedModules);
-			foreach ($relatedModules as $key => $relatedModule) {
-				if ($relatedModule != 'Users') {
-					$relatedModules[$key] = vtlib\Functions::getModuleId($relatedModule);
-				} else {
-					unset($relatedModules[$key]);
-				}
-			}
-			if (count($relatedModules) > 0) {
-				$query = 'SELECT DISTINCT vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid'
-					. ' WHERE vtiger_field.uitype = ? && vtiger_field.tabid IN (\'' . implode("','", $relatedModules) . '\') && vtiger_field.presence <> ? '
-					. 'AND fieldparams LIKE \'{"module":"' . $moduleName . '"%\' ;';
-				$result = $db->pquery($query, [1, 305]);
-				while ($module = $db->getSingleValue($result)) {
-					$return[] = $module;
-				}
-			}
-			$return = array_unique($return);
-			Vtiger_Cache::set('mrvf-', $moduleName, $return);
-		}
-		return $return;
-	}
-
-	/**
 	 * Getting the value for multireference
 	 * @param CRMEntity $entity CRMEntity instance
 	 * @param int $sourceRecord

@@ -398,46 +398,6 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Return list of special functions for chosen module
-	 * @param string $moduleName - name of the module
-	 * @return array array of special functions
-	 */
-	public static function getSpecialFunctions($moduleName)
-	{
-		$specialFunctions = Vtiger_Cache::get('PdfSpecialFunctions', $moduleName);
-		if ($specialFunctions) {
-			return $specialFunctions;
-		}
-		$specialFunctions = [];
-		if (file_exists('modules/' . $moduleName . '/pdfs/special_functions')) {
-			foreach (new DirectoryIterator('modules/' . $moduleName . '/pdfs/special_functions') as $file) {
-				if ($file->isFile() && $file->getExtension() == 'php' && $file->getFilename() != 'example.php') {
-					include('modules/' . $moduleName . '/pdfs/special_functions/' . $file->getFilename());
-					$functionName = $file->getBasename('.php');
-					$sfClassName = 'Pdf_' . $functionName;
-					$pdfInstance = new $sfClassName();
-					if (in_array('all', $pdfInstance->permittedModules) || in_array($moduleName, $pdfInstance->permittedModules)) {
-						$specialFunctions[$functionName] = $pdfInstance;
-					}
-				}
-			}
-		}
-		foreach (new DirectoryIterator('modules/Vtiger/pdfs/special_functions/') as $file) {
-			if ($file->isFile() && $file->getExtension() == 'php' && $file->getFilename() != 'example.php' && !in_array($file->getBasename('.php'), $specialFunctions)) {
-				include('modules/Vtiger/pdfs/special_functions/' . $file->getFilename());
-				$functionName = $file->getBasename('.php');
-				$sfClassName = 'Pdf_' . $functionName;
-				$pdfInstance = new $sfClassName();
-				if (in_array('all', $pdfInstance->permittedModules) || in_array($moduleName, $pdfInstance->permittedModules)) {
-					$specialFunctions[$functionName] = $pdfInstance;
-				}
-			}
-		}
-		Vtiger_Cache::set('PdfSpecialFunctions', $moduleName, $specialFunctions);
-		return $specialFunctions;
-	}
-
-	/**
 	 * Export record to PDF file
 	 * @param int $recordId - id of a record
 	 * @param string $moduleName - name of records module
