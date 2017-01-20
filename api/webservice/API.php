@@ -77,11 +77,11 @@ class API
 		$data = [];
 		if (is_a($this->data, 'Vtiger_Request')) {
 			$data = $this->data->getAll();
+			unset($data['module'], $data['action']);
 		}
 		if (count($data) == 0 && $this->request->has('record')) {
 			$data['record'] = $this->request->get('record');
 		}
-
 		if (!($this->request->get('action') == 'Login' && $this->request->get('module') == 'Users')) {
 			$session = APISession::checkSession($this->headers['Sessionid']);
 
@@ -92,7 +92,6 @@ class API
 				throw new APIException('No permission to action', 405);
 			}
 		}
-
 		if (is_array($data)) {
 			$return = call_user_func_array([$handler, $function], $data);
 		} else {
