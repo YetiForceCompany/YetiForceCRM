@@ -358,8 +358,7 @@ class TextParser
 	protected function general($key)
 	{
 		switch ($key) {
-			case 'CurrentDate':
-				return (new \DateTimeField(null))->getDisplayDate();
+			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
 			case 'CurrentTime' : return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \AppConfig::main('site_URL');
 			case 'PortalUrl' : return \AppConfig::main('PORTAL_URL');

@@ -1,12 +1,13 @@
 <?php
+namespace App\Custom;
 
 /**
- * Special function displaying brutto amount in words
- * @package YetiForce.SpecialFunction
+ * Numbers to words converter class
+ * @package YetiForce.Custom
  * @license licenses/License.html
- * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class NumberInWords
+class NumberToWords
 {
 
 	/**
@@ -173,7 +174,7 @@ class NumberInWords
 	 * @return string
 	 * @throws \Exception
 	 */
-	public static function amountToWords($amount, $currencyName = 'zł', $centName = 'gr')
+	public static function process($amount, $currencyName = 'zł', $centName = 'gr')
 	{
 		self::initialize();
 
@@ -264,34 +265,5 @@ class NumberInWords
 		}
 
 		return $return;
-	}
-}
-
-class Pdf_GrossAmountInWords extends Vtiger_SpecialFunction_Pdf
-{
-
-	public $permittedModules = ['all'];
-
-	public function process($module, $id, Vtiger_PDF_Model $pdf)
-	{
-		$html = '';
-		$recordId = $id;
-		$record = Vtiger_Record_Model::getInstanceById($recordId);
-		$moduleModel = $record->getModule();
-		if (!$moduleModel->isInventory()) {
-			return $html;
-		}
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
-		$fields = $inventoryField->getFields(true);
-		$inventoryRows = $record->getInventoryData();
-
-		$gross = 0;
-		foreach ($inventoryRows as $inventoryRow) {
-			if ($inventoryRow['gross']) {
-				$gross += $inventoryRow['gross'];
-			}
-		}
-		$html = NumberInWords::amountToWords($gross) . PHP_EOL;
-		return $html;
 	}
 }
