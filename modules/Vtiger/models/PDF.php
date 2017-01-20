@@ -236,6 +236,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
+		vimport('~/modules/com_vtiger_workflow/VTJsonCondition.php');
 		$conditionStrategy = new VTJsonCondition();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
