@@ -26,6 +26,11 @@ $languageStrings = [
 	'LBL_LOGO_MAIN_HEIGHT' => 'Wysokość loga (widoczne po zalogowaniu)',
 	'LBL_LOGO_MAIL' => 'Logo firmy (wiadomości mail)',
 	'LBL_LOGO_MAIL_HEIGHT' => 'Wysokość loga (wiadomości mail)',
+	'LBL_LOGO_IMG_MAIL' => 'Logo firmy (wiadomości mail)',
+	'LBL_LOGO_IMG_LOGIN' => 'Logo firmy (strona logowania)',
+	'LBL_LOGO_PATH_LOGIN' => 'Ścieżka do loga firmy (strona logowania)',
+	'LBL_LOGO_PATH_MAIN' => 'Ścieżka do loga firmy (widoczne po zalogowaniu)',
+	'LBL_LOGO_PATH_MAIL' => 'Ścieżka do loga firmy (wiadomości mail)',
 	// Others
 	'LBL_COMPANY_NAMES_EXIST' => 'Firma o podanej nazwie już istnieje',
 ];

@@ -311,6 +311,8 @@ class TextParser
 			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
 			$logoHeight = $company->get($fieldName . '_height');
 			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
+		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
+			return Company::$logoPath . $company->get($fieldName);
 		}
 		return $company->get($fieldName);
 	}
@@ -795,8 +797,11 @@ class TextParser
 		foreach (array_keys($companyDetails) as $name) {
 			$companyVariables["$(organization : $name)$"] = Language::translate('LBL_' . strtoupper($name), 'Settings:Companies');
 		}
-		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_MAIL', 'Settings:Companies');
-		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_LOGIN', 'Settings:Companies');
+		$companyVariables['$(organization : mailLogo)$'] = Language::translate('LBL_LOGO_IMG_MAIL', 'Settings:Companies');
+		$companyVariables['$(organization : loginLogo)$'] = Language::translate('LBL_LOGO_IMG_LOGIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_login)$'] = Language::translate('LBL_LOGO_PATH_LOGIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_main)$'] = Language::translate('LBL_LOGO_PATH_MAIN', 'Settings:Companies');
+		$companyVariables['$(organization : logo_mail)$'] = Language::translate('LBL_LOGO_PATH_MAIL', 'Settings:Companies');
 		$variables['LBL_COMPANY_VARIABLES'] = $companyVariables;
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
