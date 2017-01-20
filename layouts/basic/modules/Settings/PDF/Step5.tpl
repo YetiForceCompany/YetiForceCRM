@@ -8,7 +8,7 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="5" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-
+			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
 			<div class="padding1per stepBorder">
 				<label>
 					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 5)}: {vtranslate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}</strong>
