@@ -1099,7 +1099,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var customConfig = {};
 		if (noteContentElement.is(':visible')) {
 			if (noteContentElement.hasClass("ckEditorBasic")) {
-				customConfig.toolbar = 'Basic';
+				customConfig.toolbar = 'Min';
 			}
 			if (noteContentElement.hasClass("ckEditorSmall")) {
 				customConfig.height = '5em';

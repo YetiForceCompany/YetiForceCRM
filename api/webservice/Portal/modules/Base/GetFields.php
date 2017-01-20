@@ -18,10 +18,8 @@ class API_Base_GetFields extends BaseAction
 		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
 		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId(Users::getActiveAdminId());
-		$listQuery = '';
 
 		$module = Vtiger_Module_Model::getInstance($moduleName);
-
 		$fields = $blocks = [];
 		foreach ($module->getFields() as &$field) {
 			$block = $field->get('block');

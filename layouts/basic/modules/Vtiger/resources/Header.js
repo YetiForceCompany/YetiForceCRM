@@ -198,10 +198,10 @@ jQuery.Class("Vtiger_Header_Js", {
 					'height': maxHeight + 'px'
 				});
 			}
-
-			var customConfig = {};
-			customConfig.toolbar = 'Basic';
-			customConfig.height = '5em';
+			var customConfig = {
+				height: '5em',
+				toolbar: 'Min'
+			};
 			jQuery.each(data.find('.ckEditorSource'), function (key, element) {
 				var ckEditorInstance = new Vtiger_CkEditor_Js();
 				ckEditorInstance.loadCkEditor(jQuery(element), customConfig);
@@ -537,7 +537,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		jQuery('.globalSearchOperator').on('click', function (e) {
 			var currentTarget = jQuery(e.target);
 			var block = currentTarget.closest('.globalSearchInput');
-			block.find('.globalSearchValue').data('operator',currentTarget.data('operator'));
+			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
 			block.find('.globalSearchOperator li').removeClass('active');
 			currentTarget.closest('li').addClass('active');
 		});
@@ -628,7 +628,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var BtnText = '';
 		var BtnLink = 'javascript:void();';
 		var userId = app.getMainParams('current_user_id');
-		if(userId == undefined){
+		if (userId == undefined) {
 			return false;
 		}
 		var key = 'yf_history_' + userId;
