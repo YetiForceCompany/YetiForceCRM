@@ -1,30 +1,36 @@
 <?php
 
 /**
- * Special function displaying storage products table
- * @package YetiForce.SpecialFunction
+ * IStorages storage products table parser class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
- * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_IStoragesProductsControlTable extends Vtiger_SpecialFunction_Pdf
+class IStorages_ProductsControlTable_TextParser extends \App\TextParser\Base
 {
 
-	public $permittedModules = ['IStorages'];
+	/** @var string Class name */
+	public $name = 'LBL_PRODUCTS_CONTROL_TABLE';
 
-	public function process($module, $id, Vtiger_PDF_Model $pdf)
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
 		$html = '';
-		$recordId = $id;
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$relationModuleName = 'Products';
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relationModuleName);
-		$pagingModel = new Vtiger_Paging_Model();
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
+		$pagingModel = new \Vtiger_Paging_Model();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 
-		$html .='<style>' .
+		$html .= '<style>' .
 			'.productTable {color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
@@ -34,12 +40,9 @@ class Pdf_IStoragesProductsControlTable extends Vtiger_SpecialFunction_Pdf
 			'.productTable .width25 {width:25%}' .
 			'.productTable .width15 {width:15%}' .
 			'</style>';
-
-		if (count($entries) > 0) {
-			$html .=
-				'<table border="0" cellpadding="0" cellspacing="0" class="productTable">
-				<thead>
-					<tr>';
+		if ($entries) {
+			$html .= '<table border="0" cellpadding="0" cellspacing="0" class="productTable">
+				<thead><tr>';
 			foreach ($headers as $header) {
 				$label = $header->get('label');
 				if (in_array($label, $columns)) {
@@ -54,20 +57,16 @@ class Pdf_IStoragesProductsControlTable extends Vtiger_SpecialFunction_Pdf
 							$class = 'class="width25"';
 							break;
 					}
-
-					$html .= '<th ' . $class . ' style="padding:10px">' . vtranslate($header->get('label'), 'Products') . '</th>';
+					$html .= '<th ' . $class . ' style="padding:10px">' . \App\Language::translate($header->get('label'), 'Products') . '</th>';
 				}
 			}
-			$html .= '<th class="width15" style="padding:10px">' . vtranslate('Qty In Stock', $relationModuleName) . '</th>';
-			$html .= '<th class="width15" style="padding:10px">' . vtranslate('Qty/Unit', $relationModuleName) . '</th>';
-			$html .=
-				'</tr>
-				</thead>
-				<tbody>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty In Stock', $relationModuleName) . '</th>';
+			$html .= '<th class="width15" style="padding:10px">' . \App\Language::translate('Qty/Unit', $relationModuleName) . '</th>';
+			$html .= '</tr></thead><tbody>';
 			foreach ($entries as $entry) {
 				$html .= '<tr>';
 				$entryId = $entry->getId();
-				$entryRecordModel = Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
+				$entryRecordModel = \Vtiger_Record_Model::getInstanceById($entryId, $relationModuleName);
 				$qtyPerUnit = $entryRecordModel->get('qty_per_unit');
 				foreach ($headers as $header) {
 					$label = $header->get('label');
@@ -76,13 +75,11 @@ class Pdf_IStoragesProductsControlTable extends Vtiger_SpecialFunction_Pdf
 						$html .= '<td>' . $entry->getDisplayValue($colName) . '</td>';
 					}
 				}
-
 				$html .= '<td></td>';
 				$html .= '<td>' . $qtyPerUnit . '</td>';
 				$html .= '</tr>';
 			}
-			$html .= '</tbody>
-					</table>';
+			$html .= '</tbody></table>';
 		}
 		return $html;
 	}
