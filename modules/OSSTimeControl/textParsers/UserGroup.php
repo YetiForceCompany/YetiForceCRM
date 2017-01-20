@@ -1,22 +1,26 @@
 <?php
 
 /**
- * Special function displaying time control table
- * @package YetiForce.PDF
+ * Time control user group parser class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
+class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 {
 
-	public $permittedModules = ['OSSTimeControl'];
-	protected $columnNames = ['name', 'accountid', 'time_start', 'time_end', 'sum_time'];
+	/** @var string Class name */
+	public $name = 'LBL_TIME_CONTROL_USER_GROUP';
 
-	public function process($moduleName, $id, Vtiger_PDF_Model $pdf)
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fields = $moduleModel->getFields();
-
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
@@ -25,15 +29,12 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 			'.center {text-align: center;}' .
 			'.summary {border-top: 1px solid grey;}' .
 			'</style>';
-
 		$html .= '<table class="table"><thead><tr>';
 		$html .= '<th>Nazwa użytkownika</th>';
 		$html .= '<th class="center">Dział</th>';
 		$html .= '<th class="center">Czas pracy</th>';
 		$html .= '</tr></thead><tbody>';
-
-		$summary = [];
-		foreach ($this->getUserList($pdf, $moduleName) as $user => $data) {
+		foreach ($this->getUserList() as $user => $data) {
 			$html .= '<tr>';
 			$html .= '<td>' . $user . '</td>';
 			$html .= '<td class="center">' . $data['role'] . '</td>';
@@ -45,21 +46,20 @@ class Pdf_TimeControlUserGroup extends Vtiger_SpecialFunction_Pdf
 		return $html;
 	}
 
-	protected function getUserList(Vtiger_PDF_Model $pdf, $moduleName)
+	protected function getUserList()
 	{
 		$users = [];
-		$db = PearDatabase::getInstance();
-		$ids = $pdf->getRecordIds();
+		$ids = $this->textParser->getParam('pdf')->getRecordIds();
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
 		foreach ($ids as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
 			$user = $recordModel->getDisplayValue('assigned_user_id', $recordId, true);
 			$time = (isset($users[$user]['time']) ? $users[$user]['time'] : 0) + $recordModel->get('sum_time');
 			$users[$user] = [
 				'time' => $time,
-				'role' => vtranslate($this->getRoleName($recordModel->get('assigned_user_id')), $moduleName),
+				'role' => \App\Language::translate($this->getRoleName($recordModel->get('assigned_user_id')), $this->textParser->moduleName),
 			];
 		}
 		return $users;

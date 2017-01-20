@@ -1,26 +1,35 @@
 <?php
 
 /**
- * Special function displaying time control table
- * @package YetiForce.PDF
+ * Time control list parser class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
+class OSSTimeControl_List_TextParser extends \App\TextParser\Base
 {
 
-	public $permittedModules = ['OSSTimeControl'];
+	/** @var string Class name */
+	public $name = 'LBL_TIME_CONTROL_LIST';
+
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/** @var mixed Column names */
 	protected $columnNames = ['name', 'link', 'time_start', 'time_end', 'sum_time'];
 
-	public function process($moduleName, $id, Vtiger_PDF_Model $pdf)
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = Vtiger_Module_Model::getInstance($this->textParser->moduleName);
 		$fields = $moduleModel->getFields();
-		$ids = $pdf->getRecordIds();
+		$ids = $this->textParser->getParam('pdf')->getRecordIds();
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
-
 		$html = '<br><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
@@ -33,14 +42,13 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 		$html .= '<table class="table"><thead><tr>';
 		foreach ($this->columnNames as $column) {
 			$fieldModel = $fields[$column];
-			$html .= '<th><span>' . vtranslate($fieldModel->get('label'), $moduleName) . '</span>&nbsp;</th>';
+			$html .= '<th><span>' . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</span>&nbsp;</th>';
 		}
 		$html .= '</tr></thead><tbody>';
-
 		$summary = [];
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->textParser->moduleName);
 			foreach ($this->columnNames as $key => $column) {
 				$fieldModel = $fields[$column];
 				$class = '';
@@ -62,7 +70,7 @@ class Pdf_TimeControlList extends Vtiger_SpecialFunction_Pdf
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {
-				$content = '<strong>' . vtranslate('LBL_SUMMARY', $moduleName) . ':' . '</strong>';
+				$content = '<strong>' . \App\Language::translate('LBL_SUMMARY', $this->textParser->moduleName) . ':' . '</strong>';
 			}
 			$html .= '<td class="summary ' . $class . '">' . $content . '</td>';
 		}
