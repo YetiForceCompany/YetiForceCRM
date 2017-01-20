@@ -17,7 +17,7 @@ class ProductsTableRelatedModule extends Base
 	public $type = 'pdf';
 
 	/** @var array Allowed modules */
-	protected $allowedModules = ['IGRNC', 'IGDNC'];
+	public $allowedModules = ['IGRNC', 'IGDNC'];
 
 	/** @var array Related modules fields */
 	protected $relatedModulesFields = ['IGRNC' => 'igrnid', 'IGDNC' => 'igdnid'];
