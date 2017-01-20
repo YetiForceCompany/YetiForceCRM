@@ -896,11 +896,12 @@ class PackageImport extends PackageExport
 	 */
 	public function import_Action($modulenode, $moduleInstance, $actionnode)
 	{
-		$actionstatus = $actionnode->status;
-		if ($actionstatus == 'enabled')
-			$moduleInstance->enableTools($actionnode->name);
-		else
-			$moduleInstance->disableTools($actionnode->name);
+		$actionstatus = (string) $actionnode->status;
+		if ($actionstatus === 'enabled') {
+			$moduleInstance->enableTools((string) $actionnode->name);
+		} else {
+			$moduleInstance->disableTools((string) $actionnode->name);
+		}
 	}
 
 	/**

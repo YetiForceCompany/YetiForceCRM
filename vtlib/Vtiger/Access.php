@@ -129,7 +129,7 @@ class Access
 	 */
 	static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)
 	{
-		$actionid = getActionid($toolAction);
+		$actionId = getActionid($toolAction);
 		if ($actionId) {
 			$permission = ($flag === true) ? 0 : 1;
 
