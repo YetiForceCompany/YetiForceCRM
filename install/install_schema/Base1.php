@@ -3567,6 +3567,7 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
@@ -3610,7 +3611,8 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			<p>$(organization : mailLogo)$<br>
+			$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
 					[37, 'Notify Contact On Ticket Closed', 'N3', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -3649,6 +3651,7 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'NotifyContactOnTicketClosed', 1],
@@ -3687,7 +3690,7 @@ class Base1 extends \App\Db\Importers\Base
 						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : solution)$</td>
 					</tr></table></div>
 			</td>
-		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
@@ -3699,7 +3702,7 @@ class Base1 extends \App\Db\Importers\Base
 			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CREATE)$ </i></div>
 						</td>
-						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"> .<a href="$(record%20%3A%20PortalDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a> </td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">.<a href="$(record%20%3A%20PortalDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a></td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : HelpDesk|Status)$</i></div>
 						</td>
@@ -3723,6 +3726,7 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'NotifyContactOnTicketCreate', 1],
@@ -3758,7 +3762,8 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+$(organization : mailLogo)$			
+<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
 					[41, 'Notify Contact On Ticket Change', 'N7', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -3797,7 +3802,8 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+$(organization : mailLogo)$			
+<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'NotifyContactOnTicketChange', 1],
 					[42, 'Notify Owner On Ticket Closed', 'N8', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -3836,7 +3842,8 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+$(organization : mailLogo)$			
+<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
 					[43, 'Notify Owner On Ticket Create', 'N9', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CREATE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -3871,20 +3878,25 @@ class Base1 extends \App\Db\Importers\Base
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+$(organization : mailLogo)$		
+	<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', NULL, 1],
+					[44, 'Customer Portal Login Details', 'N10', 'PLL_RECORD', 'Contacts', 'Customer Portal Login Details', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : firstname)$ $(record : lastname)$</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">Created for your account in the customer portal, below sending data access<br>
+						Login: $(record : email)$<br>
+						Password: $(custom : ContactsPortalPass|Contacts)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
-					[44, 'Customer Portal Login Details', 'N10', 'PLL_RECORD', 'Contacts', 'Customer Portal Login Details', '<p>$(organization : logo)$</p>
-
-<p>Dear $(record : firstname)$ Â $(record : lastname)$</p>
-
-<p>Created for your account in the customer portal, below sending data access.</p>
-
-<p>Login:Â $(record : email)$<br>
-Password:Â $(custom : ContactsPortalPass)$</p>
-
-<p>Regards</p>
-', NULL, 1],
 					[45, 'Send invitations', 'N11', 'PLL_RECORD', 'Events', '$(record : activitytype)$ $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(record : subject)$</span></h3>
 			</td>
@@ -3933,7 +3945,8 @@ Password:Â $(custom : ContactsPortalPass)$</p>
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
-			<p>YetiForce CRM - Notification activities on the calendar</p>
+						$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
 					[46, 'Send Notification Email to Record Owner', 'N12', 'PLL_RECORD', 'Calendar', 'Task : $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -3980,6 +3993,7 @@ Password:Â $(custom : ContactsPortalPass)$</p>
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+						$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', NULL, 1],
@@ -4011,6 +4025,7 @@ Password:Â $(custom : ContactsPortalPass)$</p>
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+						$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'ActivityReminderNotificationTask', 1],
@@ -4044,25 +4059,52 @@ Password:Â $(custom : ContactsPortalPass)$</p>
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+						$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'ActivityReminderNotificationEvents', 1],
-					[95, 'Test mail about the mail server configuration.', 'N15', 'PLL_RECORD', 'Users', 'Test mail about the mail server configuration.', '<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Dear </span>Â $(record : first_name)$Â $(record : last_name)$<span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">,Â </span><br><br><b>This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured.Â </b><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Feel free to delete this mail.Â <br>
-CRMÂ </span>address:Â $(general : SiteUrl)$<br><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Thanks and Regards,</span><br><span style="color:rgb(0,0,0);font-family:arial, sans-serif;line-height:normal;">Team YetiForce</span>', 'TestMailAboutTheMailServerConfiguration', 1],
-					[103, 'ForgotPassword', 'N16', 'PLL_RECORD', 'Users', 'Request: ForgotPassword', 'Dear user,<br>
-$(custom : UsersLinkToForgotPassword)$<br>
-You recently requested a password reset for your YetiForce CRM.<br>
-To create a new password, click on the link $(custom : UsersLinkToForgotPassword)$<br><br>
-This request was made on $(general : CurrentDate)$ $(general : CurrentTime)$Â  and will expire in next 24 hours.<br><br>
-Regards,<br>
-YetiForce CRM Support Team.', 'UsersForgotPassword', 1],
-					[104, 'Customer Portal - ForgotPassword', 'N17', 'PLL_RECORD', 'Contacts', 'Request: ForgotPassword', 'Dear $(record : firstname)$Â $(translate : Contacts|Last Name)$,<br><br>
-You recently requested a reminder of your access data for the YetiForce Portal.<br><br>
-You can login by entering the following data:<br><br>
-Your username:Â $(record : email)$<br>
-Your password:Â $(custom : ContactsPortalPass)$<br><br><br>
-Regards,<br>
-YetiForce CRM Support Team.', 'YetiPortalForgotPassword', 1],
+					[95, 'Test mail about the mail server configuration.', 'N15', 'PLL_RECORD', 'Users', 'Test mail about the mail server configuration.', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : firstname)$ $(record : lastname)$</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured. Feel free to delete this mail. CRM address: $(general : SiteUrl)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'TestMailAboutTheMailServerConfiguration', 1],
+					[103, 'ForgotPassword', 'N16', 'PLL_RECORD', 'Users', 'Request: ForgotPassword', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear user</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">You recently requested a password reset for your YetiForce CRM. To create a new password, click on the link $(custom : UsersLinkToForgotPassword|Users)$ This request was made on $(general : CurrentDate)$ $(general : CurrentTime)$ and will expire in next 24 hours.</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'UsersForgotPassword', 1],
+					[104, 'Customer Portal - ForgotPassword', 'N17', 'PLL_RECORD', 'Contacts', 'Request: ForgotPassword', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : firstname)$ $(record : lastname)$</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">You recently requested a reminder of your access data for the YetiForce Portal.<br><br>
+						You can login by entering the following data:<br><br>
+						Your username: $(record : email)$<br>
+						Your password: $(custom : ContactsPortalPass|Contacts)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'YetiPortalForgotPassword', 1],
 					[105, 'Notify Owner On new comment added to ticket from portal', 'N18', 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : ModComments|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o.</span></h3>
 			</td>
@@ -4079,6 +4121,7 @@ YetiForce CRM Support Team.', 'YetiPortalForgotPassword', 1],
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+						$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'NewCommentAddedToTicketOwner', 1],
@@ -4098,11 +4141,27 @@ YetiForce CRM Support Team.', 'YetiPortalForgotPassword', 1],
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+						$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'NewCommentAddedToTicketContact', 1],
-					[107, 'Security risk has been detected - Brute Force', 'N20', 'PLL_RECORD', 'Contacts', 'Security risk has been detected', '<span class="value">Dear user,<br>
-Failed login attempts have been detected. </span>', 'BruteForceSecurityRiskHasBeenDetected', 1],
+					[107, 'Security risk has been detected - Brute Force', 'N20', 'PLL_RECORD', 'Contacts', 'Security risk has been detected', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+		Dear user
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">
+Failed login attempts have been detected.						</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'BruteForceSecurityRiskHasBeenDetected', 1],
 					[109, 'Notify Account On New comment added to ticket', 'N21', 'PLL_RECORD', 'ModComments', '$(translate : ModComments|LBL_ADDED_COMMENT_TO_TICKET)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : ModComments|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o.</span></h3>
 			</td>
@@ -4119,10 +4178,22 @@ Failed login attempts have been detected. </span>', 'BruteForceSecurityRiskHasBe
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+						$(organization : mailLogo)$
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'NewCommentAddedToTicketAccount', 1],
-					[110, 'Send notifications', 'N22', 'PLL_RECORD', 'Notification', 'Notifications $(general : CurrentDate)$', '$(custom : Notifications)$', 'SendNotificationsViaMail', 1],
+					[110, 'Send notifications', 'N22', 'PLL_RECORD', 'Notification', 'Notifications $(general : CurrentDate)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(custom : Notifications|Notification)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'SendNotificationsViaMail', 1],
 				]
 			],
 			'u_#__fcorectinginvoice_invfield' => [
