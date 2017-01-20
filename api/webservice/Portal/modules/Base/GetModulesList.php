@@ -11,14 +11,22 @@ class API_Base_GetModulesList extends BaseAction
 
 	protected $requestMethod = ['get'];
 
+	/**
+	 * Get modules list
+	 * @return string[]
+	 */
 	public function get()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM vtiger_tab WHERE isentitytype = ? && presence = ?';
-		$result = $db->pquery($query, [1, 0]);
-		$modules = [];
-		while ($row = $db->fetch_array($result)) {
-			$modules[$row['name']] = vtranslate($row['name']);
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		$notInParam = ['Reports', 'RecycleBin', 'ModComments'];
+		$query = (new \App\Db\Query())->select(['name'])->from('vtiger_tab')
+			->where(['and', ['isentitytype' => 1], ['not', ['name' => $notInParam]]])
+			->orderBy('name');
+		$dataReader = $query->createCommand()->query();
+		while ($module = $dataReader->readColumn(0)) {
+			if (\App\Privilege::isPermitted($module)) {
+				$modules[$module] = \App\Language::translate($module, $module);
+			}
 		}
 		return $modules;
 	}
