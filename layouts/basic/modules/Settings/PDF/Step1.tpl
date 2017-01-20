@@ -45,6 +45,7 @@
 						<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name" />
 					</div>
 				</div>
+				<!--
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_FOLDER_NAME', $QUALIFIED_MODULE)}
@@ -53,6 +54,7 @@
 						todo: browse folders for templates
 					</div>
 				</div>
+				-->
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
