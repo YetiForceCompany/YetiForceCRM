@@ -15,7 +15,7 @@ class APIResponse
 	protected $headers = [];
 	protected $status = 200;
 
-	public function getInstance($acceptableHeaders = '')
+	public static function getInstance($acceptableHeaders = '')
 	{
 		if (!self::$instance) {
 			self::$instance = new self();

@@ -11,7 +11,7 @@ class APIAuth
 
 	static protected $realm = 'YetiForceApi';
 
-	public static function init($this)
+	public static function init($self)
 	{
 		$method = AppConfig::api('AUTH_METHOD');
 
@@ -21,7 +21,7 @@ class APIAuth
 		$class = $method . 'Auth';
 
 		$intance = new $class();
-		$intance->setApi($this);
+		$intance->setApi($self);
 		$intance->authenticate(self::$realm);
 		return $intance->getCurrentServer();
 	}

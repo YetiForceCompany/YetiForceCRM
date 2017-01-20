@@ -18,6 +18,8 @@ class API
 	protected $acceptableHeaders = ['Apikey', 'Encrypted', 'Sessionid'];
 	protected $modulesPath = 'api/webservice/';
 	protected $data = [];
+
+	/** @var Vtiger_Request */
 	public $request = [];
 	public $response = [];
 	public $headers = [];
@@ -45,14 +47,16 @@ class API
 		if (isset($this->headers['Encrypted']) && $this->headers['Encrypted'] == 1) {
 			$requestData = $this->decryptData(file_get_contents('php://input'));
 		} else {
-			$requestData = json_decode(file_get_contents('php://input'), 1);
+			if ($input = file_get_contents('php://input')) {
+				$requestData = json_decode($input, 1);
+			} else {
+				$requestData = $_GET;
+			}
 		}
-
 		$this->data = new Vtiger_Request($requestData, $requestData);
 		if ($this->headers['Apikey'] != $this->app['api_key']) {
 			throw new APIException('Invalid api key', 401);
 		}
-
 		if (empty($this->request->get('module'))) {
 			throw new APIException('No action', 404);
 		}
