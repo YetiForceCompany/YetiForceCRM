@@ -14,6 +14,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
+
 	public $pageOrientation = ['PLL_PORTRAIT' => 'P', 'PLL_LANDSCAPE' => 'L'];
 
 	/**
@@ -318,7 +319,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($recordId);
 
-		$pageOrientation = $template->get('page_orientation') == 'PLL_PORTRAIT' ? 'P' : 'L';
+		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($template->get('margin_chkbox') == 1) {
 			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientation);
 		} else {

@@ -350,16 +350,13 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($raw) {
 			return $this->get('header_content');
 		}
-		$recordId = $this->getMainRecordId();
-		$moduleName = $this->get('module_name');
-
-		$content = html_entity_decode($this->get('header_content'));
-		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
-		$content = $this->replaceRelatedModuleFields($content, $recordId);
-		$content = $this->replaceCompanyFields($content);
-		$content = $this->replaceSpecialFunctions($content);
-
-		return $content;
+		$textParser = \App\EmailParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser->setType('pdf');
+		$textParser->setParams(['pdf' => $this]);
+		if ($this->get('language')) {
+			$textParser->setLanguage($this->get('language'));
+		}
+		return $textParser->setContent($this->get('header_content'))->parse()->getContent();
 	}
 
 	/**
@@ -372,16 +369,13 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($raw) {
 			return $this->get('footer_content');
 		}
-		$recordId = $this->getMainRecordId();
-		$moduleName = $this->get('module_name');
-
-		$content = html_entity_decode($this->get('footer_content'));
-		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
-		$content = $this->replaceRelatedModuleFields($content, $recordId);
-		$content = $this->replaceCompanyFields($content);
-		$content = $this->replaceSpecialFunctions($content);
-
-		return $content;
+		$textParser = \App\EmailParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser->setType('pdf');
+		$textParser->setParams(['pdf' => $this]);
+		if ($this->get('language')) {
+			$textParser->setLanguage($this->get('language'));
+		}
+		return $textParser->setContent($this->get('footer_content'))->parse()->getContent();
 	}
 
 	/**
@@ -394,157 +388,13 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($raw) {
 			return $this->get('body_content');
 		}
-		$recordId = $this->getMainRecordId();
-		$moduleName = $this->get('module_name');
-
-		$content = html_entity_decode($this->get('body_content'));
-		$content = $this->replaceModuleFields($content, $recordId, $moduleName);
-		$content = $this->replaceRelatedModuleFields($content, $recordId);
-		$content = $this->replaceCompanyFields($content);
-		$content = $this->replaceSpecialFunctions($content);
-		return $content;
-	}
-
-	/**
-	 * Replaces main module variables with values
-	 * @param string $content - text
-	 * @param integer $recordId - if od main module record
-	 * @param string $moduleName - main module name
-	 * @return string text with replaced values
-	 */
-	public function replaceModuleFields(&$content, $recordId, $moduleName)
-	{
-		if (empty($content)) {
-			return $content;
+		$textParser = \App\EmailParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser->setType('pdf');
+		$textParser->setParams(['pdf' => $this]);
+		if ($this->get('language')) {
+			$textParser->setLanguage($this->get('language'));
 		}
-		$recordModule = $this->getRecordModelById($recordId);
-		$fieldsModel = $this->getFieldsById($recordId);
-		foreach ($fieldsModel as $fieldName => &$fieldModel) {
-			$replaceBy = $recordModule->getDisplayValue($fieldName, $recordId, true);
-			$content = str_replace('$' . $fieldName . '$', $replaceBy, $content);
-			$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $fieldModel->get('label'), $moduleName);
-			$content = str_replace('%' . $fieldName . '%', $newLabel, $content);
-		}
-
-		return $content;
-	}
-
-	/**
-	 * Get cached record model by id
-	 * @param <Integer> $recordId - id of a record
-	 * @return <Vtiger_Record_Model> record module model
-	 */
-	public function getRecordModelById($recordId)
-	{
-		if (array_key_exists($recordId, $this->recordCache)) {
-			return $this->recordCache[$recordId];
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		$this->recordCache[$recordId] = &$recordModel;
-		return $this->recordCache[$recordId];
-	}
-
-	public function getFieldsById($recordId)
-	{
-		$moduleModel = $this->recordCache[$recordId]->getModule();
-		return $moduleModel->getFields();
-	}
-
-	/**
-	 * Replaces related module variables with values
-	 * @param string $content - text
-	 * @param integer $recordId - if od main module record
-	 * @return string text with replaced values
-	 */
-	public function replaceRelatedModuleFields(&$content, $recordId)
-	{
-		if (empty($content)) {
-			return $content;
-		}
-		$recordModel = $this->getRecordModelById($recordId);
-		$fieldsModel = $this->getFieldsById($recordId);
-		$fieldsTypes = ['reference', 'owner', 'multireference'];
-		foreach ($fieldsModel as $fieldName => &$fieldModel) {
-			$fieldType = $fieldModel->getFieldDataType();
-			if (in_array($fieldType, $fieldsTypes)) {
-				$value = $recordModel->get($fieldName);
-				$referenceModules = $fieldModel->getReferenceList();
-				if ($fieldType == 'owner')
-					$referenceModules = ['Users'];
-				foreach ($referenceModules as $module) {
-					if ($module == 'Users') {
-						$referenceRecordModel = Users_Record_Model::getInstanceById($value, $module);
-					} else {
-						if (empty($value)) {
-							$referenceRecordModel = Vtiger_Record_Model::getCleanInstance($module);
-						} else {
-							$referenceRecordModel = $this->getRecordModelById($value);
-						}
-					}
-					$moduleModel = $referenceRecordModel->getModule();
-					$fields = $moduleModel->getFields();
-					foreach ($fields as $referenceFieldName => &$referenceFieldModel) {
-						if (empty($value)) {
-							$replaceBy = '';
-						} else {
-							$replaceBy = $referenceRecordModel->getDisplayValue($referenceFieldName, $value, true);
-						}
-						$content = str_replace('$' . $fieldName . '+' . $module . '+' . $referenceFieldName . '$', $replaceBy, $content);
-						$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $referenceFieldModel->get('label'), $module);
-						$content = str_replace('%' . $fieldName . '+' . $module . '+' . $referenceFieldName . '%', $newLabel, $content);
-					}
-				}
-			}
-		}
-		return $content;
-	}
-
-	/**
-	 * Replaces Company details variables with values
-	 * @param string $content - text
-	 * @return string text with replaced values
-	 */
-	public function replaceCompanyFields(&$content)
-	{
-		if (empty($content)) {
-			return $content;
-		}
-		$companyDetails = App\Company::getInstanceById()->getData();
-
-		foreach ($companyDetails as $name => $value) {
-			if ($name === 'logoname') {
-				$value = 'storage/Logo/' . $value;
-			}
-			$content = str_replace('$Company+' . $name . '$', $value, $content);
-
-			$newLabel = Vtiger_Language_Handler::getLanguageTranslatedString($this->get('language'), $name, 'Settings:Vtiger');
-			$content = str_replace('%Company+' . $name . '%', $newLabel, $content);
-		}
-
-		return $content;
-	}
-
-	/**
-	 * Replaces special functions with their returned values
-	 * @param string $content - text of content
-	 * @return string $content - text with replaced values
-	 */
-	public function replaceSpecialFunctions(&$content)
-	{
-		if (empty($content)) {
-			return $content;
-		}
-		$moduleName = $this->get('module_name');
-		$specialFunctions = self::getSpecialFunctions($moduleName);
-
-		foreach ($specialFunctions as $name => &$sfInstance) {
-			if (strpos($content, '#' . $name . '#') !== false) {
-				$replaceBy = $sfInstance->process($moduleName, $this->getMainRecordId(), $this);
-				$content = str_replace('#' . $name . '#', $replaceBy, $content);
-			}
-		}
-
-		return $content;
+		return $textParser->setContent($this->get('body_content'))->parse()->getContent();
 	}
 
 	/**
