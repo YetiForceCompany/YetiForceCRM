@@ -182,19 +182,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		var value = '{' + container.find('[name="insert_functions"]').val() + '}';
 		container.find('#insertFieldValue5').val(value);
 	},
-	registerCopyClipboard: function (name) {
-		var thisInstance = this;
-		new Clipboard(name, {
-			text: function (trigger) {
-				var container = thisInstance.getContainer();
-				Vtiger_Helper_Js.showPnotify({
-					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-					type: 'success'
-				});
-				return container.find('#'+trigger.getAttribute('data-target')).val();
-			}
-		});
-	},
 	/**
 	 * Registers updated version of CkEditor on textarea fields
 	 * spellcheck disabled
@@ -217,7 +204,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('.chzn-select'));
+		app.showSelect2ElementView(container.find('select'));
 		this.registerCancelStepClickEvent(container);
 		this.registerRelatedModuleChangeEvent(container);
 		this.registerMainFieldsChangeEvent(container);
@@ -234,15 +221,5 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		this.updateSpecialFunctionsFieldsValue(container);
 		this.updateInsertFunctionsFieldsValue(container);
 		this.registerNewCkEditor();
-
-		// zerocliboards
-		this.registerCopyClipboard('#mainFieldsValueCopy5');
-		this.registerCopyClipboard('#mainFieldsLabelCopy5');
-		this.registerCopyClipboard('#relatedFieldsValueCopy5');
-		this.registerCopyClipboard('#relatedFieldsLabelCopy5');
-		this.registerCopyClipboard('#companyFieldsValueCopy5');
-		this.registerCopyClipboard('#companyFieldsLabelCopy5');
-		this.registerCopyClipboard('#specialFieldValueCopy5');
-		this.registerCopyClipboard('#insertFieldValueCopy5');
 	}
 });

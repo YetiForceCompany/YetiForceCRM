@@ -5808,3 +5808,6 @@ td.rightRecordActions.medium{
 .bc-gray-lighter{
 	background-color: #f5f5f5;
 }
+.pdfTemplateContents .fieldRow{
+	margin-bottom: 10px;
+}

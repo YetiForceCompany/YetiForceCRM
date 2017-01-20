@@ -14,8 +14,9 @@
 					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 3)}: {vtranslate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br>
-				{assign STEP_NO 3}
-				{include file="layouts/basic/modules/Settings/PDF/FieldBlock.tpl"}
+				<div class="row">
+					{include file='layouts/basic/modules/Vtiger/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
+				</div>
 				<div class="form-group">
 					<div class="col-sm-12 controls">
 						<textarea class="form-control" name="header_content" id="header_content">{$PDF_MODEL->get('header_content')}</textarea>

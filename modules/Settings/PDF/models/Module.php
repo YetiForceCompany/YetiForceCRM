@@ -112,24 +112,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 		return $supportedModuleModels;
 	}
 
-	public function getListFields()
-	{
-		if (!$this->listFieldModels) {
-			$fields = $this->listFields;
-			$fieldObjects = [];
-			$fieldsNoSort = ['module_name'];
-			foreach ($fields as $fieldName => $fieldLabel) {
-				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel, 'sort' => false]);
-				} else {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
-				}
-			}
-			$this->listFieldModels = $fieldObjects;
-		}
-		return $this->listFieldModels;
-	}
-
 	public static function getFieldsByStep($step = 1)
 	{
 		switch ($step) {
@@ -174,92 +156,6 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 			'DEMY', //	'Demy' format paperback size 135x216mm
 			'ROYAL' //	'Royal' format paperback size 153x234mm
 		];
-	}
-
-	public static function getMainModuleFields($moduleName)
-	{
-		if (is_array($moduleName)) {
-			$moduleName = $moduleName['moduleName'];
-		} elseif (strpos($moduleName, '+') !== false) {
-			$moduleName = explode('+', $moduleName)[1];
-		}
-		$tabId = \App\Module::getModuleId($moduleName);
-		$dataReader = (new \App\Db\Query())->select(['fieldid', 'fieldlabel', 'fieldname', 'uitype', 'block'])
-				->from('vtiger_field')
-				->where(['tabid' => $tabId])
-				->andWhere(['<>', 'block', 0])
-				->andWhere(['<>', 'presence', 1])
-				->andWhere(['<>', 'typeofdata', 'P~M'])
-				->orderBy(['block' => SORT_ASC, 'sequence' => SORT_ASC])
-				->createCommand()->query();
-		$output = [];
-		$currentBlockId = '';
-		$currentBlockName = '';
-		$i = 0;
-		while ($row = $dataReader->read()) {
-			if ($currentBlockId != $row['block']) {
-				$currentBlockName = vtranslate(getBlockName($row['block']), $moduleName);
-			}
-			$currentBlockId = $row['block'];
-
-			$output[$currentBlockName][$i]['label'] = vtranslate($row['fieldlabel'], $moduleName);
-			$output[$currentBlockName][$i]['id'] = $row['fieldid'];
-			$output[$currentBlockName][$i]['name'] = $row['fieldname'];
-			$output[$currentBlockName][$i]['uitype'] = $row['uitype'];
-			$i++;
-		}
-
-		return $output;
-	}
-
-	public static function getRelatedModules($moduleName)
-	{
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$fields = $moduleModel->getFieldsByType(['reference', 'owner', 'multireference']);
-		$referencedModules = [];
-		foreach ($fields as $fieldName => $field) {
-			$type = $field->getFieldDataType();
-			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner')
-				$referenceModules = ['Users'];
-			foreach ($referenceModules as $module) {
-				$referencedModules[$fieldName . '+' . $module] = ['moduleName' => $module, 'label' => $field->get('label')];
-			}
-		}
-		return $referencedModules;
-	}
-
-	/**
-	 * Return list of special functions for chosen module
-	 * @param string $moduleName - name of the module
-	 * @return array array of special functions
-	 */
-	public static function getSpecialFunctions($moduleName)
-	{
-		$specialFunctions = [];
-		foreach (Vtiger_PDF_Model::getSpecialFunctions($moduleName) as $name => &$sfInstance) {
-			$specialFunctions[$name] = vtranslate($name, self::$parent . ':' . self::$module);
-		}
-		return $specialFunctions;
-	}
-
-	/**
-	 * Returns array containing company fields array - [fieldname => translatedname]
-	 * @return array company fields with translated names
-	 */
-	public static function getCompanyFields()
-	{
-		$company = [];
-
-		$companyDetails = App\Company::getInstanceById()->getData();
-		foreach ($companyDetails as $key => $value) {
-			if ($key == 'id') {
-				continue;
-			}
-			$company[$key] = vtranslate($key, 'Settings:Vtiger');
-		}
-
-		return $company;
 	}
 
 	/**

@@ -8,7 +8,7 @@
 	{/if}
 	{if $SELECTED_MODULE}
 		<div class="col-md-6 fieldRow">
-			<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">
+			<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 				<label class="muted">{\App\Language::translate('LBL_MODULE_FIELDS')}</label>
 			</div>
 			<div class="medium col-md-9 fieldValue">
@@ -38,7 +38,7 @@
 		{assign var=RELETED_VARIABLE value=$TEXT_PARSER->getReletedVariable()}
 		{if $RELETED_VARIABLE}
 			<div class="col-md-6 fieldRow">
-				<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 					<label class="muted">{\App\Language::translate('LBL_RELETED_MODULE_FIELDS')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
@@ -71,7 +71,7 @@
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
 			<div class="col-md-6 fieldRow">
-				<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 					<label class="muted">{\App\Language::translate('LBL_SOURCE_MODULE_FIELDS')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
@@ -112,7 +112,7 @@
 		{/if}		
 	{/if}
 	<div class="col-md-6 fieldRow">
-		<div class="col-md-3 fieldLabel paddingLeft5px medium bc-gray-lighter">
+		<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 			<label class="muted">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES')}</label>
 		</div>
 		<div class="medium col-md-9 fieldValue">
