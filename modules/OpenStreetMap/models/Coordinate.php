@@ -543,11 +543,11 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	{
 		$moduleName = $this->get('moduleName');
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
+		$queryGenerator->setFields(['id']);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$records = [];
 		while ($row = $dataReader->read()) {
-			$records [] = $records['crmid'];
+			$records [] = $row['id'];
 		}
 		$this->deleteCache();
 		$this->saveCache($records);
