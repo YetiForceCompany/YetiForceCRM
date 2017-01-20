@@ -1,33 +1,35 @@
 <?php
+namespace App\TextParser;
 
 /**
- * Special function displaying products table
- * @package YetiForce.SpecialFunction
+ * Products table new class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
- * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_ProductsTableRelatedModule extends Vtiger_SpecialFunction_Pdf
+class ProductsTableNew extends Base
 {
 
-	public $permittedModules = ['IGRNC', 'IGDNC'];
-	public $relatedModulesFields = ['IGRNC' => 'igrnid', 'IGDNC' => 'igdnid'];
+	/** @var string Class name */
+	public $name = 'LBL_PRODUCTS_TABLE_NEW';
 
-	public function process($module, $id, Vtiger_PDF_Model $pdf)
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
 		$html = '';
-		$recordId = $id;
-		$record = Vtiger_Record_Model::getInstanceById($recordId);
-		$relatedModuleRecordId = $record->get($this->relatedModulesFields[$module]);
-		$relatedModuleRecordModel = Vtiger_Record_Model::getInstanceById($relatedModuleRecordId);
-		$moduleModel = $relatedModuleRecordModel->getModule();
-		if (!$moduleModel->isInventory()) {
+		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$relatedModuleName = $relatedModuleRecordModel->getModuleName();
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($relatedModuleName);
+		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
-		$inventoryRows = $relatedModuleRecordModel->getInventoryData();
-		$html .='<style>' .
+		$inventoryRows = $this->textParser->recordModel->getInventoryData();
+		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px; width:100%}' .
 			'.productTable th {text-transform: uppercase;font-weight:normal}' .
 			'.productTable tbody tr:nth-child(odd){background:#eee}' .
@@ -37,16 +39,19 @@ class Pdf_ProductsTableRelatedModule extends Vtiger_SpecialFunction_Pdf
 			'.productTable .summaryContainer{background:#ccc;padding:5px}' .
 			'.barcode {padding: 1.5mm;margin: 0;vertical-align: top;color: #000000}' .
 			'</style>';
-
 		if (count($fields[1]) != 0) {
 			$fieldsTextAlignRight = ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity'];
-			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable"><thead><tr>';
+			$html .= '<table  border="0" cellpadding="0" cellspacing="0" class="productTable">
+				<thead>
+					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
+					$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
-			$html .= '</tr></thead><tbody>';
+			$html .= '</tr>
+				</thead>
+				<tbody>';
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
@@ -58,11 +63,11 @@ class Pdf_ProductsTableRelatedModule extends Vtiger_SpecialFunction_Pdf
 					} else if ($field->isVisible($inventoryRows)) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
 						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $module)) {
+						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
-								if (isset($fields[2]['comment' . $inventoryRow['seq']])) {
-									$COMMENT_FIELD = $fields[2]['comment' . $inventoryRow['seq']];
+								foreach ($fields[2] as $commentKey => $value) {
+									$COMMENT_FIELD = $fields[2][$commentKey];
 									$html .= '<br/>' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
 								}
 								break;
@@ -84,18 +89,19 @@ class Pdf_ProductsTableRelatedModule extends Vtiger_SpecialFunction_Pdf
 						$html .= 'summaryContainer';
 					}
 					$html .= '">';
-
 					if ($field->isSummary()) {
 						$sum = 0;
 						foreach ($inventoryRows as $key => &$inventoryRow) {
 							$sum += $inventoryRow[$field->get('columnname')];
 						}
-						$html .= CurrencyField::convertToUserFormat($sum, null, true);
+						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 					}
 					$html .= '</td>';
 				}
 			}
-			$html .= '</tr></tfoot></table>';
+			$html .= '</tr>
+					</tfoot>
+				</table>';
 		}
 		return $html;
 	}

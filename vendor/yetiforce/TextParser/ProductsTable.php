@@ -1,50 +1,51 @@
 <?php
+namespace App\TextParser;
 
 /**
- * Special function displaying products table
- * @package YetiForce.SpecialFunction
+ * Products table class
+ * @package YetiForce.TextParser
  * @license licenses/License.html
- * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
+class ProductsTable extends Base
 {
 
-	public $permittedModules = ['all'];
+	/** @var string Class name */
+	public $name = 'LBL_PRODUCTS_TABLE';
 
-	public function process($module, $id, Vtiger_PDF_Model $pdf)
+	/** @var mixed Parser type */
+	public $type = 'pdf';
+
+	/**
+	 * Process
+	 * @return string
+	 */
+	public function process()
 	{
 		$html = '';
-		$recordId = $id;
-		$record = Vtiger_Record_Model::getInstanceById($recordId);
-		$moduleModel = $record->getModule();
-		if (!$moduleModel->isInventory()) {
+		if (!$this->textParser->recordModel->getModule()->isInventory()) {
 			return $html;
 		}
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($module);
+		$inventoryField = \Vtiger_InventoryField_Model::getInstance($this->textParser->moduleName);
 		$fields = $inventoryField->getFields(true);
-
 		if ($fields[0] != 0) {
 			$columns = $inventoryField->getColumns();
-			$inventoryRows = $record->getInventoryData();
+			$inventoryRows = $this->textParser->recordModel->getInventoryData();
 			$mainParams = $inventoryField->getMainParams($fields[1]);
 			$countFields0 = count($fields[0]);
 			$countFields1 = count($fields[1]);
 			$countFields2 = count($fields[2]);
-			$baseCurrency = Vtiger_Util_Helper::getBaseCurrency();
+			$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		}
-
-		if (in_array("currency", $columns)) {
+		if (in_array('currency', $columns)) {
 			if (count($inventoryRows) > 0 && $inventoryRows[0]['currency'] != NULL) {
 				$currency = $inventoryRows[0]['currency'];
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
 		}
-
-		$html .=
-			'<style>' .
+		$html .= '<style>' .
 			'.colapseBorder {border-collapse: collapse;}' .
 			'.tBorder {border: 1px solid grey;}' .
 			'.tHeader {background-color: lightgrey;}' .
@@ -60,15 +61,15 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 						<th style="width: 60%;"></th>';
 			foreach ($fields[0] as $field) {
 				$html .= '<th style="' . $field->get('colspan') . '%;" class="tBorder noBottomBorder tHeader">
-								<span>' . vtranslate($field->get('label'), $module) . ':</span>&nbsp;';
-				switch ($field->getTemplateName('DetailView', $module)) {
+								<span>' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . ':</span>&nbsp;';
+				switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 					case 'DetailViewBase.tpl':
 						$html .= $field->getDisplayValue($inventoryRows[0][$field->get('columnname')]);
 						break;
 
 					case 'DetailViewTaxMode.tpl':
 					case 'DetailViewDiscountMode.tpl':
-						$html .= vtranslate($field->getDisplayValue($inventoryRows[0][$field->get('columnname')]), $MODULE);
+						$html .= \App\Language::translate($field->getDisplayValue($inventoryRows[0][$field->get('columnname')]), $this->textParser->moduleName);
 						break;
 				}
 				$html .= '</th>';
@@ -83,7 +84,7 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 					<tr>';
 			foreach ($fields[1] as $field) {
 				if ($field->isVisible($inventoryRows)) {
-					$html .= '<th style="' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . vtranslate($field->get('label'), $module) . '</th>';
+					$html .= '<th style="' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
 			$html .= '</tr>
@@ -98,12 +99,12 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 						$itemValue = $inventoryRow[$field->get('columnname')];
 
 						$html .= '<td ' . ($field->getName() == 'Name' ? 'width="40%;" ' : '') . ' class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
-						switch ($field->getTemplateName('DetailView', $module)) {
+						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 							case 'DetailViewName.tpl':
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
 								if (isset($fields[2]['comment' . $rowNo])) {
-									$COMMENT_FIELD = $fields[2]['comment' . $rowNo];
-									$html .= '<br/>' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
+									$commentField = $fields[2]['comment' . $rowNo];
+									$html .= '<br/>' . $commentField->getDisplayValue($inventoryRow[$commentField->get('columnname')]);
 								}
 								break;
 
@@ -132,7 +133,7 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 						foreach ($inventoryRows as $key => &$inventoryRow) {
 							$sum += $inventoryRow[$field->get('columnname')];
 						}
-						$html .= CurrencyField::convertToUserFormat($sum, null, true);
+						$html .= \CurrencyField::convertToUserFormat($sum, null, true);
 					}
 					$html .= '</td>';
 				}
@@ -156,13 +157,13 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 							<thead>
 								<tr>
 									<th class="tBorder noBottomBorder tHeader">
-										<strong>' . vtranslate('LBL_DISCOUNTS_SUMMARY', $module) . '</strong>
+										<strong>' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</strong>
 									</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td class="textAlignRight tBorder">' . CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';
@@ -175,7 +176,7 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 							<thead>
 								<tr>
 									<th colspan="2" class="tBorder noBottomBorder tHeader">
-										<strong>' . vtranslate('LBL_TAX_SUMMARY', $module) . '</strong>
+										<strong>' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</strong>
 									</th>
 								</tr>
 							</thead>
@@ -184,12 +185,12 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 					$tax_AMOUNT += $tax;
 					$html .= '<tr>
 										<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-										<td class="textAlignRight tBorder">' . CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+										<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
 									</tr>';
 				}
 				$html .= '<tr>
-									<td class="textAlignRight tBorder" width="70px">' . vtranslate('LBL_AMOUNT', $module) . '</td>
-									<td class="textAlignRight tBorder">' . CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
+									<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbolRate['symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>
@@ -201,7 +202,7 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 								<thead>
 									<tr>
 										<th colspan="2" class="tBorder noBottomBorder tHeader">
-											<strong>' . vtranslate('LBL_CURRENCIES_SUMMARY', $module) . '</strong>
+											<strong>' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</strong>
 										</th>
 									</tr>
 								</thead>
@@ -210,12 +211,12 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 						$currencyAmount += $tax;
 						$html .= '<tr>
 									<td class="textAlignRight tBorder" width="70px">' . $key . '%</td>
-									<td class="textAlignRight tBorder">' . CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+									<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($tax * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 								</tr>';
 					}
 					$html .= '<tr>
-								<td class="textAlignRight tBorder" width="70px">' . vtranslate('LBL_AMOUNT', $module) . '</td>
-								<td class="textAlignRight tBorder">' . CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+								<td class="textAlignRight tBorder" width="70px">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
+								<td class="textAlignRight tBorder">' . \CurrencyField::convertToUserFormat($currencyAmount * $RATE, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
 							</tr>
 						</tbody>
 					</table>';
@@ -223,7 +224,6 @@ class Pdf_ProductsTable extends Vtiger_SpecialFunction_Pdf
 			}
 			$html .= '</td></tr></table>';
 		}
-
 		return $html;
 	}
 }
