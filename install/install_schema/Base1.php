@@ -3273,10 +3273,10 @@ class Base1 extends \App\Db\Importers\Base
 					'scalculationsid' => $this->integer(),
 				],
 				'index' => [
-					['squoteenquiries_salesprocessid_idx', 'salesprocessid'],
-					['squoteenquiries_accountid_idx', 'accountid'],
-					['squoteenquiries_vendorid_idx', 'salesprocessid'],
-					['squoteenquiries_scalculationsid_idx', 'accountid'],
+					['svendorenquiries_salesprocessid_idx', 'salesprocessid'],
+					['svendorenquiries_accountid_idx', 'accountid'],
+					['svendorenquiries_vendorid_idx', 'salesprocessid'],
+					['svendorenquiries_scalculationsid_idx', 'accountid'],
 				],
 				'primaryKeys' => [
 					['svendorenquiries_pk', 'svendorenquiriesid']
