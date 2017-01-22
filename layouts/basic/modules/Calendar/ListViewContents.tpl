@@ -107,15 +107,7 @@
 						{assign var=IS_DELETE value=false}
 					{/if}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' 
-						{if $DETAIL_VIEW_URL} data-recordUrl='{$DETAIL_VIEW_URL}' {/if} id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-						{if $LISTVIEW_ENTRY->colorList neq ''}
-						<style>
-							#{$MODULE}_listView_row_{$smarty.foreach.listview.index+1} > td {
-								background-color: {$LISTVIEW_ENTRY->colorList.background};
-								color: {$LISTVIEW_ENTRY->colorList.text};
-							}
-						</style>
-					{/if}
+						{if $DETAIL_VIEW_URL} data-recordUrl='{$DETAIL_VIEW_URL}' {/if} id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
 					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
 						{include file=vtemplate_path('ListViewLeftSide.tpl',$MODULE_NAME)}
 					</td>

@@ -77,15 +77,7 @@
 				</tr>
 			{/if}
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
-				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-					{if $LISTVIEW_ENTRY->colorList neq ''}
-					<style>
-						#{$MODULE}_listView_row_{$smarty.foreach.listview.index+1} > td {
-							background-color: {$LISTVIEW_ENTRY->colorList.background};
-							color: {$LISTVIEW_ENTRY->colorList.text};
-						}
-					</style>
-				{/if}
+				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
 				<td  width="2%" class="{$WIDTHTYPE}">
 					<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
 					{if $LISTVIEW_ENTRY->isEditable()}
