@@ -20,7 +20,7 @@
 			{/if}
 			{if $RELATED_MODULE_NAME eq 'Calendar'}
 				{assign var=CURRENT_ACTIVITY_LABELS value=Calendar_Module_Model::getComponentActivityStateLabel('current')}
-				{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
+				{if $IS_EDITABLE && in_array($RELATED_RECORD->getValueByField('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
 					<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}">
 						<span title="{vtranslate('LBL_SET_RECORD_STATUS', $MODULE)}" class="glyphicon glyphicon-ok alignMiddle"></span>
 					</a>&nbsp;

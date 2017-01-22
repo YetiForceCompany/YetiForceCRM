@@ -179,7 +179,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getEntity()
 	{
 		if (empty($this->entity)) {
-			return false;
+			$this->entity = CRMEntity::getInstance($this->getModuleName());
 		}
 		return $this->entity;
 	}

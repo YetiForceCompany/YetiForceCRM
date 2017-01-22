@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 vimport('~~include/utils/RecurringType.php');
 
@@ -402,5 +403,30 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
 			->execute();
+	}
+
+	/**
+	 * Function to get the list view actions for the record
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
+	 */
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = parent::getRecordListViewLinksLeftSide();
+		$recordLinks = [];
+		$statuses = Calendar_Module_Model::getComponentActivityStateLabel('current');
+		if ($this->isEditable() && in_array($this->getValueByField('activitystatus'), $statuses)) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_SET_RECORD_STATUS',
+				'linkurl' => $this->getActivityStateModalUrl(),
+				'linkicon' => 'glyphicon glyphicon-ok',
+				'linkclass' => 'btn-sm btn-default',
+				'modalView' => true
+			];
+		}
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
 	}
 }
