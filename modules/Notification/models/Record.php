@@ -194,4 +194,27 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		}
 		return $icon;
 	}
+
+	/**
+	 * Function to get the list view actions for the record
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
+	 */
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = parent::getRecordListViewLinksLeftSide();
+		$recordLinks = [];
+		if ($this->getModule()->isPermitted('EditView') && $this->isEditable()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_MARK_AS_READ',
+				'linkurl' => 'javascript:Notification_List_Js.setAsMarked(' . $this->getId() . ')',
+				'linkicon' => 'glyphicon glyphicon-ok',
+				'linkclass' => 'btn-sm btn-default'
+			];
+		}
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
+	}
 }

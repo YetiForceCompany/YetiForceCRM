@@ -88,7 +88,7 @@
 				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 					{assign var=CURRENT_USER_ID value=$USER_MODEL->getId()}
-					{assign var=RAWDATA value=$LISTVIEW_ENTRY->getRawData()}
+					{assign var=RAWDATA value=$LISTVIEW_ENTRY->getData()}
 					{assign var=OWNER_ID value=$RAWDATA['smownerid']}
 					{assign var=DETAIL_VIEW_URL value=$LISTVIEW_ENTRY->getDetailViewUrl()}
 					{assign var=FULL_DETAIL_VIEW_URL value=$LISTVIEW_ENTRY->getFullDetailViewUrl()}
@@ -106,7 +106,7 @@
 						{assign var=EDIT_VIEW_URL value=''}
 						{assign var=IS_DELETE value=false}
 					{/if}
-					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' 
+					<tr class="listViewEntries relatedContents" data-id='{$LISTVIEW_ENTRY->getId()}' 
 						{if $DETAIL_VIEW_URL} data-recordUrl='{$DETAIL_VIEW_URL}' {/if} id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
 					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
 						{include file=vtemplate_path('ListViewLeftSide.tpl',$MODULE_NAME)}

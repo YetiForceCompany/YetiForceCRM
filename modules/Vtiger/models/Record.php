@@ -1139,12 +1139,12 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * Function to get the list view actions for the record
 	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
-	public function getRecordListViewLinks()
+	public function getRecordListViewLinksRightSide()
 	{
 		$links = $recordLinks = [];
 		if ($this->isEditable() && $this->isCanAssignToHimself()) {
 			$recordLinks[] = [
-				'linktype' => 'LISTVIEWRECORD',
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_REALIZE',
 				'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
 				'linkicon' => 'glyphicon glyphicon-user',
@@ -1154,12 +1154,75 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		}
 		if ($this->isEditable() && $this->autoAssignRecord()) {
 			$recordLinks[] = [
-				'linktype' => 'LISTVIEWRECORD',
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_ASSIGN_TO',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=AutoAssignRecord&record=' . $this->getId(),
 				'linkicon' => 'glyphicon glyphicon-random',
 				'linkclass' => 'btn-sm btn-primary',
 				'modalView' => true
+			];
+		}
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Function to get the list view actions for the record
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
+	 */
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = $recordLinks = [];
+		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
+			$watching = intval($this->isWatchingRecord());
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'BTN_WATCHING_RECORD',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+				'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
+			];
+		}
+		if ($this->isViewable()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
+				'linkurl' => $this->getFullDetailViewUrl(),
+				'linkicon' => 'glyphicon glyphicon-th-list',
+				'linkclass' => 'btn-sm btn-default'
+			];
+		}
+		if ($this->isEditable()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_EDIT',
+				'linkurl' => $this->getEditViewUrl(),
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn-sm btn-default'
+			];
+		}
+		if (($this->isEditable() && $this->editFieldByModalPermission()) || $this->editFieldByModalPermission(true)) {
+			$fieldEditData = $this->getFieldToEditByModal();
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => $fieldEditData['titleTag'],
+				'linkurl' => $this->getEditFieldByModalUrl(),
+				'linkicon' => 'glyphicon ' . $fieldEditData['iconClass'],
+				'linkclass' => 'btn-sm ' . $fieldEditData['addClass'],
+				'modalView' => true
+			];
+		}
+		if ($this->isDeletable()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_DELETE',
+				'linkurl' => $this->getEditViewUrl(),
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn-sm btn-default deleteRecordButton'
 			];
 		}
 		foreach ($recordLinks as $recordLink) {

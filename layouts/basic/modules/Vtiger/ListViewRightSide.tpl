@@ -1,10 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinks()}
+	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksRightSide()}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
 		<div class="actions">
-			<div class="actionImages {if $ONLY_ONE}pull-right{else}hide{/if}">
+			<div class=" {if $ONLY_ONE}pull-right{else}hide actionImages{/if}">
 				{foreach from=$LINKS item=LINK}
 					{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewBasic'}
 				{/foreach}

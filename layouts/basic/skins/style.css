@@ -1064,7 +1064,7 @@ td.fieldValue .input-group {
 .listViewEntriesTable .listViewEntries .unreviewed .badge,
 .listViewEntriesTable .listViewEntries .timeLineIconList span,
 .listViewEntriesTable .listViewEntries .actions{
-	margin: -4px 0 0 5px;
+	margin-left: 4px;
 }
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {
@@ -2833,7 +2833,7 @@ td.listViewEntryValue.wide {
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
-	padding: 5px 6px!important;
+	padding: 3px 6px!important;
 	line-height: 29px;
 }
 .table td.narrow,
@@ -3299,7 +3299,8 @@ span[name=existingImages] img{
 	padding: 8px 5px;
 }
 .listViewEntriesDiv .listViewEntriesCheckBox{
-	margin-left: 2px;
+	margin: 0;
+	vertical-align: middle;
 }
 #widgetsManagementEditorContainer .modal-footer .btn{
 	margin: 5px;
@@ -5489,15 +5490,16 @@ select.form-control {
 }
 .timeLineIconList > .glyphicon{
 	display: inline-block !important;
-	width: 30px;
-	height: 30px;
+	width: 29px;
+	height: 29px;
 	font-size: 15px;
-	line-height: 30px;
+	line-height: 29px;
 	position: relative;
 	color: #666;
 	background: #d2d6de;
 	border-radius: 50%;
 	text-align: center;
+	vertical-align: middle;
 }
 .timeline .userImage{
 	margin: 0 auto;
@@ -5724,38 +5726,36 @@ select.form-control {
 .marginRight15{
 	margin-right: 15px;
 }
-.leftRecordActions .actions:hover .toolsAction,
-.rightRecordActions .actions:hover .toolsAction{
+.relatedContents .leftRecordActions .actions:hover .toolsAction{
 	display: none;
 }
-.leftRecordActions .actions:hover,
-.rightRecordActions .actions:hover{
+.relatedContents .leftRecordActions .actions:hover .actionImages{
+	background: ivory;
+}
+.relatedContents .leftRecordActions .actions:hover{
 	white-space: nowrap;
 	position: absolute;
+}
+.leftRecordActions .actions:hover .toolsAction,
+.rightRecordActions .actions:hover .toolsAction{
+	visibility: hidden;
+}
+.leftRecordActions .actions:hover .actionImages,
+.rightRecordActions .actions:hover .actionImages{
+	white-space: nowrap;
+	position: absolute;
+	z-index: 1;
 }
 .leftRecordActions > div,
 .leftRecordActions .actions:hover .actionImages,
 .rightRecordActions .actions:hover .actionImages{
 	display: inline-block !important;
 }
-.rightRecordActions .actions:hover{
+.rightRecordActions .actions:hover .actionImages{
 	right: 7px;
-}
-td.rightRecordActions.medium{
-	padding-top: 0px!important;
-	padding-bottom: 0px!important;
-}
-.rightRecordActions .actions{
-	padding-top: 8px;
-}
-.leftRecordActions .actions:hover + div .unreviewed,
-.leftRecordActions .actions:hover + div .timeLineIconList{
-	margin-left: 20px;
 }
 .leftRecordActions .actions{
 	background: inherit;
-	padding: 4px 2px 0 0;
-	z-index: 1;
 }
 .listViewEntries{
 	background: #fff;
@@ -5810,4 +5810,10 @@ td.rightRecordActions.medium{
 }
 .pdfTemplateContents .fieldRow{
 	margin-bottom: 10px;
+}
+.middle{
+	vertical-align: middle;
+}
+.back4RightMargin{
+	margin-right: -4px;
 }
