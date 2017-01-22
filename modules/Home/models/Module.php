@@ -23,13 +23,13 @@ class Home_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns latest comments across CRM
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @return <Array>
+	 * @param \Vtiger_Paging_Model $pagingModel
+	 * @return \Vtiger_Record_Model[]
 	 */
 	public function getComments($pagingModel)
 	{
 		$query = new \App\Db\Query();
-		$query->select(['*', 'createdtime' => 'vtiger_crmentity.createdtime', 'smownerid' => 'vtiger_crmentity.smownerid',
+		$query->select(['*', 'createdtime' => 'vtiger_crmentity.createdtime', 'assigned_user_id' => 'vtiger_crmentity.smownerid',
 				'parentId' => 'crmentity2.crmid', 'parentModule' => 'crmentity2.setype'])
 			->from('vtiger_modcomments')
 			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')

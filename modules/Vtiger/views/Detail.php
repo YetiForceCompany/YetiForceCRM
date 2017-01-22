@@ -501,12 +501,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function sends the child comments for a comment
 	 * @param Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showChildComments(Vtiger_Request $request)
 	{
 		$parentCommentId = $request->get('commentid');
-		$parentCommentModel = ModComments_Record_Model::getInstanceById($parentCommentId);
+		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -522,7 +522,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function send all the comments in thead
 	 * @param Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showThreadComments(Vtiger_Request $request)
 	{
@@ -531,7 +531,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
-		$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
+		$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
@@ -543,7 +543,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function sends all the comments for a parent(Accounts, Contacts etc)
 	 * @param Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showAllComments(Vtiger_Request $request)
 	{
@@ -559,7 +559,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId, $hierarchy);
 		$currentCommentModel = [];
 		if (!empty($commentRecordId)) {
-			$currentCommentModel = ModComments_Record_Model::getInstanceById($commentRecordId);
+			$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 		}
 
 		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];

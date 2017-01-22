@@ -78,34 +78,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to create an instance of ModComment_Record_Model
-	 * @param <Integer> $record
-	 * @return ModComment_Record_Model
-	 */
-	public static function getInstanceById($record, $moduleName = 'ModComment')
-	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT 
-					comm.*,
-					crm.smownerid,
-					crm.createdtime,
-					crm.modifiedtime 
-				FROM
-					vtiger_modcomments comm
-					INNER JOIN vtiger_crmentity crm
-						ON comm.modcommentsid = crm.crmid 
-				WHERE comm.modcommentsid = ? 
-					AND crm.deleted = 0;';
-		$result = $db->pquery($sql, [$record]);
-		if ($db->getRowCount($result)) {
-			$self = new self();
-			$self->setData($db->getRow($result));
-			return $self;
-		}
-		return false;
-	}
-
-	/**
 	 * Function returns the parent Comment Model
 	 * @return <Vtiger_Record_Model>
 	 */
@@ -113,7 +85,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	{
 		$recordId = $this->get('parent_comments');
 		if (!empty($recordId))
-			return ModComments_Record_Model::getInstanceById($recordId, 'ModComments');
+			return Vtiger_Record_Model::getInstanceById($recordId, 'ModComments');
 
 		return false;
 	}
@@ -141,7 +113,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (!empty($customer)) {
 			return Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
 		} else {
-			$commentedBy = $this->get('smownerid');
+			$commentedBy = $this->get('assigned_user_id');
 			if ($commentedBy) {
 				$commentedByModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 				if (empty($commentedByModel->entity->column_fields['user_name'])) {
