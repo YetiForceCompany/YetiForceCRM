@@ -6,7 +6,7 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
-	'CFixedAssets' => 'Środki trwałe',
+	'CFixedAssets' => 'Fixed assets',
 	'SINGLE_CFixedAssets' => 'Fixed assets',
 	//BLOCKS
 	'LBL_VEHICLE' => 'Vehicle',
