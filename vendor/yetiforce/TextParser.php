@@ -637,6 +637,8 @@ class TextParser
 		$parserName = array_shift($params);
 		$aparams = $params;
 		$moduleName = array_shift($params);
+
+
 		if (Module::getModuleId($moduleName)) {
 			$handlerClass = \Vtiger_Loader::getComponentClassName('TextParser', $parserName, $this->moduleName, false);
 			if (!$handlerClass) {
@@ -644,13 +646,16 @@ class TextParser
 			}
 			$instance = new $handlerClass($this, $params);
 		} else {
-			$className = "\App\TextParser\{$parserName}";
+			$className = "\App\TextParser\\$parserName";
 			if (!class_exists($className)) {
 				Log::error("Not found custom class $parserName");
 				return '';
 			}
 			$instance = new $className($this, $aparams);
 		}
+
+
+
 		if ($instance->isActive()) {
 			return $instance->process();
 		}

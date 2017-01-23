@@ -149,7 +149,7 @@ class IStorages extends Vtiger_CRMEntity
 	 * @param array $listviewEntries 
 	 * returns All the parent storages of the given Storage in array format
 	 */
-	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, &$listviewEntries, $getRawData = false, $getLinks = true)
+	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, $listviewEntries, $getRawData = false, $getLinks = true)
 	{
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');

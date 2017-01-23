@@ -351,7 +351,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($raw) {
 			return $this->get('header_content');
 		}
-		$textParser = \App\EmailParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
 		if ($this->get('language')) {
@@ -370,7 +370,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($raw) {
 			return $this->get('footer_content');
 		}
-		$textParser = \App\EmailParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
 		if ($this->get('language')) {
@@ -389,7 +389,7 @@ class Vtiger_PDF_Model extends Vtiger_Base_Model
 		if ($raw) {
 			return $this->get('body_content');
 		}
-		$textParser = \App\EmailParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
 		if ($this->get('language')) {
