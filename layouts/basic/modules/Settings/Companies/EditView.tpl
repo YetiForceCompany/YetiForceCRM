@@ -9,6 +9,10 @@
 	<div class="editViewContainer">
 		<form name="EditCompanies" action="index.php" method="post" id="EditView" class="form-horizontal" enctype="multipart/form-data">
 			{if $COMPANY_COLUMNS}
+				<input type="hidden" name="module" value="Companies">
+				<input type="hidden" name="parent" value="Settings" />
+				<input type="hidden" name="action" value="SaveAjax">
+				<input type="hidden" name="mode" value="updateCompany">
 				<input type="hidden" name="record" value="{$RECORD_ID}">
 				{foreach from=$COMPANY_COLUMNS item=COLUMN}
 					<div class="form-group">

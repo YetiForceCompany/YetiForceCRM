@@ -209,24 +209,26 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function updateCompany(Vtiger_Request $request)
 	{
-		$data = $request->get('param');
-		$recordId = $data['record'];
+		$recordId = $request->get('record');
 		$duplicateName = false;
 		if ($recordId) {
 			$recordModel = self::getInstance($recordId);
 		} else {
 			$recordModel = new self();
 			$duplicateName = (new \App\Db\Query())->from('s_#__companies')
-				->where(['name' => $data['name']])
-				->orWhere(['short_name' => $data['short_name']])
+				->where(['name' => $request->get('name')])
+				->orWhere(['short_name' => $request->get('short_name')])
 				->exists();
 		}
 		if (!$duplicateName) {
-			if ('on' === $data['default']) {
+			if ('on' === $request->get('default')) {
 				App\Db::getInstance('admin')->createCommand()->update('s_#__companies', ['default' => 0])->execute();
 			}
 			$columns = Settings_Companies_Module_Model::getColumnNames();
 			if ($columns) {
+				if (empty(($request->get('default')))) {
+					$columns = array_diff($columns, ['default']);
+				}
 				$status = false;
 				$images = ['logo_login', 'logo_main', 'logo_mail'];
 				foreach ($images as $image) {
@@ -248,8 +250,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 						$saveLogo[$image] = true;
 					}
 				}
+
 				foreach ($columns as $fieldName) {
-					$fieldValue = $data[$fieldName];
+					$fieldValue = $request->get($fieldName);
 					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
 						if (!empty($logoDetails[$fieldName]['name'])) {
 							$fieldValue = ltrim(basename(" " . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
@@ -258,7 +261,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 						}
 					}
 					if ('default' === $fieldName) {
-						$fieldValue = $data['default'] === 'on' ? 1 : 0;
+						$fieldValue = $request->get('default') === 'on' ? 1 : 0;
 					}
 					$recordModel->set($fieldName, $fieldValue);
 				}
