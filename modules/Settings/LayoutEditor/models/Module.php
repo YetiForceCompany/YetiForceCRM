@@ -331,7 +331,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			Case 'Tree' :
 				$uitype = 302;
-				$type = $importerType->stringType()->defaultValue('');
+				$type = $importerType->stringType(30)->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'MultiReferenceValue' :
