@@ -1,6 +1,6 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="listViewEntriesDiv contents-bottomscroll">
+	<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
