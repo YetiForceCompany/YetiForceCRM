@@ -141,6 +141,7 @@ $languageStrings = [
 	'LBL_CACHE_CLEAR' => 'Rafraichir la vue',
 	'LBL_PROCESS' => 'Process',
 	'LBL_SAVE_AND_CLOSE' => 'Save and close',
+	'LBL_SHOW_LOCATION' => 'Show location',
 ];
 
 $jsLanguageStrings = [

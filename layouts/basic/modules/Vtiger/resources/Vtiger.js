@@ -9,6 +9,14 @@
  *************************************************************************************/
 
 var Vtiger_Index_Js = {
+	showLocation: function (text) {
+		app.showModalWindow(null, 'index.php?module=OpenStreetMap&view=MapModal', function (container) {
+			var mapView = new OpenStreetMap_Map_Js();
+			mapView.registerModalView(container);
+			container.find('.searchValue').val(text);
+			container.find('.searchBtn').trigger('click');
+		});
+	},
 	massAddDocuments: function (url) {
 		app.showModalWindow(null, url, function (container) {
 			var uploadButton = container.find('#filesToUpload');

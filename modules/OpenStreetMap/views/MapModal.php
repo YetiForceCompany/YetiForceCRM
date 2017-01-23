@@ -18,24 +18,28 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$srcModuleModel = Vtiger_Module_Model::getInstance($request->get('srcModule'));
-		$this->preProcess($request);
-		$fields = $srcModuleModel->getFields();
-		$fieldsToGroup = [];
-		foreach ($fields as &$fieldModel) {
-			if ($fieldModel->getFieldDataType() == 'picklist') {
-				$fieldsToGroup [] = $fieldModel;
-			}
-		}
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$cacheRecords[$request->get('srcModule')] = 0; // default values
-		$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
+		if (!$request->isEmpty('srcModule')) {
+			$srcModuleModel = Vtiger_Module_Model::getInstance($request->get('srcModule'));
+			$fields = $srcModuleModel->getFields();
+			$fieldsToGroup = [];
+			foreach ($fields as &$fieldModel) {
+				if ($fieldModel->getFieldDataType() == 'picklist') {
+					$fieldsToGroup [] = $fieldModel;
+				}
+			}
+			$cacheRecords[$request->get('srcModule')] = 0; // default values
+			$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
+		} else {
+			$cacheRecords = $coordinatesModel->getCachedRecords();
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ALLOWED_MODULES', $moduleModel->getAllowedModules());
 		$viewer->assign('FIELDS_TO_GROUP', $fieldsToGroup);
 		$viewer->assign('CACHE_GROUP_RECORDS', $cacheRecords);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SRC_MODULE', $request->get('srcModule'));
+		$this->preProcess($request);
 		$viewer->view('MapModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}

@@ -164,6 +164,7 @@ $languageStrings = [
 	'LBL_CACHE_CLEAR' => 'Очистить вид',
 	'LBL_PROCESS' => 'Процесс',
 	'LBL_SAVE_AND_CLOSE' => 'Save and close',
+	'LBL_SHOW_LOCATION' => 'Show location',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

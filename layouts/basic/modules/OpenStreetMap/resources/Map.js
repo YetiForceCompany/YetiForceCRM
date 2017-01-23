@@ -7,7 +7,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	markers: false,
 	polygonLayer: false,
 	routeLayer: false,
-	recordsIds: false,
+	recordsIds: '',
 	cacheLayerMarkers: {},
 	indirectPointLayer: {},
 	setSelectedParams: function (params) {
@@ -28,12 +28,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var markerArray = [];
 		var container = this.container;
 		var map = this.mapInstance;
-
+		
 		if (typeof response.result.coordinates != 'undefined') {
-			var coordinates = response.result.coordinates;
 			var markers = L.markerClusterGroup({
 				maxClusterRadius: 10
 			});
+			var coordinates = response.result.coordinates;
 			map.removeLayer(this.layerMarkers);
 			var records = [];
 			coordinates.forEach(function (e) {
@@ -69,7 +69,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 						prefix: 'fa',
 					})
 				}).bindPopup(popup);
-				markers.addLayer(marker);
+				map.addLayer(marker);
 				if ($.isNumeric(radius)) {
 					radius = parseInt(radius) * 1000;
 					var circle = L.circle([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], radius, {
@@ -610,10 +610,11 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			srcModule: app.getModuleName(),
 		};
 		$.extend(params, this.selectedParams);
+		thisInstance.registerBasicModal();
 		AppConnector.request(params).then(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			thisInstance.setMarkersByResponse(response);
-			thisInstance.registerBasicModal();
+			
 		});
 	},
 	registerDetailView: function (container) {
