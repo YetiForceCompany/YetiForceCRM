@@ -4194,6 +4194,25 @@ Failed login attempts have been detected.						</td>
 			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
 			</td>
 		</tr></table>', 'SendNotificationsViaMail', 1],
+					[111, 'Schedule Reprots', 'N23', 'PLL_RECORD', 'Reports', '$(params : reportName)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
+			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;">$(translate : Reports|LBL_AUTO_GENERATED_REPORT_EMAIL)$</h3>
+			</td>
+		</tr><tr><td>
+			<div style="padding:2px;">
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Reports|LBL_REPORT_NAME)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;"><a href="$(params%20%3A%20reportUrl)$">$(params : reportName)$</a></td>
+					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
+						<div><i>$(translate : Reports|LBL_DESCRIPTION)$</i></div>
+						</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(params : reportDescritpion)$</td>
+					</tr></table></div>
+			</td>
+		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">$(organization : mailLogo)$
+			<p>$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</p>
+			</td>
+		</tr></table>', 'ScheduleReprots', 1],
 				]
 			],
 			'u_#__fcorectinginvoice_invfield' => [

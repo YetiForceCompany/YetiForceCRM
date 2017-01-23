@@ -6,7 +6,7 @@
 	{if $PARSER_TYPE}
 		{assign var=TEXT_PARSER value=$TEXT_PARSER->setType($PARSER_TYPE)}
 	{/if}
-	{if $SELECTED_MODULE}
+	{if $SELECTED_MODULE && App\Module::getEntityInfo($SELECTED_MODULE)}
 		<div class="col-md-6 fieldRow">
 			<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
 				<label class="muted">{\App\Language::translate('LBL_MODULE_FIELDS')}</label>

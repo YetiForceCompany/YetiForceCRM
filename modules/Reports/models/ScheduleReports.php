@@ -229,12 +229,14 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		}
 		//Added cc to account owner
 		$accountOwnerId = Users::getActiveAdminId();
-		\App\Mailer::addMail([
+		\App\Mailer::sendFromTemplate([
 			'to' => $to,
 			'cc' => [\App\User::getUserModel($accountOwnerId)->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
-			'subject' => $subject,
-			'content' => $this->getEmailContent($reportRecordModel),
+			'template' => 'ScheduleReprots',
 			'attachments' => $attachments,
+			'reportName' => $reportRecordModel->getName(),
+			'reportDescritpion' => $reportRecordModel->getDescriptionValue(),
+			'reportUrl' => $reportRecordModel->getDetailViewUrl(),
 		]);
 		return true;
 	}

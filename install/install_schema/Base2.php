@@ -3050,6 +3050,7 @@ class Base2 extends \App\Db\Importers\Base
 					[107, 1, 1, 0, 1, 'EmailTemplates', NULL, NULL, '2015-02-26 09:59:53', '2017-01-11 13:09:22', '2015-02-26 09:59:53', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 					[109, 1, 1, 0, 1, 'EmailTemplates', NULL, NULL, '2015-10-23 08:16:58', '2017-01-11 13:25:18', '2015-10-23 08:34:54', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 					[110, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2016-05-24 12:40:24', '2017-01-11 13:35:37', '2016-05-24 12:40:24', NULL, NULL, 0, 1, 0, 0, 0, NULL],
+					[111, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2017-01-23 13:49:51', '2017-01-23 14:25:51', NULL, NULL, NULL, 0, 1, 0, 0, 0, ',1,'],
 				]
 			],
 			'vtiger_cron_task' => [
