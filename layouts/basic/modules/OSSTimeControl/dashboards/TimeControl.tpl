@@ -40,7 +40,7 @@
 				legend: {
 					show: true,
 					labelFormatter: function (label, series) {
-						return('<b>' + label + '</b>: ' + chartData['legend'][label] + ' h');
+						return('<b>' + label + '</b>: ' + app.parseNumberToShow(chartData['legend'][label]) + ' h');
 					}
 				}
 			};
