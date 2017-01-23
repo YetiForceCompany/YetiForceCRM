@@ -171,6 +171,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				var endDateString = app.getDateInVtigerFormat(dateFormat, end);
 				endDateElement.val(endDateString);
 				app.registerEventForDatePickerFields(container);
+				thisInstance.setVisibilityBtnSaveAndClose(container);
 			}
 			var timeStartElement = startDateElement.closest('.fieldValue').find('[name="time_start"]');
 			timeStartElement.trigger('changeTime');
