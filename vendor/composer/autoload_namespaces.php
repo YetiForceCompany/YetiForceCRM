@@ -6,4 +6,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
 	'Requests' => array($vendorDir . '/rmccue/requests/library'),
+	'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );

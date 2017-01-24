@@ -226,7 +226,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if ($type == 'replyAll' && !empty($cc)) {
 			$url .= '&cc=' . $cc;
 		}
-		include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+		include_once ('vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', vglobal('default_charset'));
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');

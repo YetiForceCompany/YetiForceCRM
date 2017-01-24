@@ -7,6 +7,7 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 
 	public static $files = array(
 		'f084d01b0a599f67676cffef638aa95b' => __DIR__ . '/..' . '/smarty/smarty/libs/bootstrap.php',
+		'2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
 	);
 	public static $prefixLengthsPsr4 = array(
 		'v' =>
@@ -71,6 +72,13 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 			'Requests' =>
 			array(
 				0 => __DIR__ . '/..' . '/rmccue/requests/library',
+			),
+		),
+		'H' =>
+		array(
+			'HTMLPurifier' =>
+			array(
+				0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
 			),
 		),
 	);

@@ -166,5 +166,54 @@
 			}
 		],
 		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+	},
+	{
+		"name": "ezyang/htmlpurifier",
+		"version": "v4.9.0",
+		"version_normalized": "4.9.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/ezyang/htmlpurifier.git",
+			"reference": "a1c09b09e398687deeb8e309a6305def4b43439b"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/a1c09b09e398687deeb8e309a6305def4b43439b",
+			"reference": "a1c09b09e398687deeb8e309a6305def4b43439b",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.2"
+		},
+		"require-dev": {
+			"simpletest/simpletest": "^1.1"
+		},
+		"time": "2017-01-13T12:31:37+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"HTMLPurifier": "library/"
+			},
+			"files": [
+				"library/HTMLPurifier.composer.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL"
+		],
+		"authors": [
+			{
+				"name": "Edward Z. Yang",
+				"email": "admin@htmlpurifier.org",
+				"homepage": "http://ezyang.com"
+			}
+		],
+		"description": "Standards compliant HTML filter written in PHP",
+		"homepage": "http://htmlpurifier.org/",
+		"keywords": [
+			"html"
+		]
 	}
 ]

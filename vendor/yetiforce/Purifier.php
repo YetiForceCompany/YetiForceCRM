@@ -1,8 +1,6 @@
 <?php
 namespace App;
 
-require ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
-
 /**
  * Purifier basic class
  * @package YetiForce.App
