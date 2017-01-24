@@ -10,8 +10,8 @@ namespace Api\Portal\BaseModule;
 class Record extends \Api\Core\BaseAction
 {
 
-	/** @var string[] Request methods */
-	protected $requestMethod = ['GET', 'DELETE'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['GET', 'DELETE'];
 
 	/**
 	 * Get record detail

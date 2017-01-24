@@ -10,8 +10,8 @@ namespace Api\Portal\BaseAction;
 class Methods extends \Api\Core\BaseAction
 {
 
-	/** @var string[] Request methods */
-	protected $requestMethod = ['GET'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['GET'];
 
 	/**
 	 * Get modules list
@@ -26,6 +26,8 @@ class Methods extends \Api\Core\BaseAction
 				$itemPathName = explode(DIRECTORY_SEPARATOR, $iterator->getSubPathName());
 				$dir = array_shift($itemPathName);
 				$name = rtrim(array_shift($itemPathName), '.php');
+				$className = "Api\Portal\\$dir\\$name";
+				$instance = new $className();
 				switch ($dir) {
 					case 'BaseAction':
 						break;
@@ -34,7 +36,8 @@ class Methods extends \Api\Core\BaseAction
 					default: $name = "$dir/$name";
 						break;
 				}
-				$methods[$dir][] = \AppConfig::main('site_URL') . "api/webservice/$name";
+				$methods[$dir][\AppConfig::main('site_URL') . "api/webservice/$name"] = implode(',', $instance->allowedMethod);
+				unset($instance);
 			}
 		}
 		return $methods;

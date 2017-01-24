@@ -10,8 +10,8 @@ namespace Api\Portal\BaseModule;
 class RecordsList extends \Api\Core\BaseAction
 {
 
-	/** @var string[] Request methods */
-	protected $requestMethod = ['GET'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['GET'];
 
 	/**
 	 * Get method
@@ -20,10 +20,12 @@ class RecordsList extends \Api\Core\BaseAction
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
+		//$moduleName = 'SSalesProcesses';
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->initForDefaultCustomView();
 		$records = [];
 		$fieldsModel = $queryGenerator->getListViewFields();
+		$this->getQueryPermissions($queryGenerator);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$record = [];
@@ -33,6 +35,7 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			}
 			$records[$row['id']] = $record;
+			//var_dump($row['id']);
 		}
 		$headers = [];
 		foreach ($fieldsModel as $fieldName => $fieldModel) {
@@ -43,5 +46,10 @@ class RecordsList extends \Api\Core\BaseAction
 			'records' => $records,
 			'count' => count($records)
 		];
+	}
+
+	public function getQueryPermissions(\App\QueryGenerator $queryGenerator)
+	{
+		//$queryGenerator->permissions = false;
 	}
 }

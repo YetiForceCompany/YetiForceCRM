@@ -10,8 +10,8 @@ namespace Api\Core;
 class BaseAction
 {
 
-	/** @var string */
-	protected $allowedMethod;
+	/** @var array Permitted modules */
+	public $allowedMethod;
 
 	/** @var \Api\Controller */
 	public $controller;
@@ -27,7 +27,7 @@ class BaseAction
 		if (!$this->checkPermission()) {
 			throw new \Api\Core\Exception('Invalid permission', 401);
 		}
-		if ($this->controller->request->has('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
+		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
 			throw new \Api\Core\Exception('No module privilege', 401);
 		}
 		/*

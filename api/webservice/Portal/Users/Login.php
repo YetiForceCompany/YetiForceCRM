@@ -10,7 +10,8 @@ namespace Api\Portal\Users;
 class Login extends \Api\Core\BaseAction
 {
 
-	protected $allowedMethod = ['POST'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['POST'];
 
 	public function checkPermission()
 	{

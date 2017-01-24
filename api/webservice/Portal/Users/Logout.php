@@ -10,7 +10,8 @@ namespace Api\Portal\Users;
 class Logout extends \Api\Core\BaseAction
 {
 
-	protected $allowedMethod = ['PUT'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['PUT'];
 
 	public function put()
 	{

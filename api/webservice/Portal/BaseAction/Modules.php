@@ -10,8 +10,8 @@ namespace Api\Portal\BaseAction;
 class Modules extends \Api\Core\BaseAction
 {
 
-	/** @var string[] Request methods */
-	protected $requestMethod = ['GET'];
+	/** @var string[] Allowed request methods */
+	public $allowedMethod = ['GET'];
 
 	/**
 	 * Get modules list
