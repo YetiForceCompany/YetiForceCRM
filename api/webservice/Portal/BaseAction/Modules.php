@@ -19,16 +19,10 @@ class Modules extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		$notInParam = ['Reports', 'RecycleBin', 'ModComments'];
-		$query = (new \App\Db\Query())->select(['name'])->from('vtiger_tab')
-			->where(['and', ['isentitytype' => 1], ['not', ['name' => $notInParam]]])
-			->orderBy('name');
-		$dataReader = $query->createCommand()->query();
 		$modules = [];
-		while ($module = $dataReader->readColumn(0)) {
-			if (\App\Privilege::isPermitted($module)) {
-				$modules[$module] = \App\Language::translate($module, $module);
+		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $key => $value) {
+			if (\App\Privilege::isPermitted($value['name'])) {
+				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
 			}
 		}
 		return $modules;
