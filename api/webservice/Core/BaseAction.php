@@ -46,15 +46,16 @@ class BaseAction
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->select(["$sessionTable.*"])
-				->from($sessionTable)->innerJoin($userTable, "$sessionTable.user_id = $userTable.id")
+		$row = (new \App\Db\Query())->from($sessionTable)->innerJoin($userTable, "$sessionTable.user_id = $userTable.id")
 				->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])->one($db);
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
 		$this->session = new \App\Base();
 		$this->session->setData($row);
-		App\User::setCurrentUserId(Users::getActiveAdminId());
+		\App\User::setCurrentUserId($this->session->get('user_id'));
+		$currentUser = (new \Users())->retrieveCurrentUserInfoFromFile($this->session->get('user_id'));
+		vglobal('current_user', $currentUser);
 		return true;
 	}
 

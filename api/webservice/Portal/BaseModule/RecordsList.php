@@ -15,7 +15,7 @@ class RecordsList extends \Api\Core\BaseAction
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
-		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->initForDefaultCustomView();
 		$records = [];
 		$fieldsModel = $queryGenerator->getListViewFields();

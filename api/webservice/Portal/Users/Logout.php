@@ -18,6 +18,11 @@ class Logout extends \Api\Core\BaseAction
 		$db->createCommand()->delete("w_#__portal_session", [
 			'id' => $this->controller->headers['X-TOKEN'],
 		])->execute();
+		$db->createCommand()
+			->update('w_#__portal_user', [
+				'logout_time' => date('Y-m-d H:i:s')
+				], ['id' => $this->session->get('id')])
+			->execute();
 		return true;
 	}
 }

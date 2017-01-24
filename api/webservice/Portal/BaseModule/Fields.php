@@ -1,4 +1,5 @@
 <?php
+namespace Api\Portal\BaseModule;
 
 /**
  * Get fields class
@@ -6,20 +7,15 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class API_Base_GetFields extends BaseAction
+class Fields extends \Api\Core\BaseAction
 {
 
-	protected $requestMethod = ['get'];
+	protected $requestMethod = ['GET'];
 
 	public function get()
 	{
-		$moduleName = $this->api->getModuleName();
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
-		vglobal('current_user', $currentUser);
-		App\User::setCurrentUserId(Users::getActiveAdminId());
-
-		$module = Vtiger_Module_Model::getInstance($moduleName);
+		$moduleName = $this->controller->request->get('module');
+		$module = \Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $blocks = [];
 		foreach ($module->getFields() as &$field) {
 			$block = $field->get('block');
@@ -37,7 +33,6 @@ class API_Base_GetFields extends BaseAction
 			$fieldInfo['blockId'] = $block->id;
 			$fields[$field->getId()] = $fieldInfo;
 		}
-
 		return ['fields' => $fields, 'blocks' => $blocks];
 	}
 }

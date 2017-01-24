@@ -7,26 +7,21 @@ namespace Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class API_Base_GetRecordDetail extends BaseAction
+class RecordDetail extends \Api\Core\BaseAction
 {
 
 	protected $requestMethod = ['GET'];
 
 	public function get()
 	{
-		$moduleName = $this->controller->requeste->get('module');
-		$record = $this->controller->requeste->get('record');
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
-		vglobal('current_user', $currentUser);
-		App\User::setCurrentUserId(Users::getActiveAdminId());
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$moduleName = $this->controller->request->get('module');
+		$record = $this->controller->request->get('record');
+		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$rawData = $recordModel->getData();
 		$moduleModel = $recordModel->getModule();
 
 		$fields = [];
-		$moduleBlockFields = Vtiger_Field_Model::getAllForModule($moduleModel);
+		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
 				$block = $moduleField->get('block');
