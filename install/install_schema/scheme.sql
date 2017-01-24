@@ -9542,7 +9542,7 @@ CREATE TABLE `w_yf_portal_user` (
   `user_name` varchar(50) NOT NULL,
   `password_h` varchar(200) DEFAULT NULL,
   `password_t` varchar(200) DEFAULT NULL,
-  `type` varchar(30) DEFAULT NULL,
+  `type` tinyint(1) unsigned DEFAULT '1',
   `login_time` datetime DEFAULT NULL,
   `logout_time` datetime DEFAULT NULL,
   `language` varchar(10) DEFAULT NULL,

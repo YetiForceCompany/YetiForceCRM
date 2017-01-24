@@ -30,7 +30,7 @@ class Webservice extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'w_#__portal_users' => [
+			'w_#__portal_user' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
 					'server_id' => $this->integer(10),
@@ -38,7 +38,7 @@ class Webservice extends \App\Db\Importers\Base
 					'user_name' => $this->stringType(50)->notNull(),
 					'password_h' => $this->stringType(200),
 					'password_t' => $this->stringType(200),
-					'type' => $this->stringType(30),
+					'type' => $this->smallInteger(1),
 					'login_time' => $this->dateTime(),
 					'logout_time' => $this->dateTime(),
 					'language' => $this->stringType(10),
@@ -46,7 +46,8 @@ class Webservice extends \App\Db\Importers\Base
 					'user_id' => $this->integer(),
 				],
 				'columns_mysql' => [
-					'status' => "tinyint(1) DEFAULT '0'"
+					'status' => "tinyint(1) DEFAULT '0'",
+					'type' => "tinyint(1) DEFAULT '1'"
 				],
 				'index' => [
 					['portal_users_idx', 'user_name', true],
