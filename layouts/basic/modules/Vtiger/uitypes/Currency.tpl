@@ -58,5 +58,4 @@
 			</div>
 		</div>
 	{/if}
-	{* TODO - UI Type 72 needs to be handled. Multi-currency support also needs to be handled *}
 {/strip}

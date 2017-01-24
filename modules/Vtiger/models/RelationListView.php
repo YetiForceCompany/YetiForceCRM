@@ -93,7 +93,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 
 		if (!$relationModel) {
-			die(">>> No relationModel instance, requires verification  1 <<<");
+			throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification  1 <<<");
 			$relatedModuleName = $relatedModuleModel->getName();
 			$parentModuleModel = $instance->getParentRecordModel()->getModule();
 			$referenceFieldOfParentModule = $parentModuleModel->getFieldsByType('reference');
@@ -137,7 +137,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$this->set('Query', $query);
 			return $query;
 		}
-		die(">>> No relationModel instance, requires verification 2 <<<");
+		throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification 2 <<<");
 		/*
 		  $relatedModuleModel = $this->getRelatedModuleModel();
 

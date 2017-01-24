@@ -23,7 +23,7 @@ class Module
 			return static::$permittedModules;
 		}
 		$action = \Api\Controller::getAction();
-		$permissionType = $action->getPermissionType();
+		//$permissionType = $action->getPermissionType();
 		$modules = [];
 		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
 			if (\App\Privilege::isPermitted($value['name'])) {

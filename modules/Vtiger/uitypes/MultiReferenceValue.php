@@ -179,7 +179,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValuesForModuleList($module, $view)
 	{
-		//  TODO Dodac funkcje setFields zamiast select
 		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([$this->get('field')->get('name')]);

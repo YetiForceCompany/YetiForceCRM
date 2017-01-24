@@ -31,5 +31,4 @@
 		{if $FIELD_MODEL->get('uitype') eq '3' || $FIELD_MODEL->get('uitype') eq '4'} readonly {/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	</div>
 </div>
-{* TODO - Handler Ticker Symbol field *}
 {/strip}

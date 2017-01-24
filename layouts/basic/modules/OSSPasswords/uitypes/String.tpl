@@ -55,5 +55,4 @@ data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\A
 		<div id="passwordStrength" class="strength0"></div>
 	</p>
 {/if}
-{* TODO - Handler Ticker Symbol field  ($FIELD_MODEL->get('uitype') eq '106' && $MODE eq 'edit') ||*}
 {/strip}

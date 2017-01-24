@@ -64,5 +64,4 @@
 			{/if}
 		</select>
 	{/if}
-	{* TODO - UI type 52 needs to be handled *}
 {/strip}
