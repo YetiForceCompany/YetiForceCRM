@@ -647,7 +647,7 @@ $(custom : ProductsValueTable|IStorages)$', '<div style="text-align:center;"><sp
 ', 1, 'Raport wartościowy stanów magazynowych', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'raport_wart_stanow_magazynowych', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Users:1', NULL],
 					[7, 'IIDN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie wewnętrzne</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IIDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IIDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
-		</tr></tbody></table><hr />', '<table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>FIRMA</b><br>
+		</tr></tbody></table><hr />', '<br /><br /><table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>FIRMA</b><br>
 			$(organization : name)$<br>
 			$(organization : street)$<br>
 			$(organization : code)$ $(organization : city)$<br>
