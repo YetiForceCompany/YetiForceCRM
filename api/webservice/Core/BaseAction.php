@@ -18,7 +18,6 @@ class BaseAction
 
 	/** @var \App\Base */
 	public $session;
-	public $user;
 
 	public function checkAction()
 	{

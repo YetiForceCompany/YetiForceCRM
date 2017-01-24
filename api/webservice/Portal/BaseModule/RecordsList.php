@@ -10,8 +10,13 @@ namespace Api\Portal\BaseModule;
 class RecordsList extends \Api\Core\BaseAction
 {
 
+	/** @var string[] Request methods */
 	protected $requestMethod = ['GET'];
 
+	/**
+	 * Get method
+	 * @return array
+	 */
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
@@ -33,6 +38,10 @@ class RecordsList extends \Api\Core\BaseAction
 		foreach ($fieldsModel as $fieldName => $fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
-		return ['headers' => $headers, 'records' => $records, 'count' => 456];
+		return [
+			'headers' => $headers,
+			'records' => $records,
+			'count' => count($records)
+		];
 	}
 }

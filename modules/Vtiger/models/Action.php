@@ -14,12 +14,12 @@
 class Vtiger_Action_Model extends Vtiger_Base_Model
 {
 
-	static $standardActions = array('0' => 'Save', '1' => 'EditView', '2' => 'Delete', '3' => 'index', '4' => 'DetailView', '7' => 'CreateView');
-	static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
+	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');
+	public static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
 		'DetailViewAjax', 'PriceBookEditView', 'QuickCreate', 'VendorEditView',
 		'DeletePriceBook', 'DeleteVendor', 'Popup', 'PriceBookDetailView',
 		'VendorDetailView', 'Merge');
-	static $utilityActions = array('5' => 'Import', '6' => 'Export', '8' => 'Merge', '9' => 'ConvertLead', '10' => 'DuplicatesHandling');
+	public static $utilityActions = array(5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling');
 
 	public function getId()
 	{

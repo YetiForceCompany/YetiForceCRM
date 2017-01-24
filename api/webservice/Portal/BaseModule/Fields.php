@@ -10,8 +10,13 @@ namespace Api\Portal\BaseModule;
 class Fields extends \Api\Core\BaseAction
 {
 
+	/** @var string[] Request methods */
 	protected $requestMethod = ['GET'];
 
+	/**
+	 * Get method
+	 * @return array
+	 */
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');

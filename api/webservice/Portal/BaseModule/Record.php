@@ -7,11 +7,16 @@ namespace Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RecordDetail extends \Api\Core\BaseAction
+class Record extends \Api\Core\BaseAction
 {
 
-	protected $requestMethod = ['GET'];
+	/** @var string[] Request methods */
+	protected $requestMethod = ['GET', 'DELETE'];
 
+	/**
+	 * Get record detail
+	 * @return array
+	 */
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
@@ -34,5 +39,22 @@ class RecordDetail extends \Api\Core\BaseAction
 			}
 		}
 		return ['rawData' => $rawData, 'data' => $fields];
+	}
+
+	/**
+	 * Delete record
+	 * @return bool
+	 */
+	public function delete()
+	{
+		$moduleName = $this->controller->request->get('module');
+		$record = $this->controller->request->get('record');
+		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$status = false;
+		if ($recordModel->isDeletable()) {
+			$recordModel->delete();
+			$status = true;
+		}
+		return $status;
 	}
 }
