@@ -1112,6 +1112,9 @@ class Base4 extends \App\Db\Importers\Base
 					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
+				'columns_mysql' => [
+					'presence' => "tinyint(1) DEFAULT '1'",
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],

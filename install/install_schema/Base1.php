@@ -3259,10 +3259,10 @@ class Base1 extends \App\Db\Importers\Base
 			'u_#__svendorenquiries' => [
 				'columns' => [
 					'svendorenquiriesid' => $this->integer()->notNull()->defaultValue(0),
-					'svendorenquiries_no' => $this->stringType()->defaultValue(''),
+					'svendorenquiries_no' => $this->stringType(50)->defaultValue(''),
 					'subject' => $this->stringType(),
 					'salesprocessid' => $this->integer(),
-					'category' => $this->stringType(),
+					'category' => $this->stringType(30),
 					'svendorenquiries_status' => $this->stringType(),
 					'accountid' => $this->integer(),
 					'response_time' => $this->decimal('10,2')->defaultValue(0),
@@ -3275,8 +3275,8 @@ class Base1 extends \App\Db\Importers\Base
 				'index' => [
 					['svendorenquiries_salesprocessid_idx', 'salesprocessid'],
 					['svendorenquiries_accountid_idx', 'accountid'],
-					['svendorenquiries_vendorid_idx', 'salesprocessid'],
-					['svendorenquiries_scalculationsid_idx', 'accountid'],
+					['svendorenquiries_vendorid_idx', 'vendorid'],
+					['svendorenquiries_scalculationsid_idx', 'scalculationsid'],
 				],
 				'primaryKeys' => [
 					['svendorenquiries_pk', 'svendorenquiriesid']

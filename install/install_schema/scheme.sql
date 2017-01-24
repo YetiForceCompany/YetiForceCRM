@@ -3223,10 +3223,10 @@ CREATE TABLE `u_yf_ssingleorderscf` (
 
 CREATE TABLE `u_yf_svendorenquiries` (
   `svendorenquiriesid` int(19) NOT NULL DEFAULT '0',
-  `svendorenquiries_no` varchar(255) DEFAULT '',
+  `svendorenquiries_no` varchar(50) DEFAULT '',
   `subject` varchar(255) DEFAULT NULL,
   `salesprocessid` int(19) DEFAULT NULL,
-  `category` varchar(255) DEFAULT NULL,
+  `category` varchar(30) DEFAULT NULL,
   `svendorenquiries_status` varchar(255) DEFAULT NULL,
   `accountid` int(19) DEFAULT NULL,
   `response_time` decimal(10,2) DEFAULT '0.00',
@@ -3237,10 +3237,10 @@ CREATE TABLE `u_yf_svendorenquiries` (
   `vendorid` int(19) DEFAULT NULL,
   `scalculationsid` int(19) DEFAULT NULL,
   PRIMARY KEY (`svendorenquiriesid`),
-  KEY `salesprocessid` (`salesprocessid`),
-  KEY `accountid` (`accountid`),
-  KEY `u_yf_svendorenquiries_vendorid_idx` (`vendorid`),
-  KEY `u_yf_svendorenquiries_scalculationsid_idx` (`scalculationsid`),
+  KEY `svendorenquiries_salesprocessid_idx` (`salesprocessid`),
+  KEY `svendorenquiries_accountid_idx` (`accountid`),
+  KEY `svendorenquiries_vendorid_idx` (`vendorid`),
+  KEY `svendorenquiries_scalculationsid_idx` (`scalculationsid`),
   CONSTRAINT `fk_1_u_yf_svendorenquiries` FOREIGN KEY (`svendorenquiriesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
