@@ -50,6 +50,7 @@
 			"vtlib\\": "vtlib/Vtiger/",
 			"includes\\": "include/",
 			"App\\": "vendor/yetiforce/",
+			"Api\\": "api/webservice/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/",
 			"Symfony\\Component\\VarDumper\\": "vendor/symfony/var-dumper/"

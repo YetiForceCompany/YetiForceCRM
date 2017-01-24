@@ -29,7 +29,7 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 		'A' =>
 		array(
 			'App\\' => 4,
-			'Api\\' => 4
+			'Api\\' => 4,
 		),
 	);
 	public static $prefixDirsPsr4 = array(
