@@ -3410,40 +3410,28 @@ class ReportRun extends CRMEntity
 
 	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
-
-		$currentModule = vglobal('currentModule');
-		$current_language = vglobal('current_language');
-		$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, $currentModule);
-
 		require_once("libraries/PHPExcel/PHPExcel.php");
-
 		$workbook = new PHPExcel();
 		$worksheet = $workbook->setActiveSheetIndex(0);
-
 		$reportData = $this->GenerateReport("PDF", $filterlist);
-		$arr_val = $reportData['data'];
+		$arrayValues = $reportData['data'];
 		$totalxls = $this->GenerateReport("TOTALXLS", $filterlist);
-
 		$header_styles = array(
 			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
-			//'font' => array( 'bold' => true )
 		);
-
-		if (isset($arr_val)) {
+		if (!empty($arrayValues)) {
 			$count = 0;
 			$rowcount = 1;
 			//copy the first value details
-			$arrayFirstRowValues = $arr_val[0];
+			$arrayFirstRowValues = $arrayValues[0];
 			array_pop($arrayFirstRowValues);   // removed action link in details
 			foreach ($arrayFirstRowValues as $key => $value) {
 				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $key, true);
 				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
-
 				$count = $count + 1;
 			}
-
 			$rowcount++;
-			foreach ($arr_val as $key => $array_value) {
+			foreach ($arrayValues as $key => $array_value) {
 				$count = 0;
 				array_pop($array_value); // removed action link in details
 				foreach ($array_value as $hdr => $value) {
@@ -3458,25 +3446,31 @@ class ReportRun extends CRMEntity
 				}
 				$rowcount++;
 			}
-
 			// Summary Total
 			$rowcount++;
 			$count = 0;
 			if (is_array($totalxls[0])) {
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, App\Language::translate('LBL_FIELD_NAMES', 'Reports'));
+				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+				$count++;
 				foreach ($totalxls[0] as $key => $value) {
-					$chdr = substr($key, -3, 3);
-					$translated_str = in_array($chdr, array_keys($mod_strings)) ? $mod_strings[$chdr] : $key;
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $translated_str);
-
+					$operator = substr($key, -3, 3);
+					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount,  App\Language::translate("LBL_$operator", 'Reports'));
 					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
-
-					$count = $count + 1;
+					$count++;
 				}
 			}
-
 			$rowcount++;
 			foreach ($totalxls as $key => $array_value) {
 				$count = 0;
+				$labels = array_keys( $array_value);
+				$valueArray = explode('__', $labels[0], 2);
+				$operator = substr($labels[0], -3, 3);
+				$moduleName = $valueArray[0];
+				$fieldLabel = str_replace("__$operator", '', $valueArray[1]);
+				$fieldLabel = str_replace('__', '', $fieldLabel);
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, App\Language::translate($moduleName, $moduleName) .'-' . App\Language::translate($fieldLabel, $moduleName));
+				$count++;
 				foreach ($array_value as $hdr => $value) {
 					$value = decode_html($value);
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value);
@@ -3484,7 +3478,6 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-
 		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
 		$workbookWriter->save($fileName);
 	}
