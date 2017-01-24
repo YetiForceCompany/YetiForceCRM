@@ -7,7 +7,7 @@ namespace Importers;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Admin extends \App\Db\Importers\Base
+class Webservice extends \App\Db\Importers\Base
 {
 
 	public $dbType = 'webservice';
