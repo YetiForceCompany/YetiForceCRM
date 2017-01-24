@@ -27,6 +27,7 @@ mysql:
   
 before_script:
 - travis_retry composer self-update
+- composer install
 - sudo wget https://phar.phpunit.de/phpunit.phar
 - sudo chmod +x phpunit.phar
 - sudo mv phpunit.phar /usr/local/bin/phpunit
