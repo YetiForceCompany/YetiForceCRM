@@ -122,8 +122,7 @@ class Controller
 			case E_COMPILE_ERROR:
 			case E_USER_ERROR:
 				$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-				throw new Api\Core\Exception($msg);
-				break;
+				throw new Core\Exception($msg);
 		}
 	}
 }
