@@ -67,7 +67,7 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 		array(
 			'Requests' =>
 			array(
-				0 => __DIR__ . '/..' . '/Requests/library',
+				0 => __DIR__ . '/..' . '/rmccue/requests/library',
 			),
 		),
 	);
