@@ -10,17 +10,16 @@ namespace Api\Core;
 class Response
 {
 
+	protected static $acceptableHeaders = ['X-API-KEY', 'X-ENCRYPTED', 'X-TOKEN'];
 	static protected $instance = false;
-	protected $acceptableHeaders;
 	protected $body;
 	protected $headers = [];
 	protected $status = 200;
 
-	public static function getInstance($acceptableHeaders = '')
+	public static function getInstance()
 	{
 		if (!static::$instance) {
 			static::$instance = new self();
-			static::$instance->acceptableHeaders = $acceptableHeaders;
 		}
 		return static::$instance;
 	}
@@ -62,7 +61,7 @@ class Response
 		$requestContentType = strtolower($_SERVER['HTTP_ACCEPT']);
 		header('Access-Control-Allow-Origin: *');
 		header('Access-Control-Allow-Methods: *');
-		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', $this->acceptableHeaders));
+		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
 		header("Content-Type: $requestContentType");
 		header('HTTP/1.1 ' . $this->status . ' ' . $this->_requestStatus());
 		header('Encrypted: ' . $encryptDataTransfer);

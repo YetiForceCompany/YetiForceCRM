@@ -27,6 +27,9 @@ class BaseAction
 		if (!$this->checkPermission()) {
 			throw new \Api\Core\Exception('Invalid permission', 401);
 		}
+		if ($this->controller->request->has('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
+			throw new \Api\Core\Exception('No module privilege', 401);
+		}
 		/*
 		  $acceptableUrl = $this->controller->app['acceptable_url'];
 		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
@@ -79,5 +82,14 @@ class BaseAction
 			$language = $this->session->get('language');
 		}
 		return $language;
+	}
+
+	/**
+	 * Get permission type
+	 * @return int
+	 */
+	public function getPermissionType()
+	{
+		return $this->session->get('type');
 	}
 }

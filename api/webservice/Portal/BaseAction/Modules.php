@@ -19,12 +19,6 @@ class Modules extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		$modules = [];
-		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $key => $value) {
-			if (\App\Privilege::isPermitted($value['name'])) {
-				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
-			}
-		}
-		return $modules;
+		return \Api\Core\Module::getPermittedModules();
 	}
 }

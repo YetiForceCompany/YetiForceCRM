@@ -14,8 +14,13 @@ class Controller
 	 * Property: method
 	 * The HTTP method this request was made in, either GET, POST, PUT or DELETE
 	 */
-	protected $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
-	protected $acceptableHeaders = ['X-API-KEY', 'X-ENCRYPTED', 'X-TOKEN'];
+	protected static $acceptableMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+
+	/** @var \self */
+	private static $instance;
+
+	/** @var Core\BaseAction */
+	private static $action;
 
 	/** @var \Api\Core\Request */
 	public $request;
@@ -30,14 +35,32 @@ class Controller
 	public function __construct()
 	{
 		$this->request = Core\Request::init();
-		$this->response = Core\Response::getInstance($this->acceptableHeaders);
+		$this->response = Core\Response::getInstance();
 		$this->method = strtoupper($this->request->getRequestMetod());
+	}
+
+	/**
+	 * Get controller instance
+	 * @return \self
+	 */
+	public static function getInstance()
+	{
+		if (isset(static::$instance)) {
+			return static::$instance;
+		}
+		return static::$instance = new self();
+	}
+
+	public static function getAction()
+	{
+		return static::$action;
 	}
 
 	public function preProcess()
 	{
+		set_error_handler([$this, 'exceptionErrorHandler']);
 		if ($this->method === 'OPTIONS') {
-			$this->response->addHeader('Allow', strtoupper(implode(', ', $this->acceptableMethods)));
+			$this->response->addHeader('Allow', strtoupper(implode(', ', static::$acceptableMethods)));
 			return false;
 		}
 		$this->app = Core\Auth::init($this);
@@ -56,7 +79,7 @@ class Controller
 		$handlerClass = $this->getModuleClassName();
 		$this->request->getData();
 		$this->debugRequest();
-		$handler = new $handlerClass();
+		static::$action = $handler = new $handlerClass();
 		$handler->controller = $this;
 		if ($handler->checkAction()) {
 			$handler->preProcess();

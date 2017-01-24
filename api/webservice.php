@@ -11,8 +11,7 @@ try {
 	if (!in_array('webservice', $enabledServices)) {
 		throw new Exception\NoPermittedToApi('Webservice - Service is not active', 403);
 	}
-	$controller = new Api\Controller();
-	set_error_handler([$controller, 'exceptionErrorHandler']);
+	$controller = Api\Controller::getInstance();
 	$process = $controller->preProcess();
 	if ($process) {
 		$controller->process();
