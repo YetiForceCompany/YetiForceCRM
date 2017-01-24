@@ -20,7 +20,8 @@
 	"require": {
 		"php": ">=5.6.0",
 		"rmccue/requests": ">=1.7",
-		"smarty/smarty": "3.1.31"
+		"smarty/smarty": ">=3.1.31",
+		"phpmailer/phpmailer": ">=v5.2.22"
 	},
 	"require-dev": {
 		"ext-imap": "*",
@@ -53,8 +54,7 @@
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/",
 			"Symfony\\Component\\VarDumper\\": "vendor/symfony/var-dumper/"
-		},
-		"classmap": ["vendor/PHPMailer/"]
+		}
 	}
 
 }
