@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-vimport('~libraries/Smarty/libs/SmartyBC.class.php');
 
 class Vtiger_Viewer extends SmartyBC
 {

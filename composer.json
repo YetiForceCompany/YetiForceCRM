@@ -19,7 +19,8 @@
 	],
 	"require": {
 		"php": ">=5.6.0",
-		"rmccue/requests": ">=1.7"
+		"rmccue/requests": ">=1.7",
+		"smarty/smarty": "3.1.31"
 	},
 	"require-dev": {
 		"ext-imap": "*",
