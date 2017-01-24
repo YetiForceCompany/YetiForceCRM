@@ -7,7 +7,7 @@ namespace Api\Portal\BaseAction;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class GetModulesList extends \Api\Core\BaseAction
+class ModulesList extends \Api\Core\BaseAction
 {
 
 	protected $requestMethod = ['GET'];

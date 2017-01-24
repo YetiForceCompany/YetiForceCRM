@@ -39,12 +39,11 @@ class Admin extends \App\Db\Importers\Base
 					'password_h' => $this->stringType(200),
 					'password_t' => $this->stringType(200),
 					'type' => $this->stringType(30),
-					'parent_id' => $this->integer(),
 					'login_time' => $this->dateTime(),
 					'logout_time' => $this->dateTime(),
-					'first_name' => $this->stringType(200),
-					'last_name' => $this->stringType(200),
 					'language' => $this->stringType(10),
+					'crmid' => $this->integer(),
+					'user_id' => $this->integer(),
 				],
 				'columns_mysql' => [
 					'status' => "tinyint(1) DEFAULT '0'"

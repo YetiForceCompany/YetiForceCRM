@@ -54,6 +54,7 @@ class BaseAction
 		}
 		$this->session = new \App\Base();
 		$this->session->setData($row);
+		App\User::setCurrentUserId(Users::getActiveAdminId());
 		return true;
 	}
 

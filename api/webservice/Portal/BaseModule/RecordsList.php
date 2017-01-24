@@ -7,18 +7,14 @@ namespace Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class GetRecordsList extends \Api\Core\BaseAction
+class RecordsList extends \Api\Core\BaseAction
 {
 
 	protected $requestMethod = ['GET'];
 
 	public function get()
 	{
-		$moduleName = $this->controller->requeste->get('module');
-		$user = new Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
-		vglobal('current_user', $currentUser);
-		App\User::setCurrentUserId(Users::getActiveAdminId());
+		$moduleName = $this->controller->request->get('module');
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->initForDefaultCustomView();
 		$records = [];
