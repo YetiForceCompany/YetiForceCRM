@@ -1527,8 +1527,18 @@ var app = {
 					url: url,
 					cb: function (container) {
 						var call = currentElement.data('cb');
-						if (typeof window[call] === 'function') {
-							window[call](container);
+						if (typeof call !== 'undefined') {
+							if(call.indexOf('.') != -1) {
+								var callerArray = call.split('.');
+								if(typeof window[callerArray[0]] === 'object') {
+									window[callerArray[0]][callerArray[1]](container);
+								}
+							} else {
+								if (typeof window[call] === 'function') {
+									window[call](container);
+								}
+							}
+							
 						}
 						currentElement.removeAttr("disabled");
 					}
