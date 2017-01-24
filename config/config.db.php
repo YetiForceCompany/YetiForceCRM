@@ -28,7 +28,7 @@
   'name' => '',
   'charset' => 'utf8'
   ],
-  'portal' => [
+  'webservice' => [
   'host' => '',
   'port' => '',
   'username' => '',

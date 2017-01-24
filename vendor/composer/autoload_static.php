@@ -29,6 +29,7 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 		'A' =>
 		array(
 			'App\\' => 4,
+			'Api\\' => 4
 		),
 	);
 	public static $prefixDirsPsr4 = array(
@@ -55,6 +56,10 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 		'App\\' =>
 		array(
 			0 => __DIR__ . '/..' . '/yetiforce',
+		),
+		'Api\\' =>
+		array(
+			0 => __DIR__ . '/../..' . '/api/webservice',
 		),
 	);
 	public static $prefixesPsr0 = array(

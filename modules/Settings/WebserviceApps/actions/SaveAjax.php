@@ -18,7 +18,7 @@ class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Acti
 		$url = $request->get('url');
 		$pass = $request->get('pass');
 		$accounts = $request->get('accounts');
-		$db = \App\Db::getInstance('portal');
+		$db = \App\Db::getInstance('webservice');
 		if (empty($id)) {
 			$type = $request->get('type');
 			$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);

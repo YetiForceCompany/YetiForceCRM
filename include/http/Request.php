@@ -13,10 +13,10 @@ class Vtiger_Request
 {
 
 	// Datastore
-	private $valueMap = [];
-	private $rawValueMap = [];
-	private $defaultmap = [];
-	private $headers = [];
+	protected $valueMap = [];
+	protected $rawValueMap = [];
+	protected $defaultmap = [];
+	protected $headers = [];
 
 	/**
 	 * Default constructor
@@ -239,11 +239,10 @@ class Vtiger_Request
 		if (!empty($this->headers)) {
 			return $this->headers;
 		}
-
 		if (!function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) == 'HTTP_') {
-					$key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
+					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
 					$out[$key] = $value;
 				} else {
 					$out[$key] = $value;
@@ -251,7 +250,7 @@ class Vtiger_Request
 			}
 			$headers = $out;
 		} else {
-			$headers = apache_request_headers();
+			$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
 		}
 		$this->headers = $headers;
 		return $headers;

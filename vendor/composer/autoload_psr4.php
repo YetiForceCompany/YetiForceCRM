@@ -11,4 +11,5 @@ return array(
 	'Exception\\' => array($baseDir . '/include/exceptions'),
 	'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
 	'App\\' => array($vendorDir . '/yetiforce'),
+	'Api\\' => array($baseDir . '/api/webservice'),
 );

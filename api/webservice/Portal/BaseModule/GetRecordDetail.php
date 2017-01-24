@@ -1,4 +1,5 @@
 <?php
+namespace Api\Portal\BaseModule;
 
 /**
  * Get record detail class
@@ -9,11 +10,12 @@
 class API_Base_GetRecordDetail extends BaseAction
 {
 
-	protected $requestMethod = ['get'];
+	protected $requestMethod = ['GET'];
 
-	public function get($record)
+	public function get()
 	{
-		$moduleName = $this->api->getModuleName();
+		$moduleName = $this->controller->requeste->get('module');
+		$record = $this->controller->requeste->get('record');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
 		vglobal('current_user', $currentUser);

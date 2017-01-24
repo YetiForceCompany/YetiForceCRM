@@ -1,4 +1,5 @@
 <?php
+namespace Api\Portal\BaseAction;
 
 /**
  * Get modules list action class
@@ -6,10 +7,10 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class API_Base_GetModulesList extends BaseAction
+class GetModulesList extends \Api\Core\BaseAction
 {
 
-	protected $requestMethod = ['get'];
+	protected $requestMethod = ['GET'];
 
 	/**
 	 * Get modules list

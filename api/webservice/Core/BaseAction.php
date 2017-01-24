@@ -1,4 +1,5 @@
 <?php
+namespace Api\Core;
 
 /**
  * Base action class
@@ -9,39 +10,70 @@
 class BaseAction
 {
 
-	public $api = [];
-	protected $requestMethod = [];
-	public $user = [];
+	/** @var string */
+	protected $allowedMethod;
 
-	public function checkPermission($function, $userId)
+	/** @var \Api\Controller */
+	public $controller;
+
+	/** @var \App\Base */
+	public $session;
+	public $user;
+
+	public function checkAction()
 	{
-		if ($this->api->app['type'] == 'POS') {
-			$db = PearDatabase::getInstance();
-			$query = $result = $db->pquery('SELECT * FROM w_yf_pos_actions WHERE name = ? LIMIT 1', [$function]);
-			if ($action = $db->getRow($result)) {
-				$result = $db->pquery('SELECT * FROM w_yf_pos_users WHERE id = ? LIMIT 1', [$userId]);
-				$user = $db->getRow($result);
-				$this->user = $user;
-				if (strpos($user['action'], (string) $action['id']) !== false) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		} else {
-			return true;
+		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
+			throw new \Api\Core\Exception('Invalid method', 405);
+		}
+		if (!$this->checkPermission()) {
+			throw new \Api\Core\Exception('Invalid permission', 401);
+		}
+		/*
+		  $acceptableUrl = $this->controller->app['acceptable_url'];
+		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
+		  throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
+		  }
+		 */
+		return true;
+	}
+
+	public function checkPermission()
+	{
+		if (empty($this->controller->headers['X-TOKEN'])) {
+			throw new \Api\Core\Exception('Invalid token', 401);
+		}
+		$apiType = strtolower($this->controller->app['type']);
+		$sessionTable = "w_#__{$apiType}_session";
+		$userTable = "w_#__{$apiType}_user";
+		$db = \App\Db::getInstance('webservice');
+		$row = (new \App\Db\Query())->select(["$sessionTable.*"])
+				->from($sessionTable)->innerJoin($userTable, "$sessionTable.user_id = $userTable.id")
+				->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])->one($db);
+		if (empty($row)) {
+			throw new Core\Exception('Invalid token', 401);
+		}
+		$this->session = new \App\Base();
+		$this->session->setData($row);
+		return true;
+	}
+
+	public function preProcess()
+	{
+		$language = $this->getLanguage();
+		if ($language) {
+			\Vtiger_Language_Handler::$language = $language;
 		}
 	}
 
-	/**
-	 * Function to get the value for a given key
-	 * @param $key
-	 * @return Value for the given key
-	 */
-	public function getRequestMethod()
+	public function getLanguage()
 	{
-		return $this->requestMethod;
+		$language = '';
+		if (!empty($this->controller->headers['Accept-Language'])) {
+			$language = $this->controller->headers['Accept-Language'];
+		}
+		if ($this->session && !$this->session->isEmpty('language')) {
+			$language = $this->session->get('language');
+		}
+		return $language;
 	}
 }

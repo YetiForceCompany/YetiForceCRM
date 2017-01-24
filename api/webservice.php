@@ -3,27 +3,41 @@
 chdir(__DIR__ . '/../');
 
 require_once 'include/main/WebUI.php';
-require_once 'api/webservice/Core/BaseAction.php';
-require_once 'api/webservice/Core/APISession.php';
-require_once 'api/webservice/Core/APIAuth.php';
-require_once 'api/webservice/API.php';
-require_once 'api/webservice/APIException.php';
-require_once 'api/webservice/APIResponse.php';
 
 if (!in_array('webservice', $enabledServices)) {
-	$apiLog = new \Exception\NoPermittedToApi();
-	$apiLog->stop(['status' => 0, 'Encrypted' => 0, 'error' => ['message' => 'Webservice - Service is not active']]);
+	(new Exception\NoPermittedToApi())->stop([
+		'status' => 0,
+		'Encrypted' => 0,
+		'error' => [
+			'message' => 'Webservice - Service is not active'
+		]
+	]);
 }
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
-
 define('REQUEST_MODE', 'API');
+
+function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+{
+	switch ($errno) {
+		case E_ERROR:
+		case E_WARNING:
+		case E_CORE_ERROR:
+		case E_COMPILE_ERROR:
+		case E_USER_ERROR:
+			$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
+			throw new Api\Core\Exception($msg);
+			break;
+	}
+}
+set_error_handler('exceptionErrorHandler');
+
 try {
-	$api = new API();
+	$api = new Api\Controller();
 	$process = $api->preProcess();
 	if ($process) {
 		$api->process();
 	}
 	$api->postProcess();
-} catch (APIException $e) {
+} catch (\Api\Core\Exception $e) {
 	$e->handleError();
 }

@@ -1,4 +1,5 @@
 <?php
+namespace Api\Portal\BaseModule;
 
 /**
  * Get record list class
@@ -6,14 +7,14 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class API_Base_GetRecordsList extends BaseAction
+class GetRecordsList extends \Api\Core\BaseAction
 {
 
-	protected $requestMethod = ['get'];
+	protected $requestMethod = ['GET'];
 
 	public function get()
 	{
-		$moduleName = $this->api->getModuleName();
+		$moduleName = $this->controller->requeste->get('module');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId());
 		vglobal('current_user', $currentUser);

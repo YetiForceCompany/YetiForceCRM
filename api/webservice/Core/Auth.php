@@ -1,4 +1,5 @@
 <?php
+namespace Api\Core;
 
 /**
  * API Authorization class
@@ -6,23 +7,18 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class APIAuth
+class Auth
 {
 
 	static protected $realm = 'YetiForceApi';
 
 	public static function init($self)
 	{
-		$method = AppConfig::api('AUTH_METHOD');
-
-		require_once 'api/webservice/Core/Auth/Abstract.php';
-		require_once 'api/webservice/Core/Auth/' . $method . '.php';
-
-		$class = $method . 'Auth';
-
+		$method = \AppConfig::api('AUTH_METHOD');
+		$class = "Api\Core\Auth\\$method";
 		$intance = new $class();
 		$intance->setApi($self);
-		$intance->authenticate(self::$realm);
+		$intance->authenticate(static::$realm);
 		return $intance->getCurrentServer();
 	}
 }
