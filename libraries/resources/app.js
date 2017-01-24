@@ -1543,6 +1543,14 @@ var app = {
 						currentElement.removeAttr("disabled");
 					}
 				}
+				var id = 'globalmodal';
+				if ($('#' + id).length) {
+					var numberGlobalModal = 1;
+					while($('#' + id).length) {
+						id = 'globalmodal' + numberGlobalModal++;
+					}
+					modalWindowParams['id'] = id;
+				}
 				app.showModalWindow(modalWindowParams);
 			}
 			e.stopPropagation();
