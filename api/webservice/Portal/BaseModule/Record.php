@@ -25,7 +25,7 @@ class Record extends \Api\Core\BaseAction
 		$rawData = $recordModel->getData();
 		$moduleModel = $recordModel->getModule();
 
-		$fields = [];
+		$displayData = [];
 		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
@@ -35,10 +35,33 @@ class Record extends \Api\Core\BaseAction
 				}
 				$blockLabel = \App\Language::translate($block->label, $moduleName);
 				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
-				$fields[$blockLabel][$fieldLabel] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
+				$displayData[$blockLabel][$fieldLabel] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
 			}
 		}
-		return ['rawData' => $rawData, 'data' => $fields];
+
+		$inventory = false;
+		if ($recordModel->getModule()->isInventory()) {
+			$rawInventory = $recordModel->getInventoryData();
+			$inventory = [];
+			$inventoryField = \Vtiger_InventoryField_Model::getInstance($moduleName);
+			$inventoryFields = $inventoryField->getFields();
+			foreach ($rawInventory as $row) {
+				$inventoryRow = [];
+				foreach ($inventoryFields as $name => $field) {
+					$inventoryRow[$name] = $field->getDisplayValue($row[$name]);
+				}
+				$inventory[] = $inventoryRow;
+			}
+		}
+		$resposne = [
+			'data' => $displayData,
+			'inventory' => $inventory
+		];
+		if ((int) $this->controller->headers['X-RAW-DATA'] === 1) {
+			$resposne['rawData'] = $rawData;
+			$resposne['rawInventory'] = $rawInventory;
+		}
+		return $resposne;
 	}
 
 	/**

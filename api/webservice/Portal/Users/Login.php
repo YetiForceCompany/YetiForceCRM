@@ -30,13 +30,32 @@ class Login extends \Api\Core\BaseAction
 		if ($row['password_t'] !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
-		$params = $this->controller->request->get('params');
 		$db->createCommand()
 			->update('w_#__portal_user', [
 				'login_time' => date('Y-m-d H:i:s')
 				], ['id' => $row['id']])
 			->execute();
+		$row = $this->updateSession($row);
+		return [
+			'token' => $row['token'],
+			'name' => \App\Record::getLabel($row['crmid']),
+			'lastLoginTime' => $row['login_time'],
+			'lastLogoutTime' => $row['logout_time'],
+			'language' => $row['language'],
+			'logged' => true,
+		];
+	}
+
+	/**
+	 * Update session
+	 * @param array $row
+	 * @return array
+	 */
+	public function updateSession($row)
+	{
+		$db = \App\Db::getInstance('webservice');
 		$token = md5(time() . rand());
+		$params = $this->controller->request->get('params');
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
 		$db->createCommand()->insert("w_#__portal_session", [
 			'id' => $token,
@@ -44,15 +63,11 @@ class Login extends \Api\Core\BaseAction
 			'created' => date('Y-m-d H:i:s'),
 			'changed' => date('Y-m-d H:i:s'),
 			'language' => $language,
-			'params' => $params
+			'params' => $this->controller->request->get('params')
 		])->execute();
-		return [
-			'token' => $token,
-			'name' => \App\Record::getLabel($row['crmid']),
-			'lastLoginTime' => $row['login_time'],
-			'lastLogoutTime' => $row['logout_time'],
-			'language' => $language,
-			'logged' => true,
-		];
+		$row['token'] = $token;
+		$row['language'] = $language;
+		$db->createCommand()->delete("w_#__portal_session", ['<', 'changed', date('Y-m-d H:i:s', strtotime('-1 day'))])->execute();
+		return $row;
 	}
 }

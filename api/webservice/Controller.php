@@ -112,4 +112,18 @@ class Controller
 			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}
+
+	public function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+	{
+		switch ($errno) {
+			case E_ERROR:
+			case E_WARNING:
+			case E_CORE_ERROR:
+			case E_COMPILE_ERROR:
+			case E_USER_ERROR:
+				$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
+				throw new Api\Core\Exception($msg);
+				break;
+		}
+	}
 }

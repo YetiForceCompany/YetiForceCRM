@@ -55,6 +55,9 @@ class BaseAction
 		\App\User::setCurrentUserId($this->session->get('user_id'));
 		$currentUser = (new \Users())->retrieveCurrentUserInfoFromFile($this->session->get('user_id'));
 		vglobal('current_user', $currentUser);
+		$db->createCommand()
+			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
+			->execute();
 		return true;
 	}
 

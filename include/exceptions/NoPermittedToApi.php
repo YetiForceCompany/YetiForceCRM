@@ -1,4 +1,5 @@
-<?php namespace Exception;
+<?php
+namespace Exception;
 
 /**
  * No Permitted Exception class
@@ -25,10 +26,5 @@ class NoPermittedToApi extends \Exception
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 		]);
-	}
-
-	public function stop($message)
-	{
-		die(json_encode($message));
 	}
 }
