@@ -50,6 +50,18 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
+	 * Function to get the field type
+	 * @return string type of the field
+	 */
+	public function getFieldType()
+	{
+		if ($this->get('name') === 'id') {
+			return 'SELF';
+		}
+		return parent::getFieldType();
+	}
+
+	/**
 	 * Function to get clean instance
 	 * @return <Settings_MappedFields_Field_Model>
 	 */
