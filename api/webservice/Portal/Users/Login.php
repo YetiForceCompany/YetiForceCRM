@@ -21,7 +21,7 @@ class Login extends \Api\Core\BaseAction
 	{
 		$db = \App\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())
-				->from('w_#__portal_users')
+				->from('w_#__portal_user')
 				->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 				->limit(1)->one($db);
 		if (!$row) {
@@ -32,7 +32,7 @@ class Login extends \Api\Core\BaseAction
 		}
 		$params = $this->controller->request->get('params');
 		$db->createCommand()
-			->update('w_#__portal_users', [
+			->update('w_#__portal_user', [
 				'login_time' => date('Y-m-d H:i:s')
 				], ['id' => $row['id']])
 			->execute();

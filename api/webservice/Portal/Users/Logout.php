@@ -10,13 +10,13 @@ namespace Api\Portal\Users;
 class Logout extends \Api\Core\BaseAction
 {
 
-	protected $allowedMethod = ['GET'];
+	protected $allowedMethod = ['PUT'];
 
-	public function post()
+	public function put()
 	{
 		$db = \App\Db::getInstance('webservice');
 		$db->createCommand()->delete("w_#__portal_session", [
-			'id' => '',
+			'id' => $this->controller->headers['X-TOKEN'],
 		])->execute();
 		return true;
 	}

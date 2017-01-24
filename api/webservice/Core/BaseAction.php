@@ -50,7 +50,7 @@ class BaseAction
 				->from($sessionTable)->innerJoin($userTable, "$sessionTable.user_id = $userTable.id")
 				->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])->one($db);
 		if (empty($row)) {
-			throw new Core\Exception('Invalid token', 401);
+			throw new \Api\Core\Exception('Invalid token', 401);
 		}
 		$this->session = new \App\Base();
 		$this->session->setData($row);
