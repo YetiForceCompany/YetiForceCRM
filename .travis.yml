@@ -26,6 +26,7 @@ mysql:
   encoding: utf8
   
 before_script:
+- composer install
 - sudo wget https://phar.phpunit.de/phpunit.phar
 - sudo chmod +x phpunit.phar
 - sudo mv phpunit.phar /usr/local/bin/phpunit
@@ -33,10 +34,6 @@ before_script:
 - sudo wget https://scrutinizer-ci.com/ocular.phar
 - sudo chmod +x ocular.phar
 - sudo mv ocular.phar /usr/local/bin/ocular
-- wget https://scrutinizer-ci.com/ocular.phar
-- travis_retry composer self-update
-- travis_retry composer install --no-interaction --prefer-source
-- composer dump-autoload -o
 - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
 - cp tests/config.inc.txt config/config.inc.php
