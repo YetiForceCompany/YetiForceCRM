@@ -24,6 +24,7 @@ class GetModulesList extends \Api\Core\BaseAction
 			->where(['and', ['isentitytype' => 1], ['not', ['name' => $notInParam]]])
 			->orderBy('name');
 		$dataReader = $query->createCommand()->query();
+		$modules = [];
 		while ($module = $dataReader->readColumn(0)) {
 			if (\App\Privilege::isPermitted($module)) {
 				$modules[$module] = \App\Language::translate($module, $module);

@@ -9521,9 +9521,21 @@ CREATE TABLE `vtiger_wsapp_sync_state` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `w_yf_portal_users` */
+/*Table structure for table `w_yf_portal_session` */
 
-CREATE TABLE `w_yf_portal_users` (
+CREATE TABLE `w_yf_portal_session` (
+  `id` varchar(32) NOT NULL,
+  `user_id` int(19) DEFAULT NULL,
+  `language` varchar(10) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `changed` datetime DEFAULT NULL,
+  `params` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `w_yf_portal_user` */
+
+CREATE TABLE `w_yf_portal_user` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `server_id` int(10) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
@@ -9582,18 +9594,6 @@ CREATE TABLE `w_yf_servers` (
   `accounts_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `w_yf_sessions` */
-
-CREATE TABLE `w_yf_sessions` (
-  `id` varchar(32) NOT NULL,
-  `user_id` int(19) DEFAULT NULL,
-  `language` varchar(10) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `changed` datetime DEFAULT NULL,
-  `ip` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_auth` */
