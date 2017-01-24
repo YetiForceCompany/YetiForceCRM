@@ -15,11 +15,9 @@ class PriceBooks_ProductPriceBookPopupAjax_View extends PriceBooks_ProductPriceB
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
 		$this->initializeListViewContents($request, $viewer);
 
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		echo $viewer->view('ProductPriceBookPopupContents.tpl', 'PriceBooks', true);

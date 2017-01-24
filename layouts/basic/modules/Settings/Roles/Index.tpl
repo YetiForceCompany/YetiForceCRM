@@ -30,8 +30,5 @@
 			</li>
 		</ul>
 	</div>
-			<a  href="index.php?module=Roles&parent=Settings&action=Export"><span class="glyphicon glyphicon-export alignMiddle btn btn-success btn-sm"></span></a>
-			<a  href="index.php?module=Roles&parent=Settings&view=Import"><span class="glyphicon glyphicon-import alignMiddle btn btn-info btn-sm"></span></a>
-
 </div>
 {/strip}

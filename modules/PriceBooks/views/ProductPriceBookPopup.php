@@ -16,11 +16,8 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
 		$this->initializeListViewContents($request, $viewer);
-
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo());
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 

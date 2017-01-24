@@ -38,12 +38,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
-		$companyDetails = App\Company::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
