@@ -29,8 +29,12 @@ class Importer
 				require $fileinfo->getPath() . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
 				$className = 'Importers\\' . $fileinfo->getBasename('.php');
 				$instance = new $className();
-				$instance->scheme();
-				$instance->data();
+				if (method_exists($instance, 'scheme')) {
+					$instance->scheme();
+				}
+				if (method_exists($instance, 'data')) {
+					$instance->data();
+				}
 				$this->importers[] = $instance;
 			}
 		}
