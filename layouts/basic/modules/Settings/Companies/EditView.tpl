@@ -17,12 +17,12 @@
 				{foreach from=$COMPANY_COLUMNS item=COLUMN}
 					<div class="form-group">
 						{if $COLUMN eq 'default'}
-							{if $RECORD_MODEL->get({$COLUMN}) eq 0}
+							{if $RECORD_MODEL->get($COLUMN) eq 0}
 								<label class="col-sm-2 control-label">
 									{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-10">
-									<input type="checkbox" name="{$COLUMN}"  {if $RECORD_MODEL->get({$COLUMN}) eq 1} checked {/if}>
+									<input type="checkbox" name="{$COLUMN}" value="1" {if $RECORD_MODEL->get({$COLUMN}) eq 1}  checked {/if}>
 								</div>
 							{/if}
 						{elseif $COLUMN neq 'logo_login' && $COLUMN neq 'logo_main' && $COLUMN neq 'logo_mail'}
