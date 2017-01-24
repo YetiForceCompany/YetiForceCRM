@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Symfony package.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Symfony\Component\VarDumper\Cloner;
 
 /**
@@ -14,13 +16,12 @@ namespace Symfony\Component\VarDumper\Cloner;
  */
 interface ClonerInterface
 {
-
-	/**
-	 * Clones a PHP variable.
-	 *
-	 * @param mixed $var Any PHP variable
-	 *
-	 * @return Data The cloned variable represented by a Data object
-	 */
-	public function cloneVar($var);
+    /**
+     * Clones a PHP variable.
+     *
+     * @param mixed $var Any PHP variable
+     *
+     * @return Data The cloned variable represented by a Data object
+     */
+    public function cloneVar($var);
 }

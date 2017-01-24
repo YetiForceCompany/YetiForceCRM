@@ -20,6 +20,7 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 		),
 		'S' =>
 		array(
+			'Symfony\\Polyfill\\Mbstring\\' => 26,
 			'Symfony\\Component\\VarDumper\\' => 28,
 		),
 		'E' =>
@@ -44,6 +45,10 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 		'includes\\' =>
 		array(
 			0 => __DIR__ . '/../..' . '/include',
+		),
+		'Symfony\\Polyfill\\Mbstring\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
 		),
 		'Symfony\\Component\\VarDumper\\' =>
 		array(
