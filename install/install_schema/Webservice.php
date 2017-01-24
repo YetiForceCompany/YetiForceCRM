@@ -102,8 +102,5 @@ class Webservice extends \App\Db\Importers\Base
 				'charset' => 'utf8'
 			],
 		];
-		$this->foreignKey = [
-			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
-		];
 	}
 }
