@@ -26,6 +26,7 @@ mysql:
   encoding: utf8
   
 before_script:
+- travis_retry composer self-update
 - sudo wget https://phar.phpunit.de/phpunit.phar
 - sudo chmod +x phpunit.phar
 - sudo mv phpunit.phar /usr/local/bin/phpunit
