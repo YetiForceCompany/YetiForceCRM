@@ -9,6 +9,7 @@
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
 
+	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
 	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
 	public $logoPath = 'storage/Logo/';
 
@@ -203,74 +204,58 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to update company info
-	 * @param Vtiger_Request $request
+	 * Function to check if company duplicated
+	 * @param string $name 
+	 * @param string $shortName 
+	 * @param int $id 
+	 * @return boolean
+	 */
+	public function isCompanyDuplicated($name, $shortName, $id)
+	{
+		$db = App\Db::getInstance('admin');
+		$query = new \App\Db\Query();
+		$query->from('s_#__companies')
+			->where(['name' => $name])
+			->orWhere(['short_name' => $shortName]);
+		if ($id) {
+			$query->andWhere(['<>', 'id', $id]);
+		}
+		return $query->exists($db);
+	}
+
+	/**
+	 * Function to set companies not default
+	 * @param string $name 
+	 */
+	public function setCompaniesNotDefault($default)
+	{
+		if ($default) {
+			App\Db::getInstance('admin')->createCommand()->update('s_#__companies', ['default' => 0])->execute();
+		}
+	}
+
+	/**
+	 * Function to save company logos
 	 * @return array
 	 */
-	public static function updateCompany(Vtiger_Request $request)
+	public function saveCompanyLogos()
 	{
-		$recordId = $request->get('record');
-		$duplicateName = false;
-		if ($recordId) {
-			$recordModel = self::getInstance($recordId);
-		} else {
-			$recordModel = new self();
-			$duplicateName = (new \App\Db\Query())->from('s_#__companies')
-				->where(['name' => $request->get('name')])
-				->orWhere(['short_name' => $request->get('short_name')])
-				->exists();
-		}
-		if (!$duplicateName) {
-			if ('on' === $request->get('default')) {
-				App\Db::getInstance('admin')->createCommand()->update('s_#__companies', ['default' => 0])->execute();
+		foreach (self::$logoNames as $image) {
+			$saveLogo[$image] = true;
+			if (!empty($_FILES[$image]['name'])) {
+				$logoDetails[$image] = $_FILES[$image];
+				$fileInstance = \App\Fields\File::loadFromRequest($logoDetails[$image]);
+				if (!$fileInstance->validate('image')) {
+					$saveLogo[$image] = false;
+				}
+				if ($fileInstance->getShortMimeType(0) !== 'image' || !in_array($fileInstance->getShortMimeType(1), self::$logoSupportedFormats)) {
+					$saveLogo[$image] = false;
+				}
+				if ($saveLogo[$image]) {
+					$this->saveLogo($image);
+				}
 			}
-			$columns = Settings_Companies_Module_Model::getColumnNames();
-			if ($columns) {
-				if (empty(($request->get('default')))) {
-					$columns = array_diff($columns, ['default']);
-				}
-				$status = false;
-				$images = ['logo_login', 'logo_main', 'logo_mail'];
-				foreach ($images as $image) {
-					$saveLogo[$image] = $status = true;
-					if (!empty($_FILES[$image]['name'])) {
-						$logoDetails[$image] = $_FILES[$image];
-						$fileInstance = \App\Fields\File::loadFromRequest($logoDetails[$image]);
-						if (!$fileInstance->validate('image')) {
-							$saveLogo[$image] = false;
-						}
-						//mime type check
-						if ($fileInstance->getShortMimeType(0) !== 'image' || !in_array($fileInstance->getShortMimeType(1), self::$logoSupportedFormats)) {
-							$saveLogo[$image] = false;
-						}
-						if ($saveLogo[$image]) {
-							$recordModel->saveLogo($image);
-						}
-					} else {
-						$saveLogo[$image] = true;
-					}
-				}
-
-				foreach ($columns as $fieldName) {
-					$fieldValue = $request->get($fieldName);
-					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
-						if (!empty($logoDetails[$fieldName]['name'])) {
-							$fieldValue = ltrim(basename(" " . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
-						} else {
-							$fieldValue = $recordModel->get($fieldName);
-						}
-					}
-					if ('default' === $fieldName) {
-						$fieldValue = $request->get('default') === 'on' ? 1 : 0;
-					}
-					$recordModel->set($fieldName, $fieldValue);
-				}
-				$recordModel->save();
-			}
-			$return = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
-		} else {
-			$return = ['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST')];
 		}
-		return $return;
+		return $logoDetails;
 	}
 }

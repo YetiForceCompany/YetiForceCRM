@@ -52,10 +52,6 @@
 							{/foreach}
 						</tbody>
 					</table>
-
-
-				{else}
-					brak kolumns
 				{/if}
 			</form>
 		</div>
