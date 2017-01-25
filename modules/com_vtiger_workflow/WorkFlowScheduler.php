@@ -166,7 +166,6 @@ class WorkFlowScheduler
 						'operator' => $operator,
 						'conditionGroup' => $groupJoin === 'and',
 					]);
-					$referenceField = null;
 				} else {
 					$queryGenerator->addCondition($fieldName, $value, $operator, $groupJoin === 'and');
 				}

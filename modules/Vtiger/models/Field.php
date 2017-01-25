@@ -289,7 +289,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					->from('vtiger_fieldmodulerel')
 					->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_fieldmodulerel.relmodule')
 					->where(['fieldid' => $this->getId()])
-					->andWhere(['not in', 'vtiger_tab.presence', [1]])
+					->andWhere(['<>', 'vtiger_tab.presence', 1])
 					->orderBy(['sequence' => SORT_ASC]);
 			} else {
 				$query = (new \App\Db\Query())->select(['module' => 'vtiger_ws_referencetype.type'])
@@ -297,7 +297,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					->innerJoin('vtiger_ws_fieldtype', 'vtiger_ws_referencetype.fieldtypeid = vtiger_ws_fieldtype.fieldtypeid')
 					->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_ws_referencetype.type')
 					->where(['vtiger_ws_fieldtype.uitype' => $this->getUIType()])
-					->andWhere(['not in', 'vtiger_tab.presence', [1]]);
+					->andWhere(['<>', 'vtiger_tab.presence', 1]);
 			}
 			$list = [];
 			foreach ($query->column() as $moduleName) {

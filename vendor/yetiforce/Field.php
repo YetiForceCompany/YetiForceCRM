@@ -141,27 +141,67 @@ class Field
 	}
 
 	/**
-	 * Get field module relation
-	 * @param string $moduleName
-	 * @param string|boolean $relatedModule
+	 * Get releted field for module
+	 * @param string|boolean $moduleName
+	 * @param string|boolean $forModule
 	 * @return array
 	 */
-	public static function getFieldModuleRel($moduleName, $relatedModule = false)
+	public static function getReletedFieldForModule($moduleName = false, $forModule = false)
 	{
-		if (Cache::has('getFieldModuleRelByModule', $moduleName)) {
-			$filedsRel = Cache::get('getFieldModuleRelByModule', $moduleName);
+		if (Cache::has('getReletedFieldForModule', $moduleName)) {
+			$fileds = Cache::get('getReletedFieldForModule', $moduleName);
 		} else {
-			$filedsRel = (new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['module' => $moduleName])->all();
-			Cache::save('getFieldModuleRelByModule', $moduleName, $filedsRel, Cache::LONG);
-		}
-		if ($relatedModule) {
-			foreach ($filedsRel as &$filedRel) {
-				if ($filedRel['relmodule'] === $relatedModule) {
-					return $filedRel;
+			$db = Db::getInstance();
+			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
+				->from('vtiger_field')
+				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+				->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
+				->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid')
+				->where(['vtiger_tab.presence' => 0]);
+			$fmrQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
+				->from('vtiger_field')
+				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
+				->where(['vtiger_tab.presence' => 0]);
+			$fileds = [];
+			$dataReader = $wsQuery->union($fmrQuery)->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$fileds[$row['name']][$row['relmod']] = $row;
+			}
+			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
+				->from('vtiger_field')
+				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [66, 67, 68]]);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				foreach (ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
+					$row['relmod'] = $module;
+					$row['type'] = 3;
+					$fileds[$row['name']][$row['relmod']] = $row;
 				}
 			}
+			Cache::save('getReletedFieldForModule', '', $fileds, Cache::LONG);
 		}
-		return $filedsRel;
+		if ($moduleName) {
+			if (isset($fileds[$moduleName])) {
+				if ($forModule) {
+					return isset($fileds[$moduleName][$forModule]) ? $fileds[$moduleName][$forModule] : [];
+				}
+				return $fileds[$moduleName];
+			}
+			return [];
+		} else {
+			if ($forModule) {
+				$rfileds = [];
+				foreach ($fileds as $moduleName => $forModules) {
+					if (isset($forModules[$forModule])) {
+						$rfileds[$moduleName] = $forModules[$forModule];
+					}
+				}
+				return $rfileds;
+			}
+		}
+		return $fileds;
 	}
 
 	/**
