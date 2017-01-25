@@ -29,6 +29,7 @@ class Fields extends \Api\Core\BaseAction
 				$blocks[$block->id] = array_filter($blockProperties, function($v, $k) {
 					return !is_object($v);
 				}, ARRAY_FILTER_USE_BOTH);
+				$blocks[$block->id]['name'] = \App\Language::translate($block->label, $moduleName);
 			}
 			$fieldInfo = $field->getFieldInfo();
 			$fieldInfo['id'] = $field->getId();
