@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'CMileageLogbook' => 'Ewidencja przebegu',
-	'SINGLE_CMileageLogbook' => 'Ewidencja przebegu',
+	'CMileageLogbook' => 'Ewidencja przebiegu',
+	'SINGLE_CMileageLogbook' => 'Ewidencja przebiegu',
 	//BLOCKS
 	'LBL_ADDITIONAL_INFORMATION' => 'Dodatkowe informacje',
 	'LBL_BASIC_INFORMATION' => 'Podstawowe informacje',
