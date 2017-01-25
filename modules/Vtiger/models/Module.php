@@ -988,7 +988,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -1148,10 +1148,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns the Calendar Events for the module
 	 * @param string $mode - upcoming/overdue mode
-	 * @param <Vtiger_Paging_Model> $pagingModel - $pagingModel
-	 * @param string $user - all/userid
-	 * @param string $recordId - record id
-	 * @return <Array>
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @param int|string $user - all/userid
+	 * @param int $recordId - record id
+	 * @return array
 	 */
 	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
 	{
@@ -1204,35 +1204,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 		} elseif ($mode === 'overdue') {
 			$andWhere [] = ['and', ['or', ['vtiger_activity.status' => null], ['not in', 'vtiger_activity.status', ['Completed', 'Deferred']]], ['<', 'due_date', $currentDate]];
 		}
-		if ($user != 'all' && $user != '') {
+		if ($user !== 'all' && !empty($user)) {
 			if ($user === $currentUser->id) {
 				$andWhere [] = ['vtiger_crmentity.smownerid' => $user];
 			}
 		}
 		$query->andWhere($andWhere);
 		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
-		$groupsIds = Vtiger_Util_Helper::getGroupsIdsForUsers($currentUser->getId());
 		$dataReader = $query->createCommand()->query();
 		$numOfRows = $dataReader->count();
 		$activities = [];
-		$visibleFields = ['activitytype', 'date_start', 'time_start', 'due_date', 'time_end', 'assigned_user_id', 'visibility', 'smownerid', 'crmid'];
 		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
-			$ownerId = $row['smownerid'];
-			$visibility = true;
-			if (in_array($ownerId, $groupsIds)) {
-				$visibility = false;
-			} else if ($ownerId == $currentUser->getId()) {
-				$visibility = false;
-			}
-			if (!$currentUser->isAdminUser() && $row['activitytype'] != 'Task' && $row['visibility'] == 'Private' && $ownerId && $visibility) {
-				foreach ($row as $data => $value) {
-					if (in_array($data, $visibleFields) != -1) {
-						unset($row[$data]);
-					}
-				}
-				$row['subject'] = vtranslate('Busy', 'Events') . '*';
-			}
 			if ($row['activitytype'] == 'Task') {
 				unset($row['visibility']);
 			}
