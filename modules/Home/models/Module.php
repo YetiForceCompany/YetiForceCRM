@@ -72,7 +72,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 	 * @param string $recordId - record id
 	 * @return array
 	 */
-	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false, $paramsMore = [])
+	public function getCalendarActivities($mode, Vtiger_Paging_Model $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$activities = [];
 		$currentUser = Users_Record_Model::getCurrentUserModel();

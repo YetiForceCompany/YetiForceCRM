@@ -988,7 +988,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -1153,7 +1153,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 * @param int $recordId - record id
 	 * @return array
 	 */
-	public function getCalendarActivities($mode, $pagingModel, $user, $recordId = false)
+	public function getCalendarActivities($mode, Vtiger_Paging_Model $pagingModel, $user, $recordId = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$user) {
@@ -1211,6 +1211,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$query->andWhere($andWhere);
 		App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
+		if (!$pagingModel->isEmpty('sortorder')) {
+			if ($pagingModel->get('sortorder') === 'ASC') {
+				$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
+			} else {
+				$query->orderBy(['date_start' => SORT_DESC, 'time_start' => SORT_DESC]);
+			}
+		}
+		$query->limit($pagingModel->getPageLimit() + 1)->offset($pagingModel->getStartIndex());
 		$dataReader = $query->createCommand()->query();
 		$numOfRows = $dataReader->count();
 		$activities = [];

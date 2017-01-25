@@ -16,7 +16,7 @@ class Vtiger_Activities_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&type=current&limit=' . $this->Data['limit'];
+		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&sortorder=ASC&type=current&limit=' . $this->Data['limit'];
 	}
 
 	public function getConfigTplName()
