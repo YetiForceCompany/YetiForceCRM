@@ -92,4 +92,22 @@ class BaseAction
 	{
 		return $this->session->get('type');
 	}
+
+	/**
+	 * Get crmid for portal user
+	 * @return int
+	 */
+	public function getUserCrmId()
+	{
+		return $this->session->get('crmid');
+	}
+
+	/**
+	 * Get parent record
+	 * @return int
+	 */
+	public function getParentCrmId()
+	{
+		return \App\Record::getParentRecord($this->getUserCrmId());
+	}
 }
