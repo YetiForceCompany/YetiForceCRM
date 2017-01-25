@@ -40,18 +40,14 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListViewContents.tpl', $moduleName);
+		$viewer->view('ListViewContents.tpl', $request->getModule());
 	}
 
 	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-
-		$viewer->view('ListViewPostProcess.tpl', $moduleName);
+		$viewer->view('ListViewPostProcess.tpl', $request->getModule());
 		parent::postProcess($request);
 	}
 	/*

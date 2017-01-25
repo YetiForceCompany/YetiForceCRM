@@ -263,19 +263,21 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
-		params.templateResult = function (data, container) {
-			if (data.element && data.element.className) {
-				$(container).addClass(data.element.className);
-			}
-			if (typeof data.name == 'undefined') {
-				return data.text;
-			}
-			if (data.type == 'optgroup') {
-				return '<strong>' + data.name + '</strong>';
-			} else {
-				return '<span>' + data.name + '</span>';
-			}
-		};
+		if (typeof params.templateResult === 'undefined') {
+			params.templateResult = function (data, container) {
+				if (data.element && data.element.className) {
+					$(container).addClass(data.element.className);
+				}
+				if (typeof data.name == 'undefined') {
+					return data.text;
+				}
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+		}
 		if (typeof params.templateSelection === 'undefined') {
 			params.templateSelection = function (data, container) {
 				if (data.element && data.element.className) {
