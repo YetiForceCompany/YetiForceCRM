@@ -260,9 +260,49 @@ class Record
 		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === \App\Module::getTabName($moduleName) : true)) ? true : false;
 	}
 
+	/**
+	 * Get record module name
+	 * @param int $recordId
+	 * @return string|null
+	 */
 	public static function getType($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
 		return $metadata ? $metadata['setype'] : NULL;
+	}
+
+	/**
+	 * Get parent record
+	 * @param int $recordId
+	 * @param string|bool $moduleName
+	 * @return int|bool
+	 */
+	public static function getParentRecord($recordId, $moduleName = false)
+	{
+		if (Cache::has('getParentRecord', $recordId)) {
+			return Cache::get('getParentRecord', $recordId);
+		}
+		if (!$moduleName) {
+			$moduleName = static::getType($recordId);
+		}
+		$parentId = false;
+		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
+			foreach ($parentModules as $parentModule) {
+				if ($fields = Field::getReletedFieldForModule($moduleName, $parentModule)) {
+					$entity = \CRMEntity::getInstance($moduleName);
+					$index = $entity->tab_name_index[$fields['tablename']];
+					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])
+						->from($fields['tablename'])
+						->innerJoin('vtiger_crmentity', "{$fields['tablename']}.{$index} = vtiger_crmentity.crmid")
+						->where(["{$fields['tablename']}.{$index}" => $recordId, 'vtiger_crmentity.deleted' => 0])
+						->scalar();
+					if ($parentId) {
+						continue;
+					}
+				}
+			}
+		}
+		Cache::save('getParentRecord', $recordId, $parentId);
+		return $parentId;
 	}
 }
