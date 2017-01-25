@@ -205,20 +205,18 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to check if company duplicated
-	 * @param string $name 
-	 * @param string $shortName 
-	 * @param int $id 
+	 * @param Vtiger_Request $request	
 	 * @return boolean
 	 */
-	public function isCompanyDuplicated($name, $shortName, $id)
+	public function isCompanyDuplicated(Vtiger_Request $request)
 	{
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->from('s_#__companies')
-			->where(['name' => $name])
-			->orWhere(['short_name' => $shortName]);
-		if ($id) {
-			$query->andWhere(['<>', 'id', $id]);
+			->where(['name' => $request->get('name')])
+			->orWhere(['short_name' => $request->get('short_name')]);
+		if ($request->get('record')) {
+			$query->andWhere(['<>', 'id', $request->get('record')]);
 		}
 		return $query->exists($db);
 	}

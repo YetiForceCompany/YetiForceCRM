@@ -31,7 +31,7 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		} else {
 			$recordModel = new Settings_Companies_Record_Model();
 		}
-		$exists = $recordModel->isCompanyDuplicated($request->get('name'), $request->get('short_name'), $request->get('id'));
+		$exists = $recordModel->isCompanyDuplicated($request);
 		if (!$exists) {
 			$recordModel->setCompaniesNotDefault($request->get('default'));
 			$logoDetails = $recordModel->saveCompanyLogos();
@@ -58,7 +58,7 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 			}
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
 		} else {
-			$result = ['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST')];
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
