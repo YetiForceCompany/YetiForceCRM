@@ -54,6 +54,7 @@ class Record extends \Api\Core\BaseAction
 			}
 		}
 		$resposne = [
+			'name' => $recordModel->getName(),
 			'data' => $displayData,
 			'inventory' => $inventory
 		];
