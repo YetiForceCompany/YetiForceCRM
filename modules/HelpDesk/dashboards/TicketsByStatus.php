@@ -52,7 +52,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 			$this->conditions = ['condition' => ['not in', 'vtiger_troubletickets.status', $ticketStatus]];
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['statusvalue', 'priority', 'vtiger_ticketpriorities.color', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$colors = $status = $priorities = $tickets = $response = [];
@@ -74,7 +74,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
-					$result[$priorityValue]['label'] = \App\Language::translate($priorityKey, 'HelpDesk');
+					$result[$priorityValue]['label'] = \App\Language::translate($priorityKey, $moduleName);
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
@@ -87,7 +87,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 			$ticks = [];
 			foreach ($status as $key => $value) {
-				$newArray = [$key, vtranslate($value, 'HelpDesk')];
+				$newArray = [$key, vtranslate($value, $moduleName)];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}

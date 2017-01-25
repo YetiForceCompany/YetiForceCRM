@@ -1072,6 +1072,42 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		});
 	}
 });
+YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js',{},{
+		loadChart: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		var options = {
+			xaxis: {
+				minTickSize: 1,
+				ticks: chartData['ticks']
+			},
+			yaxis: {
+				min: 0,
+				tickDecimals: 0
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+			series: {
+				bars: {
+					show: true,
+					barWidth: .9,
+					dataLabels: false,
+					align: "center",
+					lineWidth: 0
+				},
+				valueLabels: chartData['valueLabels'],
+				stack: true
+			},
+			legend: {
+				show: true,
+				sorted: 'reverse'
+			},
+		};
+		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+	},
+});
 Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
