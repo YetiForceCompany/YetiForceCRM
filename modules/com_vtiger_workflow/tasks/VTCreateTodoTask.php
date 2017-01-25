@@ -169,7 +169,7 @@ class VTCreateTodoTask extends VTTask
 			'due_date' => $due_date,
 			'visibility' => 'Private',
 		];
-		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}

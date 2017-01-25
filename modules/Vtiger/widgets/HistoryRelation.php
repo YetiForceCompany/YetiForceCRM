@@ -117,7 +117,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	public static function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
-		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$db = App\Db::getInstance();
 		if (in_array('Calendar', $type)) {
 			$query = (new \App\Db\Query())

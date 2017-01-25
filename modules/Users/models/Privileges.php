@@ -318,7 +318,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 
 		$parentRecord = false;
-		if ($parentModule = Vtiger_ModulesHierarchy_Model::getModulesMap1M($moduleName)) {
+		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
 			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
@@ -339,7 +339,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
-		} else if (in_array($moduleName, Vtiger_ModulesHierarchy_Model::getModulesMapMMBase())) {
+		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
@@ -375,7 +375,7 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
-		} else if ($relationInfo = Vtiger_ModulesHierarchy_Model::getModulesMapMMCustom($moduleName)) {
+		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';

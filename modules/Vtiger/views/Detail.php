@@ -563,7 +563,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 
 		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
-		$level = Vtiger_ModulesHierarchy_Model::getModuleLevel($request->getModule());
+		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
 		if ($level > 0) {
 			unset($hierarchyList[1]);
 			if ($level > 1) {

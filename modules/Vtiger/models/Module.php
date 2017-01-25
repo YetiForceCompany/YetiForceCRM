@@ -1611,7 +1611,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					}
 				}
 			}
-			$mappingRelatedField = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName);
+			$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 			if (!empty($mappingRelatedField)) {
 				foreach ($mappingRelatedField as $relatedModules) {
 					foreach ($relatedModules as $relatedModule => $relatedFields) {

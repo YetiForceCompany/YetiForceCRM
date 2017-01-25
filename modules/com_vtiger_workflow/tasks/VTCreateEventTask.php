@@ -103,7 +103,7 @@ class VTCreateEventTask extends VTTask
 			'duration_hours' => 0
 		);
 		$id = $recordModel->getId();
-		$field = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $id;
 		}

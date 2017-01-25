@@ -73,7 +73,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$return['to'] = $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
+			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName == 'Campaigns') {
 				$subject = '';
 				if ($type == 'new' || $moduleName == 'Campaigns') {
@@ -160,7 +160,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
-			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
+			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
@@ -207,7 +207,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
+			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {

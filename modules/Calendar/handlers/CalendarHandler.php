@@ -55,7 +55,7 @@ class Calendar_CalendarHandler_Handler
 	public function entityAfterUnLink(App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$fieldName = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($params['sourceModule']);
+		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($params['sourceModule']);
 		Calendar_Record_Model::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
 	}
 

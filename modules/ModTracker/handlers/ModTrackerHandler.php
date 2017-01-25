@@ -203,7 +203,7 @@ class ModTracker_ModTrackerHandler_Handler
 				$currentUser = \App\User::getCurrentUserModel();
 				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
 				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
-				$relatedField = Vtiger_ModulesHierarchy_Model::getMappingRelatedField($moduleName);
+				$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 				if ($relatedField) {
 					$notification = Vtiger_Record_Model::getCleanInstance('Notification');
 					$notification->set('shownerid', $users);

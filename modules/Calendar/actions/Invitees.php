@@ -31,7 +31,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 	public function find(Vtiger_Request $request)
 	{
 		$value = $request->get('value');
-		$modules = array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel(0));
+		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));
 		if (empty($modules)) {
 			return [];
 		}

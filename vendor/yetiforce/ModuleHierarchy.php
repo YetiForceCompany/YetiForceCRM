@@ -1,82 +1,74 @@
 <?php
+namespace App;
 
 /**
- * Base Modules Hierarchy Model Class
- * @package YetiForce.Model
+ * Modules hierarchy basic class
+ * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_ModulesHierarchy_Model
+class ModuleHierarchy
 {
 
-	protected static $modulesHierarchy = [];
+	protected static $hierarchy;
 	protected static $modulesByLevels = [];
-	protected static $modulesMapRelatedFields = [];
-	protected static $modulesMap1M = [];
-	protected static $modulesMapMMBase = [];
-	protected static $modulesMapMMCustom = [];
 
 	public static function init()
 	{
-		if (!empty(self::$modulesHierarchy)) {
+		if (isset(static::$hierarchy)) {
 			return true;
 		}
-		include('user_privileges/moduleHierarchy.php');
-		self::$modulesHierarchy = $modulesHierarchy;
-		self::$modulesMapRelatedFields = $modulesMapRelatedFields;
-		self::$modulesMap1M = $modulesMap1M;
-		self::$modulesMapMMBase = $modulesMapMMBase;
-		self::$modulesMapMMCustom = $modulesMapMMCustom;
-		foreach (self::$modulesHierarchy as $module => &$details) {
-			if (\App\Module::isModuleActive($module) && Users_Privileges_Model::isPermitted($module)) {
-				self::$modulesByLevels[$details['level']][$module] = $details;
+		static::$hierarchy = require ('user_privileges/moduleHierarchy.php');
+		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
+			if (Module::isModuleActive($module) && Privilege::isPermitted($module)) {
+				static::$modulesByLevels[$details['level']][$module] = $details;
 			}
 		}
 	}
 
 	public static function getModulesHierarchy()
 	{
-		self::init();
-		return self::$modulesHierarchy;
+		static::init();
+		return static::$hierarchy['modulesHierarchy'];
 	}
 
 	public static function getModuleLevel($moduleName)
 	{
-		self::init();
-		return isset(self::$modulesHierarchy[$moduleName]) ? self::$modulesHierarchy[$moduleName]['level'] : false;
+		static::init();
+		return isset(static::$hierarchy['modulesHierarchy'][$moduleName]) ? static::$hierarchy['modulesHierarchy'][$moduleName]['level'] : false;
 	}
 
 	public static function getModulesMap1M($moduleName)
 	{
-		self::init();
-		return self::$modulesMap1M[$moduleName];
+		static::init();
+		return static::$hierarchy['modulesMap1M'][$moduleName];
 	}
 
 	public static function getModulesMapMMBase()
 	{
-		self::init();
-		return self::$modulesMapMMBase;
+		static::init();
+		return static::$hierarchy['modulesMapMMBase'];
 	}
 
 	public static function getModulesMapMMCustom($moduleName)
 	{
-		self::init();
-		return self::$modulesMapMMCustom[$moduleName];
+		static::init();
+		return static::$hierarchy['modulesMapMMCustom'][$moduleName];
 	}
 
 	public static function getModulesByLevel($level = 0)
 	{
-		self::init();
-		return self::$modulesByLevels[$level];
+		static::init();
+		return static::$modulesByLevels[$level];
 	}
 
 	public static function accessModulesByLevel($level = 0, $actionName = 'EditView')
 	{
-		self::init();
+		static::init();
 		$modules = [];
-		if (isset(self::$modulesByLevels[$level])) {
-			foreach (self::$modulesByLevels[$level] as $module => &$details) {
-				if (Users_Privileges_Model::isPermitted($module, $actionName)) {
+		if (isset(static::$modulesByLevels[$level])) {
+			foreach (static::$modulesByLevels[$level] as $module => &$details) {
+				if (Privilege::isPermitted($module, $actionName)) {
 					$modules[$module] = $details;
 				}
 			}
@@ -86,10 +78,10 @@ class Vtiger_ModulesHierarchy_Model
 
 	public static function accessModulesByParent($parent, $actionName = 'EditView')
 	{
-		self::init();
+		static::init();
 		$modules = [];
-		foreach (self::$modulesHierarchy as $module => &$details) {
-			if (Users_Privileges_Model::isPermitted($module, $actionName)) {
+		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
+			if (Privilege::isPermitted($module, $actionName)) {
 				$modules[$details['parentModule']][$module] = $details;
 			}
 		}
@@ -99,7 +91,7 @@ class Vtiger_ModulesHierarchy_Model
 	public static function getMappingRelatedField($moduleName, $field = false)
 	{
 		$return = false;
-		switch (self::getModuleLevel($moduleName)) {
+		switch (static::getModuleLevel($moduleName)) {
 			case 0: $return = 'link';
 				break;
 			case 1: $return = 'process';
@@ -112,19 +104,19 @@ class Vtiger_ModulesHierarchy_Model
 
 	public static function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
-		self::init();
-		if ($field != false && isset(self::$modulesMapRelatedFields[$moduleName][$field])) {
-			return self::$modulesMapRelatedFields[$moduleName][$field];
+		static::init();
+		if ($field != false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
+			return static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field];
 		}
-		if (isset(self::$modulesMapRelatedFields[$moduleName])) {
-			return self::$modulesMapRelatedFields[$moduleName];
+		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
+			return static::$hierarchy['modulesMapRelatedFields'][$moduleName];
 		}
 		return [];
 	}
 
 	public static function getUitypeByModule($moduleName)
 	{
-		switch (self::getModuleLevel($moduleName)) {
+		switch (static::getModuleLevel($moduleName)) {
 			case 0: $return = 67;
 				break;
 			case 1: $return = 66;
@@ -139,24 +131,24 @@ class Vtiger_ModulesHierarchy_Model
 
 	public static function getRelatedField($moduleName, $type = 0)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \PearDatabase::getInstance();
 
 		$fields = [];
 		if ($type == 0 || $type == 1) {
-			if (isset(self::$relatedField[$moduleName][1])) {
-				$fields = self::$relatedField[$moduleName][1];
+			if (isset(static::$relatedField[$moduleName][1])) {
+				$fields = static::$relatedField[$moduleName][1];
 			} else {
 				$query = 'SELECT vtiger_field.tabid,vtiger_field.columnname,vtiger_field.fieldname,vtiger_field.tablename,vtiger_tab.name FROM vtiger_fieldmodulerel INNER JOIN vtiger_field ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = ? && vtiger_fieldmodulerel.relmodule = ?';
 				$result = $db->pquery($query, [0, $moduleName]);
 				while ($row = $db->getRow($result)) {
 					$fields[] = $row;
 				}
-				self::$relatedField[$moduleName][1] = $fields;
+				static::$relatedField[$moduleName][1] = $fields;
 			}
 		}
 		if ($type == 0 || $type == 2) {
-			if (isset(self::$relatedField[$moduleName][2])) {
-				$fields = array_merge($fields, self::$relatedField[$moduleName][2]);
+			if (isset(static::$relatedField[$moduleName][2])) {
+				$fields = array_merge($fields, static::$relatedField[$moduleName][2]);
 			} else {
 				$query = 'SELECT vtiger_field.tabid,vtiger_field.fieldname,vtiger_field.columnname,vtiger_field.tablename,vtiger_tab.name FROM vtiger_field 
 INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid
@@ -169,21 +161,21 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 					$fields1[] = $row;
 				}
 				$fields = array_merge($fields, $fields1);
-				self::$relatedField[$moduleName][1] = $fields1;
+				static::$relatedField[$moduleName][1] = $fields1;
 			}
 		}
 		if ($type == 0 || $type == 3) {
-			if (isset(self::$relatedField[$moduleName][3])) {
-				$fields = array_merge($fields, self::$relatedField[$moduleName][3]);
+			if (isset(static::$relatedField[$moduleName][3])) {
+				$fields = array_merge($fields, static::$relatedField[$moduleName][3]);
 			} else {
-				$uitype = Vtiger_ModulesHierarchy_Model::getUitypeByModule($moduleName);
+				$uitype = static::getUitypeByModule($moduleName);
 				$result = $db->pquery('SELECT vtiger_field.tabid,vtiger_field.fieldname,vtiger_field.columnname,vtiger_field.tablename,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = ? && vtiger_field.uitype = ?', [0, $uitype]);
 				$fields2 = [];
 				while ($row = $db->getRow($result)) {
 					$fields2[] = $row;
 				}
 				$fields = array_merge($fields, $fields2);
-				self::$relatedField[$moduleName][3] = $fields2;
+				static::$relatedField[$moduleName][3] = $fields2;
 			}
 		}
 		return $fields;
@@ -191,8 +183,8 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 
 	public static function getRelatedFieldByModule($moduleName, $type = 0)
 	{
-		$fields = Vtiger_ModulesHierarchy_Model::getRelatedField($moduleName, $type);
-		$modules = self::getChildModules($moduleName);
+		$fields = static::getRelatedField($moduleName, $type);
+		$modules = static::getChildModules($moduleName);
 		$return = [];
 		foreach ($fields as &$field) {
 			if (in_array($field['name'], $modules)) {
@@ -204,14 +196,14 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 
 	public static function getChildModules($moduleName)
 	{
-		self::init();
+		static::init();
 		$modules = [];
-		switch (self::getModuleLevel($moduleName)) {
+		switch (static::getModuleLevel($moduleName)) {
 			case 0:
-				$modules = array_keys(self::getModulesByLevel(1));
+				$modules = array_keys(static::getModulesByLevel(1));
 				break;
 			case 1:
-				if ($levelMod = self::getModulesByLevel(2)) {
+				if ($levelMod = static::getModulesByLevel(2)) {
 					foreach ($levelMod as $mod => &$details) {
 						if ($moduleName == $details['parentModule']) {
 							$modules[] = $mod;
@@ -225,23 +217,23 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 
 	public static function getRelatedRecords($record, $hierarchy)
 	{
-		$moduleName = vtlib\Functions::getCRMRecordType($record);
+		$moduleName = \vtlib\Functions::getCRMRecordType($record);
 		$records = $recordsLevel1 = [];
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
-		$fields = self::getRelatedFieldByModule($moduleName);
+		$fields = static::getRelatedFieldByModule($moduleName);
 		foreach ($fields as &$field) {
-			$recordsByField = self::getRelatedRecordsByField($record, $field);
+			$recordsByField = static::getRelatedRecordsByField($record, $field);
 			$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
 		}
-		$level = self::getModuleLevel($moduleName);
+		$level = static::getModuleLevel($moduleName);
 		if (!($level == 0 && !in_array(1, $hierarchy))) {
 			$records = array_merge($records, $recordsLevel1);
 		}
 		if ($level == 0 && in_array(2, $hierarchy)) {
 			foreach ($recordsLevel1 as $record) {
-				$recordsByHierarchy = self::getRelatedRecords($record, $hierarchy);
+				$recordsByHierarchy = static::getRelatedRecords($record, $hierarchy);
 				$records = array_merge($records, $recordsByHierarchy);
 			}
 		}
@@ -250,7 +242,7 @@ WHERE vtiger_tab.presence = ? && vtiger_ws_referencetype.`type` = ?';
 
 	protected static function getRelatedRecordsByField($record, $field)
 	{
-		$queryGenerator = new \App\QueryGenerator($field['name']);
+		$queryGenerator = new QueryGenerator($field['name']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
 		return $queryGenerator->createQuery()->column();

@@ -785,7 +785,7 @@ class API_CalDAV_Model
 				}
 			}
 			$crmid = 0;
-			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel()));
+			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(\App\ModuleHierarchy::getModulesByLevel()));
 			if (!empty($records)) {
 				$record = reset($records);
 				$crmid = $record['crmid'];

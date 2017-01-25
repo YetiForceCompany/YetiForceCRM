@@ -186,7 +186,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
 		} else {
-			$recordIds = Vtiger_ModulesHierarchy_Model::getRelatedRecords($parentId, $hierarchy);
+			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
 			if (empty($recordIds)) {
 				return [];
 			}

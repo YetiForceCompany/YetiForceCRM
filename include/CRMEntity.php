@@ -913,7 +913,7 @@ class CRMEntity
 					}
 				}
 			}
-			$fields = Vtiger_ModulesHierarchy_Model::getRelatedField($module);
+			$fields = \App\ModuleHierarchy::getRelatedField($module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
 				$db->update($field['tablename'], [
