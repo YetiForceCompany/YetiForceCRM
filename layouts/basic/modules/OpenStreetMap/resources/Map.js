@@ -5,6 +5,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	selectedParams: false,
 	layerMarkers: false,
 	markers: false,
+	cacheMarkers: [],
 	polygonLayer: false,
 	routeLayer: false,
 	recordsIds: '',
@@ -28,7 +29,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var markerArray = [];
 		var container = this.container;
 		var map = this.mapInstance;
-		
+
 		if (typeof response.result.coordinates != 'undefined') {
 			var markers = L.markerClusterGroup({
 				maxClusterRadius: 10
@@ -101,7 +102,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				});
 				coordinates = cache[key];
 				coordinates.forEach(function (e) {
-					if(thisInstance.recordsIds.indexOf(e.recordId) === -1){
+					if (thisInstance.recordsIds.indexOf(e.recordId) === -1) {
 						markerArray.push([e.lat, e.lon]);
 						var marker = L.marker([e.lat, e.lon], {
 							icon: L.AwesomeMarkers.icon({
@@ -114,6 +115,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 						markersCache.addLayer(marker);
 					}
 				});
+				thisInstance.cacheMarkers[key] = coordinates;
 				map.addLayer(markersCache);
 				thisInstance.cacheLayerMarkers[key] = markersCache;
 			});
@@ -261,7 +263,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				srcModuleName: searchModule.val()
 			}).then(function (response) {
 				addButton.data('crmId', '');
-				if(response.result.length == 1){
+				if (response.result.length == 1) {
 					var marker = L.marker([response.result[0].lat, response.result[0].lon], {
 						icon: L.AwesomeMarkers.icon({
 							icon: 'home',
@@ -390,6 +392,26 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					}).bindPopup(e.label);
 					layer.addLayer(marker);
 				});
+				
+				Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
+					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
+					var cacheLayer = L.markerClusterGroup({
+						maxClusterRadius: 10
+					});
+					thisInstance.cacheMarkers[key].forEach(function (e) {
+						var marker = L.marker([e.lat, e.lon], {
+								icon: L.AwesomeMarkers.icon({
+								icon: 'home',
+								markerColor: 'orange',
+								prefix: 'fa',
+								iconColor: e.color
+							})
+						}).bindPopup(e.label);
+						cacheLayer.addLayer(marker);
+					});
+					thisInstance.cacheLayerMarkers[key] = cacheLayer;
+					map.addLayer(cacheLayer);
+				});
 			} else {
 				var markerArray = [];
 				markers.forEach(function (e) {
@@ -404,6 +426,23 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					markerArray.push(marker);
 				});
 				var layer = L.featureGroup(markerArray);
+				Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
+					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
+					var markerArray = [];
+					thisInstance.cacheMarkers[key].forEach(function (e) {
+						var marker = L.marker([e.lat, e.lon], {
+								icon: L.AwesomeMarkers.icon({
+								icon: 'home',
+								markerColor: 'orange',
+								prefix: 'fa',
+								iconColor: e.color
+							})
+						}).bindPopup(e.label);
+						markerArray.push(marker);
+					});
+					thisInstance.cacheLayerMarkers[key] = L.featureGroup(markerArray);
+					map.addLayer(thisInstance.cacheLayerMarkers[key]);
+				});
 			}
 			thisInstance.layerMarkers = layer;
 			map.addLayer(layer);
@@ -614,7 +653,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		AppConnector.request(params).then(function (response) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			thisInstance.setMarkersByResponse(response);
-			
+
 		});
 	},
 	registerDetailView: function (container) {
