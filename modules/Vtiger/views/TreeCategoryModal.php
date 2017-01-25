@@ -22,6 +22,16 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
+	/**
+	 * Function to get size modal window
+	 * @param Vtiger_Request $request
+	 * @return string
+	 */
+	public function getSize(Vtiger_Request $request)
+	{
+		return 'modal-lg';
+	}
+
 	public function process(Vtiger_Request $request)
 	{
 		$this->preProcess($request);
