@@ -36,7 +36,7 @@ class Methods extends \Api\Core\BaseAction
 					default: $name = "$dir/$name";
 						break;
 				}
-				$methods[$dir][\AppConfig::main('site_URL') . "api/webservice/$name"] = implode(',', $instance->allowedMethod);
+				$methods[$dir]["api/webservice/$name"] = implode(',', $instance->allowedMethod);
 				unset($instance);
 			}
 		}

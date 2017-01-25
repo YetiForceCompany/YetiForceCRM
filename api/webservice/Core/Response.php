@@ -123,10 +123,23 @@ class Response
 
 	public function encodeXml($responseData)
 	{
-		$xml = new SimpleXMLElement('<?xml version="1.0"?>');
-		foreach ($responseData as $key => $value) {
-			$xml->addChild($key, $value);
-		}
+		$xml = new \SimpleXMLElement('<?xml version="1.0"?><data></data>');
+		$this->toXml($responseData, $xml);
 		return $xml->asXML();
+	}
+
+	function toXml($data, &$xmlData)
+	{
+		foreach ($data as $key => $value) {
+			if (is_numeric($key)) {
+				$key = 'item' . $key;
+			}
+			if (is_array($value)) {
+				$subnode = $xmlData->addChild($key);
+				$this->toXml($value, $subnode);
+			} else {
+				$xmlData->addChild("$key", htmlspecialchars("$value"));
+			}
+		}
 	}
 }
