@@ -749,7 +749,11 @@ class QueryGenerator
 	 */
 	public function addReletedCondition($condition)
 	{
-		$queryField = $this->getQueryReletedField($this->addReletedJoin($condition), $condition);
+		$field = $this->addReletedJoin($condition);
+		if (!$field) {
+			return false;
+		}
+		$queryField = $this->getQueryReletedField($field, $condition);
 		$queryField->setValue($condition['value']);
 		$queryField->setOperator($condition['operator']);
 		$queryCondition = $queryField->getCondition();
@@ -774,13 +778,14 @@ class QueryGenerator
 		$reletedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
 		$reletedFieldModel = $reletedModuleModel->getField($fieldDetail['relatedField']);
 		if (!$reletedFieldModel || !$reletedFieldModel->isActiveField()) {
-			App\Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['relatedField']}");
+			Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['relatedField']}");
 			return false;
 		}
 		$tableName = $reletedFieldModel->getTableName();
 		$sourceFieldModel = $this->getModuleField($fieldDetail['sourceField']);
 		$reletedTableName = $tableName . $fieldDetail['sourceField'];
-		$this->addJoin(['LEFT JOIN', "$tableName $reletedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $reletedTableName.{$reletedFieldModel->getColumnName()}"]);
+		$reletedTableIndex = $reletedModuleModel->getEntityInstance()->tab_name_index[$tableName];
+		$this->addJoin(['LEFT JOIN', "$tableName $reletedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $reletedTableName.$reletedTableIndex"]);
 		return $reletedFieldModel;
 	}
 

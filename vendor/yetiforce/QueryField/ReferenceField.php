@@ -21,6 +21,9 @@ class ReferenceField extends BaseField
 	 */
 	public function getRelatedTableName()
 	{
+		if ($this->releted) {
+			return [$this->fieldModel->getTableName() . $this->releted['sourceField'] . '.' . $this->fieldModel->getColumnName()];
+		}
 		$relatedTableName = [];
 		foreach ($this->getTables() as &$moduleName) {
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
@@ -125,9 +128,9 @@ class ReferenceField extends BaseField
 	public function operatorY()
 	{
 		return ['or',
-				[$this->getColumnName() => null],
-				['=', $this->getColumnName(), ''],
-				['=', $this->getColumnName(), 0]
+			[$this->getColumnName() => null],
+			['=', $this->getColumnName(), ''],
+			['=', $this->getColumnName(), 0]
 		];
 	}
 
@@ -138,9 +141,9 @@ class ReferenceField extends BaseField
 	public function operatorNy()
 	{
 		return ['and',
-				['not', [$this->getColumnName() => null]],
-				['<>', $this->getColumnName(), ''],
-				['<>', $this->getColumnName(), 0]
+			['not', [$this->getColumnName() => null]],
+			['<>', $this->getColumnName(), ''],
+			['<>', $this->getColumnName(), 0]
 		];
 	}
 

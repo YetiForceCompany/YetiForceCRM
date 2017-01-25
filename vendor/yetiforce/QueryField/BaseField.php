@@ -106,6 +106,15 @@ class BaseField
 	}
 
 	/**
+	 * Set table name
+	 * @param string $tableName
+	 */
+	public function setTableName($tableName)
+	{
+		$this->tableName = $tableName;
+	}
+
+	/**
 	 * Get table name
 	 * @return string
 	 */
@@ -186,8 +195,8 @@ class BaseField
 	public function operatorY()
 	{
 		return ['or',
-				[$this->getColumnName() => null],
-				['=', $this->getColumnName(), '']
+			[$this->getColumnName() => null],
+			['=', $this->getColumnName(), '']
 		];
 	}
 
@@ -198,8 +207,8 @@ class BaseField
 	public function operatorNy()
 	{
 		return ['and',
-				['not', [$this->getColumnName() => null]],
-				['<>', $this->getColumnName(), '']
+			['not', [$this->getColumnName() => null]],
+			['<>', $this->getColumnName(), '']
 		];
 	}
 
