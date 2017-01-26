@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
@@ -35,11 +36,14 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 
 	/**
 	 * Function to get Date and Time value for Display
-	 * @param <type> $date
+	 * @param string $date
 	 * @return string
 	 */
 	public static function getDisplayDateTimeValue($date)
 	{
+		if (empty($date) || in_array($date, ['0000-00-00', '0000-00-00 00:00:00'])) {
+			return '';
+		}
 		$date = new DateTimeField($date);
 		return $date->getDisplayDateTimeValue();
 	}
