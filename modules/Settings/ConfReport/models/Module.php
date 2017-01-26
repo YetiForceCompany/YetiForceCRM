@@ -90,12 +90,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'default_socket_timeout' => ['prefer' => '600'],
 			'memory_limit' => ['prefer' => '512 MB'],
 			'display_errors' => ['prefer' => 'Off'],
-			'log_errors' => ['prefer' => 'Off'],
+			'log_errors' => ['prefer' => 'On'],
 			'file_uploads' => ['prefer' => 'On'],
 			'short_open_tag' => ['prefer' => 'On'],
 			'post_max_size' => ['prefer' => '50 MB'],
-			'upload_max_filesize' => ['prefer' => '50 MB'],
-			'max_input_vars' => ['prefer' => '5000'],
+			'upload_max_filesize' => ['prefer' => '100 MB'],
+			'max_input_vars' => ['prefer' => '10000'],
 			'zlib.output_compression' => ['prefer' => 'Off'],
 			'expose_php' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
@@ -155,15 +155,15 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['default_socket_timeout']['status'] = true;
 		$directiveValues['default_socket_timeout']['current'] = ini_get('default_socket_timeout');
 
-		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 33554432)
+		if (vtlib\Functions::parseBytes(ini_get('memory_limit')) < 536870912)
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
 
-		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 10485760)
+		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800)
 			$directiveValues['post_max_size']['status'] = true;
 		$directiveValues['post_max_size']['current'] = vtlib\Functions::showBytes(ini_get('post_max_size'));
 
-		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 10485760)
+		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600)
 			$directiveValues['upload_max_filesize']['status'] = true;
 		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
@@ -190,7 +190,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['mbstring.func_overload']['current'] = self::getFlag(ini_get('mbstring.func_overload'));
 
-		if (ini_get('log_errors') == '1' || stripos(ini_get('log_errors'), 'On') !== false)
+		if (ini_get('log_errors') != '1' || stripos(ini_get('log_errors'), 'Off') !== false)
 			$directiveValues['log_errors']['status'] = true;
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
@@ -210,7 +210,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['session.gc_probability']['status'] = true;
 		$directiveValues['session.gc_probability']['current'] = ini_get('session.gc_probability');
 
-		if (ini_get('max_input_vars') < 5000) {
+		if (ini_get('max_input_vars') < 10000) {
 			$directiveValues['max_input_vars']['status'] = true;
 		}
 		$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
