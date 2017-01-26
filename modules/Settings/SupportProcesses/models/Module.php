@@ -60,19 +60,19 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	{
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
-				'ticket_status_indicate_closing' => ''
+			'ticket_status_indicate_closing' => ''
 			], ['id' => 1])->execute();
 		if (!empty($data['val'])) {
 			$data = implode(',', $data['val']);
 			\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 				'ticket_status_indicate_closing' => $data
-			], ['id' => 1])->execute();
+				], ['id' => 1])->execute();
 		}
 		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::updateTicketStatusNotModify() method ...");
 		return true;
 	}
 
-	public function getAllTicketStatus()
+	public static function getAllTicketStatus()
 	{
 		\App\Log::trace(__METHOD__);
 		return App\Fields\Picklist::getPickListValues('ticketstatus');

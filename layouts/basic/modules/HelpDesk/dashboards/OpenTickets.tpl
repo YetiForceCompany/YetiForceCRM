@@ -9,9 +9,6 @@
   *
  ********************************************************************************/
 -->*}
-<script type="text/javascript">
-	YetiForce_Pie_Widget_Js('YetiForce_Opentickets_Widget_Js',{},{});
-</script>
 {strip}
 <div class="dashboardWidgetHeader">
 	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}

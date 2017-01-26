@@ -35,7 +35,7 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
 			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
 			->where(['vtiger_crmentity.deleted' => 0]);
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 		}
@@ -45,12 +45,12 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$chartData = [];
 		while ($row = $dataReader->read()) {
-			$data['id'] = $row['id'];
-			$data['label'] = trim($row['name']);
-			$data['data'] = $row['count'];
-			$data['color'] = $row['color'];
-			$data['links'] = $listViewUrl . $this->getSearchParams($row['id']);
-			$chartData[$row['id']] = $data;
+			$chartData [] = [
+				$row['count'],
+				trim($row['name']),
+				$listViewUrl . $this->getSearchParams($row['id']),
+				$row['color']
+			];
 		}
 		return $chartData;
 	}

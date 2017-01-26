@@ -1548,6 +1548,72 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	}
 });
 Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
+Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
+	generateChartData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = new Array();
+		var yMaxValue = 0;
+		var color = [];
+		for (var index in data) {
+			var row = data[index];
+			row[0] = parseInt(row[0]);
+			xLabels.push(app.getDecodedValue(row[1]))
+			chartData.push([app.getDecodedValue(row[1]), row[0]]);
+			if (parseInt(row[0]) > yMaxValue) {
+				yMaxValue = parseInt(row[0]);
+			}
+			color.push(row[3]);
+		}
+		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
+		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels, 'colors': color};
+	},
+	loadChart: function () {
+		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				animate: !$.jqplot.use_excanvas,
+				seriesColors: data['colors'],
+				seriesDefaults: {
+					renderer: jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value',
+						barDirection: 'vertical',
+						 varyBarColor: true
+					},
+					pointLabels: {show: true, edgeTolerance: -15}
+				},
+				axes: {
+					xaxis: {
+						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+						renderer: jQuery.jqplot.CategoryAxisRenderer,
+			
+						tickOptions: {
+							angle: -45,
+							labelPosition: 'auto'
+						}
+					},
+					yaxis: {
+						min: 0,
+						max: data['yMaxValue'],
+						tickOptions: {
+							formatString: '%d'
+						},
+						pad: 1.2
+					}
+				},
+				legend: {
+					show: false,
+				}
+			});
+			this.registerSectionClick();
+		}
+	},
+});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
 	registerSectionClick: function () {
 		var thisInstance = this;
