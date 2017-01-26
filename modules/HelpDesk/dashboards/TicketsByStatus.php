@@ -87,7 +87,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 			$ticks = [];
 			foreach ($status as $key => $value) {
-				$newArray = [$key, vtranslate($value, $moduleName)];
+				$newArray = [$key, App\Language::translate($value, $moduleName)];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}
