@@ -23,7 +23,9 @@ class RecordsList extends \Api\Core\BaseAction
 		$headers = [];
 		$records = [];
 		$queryGenerator = $this->getQuery();
+		//echo "<hr>";
 		//var_dump($queryGenerator->createQuery()->createCommand()->getRawSql());
+		//echo "<hr>";
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -54,21 +56,24 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$queryGenerator = new \App\QueryGenerator($this->controller->request->get('module'));
 		$queryGenerator->initForDefaultCustomView();
-		switch ($this->getPermissionType()) {
-			case 2:
-				$this->getQueryByParentRecord($queryGenerator);
-				break;
+		if ($this->getPermissionType() !== 1) {
+			$this->getQueryByParentRecord($queryGenerator);
 		}
 		return $queryGenerator;
 	}
 
+	/**
+	 * Get query by parent record
+	 * @param \App\QueryGenerator $queryGenerator
+	 * @throws \Api\Core\Exception
+	 */
 	public function getQueryByParentRecord(\App\QueryGenerator $queryGenerator)
 	{
 		$parentId = $this->getParentCrmId();
 		$parentModule = \App\Record::getType($parentId);
 		$fields = \App\Field::getReletedFieldForModule($queryGenerator->getModule());
 		$foundField = true;
-		if (\App\ModuleHierarchy::getModuleLevel($parentModule) === 0) {
+		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
 		} elseif (isset($fields[$parentModule]) && $fields[$parentModule]['name'] !== $fields[$parentModule]['relmod']) {
 			$field = $fields[$parentModule];
