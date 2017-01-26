@@ -36,6 +36,11 @@ class BaseAction
 		return true;
 	}
 
+	/**
+	 * Check permission to method
+	 * @return boolean
+	 * @throws \Api\Core\Exception
+	 */
 	public function checkPermission()
 	{
 		if (empty($this->controller->headers['X-TOKEN'])) {
@@ -108,6 +113,19 @@ class BaseAction
 	 */
 	public function getParentCrmId()
 	{
+		if ($this->controller) {
+			if ($parentId = $this->controller->request->getHeader('X-PARENT-ID')) {
+				settype($parentId, 'int');
+				$hierarchy = new \Api\Portal\BaseModule\Hierarchy();
+				$hierarchy->session = $this->session;
+				$hierarchy->findId = $parentId;
+				$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
+				$records = $hierarchy->get();
+				if (isset($records[$parentId])) {
+					return $parentId;
+				}
+			}
+		}
 		return \App\Record::getParentRecord($this->getUserCrmId());
 	}
 }
