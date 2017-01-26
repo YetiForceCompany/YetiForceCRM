@@ -94,7 +94,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var filterFields = {};
 		var formElement = container.closest('form');
 		var mappingRelatedField = formElement.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedModule = JSON.parse(mappingRelatedField);
+		var mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
 		if (mappingRelatedModule[sourceField] != undefined && mappingRelatedModule[sourceField][popupReferenceModule] != undefined) {
 			$.each(mappingRelatedModule[sourceField][popupReferenceModule], function (index, value) {
 				var mapFieldElement = formElement.find('[name="' + index + '"]');
@@ -1386,7 +1386,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	getMappingRelatedField: function (sourceField, sourceFieldModule, container) {
 		var mappingRelatedField = container.find('input[name="mappingRelatedField"]').val();
-		var mappingRelatedModule = JSON.parse(mappingRelatedField);
+		var mappingRelatedModule = mappingRelatedField ? JSON.parse(mappingRelatedField) : [];
 		if (typeof mappingRelatedModule[sourceField] != 'undefined' && typeof mappingRelatedModule[sourceField][sourceFieldModule] != 'undefined')
 			return mappingRelatedModule[sourceField][sourceFieldModule];
 		return [];

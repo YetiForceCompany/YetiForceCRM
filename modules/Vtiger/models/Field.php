@@ -329,8 +329,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isReadOnly()
 	{
-		$webserviceField = $this->getWebserviceFieldObject();
-		return $webserviceField->isReadOnly();
+		if (isset($this->isReadOnly)) {
+			return $this->isReadOnly;
+		}
+		return $this->isReadOnly = !$this->getProfileReadWritePermission();
 	}
 
 	/**
