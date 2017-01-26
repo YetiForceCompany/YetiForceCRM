@@ -33,7 +33,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		if (typeof this.relatedModulename == "undefined" || this.relatedModulename.length <= 0) {
-			return;
+			var currentInstance = Vtiger_Detail_Js.getInstance();
+			currentInstance.loadWidgets();
+			return aDeferred.promise();
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -239,8 +241,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var aDeferred = jQuery.Deferred();
 		var fieldName = headerElement.data('fieldname');
 		var sortOrderVal = headerElement.data('nextsortorderval');
-		if(typeof sortOrderVal === 'undefined')
-				return;
+		if (typeof sortOrderVal === 'undefined')
+			return;
 		var sortingParams = {
 			"orderby": fieldName,
 			"sortorder": sortOrderVal,

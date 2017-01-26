@@ -165,9 +165,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		);
 	},
 	reloadRelatedList: function () {
-		var pageNumber = jQuery('[name="currentPageNum"]').val();
 		var detailInstance = Vtiger_Detail_Js.getInstance();
-		detailInstance.loadRelatedList({'page': pageNumber});
+		var params = {};
+		if (jQuery('[name="currentPageNum"]').length > 0) {
+			params.page = jQuery('[name="currentPageNum"]').val();
+		}
+		detailInstance.loadRelatedList(params);
 	},
 	showWorkflowTriggerView: function (instance) {
 		$(instance).popover('hide');
