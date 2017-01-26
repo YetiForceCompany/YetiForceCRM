@@ -20,10 +20,8 @@ class RecordsList extends \Api\Core\BaseAction
 	public function get()
 	{
 		$moduleName = $this->controller->request->get('module');
-		$headers = [];
-		$records = [];
+		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
-		//echo "<hr>";
 		//var_dump($queryGenerator->createQuery()->createCommand()->getRawSql());
 		//echo "<hr>";
 		$fieldsModel = $queryGenerator->getListViewFields();
@@ -84,8 +82,7 @@ class RecordsList extends \Api\Core\BaseAction
 				if ($moduleName === $parentModule) {
 					continue;
 				}
-				$reletedField = \App\Field::getReletedFieldForModule($moduleName, $parentModule);
-				if ($reletedField) {
+				if ($reletedField = \App\Field::getReletedFieldForModule($moduleName, $parentModule)) {
 					$queryGenerator->addReletedCondition([
 						'sourceField' => $field['fieldname'],
 						'relatedModule' => $moduleName,
