@@ -8638,6 +8638,7 @@ class Base4 extends \App\Db\Importers\Base
 					[48, 122, 'posList'],
 					[49, 309, 'categoryMultipicklist'],
 					[50, 4, 'recordNumber'],
+					[51, 310, 'companySelect'],
 				]
 			],
 			'vtiger_ws_operation' => [
