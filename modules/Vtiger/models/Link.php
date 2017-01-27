@@ -194,6 +194,10 @@ class Vtiger_Link_Model extends vtlib\Link
 		return false;
 	}
 
+	/**
+	 * Convert to native link
+	 * @return string
+	 */
 	public function convertToNativeLink()
 	{
 		$url = $this->get('linkurl');
@@ -206,7 +210,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$url = Vtiger_Util_Helper::toSafeHTML($url);
 			return $url;
 		}
-		$module = false;
+		$module = $parent = false;
 		$sourceModule = false;
 		$sourceRecord = false;
 		$parametersParts = explode('&', $url);
@@ -218,31 +222,34 @@ class Vtiger_Link_Model extends vtlib\Link
 			$key = $urlParts[0];
 			$value = $urlParts[1];
 
-			if (strcmp($key, 'module') == 0 || strcmp($key, 'index.php?module') == 0) {
+			if (strcmp($key, 'module') === 0 || strcmp($key, 'index.php?module') === 0) {
 				$module = $value;
 			}
 
-			if (strcmp($key, 'action') == 0) {
+			if (strcmp($key, 'action') === 0) {
 				if (strpos($value, 'View')) {
 					$value = str_replace('View', '', $value);
 					$key = 'view';
 				}
 			}
-			if (strcmp($key, 'return_module') == 0) {
+			if (strcmp($key, 'return_module') === 0) {
 				$key = 'sourceModule';
 				//Indicating that it is an relation operation
 				$parametersParts[] = 'relationOperation=true';
 			}
-			if (strcmp($key, 'return_id') == 0) {
+			if (strcmp($key, 'return_id') === 0) {
 				$key = 'sourceRecord';
 			}
 
-			if (strcmp($key, 'sourceRecord') == 0) {
+			if (strcmp($key, 'sourceRecord') === 0) {
 				$sourceRecord = $value;
 			}
 
-			if (strcmp($key, 'sourceModule') == 0) {
+			if (strcmp($key, 'sourceModule') === 0) {
 				$sourceModule = $value;
+			}
+			if (strcmp($key, 'parent') === 0) {
+				$parent = $value;
 			}
 			$newUrlParts = [];
 			array_push($newUrlParts, $key);
@@ -253,7 +260,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		}
 
 		//to append the reference field in one to many relation
-		if (!empty($module) && !empty($sourceModule) && !empty($sourceRecord)) {
+		if (!empty($module) && !empty($sourceModule) && !empty($sourceRecord) && empty($parent)) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($module);
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
@@ -271,7 +278,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		}
 
 		if (!empty($module)) {
-			$this->relatedModuleName = $module;
+			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 
 		$url = implode('&', $parametersParts);
@@ -282,7 +289,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 	/**
 	 * Function to get the instance of Vtiger Link Model from the given array of key-value mapping
-	 * @param <Array> $valueMap
+	 * @param array $valueMap
 	 * @return Vtiger_Link_Model instance
 	 */
 	public static function getInstanceFromValues($valueMap)
@@ -381,8 +388,8 @@ class Vtiger_Link_Model extends vtlib\Link
 		$relatedModuleName = $defaultModuleName;
 		if (empty($this->relatedModuleName)) {
 			$queryParams = vtlib\Functions::getQueryParams($this->get('linkurl'));
-			if (!empty($fieldname)) {
-				$this->relatedModuleName = $relatedModuleName = $queryParams['module'];
+			if (isset($queryParams['module'])) {
+				$this->relatedModuleName = $relatedModuleName = $queryParams['parent'] ? $queryParams['parent'] . ':' . $queryParams['module'] : $queryParams['module'];
 			}
 		} else {
 			$relatedModuleName = $this->relatedModuleName;
