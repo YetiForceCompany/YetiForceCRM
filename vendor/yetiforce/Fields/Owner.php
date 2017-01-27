@@ -396,7 +396,7 @@ class Owner
 		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
-		foreach ($ids as &$id) {
+		foreach ($ids as $id) {
 			$name = self::getUserLabel($id);
 			if (!empty($name)) {
 				$users[$id] = $name;
