@@ -45,11 +45,8 @@ class Exception extends \Exception
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
 			$request = \AppRequest::init();
-
-			$error .= 'message: ' . $this->getMessage() . PHP_EOL;
-			$error .= 'file: ' . $this->getFile() . PHP_EOL;
-			$error .= 'line: ' . $this->getLine() . PHP_EOL;
-			$error .= 'code: ' . $this->getCode() . PHP_EOL;
+			$error .= "code: {$this->getCode()} | message: {$this->getMessage()}\n";
+			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
 			$error .= '============ Headers: ' . PHP_EOL;
 			$error .= 'REQUEST_METHOD : ' . $request->getRequestMetod() . PHP_EOL;

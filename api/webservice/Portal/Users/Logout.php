@@ -13,6 +13,19 @@ class Logout extends \Api\Core\BaseAction
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['PUT'];
 
+	/**
+	 * Check permission to module
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkPermissionToModule()
+	{
+		return true;
+	}
+
+	/**
+	 * Put method
+	 * @return array
+	 */
 	public function put()
 	{
 		$db = \App\Db::getInstance('webservice');

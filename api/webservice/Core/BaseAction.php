@@ -24,9 +24,8 @@ class BaseAction
 		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
 			throw new \Api\Core\Exception('Invalid method', 405);
 		}
-		if (!$this->checkPermission()) {
-			throw new \Api\Core\Exception('Invalid permission', 401);
-		}
+		$this->checkPermissionToModule();
+		$this->checkPermission();
 		/*
 		  $acceptableUrl = $this->controller->app['acceptable_url'];
 		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
@@ -34,6 +33,17 @@ class BaseAction
 		  }
 		 */
 		return true;
+	}
+
+	/**
+	 * Check permission to module
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkPermissionToModule()
+	{
+		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
+			throw new \Api\Core\Exception('No permissions for module', 403);
+		}
 	}
 
 	/**
@@ -45,9 +55,6 @@ class BaseAction
 	{
 		if (empty($this->controller->headers['X-TOKEN'])) {
 			throw new \Api\Core\Exception('Invalid token', 401);
-		}
-		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
-			throw new \Api\Core\Exception('No module privilege', 403);
 		}
 		$apiType = strtolower($this->controller->app['type']);
 		$sessionTable = "w_#__{$apiType}_session";
@@ -66,7 +73,6 @@ class BaseAction
 		$db->createCommand()
 			->update($sessionTable, ['changed' => date('Y-m-d H:i:s')], ['id' => $this->session->get('id')])
 			->execute();
-		return true;
 	}
 
 	/**

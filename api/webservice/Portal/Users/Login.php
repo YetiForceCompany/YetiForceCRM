@@ -13,11 +13,28 @@ class Login extends \Api\Core\BaseAction
 	/** @var string[] Allowed request methods */
 	public $allowedMethod = ['POST'];
 
+	/**
+	 * Check permission to method
+	 * @return boolean
+	 */
 	public function checkPermission()
 	{
 		return true;
 	}
 
+	/**
+	 * Check permission to module
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkPermissionToModule()
+	{
+		return true;
+	}
+
+	/**
+	 * Post method
+	 * @return array
+	 */
 	public function post()
 	{
 		$db = \App\Db::getInstance('webservice');
@@ -40,6 +57,7 @@ class Login extends \Api\Core\BaseAction
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
+			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],
