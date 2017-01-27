@@ -47,6 +47,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	 */
 	public function get()
 	{
+		$parentCrmId = $this->getParentCrmId();
 		if ($this->getPermissionType() > 2) {
 			$fields = \App\Field::getReletedFieldForModule($this->moduleName);
 			if (!isset($fields[$this->moduleName])) {
@@ -59,12 +60,12 @@ class Hierarchy extends \Api\Core\BaseAction
 			$this->childField = $field['fieldname'];
 			$this->childColumn = "{$field['tablename']}.{$field['columnname']}";
 			$queryGenerator->setFields(['id', $field['fieldname'], $this->mainFieldName]);
-			$this->getRecords($queryGenerator, $this->getParentCrmId());
+			$this->getRecords($queryGenerator, $parentCrmId);
 		}
-		if (!isset($this->records[$this->getParentCrmId()])) {
-			$this->records[$this->getParentCrmId()] = [
-				'id' => $this->getParentCrmId(),
-				'name' => \App\Record::getLabel($this->getParentCrmId())
+		if (!isset($this->records[$parentCrmId])) {
+			$this->records[$parentCrmId] = [
+				'id' => $parentCrmId,
+				'name' => \App\Record::getLabel($parentCrmId)
 			];
 		}
 		return $this->records;

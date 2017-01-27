@@ -47,7 +47,7 @@ class BaseAction
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
 		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
-			throw new \Api\Core\Exception('No module privilege', 401);
+			throw new \Api\Core\Exception('No module privilege', 403);
 		}
 		$apiType = strtolower($this->controller->app['type']);
 		$sessionTable = "w_#__{$apiType}_session";
@@ -69,6 +69,9 @@ class BaseAction
 		return true;
 	}
 
+	/**
+	 * Pre process function
+	 */
 	public function preProcess()
 	{
 		$language = $this->getLanguage();
@@ -77,6 +80,10 @@ class BaseAction
 		}
 	}
 
+	/**
+	 * Get current language
+	 * @return string
+	 */
 	public function getLanguage()
 	{
 		$language = '';
@@ -123,6 +130,8 @@ class BaseAction
 				$records = $hierarchy->get();
 				if (isset($records[$parentId])) {
 					return $parentId;
+				} else {
+					throw new \Api\Core\Exception('No permission to X-PARENT-ID', 403);
 				}
 			}
 		}

@@ -22,20 +22,18 @@ class RecordsList extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->get('module');
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
-		//var_dump($queryGenerator->createQuery()->createCommand()->getRawSql());
-		//echo "<hr>";
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$record = [];
-			foreach ($fieldsModel as $fieldName => $fieldModel) {
+			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
 					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
 				}
 			}
 			$records[$row['id']] = $record;
 		}
-		foreach ($fieldsModel as $fieldName => $fieldModel) {
+		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
 		return [
