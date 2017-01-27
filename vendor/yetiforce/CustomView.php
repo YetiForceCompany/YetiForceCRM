@@ -245,12 +245,12 @@ class CustomView
 		}
 		$cacheName = $moduleName . '.' . $user->getUserId();
 		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
-			return \App\Cache::staticGet('App\CustomView', $cacheName);
+			return \App\Cache::staticGet('AppCustomView', $cacheName);
 		}
 		$instance = new self();
 		$instance->moduleName = $moduleName;
 		$instance->user = $user;
-		\App\Cache::staticGet('App\CustomView', $cacheName, $instance);
+		\App\Cache::staticGet('AppCustomView', $cacheName, $instance);
 		return $instance;
 	}
 
@@ -470,13 +470,7 @@ class CustomView
 			$viewId = \AppRequest::get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
-					$info = $this->getInfoFilter($this->moduleName);
-					foreach ($info as &$values) {
-						if ($values['presence'] === 0) {
-							$viewId = $values['cvid'];
-							break;
-						}
-					}
+					$viewId = $this->getMandatoryFilter();
 				} else {
 					$viewId = $this->getViewIdByName($viewId);
 				}
@@ -609,15 +603,16 @@ class CustomView
 
 	/**
 	 * Get mandatory filter by module
-	 * @return int
+	 * @param bolean $returnData
+	 * @return array|int
 	 */
-	public function getMandatoryFilter()
+	public function getMandatoryFilter($returnData = false)
 	{
 		Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
 			if ($values['presence'] === 0) {
-				return $values['cvid'];
+				return $returnData ? $values : $values['cvid'];
 			}
 		}
 	}
@@ -642,7 +637,7 @@ class CustomView
 	/**
 	 * Function to get basic information about filter
 	 * @param mixed $mixed id or module name
-	 * @return type
+	 * @return array
 	 */
 	public function getInfoFilter($mixed)
 	{
