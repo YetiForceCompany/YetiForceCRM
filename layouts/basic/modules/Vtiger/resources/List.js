@@ -294,6 +294,13 @@ jQuery.Class("Vtiger_List_Js", {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
+	getDeafultDeleteParam: function () {
+		return {
+			module: app.getModuleName(),
+			action: 'DeleteAjax',
+			parent: app.getParentModuleName()
+		};
+	},
 	deleteRecord: function (recordId) {
 		var aDeferred = jQuery.Deferred();
 		var listInstance = Vtiger_List_Js.getInstance();
@@ -301,12 +308,8 @@ jQuery.Class("Vtiger_List_Js", {
 		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 				function (e) {
 					var module = app.getModuleName();
-					var postData = {
-						"module": module,
-						"action": "DeleteAjax",
-						"record": recordId,
-						"parent": app.getParentModuleName()
-					}
+					var postData = listInstance.getDeafultDeleteParam();
+					postData.record = recordId;
 					var deleteMessage = app.vtranslate('JS_RECORD_GETTING_DELETED');
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'message': deleteMessage,

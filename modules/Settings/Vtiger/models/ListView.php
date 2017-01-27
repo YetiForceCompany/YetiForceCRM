@@ -57,13 +57,13 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return Settings_Vtiger_Record_Model[] - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
-		$module = $this->getModule();
-		$moduleName = $module->getName();
-		$parentModuleName = $module->getParentName();
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
+		$parentModuleName = $moduleModel->getParentName();
 		$qualifiedModuleName = $moduleName;
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
@@ -88,7 +88,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 				$listQuery->orderBy([$orderBy => SORT_ASC]);
 			}
 		}
-		if ($module->isPagingSupported()) {
+		if ($moduleModel->isPagingSupported()) {
 			$listQuery->limit($pageLimit + 1)->offset($startIndex);
 		}
 		$dataReader = $listQuery->createCommand()->query();
@@ -97,12 +97,11 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			$record = new $recordModelClass();
 			$record->setData($row);
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
-				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 				$record->setModule($moduleModel);
 			}
 			$listViewRecordModels[$record->getId()] = $record;
 		}
-		if ($module->isPagingSupported()) {
+		if ($moduleModel->isPagingSupported()) {
 			$pagingModel->calculatePageRange($dataReader->count());
 			if ($dataReader->count() > $pageLimit) {
 				$pagingModel->set('nextPageExists', true);
