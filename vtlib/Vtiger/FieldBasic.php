@@ -206,6 +206,9 @@ class FieldBasic
 	{
 		Profile::deleteForField($this);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
+		if ($this->uitype === 10) {
+			\App\Db::getInstance()->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+		}
 		self::log("Deleteing Field $this->name ... DONE");
 	}
 
