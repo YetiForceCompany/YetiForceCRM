@@ -1877,7 +1877,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var params = {};
 				for (var i in formData) {
 					if (jQuery.inArray(i, paramsName) != -1) {
-						params[i] = formData[i];
+						var value = formData[i];
+						if (i === 'modules' && typeof value === 'string') {
+							value = [value];
+						}
+						params[i] = value;
 						delete formData[i];
 					}
 				}
