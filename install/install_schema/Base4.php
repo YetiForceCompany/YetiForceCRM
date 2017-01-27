@@ -8493,7 +8493,6 @@ class Base4 extends \App\Db\Importers\Base
 					[20, 'Groups', 'include/Webservices/VtigerActorOperation.php', 'VtigerActorOperation', 0],
 					[21, 'Currency', 'include/Webservices/VtigerActorOperation.php', 'VtigerActorOperation', 0],
 					[22, 'DocumentFolders', 'include/Webservices/VtigerActorOperation.php', 'VtigerActorOperation', 0],
-					[23, 'CompanyDetails', 'include/Webservices/VtigerCompanyDetails.php', 'VtigerCompanyDetails', 0],
 					[24, 'PBXManager', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[25, 'ServiceContracts', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 					[26, 'Services', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
