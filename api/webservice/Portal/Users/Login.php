@@ -61,6 +61,7 @@ class Login extends \Api\Core\BaseAction
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],
+			'type' => $row['type'],
 			'logged' => true,
 		];
 	}
