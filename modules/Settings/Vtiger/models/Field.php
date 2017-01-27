@@ -42,7 +42,7 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
-		$this->picklistValues;
+		return $this->picklistValues;
 	}
 
 	/**

@@ -56,20 +56,18 @@
 					<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 						&nbsp;{vtranslate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-							</td><td nowrap class="{$WIDTHTYPE}">
-								<div class="pull-right actions">
-									<span class="actionImages">
-										{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-											{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-											<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-												<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
-											</a>
-											{if !$RECORD_LINK@last}
-												&nbsp;
-											{/if}
-										{/foreach}
-									</span>
-								</div>
+							</td><td nowrap class="{$WIDTHTYPE} rightRecordActions">
+								{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+								{if count($LINKS) > 0}
+									{assign var=ONLY_ONE value=count($LINKS) eq 1}
+									<div class="actions">
+										<div class="pull-right">
+											{foreach from=$LINKS item=LINK}
+												{include file='ButtonLink.tpl'|@vtemplate_path:$QUALIFIED_MODULE BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+											{/foreach}
+										</div>
+									</div>
+								{/if}
 							</td>
 						{/if}
 					</td>
