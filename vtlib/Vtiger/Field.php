@@ -246,7 +246,7 @@ class Field extends FieldBasic
 		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
 			$rows = \App\Cache::get('AllFieldForModule', $moduleId);
 		} else {
-			$rows = (new \App\Db\Query())->from('vtiger_field')
+			$rows = (new \App\Db\Query())->select(['vtiger_field.*'])->from('vtiger_field')
 				->leftJoin('vtiger_blocks', 'vtiger_field.block = vtiger_blocks.blockid')
 				->where(['vtiger_field.tabid' => $moduleId])->orderBy(['vtiger_blocks.sequence' => SORT_ASC, 'vtiger_field.sequence' => SORT_ASC])
 				->all();
