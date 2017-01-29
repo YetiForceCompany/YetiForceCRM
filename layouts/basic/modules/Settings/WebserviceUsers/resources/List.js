@@ -80,6 +80,7 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		AppConnector.request(params).then(
 				function (data) {
 					tabContainer.html(data);
+					Vtiger_Header_Js.getInstance().registerFooTable();
 				},
 				function (textStatus, errorThrown) {
 					app.errorLog(textStatus, errorThrown);

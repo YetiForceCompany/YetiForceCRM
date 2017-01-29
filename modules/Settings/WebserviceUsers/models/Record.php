@@ -104,7 +104,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				$params['picklistValues'] = vtlib\Language::getAll();
 				break;
 			case 'user_id':
-				$params['uitype'] = 53;
+				$params['uitype'] = 16;
+				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
 			case 'password_t':
 				$params['typeofdata'] = 'P~M';
@@ -228,7 +229,8 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'language':
 				return vtlib\Language::getAll()[$this->get($name)];
 			case 'type':
-				return $this->getTypeValues($this->get($name));
+				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
+				return \vtlib\Functions::textLength($label);
 			default:
 				break;
 		}
@@ -248,7 +250,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
-				'linkclass' => 'btn btn-sm btn-default',
+				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true
 			],
 				[
@@ -256,7 +258,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn btn-sm btn-default'
+				'linkclass' => 'btn btn-sm btn-danger'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {
