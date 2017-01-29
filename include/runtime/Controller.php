@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 /**
@@ -248,11 +249,16 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$displayed = $viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
+	/**
+	 * Post process
+	 * @param Vtiger_Request $request
+	 */
 	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
+		$viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('Footer.tpl');
 	}
