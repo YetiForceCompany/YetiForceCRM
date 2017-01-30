@@ -364,9 +364,10 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	 * Function sets the closest time-wise related record from selected modules
 	 * @param int $sourceId
 	 * @param string $sourceModule
+	 * @param bool $byUser
 	 * @return array
 	 */
-	public static function setLastRelation($sourceId, $sourceModule)
+	public static function setLastRelation($sourceId, $sourceModule, $byUser = false)
 	{
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
@@ -376,8 +377,11 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		}
 		$data = $query->limit(1)->one();
 		$type = $data ? $data['type'] : '';
-
-		$db->createCommand()->delete('u_#__timeline', ['crmid' => $sourceId, 'userid' => $userId])->execute();
+		$where = ['crmid' => $sourceId];
+		if ($byUser) {
+			$where['userid'] = $userId;
+		}
+		$db->createCommand()->delete('u_#__timeline', $where)->execute();
 		$db->createCommand()->insert('u_#__timeline', [
 			'crmid' => $sourceId,
 			'type' => $type,
@@ -402,7 +406,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if (count($data) !== count($sourceIds)) {
 			$reSearch = array_diff_key(array_flip($sourceIds), $data);
 			foreach (array_keys($reSearch) as $id) {
-				$result = ModTracker_Record_Model::setLastRelation($id, $sourceModule);
+				$result = ModTracker_Record_Model::setLastRelation($id, $sourceModule, true);
 				if ($result) {
 					$data[key($result)]['type'] = current($result);
 				}
