@@ -17,18 +17,19 @@ class QueryGenerator
 	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
 	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 
+	/** @var bool Not deleted records */
 	public $deletedCondition = true;
+
+	/** @var bool Permissions conditions */
 	public $permissions = true;
+
+	/** @var string Module name */
 	private $moduleName;
 
-	/**
-	 * @var \App\Db\Query 
-	 */
+	/** @var \App\Db\Query  */
 	private $query;
 
-	/**
-	 * @var \App\Db\Query 
-	 */
+	/** @var \App\Db\Query  */
 	private $buildedQuery;
 	private $fields = [];
 	private $referenceFields = [];
@@ -37,7 +38,12 @@ class QueryGenerator
 	private $cvColumns;
 	private $stdFilterList;
 	private $advFilterList;
+
+	/** @var array Joins */
 	private $joins = [];
+
+	/** @var string[] Tables list  */
+	private $tablesList = [];
 	private $queryFields = [];
 	private $order = [];
 	private $group = [];
@@ -577,7 +583,7 @@ class QueryGenerator
 	 */
 	public function loadJoin()
 	{
-		$tableList = $tableJoin = [];
+		$tableJoin = [];
 		$moduleTableIndexList = $this->entityModel->tab_name_index;
 		$baseTable = $this->entityModel->table_name;
 		$baseTableIndex = $moduleTableIndexList[$baseTable];
@@ -598,14 +604,14 @@ class QueryGenerator
 				$this->addJoin(['LEFT JOIN', 'vtiger_users vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
 				$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
 			}
-			if (!isset($tableList[$field->getTableName()])) {
-				$tableList[$field->getTableName()] = $field->getTableName();
+			if (!isset($this->tablesList[$field->getTableName()])) {
+				$this->tablesList[$field->getTableName()] = $field->getTableName();
 				$tableJoin[$field->getTableName()] = $this->entityModel->getJoinClause($field->getTableName());
 			}
 		}
 		foreach ($this->getEntityDefaultTableList() as &$table) {
-			if (!isset($tableList[$table])) {
-				$tableList[$table] = $table;
+			if (!isset($this->tablesList[$table])) {
+				$this->tablesList[$table] = $table;
 				$tableJoin[$table] = 'INNER JOIN';
 			}
 		}
@@ -619,18 +625,19 @@ class QueryGenerator
 		}
 		foreach ($this->getEntityDefaultTableList() as &$tableName) {
 			$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.{$moduleTableIndexList[$tableName]}");
-			unset($tableList[$tableName]);
+			unset($this->tablesList[$tableName]);
 		}
-		unset($tableList[$baseTable]);
-		foreach ($tableList as &$tableName) {
+		unset($this->tablesList[$baseTable]);
+		foreach ($this->tablesList as $tableName) {
+			$joinType = isset($tableJoin[$tableName]) ? $tableJoin[$tableName] : 'INNER JOIN';
 			if ($tableName === 'vtiger_users') {
 				$field = $this->getModuleField($ownerField);
-				$this->addJoin([$tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id"]);
+				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id"]);
 			} elseif ($tableName == 'vtiger_groups') {
 				$field = $this->getModuleField($ownerField);
-				$this->addJoin([$tableJoin[$tableName], $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid"]);
+				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid"]);
 			} else {
-				$this->addJoin([$tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
+				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
 		foreach ($this->joins as &$join) {
@@ -708,6 +715,10 @@ class QueryGenerator
 				$this->conditionsAnd[] = $condition;
 			} else {
 				$this->conditionsOr[] = $condition;
+			}
+			$field = $this->getModuleField($fieldName);
+			if (!isset($this->tablesList[$field->getTableName()])) {
+				$this->tablesList[$field->getTableName()] = $field->getTableName();
 			}
 		} else {
 			Log::error('Wrong condition');
@@ -928,55 +939,5 @@ class QueryGenerator
 			$groupIterator++;
 		}
 		return $advFilterConditionFormat;
-	}
-
-	/**
-	 * Is the field date type
-	 * @param string $type
-	 * @return boolean
-	 */
-	public function isDateType($type)
-	{
-		return in_array($type, [static::DATE_TYPE]);
-	}
-
-	/**
-	 * Is the field numeric type
-	 * @param string $type
-	 * @return boolean
-	 */
-	public function isNumericType($type)
-	{
-		return in_array($type, [static::NUMERIC_TYPE]);
-	}
-
-	/**
-	 * Is the field string type
-	 * @param string $type
-	 * @return boolean
-	 */
-	public function isStringType($type)
-	{
-		return in_array($type, [static::STRING_TYPE]);
-	}
-
-	/**
-	 * Is the field equality type
-	 * @param string $type
-	 * @return boolean
-	 */
-	public function isEqualityType($type)
-	{
-		return in_array($type, [static::EQUALITY_TYPES]);
-	}
-
-	/**
-	 * Is the field comma separated type
-	 * @param string $type
-	 * @return boolean
-	 */
-	public function isCommaSeparatedType($type)
-	{
-		return in_array($type, [static::COMMA_TYPES]);
 	}
 }
