@@ -129,6 +129,32 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
+	/**
+	 * Function to get list elements in iventory as html code
+	 * @param Vtiger_Record_Model $recodModel
+	 * @return string
+	 */
+	public function getInventoryHtml(Vtiger_Record_Model $recodModel)
+	{
+		$moduleName = $recodModel->getModuleName();
+		$inventoryMap = AppConfig::module('SQuotes', 'INVENTORY_READING_MAP');
+		if (!isset($inventoryMap[$moduleName])) {
+			return '';
+		}
+		$inventoryFields = Vtiger_InventoryField_Model::getInstance($moduleName)->getFields();
+		$html = '<ul>';
+		foreach ($recodModel->getInventoryData() as $data) {
+			$html .= '<li>';
+			foreach ($inventoryMap[$moduleName] as $columnName) {
+				$field = $inventoryFields[$columnName];
+				$html .= $field->getDisplayValue($data[$columnName]) . ' - ';
+			}
+			$html = trim($html, ' - ');
+			$html .= '</li>';
+		}
+		return $html . '</ul>';
+	}
+
 	public function getRecordDetail($recordId, $currencyId, $moduleName)
 	{
 		$conversionRate = 1;
@@ -146,6 +172,12 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 				}
 			}
 			$unitPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
+		}
+		if ($recordModel->getModule()->isInventory()) {
+			$description = $this->getInventoryHtml($recordModel);
+			$unitPrice = $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
+		} else {
+			$description = $recordModel->get('description');
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);
@@ -167,9 +199,10 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 				'name' => decode_html($recordModel->getName()),
 				'price' => $unitPrice,
 				'unitPriceValues' => $unitPriceValues,
-				'description' => decode_html($recordModel->get('description')),
+				'description' => $description,
 				'autoFields' => $autoFields,
-		]];
+			]
+		];
 		return $info;
 	}
 }

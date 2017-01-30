@@ -728,7 +728,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
-			$('textarea.commentTextarea', parentRow).val(description);
+			$('textarea.commentTextarea', parentRow.next()).html(description);
 
 			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
 				$('input.qtyparam', parentRow).prop('checked', false);
@@ -1337,7 +1337,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	registerRowAutoComplete: function (container) {
 		var thisInstance = this;
-		var sourceFieldElement = container.find('.rowName .sourceField');
+		var sourceFieldElement = container.find('.sourceField');
 		sourceFieldElement.on(Vtiger_Edit_Js.postReferenceSelectionEvent, function (e, rq) {
 			var record;
 			var element = $(e.currentTarget);
