@@ -241,6 +241,7 @@ class ModuleBasic
 		$this->deleteCRMEntityRel();
 		Profile::deleteForModule($this);
 		Link::deleteAll($this->id);
+		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
 		$this->deleteDir($moduleInstance);
 		$this->__delete();
 		self::syncfile();

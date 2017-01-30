@@ -204,7 +204,7 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 		$db = App\Db::getInstance();
 		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
 		$sequence = (new App\Db\Query())->from('vtiger_settings_field')->where(['blockid' => $blockId])
-				->max('sequence');
+			->max('sequence');
 		$params['blockid'] = $blockId;
 		$params['sequence'] = $sequence;
 		$db->createCommand()->insert('vtiger_settings_field', $params)->execute();
@@ -215,5 +215,15 @@ class Settings_Vtiger_Module_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$blockId = vtlib\Deprecated::getSettingsBlockId($block);
 		$db->delete('vtiger_settings_field', 'name = ? && blockid=?', [$name, $blockId]);
+	}
+
+	/**
+	 * Delete settings field by module name
+	 * @param type $moduleName
+	 */
+	public static function deleteSettingsFieldBymodule($moduleName)
+	{
+		$db = App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_settings_field', ['like', 'linkto', "module={$moduleName}&"])->execute();
 	}
 }
