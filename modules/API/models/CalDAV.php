@@ -302,20 +302,21 @@ class API_CalDAV_Model
 
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 		foreach ($vcalendar->getBaseComponents() as $component) {
-			if (in_array($component->name, ['VTODO', 'VEVENT'])) {
+			$type = (string) $component->name;
+			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
 				$record = Vtiger_Record_Model::getCleanInstance('Calendar');
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', $component->SUMMARY);
-				$record->set('location', $component->LOCATION);
-				$record->set('description', $component->DESCRIPTION);
+				$record->set('subject', (string) $component->SUMMARY);
+				$record->set('location', (string) $component->LOCATION);
+				$record->set('description', (string) $component->DESCRIPTION);
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
 				$record->set('due_date', $dates['due_date']);
 				$record->set('time_start', $dates['time_start']);
 				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatus($component, true, $component->name));
-				if ($component->name == 'VTODO') {
+				$record->set('activitystatus', $this->getStatus($component, true, $type));
+				if ($type === 'VTODO') {
 					$record->set('activitytype', 'Task');
 				} else {
 					$record->set('activitytype', 'Meeting');
@@ -347,7 +348,7 @@ class API_CalDAV_Model
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
 					], 'crmid = ?', [$record->getId()]
 				);
-				if ($component->name == 'VEVENT') {
+				if ($type === 'VEVENT') {
 					$this->recordSaveAttendee($record, $component);
 				}
 			}
@@ -363,20 +364,21 @@ class API_CalDAV_Model
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 
 		foreach ($vcalendar->getBaseComponents() as $component) {
-			if (in_array($component->name, ['VTODO', 'VEVENT'])) {
+			$type = (string) $component->name;
+			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
 				$record->set('mode', 'edit');
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', $component->SUMMARY);
-				$record->set('location', $component->LOCATION);
-				$record->set('description', $component->DESCRIPTION);
+				$record->set('subject', (string) $component->SUMMARY);
+				$record->set('location', (string) $component->LOCATION);
+				$record->set('description', (string) $component->DESCRIPTION);
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
 				$record->set('due_date', $dates['due_date']);
 				$record->set('time_start', $dates['time_start']);
 				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatus($component, true, $component->name));
-				if ($component->name == 'VTODO') {
+				$record->set('activitystatus', $this->getStatus($component, true, $type));
+				if ($type === 'VTODO') {
 					$record->set('activitytype', 'Task');
 				} else {
 					$record->set('activitytype', 'Meeting');
@@ -407,7 +409,7 @@ class API_CalDAV_Model
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
 					], 'crmid = ?', [$record->getId()]
 				);
-				if ($component->name == 'VEVENT') {
+				if ($type === 'VEVENT') {
 					$this->recordSaveAttendee($record, $component);
 				}
 			}
