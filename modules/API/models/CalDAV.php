@@ -32,11 +32,7 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start');
 
 		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description '
-			. 'FROM vtiger_activity '
-			. 'INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid '
-			. "WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.activitytype IN ('Task','Meeting') AND vtiger_activity.dav_status = 1;";
-
+		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.dav_status = 1;';
 		$result = $db->query($query);
 		while ($row = $db->getRow($result)) {
 			$this->record = $row;
@@ -69,7 +65,7 @@ class API_CalDAV_Model
 					$vcalendar = $this->getDavDetail();
 					if ($vcalendar === false) {// Creating
 						$this->davCreate();
-//} elseif($this->record['deleted'] == 1){
+						//} elseif($this->record['deleted'] == 1){
 					} elseif (strtotime($this->record['modifiedtime']) > $vcalendar['lastmodified']) { // Updating
 						$this->davUpdate($vcalendar);
 					}
