@@ -218,7 +218,10 @@ class BaseField
 	 */
 	public function operatorC()
 	{
-		return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
+		if (strpos($this->getValue(), '*') !== false) {
+			return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
+		}
+		return ['like', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
