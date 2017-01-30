@@ -531,20 +531,22 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (app.getMainParams('switchingDays') == 'workDays' && app.moduleCacheGet('defaultSwitchingDays') != 'all') {
 			checked = ' checked ';
 		}
-		var switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
-				.prependTo(calendarview.find('.fc-toolbar .fc-right'))
-				.on('switchChange.bootstrapSwitch', function (e, state) {
-					if (state) {
-						app.setMainParams('switchingDays', 'workDays');
-						app.moduleCacheSet('defaultSwitchingDays', 'workDays');
-					} else {
-						app.setMainParams('switchingDays', 'all');
-						app.moduleCacheSet('defaultSwitchingDays', 'all');
-					}
-					thisInstance.renderCalendar();
-					thisInstance.loadCalendarData();
-				})
-		app.showBtnSwitch(switchBtn.find('.switchBtn'));
+		if (app.getMainParams('hiddenDays', true) !== false){
+			var switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
+					.prependTo(calendarview.find('.fc-toolbar .fc-right'))
+					.on('switchChange.bootstrapSwitch', function (e, state) {
+						if (state) {
+							app.setMainParams('switchingDays', 'workDays');
+							app.moduleCacheSet('defaultSwitchingDays', 'workDays');
+						} else {
+							app.setMainParams('switchingDays', 'all');
+							app.moduleCacheSet('defaultSwitchingDays', 'all');
+						}
+						thisInstance.renderCalendar();
+						thisInstance.loadCalendarData();
+					})
+			app.showBtnSwitch(switchBtn.find('.switchBtn'));
+		}
 	},
 	registerSelect2Event: function () {
 		var thisInstance = this;
