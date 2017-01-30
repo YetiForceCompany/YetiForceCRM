@@ -946,7 +946,7 @@ jQuery.Class("Vtiger_Header_Js", {
 
 		thisInstance.registerMobileEvents();
 
-		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({'max-height': '350px', 'overflow-y': 'scroll'});
 		} else {
 			app.showScrollBar(jQuery('#basicSearchModulesList_chosen').find('.chzn-results'), {
