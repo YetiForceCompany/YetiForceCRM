@@ -35,8 +35,12 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['id'] = $field->getId();
 			$fieldInfo['isEditable'] = $field->isEditable();
 			$fieldInfo['isViewable'] = $field->isViewable();
+			$fieldInfo['isEditableReadOnly'] = $field->isEditableReadOnly();
 			$fieldInfo['sequence'] = $field->get('sequence');
 			$fieldInfo['blockId'] = $block->id;
+			if ($field->isReferenceField()) {
+				$fieldInfo['referenceList'] = $field->getReferenceList();
+			}
 			$fields[$field->getId()] = $fieldInfo;
 		}
 		return ['fields' => $fields, 'blocks' => $blocks];
