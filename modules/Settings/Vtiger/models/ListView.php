@@ -89,7 +89,7 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 			}
 		}
 		if ($moduleModel->isPagingSupported()) {
-			$listQuery->limit($pageLimit + 1)->offset($startIndex);
+			$listQuery->limit($pageLimit)->offset($startIndex);
 		}
 		$dataReader = $listQuery->createCommand()->query();
 		$listViewRecordModels = [];
@@ -103,11 +103,6 @@ class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
 		}
 		if ($moduleModel->isPagingSupported()) {
 			$pagingModel->calculatePageRange($dataReader->count());
-			if ($dataReader->count() > $pageLimit) {
-				$pagingModel->set('nextPageExists', true);
-			} else {
-				$pagingModel->set('nextPageExists', false);
-			}
 		}
 		return $listViewRecordModels;
 	}
