@@ -294,13 +294,6 @@ jQuery.Class("Vtiger_List_Js", {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
-	getDeafultDeleteParam: function () {
-		return {
-			module: app.getModuleName(),
-			action: 'DeleteAjax',
-			parent: app.getParentModuleName()
-		};
-	},
 	deleteRecord: function (recordId) {
 		var aDeferred = jQuery.Deferred();
 		var listInstance = Vtiger_List_Js.getInstance();
@@ -738,6 +731,13 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		}
 		return params;
+	},
+	getDeafultDeleteParam: function () {
+		return {
+			module: app.getModuleName(),
+			action: 'DeleteAjax',
+			parent: app.getParentModuleName()
+		};
 	},
 	/*
 	 * Function which will give you all the list view params
