@@ -19,4 +19,5 @@ $languageStrings = [
 	'PLL_RECORD' => 'Record',
 	'PLL_MAIL' => 'Nachricht',
 	'PLL_LIST' => 'Liste',
+	'PLL_DEFAULT' => 'Default company',
 ];

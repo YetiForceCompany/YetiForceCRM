@@ -18,5 +18,6 @@ $languageStrings = [
 	'PLL_MODULE' => 'Moduł',
 	'PLL_RECORD' => 'Rekord',
 	'PLL_MAIL' => 'Wiadomość mail',
-	'PLL_LIST' => 'Lista'
+	'PLL_LIST' => 'Lista',
+	'PLL_DEFAULT' => 'Domyślna firma',
 ];
