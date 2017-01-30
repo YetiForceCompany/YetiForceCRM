@@ -13,7 +13,6 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Betreff',
 	'FL_CONTENT' => 'Inhalt',
 	'FL_SMTP_PRIORITY' => 'SMTP priority',
-	'FL_COMPANY' => 'Company',
 	// PICKLIST
 	'PLL_MODULE' => 'Modul',
 	'PLL_RECORD' => 'Record',

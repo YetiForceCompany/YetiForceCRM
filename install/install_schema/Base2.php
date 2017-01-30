@@ -5536,7 +5536,6 @@ class Base2 extends \App\Db\Importers\Base
 					[117, 2596, 0, 0],
 					[117, 2597, 0, 0],
 					[117, 2598, 0, 0],
-					[112, 2599, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -7632,13 +7631,12 @@ class Base2 extends \App\Db\Importers\Base
 					[117, 2596, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 3, 403, 2, 'DT~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[117, 2597, 'closedtime', 'vtiger_crmentity', 1, 70, 'closedtime', 'LBL_CLOSED_TIME', 1, 2, '', 100, 4, 403, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[117, 2598, 'crmactivity', 'vtiger_entity_stats', 1, 307, 'crmactivity', 'LBL_CRMACTIVITY', 1, 0, '', 100, 5, 403, 10, 'NN~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[112, 2599, 'companyid', 'u_yf_emailtemplates', 1, 310, 'companyid', 'FL_COMPANY', 1, 2, '', 100, 0, 376, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2599],
+					[2598],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
