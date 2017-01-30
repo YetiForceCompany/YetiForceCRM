@@ -209,7 +209,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			if (jQuery.inArray(fieldInfo.type, ['userCreator', 'owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'languages', 'currencyList', 'fileLocationType']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
-			if (conditionList[key] === 'om' && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner']) == -1) {
+			if (conditionList[key] === 'om' && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner', 'userCreator']) == -1) {
 				continue;
 			}
 			if (jQuery.inArray(conditionList[key], ['wr', 'nwr']) != -1 && jQuery.inArray(fieldInfo.type, ['owner']) == -1) {
@@ -457,7 +457,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				var fieldType = fieldDataInfo.type;
 				var searchOperator = fieldDataInfo.hasOwnProperty("searchOperator");
 				var rowValues = {};
-				if (fieldType == 'owner') {
+				if (fieldType == 'owner' || fieldType == 'userCreator') {
 					for (var key in fieldList) {
 						var field = fieldList[key];
 						if (field == 'value' && valueSelectElement.is('select')) {
@@ -473,7 +473,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							rowValues[field] = jQuery('[name="' + field + '"]', rowElement).val();
 						}
 					}
-				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'userCreator', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
+				} else if ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
 					for (var key in fieldList) {
 						var field = fieldList[key];
 						if (field == 'value' && valueSelectElement.is('input')) {
@@ -490,7 +490,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 							}
 							var reconstructedCommaSeperatedValues = newvaluesArr.join(',');
 							rowValues[field] = reconstructedCommaSeperatedValues;
-						} else if (field == 'value' && valueSelectElement.is('select') && ($.inArray(fieldType, ['picklist','userCreator', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1)) {
+						} else if (field == 'value' && valueSelectElement.is('select') && ($.inArray(fieldType, ['picklist', 'multipicklist', 'modules', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'posList', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1)) {
 							var value = valueSelectElement.val();
 							if (value == null) {
 								rowValues[field] = value;
