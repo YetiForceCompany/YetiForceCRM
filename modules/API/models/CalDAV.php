@@ -360,7 +360,7 @@ class API_CalDAV_Model
 
 	public function recordUpdate($record, $cal)
 	{
-		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $card['id']);
+		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 
 		foreach ($vcalendar->getBaseComponents() as $component) {
