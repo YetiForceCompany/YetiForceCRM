@@ -1,10 +1,10 @@
 <?php
 return [
-	'appVersion' => '3.4.1686',
+	'appVersion' => '3.4.1687',
 	'patchVersion' => '2017.01.30',
 	'lib_mPDF' => '0.0.1',
 	'lib_roundcube' => '0.0.23',
 	'lib_PHPExcel' => '0.0.0',
-	'lib_AJAXChat' => '0.0.1',
+	'lib_AJAXChat' => '0.0.2',
 	'lib_gantt' => '0.0.0',
 ];
