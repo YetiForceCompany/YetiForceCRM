@@ -23,7 +23,6 @@ class Documents extends CRMEntity
 	 */
 	public $customFieldTable = Array('vtiger_notescf', 'notesid');
 	public $column_fields = Array();
-	public $sortby_fields = Array('title', 'modifiedtime', 'filename', 'createdtime', 'lastname', 'filedownloadcount', 'smownerid');
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('', '', '', '');
 	// This is the list of vtiger_fields that are in the lists.

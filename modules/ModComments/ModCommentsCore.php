@@ -63,8 +63,6 @@ class ModCommentsCore extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('commentcontent');
-	// Allow sorting on the following (field column names)
-	public $sortby_fields = Array('commentcontent');
 	// Should contain field labels
 	//var $detailview_links = Array ('Comment');
 	// For Alphabetical search

@@ -33,7 +33,6 @@ class Faq extends CRMEntity
 	public $customFieldTable = Array('vtiger_faqcf', 'faqid');
 	public $entity_table = 'vtiger_crmentity';
 	public $column_fields = Array();
-	public $sortby_fields = Array('question', 'category', 'id');
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
 		'FAQ Id' => Array('faq' => 'id'),

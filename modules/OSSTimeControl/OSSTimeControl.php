@@ -74,8 +74,6 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('name');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'name';
 	// Column value to use on detail view record text display
@@ -162,9 +160,9 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			$results = $dataReader->readAll();
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
-				->from('vtiger_field')
-				->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
-				->createCommand()->query();
+					->from('vtiger_field')
+					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
+					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
 				$fieldModel = new $className();
@@ -180,7 +178,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		}
 		foreach ($results as $row) {
 			App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
 		}
 	}
 

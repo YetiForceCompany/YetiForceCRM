@@ -16,8 +16,6 @@ class Vtiger_CRMEntity extends CRMEntity
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = [];
 	// Required Information for enabling Import feature
 	public $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing

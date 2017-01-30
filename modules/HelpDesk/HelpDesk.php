@@ -28,7 +28,6 @@ class HelpDesk extends CRMEntity
 	public $column_fields = Array();
 	//Pavani: Assign value to entity_table
 	public $entity_table = "vtiger_crmentity";
-	public $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
 	public $list_fields = Array(
 		//Module Sequence Numbering
 		//'Ticket ID'=>Array('crmentity'=>'crmid'),

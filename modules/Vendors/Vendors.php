@@ -28,7 +28,6 @@ class Vendors extends CRMEntity
 	);
 	//Pavani: Assign value to entity_table
 	public $entity_table = 'vtiger_crmentity';
-	public $sortby_fields = Array('vendorname', 'category');
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
 		'Vendor Name' => Array('vendor' => 'vendorname'),

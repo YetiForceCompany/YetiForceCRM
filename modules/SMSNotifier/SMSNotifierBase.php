@@ -65,8 +65,6 @@ class SMSNotifierBase extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('message');
-	// Allow sorting on the following (field column names)
-	public $sortby_fields = Array('message');
 	// Should contain field labels
 	//var $detailview_links = Array ('Message');
 	// For Alphabetical search

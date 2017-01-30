@@ -90,8 +90,6 @@ class OSSMailView extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('from', 'subject', 'ossmailview_sendtype');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'subject';
 	// Required Information for enabling Import feature

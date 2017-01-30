@@ -65,7 +65,6 @@ class Users extends CRMEntity
 	public $encodeFields = Array("first_name", "last_name", "description");
 	// This is used to retrieve related fields from form posts.
 	public $additional_column_fields = Array('reports_to_name');
-	public $sortby_fields = Array('status', 'email1', 'is_admin', 'user_name', 'last_name');
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
 		'First Name' => Array('vtiger_users' => 'first_name'),
@@ -1241,11 +1240,6 @@ class Users extends CRMEntity
 			// NOTE date_entered has CURRENT_TIMESTAMP constraint, so we need to reset when updating the table
 			$adb->pquery("UPDATE vtiger_users SET reminder_next_time=?, date_entered=? WHERE id=?", array($set_reminder_next, $this->column_fields['date_entered'], $this->id));
 		}
-	}
-
-	public function initSortByField($module)
-	{
-		// Right now, we do not have any fields to be handled for Sorting in Users module. This is just a place holder as it is called from Popup.php
 	}
 
 	public function filterInactiveFields($module)

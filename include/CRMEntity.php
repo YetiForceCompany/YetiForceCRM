@@ -602,48 +602,6 @@ class CRMEntity
 			$eventHandler->trigger('EntityAfterRestore');
 		}
 	}
-
-	/**
-	 * Function to initialize the sortby fields array
-	 */
-	public function initSortByField($module)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering function initSortByField ($module)");
-		// Define the columnname's and uitype's which needs to be excluded
-		$exclude_columns = Array('parent_id', 'vendorid', 'access_count');
-		$exclude_uitypes = [];
-
-		$tabid = \App\Module::getModuleId($module);
-		if ($module == 'Calendar') {
-			$tabid = array('9', '16');
-		}
-		$sql = "SELECT columnname FROM vtiger_field " .
-			" WHERE (fieldname not like '%\_id' OR fieldname in ('assigned_user_id'))" .
-			" && tabid in (" . generateQuestionMarks($tabid) . ") and vtiger_field.presence in (0,2)";
-		$params = array($tabid);
-		if (count($exclude_columns) > 0) {
-			$sql .= " && columnname NOT IN (" . generateQuestionMarks($exclude_columns) . ")";
-			array_push($params, $exclude_columns);
-		}
-		if (count($exclude_uitypes) > 0) {
-			$sql .= " && uitype NOT IN (" . generateQuestionMarks($exclude_uitypes) . ")";
-			array_push($params, $exclude_uitypes);
-		}
-		$result = $adb->pquery($sql, $params);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$columnname = $adb->query_result($result, $i, 'columnname');
-			if (in_array($columnname, $this->sortby_fields))
-				continue;
-			else
-				$this->sortby_fields[] = $columnname;
-		}
-		if ($tabid == 21 || $tabid == 22)
-			$this->sortby_fields[] = 'crmid';
-		\App\Log::trace("Exiting initSortByField");
-	}
 	/* Function to check if the mod number already exits */
 
 	public function checkModuleSeqNumber($table, $column, $no)

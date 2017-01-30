@@ -26,7 +26,6 @@ class Campaigns extends CRMEntity
 	 */
 	public $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
 	public $column_fields = Array();
-	public $sortby_fields = Array('campaignname', 'smownerid', 'campaigntype', 'productname', 'expectedrevenue', 'closingdate', 'campaignstatus', 'expectedresponse', 'targetaudience', 'expectedcost');
 	public $list_fields = Array(
 		'Campaign Name' => Array('campaign' => 'campaignname'),
 		'Campaign Type' => Array('campaign' => 'campaigntype'),

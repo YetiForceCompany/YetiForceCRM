@@ -54,9 +54,6 @@ class Products extends CRMEntity
 
 	/** @var string[] List of fields in the RelationListView */
 	public $relationFields = ['productname', 'productcode', 'commissionrate', 'qty_per_unit', 'unit_price'];
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	// @var string[] List of fields in the Relatio
-	public $sortby_fields = Array();
 	public $def_basicsearch_col = 'productname';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
@@ -311,7 +308,7 @@ class Products extends CRMEntity
 			$withCrmIds = [$withCrmIds];
 		foreach ($withCrmIds as $withCrmId) {
 			if (in_array($withModule, ['Leads', 'Accounts', 'Contacts', 'Products'])) {
-				if($withModule === 'Products'){
+				if ($withModule === 'Products') {
 					if ((new App\Db\Query())->from('vtiger_seproductsrel')->where(['productid' => $withCrmId])->exists()) {
 						continue;
 					}

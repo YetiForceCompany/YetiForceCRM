@@ -28,7 +28,6 @@ class Leads extends CRMEntity
 	public $customFieldTable = Array('vtiger_leadscf', 'leadid');
 	//construct this from database;
 	public $column_fields = Array();
-	public $sortby_fields = Array('email', 'phone', 'company', 'smownerid', 'website');
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.

@@ -257,12 +257,6 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$fields = array_keys($this->getQueryFields());
 		$fields[] = 'id';
 		$queryGenerator->setFields($fields);
-		$customView = \App\CustomView::getInstance($this->getRelationModuleName());
-		$filterData = $customView->getMandatoryFilter(true);
-		if (!empty($filterData['sort'])) {
-			$order = explode(',', $filterData['sort']);
-			$queryGenerator->setOrder($order[0], $order[1]);
-		}
 		return $queryGenerator;
 	}
 

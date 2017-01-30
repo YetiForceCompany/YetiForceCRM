@@ -79,8 +79,6 @@ class PaymentsIn extends Vtiger_CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = array('paymentsname');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'paymentsname';
 	// Column value to use on detail view record text display

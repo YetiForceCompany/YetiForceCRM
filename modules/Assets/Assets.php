@@ -80,8 +80,6 @@ class Assets extends CRMEntity
 	public $relationFields = ['asset_no', 'assetname', 'product', 'assigned_user_id'];
 	// For Popup window record selection
 	public $popup_fields = Array('assetname', 'account', 'product');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'assetname';
 	// Required Information for enabling Import feature

@@ -22,7 +22,6 @@ class PriceBooks extends CRMEntity
 	 */
 	public $customFieldTable = Array('vtiger_pricebookcf', 'pricebookid');
 	public $column_fields = Array();
-	public $sortby_fields = Array('bookname');
 	// This is the list of fields that are in the lists.
 	public $list_fields = Array(
 		'Price Book Name' => Array('pricebook' => 'bookname'),

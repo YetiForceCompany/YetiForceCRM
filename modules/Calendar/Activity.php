@@ -34,7 +34,6 @@ class Activity extends CRMEntity
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
 	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
 	public $column_fields = [];
-	public $sortby_fields = Array('subject', 'due_date', 'date_start', 'smownerid', 'activitytype', 'lastname'); //Sorting is added for due date and start date
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
 
@@ -98,7 +97,7 @@ class Activity extends CRMEntity
 		'End Time' => 'time_end');
 	public $list_link_field = 'subject';
 	//Added these variables which are used as default order by and sortorder in ListView
-	public $default_order_by = '';
+	public $default_order_by = 'date_start';
 	public $default_sort_order = 'ASC';
 
 	public function __construct()
