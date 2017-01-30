@@ -41,7 +41,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public static function getDisplayDateTimeValue($date)
 	{
-		if (empty($date) || in_array($date, ['0000-00-00', '0000-00-00 00:00:00'])) {
+		if (empty($date) || $date === '0000-00-00' || $date === '0000-00-00 00:00:00') {
 			return '';
 		}
 		$date = new DateTimeField($date);

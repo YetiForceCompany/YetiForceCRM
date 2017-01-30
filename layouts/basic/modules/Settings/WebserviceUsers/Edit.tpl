@@ -14,7 +14,8 @@
 					{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 					<div class="form-group">
 						<label class="control-label col-md-3">
-							{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}<span class="redColor"> *</span>:
+							{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
+							{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 						</label>
 						<div class="col-md-8 fieldValue">
 							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}

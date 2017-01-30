@@ -79,7 +79,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($name) {
 			case 'crmid':
 				$params['uitype'] = 10;
-				$params['referenceList'] = ['Accounts', 'Contacts'];
+				$params['referenceList'] = ['Contacts'];
 				break;
 			case 'status':
 				$params['uitype'] = 16;
@@ -100,6 +100,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				break;
 			case 'language':
+				$params['typeofdata'] = 'V~O';
 				$params['uitype'] = 32;
 				$params['picklistValues'] = vtlib\Language::getAll();
 				break;
@@ -145,16 +146,10 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getCleanInstance($type)
 	{
-		$cacheName = get_class();
-		$key = 'Clean';
-		if (\App\Cache::staticHas($cacheName, $key)) {
-			return \App\Cache::staticGet($cacheName, $key);
-		}
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
 		$moduleInstance->typeApi = $type;
 		$instance = new self();
 		$instance->module = $moduleInstance;
-		\App\Cache::staticSave($cacheName, $key, $instance);
 		return $instance;
 	}
 

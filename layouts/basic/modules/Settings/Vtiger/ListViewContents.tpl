@@ -59,7 +59,6 @@
 							</td><td nowrap class="{$WIDTHTYPE} rightRecordActions">
 								{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
 								{if count($LINKS) > 0}
-									{assign var=ONLY_ONE value=count($LINKS) eq 1}
 									<div class="actions">
 										<div class="pull-right">
 											{foreach from=$LINKS item=LINK}

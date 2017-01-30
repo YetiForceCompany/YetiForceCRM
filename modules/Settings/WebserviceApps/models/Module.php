@@ -9,9 +9,13 @@
 class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	/**
+	 * Webservice apps types
+	 * @return string[]
+	 */
 	static public function getTypes()
 	{
-		return ['Portal', 'POS'];
+		return ['Portal'];
 	}
 
 	static public function getServers()

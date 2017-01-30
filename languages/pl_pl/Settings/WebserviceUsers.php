@@ -1,6 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'WebserviceUsers' => 'Web service - użytkownicy',
 	'LBL_WEBSERVICE_USERS' => 'Web service - użytkownicy',
 	'LBL_WEBSERVICE_USERS_DESCRIPTION' => ' ',
 	'FL_SERVER' => 'Serwer',
