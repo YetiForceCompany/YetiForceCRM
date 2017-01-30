@@ -3301,6 +3301,8 @@ span[name=existingImages] img{
 .listViewEntriesDiv .listViewEntriesCheckBox{
 	margin: 0;
 	vertical-align: middle;
+	width: 16px;
+    height: 16px;
 }
 #widgetsManagementEditorContainer .modal-footer .btn{
 	margin: 5px;
