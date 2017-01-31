@@ -565,4 +565,52 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		return $this->jsonFields;
 	}
+
+	/**
+	 * 
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return float
+	 */
+	public function inventoryPrice(Vtiger_Record_Model $recordModel)
+	{
+		return $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
+	}
+
+	/**
+	 * Function to get list elements in iventory as html code
+	 * @param Vtiger_Record_Model $recodModel
+	 * @return string
+	 */
+	public function inventoryListName(Vtiger_Record_Model $recodModel)
+	{
+		$inventoryFields = $this->getFields();
+		$html = '<ul>';
+		foreach ($recodModel->getInventoryData() as $data) {
+			$html .= '<li>';
+			$field = $inventoryFields['name'];
+			$html .= $field->getDisplayValue($data['name']);
+			$html .= '</li>';
+		}
+		return $html . '</ul>';
+	}
+
+	/**
+	 * Function to get custom values to complete in inventory
+	 * @param string $sourceModuleName
+	 * @param string $sourceFieldName
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return array
+	 */
+	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, Vtiger_Record_Model $recordModel)
+	{
+		$inventoryMap = AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		$values = [];
+		foreach ($inventoryMap as $fieldToComplete => $mapping) {
+			if (isset($mapping[$sourceFieldName]) && method_exists($this, $mapping[$sourceFieldName])) {
+				$methodName = $mapping[$sourceFieldName];
+				$values[$fieldToComplete] = $this->$methodName($recordModel);
+			}
+		}
+		return $values;
+	}
 }

@@ -115,13 +115,14 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$recordId = $request->get('record');
 		$idList = $request->get('idlist');
 		$currencyId = $request->get('currency_id');
+		$fieldName = $request->get('fieldname');
 		$moduleName = $request->getModule();
 
 		if (empty($idList)) {
-			$info = $this->getRecordDetail($recordId, $currencyId, $moduleName);
+			$info = $this->getRecordDetail($recordId, $currencyId, $moduleName, $fieldName);
 		} else {
 			foreach ($idList as $id) {
-				$info[] = $this->getRecordDetail($id, $currencyId, $moduleName);
+				$info[] = $this->getRecordDetail($id, $currencyId, $moduleName, $fieldName);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -129,33 +130,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	/**
-	 * Function to get list elements in iventory as html code
-	 * @param Vtiger_Record_Model $recodModel
-	 * @return string
-	 */
-	public function getInventoryHtml(Vtiger_Record_Model $recodModel)
-	{
-		$moduleName = $recodModel->getModuleName();
-		$inventoryMap = AppConfig::module('SQuotes', 'INVENTORY_READING_MAP');
-		if (!isset($inventoryMap[$moduleName])) {
-			return '';
-		}
-		$inventoryFields = Vtiger_InventoryField_Model::getInstance($moduleName)->getFields();
-		$html = '<ul>';
-		foreach ($recodModel->getInventoryData() as $data) {
-			$html .= '<li>';
-			foreach ($inventoryMap[$moduleName] as $columnName) {
-				$field = $inventoryFields[$columnName];
-				$html .= $field->getDisplayValue($data[$columnName]) . ' - ';
-			}
-			$html = trim($html, ' - ');
-			$html .= '</li>';
-		}
-		return $html . '</ul>';
-	}
-
-	public function getRecordDetail($recordId, $currencyId, $moduleName)
+	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
 		$conversionRate = 1;
 		$unitPriceValues = $taxes = [];
@@ -173,12 +148,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			}
 			$unitPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 		}
-		if ($recordModel->getModule()->isInventory()) {
-			$description = $this->getInventoryHtml($recordModel);
-			$unitPrice = $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
-		} else {
-			$description = $recordModel->get('description');
-		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);
 		$autoFields = [];
@@ -193,16 +162,15 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 				}
 			}
 		}
+		$autoCustomFields = $inventoryField->getCustomAutoComplete($moduleName, $fieldName, $recordModel);
 		$info = [
-			$recordId => [
-				'id' => $recordId,
-				'name' => decode_html($recordModel->getName()),
-				'price' => $unitPrice,
-				'unitPriceValues' => $unitPriceValues,
-				'description' => $description,
-				'autoFields' => $autoFields,
-			]
+			'id' => $recordId,
+			'name' => decode_html($recordModel->getName()),
+			'price' => $unitPrice,
+			'unitPriceValues' => $unitPriceValues,
+			'description' => $recordModel->get('description'),
+			'autoFields' => $autoFields,
 		];
-		return $info;
+		return [$recordId => array_merge($info, $autoCustomFields)];
 	}
 }

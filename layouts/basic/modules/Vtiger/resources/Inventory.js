@@ -1352,7 +1352,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 
 			var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency();
+			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency()+'&fieldname='+ element.data('columnname');
 			AppConnector.request(dataUrl).then(
 					function (data) {
 						for (var id in data) {
