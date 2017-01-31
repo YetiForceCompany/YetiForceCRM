@@ -46,7 +46,7 @@
 				{if !empty($QUICKCREATE_MODULES)}
 					<div class="pull-right rightHeaderBtn">
 						<div class="dropdown quickAction">
-						<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+							<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -95,29 +95,31 @@
 									<option value="">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 									{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
 										{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
-											<option value="{$SEARCHABLE_MODULE}" selected>{vtranslate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+											<option value="{$SEARCHABLE_MODULE}" selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 										{else}
-											<option value="{$SEARCHABLE_MODULE}">{vtranslate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+											<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
 										{/if}
 									{/foreach}
 								</select>
 							</span>
-							<input type="text" class="form-control globalSearchValue" title="{vtranslate('LBL_GLOBAL_SEARCH')}" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
+							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
 							<span class="input-group-btn">
 								<button class="btn btn-default searchIcon" type="button">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
-								<div class="btn-group">
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="glyphicon glyphicon-screenshot"></span>
-									</button>
-									<ul class="dropdown-menu globalSearchOperator">
-										<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
-										<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
-										<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
-									</ul>
-								</div>
-								<button class="btn btn-default globalSearch" title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
+								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
+									<div class="btn-group">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="glyphicon glyphicon-screenshot"></span>
+										</button>
+										<ul class="dropdown-menu globalSearchOperator">
+											<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
+											<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
+											<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
+										</ul>
+									</div>
+								{/if}
+								<button class="btn btn-default globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 									<span class="glyphicon glyphicon-th-large"></span>
 								</button>
 							</span>

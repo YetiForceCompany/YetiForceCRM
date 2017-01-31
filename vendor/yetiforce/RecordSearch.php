@@ -87,7 +87,12 @@ class RecordSearch
 			case 'ends': $where[] = ['like', 'csl.searchlabel', "%$this->searchValue", false];
 				break;
 			default:
-			case 'contains': $where[] = ['like', 'csl.searchlabel', $this->searchValue];
+			case 'contains':
+				if (strpos($this->searchValue, '*') !== false || strpos($this->searchValue, '_') !== false) {
+					$where[] = ['like', 'csl.searchlabel', str_replace('*', '%', "%{$this->searchValue}%"), false];
+				} else {
+					$where[] = ['like', 'csl.searchlabel', $this->searchValue];
+				}
 				break;
 		}
 		if ($this->moduleName) {
