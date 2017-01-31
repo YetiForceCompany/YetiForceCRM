@@ -897,7 +897,6 @@ $languageStrings = [
 	'Quarterly' => 'Ежеквартально',
 	'Yearly' => 'Ежегодно',
 	'LBL_SEND_MAIL' => 'Отправить Почту',
-	'LBL_GENERATE_FROM_TEMPLATE' => 'Создать из шаблона',
 	'Permission to perform the operation is denied' => 'В разрешении на проведение операции будет отказано',
 	'LBL_NO_FOUND_VIEW' => 'Фильтр не найден',
 	'Users' => 'Пользователи',

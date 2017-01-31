@@ -845,7 +845,6 @@ $languageStrings = [
 	'Quarterly' => 'Co kwartał',
 	'Yearly' => 'Co roku',
 	"LBL_SEND_MAIL" => 'Wyślij maila',
-	'LBL_GENERATE_FROM_TEMPLATE' => 'Generuj z szablonu',
 	'Permission to perform the operation is denied' => 'Nie masz uprawnień do wykonania tej operacji',
 	'LBL_NO_FOUND_VIEW' => 'Nie znalezniono widoku',
 	'LBL_SEARCH_MODULE' => 'Wyszukaj modułu',
