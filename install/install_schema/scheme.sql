@@ -6614,18 +6614,6 @@ CREATE TABLE `vtiger_org_share_action_mapping` (
   PRIMARY KEY (`share_action_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_oss_project_templates` */
-
-CREATE TABLE `vtiger_oss_project_templates` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `fld_name` varchar(255) NOT NULL,
-  `fld_val` varchar(255) NOT NULL,
-  `id_tpl` int(11) NOT NULL,
-  `parent` int(19) NOT NULL,
-  `module` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ossdc_status` */
 
 CREATE TABLE `vtiger_ossdc_status` (

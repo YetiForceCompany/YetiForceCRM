@@ -1451,18 +1451,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_oss_project_templates' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'fld_name' => $this->stringType()->notNull(),
-					'fld_val' => $this->stringType()->notNull(),
-					'id_tpl' => $this->integer()->notNull(),
-					'parent' => $this->integer()->notNull(),
-					'module' => $this->stringType()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ossdc_status' => [
 				'columns' => [
 					'ossdc_statusid' => $this->primaryKey(),
@@ -3236,7 +3224,6 @@ class Base3 extends \App\Db\Importers\Base
 					[114, 43, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
 					[186, 51, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
 					[188, 54, 'DASHBOARDWIDGET', 'Graf', 'index.php?module=OSSMailView&view=ShowWidget&name=Graf', '', 1, NULL, NULL, NULL, NULL],
-					[191, 43, 'LIST_VIEW_HEADER', 'LBL_GENERATE_FROM_TEMPLATE', 'index.php?module=OSSProjectTemplates&view=GenerateProject', 'userIcon-Project', 0, NULL, NULL, NULL, NULL],
 					[195, 61, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
 					[198, 48, 'HEADERSCRIPT', 'OSSMailJScheckmails', 'layouts/_layoutName_/modules/OSSMail/resources/checkmails.js', NULL, 0, NULL, NULL, NULL, NULL],
 					[199, 3, 'DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList', '', NULL, NULL, NULL, NULL, NULL],
@@ -12593,7 +12580,6 @@ class Base3 extends \App\Db\Importers\Base
 					[1, 51, 0],
 					[1, 54, 0],
 					[1, 55, 0],
-					[1, 56, 0],
 					[1, 57, 0],
 					[1, 58, 0],
 					[1, 59, 0],
@@ -12630,7 +12616,6 @@ class Base3 extends \App\Db\Importers\Base
 					[2, 51, 0],
 					[2, 54, 0],
 					[2, 55, 0],
-					[2, 56, 0],
 					[2, 57, 0],
 					[2, 58, 0],
 					[2, 59, 0],
@@ -12667,7 +12652,6 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 51, 0],
 					[3, 54, 0],
 					[3, 55, 0],
-					[3, 56, 0],
 					[3, 57, 0],
 					[3, 58, 0],
 					[3, 59, 0],
@@ -12704,7 +12688,6 @@ class Base3 extends \App\Db\Importers\Base
 					[4, 51, 0],
 					[4, 54, 0],
 					[4, 55, 0],
-					[4, 56, 0],
 					[4, 57, 0],
 					[4, 58, 0],
 					[4, 59, 0],
