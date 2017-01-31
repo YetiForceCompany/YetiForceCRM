@@ -12,7 +12,7 @@ class Record extends \Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
-	public $allowedMethod = ['GET', 'DELETE'];
+	public $allowedMethod = ['GET', 'DELETE', 'PUT'];
 
 	/**
 	 * Get record detail
@@ -87,5 +87,30 @@ class Record extends \Api\Core\BaseAction
 			$status = true;
 		}
 		return $status;
+	}
+
+	/**
+	 * Save record
+	 * @return bool
+	 */
+	public function put()
+	{
+		$recordData = $this->controller->request->get('recordData');
+		$moduleName = $this->controller->request->get('module');
+		$record = $this->controller->request->get('record');
+		$result = false;
+		if ($record) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
+		} else {
+			$recordModel = \Vtiger_Record_Model::getCleanInstance($module);
+		}
+		foreach ($recordData as $key => $value) {
+			$recordModel->set($key, $value);
+		}
+		if (!$record && $recordModel->isCreateable() || $record && $recordModel->isEditable()) {
+			$recordModel->save();
+			$result = true;
+		}
+		return ['id' => $recordModel->getId(), 'result' => $result];
 	}
 }
