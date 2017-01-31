@@ -3,13 +3,19 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 	registerSubmitForm: function () {
 		var form = this.getForm()
 		form.on('submit', function (e) {
+			form.find('.alert').hide()
 			if (form.validationEngine('validate') === true) {
 				var paramsForm = form.serializeFormData();
+				var progressIndicatorElement = jQuery.progressIndicator({
+					blockInfo: {'enabled': true}
+				});
 				app.saveAjax('updateSmtp', paramsForm).then(function (respons) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if(true == respons.result.success){
 						window.location.href = 	respons.result.url
 					}else{
-						Settings_Vtiger_Index_Js.showMessage({text: respons.result.message});
+						form.find('.alert').show()
+						form.find('.alert p').text(respons.result.message)
 					}
 				});
 				return false;
