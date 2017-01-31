@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class VTJsonCondition
@@ -199,10 +200,13 @@ class VTJsonCondition
 				case 'owner':
 					if ($condition === 'is' || $condition === 'is not') {
 						//To avoid again checking whether it is user or not 
-						$idList = array();
-						$idList[] = vtws_getWebserviceEntityId('Users', $value);
-						$idList[] = vtws_getWebserviceEntityId('Groups', $value);
-						$value = $idList;
+						if (strpos($value, ',') !== false) {
+							$value = explode(',', $value);
+						} elseif ($value) {
+							$value = [$value];
+						} else {
+							$value = [];
+						}
 						$condition = ($condition == 'is') ? 'contains' : 'does not contain';
 					}
 					break;
