@@ -103,7 +103,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($key) {
 			case 'default':
 			case 'authentication':
-			case 'individual_delivery':	
+			case 'individual_delivery':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'password':
@@ -192,51 +192,5 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set('id', $this->getId());
 			$db->createCommand()->update('s_#__mail_smtp', $params, ['id' => $this->getId()])->execute();
 		}
-	}
-
-	/**
-	 * Function updates smtp configuration 
-	 * @param Vtiger_Request $request
-	 */
-	public static function updateSmtp($request)
-	{
-		//	$mailer = new \App\Mailer();
-		//$result = $mailer->test();
-		//if (isset($result['result']) && $result['result'] !== false) {
-
-		if (1) {
-			$data = $request->get('param');
-			$recordId = $data['record'];
-			if ('on' === $data['default']) {
-				App\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
-			}
-
-			if ($recordId) {
-				$recordModel = self::getInstanceById($recordId);
-			} else {
-				$recordModel = self::getCleanInstance();
-			}
-			if ($recordModel) {
-				$recordModel->set('mailer_type', $data['mailer_type']);
-				$recordModel->set('default', $data['default'] === 'on' ? 1 : 0);
-				$recordModel->set('name', $data['name']);
-				$recordModel->set('host', $data['host']);
-				$recordModel->set('port', $data['port']);
-				$recordModel->set('username', $data['username']);
-				$recordModel->set('password', $data['password']);
-				$recordModel->set('authentication', $data['authentication'] === 'on' ? 1 : 0);
-				$recordModel->set('secure', $data['secure']);
-				$recordModel->set('options', $data['options']);
-				$recordModel->set('from_email', $data['from_email']);
-				$recordModel->set('from_name', $data['from_name']);
-				$recordModel->set('replay_to', $data['replay_to']);
-				$recordModel->set('individual_delivery', $data['individual_delivery'] === 'on' ? 1 : 0);
-				$recordModel->save();
-			}
-			$return = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
-		} else {
-			$return = ['success' => false, 'message' => \App\Language::translate('LBL_MAIL_TEST_FAILED')];
-		}
-		return $return;
 	}
 }

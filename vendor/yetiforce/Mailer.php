@@ -1,5 +1,4 @@
-<?php
-namespace App;
+<?php namespace App;
 
 /**
  * Mailer basic class
@@ -317,6 +316,7 @@ class Mailer
 	public function test()
 	{
 		$this->mailer->SMTPDebug = 2;
+		$this->error = [];
 		$this->mailer->Debugoutput = function($str, $level) {
 			if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
 				$this->error[] = trim($str);
@@ -332,7 +332,8 @@ class Mailer
 			return ['result' => false, 'error' => Language::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
 		$this->subject($template['subject']);
-		$this->content($template['content']);
+		$textParser = TextParser::getInstance("$parent:$module");
+		$this->content($textParser->setContent($template['content'])->parse()->getContent());
 		$result = $this->send();
 		return ['result' => $result, 'error' => implode(PHP_EOL, $this->error)];
 	}

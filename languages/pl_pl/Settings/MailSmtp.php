@@ -30,4 +30,5 @@ $languageStrings = [
 	'LBL_SMTP_DETAIL' => 'Szczegóły SMTP',
 	'LBL_INDIVIDUAL_DELIVERY_INFO' => 'Wiadomości email będą wysyłane oddzielnie do każdego z odbiorców',
 	'LBL_OPTIONS_INFO' => "Przykładowe parametry dodatkowe:<br /> 'ssl' => [<br />'verify_peer'  => true,<br />'verify_depth' => 3,<br />'allow_self_signed' => true,<br />'peer_name' => 'smtp.example.com',<br />'cafile' => '/etc/ssl/ca_cert.pem',<br />]",
+	'LBL_MAIL_TEST_FAILED' => 'Wysłanie wiadomości e-mail nie powiodło się',
 ];

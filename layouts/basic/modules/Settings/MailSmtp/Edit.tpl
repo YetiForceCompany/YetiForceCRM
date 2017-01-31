@@ -41,7 +41,7 @@
 						{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						<input type="checkbox" name="default" {if $RECORD_MODEL->get('default') eq 1} checked {/if}>
+						<input type="checkbox" name="default" value="1" {if $RECORD_MODEL->get('default') eq 1} checked {/if}>
 					</div>
 				</div>
 				<div class="form-group">
@@ -65,7 +65,7 @@
 						{\App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">
-						<input type="checkbox" name="authentication"  {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
+						<input type="checkbox" name="authentication" value="1"  {if $RECORD_MODEL->get('authentication') eq 1} checked {/if}>
 					</div>
 				</div>
 				<div class="form-group">
@@ -93,7 +93,7 @@
 						</span>
 					</label>
 					<div class="controls col-md-8">
-						<input type="checkbox" name="individual_delivery"  {if $RECORD_MODEL->get('individual_delivery') eq 1} checked {/if}>
+						<input type="checkbox" name="individual_delivery" value="1" {if $RECORD_MODEL->get('individual_delivery') eq 1} checked {/if}>
 					</div>
 				</div>
 				<div class="form-group">
