@@ -571,7 +571,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @param Vtiger_Record_Model $recordModel
 	 * @return float
 	 */
-	public function inventoryPrice(Vtiger_Record_Model $recordModel)
+	public function getInventoryPrice(Vtiger_Record_Model $recordModel)
 	{
 		return $recordModel->isEmpty('sum_total') ? 0 : $recordModel->get('sum_total');
 	}
@@ -581,7 +581,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @param Vtiger_Record_Model $recodModel
 	 * @return string
 	 */
-	public function inventoryListName(Vtiger_Record_Model $recodModel)
+	public function getInventoryListName(Vtiger_Record_Model $recodModel)
 	{
 		$inventoryFields = $this->getFields();
 		$html = '<ul>';
