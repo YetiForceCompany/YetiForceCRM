@@ -21,6 +21,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 		if ($this->get('src_field') === 'productsRelatedList') {
 			$pagingModel->set('limit', 'no_limit');
 		}
+		$this->getQueryGenerator()->currencyId = $this->get('currency_id');
 		return parent::getListViewEntries($pagingModel);
 	}
 }

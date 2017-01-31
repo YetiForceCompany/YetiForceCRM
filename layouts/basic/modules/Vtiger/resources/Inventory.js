@@ -640,7 +640,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.showPopup(params).then(function (data) {
 			var responseData = JSON.parse(data);
 			for (var id in responseData) {
-				thisInstance.setUnitPrice(lineItemRow, responseData[id]);
+				if (responseData[id]) {
+					thisInstance.setUnitPrice(lineItemRow, responseData[id]);
+				} else {
+					app.errorLog('Incorrect data', responseData);
+				}
 			}
 			thisInstance.quantityChangeActions(thisInstance.getClosestRow(rowName));
 		});
@@ -1352,7 +1356,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 
 			var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency()+'&fieldname='+ element.data('columnname');
+			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency() + '&fieldname=' + element.data('columnname');
 			AppConnector.request(dataUrl).then(
 					function (data) {
 						for (var id in data) {

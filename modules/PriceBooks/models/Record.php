@@ -21,10 +21,8 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	public function getProductUnitPriceURL()
 	{
 		$url = 'module=PriceBooks&action=ProductListPrice&record=' . $this->getId();
-		$rawData = $this->getRawData();
-		$src_record = $rawData['src_record'];
-		if (!empty($src_record)) {
-			$url .= '&itemId=' . $src_record;
+		if (!$this->isEmpty('src_record')) {
+			$url .= '&itemId=' . $this->get('src_record');
 		}
 		return $url;
 	}

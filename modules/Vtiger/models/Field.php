@@ -316,8 +316,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isNameField()
 	{
-		$moduleEntityNameFields = $this->getModule()->getNameFields();
-		if (in_array($this->get('column'), $moduleEntityNameFields)) {
+		$moduleModel = $this->getModule();
+		if (!$moduleModel) {
+			return false;
+		}
+		if (in_array($this->get('column'), $moduleModel->getNameFields())) {
 			return true;
 		}
 		return false;

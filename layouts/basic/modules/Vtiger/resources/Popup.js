@@ -190,11 +190,9 @@ jQuery.Class("Vtiger_Popup_Js", {
 	},
 
 	done: function (result, eventToTrigger, window) {
-
 		if (typeof eventToTrigger == 'undefined' || eventToTrigger.length <= 0) {
 			eventToTrigger = 'postSelection'
 		}
-
 		if (typeof window == 'undefined') {
 			window = self;
 		}
@@ -929,6 +927,11 @@ jQuery.Class("Vtiger_Popup_Js", {
 		if (pageNumber == 1) {
 			jQuery('#listViewPreviousPageButton').attr("disabled", "disabled");
 		}
+		this.setEventName(jQuery('.triggerEventName').val());
+		var documentHeight = (jQuery(document).height()) + 'px';
+		jQuery('#popupPageContainer').css('height', documentHeight);
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		
 		this.registerEventForSelectAllInCurrentPage();
 		this.registerSelectButton();
 		this.registerSwitchButton();
@@ -942,13 +945,4 @@ jQuery.Class("Vtiger_Popup_Js", {
 			this.registerEventForPagination();
 		}
 	}
-});
-jQuery(document).ready(function () {
-	var popupInstance = Vtiger_Popup_Js.getInstance();
-	var triggerEventName = jQuery('.triggerEventName').val();
-	var documentHeight = (jQuery(document).height()) + 'px';
-	jQuery('#popupPageContainer').css('height', documentHeight);
-	popupInstance.setEventName(triggerEventName);
-	popupInstance.registerEvents();
-	Vtiger_Helper_Js.showHorizontalTopScrollBar();
 });
