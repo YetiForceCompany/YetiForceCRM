@@ -6,6 +6,7 @@ namespace Api\Portal\BaseModule;
  * @package YetiForce.WebserviceAction
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Record extends \Api\Core\BaseAction
 {
@@ -25,7 +26,7 @@ class Record extends \Api\Core\BaseAction
 		$rawData = $recordModel->getData();
 		$moduleModel = $recordModel->getModule();
 
-		$displayData = [];
+		$displayData = $fieldsLabel = [];
 		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
@@ -35,7 +36,12 @@ class Record extends \Api\Core\BaseAction
 				}
 				$blockLabel = \App\Language::translate($block->label, $moduleName);
 				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
-				$displayData[$blockLabel][$fieldLabel] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
+				$displayData[$blockLabel][$moduleField->getName()] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
+				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
+				if ($moduleField->isReferenceField()) {
+					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($recordModel->get($moduleField->getName()));
+					$rawData[$moduleField->getName() . '_module'] = $refereneModule ? $refereneModule->getName() : null;
+				}
 			}
 		}
 
@@ -55,6 +61,7 @@ class Record extends \Api\Core\BaseAction
 		}
 		$resposne = [
 			'name' => $recordModel->getName(),
+			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'inventory' => $inventory
 		];
