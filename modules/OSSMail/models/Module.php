@@ -59,7 +59,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public function getComposeParam(Vtiger_Request $request)
+	public static function getComposeParam(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');
@@ -74,9 +74,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
-			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName == 'Campaigns') {
+			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
 				$subject = '';
-				if ($type == 'new' || $moduleName == 'Campaigns') {
+				if ($type === 'new' || $moduleName === 'Campaigns') {
 					$return['title'] = $recordModel->getName();
 					$subject .= $recordModel->getName();
 				}

@@ -118,16 +118,7 @@ var Vtiger_Index_Js = {
 				if (toMail) {
 					url += '&to=' + toMail;
 				}
-				if (module != undefined && record != undefined && !toMail) {
-					thisInstance.getEmailFromRecord(record, module).then(function (data) {
-						if (data != '') {
-							url += '&to=' + data;
-						}
-						thisInstance.sendMailWindow(url, popup);
-					});
-				} else {
-					thisInstance.sendMailWindow(url, popup);
-				}
+				thisInstance.sendMailWindow(url, popup);
 			});
 		});
 	},
