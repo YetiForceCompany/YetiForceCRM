@@ -7,41 +7,41 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-jQuery.Class("Vtiger_Popup_Js",{
+jQuery.Class("Vtiger_Popup_Js", {
 
-    getInstance: function(){
-	    var module = app.getModuleName();
+	getInstance: function () {
+		var module = app.getModuleName();
 		var className = jQuery('#popUpClassName').val();
-		if(typeof className != 'undefined'){
+		if (typeof className != 'undefined') {
 			var moduleClassName = className;
-		}else{
-			var moduleClassName = module+"_Popup_Js";
+		} else {
+			var moduleClassName = module + "_Popup_Js";
 		}
 		var fallbackClassName = Vtiger_Popup_Js;
-	    if(typeof window[moduleClassName] != 'undefined'){
+		if (typeof window[moduleClassName] != 'undefined') {
 			var instance = new window[moduleClassName]();
-		}else{
+		} else {
 			var instance = new fallbackClassName();
 		}
-	    return instance;
+		return instance;
 	}
 
-},{
+}, {
 
 	//holds the event name that child window need to trigger
-	eventName : '',
-	popupPageContentsContainer : false,
-	sourceModule : false,
-	sourceRecord : false,
-	sourceField : false,
-	multiSelect : false,
-	relatedParentModule : false,
-	
+	eventName: '',
+	popupPageContentsContainer: false,
+	sourceModule: false,
+	sourceRecord: false,
+	sourceField: false,
+	multiSelect: false,
+	relatedParentModule: false,
+
 	/**
 	 * Function to get source module
 	 */
-	getSourceModule : function(){
-		if(this.sourceModule == false){
+	getSourceModule: function () {
+		if (this.sourceModule == false) {
 			this.sourceModule = jQuery('#parentModule').val();
 		}
 		return this.sourceModule;
@@ -50,8 +50,8 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to get source record
 	 */
-	getSourceRecord : function(){
-		if(this.sourceRecord == false){
+	getSourceRecord: function () {
+		if (this.sourceRecord == false) {
 			this.sourceRecord = jQuery('#sourceRecord').val();
 		}
 		return this.sourceRecord;
@@ -60,8 +60,8 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to get source field
 	 */
-	getSourceField : function(){
-		if(this.sourceField == false){
+	getSourceField: function () {
+		if (this.sourceField == false) {
 			this.sourceField = jQuery('#sourceField').val();
 		}
 		return this.sourceField;
@@ -70,8 +70,8 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to get related parent module
 	 */
-	getRelatedParentModule : function(){
-		if(this.relatedParentModule == false){
+	getRelatedParentModule: function () {
+		if (this.relatedParentModule == false) {
 			this.relatedParentModule = jQuery('#relatedParentModule').val();
 		}
 		return this.relatedParentModule;
@@ -79,55 +79,55 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to get related parent id
 	 */
-	getRelatedParentRecord : function(){
+	getRelatedParentRecord: function () {
 		return app.getMainParams('relatedParentId');
 	},
 
 	/**
 	 * Function to get Search key
 	 */
-	getSearchKey : function(){
+	getSearchKey: function () {
 		return jQuery('#searchableColumnsList').val();
 	},
 
 	/**
 	 * Function to get Search value
 	 */
-	getSearchValue : function(){
+	getSearchValue: function () {
 		return jQuery('#searchvalue').val();
 	},
 
 	/**
 	 * Function to get Order by
 	 */
-	getOrderBy : function(){
+	getOrderBy: function () {
 		return jQuery('#orderBy').val();
 	},
 
 	/**
 	 * Function to get Sort Order
 	 */
-	getSortOrder : function(){
-			return jQuery("#sortOrder").val();
+	getSortOrder: function () {
+		return jQuery("#sortOrder").val();
 	},
 
 	/**
 	 * Function to get Page Number
 	 */
-	getPageNumber : function(){
+	getPageNumber: function () {
 		return jQuery('#pageNumber').val();
 	},
 
-	getPopupPageContainer : function(){
-		if(this.popupPageContentsContainer == false) {
+	getPopupPageContainer: function () {
+		if (this.popupPageContentsContainer == false) {
 			this.popupPageContentsContainer = jQuery('#popupPageContainer');
 		}
 		return this.popupPageContentsContainer;
 
 	},
 
-	show : function(urlOrParams, cb, windowName, eventName, onLoadCb){
-		if(typeof urlOrParams == 'undefined'){
+	show: function (urlOrParams, cb, windowName, eventName, onLoadCb) {
+		if (typeof urlOrParams == 'undefined') {
 			urlOrParams = {};
 		}
 		if (typeof urlOrParams == 'object' && (typeof urlOrParams['view'] == "undefined")) {
@@ -135,10 +135,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 		}
 
 		// Target eventName to be trigger post data selection.
-		if(typeof eventName == 'undefined') {
-			eventName = 'postSelection'+ Math.floor(Math.random() * 10000);
+		if (typeof eventName == 'undefined') {
+			eventName = 'postSelection' + Math.floor(Math.random() * 10000);
 		}
-		if(typeof windowName == 'undefined' ){
+		if (typeof windowName == 'undefined') {
 			windowName = 'test';
 		}
 		if (typeof urlOrParams == 'object') {
@@ -147,36 +147,36 @@ jQuery.Class("Vtiger_Popup_Js",{
 			urlOrParams += '&triggerEventName=' + eventName;
 		}
 
-		var urlString = (typeof urlOrParams == 'string')? urlOrParams : jQuery.param(urlOrParams);
-		var url = 'index.php?'+urlString;
-		var popupWinRef =  window.open(url, windowName ,'width=900,height=650,resizable=0,scrollbars=1');
+		var urlString = (typeof urlOrParams == 'string') ? urlOrParams : jQuery.param(urlOrParams);
+		var url = 'index.php?' + urlString;
+		var popupWinRef = window.open(url, windowName, 'width=900,height=650,resizable=0,scrollbars=1');
 		if (typeof this.destroy == 'function') {
 			// To remove form elements that have created earlier
 			this.destroy();
 		}
 		jQuery.initWindowMsg();
 
-		if(typeof cb != 'undefined') {
+		if (typeof cb != 'undefined') {
 			this.retrieveSelectedRecords(cb, eventName);
 		}
 
-		 if(typeof onLoadCb == 'function') {
-			jQuery.windowMsg('Vtiger.OnPopupWindowLoad.Event', function(data){
+		if (typeof onLoadCb == 'function') {
+			jQuery.windowMsg('Vtiger.OnPopupWindowLoad.Event', function (data) {
 				onLoadCb(data);
-            })
-        }
+			})
+		}
 
 		// http://stackoverflow.com/questions/13953321/how-can-i-call-a-window-child-function-in-javascript
 		// This could be useful for the caller to invoke child window methods post load.
 		return popupWinRef;
 	},
 
-	retrieveSelectedRecords : function(cb, eventName) {
-		if(typeof eventName == 'undefined') {
+	retrieveSelectedRecords: function (cb, eventName) {
+		if (typeof eventName == 'undefined') {
 			eventName = 'postSelection';
 		}
 
-		jQuery.windowMsg(eventName, function(data) {
+		jQuery.windowMsg(eventName, function (data) {
 			cb(data);
 		});
 	},
@@ -185,100 +185,100 @@ jQuery.Class("Vtiger_Popup_Js",{
 	 * Function which removes the elements that are added by the plugin
 	 *
 	 */
-	destroy : function(){
+	destroy: function () {
 		jQuery('form[name="windowComm"]').remove();
 	},
 
-	done : function(result, eventToTrigger, window) {
+	done: function (result, eventToTrigger, window) {
 
-		if(typeof eventToTrigger == 'undefined' || eventToTrigger.length <=0 ) {
+		if (typeof eventToTrigger == 'undefined' || eventToTrigger.length <= 0) {
 			eventToTrigger = 'postSelection'
 		}
 
-		if(typeof window == 'undefined'){
+		if (typeof window == 'undefined') {
 			window = self;
 		}
 		window.close();
-        var data = JSON.stringify(result);
-        // Because if we have two dollars like this "$$" it's not working because it'll be like escape char(Email Templates)
-        data = data.replace(/\$\$/g,"$ $");
+		var data = JSON.stringify(result);
+		// Because if we have two dollars like this "$$" it's not working because it'll be like escape char(Email Templates)
+		data = data.replace(/\$\$/g, "$ $");
 
 		jQuery.triggerParentEvent(eventToTrigger, data);
 
 	},
 
-	getView : function(){
-	    var view = jQuery('#view').val();
-	    if(view == '') {
-		    view = 'PopupAjax';
-	    } else {
-		    view = view+'Ajax';
-	    }
-	    return view;
+	getView: function () {
+		var view = jQuery('#view').val();
+		if (view == '') {
+			view = 'PopupAjax';
+		} else {
+			view = view + 'Ajax';
+		}
+		return view;
 	},
 
-	setEventName : function(eventName) {
+	setEventName: function (eventName) {
 		this.eventName = eventName;
 	},
 
-	getEventName : function() {
+	getEventName: function () {
 		return this.eventName;
 	},
 
-	isMultiSelectMode : function() {
-		if(this.multiSelect == false){
+	isMultiSelectMode: function () {
+		if (this.multiSelect == false) {
 			this.multiSelect = jQuery('#multi_select');
 		}
 		var value = this.multiSelect.val();
-		if(value) {
+		if (value) {
 			return value;
 		}
 		return false;
 	},
 
-	getListViewEntries: function(e){
+	getListViewEntries: function (e) {
 		var thisInstance = this;
-		var row  = jQuery(e.currentTarget);
+		var row = jQuery(e.currentTarget);
 		var dataUrl = row.data('url');
-		if(typeof dataUrl != 'undefined'){
-			dataUrl = dataUrl+'&currency_id='+jQuery('#currencyId').val();
-		    AppConnector.request(dataUrl).then(
-			function(data){
-				for(var id in data){
-				    if(typeof data[id] == "object"){
-					var recordData = data[id];
-				    }
-				}
-				thisInstance.done(recordData, thisInstance.getEventName());
-				e.preventDefault();
-			},
-			function(error,err){
+		if (typeof dataUrl != 'undefined') {
+			dataUrl = dataUrl + '&currency_id=' + jQuery('#currencyId').val();
+			AppConnector.request(dataUrl).then(
+					function (data) {
+						for (var id in data) {
+							if (typeof data[id] == "object") {
+								var recordData = data[id];
+							}
+						}
+						thisInstance.done(recordData, thisInstance.getEventName());
+						e.preventDefault();
+					},
+					function (error, err) {
 
-			}
-		    );
+					}
+			);
 		} else {
-		    var id = row.data('id');
-		    var recordName = row.data('name');
+			var id = row.data('id');
+			var recordName = row.data('name');
 			var recordInfo = row.data('info');
-		    var response ={};
-		    response[id] = {'name' : recordName,'info' : recordInfo} ;
+			var response = {};
+			response[id] = {'name': recordName, 'info': recordInfo};
 			thisInstance.done(response, thisInstance.getEventName());
-		    e.preventDefault();
+			e.preventDefault();
 		}
 
 	},
 
-	registerSelectButton : function(){
+	registerSelectButton: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		var thisInstance = this;
-		popupPageContentsContainer.on('click','button.select', function(e){
+		popupPageContentsContainer.on('click', 'button.select', function (e) {
 			var tableEntriesElement = popupPageContentsContainer.find('table');
 			var selectedRecordDetails = {};
 			var recordIds = new Array();
 			var dataUrl;
-			jQuery('input.entryCheckBox', tableEntriesElement).each(function(index, checkBoxElement){
+			jQuery('input.entryCheckBox', tableEntriesElement).each(function (index, checkBoxElement) {
 				var checkBoxJqueryObject = jQuery(checkBoxElement)
-				if(! checkBoxJqueryObject.is(":checked")){
+				if (!checkBoxJqueryObject.is(":checked")) {
 					return true;
 				}
 				var row = checkBoxJqueryObject.closest('tr');
@@ -286,65 +286,65 @@ jQuery.Class("Vtiger_Popup_Js",{
 				recordIds.push(id);
 				var name = row.data('name');
 				dataUrl = row.data('url');
-				selectedRecordDetails[id] = {'name' : name};
+				selectedRecordDetails[id] = {'name': name};
 			});
 			var jsonRecorIds = JSON.stringify(recordIds);
-			if(Object.keys(selectedRecordDetails).length <= 0) {
+			if (Object.keys(selectedRecordDetails).length <= 0) {
 				alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
-			}else{
-				if(typeof dataUrl != 'undefined'){
-				    dataUrl = dataUrl+'&idlist='+jsonRecorIds+'&currency_id='+jQuery('#currencyId').val();
-				    AppConnector.request(dataUrl).then(
-					function(data){
-						for(var id in data){
-						    if(typeof data[id] == "object"){
-							var recordData = data[id];
-						    }
-						}
-						var recordDataLength = Object.keys(recordData).length;
-						if(recordDataLength == 1){
-							recordData = recordData[0];
-						}
-						thisInstance.done(recordData, thisInstance.getEventName());
-						e.preventDefault();
-					},
-					function(error,err){
+			} else {
+				if (typeof dataUrl != 'undefined') {
+					dataUrl = dataUrl + '&idlist=' + jsonRecorIds + '&currency_id=' + jQuery('#currencyId').val();
+					AppConnector.request(dataUrl).then(
+							function (data) {
+								for (var id in data) {
+									if (typeof data[id] == "object") {
+										var recordData = data[id];
+									}
+								}
+								var recordDataLength = Object.keys(recordData).length;
+								if (recordDataLength == 1) {
+									recordData = recordData[0];
+								}
+								thisInstance.done(recordData, thisInstance.getEventName());
+								e.preventDefault();
+							},
+							function (error, err) {
 
-					}
-				);
-				}else{
-				    thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
+							}
+					);
+				} else {
+					thisInstance.done(selectedRecordDetails, thisInstance.getEventName());
 				}
 			}
 		});
 	},
 
-	selectAllHandler : function(e){
+	selectAllHandler: function (e) {
 		var currentElement = jQuery(e.currentTarget);
 		var isMainCheckBoxChecked = currentElement.is(':checked');
 		var tableElement = currentElement.closest('table');
-		if(isMainCheckBoxChecked) {
-			jQuery('input.entryCheckBox', tableElement).attr('checked','checked').closest('tr').addClass('highlightBackgroundColor');
-		}else {
+		if (isMainCheckBoxChecked) {
+			jQuery('input.entryCheckBox', tableElement).attr('checked', 'checked').closest('tr').addClass('highlightBackgroundColor');
+		} else {
 			jQuery('input.entryCheckBox', tableElement).removeAttr('checked').closest('tr').removeClass('highlightBackgroundColor');
 		}
 	},
 
-	registerEventForSelectAllInCurrentPage : function(){
+	registerEventForSelectAllInCurrentPage: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('change','input.selectAllInCurrentPage',function(e){
+		popupPageContentsContainer.on('change', 'input.selectAllInCurrentPage', function (e) {
 			thisInstance.selectAllHandler(e);
 		});
 	},
 
-	checkBoxChangeHandler : function(e){
+	checkBoxChangeHandler: function (e) {
 		var elem = jQuery(e.currentTarget);
 		var parentElem = elem.closest('tr');
-		if(elem.is(':checked')){
+		if (elem.is(':checked')) {
 			parentElem.addClass('highlightBackgroundColor');
 
-		}else{
+		} else {
 			parentElem.removeClass('highlightBackgroundColor');
 		}
 	},
@@ -352,10 +352,10 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to register event for entry checkbox change
 	 */
-	registerEventForCheckboxChange : function(){
+	registerEventForCheckboxChange: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','input.entryCheckBox',function(e){
+		popupPageContentsContainer.on('click', 'input.entryCheckBox', function (e) {
 			e.stopPropagation();
 			thisInstance.checkBoxChangeHandler(e);
 		});
@@ -363,32 +363,32 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to get complete params
 	 */
-	getCompleteParams : function(){
+	getCompleteParams: function () {
 		var thisInstance = this;
 		var params = {};
-		
+
 		params['module'] = app.getModuleName();
 		params['view'] = this.getView();
 		params['src_module'] = this.getSourceModule();
 		params['src_record'] = this.getSourceRecord();
 		params['src_field'] = this.getSourceField();
-		params['search_key'] =  this.getSearchKey();
-		params['search_value'] =  this.getSearchValue();
-		params['orderby'] =  this.getOrderBy();
-		params['sortorder'] =  this.getSortOrder();
+		params['search_key'] = this.getSearchKey();
+		params['search_value'] = this.getSearchValue();
+		params['orderby'] = this.getOrderBy();
+		params['sortorder'] = this.getSortOrder();
 		params['page'] = this.getPageNumber();
 		params['related_parent_module'] = this.getRelatedParentModule();
 		params['related_parent_id'] = this.getRelatedParentRecord();
 		params['search_params'] = JSON.stringify(this.getListSearchParams());
-		if(this.isMultiSelectMode()) {
+		if (this.isMultiSelectMode()) {
 			params['multi_select'] = true;
 		}
 		return params;
 	},
-	
-	getVarFromUrl : function() {
+
+	getVarFromUrl: function () {
 		var vars = {};
-		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 			vars[key] = value;
 		});
 		return vars;
@@ -396,110 +396,109 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to get Page Records
 	 */
-	getPageRecords : function(params){
+	getPageRecords: function (params) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var progressIndicatorElement = jQuery.progressIndicator({
-			'position' : 'html',
-			'blockInfo' : {
-				'enabled' : true
+			'position': 'html',
+			'blockInfo': {
+				'enabled': true
 			}
 		});
 		Vtiger_BaseList_Js.getPageRecords(params).then(
-				function(data){
+				function (data) {
 					jQuery('#popupContents').html(data);
 					Vtiger_Helper_Js.showHorizontalTopScrollBar();
 					progressIndicatorElement.progressIndicator({
-						'mode' : 'hide'
+						'mode': 'hide'
 					})
-					thisInstance.calculatePages().then(function(data){
+					thisInstance.calculatePages().then(function (data) {
 						aDeferred.resolve(data);
 					});
 				},
-
-				function(textStatus, errorThrown){
+				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				}
-			);
+		);
 		return aDeferred.promise();
 	},
-	
-		/**
+
+	/**
 	 * Function to calculate number of pages
 	 */
-	calculatePages : function() {
+	calculatePages: function () {
 		var aDeferred = jQuery.Deferred();
 		var element = jQuery('#totalPageCount');
 		var totalPageNumber = element.text();
-		if(totalPageNumber == ""){
+		if (totalPageNumber == "") {
 			var totalRecordCount = jQuery('#totalCount').val();
-			if(totalRecordCount != '') {
+			if (totalRecordCount != '') {
 				var recordPerPage = jQuery('#noOfEntries').val();
-				if(recordPerPage == '0') recordPerPage = 1;
-				pageCount = Math.ceil(totalRecordCount/recordPerPage);
-				if(pageCount == 0){
+				if (recordPerPage == '0')
+					recordPerPage = 1;
+				pageCount = Math.ceil(totalRecordCount / recordPerPage);
+				if (pageCount == 0) {
 					pageCount = 1;
 				}
 				element.text(pageCount);
 				aDeferred.resolve();
 				return aDeferred.promise();
 			}
-			this.getPageCount().then(function(data){
+			this.getPageCount().then(function (data) {
 				var pageCount = data['result']['page'];
-				if(pageCount == 0){
+				if (pageCount == 0) {
 					pageCount = 1;
 				}
 				element.text(pageCount);
 				aDeferred.resolve();
 			});
-		} else{
+		} else {
 			aDeferred.resolve();
 		}
 		return aDeferred.promise();
 	},
-	
+
 	/**
 	 * Function to handle search event
 	 */
-	searchHandler : function(){
+	searchHandler: function () {
 		var aDeferred = jQuery.Deferred();
 		var completeParams = this.getCompleteParams();
 		completeParams['page'] = 1;
 		return this.getPageRecords(completeParams).then(
-		function(data){
-		    aDeferred.resolve(data);
-		},
-		function(textStatus, errorThrown){
-			aDeferred.reject(textStatus, errorThrown);
-		});
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				});
 		return aDeferred.promise();
 	},
 
- 	/**
+	/**
 	 * Function to handle Sort
 	 */
-	sortHandler : function(headerElement){
+	sortHandler: function (headerElement) {
 		var aDeferred = jQuery.Deferred();
 		//Listprice column should not be sorted so checking for class noSorting
-		if(headerElement.hasClass('noSorting')){
+		if (headerElement.hasClass('noSorting')) {
 			return;
 		}
 		var fieldName = headerElement.data('columnname');
 		var sortOrderVal = headerElement.data('nextsortorderval');
 		var sortingParams = {
-			"orderby" : fieldName,
-			"sortorder" : sortOrderVal
+			"orderby": fieldName,
+			"sortorder": sortOrderVal
 		}
 		var completeParams = this.getCompleteParams();
-		jQuery.extend(completeParams,sortingParams);
+		jQuery.extend(completeParams, sortingParams);
 		return this.getPageRecords(completeParams).then(
-			function(data){
-				aDeferred.resolve(data);
-			},
-
-			function(textStatus, errorThrown){
-				aDeferred.reject(textStatus, errorThrown);
-			}
+				function (data) {
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				}
 		);
 		return aDeferred.promise();
 	},
@@ -507,12 +506,12 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to register Event for Sorting
 	 */
-	registerEventForSort : function(){
+	registerEventForSort: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','.listViewHeaderValues',function(e){
+		popupPageContentsContainer.on('click', '.listViewHeaderValues', function (e) {
 			var element = jQuery(e.currentTarget);
-			thisInstance.sortHandler(element).then(function(data){
+			thisInstance.sortHandler(element).then(function (data) {
 				thisInstance.updatePagination();
 				thisInstance.registerListSearch();
 			});
@@ -523,28 +522,27 @@ jQuery.Class("Vtiger_Popup_Js",{
 	 * Function to handle next page navigation
 	 */
 
-	nextPageHandler : function(){
+	nextPageHandler: function () {
 		var aDeferred = jQuery.Deferred();
 		var pageLimit = jQuery('#pageLimit').val();
 		var noOfEntries = jQuery('#noOfEntries').val();
-		if(noOfEntries == pageLimit){
+		if (noOfEntries == pageLimit) {
 			var pageNumber = jQuery('#pageNumber').val();
 			var nextPageNumber = parseInt(pageNumber) + 1;
 			var pagingParams = {
-					"page": nextPageNumber
-				}
+				"page": nextPageNumber
+			}
 			var completeParams = this.getCompleteParams();
-			jQuery.extend(completeParams,pagingParams);
+			jQuery.extend(completeParams, pagingParams);
 			this.getPageRecords(completeParams).then(
-				function(data){
-					jQuery('#pageNumber').val(nextPageNumber);
-					jQuery('#pageToJump').val(nextPageNumber);
-					aDeferred.resolve(data);
-				},
-
-				function(textStatus, errorThrown){
-					aDeferred.reject(textStatus, errorThrown);
-				}
+					function (data) {
+						jQuery('#pageNumber').val(nextPageNumber);
+						jQuery('#pageToJump').val(nextPageNumber);
+						aDeferred.resolve(data);
+					},
+					function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					}
 			);
 		}
 		return aDeferred.promise();
@@ -553,26 +551,25 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to handle Previous page navigation
 	 */
-	previousPageHandler : function(){
+	previousPageHandler: function () {
 		var aDeferred = jQuery.Deferred();
 		var pageNumber = jQuery('#pageNumber').val();
 		var previousPageNumber = parseInt(pageNumber) - 1;
-		if(pageNumber > 1){
+		if (pageNumber > 1) {
 			var pagingParams = {
 				"page": previousPageNumber
 			}
 			var completeParams = this.getCompleteParams();
-			jQuery.extend(completeParams,pagingParams);
+			jQuery.extend(completeParams, pagingParams);
 			this.getPageRecords(completeParams).then(
-				function(data){
-					jQuery('#pageNumber').val(previousPageNumber);
-					jQuery('#pageToJump').val(previousPageNumber);
-					aDeferred.resolve(data);
-				},
-
-				function(textStatus, errorThrown){
-					aDeferred.reject(textStatus, errorThrown);
-				}
+					function (data) {
+						jQuery('#pageNumber').val(previousPageNumber);
+						jQuery('#pageToJump').val(previousPageNumber);
+						aDeferred.resolve(data);
+					},
+					function (textStatus, errorThrown) {
+						aDeferred.reject(textStatus, errorThrown);
+					}
 			);
 		}
 		return aDeferred.promise();
@@ -581,69 +578,70 @@ jQuery.Class("Vtiger_Popup_Js",{
 	/**
 	 * Function to register event for Paging
 	 */
-	registerEventForPagination : function(){
+	registerEventForPagination: function () {
 		var thisInstance = this;
-		jQuery('#listViewNextPageButton').on('click',function(){
-			thisInstance.nextPageHandler().then(function(data){
+		jQuery('#listViewNextPageButton').on('click', function () {
+			thisInstance.nextPageHandler().then(function (data) {
 				thisInstance.updatePagination();
 				thisInstance.registerListSearch();
 			});
 		});
-		jQuery('#listViewPreviousPageButton').on('click',function(){
-			thisInstance.previousPageHandler().then(function(data){
+		jQuery('#listViewPreviousPageButton').on('click', function () {
+			thisInstance.previousPageHandler().then(function (data) {
 				thisInstance.updatePagination();
 				thisInstance.registerListSearch();
 			});
 		});
-		jQuery('#listViewPageJump').on('click',function(e){
+		jQuery('#listViewPageJump').on('click', function (e) {
 			jQuery('#pageToJump').validationEngine('hideAll');
 			var element = jQuery('#totalPageCount');
 			var totalPageNumber = element.text();
-			if(totalPageNumber == ""){
+			if (totalPageNumber == "") {
 				var totalRecordElement = jQuery('#totalCount');
 				var totalRecordCount = totalRecordElement.val();
-				if(totalRecordCount != '') {
+				if (totalRecordCount != '') {
 					var recordPerPage = jQuery('#pageLimit').val();
-					if(recordPerPage == '0') recordPerPage = 1;
-					pageCount = Math.ceil(totalRecordCount/recordPerPage);
-					if(pageCount == 0){
+					if (recordPerPage == '0')
+						recordPerPage = 1;
+					pageCount = Math.ceil(totalRecordCount / recordPerPage);
+					if (pageCount == 0) {
 						pageCount = 1;
 					}
 					element.text(pageCount);
 					return;
 				}
 				element.progressIndicator({});
-				thisInstance.getPageCount().then(function(data){
+				thisInstance.getPageCount().then(function (data) {
 					var pageCount = data['result']['page'];
 					element.text(pageCount);
 					totalRecordElement.val(data['result']['numberOfRecords']);
 					element.progressIndicator({'mode': 'hide'});
-			});
-		}
+				});
+			}
 		})
 
-		jQuery('#listViewPageJumpDropDown').on('click','li',function(e){
+		jQuery('#listViewPageJumpDropDown').on('click', 'li', function (e) {
 			e.stopImmediatePropagation();
-		}).on('keypress','#pageToJump',function(e){
-			if(e.which == 13){
+		}).on('keypress', '#pageToJump', function (e) {
+			if (e.which == 13) {
 				e.stopImmediatePropagation();
 				var element = jQuery(e.currentTarget);
 				var response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-				if(typeof response != "undefined"){
-					element.validationEngine('showPrompt',response,'',"topLeft",true);
+				if (typeof response != "undefined") {
+					element.validationEngine('showPrompt', response, '', "topLeft", true);
 				} else {
 					element.validationEngine('hideAll');
 					var currentPageElement = jQuery('#pageNumber');
 					var currentPageNumber = currentPageElement.val();
 					var newPageNumber = parseInt(element.val());
 					var totalPages = parseInt(jQuery('#totalPageCount').text());
-					if(newPageNumber > totalPages){
+					if (newPageNumber > totalPages) {
 						var error = app.vtranslate('JS_PAGE_NOT_EXIST');
-						element.validationEngine('showPrompt',error,'',"topLeft",true);
+						element.validationEngine('showPrompt', error, '', "topLeft", true);
 						return;
 					}
-					if(newPageNumber == currentPageNumber){
-						var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER')+" "+newPageNumber;
+					if (newPageNumber == currentPageNumber) {
+						var message = app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + " " + newPageNumber;
 						var params = {
 							text: message,
 							type: 'info'
@@ -655,109 +653,109 @@ jQuery.Class("Vtiger_Popup_Js",{
 						"page": newPageNumber
 					}
 					var completeParams = thisInstance.getCompleteParams();
-					jQuery.extend(completeParams,pagingParams);
+					jQuery.extend(completeParams, pagingParams);
 					thisInstance.getPageRecords(completeParams).then(
-						function(data){
-							currentPageElement.val(newPageNumber);
-							thisInstance.updatePagination();
-							thisInstance.registerListSearch();
-							element.closest('.btn-group ').removeClass('open');
-						},
-						function(textStatus, errorThrown){
-						}
+							function (data) {
+								currentPageElement.val(newPageNumber);
+								thisInstance.updatePagination();
+								thisInstance.registerListSearch();
+								element.closest('.btn-group ').removeClass('open');
+							},
+							function (textStatus, errorThrown) {
+							}
 					);
 				}
 				return false;
-		}
+			}
 		});
 	},
 
-	registerEventForListViewEntries : function(){
+	registerEventForListViewEntries: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','.listViewEntries',function(e){
-		    thisInstance.getListViewEntries(e);
+		popupPageContentsContainer.on('click', '.listViewEntries', function (e) {
+			thisInstance.getListViewEntries(e);
 		});
 	},
 
-	triggerDisplayTypeEvent : function() {
+	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
-		if(widthType) {
+		if (widthType) {
 			var elements = jQuery('.listViewEntriesTable').find('td,th');
 			elements.addClass(widthType);
 		}
 	},
-		/**
+	/**
 	 * Function to get page count and total number of records in list
 	 */
-	getPageCount : function(){
+	getPageCount: function () {
 		var aDeferred = jQuery.Deferred();
 		var pageJumpParams = {
-			'mode' : "getPageCount"
+			'mode': "getPageCount"
 		}
 		var completeParams = this.getCompleteParams();
-		jQuery.extend(completeParams,pageJumpParams);
+		jQuery.extend(completeParams, pageJumpParams);
 		AppConnector.request(completeParams).then(
-			function(data) {
-				var response;
-				if(typeof data != "object"){
-					response = JSON.parse(data);
-				} else{
-					response = data;
-				}
-				aDeferred.resolve(response);
-			},
-			function(error,err){
+				function (data) {
+					var response;
+					if (typeof data != "object") {
+						response = JSON.parse(data);
+					} else {
+						response = data;
+					}
+					aDeferred.resolve(response);
+				},
+				function (error, err) {
 
-			}
+				}
 		);
 		return aDeferred.promise();
 	},
-	
+
 	/**
 	 * Function to show total records count in listview on hover
 	 * of pageNumber text
 	 */
-	registerEventForTotalRecordsCount : function(){
+	registerEventForTotalRecordsCount: function () {
 		var thisInstance = this;
-		jQuery('.totalNumberOfRecords').on('click',function(e){
+		jQuery('.totalNumberOfRecords').on('click', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.addClass('hide');
 			element.parent().find('.pageNumbersText').progressIndicator({});
 			var totalRecordsElement = jQuery('#totalCount');
 			var totalNumberOfRecords = totalRecordsElement.val();
-			if(totalNumberOfRecords == '') {
-				thisInstance.getPageCount().then(function(data){
+			if (totalNumberOfRecords == '') {
+				thisInstance.getPageCount().then(function (data) {
 					totalNumberOfRecords = data['result']['numberOfRecords'];
 					var numberOfPages = data['result']['page'];
 					totalRecordsElement.val(totalNumberOfRecords);
 					jQuery('#totalPageCount').text(numberOfPages);
 					thisInstance.showPagingInfo();
 				});
-			}else{
+			} else {
 				thisInstance.showPagingInfo();
 			}
-			element.parent().find('.pageNumbersText').progressIndicator({'mode':'hide'});
+			element.parent().find('.pageNumbersText').progressIndicator({'mode': 'hide'});
 		})
 	},
-	
-	showPagingInfo : function(){
+
+	showPagingInfo: function () {
 		var totalNumberOfRecords = jQuery('#totalCount').val();
 		var pageNumberElement = jQuery('.pageNumbersText');
 		var pageRange = pageNumberElement.text();
-		var newPagingInfo = pageRange+" ("+totalNumberOfRecords+")";
+		var newPagingInfo = pageRange + " (" + totalNumberOfRecords + ")";
 		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
-		if(listViewEntriesCount != 0){
+		if (listViewEntriesCount != 0) {
 			jQuery('.pageNumbersText').html(newPagingInfo);
 		} else {
 			jQuery('.pageNumbersText').html("");
 		}
 	},
-	
+
 	/**
 	 * Function to update Pagining status
 	 */
-	updatePagination : function(){
+	updatePagination: function () {
 		var previousPageExist = jQuery('#previousPageExist').val();
 		var nextPageExist = jQuery('#nextPageExist').val();
 		var previousPageButton = jQuery('#listViewPreviousPageButton');
@@ -770,50 +768,50 @@ jQuery.Class("Vtiger_Popup_Js",{
 		var totalNumberOfRecords = jQuery('.totalNumberOfRecords');
 		var pageNumbersTextElem = jQuery('.pageNumbersText');
 
-		if(pages == 1){
-			pageJumpButton.attr('disabled',"disabled");
+		if (pages == 1) {
+			pageJumpButton.attr('disabled', "disabled");
 		}
-		if(pages > 1){
+		if (pages > 1) {
 			pageJumpButton.removeAttr('disabled');
 		}
 
-		if(previousPageExist != ""){
+		if (previousPageExist != "") {
 			previousPageButton.removeAttr('disabled');
-		} else if(previousPageExist == "") {
-			previousPageButton.attr("disabled","disabled");
+		} else if (previousPageExist == "") {
+			previousPageButton.attr("disabled", "disabled");
 		}
 
-		if((nextPageExist != "") && (pages >1)){
+		if ((nextPageExist != "") && (pages > 1)) {
 			nextPageButton.removeAttr('disabled');
-		} else if((nextPageExist == "") || (pages == 1)) {
-			nextPageButton.attr("disabled","disabled");
+		} else if ((nextPageExist == "") || (pages == 1)) {
+			nextPageButton.attr("disabled", "disabled");
 		}
-		if(listViewEntriesCount != 0){
-			var pageNumberText = pageStartRange+" ("+pageEndRange+")";
+		if (listViewEntriesCount != 0) {
+			var pageNumberText = pageStartRange + " (" + pageEndRange + ")";
 			pageNumbersTextElem.html(pageNumberText);
 			totalNumberOfRecords.removeClass('hide');
 		} else {
 			pageNumbersTextElem.html("<span>&nbsp;</span>");
-			if(!totalNumberOfRecords.hasClass('hide')){
+			if (!totalNumberOfRecords.hasClass('hide')) {
 				totalNumberOfRecords.addClass('hide');
 			}
 		}
 
 	},
 
-	registerListSearch : function() {
+	registerListSearch: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		var thisInstance = this;
-		popupPageContentsContainer.on('click','[data-trigger="listSearch"]',function(e) {
+		popupPageContentsContainer.on('click', '[data-trigger="listSearch"]', function (e) {
 			jQuery('#totalPageCount').text("");
-			thisInstance.searchHandler().then(function(data) {
+			thisInstance.searchHandler().then(function (data) {
 				jQuery('#pageNumber').val(1);
 				jQuery('#pageToJump').val(1);
 				thisInstance.updatePagination();
 				thisInstance.registerListViewSelectSearch();
 			});
 		})
-		popupPageContentsContainer.on('keypress','input.listSearchContributor', function(e) {
+		popupPageContentsContainer.on('keypress', 'input.listSearchContributor', function (e) {
 			if (e.keyCode == 13) {
 				thisInstance.triggerListSearch();
 			}
@@ -829,92 +827,90 @@ jQuery.Class("Vtiger_Popup_Js",{
 					thisInstance.triggerListSearch();
 				}
 			});
-			popupPageContentsContainer.find('.clockPicker').on('change', function(){
+			popupPageContentsContainer.find('.clockPicker').on('change', function () {
 				thisInstance.triggerListSearch();
 			});
 		}
 	},
-	
-	registerListViewSelectSearch : function() {
+
+	registerListViewSelectSearch: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
 		var select = popupPageContentsContainer.find('.listViewEntriesTable .select2noactive');
 		var params = {
 			placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
 		};
-		app.showSelect2ElementView(select,params);
+		app.showSelect2ElementView(select, params);
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
-			select.off('change').on("change", function(e) { 
+			select.off('change').on("change", function (e) {
 				thisInstance.triggerListSearch();
 			})
 		}
 	},
-	
-	triggerListSearch : function() {
+
+	triggerListSearch: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
-		popupPageContentsContainer.find('button[data-trigger="listSearch"]').trigger( "click" );
+		popupPageContentsContainer.find('button[data-trigger="listSearch"]').trigger("click");
 	},
-	
-	registerTimeListSearch : function(container) {
+
+	registerTimeListSearch: function (container) {
 		app.registerEventForClockPicker();
 	},
 
-	registerDateListSearch : function(container) {
-		container.find('.dateField').each(function(index,element){
+	registerDateListSearch: function (container) {
+		container.find('.dateField').each(function (index, element) {
 			var dateElement = jQuery(element);
 			var customParams = {
 				calendars: 2,
 				mode: 'range',
-				className : 'rangeCalendar',
-				onChange: function(formated) {
+				className: 'rangeCalendar',
+				onChange: function (formated) {
 					dateElement.val(formated.join(','));
-	               }
+				}
 			}
-			app.registerEventForDatePickerFields(dateElement,false,customParams);
+			app.registerEventForDatePickerFields(dateElement, false, customParams);
 		});
-    },
-		    
-	getListSearchParams : function(){
+	},
+
+	getListSearchParams: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
-	     var listViewTable = popupPageContentsContainer.find('.listViewEntriesTable');
-	     var searchParams = new Array();
-	     listViewTable.find('.listSearchContributor').each(function(index,domElement){
-	         var searchInfo = new Array();
-	         var searchContributorElement = jQuery(domElement);
-	         var fieldInfo = searchContributorElement.data('fieldinfo');
-	         var fieldName = searchContributorElement.attr('name');
-	         var searchValue = searchContributorElement.val();
-	
-	         if(typeof searchValue == "object") {
-	             if(searchValue == null) {
-	                searchValue = "";
-	             }else{
-	                 searchValue = searchValue.join(',');
-	             }
-	         }
-	         searchValue = searchValue.trim();
-	         if(searchValue.length <=0 ) {
-	             //continue
-	             return true;
-	         }
-	         var searchOperator = 'c';
+		var listViewTable = popupPageContentsContainer.find('.listViewEntriesTable');
+		var searchParams = new Array();
+		listViewTable.find('.listSearchContributor').each(function (index, domElement) {
+			var searchInfo = new Array();
+			var searchContributorElement = jQuery(domElement);
+			var fieldInfo = searchContributorElement.data('fieldinfo');
+			var fieldName = searchContributorElement.attr('name');
+			var searchValue = searchContributorElement.val();
+
+			if (typeof searchValue == "object") {
+				if (searchValue == null) {
+					searchValue = "";
+				} else {
+					searchValue = searchValue.join(',');
+				}
+			}
+			searchValue = searchValue.trim();
+			if (searchValue.length <= 0) {
+				//continue
+				return true;
+			}
+			var searchOperator = 'a';
 			if (fieldInfo.hasOwnProperty("searchOperator")) {
 				searchOperator = fieldInfo.searchOperator;
 			} else if (jQuery.inArray(fieldInfo.type, ['userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole']) >= 0) {
 				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' || fieldInfo.type == "integer" || fieldInfo.type == "number") {
-				searchOperator = 'a';
 			}
-	         searchInfo.push(fieldName);
-	         searchInfo.push(searchOperator);
-	         searchInfo.push(searchValue);
-	         searchParams.push(searchInfo);
-	     });
-	     return new Array(searchParams);
-	 },
+			searchInfo.push(fieldName);
+			searchInfo.push(searchOperator);
+			searchInfo.push(searchValue);
+			searchParams.push(searchInfo);
+		});
+		return new Array(searchParams);
+	},
 	registerSwitchButton: function () {
 		var popupContainer = this.getPopupPageContainer();
 		var thisInstance = this;
@@ -928,9 +924,9 @@ jQuery.Class("Vtiger_Popup_Js",{
 			thisInstance.triggerListSearch();
 		});
 	},
-	registerEvents: function(){
+	registerEvents: function () {
 		var pageNumber = jQuery('#pageNumber').val();
-		if(pageNumber == 1){
+		if (pageNumber == 1) {
 			jQuery('#listViewPreviousPageButton').attr("disabled", "disabled");
 		}
 		this.registerEventForSelectAllInCurrentPage();
@@ -941,17 +937,17 @@ jQuery.Class("Vtiger_Popup_Js",{
 		this.registerEventForListViewEntries();
 		this.registerListSearch();
 		var popupPageContainer = jQuery('#popupPageContainer');
-		if(popupPageContainer.length > 0){
+		if (popupPageContainer.length > 0) {
 			this.registerEventForTotalRecordsCount();
 			this.registerEventForPagination();
 		}
 	}
 });
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 	var popupInstance = Vtiger_Popup_Js.getInstance();
 	var triggerEventName = jQuery('.triggerEventName').val();
-	var documentHeight = (jQuery(document).height())+'px';
-	jQuery('#popupPageContainer').css('height',documentHeight);
+	var documentHeight = (jQuery(document).height()) + 'px';
+	jQuery('#popupPageContainer').css('height', documentHeight);
 	popupInstance.setEventName(triggerEventName);
 	popupInstance.registerEvents();
 	Vtiger_Helper_Js.showHorizontalTopScrollBar();

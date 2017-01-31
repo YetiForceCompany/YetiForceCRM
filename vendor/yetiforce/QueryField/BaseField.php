@@ -171,6 +171,21 @@ class BaseField
 	}
 
 	/**
+	 * Auto operator, it allows you to use formulas: * and _
+	 * @return array
+	 */
+	public function operatorA()
+	{
+		if (strpos($this->getValue(), '*') !== false) {
+			return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
+		}
+		if (strpos($this->getValue(), '_') !== false) {
+			return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
+		}
+		return self::operatorC();
+	}
+
+	/**
 	 * Equals operator
 	 * @return array
 	 */
@@ -218,9 +233,6 @@ class BaseField
 	 */
 	public function operatorC()
 	{
-		if (strpos($this->getValue(), '*') !== false) {
-			return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
-		}
 		return ['like', $this->getColumnName(), $this->getValue()];
 	}
 
