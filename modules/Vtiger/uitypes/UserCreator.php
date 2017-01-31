@@ -10,6 +10,15 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 {
 
 	/**
+	 * Function to get the template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/OwnerFieldSearchView.tpl';
+	}
+	
+	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
 	 * @param \Vtiger_Record_Model $recordModel
