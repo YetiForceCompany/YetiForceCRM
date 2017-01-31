@@ -839,7 +839,7 @@ class Reports extends CRMEntity
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
-				} else if (CheckFieldPermission($fieldname, $mod) != 'true' && $colname != "crmid") {
+				} else if (!\App\Field::getFieldPermission($mod,$fieldname)&& $colname !== "crmid") {
 					$shtml .= "<option permission='no' value=\"" . $fieldcolname . "\" disabled = 'true'>" . $fieldlabel . "</option>";
 				} else {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
