@@ -2317,7 +2317,6 @@ CREATE TABLE `u_yf_istorages` (
   `storage_status` varchar(255) DEFAULT '',
   `storage_type` varchar(255) DEFAULT '',
   `parentid` int(19) DEFAULT NULL,
-  `pos` varchar(255) DEFAULT '',
   PRIMARY KEY (`istorageid`),
   KEY `parentid` (`parentid`),
   CONSTRAINT `u_yf_istorages_ibfk_1` FOREIGN KEY (`istorageid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -3112,16 +3111,11 @@ CREATE TABLE `u_yf_ssingleorders` (
   `sum_margin` decimal(27,8) DEFAULT NULL,
   `sum_gross` decimal(27,8) DEFAULT NULL,
   `sum_discount` decimal(27,8) DEFAULT NULL,
-  `pos` varchar(100) DEFAULT '',
-  `istoragesid` int(19) DEFAULT NULL,
-  `table` varchar(20) DEFAULT NULL,
-  `seat` varchar(20) DEFAULT NULL,
   `ssingleorders_source` varchar(255) DEFAULT '',
   PRIMARY KEY (`ssingleordersid`),
   KEY `salesprocessid` (`salesprocessid`),
   KEY `squotesid` (`squotesid`),
   KEY `accountid` (`accountid`),
-  KEY `istoragesid` (`istoragesid`),
   CONSTRAINT `fk_1_u_yf_ssingleorders` FOREIGN KEY (`ssingleordersid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7363,7 +7357,6 @@ CREATE TABLE `vtiger_products` (
   `ean` varchar(30) DEFAULT NULL,
   `subunit` varchar(255) DEFAULT '',
   `renewable` tinyint(1) DEFAULT '0',
-  `pos` varchar(255) DEFAULT '',
   `category_multipicklist` text,
   PRIMARY KEY (`productid`),
   CONSTRAINT `fk_1_vtiger_products` FOREIGN KEY (`productid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

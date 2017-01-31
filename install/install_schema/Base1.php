@@ -2217,7 +2217,6 @@ class Base1 extends \App\Db\Importers\Base
 					'storage_status' => $this->stringType()->defaultValue(''),
 					'storage_type' => $this->stringType()->defaultValue(''),
 					'parentid' => $this->integer(),
-					'pos' => $this->stringType()->defaultValue(''),
 				],
 				'index' => [
 						['istorages_idx', 'parentid'],
@@ -3136,17 +3135,12 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_margin' => $this->decimal('27,8'),
 					'sum_gross' => $this->decimal('27,8'),
 					'sum_discount' => $this->decimal('27,8'),
-					'pos' => $this->stringType(100)->defaultValue(''),
-					'istoragesid' => $this->integer(),
-					'table' => $this->stringType(20),
-					'seat' => $this->stringType(20),
 					'ssingleorders_source' => $this->stringType()->defaultValue(''),
 				],
 				'index' => [
 						['ssingleorders_salesprocessid_idx', 'salesprocessid'],
 						['ssingleorders_squotesid_idx', 'squotesid'],
 						['ssingleorders_accountid_idx', 'accountid'],
-						['ssingleorders_istoragesid_idx', 'istoragesid'],
 				],
 				'primaryKeys' => [
 						['ssingleorders_pk', 'ssingleordersid']
