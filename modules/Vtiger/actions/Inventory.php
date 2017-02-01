@@ -132,21 +132,23 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
-		$conversionRate = 1;
-		$unitPriceValues = $taxes = [];
-		$unitPrice = false;
-
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();
+		$info = [
+			'id' => $recordId,
+			'name' => decode_html($recordModel->getName()),
+			'description' => $recordModel->get('description'),
+		];
 		if (in_array($recordModuleName, ['Products', 'Services'])) {
-			$unitPriceValues = $recordModel->getListPriceValues($recordModel->getId());
+			$conversionRate = 1;
+			$info['unitPriceValues'] = $recordModel->getListPriceValues($recordModel->getId());
 			$priceDetails = $recordModel->getPriceDetails();
 			foreach ($priceDetails as $currencyDetails) {
 				if ($currencyId == $currencyDetails['curid']) {
 					$conversionRate = $currencyDetails['conversionrate'];
 				}
 			}
-			$unitPrice = (float) $recordModel->get('unit_price') * (float) $conversionRate;
+			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);
@@ -162,15 +164,15 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 				}
 			}
 		}
+		$info['autoFields'] = $autoFields;
+		if (!$recordModel->isEmpty('taxes') && strpos($recordModel->get('taxes'), ',') === false) {
+			$taxModel = Settings_Inventory_Record_Model::getInstanceById($recordModel->get('taxes'), 'Taxes');
+			$info['taxes'] = [
+				'type' => 'group',
+				'value' => $taxModel->get('value'),
+			];
+		}
 		$autoCustomFields = $inventoryField->getCustomAutoComplete($moduleName, $fieldName, $recordModel);
-		$info = [
-			'id' => $recordId,
-			'name' => decode_html($recordModel->getName()),
-			'price' => $unitPrice,
-			'unitPriceValues' => $unitPriceValues,
-			'description' => $recordModel->get('description'),
-			'autoFields' => $autoFields,
-		];
 		return [$recordId => array_merge($info, $autoCustomFields)];
 	}
 }

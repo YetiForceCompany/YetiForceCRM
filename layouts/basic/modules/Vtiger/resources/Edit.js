@@ -139,8 +139,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 		}
 
 		var popupInstance = Vtiger_Popup_Js.getInstance();
-		popupInstance.show(params, function (data) {
-			var responseData = JSON.parse(data);
+		popupInstance.show(params, function (response) {
+			var responseData = JSON.parse(response);
 			var dataList = new Array();
 			for (var id in responseData) {
 				var data = {
@@ -152,16 +152,16 @@ jQuery.Class("Vtiger_Edit_Js", {
 					thisInstance.setReferenceFieldValue(parentElem, data);
 				}
 			}
-
 			if (isMultiple) {
-				sourceFieldElement.trigger(Vtiger_Edit_Js.refrenceMultiSelectionEvent, {'data': dataList});
+				sourceFieldElement.trigger(Vtiger_Edit_Js.refrenceMultiSelectionEvent, {data: dataList});
 			}
-			sourceFieldElement.trigger(Vtiger_Edit_Js.postReferenceSelectionEvent, {'data': responseData});
+			sourceFieldElement.trigger(Vtiger_Edit_Js.postReferenceSelectionEvent, {data: responseData});
 		});
 	},
 	setReferenceFieldValue: function (container, params) {
 		var thisInstance = this;
-		var sourceField = container.find('input.sourceField').attr('name');
+		var sourceFieldElement = container.find('input.sourceField');
+		var sourceField = sourceFieldElement.attr('name');
 		var fieldElement = container.find('input[name="' + sourceField + '"]');
 		var sourceFieldDisplay = sourceField + "_display";
 		var fieldDisplayElement = container.find('input[name="' + sourceFieldDisplay + '"]');
@@ -177,17 +177,19 @@ jQuery.Class("Vtiger_Edit_Js", {
 			record: id,
 			selectedName: selectedName
 		});
-
 		fieldDisplayElement.validationEngine('closePrompt', fieldDisplayElement);
+		if(sourceFieldElement.data('type') == 'inventory'){
+			return params;
+		}
 		var formElement = container.closest('form');
 		var mappingRelatedField = this.getMappingRelatedField(sourceField, popupReferenceModule, formElement);
 		if (typeof mappingRelatedField != undefined) {
-			var data = {
+			var params = {
 				source_module: popupReferenceModule,
 				record: id
 			};
-			this.getRecordDetails(data).then(function (data) {
-				var response = data['result']['data'];
+			this.getRecordDetails(params).then(function (data) {
+				var response = params.data = data['result']['data'];
 				$.each(mappingRelatedField, function (key, value) {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 						var mapFieldElement = formElement.find('[name="' + key + '"]');
@@ -215,10 +217,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 					}
 				});
 			});
-			if (container.closest('.inventoryRow').length > 0 && ('Products' == popupReferenceModule || 'Services' == popupReferenceModule)) {
-				var inventoryInstance = new Vtiger_Inventory_Js();
-				inventoryInstance.registerRowAutoCompleteAfterAdding(container);
-			}
 		}
 	},
 	getRelationOperation: function () {
