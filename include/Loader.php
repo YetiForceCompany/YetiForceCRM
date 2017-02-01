@@ -205,13 +205,4 @@ function vimport($qualifiedName)
 	return Vtiger_Loader::includeOnce($qualifiedName);
 }
 
-function vimport_try($qualifiedName)
-{
-	return Vtiger_Loader::includeOnce($qualifiedName, true);
-}
-
-function vimport_path($qualifiedName)
-{
-	return Vtiger_Loader::includePath($qualifiedName);
-}
 spl_autoload_register('Vtiger_Loader::autoLoad');

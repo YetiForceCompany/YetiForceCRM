@@ -304,7 +304,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			$dbFieldLabel = trim(str_replace(array($module, '__'), " ", $moduleFieldLabel));
-			if (CheckFieldPermission($fieldName, $module) == 'true' && $columnName != 'crmid') {
+			if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
 				$selectedColumns[] = $column;
 			}
 		}

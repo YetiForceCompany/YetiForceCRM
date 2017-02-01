@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once('include/simplehtmldom/simple_html_dom.php');
 
 class VTEmailTask extends VTTask
 {

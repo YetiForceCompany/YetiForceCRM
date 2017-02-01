@@ -14,12 +14,9 @@ global $theme;
 
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
-require_once('include/database/PearDatabase.php');
-require_once('include/CRMEntity.php');
 require_once('modules/Reports/Reports.php');
 require_once 'modules/Reports/ReportUtils.php';
 require_once('modules/Vtiger/helpers/Util.php');
-require_once('include/RelatedListView.php');
 
 /*
  * Helper class to determine the associative dependency between tables.
@@ -359,7 +356,7 @@ class ReportRun extends CRMEntity
 				$this->queryPlanner->addTable($selectedfields[0]);
 				continue;
 			}
-			if ((CheckFieldPermission($fieldname, $mod) != 'true' && $colname != 'crmid' && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
+			if ((!\App\Field::getFieldPermission($mod, $fieldname) && $colname !== 'crmid' && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
 				continue;
 			} else {
 				$this->labelMapping[$selectedfields[2]] = str_replace(' ', '__', $fieldlabel);
@@ -1648,7 +1645,7 @@ class ReportRun extends CRMEntity
 				$module = $temp[0];
 				if (in_array($module, $inventoryModules) && $fieldname == 'serviceid') {
 					$grouplist[$fieldcolname] = $sqlvalue;
-				} else if (CheckFieldPermission($fieldname, $module) == 'true') {
+				} else if (\App\Field::getFieldPermission($module, $fieldname)) {
 					$grouplist[$fieldcolname] = $sqlvalue;
 				} else {
 					$grouplist[$fieldcolname] = $selectedfields[0] . "." . $selectedfields[1];
@@ -3155,12 +3152,12 @@ class ReportRun extends CRMEntity
 				}
 
 				$field_permitted = false;
-				if (CheckColumnPermission($field_tablename, $field_columnname, $premod) != "false") {
+				if (\App\Field::getColumnPermission($premod, $field_columnname )) {
 					$field_permitted = true;
 				} else {
 					$mod = explode(':', $secmod);
 					foreach ($mod as $key) {
-						if (CheckColumnPermission($field_tablename, $field_columnname, $key) != "false") {
+						if (\App\Field::getColumnPermission($key, $field_columnname )) {
 							$field_permitted = true;
 						}
 					}
@@ -3168,7 +3165,7 @@ class ReportRun extends CRMEntity
 
 				//Calculation fields of "Events" module should show in Calendar related report
 				$secondaryModules = explode(':', $secmod);
-				if ($field_permitted === false && ($premod === 'Calendar' || in_array('Calendar', $secondaryModules)) && CheckColumnPermission($field_tablename, $field_columnname, "Events") != "false") {
+				if ($field_permitted === false && ($premod === 'Calendar' || in_array('Calendar', $secondaryModules)) && \App\Field::getColumnPermission('Events', $field_columnname)) {
 					$field_permitted = true;
 				}
 
@@ -3455,7 +3452,7 @@ class ReportRun extends CRMEntity
 				$count++;
 				foreach ($totalxls[0] as $key => $value) {
 					$operator = substr($key, -3, 3);
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount,  App\Language::translate("LBL_$operator", 'Reports'));
+					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, App\Language::translate("LBL_$operator", 'Reports'));
 					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
 					$count++;
 				}
@@ -3463,13 +3460,13 @@ class ReportRun extends CRMEntity
 			$rowcount++;
 			foreach ($totalxls as $key => $array_value) {
 				$count = 0;
-				$labels = array_keys( $array_value);
+				$labels = array_keys($array_value);
 				$valueArray = explode('__', $labels[0], 2);
 				$operator = substr($labels[0], -3, 3);
 				$moduleName = $valueArray[0];
 				$fieldLabel = str_replace("__$operator", '', $valueArray[1]);
 				$fieldLabel = str_replace('__', '', $fieldLabel);
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, App\Language::translate($moduleName, $moduleName) .'-' . App\Language::translate($fieldLabel, $moduleName));
+				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, App\Language::translate($moduleName, $moduleName) . '-' . App\Language::translate($fieldLabel, $moduleName));
 				$count++;
 				foreach ($array_value as $hdr => $value) {
 					$value = decode_html($value);
@@ -3565,8 +3562,8 @@ class ReportRun extends CRMEntity
 					$groupByCondition[] = $this->GetTimeCriteriaCondition($groupCriteria, $groupByField);
 					$groupByField = implode(", ", $groupByCondition);
 				}
-			} elseif (CheckFieldPermission($fieldname, $modulename) != 'true') {
-				if (!(in_array($modulename, $inventoryModules) && $fieldname == 'serviceid')) {
+			} elseif (!\App\Field::getFieldPermission($modulename, $fieldname)) {
+				if (!(in_array($modulename, $inventoryModules) && $fieldname === 'serviceid')) {
 					$groupByField = $tablename . "." . $colname;
 				}
 			}
