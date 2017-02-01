@@ -4395,32 +4395,6 @@ CREATE TABLE `vtiger_customerdetails` (
   CONSTRAINT `fk_1_vtiger_customerdetails` FOREIGN KEY (`customerid`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_customerportal_fields` */
-
-CREATE TABLE `vtiger_customerportal_fields` (
-  `tabid` int(19) NOT NULL,
-  `fieldid` int(19) DEFAULT NULL,
-  `visible` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_customerportal_prefs` */
-
-CREATE TABLE `vtiger_customerportal_prefs` (
-  `tabid` int(19) NOT NULL,
-  `prefkey` varchar(100) NOT NULL,
-  `prefvalue` int(20) DEFAULT NULL,
-  PRIMARY KEY (`tabid`,`prefkey`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_customerportal_tabs` */
-
-CREATE TABLE `vtiger_customerportal_tabs` (
-  `tabid` int(19) NOT NULL,
-  `visible` int(1) DEFAULT '1',
-  `sequence` int(1) DEFAULT NULL,
-  PRIMARY KEY (`tabid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_customview` */
 
 CREATE TABLE `vtiger_customview` (
@@ -8695,23 +8669,6 @@ CREATE TABLE `vtiger_taskpriority` (
 /*Table structure for table `vtiger_taskpriority_seq` */
 
 CREATE TABLE `vtiger_taskpriority_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_taxclass` */
-
-CREATE TABLE `vtiger_taxclass` (
-  `taxclassid` int(19) NOT NULL AUTO_INCREMENT,
-  `taxclass` varchar(200) NOT NULL,
-  `sortorderid` int(19) NOT NULL DEFAULT '0',
-  `presence` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`taxclassid`),
-  UNIQUE KEY `taxclass_carrier_idx` (`taxclass`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_taxclass_seq` */
-
-CREATE TABLE `vtiger_taxclass_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

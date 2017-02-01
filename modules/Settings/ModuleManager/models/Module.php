@@ -16,7 +16,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	{
 		return ['ModTracker', 'Portal', 'Users', 'Integration', 'WSAPP',
 			'ConfigEditor', 'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip',
-			'CustomerPortal', 'Home'];
+			'Home'];
 	}
 
 	/**

@@ -296,10 +296,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$transferGroupId = $transferToGroup->getId();
 
 		$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $transferGroupId], ['smownerid' => $groupId])->execute();
-		if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
-			$db->createCommand()->update('vtiger_customerportal_prefs', ['prefvalue' => $transferGroupId], ['prefkey' => 'defaultassignee', 'prefvalue' => $groupId])->execute();
-			$db->createCommand()->update('vtiger_customerportal_prefs', ['prefvalue' => $transferGroupId], ['prefkey' => 'userid', 'prefvalue' => $groupId])->execute();
-		}
 
 		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
 		$newOwnerModel = $this->getInstance($transferGroupId);

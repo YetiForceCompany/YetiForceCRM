@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 /**
@@ -53,7 +54,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				if (!empty($imageDetails)) {
 					return $imageDetails[0]['path'] . '_' . $imageDetails[0]['name'];
 				} else
-					return vimage_path('CustomerPortal.png');
+					return '';
 			} else if ($isMailConverterType == 1) {
 				return vimage_path('MailConverterComment.png');
 			} else {

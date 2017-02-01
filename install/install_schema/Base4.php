@@ -1198,26 +1198,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_taxclass' => [
-				'columns' => [
-					'taxclassid' => $this->primaryKey(),
-					'taxclass' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-				],
-				'index' => [
-					['taxclass_carrier_idx', 'taxclass', true],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_taxclass_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ticketcf' => [
 				'columns' => [
 					'ticketid' => $this->integer()->notNull()->defaultValue(0),
@@ -7406,7 +7386,6 @@ class Base4 extends \App\Db\Importers\Base
 					[27, 15, 'LBL_WORKFLOW_LIST', 'adminIcon-workflow', 'LBL_AVAILABLE_WORKLIST_LIST', 'index.php?module=com_vtiger_workflow&action=workflowlist', 1, 0, 0, NULL],
 					[28, 4, 'ModTracker', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_DESCRIPTION', 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', 9, 0, 0, NULL],
 					[29, 5, 'LBL_PBXMANAGER', 'adminIcon-pbx-manager', 'LBL_PBXMANAGER_DESCRIPTION', 'index.php?module=PBXManager&parent=Settings&view=Index', 22, 0, 0, NULL],
-					[30, 5, 'LBL_CUSTOMER_PORTAL', 'adminIcon-customer-portal', 'PORTAL_EXTENSION_DESCRIPTION', 'index.php?module=CustomerPortal&action=index&parenttab=Settings', 3, 0, 0, NULL],
 					[33, 2, 'LBL_EDIT_FIELDS', 'adminIcon-modules-fields', 'LBL_LAYOUT_EDITOR_DESCRIPTION', 'index.php?module=LayoutEditor&parent=Settings&view=Index', 2, 0, 0, NULL],
 					[35, 4, 'LBL_PDF', 'adminIcon-modules-pdf-templates', 'LBL_PDF_DESCRIPTION', 'index.php?module=PDF&parent=Settings&view=List', 10, 0, 0, NULL],
 					[38, 7, 'LBL_PASSWORD_CONF', 'adminIcon-passwords-configuration', 'LBL_PASSWORD_DESCRIPTION', 'index.php?module=Password&parent=Settings&view=Index', 1, 0, 0, NULL],
@@ -7779,7 +7758,6 @@ class Base4 extends \App\Db\Importers\Base
 					[35, 'Services', 0, -1, 'Services', NULL, NULL, 0, 0, 1, '2.6', 'Inventory', NULL, 0, 0],
 					[36, 'WSAPP', 0, -1, 'WSAPP', NULL, NULL, 1, 0, 0, '3.4.4', '', NULL, 0, 0],
 					[37, 'Assets', 0, -1, 'Assets', NULL, NULL, 0, 0, 1, '2.0', 'Inventory', NULL, 0, 0],
-					[38, 'CustomerPortal', 0, -1, 'CustomerPortal', NULL, NULL, 0, 0, 0, '1.4', '', NULL, 0, 0],
 					[40, 'ModComments', 0, -1, 'Comments', NULL, NULL, 0, 0, 1, '2.1', 'Tools', NULL, 0, 0],
 					[41, 'ProjectMilestone', 0, -1, 'ProjectMilestone', NULL, NULL, 0, 0, 1, '3.0', 'Support', NULL, 0, 0],
 					[42, 'ProjectTask', 0, -1, 'ProjectTask', NULL, NULL, 0, 0, 1, '3.1', 'Support', NULL, 0, 0],
@@ -7856,8 +7834,6 @@ class Base4 extends \App\Db\Importers\Base
 					[36, 'vtiger_min_version', '6.0.0rc'],
 					[37, 'vtiger_min_version', '6.0.0rc'],
 					[37, 'vtiger_max_version', '6.*'],
-					[38, 'vtiger_min_version', '6.0.0rc'],
-					[38, 'vtiger_max_version', '6.*'],
 					[40, 'vtiger_min_version', '6.0.0rc'],
 					[40, 'vtiger_max_version', '6.*'],
 					[41, 'vtiger_min_version', '6.0.0rc'],
@@ -7946,19 +7922,6 @@ class Base4 extends \App\Db\Importers\Base
 				'columns' => ['id'],
 				'values' => [
 					[3],
-				]
-			],
-			'vtiger_taxclass' => [
-				'columns' => ['taxclassid', 'taxclass', 'sortorderid', 'presence'],
-				'values' => [
-					[1, 'SalesTax', 0, 1],
-					[2, 'Vat', 1, 1],
-				]
-			],
-			'vtiger_taxclass_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[2],
 				]
 			],
 			'vtiger_ticketpriorities' => [

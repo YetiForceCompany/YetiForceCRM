@@ -768,12 +768,6 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	//updating the vtiger_import_maps
 	$db->createCommand()->update('vtiger_import_maps', ['assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
 		->execute();
-	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
-		$db->createCommand()->update('vtiger_customerportal_prefs', ['prefvalue' => $newOwnerId], ['prefkey' => 'defaultassignee', 'prefvalue' => $ownerId])
-			->execute();
-		$db->createCommand()->update('vtiger_customerportal_prefs', ['prefvalue' => $newOwnerId], ['prefkey' => 'userid', 'prefvalue' => $ownerId])
-			->execute();
-	}
 	//delete from vtiger_homestuff
 	if ($delete) {
 		$db->createCommand()->delete('vtiger_homestuff', ['userid' => $ownerId])

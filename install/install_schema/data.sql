@@ -84,7 +84,7 @@ insert  into `a_yf_taxes_config`(`param`,`value`) values ('taxs','0,1,2,3');
 
 /*Data for the table `a_yf_taxes_global` */
 
-insert  into `a_yf_taxes_global`(`id`,`name`,`value`,`status`) values (1,'VAT',23.00,1);
+insert  into `a_yf_taxes_global`(`id`,`name`,`value`,`status`) values (1,'VAT',23.00,0);
 
 /*Data for the table `chat_bans` */
 
@@ -132,7 +132,6 @@ insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (30,'HelpDesk','Ticket Closed: Send Email to Record Account','[{\"fieldname\":\"ticketstatus\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Closed\",\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"(parent_id : (Accounts) emailoptout)\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (31,'HelpDesk','Ticket Creation: Send Email to Record Owner','[]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (33,'HelpDesk','Ticket Creation: Send Email to Record Account','[{\"fieldname\":\"(parent_id : (Accounts) emailoptout)\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',1,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
-insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (52,'Contacts','Generate Customer Login Details','[{\"fieldname\":\"portal\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (53,'Contacts','Send Customer Login Details','[{\"fieldname\":\"emailoptout\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"portal\",\"operation\":\"has changed\",\"value\":null,\"valuetype\":\"rawtext\",\"joincondition\":\"and\",\"groupjoin\":\"and\",\"groupid\":\"0\"},{\"fieldname\":\"portal\",\"operation\":\"is\",\"value\":\"1\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":\"and\",\"groupid\":\"0\"}]',4,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (54,'HelpDesk','Update Closed Time','[{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Rejected\",\"valuetype\":\"rawtext\",\"joincondition\":\"or\",\"groupjoin\":null,\"groupid\":\"1\"},{\"fieldname\":\"ticketstatus\",\"operation\":\"is\",\"value\":\"Closed\",\"valuetype\":\"rawtext\",\"joincondition\":\"\",\"groupjoin\":null,\"groupid\":\"1\"}]',2,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
 insert  into `com_vtiger_workflows`(`workflow_id`,`module_name`,`summary`,`test`,`execution_condition`,`defaultworkflow`,`type`,`filtersavedinnew`,`schtypeid`,`schdayofmonth`,`schdayofweek`,`schannualdates`,`schtime`,`nexttrigger_time`) values (55,'Contacts','Generate mail address book','[]',3,NULL,'basic',6,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -157,13 +156,11 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (111,28,'Notify Owner On Ticket Closed','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"28\";s:7:\"summary\";s:29:\"Notify Owner On Ticket Closed\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"42\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:29:\"assigned_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:111;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (112,27,'Notify Account On Ticket Change','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"27\";s:7:\"summary\";s:31:\"Notify Account On Ticket Change\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"36\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:25:\"parent_id=Accounts=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:112;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (114,25,'Notify Owner On Ticket Change','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"25\";s:7:\"summary\";s:29:\"Notify Owner On Ticket Change\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"35\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:29:\"assigned_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:114;}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (116,52,'Create Portal Login Details','O:18:\"VTEntityMethodTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"52\";s:7:\"summary\";s:27:\"Create Portal Login Details\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:24:\"CreatePortalLoginDetails\";s:2:\"id\";i:116;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (119,14,'Notification Email to Record Owner','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"14\";s:7:\"summary\";s:34:\"Notification Email to Record Owner\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"46\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:29:\"assigned_user_id=Users=email1\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:119;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (120,53,'Send Customer Login Details','O:19:\"VTEmailTemplateTask\":10:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"53\";s:7:\"summary\";s:27:\"Send Customer Login Details\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"44\";s:11:\"attachments\";s:0:\"\";s:5:\"email\";s:5:\"email\";s:10:\"copy_email\";s:0:\"\";s:2:\"id\";i:120;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (121,54,'Update Closed Time','O:18:\"VTUpdateClosedTime\":6:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"54\";s:7:\"summary\";s:18:\"Update Closed Time\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:2:\"id\";i:121;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (122,13,'Send invitations','O:22:\"VTSendNotificationTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"13\";s:7:\"summary\";s:16:\"Send invitations\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:8:\"template\";s:2:\"45\";s:2:\"id\";i:122;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (123,55,'Generate mail address book','O:17:\"VTAddressBookTask\":7:{s:18:\"executeImmediately\";b:0;s:10:\"workflowId\";s:2:\"55\";s:7:\"summary\";s:26:\"Generate mail address book\";s:6:\"active\";b:1;s:7:\"trigger\";N;s:4:\"test\";s:0:\"\";s:2:\"id\";i:123;}');
-insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (128,53,'Mark portal users password as sent.','O:18:\"VTEntityMethodTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"53\";s:7:\"summary\";s:35:\"Mark portal users password as sent.\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:16:\"MarkPasswordSent\";s:2:\"id\";i:128;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (133,26,'Notify Contact On Ticket Change','O:18:\"VTEntityMethodTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"26\";s:7:\"summary\";s:31:\"Notify Contact On Ticket Change\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:28:\"HeldDeskChangeNotifyContacts\";s:2:\"id\";i:133;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (134,29,'Notify contacts about closing of ticket.','O:18:\"VTEntityMethodTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";s:2:\"29\";s:7:\"summary\";s:40:\"Notify contacts about closing of ticket.\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:28:\"HeldDeskClosedNotifyContacts\";s:2:\"id\";i:134;}');
 insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`) values (135,59,'Notify Contact On New comment added to ticket','O:18:\"VTEntityMethodTask\":7:{s:18:\"executeImmediately\";b:1;s:10:\"workflowId\";i:59;s:7:\"summary\";s:45:\"Notify Contact On New comment added to ticket\";s:6:\"active\";b:0;s:7:\"trigger\";N;s:10:\"methodName\";s:26:\"HeldDeskNewCommentContacts\";s:2:\"id\";i:135;}');
@@ -173,10 +170,8 @@ insert  into `com_vtiger_workflowtasks`(`task_id`,`workflow_id`,`summary`,`task`
 
 /*Data for the table `com_vtiger_workflowtasks_entitymethod` */
 
-insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (3,'Contacts','CreatePortalLoginDetails','modules/Contacts/handlers/ContactsHandler.php','Contacts_createPortalLoginDetails');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (8,'ModComments','HeldDeskNewCommentAccount','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HeldDeskNewCommentAccount');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (9,'ModComments','HeldDeskNewCommentContacts','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HeldDeskNewCommentContacts');
-insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (11,'Contacts','MarkPasswordSent','modules/Contacts/handlers/ContactsHandler.php','Contacts_markPasswordSent');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (15,'HelpDesk','HeldDeskChangeNotifyContacts','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HeldDeskChangeNotifyContacts');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (16,'HelpDesk','HeldDeskClosedNotifyContacts','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HeldDeskClosedNotifyContacts');
 insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod_id`,`module_name`,`method_name`,`function_path`,`function_name`) values (17,'ModComments','HeldDeskNewCommentOwner','modules/HelpDesk/workflows/HelpDeskWorkflow.php','HeldDeskNewCommentOwner');
@@ -1862,44 +1857,6 @@ insert  into `vtiger_currency_symbol_placement_seq`(`id`) values (2);
 /*Data for the table `vtiger_customaction` */
 
 /*Data for the table `vtiger_customerdetails` */
-
-/*Data for the table `vtiger_customerportal_fields` */
-
-/*Data for the table `vtiger_customerportal_prefs` */
-
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (0,'defaultassignee',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (0,'userid',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (4,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (6,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (8,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (13,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (14,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (15,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (20,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (22,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (23,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (35,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (37,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (41,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (42,'showrelatedinfo',1);
-insert  into `vtiger_customerportal_prefs`(`tabid`,`prefkey`,`prefvalue`) values (43,'showrelatedinfo',1);
-
-/*Data for the table `vtiger_customerportal_tabs` */
-
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (4,1,8);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (6,1,9);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (8,1,10);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (13,1,1);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (14,1,13);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (15,1,11);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (20,1,2);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (22,1,3);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (23,1,4);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (35,1,12);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (37,1,14);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (41,1,7);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (42,1,6);
-insert  into `vtiger_customerportal_tabs`(`tabid`,`visible`,`sequence`) values (43,1,5);
 
 /*Data for the table `vtiger_customview` */
 
@@ -27015,7 +26972,6 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (27,15,'LBL_WORKFLOW_LIST','adminIcon-workflow','LBL_AVAILABLE_WORKLIST_LIST','index.php?module=com_vtiger_workflow&action=workflowlist',1,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (28,4,'ModTracker','adminIcon-modules-track-chanegs','LBL_MODTRACKER_DESCRIPTION','index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker',9,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (29,5,'LBL_PBXMANAGER','adminIcon-pbx-manager','LBL_PBXMANAGER_DESCRIPTION','index.php?module=PBXManager&parent=Settings&view=Index',22,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (30,5,'LBL_CUSTOMER_PORTAL','adminIcon-customer-portal','PORTAL_EXTENSION_DESCRIPTION','index.php?module=CustomerPortal&action=index&parenttab=Settings',3,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (33,2,'LBL_EDIT_FIELDS','adminIcon-modules-fields','LBL_LAYOUT_EDITOR_DESCRIPTION','index.php?module=LayoutEditor&parent=Settings&view=Index',2,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (35,4,'LBL_PDF','adminIcon-modules-pdf-templates','LBL_PDF_DESCRIPTION','index.php?module=PDF&parent=Settings&view=List',10,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (38,7,'LBL_PASSWORD_CONF','adminIcon-passwords-configuration','LBL_PASSWORD_DESCRIPTION','index.php?module=Password&parent=Settings&view=Index',1,0,0,NULL);
@@ -27356,7 +27312,6 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (35,'Services',0,-1,'Services',NULL,NULL,0,0,1,'2.6','Inventory',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (36,'WSAPP',0,-1,'WSAPP',NULL,NULL,1,0,0,'3.4.4','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (37,'Assets',0,-1,'Assets',NULL,NULL,0,0,1,'2.0','Inventory',NULL,0,0);
-insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (38,'CustomerPortal',0,-1,'CustomerPortal',NULL,NULL,0,0,0,'1.4','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (40,'ModComments',0,-1,'Comments',NULL,NULL,0,0,1,'2.1','Tools',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (41,'ProjectMilestone',0,-1,'ProjectMilestone',NULL,NULL,0,0,1,'3.0','Support',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (42,'ProjectTask',0,-1,'ProjectTask',NULL,NULL,0,0,1,'3.1','Support',NULL,0,0);
@@ -27431,8 +27386,6 @@ insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (35,'vtige
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (36,'vtiger_min_version','6.0.0rc');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (37,'vtiger_min_version','6.0.0rc');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (37,'vtiger_max_version','6.*');
-insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (38,'vtiger_min_version','6.0.0rc');
-insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (38,'vtiger_max_version','6.*');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (40,'vtiger_min_version','6.0.0rc');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (40,'vtiger_max_version','6.*');
 insert  into `vtiger_tab_info`(`tabid`,`prefname`,`prefvalue`) values (41,'vtiger_min_version','6.0.0rc');
@@ -27517,15 +27470,6 @@ insert  into `vtiger_taskpriority`(`taskpriorityid`,`taskpriority`,`presence`,`p
 /*Data for the table `vtiger_taskpriority_seq` */
 
 insert  into `vtiger_taskpriority_seq`(`id`) values (3);
-
-/*Data for the table `vtiger_taxclass` */
-
-insert  into `vtiger_taxclass`(`taxclassid`,`taxclass`,`sortorderid`,`presence`) values (1,'SalesTax',0,1);
-insert  into `vtiger_taxclass`(`taxclassid`,`taxclass`,`sortorderid`,`presence`) values (2,'Vat',1,1);
-
-/*Data for the table `vtiger_taxclass_seq` */
-
-insert  into `vtiger_taxclass_seq`(`id`) values (2);
 
 /*Data for the table `vtiger_ticketcf` */
 
