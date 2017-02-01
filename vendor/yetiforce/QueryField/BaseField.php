@@ -182,7 +182,7 @@ class BaseField
 		if (strpos($this->getValue(), '_') !== false) {
 			return ['like', $this->getColumnName(), "%{$this->getValue()}%", false];
 		}
-		return self::operatorC();
+		return $this->operatorC();
 	}
 
 	/**
