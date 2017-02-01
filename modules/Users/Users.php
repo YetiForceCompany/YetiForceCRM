@@ -1212,21 +1212,6 @@ class Users extends CRMEntity
 	}
 
 	/**
-	 * Track the viewing of a detail record.  This leverages get_summary_text() which is object specific
-	 * params $user_id - The user that is viewing the record.
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function track_view($user_id, $current_module, $id = '')
-	{
-		\App\Log::trace("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
-
-		$tracker = new Tracker();
-		$tracker->track_view($user_id, $current_module, $id, '');
-	}
-
-	/**
 	 * Function to reset the Reminder Interval setup and update the time for next reminder interval
 	 * @param $prev_reminder_interval -- Last Reminder Interval on which the reminder popup's were triggered.
 	 */
