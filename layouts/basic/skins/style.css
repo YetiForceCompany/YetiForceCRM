@@ -3852,8 +3852,7 @@ html,body,.baseContainer
 	font-weight: 600 !important; 
 }
 .logoFooter{
-	margin: 4px;
-	margin-right: 15px;
+	margin: 1px;
 	height: 27px;
 }
 .imgAnnouncement{
@@ -5818,4 +5817,8 @@ select.form-control {
 }
 .back4RightMargin{
 	margin-right: -4px;
+}
+.yetiforceDetailsLink{
+	font-size: 40px;
+	margin-right: 15px;
 }

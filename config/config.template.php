@@ -203,7 +203,4 @@ $layoutInLoginView = false;
 // Set the default layout 
 $defaultLayout = 'basic';
 
-// Logo is visible in footer.
-$isVisibleLogoInFooter = true;
-
 $forceRedirect = true;
