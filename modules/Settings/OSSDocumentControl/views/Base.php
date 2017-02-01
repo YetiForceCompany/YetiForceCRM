@@ -11,24 +11,5 @@
 
 class Settings_OSSDocumentControl_Base_View extends Settings_Vtiger_Index_View
 {
-
-	public function getFieldHtmp($moduleName, $editView = false)
-	{
-		$output = array();
-
-		$settingsModuleModel = Settings_Vtiger_Module_Model::getInstance('Settings:OSSProjectTemplates');
-		$fieldTab = $settingsModuleModel->getConfigurationForModule($moduleName);
-
-		if ($fieldTab && count($fieldTab)) {
-			foreach ($fieldTab as $key => $value) {
-				require_once 'modules/' . $moduleName . '/fields_action/' . $value . '.php';
-				$modelClassName = 'Field_Model_' . $value;
-				$fieldModel = new $modelClassName();
-				$output[$key]['html'] = $fieldModel->process($key, $moduleName, $editView);
-				$output[$key]['label'] = $fieldModel->getFieldLabel($key, $moduleName);
-			}
-		}
-
-		return $output;
-	}
+	
 }
