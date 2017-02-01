@@ -523,7 +523,7 @@ class PackageUpdate extends PackageImport
 	{
 		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
 			return;
-		$moduleInstance->deleteLinks();
+		Link::deleteAll($moduleInstance->id);
 		$this->import_CustomLinks($modulenode, $moduleInstance);
 	}
 
