@@ -16,7 +16,6 @@ $languageStrings = [
 	'LBL_MODULE_NAME' => 'Module name',
 	'LBL_NO_PROJECT_TPL_ADDED' => 'No new documents added',
 	'TPL' => 'Documents',
-	'OSSProjectTemplates_manual' => 'OSS Project Templates',
 	'LBL_CREATING_TPL' => 'Create document',
 	'LBL_FILL_BASE_DATA' => 'Basic information',
 	'ADD_CONDITIONS' => 'Add conditions',

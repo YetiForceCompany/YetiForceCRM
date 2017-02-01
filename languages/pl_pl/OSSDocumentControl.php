@@ -11,7 +11,6 @@
 $languageStrings = [
 	'ADD_DOCUMENT' => 'Dodaj dokument',
 	'LBL_VIEW_EDIT2' => 'Dodaj warunki',
-	'OSSProjectTemplates_manual' => 'Szablony projektu',
 	'LBL_NEW_TPL' => 'Dodaj nowy dokument',
 	'OSSDocumentControl' => 'Przepływ dokumentów',
 	'LBL_MODULE_NAME' => 'Nazwa modułu',
