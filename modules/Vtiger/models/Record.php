@@ -1176,17 +1176,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getRecordListViewLinksLeftSide()
 	{
 		$links = $recordLinks = [];
-		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
-			$watching = intval($this->isWatchingRecord());
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'BTN_WATCHING_RECORD',
-				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-				'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
-				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
-			];
-		}
 		if ($this->isViewable()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
@@ -1203,6 +1192,17 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
 				'linkclass' => 'btn-sm btn-default'
+			];
+		}
+		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
+			$watching = intval($this->isWatchingRecord());
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'BTN_WATCHING_RECORD',
+				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
+				'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
+				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
 			];
 		}
 		if (($this->isEditable() && $this->editFieldByModalPermission()) || $this->editFieldByModalPermission(true)) {
