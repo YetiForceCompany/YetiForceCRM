@@ -71,7 +71,6 @@ $languageStrings = [
 	'LBL_LAYOUT_EDITOR_DESCRIPTION' => 'Dodawaj, usuwaj, edytuj i rozmieszczaj pola/bloki w każdym module w celu personalizacji systemu.',
 	'LBL_LIST_WORKFLOWS_DESCRIPTION' => 'Narzędzie pozwala na automatyzacje procesów w przedsiębiorstwie za pomocą predefiniowanych funkcji.',
 	'LBL_LIST_WORKFLOWS' => 'Wyzwalacze',
-	'Project Templates' => 'Szablony projektu',
 	'LBL_LOGGED_OUT_TIME' => 'Czas wylogowania',
 	'LBL_LOGIN_HISTORY_DESCRIPTION' => 'Przeglądaj udane autoryzacje do systemu CRM dla każdego użytkownika oddzielnie według adres IP.', //Duplicated key-value pair
 	'LBL_LOGIN_HISTORY_DETAILS' => 'Użytkownicy - logowanie',

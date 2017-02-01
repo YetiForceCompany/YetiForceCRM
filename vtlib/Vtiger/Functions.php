@@ -819,16 +819,6 @@ class Functions
 		return $array;
 	}
 
-	public static function replaceLinkAddress($string, $pattern, $replace)
-	{
-		require_once('include/simplehtmldom/simple_html_dom.php');
-		$html = str_get_html($string);
-		foreach ($html->find('a') as $index => &$element) {
-			$element->href = preg_replace($pattern, $replace, $element->href);
-		}
-		return $html->__toString();
-	}
-
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		if (REQUEST_MODE == 'API') {

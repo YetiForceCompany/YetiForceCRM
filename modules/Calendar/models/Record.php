@@ -245,12 +245,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function insertIntoActivityReminderPopup()
 	{
 		$cbrecord = $this->getId();
-		$module = AppRequest::get('module');
 		if (!empty($cbrecord)) {
 			$cbdate = getValidDBInsertDateValue($this->get('date_start'));
 			$cbtime = $this->get('time_start');
 			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
-				->where(['semodule' => $module, 'recordid' => $cbrecord])
+				->where(['recordid' => $cbrecord])
 				->scalar();
 			$currentStates = Calendar_Module_Model::getComponentActivityStateLabel('current');
 			$state = Calendar_Module_Model::getCalendarState($this->getData());
@@ -268,7 +267,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			} else {
 				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
 					'recordid' => $cbrecord,
-					'semodule' => $module,
 					'datetime' => "$cbdate $cbtime",
 					'status' => $status,
 				])->execute();

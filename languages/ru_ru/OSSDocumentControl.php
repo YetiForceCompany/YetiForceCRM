@@ -17,7 +17,6 @@ $languageStrings = [
 	'LBL_MODULE_NAME' => 'Название модуля',
 	'LBL_NO_PROJECT_TPL_ADDED' => 'Документов нет',
 	'TPL' => 'Документы',
-	'OSSProjectTemplates_manual' => 'Шаблоны проектов',
 	'LBL_CREATING_TPL' => 'Создание документа',
 	'LBL_FILL_BASE_DATA' => 'Основная информация',
 	'ADD_CONDITIONS' => 'Добавление условий',

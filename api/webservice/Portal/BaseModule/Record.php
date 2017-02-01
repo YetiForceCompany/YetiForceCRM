@@ -34,9 +34,8 @@ class Record extends \Api\Core\BaseAction
 				if (empty($block)) {
 					continue;
 				}
-				$blockLabel = \App\Language::translate($block->label, $moduleName);
 				$fieldLabel = \App\Language::translate($moduleField->get('label'), $moduleName);
-				$displayData[$blockLabel][$moduleField->getName()] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
+				$displayData[$moduleField->getName()] = $recordModel->getDisplayValue($moduleField->getName(), $record, true);
 				$fieldsLabel[$moduleField->getName()] = $fieldLabel;
 				if ($moduleField->isReferenceField()) {
 					$refereneModule = $moduleField->getUITypeModel()->getReferenceModule($recordModel->get($moduleField->getName()));
@@ -61,6 +60,7 @@ class Record extends \Api\Core\BaseAction
 		}
 		$resposne = [
 			'name' => $recordModel->getName(),
+			'id' => $recordModel->getId(),
 			'fields' => $fieldsLabel,
 			'data' => $displayData,
 			'inventory' => $inventory
@@ -91,7 +91,7 @@ class Record extends \Api\Core\BaseAction
 
 	/**
 	 * Save record
-	 * @return bool
+	 * @return array
 	 */
 	public function put()
 	{

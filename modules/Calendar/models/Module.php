@@ -89,7 +89,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
@@ -102,7 +102,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			  'linkurl' => $this->getSharedCalendarViewUrl(),
 			  'linkicon' => '',
 			  ), */
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -407,7 +407,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns Calendar Reminder record models
-	 * @return <Array of Calendar_Record_Model>
+	 * @return \Calendar_Record_Model[]
 	 */
 	public static function getCalendarReminder($allReminder = false)
 	{
@@ -418,7 +418,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
 		$permissionToSendEmail = $permission && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail');
-		if ($activityReminder != '') {
+		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
 
@@ -435,7 +435,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$query->where(['vtiger_activity_reminder_popup.status' => 0]);
 			}
 			$query->andWhere(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
-			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time]);
+			$query->andWhere(['<=', 'vtiger_activity_reminder_popup.datetime', $time])->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC]);
 
 			$dataReader = $query->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {

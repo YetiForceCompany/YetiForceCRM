@@ -25,7 +25,7 @@ class RecordsList extends \Api\Core\BaseAction
 		$fieldsModel = $queryGenerator->getListViewFields();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$record = [];
+			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
 			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
 					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);

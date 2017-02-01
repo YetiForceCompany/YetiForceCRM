@@ -175,7 +175,6 @@ $languageStrings = [
 	'Widgets' => 'Module summary widgets',
 	'Search Setup' => 'Search setup',
 	'License' => 'License',
-	'Project Templates' => 'Document templates',
 	'Mail Scanner' => 'Mail Scanner',
 	'Mail View' => 'Emails',
 	'Mail' => 'Mail – RoundCube',

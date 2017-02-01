@@ -316,42 +316,6 @@ class CRMEntity
 		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error marking record deleted: ");
 	}
 
-	public function retrieve_by_string_fields($fields_array, $encode = true)
-	{
-		$where_clause = $this->get_where($fields_array);
-
-		$query = "SELECT * FROM $this->table_name $where_clause";
-		\App\Log::trace("Retrieve $this->object_name: " . $query);
-		$result = & $this->db->requireSingleResult($query, true, "Retrieving record $where_clause:");
-		if (empty($result)) {
-			return null;
-		}
-
-		$row = $this->db->fetchByAssoc($result, -1, $encode);
-
-		foreach ($this->column_fields as $field) {
-			if (isset($row[$field])) {
-				$this->$field = $row[$field];
-			}
-		}
-		return $this;
-	}
-
-	// this method is called during an import before inserting a bean
-	// define an associative array called $special_fields
-	// the keys are user defined, and don't directly map to the bean's vtiger_fields
-	// the value is the method name within that bean that will do extra
-	// processing for that vtiger_field. example: 'full_name'=>'get_names_from_full_name'
-
-	public function process_special_fields()
-	{
-		foreach ($this->special_functions as $func_name) {
-			if (method_exists($this, $func_name)) {
-				$this->$func_name();
-			}
-		}
-	}
-
 	/**
 	 * Function to check if the custom vtiger_field vtiger_table exists
 	 * return true or false
@@ -399,88 +363,12 @@ class CRMEntity
 	}
 
 	/**
-	 * Track the viewing of a detail record.  This leverages get_summary_text() which is object specific
-	 * params $user_id - The user that is viewing the record.
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function track_view($user_id, $current_module, $id = '')
-	{
-		\App\Log::trace("About to call vtiger_tracker (user_id, module_name, item_id)($user_id, $current_module, $this->id)");
-
-		$tracker = new Tracker();
-		$tracker->track_view($user_id, $current_module, $id, '');
-	}
-
-	/**
-	 * Function to make change to column fields, depending on the current user's accessibility for the fields
-	 */
-	public function apply_field_security($moduleName = '')
-	{
-		$currentModule = vglobal('currentModule');
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($moduleName == '') {
-			$moduleName = $currentModule;
-		}
-		require_once('include/utils/UserInfoUtil.php');
-		foreach ($this->column_fields as $fieldname => $fieldvalue) {
-			$reset_value = false;
-			if (!\App\Field::getFieldPermission($moduleName, $fieldname))
-				$reset_value = true;
-			if ($fieldname == 'record_id' || $fieldname == 'record_module')
-				$reset_value = false;
-			if ($reset_value === true)
-				$this->column_fields[$fieldname] = '';
-		}
-	}
-
-	/**
 	 * Function invoked during export of module record value.
 	 */
 	public function transform_export_value($key, $value)
 	{
 		// NOTE: The sub-class can override this function as required.
 		return $value;
-	}
-
-	/**
-	 * Function to initialize the importable fields array, based on the User's accessibility to the fields
-	 */
-	public function initImportableFields($module)
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		require_once('include/utils/UserInfoUtil.php');
-
-		$skip_uitypes = array('4'); // uitype 4 is for Mod numbers
-		// Look at cache if the fields information is available.
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
-
-		if ($cachedModuleFields === false) {
-			getColumnFields($module); // This API will initialize the cache as well
-			// We will succeed now due to above function call
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
-		}
-
-		$colf = [];
-
-		if ($cachedModuleFields) {
-			foreach ($cachedModuleFields as $fieldinfo) {
-				// Skip non-supported fields
-				if (in_array($fieldinfo['uitype'], $skip_uitypes)) {
-					continue;
-				} else {
-					$colf[$fieldinfo['fieldname']] = $fieldinfo['uitype'];
-				}
-			}
-		}
-
-		foreach ($colf as $key => $value) {
-			if (\App\Field::getFieldPermission($module, $key, false)) {
-				$this->importable_fields[$key] = $value;
-			}
-		}
 	}
 
 	/** Function to initialize the required fields array for that particular module */

@@ -173,7 +173,6 @@ $languageStrings = [
 	'Widgets' => 'Module synthèse widgets',
 	'Search Setup' => 'Paramétrer la recherche',
 	'License' => 'Licence',
-	'Project Templates' => 'Modèles de document',
 	'Mail Scanner' => 'Scanner mail',
 	'Mail View' => 'Emails',
 	'Mail' => 'Mail – RoundCube',

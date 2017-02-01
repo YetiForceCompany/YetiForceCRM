@@ -332,7 +332,7 @@ class Mailer
 		if (!$template) {
 			return ['result' => false, 'error' => Language::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
-		$textParser = TextParser::getInstance("{$this->smtp['parent']}:{$this->smtp['module']}");
+		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
 		return ['result' => $this->send(), 'error' => implode(PHP_EOL, $this->error)];

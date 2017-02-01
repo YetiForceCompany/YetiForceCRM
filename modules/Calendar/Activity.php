@@ -20,8 +20,6 @@
  * ****************************************************************************** 
  * Contributor(s): YetiForce.com
  */
-
-require_once('modules/Calendar/RenderRelatedListUI.php');
 require_once('modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.

@@ -213,7 +213,6 @@ $languageStrings = [
 	'Widgets' => 'Виджеты',
 	'Search Setup' => 'Редактор поиска',
 	'License' => 'Лицензия',
-	'Project Templates' => 'Шаблоны Документов',
 	'Mail Scanner' => 'Сканер почты',
 	'Mail View' => 'Просмотр почты',
 	'LBL_ADDING_ERROR' => 'Ошибка добавления поля',

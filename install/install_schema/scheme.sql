@@ -3529,7 +3529,6 @@ CREATE TABLE `vtiger_activity_reminder` (
 
 CREATE TABLE `vtiger_activity_reminder_popup` (
   `reminderid` int(19) NOT NULL AUTO_INCREMENT,
-  `semodule` varchar(100) NOT NULL,
   `recordid` int(19) NOT NULL,
   `datetime` datetime NOT NULL,
   `status` int(2) NOT NULL,
@@ -8351,7 +8350,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 

@@ -612,8 +612,8 @@ class QueryGenerator
 		foreach ($this->getEntityDefaultTableList() as &$table) {
 			if (!isset($this->tablesList[$table])) {
 				$this->tablesList[$table] = $table;
-				$tableJoin[$table] = 'INNER JOIN';
 			}
+			$tableJoin[$table] = 'INNER JOIN';
 		}
 		if ($this->ownerFields) {
 			//there are more than one field pointing to the users table, the real one is the one called assigned_user_id if there is one, otherwise pick the first
@@ -717,7 +717,7 @@ class QueryGenerator
 				$this->conditionsOr[] = $condition;
 			}
 			$field = $this->getModuleField($fieldName);
-			if (!isset($this->tablesList[$field->getTableName()])) {
+			if ($field && !isset($this->tablesList[$field->getTableName()])) {
 				$this->tablesList[$field->getTableName()] = $field->getTableName();
 			}
 		} else {
