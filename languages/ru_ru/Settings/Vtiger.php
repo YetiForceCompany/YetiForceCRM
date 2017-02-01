@@ -288,7 +288,6 @@ $languageStrings = [
 	"Production Department" => 'Отдел продукции',
 	"Marketing Department" => 'Отдел маркетинга',
 	'OSSPassword Configuration' => 'Настройки паролей',
-	'Document Control' => 'Менеджер документов',
 	'Time control' => 'Учет рабочего времени',
 	"Credits" => 'Благодарности',
 	"LBL_VIEW_CREDITS" => 'Благодарности',

@@ -263,7 +263,6 @@ $languageStrings = [
 	'Production Department' => 'Dział produkcji',
 	'Marketing Department' => 'Dział marketingu',
 	'OSSPassword Configuration' => 'Hasła - szyfrowanie',
-	'Document Control' => 'Przepływ dokumentów',
 	'Time control' => 'Czas pracy',
 	'Credits' => 'O Współtwórcach',
 	'LBL_VIEW_CREDITS' => 'O Współtwórcach',

@@ -267,7 +267,6 @@ $languageStrings = [
 	"Production Department" => 'Production Department',
 	"Marketing Department" => 'Marketing Department',
 	'OSSPassword Configuration' => 'Passwords - Encryption',
-	'Document Control' => 'Document control',
 	'Time control' => 'Time control',
 	"Credits" => 'Contributors',
 	"LBL_VIEW_CREDITS" => 'Contributors',

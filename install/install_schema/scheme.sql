@@ -185,7 +185,7 @@ CREATE TABLE `a_yf_taxes_global` (
   `value` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `chat_bans` */
 
@@ -6628,33 +6628,6 @@ CREATE TABLE `vtiger_ossdc_status` (
 
 CREATE TABLE `vtiger_ossdc_status_seq` (
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossdocumentcontrol` */
-
-CREATE TABLE `vtiger_ossdocumentcontrol` (
-  `ossdocumentcontrolid` int(19) NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(255) DEFAULT NULL,
-  `summary` varchar(255) NOT NULL,
-  `doc_folder` int(19) DEFAULT NULL,
-  `doc_name` varchar(255) NOT NULL,
-  `doc_request` tinyint(1) NOT NULL,
-  `doc_order` int(19) NOT NULL,
-  PRIMARY KEY (`ossdocumentcontrolid`),
-  KEY `ossdocumentcontrolid` (`ossdocumentcontrolid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossdocumentcontrol_cnd` */
-
-CREATE TABLE `vtiger_ossdocumentcontrol_cnd` (
-  `ossdocumentcontrol_cndid` int(19) NOT NULL AUTO_INCREMENT,
-  `ossdocumentcontrolid` int(19) NOT NULL,
-  `fieldname` varchar(255) NOT NULL,
-  `comparator` varchar(255) NOT NULL,
-  `val` varchar(255) DEFAULT NULL,
-  `required` tinyint(19) NOT NULL,
-  `field_type` varchar(100) NOT NULL,
-  PRIMARY KEY (`ossdocumentcontrol_cndid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossemployees` */
