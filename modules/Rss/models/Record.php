@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 vimport('~libraries/RSSFeeds/Feed.php');
-vimport('~include/simplehtmldom/simple_html_dom.php');
 
 // for rss caching
 Feed::$cacheDir = 'cache/rss_cache';
@@ -207,14 +206,4 @@ class Rss_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	/**
-	 * Function to get html contents from feed
-	 * @param string $url
-	 * @return string html contents of url
-	 */
-	public function getHtmlFromUrl($url)
-	{
-		$html = file_get_html($url);
-		return $html->innertext;
-	}
 }
