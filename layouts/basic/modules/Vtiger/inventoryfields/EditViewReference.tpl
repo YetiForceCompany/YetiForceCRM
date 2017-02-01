@@ -27,7 +27,7 @@
 				</select>
 			</div>
 		{/if}
-		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-displayvalue="{Vtiger_Util_Helper::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
+		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue="{Vtiger_Util_Helper::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
 		{assign var="displayId" value=$ITEM_VALUE}
 		{if $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon clearReferenceSelection cursorPointer">
