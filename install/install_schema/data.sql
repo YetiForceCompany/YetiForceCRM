@@ -84,6 +84,8 @@ insert  into `a_yf_taxes_config`(`param`,`value`) values ('taxs','0,1,2,3');
 
 /*Data for the table `a_yf_taxes_global` */
 
+insert  into `a_yf_taxes_global`(`id`,`name`,`value`,`status`) values (1,'VAT',23.00,1);
+
 /*Data for the table `chat_bans` */
 
 /*Data for the table `chat_invitations` */

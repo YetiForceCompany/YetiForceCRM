@@ -1051,6 +1051,12 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 					['taxs', '0,1,2,3'],
 				]
 			],
+			'a_#__taxes_global' => [
+				'columns' => ['id', 'name', 'value', 'status'],
+				'values' => [
+					[1, 'VAT', '23.00', 1],
+				]
+			],
 			's_#__companies' => [
 				'columns' => ['id', 'name', 'short_name', 'default', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
 				'values' => [
