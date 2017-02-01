@@ -717,7 +717,7 @@ class QueryGenerator
 				$this->conditionsOr[] = $condition;
 			}
 			$field = $this->getModuleField($fieldName);
-			if (!isset($this->tablesList[$field->getTableName()])) {
+			if ($field && !isset($this->tablesList[$field->getTableName()])) {
 				$this->tablesList[$field->getTableName()] = $field->getTableName();
 			}
 		} else {
