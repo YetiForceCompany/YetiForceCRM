@@ -102,22 +102,18 @@ class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
 			$fileName = $fileInfo->getFilename();
 			$extension = end(explode('.', $fileName));
 			$bankClassName = basename($fileName, '.' . $extension);
-			if ($fileInfo->isDot() || $extension != 'php') {
+			if ($fileInfo->isDot() || $extension !== 'php') {
 				continue;
 			}
-			$bankExists = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')
-				->where(['bank_name' => 'CBR'])
-				->count(1);
-			if (!$bankExists) {
+			$isExists = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')
+				->where(['bank_name' => $bankClassName])
+				->exists();
+			if (!$isExists) {
 				$db->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
 			}
 		}
-		$activeId = $this->getActiveBankId();
-		if (!$activeId) {
-			$id = (new \App\Db\Query)->select(['id'])->from('yetiforce_currencyupdate_banks')->orderBy(['id' => SORT_ASC])->limit(1)->scalar();
-			if ($id) {
-				$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $id])->execute();
-			}
+		if (!$this->getActiveBankId()) {
+			$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['bank_name' => 'NBP'])->execute();
 		}
 	}
 	/*
