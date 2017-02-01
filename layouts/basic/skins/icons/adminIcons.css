@@ -1,16 +1,15 @@
 @font-face {
-	font-family: 'AdminIcons';
+	font-family: 'adminIcon';
 	src:url('adminIcons.eot?5bzxui');
 	src:url('adminIcons.eot?5bzxui#iefix') format('embedded-opentype'),
 		url('adminIcons.ttf?5bzxui') format('truetype'),
 		url('adminIcons.woff?5bzxui') format('woff'),
 		url('adminIcons.svg?5bzxui#icomoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
 }
 
 [class^="adminIcon-"], [class*=" adminIcon-"] {
-	font-family: 'AdminIcons';
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'adminIcon' !important;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -23,6 +22,18 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.adminIcon-webservice-users:before {
+	content: "\e964";
+}
+.adminIcon-prestashop:before {
+	content: "\e965";
+}
+.adminIcon-automatic-assignment:before {
+	content: "\e966";
+}
+.adminIcon-webservice-apps:before {
+	content: "\e967";
+}
 .adminIcon-about-yetiforce:before {
 	content: "\e962";
 }
@@ -323,3 +334,4 @@
 .adminIcon-yeti-force:before {
 	content: "\e955";
 }
+
