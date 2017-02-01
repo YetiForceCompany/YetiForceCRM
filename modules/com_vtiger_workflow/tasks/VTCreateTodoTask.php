@@ -67,10 +67,10 @@ class VTCreateTodoTask extends VTTask
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where([
 				'and',
-					['vtiger_crmentity.deleted' => 0],
-					['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
-					['vtiger_activity.activitytype' => 'Task'],
-					['vtiger_activity.subject' => $this->todo]
+				['vtiger_crmentity.deleted' => 0],
+				['or', ['vtiger_activity.link' => $entityId], ['vtiger_activity.process' => $entityId]],
+				['vtiger_activity.activitytype' => 'Task'],
+				['vtiger_activity.subject' => $this->todo]
 			]);
 			$status = vtlib\Functions::getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
@@ -152,8 +152,8 @@ class VTCreateTodoTask extends VTTask
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
 		$baseDateEnd = strtotime($match[0]);
-		$date_start = strftime('%Y-%m-%d', $baseDateStart + $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
-		$due_date = strftime('%Y-%m-%d', $baseDateEnd + $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
+		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
+		$due_date = strftime('%Y-%m-%d', $baseDateEnd + (int) $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
 		$fields = [
 			'activitytype' => 'Task',
 			'description' => $this->description,
