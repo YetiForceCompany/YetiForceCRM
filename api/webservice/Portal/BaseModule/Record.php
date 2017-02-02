@@ -100,9 +100,9 @@ class Record extends \Api\Core\BaseAction
 		$record = $this->controller->request->get('record');
 		$result = false;
 		if ($record) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $module);
+			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		} else {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance($module);
+			$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
 		foreach ($recordData as $key => $value) {
 			$recordModel->set($key, $value);
@@ -110,7 +110,9 @@ class Record extends \Api\Core\BaseAction
 		if (!$record && $recordModel->isCreateable() || $record && $recordModel->isEditable()) {
 			$recordModel->save();
 			$result = true;
+		} else {
+			$message = \App\Language::translate('Permission to perform the operation is denied');
 		}
-		return ['id' => $recordModel->getId(), 'result' => $result];
+		return ['id' => $recordModel->getId(), 'result' => $result, 'message' => $message];
 	}
 }
