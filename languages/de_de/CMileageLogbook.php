@@ -1,20 +1,20 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'CMileageLogbook' => 'Mileage log book',
-	'SINGLE_CMileageLogbook' => 'Mileage log book',
+	'CMileageLogbook' => 'Fahrtenbuch',
+	'SINGLE_CMileageLogbook' => 'Fahrtenbuch',
 	//BLOCKS
-	'LBL_ADDITIONAL_INFORMATION' => 'Additional information',
-	'LBL_BASIC_INFORMATION' => 'Basic information',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
-	'LBL_ATTENTION_BLOCK' => 'Notes',
+	'LBL_ADDITIONAL_INFORMATION' => 'Zusatzinformationen',
+	'LBL_BASIC_INFORMATION' => 'Information',
+	'LBL_DESCRIPTION_BLOCK' => 'Beschreibung',
+	'LBL_ATTENTION_BLOCK' => 'Notizen',
 	//FIELDS
-	'FL_SUBJECT' => 'Subject',
+	'FL_SUBJECT' => 'Betreff',
 	'FL_STATUS' => 'Status',
-	'FL_NUMBER_KILOMETERS' => 'Number of kilometers',
+	'FL_NUMBER_KILOMETERS' => 'Anzahl von Kilometer',
 	//PickList
-	'PLL_DRAFT' => 'Draft',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_FOR_APPROVAL' => 'Zur Freigabe',
+	'PLL_ACCEPTED' => 'Angenommen',
+	'PLL_CANCELLED' => 'Abgebrochen',
 ];
