@@ -111,4 +111,11 @@ $languageStrings = [
 	'LBL_REMAIND_MINS' => 'Напомнить после выбранного количества минут',
 	'LBL_SELECT_INVITE' => 'Пригласить',
 	'LBL_SAVE_AND_CLOSE' => 'Save and close',
+	'LBL_REPEAT_INTERVAL' => 'Repeat each',
+	'LBL_REAPEAT_BY' => 'Repeat according to',
+	'LBL_REPEAT_END' => 'End',
+	'LBL_DAY_IN_MONTH' => 'Day of the month',
+	'LBL_DAY_IN_WEEK' => 'Day of the week',
+	'LBL_NEVER' => 'Never',
+	'LBL_COUNT' => 'Number of occurrences',
 ];

@@ -33,9 +33,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 */
 	registerRecurrenceFieldCheckBox: function () {
 		var thisInstance = this;
-		thisInstance.getForm().find('input[name="recurringcheck"]').on('change', function (e) {
+		var form = thisInstance.getForm();
+		form.find('input[name="reapeat"]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
-			var repeatUI = jQuery('#repeatUI');
+			var repeatUI = form.find('#repeatUI');
 			if (element.is(':checked')) {
 				repeatUI.removeClass('hide');
 			} else {
@@ -47,22 +48,26 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 * Function which will register the change event for recurring type
 	 */
 	registerRecurringTypeChangeEvent: function () {
+		var container = this.getForm();
 		var thisInstance = this;
-		jQuery('#recurringType').on('change', function (e) {
+		container.find('#recurringType').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var recurringType = currentTarget.val();
 			thisInstance.changeRecurringTypesUIStyles(recurringType);
-
 		});
-	},
-	/**
-	 * Function which will register the change event for repeatMonth radio buttons
-	 */
-	registerRepeatMonthActions: function () {
-		var thisInstance = this;
-		thisInstance.getForm().find('input[name="repeatMonth"]').on('change', function (e) {
-			//If repeatDay radio button is checked then only select2 elements will be enable
-			thisInstance.repeatMonthOptionsChangeHandling();
+		container.find('#repeatUI [name="calendarEndType"]').on('change', function(e) {
+			var currentTarget = $(e.currentTarget);
+			var value = currentTarget.val();
+			if (value === 'never') {
+				container.find('.countEvents').attr('disabled', 'disabled');
+				container.find('.calendarUntil').attr('disabled', 'disabled');
+			} else if(value === 'count') {
+				container.find('.countEvents').removeAttr('disabled');
+				container.find('.calendarUntil').attr('disabled', 'disabled');
+			} else if(value === 'until') {
+				container.find('.countEvents').attr('disabled', 'disabled');
+				container.find('.calendarUntil').removeAttr('disabled');
+			}
 		});
 	},
 	/**
@@ -80,21 +85,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		} else if (recurringType == 'Monthly') {
 			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
 			jQuery('#repeatMonthUI').removeClass('hide').addClass('show');
-		}
-	},
-	/**
-	 * This function will handle the change event for RepeatMonthOptions
-	 */
-	repeatMonthOptionsChangeHandling: function () {
-		//If repeatDay radio button is checked then only select2 elements will be enable
-		if (jQuery('#repeatDay').is(':checked')) {
-			jQuery('#repeatMonthDate').attr('disabled', true);
-			jQuery('#repeatMonthDayType').prop("disabled", false);
-			jQuery('#repeatMonthDay').prop("disabled", false);
-		} else {
-			jQuery('#repeatMonthDate').removeAttr('disabled');
-			jQuery('#repeatMonthDayType').prop("disabled", true);
-			jQuery('#repeatMonthDay').prop("disabled", true);
 		}
 	},
 	setDefaultEndTime: function (container) {
@@ -475,9 +465,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
-		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
-		this.registerRepeatMonthActions();
 		if (this.isEvents()) {
 			this.registerInviteEvent(editViewForm);
 		}

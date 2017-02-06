@@ -165,6 +165,8 @@ $languageStrings = [
 	'LBL_PROCESS' => 'Процесс',
 	'LBL_SAVE_AND_CLOSE' => 'Save and close',
 	'LBL_SHOW_LOCATION' => 'Show location',
+	'FL_RECURRENCE' => 'Repetition',
+	'FL_REAPEAT' => 'Repeat',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

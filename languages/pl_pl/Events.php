@@ -110,5 +110,12 @@ $languageStrings = [
 	'LBL_REMAIND_HOURS' => 'Przypomnij po wybranej ilości godzin',
 	'LBL_REMAIND_MINS' => 'Przypomnij po wybranej ilości minut',
 	'LBL_SAVE_AND_CLOSE' => 'Zapisz i zamknij',
+	'LBL_REPEAT_INTERVAL' => 'powtarzaj co',
+	'LBL_REAPEAT_BY' => 'powtarzaj według',
+	'LBL_REPEAT_END' => 'zakończ',
+	'LBL_DAY_IN_MONTH' => 'dzień miesiąca',
+	'LBL_DAY_IN_WEEK' => 'dzień tygodnia',
+	'LBL_NEVER' => 'nigdy',
+	'LBL_COUNT' => 'ilość wystąpień',
 ];
 
