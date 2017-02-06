@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'FInvoiceCost' => 'Invoices cost',
-	'SINGLE_FInvoiceCost' => 'Invoices cost',
+	'FInvoiceCost' => 'Rechnungskosten',
+	'SINGLE_FInvoiceCost' => 'Rechnungskosten',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Systeminformationen',
 	'LBL_INVOICE_ADDRESS' => 'Rechnungsadresse',
@@ -26,16 +26,16 @@ $languageStrings = [
 	'PLL_CASH' => 'Bar',
 	'PLL_AWAITING_PAYMENT' => 'Zahlung erwartet',
 	'PLL_PARTIALLY_PAID' => 'Teilweise gezahlt',
-	'PLL_FULLY_PAID' => 'Vollstöndig gezahlt',
+	'PLL_FULLY_PAID' => 'Vollständig gezahlt',
 	'PLL_DOMESTIC_INVOICE' => 'Inländische Rechnung',
 	'PLL_FOREIGN_INVOICE' => 'Fremdwährungsrechnung',
 	'PLL_IC_INVOICE' => 'Gemeinschaftliche Warenrechnung',
-	'PLL_UNASSIGNED' => 'Unassigned',
-	'PLL_AWAITING_REALIZATION' => 'Oczekuje na realizacje',
-	'PLL_FOR_PROCESSING' => 'For processing',
-	'PLL_IN_PROGRESSING' => 'In progressing',
-	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_UNASSIGNED' => 'Nicht zugeordnet',
+	'PLL_AWAITING_REALIZATION' => 'Warten auf Umsetzung',
+	'PLL_FOR_PROCESSING' => 'Bereit zur Umsetzung',
+	'PLL_IN_PROGRESSING' => 'In Umsezzung',
+	'PLL_SUBMITTED_COMMENTS' => 'Kommentare',
+	'PLL_FOR_APPROVAL' => 'Zur Freigabe',
+	'PLL_CANCELLED' => 'Abgebrochen',
+	'PLL_ACCEPTED' => 'Angenommen',
 ];

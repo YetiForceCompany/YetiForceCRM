@@ -140,7 +140,7 @@ $languageStrings = [
 	'LBL_CACHE_CLEAR' => 'View leeren',
 	'LBL_PROCESS' => 'Prozess',
 	'LBL_SAVE_AND_CLOSE' => 'Sichern und schließen',
-	'LBL_SHOW_LOCATION' => 'Show location',
+	'LBL_SHOW_LOCATION' => 'Karte anzeigen',
 	'FL_RECURRENCE' => 'Repetition',
 	'FL_REAPEAT' => 'Repeat',
 ];

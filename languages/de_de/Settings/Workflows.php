@@ -152,7 +152,7 @@ $languageStrings = [
 	'ON_MODIFY' => 'Datensatz ändern',
 	'ON_DELETE' => 'Datensatz löschen',
 	'TRIGGER' => 'Manuell getriggert durch den Benutzer',
-	'BLOCK_EDIT' => 'Block Ändern',
+	'BLOCK_EDIT' => 'Änderungsmodus sperren',
 	'ON_SCHEDULE' => 'Einplanung ausführen (definierte Zeitintervalle)',
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
@@ -232,6 +232,7 @@ $languageStrings = [
 	'Notify Contact On Ticket Change' => 'Benachrichtige Kontakt bei Ticketänderungen',
 	'Notify Owner On Ticket Closed' => 'Benachrichtige Besitzer wenn Ticket geschlossen wurde',
 	'Notify Owner On Ticket Create' => 'Benachrichtige Besitzer wenn Ticket erzeugt wurde',
+	'Block edition' => 'Änderungen sperren',
 	'Customer Portal Login Details' => 'Details zum Kundenportal Login',
 	'Send invitations' => 'Einladungen senden',
 	'Send Notification Email to Record Owner' => 'Sende Benachrichtigungsmail an den Besitzer',
