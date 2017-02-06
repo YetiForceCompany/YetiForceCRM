@@ -111,5 +111,12 @@ $languageStrings = [
 	'LBL_ACCEPTED' => 'Accepted',
 	'LBL_DECLINED' => 'Rejected',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Fill start date based on the first available date',
+	'LBL_REPEAT_INTERVAL' => 'Repeat each',
+	'LBL_REAPEAT_BY' => 'Repeat according to',
+	'LBL_REPEAT_END' => 'End',
+	'LBL_DAY_IN_MONTH' => 'Day of the month',
+	'LBL_DAY_IN_WEEK' => 'Day of the week',
+	'LBL_NEVER' => 'Never',
+	'LBL_COUNT' => 'Number of occurrences',
 ];
 

@@ -210,6 +210,8 @@ function DataAccessConditions() {
 							conditionList = JSON.parse(jQuery('div#condition_list').text());
 					var value = comparator.val();
 					comparator.find('option').remove();
+					console.log(conditionList)
+					console.log(filedInfo.type)
 					jQuery.each(conditionList[filedInfo.type], function (i, item) {
 						comparator.append(jQuery('<option>', {
 							value: item,

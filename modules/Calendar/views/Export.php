@@ -6,16 +6,26 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Calendar_Export_View extends Vtiger_Export_View
 {
 
-	public function preprocess(Vtiger_Request $request)
+	/**
+	 * Preprocess
+	 * @param Vtiger_Request $request
+	 * @param boolean $display
+	 */
+	public function preprocess(Vtiger_Request $request, $display = true)
 	{
 		
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -27,6 +37,10 @@ class Calendar_Export_View extends Vtiger_Export_View
 		$viewer->view('Export.tpl', $moduleName);
 	}
 
+	/**
+	 * Postprocess
+	 * @param Vtiger_Request $request
+	 */
 	public function postprocess(Vtiger_Request $request)
 	{
 		

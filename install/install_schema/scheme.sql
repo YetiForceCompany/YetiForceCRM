@@ -7174,23 +7174,6 @@ CREATE TABLE `vtiger_portal` (
   KEY `portal_portalname_idx` (`portalname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_portalinfo` */
-
-CREATE TABLE `vtiger_portalinfo` (
-  `id` int(11) NOT NULL,
-  `user_name` varchar(50) DEFAULT NULL,
-  `user_password` varchar(200) DEFAULT NULL,
-  `type` varchar(5) DEFAULT NULL,
-  `last_login_time` datetime DEFAULT NULL,
-  `login_time` datetime DEFAULT NULL,
-  `logout_time` datetime DEFAULT NULL,
-  `isactive` int(1) DEFAULT NULL,
-  `crypt_type` varchar(20) DEFAULT NULL,
-  `password_sent` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_pricebook` */
 
 CREATE TABLE `vtiger_pricebook` (

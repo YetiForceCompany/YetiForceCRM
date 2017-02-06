@@ -338,8 +338,6 @@ Vtiger_Picklist_Field_Js('Vtiger_Taxs_Field_Js', {}, {
 Vtiger_Picklist_Field_Js('Vtiger_InventoryLimit_Field_Js', {}, {
 });
 
-Vtiger_Multipicklist_Field_Js('Vtiger_PosList_Field_Js', {}, {
-});
 Vtiger_Field_Js('Vtiger_Time_Field_Js', {}, {
 	/**
 	 * Function to get the user date format

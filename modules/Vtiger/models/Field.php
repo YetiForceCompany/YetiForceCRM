@@ -258,8 +258,6 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 309: $fieldDataType = 'categoryMultipicklist';
 						break;
-					case 122: $fieldDataType = 'posList';
-						break;
 					default:
 						$webserviceField = $this->getWebserviceFieldObject();
 						$fieldDataType = $webserviceField->getFieldDataType();
@@ -720,7 +718,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'currencyList':
 			case 'fileLocationType':
 			case 'taxes':
-			case 'posList':
 				$pickListValues = $this->getPicklistValues();
 				if (!empty($pickListValues)) {
 					$this->fieldInfo['picklistvalues'] = $pickListValues;

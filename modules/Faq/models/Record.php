@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Faq_Record_Model extends Vtiger_Record_Model
@@ -51,41 +52,24 @@ class Faq_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function get List of Fields which are mapping from Truoble Tickets to FAQ
-	 * @return <array>
+	 * @return array
 	 */
 	public static function getTicketToFAQMappingFields()
 	{
-		return array(
-			array('ticketField' => 'ticket_title', 'faqField' => 'question', 'defaultValue' => ''),
-			array('ticketField' => 'product_id', 'faqField' => 'product_id', 'defaultValue' => ''),
-			array('ticketField' => 'solution', 'faqField' => 'faq_answer', 'defaultValue' => ''),
-			array('ticketField' => '', 'faqField' => 'faqcategories', 'defaultValue' => 'General'),
-			array('ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft')
-		);
-	}
-
-	public function saveToDb()
-	{
-		parent::saveToDb();
-		$this->insertIntoFAQCommentTable();
+		return [
+			['ticketField' => 'ticket_title', 'faqField' => 'question', 'defaultValue' => ''],
+			['ticketField' => 'product_id', 'faqField' => 'product_id', 'defaultValue' => ''],
+			['ticketField' => 'solution', 'faqField' => 'faq_answer', 'defaultValue' => ''],
+			['ticketField' => '', 'faqField' => 'faqcategories', 'defaultValue' => 'General'],
+			['ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft']
+		];
 	}
 
 	/**
-	 *  Function to insert values in vtiger_faqcomments table for the specified module,
+	 * Function to save data to database
 	 */
-	public function insertIntoFAQCommentTable()
+	public function saveToDb()
 	{
-		if ($this->get('comments') !== '') {
-			$comment = $this->get('comments');
-		} else {
-			$comment = AppRequest::get('comments');
-		}
-		if ($comment) {
-			App\Db::getInstance()->createCommand()->insert('vtiger_faqcomments', [
-				'faqid' => $this->getId(),
-				'comments' => \vtlib\Functions::fromHTML($comment),
-				'createdtime' => date('Y-m-d H:i:s')
-			])->execute();
-		}
+		parent::saveToDb();
 	}
 }

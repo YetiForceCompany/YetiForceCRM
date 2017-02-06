@@ -7775,8 +7775,6 @@ insert  into `vtiger_picklistvalues_seq`(`id`) values (777);
 
 /*Data for the table `vtiger_portal` */
 
-/*Data for the table `vtiger_portalinfo` */
-
 /*Data for the table `vtiger_pricebook` */
 
 /*Data for the table `vtiger_pricebookcf` */
@@ -28114,7 +28112,6 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (4
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (45,304,'inventoryLimit');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (46,305,'multiReferenceValue');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (47,306,'streetAddress');
-insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (48,122,'posList');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (49,309,'categoryMultipicklist');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (50,4,'recordNumber');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (51,310,'companySelect');

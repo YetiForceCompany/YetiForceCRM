@@ -25,7 +25,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 * @param Vtiger_Request $request
 	 * @return string
 	 */
-	public function getExportContentType()
+	public function getExportContentType(Vtiger_Request $request)
 	{
 		return 'text/calendar';
 	}
@@ -42,16 +42,16 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 
 		$query = $this->getExportQuery($request);
 		$fileName = $request->get('filename');
-		$this->output($request, $query->createCommand()->query(), $moduleModel, $fileName);
+		$this->outputData($request, $query->createCommand()->query(), $moduleModel, $fileName);
 	}
 
 	/**
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
-	 * @param <Array> $dataReader
+	 * @param array $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
-	public function output($request, $dataReader, $moduleModel, $fileName, $toFile = false)
+	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
@@ -128,7 +128,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		if ($toFile) {
 			return $myiCal->serialize();
 		} else {
-			$exportType = $this->getExportContentType();
+			$exportType = $this->getExportContentType($request);
 			// Send the right content type and filename
 			header("Content-type: $exportType");
 			header("Content-Disposition: attachment; filename={$fileName}.ics");
