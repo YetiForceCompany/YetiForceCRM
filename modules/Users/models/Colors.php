@@ -154,10 +154,10 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		return $color;
 	}
 
-	public function updateModuleColor($params)
+	public static function updateModuleColor($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$color = str_replace("#", "", $params['color']);
-		$adb->pquery('UPDATE vtiger_tab SET color = ? WHERE tabid = ?;', array($color, $params['id']));
+		\App\Db::getInstance()->createCommand()
+				->update('vtiger_tab', ['color' => str_replace("#", "", $params['color'])], ['tabid' => $params['id']])
+				->execute();
 	}
 }
