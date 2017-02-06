@@ -7775,8 +7775,6 @@ insert  into `vtiger_picklistvalues_seq`(`id`) values (777);
 
 /*Data for the table `vtiger_portal` */
 
-/*Data for the table `vtiger_portalinfo` */
-
 /*Data for the table `vtiger_pricebook` */
 
 /*Data for the table `vtiger_pricebookcf` */

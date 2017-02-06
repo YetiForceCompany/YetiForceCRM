@@ -106,22 +106,6 @@ class HelpDesk extends CRMEntity
 		}
 	}
 
-	/**     Function to get the Customer Name who has made comment to the ticket from the customer portal
-	 *      @param  int    $id   - Ticket id
-	 *      @return string $customername - The contact name
-	 * */
-	public function getCustomerName($id)
-	{
-
-		\App\Log::trace("Entering getCustomerName(" . $id . ") method ...");
-		$adb = PearDatabase::getInstance();
-		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
-		$result = $adb->pquery($sql, array($id));
-		$customername = $adb->query_result($result, 0, 'user_name');
-		\App\Log::trace("Exiting getCustomerName method ...");
-		return $customername;
-	}
-
 	// Function to create, export query for helpdesk module
 	/** Function to export the ticket records in CSV Format
 	 * @param reference variable - where condition is passed when the query is executed

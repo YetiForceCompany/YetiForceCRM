@@ -2116,25 +2116,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_portalinfo' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-					'user_name' => $this->stringType(50),
-					'user_password' => $this->stringType(200),
-					'type' => $this->stringType(5),
-					'last_login_time' => $this->dateTime(),
-					'login_time' => $this->dateTime(),
-					'logout_time' => $this->dateTime(),
-					'isactive' => $this->integer(1),
-					'crypt_type' => $this->stringType(20),
-					'password_sent' => $this->stringType()->notNull(),
-				],
-				'primaryKeys' => [
-					['portalinfo_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_pricebook' => [
 				'columns' => [
 					'pricebookid' => $this->integer()->notNull()->defaultValue(0),
