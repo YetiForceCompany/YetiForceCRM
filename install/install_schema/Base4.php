@@ -8592,7 +8592,6 @@ class Base4 extends \App\Db\Importers\Base
 					[45, 304, 'inventoryLimit'],
 					[46, 305, 'multiReferenceValue'],
 					[47, 306, 'streetAddress'],
-					[48, 122, 'posList'],
 					[49, 309, 'categoryMultipicklist'],
 					[50, 4, 'recordNumber'],
 					[51, 310, 'companySelect'],
