@@ -740,8 +740,8 @@ class Functions
 		$hour = floor($decTime);
 		$min = round(60 * ($decTime - $hour));
 		return array(
-			'short' => $hour . vtranslate('LBL_H') . ' ' . $min . vtranslate('LBL_M'),
-			'full' => $hour . vtranslate('LBL_HOURS') . ' ' . $min . vtranslate('LBL_MINUTES'),
+			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
+			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
 		);
 	}
 
