@@ -172,6 +172,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			'comment' => array('is added'),
 			'rangeTime' => ['is empty', 'is not empty'],
 			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
 		);
 		if (NULL != $type) {
 			return $list[$type];
@@ -225,7 +226,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function saveActionConfig($ID, $action, $form_data, $aid = false)
+	public static function saveActionConfig($ID, $action, $form_data, $aid = false)
 	{
 		unset($form_data['__vtrftk']);
 		unset($form_data['sid']);

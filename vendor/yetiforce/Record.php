@@ -234,7 +234,10 @@ class Record
 			$search = '';
 		}
 		$db = \App\Db::getInstance();
-		if ($recordModel->isNew()) {
+		$isExists = (new \App\Db\Query())->from('u_#__crmentity_label')
+			->where(['crmid' => $recordModel->getId()])
+			->exists();
+		if (!$isExists) {
 			$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
 			$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName()])->execute();
 		} else {

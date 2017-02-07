@@ -71,11 +71,11 @@ class Vtiger_AdvancedFilter_Helper
 
 	/**
 	 * Function to get the advanced filter option names by Field type
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return array(
+		return [
 			'string' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 			'salutation' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
 			'text' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
@@ -102,7 +102,8 @@ class Vtiger_AdvancedFilter_Helper
 			'multiReferenceValue' => ['contains', 'does not contain', 'has changed', 'is empty', 'is not empty'],
 			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'rangeTime' => ['is empty', 'is not empty'],
-		);
+			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+		];
 	}
 
 	public static function getExpressions()
