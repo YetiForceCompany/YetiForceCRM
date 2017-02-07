@@ -594,20 +594,6 @@ class Functions
 		return $commentlist;
 	}
 
-	public static function generateRandomPassword()
-	{
-		$salt = "abcdefghijklmnopqrstuvwxyz0123456789";
-		srand((double) microtime() * 1000000);
-		$i = 0;
-		while ($i <= 7) {
-			$num = rand() % 33;
-			$tmp = substr($salt, $num, 1);
-			$pass = $pass . $tmp;
-			$i++;
-		}
-		return $pass;
-	}
-
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
 	 * *     @param string $table_name - tablename value from field table
 	 * *     @param string $column_nametable_name - columnname value from field table
