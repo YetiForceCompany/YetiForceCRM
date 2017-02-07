@@ -19,10 +19,8 @@ class Events_Save_Action extends Calendar_Save_Action
 	 */
 	public function saveRecord(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
-		$originalRecordId = $recordModel->getId();
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
@@ -37,57 +35,12 @@ class Events_Save_Action extends Calendar_Save_Action
 			$relationModel->addRelation($parentRecordId, $relatedRecordId);
 		}
 
-		// Handled to save follow up event
-		$followupMode = $request->get('followup');
-
-		//Start Date and Time values
-		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('followup_time_start'));
-		$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('followup_date_start') . " " . $startTime);
-		list($startDate, $startTime) = explode(' ', $startDateTime);
-
-		$subject = $request->get('subject');
-		if ($followupMode == 'on' && $startTime != '' && $startDate != '') {
-			$recordModel->set('eventstatus', 'Planned');
-			$recordModel->set('subject', '[Followup] ' . $subject);
-			$recordModel->set('date_start', $startDate);
-			$recordModel->set('time_start', $startTime);
-
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$activityType = $recordModel->get('activitytype');
-			if ($activityType == 'Call') {
-				$minutes = $currentUser->get('callduration');
-			} else {
-				$minutes = $currentUser->get('othereventduration');
-			}
-			$dueDateTime = date('Y-m-d H:i:s', strtotime("$startDateTime+$minutes minutes"));
-			list($startDate, $startTime) = explode(' ', $dueDateTime);
-
-			$recordModel->set('due_date', $startDate);
-			$recordModel->set('time_end', $startTime);
-			$recordModel->set('recurringtype', '');
-			$recordModel->save();
-			$heldevent = true;
-		}
-
 		if (!AppRequest::isEmpty('recurringtype') && AppRequest::get('recurringtype') !== '--None--') {
 			vimport('~modules/Calendar/RepeatEvents.php');
 			$focus = CRMEntity::getInstance($recordModel->getModuleName());
 			$focus->column_fields = $recordModel->getData();
 			Calendar_RepeatEvents::repeatFromRequest($focus);
 		}
-		return $recordModel;
-	}
-
-	/**
-	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
-	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
-	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-
-		$recordModel->set('selectedusers', $request->get('selectedusers'));
 		return $recordModel;
 	}
 }
