@@ -1,7 +1,7 @@
 <?php
 
 /**
- * UIType Company Field Class
+ * UIType total time field class
  * @package YetiForce.UIType
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
