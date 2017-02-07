@@ -64,12 +64,4 @@ class Faq_Record_Model extends Vtiger_Record_Model
 			['ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft']
 		];
 	}
-
-	/**
-	 * Function to save data to database
-	 */
-	public function saveToDb()
-	{
-		parent::saveToDb();
-	}
 }
