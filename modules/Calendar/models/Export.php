@@ -15,9 +15,45 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function getExportQuery(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		return $moduleModel->getExportQuery('', '');
+		$moduleName = $request->get('source_module');
+		$cvId = $request->get('viewname');
+		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listInstance->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listInstance->set('search_key', $searchKey);
+			$listInstance->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $listInstance->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
+			$listInstance->set('search_params', $transformedSearchParams);
+		}
+		$listInstance->loadListViewCondition();
+		$moduleModel = $listInstance->getModule();
+		$fields = array_keys($moduleModel->getFields());
+		$fields[] = 'id';
+		$listInstance->getQueryGenerator()->setFields($fields);
+
+		$selectedIds = $request->get('selected_ids');
+		$excludedIds = $request->get('excluded_ids');
+		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
+			if (!empty($selectedIds) && count($selectedIds) > 0) {
+				$listInstance->getQueryGenerator()->addCondition('id', $selectedIds, 'e');
+			}
+		}
+		if ($excludedIds) {
+			$listInstance->getQueryGenerator()->addCondition('id', $excludedIds, 'n');
+		}
+		$query = $listInstance->getQueryGenerator()->createQuery();
+		$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+		$fields = array_values($query->select);
+		$query->select($fields);
+		return $query;
 	}
 
 	/**
@@ -36,7 +72,8 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
+		$moduleName = $request->get('source_module');
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
