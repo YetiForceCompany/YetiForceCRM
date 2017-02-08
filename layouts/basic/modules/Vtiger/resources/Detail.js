@@ -546,9 +546,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 	saveCommentAjax: function (element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({});
+		var commentInfoBlock = element.closest('.singleComment');
+		var relatedTo = commentInfoBlock.find('.related_to').val()
+		if(!relatedTo){
+			relatedTo = thisInstance.getRecordId();
+		}
 		var postData = {
 			'commentcontent': commentContentValue,
-			'related_to': thisInstance.getRecordId(),
+			'related_to': relatedTo,
 			'module': 'ModComments'
 		};
 

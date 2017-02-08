@@ -1,13 +1,13 @@
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
-*
- ********************************************************************************/
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce.com
+********************************************************************************/
 -->*}
 {strip}
 	{assign var="HIERARCHY" value=isset($PARENT_RECORD) && $PARENT_RECORD != $COMMENT->get('related_to')}
@@ -15,8 +15,8 @@
 		<div class="singleComment">
 			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="pull-left">
-						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-						<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
+					<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 				</div>
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
@@ -24,14 +24,16 @@
 					<div class="col-xs-8 pull-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br> 
-						{if $HIERARCHY}
-							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($COMMENT->get('related_to'))}
-							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$COMMENT->get('related_to')}">
+								{if $HIERARCHY}
+									{assign var=RELATED_TO value=$COMMENT->get('related_to')}
+							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"  />
+							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($RELATED_TO)}
+							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 								<strong>
 									{vtranslate($RELATED_MODULE,$RELATED_MODULE)}: 
 								</strong>
 								<strong class="commentRelatedTitle">
-									{vtlib\Functions::getCRMRecordLabel($COMMENT->get('related_to'))}
+									{vtlib\Functions::getCRMRecordLabel($RELATED_TO)}
 								</strong>
 							</a>
 						{/if}
@@ -118,6 +120,6 @@
 				</div>
 			</div>
 		</div>
-	<div>
-{/strip}
+		<div>
+		{/strip}
 
