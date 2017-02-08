@@ -75,7 +75,7 @@ class MultipicklistField extends BaseField
 		$condition = ['or'];
 		foreach ($this->getValue() as $value) {
 			array_push($condition, [$this->getColumnName() => $value], ['or like', $this->getColumnName(),
-					[
+				[
 					'%' . $this->separator . $value . $this->separator . '%',
 					'%' . $value . $this->separator,
 					$value . $this->separator . '%'
@@ -94,7 +94,7 @@ class MultipicklistField extends BaseField
 		$condition = ['and'];
 		foreach ($this->getValue() as $value) {
 			array_push($condition, ['<>', $this->getColumnName(), $value], ['not', ['or like', $this->getColumnName(),
-						[
+					[
 						'%' . $this->separator . $value . $this->separator . '%',
 						'%' . $value . $this->separator,
 						$value . $this->separator . '%'

@@ -36,7 +36,7 @@ class MultiReferenceValueField extends BaseField
 	{
 		return ['or not like', $this->getColumnName(), $this->getValue()];
 	}
-	
+
 	/**
 	 * Contains operator
 	 * @return array
