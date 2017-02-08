@@ -21,3 +21,5 @@ README.md
 /vendor/phpmailer/
 /vendor/ezyang/
 /vendor/symfony/
+/vendor/doctrine/
+/vendor/simshaun/

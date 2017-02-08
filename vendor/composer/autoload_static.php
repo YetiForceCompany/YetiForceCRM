@@ -78,12 +78,23 @@ class ComposerStaticInitce7aec416bba2e91816da8458449b895
 			array(
 				0 => __DIR__ . '/..' . '/rmccue/requests/library',
 			),
+			'Recurr' =>
+			array(
+				0 => __DIR__ . '/..' . '/simshaun/recurr/src',
+			),
 		),
 		'H' =>
 		array(
 			'HTMLPurifier' =>
 			array(
 				0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+			),
+		),
+		'D' =>
+		array(
+			'Doctrine\\Common\\Collections\\' =>
+			array(
+				0 => __DIR__ . '/..' . '/doctrine/collections/lib',
 			),
 		),
 	);
