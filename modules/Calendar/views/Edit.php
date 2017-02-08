@@ -121,7 +121,6 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			}
 		}
 		$viewer->assign('USER_CHANGED_END_DATE_TIME', $userChangedEndDateTime);
-		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurrenceInformation());
 		$viewer->assign('TOMORROWDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d', time() + 86400)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);

@@ -104,44 +104,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return 'index.php?module=Calendar&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
 	}
 
-	/**
-	 * Function returns recurring information for EditView
-	 * @return <Array> - which contains recurring Information
-	 */
-	public function getRecurrenceInformation()
-	{
-		$recurringObject = $this->getRecurringObject();
-
-		if ($recurringObject) {
-			$recurringData['recurringcheck'] = 'Yes';
-			$recurringData['repeat_frequency'] = $recurringObject->getRecurringFrequency();
-			$recurringData['eventrecurringtype'] = $recurringObject->getRecurringType();
-			$recurringEndDate = $recurringObject->getRecurringEndDate();
-			if (!empty($recurringEndDate)) {
-				$recurringData['recurringenddate'] = $recurringEndDate->get_formatted_date();
-			}
-			$recurringInfo = $recurringObject->getUserRecurringInfo();
-
-			if ($recurringObject->getRecurringType() == 'Weekly') {
-				$noOfDays = count($recurringInfo['dayofweek_to_repeat']);
-				for ($i = 0; $i < $noOfDays; ++$i) {
-					$recurringData['week' . $recurringInfo['dayofweek_to_repeat'][$i]] = 'checked';
-				}
-			} elseif ($recurringObject->getRecurringType() == 'Monthly') {
-				$recurringData['repeatMonth'] = $recurringInfo['repeatmonth_type'];
-				if ($recurringInfo['repeatmonth_type'] == 'date') {
-					$recurringData['repeatMonth_date'] = $recurringInfo['repeatmonth_date'];
-				} else {
-					$recurringData['repeatMonth_daytype'] = $recurringInfo['repeatmonth_daytype'];
-					$recurringData['repeatMonth_day'] = $recurringInfo['dayofweek_to_repeat'][0];
-				}
-			}
-		} else {
-			$recurringData['recurringcheck'] = 'No';
-		}
-		return $recurringData;
-	}
-
 	public function saveToDb()
 	{
 		//Time should changed to 24hrs format
@@ -280,19 +242,24 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getRecurringDetails()
 	{
-		$recurringObject = $this->getRecurringObject();
-		if ($recurringObject) {
-			$recurringInfoDisplayData = $recurringObject->getDisplayRecurringInfo();
-			$recurringEndDate = $recurringObject->getRecurringEndDate();
-		} else {
-			$recurringInfoDisplayData['recurringcheck'] = \App\Language::translate('LBL_NO');
-			$recurringInfoDisplayData['repeat_str'] = '';
-		}
-		if (!empty($recurringEndDate)) {
-			$recurringInfoDisplayData['recurringenddate'] = $recurringEndDate->get_formatted_date();
-		}
+		$info = Vtiger_Recurrence_UIType::getRecurringInfo($this->get('recurrence'));
 
-		return $recurringInfoDisplayData;
+		switch ($info['FREQ']) {
+			case 'DAILY':
+				$labelFreq = 'LBL_DAYS_TYPE';
+				break;
+			case 'WEEKLY':
+				$labelFreq = 'LBL_WEEKS_TYPE';
+				break;
+			case 'MONTHLY':
+				$labelFreq = 'LBL_MONTHS_TYPE';
+				break;
+			case 'YEARLY':
+				$labelFreq = 'LBL_YEAR_TYPE';
+				break;
+		}
+		$info['freqLabel'] = $labelFreq;
+		return $info;
 	}
 
 	/**

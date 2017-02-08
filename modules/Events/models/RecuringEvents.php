@@ -138,24 +138,22 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 					}
 					$this->createRecords($dates);
 					break;
-				case self::UPDATE_THIS_EVENT:
-					break;
 				case self::UPDATE_FUTURE_EVENTS:
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
 					$itemNumber = 0;
 					$skip = true;
 					$omittedRecords = [];
+					$dates = reset($recordsIds);
+					$dates = $this->getDates($dates['date_start'] . ' ' . $dates['time_start'], $dates['due_date'] . ' ' . $dates['time_end'], $dates['recurrence']);
 					foreach ($recordsIds as $recordId => $data) {
-						if ($itemNumber === 0) {
-							$dates = $this->getDates($data['date_start'] . ' ' . $data['time_start'], $data['due_date'] . ' ' . $data['time_end']);
-						}
 						if ($skip && $data['date_start'] >= $this->recordModel->get('date_start')) {
 							$this->updateOmmitedRecords($omittedRecords, $data['date_start']);
 							$skip = false;
 							$this->changes['followup'] = $recordId;
 							$this->recordModel->set('followup', $recordId);
-							if ($data['recurrence'] !== $this->recordModel->get('recurrence')) {
+							if ($this->recordModel->getPreviousValue('recurrence') !== $this->recordModel->get('recurrence')) {
 								$dates = $this->getDates($data['date_start'] . ' ' . $data['time_start'], $data['due_date'] . ' ' . $data['time_end']);
+								$itemNumber = 0;
 							}
 						}
 						if ($skip) {
@@ -188,11 +186,12 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	 * @param string $endDateTime
 	 * @return array
 	 */
-	public function getDates($startDateTime, $endDateTime)
+	public function getDates($startDateTime, $endDateTime, $recurrenceRule = false)
 	{
-
-		$recuringRule = $this->recordModel->get('recurrence');
-		$rule = new \Recurr\Rule($recuringRule, new \DateTime($startDateTime), new \DateTime($endDateTime));
+		if (!$recurrenceRule) {
+			$recurrenceRule = $this->recordModel->get('recurrence');
+		}
+		$rule = new \Recurr\Rule($recurrenceRule, new \DateTime($startDateTime), new \DateTime($endDateTime));
 		$data = (new \Recurr\Transformer\ArrayTransformer())->transform($rule);
 		$dates = [];
 		foreach ($data as $date) {
