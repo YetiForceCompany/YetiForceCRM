@@ -58,6 +58,10 @@ class Vtiger_Recurrence_UIType extends Vtiger_Date_UIType
 			$val = explode('=', $val, 2);
 			$result[$val[0]] = $val[1];
 		}
+		if (isset($result['UNTIL'])) {
+			$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
+			$result['UNTIL'] = App\Fields\DateTime::currentUserDisplayDate($displayDate);
+		}
 		return $result;
 	}
 }

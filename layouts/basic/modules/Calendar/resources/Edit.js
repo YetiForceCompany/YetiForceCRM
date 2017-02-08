@@ -36,15 +36,23 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var form = thisInstance.getForm();
 		form.find('input[name="reapeat"]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
-			var repeatUI = form.find('#repeatUI');
+			var repeatUI = form.find('.repeatUI');
+			var container = form.find('[name="followup"]').closest('.fieldValue');
 			if (element.is(':checked')) {
 				repeatUI.removeClass('hide');
+				container.find('[name="followup_display"]').attr('disabled', 'disabled');
+				container.find('button').attr('disabled', 'disabled');
 			} else {
+				container.find('[name="followup_display"]').removeAttr('disabled');
+				container.find('button').removeAttr('disabled');
 				repeatUI.addClass('hide');
 			}
 		});
 		if (form.find('input[name="reapeat"]').is(':checked')) {
-			form.find('#repeatUI').removeClass('hide');
+			form.find('.repeatUI').removeClass('hide');
+			var container = form.find('[name="followup"]').closest('.fieldValue');
+			container.find('[name="followup_display"]').attr('disabled', 'disabled');
+			container.find('button').attr('disabled', 'disabled');
 		}
 	},
 	/**
@@ -53,12 +61,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	registerRecurringTypeChangeEvent: function () {
 		var container = this.getForm();
 		var thisInstance = this;
-		container.find('#recurringType').on('change', function (e) {
+		container.find('.recurringType').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var recurringType = currentTarget.val();
 			thisInstance.changeRecurringTypesUIStyles(recurringType);
 		});
-		container.find('#repeatUI [name="calendarEndType"]').on('change', function (e) {
+		container.find('.repeatUI [name="calendarEndType"]').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var value = currentTarget.val();
 			if (value === 'never') {
@@ -78,16 +86,16 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 * @params - recurringType - which recurringtype is selected
 	 */
 	changeRecurringTypesUIStyles: function (recurringType) {
-		var thisInstance = this;
+		var container = this.getForm();
 		if (recurringType == 'DAILY' || recurringType == 'YEARLY') {
-			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
-			jQuery('#repeatMonthUI').removeClass('show').addClass('hide');
+			container.find('.repeatWeekUI').removeClass('show').addClass('hide');
+			container.find('.repeatMonthUI').removeClass('show').addClass('hide');
 		} else if (recurringType == 'WEEKLY') {
-			jQuery('#repeatWeekUI').removeClass('hide').addClass('show');
-			jQuery('#repeatMonthUI').removeClass('show').addClass('hide');
+			container.find('.repeatWeekUI').removeClass('hide').addClass('show');
+			container.find('.repeatMonthUI').removeClass('show').addClass('hide');
 		} else if (recurringType == 'MONTHLY') {
-			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
-			jQuery('#repeatMonthUI').removeClass('hide').addClass('show');
+			container.find('.repeatWeekUI').removeClass('show').addClass('hide');
+			container.find('.repeatMonthUI').removeClass('hide').addClass('show');
 		}
 	},
 	setDefaultEndTime: function (container) {
@@ -246,22 +254,20 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 */
 	getRule: function () {
 		var form = this.getForm();
-		var freq = form.find('#recurringType').val();
+		var freq = form.find('.recurringType').val();
 		var rule = 'FREQ=' + freq;
-		rule += ';INTERVAL=' + form.find('#repeatFrequency').val();
-		var endValue = form.find('#repeatUI [name="calendarEndType"]:checked').val();
-		if (endValue === 'never') {
-			rule += ';COUNT=0';
-		} else if (endValue === 'count') {
+		rule += ';INTERVAL=' + form.find('.repeatFrequency').val();
+		var endValue = form.find('.repeatUI [name="calendarEndType"]:checked').val();
+		if (endValue === 'count') {
 			rule += ';COUNT=' + form.find('.countEvents').val();
 		} else if (endValue === 'until') {
 			var date = form.find('.calendarUntil').val();
 			date = app.getDateInDBInsertFormat(app.getMainParams('userDateFormat'), date);
-			rule += ';UNTIL=' + date
+			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T000000';
 		}
 		if (freq === 'WEEKLY') {
 			var checkedElements = [];
-			form.find('#repeatWeekUI [type="checkbox"]').each(function () {
+			form.find('.repeatWeekUI [type="checkbox"]').each(function () {
 				var currentTarget = $(this);
 				if (currentTarget.is(':checked')) {
 					checkedElements.push(currentTarget.val());
@@ -274,6 +280,8 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		}
 		if (freq === 'MONTHLY') {
 			var dayOfWeek = Vtiger_Helper_Js.getDay(form.find('[name="date_start"]').val());
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), app.getMainParams('userDateFormat'));
+			var dayOfMonth = dateInstance.getDate();
 			var option = form.find('.calendarMontlyType:checked').val();
 			if (option == 'DAY') {
 				var dayOfWeekLabel = '';
@@ -300,7 +308,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 						dayOfWeekLabel = 'SA';
 						break;
 				}
-				rule += ';BYDAY=1' + dayOfWeekLabel;
+				rule += ';BYDAY=' + (parseInt((dayOfMonth - 1) / 7) + 1) + dayOfWeekLabel;
+			} else {
+				rule += ';BYMONTHDAY=' + dayOfMonth;
 			}
 		}
 		return rule;
@@ -312,12 +322,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var thisInstance = this;
 		var form = this.getForm();
 		var lockSave = true;
-		if(app.getRecordId()){
-			form.on(Vtiger_Edit_Js.recordPreSave, function(e) {
-				if (lockSave) {
+		if (app.getRecordId()) {
+			form.on(Vtiger_Edit_Js.recordPreSave, function (e) {
+				if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
 					e.preventDefault();
-					app.showModalWindow(form.find('.typeSavingModal'), function (container) {
-						container.find('.typeSavingBtn').click(function(e) {
+					app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
+						container.find('.typeSavingBtn').click(function (e) {
 							var currentTarget = $(e.currentTarget);
 							form.find('[name="typeSaving"]').val(currentTarget.data('value'));
 							app.hideModalWindow();

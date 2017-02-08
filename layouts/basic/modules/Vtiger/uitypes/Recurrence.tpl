@@ -62,114 +62,114 @@
 			</div>
 		</div>
 	</div>
-	<div class="hide" id="repeatUI" >
+	<div class="hide repeatUI" >
 		<input type="hidden" name="typeSaving">
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="hidden" name="{$FIELD_MODEL->getFieldName()}" 
 			   value="{$FIELD_MODEL->get('fieldvalue')}" />
 		{assign var="RECURRING_INFORMATION" value=Vtiger_Recurrence_UIType::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
 		<div class="clearfix">
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{vtranslate('LBL_RECURRING_TYPE', $MODULE)}</span>
+				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
-				<select class="select2 form-control" name="recurringtype" id="recurringType" title="{vtranslate('LBL_RECURRING_TYPE', $MODULE)} {$MODULE}">
-					<option title="{vtranslate('LBL_DAYS_TYPE', $MODULE)}" value="DAILY" {if $RECURRING_INFORMATION['FREQ'] eq 'DAILY'} selected {/if}>{vtranslate('LBL_DAYS_TYPE', $MODULE)}</option>
-					<option title="{vtranslate('LBL_WEEKS_TYPE', $MODULE)}" value="WEEKLY" {if $RECURRING_INFORMATION['FREQ'] eq 'WEEKLY'} selected {/if}>{vtranslate('LBL_WEEKS_TYPE', $MODULE)}</option>
-					<option title="{vtranslate('LBL_MONTHS_TYPE', $MODULE)}" value="MONTHLY" {if $RECURRING_INFORMATION['FREQ'] eq 'MONTHLY'} selected {/if}>{vtranslate('LBL_MONTHS_TYPE', $MODULE)}</option>
-					<option title="{vtranslate('LBL_YEAR_TYPE', $MODULE)}" value="YEARLY" {if $RECURRING_INFORMATION['FREQ'] eq 'YEARLY'} selected {/if}>{vtranslate('LBL_YEAR_TYPE', $MODULE)}</option>
+				<select class="select2 form-control recurringType" title="{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)} {$MODULE}">
+					<option title="{\App\Language::translate('LBL_DAYS_TYPE', $MODULE)}" value="DAILY" {if $RECURRING_INFORMATION['FREQ'] eq 'DAILY'} selected {/if}>{\App\Language::translate('LBL_DAYS_TYPE', $MODULE)}</option>
+					<option title="{\App\Language::translate('LBL_WEEKS_TYPE', $MODULE)}" value="WEEKLY" {if $RECURRING_INFORMATION['FREQ'] eq 'WEEKLY'} selected {/if}>{\App\Language::translate('LBL_WEEKS_TYPE', $MODULE)}</option>
+					<option title="{\App\Language::translate('LBL_MONTHS_TYPE', $MODULE)}" value="MONTHLY" {if $RECURRING_INFORMATION['FREQ'] eq 'MONTHLY'} selected {/if}>{\App\Language::translate('LBL_MONTHS_TYPE', $MODULE)}</option>
+					<option title="{\App\Language::translate('LBL_YEAR_TYPE', $MODULE)}" value="YEARLY" {if $RECURRING_INFORMATION['FREQ'] eq 'YEARLY'} selected {/if}>{\App\Language::translate('LBL_YEAR_TYPE', $MODULE)}</option>
 				</select>
 			</div>
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{vtranslate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
+				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
-				<select class="select2 form-control" id="repeatFrequency" title="{vtranslate('LBL_REPEAT_FOR', $MODULE)}">
+				<select class="select2 form-control repeatFrequency" title="{\App\Language::translate('LBL_REPEAT_FOR', $MODULE)}">
 					{for $FREQUENCY = 1 to 31}
 						<option value="{$FREQUENCY}" title="{$FREQUENCY}" {if $FREQUENCY eq $RECURRING_INFORMATION['INTERVAL']}selected{/if}>{$FREQUENCY}</option>
 					{/for}
 				</select>
 			</div>
-			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'WEEKLY'}hide{/if}"  id="repeatWeekUI" style="margin-top:10px;">
+			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'WEEKLY'}hide{/if} repeatWeekUI">
 				<span class="col-md-4 paddingLRZero">
-					<span class="medium">{vtranslate('LBL_REAPEAT_IN', $MODULE)}</span>
+					<span class="medium">{\App\Language::translate('LBL_REAPEAT_IN', $MODULE)}</span>
 				</span>
 				<span class="col-md-8 paddingLRZero marginBottom10px">
 					<div class="btn-group" data-toggle="buttons">
-						<label title="{vtranslate('LBL_DAY0', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SU') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY0', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SU') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"  {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SU') !== false}checked{/if} value="SU">
-							{vtranslate('LBL_SM_SUN', $MODULE)}
+							{\App\Language::translate('LBL_SM_SUN', $MODULE)}
 						</label>
-						<label title="{vtranslate('LBL_DAY1', $MODULE)}"  class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'MO') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY1', $MODULE)}"  class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'MO') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off" {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'MO') !== false}checked{/if} value="MO">
-							{vtranslate('LBL_SM_MON', $MODULE)}
+							{\App\Language::translate('LBL_SM_MON', $MODULE)}
 						</label>
-						<label title="{vtranslate('LBL_DAY2', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TU') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY2', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TU') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"  {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TU') !== false}checked{/if} value="TU">
-							{vtranslate('LBL_SM_TUE', $MODULE)}
+							{\App\Language::translate('LBL_SM_TUE', $MODULE)}
 						</label>
-						<label title="{vtranslate('LBL_DAY3', $MODULE)}"  class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'WE') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY3', $MODULE)}"  class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'WE') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off" {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'WE') !== false}checked{/if} value="WE">
-							{vtranslate('LBL_SM_WED', $MODULE)}
+							{\App\Language::translate('LBL_SM_WED', $MODULE)}
 						</label>
-						<label title="{vtranslate('LBL_DAY4', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TH') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY4', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TH') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"  {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'TH') !== false}checked{/if} value="TH">
-							{vtranslate('LBL_SM_THU', $MODULE)}
+							{\App\Language::translate('LBL_SM_THU', $MODULE)}
 						</label>
-						<label title="{vtranslate('LBL_DAY5', $MODULE)}"  class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'FR') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY5', $MODULE)}"  class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'FR') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off" {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'FR') !== false}checked{/if} value="FR">
-							{vtranslate('LBL_SM_FRI', $MODULE)}
+							{\App\Language::translate('LBL_SM_FRI', $MODULE)}
 						</label>
-						<label title="{vtranslate('LBL_DAY6', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SA') !== false}active{/if}">
+						<label title="{\App\Language::translate('LBL_DAY6', $MODULE)}" class="btn btn-primary {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SA') !== false}active{/if}">
 							<input type="checkbox" autocomplete="off"  {if isset($RECURRING_INFORMATION['BYDAY']) && strpos($RECURRING_INFORMATION['BYDAY'], 'SA') !== false}checked{/if} value="SA">
-							{vtranslate('LBL_SM_SAT', $MODULE)}
+							{\App\Language::translate('LBL_SM_SAT', $MODULE)}
 						</label>
 					</div>
 				</span>
 			</div>
 
-			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}hide{/if} col-xs-12 paddingLRZero" id="repeatMonthUI" style="margin-top:10px;">
+			<div class="{if $RECURRING_INFORMATION['FREQ'] neq 'MONTHLY'}hide{/if} col-xs-12 paddingLRZero repeatMonthUI">
 				<span class="col-md-4 paddingLRZero">
-					<span class="medium">{vtranslate('LBL_REAPEAT_BY', $MODULE)}</span>
+					<span class="medium">{\App\Language::translate('LBL_REAPEAT_BY', $MODULE)}</span>
 				</span>
 				<span class="col-md-8 paddingLRZero">
 					<div class="input-group marginBottom10px">
 						<span class="input-group-addon">
-							<input type="radio" class="calendarMontlyType" value="DATE">
+							<input type="radio" name="calendarMontlyType" class="calendarMontlyType" value="DATE" {if isset($RECURRING_INFORMATION['BYMONTHDAY'])}checked{/if}>
 						</span>
-						<input type="text" class="form-control" aria-label="{vtranslate('LBL_DAY_IN_MONTH', $MODULE)}" value="{vtranslate('LBL_DAY_IN_MONTH', $MODULE)}" readonly="readonly">
+						<input type="text" class="form-control" aria-label="{\App\Language::translate('LBL_DAY_IN_MONTH', $MODULE)}" value="{\App\Language::translate('LBL_DAY_IN_MONTH', $MODULE)}" readonly="readonly">
 					</div>
 					<div class="input-group marginBottom10px">
 						<span class="input-group-addon">
-							<input type="radio" class="calendarMontlyType" value="DAY" {if isset($RECURRING_INFORMATION['BYDAY'])}checked{/if}>
+							<input type="radio" name="calendarMontlyType" class="calendarMontlyType" value="DAY" {if isset($RECURRING_INFORMATION['BYDAY'])}checked{/if}>
 						</span>
-						<input type="text" class="form-control" aria-label="{vtranslate('LBL_DAY_IN_WEEK', $MODULE)}" value="{vtranslate('LBL_DAY_IN_WEEK', $MODULE)}" readonly="readonly">
+						<input type="text" class="form-control" aria-label="{\App\Language::translate('LBL_DAY_IN_WEEK', $MODULE)}" value="{\App\Language::translate('LBL_DAY_IN_WEEK', $MODULE)}" readonly="readonly">
 					</div>
 				</span>
 			</div>
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{vtranslate('LBL_REPEAT_END', $MODULE)}</span>
+				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<div class="input-group marginBottom10px">
 					<span class="input-group-addon">
-						<input type="radio" name="calendarEndType" value="never" {if isset($RECURRING_INFORMATION['COUNT']) && $RECURRING_INFORMATION['COUNT'] eq 0}checked{/if}>
+						<input type="radio" name="calendarEndType" value="never" {if !isset($RECURRING_INFORMATION['COUNT']) && !isset($RECURRING_INFORMATION['UNTIL'])}checked{/if}>
 					</span>
-					<input type="text" class="form-control" aria-label="" value="{vtranslate('LBL_NEVER', $MODULE)}" readonly="readonly">
+					<input type="text" class="form-control" aria-label="" value="{\App\Language::translate('LBL_NEVER', $MODULE)}" readonly="readonly">
 				</div>
 				<div class="input-group marginBottom10px">
 					<span class="input-group-addon">
-						<input type="radio" name="calendarEndType" value="count" {if isset($RECURRING_INFORMATION['COUNT']) && $RECURRING_INFORMATION['COUNT'] neq 0}checked{/if}>
-						&nbsp;{vtranslate('LBL_COUNT', $MODULE)}
+						<input type="radio" name="calendarEndType" value="count" {if isset($RECURRING_INFORMATION['COUNT'])}checked{/if}>
+						&nbsp;{\App\Language::translate('LBL_COUNT', $MODULE)}
 					</span>
-					<input type="text" class="form-control countEvents" {if isset($RECURRING_INFORMATION['COUNT']) && $RECURRING_INFORMATION['COUNT'] neq 0}value="{$RECURRING_INFORMATION['COUNT']}"{else}disabled="disabled" {/if}>
+					<input type="text" class="form-control countEvents" {if isset($RECURRING_INFORMATION['COUNT'])}value="{$RECURRING_INFORMATION['COUNT']}"{else}disabled="disabled" {/if}>
 				</div>
 				<div class="input-group marginBottom10px date">
 					<span class="input-group-addon">
 						<input type="radio" name="calendarEndType" value="until" {if isset($RECURRING_INFORMATION['UNTIL'])}checked{/if}>
-						&nbsp;{vtranslate('LBL_UNTIL', $MODULE)}
+						&nbsp;{\App\Language::translate('LBL_UNTIL', $MODULE)}
 					</span>
-					<input type="text"class="dateField form-control calendarUntil" {if isset($RECURRING_INFORMATION['UNTIL'])} value="{$RECURRING_INFORMATION['UNTIL']}"  {else} disabled="disabled"{/if}name="calendarUntil" data-date-format="{$USER_MODEL->get('date_format')}" 
-						   title="{vtranslate('LBL_UNTIL', $MODULE)}"
+					<input type="text" class="dateField form-control calendarUntil" {if isset($RECURRING_INFORMATION['UNTIL'])} value="{$RECURRING_INFORMATION['UNTIL']}"  {else} disabled="disabled"{/if}name="calendarUntil" data-date-format="{$USER_MODEL->get('date_format')}" 
+						   title="{\App\Language::translate('LBL_UNTIL', $MODULE)}"
 						   data-validation-engine='validate[required,funcCall[Vtiger_Date_Validator_Js.invokeValidation]]' data-validator='{\App\Json::encode([['name' => 'greaterThanDependentField', 'params' => ['date_start']]])}'/>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 				</div>
