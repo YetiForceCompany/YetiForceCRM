@@ -117,5 +117,15 @@ $languageStrings = [
 	'LBL_DAY_IN_WEEK' => 'dzień tygodnia',
 	'LBL_NEVER' => 'nigdy',
 	'LBL_COUNT' => 'ilość wystąpień',
+	'FL_RECURRENCE' => 'Powtarzanie',
+	'FL_REAPEAT' => 'Powtarzaj',
+	'LBL_REAPEAT_IN' => 'Powtarzaj w',
+	'LBL_TITLE_TYPE_SAVING' => 'Tryb zapisu',
+	'LBL_UPDATE_THIS_EVENT' => 'Aktualizuj tylko ten rekord',
+	'LBL_UPDATE_THIS_EVENT_DESCRIPTION' => 'Zmodyfikowany zostanie tylko ten rekord, pozostałe nie ulegną zmianie',
+	'LBL_UPDATE_FUTURE_EVENTS' => 'Aktualizuj kolejne rekordy',
+	'LBL_UPDATE_FUTURE_EVENTS_DESCRIPTION' => 'Zmodyfikowane zostaną tylko kolejne rekordy',
+	'LBL_UPDATE_ALL_EVENTS' => 'Aktulizuj wszystkie rekordy',
+	'LBL_UPDATE_ALL_EVENTS_DESCRIPTION' => 'Zaktualizowane zostaną wszystkie rekordy w serii',
 ];
 

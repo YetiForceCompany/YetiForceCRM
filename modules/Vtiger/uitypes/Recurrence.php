@@ -44,4 +44,20 @@ class Vtiger_Recurrence_UIType extends Vtiger_Date_UIType
 	{
 		return $this->getDisplayValue($value);
 	}
+
+	/**
+	 * Parse recuring rule to array
+	 * @param string $value
+	 * @return array
+	 */
+	public static function getRecurringInfo($value)
+	{
+		$values = explode(';', $value);
+		$result = [];
+		foreach ($values as $val) {
+			$val = explode('=', $val, 2);
+			$result[$val[0]] = $val[1];
+		}
+		return $result;
+	}
 }

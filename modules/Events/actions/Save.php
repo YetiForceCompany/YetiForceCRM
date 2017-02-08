@@ -20,27 +20,29 @@ class Events_Save_Action extends Calendar_Save_Action
 	public function saveRecord(Vtiger_Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
+		$data = $recordModel->getData();
 		$recordModel->save();
-		if ($request->get('relationOperation')) {
-			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->get('sourceRecord');
-			$relatedModule = $recordModel->getModule();
-			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+		$recordModel->addRelationOperation($request);
+
+		if ($request->get('reapeat') === 'on' ? true : false) {
+			$recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
+			if ($request->isEmpty('record')) {
+				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
+				$data['followup'] = $recordModel->getId();
+			} else {
+				$data['followup'] = empty($data['followup']) ? $recordModel->getId() : $data['followup'];
 			}
-			$relatedRecordId = $recordModel->getId();
-
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
+			$recurringEvents->setChanges($recordModel->getPreviousValue());
+			$recurringEvents->setData($data);
+			$recurringEvents->save();
 		}
+		return $recordModel;
+	}
 
-		if (!AppRequest::isEmpty('recurringtype') && AppRequest::get('recurringtype') !== '--None--') {
-			vimport('~modules/Calendar/RepeatEvents.php');
-			$focus = CRMEntity::getInstance($recordModel->getModuleName());
-			$focus->column_fields = $recordModel->getData();
-			Calendar_RepeatEvents::repeatFromRequest($focus);
-		}
+	public function getRecordModelFromRequest(\Vtiger_Request $request)
+	{
+		$recordModel = parent::getRecordModelFromRequest($request);
+		$recordModel->set('recurrence', $request->get('recurrence'));
 		return $recordModel;
 	}
 }

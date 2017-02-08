@@ -115,4 +115,24 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['location'] = $this->get('location');
 		return $mail_data;
 	}
+
+	/**
+	 * Add relation
+	 * @param Vtiger_Request $request
+	 */
+	public function addRelationOperation(Vtiger_Request $request)
+	{
+		if ($request->get('relationOperation')) {
+			$parentModuleName = $request->get('sourceModule');
+			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentRecordId = $request->get('sourceRecord');
+			$relatedModule = $this->getModule();
+			if ($relatedModule->getName() == 'Events') {
+				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+			}
+			$relatedRecordId = $this->getId();
+			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel->addRelation($parentRecordId, $relatedRecordId);
+		}
+	}
 }
