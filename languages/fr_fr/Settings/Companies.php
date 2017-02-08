@@ -26,6 +26,11 @@ $languageStrings = [
 	'LBL_LOGO_MAIN_HEIGHT' => 'Logo height (visible after logging in)',
 	'LBL_LOGO_MAIL' => 'Company logo (email)',
 	'LBL_LOGO_MAIL_HEIGHT' => 'Logo height (email)',
+	'LBL_LOGO_IMG_MAIL' => 'Company logo (email)',
+	'LBL_LOGO_IMG_LOGIN' => 'Company logo (login page)',
+	'LBL_LOGO_PATH_LOGIN' => 'Path to company logo (login page)',
+	'LBL_LOGO_PATH_MAIN' => 'Path to company logo (visible after logging in)',
+	'LBL_LOGO_PATH_MAIL' => 'Path to company logo (email)',
 	// Others
 	 'LBL_COMPANY_NAMES_EXIST' => 'The company name already exists',
 ];
