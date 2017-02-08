@@ -107,6 +107,18 @@ class Webservice extends \App\Db\Importers\Base
 
 	public function data()
 	{
-
+		$this->data = [
+			'w_#__pos_actions' => [
+				'columns' => ['id', 'label', 'name'],
+				'values' => [
+					[1, 'LBL_SYNCHRONIZE_PRODUCTS', 'GetProducts'],
+					[2, 'LBL_SYNCHRONIZE_ORDERS', 'SetSSingleOrders'],
+					[3, 'LBL_SYNCHRONIZE_PRODUCTS_IMAGES', 'GetImage'],
+					[4, 'LBL_SYNCHRONIZE_STORAGES', 'GetIStorages'],
+					[5, 'LBL_CANCEL_ORDERS', 'CancelSSingleOrders'],
+					[6, 'LBL_SYNCHRONIZE_TREES', 'GetTree'],
+				]
+			],
+		];
 	}
 }

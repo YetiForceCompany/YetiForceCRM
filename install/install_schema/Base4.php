@@ -8594,6 +8594,7 @@ class Base4 extends \App\Db\Importers\Base
 					[49, 309, 'categoryMultipicklist'],
 					[50, 4, 'recordNumber'],
 					[51, 310, 'companySelect'],
+					[52, 342, 'recurrence'],
 				]
 			],
 			'vtiger_ws_operation' => [
@@ -8723,17 +8724,6 @@ class Base4 extends \App\Db\Importers\Base
 					['Outlook', 'OutlookHandler', 'modules/WSAPP/Handlers/OutlookHandler.php'],
 					['vtigerCRM', 'vtigerCRMHandler', 'modules/WSAPP/Handlers/vtigerCRMHandler.php'],
 					['vtigerSyncLib', 'WSAPP_VtigerSyncEventHandler', 'modules/WSAPP/synclib/handlers/VtigerSyncEventHandler.php'],
-				]
-			],
-			'w_#__pos_actions' => [
-				'columns' => ['id', 'label', 'name'],
-				'values' => [
-					[1, 'LBL_SYNCHRONIZE_PRODUCTS', 'GetProducts'],
-					[2, 'LBL_SYNCHRONIZE_ORDERS', 'SetSSingleOrders'],
-					[3, 'LBL_SYNCHRONIZE_PRODUCTS_IMAGES', 'GetImage'],
-					[4, 'LBL_SYNCHRONIZE_STORAGES', 'GetIStorages'],
-					[5, 'LBL_CANCEL_ORDERS', 'CancelSSingleOrders'],
-					[6, 'LBL_SYNCHRONIZE_TREES', 'GetTree'],
 				]
 			],
 			'yetiforce_auth' => [

@@ -192,6 +192,8 @@ class Base2 extends \App\Db\Importers\Base
 					'process' => $this->integer(),
 					'subprocess' => $this->integer(),
 					'followup' => $this->integer(),
+					'reapeat' => $this->smallInteger(1),
+					'recurrence' => $this->text()
 				],
 				'index' => [
 					['activity_subject_idx', ['activityid', 'subject']],
@@ -5455,6 +5457,10 @@ class Base2 extends \App\Db\Importers\Base
 					[117, 2596, 0, 0],
 					[117, 2597, 0, 0],
 					[117, 2598, 0, 0],
+					[16, 2600, 0, 0],
+					[16, 2601, 0, 0],
+					[9, 2602, 0, 0],
+					[9, 2603, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -7544,12 +7550,16 @@ class Base2 extends \App\Db\Importers\Base
 					[117, 2596, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 2, '', 100, 3, 403, 2, 'DT~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[117, 2597, 'closedtime', 'vtiger_crmentity', 1, 70, 'closedtime', 'LBL_CLOSED_TIME', 1, 2, '', 100, 4, 403, 2, 'DT~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[117, 2598, 'crmactivity', 'vtiger_entity_stats', 1, 307, 'crmactivity', 'LBL_CRMACTIVITY', 1, 0, '', 100, 5, 403, 10, 'NN~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[16, 2600, 'reapeat', 'vtiger_activity', 1, 56, 'reapeat', 'FL_REAPEAT', 1, 2, '', 100, 7, 117, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[16, 2601, 'recurrence', 'vtiger_activity', 1, 342, 'recurrence', 'FL_RECURRENCE', 1, 2, '', 100, 8, 117, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[9, 2602, 'reapeat', 'vtiger_activity', 1, 56, 'reapeat', 'FL_REAPEAT', 1, 2, '', 100, 0, 117, 1, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[9, 2603, 'recurrence', 'vtiger_activity', 1, 342, 'recurrence', 'FL_RECURRENCE', 1, 2, '', 100, 0, 117, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2598],
+					[2603],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
