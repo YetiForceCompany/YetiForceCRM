@@ -1,4 +1,5 @@
-<?php namespace includes\SystemWarnings;
+<?php
+namespace App\SystemWarnings;
 
 /**
  * System warnings template abstract class
@@ -16,6 +17,7 @@ abstract class Template
 	protected $status = 0;
 	protected $folder;
 	protected $link;
+	protected $tpl = false;
 
 	/**
 	 * Checking whether there is a warning
@@ -67,13 +69,13 @@ abstract class Template
 		if (!$returnText) {
 			return $this->status;
 		}
-		$status = 'LBL_WARNINGS_INCORRECT';
+		$status = 2;
 		switch ($this->status) {
 			case 1:
-				$status = 'LBL_WARNINGS_CORRECT';
+				$status = 'OK';
 				break;
 			case 2:
-				$status = 'LBL_WARNINGS_OMITTED';
+				$status = 'Bład';
 				break;
 		}
 		return $status;
@@ -116,5 +118,40 @@ abstract class Template
 			$this->folder = explode('\\', $this->folder);
 		}
 		return $this->folder;
+	}
+
+	public function getTpl()
+	{
+		if (!$this->tpl || is_string($this->tpl)) {
+			return $this->tpl;
+		}
+		$refClass = new \ReflectionClass($this);
+		$className = $refClass->getShortName();
+		$path = vtemplate_path("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
+		$this->tpl = $path;
+		return $path;
+	}
+
+	/**
+	 * Update ignoring status
+	 * @param int $params
+	 * @return boolean
+	 */
+	public function update($params)
+	{
+		$status = $params === '2' ? 0 : 2;
+		$refClass = new \ReflectionClass($this);
+		$filePath = $refClass->getFileName();
+		$fileContent = file_get_contents($filePath);
+		if (strpos($fileContent, 'protected $status ') !== false) {
+			$pattern = '/\$status = ([^;]+)/';
+			$replacement = '$status = ' . $status;
+			$fileContent = preg_replace($pattern, $replacement, $fileContent);
+		} else {
+			$replacement = '{' . PHP_EOL . '	protected $status = ' . $status . ';';
+			$fileContent = preg_replace('/{/', $replacement, $fileContent, 1);
+		}
+		file_put_contents($filePath, $fileContent);
+		return true;
 	}
 }

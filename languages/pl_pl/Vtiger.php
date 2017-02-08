@@ -1298,7 +1298,7 @@ $languageStrings = [
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',
-	'LBL_EMAIL_ADRESS' => 'Adres mail',
+	'LBL_EMAIL_ADRESS' => 'Adres e-mail',
 	'LBL_EMAIL_TEMPLATE' => 'Szablon mailowy',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Wszystkie maile są kolejkowane i wysłane w cronie.',
 	'ERR_NO_DEFAULT_SMTP' => 'Brak domyślnej skrzynki pocztowej do wysyłania wiadomości.',
