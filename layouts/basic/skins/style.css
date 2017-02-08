@@ -3298,7 +3298,7 @@ span[name=existingImages] img{
 	list-style: none;
 	padding: 8px 5px;
 }
-.listViewEntriesDiv .listViewEntriesCheckBox{
+.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox{
 	margin: 0;
 	vertical-align: middle;
 	width: 16px;
