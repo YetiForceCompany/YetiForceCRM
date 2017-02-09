@@ -19,11 +19,19 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	const UPDATE_THIS_EVENT = 2;
 	const UPDATE_FUTURE_EVENTS = 3;
 
+	/**
+	 * Function to get empty instance
+	 * @return Events_RecuringEvents_Model
+	 */
 	public static function getInstance()
 	{
 		return new self();
 	}
 
+	/**
+	 * Function to create new records in never ending events. Function uses only by cron
+	 * @param integer $recordId
+	 */
 	public function updateNeverEndingEvents($recordId)
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
@@ -259,6 +267,11 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 				->all();
 	}
 
+	/**
+	 * Function to get the last record in series
+	 * @param integer $id
+	 * @return array
+	 */
 	public function getLastRecord($id)
 	{
 		return (new App\Db\Query())->from('vtiger_activity')
