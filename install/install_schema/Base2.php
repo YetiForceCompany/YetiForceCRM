@@ -3048,6 +3048,7 @@ class Base2 extends \App\Db\Importers\Base
 					[25, 'LBL_UPDATER_RECORDS_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, NULL, NULL, 1, 'OpenStreetMap', 21, ''],
 					[26, 'LBL_MARK_RECORDS_AS_REVIEWED', 'modules/ModTracker/cron/ReviewChanges.php', 900, NULL, NULL, 1, 'ModTracker', 23, ''],
 					[27, 'LBL_CACHE', 'cron/Cache.php', 86400, NULL, NULL, 1, 'Vtiger', 25, NULL],
+					[28, 'LBL_NEVER_ENDING_RECURRING_EVENTS', 'modules/Events/cron/RecurringEvents.php', 86400, NULL, NULL, 1, 'Events', 26, NULL],
 				]
 			],
 			'vtiger_currencies' => [

@@ -19,6 +19,28 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	const UPDATE_THIS_EVENT = 2;
 	const UPDATE_FUTURE_EVENTS = 3;
 
+	public static function getInstance()
+	{
+		return new self();
+	}
+
+	public function updateNeverEndingEvents($recordId)
+	{
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$cleanInstance = Vtiger_Record_Model::getCleanInstance($recordModel->getModuleName());
+		$cleanInstance->setData($recordModel->getData());
+		$this->recordModel = $cleanInstance;
+		$records = $this->getLastRecord($recordId);
+		$dates = $this->getDates($records['date_start'] . ' ' . $records['time_start'], $records['due_date'] . ' ' . $records['time_end']);
+		unset($dates[0]);
+		$endingDate = date('Y-m-d', strtotime(date('Y-m-d') . ' +1 year'));
+		foreach ($dates as $date) {
+			if ($endingDate > $date['startDate']) {
+				$this->createRecords([$date]);
+			}
+		}
+	}
+
 	/**
 	 * Function to get instance of class
 	 * @param Vtiger_Request $request
@@ -181,9 +203,20 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Check if recurrence rule is never ending
+	 * @param type $recurrenceRule
+	 * @return type
+	 */
+	public function isNeverEndingRule($recurrenceRule)
+	{
+		return (strpos($recurrenceRule, 'COUNT') === false && strpos($recurrenceRule, 'UNTIL') === false);
+	}
+
+	/**
 	 * Function to get dates
 	 * @param string $startDateTime
 	 * @param string $endDateTime
+	 * @param string $recurrenceRule
 	 * @return array
 	 */
 	public function getDates($startDateTime, $endDateTime, $recurrenceRule = false)
@@ -191,10 +224,17 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 		if (!$recurrenceRule) {
 			$recurrenceRule = $this->recordModel->get('recurrence');
 		}
+		$isNeverEnding = $this->isNeverEndingRule($recurrenceRule);
+		if ($isNeverEnding) {
+			$endingDate = date('Y-m-d', strtotime(date('Y-m-d', strtotime($startDateTime)) . ' +1 year'));
+		}
 		$rule = new \Recurr\Rule($recurrenceRule, new \DateTime($startDateTime), new \DateTime($endDateTime));
 		$data = (new \Recurr\Transformer\ArrayTransformer())->transform($rule);
 		$dates = [];
 		foreach ($data as $date) {
+			if ($isNeverEnding && $date->getStart()->format('Y-m-d') > $endingDate) {
+				break;
+			}
 			$dates [] = [
 				'startDate' => $date->getStart()->format('Y-m-d'),
 				'startTime' => $date->getStart()->format('H:i:s'),
@@ -217,5 +257,15 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 				->orderBy(['date_start' => SORT_ASC])
 				->indexBy('activityid')
 				->all();
+	}
+
+	public function getLastRecord($id)
+	{
+		return (new App\Db\Query())->from('vtiger_activity')
+				->where(['followup' => $id, 'deleted' => 0])
+				->orderBy(['date_start' => SORT_DESC])
+				->limit(1)
+				->indexBy('activityid')
+				->one();
 	}
 }

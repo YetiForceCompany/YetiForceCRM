@@ -1654,6 +1654,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststar
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (25,'LBL_UPDATER_RECORDS_COORDINATES','modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php',300,NULL,NULL,1,'OpenStreetMap',21,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (26,'LBL_MARK_RECORDS_AS_REVIEWED','modules/ModTracker/cron/ReviewChanges.php',900,NULL,NULL,1,'ModTracker',23,'');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (27,'LBL_CACHE','cron/Cache.php',86400,NULL,NULL,1,'Vtiger',25,NULL);
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_file`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (28,'LBL_NEVER_ENDING_RECURRING_EVENTS','modules/Events/cron/RecurringEvents.php',86400,NULL,NULL,1,'Events',26,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
