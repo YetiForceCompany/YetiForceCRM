@@ -522,7 +522,7 @@ var app = {
 			var params = {
 				'show': true,
 			};
-			if (jQuery('#backgroundClosingModal').val() != 1) {
+			if (jQuery('#backgroundClosingModal').val() != 1 || data.find('.modal').hasClass('static')) {
 				params.backdrop = 'static';
 			}
 			if (typeof paramsObject == 'object') {

@@ -405,7 +405,6 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							action: 'SystemWarnings',
 							mode: 'cancel'
 						});
-						aletrsContainer.find('.warning').remove();
 					}
 					aletrsContainer.find('.warning').first().remove();
 					if (aletrsContainer.find('.warning').length) {
