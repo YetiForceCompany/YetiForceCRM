@@ -31,10 +31,7 @@ class VTCreateEventTask extends VTTask
 		return array('eventType', 'eventName', 'description', 'sendNotification',
 			'startTime', 'startDays', 'startDirection', 'startDatefield',
 			'endTime', 'endDays', 'endDirection', 'endDatefield',
-			'status', 'priority', 'recurringcheck', 'repeat_frequency',
-			'recurringtype', 'calendar_repeat_limit_date',
-			'mon_flag', 'tue_flag', 'wed_flag', 'thu_flag', 'fri_flag', 'sat_flag', 'sun_flag',
-			'repeatMonth', 'repeatMonth_date', 'repeatMonth_daytype', 'repeatMonth_day', 'assigned_user_id');
+			'status', 'priority', 'assigned_user_id');
 	}
 
 	function getAdmin()
@@ -112,80 +109,6 @@ class VTCreateEventTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
-		/*
-		  $handler = vtws_getModuleHandlerFromName('Events', $adminUser);
-		  $meta = $handler->getMeta();
-		  $recordValues = DataTransform::sanitizeForInsert($newRecordModel->getData(), $meta);
-		  list($typeId, $id) = vtws_getIdComponents($event['id']);
-		  $event = CRMEntity::getInstance('Events');
-		  $event->id = $id;
-		  $event->column_fields = $recordValues;
-
-		  if ($this->recurringcheck && !empty($startDate) &&
-		  ($this->calendar_repeat_limit_date)) {
-
-		  $resultRow = array();
-
-		  $resultRow['date_start'] = $startDate;
-		  $resultRow['time_start'] = self::conv12to24hour($this->startTime);
-		  $resultRow['due_date'] = $this->calendar_repeat_limit_date;
-		  $resultRow['time_end'] = self::conv12to24hour($this->endTime);
-		  $resultRow['recurringtype'] = $this->recurringtype;
-		  $resultRow['recurringfreq'] = $this->repeat_frequency;
-
-		  if ($this->sun_flag) {
-		  $daysOfWeekToRepeat[] = 0;
-		  }
-		  if ($this->mon_flag) {
-		  $daysOfWeekToRepeat[] = 1;
-		  }
-		  if ($this->tue_flag) {
-		  $daysOfWeekToRepeat[] = 2;
-		  }
-		  if ($this->wed_flag) {
-		  $daysOfWeekToRepeat[] = 3;
-		  }
-		  if ($this->thu_flag) {
-		  $daysOfWeekToRepeat[] = 4;
-		  }
-		  if ($this->fri_flag) {
-		  $daysOfWeekToRepeat[] = 5;
-		  }
-		  if ($this->sat_flag) {
-		  $daysOfWeekToRepeat[] = 6;
-		  }
-
-		  if ($this->recurringtype == 'Daily' || $this->recurringtype == 'Yearly') {
-		  $recurringInfo = $this->recurringtype;
-		  } elseif ($this->recurringtype == 'Weekly') {
-		  if ($daysOfWeekToRepeat != null) {
-		  $recurringInfo = $this->recurringtype . '::' . implode('::', $daysOfWeekToRepeat);
-		  } else {
-		  $recurringInfo = $recurringType;
-		  }
-		  } elseif ($this->recurringtype == 'Monthly') {
-		  $recurringInfo = $this->recurringtype . '::' . $this->repeatMonth;
-		  if ($this->repeatMonth == 'date') {
-		  $recurringInfo = $recurringInfo . '::' . $this->repeatMonth_date;
-		  } else {
-		  $recurringInfo = $recurringInfo . '::' . $this->repeatMonth_daytype . '::' . $this->repeatMonth_day;
-		  }
-		  }
-		  $resultRow['recurringinfo'] = $recurringInfo;
-
-		  // Added this to relate these events to parent module.
-		  AppRequest::set('createmode', 'link');
-		  AppRequest::set('return_module', $moduleName);
-		  AppRequest::set('return_id', $entityIdDetails[1]);
-
-		  $recurObj = RecurringType::fromDBRequest($resultRow);
-
-		  include_once 'modules/Calendar/RepeatEvents.php';
-		  Calendar_RepeatEvents::repeat($event, $recurObj);
-
-		  AppRequest::set('createmode', '');
-		  }
-		 */
 		$currentUser = vglobal('current_user');
 		$currentUser = $this->originalUser;
 	}
