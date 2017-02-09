@@ -155,7 +155,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil btn btn-xs btn-info',
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn btn-xs btn-info',
 			],
 		];
 		if (0 === $this->get('default')) {
@@ -163,7 +164,8 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash btn btn-xs btn-danger',
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn btn-xs btn-danger',
 			];
 		}
 		foreach ($recordLinks as $recordLink) {

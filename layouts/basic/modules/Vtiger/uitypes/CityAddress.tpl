@@ -47,6 +47,5 @@
 					   {if $FIELD_MODEL_POST_BOX->get('displaytype') == 10}readonly="readonly"{/if} {if $FIELD_MODEL_POST_BOX->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL_POST_BOX->get('fieldparams')}'"{/if} placeholder="{\App\Language::translate($FIELD_MODEL_POST_BOX->get('label'), $MODULE)}"/>
 			{/if}
 		</div>
-
     </div>
 {/strip}
