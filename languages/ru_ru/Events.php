@@ -118,6 +118,7 @@ $languageStrings = [
 	'LBL_DAY_IN_WEEK' => 'Day of the week',
 	'LBL_NEVER' => 'Never',
 	'LBL_COUNT' => 'Number of occurrences',
+	// Recuring Events
 	'FL_RECURRENCE' => 'Repetition',
 	'FL_REAPEAT' => 'Repeat',
 	'LBL_REAPEAT_IN' => 'Repeat in',
@@ -128,4 +129,11 @@ $languageStrings = [
 	'LBL_UPDATE_FUTURE_EVENTS_DESCRIPTION' => 'Only subsequent records will be modified',
 	'LBL_UPDATE_ALL_EVENTS' => 'Update all records',
 	'LBL_UPDATE_ALL_EVENTS_DESCRIPTION' => 'All records in sequence will be modified',
+	'LBL_TITLE_TYPE_DELETE' => 'Delete mode',
+	'LBL_DELETE_THIS_EVENT' => 'Delete only this record',
+	'LBL_DELETE_THIS_EVENT_DESCRIPTION' => 'Only this record will be deleted, the rest will remain unchanged',
+	'LBL_DELETE_FUTURE_EVENTS' => 'Delete subsequent records',
+	'LBL_DELETE_FUTURE_EVENTS_DESCRIPTION' => 'Only subsequent records will be deleted',
+	'LBL_DELETE_ALL_EVENTS' => 'Delete all records',
+	'LBL_DELETE_ALL_EVENTS_DESCRIPTION' => 'All records in sequence will be deleted',
 ];

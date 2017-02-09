@@ -10,6 +10,58 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<div class="typeRemoveModal" tabindex="-1">
+		<div  class="modal fade">
+			<div class="modal-dialog modal-lg ">
+				<div class="modal-content">
+					<div class="modal-header row no-margin">
+						<div class="col-xs-12 paddingLRZero">
+							<div class="col-xs-8 paddingLRZero">
+								<h4>{App\Language::translate('LBL_TITLE_TYPE_DELETE', $MODULE)}</h4>
+							</div>
+							<div class="pull-right">
+								<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+							</div>
+						</div>
+					</div>
+					<div class="modal-body row">
+						<div class="col-xs-12">
+							<div class="col-xs-12 paddingLRZero marginBottom10px">
+								<div class="col-xs-4">
+									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="2">
+										{App\Language::translate('LBL_DELETE_THIS_EVENT', $MODULE)}
+									</button>
+								</div>
+								<div class="col-xs-8">
+									{App\Language::translate('LBL_DELETE_THIS_EVENT_DESCRIPTION', $MODULE)}
+								</div>
+							</div>
+							<div class="col-xs-12 paddingLRZero marginBottom10px">	
+								<div class="col-xs-4">
+									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
+										{App\Language::translate('LBL_DELETE_FUTURE_EVENTS', $MODULE)}
+									</button>
+								</div>
+								<div class="col-xs-8">
+									{App\Language::translate('LBL_DELETE_FUTURE_EVENTS_DESCRIPTION', $MODULE)}
+								</div>
+							</div>
+							<div class="col-xs-12 paddingLRZero marginBottom10px">	
+								<div class="col-xs-4">
+									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="1">
+										{App\Language::translate('LBL_DELETE_ALL_EVENTS', $MODULE)}
+									</button>
+								</div>
+								<div class="col-xs-8">
+									{App\Language::translate('LBL_DELETE_ALL_EVENTS_DESCRIPTION', $MODULE)}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="addEventRepeatUI">
 		<div>
 			<span>{App\Language::translate('LBL_REPEATEVENT', $MODULE_NAME)}&nbsp;{$RECURRING_INFORMATION['INTERVAL']} &nbsp;{App\Language::translate($RECURRING_INFORMATION['freqLabel'], $MODULE_NAME)}</span>

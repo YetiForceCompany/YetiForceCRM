@@ -211,6 +211,52 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	}
 
 	/**
+	 * Function to remove records
+	 */
+	public function delete()
+	{
+		switch ($this->typeSaving) {
+			case self::UPDATE_ALL_EVENTS:
+				$records = $this->getRecords($this->recordModel->get('followup'));
+				foreach ($records as $recordId => $data) {
+					if ($recordId !== $this->templateRecordId) {
+						Vtiger_Record_Model::getInstanceById($recordId)->delete();
+					}
+				}
+				break;
+			case self::UPDATE_FUTURE_EVENTS:
+				$recordsIds = $this->getRecords($this->recordModel->get('followup'));
+				$skip = true;
+				$omittedRecords = [];
+				foreach ($recordsIds as $recordId => $data) {
+					if ($skip && $data['date_start'] >= $this->recordModel->get('date_start')) {
+						$this->updateOmmitedRecords($omittedRecords, $data['date_start']);
+						$skip = false;
+					}
+					if ($skip) {
+						$omittedRecords [] = $recordId;
+						continue;
+					}
+					Vtiger_Record_Model::getInstanceById($recordId)->delete();
+				}
+				break;
+			case self::UPDATE_THIS_EVENT:
+				if ($this->templateRecordId === $this->recordModel->get('followup')) {
+					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
+					$newFollowUp = 0;
+					$skip = true;
+					foreach ($recordsIds as $recordId => $data) {
+						if ($data['date_start'] >= $this->recordModel->get('date_start')) {
+							App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordId, 'reapeat' => 1], ['followup' => $this->templateRecordId])->execute();
+							break;
+						}
+					}
+				}
+				break;
+		}
+	}
+
+	/**
 	 * Check if recurrence rule is never ending
 	 * @param type $recurrenceRule
 	 * @return type
@@ -261,7 +307,7 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	public function getRecords($id)
 	{
 		return (new App\Db\Query())->from('vtiger_activity')
-				->where(['followup' => $id, 'deleted' => 0])
+				->where(['followup' => $id, 'deleted' => 0, 'reapeat' => 1])
 				->orderBy(['date_start' => SORT_ASC])
 				->indexBy('activityid')
 				->all();
@@ -275,7 +321,7 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	public function getLastRecord($id)
 	{
 		return (new App\Db\Query())->from('vtiger_activity')
-				->where(['followup' => $id, 'deleted' => 0])
+				->where(['followup' => $id, 'deleted' => 0, 'reapeat' => 1])
 				->orderBy(['date_start' => SORT_DESC])
 				->limit(1)
 				->indexBy('activityid')

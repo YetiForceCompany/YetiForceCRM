@@ -117,6 +117,7 @@ $languageStrings = [
 	'LBL_DAY_IN_WEEK' => 'dzień tygodnia',
 	'LBL_NEVER' => 'nigdy',
 	'LBL_COUNT' => 'ilość wystąpień',
+	// Recuring Events
 	'FL_RECURRENCE' => 'Powtarzanie',
 	'FL_REAPEAT' => 'Powtarzaj',
 	'LBL_REAPEAT_IN' => 'Powtarzaj w',
@@ -127,5 +128,12 @@ $languageStrings = [
 	'LBL_UPDATE_FUTURE_EVENTS_DESCRIPTION' => 'Zmodyfikowane zostaną tylko kolejne rekordy',
 	'LBL_UPDATE_ALL_EVENTS' => 'Aktulizuj wszystkie rekordy',
 	'LBL_UPDATE_ALL_EVENTS_DESCRIPTION' => 'Zaktualizowane zostaną wszystkie rekordy w serii',
+	'LBL_TITLE_TYPE_DELETE' => 'Tryb usuwania',
+	'LBL_DELETE_THIS_EVENT' => 'Usuń tylko ten rekord',
+	'LBL_DELETE_THIS_EVENT_DESCRIPTION' => 'Usunięty zostanie tylko ten rekord, pozostałe nie ulegną zmianie',
+	'LBL_DELETE_FUTURE_EVENTS' => 'Usuń kolejne rekordy',
+	'LBL_DELETE_FUTURE_EVENTS_DESCRIPTION' => 'Usunięte zostaną tylko kolejne rekordy',
+	'LBL_DELETE_ALL_EVENTS' => 'Usuń wszystkie rekordy',
+	'LBL_DELETE_ALL_EVENTS_DESCRIPTION' => 'Usunięte zostaną wszystkie rekordy w serii',
 ];
 
