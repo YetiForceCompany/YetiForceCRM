@@ -4,6 +4,7 @@
 /.buildpath
 /_private
 README.md
+/user_privileges/cron.php
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php

@@ -293,12 +293,20 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSystemInfo()
 	{
-		return [
+		$params = [
 			'LBL_PHPINI' => php_ini_loaded_file(),
 			'LBL_LOG_FILE' => ini_get('error_log'),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
-			'LBL_PHP_SAPI' => PHP_SAPI,
+			'LBL_PHP_SAPI' => PHP_SAPI
 		];
+		if (file_exists('user_privileges/cron.php')) {
+			include 'user_privileges/cron.php';
+			$params['LBL_CRON_PHP'] = $vphp;
+			$params['LBL_CRON_PHPINI'] = $ini;
+			$params['LBL_CRON_LOG_FILE'] = $log;
+			$params['LBL_CRON_PHP_SAPI'] = $sapi;
+		}
+		return $params;
 	}
 
 	/**

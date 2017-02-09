@@ -97,3 +97,5 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 } else {
 	echo('Access denied!');
 }
+file_put_contents('user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
+
