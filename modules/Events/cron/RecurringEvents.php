@@ -13,7 +13,9 @@ $dataReader = (new App\Db\Query())->select(['followup'])
 		])->distinct('followup')->createCommand()->query();
 $recurringEvents = Events_RecuringEvents_Model::getInstance();
 while ($row = $dataReader->read()) {
-	$recurringEvents->updateNeverEndingEvents($row['followup']);
+	if (!empty($row['followup'])) {
+		$recurringEvents->updateNeverEndingEvents($row['followup']);
+	}
 }
 
 
