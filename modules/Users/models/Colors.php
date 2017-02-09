@@ -148,16 +148,18 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		} else {
 			$set = ['coloractive' => $colorActive];
 		}
-
-		$sqlParams[] = $params['id'];
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $params['id']])->execute();
 		return $color;
 	}
 
+	/**
+	 * Function to update color for module
+	 * @param array $params
+	 */
 	public static function updateModuleColor($params)
 	{
 		\App\Db::getInstance()->createCommand()
-				->update('vtiger_tab', ['color' => str_replace("#", "", $params['color'])], ['tabid' => $params['id']])
-				->execute();
+			->update('vtiger_tab', ['color' => str_replace('#', '', $params['color'])], ['tabid' => $params['id']])
+			->execute();
 	}
 }
