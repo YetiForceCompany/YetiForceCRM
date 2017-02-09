@@ -46,7 +46,7 @@ class ConfReport extends \App\SystemWarnings\Template
 			$this->status = 0;
 			$this->link = 'index.php?parent=Settings&module=ConfReport&view=Index';
 			$this->linkTitle = \App\Language::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
-			$this->description = \App\Language::translateArgs('LBL_CONFIG_REPORT_DESC', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
+			$this->description = \App\Language::translate('LBL_CONFIG_REPORT_DESC', 'Settings:SystemWarnings');
 		}
 	}
 }

@@ -379,8 +379,13 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				aletrsContainer.find('.warning').first().removeClass('hide');
 				aletrsContainer.find('.warning .btn').click(function (e) {
 					var btn = $(this);
+					var save = true;
 					if (btn.hasClass('ajaxBtn')) {
 						if (btn.data('params') == undefined) {
+							var form = btn.closest('form');
+							if (form.hasClass('validateForm') && !form.validationEngine('validate')) {
+								save = false;
+							}
 							var params = btn.closest('form').serializeArray().reduce(function (obj, item) {
 								obj[item.name] = item.value;
 								return obj;
@@ -388,15 +393,16 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						} else {
 							var params = btn.data('params');
 						}
-						console.log(params);
-						AppConnector.request({
-							module: app.getModuleName(),
-							parent: app.getParentModuleName(),
-							action: 'SystemWarnings',
-							mode: 'update',
-							id: btn.closest('.warning').data('id'),
-							params: params,
-						});
+						if (save) {
+							AppConnector.request({
+								module: app.getModuleName(),
+								parent: app.getParentModuleName(),
+								action: 'SystemWarnings',
+								mode: 'update',
+								id: btn.closest('.warning').data('id'),
+								params: params,
+							});
+						}
 					}
 					if (btn.hasClass('cancel')) {
 						AppConnector.request({
@@ -406,11 +412,22 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							mode: 'cancel'
 						});
 					}
-					aletrsContainer.find('.warning').first().remove();
-					if (aletrsContainer.find('.warning').length) {
-						aletrsContainer.find('.warning').first().removeClass('hide');
+					if (save) {
+						aletrsContainer.find('.warning').first().remove();
+						if (aletrsContainer.find('.warning').length) {
+							aletrsContainer.find('.warning').first().removeClass('hide');
+						} else {
+							app.hideModalWindow(modal);
+						}
+					}
+				});
+				aletrsContainer.find('.input-group-addon input[type="checkbox"]').click(function (e) {
+					var btn = $(this);
+					var group = btn.closest('.input-group')
+					if (this.checked) {
+						group.find('input[type="text"]').attr("disabled", false);
 					} else {
-						app.hideModalWindow(modal);
+						group.find('input[type="text"]').attr("disabled", true);
 					}
 				});
 			});

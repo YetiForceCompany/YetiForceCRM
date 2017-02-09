@@ -10,6 +10,59 @@
 ********************************************************************************/
 -->*}
 {strip}
+	{if $WARNINGS}
+		<div id="systemWarningAletrs">
+			<div class="modal fade static">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel">
+								<span class="glyphicon glyphicon-warning-sign redColor" aria-hidden="true"></span>&nbsp;&nbsp;
+								{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="warnings">
+								{foreach from=$WARNINGS item=ITEM}
+									<div class="warning hide" data-id="{get_class($ITEM)}">
+										{if $ITEM->getTpl()}
+											{include file=$ITEM->getTpl()}
+										{else}
+											<h3 class="marginTB3">
+												{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}
+											</h3>
+											<p>
+												{$ITEM->getDescription()}
+											</p>
+											<div class="pull-right">
+												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
+													<button class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
+														<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
+													</button>&nbsp;&nbsp;
+												{/if}
+												{if $ITEM->getLink()}
+													<a class="btn btn-success" href="{$ITEM->getLink()}" target="_blank">
+														<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+														&nbsp;&nbsp;{$ITEM->linkTitle}
+													</a>&nbsp;&nbsp;
+												{/if}
+												<button class="btn btn-danger cancel">
+													<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+													&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
+												</button>
+											{/if}
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								{/foreach}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
 	<div class="settingsIndexPage">
 		<div class="">
 			<span class="col-md-3 settingsSummary">
