@@ -57,5 +57,9 @@ $languageStrings = [
 	'LBL_SOAP_LIBRARY' => 'SOAP',
 	'LBL_PHP_SAPI' => 'Server API',
 	'LBL_APCU_LIBRARY' => 'APCu',
-	'LBL_OPCACHE_LIBRARY' => 'OPcache'
+	'LBL_OPCACHE_LIBRARY' => 'OPcache',
+	'LBL_CRON_PHP' => 'Cron - Wersja PHP',
+	'LBL_CRON_PHPINI' => 'Cron - Konfiguracja PHP',
+	'LBL_CRON_LOG_FILE' => 'Cron - Logi błedów',
+	'LBL_CRON_PHP_SAPI' => 'Cron - Server API',
 ];
