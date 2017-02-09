@@ -16,9 +16,8 @@ if (isset($service)) {
 		echo "$service - Service is not active";
 		return;
 	}
-	if ($service == "customerportal") {
-		include('api/customerportal.php');
-	} elseif ($service == "mobile") {
+
+	if ($service == "mobile") {
 		include('api/mobile.php');
 	} elseif ($service == "yetiportal") {
 		include('api/yetiportal.php');
