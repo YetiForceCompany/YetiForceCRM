@@ -62,24 +62,5 @@
 			</div>
 		</div>
 	</div>
-	<div id="addEventRepeatUI">
-		<div>
-			<span>{App\Language::translate('LBL_REPEATEVENT', $MODULE_NAME)}&nbsp;{$RECURRING_INFORMATION['INTERVAL']} &nbsp;{App\Language::translate($RECURRING_INFORMATION['freqLabel'], $MODULE_NAME)}</span>
-		</div>
-		<div>
-			<span>{$RECURRING_INFORMATION['repeat_str']}</span>
-		</div>
-		<div>
-			{App\Language::translate('LBL_UNTIL', $MODULE)}&nbsp;
-			{if isset($RECURRING_INFORMATION['COUNT'])} 
-				{if $RECURRING_INFORMATION['COUNT'] eq 0} 
-					{App\Language::translate('LBL_NEVER', $MODULE)}
-				{else}
-					{App\Language::translate('LBL_COUNT', $MODULE)}: &nbsp;{$RECURRING_INFORMATION['COUNT']}
-				{/if}
-			{else}
-				{$RECURRING_INFORMATION['UNTIL']}
-			{/if}
-		</div>
-	</div>
+	{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}
 {/strip}

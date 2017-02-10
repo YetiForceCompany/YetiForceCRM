@@ -39,13 +39,16 @@ class Events_Save_Action extends Calendar_Save_Action
 		return $recordModel;
 	}
 
-	public function getRecordModelFromRequest(\Vtiger_Request $request)
+	/**
+	 * Function to get the record model based on the request parameters
+	 * @param Vtiger_Request $request
+	 * @return Vtiger_Record_Model
+	 */
+	public function getRecordModelFromRequest(Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
 			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
-		} else {
-			$recordModel->set('recurrence', $request->get('recurrence'));
 		}
 		return $recordModel;
 	}
