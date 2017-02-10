@@ -32,7 +32,7 @@
 							<div class="col-sm-10">
 								<select class="select2 form-control" name="industry">
 									{foreach from=$INDUSTRY_LIST item=ITEM}
-									<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+										<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 									{/foreach}
 								</select>
 							</div>

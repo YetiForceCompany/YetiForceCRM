@@ -239,7 +239,7 @@ jQuery.Class('Install_Index_Js', {}, {
 	registerEventForStep6: function () {
 		jQuery('input[name="step7"]').on('click', function () {
 			if ($('form[name="step6"]').validationEngine('validate')) {
-				jQuery('#progressIndicator').show();
+				jQuery('#progressIndicator').show().removeClass('hide');
 				jQuery('form[name="step6"]').submit().hide();
 			}
 		});

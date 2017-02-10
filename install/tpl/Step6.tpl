@@ -32,6 +32,19 @@
 								</tr>
 								<tr>
 									<td>
+										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+									</td>
+									<td>
+										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
+											<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+											{foreach from=$INDUSTRY item=ITEM}
+												<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+											{/foreach}
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
 										{App\Language::translate('LBL_STREET', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>

@@ -190,6 +190,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
 		$configFile->createConfigFile();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
+		$this->viewer->assign('INDUSTRY', Install_Utils_Model::getIndustryList());
 		echo $this->viewer->fetch('Step6.tpl');
 	}
 

@@ -39,6 +39,11 @@ class Install_Utils_Model
 		return $currencies;
 	}
 
+	public static function getCurrencyList()
+	{
+		return require 'install/models/Industry.php';
+	}
+
 	/**
 	 * Function checks if its mysql type
 	 * @param type $dbType

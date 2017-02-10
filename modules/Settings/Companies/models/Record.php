@@ -107,6 +107,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'tabid':
 				$value = \App\Module::getModuleName($value);
 				break;
+			case 'industry':
+				$value = App\Language::translate($value);
+				break;
 			case 'logo_login':
 			case 'logo_main':
 			case 'logo_mail':
