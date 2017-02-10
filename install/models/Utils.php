@@ -39,7 +39,11 @@ class Install_Utils_Model
 		return $currencies;
 	}
 
-	public static function getCurrencyList()
+	/**
+	 * Returns list of industry
+	 * @return array
+	 */
+	public static function getIndustryList()
 	{
 		return require 'install/models/Industry.php';
 	}
