@@ -27214,7 +27214,7 @@ insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`p
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (2,'Chancellery',2,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (3,'Voivodeship Office',3,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (4,'Marshal Office',4,1);
-insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (5,'Poviat',5,1);
+insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (5,'District',5,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (6,'City/Township/District',6,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (7,'Social Welfare Centre',7,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (8,'Water and Sewerage Company',8,1);
@@ -27223,7 +27223,7 @@ insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`p
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (11,'Court of justice',11,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (12,'Attorney General\'s Office',12,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (13,'Other',44,1);
-insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (14,'Deweloperzy',14,1);
+insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (14,'Developers',14,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (15,'Real Estate',15,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (16,'Primary Schools',16,1);
 insert  into `vtiger_subindustry`(`subindustryid`,`subindustry`,`sortorderid`,`presence`) values (17,'High Schools',17,1);
