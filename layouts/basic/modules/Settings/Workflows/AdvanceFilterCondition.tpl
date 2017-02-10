@@ -32,10 +32,6 @@
 						{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 						selected="selected"
 					{/if}
-					{if ($MODULE_MODEL->get('name') eq 'Events') and ($FIELD_NAME eq 'recurringtype')}
-						{assign var=PICKLIST_VALUES value = Calendar_Field_Model::getReccurencePicklistValues()}
-						{$FIELD_INFO['picklistvalues'] = $PICKLIST_VALUES}
-					{/if}
 					data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
                     {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 					{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 

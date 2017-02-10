@@ -30,7 +30,7 @@ class Activity extends CRMEntity
 	public $table_index = 'activityid';
 	public $reminder_table = 'vtiger_activity_reminder';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_activitycf' => 'activityid');
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
@@ -63,7 +63,6 @@ class Activity extends CRMEntity
 		'Start Time' => Array('activity', 'time_start'),
 		'End Date' => Array('activity' => 'due_date'),
 		'End Time' => Array('activity', 'time_end'),
-		'Recurring Type' => Array('recurringevents' => 'recurringtype'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
 	public $range_fields = Array(
@@ -87,7 +86,6 @@ class Activity extends CRMEntity
 		'Related to' => 'link',
 		'Start Date & Time' => 'date_start',
 		'End Date & Time' => 'due_date',
-		'Recurring Type' => 'recurringtype',
 		'Assigned To' => 'assigned_user_id',
 		'Start Date' => 'date_start',
 		'Start Time' => 'time_start',
@@ -183,7 +181,6 @@ class Activity extends CRMEntity
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
-					'recurringid' => $recurid
 				]);
 			}
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
@@ -194,7 +191,6 @@ class Activity extends CRMEntity
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
-					'recurringid' => $recurid
 				]);
 			}
 		}
@@ -210,7 +206,6 @@ class Activity extends CRMEntity
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $recordId])->execute();
-		$db->createCommand()->delete('vtiger_recurringevents', ['activityid' => $recordId])->execute();
 		parent::deletePerminently($moduleName, $recordId);
 	}
 
@@ -246,7 +241,7 @@ class Activity extends CRMEntity
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityCalendar', array('vtiger_groupsCalendar', 'vtiger_usersCalendar', 'vtiger_lastModifiedByCalendar'));
-		$matrix->setDependency('vtiger_activity', array('vtiger_activitycf', 'vtiger_activity_reminder', 'vtiger_recurringevents'));
+		$matrix->setDependency('vtiger_activity', array('vtiger_activitycf', 'vtiger_activity_reminder'));
 
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
@@ -265,9 +260,6 @@ class Activity extends CRMEntity
 		}
 		if ($queryPlanner->requireTable("vtiger_activity_reminder")) {
 			$query .= " 	left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid";
-		}
-		if ($queryPlanner->requireTable("vtiger_recurringevents")) {
-			$query .= " 	left join vtiger_recurringevents on vtiger_recurringevents.activityid = vtiger_activity.activityid";
 		}
 		if ($queryPlanner->requireTable("vtiger_accountRelCalendar")) {
 			$query .= " 	left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link";

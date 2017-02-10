@@ -189,7 +189,7 @@ class Vtiger_AdvancedFilter_Helper
 						if (in_array($moduleModel->getName(), array('Calendar', 'Events')) && $fieldName != 'modifiedby' && $fieldModel->getDisplayType() == 3) {
 							/* Restricting the following fields(Event module fields) for "Calendar" module
 							 * time_start, time_end, eventstatus, activitytype,	visibility, duration_hours,
-							 * duration_minutes, reminder_time, recurringtype, notime
+							 * duration_minutes, reminder_time, notime
 							 */
 							continue;
 						}

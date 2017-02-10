@@ -2092,9 +2092,6 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable('vtiger_activity_reminder')) {
 				$query .= ' left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid';
 			}
-			if ($this->queryPlanner->requireTable('vtiger_recurringevents')) {
-				$query .= ' left join vtiger_recurringevents on vtiger_recurringevents.activityid = vtiger_activity.activityid';
-			}
 			if ($this->queryPlanner->requireTable('vtiger_accountRelCalendar')) {
 				$query .= ' left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link';
 			}
@@ -3152,12 +3149,12 @@ class ReportRun extends CRMEntity
 				}
 
 				$field_permitted = false;
-				if (\App\Field::getColumnPermission($premod, $field_columnname )) {
+				if (\App\Field::getColumnPermission($premod, $field_columnname)) {
 					$field_permitted = true;
 				} else {
 					$mod = explode(':', $secmod);
 					foreach ($mod as $key) {
-						if (\App\Field::getColumnPermission($key, $field_columnname )) {
+						if (\App\Field::getColumnPermission($key, $field_columnname)) {
 							$field_permitted = true;
 						}
 					}

@@ -30,7 +30,7 @@ class VTSendNotificationTask extends VTTask
 		if (is_numeric($this->template) && $this->template > 0) {
 			$db = PearDatabase::getInstance();
 			$entityId = $recordModel->getId();
-			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = 0 WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
+			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
 			$result = $db->pquery($sql, array($entityId));
 
 			$moduleModel = $recordModel->getModule();

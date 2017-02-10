@@ -156,7 +156,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
 					'activity_id' => $this->getId(),
-					'recurringid' => 0
 				])->execute();
 			}
 		} else {

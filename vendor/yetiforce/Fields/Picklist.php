@@ -122,7 +122,6 @@ class Picklist
 			'recurring_frequency' => 'recurring_frequency_id',
 			'payment_duration' => 'payment_duration_id',
 			'language' => 'id',
-			'recurringtype' => 'recurringeventid',
 			'duration_minutes' => 'minutesid'
 		];
 		if (isset($pickListIds[$fieldName])) {

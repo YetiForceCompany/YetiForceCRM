@@ -3488,7 +3488,6 @@ CREATE TABLE `vtiger_activity` (
   `location` varchar(150) DEFAULT NULL,
   `notime` smallint(1) NOT NULL DEFAULT '0',
   `visibility` varchar(50) NOT NULL DEFAULT 'all',
-  `recurringtype` varchar(200) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `smownerid` smallint(19) unsigned DEFAULT NULL,
   `allday` tinyint(1) DEFAULT NULL,
@@ -3522,8 +3521,7 @@ CREATE TABLE `vtiger_activity_reminder` (
   `activity_id` int(11) NOT NULL,
   `reminder_time` int(11) NOT NULL,
   `reminder_sent` int(2) NOT NULL,
-  `recurringid` int(19) NOT NULL,
-  PRIMARY KEY (`activity_id`,`recurringid`),
+  PRIMARY KEY (`activity_id`),
   CONSTRAINT `vtiger_activity_reminder_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7647,38 +7645,6 @@ CREATE TABLE `vtiger_recurring_frequency` (
 /*Table structure for table `vtiger_recurring_frequency_seq` */
 
 CREATE TABLE `vtiger_recurring_frequency_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_recurringevents` */
-
-CREATE TABLE `vtiger_recurringevents` (
-  `recurringid` int(19) NOT NULL AUTO_INCREMENT,
-  `activityid` int(19) NOT NULL,
-  `recurringdate` date DEFAULT NULL,
-  `recurringtype` varchar(30) DEFAULT NULL,
-  `recurringfreq` int(19) DEFAULT NULL,
-  `recurringinfo` varchar(50) DEFAULT NULL,
-  `recurringenddate` date DEFAULT NULL,
-  PRIMARY KEY (`recurringid`),
-  KEY `fk_1_vtiger_recurringevents` (`activityid`),
-  CONSTRAINT `fk_1_vtiger_recurringevents` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_recurringtype` */
-
-CREATE TABLE `vtiger_recurringtype` (
-  `recurringeventid` int(19) NOT NULL AUTO_INCREMENT,
-  `recurringtype` varchar(200) NOT NULL,
-  `sortorderid` int(19) NOT NULL DEFAULT '0',
-  `presence` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`recurringeventid`),
-  UNIQUE KEY `recurringtype_status_idx` (`recurringtype`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_recurringtype_seq` */
-
-CREATE TABLE `vtiger_recurringtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -13,7 +13,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 
 	public function isEditable()
 	{
-		$nonEditablePickListValues = array('duration_minutes', 'payment_duration', 'recurringtype', 'recurring_frequency', 'visibility');
+		$nonEditablePickListValues = array('duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility');
 		if (in_array($this->getName(), $nonEditablePickListValues))
 			return false;
 		return true;

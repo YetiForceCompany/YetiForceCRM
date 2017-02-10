@@ -78,6 +78,7 @@ class Webservice extends \App\Db\Importers\Base
 
 	public function data()
 	{
-		
+		$this->data = [
+		];
 	}
 }

@@ -545,7 +545,6 @@ class Functions
 			'vtiger_leaddetails:secondaryemail' => 'V',
 			//Documents Related Fields
 			'vtiger_senotesrel:crmid' => 'V',
-			'vtiger_recurringevents:recurringtype' => 'V',
 			//HelpDesk Related Fields
 			'vtiger_troubletickets:parent_id' => 'V',
 			'vtiger_troubletickets:product_id' => 'V',

@@ -59,7 +59,6 @@ class Field extends FieldBasic
 		$specialNameSpacedPicklists = [
 			'opportunity_type' => 'opptypeid',
 			'duration_minutes' => 'minutesid',
-			'recurringtype' => 'recurringeventid'
 		];
 		// Fix Table ID column names
 		$fieldName = (string) $this->name;

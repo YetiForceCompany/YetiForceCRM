@@ -182,7 +182,6 @@ class Base2 extends \App\Db\Importers\Base
 					'location' => $this->stringType(150),
 					'notime' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'visibility' => $this->stringType(50)->notNull()->defaultValue('all'),
-					'recurringtype' => $this->stringType(200),
 					'deleted' => $this->smallInteger(1)->defaultValue(0),
 					'smownerid' => $this->smallInteger(19)->unsigned(),
 					'allday' => $this->smallInteger(1),
@@ -220,10 +219,9 @@ class Base2 extends \App\Db\Importers\Base
 					'activity_id' => $this->integer()->notNull(),
 					'reminder_time' => $this->integer()->notNull(),
 					'reminder_sent' => $this->integer(2)->notNull(),
-					'recurringid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-					['activity_reminder_pk', ['activity_id', 'recurringid']]
+					['activity_reminder_pk', ['activity_id']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3959,7 +3957,6 @@ class Base2 extends \App\Db\Importers\Base
 					[9, 249, 0, 0],
 					[9, 250, 0, 0],
 					[9, 251, 0, 0],
-					[9, 252, 0, 0],
 					[9, 253, 0, 0],
 					[9, 254, 0, 0],
 					[16, 255, 0, 0],
@@ -3968,7 +3965,6 @@ class Base2 extends \App\Db\Importers\Base
 					[16, 258, 0, 0],
 					[16, 259, 0, 0],
 					[16, 260, 0, 0],
-					[16, 261, 0, 0],
 					[16, 262, 0, 0],
 					[16, 263, 0, 0],
 					[16, 264, 0, 0],
@@ -6032,7 +6028,6 @@ class Base2 extends \App\Db\Importers\Base
 					[9, 249, 'duration_minutes', 'vtiger_activity', 1, 16, 'duration_minutes', 'Duration Minutes', 1, 0, '', 100, 18, 19, 3, 'I~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[9, 250, 'location', 'vtiger_activity', 1, 1, 'location', 'Location', 1, 0, '', 100, 19, 19, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[9, 251, 'reminder_time', 'vtiger_activity_reminder', 1, 30, 'reminder_time', 'Send Reminder', 1, 0, '', 100, 1, 19, 3, 'I~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[9, 252, 'recurringtype', 'vtiger_activity', 1, 16, 'recurringtype', 'Recurrence', 1, 1, '', 100, 6, 19, 3, 'O~O', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[9, 253, 'notime', 'vtiger_activity', 1, 56, 'notime', 'No Time', 1, 0, '', 100, 20, 19, 3, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[9, 254, 'modifiedby', 'vtiger_crmentity', 1, 52, 'modifiedby', 'Last Modified By', 1, 0, '', 100, 22, 19, 3, 'V~O', 3, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[16, 255, 'subject', 'vtiger_activity', 1, 2, 'subject', 'Subject', 1, 0, '', 100, 1, 39, 1, 'V~M', 0, 1, 'BAS', 1, '', 1, '', NULL, 0, 0],
@@ -6041,7 +6036,6 @@ class Base2 extends \App\Db\Importers\Base
 					[16, 258, 'time_start', 'vtiger_activity', 1, 2, 'time_start', 'Time Start', 1, 0, '', 100, 4, 39, 3, 'T~M', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[16, 259, 'due_date', 'vtiger_activity', 1, 23, 'due_date', 'End Date', 1, 0, '', 100, 5, 39, 1, 'D~M~OTH~GE~date_start~Start Date & Time', 0, 4, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[16, 260, 'time_end', 'vtiger_activity', 1, 2, 'time_end', 'End Time', 1, 0, '', 100, 5, 39, 3, 'T~M', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
-					[16, 261, 'recurringtype', 'vtiger_activity', 1, 16, 'recurringtype', 'Recurrence', 1, 1, '', 100, 6, 117, 1, 'O~O', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[16, 262, 'duration_hours', 'vtiger_activity', 1, 63, 'duration_hours', 'Duration', 1, 0, '', 100, 7, 39, 3, 'I~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[16, 263, 'duration_minutes', 'vtiger_activity', 1, 16, 'duration_minutes', 'Duration Minutes', 1, 0, '', 100, 8, 39, 3, 'I~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[16, 264, 'process', 'vtiger_activity', 1, 66, 'process', 'FL_PROCESS', 1, 0, '', 100, 2, 119, 1, 'I~O', 2, 10, 'BAS', 1, '', 1, '', NULL, 0, 0],

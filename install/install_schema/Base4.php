@@ -40,42 +40,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_recurringevents' => [
-				'columns' => [
-					'recurringid' => $this->primaryKey(),
-					'activityid' => $this->integer()->notNull(),
-					'recurringdate' => $this->date(),
-					'recurringtype' => $this->stringType(30),
-					'recurringfreq' => $this->integer(),
-					'recurringinfo' => $this->stringType(50),
-					'recurringenddate' => $this->date(),
-				],
-				'index' => [
-					['recurringevents_activity_idx', 'activityid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_recurringtype' => [
-				'columns' => [
-					'recurringeventid' => $this->primaryKey(),
-					'recurringtype' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-				],
-				'index' => [
-					['recurringtype_status_idx', 'recurringtype', true],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_recurringtype_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_rel_mod' => [
 				'columns' => [
 					'rel_modid' => $this->primaryKey(),
@@ -2443,7 +2407,6 @@ class Base4 extends \App\Db\Importers\Base
 			['vtiger_projectmilestonecf_ibfk_1', 'vtiger_projectmilestonecf', 'projectmilestoneid', 'vtiger_projectmilestone', 'projectmilestoneid', 'CASCADE', 'RESTRICT'],
 			['vtiger_projecttask_ibfk_1', 'vtiger_projecttask', 'projecttaskid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['vtiger_projecttaskcf_ibfk_1', 'vtiger_projecttaskcf', 'projecttaskid', 'vtiger_projecttask', 'projecttaskid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_recurringevents', 'vtiger_recurringevents', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_relcriteria', 'vtiger_relcriteria', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
 			['vtiger_relcriteria_grouping_ibfk_1', 'vtiger_relcriteria_grouping', 'queryid', 'vtiger_relcriteria', 'queryid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_report', 'vtiger_report', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
@@ -2551,21 +2514,6 @@ class Base4 extends \App\Db\Importers\Base
 				'columns' => ['id'],
 				'values' => [
 					[20],
-				]
-			],
-			'vtiger_recurringtype' => [
-				'columns' => ['recurringeventid', 'recurringtype', 'sortorderid', 'presence'],
-				'values' => [
-					[2, 'Daily', 1, 1],
-					[3, 'Weekly', 2, 1],
-					[4, 'Monthly', 3, 1],
-					[5, 'Yearly', 4, 1],
-				]
-			],
-			'vtiger_recurringtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[5],
 				]
 			],
 			'vtiger_rel_mod' => [
