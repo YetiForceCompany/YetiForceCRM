@@ -29,31 +29,37 @@ class Install_ConfigFileUtils_Model
 	public function __construct($configFileParameters)
 	{
 		if (isset($configFileParameters['db_hostname'])) {
-			if (strpos($configFileParameters['db_hostname'], ":")) {
-				list($this->dbHostname, $this->dbPort) = explode(":", $configFileParameters['db_hostname']);
-			} else {
-				$this->dbHostname = $configFileParameters['db_hostname'];
-			}
+			$this->dbHostname = $configFileParameters['db_hostname'];
 		}
-		if (isset($configFileParameters['db_username']))
+		if (isset($configFileParameters['db_username'])) {
 			$this->dbUsername = $configFileParameters['db_username'];
-		if (isset($configFileParameters['db_password']))
+		}
+		if (isset($configFileParameters['db_password'])) {
 			$this->dbPassword = $configFileParameters['db_password'];
-		if (isset($configFileParameters['db_name']))
+		}
+		if (isset($configFileParameters['db_name'])) {
 			$this->dbName = $configFileParameters['db_name'];
-		if (isset($configFileParameters['db_type']))
+		}
+		if (isset($configFileParameters['db_type'])) {
 			$this->dbType = $configFileParameters['db_type'];
-		if (isset($configFileParameters['site_URL']))
+		}
+		if (isset($configFileParameters['site_URL'])) {
 			$this->siteUrl = $configFileParameters['site_URL'];
-		if (isset($configFileParameters['admin_email']))
+		}
+		if (isset($configFileParameters['admin_email'])) {
 			$this->adminEmail = $configFileParameters['admin_email'];
-		if (isset($configFileParameters['currency_name']))
+		}
+		if (isset($configFileParameters['currency_name'])) {
 			$this->currencyName = $configFileParameters['currency_name'];
-		if (isset($configFileParameters['vt_charset']))
+		}
+		if (isset($configFileParameters['vt_charset'])) {
 			$this->vtCharset = $configFileParameters['vt_charset'];
-		// update default port
-		if ($this->dbPort == '')
+		}
+		if (isset($configFileParameters['db_port'])) {
+			$this->dbPort = $configFileParameters['db_port'];
+		} else {
 			$this->dbPort = self::getDbDefaultPort($this->dbType);
+		}
 		$this->default_language = ($GLOBALS['default_language'] != '') ? $GLOBALS['default_language'] : $configFileParameters['default_language'];
 		$this->timezone = ( isset($_SESSION['config_file_info']['timezone']) ) ? $_SESSION['config_file_info']['timezone'] : $configFileParameters['timezone'];
 		$this->cacheDir = 'cache/';
@@ -100,7 +106,7 @@ class Install_ConfigFileUtils_Model
 					$buffer = str_replace('_MASTER_CURRENCY_', $this->currencyName, $buffer);
 
 					/* replace the application unique key variable */
-					$buffer = str_replace('_VT_APP_UNIQKEY_', md5(time() + rand(1, 9999999) + md5(__DIR__)), $buffer);
+					$buffer = str_replace('_VT_APP_UNIQKEY_', sha1(time() + rand(1, 9999999)), $buffer);
 
 					/* replace support email variable */
 					$buffer = str_replace('_LANG_', $this->default_language, $buffer);

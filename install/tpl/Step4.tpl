@@ -25,22 +25,32 @@
 								<tr><th colspan="2">{vtranslate('LBL_DATABASE_INFORMATION', 'Install')}</th></tr>
 							</thead>
 							<tbody>
-								<tr><td>{vtranslate('LBL_DATABASE_TYPE', 'Install')}<span class="no">*</span></td>
+								<tr>
+									<td>{vtranslate('LBL_DATABASE_TYPE', 'Install')}<span class="no">*</span></td>
 									<td>{vtranslate('MySQL', 'Install')}<input type="hidden" value="mysql" name="db_type"></td>
 								</tr>
-								<tr><td>{vtranslate('LBL_HOST_NAME', 'Install')}<span class="no">*</span></td>
+								<tr>
+									<td>{vtranslate('LBL_HOST_NAME', 'Install')}<span class="no">*</span></td>
 									<td><input type="text" class="form-control" value="{$DB_HOSTNAME}" name="db_hostname"></td>
 								</tr>
-								<tr><td>{vtranslate('LBL_USERNAME', 'Install')}<span class="no">*</span></td>
+								<tr>
+									<td>{vtranslate('LBL_HOST_PORT', 'Install')}<span class="no">*</span></td>
+									<td><input type="text" class="form-control" value="3306" name="db_port"></td>
+								</tr>
+								<tr>
+									<td>{vtranslate('LBL_USERNAME', 'Install')}<span class="no">*</span></td>
 									<td><input type="text" class="form-control" value="{$DB_USERNAME}" name="db_username"></td>
 								</tr>
-								<tr><td>{vtranslate('LBL_PASSWORD','Install')}</td>
+								<tr>
+									<td>{vtranslate('LBL_PASSWORD','Install')}</td>
 									<td><input type="password" class="form-control" value="{$DB_PASSWORD}" name="db_password"></td>
 								</tr>
-								<tr><td>{vtranslate('LBL_DB_NAME', 'Install')}<span class="no">*</span></td>
+								<tr>
+									<td>{vtranslate('LBL_DB_NAME', 'Install')}<span class="no">*</span></td>
 									<td><input type="text" class="form-control" value="{$DB_NAME}" name="db_name"></td>
 								</tr>
-								<tr><td colspan="2"><input type="checkbox" name="create_db"/><div class="chkbox"></div><label for="checkbox-1">{vtranslate('LBL_CREATE_NEW_DB','Install')}</label></td>
+								<tr>
+									<td colspan="2"><input type="checkbox" name="create_db"/><div class="chkbox"></div><label for="checkbox-1">{vtranslate('LBL_CREATE_NEW_DB','Install')}</label></td>
 								</tr>
 								<tr class="hide" id="root_user"><td>{vtranslate('LBL_ROOT_USERNAME', 'Install')}<span class="no">*</span></td>
 									<td><input type="text" class="form-control" value="" name="db_root_username"></td>

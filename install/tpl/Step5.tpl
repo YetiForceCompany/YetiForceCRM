@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<form class="form-horizontal" name="step5" method="post" action="Install.php">
-		<input type="hidden" name="mode" value="Step7" />
+		<input type="hidden" name="mode" value="Step6" />
 		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
 		<input type="hidden" name="lang" value="{$LANG}" />
 		<div class="row main-container">
@@ -22,7 +22,7 @@
 					<div class="offset2 row" id="errorMessage">
 						<div class="col-md-12">
 							<div class="alert alert-danger">
-								{$DB_CONNECTION_INFO['error_msg']}
+								{$DB_CONNECTION_INFO['error_msg']}<br/>
 								{$DB_CONNECTION_INFO['error_msg_info']}
 							</div>
 						</div>
@@ -38,7 +38,7 @@
 						<tbody>
 							<tr>
 								<td>
-									{vtranslate('LBL_DATABASE_TYPE','Install')}<span class="no">*</span>
+									{vtranslate('LBL_DATABASE_TYPE','Install')}
 								</td>
 								<td>
 									{vtranslate('MySQL','Install')}
@@ -46,7 +46,21 @@
 							</tr>
 							<tr>
 								<td>
-									{vtranslate('LBL_DB_NAME','Install')}<span class="no">*</span>
+									{vtranslate('LBL_HOST_NAME','Install')}
+								</td><td>
+									{$INFORMATION['db_hostname']}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									{vtranslate('LBL_HOST_PORT','Install')}
+								</td><td>
+									{$INFORMATION['db_port']}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									{vtranslate('LBL_DB_NAME','Install')}
 								</td><td>
 									{$INFORMATION['db_name']}
 								</td>
@@ -62,7 +76,7 @@
 						<tbody>
 							<tr>
 								<td>
-									{vtranslate('LBL_URL','Install')}<span class="no">*</span>
+									{vtranslate('LBL_URL','Install')}
 								</td>
 								<td>
 									<a href="#">{$SITE_URL}</a>
@@ -70,7 +84,7 @@
 							</tr>
 							<tr>
 								<td>
-									{vtranslate('LBL_CURRENCY','Install')}<span class="no">*</span>
+									{vtranslate('LBL_CURRENCY','Install')}
 								</td>
 								<td>
 									{$INFORMATION['currency_name']}
@@ -95,14 +109,14 @@
 							</tr>
 							<tr>
 								<td>
-									{vtranslate('LBL_EMAIL','Install')}<span class="no">*</span>
+									{vtranslate('LBL_EMAIL','Install')}
 								</td><td>
 									{$INFORMATION['admin_email']}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									{vtranslate('LBL_TIME_ZONE','Install')}<span class="no">*</span>
+									{vtranslate('LBL_TIME_ZONE','Install')}
 								</td>
 								<td>
 									{$INFORMATION['timezone']}
@@ -110,7 +124,7 @@
 							</tr>
 							<tr>
 								<td>
-									{vtranslate('LBL_DATE_FORMAT','Install')}<span class="no">*</span>
+									{vtranslate('LBL_DATE_FORMAT','Install')}
 								</td>
 								<td>
 									{$INFORMATION['dateformat']}
@@ -121,7 +135,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled" {/if} name="back"/>
+								<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" {if $DB_CONNECTION_INFO['flag'] eq true} disabled= "disabled"{else} onclick="window.history.back()"{/if} />
 								{if $DB_CONNECTION_INFO['flag'] eq true}
 									<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step6"/>
 								{/if}
@@ -132,17 +146,4 @@
 			</div>
 		</div>
 	</form>
-	<div id="progressIndicator" class="row main-container hide">
-		<div class="inner-container">
-			<div class="inner-container">
-				<div class="row">
-					<div class="span12 welcome-div alignCenter">
-						<h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-						<img src="../layouts/basic/skins/images/install_loading.gif"/>
-						<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 {/strip}

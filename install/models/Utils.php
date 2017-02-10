@@ -62,9 +62,21 @@ class Install_Utils_Model
 	 * @param string $root_password
 	 * @return <Array>
 	 */
-	public static function checkDbConnection($db_type, $db_hostname, $db_username, $db_password, $db_name, $create_db = false, $create_utf8_db = true, $root_user = '', $root_password = '')
+	public static function checkDbConnection(Vtiger_Request $request)
 	{
-		$dbCheckResult = array();
+		$create_db = false;
+		$createDB = $request->get('create_db');
+		if ($createDB == 'on') {
+			$root_user = $request->get('db_username');
+			$root_password = $request->getRaw('db_password');
+			$create_db = true;
+		}
+		$db_type = $request->get('db_type');
+		$db_hostname = $request->get('db_hostname');
+		$db_username = $request->get('db_username');
+		$db_password = $request->getRaw('db_password');
+		$db_name = $request->get('db_name');
+		$create_utf8_db = true;
 
 		$db_type_status = false; // is there a db type?
 		$db_server_status = false; // does the db server connection exist?
@@ -74,11 +86,12 @@ class Install_Utils_Model
 		//Checking for database connection parameters
 		if ($db_type) {
 			$conn = false;
+			$pdoException = '';
 			try {
-				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8' . ';port=' . $dbconfig['db_port'];
-				$conn = new PDO($dsn, $db_username, $db_password);
+				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8;port=' . $request->get('db_port');
+				$conn = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 			} catch (PDOException $e) {
-				
+				$pdoException = $e->getMessage();
 			}
 			$db_type_status = true;
 			if ($conn) {
@@ -114,6 +127,7 @@ class Install_Utils_Model
 				}
 			}
 		}
+		$dbCheckResult = array();
 		$dbCheckResult['db_utf8_support'] = $db_utf8_support;
 
 		$error_msg = '';
@@ -123,7 +137,8 @@ class Install_Utils_Model
 			$error_msg = \App\Language::translate('ERR_DATABASE_CONNECTION_FAILED', 'Install') . '. ' . \App\Language::translate('ERR_INVALID_MYSQL_PARAMETERS', 'Install');
 			$error_msg_info = \App\Language::translate('MSG_LIST_REASONS', 'Install') . ':<br>
 					-  ' . \App\Language::translate('MSG_DB_PARAMETERS_INVALID', 'Install') . '
-					-  ' . \App\Language::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
+					<br>-  ' . \App\Language::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
+			$error_msg_info .= "<br><br>$pdoException";
 		} elseif (self::isMySQL($db_type) && $mysql_server_version < 4.1) {
 			$error_msg = $mysql_server_version . ' -> ' . \App\Language::translate('ERR_INVALID_MYSQL_VERSION', 'Install');
 		} elseif ($db_creation_failed) {

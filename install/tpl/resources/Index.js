@@ -204,7 +204,6 @@ jQuery.Class('Install_Index_Js', {}, {
 				}
 				jQuery('#errorMessage').html(content).show();
 			} else {
-
 				var config = {
 					db_hostname: document.step4.db_hostname.value,
 					db_username: document.step4.db_username.value,
@@ -218,9 +217,7 @@ jQuery.Class('Install_Index_Js', {}, {
 					dateformat: document.step4.dateformat.value,
 					timezone: document.step4.timezone.value
 				}
-
 				window.localStorage.setItem('yetiforce_install', JSON.stringify(config));
-
 				jQuery('form[name="step4"]').submit();
 			}
 		});
@@ -241,10 +238,7 @@ jQuery.Class('Install_Index_Js', {}, {
 	},
 	registerEventForStep6: function () {
 		jQuery('input[name="step7"]').on('click', function () {
-			var industry = jQuery('select[name="industry"]').val();
-			if (industry.length < 1) {
-				alert(jQuery('[name="selectIndustry"]').val());
-			} else {
+			if ($('form[name="step6"]').validationEngine('validate')) {
 				jQuery('#progressIndicator').show();
 				jQuery('form[name="step6"]').submit().hide();
 			}
@@ -272,6 +266,7 @@ jQuery.Class('Install_Index_Js', {}, {
 			}
 			window.history.back();
 		});
+		jQuery('form').validationEngine(app.validationEngineOptions);
 		this.registerEventForStep1();
 		this.registerEventForStep3();
 		this.registerEventForStep4();
@@ -281,9 +276,7 @@ jQuery.Class('Install_Index_Js', {}, {
 		$('select[name="lang"]').change(this.changeLanguage);
 	}
 });
-
 jQuery(document).ready(function () {
 	var install = new Install_Index_Js();
 	install.registerEvents();
 })
-
