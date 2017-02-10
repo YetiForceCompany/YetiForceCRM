@@ -2171,31 +2171,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'yetiforce_mobile_keys' => [
-				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
-					'user' => $this->smallInteger(19)->unsigned()->notNull(),
-					'service' => $this->stringType(50)->notNull(),
-					'key' => $this->stringType(30)->notNull(),
-					'privileges_users' => $this->text(),
-				],
-				'index' => [
-					['mobile_keys_idx', ['user', 'service']],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'yetiforce_mobile_pushcall' => [
-				'columns' => [
-					'user' => $this->integer()->notNull(),
-					'number' => $this->stringType(20),
-				],
-				'primaryKeys' => [
-					['mobile_pushcall_pk', 'user']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'yetiforce_proc_marketing' => [
 				'columns' => [
 					'type' => $this->stringType(30),
@@ -7409,7 +7384,6 @@ class Base4 extends \App\Db\Importers\Base
 					[65, 14, 'LBL_CONFREPORT', 'adminIcon-server-configuration', 'LBL_CONFREPORT_DESCRIPTION', 'index.php?parent=Settings&module=ConfReport&view=Index', 1, 0, 0, NULL],
 					[66, 12, 'LBL_ACTIVITY_TYPES', 'adminIcon-calendar-types', 'LBL_ACTIVITY_TYPES_DESCRIPTION', 'index.php?parent=Settings&module=Calendar&view=ActivityTypes', 1, 0, 0, NULL],
 					[67, 2, 'LBL_WIDGETS_MANAGEMENT', 'adminIcon-widgets-configuration', 'LBL_WIDGETS_MANAGEMENT_DESCRIPTION', 'index.php?module=WidgetsManagement&parent=Settings&view=Configuration', 15, 0, 0, NULL],
-					[69, 5, 'LBL_MOBILE_KEYS', 'adminIcon-mobile-applications', 'LBL_MOBILE_KEYS_DESCRIPTION', 'index.php?parent=Settings&module=MobileApps&view=MobileKeys', 6, 0, 0, NULL],
 					[70, 2, 'LBL_TREES_MANAGER', 'adminIcon-field-folders', 'LBL_TREES_MANAGER_DESCRIPTION', 'index.php?module=TreesManager&parent=Settings&view=List', 11, 0, 0, NULL],
 					[71, 2, 'LBL_MODTRACKER_SETTINGS', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_SETTINGS_DESCRIPTION', 'index.php?module=ModTracker&parent=Settings&view=List', 5, 0, 0, NULL],
 					[72, 2, 'LBL_HIDEBLOCKS', 'adminIcon-filed-hide-bloks', 'LBL_HIDEBLOCKS_DESCRIPTION', 'index.php?module=HideBlocks&parent=Settings&view=List', 12, 0, 0, NULL],

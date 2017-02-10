@@ -17,9 +17,7 @@ if (isset($service)) {
 		return;
 	}
 
-	if ($service == "mobile") {
-		include('api/mobile.php');
-	} elseif ($service == "yetiportal") {
+	if ($service == "yetiportal") {
 		include('api/yetiportal.php');
 	} elseif ($service == "firefox") {
 		include('api/firefoxtoolbar.php');

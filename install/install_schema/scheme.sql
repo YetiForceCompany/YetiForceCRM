@@ -9570,26 +9570,6 @@ CREATE TABLE `yetiforce_menu` (
   CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `yetiforce_mobile_keys` */
-
-CREATE TABLE `yetiforce_mobile_keys` (
-  `id` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user` smallint(19) unsigned NOT NULL,
-  `service` varchar(50) NOT NULL,
-  `key` varchar(30) NOT NULL,
-  `privileges_users` text,
-  PRIMARY KEY (`id`),
-  KEY `user` (`user`,`service`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `yetiforce_mobile_pushcall` */
-
-CREATE TABLE `yetiforce_mobile_pushcall` (
-  `user` int(19) NOT NULL,
-  `number` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `yetiforce_proc_marketing` */
 
 CREATE TABLE `yetiforce_proc_marketing` (
