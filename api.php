@@ -17,9 +17,7 @@ if (isset($service)) {
 		return;
 	}
 
-	if ($service == "yetiportal") {
-		include('api/yetiportal.php');
-	} elseif ($service == "firefox") {
+	if ($service == "firefox") {
 		include('api/firefoxtoolbar.php');
 	} elseif ($service == "wordplugin") {
 		include('api/wordplugin.php');
