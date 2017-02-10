@@ -9448,33 +9448,6 @@ CREATE TABLE `w_yf_portal_user` (
   KEY `user_name_2` (`user_name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `w_yf_pos_actions` */
-
-CREATE TABLE `w_yf_pos_actions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `w_yf_pos_users` */
-
-CREATE TABLE `w_yf_pos_users` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `pass` varchar(255) NOT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  `server_id` int(11) NOT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `last_name` varchar(255) DEFAULT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `login_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_name` (`user_name`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `w_yf_servers` */
 
 CREATE TABLE `w_yf_servers` (

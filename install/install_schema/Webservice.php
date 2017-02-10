@@ -56,35 +56,6 @@ class Webservice extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'w_#__pos_actions' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'label' => $this->stringType(),
-					'name' => $this->stringType(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'w_#__pos_users' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'user_name' => $this->stringType(50)->notNull(),
-					'user_id' => $this->integer()->notNull(),
-					'pass' => $this->stringType()->notNull(),
-					'action' => $this->stringType(),
-					'server_id' => $this->integer()->notNull(),
-					'status' => $this->smallInteger(1)->defaultValue(0),
-					'last_name' => $this->stringType(),
-					'first_name' => $this->stringType(),
-					'email' => $this->stringType(),
-					'login_time' => $this->dateTime(),
-				],
-				'index' => [
-					['pos_users_idx', ['user_name', 'status']],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'w_#__servers' => [
 				'columns' => [
 					'id' => $this->primaryKey(),
@@ -107,18 +78,6 @@ class Webservice extends \App\Db\Importers\Base
 
 	public function data()
 	{
-		$this->data = [
-			'w_#__pos_actions' => [
-				'columns' => ['id', 'label', 'name'],
-				'values' => [
-					[1, 'LBL_SYNCHRONIZE_PRODUCTS', 'GetProducts'],
-					[2, 'LBL_SYNCHRONIZE_ORDERS', 'SetSSingleOrders'],
-					[3, 'LBL_SYNCHRONIZE_PRODUCTS_IMAGES', 'GetImage'],
-					[4, 'LBL_SYNCHRONIZE_STORAGES', 'GetIStorages'],
-					[5, 'LBL_CANCEL_ORDERS', 'CancelSSingleOrders'],
-					[6, 'LBL_SYNCHRONIZE_TREES', 'GetTree'],
-				]
-			],
-		];
+		
 	}
 }
