@@ -1,12 +1,12 @@
 <?php
 
 /**
- * UIType Poviat Address Field Class
+ * UIType District Address Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class Vtiger_PoviatAddress_UIType extends Vtiger_Base_UIType
+class Vtiger_DistrictAddress_UIType extends Vtiger_Base_UIType
 {
 
 	public function isAjaxEditable()
@@ -20,7 +20,7 @@ class Vtiger_PoviatAddress_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/PoviatAddress.tpl';
+		return 'uitypes/DistrictAddress.tpl';
 	}
 
 	/**
@@ -29,6 +29,6 @@ class Vtiger_PoviatAddress_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDetailViewTemplateName()
 	{
-		return 'uitypes/PoviatAddressDetailView.tpl';
+		return 'uitypes/DistrictAddressDetailView.tpl';
 	}
 }
