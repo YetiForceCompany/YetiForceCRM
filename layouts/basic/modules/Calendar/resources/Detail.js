@@ -15,8 +15,6 @@ Vtiger_Detail_Js("Calendar_Detail_Js", {
 								} else {
 									Vtiger_Helper_Js.showPnotify(data.error.message);
 								}
-							},
-							function (error, err) {
 							}
 					);
 				});

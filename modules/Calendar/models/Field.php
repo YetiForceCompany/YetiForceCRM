@@ -49,8 +49,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			return 'datetime';
 		} else if ($this->get('uitype') == '30') {
 			return 'reminder';
-		} else if ($this->getName() == 'recurringtype') {
-			return 'recurrence';
 		}
 		return parent::getFieldDataType();
 	}

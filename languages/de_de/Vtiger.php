@@ -1449,8 +1449,6 @@ $jsLanguageStrings = [
 	'JS_CHANGES_WILL_BE_LOST' => 'Sie haben die Daten noch nicht gespeichert. Die Änderungen gehen verloren.',
 	'JS_CLOSE' => 'Schließen',
 	'JS_CONFIRM_MARK_AS_HELD' => 'Markieren Sie den Eintrag im Kalender als abgeschlossen?',
-	'JS_TODO_MARKED_AS_COMPLETED' => 'Markiert als abgeschlossen',
-	'JS_EVENT_MARKED_AS_HELD' => 'Markiert als abgeschlossen',
 	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Ereignisse in der Zukunft können nicht als abgeschlossen markiert werden',
 	'Generate default PDF' => 'Standard-PDF generieren',
 	//Inventory module Translations

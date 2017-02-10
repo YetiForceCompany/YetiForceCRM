@@ -1434,8 +1434,6 @@ $jsLanguageStrings = [
 	'JS_CHANGES_WILL_BE_LOST' => 'Vous n\'avez pas sauvegardé vos données, les modifications seront perdues.',
 	'JS_CLOSE' => 'Fermer',
 	'JS_CONFIRM_MARK_AS_HELD' => 'Marqué comme terminé?',
-	'JS_TODO_MARKED_AS_COMPLETED' => 'Marqué comme fini',
-	'JS_EVENT_MARKED_AS_HELD' => 'Marqué comme terminé',
 	'JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD' => 'Les évenements futurs ne peuvent être marqués comme terminé',
 	'Generate default PDF' => 'Générer le PDF par défaut',
 	//Inventory module Translations

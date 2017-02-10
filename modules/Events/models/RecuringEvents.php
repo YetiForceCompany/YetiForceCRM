@@ -58,8 +58,7 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();
-		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		$instance->recordModel = $recordModel;
+		$instance->recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$instance->isNew = $request->isEmpty('record');
 		if (!$instance->isNew) {
 			$instance->templateRecordId = $request->get('record');

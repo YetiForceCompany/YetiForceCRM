@@ -13,6 +13,7 @@ require_once('include/utils/CommonUtils.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('include/database/PearDatabase.php');
 require_once('modules/Calendar/Activity.php');
+require_once('modules/Calendar/Date.php');
 
 class Appointment
 {
