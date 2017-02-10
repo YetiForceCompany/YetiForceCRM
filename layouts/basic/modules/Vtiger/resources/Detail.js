@@ -2119,31 +2119,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
-	saveCommentModal: function (element, moreBtn) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var currentTarget = element;
-		var commentMode = moreBtn.data('mode');
-		var closestCommentBlock = element.closest('.addCommentBlock');
-		var commentContent = closestCommentBlock.find('.commentcontent');
-		var commentContentValue = commentContent.val();
-		var errorMsg;
-		if (commentContentValue == "") {
-			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
-			commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
-			aDeferred.reject();
-			return aDeferred.promise();
-		}
-		if (commentMode == "edit") {
-			var editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
-		}
-		element.attr('disabled', 'disabled');
-		var commentInfoHeader = moreBtn.closest('.commentDetails').find('.commentInfoHeader');
-		var commentId = commentInfoHeader.data('commentid');
-		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
-		return aDeferred.promise();
-	},
 	/**
 	 * Function to display a new comments
 	 */
