@@ -4065,8 +4065,8 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_picklist_dependency' => [
 				'columns' => ['id', 'tabid', 'sourcefield', 'targetfield', 'sourcevalue', 'targetvalues', 'criteria'],
 				'values' => [
-					[1, 7, 'industry', 'subindustry', 'Administration', '["Ministry","Chancellery","Voivodeship Office","Marshal Office","Poviat","City\\/Township\\/District","Social Welfare Centre","Water and Sewerage Company","Voivodeship Job Centre","Poviat Job Centre","Court of justice","Attorney General\'s Office","Other"]', NULL],
-					[2, 7, 'industry', 'subindustry', 'Construction Industry', '["Other","Deweloperzy","Real Estate"]', NULL],
+					[1, 7, 'industry', 'subindustry', 'Administration', '["Ministry","Chancellery","Voivodeship Office","Marshal Office","District","City\\/Township\\/District","Social Welfare Centre","Water and Sewerage Company","Voivodeship Job Centre","District Job Center","Court of justice","Attorney General\'s Office","Other"]', NULL],
+					[2, 7, 'industry', 'subindustry', 'Construction Industry', '["Other","Developers","Real Estate"]', NULL],
 					[3, 7, 'industry', 'subindustry', 'Education', '["Other","Primary Schools","High Schools"]', NULL],
 					[4, 7, 'industry', 'subindustry', 'Power Industry', '[""]', NULL],
 					[5, 7, 'industry', 'subindustry', 'Finance', '["Other","Banking","Capital Market","Financial Services","Investments","Insurance"]', NULL],

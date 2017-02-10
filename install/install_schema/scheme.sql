@@ -875,6 +875,7 @@ CREATE TABLE `s_yf_companies` (
   `name` varchar(100) NOT NULL,
   `short_name` varchar(100) DEFAULT NULL,
   `default` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `industry` varchar(50) DEFAULT NULL,
   `street` varchar(150) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `code` varchar(30) DEFAULT NULL,

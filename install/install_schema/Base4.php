@@ -7580,7 +7580,7 @@ class Base4 extends \App\Db\Importers\Base
 					[7, 'Social Welfare Centre', 7, 1],
 					[8, 'Water and Sewerage Company', 8, 1],
 					[9, 'Voivodeship Job Centre', 9, 1],
-					[10, 'Poviat Job Centre', 10, 1],
+					[10, 'District Job Center', 10, 1],
 					[11, 'Court of justice', 11, 1],
 					[12, 'Attorney General\'s Office', 12, 1],
 					[13, 'Other', 44, 1],
