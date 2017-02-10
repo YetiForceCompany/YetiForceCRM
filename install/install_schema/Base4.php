@@ -8512,14 +8512,10 @@ class Base4 extends \App\Db\Importers\Base
 					[44, 303, 'taxes'],
 					[45, 304, 'inventoryLimit'],
 					[46, 305, 'multiReferenceValue'],
-					[47, 306, 'streetAddress'],
 					[49, 309, 'categoryMultipicklist'],
 					[50, 4, 'recordNumber'],
 					[51, 310, 'companySelect'],
 					[52, 342, 'recurrence'],
-					[53, 307, 'cityAddress'],
-					[54, 311, 'districtAddress'],
-					[55, 312, 'countryAddress'],
 				]
 			],
 			'vtiger_ws_operation' => [
