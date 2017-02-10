@@ -11,7 +11,6 @@
 /* +********   active services   *********** */
 //List of active services. To enable you must uncomment the appropriate line.
 $enabledServices = [
-	//'mobile',
 	//'yetiportal',
 	//'dav',
 	//'webservices',
