@@ -243,7 +243,7 @@ var Vtiger_Index_Js = {
 	},
 	registerCheckNotifications: function (repeat) {
 		var thisInstance = this;
-		var notificationsButton = jQuery('.notificationsNotice.quickAction.autoRefreshing');
+		var notificationsButton = jQuery('.notificationsNotice.autoRefreshing');
 		if (notificationsButton.length < 1) {
 			return false;
 		}
@@ -352,7 +352,7 @@ var Vtiger_Index_Js = {
 	 */
 	registerActivityReminder: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
-		if (activityReminder != 0 && jQuery('.remindersNotice.quickAction.autoRefreshing').length) {
+		if (activityReminder != 0 && jQuery('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();

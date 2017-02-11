@@ -700,11 +700,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		return label;
 	},
 	registerClearHistory: function () {
-		$(".historyBtn .clearHistory").click(function () {
+		$(".historyList .clearHistory").click(function () {
 			var key = 'yf_history_' + app.getMainParams('current_user_id');
 			localStorage.removeItem(key);
 			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
-			$(".historyBtn .dropdown-menu").html(htmlContent);
+			$(".historyList.dropdown-menu").html(htmlContent);
 		});
 	},
 	registerHotKeys: function () {
@@ -939,6 +939,9 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 
 		thisInstance.basicSearch();
+		$('.bodyHeader .dropdownMenu').on("click", function (e) {
+			$(this).next('ul').toggle();
+		});
 		jQuery('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);

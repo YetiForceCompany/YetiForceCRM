@@ -4546,9 +4546,6 @@ html,body,.baseContainer
 	.gridster .gs-w[data-col="11"] {
 		left: 0%!important;
 	}
-	.rightHeaderBtn{
-		display: none;
-	}
 	.actionMenuBtn{
 		display: block;
 	}
@@ -4662,9 +4659,6 @@ html,body,.baseContainer
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
 		z-index: 100;
-	}
-	.rightHeaderBtn{
-		display: block;
 	}
 	.actionMenuBtn{
 		display: none;
@@ -5536,9 +5530,22 @@ select.form-control {
 	background: #001f3f !important;
 	color: #fff !important; 
 }
-.bodyHeader .rightHeaderBtn .btn{
-	height: 34px;
+.bodyHeader .rightHeaderBtn{
+	margin-top: 7px;
 }
+.bodyHeader .rightHeaderBtn .glyphicon{
+	font-size: 18px;
+}
+.bodyHeader .rightHeaderBtn .fa{
+	font-size: 22px;
+}
+.bodyHeader .rightHeaderBtn a{
+	margin-left: 5px;
+}
+.bodyHeader .signOutButtonBlue{
+	border: 1px solid #ff0000;
+	color: #ff0000;
+} 
 .columnSorted{
 	background: #EAEAEA !important;
 }
