@@ -20,6 +20,7 @@ $languageStrings = [
 	'LBL_WEBSITE' => 'Website',
 	'LBL_ID1' => 'REGON number',
 	'LBL_ID2' => 'KRS number',
+	'LBL_INDUSTRY' => 'Industry',
 	'LBL_LOGO_LOGIN' => 'Company logo (login page)',
 	'LBL_LOGO_LOGIN_HEIGHT' => 'Logo height (login page)',
 	'LBL_LOGO_MAIN' => 'Company logo (visible after logging in)',
