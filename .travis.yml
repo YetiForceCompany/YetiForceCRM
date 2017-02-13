@@ -52,6 +52,7 @@ after_script:
 - cat tests/ListView.txt
 - cat tests/EditView.txt
 - cat tests/records.log
+- cat cache/logs/request.log
 - cat cache/logs/phpError.log
 - cat cache/logs/system.log
 - cat cache/logs/Importer.log
