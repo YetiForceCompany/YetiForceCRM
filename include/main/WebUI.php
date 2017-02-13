@@ -243,6 +243,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = false;
 			}
 			if (AppConfig::main('systemMode') === 'test') {
+				var_export($request->getAllRaw());
 				throw $e;
 			}
 		}
