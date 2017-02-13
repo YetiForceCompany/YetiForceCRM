@@ -212,10 +212,8 @@ class ModuleBasic
 	public function delete()
 	{
 		$moduleInstance = \Vtiger_Module_Model::getInstance($this->name);
-		require_once "modules/$this->name/$this->name.php";
-		$focus = new $this->name();
+		$focus = CRMEntity::getInstance($this->name);
 		$this->tableName = $focus->table_name;
-
 		if ($this->isentitytype) {
 			$this->deleteFromCRMEntity();
 			Access::deleteTools($this);
@@ -225,7 +223,6 @@ class ModuleBasic
 				$this->deinitWebservice();
 			}
 		}
-
 		$this->deleteIcons();
 		$this->unsetAllRelatedList($moduleInstance);
 		\ModComments_Module_Model::deleteForModule($moduleInstance);
@@ -245,6 +242,7 @@ class ModuleBasic
 		$this->deleteDir($moduleInstance);
 		$this->__delete();
 		self::syncfile();
+		\App\Cache::clear();
 	}
 
 	/**
