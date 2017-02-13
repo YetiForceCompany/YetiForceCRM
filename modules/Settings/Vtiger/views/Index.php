@@ -89,13 +89,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
-		if (!Vtiger_Session::has('SystemWarnings')) {
-			$warnings = \App\SystemWarnings::getWarnings('all');
-		} else {
-			$warnings = [];
-		}
+		$warnings = \App\SystemWarnings::getWarnings('all');
+
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		$viewer->assign('WARNINGS', $warnings);
+		$viewer->assign('WARNINGS', !Vtiger_Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
