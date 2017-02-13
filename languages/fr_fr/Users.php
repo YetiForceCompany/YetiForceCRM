@@ -34,9 +34,6 @@ $languageStrings = [
 	'Home Phone' => 'Téléphone domicile',
 	'INTERNAL_MAIL_COMPOSER' => 'Composeur mail',
 	'Language' => 'Langue',
-	'FL_AVAILABLE' => 'Available',
-	'FL_AUTO_ASSIGN_RECORDS' => 'Auto assign records',
-	'FL_RECORD_LIMIT_IN_MODULE' => 'Record limit in module',
 	'LBL_ABOUT_ME' => 'A propos de moi',
 	'LBL_ACTIVE_USERS' => 'Utilisateurs actifs',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
@@ -115,6 +112,7 @@ $languageStrings = [
 	'Street Address' => 'Adresse postale',
 	'Summary' => 'Résumé',
 	'Symbol Placement' => 'Positionnement des symboles ',
+	'Tag Cloud' => 'Nuage de Tag',
 	'Theme' => 'Théme',
 	'Time Zone' => 'Fuseau horaire',
 	'Title' => 'Titre',
@@ -228,7 +226,7 @@ $languageStrings = [
 	'Invalid username or password.' => 'Nom utilisateur ou mot de passe invalide.',
 	'Too many failed login attempts.' => 'Trop d\'échecs de connexion.',
 	'Outgoing mail server was not configured.' => 'Le serveur mail sortant n\'est pas configuré.',
-	'LBL_MAIL_WAITING_TO_SENT' => 'The email is waiting to be sent. It should be delivered within a couple of minutes.',
+	'Mail has been sent to your inbox, please check your e-mail.' => 'Un email vous a été envoyé, vérifiez vos emails.',
 	'Invalid Username or Email address.' => 'Nom d\'utilisateur ou adresse email invalide.',
 	'Please enter valid username' => 'Merci de saisir un utilisateur valide ',
 	'Please enater valid email address' => 'Merci de saisir une adresse email valide',
@@ -315,15 +313,14 @@ $languageStrings = [
 	'PLL_POSTPONED' => 'Retardé',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_COMPLETED' => 'Complété',
-	'LBL_SELECT_LAYOUT' => 'Select layout',
 	'LBL_SWITCH' => 'Echanger',
 	'LBL_SWITCH_USER' => 'Echanger utilisateur',
 	'LBL_SWITCH_TO_YOURSELF' => 'Echanger vers vous-même',
 ];
 
 $jsLanguageStrings = [
-	//Curency separator validation messages
-	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques.',
+	//Curency seperator validation messages
+	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques.',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Merci de saisir votre confirmation de mot de passe.',
 	'JS_ENTER_NEW_PASSWORD' => 'Saisir votre nouveau mot de passe.',
 	'JS_ENTER_OLD_PASSWORD' => 'Saisir votre ancien mot de passe.',
@@ -332,6 +329,5 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' échec. Un nouveau mot de passe doit être spécifié.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Ancien mot de passe saisi incorrect. Resaisir le mot de passe.',
 	'JS_REENTER_PASSWORDS' => 'Merci de resaisir les mots de passe.  Le \"nouveau mot de passe\" et \"sa confirmation\" ne sont pas identiques.',
-	'JS_USER_MAIL_EXIST' => 'Un utilisateur avec cette adresse email existe déjà',
 ];
 

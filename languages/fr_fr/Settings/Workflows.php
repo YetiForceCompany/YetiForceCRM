@@ -157,7 +157,6 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Etapes de ventes - Négotiations',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Mettre à jour les dates des événements générés lorsque la date de base est modifiée',
 	'LBL_CURRENT_USER' => 'Utilisateur connecté',
-	'LBL_SELECT_TEMPLATE' => 'Select template',
 	//workflow trigger types
 	'ONCE' => 'Une seule fois, Lorsque toutes les conditions sont remplies',
 	'ON_EVERY_SAVE' => 'A chaque modification d\'un enregistrement (eg. création, modification)',
@@ -171,6 +170,7 @@ $languageStrings = [
 	'EmailTempleteList' => 'Sélectionner un modèle d\'email à envoyer',
 	'Do you send all attachments' => 'Envoyer tous les attachements?',
 	'Select e-mail address' => 'Sélectionner l\'adresse email',
+	'Send a copy to email' => 'Envoyer une copie à email',
 	//workflow task types
 	'Send Mail' => 'Envoyer Mail',
 	'Invoke Custom Function' => 'Invoquer une fonction personnalisée',
@@ -188,7 +188,6 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Mettre à jour le temps de travail automatiquement',
 	'LBL_UPDATE_WORK_TIME' => 'Mettre à jour le temps de travail',
 	'LBL_UPDATE_RELATED_FIELD' => 'Mettre à jour l\'enregistrement lié',
-	'LBL_AUTO_ASSIGN' => 'Auto assign record',
 	//workflow add time
 	'Current Date' => 'Date courante',
 	'Current Time' => 'Heure courante',
@@ -221,8 +220,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Track changes',
 	'LBL_UPDATE_WORK_TIME' => 'Update working time',
 	'LBL_SKIP_CURRENT_USER' => 'Skip current user',
-	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'List of changes in record',
-	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'List of new values in record',
+	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'List of all changes in record',
+	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'List of all values in record',
 	//VTWatchdog
 	'LBL_SELECT_ACTION_TYPE' => 'Sélectionner le type de notification',
 	'LBL_SELECT_RECIPIENTS' => 'Destinataires',
@@ -253,10 +252,7 @@ $languageStrings = [
 	'Notify Contact On New comment added to ticket' => 'Notify Contact On New comment added to ticket',
 	'Security risk has been detected - Brute Force' => 'Security risk has been detected - Brute Force',
 	'Backup has been made' => 'Backup has been made',
-	'Notify Account On New comment added to ticket' => 'Notify Account On New comment added to ticket',
-	'LBL_OWNER_REKORD' => 'Record Owner',
-	'LBL_SMTP' => 'SMTP',
-	'LBL_CHECK_EMAIL_OPTOUT' => 'Verify if recipient agreed to receive e-mails',
+	'Notify Account On New comment added to ticket' => 'Notify Account On New comment added to ticket'
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Le même champ est sélectionné à multiples reprises',

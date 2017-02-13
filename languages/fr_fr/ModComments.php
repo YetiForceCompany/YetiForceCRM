@@ -26,7 +26,7 @@ $languageStrings = [
 	'ReasonToEdit' => 'Justification édition',
 	//Email notifications
 	'LBL_ADDED_COMMENT_TO_TICKET' => 'Un commentaire a été ajouté au ticket',
-	'LBL_NEW_COMMENT_FOR_TICKET' => 'A comment was added to the ticket',
+	'LBL_NEW_COMMENT_FOR_TICKET' => 'Un commentaire a été ajouté au ticket, le contenu du commentaire est ci-dessous',
 	'LBL_NOTICE_WELCOME' => 'Bienvenue',
 	'LBL_NOTICE_FOOTER' => 'Si vous ne souhaitez pas recevoir de notifications de notre gestion de projet, merci de nous envoyer un email à <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Si vous n\'etes pas le destinataire du message merci de l\'effacer.',
 	'LBL_NOTICE_CREATED' => 'Crée par',

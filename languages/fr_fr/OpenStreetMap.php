@@ -17,6 +17,4 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'Copy to clipboard',
 	'LBL_CLIPBOARD' => 'Clipboard',
 	'LBL_INDIRECT_POINT' => 'Indirect point',
-	//Errors
-	'ERR_ADDRESS_NOT_FOUND' => 'Address not found',
 ];

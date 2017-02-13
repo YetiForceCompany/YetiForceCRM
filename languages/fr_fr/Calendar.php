@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_SAVE_AND_CLOSE' => 'Sauvegarder et Clôturer',
+	'JS_MOYENNE' => 'Moyenne',
 	'Activity Type' => 'Type d\'événements',
 	'Call' => 'Appel',
 	'Completed' => 'Terminé',
@@ -72,7 +74,7 @@ $languageStrings = [
 	'LBL_UNDO_LAST_IMPORT' => 'Annuler dernier import',
 	'Location' => 'Localisation',
 	'Medium' => 'Medium',
-	'Meeting' => 'Réunion',
+	'Meeting' => 'Rendez-vous',
 	'Not Started' => 'Non commencé',
 	'Pending Input' => 'Attente d\'informations',
 	'Cancelled' => 'Annulé',
@@ -116,7 +118,7 @@ $languageStrings = [
 	'LBL_IMPORT_ICS_ERROR_NO_RECORD' => 'Mauvais fichier ICS',
 	'LBL_IMPORT_ICS_SUCCESS' => 'Entrée(s) ajoutée(s) au calendrier',
 	'LBL_SHITF_TASK_SHOW' => 'Montrer ou Cacher : tâche',
-	'LBL_SHITF_MEETING_SHOW' => 'Montrer ou Cacher : réunion',
+	'LBL_SHITF_MEETING_SHOW' => 'Montrer ou Cacher : rendez-vous',
 	'LBL_SHITF_CALL_SHOW' => 'Montrer ou Cacher : utilisateur',
 	'LBL_SHIFT_USER_SHOW' => 'Montrer ou Cacher : utilisateur',
 	'Activity Type_BLOCK_SHIFT' => 'Montrer ou Cacher le bloc type d\'activités',
@@ -126,6 +128,7 @@ $languageStrings = [
 	'LBL_ON_SWITCH' => 'ON',
 	'LBL_OFF_SWITCH' => 'OFF',
 	'LBL_FOLLOWUP' => 'Événement lié',
+	
 	'PLL_PLANNED' => 'Planifié',
 	'PLL_IN_REALIZATION' => 'A faire',
 	'PLL_OVERDUE' => 'En retard',
@@ -137,16 +140,13 @@ $languageStrings = [
 	'LBL_NO_AVAILABLE_ACTIONS' => 'Pas d\'action disponible',
 	'LBL_CALENDAR_FILTERS' => 'Filtres',
 	'LBL_AUTO_FILL_DESCRIPTION' => 'Choisir la première date disponible comme date de début',
-	'LBL_CACHE_SELECTED_FILTERS' => 'La vue satndard du calendrier a été modifiée. Cliquez sur "Rafraichir la vue" pour la mettre à jour.',
-	'LBL_CACHE_CLEAR' => 'Rafraichir la vue',
-	'LBL_PROCESS' => 'Process',
-	'LBL_SAVE_AND_CLOSE' => 'Save and close',
-	'LBL_SHOW_LOCATION' => 'Show location',
-	'FL_RECURRENCE' => 'Repetition',
-	'FL_REAPEAT' => 'Repeat',
+	'LBL_CACHE_SELECTED_FILTERS' => 'La vue standard du calendrier a été modifiée. Cliquez sur \"Rafraîchir la vue\" pour la mettre à jour.',
+	'LBL_CACHE_CLEAR' => 'Rafraîchir la vue',
 ];
 
 $jsLanguageStrings = [
+	'JS_BASSE' => 'Basse',
+	'JS_HAUTE' => 'Haute',
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Vue calendrier ajoutée avec succès',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Couleur de la vue calendrier mise à jour avec succès',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Etes-vous sur de vouloir effacer cette vue calendrier ?',
@@ -172,7 +172,7 @@ $jsLanguageStrings = [
 	'JS_Call' => 'Appel',
 	'JS_Held' => 'Tenu',
 	'JS_Not Held' => 'Non tenu',
-	'JS_Meeting' => 'Réunion',
+	'JS_Meeting' => 'Rendez-vous',
 	'JS_Task' => 'Tâche',
 	'JS_Low' => 'Bas',
 	'JS_Normal' => 'Normal',
