@@ -55,7 +55,7 @@
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
 					<optgroup label="{vtranslate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_NAME),$SEARCH_VALUES)} selected {/if} >
+							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
 								{$OWNER_NAME}
 							</option>
 						{/foreach}
