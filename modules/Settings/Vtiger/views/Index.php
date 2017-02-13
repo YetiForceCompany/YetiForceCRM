@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Vtiger_Index_View extends Vtiger_Basic_View
@@ -76,6 +77,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
 	}
 
+	/**
+	 * Index
+	 * @param Vtiger_Request $request
+	 */
 	public function index(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -84,12 +89,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
-		if (Vtiger_Session::has('SystemWarnings')) {
+		if (!Vtiger_Session::has('SystemWarnings')) {
 			$warnings = \App\SystemWarnings::getWarnings('all');
 		} else {
 			$warnings = [];
 		}
-		$warnings = \App\SystemWarnings::getWarnings('all');
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
 		$viewer->assign('WARNINGS', $warnings);
 		$viewer->assign('USERS_COUNT', $usersCount);
