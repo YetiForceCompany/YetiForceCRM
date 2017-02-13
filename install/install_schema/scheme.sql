@@ -617,7 +617,7 @@ CREATE TABLE `o_yf_access_for_user` (
   `ip` varchar(100) DEFAULT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(255) DEFAULT NULL,
   `request` varchar(300) NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)

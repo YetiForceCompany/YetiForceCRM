@@ -130,7 +130,7 @@ class Log extends \App\Db\Importers\Base
 					'ip' => $this->stringType(100),
 					'module' => $this->stringType(30)->notNull(),
 					'url' => $this->stringType(300)->notNull(),
-					'agent' => $this->stringType()->notNull(),
+					'agent' => $this->stringType(),
 					'request' => $this->stringType(300)->notNull(),
 					'referer' => $this->stringType(300),
 				],
