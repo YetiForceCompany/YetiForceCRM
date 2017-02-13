@@ -23,7 +23,7 @@ class WebUI extends TestCase
 			$request = AppRequest::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
-
+			echo "Module: {$module['name']}" . PHP_EOL;
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
 		}

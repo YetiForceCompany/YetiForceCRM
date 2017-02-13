@@ -50,7 +50,7 @@ after_script:
 - cat tests/LoginPage.txt
 - cat tests/DetailView.txt
 - cat tests/ListView.txt
-- cattests/ EditView.txt
+- cat tests/EditView.txt
 - cat tests/records.log
 - cat cache/logs/phpError.log
 - cat cache/logs/system.log
