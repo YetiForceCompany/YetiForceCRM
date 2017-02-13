@@ -605,10 +605,12 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$inventoryMap = AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		$values = [];
-		foreach ($inventoryMap as $fieldToComplete => $mapping) {
-			if (isset($mapping[$sourceFieldName]) && method_exists($this, $mapping[$sourceFieldName])) {
-				$methodName = $mapping[$sourceFieldName];
-				$values[$fieldToComplete] = $this->$methodName($recordModel);
+		if ($inventoryMap) {
+			foreach ($inventoryMap as $fieldToComplete => $mapping) {
+				if (isset($mapping[$sourceFieldName]) && method_exists($this, $mapping[$sourceFieldName])) {
+					$methodName = $mapping[$sourceFieldName];
+					$values[$fieldToComplete] = $this->$methodName($recordModel);
+				}
 			}
 		}
 		return $values;
