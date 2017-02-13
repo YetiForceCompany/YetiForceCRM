@@ -61,11 +61,11 @@ $languageStrings = [
 	'LBL_CANCEL' => 'Annuler',
 	//End remove modal
 	'LBL_MORE_INFO' => 'Cliquer ici pour plus d\'information',
-	'LBL_COPY_MENU' => 'Copy menu',
+	'LBL_COPY_MENU' => 'Copier le menu',
 ];
 $jsLanguageStrings = [
-	'JS_EDIT' => 'Edit',
-	'JS_REMOVE' => 'Remove',
-	'JS_NO_DATA' => 'No menu',
-	'JS_TEST_HOTKEY_OK' => 'Hot key works properly.',
+	'JS_EDIT' => 'Modifier',
+	'JS_REMOVE' => 'Supprimer',
+	'JS_NO_DATA' => 'Pas de menu',
+	'JS_TEST_HOTKEY_OK' => 'Hot key OK.',
 ];

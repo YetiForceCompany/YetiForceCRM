@@ -1,12 +1,12 @@
 <?php
-/* +***********************************************************************************
+/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * *********************************************************************************** */
+ *************************************************************************************/
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_ALL_USERS' => 'Tous les utilisateurs',
@@ -50,7 +50,6 @@ $languageStrings = [
 	'LBL_BLOCK_COPY' => 'Copier les blocs',
 	'LBL_BLOCK_CUT' => 'Couper les blocs',
 	'LBL_BLOCK_PASTE' => 'Coller les blocs',
-	'LBL_AUTO_ASSIGN_RECORDS' => 'Auto assign records',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'Aucun droit de déplacer',
