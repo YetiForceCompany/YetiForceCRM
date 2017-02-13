@@ -28,20 +28,4 @@ class Contacts_Save_Action extends Vtiger_Save_Action
 		}
 		parent::process($request);
 	}
-
-	/**
-	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
-	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
-	{
-		$recordModel = parent::getRecordModelFromRequest($request);
-		$fieldModel = $recordModel->getModule()->getField('salutationtype');
-		if ($fieldModel && $request->has($fieldModel->getName())) {
-			$fieldName = $fieldModel->getName();
-			$recordModel->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null), $recordModel));
-		}
-		return $recordModel;
-	}
 }
