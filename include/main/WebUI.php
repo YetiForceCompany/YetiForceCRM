@@ -233,6 +233,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if (AppConfig::main('systemMode') === 'test') {
 				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
+				\App\Log::error($e->getMessage());
 				throw $e;
 			}
 		}
