@@ -23,11 +23,11 @@
 			</div>
 		</div>
 		<div class="pull-right">
-			<button class="btn btn-success ajaxBtn">
+			<button type="button" class="btn btn-success ajaxBtn">
 				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_SAVE','Settings:SystemWarnings')}
 			</button>&nbsp;&nbsp;
-			<button class="btn btn-danger cancel">
+			<button type="button" class="btn btn-danger cancel">
 				<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 			</button>

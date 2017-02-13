@@ -36,7 +36,7 @@
 											</p>
 											<div class="pull-right">
 												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
-													<button class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
+													<button type="button" class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
 														<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
 														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
 													</button>&nbsp;&nbsp;
@@ -47,12 +47,12 @@
 														&nbsp;&nbsp;{$ITEM->linkTitle}
 													</a>&nbsp;&nbsp;
 												{/if}
-												<button class="btn btn-danger cancel">
+												<button type="button" class="btn btn-danger cancel">
 													<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
 													&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 												</button>
-											{/if}
-										</div>
+											</div>
+										{/if}
 										<div class="clearfix"></div>
 									</div>
 								{/foreach}
