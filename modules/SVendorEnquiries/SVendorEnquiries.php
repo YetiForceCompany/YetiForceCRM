@@ -86,16 +86,7 @@ class SVendorEnquiries extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			\App\Fields\RecordNumber::setNumber($moduleName, 'S-C', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SVendorEnquiries']);
-
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
-			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
-				include_once 'modules/ModComments/ModComments.php';
-				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('SVendorEnquiries'));
-			}
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
