@@ -232,7 +232,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = false;
 			}
 			if (AppConfig::main('systemMode') === 'test') {
-				file_put_contents('cache/logs/request.log', $request->getAllRaw());
+				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
 				throw $e;
 			}
 		}
