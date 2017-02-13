@@ -27,7 +27,7 @@
 										{App\Language::translate('LBL_NAME', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]" placeholder="YetiForce Sp. z o.o.">
+										<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]">
 									</td>
 								</tr>
 								<tr>
@@ -48,7 +48,7 @@
 										{App\Language::translate('LBL_STREET', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_street" class="form-control" data-validation-engine="validate[required]" placeholder="ul. Marszałkowska 111">
+										<input type="text" name="company_street" class="form-control" data-validation-engine="validate[required]">
 									</td>
 								</tr>
 								<tr>
@@ -56,7 +56,7 @@
 										{App\Language::translate('LBL_CITY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]" placeholder="Warsaw">
+										<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]">
 									</td>
 								</tr>
 								<tr>
@@ -64,7 +64,7 @@
 										{App\Language::translate('LBL_CODE', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_code" class="form-control" data-validation-engine="validate[required]" placeholder="00-102">
+										<input type="text" name="company_code" class="form-control" data-validation-engine="validate[required]">
 									</td>
 								</tr>
 								<tr>
@@ -72,7 +72,7 @@
 										{App\Language::translate('LBL_STATE', 'Settings:Companies')}
 									</td>
 									<td>
-										<input type="text" name="company_state" class="form-control"  placeholder="00-102">
+										<input type="text" name="company_state" class="form-control">
 									</td>
 								</tr>
 								<tr>
@@ -80,7 +80,7 @@
 										{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]" placeholder="Poland">
+										<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]">
 									</td>
 								</tr>
 								<tr>
@@ -88,7 +88,7 @@
 										{App\Language::translate('LBL_PHONE', 'Settings:Companies')}
 									</td>
 									<td>
-										<input type="text" name="company_phone" class="form-control" data-validation-engine="validate[custom[phone]]" placeholder="+48 22 415 49 34">
+										<input type="text" name="company_phone" class="form-control" data-validation-engine="validate[custom[phone]]">
 									</td>
 								</tr>
 								<tr>
@@ -96,7 +96,7 @@
 										{App\Language::translate('LBL_WEBSITE', 'Settings:Companies')}
 									</td>
 									<td>
-										<input type="text" name="company_website" class="form-control" data-validation-engine="validate[custom[url]]" placeholder="yetiforce.com">
+										<input type="text" name="company_website" class="form-control" data-validation-engine="validate[custom[url]]" >
 									</td>
 								</tr>
 								<tr>
@@ -104,7 +104,7 @@
 										{App\Language::translate('LBL_EMAIL', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_email" class="form-control" data-validation-engine="validate[required,custom[email]]" placeholder="info@yetiforce.com">
+										<input type="text" name="company_email" class="form-control" data-validation-engine="validate[required,custom[email]]">
 									</td>
 								</tr>
 								<tr>
@@ -112,21 +112,9 @@
 										{App\Language::translate('LBL_VATID', 'Settings:Companies')}
 									</td>
 									<td>
-										<input type="text" name="company_vatid" class="form-control" placeholder="PL 118-000-24-25">
+										<input type="text" name="company_vatid" class="form-control">
 									</td>
 								</tr>
-								<!--
-								<tr>
-									<td>
-										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
-									</td>
-									<td>
-										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
-											<option value="Mr.">Pan</option>
-										</select>
-									</td>
-								</tr>
-								-->
 							</tbody>
 						</table>
 					</div>				
