@@ -20,6 +20,7 @@ $languageStrings = [
 	'LBL_WEBSITE' => 'Webseite',
 	'LBL_ID1' => 'Statistiknummer (REGON)',
 	'LBL_ID2' => 'Handelsregisternummer',
+	'LBL_INDUSTRY' => 'Industry',
 	'LBL_LOGO_LOGIN' => 'Firmenlogo (Anmeldeseite)',
 	'LBL_LOGO_LOGIN_HEIGHT' => 'Logo Höhe (Anmeldeseite)',
 	'LBL_LOGO_MAIN' => 'Firmenlogo (sichtbar wenn angemeldet)',
