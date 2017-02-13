@@ -828,14 +828,18 @@ class Functions
 	public function recurseCopy($src, $dest, $delete = false)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if (!file_exists($rootDir . $src))
+		if (!file_exists($rootDir . $src)) {
 			return;
-
+		}
+		if ($dest && substr($dest, -1) !== '/' && substr($dest, -1) !== '\\') {
+			$dest = $dest . DIRECTORY_SEPARATOR;
+		}
+		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isDir() && !file_exists($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName())) {
-				mkdir($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
+				mkdir($dest . $iterator->getSubPathName());
 			} elseif (!$item->isDir()) {
-				copy($item, $rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
 			}
 		}
 	}
