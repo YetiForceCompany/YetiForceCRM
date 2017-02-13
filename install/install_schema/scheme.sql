@@ -614,7 +614,7 @@ CREATE TABLE `o_yf_access_for_user` (
   `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
+  `ip` varchar(100) DEFAULT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
   `agent` varchar(255) NOT NULL,
