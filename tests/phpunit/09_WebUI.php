@@ -17,7 +17,7 @@ class WebUI extends TestCase
 	{
 		ob_start();
 		foreach (vtlib\Functions::getAllModules() as $id => &$module) {
-			if ($module['name'] === 'Events') {
+			if ($module['name'] === 'Events' || !\vtlib\Module::getInstance($id)) {
 				continue;
 			}
 			$request = AppRequest::init();
