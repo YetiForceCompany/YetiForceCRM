@@ -141,6 +141,9 @@ $languageStrings = [
 	'LBL_CACHE_CLEAR' => 'Wyczyść widok',
 	'LBL_PROCESS' => 'Proces',
 	'LBL_SAVE_AND_CLOSE' => 'Zapisz i zamknij',
+	'LBL_SHOW_LOCATION' => 'Pokaż lokalizacje',
+	'FL_RECURRENCE' => 'Powtarzanie',
+	'FL_REAPEAT' => 'Powtarzaj',
 ];
 $jsLanguageStrings = [
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Dodano kalendarz',

@@ -22,8 +22,6 @@ class Vtiger_AdvancedFilter_Helper
 			'Site Url' => '(general : (__VtigerMeta__) siteurl)',
 			'Portal Url' => '(general : (__VtigerMeta__) portalurl)',
 			'Record Id' => '(general : (__VtigerMeta__) recordId)',
-			'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
-			'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
 		];
 	}
 
@@ -66,41 +64,46 @@ class Vtiger_AdvancedFilter_Helper
 			'days later' => 'days later',
 			'equal to' => 'equal to',
 			'None' => 'None',
+			'is Watching Record' => 'is Watching Record',
+			'is Not Watching Record' => 'is Not Watching Record',
 		);
 	}
 
 	/**
 	 * Function to get the advanced filter option names by Field type
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return array(
-			'string' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'),
-			'salutation' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'),
-			'text' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'),
-			'url' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'),
-			'email' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'),
-			'phone' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'),
-			'integer' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
-			'double' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
-			'currency' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'),
-			'picklist' => array('is', 'is not', 'has changed', 'has changed to', 'starts with', 'ends with', 'contains', 'does not contain', 'is empty', 'is not empty'),
-			'multipicklist' => array('is', 'is not', 'has changed', 'has changed to'),
-			'datetime' => array('is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'),
-			'time' => array('is', 'is not', 'has changed', 'is not empty'),
-			'date' => array('is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
-				'days ago', 'days later', 'is not empty'),
-			'boolean' => array('is', 'is not', 'has changed'),
-			'reference' => array('has changed', 'is empty', 'is not empty'),
-			'owner' => array('has changed', 'is', 'is not'),
-			'recurrence' => array('is', 'is not', 'has changed'),
-			'comment' => array('is added'),
-			'image' => array('is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'),
-			'percentage' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'),
-			'multiReferenceValue' => array('contains', 'does not contain', 'has changed', 'is empty', 'is not empty'),
+		return [
+			'string' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'salutation' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'text' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'url' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'email' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'phone' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'has changed', 'is empty', 'is not empty'],
+			'integer' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'double' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'currency' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
+			'picklist' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
+			'multipicklist' => ['is', 'is not', 'has changed', 'has changed to'],
+			'datetime' => ['is', 'is not', 'has changed', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'is not empty'],
+			'time' => ['is', 'is not', 'has changed', 'is not empty'],
+			'date' => ['is', 'is not', 'has changed', 'between', 'before', 'after', 'is today', 'less than days ago', 'more than days ago', 'in less than', 'in more than',
+				'days ago', 'days later', 'is not empty'],
+			'boolean' => ['is', 'is not', 'has changed'],
+			'reference' => ['has changed', 'is empty', 'is not empty'],
+			'owner' => ['has changed', 'is', 'is not', 'is Watching Record', 'is Not Watching Record'],
+			'sharedOwner' => ['has changed', 'is', 'is not'],
+			'recurrence' => ['is', 'is not', 'has changed'],
+			'comment' => ['is added'],
+			'image' => ['is', 'is not', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty'],
+			'percentage' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'is not empty'],
+			'multiReferenceValue' => ['contains', 'does not contain', 'has changed', 'is empty', 'is not empty'],
+			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'rangeTime' => ['is empty', 'is not empty'],
-		);
+			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+		];
 	}
 
 	public static function getExpressions()
@@ -157,8 +160,7 @@ class Vtiger_AdvancedFilter_Helper
 
 	public static function getDateFilter($moduleName)
 	{
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
-		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
+		foreach (\App\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
 			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $moduleName);
@@ -176,7 +178,6 @@ class Vtiger_AdvancedFilter_Helper
 			return self::$recordStructure[$recordId];
 		}
 		$values = [];
-
 		$baseModuleModel = $moduleModel = $recordModel->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
@@ -188,7 +189,7 @@ class Vtiger_AdvancedFilter_Helper
 						if (in_array($moduleModel->getName(), array('Calendar', 'Events')) && $fieldName != 'modifiedby' && $fieldModel->getDisplayType() == 3) {
 							/* Restricting the following fields(Event module fields) for "Calendar" module
 							 * time_start, time_end, eventstatus, activitytype,	visibility, duration_hours,
-							 * duration_minutes, reminder_time, recurringtype, notime
+							 * duration_minutes, reminder_time, notime
 							 */
 							continue;
 						}
@@ -200,22 +201,20 @@ class Vtiger_AdvancedFilter_Helper
 							$fieldModel->setFieldInfo($fieldInfo);
 						}
 						// This will be used during editing task like email, sms etc
-						$fieldModel->set('workflow_columnname', $fieldName)->set('workflow_columnlabel', vtranslate($fieldModel->get('label'), $moduleModel->getName()));
-						// This is used to identify the field belongs to source module of workflow
-						$fieldModel->set('workflow_sourcemodule_field', true);
+						$fieldModel->set('workflow_columnname', "$(record : $fieldName)$");
 						$values[$blockLabel][$fieldName] = clone $fieldModel;
 					}
 				}
 			}
 		}
-
 		//All the reference fields should also be sent
 		$fields = $moduleModel->getFieldsByType(array('reference', 'owner', 'multireference'));
 		foreach ($fields as $parentFieldName => $field) {
 			$type = $field->getFieldDataType();
 			$referenceModules = $field->getReferenceList();
-			if ($type == 'owner')
+			if ($type === 'owner') {
 				$referenceModules = array('Users');
+			}
 			foreach ($referenceModules as $refModule) {
 				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
 				$blockModelList = $moduleModel->getBlocks();
@@ -224,9 +223,9 @@ class Vtiger_AdvancedFilter_Helper
 					if (!empty($fieldModelList)) {
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
-								$name = "($parentFieldName : ($refModule) $fieldName)";
+								$name = "$(reletedRecord : $parentFieldName|$fieldName|$refModule)$";
 								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
-								$fieldModel->set('workflow_columnname', $name)->set('workflow_columnlabel', $label);
+								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {
 									$fieldValueType = $recordModel->getFieldFilterValueType($name);
 									$fieldInfo = $fieldModel->getFieldInfo();

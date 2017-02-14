@@ -28,45 +28,37 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Tickets grouped by Status
 	 * @param type $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getTicketsByStatus($owner)
 	{
-		$db = PearDatabase::getInstance();
-		$moduleName = 'HelpDesk';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
-		$params = [];
 
-		$sql = 'SELECT COUNT(*) as count
-					, priority, vtiger_ticketpriorities.color,
-					CASE WHEN vtiger_troubletickets.status IS NULL || vtiger_troubletickets.status = "" THEN "" ELSE vtiger_troubletickets.status END AS statusvalue 
-				FROM
-					vtiger_troubletickets
-				INNER JOIN vtiger_crmentity
-					ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid && vtiger_crmentity.deleted=0
-				INNER JOIN vtiger_ticketstatus
-					ON vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus
-				INNER JOIN vtiger_ticketpriorities
-					ON vtiger_ticketpriorities.`ticketpriorities` = vtiger_troubletickets.`priority`
-				WHERE
-					vtiger_crmentity.`deleted` = 0';
+		$moduleName = 'HelpDesk';
+		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$query = new \App\Db\Query();
+		$query->select(['priority', 'vtiger_ticketpriorities.color',
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'statusvalue' => new \yii\db\Expression("CASE WHEN vtiger_troubletickets.status IS NULL OR vtiger_troubletickets.status = '' THEN '' ELSE vtiger_troubletickets.status END")])
+			->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_troubletickets.priority = vtiger_ticketpriorities.ticketpriorities')
+			->where(['vtiger_crmentity.deleted' => 0]);
+
 		if (!empty($owner)) {
-			$sql .= ' && smownerid = ' . $owner;
+			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($ticketStatus)) {
-			$ticketStatusSearch = implode("','", $ticketStatus);
-			$sql .= " && vtiger_troubletickets.status NOT IN ('$ticketStatusSearch')";
-			$this->conditions = ['vtiger_troubletickets.status', "'$ticketStatusSearch'", 'nin', QueryGenerator::$AND];
+			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
+			$this->conditions = ['condition' => ['not in', 'vtiger_troubletickets.status', $ticketStatus]];
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
-		$sql .= ' GROUP BY statusvalue, priority ORDER BY vtiger_ticketstatus.sortorderid';
-
-		$result = $db->query($sql);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		$query->groupBy(['statusvalue', 'priority', 'vtiger_ticketpriorities.color', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
+		$dataReader = $query->createCommand()->query();
 		$colors = $status = $priorities = $tickets = $response = [];
 		$counter = 0;
 
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$tickets[$row['statusvalue']][$row['priority']] = $row['count'];
 			if (!array_key_exists($row['priority'], $priorities)) {
 				$priorities[$row['priority']] = $counter++;
@@ -82,7 +74,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			foreach ($tickets as $ticketKey => $ticketValue) {
 				foreach ($priorities as $priorityKey => $priorityValue) {
 					$result[$priorityValue]['data'][$counter][0] = $counter;
-					$result[$priorityValue]['label'] = vtranslate($priorityKey, 'HelpDesk');
+					$result[$priorityValue]['label'] = \App\Language::translate($priorityKey, $moduleName);
 					$result[$priorityValue]['color'] = $colors[$priorityKey];
 					if ($ticketValue[$priorityKey]) {
 						$result[$priorityValue]['data'][$counter][1] = $ticketValue[$priorityKey];
@@ -95,7 +87,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 			$ticks = [];
 			foreach ($status as $key => $value) {
-				$newArray = [$key, vtranslate($value, 'HelpDesk')];
+				$newArray = [$key, App\Language::translate($value, $moduleName)];
 				array_push($ticks, $newArray);
 				$name[] = $value;
 			}

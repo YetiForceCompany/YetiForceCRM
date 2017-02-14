@@ -23,7 +23,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function Save(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		Settings_Search_Module_Model::Save($params);
+		Settings_Search_Module_Model::save($params);
 		$message = 'LBL_SAVE_CHANGES_LABLE';
 		if ($params['name'] == 'turn_off')
 			$message = 'LBL_SAVE_CHANGES_SEARCHING';

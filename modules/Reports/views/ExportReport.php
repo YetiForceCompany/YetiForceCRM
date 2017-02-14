@@ -31,7 +31,13 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	/**
+	 * Preprocess
+	 * @param Vtiger_Request $request
+	 * @param boolean $display
+	 * @return boolean
+	 */
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return false;
 	}

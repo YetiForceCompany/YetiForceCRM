@@ -50,7 +50,7 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', ['targetenddate', "'$currentDate'", 'h', QueryGenerator::$AND]);
+		$viewer->assign('USER_CONDITIONS', ['condition' => ['>=', 'targetenddate', $currentDate]]);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/AssignedProjectsTasksContents.tpl', $moduleName);

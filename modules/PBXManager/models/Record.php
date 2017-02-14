@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class PBXManager_Record_Model extends Vtiger_Record_Model
@@ -68,14 +69,13 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to save PBXManager record with array of params
-	 * @param <array> $values
-	 * return <string> $recordid
+	 * @param array $values
+	 * return string $recordid
 	 */
 	public function saveRecordWithArrray($params)
 	{
 		$moduleModel = Vtiger_Module_Model::getInstance('PBXManager');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('PBXManager');
-		$recordModel->set('mode', '');
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))
@@ -92,7 +92,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to update call details
 	 * @param <array> $details
-	 * $param <string> $callid
+	 * $param string $callid
 	 * return true
 	 */
 	public function updateCallDetails($details)
@@ -154,27 +154,36 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to save/update contact/account/lead record in Phonelookup table on every save
-	 * @param <array> $details
+	 * @param string $fieldName
+	 * @param array $details
+	 * @param boolean $new
+	 * @return int
 	 */
 	public function receivePhoneLookUpRecord($fieldName, $details, $new)
 	{
-		$recordid = $details['crmid'];
+		$db = \App\Db::getInstance();
 		$fnumber = preg_replace('/[-()\s+]/', '', $details[$fieldName]);
-		$rnumber = strrev($fnumber);
-		$db = PearDatabase::getInstance();
-
-		$params = array($recordid, $details['setype'], $fnumber, $rnumber, $fieldName);
-		$db->pquery('INSERT INTO ' . self::lookuptableName .
-			'(crmid, setype, fnumber, rnumber, fieldname) 
-                    VALUES(?,?,?,?,?) 
-                    ON DUPLICATE KEY 
-                    UPDATE fnumber=VALUES(fnumber), rnumber=VALUES(rnumber)', $params);
-		return true;
+		$isExists = (new \App\Db\Query())
+			->from(self::lookuptableName)
+			->where(['crmid' => $details['crmid'], 'setype' => $details['setype'], 'fieldname' => $fieldName])
+			->exists();
+		if ($isExists) {
+			return $db->createCommand()->update(self::lookuptableName, ['fnumber' => $fnumber, 'rnumber' => strrev($fnumber)], ['crmid' => $details['crmid'], 'setype' => $details['setype'], 'fieldname' => $fieldName])->execute();
+		} else {
+			return $db->createCommand()
+					->insert(self::lookuptableName, [
+						'crmid' => $details['crmid'],
+						'setype' => $details['setype'],
+						'fnumber' => $fnumber,
+						'rnumber' => strrev($fnumber),
+						'fieldname' => $fieldName
+					])->execute();
+		}
 	}
 
 	/**
 	 * Function to delete contact/account/lead record in Phonelookup table on every delete
-	 * @param <string> $recordid
+	 * @param string $recordid
 	 */
 	public function deletePhoneLookUpRecord($recordid)
 	{
@@ -184,7 +193,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * * Function to check the customer with number in phonelookup table
-	 * @param <string> $from
+	 * @param string $from
 	 */
 	public static function lookUpRelatedWithNumber($from)
 	{
@@ -201,7 +210,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			if ($db->num_rows($contact)) {
 				$rowCrm = $db->getRow($contact);
 				$data['id'] = $crmid;
-				$data['name'] = \includes\Record::getLabel($crmid);
+				$data['name'] = \App\Record::getLabel($crmid);
 				$data['setype'] = $rowCrm['setype'];
 				$data['fieldname'] = $fieldname;
 				return $data;
@@ -213,7 +222,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to user details with number
-	 * @param <string> $number
+	 * @param string $number
 	 */
 	public static function getUserInfoWithNumber($number)
 	{
@@ -263,7 +272,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query .= " FROM vtiger_users";
 
 		if (!empty($lookupcolumns)) {
-			$query .=" WHERE deleted=0 && ";
+			$query .= " WHERE deleted=0 && ";
 			$i = 0;
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {

@@ -14,6 +14,8 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('delete');
+		$this->exposeMethod('addAllRecords');
+		$this->exposeMethod('addRecord');
 	}
 
 	public function process(Vtiger_Request $request)
@@ -25,13 +27,21 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
+	public function addAllRecords(Vtiger_Request $request)
+	{
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$count = $coordinatesModel->saveAllRecordsToCache();
+		$response = new Vtiger_Response();
+		$response->setResult(['count' => $count]);
+		$response->emit();
+	}
+
 	public function delete(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
-		$srcModuleName = $request->get('srcModule');
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
-		$db->delete('u_yf_openstreetmap_cache', '`user_id` = ? AND module_name = ?', [$userId, $srcModuleName]);
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->deleteCache();
 		$response = new Vtiger_Response();
 		$response->setResult(0);
 		$response->emit();
@@ -39,19 +49,31 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 
 	public function save(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
-		$srcModuleName = $request->get('srcModule');
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
 		$records = $request->get('recordIds');
-		$db->delete('u_yf_openstreetmap_cache', '`user_id` = ? AND module_name = ?', [$userId, $srcModuleName]);
-		$query = 'INSERT INTO `u_yf_openstreetmap_cache` SET `user_id` = ?, module_name = ?, crmids = ?';
-		foreach ($records as $record) {
-			$params = [$userId, $srcModuleName, $record];
-			$db->pquery($query, $params);
-		}
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->deleteCache();
+		$coordinatesModel->saveCache($records);
 		$response = new Vtiger_Response();
 		$response->setResult(count($records));
+		$response->emit();
+	}
+
+	public function addRecord(Vtiger_Request $request)
+	{
+		$record = $request->get('record');
+		$srcModuleName = $request->get('srcModuleName');
+		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
+		$coordinatesModel->set('moduleName', $srcModuleName);
+		$coordinatesModel->addCache($record);
+		$moduleModel = Vtiger_Module_Model::getInstance($srcModuleName);
+		$coordinatesModel->set('srcModuleModel', $moduleModel);
+		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);
+		if(empty($coordinates)) {
+			$coordinates = vtranslate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($coordinates);
 		$response->emit();
 	}
 }

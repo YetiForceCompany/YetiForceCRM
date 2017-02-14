@@ -24,9 +24,15 @@
 								</div>
 								<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
 								<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
-								{if $HISTORY['type'] eq 'OSSMailView' &&  AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
-									<div class="pull-right marginRight10">
-									{if $USER_MODEL->internal_mailer == 1}
+								{if $HISTORY['attachments_exist'] eq 1}
+									&nbsp;<span class="body-icon glyphicon glyphicon-paperclip"></span>
+								{/if}
+								{if $HISTORY['type'] eq 'OSSMailView'}
+									<div class="pull-right marginRight10 btn-group" role="group">
+										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showModal btn btn-xs btn-default" data-cb="Vtiger_Index_Js.registerMailButtons">
+											<span class="body-icon glyphicon glyphicon-search"></span>
+										</button>
+									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
 										{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail')}
 										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
@@ -37,16 +43,6 @@
 										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=forward" data-popup="{$POPUP}" title="{vtranslate('LBL_FORWARD','OSSMailView')}">
 											<span class="glyphicon glyphicon-share-alt"></span>
 										</button>
-									{else}
-										{*<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'reply',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
-										</a>
-										<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'replyAll',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_REPLYALLL', 'OSSMailView')}">
-											<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{vtranslate('LBL_REPLYALLL','OSSMailView')}">
-										</a>
-										<a class="btn btn-xs btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget('', 'forward',$RECORD_ID,$MODULE_NAME)}" title="{vtranslate('LBL_FORWARD', 'OSSMailView')}">
-											<span class="glyphicon glyphicon-share-alt"></span>
-										</a>*}
 									{/if}
 									</div>
 								{/if}<br>
@@ -56,7 +52,7 @@
 					</li>
 				{/foreach}
 			</ul>
-			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit()}
+			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
 				<div id="moreRelatedUpdates">
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary btn-xs moreRelatedUpdates cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>

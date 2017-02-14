@@ -263,6 +263,32 @@ var app = {
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
 		}
+		if (typeof params.templateResult === 'undefined') {
+			params.templateResult = function (data, container) {
+				if (data.element && data.element.className) {
+					$(container).addClass(data.element.className);
+				}
+				if (typeof data.name == 'undefined') {
+					return data.text;
+				}
+				if (data.type == 'optgroup') {
+					return '<strong>' + data.name + '</strong>';
+				} else {
+					return '<span>' + data.name + '</span>';
+				}
+			};
+		}
+		if (typeof params.templateSelection === 'undefined') {
+			params.templateSelection = function (data, container) {
+				if (data.element && data.element.className) {
+					$(container).addClass(data.element.className);
+				}
+				if (data.text === '') {
+					return data.name;
+				}
+				return data.text;
+			};
+		}
 		if (selectElement.data('ajaxSearch') === 1) {
 			params.tags = false;
 			params.language.searching = function () {
@@ -369,6 +395,12 @@ var app = {
 		}
 		selectElement.selectize(params);
 		return selectElement;
+	},
+	hidePopover: function (element) {
+		if (typeof element == 'undefined') {
+			element = jQuery('body .popoverTooltip');
+		}
+		element.popover('hide');
 	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
@@ -498,16 +530,15 @@ var app = {
 				params = jQuery.extend(params, paramsObject);
 			}
 			container.html(data);
-
+			if(container.find('.modal').hasClass('static')){
+				params.backdrop = 'static';
+			}
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog. 
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop
 						.on('focusin.bs.modal', $.proxy(function (e) {
 							if ($(e.target).hasClass('select2-search__field')) {
 								return true;
-							}
-							if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-								this.$element.trigger('focus')
 							}
 						}, this))
 			};
@@ -546,6 +577,9 @@ var app = {
 			var modalContainers = jQuery('.modalContainer');
 			if (modalContainers.length == 0 && backdrop.length) {
 				backdrop.remove();
+			}
+			if (backdrop.length > 0) {
+				$('body').addClass('modal-open');
 			}
 		});
 		return container;
@@ -886,8 +920,14 @@ var app = {
 			currentElement.val(date);
 		});
 	},
-	registerEventForClockPicker: function () {
-		var formatTime = app.getMainParams('userTimeFormat');
+	registerEventForClockPicker: function (object) {
+		if (typeof object === 'undefined') {
+			var elementClockBtn = $('.clockPicker');
+			var formatTime = app.getMainParams('userTimeFormat');
+		} else {
+			elementClockBtn = object;
+			var formatTime = elementClockBtn.data('format');
+		}
 		formatTime = formatTime == 12 ? true : false;
 		var params = {
 			placement: 'bottom',
@@ -896,7 +936,7 @@ var app = {
 			minutestep: 5,
 			ampmSubmit: false,
 		};
-		var elementClockBtn = $('.clockPicker')
+
 		var parentTimeElem = elementClockBtn.closest('.time');
 		jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
 			var elem = jQuery(e.currentTarget);
@@ -1462,9 +1502,15 @@ var app = {
 		if (typeof error == 'object' && error.statusText) {
 			error = error.statusText;
 		}
-		console.error(error);
-		console.warn(err);
-		console.warn(errorThrown);
+		if (error) {
+			console.error(error);
+		}
+		if (err) {
+			console.error(err);
+		}
+		if (errorThrown) {
+			console.error(errorThrown);
+		}
 		console.log('-----------------');
 	},
 	registerModal: function (container) {
@@ -1485,11 +1531,29 @@ var app = {
 					url: url,
 					cb: function (container) {
 						var call = currentElement.data('cb');
-						if (typeof window[call] === 'function') {
-							window[call](container);
+						if (typeof call !== 'undefined') {
+							if(call.indexOf('.') != -1) {
+								var callerArray = call.split('.');
+								if(typeof window[callerArray[0]] === 'object') {
+									window[callerArray[0]][callerArray[1]](container);
+								}
+							} else {
+								if (typeof window[call] === 'function') {
+									window[call](container);
+								}
+							}
+							
 						}
 						currentElement.removeAttr("disabled");
 					}
+				}
+				var id = 'globalmodal';
+				if ($('#' + id).length) {
+					var numberGlobalModal = 1;
+					while($('#' + id).length) {
+						id = 'globalmodal' + numberGlobalModal++;
+					}
+					modalWindowParams['id'] = id;
 				}
 				app.showModalWindow(modalWindowParams);
 			}
@@ -1557,7 +1621,38 @@ var app = {
 				btn.text(btn.data('on'));
 			}
 		});
-	}
+	},
+	getScreenHeight: function (percantage) {
+		if (typeof percantage == 'undefined') {
+			percantage = 100;
+		}
+		return jQuery(window).height() * percantage / 100;
+	},
+	registerCopyClipboard: function (key) {
+		if (key == undefined) {
+			key = '.clipboard';
+		}
+		new Clipboard(key, {
+			text: function (trigger) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				trigger = jQuery(trigger);
+				var element = jQuery(trigger.data('copyTarget'));
+				if (trigger.data('copyType') != undefined) {
+					if (element.is("select")) {
+						var val = element.find('option:selected').data(trigger.data('copyType'));
+					} else {
+						var val = element.data(trigger.data('copyType'));
+					}
+				} else {
+					var val = element.val();
+				}
+				return val;
+			}
+		});
+	},
 }
 jQuery(document).ready(function () {
 	app.changeSelectElementView();

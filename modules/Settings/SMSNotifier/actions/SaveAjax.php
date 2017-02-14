@@ -37,7 +37,7 @@ class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
 					$recordModel->set($fieldInfo['name'], $request->get($fieldInfo['name']));
 					$parameters[$fieldInfo['name']] = $request->get($fieldInfo['name']);
 				}
-				$recordModel->set('parameters', \includes\utils\Json::encode($parameters));
+				$recordModel->set('parameters', \App\Json::encode($parameters));
 				break;
 			}
 		}

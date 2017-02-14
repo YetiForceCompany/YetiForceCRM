@@ -21,7 +21,7 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the rel attribute value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getRel()
 	{
@@ -34,7 +34,7 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the media attribute value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getMedia()
 	{
@@ -47,7 +47,7 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the type attribute value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getType()
 	{
@@ -60,7 +60,7 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the href attribute value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getHref()
 	{

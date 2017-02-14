@@ -18,47 +18,12 @@
 	<input type="hidden" id="currencyId" value="{$CURRENCY_ID}" />
 	<input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}"/>
 	<input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
-	<input type="hidden" id="popupType" value="{$POPUPTYPE}"/>
 	<div class="popupContainer row">
-		{if $POPUPTYPE == 1}
-			<div class="col-md-6"><h3>{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3></div>
-		</div>
-		<div class="row form-inline">
-		{/if}
 		<div class="paddingLeftMd form-group pull-left">
-			{if $POPUPTYPE == 2}
-				<h3 class="popupModuleName">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
-			{/if}
+			<h3 class="popupModuleName">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h3>
 			<form class="popupSearchContainer form-inline" onsubmit="return false;" method="POST">
-				{if $POPUPTYPE == 1}
-					<div class="form-group">
-						<label class="sr-only" for="searchvalue">{vtranslate('LBL_TYPE_SEARCH')}</label>
-						<input type="text" class="form-control" id="searchvalue" title="{vtranslate('LBL_TYPE_SEARCH')}" placeholder="{vtranslate('LBL_TYPE_SEARCH')}">
-					</div>
-					<span><strong>&nbsp;{vtranslate('LBL_IN')}&nbsp;</strong></span>
-					<div class="form-group ">
-						<label class="sr-only" for="searchableColumnsList">{vtranslate('LBL_SEARCH_IN_FIELD')}</label>
-						{assign var = defaultSearchField value = $RECORD_STRUCTURE_MODEL->getModule()->getDefaultSearchField()}
-						<select class="chzn-select form-control" id="searchableColumnsList" title="{vtranslate('LBL_SEARCH_IN_FIELD')}">
-							{foreach key=block item=fields from=$RECORD_STRUCTURE}
-								{foreach key=fieldName item=fieldObject from=$fields}
-									<optgroup>
-										<option value="{$fieldName}" {if $fieldName eq $defaultSearchField} selected {/if}>{vtranslate($fieldObject->get('label'),$MODULE_NAME)}</option>
-									</optgroup>
-								{/foreach}
-							{/foreach}
-						</select>
-					</div> 
-					&nbsp;
-					<div id="popupSearchButton" class=' form-group '>
-						<button class="btn btn-default"><span class="glyphicon glyphicon-search " title="{vtranslate('LBL_SEARCH_BUTTON')}"></span></button>
-					</div>
-
-
-				{else if $POPUPTYPE == 2}
-					<input class="col-md-2" type="hidden" id="searchfield"/>
-					<input class="col-md-2" type="hidden" id="searchvalue"/>
-				{/if}
+				<input class="col-md-2" type="hidden" id="searchfield"/>
+				<input class="col-md-2" type="hidden" id="searchvalue"/>
 			</form>
 		</div>
 		{include file='PopupSearchActions.tpl'|vtemplate_path:$MODULE_NAME}

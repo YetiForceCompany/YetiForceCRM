@@ -6,9 +6,24 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
 {
-	
+
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param Vtiger_Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
+	public function getFooterScripts(Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$jsFileNames = ['modules.Products.resources.Edit'];
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
+		return $headerScriptInstances;
+	}
 }

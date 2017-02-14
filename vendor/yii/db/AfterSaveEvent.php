@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\db;
 
 use yii\base\Event;
@@ -17,8 +16,10 @@ use yii\base\Event;
  */
 class AfterSaveEvent extends Event
 {
-    /**
-     * @var array The attribute values that had changed and were saved.
-     */
-    public $changedAttributes;
+
+	/**
+	 * @var array The attribute values that had changed and were saved.
+	 */
+	public $changedAttributes;
+
 }

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-		<div class="authModal" tabindex="-1">
-			<div  class="modal fade authModalContent validationEngineContainer ">
+		<div class="authModal modal fade" tabindex="-1">
+			<div  class="authModalContent validationEngineContainer ">
 				<div class="modal-dialog ">
 					<div class="modal-content">
 						<div class="modal-header">

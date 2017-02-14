@@ -28,7 +28,6 @@ class Assets_Record_Model extends Vtiger_Record_Model
 		$value = $this->getRenewalValue();
 		if ($value && $this->get('assets_renew') != $value) {
 			$this->set('assets_renew', $value);
-			$this->set('mode', 'edit');
 			$this->save();
 		}
 	}

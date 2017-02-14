@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
@@ -31,7 +32,6 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 				$documentModel = Vtiger_Record_Model::getInstanceById($documentId, $moduleName);
 				if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $documentId)) {
 					$documentModel->set('folderid', $folderId);
-					$documentModel->set('mode', 'edit');
 					$documentModel->save();
 				} else {
 					$documentsMoveDenied[] = $documentModel->getName();

@@ -48,15 +48,15 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		return $data;
 	}
 
+	/**
+	 * Function creates tables for import in database
+	 */
 	public function read()
 	{
-		$default_charset = AppConfig::main('default_charset');
+		$defaultCharset = AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
-		$temp_status = $this->createTable();
-		if (!$temp_status) {
-			return false;
-		}
+		$this->createTable();
 
 		$fieldMapping = $this->request->get('field_mapping');
 
@@ -85,8 +85,8 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
 				$mappedData[$fieldName] = $fieldValue;
-				if ($this->request->get('file_encoding') != $default_charset) {
-					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $default_charset);
+				if ($this->request->get('file_encoding') !== $defaultCharset) {
+					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 				}
 				if (!empty($fieldValue))
 					$allValuesEmpty = false;

@@ -71,7 +71,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		params.mode = 'showSearchResults';
 		params.limit = this.reduceNumberResults;
 		params.html = this.returnHtml;
-
+		if(this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != ''){
+			params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
+		}
 		if (typeof params.module == 'undefined') {
 			params.module = app.getModuleName();
 			//if you are in Settings then module should be Vtiger for normal text search
@@ -79,7 +81,6 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 				params.module = 'Vtiger';
 			}
 		}
-
 		AppConnector.request(params).then(
 				function (data) {
 					aDeferred.resolve(data);

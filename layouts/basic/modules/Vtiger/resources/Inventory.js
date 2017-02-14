@@ -166,6 +166,12 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	getTax: function (row) {
 		return $('.tax', row).getNumberFromValue();
 	},
+	getTaxParams: function (row) {
+		var taxParams = row.find('.taxParam').val();
+		if (taxParams == '' || taxParams == '[]' || taxParams == undefined)
+			return false;
+		return JSON.parse(taxParams);
+	},
 	getQuantityValue: function (row) {
 		return $('.qty', row).getNumberFromValue();
 	},
@@ -320,17 +326,19 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		if (types)
 			types.forEach(function (entry) {
 				var taxValue = 0;
-				if (entry == 'individual') {
-					taxValue = taxParams.individualTax;
-				}
-				if (entry == 'global') {
-					taxValue = taxParams.globalTax;
-				}
-				if (entry == 'group') {
-					taxValue = taxParams.groupTax;
-				}
-				if (entry == 'regional') {
-					taxValue = taxParams.regionalTax;
+				switch (entry) {
+					case 'individual':
+						taxValue = taxParams.individualTax;
+						break;
+					case 'global':
+						taxValue = taxParams.globalTax;
+						break;
+					case 'group':
+						taxValue = taxParams.groupTax;
+						break;
+					case 'regional':
+						taxValue = taxParams.regionalTax;
+						break;
 				}
 				taxRate += valuePrices * (app.parseNumberToFloat(taxValue) / 100);
 				if (aggregationType == '2') {
@@ -361,17 +369,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.text(app.parseNumberToShow(sum));
 	},
 	calculatMarginPSummary: function () {
-		var netPrice;
 		var thisInstance = this;
 		var sumRow = thisInstance.getInventoryItemsContainer().find('tfoot');
-		if (jQuery('[data-sumfield="netPrice"]', sumRow).length) {
-			netPrice = sumRow.find('[data-sumfield="netPrice"]').text();
-		} else {
-			netPrice = sumRow.find('[data-sumfield="totalPrice"]').text();
-		}
-		netPrice = app.parseNumberToFloat(netPrice);
 		var purchase = app.parseNumberToFloat(sumRow.find('[data-sumfield="purchase"]').text());
-		var margin = netPrice - purchase;
+		var margin = app.parseNumberToFloat(sumRow.find('[data-sumfield="margin"]').text());
+		margin = app.parseNumberToFloat(margin);
 		var marginp = '0';
 		if (purchase !== 0) {
 			marginp = (margin / purchase) * 100;
@@ -601,7 +603,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				}
 			});
 		}
-
 		modal.find('.valuePrices').text(app.parseNumberToShow(valuePrices));
 		modal.find('.valueTax').text(app.parseNumberToShow(valuePrices - netPriceWithoutTax));
 	},
@@ -636,11 +637,14 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		params.src_field = $('[name="popupReferenceModule"]', rowName).data('field');
 		params.get_url = 'getProductUnitPriceURL';
 		params.currency_id = thisInstance.getCurrency();
-
 		this.showPopup(params).then(function (data) {
 			var responseData = JSON.parse(data);
 			for (var id in responseData) {
-				thisInstance.setUnitPrice(lineItemRow, responseData[id]);
+				if (responseData[id]) {
+					thisInstance.setUnitPrice(lineItemRow, responseData[id]);
+				} else {
+					app.errorLog('Incorrect data', responseData);
+				}
 			}
 			thisInstance.quantityChangeActions(thisInstance.getClosestRow(rowName));
 		});
@@ -659,7 +663,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var recordId = jQuery('input.sourceField', parentRow).val();
 		var recordModule = parentRow.find('.rowName input[name="popupReferenceModule"]').val();
 		thisInstance.removeSubProducts(parentRow);
-		if (recordId == '0' || $.inArray(recordModule, ['Products', 'Services']) < 0) {
+		if (recordId == '0' || recordId == '' || $.inArray(recordModule, ['Products', 'Services']) < 0) {
 			return false;
 		}
 		if (thisInstance.subProductsCashe[recordId]) {
@@ -703,22 +707,34 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		}
 	},
 	mapResultsToFields: function (referenceModule, parentRow, responseData) {
-		var validationEngine, unitPrice;
+		var validationEngine, unitPrice, taxParam = [];
 		var thisInstance = this;
-
+		var isGroupTax = thisInstance.isGroupTaxMode();
 		for (var id in responseData) {
 			var recordData = responseData[id];
 			var description = recordData.description;
 			var unitPriceValues = recordData.unitPriceValues;
 			var unitPriceValuesJson = JSON.stringify(unitPriceValues);
-
+			// Load taxses detail
+			if (isGroupTax) {
+				var parameters  = parentRow.closest('.inventoryItems').data('taxParam');
+				if(parameters){
+					taxParam = JSON.parse(parameters);
+				}
+			} else if (recordData['taxes']) {
+				taxParam = {aggregationType: recordData.taxes.type};
+				taxParam[recordData.taxes.type + 'Tax'] = recordData.taxes.value;
+			}
+			thisInstance.setTaxParam(parentRow, taxParam);
+			thisInstance.setTax(parentRow, 0);
+			// Load auto fields
 			for (var field in recordData['autoFields']) {
 				parentRow.find('input.' + field).val(recordData['autoFields'][field]);
 				if (recordData['autoFields'][field + 'Text']) {
 					parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
 				}
 			}
-
+			
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
 				unitPrice = unitPriceValues[currencyId];
@@ -728,7 +744,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
-			$('textarea.commentTextarea', parentRow).val(description);
+			$('textarea.commentTextarea', parentRow.next()).html(description);
 
 			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
 				$('input.qtyparam', parentRow).prop('checked', false);
@@ -796,6 +812,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				info[param] = modal.find('[name="' + param + '"]').val();
 			}
 		});
+		parentRow.data('taxParam',JSON.stringify(info));
 		thisInstance.setTaxParam(parentRow, info);
 		thisInstance.setTaxParam($('#blackIthemTable'), info);
 	},
@@ -864,8 +881,12 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	initTaxParameters: function (parentRow, modal) {
 		var thisInstance = this;
-		var parameters = parentRow.find('.taxParam').val();
-		if (parameters == '') {
+		if (parentRow.data('taxParam')) {
+			var parameters = parentRow.data('taxParam');
+		} else {
+			var parameters = parentRow.find('.taxParam').val();
+		}
+		if (!parameters) {
 			return;
 		}
 		parameters = JSON.parse(parameters);
@@ -891,16 +912,16 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				modal.find('[name="' + param + '"]').val(parameter);
 			}
 		});
-
 		thisInstance.calculateTax(parentRow, modal);
 	},
 	limitEnableSave: false,
 	checkLimits: function () {
 		var thisInstance = this;
 		var account = thisInstance.getAccountId();
+		var limit = parseInt(app.getMainParams('inventoryLimit'));
 		var response = true;
 
-		if (account == '' || thisInstance.limitEnableSave) {
+		if (account == '' || thisInstance.limitEnableSave || !limit) {
 			return response;
 		}
 
@@ -911,8 +932,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			mode: 'checkLimits',
 			record: account,
 			currency: thisInstance.getCurrency(),
-			price: thisInstance.getSummaryGrossPrice(),
-			limitConfig: app.getMainParams('inventoryLimit')
+			price: thisInstance.getSummaryGrossPrice()
 		};
 		params.async = false;
 		params.dataType = 'json';
@@ -922,13 +942,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					progressInstace.hide();
 					var editViewForm = Vtiger_Edit_Js.getInstance().getForm();
 					if (data.result.status == false) {
-						app.showModalWindow(data.result.html, function (data) {
-							data.find('.enableSave').on('click', function (e, data) {
-								thisInstance.limitEnableSave = true;
-								editViewForm.submit();
-								app.hideModalWindow();
-							});
-						});
+						app.showModalWindow(data.result.html, function (data) {});
 						response = false;
 					}
 				},
@@ -1137,11 +1151,14 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var element = $(e.currentTarget);
 			var row = thisInstance.getClosestRow(element);
 			thisInstance.removeSubProducts(row);
-			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val('0');
+			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val(app.parseNumberToShow(0));
 			row.find('textarea,.valueVal').val('');
 			row.find('.valueText').text('');
 			row.find('.qtyparamButton').addClass('hidden');
 			row.find('input.qtyparam').prop('checked', false);
+			if(!thisInstance.isGroupTaxMode()){
+				thisInstance.setTaxParam(row,[]);
+			}
 			thisInstance.quantityChangeActions(row);
 		});
 	},
@@ -1242,7 +1259,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		container.on('click', '.changeTax', function (e) {
 			var parentRow;
 			var element = $(e.currentTarget);
-
 			var params = {
 				module: app.getModuleName(),
 				view: 'Inventory',
@@ -1267,7 +1283,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				params.record = parentRow.find('.rowName .sourceField').val();
 				params.recordModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 			}
-
 			var progressInstace = jQuery.progressIndicator();
 			AppConnector.request(params).then(
 					function (data) {
@@ -1317,7 +1332,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 		});
 		modal.on('change', '.activeCheckbox, .globalTax, .individualTaxValue, .groupTax, .regionalTax', function (e) {
-			var element = $(e.currentTarget);
 			thisInstance.calculateTax(parentRow, modal);
 		});
 		modal.on('click', '.saveTaxs', function (e) {
@@ -1343,57 +1357,29 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	registerRowAutoComplete: function (container) {
 		var thisInstance = this;
-		var sourceFieldElement = container.find('.rowName .sourceField');
-		sourceFieldElement.on(Vtiger_Edit_Js.postReferenceSelectionEvent, function (e, rq) {
+		var sourceFieldElement = container.find('.sourceField');
+		sourceFieldElement.on(Vtiger_Edit_Js.postReferenceSelectionEvent, function (e, params) {
 			var record;
 			var element = $(e.currentTarget);
 			var parentRow = element.closest(thisInstance.rowClass);
-
-			if (rq.data.label) {
-				record = rq.data.id;
+			if (params.data.label) {
+				record = params.data.id;
 			} else {
-				for (var id in rq.data) {
+				for (var id in params.data) {
 					record = id;
 				}
 			}
-
 			var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency();
-			AppConnector.request(dataUrl).then(
-					function (data) {
-						for (var id in data) {
-							if (typeof data[id] == "object") {
-								var recordData = data[id];
-								thisInstance.mapResultsToFields(selectedModule, parentRow, recordData);
-							}
-						}
-					},
-					function (error, err) {
-						console.error(error, err);
+			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency() + '&fieldname=' + element.data('columnname');
+			AppConnector.request(dataUrl).then(function (data) {
+				for (var id in data) {
+					if (typeof data[id] == "object") {
+						var recordData = data[id];
+						thisInstance.mapResultsToFields(selectedModule, parentRow, recordData);
 					}
-			);
-		});
-	},
-	registerRowAutoCompleteAfterAdding: function (container) {
-		var thisInstance = this;
-		var sourceFieldElement = container.find('.rowName .sourceField');
-		var parentRow = sourceFieldElement.closest(thisInstance.rowClass);
-		var record = container.find('.sourceField').val();
-		var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-		var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency();
-		AppConnector.request(dataUrl).then(
-				function (data) {
-					for (var id in data) {
-						if (typeof data[id] == "object") {
-							var recordData = data[id];
-							thisInstance.mapResultsToFields(selectedModule, parentRow, recordData);
-						}
-					}
-				},
-				function (error, err) {
-					console.error(error, err);
 				}
-		);
+			});
+		});
 	},
 	calculateItemNumbers: function () {
 		var thisInstance = this;

@@ -11,21 +11,57 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	/**
 	 * Function that generates Export Query based on the mode
 	 * @param Vtiger_Request $request
-	 * @return <String> export query
+	 * @return string export query
 	 */
 	public function getExportQuery(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		return $moduleModel->getExportQuery('', '');
+		$moduleName = $request->get('source_module');
+		$cvId = $request->get('viewname');
+		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listInstance->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listInstance->set('search_key', $searchKey);
+			$listInstance->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $listInstance->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
+			$listInstance->set('search_params', $transformedSearchParams);
+		}
+		$listInstance->loadListViewCondition();
+		$moduleModel = $listInstance->getModule();
+		$fields = array_keys($moduleModel->getFields());
+		$fields[] = 'id';
+		$listInstance->getQueryGenerator()->setFields($fields);
+
+		$selectedIds = $request->get('selected_ids');
+		$excludedIds = $request->get('excluded_ids');
+		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
+			if (!empty($selectedIds) && count($selectedIds) > 0) {
+				$listInstance->getQueryGenerator()->addCondition('id', $selectedIds, 'e');
+			}
+		}
+		if ($excludedIds) {
+			$listInstance->getQueryGenerator()->addCondition('id', $excludedIds, 'n');
+		}
+		$query = $listInstance->getQueryGenerator()->createQuery();
+		$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+		$fields = array_values($query->select);
+		$query->select($fields);
+		return $query;
 	}
 
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
 	 * @param Vtiger_Request $request
-	 * @return <String>
+	 * @return string
 	 */
-	public function getExportContentType()
+	public function getExportContentType(Vtiger_Request $request)
 	{
 		return 'text/calendar';
 	}
@@ -36,24 +72,23 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function exportData(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
+		$moduleName = $request->get('source_module');
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
 
 		$query = $this->getExportQuery($request);
-		$result = $db->query($query);
 		$fileName = $request->get('filename');
-		$this->output($request, $result, $moduleModel, $fileName);
+		$this->outputData($request, $query->createCommand()->query(), $moduleModel, $fileName);
 	}
 
 	/**
 	 * Function that create the exported file
 	 * @param Vtiger_Request $request
-	 * @param <Array> $result
+	 * @param array $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
-	public function output($request, $result, $moduleModel, $fileName, $toFile = false)
+	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
@@ -77,7 +112,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		$myiCal = new iCalendar;
 		$myiCal->add_component($timeZone);
 
-		while ($row = $adb->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$eventFields = $row;
 			$id = $eventFields['activityid'];
 			$type = $eventFields['activitytype'];
@@ -130,7 +165,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		if ($toFile) {
 			return $myiCal->serialize();
 		} else {
-			$exportType = $this->getExportContentType();
+			$exportType = $this->getExportContentType($request);
 			// Send the right content type and filename
 			header("Content-type: $exportType");
 			header("Content-Disposition: attachment; filename={$fileName}.ics");

@@ -76,52 +76,17 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		));
 		$response->emit();
 	}
-
+	
+	/**
+	 * Function to trigger copying menu
+	 * @param Vtiger_Request $request
+	 */
 	public function copyMenu(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
 		$fromRole = filter_var($request->get('fromRole'), FILTER_SANITIZE_NUMBER_INT);
 		$toRole = filter_var($request->get('toRole'), FILTER_SANITIZE_NUMBER_INT);
-
-		$query = 'SHOW TABLE STATUS WHERE NAME = "yetiforce_menu";';
-		$result = $db->query($query);
-		$nextIdResult = $db->getArray($result);
-		$nextId = $nextIdResult[0]['Auto_increment'];
-
-		$query = 'SELECT * FROM  yetiforce_menu WHERE role = ?';
-		$result = $db->pquery($query, [$fromRole]);
-		$roleMenuRowsNum = $db->getRowCount($result);
-
-		if ($roleMenuRowsNum) {
-			$rows = $db->getArray($result);
-			foreach ($rows as $row) {
-				$oldAndNewIds[$row['id']] = $nextId;
-				$nextId += 1;
-			}
-			foreach ($rows as $row) {
-				if (array_key_exists($row['parentid'], $oldAndNewIds))
-					$parentId = $oldAndNewIds[$row['parentid']];
-				else
-					$parentId = 0;
-
-				$params = [
-					'role' => $toRole,
-					'parentid' => $parentId,
-					'type' => $row['type'],
-					'sequence' => $row['sequence'],
-					'module' => $row['module'],
-					'label' => $row['label'],
-					'newwindow' => $row['newwindow'],
-					'dataurl' => $row['dataurl'],
-					'showicon' => $row['showicon'],
-					'icon' => $row['icon'],
-					'sizeicon' => $row['sizeicon'],
-					'hotkey' => $row['hotkey'],
-					'filters' => $row['filters'],
-				];
-				$db->insert('yetiforce_menu', $params);
-			}
-		}
+		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
+		$recordModel->copyMenu($fromRole, $toRole);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

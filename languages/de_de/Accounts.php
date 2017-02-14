@@ -66,7 +66,16 @@ $languageStrings = [
 	'LBL_PARENT_IS_CHILD' => 'Die ausgewählte Organisation kann nicht ein zweites Mal dieser Organisation zugeordnet werden',
 	//FIELDS
 	'FL_LAST_INVOICE_DATE' => 'letztes Rechnungsdatum',
+	'FL_STATUS' => 'Status',
 	//PICKLIST VALUES
+	'PLL_PROMISING_CLIENT' => 'Vielversprechender Kunde',
+	'PLL_ACTIVE_CLIENT' => 'Aktiver Kunde',
+	'PLL_SPECIAL_CLIENT' => 'Spzieller Kunde',
+	'PLL_LOST_CLIENT' => 'Verlorener Kunde',
+	'PLL_UNOBTAINED_CLIENT' => 'Unentschlossener Kunde',
+	'PLL_INACTIVE_CLIENT' => 'Inaktiver Kunde',
+	'PLL_CLOSED_CLIENT' => 'Abgeschlossener Kunde',
+	'PLL_BLACKLISTED_CLIENT' => 'Blacklisted Kunde',
 	'PLL_NATURAL_PERSON' => 'Natürliche Person',
 	'PLL_BUSINESS_ACTIVITY' => 'Geschäftsfeld',
 	'PLL_GENERAL_PARTNERSHIP' => 'Offene Handelsgesellschaft (OHG)',

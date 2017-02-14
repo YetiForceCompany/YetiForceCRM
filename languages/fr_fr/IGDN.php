@@ -7,7 +7,7 @@ $languageStrings = [
 	'LBL_ATTENTION_BLOCK' => 'Commentaires',
 	//Fields
 	'FL_ACCEPTANCE_DATE' => 'Date de réception',
-	'FL_ACCOUNT' => 'Organisation',
+	'FL_ACCOUNT' => 'Compte',
 	'FL_NUMBER' => 'Nombre',
 	'FL_SUBJECT' => 'Sujet',
 	'FL_STORAGE' => 'Stockage',
@@ -20,5 +20,6 @@ $languageStrings = [
 	'PLL_FOR_APPROVAL' => 'Pour approbation',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_ACCEPTED' => 'Accepté',
+	
 	'LBL_CHANGE_STATUS' => 'Changer le statut',
 ];

@@ -19,7 +19,7 @@
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{strip_tags($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}
-						<span class="pull-left">{vtranslate($RECORD->get($FIELD->get('name')), $BASE_MODULE)}</span>
+						<span class="pull-left">{vtranslate($RECORD->getListViewDisplayValue($FIELD->get('name')), $BASE_MODULE)}</span>
 					{else}
 						&nbsp;
 					{/if}

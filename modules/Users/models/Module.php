@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Users_Module_Model extends Vtiger_Module_Model
@@ -13,29 +14,26 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get list view query for popup window
-	 * @param <String> $sourceModule Parent module
-	 * @param <String> $field parent fieldname
-	 * @param <Integer> $record parent id
-	 * @param <String> $listQuery
-	 * @return <String> Listview Query
+	 * @param string $sourceModule Parent module
+	 * @param string $field parent fieldname
+	 * @param string $record parent id
+	 * @param \App\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, $listQuery)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
-			$overRideQuery = $listQuery;
 			if (!empty($record)) {
-				$overRideQuery = $overRideQuery . " && vtiger_users.id != " . $record;
+				$queryGenerator->addNativeCondition(['<>', 'vtiger_users.id', $record]);
 			}
-			return $overRideQuery;
 		}
 	}
 
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param <String> $searchValue - Search value
+	 * @param string $searchValue - Search value
 	 * @param <Integer> $parentId - parent recordId
-	 * @param <String> $parentModule - parent module name
+	 * @param string $parentModule - parent module name
 	 * @return <Array of Users_Record_Model>
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
@@ -62,7 +60,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function returns the default column for Alphabetic search
-	 * @return <String> columnname
+	 * @return string columnname
 	 */
 	public function getAlphabetSearchField()
 	{
@@ -71,7 +69,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for the Create Record view of the module
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{
@@ -105,7 +103,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getListViewUrl()
 	{
@@ -153,40 +151,44 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to store the login history
-	 * @param type $username
+	 * @param type $userName
 	 */
-	public function saveLoginHistory($username, $status = 'Signed in', $browser = '')
+	public function saveLoginHistory($userName, $status = 'Signed in')
 	{
-		$adb = PearDatabase::getInstance();
-
-		$userIPAddress = vtlib\Functions::getRemoteIP();
-		$userIPAddress = empty($userIPAddress) ? '-' : $userIPAddress;
-		$loginTime = date('Y-m-d H:i:s');
-		$browser = empty($browser) ? $browser : '-';
-		$query = "INSERT INTO vtiger_loginhistory (user_name, user_ip, logout_time, login_time, status, browser) VALUES (?,?,?,?,?,?)";
-		$params = array($username, $userIPAddress, '0000-00-00 00:00:00', $loginTime, $status, $browser);
-		$adb->pquery($query, $params);
+		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$browser = \App\RequestUtil::getBrowserInfo();
+		\App\Db::getInstance()->createCommand()
+			->insert('vtiger_loginhistory', [
+				'user_name' => $userName,
+				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
+				'login_time' => date('Y-m-d H:i:s'),
+				'logout_time' => null,
+				'status' => $status,
+				'browser' => $browser->name . ' ' . $browser->ver
+			])->execute();
 	}
 
 	/**
 	 * Function to store the logout history
-	 * @param type $username
 	 */
 	public function saveLogoutHistory()
 	{
-		$adb = PearDatabase::getInstance();
-
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
-		$userIPAddress = $_SERVER['REMOTE_ADDR'];
-		$outtime = date("Y-m-d H:i:s");
+		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$outtime = date('Y-m-d H:i:s');
 
-		$loginIdQuery = "SELECT MAX(login_id) AS login_id FROM vtiger_loginhistory WHERE user_name=? && user_ip=?";
-		$result = $adb->pquery($loginIdQuery, array($userRecordModel->get('user_name'), $userIPAddress));
-		$loginid = $adb->query_result($result, 0, "login_id");
-
-		if (!empty($loginid)) {
-			$query = "UPDATE vtiger_loginhistory SET logout_time =?, status=? WHERE login_id = ?";
-			$result = $adb->pquery($query, array($outtime, 'Signed off', $loginid));
+		$loginId = (new \App\Db\Query())
+				->select('login_id')
+				->from('vtiger_loginhistory')
+				->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
+				->limit(1)->orderBy('login_id DESC')->scalar();
+		if ($loginId !== false) {
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_loginhistory', [
+					'logout_time' => $outtime,
+					'status' => 'Signed off',
+					], ['login_id' => $loginId])
+				->execute();
 		}
 	}
 
@@ -228,12 +230,11 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	public function checkMailExist($email, $id)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = "SELECT COUNT(*) as num FROM vtiger_users WHERE email1 = ? && id != ?";
-		$result = $db->pquery($sql, array($email, $id), true);
-
-		return !!$db->query_result($result, 0, 'num');
+		$query = (new \App\Db\Query())->from('vtiger_users')->where(['email1' => $email]);
+		if ($id) {
+			$query->andWhere(['<>', 'id', $id]);
+		}
+		return $query->exists();
 	}
 
 	/**
@@ -249,48 +250,37 @@ class Users_Module_Model extends Vtiger_Module_Model
 		for ($i = 0; $i < $num_rows; $i++) {
 			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
 			$label = decode_html($adb->query_result($result, $i, 'label'));
-			$languages_list[$lang_prefix] = $label;
+			$languages[$lang_prefix] = $label;
 		}
-		return $languages_list;
+		asort($languages);
+		return $languages;
 	}
 
-	public static function getAdminUsers()
+	/**
+	 * Get switch users
+	 * @param boolean $showRole
+	 * @return array
+	 */
+	public static function getSwitchUsers($showRole = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'on' && deleted = 0";
-		$result = $adb->query($query);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$output[] = $adb->query_result_rowdata($result, $i);
-		}
-
-		return $output;
-	}
-
-	public static function getNotAdminUsers()
-	{
-		$adb = PearDatabase::getInstance();
-		$query = "SELECT * FROM `vtiger_users` WHERE is_admin = 'off' && deleted = 0 && status='Active'";
-		$result = $adb->query($query);
-		$numRows = $adb->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$output[] = $adb->query_result_rowdata($result, $i);
-		}
-
-		return $output;
-	}
-
-	public static function getSwitchUsers()
-	{
-		$userModel = Users_Record_Model::getCurrentUserModel();
 		require('user_privileges/switchUsers.php');
-		$baseUserId = $userModel->getRealId();
-		$users = [];
-		if (array_key_exists($baseUserId, $switchUsers)) {
-			foreach ($switchUsers[$baseUserId] as $userid => $userName) {
-				$users[$userid] = $userName;
+		$baseUserId = \App\User::getCurrentUserRealId();
+		$users = $userIds = [];
+		if (isset($switchUsers[$baseUserId])) {
+			foreach ($switchUsers[$baseUserId] as $userId => &$userName) {
+				$users[$userId] = ['userName' => $userName];
+				$userIds[] = $userId;
 			}
-			if (count($users) > 1) {
+			if ($showRole) {
+				$dataReader = (new \App\Db\Query())->select(['vtiger_role.rolename', 'vtiger_user2role.userid'])->from('vtiger_role')
+						->leftJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
+						->where(['vtiger_user2role.userid' => $userIds])
+						->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$users[$row['userid']]['roleName'] = $row['rolename'];
+				}
+			}
+			if ($users) {
 				return $users;
 			}
 		}
@@ -300,5 +290,32 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function getDefaultUrl()
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getListViewName() . '&parent=Settings';
+	}
+
+	/**
+	 * Function to save a given record model of the current module
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function saveRecord(\Vtiger_Record_Model $recordModel)
+	{
+		$moduleName = $this->get('name');
+		$focus = $this->getEntityInstance();
+		$fields = $focus->column_fields;
+		foreach ($fields as $fieldName => $fieldValue) {
+			$fieldValue = $recordModel->get($fieldName);
+			if (is_array($fieldValue)) {
+				$focus->column_fields[$fieldName] = $fieldValue;
+			} else if ($fieldValue !== null) {
+				$focus->column_fields[$fieldName] = decode_html($fieldValue);
+			}
+		}
+		$focus->mode = !$recordModel->isNew() ? 'edit' : '';
+		$focus->id = $recordModel->getId();
+
+		$recordModel->setData($focus->column_fields)->setEntity($focus);
+		$focus->save($moduleName);
+		$recordModel->setId($focus->id);
+
+		return $recordModel;
 	}
 }

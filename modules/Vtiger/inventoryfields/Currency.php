@@ -12,9 +12,9 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'Currency';
 	protected $defaultLabel = 'LBL_CURRENCY';
 	protected $columnName = 'currency';
-	protected $dbType = 'int(10)';
+	protected $dbType = [\yii\db\Schema::TYPE_INTEGER, 11];
 	protected $customColumn = [
-		'currencyparam' => 'varchar(1024)'
+		'currencyparam' => [\yii\db\Schema::TYPE_STRING, 1024]
 	];
 	protected $blocks = [0];
 
@@ -31,7 +31,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	public function getCurrencyParam($currencies, $param = false)
 	{
 		if ($param !== false) {
-			return \includes\utils\Json::decode($param);
+			return \App\Json::decode($param);
 		} else {
 			foreach ($currencies as $currency) {
 				$return[$currency['id']] = vtlib\Functions::getConversionRateInfo($currency['id']);

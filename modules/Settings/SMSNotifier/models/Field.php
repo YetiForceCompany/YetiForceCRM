@@ -13,7 +13,7 @@ class Settings_SMSNotifier_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field data type
-	 * @return <String> data type
+	 * @return string data type
 	 */
 	public function getFieldDataType()
 	{

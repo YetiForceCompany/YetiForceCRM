@@ -9,20 +9,30 @@
 class OpenStreetMap
 {
 
+	/**
+	 * Handler
+	 * @param string $moduleName
+	 * @param string $eventType
+	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		$db = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$db->update('vtiger_tab', ['customized' => 0], 'name = ?', [$moduleName]);
-			$eventsManager = new \VTEventsManager($db);
-			$eventsManager->registerHandler('vtiger.entity.aftersave.final', 'modules/OpenStreetMap/handlers/OpenStreetMapHandler.php', 'OpenStreetMapHandler', "moduleName in ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition', 'Contacts']");
-			\vtlib\Cron::register('UpdaterCoordinates', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, 'OpenStreetMap', 1);
+			App\EventHandler::registerHandler('EntityAfterSave', 'OpenStreetMap_OpenStreetMapHandler_Handler', 'Accounts,Leads,Partners,Vendors,Competition,Contacts', '', 3);
+			\vtlib\Cron::register('LBL_UPDATER_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterCoordinates.php', 60, 'OpenStreetMap', 1);
+			\vtlib\Cron::register('LBL_UPDATER_RECORDS_COORDINATES', 'modules/OpenStreetMap/cron/UpdaterRecordsCoordinates.php', 300, 'OpenStreetMap', 1);
 		} else if ($eventType == 'module.disabled') {
-			$db->update('vtiger_eventhandlers', ['is_active' => 0], 'handler_class = ?', ['OpenStreetMapHandler']);
+			App\EventHandler::setInActive('OpenStreetMap_OpenStreetMapHandler_Handler');
+			\vtlib\Cron::getInstance('LBL_UPDATER_COORDINATES')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
+			\vtlib\Cron::getInstance('LBL_UPDATER_RECORDS_COORDINATES')->updateStatus(\vtlib\Cron::$STATUS_DISABLED);
 		} else if ($eventType == 'module.enabled') {
-			$db->update('vtiger_eventhandlers', ['is_active' => 1], 'handler_class = ?', ['OpenStreetMapHandler']);
+			App\EventHandler::setActive('OpenStreetMap_OpenStreetMapHandler_Handler');
+			\vtlib\Cron::getInstance('LBL_UPDATER_RECORDS_COORDINATES')->updateStatus(\vtlib\Cron::$STATUS_ENABLED);
 		} else if ($eventType == 'module.preuninstall') {
-			$db->delete('vtiger_eventhandlers', 'handler_class = ?', ['OpenStreetMapHandler']);
+			App\EventHandler::deleteHandler('OpenStreetMap_OpenStreetMapHandler_Handler');
+			\vtlib\Cron::deregister('LBL_UPDATER_RECORDS_COORDINATES');
+			\vtlib\Cron::deregister('LBL_UPDATER_COORDINATES');
 		}
 	}
 }

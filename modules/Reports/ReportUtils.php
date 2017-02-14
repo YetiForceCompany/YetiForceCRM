@@ -42,7 +42,7 @@ function getFieldByReportLabel($module, $label)
 	}
 
 	foreach ($cachedModuleFields as $fieldInfo) {
-		$fieldLabel = str_replace(' ', '__', $fieldInfo['fieldlabel']);
+		$fieldLabel = str_replace(' ', '_', $fieldInfo['fieldlabel']);
 		$fieldLabel = decode_html($fieldLabel);
 		if ($label == $fieldLabel) {
 			VTCacheUtils::setReportFieldByLabel($module, $label, $fieldInfo);
@@ -128,7 +128,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	} elseif ($dbField->name == "PriceBooks_Currency") {
 		if ($value != '') {
-			$fieldvalue = \includes\Language::translate($value, 'Currency');
+			$fieldvalue = \App\Language::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
 		$entityNames = getEntityName('Users', $value);
@@ -165,12 +165,12 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			if (is_array($picklistArray[$dbField->name]) &&
 				$field->getFieldName() != 'activitytype' && !in_array(
 					$value, $picklistArray[$dbField->name])) {
-				$fieldvalue = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
+				$fieldvalue = \App\Language::translate('LBL_NOT_ACCESSIBLE');
 			} else {
-				$fieldvalue = \includes\Language::translate($value, $module);
+				$fieldvalue = \App\Language::translate($value, $module);
 			}
 		} else {
-			$fieldvalue = \includes\Language::translate($value, $module);
+			$fieldvalue = \App\Language::translate($value, $module);
 		}
 	} elseif ($fieldType == "multipicklist" && !empty($value)) {
 		if (is_array($picklistArray[1])) {
@@ -179,9 +179,9 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			foreach ($valueList as $value) {
 				if (is_array($picklistArray[1][$dbField->name]) && !in_array(
 						$value, $picklistArray[1][$dbField->name])) {
-					$translatedValueList[] = \includes\Language::translate('LBL_NOT_ACCESSIBLE');
+					$translatedValueList[] = \App\Language::translate('LBL_NOT_ACCESSIBLE');
 				} else {
-					$translatedValueList[] = \includes\Language::translate($value, $module);
+					$translatedValueList[] = \App\Language::translate($value, $module);
 				}
 			}
 		}
@@ -207,28 +207,6 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	}
 
-	if ('vtiger_crmentity' == $dbField->table && false != strpos($dbField->name, 'Share__with__users')) {
-
-		if ($value) {
-			$listId = explode(',', $value);
-			$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-			$getListUserSql = "select $usersSqlFullName as uname from vtiger_users WHERE id IN (" . generateQuestionMarks($listId) . ') ';
-			$getListUserResult = $db->pquery($getListUserSql, array($listId), true);
-
-			$fieldvalue = '';
-			$finalList = array();
-
-			$listUsers = $getListUserResult->GetAll();
-
-			$countListUsers = count($listUsers);
-			for ($i = 0; $i < $countListUsers; $i++) {
-				$finalList[] = $listUsers[$i][0];
-			}
-
-			$fieldvalue = implode(', ', $finalList);
-		}
-	}
-
 	if ($fieldvalue == "") {
 		return "-";
 	}
@@ -244,18 +222,14 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		$date = new DateTimeField($fieldvalue);
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	}
-
 	// Added to render html tag for description fields
-	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents' || $module == 'Emails'))) {
+	if (!($fieldInfo['uitype'] == '19' && ($module == 'Documents'))) {
 		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
 	}
 	if ($fieldvalue !== '-' && $fieldvalue !== null && $fieldvalue !== '') {
 		switch ($fieldType) {
 			case 'double':
-			case 'currency':
 				return (double) $fieldvalue;
-			case 'boolean':
-				return (bool) $fieldvalue;
 		}
 	}
 	return $fieldvalue;

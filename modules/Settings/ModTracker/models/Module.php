@@ -14,23 +14,18 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getModTrackerModules($active = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$restrictedModules = array('Emails', 'Integration', 'Dashboard', 'PBXManager', 'vtmessages', 'vttwitter');
-		$params = Array(0, 2, 1);
-		$params = array_merge($params, $restrictedModules);
-		$sql = 'SELECT vtiger_tab.name,vtiger_tab.tabid, vtiger_modtracker_tabs.visible 
-				FROM vtiger_tab LEFT JOIN vtiger_modtracker_tabs ON vtiger_tab.tabid = vtiger_modtracker_tabs.tabid
-				WHERE vtiger_tab.presence IN (?,?) && vtiger_tab.isentitytype = ? && vtiger_tab.name NOT IN (%s)';
-		$sql = sprintf($sql, generateQuestionMarks($restrictedModules));
+		$restrictedModules = ['Integration', 'Dashboard', 'PBXManager'];
+		$query = (new \App\Db\Query())->select(['vtiger_tab.name', 'vtiger_tab.tabid', 'vtiger_modtracker_tabs.visible'])
+			->from('vtiger_tab')
+			->leftJoin('vtiger_modtracker_tabs', 'vtiger_tab.tabid = vtiger_modtracker_tabs.tabid')
+			->where(['vtiger_tab.presence' => [0, 2], 'vtiger_tab.isentitytype' => 1])
+			->andWhere(['NOT IN', 'vtiger_tab.name', $restrictedModules]);
 		if ($active) {
-			$sql = ' && vtiger_modtracker_tabs.visible = ?';
-			$params[] = 1;
+			$query->andWhere(['tiger_modtracker_tabs.visible' => 1]);
 		}
-		$result = $adb->pquery($sql, $params);
-		$modules = Array();
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		$dataReader = $query->createCommand()->query();
+		$modules = [];
+		while ($row = $dataReader->read()) {
 			$modules[] = array(
 				'id' => $row['tabid'],
 				'module' => $row['name'],
@@ -42,11 +37,10 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function changeActiveStatus($tabid, $status)
 	{
-		include_once('modules/ModTracker/ModTracker.php');
-		$moduleModTrackerInstance = new ModTracker();
-		if ($status)
-			$moduleModTrackerInstance->enableTrackingForModule($tabid);
-		else
-			$moduleModTrackerInstance->disableTrackingForModule($tabid);
+		if ($status) {
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
+		} else {
+			CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
+		}
 	}
 }

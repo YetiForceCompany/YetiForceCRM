@@ -33,7 +33,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		if (typeof this.relatedModulename == "undefined" || this.relatedModulename.length <= 0) {
-			return;
+			var currentInstance = Vtiger_Detail_Js.getInstance();
+			currentInstance.loadWidgets();
+			return aDeferred.promise();
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -128,7 +130,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 
 		params['related_module'] = relatedModuleName;
 		params['src_record'] = sourceRecordId;
-		params['related_record_list'] = JSON.stringify(idList);
+		params['related_record_list'] = jQuery.isArray(idList) ? JSON.stringify(idList) : idList;
 
 		AppConnector.request(params).then(
 				function (responseData) {
@@ -239,6 +241,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var aDeferred = jQuery.Deferred();
 		var fieldName = headerElement.data('fieldname');
 		var sortOrderVal = headerElement.data('nextsortorderval');
+		if (typeof sortOrderVal === 'undefined')
+			return;
 		var sortingParams = {
 			"orderby": fieldName,
 			"sortorder": sortOrderVal,
@@ -513,100 +517,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 			aDeferred.resolve();
 		}
 		return aDeferred.promise();
-	},
-	addFollowupEvent: function (e) {
-		var elem = jQuery(e.currentTarget);
-		var recordId = elem.closest('tr').data('id');
-
-		var url = 'index.php?module=Calendar&view=QuickCreateFollowupAjax&record=' + recordId;
-		var progressIndicatorInstance = jQuery.progressIndicator({});
-		AppConnector.request(url).then(
-				function (data) {
-					if (data) {
-						progressIndicatorInstance.hide();
-						app.showModalWindow(data, function (data) {
-							var createFollowupForm = data.find('form.followupCreateView');
-							createFollowupForm.validationEngine(app.validationEngineOptions);
-							app.registerEventForTimeFields(createFollowupForm);
-							//Form submit
-							createFollowupForm.submit(function (event) {
-								var createButton = jQuery(this).find('button.btn-success');
-								createButton.attr('disabled', 'disabled');
-								progressIndicatorInstance = jQuery.progressIndicator({});
-								event.preventDefault();
-								var result = createFollowupForm.validationEngine('validate');
-								if (!result) {
-									createButton.removeAttr('disabled');
-									progressIndicatorInstance.hide();
-									return false;
-								}
-								var moduleName = jQuery(this).find("[name='module']").val();
-								var recordId = jQuery(this).find("[name='record']").val();
-								var followupStartDate = jQuery(this).find("[name='followup_date_start']").val();
-								var followupStartTime = jQuery(this).find("[name='followup_time_start']").val();
-								var action = jQuery(this).find("[name='action']").val();
-								var mode = jQuery(this).find("[name='mode']").val();
-								var defaultCallDuration = jQuery(this).find("[name='defaultCallDuration']").val();
-								var defaultOtherEventDuration = jQuery(this).find("[name='defaultOtherEventDuration']").val();
-								var params = {
-									module: moduleName,
-									action: action,
-									mode: mode,
-									record: recordId,
-									followup_date_start: followupStartDate,
-									followup_time_start: followupStartTime,
-									defaultCallDuration: defaultCallDuration,
-									defaultOtherEventDuration: defaultOtherEventDuration
-								}
-								AppConnector.request(params).then(function (data) {
-									app.hideModalWindow();
-									progressIndicatorInstance.hide();
-									if (data['result'].created) {
-										//Update related listview and pagination
-										Vtiger_Detail_Js.reloadRelatedList();
-									}
-								});
-							});
-						});
-					} else {
-						progressIndicatorInstance.hide();
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION', "Calendar"));
-					}
-				});
-	},
-	markAsCompleted: function (e) {
-		var elem = jQuery(e.currentTarget);
-		var recordId = elem.closest('tr').data('id');
-		var message = app.vtranslate('JS_CONFIRM_MARK_AS_HELD');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var params = {
-						module: "Calendar",
-						action: "SaveFollowupAjax",
-						mode: "markAsHeldCompleted",
-						record: recordId
-					}
-					AppConnector.request(params).then(function (data) {
-						if (data['error']) {
-							var param = {text: app.vtranslate('JS_PERMISSION_DENIED')};
-							Vtiger_Helper_Js.showPnotify(param);
-						} else if (data['result'].valid && data['result'].markedascompleted) {
-							//Update related listview and pagination
-							Vtiger_Detail_Js.reloadRelatedList();
-							if (data['result'].activitytype == 'Task')
-								var param = {text: app.vtranslate('JS_TODO_MARKED_AS_COMPLETED')};
-							else
-								var param = {text: app.vtranslate('JS_EVENT_MARKED_AS_HELD')};
-							Vtiger_Helper_Js.showMessage(param);
-						} else {
-							var param = {text: app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_MARKED_AS_HELD')};
-							Vtiger_Helper_Js.showPnotify(param);
-						}
-					});
-				},
-				function (error, err) {
-					return false;
-				});
 	},
 	favoritesRelation: function (relcrmId, state) {
 		var aDeferred = jQuery.Deferred();

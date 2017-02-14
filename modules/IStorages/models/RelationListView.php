@@ -19,8 +19,9 @@ class IStorages_RelationListView_Model extends Vtiger_RelationListView_Model
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
-		if ($this->getRelationModel()->get('modulename') == 'Products' && $this->getRelationModel()->get('name') == 'get_many_to_many') {
+		if ($this->getRelationModel()->get('modulename') == 'Products' && $this->getRelationModel()->get('name') == 'getManyToMany') {
 			$qtyInStock = new Vtiger_Field_Model();
+			$qtyInStock->setModule(Vtiger_Module_Model::getInstance('Products'));
 			$qtyInStock->set('name', 'qtyproductinstock');
 			$qtyInStock->set('column', 'qtyproductinstock');
 			$qtyInStock->set('label', 'FL_QTY_IN_STOCK');

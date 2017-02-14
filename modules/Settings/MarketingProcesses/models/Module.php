@@ -21,22 +21,22 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 	public static function getConfig($type)
 	{
 		
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
+		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('MarketingProcesses', $type);
 		if ($cache) {
-			\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM yetiforce_proc_marketing WHERE type = ?;', [$type]);
-		if ($db->num_rows($result) == 0) {
+		$query = (new \App\Db\Query())->from('yetiforce_proc_marketing')->where(['type' => $type]);
+		$dataReader = $query->createCommand()->query();
+		$noRows = $dataReader->count();
+		if ($noRows === 0) {
 			return [];
 		}
 		$config = [];
-		for ($i = 0; $i < $db->num_rows($result); ++$i) {
-			$param = $db->query_result_raw($result, $i, 'param');
-			$value = $db->query_result_raw($result, $i, 'value');
+		while ($row = $dataReader->read()) {
+			$param = $row['param'];
+			$value = $row['value'];
 			if (in_array($param, ['groups', 'status', 'convert_status'])) {
 				$config[$param] = $value == '' ? [] : explode(',', $value);
 			} else {
@@ -44,21 +44,21 @@ class Settings_MarketingProcesses_Module_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('MarketingProcesses', $type, $config);
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}
 
 	public static function setConfig($param)
 	{
 		
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
-		$db = PearDatabase::getInstance();
+		\App\Log::trace('Start ' . __METHOD__);
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		$db->pquery('UPDATE yetiforce_proc_marketing SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Db::getInstance()->createCommand()->update('yetiforce_proc_marketing',
+			['value' => $value], ['type' => $param['type'], 'param' => $param['param']])->execute();
+		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 }

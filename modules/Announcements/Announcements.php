@@ -83,7 +83,7 @@ class Announcements extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			\includes\fields\RecordNumber::setNumber($moduleName, 'NO', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'NO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Announcements'));
 
 		} else if ($eventType == 'module.disabled') {

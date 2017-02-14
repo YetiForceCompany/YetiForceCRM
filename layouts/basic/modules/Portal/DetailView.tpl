@@ -37,8 +37,8 @@
 			</div>
 		</div>
 		<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
-			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		<br>
 		{if substr($URL, 0, 8) neq 'https://'}<div id="portalDetailViewHttpError" class="row"><div class="col-md-12">{vtranslate('HTTP_ERROR', $MODULE)}</div></div>{/if}

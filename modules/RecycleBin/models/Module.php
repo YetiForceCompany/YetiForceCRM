@@ -13,7 +13,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
@@ -112,7 +112,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function getAllModuleList()
 	{
 		$moduleModels = parent::getEntityModules();
-		$restrictedModules = array('Emails', 'ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
+		$restrictedModules = array('ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
 		foreach ($moduleModels as $key => $moduleModel) {
 			if (in_array($moduleModel->getName(), $restrictedModules) || $moduleModel->get('isentitytype') != 1) {
 				unset($moduleModels[$key]);
@@ -126,18 +126,14 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function emptyRecycleBin()
 	{
-		$db = PearDatabase::getInstance();
-		$getIdsQuery = 'SELECT crmid from vtiger_crmentity WHERE deleted=?';
-		$result = $db->pquery($getIdsQuery, [1]);
-		$recordIds = [];
-		while (($crmid = $db->getSingleValue($result)) !== false) {
-			$recordIds[] = $crmid;
-		}
-		if (count($recordIds)) {
+		$recordIds = (new \App\Db\Query())->select('crmid')->from('vtiger_crmentity')->where(['deleted' => 1])->column();
+		if ($recordIds) {
+			$this->deletePerminently($recordIds);
 			$this->deleteFiles($recordIds);
 		}
-		$db->query('DELETE FROM vtiger_crmentity WHERE deleted = 1');
-		$db->query('DELETE FROM vtiger_relatedlists_rb');
+		\App\Db::getInstance()->createCommand()
+			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
+			->execute();
 		return true;
 	}
 
@@ -147,21 +143,26 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function deleteRecords($recordIds)
 	{
-		$db = PearDatabase::getInstance();
+		$this->deletePerminently($recordIds);
 		//Delete the records in vtiger crmentity and relatedlists.
-		$where = sprintf('deleted = ? and crmid in(%s)', generateQuestionMarks($recordIds));
-		$db->delete('vtiger_crmentity', $where, [1, $recordIds]);
-
-		$where = sprintf('entityid in(%s)', generateQuestionMarks($recordIds));
-		$db->delete('vtiger_relatedlists_rb', $where, [$recordIds]);
-
+		\App\Db::getInstance()->createCommand()
+			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
+			->execute();
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
-
 	}
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds
 	 */
+
+	public function deletePerminently($recordIds)
+	{
+		foreach ($recordIds as &$recordId) {
+			$moduleName = App\Record::getType($recordId);
+			$entity = CRMEntity::getInstance($moduleName);
+			$entity->deletePerminently($moduleName, $recordId);
+		}
+	}
 
 	public function deleteFiles($recordIds)
 	{
@@ -199,17 +200,14 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to restore the deleted records.
-	 * @param type $sourceModule
-	 * @param type $recordIds
+	 * @param string $sourceModule
+	 * @param int[] $recordIds
 	 */
 	public function restore($sourceModule, $recordIds)
 	{
 		$focus = CRMEntity::getInstance($sourceModule);
-		$countRecordIds = count($recordIds);
-		for ($i = 0; $i < $countRecordIds; $i++) {
-			if (!empty($recordIds[$i])) {
-				$focus->restore($sourceModule, $recordIds[$i]);
-			}
+		foreach (array_filter($recordIds) as $id) {
+			$focus->restore($sourceModule, $id);
 		}
 	}
 

@@ -192,15 +192,16 @@ jQuery.Class("Vtiger_Header_Js", {
 			var quickCreateContent = quickCreateForm.find('.quickCreateContent');
 			var quickCreateContentHeight = quickCreateContent.height();
 			var contentHeight = parseInt(quickCreateContentHeight);
-			if (contentHeight > 300) {
+			var maxHeight = app.getScreenHeight(70);
+			if (contentHeight > maxHeight) {
 				app.showScrollBar(jQuery('.quickCreateContent'), {
-					'height': '300px'
+					'height': maxHeight + 'px'
 				});
 			}
-
-			var customConfig = {};
-			customConfig.toolbar = 'Basic';
-			customConfig.height = '5em';
+			var customConfig = {
+				height: '5em',
+				toolbar: 'Min'
+			};
 			jQuery.each(data.find('.ckEditorSource'), function (key, element) {
 				var ckEditorInstance = new Vtiger_CkEditor_Js();
 				ckEditorInstance.loadCkEditor(jQuery(element), customConfig);
@@ -413,14 +414,6 @@ jQuery.Class("Vtiger_Header_Js", {
 				return false;
 			} else {
 				var invalidFields = form.data('jqv').InvalidFields;
-
-				// save ckeditor values to inputs before submitting
-				jQuery('textarea[id$="_qc"]').each(function () {
-					var thisId = jQuery(this).attr('id');
-					var ckValue = CKEDITOR.instances[thisId].getData();
-					jQuery(this).val(ckValue);
-				});
-
 				if (invalidFields.length > 0) {
 					//If validation fails, form should submit again
 					form.removeData('submit');
@@ -541,6 +534,13 @@ jQuery.Class("Vtiger_Header_Js", {
 				thisInstance.labelSearch(currentTarget);
 			}
 		});
+		jQuery('.globalSearchOperator').on('click', function (e) {
+			var currentTarget = jQuery(e.target);
+			var block = currentTarget.closest('.globalSearchInput');
+			block.find('.globalSearchValue').data('operator', currentTarget.data('operator'));
+			block.find('.globalSearchOperator li').removeClass('active');
+			currentTarget.closest('li').addClass('active');
+		});
 		if (jQuery('#gsAutocomplete').val() == 1) {
 			$.widget("custom.gsAutocomplete", $.ui.autocomplete, {
 				_create: function () {
@@ -592,6 +592,7 @@ jQuery.Class("Vtiger_Header_Js", {
 						var url = 'index.php?module=' + selectedItemData.module + '&view=Detail&record=' + selectedItemData.id;
 						window.location.href = url;
 					}
+					return false;
 				},
 				close: function (event, ui) {
 					//jQuery('.globalSearchValue').val('');
@@ -606,13 +607,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			currentTarget.focus();
 			return false;
 		}
-		var basicSearch = new Vtiger_BasicSearch_Js();
 		var progress = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
+		var basicSearch = new Vtiger_BasicSearch_Js();
 		basicSearch.setMainContainer(currentTarget.closest('.globalSearchInput'));
 		basicSearch.search(val).then(function (data) {
 			basicSearch.showSearchResults(data);
@@ -626,7 +627,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		var maxValues = 20;
 		var BtnText = '';
 		var BtnLink = 'javascript:void();';
-		var history = localStorage.history;
+		var userId = app.getMainParams('current_user_id');
+		if (userId == undefined) {
+			return false;
+		}
+		var key = 'yf_history_' + userId;
+		var history = localStorage.getItem(key);
 		if (history != "" && history != null) {
 			var sp = history.toString().split("_|_");
 			var item = sp[sp.length - 1].toString().split("|");
@@ -672,13 +678,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			if (sp.length >= maxValues) {
 				sp.splice(0, 1);
 			}
-			localStorage.history = sp.join('_|_');
+			localStorage.setItem(key, sp.join('_|_'));
 		} else {
 			var stack = new Array();
 			var Label = this.getHistoryLabel();
 			if (Label.length > 1) {
 				stack.push(this.getHistoryLabel() + '|' + document.URL + '|' + date);
-				localStorage.history = stack.join('_|_');
+				localStorage.setItem(key, stack.join('_|_'));
 			}
 		}
 		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
@@ -694,10 +700,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		return label;
 	},
 	registerClearHistory: function () {
-		$(".historyBtn .clearHistory").click(function () {
-			localStorage.history = "";
+		$(".historyList .clearHistory").click(function () {
+			var key = 'yf_history_' + app.getMainParams('current_user_id');
+			localStorage.removeItem(key);
 			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
-			$(".historyBtn .dropdown-menu").html(htmlContent);
+			$(".historyList.dropdown-menu").html(htmlContent);
 		});
 	},
 	registerHotKeys: function () {
@@ -932,6 +939,9 @@ jQuery.Class("Vtiger_Header_Js", {
 		});
 
 		thisInstance.basicSearch();
+		$('.bodyHeader .dropdownMenu').on("click", function (e) {
+			$(this).next('ul').toggle();
+		});
 		jQuery('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);
@@ -939,7 +949,7 @@ jQuery.Class("Vtiger_Header_Js", {
 
 		thisInstance.registerMobileEvents();
 
-		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 			jQuery('#basicSearchModulesList_chosen').find('.chzn-results').css({'max-height': '350px', 'overflow-y': 'scroll'});
 		} else {
 			app.showScrollBar(jQuery('#basicSearchModulesList_chosen').find('.chzn-results'), {

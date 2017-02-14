@@ -9,8 +9,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-vimport('~include/Webservices/Query.php');
-
 class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 {
 
@@ -18,8 +16,8 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 
 	/**
 	 * Function to set the module instance
-	 * @param <Vtiger_Module_Model> $moduleInstance - module model
-	 * @return Vtiger_DetailView_Model>
+	 * @param Vtiger_Module_Model $moduleInstance - module model
+	 * @return \self
 	 */
 	public function setModule($moduleInstance)
 	{
@@ -32,73 +30,15 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 	}
 
 	/**
-	 * Function to get list of tooltip enabled field model.
-	 * @return <Vtiger_Field_Model>
-	 */
-	public function getFields()
-	{
-		return $this->fields;
-	}
-
-	/**
-	 * Function to load record
-	 * @param <Number> $recordId
-	 * @return <Vtiger_Record_Model>
-	 */
-	protected function loadRecord($recordId)
-	{
-		$moduleName = $this->module->getName();
-
-		// Preparation to pull required tool-tip field values.
-		$referenceFields = [];
-		$fieldNames = [];
-		foreach ($this->fields as $fieldModel) {
-			if (!$fieldModel->isViewEnabled()) {
-				continue;
-			}
-			$fieldType = $fieldModel->getFieldDataType();
-			$fieldName = $fieldModel->get('name');
-
-			$fieldNames[] = $fieldName;
-			if ($fieldType == 'reference' || $fieldType == 'owner') {
-				$referenceFields[] = $fieldName;
-			}
-		}
-		$wsid = vtws_getWebserviceEntityId($moduleName, $recordId);
-		$q = sprintf("SELECT %s FROM %s WHERE id='%s' LIMIT 1;", implode(',', $fieldNames), $moduleName, $wsid);
-
-		// Retrieves only required fields of the record with permission check.
-		try {
-			$data = array_shift(vtws_query($q, Users_Record_Model::getCurrentUserModel()));
-
-			if ($data) {
-				// De-transform the webservice ID to CRM ID.
-				foreach ($data as $key => $value) {
-					if (in_array($key, $referenceFields)) {
-						$value = array_pop(explode('x', $value));
-					}
-					$data[$key] = $value;
-				}
-			}
-
-			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$this->record->setData($data);
-		} catch (WebServiceException $wex) {
-			// Error retrieving information !
-		}
-		return $this;
-	}
-
-	/**
 	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{
 		if (!$this->structuredValues) {
 			$tooltipFieldsList = $this->fields;
 			$recordModel = $this->getRecord();
-			$this->structuredValues = array('TOOLTIP_FIELDS' => []);
+			$this->structuredValues = ['TOOLTIP_FIELDS' => []];
 			if ($tooltipFieldsList) {
 				foreach ($tooltipFieldsList as $fieldModel) {
 					$fieldName = $fieldModel->get('name');
@@ -115,17 +55,15 @@ class Vtiger_TooltipView_Model extends Vtiger_DetailRecordStructure_Model
 
 	/**
 	 * Function to get the instance
-	 * @param <String> $moduleName - module name
-	 * @param <String> $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
+	 * @param string $moduleName - module name
+	 * @param string $recordId - record id
+	 * @return \self
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
 		$instance = new $modelClassName();
-
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		return $instance->setModule($moduleModel)->loadRecord($recordId);
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		return $instance->setModule($recordModel->getModule())->setRecord($recordModel);
 	}
 }

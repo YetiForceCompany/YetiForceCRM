@@ -2,7 +2,9 @@
 /.settings
 /.project
 /.buildpath
+/_private
 README.md
+/user_privileges/cron.php
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php
@@ -14,3 +16,11 @@ README.md
 /modules/OSSMail/roundcube/
 /libraries/PHPExcel/
 /libraries/AJAXChat/
+/libraries/gantt/
+/vendor/rmccue/
+/vendor/smarty/
+/vendor/phpmailer/
+/vendor/ezyang/
+/vendor/symfony/
+/vendor/doctrine/
+/vendor/simshaun/

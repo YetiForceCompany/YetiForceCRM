@@ -27,14 +27,16 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 
 	public static function getGlobalPermissions()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_profile2globalpermissions LEFT JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid', array());
-		for ($i = 0; $i < $db->num_rows($result); ++$i) {
-			$profileid = $db->query_result($result, $i, 'profileid');
-			$actionId = $db->query_result($result, $i, 'globalactionid');
-			$permissionId = $db->query_result($result, $i, 'globalactionpermission');
-			$profilename = $db->query_result($result, $i, 'profilename');
-			$description = $db->query_result($result, $i, 'description');
+		$dataReader = (new App\Db\Query())->from('vtiger_profile2globalpermissions')
+			->leftJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_profile2globalpermissions.profileid')
+			->createCommand()->query();
+		$globalPermissions = [];
+		while($row = $dataReader->read()) {
+			$profileid = $row['profileid'];
+			$actionId = $row['globalactionid'];
+			$permissionId = $row['globalactionpermission'];
+			$profilename = $row['profilename'];
+			$description =$row['description'];
 			$globalPermissions[$profileid]['gp_' . $actionId] = $permissionId;
 			$globalPermissions[$profileid]['profilename'] = $profilename;
 			$globalPermissions[$profileid]['description'] = $description;
@@ -47,10 +49,13 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		if ($globalactionid == 1) {
 			\App\Privilege::setAllUpdater();
 		}
-		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=? && globalactionid=?', array($profileID, $globalactionid));
-		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
-		$db->pquery($sql, array($profileID, $globalactionid, $checked));
+		$db = App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileID, 'globalactionid' => $globalactionid])->execute();
+		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
+			'profileid' => $profileID,
+			'globalactionid' => $globalactionid,
+			'globalactionpermission' => $checked
+		])->execute();
 		self::recalculate();
 	}
 

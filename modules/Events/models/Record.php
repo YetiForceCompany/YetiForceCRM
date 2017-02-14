@@ -16,7 +16,7 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	/**
 	 * Function to get the Edit View url for the record
-	 * @return <String> - Record Edit View Url
+	 * @return string - Record Edit View Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -26,7 +26,7 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	/**
 	 * Function to get the Delete Action url for the record
-	 * @return <String> - Record Delete Action Url
+	 * @return string - Record Delete Action Url
 	 */
 	public function getDeleteUrl()
 	{
@@ -36,7 +36,7 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	/**
 	 * Funtion to get Duplicate Record Url
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDuplicateRecordUrl()
 	{
@@ -47,7 +47,7 @@ class Events_Record_Model extends Calendar_Record_Model
 	public function getInvities()
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$this->getId()]);
+		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [(int) $this->getId()]);
 		$invitees = [];
 		while ($row = $db->getRow($result)) {
 			$invitees[] = $row;
@@ -78,7 +78,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$cont_name = '';
 		foreach ($cont_id as $key => $id) {
 			if ($id != '') {
-				$contact_name = \includes\Record::getLabel($id);
+				$contact_name = \App\Record::getLabel($id);
 				$cont_name .= $contact_name . ', ';
 			}
 		}
@@ -86,7 +86,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$parentId = $this->get('parent_id');
 		$parentName = '';
 		if ($parentId != '') {
-			$parentName = \includes\Record::getLabel($parentId);
+			$parentName = \App\Record::getLabel($parentId);
 		}
 
 		$cont_name = trim($cont_name, ', ');
@@ -101,7 +101,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['contact_name'] = $cont_name;
 		$mail_data['description'] = $this->get('description');
 		$mail_data['assign_type'] = $this->get('assigntype');
-		$mail_data['group_name'] = \includes\fields\Owner::getGroupName($this->get('assigned_user_id'));
+		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
 		$value = getaddEventPopupTime(AppRequest::get('time_start'), AppRequest::get('time_end'), '24');
@@ -114,5 +114,25 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
 		$mail_data['location'] = $this->get('location');
 		return $mail_data;
+	}
+
+	/**
+	 * Add relation
+	 * @param Vtiger_Request $request
+	 */
+	public function addRelationOperation(Vtiger_Request $request)
+	{
+		if ($request->get('relationOperation')) {
+			$parentModuleName = $request->get('sourceModule');
+			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
+			$parentRecordId = $request->get('sourceRecord');
+			$relatedModule = $this->getModule();
+			if ($relatedModule->getName() == 'Events') {
+				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+			}
+			$relatedRecordId = $this->getId();
+			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
+			$relationModel->addRelation($parentRecordId, $relatedRecordId);
+		}
 	}
 }

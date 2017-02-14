@@ -539,8 +539,6 @@ class PackageImport extends PackageExport
 	 * Import Module from zip file
 	 * @param String Zip file name
 	 * @param Boolean True for overwriting existing module
-	 *
-	 * @todo overwrite feature is not functionally currently.
 	 */
 	public function import($zipfile, $overwrite = false)
 	{
@@ -870,30 +868,13 @@ class PackageImport extends PackageExport
 	 */
 	public function import_Events($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->events) || empty($modulenode->events->event))
+		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
-
-		if (Event::hasSupport()) {
-			foreach ($modulenode->events->event as $eventnode) {
-				$this->import_Event($modulenode, $moduleInstance, $eventnode);
-			}
 		}
-	}
-
-	/**
-	 * Import Event of the module
-	 * @access private
-	 */
-	public function import_Event($modulenode, $moduleInstance, $eventnode)
-	{
-		$event_condition = '';
-		$event_dependent = '[]';
-		if (!empty($eventnode->condition))
-			$event_condition = "$eventnode->condition";
-		if (!empty($eventnode->dependent))
-			$event_dependent = "$eventnode->dependent";
-		Event::register($moduleInstance, (string) $eventnode->eventname, (string) $eventnode->classname, (string) $eventnode->filename, (string) $event_condition, (string) $event_dependent
-		);
+		$moduleId = \App\Module::getModuleId($moduleInstance->name);
+		foreach ($modulenode->eventHandlers->event as &$eventNode) {
+			\App\EventHandler::registerHandler($eventNode->eventName, $eventNode->className, $eventNode->includeModules, $eventNode->excludeModules, $eventNode->priority, $eventNode->isActive, $moduleId);
+		}
 	}
 
 	/**
@@ -915,11 +896,12 @@ class PackageImport extends PackageExport
 	 */
 	public function import_Action($modulenode, $moduleInstance, $actionnode)
 	{
-		$actionstatus = $actionnode->status;
-		if ($actionstatus == 'enabled')
-			$moduleInstance->enableTools($actionnode->name);
-		else
-			$moduleInstance->disableTools($actionnode->name);
+		$actionstatus = (string) $actionnode->status;
+		if ($actionstatus === 'enabled') {
+			$moduleInstance->enableTools((string) $actionnode->name);
+		} else {
+			$moduleInstance->disableTools((string) $actionnode->name);
+		}
 	}
 
 	/**
@@ -1027,6 +1009,7 @@ class PackageImport extends PackageExport
 		$dirName = 'cache/updates';
 		$result = false;
 		$adb = \PearDatabase::getInstance();
+		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
 			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
@@ -1034,6 +1017,8 @@ class PackageImport extends PackageExport
 			$updateInstance = new \YetiForceUpdate($modulenode);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
+			file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+			ob_start();
 			if ($result != false) {
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
@@ -1042,6 +1027,8 @@ class PackageImport extends PackageExport
 					}
 				}
 				Functions::recurseCopy($dirName . '/files', '', true);
+				file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+				ob_start();
 				$result = $updateInstance->postupdate();
 			}
 
@@ -1061,6 +1048,8 @@ class PackageImport extends PackageExport
 		}
 		Functions::recurseDelete($dirName);
 		Functions::recurseDelete('cache/templates_c');
+		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
+		ob_end_clean();
 	}
 
 	/**
@@ -1074,7 +1063,7 @@ class PackageImport extends PackageExport
 		$module = (string) $this->moduleInstance->name;
 
 		$inventoryInstance = \Vtiger_Inventory_Model::getInstance($module);
-		$inventoryInstance->setInventoryTable(true);
+		$inventoryInstance->createInventoryTables();
 		$inventoryFieldInstance = \Vtiger_InventoryField_Model::getInstance($module);
 		foreach ($this->_modulexml->inventory->fields->field as $fieldNode) {
 			$this->importInventoryField($inventoryFieldInstance, $fieldNode);

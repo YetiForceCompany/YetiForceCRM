@@ -10,25 +10,25 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 
 	public static function recalculateTimeControl($id, $name)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_osstimecontrol INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid WHERE vtiger_crmentity.deleted = ? && osstimecontrol_status = ? && `$name` = ?;", [0, self::recalculateStatus, $id]);
-		$sumTime = number_format($db->getSingleValue($result), 2);
+		$sumTime = (new App\Db\Query())->from('vtiger_osstimecontrol')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
+			->where(['vtiger_crmentity.deleted' => 0, 'osstimecontrol_status' => self::recalculateStatus, $name => $id])
+			->sum('sum_time');
+		$sumTime = number_format($sumTime, 2);
 		$metaData = vtlib\Functions::getCRMRecordMetadata($id);
-		$focus = CRMEntity::getInstance($metaData['setype']);
-		$table = $focus->table_name;
-		$result = $db->pquery("SHOW COLUMNS FROM `$table` LIKE 'sum_time';");
-		if ($result->rowCount()) {
-			$db->update($table, ['sum_time' => $sumTime], '`' . $focus->table_index . '` = ?', [$id]);
+		$moduleModel = Vtiger_Module_Model::getInstance($metaData['setype']);
+		$focus = $moduleModel->getEntityInstance();
+		if ($moduleModel->getFieldByColumn('sum_time')) {
+			App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => $sumTime], [$focus->table_index => $id])->execute();
 		}
 	}
 
 	public static function setSumTime($data)
 	{
-		$db = PearDatabase::getInstance();
 		$start = strtotime(DateTimeField::convertToDBFormat($data->get('date_start')) . ' ' . $data->get('time_start'));
 		$end = strtotime(DateTimeField::convertToDBFormat($data->get('due_date')) . ' ' . $data->get('time_end'));
 		$time = round(abs($end - $start) / 3600, 2);
-		$db->update('vtiger_osstimecontrol', ['sum_time' => $time], '`osstimecontrolid` = ?', [$data->getId()]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['sum_time' => $time], ['osstimecontrolid' => $data->getId()])->execute();
 	}
 
 	public function getDuplicateRecordUrl()

@@ -28,10 +28,11 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer = $this->getViewer($request);
 
 		$selectedModule = $request->getModule();
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
+		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

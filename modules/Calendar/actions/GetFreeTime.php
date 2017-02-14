@@ -33,7 +33,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$dbStartDate = $dbStartDateOject->format('Y-m-d');
 		$dbEndDate = $dbEndDateObject->format('Y-m-d');
 
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$params[] = 0;
 		$params[] = $currentUser->getId();
 		$params[] = $dbStartDateTime;
@@ -43,11 +43,29 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$params[] = $dbStartDate;
 		$params[] = $dbEndDate;
 		$startTime = $dbStartDateOject->format('H:i:s');
-		$result = $db->pquery('SELECT date_start, time_start, time_end FROM vtiger_activity 
-				WHERE deleted = ? && smownerid=? '
-			. "AND ( (concat(date_start, ' ', time_start)  >= ? && concat(date_start, ' ', time_start) <= ?) || (concat(due_date, ' ', time_end)  >= ? && concat(due_date, ' ', time_end) <= ?) || (date_start < ? && due_date > ?) ) "
-			. 'ORDER BY time_start ASC', $params);
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new \App\Db\Query())->select(['date_start', 'time_start', 'time_end'])
+				->from('vtiger_activity')
+				->where([
+					'and',
+					['deleted' => 0],
+					['smownerid' => $currentUser->getId()],
+					['or',
+						['and',
+							['>=', new \yii\db\Expression('CONCAT(date_start, ' . $db->quoteValue(' ') . ', time_start)'), $dbStartDateTime],
+							['<=', new \yii\db\Expression('CONCAT(date_start, ' . $db->quoteValue(' ') . ', time_start)'), $dbEndDateTime],
+						],
+						['and',
+							['>=', new \yii\db\Expression('CONCAT(due_date, ' . $db->quoteValue(' ') . ', time_end)'), $dbStartDateTime],
+							['<=', new \yii\db\Expression('CONCAT(due_date, ' . $db->quoteValue(' ') . ', time_end)'), $dbEndDateTime],
+						],
+						['and',
+							['<', 'date_start', $dbStartDate],
+							['>', 'due_date', $dbEndDate],
+						],
+					]
+				])->orderBy(['time_start' => SORT_ASC])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (vtlib\Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
 				$date = new DateTime($row['date_start'] . ' ' . $startTime);
 				$startTime = new DateTimeField($startTime);

@@ -126,23 +126,17 @@
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
 												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
-												{/if}
-												{if $FIELD_MODEL->get('uitype') eq "83"}
-													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
-												{else}
-													{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
-												{/if}
+											{/if}
+											{vtranslate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
 										</label>
 									</div>
-									{if $FIELD_MODEL->get('uitype') neq "83"}
-										<div class="{$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-											<div class="row">
-												<div class="">						    
-													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-												</div>
+									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+										<div class="row">
+											<div class="">						    
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 											</div>
 										</div>
-									{/if}
+									</div>
 								</div>
 							{/foreach}
 						</div>

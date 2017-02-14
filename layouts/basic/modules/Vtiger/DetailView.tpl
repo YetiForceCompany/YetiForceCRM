@@ -9,7 +9,6 @@
 *
  ********************************************************************************/
 -->*}
-{* TODO: does not look like this is used, need to remove it*}
 {strip}
 	{assign var="MODULE_NAME" value=$MODULE->get('name')}
 	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />

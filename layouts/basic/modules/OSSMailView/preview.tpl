@@ -17,7 +17,7 @@
 									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
-											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl()}
+											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 											{assign var=POPUP value=$CONFIG['popup']}
 											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{vtranslate('LBL_REPLY','OSSMailView')}">
 												<img width="14px" src="{Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{vtranslate('LBL_REPLY','OSSMailView')}">
@@ -125,14 +125,9 @@
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
-												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}"
-												   {if array_key_exists('docid',$ATTACHMENT)}
-													   href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
-													   &fileid={$ATTACHMENT['id']}"
-												   {else}
-													   href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
-												   {/if}
-												   ><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}" 
+												   href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
+													<span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 											{/foreach}
 										</span>
 									</span>
@@ -155,7 +150,7 @@
 								</span>
 							</div>
 							<div class="textAlignCenter">
-								<span><strong> {vtranslate('LBL_OWNER','Emails')} : {\includes\fields\Owner::getLabel($OWNER)}</strong></span>
+								<span><strong> {vtranslate('LBL_OWNER')} : {\App\Fields\Owner::getLabel($OWNER)}</strong></span>
 							</div>
 						</form>
 					</div>

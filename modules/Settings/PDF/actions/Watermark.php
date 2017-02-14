@@ -37,7 +37,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$targetFile = $targetDir . $newName;
 		$uploadOk = 1;
 
-		$fileInstance = \includes\fields\File::loadFromPath($_FILES['watermark']['tmp_name'][0]);
+		$fileInstance = \App\Fields\File::loadFromPath($_FILES['watermark']['tmp_name'][0]);
 		if (!$fileInstance->validate('image')) {
 			$uploadOk = 0;
 		}
@@ -47,19 +47,20 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 			$uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error
-		if ($uploadOk == 1) {
-			$db = PearDatabase::getInstance();
-			$query = 'SELECT `watermark_image` FROM `a_yf_pdf` WHERE `pdfid` = ? LIMIT 1;';
-			$result = $db->pquery($query, [$templateId]);
-			$watermarkImage = $db->getSingleValue($result);
-
+		if ($uploadOk === 1) {
+			$db = App\Db::getInstance('admin');
+			$watermarkImage = (new \App\Db\Query())->select('watermark_image')
+				->from('a_#__pdf')
+				->where(['pdfid' => $templateId])
+				->scalar($db);
 			if (file_exists($watermarkImage)) {
 				unlink($watermarkImage);
 			}
 			// successful upload
 			if ($fileInstance->moveFile($targetFile)) {
-				$query = 'UPDATE `a_yf_pdf` SET `watermark_image` = ? WHERE `pdfid` = ? LIMIT 1;';
-				$db = $db->pquery($query, [$targetFile, $templateId]);
+				$db->createCommand()
+					->update('a_#__pdf', ['watermark_image' => $targetFile], ['pdfid' => $templateId])
+					->execute();
 			}
 		}
 	}

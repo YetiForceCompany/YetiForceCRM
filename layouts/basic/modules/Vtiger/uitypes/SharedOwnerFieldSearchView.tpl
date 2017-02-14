@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-    {assign var="FIELD_INFO" value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     <div class="picklistSearchField">
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 		{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -10,8 +10,8 @@
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
-			{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
-			{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+			{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 		{/if}
 		<select id="{$ASSIGNED_USER_ID}" class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"  name="{$ASSIGNED_USER_ID}" multiple data-fieldinfo='{$FIELD_INFO|escape}' 
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}

@@ -5,11 +5,15 @@
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 vimport('~/libraries/mPDF/mpdf.php');
 
 class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 {
+
+	const WATERMARK_TYPE_TEXT = 0;
+	const WATERMARK_TYPE_IMAGE = 1;
 
 	public $pageOrientation = ['PLL_PORTRAIT' => 'P', 'PLL_LANDSCAPE' => 'L'];
 
@@ -128,8 +132,8 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	/**
 	 * Set page size and orientation
-	 * @param <String> $format - page format
-	 * @param <String> $orientation - page orientation
+	 * @param string $format - page format
+	 * @param string $orientation - page orientation
 	 */
 	public function setPageSize($format, $orientation)
 	{
@@ -293,10 +297,10 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	public function setWaterMark($templateModel)
 	{
-		if ($templateModel->get('watermark_type') == 'text') {
+		if ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_TEXT) {
 			$this->pdf->SetWatermarkText($templateModel->get('watermark_text'), 0.15);
 			$this->pdf->showWatermarkText = true;
-		} elseif ($templateModel->get('watermark_type') == 'image') {
+		} elseif ($templateModel->get('watermark_type') === self::WATERMARK_TYPE_IMAGE) {
 			$this->pdf->SetWatermarkImage($templateModel->get('watermark_image'), 0.15, 'P');
 			$this->pdf->showWatermarkImage = true;
 		}
@@ -315,7 +319,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		$template = Vtiger_PDF_Model::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($recordId);
 
-		$pageOrientation = $template->get('page_orientation') == 'PLL_PORTRAIT' ? 'P' : 'L';
+		$pageOrientation = $template->get('page_orientation') === 'PLL_PORTRAIT' ? 'P' : 'L';
 		if ($template->get('margin_chkbox') == 1) {
 			$pdf = new self('utf-8', $template->get('page_format'), 0, '', $pageOrientation);
 		} else {

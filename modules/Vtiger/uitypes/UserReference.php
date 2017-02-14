@@ -13,7 +13,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -23,21 +23,21 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to get the display value in detail view
 	 * @param <Integer> crmid of record
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if ($value) {
-			$userName = \includes\fields\Owner::getLabel($value);
+			$userName = \App\Fields\Owner::getLabel($value);
 			return $userName;
 		}
 	}
 
 	/**
 	 * Function to get display value
-	 * @param <String> $value
+	 * @param string $value
 	 * @param <Number> $recordId
-	 * @return <String> display value
+	 * @return string display value
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{

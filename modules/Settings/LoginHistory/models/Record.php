@@ -20,7 +20,7 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Profile Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -29,21 +29,20 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getAccessibleUsers()
 	{
-		$adb = PearDatabase::getInstance();
-		$usersListArray = array();
-
-		$query = 'SELECT user_name FROM vtiger_loginhistory';
-		$result = $adb->pquery($query, array());
-		while ($row = $adb->fetchByAssoc($result)) {
-			$usersListArray[$row['user_name']] = $row['user_name'];
+		$usersListArray = [];
+		$dataReader = (new \App\Db\Query())->select('user_name')
+				->from('vtiger_users')
+				->createCommand()->query();
+		while ($userName = $dataReader->readColumn(0)) {
+			$usersListArray[$userName] = $userName;
 		}
 		return $usersListArray;
 	}
 
 	/**
 	 * Function to retieve display value for a field
-	 * @param <String> $fieldName - field name for which values need to get
-	 * @return <String>
+	 * @param string $fieldName - field name for which values need to get
+	 * @return string
 	 */
 	public function getDisplayValue($fieldName, $recordId = false)
 	{

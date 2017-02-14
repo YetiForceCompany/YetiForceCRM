@@ -19,9 +19,9 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Functions that gets translated string
-	 * @param <String> $key - string which need to be translated
-	 * @param <String> $module - module scope in which the translation need to be check
-	 * @return <String> - translated string
+	 * @param string $key - string which need to be translated
+	 * @param string $module - module scope in which the translation need to be check
+	 * @return string - translated string
 	 */
 	public static function getTranslatedString($key, $module = 'Vtiger', $currentLanguage = false)
 	{
@@ -50,10 +50,10 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Function returns language specific translated string
-	 * @param <String> $language - en_us etc
-	 * @param <String> $key - label
-	 * @param <String> $module - module name
-	 * @return <String> translated string or null if translation not found
+	 * @param string $language - en_us etc
+	 * @param string $key - label
+	 * @param string $module - module name
+	 * @return string translated string or null if translation not found
 	 */
 	public static function getLanguageTranslatedString($language, $key, $module = 'Vtiger')
 	{
@@ -86,9 +86,9 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Functions that gets translated string for Client side
-	 * @param <String> $key - string which need to be translated
-	 * @param <String> $module - module scope in which the translation need to be check
-	 * @return <String> - translated string
+	 * @param string $key - string which need to be translated
+	 * @param string $module - module scope in which the translation need to be check
+	 * @return string - translated string
 	 */
 	public static function getJSTranslatedString($language, $key, $module = 'Vtiger')
 	{
@@ -121,7 +121,7 @@ class Vtiger_Language_Handler
 	/**
 	 * Function that returns translation strings from file
 	 * @global <array> $languageStrings - language specific string which is used in translations
-	 * @param <String> $module - module Name
+	 * @param string $module - module Name
 	 * @return <array> - array if module has language strings else returns empty array
 	 */
 	public static function getModuleStringsFromFile($language, $module = 'Vtiger')
@@ -134,8 +134,7 @@ class Vtiger_Language_Handler
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				
-				\App\Log::warning('Language file does not exist, module:' . $module . ' ,language: ' . $language);
+				\App\Log::warning("Language file does not exist, module: $module ,language: $language");
 			}
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
@@ -153,35 +152,38 @@ class Vtiger_Language_Handler
 				}
 			}
 		}
-		return self::$languageContainer[$language][$module];
+		if (isset(self::$languageContainer[$language][$module])) {
+			return self::$languageContainer[$language][$module];
+		}
+		return [];
 	}
 
-	protected static $lang = false;
+	public static $language = false;
 
 	/**
 	 * Function that returns current language
-	 * @return <String> -
+	 * @return string -
 	 */
 	public static function getLanguage()
 	{
-		if (self::$lang) {
-			return self::$lang;
+		if (static::$language) {
+			return static::$language;
 		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
 		} elseif (Vtiger_Session::get('language') != '') {
 			$language = Vtiger_Session::get('language');
 		} else {
-			$language = Users_Record_Model::getCurrentUserModel()->get('language');
+			$language = \App\User::getCurrentUserModel()->getDetail('language');
 		}
-		$language = empty($language) ? vglobal('default_language') : $language;
-		self::$lang = $language;
+		$language = empty($language) ? vglobal('default_language') : strtolower($language);
+		static::$language = $language;
 		return $language;
 	}
 
 	/**
 	 * Function that returns current language short name
-	 * @return <String> -
+	 * @return string -
 	 */
 	public static function getShortLanguageName()
 	{
@@ -191,8 +193,8 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Function returns module strings
-	 * @param <String> $module - module Name
-	 * @param <String> languageStrings or jsLanguageStrings
+	 * @param string $module - module Name
+	 * @param string languageStrings or jsLanguageStrings
 	 * @return <Array>
 	 */
 	public static function export($module, $type = 'languageStrings')
@@ -249,7 +251,7 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Function to get the label name of the Langauge package
-	 * @param <String> $name
+	 * @param string $name
 	 */
 	public static function getLanguageLabel($name)
 	{
@@ -278,4 +280,3 @@ function vtranslate($key, $moduleName = 'Vtiger')
 	}
 	return $formattedString;
 }
-

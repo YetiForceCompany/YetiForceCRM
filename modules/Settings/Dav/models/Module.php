@@ -19,47 +19,64 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getAmountData()
 	{
-		$adb = PearDatabase::getInstance();
-		$addressbook = $calendarid = [];
-		$result = $adb->query('SELECT addressbookid, COUNT(id) AS num FROM dav_cards GROUP BY addressbookid;');
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$addressbook[$adb->query_result_raw($result, $i, 'addressbookid')] = $adb->query_result_raw($result, $i, 'num');
-		}
-		$result = $adb->query('SELECT calendarid, COUNT(id) AS num FROM dav_calendarobjects GROUP BY calendarid;');
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$calendarid[$adb->query_result_raw($result, $i, 'calendarid')] = $adb->query_result_raw($result, $i, 'num');
-		}
-		return ['calendar' => $calendarid, 'addressbook' => $addressbook];
+		return [
+			'calendar' => (new App\Db\Query())->select(['calendarid', 'num' => new yii\db\Expression('COUNT(id)')])
+				->from('dav_calendarobjects')
+				->groupBy('calendarid')
+				->createCommand()->queryAllByGroup(),
+			'addressbook' => (new App\Db\Query())->select(['addressbookid', 'num' => new yii\db\Expression('COUNT(id)')])
+				->from('dav_cards')
+				->groupBy('addressbookid')
+				->createCommand()->queryAllByGroup()
+		];
 	}
 
 	public function addKey($params)
 	{
-		$adb = PearDatabase::getInstance();
+		$query = new App\Db\Query();
 		$type = (gettype($params['type']) == 'array') ? $params['type'] : [$params['type']];
 		$userID = $params['user'];
-		$result = $adb->pquery("SELECT id FROM dav_users WHERE userid = ?;", array($userID), true);
-		$rows = $adb->num_rows($result);
-		if ($rows != 0) {
+		$query->select('id')
+			->from('dav_users')
+			->where(['userid' => $userID]);
+		if ($query->exists()) {
 			return 1;
 		}
 		$keyLength = 10;
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
 		$userModel = Users_Record_Model::getInstanceById($userID, 'Users');
 		$digesta1 = md5($userModel->get('user_name') . ':YetiDAV:' . $key);
-		$result = $adb->pquery('INSERT INTO dav_users (`username`, `digesta1`, `key`, `userid`) VALUES (?, ?, ?, ?);', array($userModel->get('user_name'), $digesta1, $key, $userID));
+		$db = App\Db::getInstance();
+		$result = $db->createCommand()->insert('dav_users', [
+				'username' => $userModel->get('user_name'),
+				'digesta1' => $digesta1,
+				'key' => $key,
+				'userid' => $userID
+			])->execute();
 		if (!$result)
 			return 0;
 		$displayname = $userModel->getName();
-		$result = $adb->pquery('INSERT INTO dav_principals (`uri`,`email`,`displayname`,`userid`) VALUES (?, ?, ?, ?);', array('principals/' . $userModel->get('user_name'), $userModel->get('email1'), $displayname, $userID));
-
-
+		$db->createCommand()->insert('dav_principals', [
+			'uri' => 'principals/' . $userModel->get('user_name'),
+			'email' => $userModel->get('email1'),
+			'displayname' => $displayname,
+			'userid' => $userID
+		])->execute();
 		if (in_array('CardDav', $type)) {
-			$result = $adb->pquery('INSERT INTO dav_addressbooks (`principaluri`,`displayname`,`uri`,`description`) VALUES (?, ?, ?, ?);', array('principals/' . $userModel->get('user_name'), API_CardDAV_Model::ADDRESSBOOK_NAME, API_CardDAV_Model::ADDRESSBOOK_NAME, ''));
+			$db->createCommand()->insert('dav_addressbooks', [
+				'principaluri' => 'principals/' . $userModel->get('user_name'),
+				'displayname' => API_CardDAV_Model::ADDRESSBOOK_NAME,
+				'uri' => API_CardDAV_Model::ADDRESSBOOK_NAME,
+				'description' => ''
+			])->execute();
 		}
 		if (in_array('CalDav', $type)) {
-			$result = $adb->pquery('INSERT INTO dav_calendars (`principaluri`,`displayname`,`uri`,`components`) VALUES (?, ?, ?, ?);', array('principals/' . $userModel->get('user_name'), API_CalDAV_Model::CALENDAR_NAME, API_CalDAV_Model::CALENDAR_NAME, API_CalDAV_Model::COMPONENTS));
+			$db->createCommand()->insert('dav_calendars', [
+				'principaluri' => 'principals/' . $userModel->get('user_name'),
+				'displayname' => API_CalDAV_Model::CALENDAR_NAME,
+				'uri' => API_CalDAV_Model::CALENDAR_NAME,
+				'components' => API_CalDAV_Model::COMPONENTS
+			])->execute();
 		}
 		if (in_array('WebDav', $type)) {
 			$this->createUserDirectory($params);
@@ -71,8 +88,9 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
-		$adb->pquery('DELETE FROM dav_users WHERE userid = ?;', array($params['user']));
-		$adb->pquery('DELETE FROM dav_principals WHERE userid = ?;', array($params['user']));
+		$db = App\Db::getInstance();
+		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
+		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();
 
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
@@ -87,15 +105,10 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function createUserDirectory($params)
 	{
-		$adb = PearDatabase::getInstance();
 		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
-
 		$path = '/' . $user_name . '/';
-		$dirHash = sha1($path);
-		$parent_dirid = 0;
 		$davStorageDir = vglobal('davStorageDir');
 		@mkdir($davStorageDir . $path);
-
 	}
 }

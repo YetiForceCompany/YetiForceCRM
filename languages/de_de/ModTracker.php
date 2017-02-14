@@ -29,9 +29,11 @@ $languageStrings = [
 	'LBL_AT_UNLINK_P' => 'nicht verknüpft',
 	'LBL_AT_CONVERTTOACCOUNT_P' => 'zur Organisation konvertiert',
 	'LBL_AT_DISPLAY_P' => 'dargestellt',
-	'LBL_REVIEW_HISTORY' => 'Historie anzeigen',
-	'LBL_REVIEWED' => 'Betrachtet',
+	'LBL_REVIEW_HISTORY' => 'Lesehistorie',
+	'LBL_REVIEWED' => 'betrachtet',
 	'BTN_CHANGES_REVIEWED_ON' => 'Änderungen betrachtet am',
+	'LBL_NUMBER_UNREAD_MAILS' => 'Anzahl der ungelesenen E-Mails',
+	'LBL_NUMBER_UNREAD_CHANGES' => 'Anzahl der ungelesenen Änderungen',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Aufgrund der Beschränkung von Datenaktualisierungen, wurde die Aktion in die Hintergrundverarbeitung eingeplant.',
 	'LBL_ESTIMATED_TIME' => 'geschätzte Zeit',
 ];

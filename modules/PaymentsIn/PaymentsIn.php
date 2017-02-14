@@ -55,6 +55,11 @@ class PaymentsIn extends Vtiger_CRMEntity
 		'LBL_PAYMENTSCURRENCY' => 'paymentscurrency',
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['paymentsno', 'paymentsname', 'paymentsvalue', 'paymentscurrency', 'paymentsin_status'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'paymentsname';
 	// For Popup listview and UI type support
@@ -74,8 +79,6 @@ class PaymentsIn extends Vtiger_CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = array('paymentsname');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'paymentsname';
 	// Column value to use on detail view record text display
@@ -100,7 +103,7 @@ class PaymentsIn extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
-			\includes\fields\RecordNumber::setNumber($modulename, '', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
@@ -108,20 +111,7 @@ class PaymentsIn extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			$tabid = vtlib\Functions::getModuleId($modulename);
-			include_once('modules/ModTracker/ModTracker.php');
-			$moduleModTrackerInstance = new ModTracker();
-			if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
-				$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
-				$moduleModTrackerInstance->updateCache($tabid, 1);
-			} else {
-				$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
-				$moduleModTrackerInstance->updateCache($tabid, 1);
-			}
-			if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-				$moduleInstance = vtlib\Module::getInstance($tabid);
-				$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
-			}
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
 
 			$moduleInstance = vtlib\Module::getInstance('Accounts');
 			$blockInstance = vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
@@ -152,9 +142,9 @@ class PaymentsIn extends Vtiger_CRMEntity
 
 	private function addWorkflow($moduleName)
 	{
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
+		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$db = PearDatabase::getInstance();
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager($db);

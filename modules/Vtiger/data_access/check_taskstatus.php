@@ -16,41 +16,33 @@ Class DataAccess_check_taskstatus
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		$db = PearDatabase::getInstance();
 		if (!isset($ID) || $ID == 0 || $ID == '')
-			return Array('save_record' => true);
-		if (is_array($config['status']))
-			$config['status'] = implode("','", $config['status']);
+			return ['save_record' => true];
 
-		$result = $db->pquery(sprintf("SELECT count(*) as num
-								FROM vtiger_projecttask 
-								INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid 
-								WHERE vtiger_crmentity.deleted = ? 
-								AND vtiger_projecttask.projecttaskstatus in ('%s')
-								AND vtiger_projecttask.parentid = ?", $config['status']), array(0, $ID), true);
-
-		if ($db->query_result($result, 0, 'num') > 0) {
-			return Array(
+		$activitiesExists = (new \App\Db\Query())
+				->from('vtiger_projecttask')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid')
+				->where([
+					'vtiger_crmentity.deleted' => 0,
+					'vtiger_projecttask.projecttaskstatus' => $config['status'],
+					'vtiger_projecttask.parentid' => $ID
+				])->exists();
+		if ($activitiesExists) {
+			return [
 				'save_record' => false,
 				'type' => 0,
-				'info' => Array(
-					'text' => vtranslate('Subordinate tasks have not been completed yet', 'DataAccess'),
+				'info' => [
+					'text' => \App\Language::translate('Subordinate tasks have not been completed yet', 'DataAccess'),
 					'type' => 'error'
-				)
-			);
+				]
+			];
 		} else {
-			return Array('save_record' => true);
+			return ['save_record' => true];
 		}
 	}
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT projecttaskstatus FROM vtiger_projecttaskstatus ORDER BY sortorderid", [], true);
-		$fields = [];
-		while ($row = $db->fetch_array($result)) {
-			array_push($fields, $row['projecttaskstatus']);
-		}
-		return Array('status' => $fields);
+		return ['status' => (new App\Db\Query())->select(['projecttaskstatus'])->from('vtiger_projecttaskstatus')->orderBy('sortorderid')->column()];
 	}
 }

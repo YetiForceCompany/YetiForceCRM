@@ -13,10 +13,10 @@ class Vtiger_Request
 {
 
 	// Datastore
-	private $valueMap = [];
-	private $rawValueMap = [];
-	private $defaultmap = [];
-	private $headers = [];
+	protected $valueMap = [];
+	protected $rawValueMap = [];
+	protected $defaultmap = [];
+	protected $headers = [];
 
 	/**
 	 * Default constructor
@@ -63,7 +63,7 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$decodeValue = \includes\utils\Json::decode($value);
+			$decodeValue = \App\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
@@ -87,13 +87,13 @@ class Vtiger_Request
 
 	/**
 	 * Function to get the value if its safe to use for SQL Query (column).
-	 * @param <String> $key
-	 * @param <Boolean> $skipEmpty - Skip the check if string is empty
+	 * @param string $key
+	 * @param boolean $skipEmpty - Skip the check if string is empty
 	 * @return Value for the given key
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
-		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
+		return \App\Purifier::purifySql($this->get($key), $skipEmtpy);
 	}
 
 	public function getForHtml($key, $defvalue = '')
@@ -115,7 +115,7 @@ class Vtiger_Request
 			}
 		}
 		if ($isJSON) {
-			$decodeValue = \includes\utils\Json::decode($value);
+			$decodeValue = \App\Json::decode($value);
 			if (isset($decodeValue)) {
 				$value = $decodeValue;
 			}
@@ -152,7 +152,7 @@ class Vtiger_Request
 	 */
 	public function has($key)
 	{
-		return isset($this->rawValueMap[$key]);
+		return isset($this->rawValueMap[$key]) || isset($this->valueMap[$key]);
 	}
 
 	/**
@@ -183,6 +183,15 @@ class Vtiger_Request
 	public function set($key, $newvalue)
 	{
 		$this->valueMap[$key] = $newvalue;
+	}
+
+	/**
+	 * Set the value for key
+	 */
+	public function delete($key)
+	{
+		unset($this->valueMap[$key]);
+		unset($this->rawValueMap[$key]);
 	}
 
 	/**
@@ -230,11 +239,10 @@ class Vtiger_Request
 		if (!empty($this->headers)) {
 			return $this->headers;
 		}
-
 		if (!function_exists('apache_request_headers')) {
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) == 'HTTP_') {
-					$key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
+					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
 					$out[$key] = $value;
 				} else {
 					$out[$key] = $value;
@@ -242,7 +250,7 @@ class Vtiger_Request
 			}
 			$headers = $out;
 		} else {
-			$headers = apache_request_headers();
+			$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
 		}
 		$this->headers = $headers;
 		return $headers;
@@ -327,7 +335,7 @@ class Vtiger_Request
 
 	protected function validateCSRF()
 	{
-		if (!csrf_check(false)) {
+		if (!CSRF::check(false)) {
 			throw new \Exception\Csrf('Unsupported request');
 		}
 	}
@@ -340,49 +348,59 @@ class AppRequest
 
 	public static function init()
 	{
-		if (!self::$request) {
-			self::$request = new Vtiger_Request($_REQUEST, $_REQUEST);
+		if (!static::$request) {
+			static::$request = new Vtiger_Request($_REQUEST, $_REQUEST);
 		}
-		return self::$request;
+		return static::$request;
 	}
 
 	public static function get($key, $defvalue = '')
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->get($key, $defvalue);
+		return static::$request->get($key, $defvalue);
 	}
 
 	public static function has($key)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->has($key);
+		return static::$request->has($key);
 	}
 
 	public static function getForSql($key, $skipEmtpy = true)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->getForSql($key, $skipEmtpy);
+		return static::$request->getForSql($key, $skipEmtpy);
 	}
 
 	public static function set($key, $value)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->set($key, $value);
+		return static::$request->set($key, $value);
 	}
 
 	public static function isEmpty($key)
 	{
-		if (!self::$request) {
-			self::init();
+		if (!static::$request) {
+			static::init();
 		}
-		return self::$request->isEmpty($key);
+		return static::$request->isEmpty($key);
+	}
+
+	public static function isAjax()
+	{
+		if (!empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] === true) {
+			return true;
+		} elseif (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+			return true;
+		}
+		return false;
 	}
 }

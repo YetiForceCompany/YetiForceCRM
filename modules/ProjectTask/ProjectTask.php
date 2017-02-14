@@ -60,6 +60,11 @@ class ProjectTask extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['projecttaskname', 'startdate', 'enddate', 'projecttasktype', 'projecttaskprogress', 'assigned_user_id', 'sum_time'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projecttaskname';
 	// For Popup listview and UI type support
@@ -80,8 +85,6 @@ class ProjectTask extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('projecttaskname');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'projecttaskname';
 	// Column value to use on detail view record text display
@@ -95,20 +98,6 @@ class ProjectTask extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projecttaskname', 'projectid', 'assigned_user_id');
-
-	public function save_module($module)
-	{
-		
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -178,7 +167,7 @@ class ProjectTask extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -336,17 +325,6 @@ class ProjectTask extends CRMEntity
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
-			if (\includes\Modules::getModuleId('CustomerPortal')) {
-				$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($projecttaskTabid));
-				if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
-					$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
-					$maxSequence = $adb->query_result($maxSequenceQuery, 0, 'maxsequence');
-					$nextSequence = $maxSequence + 1;
-					$adb->query("INSERT INTO vtiger_customerportal_tabs(tabid,visible,sequence) VALUES ($projecttaskTabid,1,$nextSequence)");
-					$adb->query("INSERT INTO vtiger_customerportal_prefs(tabid,prefkey,prefvalue) VALUES ($projecttaskTabid,'showrelatedinfo',1)");
-				}
-			}
-
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
@@ -354,7 +332,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(array('ProjectTask'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename, 'PT', 1);
+			\App\Fields\RecordNumber::setNumber($modulename, 'PT', 1);
 		} else if ($event_type == 'module.disabled') {
 			
 		} else if ($event_type == 'module.enabled') {
@@ -372,7 +350,7 @@ class ProjectTask extends CRMEntity
 					ModComments::addWidgetTo(array('ProjectTask'));
 			}
 
-			\includes\fields\RecordNumber::setNumber($modulename, 'PT', 1);
+			\App\Fields\RecordNumber::setNumber($modulename, 'PT', 1);
 		}
 	}
 
@@ -383,36 +361,9 @@ class ProjectTask extends CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = "ProjectTask";
-		if (\includes\Modules::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;
 	}
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/**
-	 * Handle getting dependents list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }

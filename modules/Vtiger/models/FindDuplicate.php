@@ -37,6 +37,41 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		return $listViewHeaders;
 	}
 
+	/**
+	 * Function to get query which searching duplicate records
+	 * @return App\Db\Query $query 
+	 */
+	public function getQuery()
+	{
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
+		$fields = $this->get('fields');
+		$fieldsModels = $this->get('selectedFfieldsModels');
+		$mandatoryFieldsModels = $moduleModel->getMandatoryFieldModels();
+		$mandatoryFields = [];
+		foreach ($mandatoryFieldsModels as $fieldModel) {
+			$mandatoryFields [] = $fieldModel->getFieldName();
+		}
+		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator->setFields(array_merge($mandatoryFields, $fields));
+
+		$ignoreEmpty = $this->get('ignoreEmpty');
+		if ($ignoreEmpty) {
+			foreach ($fieldsModels as $fieldModel) {
+				$queryGenerator->addNativeCondition(['and', ['not', [$fieldModel->get('table') . '.' . $fieldModel->get('column') => null]], ['<>', $fieldModel->get('table') . '.' . $fieldModel->get('column'), '']]);
+			}
+		}
+		$subQuery = $queryGenerator->createQuery();
+		$query = clone $subQuery;
+		$subQuery->groupBy($fields)->andHaving((new yii\db\Expression('COUNT(*) > 1')));
+
+		foreach ($fieldsModels as $fieldModel) {
+			$duplicateCheckClause .= $fieldModel->get('table') . '.' . $fieldModel->get('column') . ' = duplicates.' . $fieldModel->get('column') . ' AND ';
+		}
+		$query->innerJoin(['duplicates' => $subQuery], trim($duplicateCheckClause, ' AND '));
+		return $query;
+	}
+
 	public function getListViewEntries(Vtiger_Paging_Model $paging)
 	{
 		$db = PearDatabase::getInstance();
@@ -45,9 +80,11 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 
 		$fields = $this->get('fields');
 		$fieldModels = $moduleModel->getFields();
+		//$selectedFieldModels = [];
 		if (is_array($fields)) {
 			foreach ($fieldModels as $fieldName => $fieldModel) {
 				if (in_array($fieldName, $fields)) {
+					//$selectedFieldModels [] = $fieldModel;
 					$tableColumns[] = $fieldModel->get('table') . '.' . $fieldModel->get('column');
 					$diffColumns[] = $fieldModel->get('column');
 				} elseif ($fieldModel->isMandatory()) {
@@ -55,16 +92,18 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 				}
 			}
 		}
+		//$this->set('selectedFfieldsModels', $selectedFieldModels);
 
 		$startIndex = $paging->getStartIndex();
 		$pageLimit = $paging->getPageLimit();
 		$ignoreEmpty = $this->get('ignoreEmpty');
 
+
+		//$query = $this->getQuery();
 		$focus = CRMEntity::getInstance($module);
 		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
-		$query .= " LIMIT $startIndex, " . ($pageLimit + 1);
-
+		$query .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		$result = $db->query($query);
 		$rows = $db->num_rows($result);
 		$this->result = $result;
@@ -78,7 +117,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 			$entries[] = $db->query_result_rowdata($result, $i);
 		}
 
-		$paging->calculatePageRange($entries);
+		$paging->calculatePageRange($rows);
 
 		if ($rows > $pageLimit) {
 			array_pop($entries);

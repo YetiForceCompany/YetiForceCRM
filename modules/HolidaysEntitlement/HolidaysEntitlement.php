@@ -52,6 +52,11 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 		'LBL_EMPLOYEE' => 'ossemployeesid',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['holidaysentitlement_no', 'ossemployeesid', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -90,19 +95,19 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
-			\includes\fields\RecordNumber::setNumber($moduleName, 'HE', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
-			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'getDependentsList');
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 }

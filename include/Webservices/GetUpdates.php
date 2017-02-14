@@ -15,6 +15,8 @@ require_once 'include/Webservices/DescribeObject.php';
 
 function vtws_sync($mtime, $elementType, $syncType, $user)
 {
+	return 'Currently not supported';
+
 	global $recordString, $modifiedTimeString;
 	$adb = PearDatabase::getInstance();
 	$numRecordsLimit = 100;
@@ -117,7 +119,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params = array_merge($params, $ownerIds);
 	}
 
-	$q .=" order by modifiedtime limit $numRecordsLimit";
+	$q .= " order by modifiedtime limit $numRecordsLimit";
 	$result = $adb->pquery($q, $params);
 
 	$modTime = [];
@@ -157,20 +159,16 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		// since not all fields present in delete condition will be present in the fieldnames of the module
 		foreach ($deleteColumnNames as $table_fieldName => $columnName) {
 			if (!in_array($columnName, $moduleFieldNames)) {
-				$selectClause .=", " . $table_fieldName;
+				$selectClause .= ", " . $table_fieldName;
 			}
 		}
-		if ($elementType == "Emails")
-			$fromClause = vtws_getEmailFromClause();
-		else
-			$fromClause = $queryGenerator->getFromClause();
-
+		$fromClause = $queryGenerator->getFromClause();
 		$fromClause .= " INNER JOIN (select modifiedtime, crmid,deleted,setype FROM $baseCRMTable WHERE setype=? and modifiedtime >? and modifiedtime<=?";
 		if (!$applicationSync) {
-			$fromClause.= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+			$fromClause .= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
 			$params = array_merge($params, $ownerIds);
 		}
-		$fromClause.= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
+		$fromClause .= ' ) vtiger_ws_sync ON (vtiger_crmentity.crmid = vtiger_ws_sync.crmid)';
 		$q = $selectClause . " " . $fromClause;
 		$result = $adb->pquery($q, $params);
 		$recordDetails = [];
@@ -207,7 +205,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params[] = $entityModule;
 	}
 	if (!$applicationSync) {
-		$q.='and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
+		$q .= 'and smownerid IN(' . generateQuestionMarks($ownerIds) . ')';
 		$params = array_merge($params, $ownerIds);
 	}
 
@@ -257,21 +255,6 @@ function vtws_isRecordDeleted($recordDetails, $deleteColumnDetails, $deletedValu
 	return $deletedRecord;
 }
 
-function vtws_getEmailFromClause()
-{
-	$q = "FROM vtiger_activity
-				INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id
-				LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid = vtiger_groups.groupid
-				LEFT JOIN vtiger_seattachmentsrel ON vtiger_activity.activityid = vtiger_seattachmentsrel.crmid
-				LEFT JOIN vtiger_attachments ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				LEFT JOIN vtiger_email_track ON vtiger_activity.activityid = vtiger_email_track.mailid
-				INNER JOIN vtiger_emaildetails ON vtiger_activity.activityid = vtiger_emaildetails.emailid
-				LEFT JOIN vtiger_users vtiger_users2 ON vtiger_emaildetails.idlists = vtiger_users2.id
-				LEFT JOIN vtiger_groups vtiger_groups2 ON vtiger_emaildetails.idlists = vtiger_groups2.groupid";
-	return $q;
-}
-
 function getSyncQueryBaseTable($elementType)
 {
 	if ($elementType != "Calendar" && $elementType != "Events") {
@@ -286,7 +269,7 @@ function getSyncQueryBaseTable($elementType)
 function getCalendarTypeCondition($elementType)
 {
 	if ($elementType == "Events")
-		$activityCondition = "vtiger_activity.activitytype !='Task' and vtiger_activity.activitytype !='Emails'";
+		$activityCondition = "vtiger_activity.activitytype !='Task'";
 	else
 		$activityCondition = "vtiger_activity.activitytype ='Task'";
 	return $activityCondition;
@@ -295,12 +278,5 @@ function getCalendarTypeCondition($elementType)
 function getSelectClauseFields($module, $moduleMeta, $user)
 {
 	$moduleFieldNames = $moduleMeta->getModuleFields();
-	$inventoryModules = getInventoryModules();
-	if (in_array($module, $inventoryModules)) {
-		$fields = vtws_describe('LineItem', $user);
-		foreach ($fields['fields'] as $field) {
-			unset($moduleFieldNames[$field['name']]);
-		}
-	}
 	return array_keys($moduleFieldNames);
 }

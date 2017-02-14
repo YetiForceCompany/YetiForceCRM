@@ -51,17 +51,17 @@
 	</div>
 </div>
 <hr class="widgetHr"/>
-<div class="row" >
+<div class="row">
 	<div class="col-sm-6">
 		<div class="input-group input-group-sm">
 			<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3"></span></span>
-			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter form-control width90"/>
+			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange widgetFilter form-control width90" value="{implode(',', $DTIME)}"/>
 		</div>
 	</div>
 	<div class="col-sm-6">
 		{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>
-</div>	
+</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}

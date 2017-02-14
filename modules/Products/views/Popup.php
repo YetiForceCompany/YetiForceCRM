@@ -53,8 +53,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
-		$isRecordExists = Vtiger_Util_Helper::checkRecordExistance($relatedParentId);
-		if ($isRecordExists || $isRecordExists === NULL) {
+		if (!\App\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
 			$relatedParentId = '';
 		}
@@ -89,7 +88,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		if (empty($searchParmams)) {
 			$searchParmams = array();
 		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParmams, $moduleModel);
+		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
@@ -109,17 +108,9 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$this->listViewHeaders = $listViewModel->getHeaders();
-			$models = $listViewModel->getEntries($pagingModel);
-			$noOfEntries = count($models);
-			foreach ($models as $recordId => $recordModel) {
-				foreach ($this->listViewHeaders as $fieldName => $fieldModel) {
-					$recordModel->set($fieldName, $recordModel->getDisplayValue($fieldName));
-				}
-				$models[$recordId] = $recordModel;
-			}
-			$this->listViewEntries = $models;
+			$this->listViewEntries = $listViewModel->getEntries($pagingModel);
 			if (count($this->listViewEntries) > 0) {
-				$parent_related_records = true;
+				$parentRelatedRecords = true;
 			}
 		} else {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
@@ -127,7 +118,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 
 		// If there are no related records with parent module then, we should show all the records
-		if (!$parent_related_records && !empty($relatedParentModule) && !empty($relatedParentId)) {
+		if (!$parentRelatedRecords && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentModule = null;
 			$relatedParentId = null;
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
@@ -181,7 +172,6 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('GETURL', $getUrl);
 		$viewer->assign('CURRENCY_ID', $currencyId);
-		$viewer->assign('POPUPTYPE', vglobal('popupType'));
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

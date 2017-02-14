@@ -1,22 +1,22 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SRecurringOrders' => 'Dauerauftrag',
-	'SINGLE_SRecurringOrders' => 'Dauerauftrag',
+	'SRecurringOrders' => 'Dauerbestellungen',
+	'SINGLE_SRecurringOrders' => 'Dauerbestellung',
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'Systeminformation',
-	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
+	'LBL_DESCRIPTION_INFORMATION' => 'Details',
 	'LBL_STATISTICS' => 'Statistiken',
 	'LBL_PERIODIC_GENERATION' => 'Periodisch wiederholen',
 	//FIELDS
 	'LBL_SUBJECT' => 'Bezeichnung',
 	'LBL_NUMBER' => 'Nummer',
 	'LBL_STATUS' => 'Status',
-	'LBL_CLOSED_TIME' => 'Beendigungszeit',
+	'LBL_CLOSED_TIME' => 'Geschlossen am',
 	'LBL_RESPONSE_TIME' => 'Antwortzeit',
-	'LBL_REALIZATION_START_DATE' => 'Beginn der Raelisierung',
-	'LBL_REALIZATION_COMPLETION_DATE' => 'Realisierung abgeschlossen',
+	'LBL_REALIZATION_START_DATE' => 'Start Realisierung',
+	'LBL_REALIZATION_COMPLETION_DATE' => 'Ende Realisierung',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Aktuelles Fertigstellungsdatum',
 	'LBL_COMPANY_NAME' => 'Firmenname',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',

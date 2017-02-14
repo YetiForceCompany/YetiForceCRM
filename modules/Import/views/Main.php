@@ -66,34 +66,30 @@ class Import_Main_View extends Vtiger_View_Controller
 		self::showImportStatus($importInfo, $this->user);
 	}
 
+	/**
+	 * Show import status
+	 * @param array $importInfo
+	 * @param Users_Record_Model $user
+	 * @throws \Exception\AppException
+	 */
 	public static function showImportStatus($importInfo, $user)
 	{
-		if ($importInfo === null) {
+		if (empty($importInfo)) {
 			Import_Utils_Helper::showErrorPage(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
 			throw new \Exception\AppException(vtranslate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
 		$importDataController = new Import_Data_Action($importInfo, $user);
-		if ($importInfo['temp_status'] == Import_Queue_Action::$IMPORT_STATUS_HALTED ||
-			$importInfo['temp_status'] == Import_Queue_Action::$IMPORT_STATUS_NONE) {
+		if ($importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_HALTED ||
+			$importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_NONE) {
 			$continueImport = true;
 		} else {
 			$continueImport = false;
 		}
 
-		$focus = CRMEntity::getInstance($importInfo['module']);
-		if (method_exists($focus, 'getImportStatusCount')) {
-			$importStatusCount = $focus->getImportStatusCount($importDataController);
-		} else {
-			$importStatusCount = $importDataController->getImportStatusCount();
-		}
+		$importStatusCount = $importDataController->getImportStatusCount();
 		$totalRecords = $importStatusCount['TOTAL'];
 		if ($totalRecords > ($importStatusCount['IMPORTED'] + $importStatusCount['FAILED'])) {
-//			if($importInfo['temp_status'] == Import_Queue_Action::$IMPORT_STATUS_SCHEDULED) {
-//				self::showScheduledStatus($importInfo);
-//				exit;
-//			}
 			self::showCurrentStatus($importInfo, $importStatusCount, $continueImport);
-			throw new \Exception\AppException('Error');
 		} else {
 			$importDataController->finishImport();
 			self::showResult($importInfo, $importStatusCount);
@@ -156,7 +152,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		$mapName = $this->request->get('save_map_as');
 		if ($saveMap && !empty($mapName)) {
 			$fieldMapping = $this->request->get('field_mapping');
-			$fileReader = Import_Utils_Helper::getFileReader($this->request, $this->user);
+			$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
 			if ($fileReader === null) {
 				return false;
 			}
@@ -185,10 +181,10 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public function copyFromFileToDB()
 	{
-		$fileReader = Import_Utils_Helper::getFileReader($this->request, $this->user);
+		$fileReader = Import_Module_Model::getFileReader($this->request, $this->user);
 		$fileReader->read();
 		$fileReader->deleteFile();
-		if ($fileReader->getStatus() == 'success') {
+		if ($fileReader->getStatus() === 'success') {
 			$this->numberOfRecords = $fileReader->getNumberOfRecordsRead();
 			return true;
 		} else {
@@ -200,8 +196,7 @@ class Import_Main_View extends Vtiger_View_Controller
 
 	public function queueDataImport()
 	{
-		$configReader = new Import_Config_Model();
-		$immediateImportRecordLimit = $configReader->get('immediateImportLimit');
+		$immediateImportRecordLimit = \AppConfig::module('Import', 'IMMEDIATE_IMPORT_LIMIT');
 
 		$numberOfRecordsToImport = $this->numberOfRecords;
 		if ($numberOfRecordsToImport > $immediateImportRecordLimit) {

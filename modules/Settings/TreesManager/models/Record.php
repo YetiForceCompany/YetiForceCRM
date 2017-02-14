@@ -23,7 +23,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Role Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -32,7 +32,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get module of this record instance
-	 * @return <Settings_Webforms_Module_Model> $moduleModel
+	 * @return Settings_TreesManager_Record_Model $moduleModel
 	 */
 	public function getModule()
 	{
@@ -41,7 +41,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Edit View Url for the Role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getEditViewUrl()
 	{
@@ -50,7 +50,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Delete Action Url for the current role
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDeleteUrl()
 	{
@@ -59,7 +59,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Detail view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDetailViewUrl()
 	{
@@ -68,7 +68,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get List view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getListViewUrl()
 	{
@@ -107,7 +107,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function insertData($tree, $depth, $parenttrre)
 	{
-		$db = PearDatabase::getInstance();
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$state = '';
@@ -126,7 +125,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			'state' => $state,
 			'icon' => $icon
 		];
-		$db->insert('vtiger_trees_templates_data', $params);
+		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
 			foreach ($tree['children'] as $tree) {
 				$this->insertData($tree, $depth + 1, $parenttrre);
@@ -138,21 +137,20 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getTree($category = false)
 	{
-		$tree = array();
+		$tree = [];
 		$templateId = $this->getId();
 		if (empty($templateId))
 			return $tree;
 
-		$adb = PearDatabase::getInstance();
 		$lastId = 0;
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$templateId]);
+		$dataReader = (new App\Db\Query())->from('vtiger_trees_templates_data')
+				->where(['templateid' => $templateId])
+				->createCommand()->query();
 		$module = $this->get('module');
 		if (is_numeric($module)) {
-			$module = vtlib\Functions::getModuleName($module);
+			$module = App\Module::getModuleName($module);
 		}
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$row = $adb->raw_query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			$treeID = (int) str_replace('T', '', $row['tree']);
 			$cut = strlen('::' . $row['tree']);
 			$parenttrre = substr($row['parenttrre'], 0, - $cut);
@@ -177,26 +175,26 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save the role
+	 * Function to save the tree
 	 */
 	public function save()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$templateId = $this->getId();
-		$mode = 'edit';
 		if (empty($templateId)) {
-			$sql = 'INSERT INTO vtiger_trees_templates(name, module) VALUES (?,?)';
-			$params = array($this->get('name'), $this->get('module'));
-			$adb->pquery($sql, $params);
-			$this->set('templateid', $adb->getLastInsertID());
+			$db->createCommand()
+				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module')])
+				->execute();
+			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates_templateid_seq'));
 			foreach ($this->get('tree') as $tree) {
 				$this->insertData($tree, 0, '');
 			}
 		} else {
-			$sql = 'UPDATE vtiger_trees_templates SET name=?, module=? WHERE templateid=?';
-			$params = array($this->get('name'), $this->get('module'), $templateId);
-			$adb->pquery($sql, $params);
-			$adb->pquery('DELETE FROM vtiger_trees_templates_data WHERE `templateid` = ?', array($templateId));
+			$db->createCommand()
+				->update('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module')], ['templateid' => $templateId])
+				->execute();
+			$db->createCommand()->delete('vtiger_trees_templates_data', ['templateid' => $templateId])
+				->execute();
 			foreach ($this->get('tree') as $tree) {
 				$this->insertData($tree, 0, '');
 			}
@@ -204,23 +202,23 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->get('replace')) {
 			$this->replaceValue($this->get('replace'), $this->get('module'), $templateId);
 		}
+		$this->clearCache();
 	}
 
 	/**
 	 * Function to replaces value in module records
-	 * @param <Array> $tree
-	 * @param <String> $moduleId
-	 * @param <String> $templateId
+	 * @param array $tree
+	 * @param string $moduleId
+	 * @param string $templateId
 	 */
 	public function replaceValue($tree, $moduleId, $templateId)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `tablename`,`columnname` FROM `vtiger_field` WHERE `tabid` = ? && `fieldparams` = ? && presence in (0,2)';
-		$result = $adb->pquery($query, array($moduleId, $templateId));
-		$num_row = $adb->num_rows($result);
-
-		for ($i = 0; $i < $num_row; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
+		$db = App\Db::getInstance();
+		$dataReader = (new App\Db\Query())->select(['tablename', 'columnname'])
+				->from('vtiger_field')
+				->where(['tabid' => $moduleId, 'fieldparams' => $templateId, 'presence' => [0, 2]])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$tableName = $row['tablename'];
 			$columnName = $row['columnname'];
 			foreach ($tree as $row) {
@@ -228,37 +226,45 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				foreach ($row['old'] as $new) {
 					$params[] = 'T' . $new;
 				}
-				$adb->update($tableName, [$columnName => 'T' . current($row['new'])], $columnName . ' IN ( ' . generateQuestionMarks($row['old']) . ')', $params);
+				$db->createCommand()
+					->update($tableName, [$columnName => 'T' . current($row['new'])], [$columnName => $params])
+					->execute();
 			}
 		}
 	}
 
 	/**
 	 * Function to delete the role
-	 * @param <Settings_Roles_Record_Model> $transferToRole
 	 */
 	public function delete()
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$templateId = $this->getId();
-		$adb->pquery('DELETE FROM vtiger_trees_templates WHERE `templateid` = ?', array($templateId));
-		$adb->pquery('DELETE FROM vtiger_trees_templates_data WHERE `templateid` = ?', array($templateId));
+		$db->createCommand()
+			->delete('vtiger_trees_templates', ['templateid' => $templateId])
+			->execute();
+		$db->createCommand()
+			->delete('vtiger_trees_templates_data', ['templateid' => $templateId])
+			->execute();
+		$this->clearCache();
 	}
 
-	public function getChildren($fieldValue, $fieldName, $moduleModel)
+	public static function getChildren($fieldValue, $fieldName, $moduleModel)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT `fieldparams` FROM `vtiger_field` WHERE `tabid` = ? && `columnname` = ? && presence in (0,2)';
-		$result = $adb->pquery($query, array($moduleModel->getId(), $fieldName));
-		$templateId = $adb->query_result_raw($result, 0, 'fieldparams');
+
+		$templateId = (new App\Db\Query())->select(['fieldparams'])
+			->from('vtiger_field')
+			->where(['tabid' => $moduleModel->getId(), 'columnname' => $fieldName, 'presence' => [0, 2]])
+			->scalar();
 		$values = explode(',', $fieldValue);
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', array($templateId));
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$tree = $adb->query_result_raw($result, $i, 'tree');
+		$dataReader = (new App\Db\Query())->from('vtiger_trees_templates_data')
+				->where(['templateid' => $templateId])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$tree = $row['tree'];
 			$parent = '';
-			if ($adb->query_result_raw($result, $i, 'depth') > 0) {
-				$parenttrre = $adb->query_result_raw($result, $i, 'parenttrre');
+			if ($row['depth'] > 0) {
+				$parenttrre = $row['parenttrre'];
 				$cut = strlen('::' . $tree);
 				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
@@ -273,7 +279,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the instance of Role model, given role id
-	 * @param <Integer> $record
+	 * @param integer $record
 	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($record)
@@ -288,5 +294,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			return $instance;
 		}
 		return null;
+	}
+
+	/**
+	 * Function clears cache
+	 */
+	public function clearCache()
+	{
+		\App\Cache::delete('TreeData', $this->getId());
 	}
 }

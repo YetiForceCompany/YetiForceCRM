@@ -41,7 +41,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get the Webservice Field data type
-	 * @return <String> Data type of the field
+	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
@@ -49,8 +49,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			return 'datetime';
 		} else if ($this->get('uitype') == '30') {
 			return 'reminder';
-		} else if ($this->getName() == 'recurringtype') {
-			return 'recurrence';
 		}
 		return parent::getFieldDataType();
 	}
@@ -78,8 +76,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get Edit view display value
-	 * @param <String> Data base value
-	 * @return <String> value
+	 * @param string Data base value
+	 * @return string value
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
@@ -100,27 +98,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			}
 		}
 		return parent::getEditViewDisplayValue($value, $record);
-	}
-
-	/**
-	 * Function which will give the picklist values for a recurrence field
-	 * @param type $fieldName -- string
-	 * @return type -- array of values
-	 */
-	public static function getReccurencePicklistValues()
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
-		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
-			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = \includes\fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
-		} else {
-			$picklistValues = Vtiger_Util_Helper::getPickListValues('recurringtype');
-		}
-		foreach ($picklistValues as $value) {
-			$fieldPickListValues[$value] = vtranslate($value, 'Events');
-		}
-		return $fieldPickListValues;
 	}
 
 	/**
@@ -149,30 +126,14 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get visibilty permissions of a Field
-	 * @param <String> $accessmode
-	 * @return <Boolean>
+	 * @param boolean $readOnly
+	 * @return boolean
 	 */
-	public function getPermissions($accessmode = 'readonly')
+	public function getPermissions($readOnly = true)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$privileges = $user->getPrivileges();
-		if ($privileges->hasGlobalReadPermission()) {
-			return true;
-		} else {
-			$modulePermission = Vtiger_Cache::get('modulePermission-' . $accessmode, $this->getModuleId());
-			if (!$modulePermission) {
-				$modulePermissionCalendar = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Calendar'), $accessmode);
-				$modulePermissionEvents = self::preFetchModuleFieldPermission(vtlib\Functions::getModuleId('Events'), $accessmode);
-				$modulePermission = $modulePermissionCalendar + $modulePermissionEvents;
-				Vtiger_Cache::set('modulePermission-' . $accessmode, $this->getModuleId(), $modulePermission);
-			}
-
-			if (array_key_exists($this->getId(), $modulePermission)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		$calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
+		$events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
+		return ($calendar || $events);
 	}
 
 	/**

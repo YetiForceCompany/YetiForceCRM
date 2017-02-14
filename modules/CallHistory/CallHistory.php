@@ -55,6 +55,11 @@ class CallHistory extends Vtiger_CRMEntity
 		'LBL_TYPE' => 'callhistorytype',
 		'LBL_START_TIME' => 'start_time',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['to_number', 'from_number', 'duration', 'callhistorytype', 'start_time'];
 	// Make the field link to detail view
 	public $list_link_field = 'to_number';
 	// For Popup listview and UI type support
@@ -96,15 +101,15 @@ class CallHistory extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-
+			
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 }

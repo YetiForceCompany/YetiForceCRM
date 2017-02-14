@@ -9,5 +9,5 @@
  * ********************************************************************************** */
 
 $workflowConfig = array(
-	'basic' => array('classpath' => 'modules/com_vtiger_workflow/VTWorkflowManager.inc', 'class' => 'Workflow'),
+	'basic' => array('classpath' => 'modules/com_vtiger_workflow/VTWorkflowManager.php', 'class' => 'Workflow'),
 );

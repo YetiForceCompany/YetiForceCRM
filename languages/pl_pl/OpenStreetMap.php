@@ -16,5 +16,7 @@ $languageStrings = [
 	'LBL_SEARCH_IN_RADIUS' => 'Wyszukaj w promieniu',
 	'LBL_COPY_TO_CLIPBOARD' => 'Kopiuj do schowka',
 	'LBL_CLIPBOARD' => 'Schowek',
-	'LBL_INDIRECT_POINT' => 'Punkt pośredni'
+	'LBL_INDIRECT_POINT' => 'Punkt pośredni',
+	//Errors
+	'ERR_ADDRESS_NOT_FOUND' => 'Nie znaleziono adresu',
 ];

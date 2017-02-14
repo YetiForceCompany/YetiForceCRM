@@ -60,12 +60,12 @@
 					<div class="row">
 						<div class="col-md-6">
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
-							<select id="memberList" class="members form-control" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
+							<select id="memberList" class="members form-control select2 groupMembersColors" multiple="true" name="members[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}" data-validation-engine="validate[required]">
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 									<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 											{if $MEMBER->getName() neq $RECORD_MODEL->getName()}
-												<option value="{$MEMBER->getId()}"  data-member-type="{$GROUP_LABEL}" {if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{vtranslate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
+												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"  data-member-type="{$GROUP_LABEL}" {if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER->getId()])}selected="true"{/if}>{vtranslate($MEMBER->getName(), $QUALIFIED_MODULE)}</option>
 											{/if}
 										{/foreach}
 									</optgroup>

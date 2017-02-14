@@ -10,8 +10,8 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
-{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
-{assign var=ACCESSIBLE_GROUPS value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	<div class="row">

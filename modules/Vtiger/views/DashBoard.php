@@ -25,8 +25,15 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-
+		if (empty($sourceModule)) {
+			$sourceModule = $moduleName;
+		}
+		$currentDashboard = $request->get('dashboardId');
+		if (empty($currentDashboard)) {
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -37,12 +44,15 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			$widgets = [];
 		}
-		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule);
+		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($sourceModule, $currentDashboard);
+		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
+		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SRC_MODULE_NAME', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->view('dashboards/DashBoardPreProcessAjax.tpl', $moduleName);
 	}
@@ -52,8 +62,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
+		$currentDashboard = $request->get('dashboardId');
+		if (empty($currentDashboard)) {
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
+		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -65,6 +79,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			$widgets = [];
 		}
 
+		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
+		$viewer->assign('DASHBOARD_TYPES', Settings_WidgetsManagement_Module_Model::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
 		$viewer->assign('WIDGETS', $widgets);
@@ -84,9 +100,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
+		$currentDashboard = $request->get('dashboardId');
+		if (empty($currentDashboard)) {
+			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
-
+		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);

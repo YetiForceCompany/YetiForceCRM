@@ -10,9 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-
 	<div class='modelContainer modal fade' id="addTaskContainer" tabindex="-1">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-blg">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

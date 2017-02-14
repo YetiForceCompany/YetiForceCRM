@@ -55,6 +55,11 @@ class LettersOut extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['number', 'title', 'assigned_user_id', 'createdtime'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support
@@ -72,8 +77,6 @@ class LettersOut extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('title');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'title';
 	// Column value to use on detail view record text display
@@ -87,20 +90,6 @@ class LettersOut extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
-
-	public function save_module($module)
-	{
-		
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -170,7 +159,7 @@ class LettersOut extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -323,31 +312,14 @@ class LettersOut extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = CRMEntity::getInstance($modulename);
-			\includes\fields\RecordNumber::setNumber($modulename, 'LI', '1');
+			\App\Fields\RecordNumber::setNumber($modulename, 'LI', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('LettersOut'));
 			}
-
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModTracker');
-			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = vtlib\Functions::getModuleId($modulename);
-				$moduleModTrackerInstance = new ModTracker();
-				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
-					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
-					$moduleModTrackerInstance->updateCache($tabid, 1);
-				} else {
-					$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
-					$moduleModTrackerInstance->updateCache($tabid, 1);
-				}
-				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-					$moduleInstance = vtlib\Module::getInstance($tabid);
-					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
-				}
-			}
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersout', 'title'));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersout', 'smownerid'));

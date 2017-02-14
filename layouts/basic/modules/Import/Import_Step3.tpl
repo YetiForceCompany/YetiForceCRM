@@ -50,7 +50,7 @@
 										{foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
 											<optgroup label="{vtranslate($BLOCK_NAME, $FOR_MODULE)}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
-													<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}</option>
+													<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabel()|@vtranslate:$FOR_MODULE}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -65,8 +65,9 @@
 								<div class='col-xs-5'>
 									<input type="hidden" id="merge_fields" size="10" name="merge_fields" value="" />
 									<select id="selected_merge_fields" size="10" name="selected_merge_fields" title="{vtranslate('lBL_SELECTED_FIELDS', $MODULE)}" multiple class="txtBox" style="width: 100%">
-										{foreach key=_FIELD_NAME item=_FIELD_INFO from=$ENTITY_FIELDS}
-										<option value="{$_FIELD_NAME}">{$_FIELD_INFO->getFieldLabelKey()|@vtranslate:$FOR_MODULE}</option>
+										{foreach item=FIELD_NAME from=$FOR_MODULE_MODEL->getNameFields()}
+											{assign var="FIELD" value=$FOR_MODULE_MODEL->getFieldByName($FIELD_NAME)}
+											<option value="{$FIELD_NAME}">{$FIELD->getFieldLabel()|@vtranslate:$FOR_MODULE}</option>
 										{/foreach}
 									</select>
 								</div>

@@ -22,7 +22,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Name of this record instance
-	 * @return <String> Name
+	 * @return string Name
 	 */
 	public function getName()
 	{
@@ -31,7 +31,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get module of this record instance
-	 * @return <Settings_Webforms_Module_Model> $moduleModel
+	 * @return Settings_SMSNotifier_Module_Model $moduleModel
 	 */
 	public function getModule()
 	{
@@ -40,8 +40,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to set module instance to this record instance
-	 * @param <Settings_Webforms_Module_Model> $moduleModel
-	 * @return <Settings_Webforms_Record_Model> this record
+	 * @param Settings_SMSNotifier_Module_Model $moduleModel
+	 * @return Settings_SMSNotifier_Record_Model this record
 	 */
 	public function setModule($moduleModel)
 	{
@@ -51,7 +51,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Edit view url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getEditViewUrl()
 	{
@@ -61,7 +61,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Delete url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getDeleteUrl()
 	{
@@ -99,8 +99,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to getDisplay value of every field
-	 * @param <String> field name
-	 * @return <String> field value
+	 * @param string field name
+	 * @return string field value
 	 */
 	public function getDisplayValue($key)
 	{
@@ -146,9 +146,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get record instance by using id and moduleName
-	 * @param <Integer> $recordId
-	 * @param <String> $qualifiedModuleName
-	 * @return <Settings_Webforms_Record_Model> RecordModel
+	 * @param int $recordId
+	 * @param string $qualifiedModuleName
+	 * @return Settings_SMSNotifier_Record_Model RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
@@ -162,7 +162,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			$recordModel = new self();
 			$recordModel->setData($rowData)->setModule($moduleModel);
 
-			$parameters = \includes\utils\Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \App\Json::decode(decode_html($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
@@ -174,7 +174,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get clean record instance by using moduleName
-	 * @param <String> $qualifiedModuleName
+	 * @param string $qualifiedModuleName
 	 * @return <Settings_SMSNotifier_Record_Model>
 	 */
 	static public function getCleanInstance($qualifiedModuleName)

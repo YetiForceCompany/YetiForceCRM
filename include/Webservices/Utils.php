@@ -46,7 +46,7 @@ function vtws_getUsersInTheSameGroup($id)
 		$usersInGroup = $groupUsers->group_users;
 		foreach ($usersInGroup as $user) {
 			if ($user != $id) {
-				$allUsers[$user] = \includes\fields\Owner::getUserLabel($user);
+				$allUsers[$user] = \App\Fields\Owner::getUserLabel($user);
 			}
 		}
 	}
@@ -84,7 +84,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	$adb = PearDatabase::getInstance();
 	require('user_privileges/user_privileges_' . $user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $user->id . '.php');
-	$tabName = \includes\Modules::getModuleName($moduleId);
+	$tabName = \App\Module::getModuleName($moduleId);
 	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
 		$result = get_current_user_access_groups($tabName);
@@ -229,7 +229,7 @@ function vtws_getModuleInstance($webserviceObject)
 
 function vtws_getOwnerType($ownerId)
 {
-	return \includes\fields\Owner::getType($ownerId);
+	return \App\Fields\Owner::getType($ownerId);
 }
 
 function vtws_runQueryAsTransaction($query, $params, &$result)
@@ -278,28 +278,28 @@ function vtws_getWebserviceEntityId($entityName, $id)
 
 function vtws_addDefaultModuleTypeEntity($moduleName)
 {
-	$adb = PearDatabase::getInstance();
-	$isModule = 1;
-	$moduleHandler = array('file' => 'include/Webservices/VtigerModuleOperation.php',
-		'class' => 'VtigerModuleOperation');
-	return vtws_addModuleTypeWebserviceEntity($moduleName, $moduleHandler['file'], $moduleHandler['class'], $isModule);
+	$moduleHandler = array('file' => 'include/Webservices/VtigerModuleOperation.php', 'class' => 'VtigerModuleOperation');
+	return vtws_addModuleTypeWebserviceEntity($moduleName, $moduleHandler['file'], $moduleHandler['class'], 1);
 }
 
-function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className)
+function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className, $isModule = 1)
 {
-	$adb = PearDatabase::getInstance();
-	$checkres = $adb->pquery('SELECT id FROM vtiger_ws_entity WHERE name=? && handler_path=? && handler_class=?', array($moduleName, $filePath, $className));
-	if ($checkres && $adb->num_rows($checkres) == 0) {
-		$isModule = 1;
-		$entityId = $adb->getUniqueID("vtiger_ws_entity");
-		$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)', array($entityId, $moduleName, $filePath, $className, $isModule));
+	$isExists = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['name' => $moduleName, 'handler_class' => $className, 'handler_path' => $filePath])->exists();
+	if (!$isExists) {
+		\App\Db::getInstance()->createCommand()
+			->insert('vtiger_ws_entity', [
+				'name' => $moduleName,
+				'handler_path' => $filePath,
+				'handler_class' => $className,
+				'ismodule' => $isModule,
+			])->execute();
 	}
 }
 
 function vtws_deleteWebserviceEntity($moduleName)
 {
-	$adb = PearDatabase::getInstance();
-	$adb->pquery('DELETE FROM vtiger_ws_entity WHERE name=?', array($moduleName));
+	\App\Db::getInstance()->createCommand()
+		->delete('vtiger_ws_entity', ['name' => $moduleName])->execute();
 }
 
 function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName = true)
@@ -315,31 +315,43 @@ function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName
 
 function vtws_addActorTypeWebserviceEntityWithName($moduleName, $filePath, $className, $actorNameDetails)
 {
-	$adb = PearDatabase::getInstance();
-	$isModule = 0;
-	$entityId = $adb->getUniqueID("vtiger_ws_entity");
-	$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)', array($entityId, $moduleName, $filePath, $className, $isModule));
-	vtws_addActorTypeName($entityId, $actorNameDetails['fieldNames'], $actorNameDetails['indexField'], $actorNameDetails['tableName']);
+	$db = \App\Db::getInstance();
+	$db->createCommand()
+		->insert('vtiger_ws_entity', [
+			'name' => $moduleName,
+			'handler_path' => $filePath,
+			'handler_class' => $className,
+			'ismodule' => 0,
+		])->execute();
+	vtws_addActorTypeName($db->getLastInsertID('vtiger_ws_entity_seq'), $actorNameDetails['fieldNames'], $actorNameDetails['indexField'], $actorNameDetails['tableName']);
 }
 
 function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $className, $actorNameDetails)
 {
-	$adb = PearDatabase::getInstance();
-	$isModule = 0;
-	$entityId = $adb->getUniqueID("vtiger_ws_entity");
-	$adb->pquery('insert into vtiger_ws_entity(id,name,handler_path,handler_class,ismodule) values (?,?,?,?,?)', array($entityId, $moduleName, $filePath, $className, $isModule));
+	\App\Db::getInstance()->createCommand()
+		->insert('vtiger_ws_entity', [
+			'name' => $moduleName,
+			'handler_path' => $filePath,
+			'handler_class' => $className,
+			'ismodule' => 0,
+		])->execute();
 }
 
 function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 {
-	$adb = PearDatabase::getInstance();
-	$adb->pquery('insert into vtiger_ws_entity_name(entity_id,name_fields,index_field,table_name) values (?,?,?,?)', array($entityId, $fieldNames, $indexColumn, $tableName));
+	\App\Db::getInstance()->createCommand()
+		->insert('vtiger_ws_entity_name', [
+			'entity_id' => $entityId,
+			'name_fields' => $fieldNames,
+			'index_field' => $indexColumn,
+			'table_name' => $tableName,
+		])->execute();
 }
 
 function vtws_getName($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -431,7 +443,7 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
 function vtws_getModuleHandlerFromName($name, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -445,7 +457,7 @@ function vtws_getModuleHandlerFromName($name, $user)
 function vtws_getModuleHandlerFromId($id, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -454,30 +466,6 @@ function vtws_getModuleHandlerFromId($id, $user)
 
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
 	return $handler;
-}
-
-function vtws_CreateCompanyLogoFile($fieldname)
-{
-	$uploaddir = ROOT_DIRECTORY . '/storage/Logo/';
-	$allowedFileTypes = array('jpeg', 'png', 'jpg', 'pjpeg', 'x-png');
-	$binFile = $_FILES[$fieldname]['name'];
-	$fileType = $_FILES[$fieldname]['type'];
-	$fileSize = $_FILES[$fieldname]['size'];
-	$fileTypeArray = explode("/", $fileType);
-	$fileTypeValue = strtolower($fileTypeArray[1]);
-	if ($fileTypeValue == '') {
-		$fileTypeValue = substr($binFile, strrpos($binFile, '.') + 1);
-	}
-	$fileInstance = \includes\fields\File::loadFromRequest($_FILES[$fieldname]);
-	if ($fileInstance->validate()) {
-		if (in_array($fileTypeValue, $allowedFileTypes)) {
-			$fileInstance->moveFile($uploaddir . $_FILES[$fieldname]['name']);
-			copy($uploaddir . $_FILES[$fieldname]['name'], $uploaddir . 'application.ico');
-			return $binFile;
-		}
-		throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname wrong file type given for upload");
-	}
-	throw new WebServiceException(WebServiceErrorCode::$INVALIDTOKEN, "$fieldname file upload failed");
 }
 
 function vtws_getActorEntityName($name, $idList)
@@ -562,7 +550,7 @@ function vtws_getConvertLeadFieldMapping()
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
 	$adb = PearDatabase::getInstance();
-	
+	$db = \App\Db::getInstance();
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
 	$result = $adb->pquery($sql, [$id]);
@@ -570,7 +558,7 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 		return false;
 	}
 	while ($noteId = $adb->getSingleValue($result)) {
-		$adb->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId]);
+		$db->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId])->execute();
 	}
 
 	$sql = 'SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid=?';
@@ -579,7 +567,7 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 		return false;
 	}
 	while ($attachmentId = $adb->getSingleValue($result)) {
-		$adb->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId]);
+		$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId])->execute();
 	}
 	return true;
 }
@@ -591,22 +579,23 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
  */
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
-	$db = PearDatabase::getInstance();
-	$currentUser = Users_Record_Model::getCurrentUserModel();
-
-	$result = $db->pquery('select productid from vtiger_seproductsrel where crmid=?', [$leadId]);
-	if ($db->getRowCount($result) == 0) {
+	$db = \App\Db::getInstance();
+	$dataReader = (new \App\Db\Query())->select(['productid'])
+			->from('vtiger_seproductsrel')
+			->where(['crmid' => $leadId])
+			->createCommand()->query();
+	if ($dataReader->count() === 0) {
 		return false;
 	}
-	while ($productId = $db->getSingleValue($result)) {
-		$resultNew = $db->insert('vtiger_seproductsrel', [
-			'crmid' => $relatedId,
-			'productid' => $productId,
-			'setype' => $setype,
-			'rel_created_user' => $currentUser->getId(),
-			'rel_created_time' => date('Y-m-d H:i:s')
-		]);
-		if ($resultNew['rowCount'] == 0) {
+	while ($productId = $dataReader->readColumn(0)) {
+		$resultNew = $db->createCommand()->insert('vtiger_seproductsrel', [
+				'crmid' => $relatedId,
+				'productid' => $productId,
+				'setype' => $setype,
+				'rel_created_user' => \App\User::getCurrentUserId(),
+				'rel_created_time' => date('Y-m-d H:i:s')
+			])->execute();
+		if ($resultNew === 0) {
 			return false;
 		}
 	}
@@ -620,35 +609,36 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {
-	$db = PearDatabase::getInstance();
-
-	$result = $db->pquery("select * from vtiger_crmentityrel where crmid=?", [$leadId]);
-	if ($db->getRowCount($result) == 0) {
+	$db = \App\Db::getInstance();
+	$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
+			->createCommand()->query();
+	if ($dataReader->count() === 0) {
 		return false;
 	}
-	while ($row = $db->getRow($result)) {
-		$resultNew = $db->insert('vtiger_crmentityrel', [
-			'crmid' => $relatedId,
-			'module' => $setype,
-			'relcrmid' => $row['relcrmid'],
-			'relmodule' => $row['relmodule']
-		]);
-		if ($resultNew['rowCount'] == 0) {
+	while ($row = $dataReader->read()) {
+		$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
+				'crmid' => $relatedId,
+				'module' => $setype,
+				'relcrmid' => $row['relcrmid'],
+				'relmodule' => $row['relmodule']
+			])->execute();
+		if ($resultNew === 0) {
 			return false;
 		}
 	}
-	$result = $db->pquery("select * from vtiger_crmentityrel where relcrmid=?", [$leadId]);
-	if ($db->getRowCount($result) == 0) {
+	$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
+			->createCommand()->query();
+	if ($dataReader->count() === 0) {
 		return false;
 	}
-	while ($row = $db->getRow($result)) {
-		$resultNew = $db->insert('vtiger_crmentityrel', [
-			'crmid' => $relatedId,
-			'module' => $setype,
-			'relcrmid' => $row['crmid'],
-			'relmodule' => $row['module']
-		]);
-		if ($resultNew['rowCount'] == 0) {
+	while ($row = $dataReader->read()) {
+		$resultNew = $db->createCommand()->insert('vtiger_crmentityrel', [
+				'crmid' => $relatedId,
+				'module' => $setype,
+				'relcrmid' => $row['crmid'],
+				'relmodule' => $row['module']
+			])->execute();
+		if ($resultNew === 0) {
 			return false;
 		}
 	}
@@ -677,12 +667,12 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Activities/Emails");
 	}
-	$adb = PearDatabase::getInstance();
+	$db = \App\Db::getInstance();
 	if (!empty($accountId)) {
-		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($accountId, $leadId));
+		$db->createCommand()->update('vtiger_activity', ['link' => $accountId], ['link' => $leadId])->execute();
 	}
 	if (!empty($contactId)) {
-		$adb->pquery('UPDATE `vtiger_activity` SET `link` = ? WHERE `link` = ?;', array($contactId, $leadId));
+		$db->createCommand()->update('vtiger_activity', ['link' => $contactId], ['link' => $leadId])->execute();
 	}
 	return true;
 }
@@ -696,11 +686,11 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
  */
 function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType)
 {
-	$db = PearDatabase::getInstance();
-	$rowCount = $db->update('vtiger_campaign_records', [
-		'crmid' => $relatedId
-		], 'crmid = ?', [$leadId]
-	);
+	$db = \App\Db::getInstance();
+	$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
+			'crmid' => $relatedId
+			], ['crmid' => $leadId]
+		)->execute();
 	if ($rowCount == 0) {
 		return false;
 	}
@@ -729,7 +719,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
-	if (\includes\Modules::isModuleActive('ModComments')) {
+	if (\App\Module::isModuleActive('ModComments')) {
 		CRMEntity::getInstance('ModComments');
 		ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}
@@ -737,174 +727,109 @@ function vtws_transferComments($sourceRecordId, $destinationRecordId)
 
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 {
-	$db = PearDatabase::getInstance();
+	$db = \App\Db::getInstance();
 	//PBXManager
-	$db->pquery("UPDATE vtiger_pbxmanager SET customer=? WHERE customer=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_pbxmanager', ['customer' => $destinationRecordId], ['customer' => $sourceRecordId])->execute();
 	//OSSPasswords
-	$db->pquery("UPDATE vtiger_osspasswords SET linkto=? WHERE linkto=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_osspasswords', ['linkto' => $destinationRecordId], ['linkto' => $sourceRecordId])->execute();
 	//Contacts
-	$db->pquery("UPDATE vtiger_contactdetails SET parentid=? WHERE parentid=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_contactdetails', ['parentid' => $destinationRecordId], ['parentid' => $sourceRecordId])->execute();
 	//OutsourcedProducts
-	$db->pquery("UPDATE vtiger_outsourcedproducts SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_outsourcedproducts', ['parent_id' => $destinationRecordId], ['parent_id' => $sourceRecordId])->execute();
 	//OSSOutsourcedServices
-	$db->pquery("UPDATE vtiger_ossoutsourcedservices SET parent_id=? WHERE parent_id=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_ossoutsourcedservices', ['parent_id' => $destinationRecordId], ['parent_id' => $sourceRecordId])->execute();
 	//OSSTimeControl
-	$db->pquery("UPDATE vtiger_osstimecontrol SET link=? WHERE link=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_osstimecontrol', ['link' => $destinationRecordId], ['link' => $sourceRecordId])->execute();
 	//OSSMailView
-	$db->pquery("UPDATE vtiger_ossmailview_relation SET crmid=? WHERE crmid=?", [$destinationRecordId, $sourceRecordId]);
+	$db->createCommand()->update('vtiger_ossmailview_relation', ['crmid' => $destinationRecordId], ['crmid' => $sourceRecordId])->execute();
 	//CallHistory
-	$db->update('vtiger_callhistory', ['destination' => $destinationRecordId], 'destination = ?', [$sourceRecordId]);
+	$db->createCommand()->update('vtiger_callhistory', ['destination' => $destinationRecordId], ['destination' => $sourceRecordId])->execute();
 	//LettersIn
-	$db->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], 'relatedid = ?', [$sourceRecordId]);
+	$db->createCommand()->update('vtiger_lettersin', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 	//LettersOut
-	$db->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], 'relatedid = ?', [$sourceRecordId]);
+	$db->createCommand()->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 }
 
 function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 {
-	$db = PearDatabase::getInstance();
-	//Updating the smcreatorid,smownerid, modifiedby in vtiger_crmentity
-	$sql = "UPDATE vtiger_crmentity SET smcreatorid=? WHERE smcreatorid=? && setype<>?";
-	$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
-
-	$sql = "UPDATE vtiger_crmentity SET smownerid=? WHERE smownerid=? && setype<>?";
-	$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
-
-	$sql = "update vtiger_crmentity set modifiedby=? where modifiedby=?";
-	$db->pquery($sql, array($newOwnerId, $ownerId));
-
+	$db = \App\Db::getInstance();
+	//Updating the smcreatorid,smownerid, modifiedby, smcreatorid in vtiger_crmentity
+	$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId], ['smcreatorid' => $ownerId, 'setype' => 'ModComments'])
+		->execute();
+	$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $newOwnerId], ['smownerid' => $ownerId, 'setype' => 'ModComments'])
+		->execute();
+	$db->createCommand()->update('vtiger_crmentity', ['modifiedby' => $newOwnerId], ['modifiedby' => $ownerId])
+		->execute();
 	//deleting from vtiger_tracker
 	if ($delete) {
-		$sql = "delete from vtiger_tracker where user_id=?";
-		$db->pquery($sql, array($ownerId));
+		$db->createCommand()->delete('vtiger_tracker', ['user_id' => $ownerId])
+			->execute();
 	}
-
 	//updating the vtiger_import_maps
-	$sql = "update vtiger_import_maps set assigned_user_id=? where assigned_user_id=?";
-	$db->pquery($sql, array($newOwnerId, $ownerId));
-
-	if (vtlib\Utils::CheckTable('vtiger_customerportal_prefs')) {
-		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
-		$params = array($newOwnerId, 'defaultassignee', $ownerId);
-		$db->pquery($query, $params);
-
-		$query = 'UPDATE vtiger_customerportal_prefs SET prefvalue = ? WHERE prefkey = ? && prefvalue = ?';
-		$params = array($newOwnerId, 'userid', $ownerId);
-		$db->pquery($query, $params);
-	}
-
+	$db->createCommand()->update('vtiger_import_maps', ['assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
+		->execute();
 	//delete from vtiger_homestuff
 	if ($delete) {
-		$sql = "delete from vtiger_homestuff where userid=?";
-		$db->pquery($sql, array($ownerId));
+		$db->createCommand()->delete('vtiger_homestuff', ['userid' => $ownerId])
+			->execute();
+		$db->createCommand()->delete('vtiger_users2group', ['userid' => $ownerId])
+			->execute();
 	}
-
-	//delete from vtiger_users to vtiger_role vtiger_table
-	if ($delete) {
-		$sql = "delete from vtiger_users2group where userid=?";
-		$db->pquery($sql, array($ownerId));
-	}
-
-	$sql = "select tabid,fieldname,tablename,columnname from vtiger_field left join " .
-		"vtiger_fieldmodulerel on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid where uitype " .
-		"in (52,53,77,101) or (uitype=10 and relmodule='Users')";
-	$result = $db->pquery($sql, []);
-	$it = new SqlResultIterator($db, $result);
+	$dataReader = (new App\Db\Query())->select(['tabid', 'fieldname', 'tablename', 'columnname'])
+			->from('vtiger_field')
+			->leftJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
+			->where(['or', ['uitype' => [52, 53, 77, 101]], ['uitype' => 10, 'relmodule' => 'Users']])
+			->createCommand()->query();
 	$columnList = [];
-	foreach ($it as $row) {
-		$column = $row->tablename . '.' . $row->columnname;
+	while ($row = $dataReader->read()) {
+		$column = $row['tablename'] . '.' . $row['columnname'];
 		if (!in_array($column, $columnList)) {
 			$columnList[] = $column;
-			if ($row->columnname == 'smcreatorid' || $row->columnname == 'smownerid') {
-				$sql = "update $row->tablename set $row->columnname=? where $row->columnname=? and setype<>?";
-				$db->pquery($sql, array($newOwnerId, $ownerId, 'ModComments'));
+			if ($row['columnname'] === 'smcreatorid' || $row['columnname'] === 'smownerid') {
+				$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newOwnerId], ['and', [$row['columnname'] => $ownerId], ['<>', 'setype', 'ModComments']])
+					->execute();
 			} else {
-				$sql = "update $row->tablename set $row->columnname=? where $row->columnname=?";
-				$db->pquery($sql, array($newOwnerId, $ownerId));
+				$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newOwnerId], [$row['columnname'] => $ownerId])
+					->execute();
 			}
 		}
 	}
-
 	//update workflow tasks Assigned User from Deleted User to Transfer User
 	$newOwnerModel = Users_Record_Model::getInstanceById($newOwnerId, 'Users');
 	$ownerModel = Users_Record_Model::getInstanceById($ownerId, 'Users');
-
 	vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
-	vtws_updateWebformsRoundrobinUsersLists($ownerId, $newOwnerId);
-}
-
-function vtws_updateWebformsRoundrobinUsersLists($ownerId, $newOwnerId)
-{
-	$db = PearDatabase::getInstance();
-	$sql = 'SELECT id,roundrobin_userid FROM vtiger_webforms;';
-	$result = $db->pquery($sql, []);
-	$numOfRows = $db->num_rows($result);
-	for ($i = 0; $i < $numOfRows; $i++) {
-		$rowdata = $db->query_result_rowdata($result, $i);
-		$webformId = $rowdata['id'];
-		$encodedUsersList = $rowdata['roundrobin_userid'];
-		$encodedUsersList = str_replace("&quot;", "\"", $encodedUsersList);
-		$usersList = json_decode($encodedUsersList, true);
-		if (is_array($usersList)) {
-			if (($key = array_search($ownerId, $usersList)) !== false) {
-				if (!in_array($newOwnerId, $usersList)) {
-					$usersList[$key] = $newOwnerId;
-				} else {
-					unset($usersList[$key]);
-					$revisedUsersList = [];
-					$j = 0;
-					foreach ($usersList as $uid) {
-						$revisedUsersList[$j++] = $uid;
-					}
-					$usersList = $revisedUsersList;
-				}
-				if (count($usersList) == 0) {
-					$db->pquery('UPDATE vtiger_webforms SET roundrobin_userid = ?,roundrobin = ? where id =?', array("--None--", 0, $webformId));
-				} else {
-					$usersList = json_encode($usersList);
-					$db->pquery('UPDATE vtiger_webforms SET roundrobin_userid = ? where id =?', array($usersList, $webformId));
-				}
-			}
-		}
-	}
 }
 
 function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 {
-	$db = PearDatabase::getInstance();
-
+	$db = \App\Db::getInstance();
 	//update workflow tasks Assigned User from Deleted User to Transfer User
 	$newOwnerName = $newOwnerModel->get('user_name');
 	if (!$newOwnerName) {
 		$newOwnerName = $newOwnerModel->getName();
 	}
 	$newOwnerId = $newOwnerModel->getId();
-
 	$ownerName = $ownerModel->get('user_name');
 	if (!$ownerName) {
 		$ownerName = $ownerModel->getName();
 	}
 	$ownerId = $ownerModel->getId();
-
 	$nameSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerName . '"';
 	$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerId . '"';
 	$fieldSearchValue = 's:16:"assigned_user_id"';
-	$query = sprintf("SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE '%s' 
-			OR task LIKE '%s' || task LIKE '%s'", "%$nameSearchValue%", "%$idSearchValue%", "%$fieldSearchValue%");
-	$result = $db->pquery($query, []);
-
-	$num_rows = $db->num_rows($result);
-	for ($i = 0; $i < $num_rows; $i++) {
-		$row = $db->raw_query_result_rowdata($result, $i);
+	$dataReader = (new \App\Db\Query())->select(['task', 'task_id', 'workflow_id'])->from('com_vtiger_workflowtasks')
+			->where(['or like', 'task', [$nameSearchValue, $idSearchValue, $fieldSearchValue]])
+			->createCommand()->query();
+	while ($row = $dataReader->read()) {
 		$task = $row['task'];
 		$taskComponents = explode(':', $task);
 		$classNameWithDoubleQuotes = $taskComponents[2];
 		$className = str_replace('"', '', $classNameWithDoubleQuotes);
-		require_once("modules/com_vtiger_workflow/VTTaskManager.inc");
-		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.inc';
+		require_once("modules/com_vtiger_workflow/VTTaskManager.php");
+		require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
 		$unserializeTask = unserialize($task);
 		if (array_key_exists('field_value_mapping', $unserializeTask)) {
-			$fieldMapping = \includes\utils\Json::decode($unserializeTask->field_value_mapping);
+			$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
 			if (!empty($fieldMapping)) {
 				foreach ($fieldMapping as $key => $condition) {
 					if ($condition['fieldname'] == 'assigned_user_id') {
@@ -917,12 +842,10 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					}
 					$fieldMapping[$key] = $condition;
 				}
-				$updatedTask = \includes\utils\Json::encode($fieldMapping);
+				$updatedTask = \App\Json::encode($fieldMapping);
 				$unserializeTask->field_value_mapping = $updatedTask;
 				$serializeTask = serialize($unserializeTask);
-
-				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
-				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
+				$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
 			}
 		} else {
 			//For VTCreateTodoTask and VTCreateEventTask
@@ -932,8 +855,7 @@ function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 					$unserializeTask->assigned_user_id = $newOwnerId;
 				}
 				$serializeTask = serialize($unserializeTask);
-				$query = 'UPDATE com_vtiger_workflowtasks SET task=? where workflow_id=? && task_id=?';
-				$db->pquery($query, array($serializeTask, $row['workflow_id'], $row['task_id']));
+				$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
 			}
 		}
 	}

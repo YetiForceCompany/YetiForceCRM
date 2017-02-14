@@ -15,10 +15,10 @@ class Vtiger_Menu_Model
 
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence
-	 * @param <Boolean> $sequenced - true/false
+	 * @param boolean $sequenced - true/false
 	 * @return <Array> - List of Vtiger_Menu_Model instances
 	 */
-	public static function getAll($sequenced = false)
+	public static function getAll($sequenced = false, $restrictedModulesList = [])
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -88,18 +88,18 @@ class Vtiger_Menu_Model
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
 			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
+				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ($view == '') {
-				$breadcrumbs[] = [ 'name' => vtranslate('LBL_HOME', $moduleName)];
+				$breadcrumbs[] = ['name' => vtranslate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
 				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
 				if ($recordLabel != '') {
-					$breadcrumbs[] = [ 'name' => $recordLabel];
+					$breadcrumbs[] = ['name' => $recordLabel];
 				}
 			}
 		} elseif ($parent === 'Settings') {
@@ -115,8 +115,8 @@ class Vtiger_Menu_Model
 					if (empty($fieldId)) {
 						if ($menuModel->getModule() == $moduleName) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -124,8 +124,8 @@ class Vtiger_Menu_Model
 					} else {
 						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = [ 'name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = [ 'name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -139,16 +139,16 @@ class Vtiger_Menu_Model
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = [ 'name' => vtranslate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
-						$breadcrumbs[] = [ 'name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
-						$recordLabel = \includes\fields\Owner::getUserLabel($request->get('record'));
+						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
 						if ($recordLabel != '') {
-							$breadcrumbs[] = [ 'name' => $recordLabel];
+							$breadcrumbs[] = ['name' => $recordLabel];
 						}
 					}
 				}

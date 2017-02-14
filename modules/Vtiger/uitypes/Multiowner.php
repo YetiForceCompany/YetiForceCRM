@@ -13,7 +13,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -36,21 +36,21 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				$detailViewUrl = $userModel->getDetailViewUrl();
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
-					return \includes\fields\Owner::getLabel($value);
+					return \App\Fields\Owner::getLabel($value);
 				}
 			} else {
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
-					return \includes\fields\Owner::getLabel($value);
+					return \App\Fields\Owner::getLabel($value);
 				}
 				$recordModel = new Settings_Groups_Record_Model();
 				$recordModel->set('groupid', $value);
 				$detailViewUrl = $recordModel->getDetailViewUrl();
 			}
 			if ($rawText) {
-				$displayvalue[] = \includes\fields\Owner::getLabel($value);
+				$displayvalue[] = \App\Fields\Owner::getLabel($value);
 			} else {
-				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \includes\fields\Owner::getLabel($value) . "</a>&nbsp";
+				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($value) . "</a>&nbsp";
 			}
 		}
 		$displayvalue = implode(',', $displayvalue);
@@ -60,7 +60,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to know owner is either User or Group
 	 * @param <Integer> userId/GroupId
-	 * @return <String> User/Group
+	 * @return string User/Group
 	 */
 	public static function getOwnerType($id)
 	{

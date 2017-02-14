@@ -24,7 +24,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$moduleName = $param['module'];
 		$status = false;
 		$inventoryInstance = Vtiger_Inventory_Model::getInstance($moduleName);
-		$status = $inventoryInstance->setInventoryTable($param['status']);
+		$status = $inventoryInstance->setMode($param['status']);
 		if ($status) {
 			$status = true;
 		}
@@ -35,6 +35,10 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response->emit();
 	}
 
+	/**
+	 * Function is used to create and edit fields in advanced block
+	 * @param Vtiger_Request $request
+	 */
 	public function saveInventoryField(Vtiger_Request $request)
 	{
 		$param = $request->get('param');
@@ -47,8 +51,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 			$return = $inventoryField->saveField($name, $param);
 			$edit = true;
 		} else {
-			$return = $inventoryField->addField($name, $param);
-			$id = $return['id'];
+			$id = $inventoryField->addField($name, $param);
 		}
 		$arrayInstane = $inventoryField->getFields(false, [$id], 'Settings');
 		$data = [];

@@ -14,7 +14,7 @@ class Products_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function process(Vtiger_Request $request)
 	{
 		//the new values are added to $_REQUEST for Ajax Save, are removing the Tax details depend on the 'ajxaction' value
-		$request->set('ajaxaction', 'DETAILVIEW');
+		AppRequest::set('ajxaction', 'DETAILVIEW');
 		parent::process($request);
 	}
 }

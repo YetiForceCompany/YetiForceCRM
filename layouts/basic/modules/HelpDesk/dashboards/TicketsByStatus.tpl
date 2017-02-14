@@ -9,9 +9,6 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 -->*}
-<script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js',{},{});
-</script>
 {strip}
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}

@@ -16,42 +16,31 @@ Class DataAccess_check_task
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		$db = PearDatabase::getInstance();
 		if (!isset($ID) || $ID == 0 || $ID == '')
-			return Array('save_record' => true);
-		if (is_array($config['status']))
-			$config['status'] = implode("','", $config['status']);
-
-		$result = $db->pquery(sprintf("SELECT count(*) as num
-								FROM vtiger_activity 
-								INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
-								WHERE vtiger_crmentity.deleted = ? 
-								AND vtiger_activity.activitytype = ? 
-								AND vtiger_activity.status in ('%s')
-								AND vtiger_activity.subject = ?
-								AND (vtiger_activity.link = ? || vtiger_activity.process = ? )", $config['status']), array(0, 'Task', $config['name'], $ID, $ID), true);
-
-		if ($db->query_result($result, 0, 'num') == 0)
-			return Array(
+			return ['save_record' => true];
+		$activitiesExists = (new \App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+				->where(['and',
+					['vtiger_crmentity.deleted' => 0],
+					['vtiger_activity.activitytype' => 'Task'],
+					['vtiger_activity.status' => $config['status']],
+					['vtiger_activity.subject' => $config['name']],
+					['or', ['vtiger_activity.link' => $ID], ['vtiger_activity.process' => $ID]]
+				])->exists();
+		if (!$activitiesExists)
+			return [
 				'save_record' => false,
 				'type' => 0,
-				'info' => Array(
+				'info' => [
 					'text' => vtranslate($config['message'], 'DataAccess'),
 					'type' => 'error'
-				)
-			);
+				]
+			];
 		else
-			return Array('save_record' => true);
+			return ['save_record' => true];
 	}
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM vtiger_activitystatus ORDER BY sortorderid", [], true);
-		$fields = [];
-		while ($row = $db->fetch_array($result)) {
-			array_push($fields, $row['activitystatus']);
-		}
-		return Array('status' => $fields);
+		return ['status' => (new App\Db\Query())->select(['activitystatus'])->from('vtiger_activitystatus')->orderBy('sortorderid')->column()];
 	}
 }

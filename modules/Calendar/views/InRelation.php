@@ -69,7 +69,7 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		$transformedSearchParams = $this->transferListSearchParamsToFilterCondition($searchParmams, $relationListView->getRelationModel()->getRelationModuleModel());
+		$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
 
 		//To make smarty to get the details easily accesible
@@ -139,8 +139,4 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		return $viewer->view('RelatedList.tpl', $relatedModuleName, 'true');
 	}
 
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
-	{
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
-	}
 }

@@ -21,7 +21,7 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to get provider name
-	 * @return <String> provider name
+	 * @return string provider name
 	 */
 	public function getName()
 	{
@@ -39,7 +39,7 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to get service URL to use for a given type
-	 * @param <String> $type like SEND, PING, QUERY
+	 * @param string $type like SEND, PING, QUERY
 	 */
 	public function getServiceURL($type = false)
 	{
@@ -55,8 +55,8 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to set authentication parameters
-	 * @param <String> $userName
-	 * @param <String> $password
+	 * @param string $userName
+	 * @param string $password
 	 */
 	public function setAuthParameters($userName, $password)
 	{
@@ -66,8 +66,8 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to set non-auth parameter.
-	 * @param <String> $key
-	 * @param <String> $value
+	 * @param string $key
+	 * @param string $value
 	 */
 	public function setParameter($key, $value)
 	{
@@ -76,9 +76,9 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to get parameter value
-	 * @param <String> $key
-	 * @param <String> $defaultValue
-	 * @return <String> value/$default value
+	 * @param string $key
+	 * @param string $defaultValue
+	 * @return string value/$default value
 	 */
 	public function getParameter($key, $defaultValue = false)
 	{
@@ -103,7 +103,7 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to handle SMS Send operation
-	 * @param <String> $message
+	 * @param string $message
 	 * @param <Mixed> $toNumbers One or Array of numbers
 	 */
 	public function send($message, $toNumbers)
@@ -116,10 +116,8 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 		$params['text'] = $message;
 		$params['to'] = implode(',', $toNumbers);
 
-		$serviceURL = $this->getServiceURL(self::SERVICE_SEND);
-		$httpClient = new Vtiger_Net_Client($serviceURL);
-		$response = $httpClient->doPost($params);
-		$responseLines = explode("\n", $response);
+		$httpClient = Requests::post($this->getServiceURL(self::SERVICE_SEND), [], $params);
+		$responseLines = explode("\n", $httpClient->body);
 
 		$results = array();
 		$i = 0;
@@ -156,10 +154,8 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 		$params = $this->prepareParameters();
 		$params['apimsgid'] = $messageId;
 
-		$serviceURL = $this->getServiceURL(self::SERVICE_QUERY);
-		$httpClient = new Vtiger_Net_Client($serviceURL);
-		$response = $httpClient->doPost($params);
-		$response = trim($response);
+		$httpClient = Requests::post($this->getServiceURL(self::SERVICE_QUERY), [], $params);
+		$response = trim($httpClient->body);
 
 		$result = array('error' => false, 'needlookup' => 1, 'statusmessage' => '');
 
@@ -207,5 +203,3 @@ class SMSNotifier_ClickATell_Provider implements SMSNotifier_ISMSProvider_Model
 		return $result;
 	}
 }
-
-?>

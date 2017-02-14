@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE name=block}
 	{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
@@ -33,28 +23,7 @@
 			{if !$FIELD_MODEL->isViewableInDetailView()}
 				 {continue}
 			 {/if}
-			 {if $FIELD_MODEL->get('uitype') eq "83"}
-				{foreach item=tax key=count from=$TAXCLASS_DETAILS}
-				{if $tax.check_value eq 1}
-					{if $COUNTER eq 2}
-						</div><div class="col-xs-12 paddingLRZero fieldRow">
-						{assign var="COUNTER" value=1}
-					{else}
-						{assign var="COUNTER" value=$COUNTER+1}
-					{/if}
-					<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
-						<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-							<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate($tax.taxlabel, $MODULE)}(%)</label>
-						</div>
-						<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
-							 <span class="value">
-								 {$tax.percentage}
-							 </span>
-						</div>
-					</div>
-				{/if}
-				{/foreach}
-			{else if $FIELD_MODEL->get('uitype') eq "69" || $FIELD_MODEL->get('uitype') eq "105"}
+			{if $FIELD_MODEL->get('uitype') eq "69" || $FIELD_MODEL->get('uitype') eq "105"}
 				{if $COUNTER neq 0}
 					{if $COUNTER eq 2}
 						</div><div class="col-xs-12 paddingLRZero fieldRow">

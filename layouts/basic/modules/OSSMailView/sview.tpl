@@ -83,14 +83,7 @@
 					<span class="col-xs-11">
 						<span id="emailPreview_attachment" class="row">
 							{foreach item=ATTACHMENT from=$ATTACHMENTS}
-                                <a &nbsp;
-                                {if array_key_exists('docid',$ATTACHMENT)}
-                                    &nbsp; href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['docid']}
-                                            &fileid={$ATTACHMENT['id']}"
-                                {else}
-                                    &nbsp; href="index.php?module=Emails&action=DownloadFile&attachment_id={$ATTACHMENT['id']}"
-                                {/if}
-								>{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+                                <a href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 							{/foreach}
 						</span>
 					</span>

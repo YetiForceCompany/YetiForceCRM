@@ -85,5 +85,8 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 }

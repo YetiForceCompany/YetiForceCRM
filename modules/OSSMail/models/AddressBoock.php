@@ -22,7 +22,7 @@ class OSSMail_AddressBoock_Model
 			$email = $row['email'];
 			$users = $row['users'];
 			if (!empty($users)) {
-				$users = explode(',', $users);
+				$users = explode(',', ltrim($users, ','));
 				foreach ($users as &$user) {
 					$mails[$user] .= "'" . addslashes($name) . " <$email>',";
 				}

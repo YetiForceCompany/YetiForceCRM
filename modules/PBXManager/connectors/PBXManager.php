@@ -9,7 +9,6 @@
  * *********************************************************************************** */
 
 require_once 'include/utils/utils.php';
-require_once 'vtlib/Vtiger/Net/Client.php';
 
 class PBXManager_PBXManager_Connector
 {
@@ -37,7 +36,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to get provider name
-	 * returns <string>
+	 * returns string
 	 */
 	public function getGatewayName()
 	{
@@ -95,7 +94,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to get Settings edit view params
 	 * returns <array>
 	 */
-	public function getSettingsParameters()
+	public static function getSettingsParameters()
 	{
 		return self::$SETTINGS_REQUIRED_PARAMETERS;
 	}
@@ -115,7 +114,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle the dial call event
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function handleDialCall($details)
 	{
@@ -146,7 +145,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle the EndCall event
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function handleEndCall($details)
 	{
@@ -163,7 +162,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle the hangup call event
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function handleHangupCall($details)
 	{
@@ -200,7 +199,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle record event
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function handleRecording($details)
 	{
@@ -212,7 +211,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle AGI event
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function handleStartupCall($details, $userInfo, $customerInfo)
 	{
@@ -247,7 +246,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to respond for incoming calls
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function respondToIncomingCall($details)
 	{
@@ -294,7 +293,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to respond for outgoing calls
-	 * @param <Vtiger_Request> $details 
+	 * @param Vtiger_Request $details 
 	 */
 	public function respondToOutgoingCall($to)
 	{
@@ -323,8 +322,8 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to make outbound call 
-	 * @param <string> $number (Customer)
-	 * @param <string> $recordid
+	 * @param string $number (Customer)
+	 * @param string $recordid
 	 */
 	public function call($number, $record)
 	{
@@ -342,9 +341,8 @@ class PBXManager_PBXManager_Connector
 		$serviceURL .= 'to=' . urlencode($number) . '&';
 		$serviceURL .= 'context=' . urlencode($context);
 
-		$httpClient = new Vtiger_Net_Client($serviceURL);
-		$response = $httpClient->doPost(array());
-		$response = trim($response);
+		$httpClient = Requests::post($serviceURL);
+		$response = trim($httpClient->body);
 
 		if ($response == "Error" || $response == "" || $response === null || $response == "Authentication Failure") {
 			return false;

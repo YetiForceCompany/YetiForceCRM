@@ -21,7 +21,7 @@ class Parser
 	private $error;
 	private $user;
 
-	public function Parser($user, $q)
+	public function __construct($user, $q)
 	{
 		$this->query = $q;
 		$this->out = [];

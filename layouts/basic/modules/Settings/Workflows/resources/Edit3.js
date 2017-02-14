@@ -47,6 +47,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 	registerEditTaskEvent: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
+		app.registerCopyClipboard();
 		container.on('click', '[data-url]', function (e) {
 			var currentElement = jQuery(e.currentTarget);
 			var params = currentElement.data('url');
@@ -58,9 +59,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			});
 			app.showModalWindow(null, params, function (data) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'})
-				app.showScrollBar(jQuery('#addTaskContainer').find('#scrollContainer'), {
-					height: '450px'
-				});
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = jQuery('#taskType').val();
 				var functionName = 'register' + taskType + 'Events';
@@ -71,10 +69,16 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				jQuery('#saveTask').validationEngine(app.validationEngineOptions);
 				thisInstance.registerFillTaskFieldsEvent();
 				thisInstance.registerCheckSelectDateEvent();
-
 				app.showBtnSwitch($(data).find('.switchBtn'));
 				app.showPopoverElementView($(data).find('.popoverTooltip'));
-			}, {'min-width': '900px'});
+				var contentHeight = parseInt(data.find('.modal-body').height());
+				var maxHeight = app.getScreenHeight(80);
+				if ((contentHeight) > maxHeight) {
+					app.showScrollBar(data.find('.modal-body'), {
+						'height': maxHeight + 'px'
+					});
+				}
+			});
 
 		});
 	},
@@ -384,7 +388,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		this.registerCcAndBccEvents();
 	},
 	registerVTCreateTodoTaskEvents: function () {
-		app.registerEventForTimeFields(jQuery('#saveTask'));
+		app.registerEventForClockPicker();
 	},
 	registerVTUpdateFieldsTaskEvents: function () {
 		var thisInstance = this;
@@ -552,11 +556,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		return  jQuery(fieldModel.getUiTypeSpecificHtml())
 	},
 	registerVTCreateEventTaskEvents: function () {
-		app.registerEventForTimeFields(jQuery('#saveTask'));
-		this.registerRecurrenceFieldCheckBox();
-		this.repeatMonthOptionsChangeHandling();
-		this.registerRecurringTypeChangeEvent();
-		this.registerRepeatMonthActions();
+		app.registerEventForClockPicker();
 	},
 	registerVTCreateEntityTaskEvents: function () {
 		this.registerChangeCreateEntityEvent();
@@ -626,43 +626,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		});
 	},
 	/**
-	 * Function which will register change event on recurrence field checkbox
-	 */
-	registerRecurrenceFieldCheckBox: function () {
-		var thisInstance = this;
-		jQuery('#saveTask').find('input[name="recurringcheck"]').on('change', function (e) {
-			var element = jQuery(e.currentTarget);
-			var repeatUI = jQuery('#repeatUI');
-			if (element.is(':checked')) {
-				repeatUI.removeClass('hide');
-			} else {
-				repeatUI.addClass('hide');
-			}
-		});
-	},
-	/**
-	 * Function which will register the change event for recurring type
-	 */
-	registerRecurringTypeChangeEvent: function () {
-		var thisInstance = this;
-		jQuery('#recurringType').on('change', function (e) {
-			var currentTarget = jQuery(e.currentTarget);
-			var recurringType = currentTarget.val();
-			thisInstance.changeRecurringTypesUIStyles(recurringType);
-
-		});
-	},
-	/**
-	 * Function which will register the change event for repeatMonth radio buttons
-	 */
-	registerRepeatMonthActions: function () {
-		var thisInstance = this;
-		jQuery('#saveTask').find('input[name="repeatMonth"]').on('change', function (e) {
-			//If repeatDay radio button is checked then only select2 elements will be enable
-			thisInstance.repeatMonthOptionsChangeHandling();
-		});
-	},
-	/**
 	 * Function which will change the UI styles based on recurring type
 	 * @params - recurringType - which recurringtype is selected
 	 */
@@ -677,21 +640,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		} else if (recurringType == 'Monthly') {
 			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
 			jQuery('#repeatMonthUI').removeClass('hide').addClass('show');
-		}
-	},
-	/**
-	 * This function will handle the change event for RepeatMonthOptions
-	 */
-	repeatMonthOptionsChangeHandling: function () {
-		//If repeatDay radio button is checked then only select2 elements will be enable
-		if (jQuery('#repeatDay').is(':checked')) {
-			jQuery('#repeatMonthDate').attr('disabled', true);
-			jQuery('#repeatMonthDayType').prop("disabled", false);
-			jQuery('#repeatMonthDay').prop("disabled", false);
-		} else {
-			jQuery('#repeatMonthDate').removeAttr('disabled');
-			jQuery('#repeatMonthDayType').prop("disabled", true);
-			jQuery('#repeatMonthDay').prop("disabled", true);
 		}
 	},
 	checkHiddenStatusofCcandBcc: function () {

@@ -77,7 +77,7 @@ $languageStrings = [
 	'Spiral Binder' => 'Spirale',
 	'Sq Ft' => 'Pied Carré',
 	'Tax Class' => 'Classe de taxes',
-	'Unit Price' => 'Prix unitaire',
+	'Unit Price' => 'Prix unitaire HT',
 	'List Price' => 'Prix liste',
 	'Usage Unit' => 'Usage unitaire',
 	'Vendor PartNo' => 'No. lot vendeur', //Duplicated key-value pairs
@@ -91,4 +91,7 @@ $languageStrings = [
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste des produits et services limités à celle mentionnée dans l\'opportunité',
 	'FL_EAN_13' => 'EAN-13',
 	'FL_QTY_IN_STOCK' => 'Quantité produit en stock',
+	'pcs' => 'pcs',
+	'pack' => 'packs',
+	'FL_POS' => 'POS',
 ];

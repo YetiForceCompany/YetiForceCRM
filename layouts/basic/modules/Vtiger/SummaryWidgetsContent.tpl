@@ -1,6 +1,6 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	<div class="listViewEntriesDiv contents-bottomscroll">
+	<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
@@ -34,31 +34,27 @@
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 							{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
-								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
-							{elseif $RELATED_HEADERNAME eq 'access_count'}
-								{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}
-							{elseif $RELATED_HEADERNAME eq 'time_start'}
-							{elseif $RELATED_HEADERNAME eq 'listprice' || $RELATED_HEADERNAME eq 'unit_price'}
-								{CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
-								{if $RELATED_HEADERNAME eq 'listprice'}
-									{assign var="LISTPRICE" value=CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
-								{/if}
+								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
+									{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
+								</a>
 							{else}
-								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
+								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 							{/if}
 						</td>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{$RELATED_RECORD->get('relCreatedTime')}</td>
-						<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{$RELATED_RECORD->get('relCreatedUser')}</td>
+						<td class="{$WIDTHTYPE}" data-field-type="rel_created_time" nowrap>{Vtiger_Datetime_UIType::getDisplayDateTimeValue($RELATED_RECORD->get('rel_created_time'))}</td>
+						<td class="{$WIDTHTYPE}" data-field-type="rel_created_user" nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 					{/if}
 					{if $SHOW_COMMENT}
 						<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
-							{if $RELATED_RECORD->has('relCommentFull')}
-								<a class="popoverTooltip" data-placement="top" data-content="{$RELATED_RECORD->get('relCommentFull')}">{$RELATED_RECORD->get('relComment')}</a>
+							{if strlen($RELATED_RECORD->get('rel_comment')) > AppConfig::relation('COMMENT_MAX_LENGTH')}
+								<a class="popoverTooltip" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
+									{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
+								</a>
 							{else}	
-								{$RELATED_RECORD->get('relComment')}
-							{/if}
+								{$RELATED_RECORD->get('rel_comment')}
+							{/if}&nbsp;&nbsp;
 							<span class="actionImages">
 								<a class="showModal" data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>

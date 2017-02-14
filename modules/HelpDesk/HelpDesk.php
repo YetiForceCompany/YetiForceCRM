@@ -28,7 +28,6 @@ class HelpDesk extends CRMEntity
 	public $column_fields = Array();
 	//Pavani: Assign value to entity_table
 	public $entity_table = "vtiger_crmentity";
-	public $sortby_fields = Array('title', 'status', 'priority', 'crmid', 'firstname', 'smownerid');
 	public $list_fields = Array(
 		//Module Sequence Numbering
 		//'Ticket ID'=>Array('crmentity'=>'crmid'),
@@ -52,6 +51,11 @@ class HelpDesk extends CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
 	public $list_link_field = 'ticket_title';
 	public $range_fields = Array(
 		'ticketid',
@@ -90,23 +94,6 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'ticket_title';
 
-	public function save_module($module)
-	{
-		//Inserting into vtiger_attachments
-		$this->insertIntoAttachment($this->id, $module);
-
-		//service contract update
-		$return_action = AppRequest::get('return_action');
-		$for_module = AppRequest::get('return_module');
-		$for_crmid = AppRequest::get('return_id');
-		if ($return_action && $for_module && $for_crmid) {
-			if ($for_module == 'ServiceContracts') {
-				$on_focus = CRMEntity::getInstance($for_module);
-				$on_focus->save_related_module($for_module, $for_crmid, $module, $this->id);
-			}
-		}
-	}
-
 	public function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
 		if ($with_module == 'ServiceContracts') {
@@ -117,104 +104,6 @@ class HelpDesk extends CRMEntity
 		} else {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
 		}
-	}
-
-	/**
-	 *      This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 *      @param int $id  - entity id to which the vtiger_files to be uploaded
-	 *      @param string $module  - the current module name
-	 */
-	public function insertIntoAttachment($id, $module)
-	{
-
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-
-		$file_saved = false;
-
-		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
-				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
-	}
-
-	/**     Function to get the Ticket History information as in array format
-	 * 	@param int $ticketid - ticket id
-	 * 	@return array - return an array with title and the ticket history informations in the following format
-	  array(
-	  header=>array('0'=>'title'),
-	  entries=>array('0'=>'info1','1'=>'info2',etc.,)
-	  )
-	 */
-	public function get_ticket_history($ticketid)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into get_ticket_history($ticketid) method ...");
-
-		$query = 'select title,update_log from vtiger_troubletickets where ticketid=?';
-		$result = $adb->pquery($query, array($ticketid));
-		$row = $adb->getRow($result);
-		$updateLog = $row['update_log'];
-		$header[] = $row['title'];
-		$splitval = explode('--//--', trim($updateLog, '--//--'));
-
-		$return_value = ['header' => $header, 'entries' => $splitval];
-
-		\App\Log::trace("Exiting from get_ticket_history($ticketid) method ...");
-		return $return_value;
-	}
-
-	/** 	public function to get the HelpDesk field labels in caps letters without space
-	 * 	@return array $mergeflds - array(	key => val	)    where   key=0,1,2..n & val = ASSIGNEDTO,RELATEDTO, .,etc
-	 * */
-	public function getColumnNames_Hd()
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering getColumnNames_Hd() method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		if ($is_admin === true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
-			$sql1 = "select fieldlabel from vtiger_field where tabid=13 and block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.presence in (0,2)";
-			$params1 = array();
-		} else {
-			$profileList = getCurrentUserProfileList();
-			$sql1 = "select vtiger_field.fieldid,fieldlabel from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid=13 and vtiger_field.block <> 30 and vtiger_field.uitype <> '61' and vtiger_field.displaytype in (1,2,3,4) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
-			$params1 = array();
-			if (count($profileList) > 0) {
-				$sql1 .= " and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ")  group by fieldid";
-				array_push($params1, $profileList);
-			}
-		}
-		$result = $this->db->pquery($sql1, $params1);
-		$numRows = $this->db->num_rows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$custom_fields[$i] = $this->db->query_result($result, $i, "fieldlabel");
-			$custom_fields[$i] = preg_replace("/\s+/", "", $custom_fields[$i]);
-			$custom_fields[$i] = strtoupper($custom_fields[$i]);
-		}
-		$mergeflds = $custom_fields;
-		\App\Log::trace("Exiting getColumnNames_Hd method ...");
-		return $mergeflds;
-	}
-
-	/**     Function to get the Customer Name who has made comment to the ticket from the customer portal
-	 *      @param  int    $id   - Ticket id
-	 *      @return string $customername - The contact name
-	 * */
-	public function getCustomerName($id)
-	{
-
-		\App\Log::trace("Entering getCustomerName(" . $id . ") method ...");
-		$adb = PearDatabase::getInstance();
-		$sql = "select * from vtiger_portalinfo inner join vtiger_troubletickets on vtiger_troubletickets.contact_id = vtiger_portalinfo.id where vtiger_troubletickets.ticketid=?";
-		$result = $adb->pquery($sql, array($id));
-		$customername = $adb->query_result($result, 0, 'user_name');
-		\App\Log::trace("Exiting getCustomerName method ...");
-		return $customername;
 	}
 
 	// Function to create, export query for helpdesk module
@@ -279,9 +168,9 @@ class HelpDesk extends CRMEntity
 			if (!empty($assigned_group_name) && $assigntype == 'T') {
 				$updatelog .= " group " . (is_array($assigned_group_name) ? $assigned_group_name[0] : $assigned_group_name);
 			} elseif ($focus->column_fields['assigned_user_id'] != '') {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
+				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
 			} else {
-				$updatelog .= " user " . \includes\fields\Owner::getUserLabel($currentUser->getId());
+				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($currentUser->getId());
 			}
 
 			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName();
@@ -303,7 +192,7 @@ class HelpDesk extends CRMEntity
 
 			//Assigned to change log
 			if ($focus->column_fields['assigned_user_id'] != $old_owner_id) {
-				$ownerName = \includes\fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
+				$ownerName = \App\Fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
 				if ($assigntype == 'T')
 					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
 				else
@@ -390,31 +279,31 @@ class HelpDesk extends CRMEntity
 		$query = $this->getRelationQuery($module, $secmodule, "vtiger_troubletickets", "ticketid", $queryplanner);
 
 		if ($queryplanner->requireTable("vtiger_crmentityHelpDesk", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityHelpDesk on vtiger_crmentityHelpDesk.crmid=vtiger_troubletickets.ticketid and vtiger_crmentityHelpDesk.deleted=0";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityHelpDesk on vtiger_crmentityHelpDesk.crmid=vtiger_troubletickets.ticketid and vtiger_crmentityHelpDesk.deleted=0";
 		}
 		if ($queryplanner->requireTable("vtiger_ticketcf")) {
-			$query .=" left join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid";
+			$query .= " left join vtiger_ticketcf on vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid";
 		}
 		if ($queryplanner->requireTable("vtiger_crmentityRelHelpDesk", $matrix)) {
-			$query .=" left join vtiger_crmentity as vtiger_crmentityRelHelpDesk on vtiger_crmentityRelHelpDesk.crmid = vtiger_troubletickets.parent_id";
+			$query .= " left join vtiger_crmentity as vtiger_crmentityRelHelpDesk on vtiger_crmentityRelHelpDesk.crmid = vtiger_troubletickets.parent_id";
 		}
 		if ($queryplanner->requireTable("vtiger_accountRelHelpDesk")) {
-			$query .=" left join vtiger_account as vtiger_accountRelHelpDesk on vtiger_accountRelHelpDesk.accountid=vtiger_crmentityRelHelpDesk.crmid";
+			$query .= " left join vtiger_account as vtiger_accountRelHelpDesk on vtiger_accountRelHelpDesk.accountid=vtiger_crmentityRelHelpDesk.crmid";
 		}
 		if ($queryplanner->requireTable("vtiger_contactdetailsRelHelpDesk")) {
-			$query .=" left join vtiger_contactdetails as vtiger_contactdetailsRelHelpDesk on vtiger_contactdetailsRelHelpDesk.contactid= vtiger_troubletickets.contact_id";
+			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsRelHelpDesk on vtiger_contactdetailsRelHelpDesk.contactid= vtiger_troubletickets.contact_id";
 		}
 		if ($queryplanner->requireTable("vtiger_productsRel")) {
-			$query .=" left join vtiger_products as vtiger_productsRel on vtiger_productsRel.productid = vtiger_troubletickets.product_id";
+			$query .= " left join vtiger_products as vtiger_productsRel on vtiger_productsRel.productid = vtiger_troubletickets.product_id";
 		}
 		if ($queryplanner->requireTable("vtiger_groupsHelpDesk")) {
-			$query .=" left join vtiger_groups as vtiger_groupsHelpDesk on vtiger_groupsHelpDesk.groupid = vtiger_crmentityHelpDesk.smownerid";
+			$query .= " left join vtiger_groups as vtiger_groupsHelpDesk on vtiger_groupsHelpDesk.groupid = vtiger_crmentityHelpDesk.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_usersHelpDesk")) {
-			$query .=" left join vtiger_users as vtiger_usersHelpDesk on vtiger_usersHelpDesk.id = vtiger_crmentityHelpDesk.smownerid";
+			$query .= " left join vtiger_users as vtiger_usersHelpDesk on vtiger_usersHelpDesk.id = vtiger_crmentityHelpDesk.smownerid";
 		}
 		if ($queryplanner->requireTable("vtiger_lastModifiedByHelpDesk")) {
-			$query .=" left join vtiger_users as vtiger_lastModifiedByHelpDesk on vtiger_lastModifiedByHelpDesk.id = vtiger_crmentityHelpDesk.modifiedby ";
+			$query .= " left join vtiger_users as vtiger_lastModifiedByHelpDesk on vtiger_lastModifiedByHelpDesk.id = vtiger_crmentityHelpDesk.modifiedby ";
 		}
 		if ($queryplanner->requireTable("vtiger_createdbyHelpDesk")) {
 			$query .= " left join vtiger_users as vtiger_createdbyHelpDesk on vtiger_createdbyHelpDesk.id = vtiger_crmentityHelpDesk.smcreatorid ";
@@ -459,109 +348,11 @@ class HelpDesk extends CRMEntity
 		} elseif ($return_module == 'Products') {
 			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
 			$this->db->pquery($sql, array(null, $id));
-		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'get_many_to_many') {
+		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'getManyToMany') {
 			parent::unlinkRelationship($id, $return_module, $return_id);
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
-	}
-
-	public static function getTicketEmailContents($entityData, $toOwner = false)
-	{
-		$HELPDESK_SUPPORT_NAME = AppConfig::main('HELPDESK_SUPPORT_NAME');
-		$adb = PearDatabase::getInstance();
-		$moduleName = $entityData->getModuleName();
-		$wsId = $entityData->getId();
-
-		if (strpos($wsId, 'x')) {
-			$parts = explode('x', $wsId);
-			$entityId = $parts[1];
-		} else {
-			$entityId = $wsId;
-		}
-
-		$isNew = $entityData->isNew();
-
-		if (!$isNew) {
-			$reply = \includes\Language::translate("replied", $moduleName);
-			$temp = \includes\Language::translate("Re", $moduleName);
-		} else {
-			$reply = \includes\Language::translate("created", $moduleName);
-			$temp = " ";
-		}
-
-
-		$wsParentId = $entityData->get('contact_id');
-		$parentIdParts = explode('x', $wsParentId);
-
-		// If this function is being triggered as part of Eventing API
-		// Then the reference field ID will not matching the webservice format.
-		// Regardless of the entry we need just the ID
-		$parentId = array_pop($parentIdParts);
-
-		$desc = \includes\Language::translate('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
-			. \includes\Language::translate('Ticket Title', $moduleName) . ' : ' . $temp . ' '
-			. $entityData->get('ticket_title');
-		$name = (!$toOwner) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
-		$desc .= "<br><br>" . \includes\Language::translate('Hi', $moduleName) . " " . $name . ",<br><br>"
-			. \includes\Language::translate('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . \includes\Language::translate('LBL_DETAIL', $moduleName) . "<br>";
-		$desc .= "<br>" . \includes\Language::translate('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
-		$desc .= "<br>" . \includes\Language::translate('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
-		$desc .= "<br>" . \includes\Language::translate('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
-		$desc .= "<br>" . \includes\Language::translate('Severity', $moduleName) . " : " . $entityData->get('ticketseverities');
-		$desc .= "<br>" . \includes\Language::translate('Priority', $moduleName) . " : " . $entityData->get('ticketpriorities');
-		$desc .= "<br><br>" . \includes\Language::translate('Description', $moduleName) . " : <br>" . $entityData->get('description');
-		$desc .= "<br><br>" . \includes\Language::translate('Solution', $moduleName) . " : <br>" . $entityData->get('solution');
-		$desc .= \vtlib\Functions::getTicketComments($entityId);
-
-		$sql = "SELECT * FROM vtiger_ticketcf WHERE ticketid = ?";
-		$result = $adb->pquery($sql, array($entityId));
-		$cffields = $adb->getFieldsArray($result);
-		foreach ($cffields as $cfOneField) {
-			if ($cfOneField != 'ticketid' && $cfOneField != 'from_portal') {
-				$cfData = $adb->query_result($result, 0, $cfOneField);
-				$sql = "SELECT fieldlabel FROM vtiger_field WHERE columnname = ? and vtiger_field.presence in (0,2)";
-				$cfLabel = $adb->query_result($adb->pquery($sql, array($cfOneField)), 0, 'fieldlabel');
-				$desc .= '<br>' . $cfLabel . ' : ' . $cfData;
-			}
-		}
-		$desc .= '<br><br>' . \includes\Language::translate("LBL_REGARDS", $moduleName) . ',<br>' . $HELPDESK_SUPPORT_NAME;
-		return $desc;
-	}
-
-	public static function getPortalTicketEmailContents($entityData)
-	{
-		require_once 'config/config.php';
-		$PORTAL_URL = AppConfig::main('PORTAL_URL');
-		$HELPDESK_SUPPORT_NAME = AppConfig::main('HELPDESK_SUPPORT_NAME');
-		$moduleName = $entityData->getModuleName();
-		$wsId = $entityData->getId();
-
-		if (strpos($wsId, 'x')) {
-			$parts = explode('x', $wsId);
-			$entityId = $parts[1];
-		} else {
-			$entityId = $wsId;
-		}
-		$wsParentId = $entityData->get('contact_id');
-		$parentIdParts = explode('x', $wsParentId);
-
-		// If this function is being triggered as part of Eventing API
-		// Then the reference field ID will not matching the webservice format.
-		// Regardless of the entry we need just the ID
-		$parentId = array_pop($parentIdParts);
-
-		$portalUrl = "<a href='" . $PORTAL_URL . "/index.php?module=HelpDesk&action=index&ticketid=" . $entityId . "&fun=detail'>"
-			. \includes\Language::translate('LBL_TICKET_DETAILS', $moduleName) . "</a>";
-		$contents = \includes\Language::translate('Dear', $moduleName) . ' ';
-		$contents .= ($parentId) ? \vtlib\Functions::getCRMRecordLabel($parentId) : '';
-		$contents .= ",<br>";
-		$contents .= \includes\Language::translate('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
-			. '</b> ' . \includes\Language::translate('customer_portal', $moduleName);
-		$contents .= \includes\Language::translate("link", $moduleName) . '<br>';
-		$contents .= $portalUrl;
-		$contents .= '<br><br>' . \includes\Language::translate("Thanks", $moduleName) . '<br>' . $HELPDESK_SUPPORT_NAME;
-		return $contents;
 	}
 
 	public function clearSingletonSaveFields()

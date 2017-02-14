@@ -52,6 +52,7 @@ $languageStrings = [
 	'LBL_ONLY_PARENT' => 'Только к родителю записи',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'Согласно иерархии',
 	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Разрешить расширенный поиск',
+	'LBL_AUTO_ASSIGN_RECORDS' => 'Auto assign records',
 ];
 $jsLanguageStrings = [
 	'JS_PERMISSION_DENIED' => 'Доступ запрещен',

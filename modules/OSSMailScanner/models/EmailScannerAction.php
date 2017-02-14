@@ -29,8 +29,9 @@ class OSSMailScanner_EmailScannerAction_Model
 		$returnIds = [];
 
 		if (!empty($crmIds)) {
+			$relationModel = new OSSMailView_Relation_Model();
 			foreach ($crmIds as $crmId) {
-				$status = OSSMailView_Relation_Model::addRelation($mailId, $crmId, $mail->get('udate_formated'));
+				$status = $relationModel->addRelation($mailId, $crmId, $mail->get('udate_formated'));
 				if ($status) {
 					$returnIds[] = $crmId;
 				}

@@ -11,9 +11,7 @@ chdir(dirname(__FILE__) . '/../');
 /**
  * Start the cron services configured.
  */
-include_once 'include/Webservices/Relation.php';
 include_once 'include/main/WebUI.php';
-require_once 'modules/Emails/mail.php';
 
 Vtiger_Session::init();
 $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
@@ -32,6 +30,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 	$cronStart = microtime(true);
 	//set global current user permissions
+	App\User::setCurrentUserId(Users::getActiveAdminId());
 	$current_user = Users::getActiveAdminUser();
 	vglobal('current_user', $current_user);
 	if ($user) {
@@ -52,7 +51,7 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 
 			// Not ready to run yet?
 			if ($cronTask->isRunning()) {
-				\App\Log::error($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
+				\App\Log::trace($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
 				echo sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				continue;
 			}
@@ -89,9 +88,14 @@ if (PHP_SAPI === 'cli' || PHP_SAPI === 'cgi-fcgi' || PHP_SAPI === 'ucgi5' || $us
 			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
 			echo $e->getMessage() . PHP_EOL;
 			echo $e->getTraceAsString() . PHP_EOL;
+			if (AppConfig::main('systemMode') === 'test') {
+				throw $e;
+			}
 		}
 	}
 	echo sprintf('===============  %s (' . round(microtime(true) - $cronStart, 2) . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
 } else {
 	echo('Access denied!');
 }
+file_put_contents('user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
+

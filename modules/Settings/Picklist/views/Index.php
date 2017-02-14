@@ -30,7 +30,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 		if (count($pickListFields) > 0) {
 			$selectedPickListFieldModel = reset($pickListFields);
 
-			$selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($selectedPickListFieldModel->getName());
+			$selectedFieldAllPickListValues = App\Fields\Picklist::getPickListValues($selectedPickListFieldModel->getName());
 
 
 			$viewer->assign('PICKLIST_FIELDS', $pickListFields);

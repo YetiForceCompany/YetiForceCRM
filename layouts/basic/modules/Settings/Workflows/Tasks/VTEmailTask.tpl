@@ -13,6 +13,27 @@
 	<div id="VtEmailTaskContainer">
 		<div class="">
 			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2 control-label">{vtranslate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+					<div class="col-md-10 paddingLRZero">
+						<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+							<option value="">{vtranslate('LBL_DEFAULT')}</option>
+							{foreach from=App\Mail::getAll() item=ITEM key=ID}
+								<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}({$ITEM['host']})</option>
+							{/foreach}	
+						</select>
+					</div>
+				</span>
+			</div>
+			<div class="row padding-bottom1per">
+				<span class="col-md-12 row">
+					<span class="col-md-2"></span>
+					<span class="col-md-10">
+						<label><input type="checkbox" class="alignTop" value="true" name="emailoptout" {if $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{vtranslate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
+					</span>
+				</span>
+			</div>
+			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
 					<span class="col-md-3 control-label">{vtranslate('LBL_FROM', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
@@ -23,7 +44,13 @@
 					<div class="col-md-12 paddingLRZero">
 						<select id="fromEmailOption" class="chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$FROM_EMAIL_FIELD_OPTION}
+							{foreach item=FIELDS key=BLOCK_NAME from=$FROM_EMAIL_FIELD_OPTION}
+								<optgroup label="{$BLOCK_NAME}">
+									{foreach item=LABEL key=VAL from=$FIELDS}
+										<option value="{$VAL}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -39,7 +66,13 @@
 					<div class="col-md-12 paddingLRZero">
 						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$EMAIL_FIELD_OPTION}
+							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+								<optgroup label="{$BLOCK_NAME}">
+									{foreach item=LABEL key=VAL from=$FIELDS}
+										<option value="{$VAL}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -55,7 +88,13 @@
 					<div class="col-md-12 paddingLRZero">
 						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}" >
 							<option></option>
-							{$EMAIL_FIELD_OPTION}
+							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+								<optgroup label="{$BLOCK_NAME}">
+									{foreach item=LABEL key=VAL from=$FIELDS}
+										<option value="{$VAL}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -71,7 +110,13 @@
 					<div class="col-md-12 paddingLRZero">
 						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
-							{$EMAIL_FIELD_OPTION}
+							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+								<optgroup label="{$BLOCK_NAME}">
+									{foreach item=LABEL key=VAL from=$FIELDS}
+										<option value="{$VAL}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
 						</select>
 					</div>
 				</div>
@@ -80,11 +125,16 @@
 				<span class="col-md-8 row">
 					<span class="col-md-3">&nbsp;</span>
 					<span class="col-md-9">
-						<a class="cursorPointer {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{vtranslate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
-						<a class="cursorPointer {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{vtranslate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
+						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{vtranslate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{vtranslate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
 					</span>
 				</span>
 			</div>
+			<hr/>
+			<div class="row">
+				{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
+			</div>
+			<hr/>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
 					<span class="col-md-3 control-label">{vtranslate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
@@ -92,36 +142,6 @@
 						<input data-validation-engine='validate[required]' name="subject" class="fields form-control" type="text" name="subject" value="{$TASK_OBJECT->subject|escape}" id="subject" spellcheck="true"/>
 					</div>
 				</span>
-				<div class="col-md-5">
-					<div class="col-md-12 paddingLRZero">
-					<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-						<option></option>
-						{$ALL_FIELD_OPTIONS}
-					</select>
-					</div>
-				</div>
-			</div>
-			<div class="row padding-bottom1per">
-				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</span>
-					<div class="col-md-9">
-						<select id="task-fieldnames" class="chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{$ALL_FIELD_OPTIONS}
-						</select>
-					</div>	
-				</span>
-				<div class="col-md-5">
-					<div  class="col-md-3 paddingLRZero control-label addTime">{vtranslate('LBL_ADD_TIME',$QUALIFIED_MODULE)}</div>
-					<div class="col-md-9 paddingLRZero">
-						<select id="task_timefields" class="chzn-select form-control " data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{foreach from=$META_VARIABLES item=META_VARIABLE_KEY key=META_VARIABLE_VALUE}
-								<option value="${$META_VARIABLE_KEY}">{vtranslate($META_VARIABLE_VALUE,$QUALIFIED_MODULE)}</option>
-							{/foreach}	
-						</select>
-					</div>	
-				</div>
 			</div>
 			<div class="padding-bottom1per">
 				<textarea id="content" class="form-control" name="content">{$TASK_OBJECT->content}</textarea>

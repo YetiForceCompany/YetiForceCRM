@@ -24,7 +24,7 @@
 			<div class="col-md-12">
 				<table id="customRecordNumbering" class="table table-bordered">
 				{assign var=DEFAULT_MODULE_NAME value=$DEFAULT_MODULE_MODEL->getName()}
-				{assign var=DEFAULT_MODULE_DATA value=\includes\fields\RecordNumber::getNumber($DEFAULT_MODULE_NAME)}
+				{assign var=DEFAULT_MODULE_DATA value=\App\Fields\RecordNumber::getNumber($DEFAULT_MODULE_NAME)}
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 					<thead>
 						<tr>
@@ -106,7 +106,7 @@
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 							<div class="row">
 								<div class="col-md-11">
-									<select class="chzn-select form-control" name="custom_variables">
+									<select class="chzn-select form-control" id="customVariables" name="custom_variables">
 										<option value="YYYY">{vtranslate('LBL_CV_FULL_YEAR', $QUALIFIED_MODULE)}</option>
 										<option value="YY">{vtranslate('LBL_CV_YEAR', $QUALIFIED_MODULE)}</option>
 										<option value="MM">{vtranslate('LBL_CV_FULL_MONTH', $QUALIFIED_MODULE)}</option>
@@ -117,7 +117,9 @@
 								</div>
 								<div class="col-md-1">
 									<input type="hidden" value="" id="customVariable" />
-									<button class="btn btn-sm btn-info pull-right" data-clipboard-target="customVariable" id="customVariableCopy" title="{vtranslate('LBL_COPY_CV', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-download-alt"></span></button>
+									<button class="btn btn-sm btn-info pull-right" id="customVariableCopy" title="{vtranslate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
+										<span class="glyphicon glyphicon-copy"></span>
+									</button>
 								</div>
 							</div>
 						</td>

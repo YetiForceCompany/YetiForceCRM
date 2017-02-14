@@ -13,7 +13,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is an entity type module or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isQuickCreateSupported()
 	{
@@ -23,7 +23,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check whether the module is summary view supported
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isSummaryViewSupported()
 	{
@@ -32,7 +32,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the module is permitted to specific action
-	 * @param <String> $actionName
+	 * @param string $actionName
 	 * @return <boolean>
 	 */
 	public function isPermitted($actionName)

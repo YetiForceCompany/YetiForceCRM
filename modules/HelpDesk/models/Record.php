@@ -14,7 +14,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get URL for Convert FAQ
-	 * @return <String>
+	 * @return string
 	 */
 	public function getConvertFAQUrl()
 	{
@@ -23,7 +23,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Comments List of this Record
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCommentsList()
 	{
@@ -40,44 +40,49 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		return $commentsList;
 	}
 
-	public static function updateTicketRangeTimeField($entityData, $updateFieldImmediately = false)
+	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
 	{
-		$db = PearDatabase::getInstance();
-		$ticketId = $entityData->getId();
-		$moduleName = $entityData->getModuleName();
-		$status = 'ticketstatus';
-		if (class_exists('VTEntityDelta')) {
-			$vtEntityDelta = new VTEntityDelta();
-			$delta = $vtEntityDelta->getEntityDelta($moduleName, $entityData->getId(), true);
-		}
-		$currentDate = date('Y-m-d H:i:s');
-		if (!$entityData->isNew() && ((is_array($delta) && !empty($delta[$status])) || $updateFieldImmediately)) {
-			if (in_array($entityData->get($status), ['Closed', 'Rejected'])) {
-				$db->pquery('UPDATE vtiger_troubletickets SET `response_time` = NULL WHERE ticketid = ?', [$ticketId]);
-			} else {
-				$db->update('vtiger_troubletickets', ['response_time' => $currentDate], 'ticketid = ?', [$ticketId]);
+		if (!$recordModel->isNew() && ($recordModel->getPreviousValue('ticketstatus') || $updateFieldImmediately)) {
+			$currentDate = date('Y-m-d H:i:s');
+			if (in_array($recordModel->get('ticketstatus'), ['Closed', 'Rejected'])) {
+				$currentDate = null;
 			}
+			\App\Db::getInstance()->createCommand()
+				->update('vtiger_troubletickets', [
+					'response_time' => $currentDate,
+					], ['ticketid' => $recordModel->getId()])
+				->execute();
 		}
-		$closedTime = vtlib\Functions::getSingleFieldValue('vtiger_crmentity', 'closedtime', 'crmid', $ticketId);
-		if (!empty($closedTime) && array_key_exists('report_time', $entityData->getData())) {
-			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($entityData->get('createdtime'), $closedTime));
+		$closedTime = $recordModel->get('closedtime');
+		if (!empty($closedTime) && $recordModel->has('report_time')) {
+			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($recordModel->get('createdtime'), $closedTime));
 			if (!empty($timeMinutesRange)) {
-				$db->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], 'ticketid = ?', [$ticketId]);
+				App\Db::getInstance()->createCommand()
+					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
+					->execute();
 			}
 		}
 	}
 
 	public function getActiveServiceContracts()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_servicecontracts INNER JOIN vtiger_crmentity ON vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid WHERE deleted = ? && contract_status = ? && sc_related_to = ?';
-		$sql .= \App\PrivilegeQuery::getAccessConditions('ServiceContracts');
+		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
+			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')]);
+		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
+		return $query->all();
+	}
 
-		$result = $db->pquery($sql, [0, 'In Progress', $this->get('parent_id')]);
-		$rows = [];
-		while ($row = $db->getRow($result)) {
-			$rows[] = $row;
+	/**
+	 * Function to save record
+	 */
+	public function saveToDb()
+	{
+		parent::saveToDb();
+		$forModule = AppRequest::get('return_module');
+		$forCrmid = AppRequest::get('return_id');
+		if (AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'ServiceContracts') {
+			CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, AppRequest::get('module'), $this->getId());
 		}
-		return $rows;
 	}
 }

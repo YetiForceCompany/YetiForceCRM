@@ -97,13 +97,9 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 	protected function initListViewController()
 	{
-		if (!$this->listviewController) {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$db = PearDatabase::getInstance();
-
-			$this->queryGenerator = new QueryGenerator($this->getTargetModule(), $currentUserModel);
+		if (!$this->queryGenerator) {
+			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->setFields($this->getTargetFields());
-			$this->listviewController = new ListViewController($db, $currentUserModel, $this->queryGenerator);
 			$this->listviewHeaders = $this->listviewRecords = NULL;
 		}
 	}
@@ -111,15 +107,13 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	public function getHeaders()
 	{
 		$this->initListViewController();
-
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
-			foreach ($this->listviewController->getListViewHeaderFields() as $fieldName => $webserviceField) {
+			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
 				if (in_array($fieldName, $this->getRestrictFields())) {
 					continue;
 				}
-				$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
-				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
+				$headerFieldModels[$fieldName] = $fieldsModel;
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
@@ -137,26 +131,20 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 
 		$this->initListViewController();
 		if (!$this->listviewRecords) {
-			$db = PearDatabase::getInstance();
-			$conditions = $this->getConditions();
-			$query = $this->queryGenerator->getQuery() . $conditions['where'];
-			$query .= sprintf(' ORDER BY %s %s LIMIT 0,%d', $this->getFromData('orderby'), $this->getFromData('sortorder'), $this->getRecordLimit());
-			$result = $db->pquery($query, $conditions['params']);
-
-			$targetModuleName = $this->getTargetModule();
-			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
-
-			$entries = $this->listviewController->getListViewRecords($targetModuleFocus, $targetModuleName, $result);
-
+			$this->queryGenerator->addNativeCondition($this->getConditions());
+			$query = $this->queryGenerator->createQuery();
+			$query->limit($this->getRecordLimit());
+			if (strtoupper($this->getFromData('sortorder')) === 'ASC') {
+				$query->orderBy([$this->getFromData('orderby') => SORT_ASC]);
+			} else {
+				$query->orderBy([$this->getFromData('orderby') => SORT_DESC]);
+			}
 			$this->listviewRecords = [];
-			$index = 0;
-			foreach ($entries as $id => $record) {
-				$rawData = $db->query_result_rowdata($result, $index++);
-				$record['id'] = $id;
-				$this->listviewRecords[$id] = $this->getTargetModuleModel()->getRecordFromArray($record, $rawData);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$this->listviewRecords[$row['id']] = $this->getTargetModuleModel()->getRecordFromArray($row);
 			}
 		}
-
 		return $this->listviewRecords;
 	}
 
@@ -164,11 +152,9 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 	{
 		return 'assets_renew';
 	}
-
+	
 	public function getConditions()
 	{
-		$where = ' && assetstatus = ? && assets_renew NOT IN (?, ?, ?)';
-		$params = ['PLL_ACCEPTED', 'PLL_RENEWED', 'PLL_NOT_RENEWED', 'PLL_NOT_APPLICABLE'];
-		return ['where' => $where, 'params' => $params];
+		return ['assetstatus' => 'PLL_ACCEPTED', 'assets_renew' => 'PLL_WAITING_FOR_RENEWAL'];
 	}
 }

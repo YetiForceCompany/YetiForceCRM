@@ -96,20 +96,18 @@ class PearDatabase
 	public function connect()
 	{
 		// Set DSN 
-		$dsn = 'mysql:host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';charset=utf8' . ';port=' . $this->port;
+		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port;
 
 		// Set options
 		$options = array(
 			PDO::ATTR_EMULATE_PREPARES => false,
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_TIMEOUT => 5
 		);
-
-		if ($this->isdb_default_utf8_charset) {
-			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
-		}
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
+			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
 		} catch (\Exception\AppException $e) {
 			// Catch any errors
 			\App\Log::error('Database connect : ' . $e->getMessage());
@@ -205,7 +203,7 @@ class PearDatabase
 			return $this->hasActiveTransaction;
 		} else {
 			$this->autoCommit = false;
-			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
+			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 			$this->hasActiveTransaction = $this->database->beginTransaction();
 			return $this->hasActiveTransaction;
 		}
@@ -218,7 +216,7 @@ class PearDatabase
 		if ($this->transCnt == 0) {
 			$this->database->commit();
 			$this->autoCommit = false;
-			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
+			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
 			$this->hasActiveTransaction = false;
 		}
 	}
@@ -234,7 +232,7 @@ class PearDatabase
 			$this->hasFailedTransaction = true;
 			$result = $this->database->rollback();
 			$this->autoCommit = false;
-			$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
+			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
 			$this->transCnt -= 1;
 			return $result;
 		}
@@ -299,7 +297,10 @@ class PearDatabase
 		$sqlStartTime = microtime(true);
 
 		try {
+			\App\Log::beginProfile($query, __METHOD__);
 			$this->stmt = $this->database->query($query);
+			\App\Log::endProfile($query, __METHOD__);
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
@@ -320,15 +321,16 @@ class PearDatabase
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
 		$params = $this->flatten_array($params);
-		if (count($params) > 0) {
-			
-		} else {
+		if (empty($params)) {
 			return $this->query($query, $dieOnError, $msg);
 		}
-
 		try {
 			$this->stmt = $this->database->prepare($query);
+
+			\App\Log::beginProfile($query, __METHOD__);
 			$this->stmt->execute($params);
+			\App\Log::endProfile($query, __METHOD__);
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (PDOException $e) {
 			$error = $this->database->errorInfo();
@@ -452,7 +454,7 @@ class PearDatabase
 
 	public function query_result(&$result, $row, $col = 0)
 	{
-		return to_html($this->query_result_raw($result, $row, $col));
+		return \App\Purifier::toHtml($this->query_result_raw($result, $row, $col));
 	}
 
 	public function query_result_raw(&$result, $row, $col = 0)
@@ -582,14 +584,14 @@ class PearDatabase
 		if (isset($result) && $rowNum < 0) {
 			$row = $this->getRow($result);
 			if ($encode && is_array($row))
-				return array_map('to_html', $row);
+				return array_map('\App\Purifier::toHtml', $row);
 			return $row;
 		}
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->raw_query_result_rowdata($result, $rowNum);
 		}
 		if ($encode && is_array($row))
-			return array_map('to_html', $row);
+			return array_map('\App\Purifier::toHtml', $row);
 		return $row;
 	}
 

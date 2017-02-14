@@ -83,23 +83,6 @@
 						</div>	
 					</div>
 				{/foreach}
-					{if $BLOCK_LABEL eq 'LBL_CALENDAR_SETTINGS'}
-						<div id="selectUsers" {if $SHARED_TYPE != 'seletedusers'} style="display: none;" {/if}>
-							<div class=" col-md-6 fieldLabel {$WIDTHTYPE}">
-								{vtranslate('Share calendar users', $MODULE)}
-							</div>
-							<div class=" col-md-6 fieldValue {$WIDTHTYPE}">
-								<select class="select2 row" id="selectedUsers" name="sharedusers[]" multiple data-placeholder="{vtranslate('LBL_SELECT_USERS',$MODULE)}">
-								    {foreach key=ID item=USER from=$ALL_USERS}
-									{if $ID neq $USER_MODEL->get('id')}
-									    <option value="{$ID}" {if array_key_exists($ID, $SHAREDUSERS)} selected {/if}>{$USER->getName()}</option> 
-									{/if}
-								    {/foreach}	
-								</select>
-							</div>
-						</div>
-								
-					{/if}
 					</div>
 					</div>
 					</div>

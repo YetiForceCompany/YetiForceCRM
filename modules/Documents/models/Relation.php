@@ -57,4 +57,14 @@ class Documents_Relation_Model extends Vtiger_Relation_Model
 			return true;
 		}
 	}
+
+	/**
+	 * Function to get related record with document
+	 */
+	public function getRelatedRecord()
+	{
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_senotesrel', 'vtiger_senotesrel.crmid = vtiger_crmentity.crmid']);
+		$queryGenerator->addNativeCondition(['vtiger_senotesrel.notesid' => $this->get('parentRecord')->getId()]);
+	}
 }

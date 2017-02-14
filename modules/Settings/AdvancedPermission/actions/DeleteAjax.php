@@ -22,6 +22,6 @@ class Settings_AdvancedPermission_DeleteAjax_Action extends Settings_Vtiger_Dele
 
 	public function validateRequest(Vtiger_Request $request)
 	{
-		$request->validateWriteAccess();
+		$request->validateReadAccess();
 	}
 }

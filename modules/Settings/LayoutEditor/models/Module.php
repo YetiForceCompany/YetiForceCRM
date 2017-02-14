@@ -132,7 +132,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function addField($fieldType, $blockId, $params)
 	{
-		$db = PearDatabase::getInstance();
 		$label = $params['fieldLabel'];
 		$type = $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
@@ -159,9 +158,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif ($type == 1) {
-			$max_fieldid = $db->getUniqueID("vtiger_field");
-			$columnName = 'cf_' . $max_fieldid;
-			$custfld_fieldid = $max_fieldid;
+			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
@@ -175,10 +172,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldparams['field'] = $params['MRVField'];
 			$fieldparams['filterField'] = $params['MRVFilterField'];
 			$fieldparams['filterValue'] = $params['MRVFilterValue'];
-			$db->insert('s_yf_multireference', [
-				'source_module' => $moduleName,
-				'dest_module' => $params['MRVModule'],
-			]);
+			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -195,7 +189,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
-			->set('fieldparams', $fieldparams ? \includes\utils\Json::encode($fieldparams) : '')
+			->set('fieldparams', $fieldparams ? \App\Json::encode($fieldparams) : '')
 			->set('columntype', $dbType);
 
 		if (isset($details['displayType'])) {
@@ -218,7 +212,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'get_dependents_list');
+				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
 			}
 		}
 		return $fieldModel;
@@ -227,130 +221,132 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTypeDetailsForAddField($fieldType, $params)
 	{
 		$displayType = 1;
+		$importerType = new \App\Db\Importers\Base();
 		switch ($fieldType) {
 			Case 'Text' :
 				$fieldLength = $params['fieldLength'];
 				$uichekdata = 'V~O~LE~' . $fieldLength;
 				$uitype = 1;
-				$type = "VARCHAR(" . $fieldLength . ") default ''";
+				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
 			Case 'Decimal' :
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 7;
-
 				$dbfldlength = $fieldLength + $decimal + 1;
-				$type = "NUMERIC(" . $dbfldlength . "," . $decimal . ")";
+				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
 				$uichekdata = 'NN~O';
 				break;
 			Case 'Percent' :
 				$uitype = 9;
-				$type = "NUMERIC(5,2)";
+				$type = $importerType->decimal(5, 2);
 				$uichekdata = 'N~O~2~2';
 				break;
 			Case 'Currency' :
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 71;
-				if (1 == $fieldLength)
+				if (1 == $fieldLength) {
 					$dbfldlength = $fieldLength + $decimal + 2;
-				else
+				} else {
 					$dbfldlength = $fieldLength + $decimal + 1;
+				}
 				$decimal = $decimal + 3;
-				$type = "NUMERIC(" . $dbfldlength . "," . $decimal . ")";
+				$type = $importerType->decimal($dbfldlength, $decimal);
 				$uichekdata = 'N~O';
 				break;
 			Case 'Date' :
 				$uichekdata = 'D~O';
 				$uitype = 5;
-				$type = "DATE";
+				$type = $importerType->date();
 				break;
 			Case 'Email' :
 				$uitype = 13;
-				$type = "VARCHAR(50) default '' ";
+				$type = $importerType->stringType(100)->defaultValue('');
 				$uichekdata = 'E~O';
 				break;
 			Case 'Time' :
 				$uitype = 14;
-				$type = "TIME";
+				$type = $importerType->time();
 				$uichekdata = 'T~O';
 				break;
 			Case 'Phone' :
 				$uitype = 11;
-				$type = "VARCHAR(30) default '' ";
+				$type = $importerType->stringType(30)->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'Picklist' :
 				$uitype = 16;
-				if (!empty($params['isRoleBasedPickList']))
+				if (!empty($params['isRoleBasedPickList'])) {
 					$uitype = 15;
-				$type = "VARCHAR(255) default '' ";
+				}
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'URL' :
 				$uitype = 17;
-				$type = "VARCHAR(255) default '' ";
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'Checkbox' :
 				$uitype = 56;
-				$type = "TINYINT(1) default 0";
+				$type = $importerType->boolean()->defaultValue(false);
 				$uichekdata = 'C~O';
 				break;
 			Case 'TextArea' :
 				$uitype = 21;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			Case 'MultiSelectCombo' :
 				$uitype = 33;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			Case 'Skype' :
 				$uitype = 85;
-				$type = "VARCHAR(255) default '' ";
+				$type = $importerType->stringType()->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'Integer' :
 				$fieldLength = $params['fieldLength'];
 				$uitype = 7;
 				if ($fieldLength > 10) {
-					$type = "BIGINT(" . $fieldLength . ")";
+					$type = $importerType->bigInteger($fieldLength)->defaultValue(0);
 				} else {
-					$type = "INTEGER(" . $fieldLength . ")";
+					$type = $importerType->integer($fieldLength)->defaultValue(0);
 				}
 				$uichekdata = 'I~O';
 				break;
 			Case 'Related1M' :
 				$uitype = 10;
-				$type = "INTEGER(19)";
+				$type = $importerType->integer()->defaultValue(0)->unsigned();
 				$uichekdata = 'V~O';
 				break;
 			Case 'Editor' :
 				$uitype = 300;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			Case 'Tree' :
 				$uitype = 302;
-				$type = "VARCHAR(255) default '' ";
+				$type = $importerType->stringType(30)->defaultValue('');
 				$uichekdata = 'V~O';
 				break;
 			Case 'MultiReferenceValue' :
 				$uitype = 305;
-				$type = "TEXT";
+				$type = $importerType->text();
 				$uichekdata = 'C~O';
 				$displayType = 5;
 				break;
 		}
-		return array(
+		return [
 			'uitype' => $uitype,
 			'typeofdata' => $uichekdata,
 			'dbType' => $type,
 			'displayType' => $displayType,
-		);
+		];
 	}
 
 	public function checkFieldNameCharacters($name)
@@ -366,27 +362,25 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function checkFieldLableExists($fieldLabel)
 	{
-		$db = PearDatabase::getInstance();
 		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			//Check for fiel exists in both calendar and events module
 			$tabId = ['9', '16'];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && fieldlabel = ?', $db->generateQuestionMarks($tabId));
-		$result = $db->pquery($query, [$tabId, $fieldLabel]);
-		return ($db->getRowCount($result) > 0 ) ? true : false;
+		$count = (new \App\Db\Query())->from('vtiger_field')->where(['fieldlabel' => $fieldLabel, 'tabid' => $tabId])->count();
+		return ($count > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameExists($fieldName)
 	{
-		$db = PearDatabase::getInstance();
 		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
-		$query = sprintf('SELECT 1 FROM vtiger_field WHERE tabid IN (%s) && (fieldname = ? || columnname = ?)', $db->generateQuestionMarks($tabId));
-		$result = $db->pquery($query, [$tabId, $fieldName, $fieldName]);
-		return ($db->getRowCount($result) > 0 ) ? true : false;
+		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
+			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
+			->count();
+		return ($count > 0 ) ? true : false;
 	}
 
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
@@ -432,17 +426,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getEntityModulesList()
 	{
-		$db = PearDatabase::getInstance();
-		self::preModuleInitialize2();
-
 		$presence = [0, 2];
-		$restrictedModules = ['SMSNotifier', 'Emails', 'Integration', 'Dashboard', 'ModComments', 'vtmessages', 'vttwitter'];
+		$restrictedModules = ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments'];
 
-		$query = sprintf('SELECT `name` FROM vtiger_tab WHERE presence IN (%s) && isentitytype = ? && `name` NOT IN (%s)', $db->generateQuestionMarks($presence), $db->generateQuestionMarks($restrictedModules));
-		$result = $db->pquery($query, [$presence, 1, $restrictedModules]);
-
+		$query = (new \App\Db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
+		$dataReader = $query->createCommand()->query();
 		$modulesList = [];
-		while (($moduleName = $db->getSingleValue($result)) !== false) {
+		while ($moduleName = $dataReader->read()) {
+			$moduleName = $moduleName['name'];
 			$modulesList[$moduleName] = $moduleName;
 		}
 		// If calendar is disabled we should not show events module too
@@ -455,7 +446,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check field is editable or not
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isSortableAllowed()
 	{
@@ -468,7 +459,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check blocks are sortable for the module
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isBlockSortableAllowed()
 	{
@@ -481,7 +472,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to check fields are sortable for the block
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isFieldsSortableAllowed($blockName)
 	{
@@ -527,14 +518,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function getTreeTemplates($sourceModule)
 	{
-		$db = PearDatabase::getInstance();
 		$sourceModule = vtlib\Functions::getModuleId($sourceModule);
-
-		$query = 'SELECT templateid,name FROM vtiger_trees_templates WHERE module = ?';
-		$result = $db->pquery($query, array($sourceModule));
-
+		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule]);
 		$treeList = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		$modulesList = [];
+		while ($row = $dataReader->read()) {
 			$treeList[$row['templateid']] = $row['name'];
 		}
 		return $treeList;
@@ -542,13 +531,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public static function getRelationsTypes()
 	{
-		$typesList = array(
-			'get_related_list' => 'PLL_RELATED_LIST',
-			'get_dependents_list' => 'PLL_DEPENDENTS_LIST',
-			'get_many_to_many' => 'PLL_SPLITED_RELATED_LIST',
-			'get_attachments' => 'PLL_ATTACHMENTS',
-		);
-		return $typesList;
+		return [
+			'getRelatedList' => 'PLL_RELATED_LIST',
+			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
+			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
+			'getAttachments' => 'PLL_ATTACHMENTS',
+		];
 	}
 
 	public static function getRelationsActions()
@@ -558,5 +546,19 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'SELECT' => 'PLL_SELECT',
 		);
 		return $actionList;
+	}
+
+	public static function getRelationFields($moduleId)
+	{
+		$query = (new \App\Db\Query())->select('vtiger_field.fieldname')
+			->from('vtiger_relatedlists_fields')
+			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
+			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]]);
+		$dataReader = $query->createCommand()->query();
+		$fields = [];
+		while ($row = $dataReader->read()) {
+			$fields[] = $row['fieldname'];
+		}
+		return $fields;
 	}
 }

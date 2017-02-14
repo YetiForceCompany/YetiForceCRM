@@ -208,6 +208,7 @@ function DataAccessConditions() {
 					var comparator = jQuery(this).parents('.conditionRow').find('[name="comparator"]'),
 							filedInfo = jQuery(this).find('option:selected').data('info'),
 							conditionList = JSON.parse(jQuery('div#condition_list').text());
+					var value = comparator.val();
 					comparator.find('option').remove();
 					jQuery.each(conditionList[filedInfo.type], function (i, item) {
 						comparator.append(jQuery('<option>', {
@@ -215,9 +216,9 @@ function DataAccessConditions() {
 							text: app.vtranslate(item)
 						}));
 					});
-
+					comparator.val(value);
 					comparator.trigger("chosen:updated");
-				})
+				});
 			},
 			this.fieldTypeHasChanged = function () {
 				var thisInstance = this;
@@ -355,7 +356,7 @@ function DataAccessConditions() {
 				valPlace.children().remove();
 				valPlace.append(html);
 
-				app.registerEventForTimeFields(jQuery(valPlace).find('[name="val"]'), true);
+				app.registerEventForClockPicker(jQuery(valPlace).find('[name="val"]'));
 			},
 			this.hideValElement = function (element) {
 				jQuery(element).parents('.conditionRow').find('.fieldUiHolder').children().hide();
@@ -441,9 +442,8 @@ function DataAccessConditions() {
 						jQuery('input.bw').val(formated.join(','));
 					}
 				}
-
 				app.registerEventForDatePickerFields(jQuery('input.bw'), false, customParams);
-				app.registerEventForTimeFields(jQuery('.ui-timepicker-input'), true);
+				app.registerEventForClockPicker();
 			}
 }
 

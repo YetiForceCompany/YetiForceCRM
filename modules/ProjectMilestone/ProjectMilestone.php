@@ -54,6 +54,11 @@ class ProjectMilestone extends CRMEntity
 		'Type' => 'projectmilestonetype',
 		//'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['projectmilestonename', 'projectmilestonedate', 'projectmilestonetype', 'assigned_user_id'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectmilestonename';
 	// For Popup listview and UI type support
@@ -72,8 +77,6 @@ class ProjectMilestone extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('projectmilestonename');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'projectmilestonename';
 	// Column value to use on detail view record text display
@@ -87,20 +90,6 @@ class ProjectMilestone extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id');
-
-	public function save_module($module)
-	{
-		
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -170,7 +159,7 @@ class ProjectMilestone extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -329,18 +318,7 @@ class ProjectMilestone extends CRMEntity
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
-			if (\includes\Modules::getModuleId('CustomerPortal')) {
-				$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($projectmilestoneTabid));
-				if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
-					$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
-					$maxSequence = $adb->query_result($maxSequenceQuery, 0, 'maxsequence');
-					$nextSequence = $maxSequence + 1;
-					$adb->query("INSERT INTO vtiger_customerportal_tabs(tabid,visible,sequence) VALUES ($projectmilestoneTabid,1,$nextSequence)");
-					$adb->query("INSERT INTO vtiger_customerportal_prefs(tabid,prefkey,prefvalue) VALUES ($projectmilestoneTabid,'showrelatedinfo',1)");
-				}
-			}
-
-			\includes\fields\RecordNumber::setNumber($modulename, 'PM', 1);
+			\App\Fields\RecordNumber::setNumber($modulename, 'PM', 1);
 		} else if ($event_type == 'module.disabled') {
 			
 		} else if ($event_type == 'module.enabled') {
@@ -351,34 +329,7 @@ class ProjectMilestone extends CRMEntity
 			
 		} else if ($event_type == 'module.postupdate') {
 
-			\includes\fields\RecordNumber::setNumber($modulename, 'PM', 1);
+			\App\Fields\RecordNumber::setNumber($modulename, 'PM', 1);
 		}
 	}
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/**
-	 * Handle getting dependents list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }

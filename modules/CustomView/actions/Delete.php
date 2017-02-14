@@ -14,11 +14,8 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller
 	public function process(Vtiger_Request $request)
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($request->get('record'));
-		$moduleModel = $customViewModel->getModule();
-
 		$customViewModel->delete();
-
-		$listViewUrl = $moduleModel->getListViewUrl();
+		$listViewUrl = $customViewModel->getModule()->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
 

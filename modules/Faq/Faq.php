@@ -25,15 +25,14 @@
 class Faq extends CRMEntity
 {
 
-	public $table_name = "vtiger_faq";
+	public $table_name = 'vtiger_faq';
 	public $table_index = 'id';
 	//fix for Custom Field for FAQ 
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_faq', 'vtiger_faqcf');
 	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_faq' => 'id', 'vtiger_faqcomments' => 'faqid', 'vtiger_faqcf' => 'faqid');
 	public $customFieldTable = Array('vtiger_faqcf', 'faqid');
-	public $entity_table = "vtiger_crmentity";
+	public $entity_table = 'vtiger_crmentity';
 	public $column_fields = Array();
-	public $sortby_fields = Array('question', 'category', 'id');
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
 		'FAQ Id' => Array('faq' => 'id'),
@@ -51,6 +50,11 @@ class Faq extends CRMEntity
 		'Created Time' => 'createdtime',
 		'Modified Time' => 'modifiedtime'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['question', 'faqcategories', 'product_id', 'createdtime', 'modifiedtime'];
 	public $list_link_field = 'question';
 	public $search_fields = Array(
 		'Account Name' => Array('account' => 'accountname'),
@@ -67,35 +71,6 @@ class Faq extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'question';
 
-	public function save_module($module)
-	{
-		//Inserting into Faq comment table
-		$this->insertIntoFAQCommentTable('vtiger_faqcomments', $module);
-	}
-
-	/** Function to insert values in vtiger_faqcomments table for the specified module,
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoFAQCommentTable($table_name, $module)
-	{
-
-		\App\Log::trace("in insertIntoFAQCommentTable  " . $table_name . "    module is  " . $module);
-		$adb = PearDatabase::getInstance();
-
-		$current_time = $adb->formatDate(date('Y-m-d H:i:s'), true);
-
-		if ($this->column_fields['comments'] != '')
-			$comment = $this->column_fields['comments'];
-		else
-			$comment = AppRequest::get('comments');
-
-		if ($comment != '') {
-			$params = array('', $this->id, \vtlib\Functions::fromHTML($comment), $current_time);
-			$sql = "insert into vtiger_faqcomments values(?, ?, ?, ?)";
-			$adb->pquery($sql, $params);
-		}
-	}
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
@@ -114,7 +89,13 @@ class Faq extends CRMEntity
 					left join vtiger_users as vtiger_users$module on vtiger_users$module.id = vtiger_crmentity.smownerid
 					left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
 					left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-                    left join vtiger_users as vtiger_lastModifiedBy" . $module . " on vtiger_lastModifiedBy" . $module . ".id = vtiger_crmentity.modifiedby";
+                    left join vtiger_users as vtiger_lastModifiedBy" . $module . ' on vtiger_lastModifiedBy' . $module . '.id = vtiger_crmentity.modifiedby';
+		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
+			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
+		}
+		if ($queryPlanner->requireTable("vtiger_shOwners$module")) {
+			$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
+		}
 		return $query;
 	}
 	/*

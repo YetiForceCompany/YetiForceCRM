@@ -283,7 +283,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
 				}});
-			jQuery('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
+			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {

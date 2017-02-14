@@ -19,11 +19,17 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$moduleModel = $recordModel->getModule();
-
 		$recordModel->delete();
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_activity SET deleted = ? WHERE `activityid` = ?;', array(1, $recordId));
 
+		$typeRemove = Events_RecuringEvents_Model::UPDATE_THIS_EVENT;
+		if (!$request->isEmpty('typeRemove')) {
+			$typeRemove = $request->get('typeRemove');
+		}
+		$recurringEvents = Events_RecuringEvents_Model::getInstance();
+		$recurringEvents->typeSaving = $typeRemove;
+		$recurringEvents->recordModel = $recordModel;
+		$recurringEvents->templateRecordId = $recordId;
+		$recurringEvents->delete();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		if ($ajaxDelete) {
 			$response = new Vtiger_Response();

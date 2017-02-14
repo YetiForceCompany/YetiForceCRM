@@ -27,7 +27,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 
 		$treeList = $treeViewModel->getTreeList();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('TREE_LIST', \includes\utils\Json::encode($treeList));
+		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
 		$viewer->assign('SELECTABLE_CATEGORY', 0);
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
@@ -67,7 +67,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
 		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
 
-		$listEntries = $listViewModel->getListViewEntries($pagingModel, true);
+		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		if (count($listEntries) === 0) {
 			return;
 		}

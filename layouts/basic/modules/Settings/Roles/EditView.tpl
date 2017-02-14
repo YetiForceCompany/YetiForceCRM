@@ -167,6 +167,16 @@
 						</select>
 					</div>
 				</div>
+				<br>
+				<hr>
+				<div class="form-group paddingTop10">
+					<label class="col-md-4"><strong>{\App\Language::translate('LBL_AUTO_ASSIGN_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
+					<div class="col-md-7 fieldValue">
+						<div class="pull-left">
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('auto_assign')} checked="" {/if} name="auto_assign" class="alignTop"/>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="pull-right marginRight10px paddingTop20">
 				<button class="btn btn-success" type="submit">{vtranslate('LBL_SAVE',$MODULE)}</button>

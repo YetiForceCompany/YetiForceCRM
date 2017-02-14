@@ -65,8 +65,6 @@ class SMSNotifierBase extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('message');
-	// Allow sorting on the following (field column names)
-	public $sortby_fields = Array('message');
 	// Should contain field labels
 	//var $detailview_links = Array ('Message');
 	// For Alphabetical search
@@ -110,20 +108,6 @@ class SMSNotifierBase extends CRMEntity
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
-	}
-
-	public function save_module($module)
-	{
-		
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -185,7 +169,7 @@ class SMSNotifierBase extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -390,33 +374,4 @@ class SMSNotifierBase extends CRMEntity
 			$accountsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 		}
 	}
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-	/**
-	 * Handle getting dependents list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
 }
-
-?>

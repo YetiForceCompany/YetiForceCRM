@@ -38,9 +38,8 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
 		$valueToEdit = $request->getRaw('fieldValue');
 
-		$selectedFieldEditablePickListValues = $fieldModel->getEditablePicklistValues($fieldModel->getName());
-		$selectedFieldNonEditablePickListValues = $fieldModel->getNonEditablePicklistValues($fieldModel->getName());
-		//	$selectedFieldAllPickListValues =  array_map('Vtiger_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
+		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
+		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		$qualifiedName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -62,8 +61,8 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
 		$valueToDelete = $request->get('fieldValue');
 
-		$selectedFieldEditablePickListValues = $fieldModel->getEditablePicklistValues($fieldModel->getName());
-		$selectedFieldNonEditablePickListValues = $fieldModel->getNonEditablePicklistValues($fieldModel->getName());
+		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
+		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
 		$selectedFieldEditablePickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $selectedFieldEditablePickListValues);
 		if (!empty($selectedFieldNonEditablePickListValues)) {
 			$selectedFieldNonEditablePickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $selectedFieldNonEditablePickListValues);
@@ -108,7 +107,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 		if (!empty($pickFieldId)) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
-			$selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($fieldModel->getName());
+			$selectedFieldAllPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
 		}
 
 		$viewer = $this->getViewer($request);
@@ -131,9 +130,9 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 		$userSelectedRoleId = $request->get('rolesSelected');
 
-		$pickListValuesForRole = $fieldModel->getPicklistValues(array($userSelectedRoleId), 'CONJUNCTION');
+		$pickListValuesForRole = $fieldModel->getPicklistValuesForRole([$userSelectedRoleId], 'CONJUNCTION');
 		$pickListValuesForRole = array_map('Vtiger_Util_Helper::toSafeHTML', $pickListValuesForRole);
-		$allPickListValues = Vtiger_Util_Helper::getPickListValues($fieldModel->getName());
+		$allPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
 		$allPickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $allPickListValues);
 
 		$viewer = $this->getViewer($request);
@@ -159,7 +158,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 
-		$selectedFieldAllPickListValues = Vtiger_Util_Helper::getPickListValues($fieldModel->getName());
+		$selectedFieldAllPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
 		$selectedFieldAllPickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);

@@ -91,7 +91,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 				}
 				if (form.validationEngine('validate') && specialValidation) {
 					thisInstance.currentInstance.submit().then(function (data) {
-						thisInstance.getContainer().append(data);
+						thisInstance.getContainer().prepend(data);
 						var stepVal = thisInstance.getStepValue();
 						var nextStepVal = parseInt(stepVal) + 1;
 						thisInstance.initiateStep(nextStepVal);
@@ -155,6 +155,7 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	},
 	registerEvents: function () {
 		var form = this.currentInstance.getContainer();
+		app.registerCopyClipboard();
 		this.registerFormSubmitEvent(form);
 		this.registerBackStepClickEvent();
 		this.registerCancelStepClickEvent(form);

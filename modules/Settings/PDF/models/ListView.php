@@ -12,12 +12,10 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 	/**
 	 * Function to get the list view entries
 	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
 	 */
 	public function getListViewEntries($pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
 		$parentModuleName = $module->getParentName();
 		$qualifiedModuleName = 'PDF';
@@ -25,41 +23,25 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-
-		$listFields = $module->listFields;
-		$listQuery = 'SELECT ';
-		foreach ($listFields as $fieldName => $fieldLabel) {
-			$listQuery .= '`' . $fieldName . '`, ';
-		}
-		$listQuery .= '`' . $module->baseIndex . '` FROM `' . $module->baseTable . '`';
-
-		$params = [];
+		$listFields = array_keys($module->listFields);
+		$listFields [] = $module->baseIndex;
+		$query = (new \App\Db\Query())->select($listFields)
+			->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$listQuery .= ' WHERE `module_name` = ?';
-			$params[] = $sourceModule;
+			$query->where(['module_name' => $sourceModule]);
 		}
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy === 'smownerid') {
-			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(CONCAT(`vtiger_users`.`first_name`, `vtiger_users`.`last_name`), `vtiger_groups`.`groupname`)';
-			}
-		}
 		if (!empty($orderBy)) {
-			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
+			$query->orderBy($orderBy . ' ' . $this->getForSql('sortorder'));
 		}
-		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
-
-		$listResult = $db->pquery($listQuery, $params);
-
+		$dataReader = $query->limit($pageLimit)->offset($startIndex)->createCommand()->query();
 		$listViewRecordModels = [];
-		while ($row = $db->fetchByAssoc($listResult)) {
+		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
 			$module_name = $row['module_name'];
 
@@ -76,18 +58,12 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 
-		$pagingModel->calculatePageRange($listViewRecordModels);
+		$pagingModel->calculatePageRange($dataReader->count());
 
-		if ($db->num_rows($listResult) > $pageLimit) {
+		if ($dataReader->count() > $pageLimit) {
 			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);
 		} else {
-			$pagingModel->set('nextPageExists', false);
-		}
-
-		$nextPageResult = $db->pquery($nextListQuery, $params);
-		$nextPageNumRows = $db->num_rows($nextPageResult);
-		if ($nextPageNumRows <= 0) {
 			$pagingModel->set('nextPageExists', false);
 		}
 		return $listViewRecordModels;
@@ -99,19 +75,12 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
-		$params = [];
-		$listQuery = sprintf('SELECT COUNT(1) AS count FROM %s', $module->baseTable);
-
+		$query = (new \App\Db\Query())->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {
-			$listQuery .= ' WHERE module_name = ?;';
-			$params[] = $sourceModule;
+			$query->where(['module_name' => $sourceModule]);
 		}
-
-		$listResult = $db->pquery($listQuery, $params);
-		return $db->getSingleValue($listResult);
+		return $query->count();
 	}
 }

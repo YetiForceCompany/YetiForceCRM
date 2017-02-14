@@ -8,7 +8,11 @@
  * All Rights Reserved.
  * ****************************************************************************** */
 
-require_once('modules/Calendar/Appointment.php');
+require_once('modules/Calendar/CalendarCommon.php');
+require_once('include/utils/CommonUtils.php');
+require_once('include/utils/UserInfoUtil.php');
+require_once('include/database/PearDatabase.php');
+require_once('modules/Calendar/Activity.php');
 require_once('modules/Calendar/Date.php');
 
 class Calendar
@@ -148,72 +152,6 @@ class Calendar
 				return "view is not supported";
 		}
 		return $day->get_date_str();
-	}
-
-	/**
-	 * Function to get activities
-	 * @param  array $current_user  - user data
-	 * @param  string $free_busy    - 
-	 */
-	public function add_Activities($current_user, $free_busy = '')
-	{
-		if (isset($current_user->start_hour) && $current_user->start_hour != '') {
-			list($sthour, $stmin) = explode(":", $current_user->start_hour);
-			$hr = $sthour + 0;
-			$this->day_start_hour = $hr;
-		} else {
-			$this->day_start_hour = 8;
-		}
-		if (isset($current_user->end_hour) && $current_user->end_hour != '') {
-			list($endhour, $endmin) = explode(":", $current_user->end_hour);
-			$endhour = $endhour + 0;
-			$this->day_end_hour = $endhour;
-		} else {
-			$this->day_end_hour = 23;
-		}
-		if ($this->view == 'week') {
-			$start_datetime = $this->date_time->getThisweekDaysbyIndex(1);
-			$end_datetime = $this->date_time->getThisweekDaysbyIndex(7);
-		} elseif ($this->view == 'month') {
-			$start_datetime = $this->date_time->getThismonthDaysbyIndex(0);
-			$end_datetime = $this->date_time->getThismonthDaysbyIndex($this->date_time->daysinmonth - 1);
-		} elseif ($this->view == 'year') {
-			$start_datetime = $this->date_time->getThisyearMonthsbyIndex(0);
-			$end_datetime = $this->date_time->get_first_day_of_changed_year('increment');
-		} else {
-			$start_datetime = $this->date_time;
-			$end_datetime = $this->date_time->getTodayDatetimebyIndex(23);
-		}
-
-		$activities = Array();
-		$activities = Appointment::readAppointment($current_user->id, $start_datetime, $end_datetime, $this->view);
-		if (!empty($activities)) {
-			foreach ($activities as $key => $value) {
-				if ($this->view == 'day') {
-					if (empty($this->day_slice[$value->formatted_datetime]->activities)) {
-						$this->day_slice[$value->formatted_datetime]->activities = array();
-					}
-					array_push($this->day_slice[$value->formatted_datetime]->activities, $value);
-				} elseif ($this->view == 'week') {
-					if (empty($this->week_slice[$value->formatted_datetime]->activities)) {
-						$this->week_slice[$value->formatted_datetime]->activities = array();
-					}
-					array_push($this->week_slice[$value->formatted_datetime]->activities, $value);
-				} elseif ($this->view == 'month') {
-					if (empty($this->month_array[$value->formatted_datetime]->activities)) {
-						$this->month_array[$value->formatted_datetime]->activities = array();
-					}
-					array_push($this->month_array[$value->formatted_datetime]->activities, $value);
-				} elseif ($this->view == 'year') {
-					if (empty($this->year_array[$value->formatted_datetime]->activities)) {
-						$this->year_array[$value->formatted_datetime]->activities = array();
-					}
-					array_push($this->year_array[$value->formatted_datetime]->activities, $value);
-				} else{
-					throw new \Exception\AppException("view: $this->view is not defined");
-				}
-			}
-		}
 	}
 }
 

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 Class Products_Edit_View extends Vtiger_Edit_View
@@ -30,7 +31,6 @@ Class Products_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('TAXCLASS_DETAILS', $recordModel->getTaxClassDetails());
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
 		parent::process($request);
@@ -46,7 +46,7 @@ Class Products_Edit_View extends Vtiger_Edit_View
 		foreach ($mandatoryFieldModels as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$fieldName = $fieldModel->get('name');
-				if (Vtiger_Util_Helper::checkRecordExistance($recordModel->get($fieldName))) {
+				if (!\App\Record::isExists($recordModel->get($fieldName))) {
 					$recordModel->set($fieldName, '');
 				}
 			}

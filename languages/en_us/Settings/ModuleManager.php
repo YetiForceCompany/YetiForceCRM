@@ -72,6 +72,18 @@ $languageStrings = [
 	'LBL_EXTENSION_MODULE' => 'Extensions module',
 	'LBL_LANGUAGE_MODULE' => 'Language pack',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
+	// Library
+	'LBL_LIBRARY_NAME' => 'Name',
+	'LBL_LIBRARY_STATUS' => 'Status',
+	'LBL_LIBRARY_URL' => 'Library repository address',
+	'LBL_LIBRARY_DIR' => 'Library directory',
+	'LBL_LIBRARY_ACTION' => 'Actions',
+	'BTN_LIBRARY_DOWNLOAD' => 'Download library',
+	'BTN_LIBRARY_UPDATE' => 'Update library',
+	'LBL_LIBRARY_DOWNLOADED' => 'Downloaded',
+	'LBL_LIBRARY_NO_DOWNLOAD' => 'Not downloaded',
+	'LBL_LIBRARY_NEEDS_UPDATING' => 'Update required',
+	'LBL_NO_PERMISSION_TO_DIR' => 'No permission to directories',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Successful',
@@ -82,4 +94,5 @@ $jsLanguageStrings = [
 	'JS_CLICK_HERE' => 'Click here',
 	'JS_ON' => 'On',
 	'JS_REMOVED_MODULE' => 'Removed module',
+	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Special characters like & < > \' " : , are not allowed',
 ];

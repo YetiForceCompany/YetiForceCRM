@@ -28,6 +28,7 @@ $languageStrings = [
 	'Tax Class' => 'Steuerklasse',
 	'Website' => 'Webseite',
 	'FL_RENEWABLE' => 'zu erneuern',
+	'FL_TAXES' => 'Steuern',
 	//Services popup of pricebook
 	'LBL_ADD_TO_PRICEBOOKS' => 'Zu Preisliste hinzufügen',
 	//YetiForce

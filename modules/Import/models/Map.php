@@ -103,17 +103,14 @@ class Import_Map_Model extends Vtiger_Base_Model
 	public static function getAllByModule($moduleName)
 	{
 		$current_user = vglobal('current_user');
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s WHERE deleted=0 && module=?', self::$tableName);
-		$result = $db->pquery($query, [$moduleName]);
-		$noOfMaps = $db->num_rows($result);
-
-		$savedMaps = array();
-		for ($i = 0; $i < $noOfMaps; ++$i) {
-			$importMap = Import_Map_Model::getInstanceFromDb($db->query_result_rowdata($result, $i), $current_user);
+		$dataReader = (new App\Db\Query())->from(self::$tableName)
+				->where(['deleted' => 0, 'module' => $moduleName])
+				->createCommand()->query();
+		$savedMaps = [];
+		while ($row = $dataReader->read()) {
+			$importMap = Import_Map_Model::getInstanceFromDb($row, $current_user);
 			$savedMaps[$importMap->getId()] = $importMap;
 		}
-
 		return $savedMaps;
 	}
 }

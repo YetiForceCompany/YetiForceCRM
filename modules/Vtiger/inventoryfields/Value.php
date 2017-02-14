@@ -12,7 +12,7 @@ class Vtiger_Value_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'Value';
 	protected $defaultLabel = 'LBL_VALUE';
 	protected $columnName = 'value';
-	protected $dbType = 'varchar(255)';
+	protected $dbType = 'string';
 	protected $onlyOne = false;
 
 	/**

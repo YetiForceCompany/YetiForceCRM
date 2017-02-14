@@ -43,6 +43,15 @@ $languageStrings = [
 	'LBL_ADD_CHANNEL' => 'Dodaj kanał',
 	'LBL_ADD_RSS' => 'RSS',
 	'LBL_ADD_CHART_FILTER' => 'Wykres z filtru',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Ilość powiadomień wg nadawców',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Ilość powiadomien wg odbiorców',
+	'LBL_DEFAULT_DATE' => 'Domyślna data',
+	'PLL_CURRENT_DAY' => 'Bieżący dzień',
+	'PLL_CURRENT_WEEK' => 'Bieżący tydzień',
+	'PLL_CURRENT_MONTH' => 'Bieżący miesiąc',
+	'PLL_CURRENT_YEAR' => 'Bieżący rok',
+	'LBL_SAVE_DASHBOARD' => 'Zapisz pulpit',
+	'LBL_NAME_DASHBOARD' => 'Nazwa pulpitu',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Pomyślnie dodano blok',

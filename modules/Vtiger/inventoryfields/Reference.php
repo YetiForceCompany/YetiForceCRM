@@ -12,7 +12,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'Reference';
 	protected $defaultLabel = 'LBL_REFERENCE';
 	protected $columnName = 'ref';
-	protected $dbType = 'int(19)';
+	protected $dbType = 'int';
 	protected $params = ['modules'];
 
 	/**
@@ -26,7 +26,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 			return '';
 		}
 		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
-		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . \includes\Record::getLabel($value) . '</a>';
+		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
 
@@ -46,7 +46,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 
 	public function getReferenceModules()
 	{
-		$params = \includes\utils\Json::decode($this->get('params'));
+		$params = \App\Json::decode($this->get('params'));
 		return $params['modules'];
 	}
 

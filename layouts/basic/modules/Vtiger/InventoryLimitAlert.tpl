@@ -30,18 +30,9 @@
 						<div class="col-md-6">{vtranslate('LBL_TOTALS_LIMIT', $MODULE)}:</div>
 						<div class="col-md-6"><strong>{$TOTALS}</strong> {$SYMBOL}</div>
 					</div>
-					{if $LOCK == '1'}
-						<br/>
-						<div class="alert alert-danger">{vtranslate('LBL_LIMIT_ALERT', $MODULE)}</div>
-					{/if}
+					<br/>
+					<div class="alert alert-danger marginbottomZero">{vtranslate('LBL_LIMIT_ALERT', $MODULE)}</div>
 				</div>
-				{if $LOCK == '0'}
-					<div class="modal-footer">
-						<button class="btn btn-success enableSave" type="submit">
-							<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong>
-						</button>
-					</div>
-				{/if}
 			</div>
 		</div>
 	</div>

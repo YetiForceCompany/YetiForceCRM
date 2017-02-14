@@ -8,13 +8,21 @@
  *************************************************************************************/
 
 Vtiger_List_Js("Settings_Vtiger_List_Js",{
-	
 	triggerDelete : function(event,url){
 		event.stopPropagation();
 		var instance = Vtiger_List_Js.getInstance();
 		instance.DeleteRecord(url);
 	}
 },{
+	/*
+	 * Function to register the list view container
+	 */
+	getListViewContainer: function () {
+		if (this.listViewContainer == false) {
+			this.listViewContainer = jQuery('div.listViewContentDiv');
+		}
+		return this.listViewContainer;
+	},
 	
 	/*
 	 * Function to register the list view delete record click event
@@ -85,10 +93,10 @@ Vtiger_List_Js("Settings_Vtiger_List_Js",{
 		}
 		return pageCountParams;
 	},
-	
 	registerEvents : function() {
 		//this.triggerDisplayTypeEvent();
 		this.registerRowClickEvent();
+		this.registerCheckBoxClickEvent();
 		this.registerHeadersClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerEventForTotalRecordsCount();

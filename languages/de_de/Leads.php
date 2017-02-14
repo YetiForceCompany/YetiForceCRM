@@ -8,12 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Webformulare einstellen',
 	'Verification data' => 'Daten überprüfen',
 	'Attempted to Contact' => 'Kontaktierung versucht',
 	'CANNOT_CONVERT' => 'Umwandlung nicht möglich',
 	'Cold' => 'kalt',
-	'Company' => 'Lead name',
+	'Company' => 'Leadname',
 	'Contacted' => 'kontaktiert',
 	'Contact in Future' => 'in der Zukunft kontaktieren',
 	'Designation' => 'Funktion',
@@ -57,18 +56,16 @@ $languageStrings = [
 	'Warm' => 'warm',
 	'Website' => 'Webseite',
 	/* YetiForce Lead Status */
-	'LBL_TO_REALIZE' => 'in Bearbeitung',
-	'LBL_VERIFICATION_OF_DATA' => 'Datenvalidierung',
-	'LBL_PRELIMINARY_ANALYSIS_OF' => 'Vorabanalyse',
-	'LBL_ADVANCED_ANALYSIS' => 'genauere Analyse',
-	'LBL_INITIAL_ACQUISITION' => 'Initial erworben',
-	'LBL_CONTACTS_IN_THE_FUTURE' => 'Kontakt für die Zukunft',
-	'LBL_LEAD_UNTAPPED' => ' Lead nicht erfolgreich',
-	'LBL_LEAD_ACQUIRED' => 'Lead erfolgreich',
+	'PLL_TO_REALIZE' => 'in Bearbeitung',
+	'PLL_CONTACTS_IN_THE_FUTURE' => 'Kontakt für die Zukunft',
+	'PLL_LEAD_UNTAPPED' => 'Unentschlossen',
+	'PLL_LEAD_ACQUIRED' => 'Gewonnen',
+	'PLL_PENDING' => 'Schwebend',
+	'PLL_IN_REALIZATION' => 'In Umsetzung',
+	'PLL_INCORRECT' => 'Fehlerhaft',
 	/* YetiForce */
 	'Contact Information' => 'Kontakt Informationen',
 	'LBL_REGISTRATION_INFO' => 'Registrierungs-Details',
-	'LBL_REQUIRES_VERIFICATION' => 'Daten Überprüfung',
 	'Approval for phone calls' => 'Erlaubnis zum Anrufen',
 	'Approval for email' => 'Berechtigung um Emails zu versenden',
 	//PICKLIST VALUES

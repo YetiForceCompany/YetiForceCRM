@@ -65,13 +65,13 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public static function getInstance($id)
 	{
-		$db = \App\DB::getInstance('admin');
-		$query = (new \App\db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
+		$db = \App\Db::getInstance('admin');
+		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
-			$row['conditions'] = \includes\utils\Json::decode($row['conditions']);
-			$row['members'] = \includes\utils\Json::decode($row['members']);
+			$row['conditions'] = \App\Json::decode($row['conditions']);
+			$row['members'] = \App\Json::decode($row['members']);
 			$instance = new self();
 			$instance->setData($row);
 		}
@@ -83,7 +83,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public function save()
 	{
-		$db = \App\DB::getInstance('admin');
+		$db = \App\Db::getInstance('admin');
 		$recordId = $this->getId();
 
 		$params = [];
@@ -93,18 +93,21 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 			}
 		}
 		if (isset($params['conditions'])) {
-			$params['conditions'] = \includes\utils\Json::encode($params['conditions']);
+			$params['conditions'] = \App\Json::encode($params['conditions']);
 		}
 		if (isset($params['members'])) {
-			$params['members'] = \includes\utils\Json::encode($params['members']);
+			$params['members'] = \App\Json::encode($params['members']);
 		}
 		if ($recordId === false) {
 			$db->createCommand()->insert('a_#__adv_permission', $params)->execute();
-			$this->set('id', $db->getLastInsertID());
+			$this->set('id', $db->getLastInsertID('a_#__adv_permission_id_seq'));
 		} else {
 			$db->createCommand()->update('a_#__adv_permission', $params, ['id' => $recordId])->execute();
 		}
 		\App\PrivilegeAdvanced::reloadCache();
+		if ($this->has('conditions')) {
+			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+		}
 	}
 
 	/**
@@ -117,7 +120,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		$value = $this->get($key);
 		switch ($key) {
 			case 'tabid':
-				$value = \includes\Modules::getModuleName($value);
+				$value = \App\Module::getModuleName($value);
 				break;
 			case 'status':
 				if (isset(Settings_AdvancedPermission_Module_Model::$status[$value])) {
@@ -141,21 +144,21 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 						list($type, $id) = explode(':', $member);
 						switch ($type) {
 							case 'Users' :
-								$name = \includes\fields\Owner::getUserLabel($id);
+								$name = \App\Fields\Owner::getUserLabel($id);
 								break;
 							case 'Groups' :
-								$name = \includes\Language::translate(\includes\fields\Owner::getGroupName($id));
+								$name = \App\Language::translate(\App\Fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \includes\Language::translate($roleInfo['rolename']);
+								$name = \App\Language::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
 								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
-								$name = \includes\Language::translate($roleInfo['rolename']);
+								$name = \App\Language::translate($roleInfo['rolename']);
 								break;
 						}
-						$values[] = \includes\Language::translate($type) . ': ' . $name;
+						$values[] = \App\Language::translate($type) . ': ' . $name;
 					}
 					$value = implode(', ', $values);
 				}
@@ -169,11 +172,14 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 	 */
 	public function delete()
 	{
-		$db = \App\DB::getInstance('admin');
+		$db = \App\Db::getInstance('admin');
 		$db->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
 		\App\PrivilegeAdvanced::reloadCache();
+		if ($this->has('conditions')) {
+			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+		}
 	}
 
 	/**
@@ -220,7 +226,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 		}
 		$users = array_flip($users);
 		foreach ($users as $id => &$user) {
-			$user = \includes\fields\Owner::getUserLabel($id);
+			$user = \App\Fields\Owner::getUserLabel($id);
 		}
 		return $users;
 	}

@@ -402,7 +402,7 @@ Vtiger_Field_Js('Vtiger_Boolean_Field_Js',{},{
 Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 
     getUi : function() {
-		var html = '<select class="chzn-select" name="'+ this.getName() +'">';
+		var html = '<select class="chzn-select" data-value="value" name="'+ this.getName() +'">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for(var optGroup in pickListValues){
@@ -424,7 +424,7 @@ Vtiger_Owner_Field_Js('Workflows_Owner_Field_Js',{},{
 		return selectContainer;
 	}
 });
-
+Workflows_Owner_Field_Js('Workflows_Sharedowner_Field_Js',{},{});
 Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
 
 });

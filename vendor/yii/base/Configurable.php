@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\base;
 
 /**
@@ -28,4 +27,5 @@ namespace yii\base;
  */
 interface Configurable
 {
+	
 }

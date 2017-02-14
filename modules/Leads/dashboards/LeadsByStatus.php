@@ -30,61 +30,53 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Function returns Leads grouped by Status
 	 * @param type $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getLeadsByStatus($owner, $dateFilter)
 	{
-		$db = PearDatabase::getInstance();
 		$module = 'Leads';
 		$leadsClosed = Settings_MarketingProcesses_Module_Model::getConfig('lead');
-
-		$dateFilterSql = $ownerSql = '';
+		$query = new \App\Db\Query();
+		$query->select([
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'leadstatusvalue' => new \yii\db\Expression("CASE WHEN vtiger_leadstatus.leadstatus IS NULL OR vtiger_leadstatus.leadstatus = '' THEN '' ELSE 
+						vtiger_leadstatus.leadstatus END")])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_leadstatus', 'vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus')
+			->where(['deleted' => 0, 'converted' => 0]);
 		if (!empty($owner)) {
-			$ownerSql = ' && smownerid = ' . $owner;
+			$query->andWhere(['smownerid' => $owner]);
 		}
-
-		$params = $response = [];
 		if (!empty($dateFilter)) {
-			$dateFilterSql = ' && createdtime BETWEEN ? AND ? ';
-			//client is not giving time frame so we are appending it
-			$params[] = $dateFilter['start'] . ' 00:00:00';
-			$params[] = $dateFilter['end'] . ' 23:59:59';
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-
-		$sql = sprintf('SELECT COUNT(*) as count, CASE WHEN vtiger_leadstatus.leadstatus IS NULL || vtiger_leadstatus.leadstatus = "" THEN "" ELSE 
-						vtiger_leadstatus.leadstatus END AS leadstatusvalue
-				FROM vtiger_leaddetails 
-				INNER JOIN vtiger_crmentity
-					ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-					AND deleted=0 && converted = 0 %s %s
-			INNER JOIN vtiger_leadstatus ON vtiger_leaddetails.leadstatus = vtiger_leadstatus.leadstatus ', $ownerSql, $dateFilterSql);
-		$sql .= \App\PrivilegeQuery::getAccessConditions($module);
-
+		\App\PrivilegeQuery::getConditions($query, $module);
 		if (!empty($leadsClosed['status'])) {
-			$leadStatusSearch = implode("','", $leadsClosed['status']);
-			$sql .= " && vtiger_leaddetails.leadstatus NOT IN ('$leadStatusSearch')";
-			$this->conditions = ['vtiger_leaddetails.leadstatus', "'$leadStatusSearch'", 'nin', QueryGenerator::$AND];
+			$query->andWhere(['not in', 'vtiger_leaddetails.leadstatus', $leadsClosed['status']]);
+			$this->conditions = [
+				'condition' => ['not in', 'vtiger_leaddetails.leadstatus', $leadsClosed['status']]
+			];
 		}
 
-		$sql .= ' GROUP BY leadstatusvalue ORDER BY vtiger_leadstatus.sortorderid ';
-		$result = $db->pquery($sql, $params);
-
+		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
+		$dataReader = $query->createCommand()->query();
 		$response = [];
 		$i = 0;
-		if ($db->getRowCount($result) > 0) {
-			while ($row = $db->getRow($result)) {
-				$data[$i]['label'] = vtranslate($row['leadstatusvalue'], 'Leads');
-				$ticks[$i][0] = $i;
-				$ticks[$i][1] = vtranslate($row['leadstatusvalue'], 'Leads');
-				$data[$i]['data'][0][0] = $i;
-				$data[$i]['data'][0][1] = $row['count'];
-				$name[] = $row['leadstatusvalue'];
-				$i++;
-			}
-			$response['chart'] = $data;
-			$response['ticks'] = $ticks;
-			$response['name'] = $name;
+
+		while ($row = $dataReader->read()) {
+			$data[$i]['label'] = \App\Language::translate($row['leadstatusvalue'], 'Leads');
+			$ticks[$i][0] = $i;
+			$ticks[$i][1] = \App\Language::translate($row['leadstatusvalue'], 'Leads');
+			$data[$i]['data'][0][0] = $i;
+			$data[$i]['data'][0][1] = $row['count'];
+			$name[] = $row['leadstatusvalue'];
+			$i++;
 		}
+		$response['chart'] = $data;
+		$response['ticks'] = $ticks;
+		$response['name'] = $name;
+
 		return $response;
 	}
 
@@ -108,10 +100,16 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 
 		$createdTime = $request->get('createdtime');
 
+		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
 			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
+		} else {
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if ($time !== false) {
+				$dates = $time;
+			}
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -129,9 +127,10 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('CURRENTUSER', $currentUser);
+		$viewer->assign('DTIME', $dates);
 
-		$accessibleUsers = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \includes\fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
+		$accessibleUsers = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);

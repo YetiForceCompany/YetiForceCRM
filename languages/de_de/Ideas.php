@@ -12,11 +12,11 @@ $languageStrings = [
 	'Ideas' => 'Ideen',
 	'SINGLE_Ideas' => 'Idee',
 	//Bloks
-	'LBL_IDEAS_INFORMATION' => 'Basis Information',
+	'LBL_IDEAS_INFORMATION' => 'Grundlegende Information',
 	//Fields
 	'LBL_SUBJECT' => 'Betreff',
 	'LBL_STATUS' => 'Status',
-	'Description' => 'Basis Beschreibung',
+	'Description' => 'Beschreibung',
 	'LBL_EXTENT_DESCRIPTION' => 'Ausführliche Beschreibung',
 	'Attention' => 'Kommentare',
 	'LBL_NO' => 'Nummer',

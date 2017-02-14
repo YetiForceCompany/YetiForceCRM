@@ -26,11 +26,32 @@
 			<div id="mapid"></div>
 		</div>
 		<div class="col-xs-3">
+			<div class="col-xs-12 paddingLRZero ">
+				<div class="col-xs-7 form-group paddingLefttZero">
+					<div class="input-group">
+						<input type="text" class="form-control searchCompany">
+						<span class="input-group-btn">
+							<button class="btn btn-default addRecord" type="button">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="col-xs-5 paddingLRZero">
+					<select class="select2 searchModule col-xs-6">
+						{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
+							<option value="{$ALLOWED_MODULE_NAME}">{vtranslate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
 			<div class="input-group group-btn form-group">
 				<select class="select2 fieldsToGroup">
+					<optgroup label="{vtranslate($SRC_MODULE, $SRC_MODULE)}">
 					{foreach from=$FIELDS_TO_GROUP item=FIELD_MODEL}
 						<option value="{$FIELD_MODEL->getFieldName()}">{vtranslate($FIELD_MODEL->getFieldLabel(), $SRC_MODULE)}</option>
 					{/foreach}
+					</optgroup>
 				</select>
 				<span class="input-group-addon">
 					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{vtranslate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours">
@@ -76,22 +97,28 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="panel panel-default cacheContainer">
 				<div class="panel-heading">
 					{vtranslate('LBL_CLIPBOARD', $MODULE_NAME)}
 				</div>
 				<div class="panel-body cacheContent">
-					{foreach from=$CACHE_GROUP_RECORDS key=MODULE item=COUNT_RECORDS}
-						<div class="col-xs-8">
-							<label>
-								<input type="checkbox"{if $MODULE eq $SRC_MODULE} disabled {/if} class="showRecordsFromCache" data-module="{$MODULE}">
-								&nbsp;{vtranslate($MODULE, $MODULE)}&nbsp;
-								<span class="badge countRecords{$MODULE}">{$COUNT_RECORDS}</span>
-							</label>
-						</div>
-						<div class="col-xs-4">
-							<button class="btn btn-xs btn-danger deleteClipBoard pull-right" data-module="{$MODULE}"><span class="fa fa-trash"></span></button>
+					{foreach from=$ALLOWED_MODULES item=ALLOWED_MODULE_NAME}
+						<div class="cacheModuleContainer">
+							<div class="col-xs-8">
+								<label>
+									<input type="checkbox" class="showRecordsFromCache" data-module="{$ALLOWED_MODULE_NAME}">
+									&nbsp;{vtranslate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}&nbsp;
+									<span class="badge countRecords{$ALLOWED_MODULE_NAME}">
+										{if !empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}
+											{$CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME]}
+										{/if}
+									</span>
+								</label>
+							</div>
+							<div class="col-xs-4">
+								<button class="btn btn-xs btn-success addAllRecords pull-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
+								<button class="btn btn-xs btn-danger deleteClipBoard pull-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fa fa-trash"></span></button>
+							</div>
 						</div>
 					{/foreach}
 					<div class="col-xs-12">

@@ -88,7 +88,7 @@ class SyncServer
 		$db = PearDatabase::getInstance();
 		$params = array();
 		$params[] = $syncServerId;
-		$params[] = \includes\utils\Json::encode($recordDetails);
+		$params[] = \App\Json::encode($recordDetails);
 		$params[] = $flag;
 		$params[] = $appid;
 		$db->pquery("INSERT INTO vtiger_wsapp_queuerecords(syncserverid,details,flag,appid) VALUES(?,?,?,?)", array($params));

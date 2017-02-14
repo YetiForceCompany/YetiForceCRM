@@ -22,10 +22,8 @@ class Settings_HideBlocks_Save_Action extends Settings_Vtiger_Index_Action
 		$qualifiedModuleName = $request->getModule(false);
 		if ($recordId) {
 			$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
-			$recordModel->set('mode', 'edit');
 		} else {
 			$recordModel = Settings_HideBlocks_Record_Model::getCleanInstance($qualifiedModuleName);
-			$recordModel->set('mode', '');
 		}
 		$recordModel->set('blockid', $blockId);
 		$recordModel->set('enabled', $enabled);

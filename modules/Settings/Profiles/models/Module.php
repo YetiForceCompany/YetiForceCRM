@@ -33,7 +33,7 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
@@ -42,7 +42,7 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for create view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getCreateRecordUrl()
 	{
@@ -55,6 +55,6 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getNonVisibleModulesList()
 	{
-		return ['ModTracker', 'Users', 'WSAPP', 'Import', 'CustomerPortal', 'Home', 'OSSMailScanner'];
+		return ['ModTracker', 'Users', 'WSAPP', 'Import', 'Home', 'OSSMailScanner'];
 	}
 }

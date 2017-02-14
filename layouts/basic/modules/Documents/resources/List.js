@@ -96,7 +96,7 @@ Vtiger_List_Js("Documents_List_Js", {
 			listViewFilterBlock.on('mouseup', 'li span.deleteFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
-						var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 				if (liElement.hasClass('folderOption')) {
 					if (liElement.find('.deleteFilter').hasClass('dull')) {

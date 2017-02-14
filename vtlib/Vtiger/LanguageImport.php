@@ -100,16 +100,7 @@ class LanguageImport extends LanguageExport
 						if (file_exists("$targetdir/calendar-en.js")) {
 							$dounzip = true;
 						}
-					}
-					// Case handling for phpmailer
-					else if (stripos($targetdir, 'modules/Emails/language') === 0 && stripos($targetfile, "phpmailer.lang-$prefix.php") === 0) {
-
-						if (file_exists("$targetdir/phpmailer.lang-en_us.php")) {
-							$dounzip = true;
-						}
-					}
-					// Handle javascript language file
-					else if (preg_match("/$prefix.lang.js/", $targetfile)) {
+					} else if (preg_match("/$prefix.lang.js/", $targetfile)) {// Handle javascript language file
 						$corelangfile = "$targetdir/en_us.lang.js";
 						if (file_exists($corelangfile)) {
 							$dounzip = true;

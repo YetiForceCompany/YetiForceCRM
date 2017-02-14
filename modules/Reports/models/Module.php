@@ -117,7 +117,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for add folder from list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getAddFolderUrl()
 	{

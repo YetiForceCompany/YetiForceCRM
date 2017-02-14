@@ -27,9 +27,6 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 
 		$sourceRecord = $request->get('src_record');
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
-
 		$sourceRole = Settings_Roles_Record_Model::getInstanceById($sourceRecord);
 		$rootRole = Settings_Roles_Record_Model::getBaseRole();
 		$allRoles = Settings_Roles_Record_Model::getAll();
@@ -40,7 +37,6 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
 
 		$viewer->view('Popup.tpl', $qualifiedModuleName);
 	}

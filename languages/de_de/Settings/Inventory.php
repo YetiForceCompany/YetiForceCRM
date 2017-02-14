@@ -1,9 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_CREDITLIMITS' => 'Kreditlimit Grundlage',
+	'LBL_CREDITLIMITS' => 'Merchant limits',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
-	'LBL_CREDITLIMITS_SINGLE' => 'Kreditlimit',
+	'LBL_CREDITLIMITS_SINGLE' => 'Merchant limit',
+	'LBL_CREDITLIMITS_INFO' => 'In the YetiForce system we got the ability to manage merchant limits for Accounts. This functionality is used to limit the Account\'s excessive debt in permanent cooperation. Merchant limits are mainly granted to these Accounts who cooperate with us for a longer period of time and we want to extend their payment deadline, which means that the Account won\'t be able to place a new order unless his previous balance has been regulated [current balance and issued document exceed granted limit].',
 	'LBL_ENTER_NAME' => 'Name eingeben',
 	'LBL_ENTER_VALUE' => 'Betrag eingeben',
 	'LBL_NAME' => 'Name',
@@ -36,7 +37,7 @@ $languageStrings = [
 	'LBL_NO' => 'Nein',
 	//history
 	'Inventory' => 'Erweiterte Module',
-	'LBL_VIEW_CREDITLIMITS' => 'Kreditlimit Grundlage',
+	'LBL_VIEW_CREDITLIMITS' => 'Merchant limits base',
 	'LBL_VIEW_TAXES' => 'Basissteuer',
 	'LBL_VIEW_TAXCONFIGURATION' => 'Steuerkonfiguration',
 	'LBL_VIEW_DISCOUNTCONFIGURATION' => 'Rabattkonfiguration',

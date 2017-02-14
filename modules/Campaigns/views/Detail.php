@@ -49,7 +49,6 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			"modules.Emails.resources.MassEdit",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

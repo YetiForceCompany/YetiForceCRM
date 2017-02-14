@@ -12,29 +12,27 @@
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
 
-	public function getPassDetail($type = false)
+	public static function getPassDetail($type = false)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_password';
-		$p = [];
+		$query = (new \App\Db\Query())->from('vtiger_password');
 		if ($type) {
-			$sql .= " WHERE type = ?";
-			$p = [$type];
+			$query->where(['type' => $type]);
 		}
-		$result = $db->pquery($sql, $p, true);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$resp[$db->query_result($result, $i, 'type')] = $db->query_result($result, $i, 'val');
+		$dataReader = $query->createCommand()->query();
+		while($row = $dataReader->read()) {
+			$resp[$row['type']] = $row['val'];
 		}
 		return $resp;
 	}
 
-	public function setPassDetail($type, $vale)
+	public static function setPassDetail($type, $vale)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_password SET `val` = ? WHERE `type` = ?", [$vale, $type]);
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_password', ['val' => $vale], ['type' => $type])
+			->execute();
 	}
 
-	public function validation($type, $vale)
+	public static function validation($type, $vale)
 	{
 		if ($type == 'min_length' || $type == 'max_length') {
 			return is_numeric($vale);
@@ -48,7 +46,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function checkPassword($pass)
+	public static function checkPassword($pass)
 	{
 		$conf = self::getPassDetail();
 		$moduleName = 'Settings:Password';

@@ -20,7 +20,7 @@ class OSSPasswords_List_View extends Vtiger_List_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'libraries.jquery.ZeroClipboard.ZeroClipboard',
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.OSSPasswords.resources.showRelatedModulePass',
 		);
 

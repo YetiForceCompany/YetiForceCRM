@@ -47,6 +47,11 @@ class Competition extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['subject', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -83,7 +88,7 @@ class Competition extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Competition');
-			\includes\fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Competition']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -92,92 +97,16 @@ class Competition extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Competition'));
 			}
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModTracker');
-			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = vtlib\Functions::getModuleId('Competition');
-				$moduleModTrackerInstance = new ModTracker();
-				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
-					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
-					$moduleModTrackerInstance->updateCache($tabid, 1);
-				} else {
-					$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
-					$moduleModTrackerInstance->updateCache($tabid, 1);
-				}
-				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-					$moduleInstance = vtlib\Module::getInstance($tabid);
-					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
-				}
-			}
-
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId('Competition'));
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
-	}
-
-	/** Returns a list of the associated Campaigns
-	 * @param $id -- campaign id :: Type Integer
-	 * @returns list of campaigns in array format
-	 */
-	public function get_campaigns($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		
-		$current_user = vglobal('current_user');
-		$singlepane_view = vglobal('singlepane_view');
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering get_campaigns(" . $id . ") method ...");
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		require_once("modules/$related_module/$related_module.php");
-		$other = new $related_module();
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-
-		if ($singlepane_view == 'true')
-			$returnset = '&return_module=' . $this_module . '&return_action=DetailView&return_id=' . $id;
-		else
-			$returnset = '&return_module=' . $this_module . '&return_action=CallRelatedList&return_id=' . $id;
-
-		$button = '';
-
-		$button .= '<input type="hidden" name="email_directing_module"><input type="hidden" name="record">';
-
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
-			}
-		}
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name ,
-				vtiger_campaign.campaignid, vtiger_campaign.campaignname, vtiger_campaign.campaigntype, vtiger_campaign.campaignstatus,
-				vtiger_campaign.expectedrevenue, vtiger_campaign.closingdate, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-				vtiger_crmentity.modifiedtime from vtiger_campaign
-				inner join vtiger_campaign_records on vtiger_campaign_records.campaignid=vtiger_campaign.campaignid
-				inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_campaign.campaignid
-				inner join vtiger_campaignscf ON vtiger_campaignscf.campaignid = vtiger_campaign.campaignid
-				left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-				left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-				where vtiger_campaign_records.crmid=" . $id . " and vtiger_crmentity.deleted=0";
-
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-
-		\App\Log::trace("Exiting get_campaigns method ...");
-		return $return_value;
 	}
 
 	/**
@@ -189,7 +118,7 @@ class Competition extends Vtiger_CRMEntity
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
@@ -236,31 +165,29 @@ class Competition extends Vtiger_CRMEntity
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		
+
 		if (empty($returnModule) || empty($returnId))
 			return;
-		if ($returnModule == 'Campaigns') {
-			$this->db->delete('vtiger_campaign_records', 'crmid=? && campaignid=?', [$id, $returnId]);
+		if ($returnModule === 'Campaigns') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
-	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
-		$adb = PearDatabase::getInstance();
-
-		if (!is_array($with_crmids))
-			$with_crmids = [$with_crmids];
-		foreach ($with_crmids as $with_crmid) {
-			if ($with_module == 'Campaigns') {
-				$adb->insert('vtiger_campaign_records', [
-					'campaignid' => $with_crmid,
+		if (!is_array($withCrmids))
+			$withCrmids = [$withCrmids];
+		foreach ($withCrmids as $withCrmid) {
+			if ($withModule === 'Campaigns') {
+				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0
-				]);
+				])->execute();
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
+				parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
 			}
 		}
 	}

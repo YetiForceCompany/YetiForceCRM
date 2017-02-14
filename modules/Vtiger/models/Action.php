@@ -14,12 +14,12 @@
 class Vtiger_Action_Model extends Vtiger_Base_Model
 {
 
-	static $standardActions = array('0' => 'Save', '1' => 'EditView', '2' => 'Delete', '3' => 'index', '4' => 'DetailView', '7' => 'CreateView');
-	static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
+	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');
+	public static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
 		'DetailViewAjax', 'PriceBookEditView', 'QuickCreate', 'VendorEditView',
 		'DeletePriceBook', 'DeleteVendor', 'Popup', 'PriceBookDetailView',
 		'VendorDetailView', 'Merge');
-	static $utilityActions = array('5' => 'Import', '6' => 'Export', '8' => 'Merge', '9' => 'ConvertLead', '10' => 'DuplicatesHandling');
+	public static $utilityActions = array(5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling');
 
 	public function getId()
 	{
@@ -75,15 +75,12 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		}
 		if (self::$cachedInstances) {
 			$actionid = vtlib\Utils::isNumber($value) ? $value : false;
+			if ($actionid === false && isset(self::$cachedInstances[$value])) {
+				return self::$cachedInstances[$value];
+			}
 			foreach (self::$cachedInstances as $instance) {
-				if ($actionid !== false) {
-					if ($instance->get('actionid') == $actionid) {
-						return $instance;
-					}
-				} else {
-					if ($instance->get('actionname') == $value) {
-						return $instance;
-					}
+				if ($instance->get('actionid') == $actionid) {
+					return $instance;
 				}
 			}
 		}
@@ -109,22 +106,22 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 
 	public static function getAll($configurable = false)
 	{
-		$actionModels = Vtiger_Cache::get('vtiger', 'actions');
-		if (!$actionModels) {
-			$db = PearDatabase::getInstance();
-
-			$sql = 'SELECT * FROM vtiger_actionmapping';
-			$params = [];
-			if ($configurable) {
-				$sql .= sprintf(' WHERE actionname NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
-				array_push($params, self::$nonConfigurableActions);
+		if (\App\Cache::has('Actions', 'all')) {
+			$rows = \App\Cache::get('Actions', 'all');
+		} else {
+			$rows = (new \App\Db\Query())->from('vtiger_actionmapping')->all();
+			\App\Cache::save('Actions', 'all', $rows);
+		}
+		if ($configurable) {
+			foreach ($rows as $key => &$row) {
+				if (in_array($row['actionname'], self::$nonConfigurableActions)) {
+					unset($rows[$key]);
+				}
 			}
-			$result = $db->pquery($sql, $params);
-			$actionModels = [];
-			while ($row = $db->getRow($result)) {
-				$actionModels[] = self::getInstanceFromRow($row);
-			}
-			Vtiger_Cache::set('vtiger', 'actions', $actionModels);
+		}
+		$actionModels = [];
+		foreach ($rows as &$row) {
+			$actionModels[$row['actionname']] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;
 	}
@@ -137,7 +134,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' && actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);
@@ -156,7 +153,7 @@ class Vtiger_Action_Model extends Vtiger_Base_Model
 		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
 		$params = $basicActionIds;
 		if ($configurable) {
-			$sql .= ' && actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
+			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
 			$params = array_merge($params, self::$nonConfigurableActions);
 		}
 		$result = $db->pquery($sql, $params);

@@ -32,12 +32,8 @@
 						{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 						selected="selected"
 					{/if}
-					{if ($MODULE_MODEL->get('name') eq 'Events') and ($FIELD_NAME eq 'recurringtype')}
-						{assign var=PICKLIST_VALUES value = Calendar_Field_Model::getReccurencePicklistValues()}
-						{$FIELD_INFO['picklistvalues'] = $PICKLIST_VALUES}
-					{/if}
-					data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_INFO))}' 
-                    {if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
+					data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
+                    {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 					{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
 						({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 					{else}
@@ -66,7 +62,6 @@
 		<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 	</div>
 	<span class="hide">
-		<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
 		{if empty($CONDITION)}
 			{assign var=CONDITION value="and"}
 		{/if}

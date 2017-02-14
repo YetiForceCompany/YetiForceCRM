@@ -12,7 +12,6 @@
 function vtws_relatedtypes($elementType, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
 
 	$allowedTypes = vtws_listtypes(null, $user);
 
@@ -27,7 +26,7 @@ function vtws_relatedtypes($elementType, $user)
 
 	$sql = "SELECT vtiger_relatedlists.label, vtiger_tab.name, vtiger_tab.isentitytype FROM vtiger_relatedlists 
             INNER JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid 
-            WHERE vtiger_relatedlists.tabid=? && vtiger_tab.presence = 0";
+            WHERE vtiger_relatedlists.tabid=? AND vtiger_tab.presence = 0";
 
 	$params = array($tabid);
 	$rs = $adb->pquery($sql, $params);

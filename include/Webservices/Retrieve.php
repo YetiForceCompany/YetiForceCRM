@@ -12,7 +12,7 @@ function vtws_retrieve($id, $user)
 {
 
 	$adb = PearDatabase::getInstance();
-	
+
 
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
@@ -35,7 +35,7 @@ function vtws_retrieve($id, $user)
 		throw new WebServiceException(WebServiceErrorCode::$INVALIDID, "Id specified is incorrect");
 	}
 
-	if (!$meta->hasPermission(EntityMeta::$RETRIEVE, $id)) {
+	if (\App\PrivilegeAdvanced::$webservice && !$meta->hasPermission(EntityMeta::$RETRIEVE, $id)) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to read given object is denied");
 	}
 

@@ -30,7 +30,7 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to display rss sidebar widget
-	 * @param <Vtiger_Request> $request 
+	 * @param Vtiger_Request $request 
 	 */
 	public function getRssWidget(Vtiger_Request $request)
 	{
@@ -47,7 +47,7 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to get the rss add form 
-	 * @param <Vtiger_Request> $request
+	 * @param Vtiger_Request $request
 	 */
 	public function getRssAddForm(Vtiger_Request $request)
 	{

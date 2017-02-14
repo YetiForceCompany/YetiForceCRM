@@ -29,8 +29,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 	public function ExportToExcel(Vtiger_Request $request)
 	{
 		vimport('libraries.PHPExcel.PHPExcel');
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$module = $request->getModule(false); //this is the type of things in the current view
 		$filter = $request->get('viewname'); //this is the cvid of the current custom filter
 		$recordIds = $this->getRecordsListFromRequest($request); //this handles the 'all' situation.
@@ -44,17 +42,13 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$row = 1;
 		$col = 0;
 
-		$generator = new QueryGenerator($module, $currentUser);
-		$generator->initForCustomViewById($filter);
+		$queryGenerator = new \App\QueryGenerator($module);
+		$queryGenerator->initForCustomViewById($filter);
+		$headers = $queryGenerator->getListViewFields();
 		$customView = CustomView_Record_Model::getInstanceById($filter);
-
-		$listviewController = new ListViewController($db, $currentUser, $generator);
-		$headers = $listviewController->getListViewHeaderFields();
 		//get the column headers, they go in row 0 of the spreadsheet
-		foreach ($headers as $column => $webserviceField) {
-			$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
-			$fields[] = $fieldObj;
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(vtranslate($fieldObj->label, $module)), PHPExcel_Cell_DataType::TYPE_STRING);
+		foreach ($headers as &$fieldsModel) {
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(App\Language::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;
@@ -65,27 +59,29 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $id) {
 			$col = 0;
 			$record = Vtiger_Record_Model::getInstanceById($id, $module);
-			foreach ($fields as $field) {
+			foreach ($headers as &$fieldsModel) {
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
 				//phone numbers need to be explicit strings
-				$value = $record->getDisplayValue($field->name);
-				$uitype = $field->uitype;
-				switch ($uitype) {
-					case 4://numbers
+				$value = $record->getDisplayValue($fieldsModel->getFieldName());
+				switch ($fieldsModel->getUIType()) {
 					case 25:
 					case 7:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						if ($fieldsModel->getFieldName() === 'sum_time') {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_STRING);
+						} else {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						}
 						break;
 					case 71:
 					case 72:
-						$rawValue = $record->get($field->name);
+						$rawValue = $record->get($fieldsModel->getFieldName());
 						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($rawValue), PHPExcel_Cell_DataType::TYPE_NUMERIC);
 						break;
 					case 6://datetimes
 					case 23:
 					case 70:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($value)), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
 						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
 						break;
 					default:
@@ -99,7 +95,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		//having written out all the data lets have a go at getting the columns to auto-size
 		$col = 0;
 		$row = 1;
-		foreach ($headers as $column => $webserviceField) {
+		foreach ($headers as &$fieldsModel) {
 			$cell = $worksheet->getCellByColumnAndRow($col, $row);
 			$worksheet->getStyleByColumnAndRow($col, $row)->applyFromArray($header_styles);
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);

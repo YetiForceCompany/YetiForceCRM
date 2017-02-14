@@ -46,7 +46,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function getModuleCustomNumberingData(Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
-		$moduleData = \includes\fields\RecordNumber::getNumber($sourceModule);
+		$moduleData = \App\Fields\RecordNumber::getNumber($sourceModule);
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
@@ -61,20 +61,16 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function saveModuleCustomNumberingData(Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$sourceModule = $request->get('sourceModule');
-
-		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($sourceModule);
+		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->get('sourceModule'));
 		$moduleModel->set('prefix', $request->get('prefix'));
 		$moduleModel->set('sequenceNumber', $request->get('sequenceNumber'));
 		$moduleModel->set('postfix', $request->get('postfix'));
-
 		$result = $moduleModel->setModuleSequence();
-
 		$response = new Vtiger_Response();
 		if ($result['success']) {
-			$response->setResult(vtranslate('LBL_SUCCESSFULLY_UPDATED', $qualifiedModuleName));
+			$response->setResult(App\Language::translate('LBL_SUCCESSFULLY_UPDATED', $qualifiedModuleName));
 		} else {
-			$message = vtranslate('LBL_PREFIX_IN_USE', $qualifiedModuleName);
+			$message = App\Language::translate('LBL_PREFIX_IN_USE', $qualifiedModuleName);
 			$response->setError($message);
 		}
 		$response->emit();

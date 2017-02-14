@@ -44,7 +44,7 @@
 						$('<span title="Prepared statement ID" />').addClass(csscls('stmt-id')).text(stmt.stmt_id).appendTo(li);
 					}
 					if (stmt.connection) {
-						$('<span title="Connection" />').addClass(csscls('database')).text(stmt.connection).appendTo(li);
+						$('<span title="Connect type: '+stmt.connectType+' | Database name: '+stmt.dbName+' | Driver name: '+stmt.driverName+'" />').addClass(csscls('database')).text(stmt.connection).appendTo(li);
 						li.attr("connection", stmt.connection);
 						if ($.inArray(stmt.connection, filters) == -1) {
 							filters.push(stmt.connection);
@@ -67,27 +67,34 @@
 						li.append($('<span />').addClass(csscls('error')).text("[" + stmt.error_code + "] " + stmt.error_message));
 					}
 					var moreInfo = false;
+					var tableP = $('<table><tr><th colspan="2">Params</th></tr></table>');
+					var tableB = $('<table><tr><th>BackTrace</th></tr></table>');
 					if (stmt.params && !$.isEmptyObject(stmt.params)) {
-						var table = $('<table><tr><th colspan="2">Params</th></tr></table>').addClass(csscls('params')).appendTo(li);
+						tableP.addClass(csscls('params')).appendTo(li);
 						for (var key in stmt.params) {
 							if (typeof stmt.params[key] !== 'function') {
-								table.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') +
+								tableP.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') +
 										'">' + stmt.params[key] + '</td></tr>');
 							}
 						}
 						moreInfo = true;
 					}
 					if (stmt.backtrace && !$.isEmptyObject(stmt.backtrace)) {
-						var table = $('<table><tr><th>BackTrace</th></tr></table>').addClass(csscls('params')).appendTo(li);
-						table.append('<tr><td class="' + csscls('name') + '">' + stmt.backtrace + '</td></tr>');
+						tableB.addClass(csscls('params')).appendTo(li);
+						tableB.append('<tr><td class="' + csscls('name') + '">' + stmt.backtrace + '</td></tr>');
 						moreInfo = true;
 					}
 					if (moreInfo) {
 						li.css('cursor', 'pointer').click(function () {
-							if (table.is(':visible')) {
-								table.hide();
+							if (tableP.is(':visible')) {
+								tableP.hide();
 							} else {
-								table.show();
+								tableP.show();
+							}
+							if (tableB.is(':visible')) {
+								tableB.hide();
+							} else {
+								tableB.show();
 							}
 						});
 					}
@@ -97,7 +104,9 @@
 			this.bindAttr('data', function (data) {
 				this.$list.set('data', data.statements);
 				this.$status.empty();
-
+				if(data.length === 0){
+					return;
+				}
 				// Search for duplicate statements.
 				for (var sql = {}, duplicate = 0, i = 0; i < data.statements.length; i++) {
 					var stmt = data.statements[i].sql;

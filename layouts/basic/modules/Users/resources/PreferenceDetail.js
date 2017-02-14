@@ -14,6 +14,6 @@ Users_Detail_Js("Users_PreferenceDetail_Js",{},{
 	 */
 	registerEvents : function(){
 		this._super();
-		Users_Edit_Js.registerChangeEventForCurrencySeperator();
+		Users_Edit_Js.registerChangeEventForCurrencySeparator();
 	}
 });

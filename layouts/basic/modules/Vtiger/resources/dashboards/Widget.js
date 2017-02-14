@@ -725,6 +725,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				labels: data['data_labels']
 			}
 		});
+		this.registerSectionClick();
 	}
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
@@ -879,66 +880,6 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 			instance.loadChart();
 			instance.postInitializeCalls();
 		}
-	}
-});
-Vtiger_Widget_Js('Vtiger_Tagcloud_Widget_Js', {}, {
-	postLoadWidget: function () {
-		this._super();
-		this.registerTagCloud();
-		this.registerTagClickEvent();
-	},
-	registerTagCloud: function () {
-		jQuery('#tagCloud').find('a').tagcloud({
-			size: {
-				start: parseInt('12'),
-				end: parseInt('30'),
-				unit: 'px'
-			},
-			color: {
-				start: "#0266c9",
-				end: "#759dc4"
-			}
-		});
-	},
-	registerChangeEventForModulesList: function () {
-		jQuery('#tagSearchModulesList').on('change', function (e) {
-			var modulesSelectElement = jQuery(e.currentTarget);
-			if (modulesSelectElement.val() == 'all') {
-				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
-			} else {
-				jQuery('[name="tagSearchModuleResults"]').removeClass('hide');
-				var selectedOptionValue = modulesSelectElement.val();
-				jQuery('[name="tagSearchModuleResults"]').filter(':not(#' + selectedOptionValue + ')').addClass('hide');
-			}
-		});
-	},
-	registerTagClickEvent: function () {
-		var thisInstance = this;
-		var container = this.getContainer();
-		container.on('click', '.tagName', function (e) {
-			var tagElement = jQuery(e.currentTarget);
-			var tagId = tagElement.data('tagid');
-			var params = {
-				'module': app.getModuleName(),
-				'view': 'TagCloudSearchAjax',
-				'tag_id': tagId,
-				'tag_name': tagElement.text()
-			}
-			AppConnector.request(params).then(
-					function (data) {
-						var params = {
-							'data': data,
-							'css': {'min-width': '40%'}
-						}
-						app.showModalWindow(params);
-						thisInstance.registerChangeEventForModulesList();
-					}
-			)
-		});
-	},
-	postRefreshWidget: function () {
-		this._super();
-		this.registerTagCloud();
 	}
 });
 
@@ -1131,6 +1072,42 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		});
 	}
 });
+YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js',{},{
+		loadChart: function () {
+		var thisInstance = this;
+		var chartData = thisInstance.generateData();
+		var options = {
+			xaxis: {
+				minTickSize: 1,
+				ticks: chartData['ticks']
+			},
+			yaxis: {
+				min: 0,
+				tickDecimals: 0
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+			series: {
+				bars: {
+					show: true,
+					barWidth: .9,
+					dataLabels: false,
+					align: "center",
+					lineWidth: 0
+				},
+				valueLabels: chartData['valueLabels'],
+				stack: true
+			},
+			legend: {
+				show: true,
+				sorted: 'reverse'
+			},
+		};
+		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+	},
+});
 Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 	calendarView: false,
 	calendarCreateView: false,
@@ -1296,7 +1273,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				url += '&search_params=[[';
 				var owner = container.find('.widgetFilter.owner option:selected');
 				if (owner.val() != 'all') {
-					url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+					url += '["assigned_user_id","e","' + owner.val() + '"],';
 				}
 				if (parent.find('.widgetFilterSwitch').length > 0) {
 					var status = parent.find('.widgetFilterSwitch').data();
@@ -1393,7 +1370,7 @@ Vtiger_Widget_Js('YetiForce_Calendaractivities_Widget_Js', {}, {
 			url += '&search_params=[[';
 			var owner = container.find('.widgetFilter.owner option:selected');
 			if (owner.val() != 'all') {
-				url += '["assigned_user_id","c","' + owner.data('name') + '"],';
+				url += '["assigned_user_id","c","' + owner.val() + '"],';
 			}
 			url += '["activitystatus","e","' + status + '"]]]';
 			window.location.href = url;
@@ -1571,6 +1548,72 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	}
 });
 Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
+Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
+	generateChartData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		var xLabels = new Array();
+		var yMaxValue = 0;
+		var color = [];
+		for (var index in data) {
+			var row = data[index];
+			row[0] = parseInt(row[0]);
+			xLabels.push(app.getDecodedValue(row[1]))
+			chartData.push([app.getDecodedValue(row[1]), row[0]]);
+			if (parseInt(row[0]) > yMaxValue) {
+				yMaxValue = parseInt(row[0]);
+			}
+			color.push(row[3]);
+		}
+		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
+		return {'chartData': [chartData], 'yMaxValue': yMaxValue, 'labels': xLabels, 'colors': color};
+	},
+	loadChart: function () {
+		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				animate: !$.jqplot.use_excanvas,
+				seriesColors: data['colors'],
+				seriesDefaults: {
+					renderer: jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						showDataLabels: true,
+						dataLabels: 'value',
+						barDirection: 'vertical',
+						 varyBarColor: true
+					},
+					pointLabels: {show: true, edgeTolerance: -15}
+				},
+				axes: {
+					xaxis: {
+						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+						renderer: jQuery.jqplot.CategoryAxisRenderer,
+			
+						tickOptions: {
+							angle: -45,
+							labelPosition: 'auto'
+						}
+					},
+					yaxis: {
+						min: 0,
+						max: data['yMaxValue'],
+						tickOptions: {
+							formatString: '%d'
+						},
+						pad: 1.2
+					}
+				},
+				legend: {
+					show: false,
+				}
+			});
+			this.registerSectionClick();
+		}
+	},
+});
 YetiForce_Bar_Widget_Js('YetiForce_Accountsbyindustry_Widget_Js', {}, {
 	registerSectionClick: function () {
 		var thisInstance = this;
@@ -1623,3 +1666,5 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 		}
 	}
 });
+Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
+Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});

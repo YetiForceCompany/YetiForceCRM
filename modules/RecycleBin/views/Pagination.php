@@ -101,8 +101,4 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
-	{
-		return Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
-	}
 }

@@ -72,4 +72,12 @@ $languageStrings = [
 	'LBL_PHPINI' => 'PHP configuraton',
 	'LBL_LOG_FILE' => 'Logs',
 	'LBL_CRM_DIR' => 'CRM Local directory',
+	'LBL_SOAP_LIBRARY' => 'SOAP',
+	'LBL_PHP_SAPI' => 'Server API',
+	'LBL_APCU_LIBRARY' => 'APCu',
+	'LBL_OPCACHE_LIBRARY' => 'OPcache',
+	'LBL_CRON_PHP' => 'Cron - PHP version',
+ 	'LBL_CRON_PHPINI' => 'Cron - PHP configuration',
+ 	'LBL_CRON_LOG_FILE' => 'Cron - Error logs',
+ 	'LBL_CRON_PHP_SAPI' => 'Cron - API server',
 ];

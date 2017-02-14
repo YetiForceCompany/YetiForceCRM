@@ -36,7 +36,6 @@ if (typeof (ImportJs) == 'undefined') {
 			var hasHeaderContainer = jQuery('#has_header_container');
 			var xmlTpl = jQuery('#xml_tpl');
 			var extension = jQuery('#zipExtension');
-			var autoMerge = jQuery('#auto_merge');
 
 			switch(fileType) {
 				case 'xml':
@@ -44,26 +43,17 @@ if (typeof (ImportJs) == 'undefined') {
 					hasHeaderContainer.hide();
 					xmlTpl.removeClass('hide');
 					extension.addClass('hide');
-					if(autoMerge.prop('checked')){
-						autoMerge.trigger('click');
-					}
-					autoMerge.prop('disabled', true);
 					break;
 				case 'zip':
 					delimiterContainer.hide();
 					hasHeaderContainer.hide();
 					extension.removeClass('hide');
-					if(autoMerge.prop('checked')){
-						autoMerge.trigger('click');
-					}
-					autoMerge.prop('disabled', true);
 					break;
 				default:
 					delimiterContainer.show();
 					hasHeaderContainer.show();
 					extension.addClass('hide');
 					xmlTpl.addClass('hide');
-					autoMerge.prop('disabled', false);
 			}
 		},
 		uploadAndParse: function () {

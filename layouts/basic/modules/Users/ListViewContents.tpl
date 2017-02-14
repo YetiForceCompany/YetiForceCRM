@@ -39,8 +39,8 @@
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
-			<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
@@ -54,7 +54,7 @@
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
-							<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+							<a href="javascript:void(0);" class="listViewHeaderValues" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
 								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
@@ -77,15 +77,7 @@
 				</tr>
 			{/if}
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
-				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-					{if $LISTVIEW_ENTRY->colorList neq ''}
-					<style>
-						#{$MODULE}_listView_row_{$smarty.foreach.listview.index+1} > td {
-							background-color: {$LISTVIEW_ENTRY->colorList.background};
-							color: {$LISTVIEW_ENTRY->colorList.text};
-						}
-					</style>
-				{/if}
+				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
 				<td  width="2%" class="{$WIDTHTYPE}">
 					<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
 					{if $LISTVIEW_ENTRY->isEditable()}
@@ -93,11 +85,11 @@
 					{/if}
 				</td>
 				<td width="5%" class="{$WIDTHTYPE}">
-					<div class='row'>
+					<div class="row">
 						{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
 						{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-								<div class='col-md-6'>
+								<div class="col-md-6">
 									<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
 								</div>
 							{/if}
@@ -111,7 +103,9 @@
 				</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-					<td class="{$WIDTHTYPE}" nowrap> {vtranslate($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), $MODULE)} {if !$LISTVIEW_HEADER@last}</td>{/if}
+					<td class="{$WIDTHTYPE}" nowrap>
+						{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+					</td>
 				{/foreach}
 				<td width="5%">
 					{if $LISTVIEW_HEADER@last}

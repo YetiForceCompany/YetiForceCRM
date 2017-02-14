@@ -49,10 +49,12 @@
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 				<td class="listViewEntryValue {$WIDTHTYPE}">
-					{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
-						<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+					{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4')}
+						<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+							{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+						</a>
 					{else}
-						<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+						{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 					{/if}
 				</td>
 				{/foreach}
@@ -61,8 +63,8 @@
 				</td>
 				<td class="listViewEntryValue {$WIDTHTYPE}">
 					<div class="row">
-						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin" data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
-							   data-decimal-seperator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-seperator='{$USER_MODEL->get('currency_grouping_separator')}'/>
+						<input type="text" value="{$LISTVIEW_ENTRY->get('unit_price')}" name="listPrice" class="invisible col-md-10 zeroPaddingAndMargin" data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
+							   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}'/>
 					</div>
 				</td>
 			</tr>

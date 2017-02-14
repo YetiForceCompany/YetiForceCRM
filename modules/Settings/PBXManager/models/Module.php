@@ -72,7 +72,7 @@ class Settings_PBXManager_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDefaultUrl()
 	{
@@ -87,7 +87,7 @@ class Settings_PBXManager_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for Edit view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getEditViewUrl()
 	{

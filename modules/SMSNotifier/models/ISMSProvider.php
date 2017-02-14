@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 
-vimport('~vtlib/Vtiger/Net/Client.php');
-
 interface SMSNotifier_ISMSProvider_Model
 {
 
@@ -30,27 +28,27 @@ interface SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to get service URL to use for a given type
-	 * @param <String> $type like SEND, PING, QUERY
+	 * @param string $type like SEND, PING, QUERY
 	 */
 	public function getServiceURL($type = false);
 
 	/**
 	 * Function to set authentication parameters
-	 * @param <String> $userName
-	 * @param <String> $password
+	 * @param string $userName
+	 * @param string $password
 	 */
 	public function setAuthParameters($userName, $password);
 
 	/**
 	 * Function to set non-auth parameter.
-	 * @param <String> $key
-	 * @param <String> $value
+	 * @param string $key
+	 * @param string $value
 	 */
 	public function setParameter($key, $value);
 
 	/**
 	 * Function to handle SMS Send operation
-	 * @param <String> $message
+	 * @param string $message
 	 * @param <Mixed> $toNumbers One or Array of numbers
 	 */
 	public function send($message, $toNumbers);

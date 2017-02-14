@@ -40,7 +40,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 
 	/**
 	 * Function to get related Records count from this relation
-	 * @param <Vtiger_Request> $request
+	 * @param Vtiger_Request $request
 	 * @return <Number> Number of record from this relation
 	 */
 	public function getRecordsCount(Vtiger_Request $request)
@@ -55,7 +55,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = array();
 		$result['module'] = $moduleName;
-		$result['viewname'] = $cvId;
+		$result['viewname'] = $request->get('viewname');
 		$result['count'] = $count;
 
 		$response = new Vtiger_Response();

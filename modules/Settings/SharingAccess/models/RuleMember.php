@@ -54,7 +54,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -63,7 +63,7 @@ class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Group Name
-	 * @return <String>
+	 * @return string
 	 */
 	public function getQualifiedName()
 	{

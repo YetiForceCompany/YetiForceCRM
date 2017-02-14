@@ -60,7 +60,7 @@
 								<th class="blockHeader">{vtranslate('Leads', $QUALIFIED_MODULE)}</th>
 								<th class="blockHeader">{vtranslate('Accounts', $QUALIFIED_MODULE)}</th>
 							</tr>
-							{assign var=MAPPING value=\includes\utils\Json::decode($CONVERSION.mapping)}
+							{assign var=MAPPING value=\App\Json::decode($CONVERSION.mapping)}
 							{assign var=LEAD_FIELDS value=$LEADS_MODULE_MODEL->getFields()}
 							{assign var=ACCOUNT_FIELDS value=$ACCOUNTS_MODULE_MODEL->getFields()}
 							{foreach item=MAPPING_ARRAY from=$MAPPING  name="mappingLoop"}
@@ -141,7 +141,7 @@
 					<tr>
 						<td><label>{vtranslate('LBL_GROUPS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
-							{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance('Leads')->getAccessibleGroups()}
+							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance('Leads')->getAccessibleGroups()}
 							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >
@@ -155,7 +155,7 @@
 						<td><label>{vtranslate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="status">
-								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
@@ -165,7 +165,7 @@
 						<td><label>{vtranslate('LBL_LEAD_CONVERT_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
-								{foreach  item=ITEM from=Vtiger_Util_Helper::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{vtranslate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>

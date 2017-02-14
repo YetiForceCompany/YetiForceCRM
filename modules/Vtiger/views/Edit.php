@@ -26,7 +26,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$isPermited = $recordModel->isEditable() || ($request->get('isDuplicate') == 'true' && $recordModel->isCreateable() && $recordModel->isViewable());
+			$isPermited = $recordModel->isEditable() || ($request->getBoolean('isDuplicate') === true && $recordModel->isCreateable() && $recordModel->isViewable());
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$isPermited = $recordModel->isCreateable();
@@ -54,7 +54,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		if (!empty($record) && $request->get('isDuplicate') == 'true') {
+		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
 			$viewer->assign('MODE', '');
 			$viewer->assign('RECORD_ID', '');
 			$recordModel = $this->getDuplicate($record, $moduleName);
@@ -104,7 +104,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($startDate);
 			}
 			if ($fieldModel->isEditable() || $specialField) {
-				$recordModel->set($fieldName, $fieldModel->getDBInsertValue($fieldValue));
+				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
@@ -132,8 +132,8 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);
@@ -158,7 +158,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		foreach ($mandatoryFieldModels as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$fieldName = $fieldModel->get('name');
-				if (Vtiger_Util_Helper::checkRecordExistance($recordModel->get($fieldName))) {
+				if (!\App\Record::isExists($recordModel->get($fieldName))) {
 					$recordModel->set($fieldName, '');
 				}
 			}

@@ -120,6 +120,7 @@ $languageStrings = [
 	'LBL_NEXT' => 'Dalej',
 	'LBL_PARAMS_MODULES' => 'Moduły',
 	'LBL_PARAMS_LIMIT' => 'Limit kredytowy <br>- Blokada zapisu',
+	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Wymagane pola',
 	'LBL_DISPLAY_TYPE' => 'Typ pola',
 	'LBL_DISPLAYTYPE_ALL' => 'Widoczne wszędzie',
 	'LBL_DISPLAYTYPE_READONLY' => 'Tylko do odczytu',

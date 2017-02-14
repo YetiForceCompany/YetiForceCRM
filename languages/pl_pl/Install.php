@@ -29,7 +29,8 @@ $languageStrings = [
 	'LBL_DISAGREE' => 'Nie zgadzam się',
 	'LBL_EMAIL' => 'Mail',
 	'LBL_GD_LIBRARY' => 'Wsparcie dla biblioteki GD',
-	'LBL_HOST_NAME' => 'Adres serwera',
+	'LBL_HOST_NAME' => 'Adres',
+	'LBL_HOST_PORT' => 'Port',
 	'LBL_I_AGREE' => 'Zgadzam się',
 	'LBL_IMAP_SUPPORT' => 'Wsparcie dla IMAP',
 	'LBL_INSTALLATION_IN_PROGRESS' => 'Trwa proces instalacji',
@@ -72,6 +73,7 @@ $languageStrings = [
 	'LBL_INDUSTRY_OPTION' => 'Proszę wybrać odpowiednią gałąź gospodarki.',
 	'LBL_BACK' => 'Cofnij',
 	'LBL_READ_LICENSE' => 'Licencja',
+	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Wprowadź dane firmy',
 	//Migration
 	'LBL_MIGRATION' => 'Migracja',
 	'LBL_START_MIGRATION' => 'Rozpocznij migrację',

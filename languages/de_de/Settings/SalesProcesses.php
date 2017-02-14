@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Vertrieb',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => 'Einstellungen zu den Vertriebsprozessen',
-	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Auswahl der Produkte/Services auf die der zugeordneten Verkaufschance einschränken. Betrifft die folgenden Module: Kaufanfragen, Vertriebsanforderungen, Kalkulationen, Angebote, Verkaufsbestellung, Dauerauftrag.',
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Auswahl der Produkte/Services auf die der zugeordneten Verkaufschance einschränken. Betrifft die folgenden Module: Kaufanfragen, Vertriebsanforderungen, Kalkulationen, Angebote, Bestellung, Dauerbestellung.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Liste der Produkte und Dienstleistungen',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Aktualisiert die geteilten Berechtigungen von Produkten/Dienstleistungen wenn eine Beziehung zwischen Opportunity und Produkt/Dienstleistung angelegt wird.',
 	'LBL_STATUSES_CLOSED_CALCULATION' => 'Status der die Kalkulation als beendet definiert',

@@ -133,7 +133,6 @@ class mt940_ing extends mt940
 				'indicator' => substr($value, 10, 1),
 				'amount' => substr($value, 11, strpos($value, ',') - 8)
 			);
-			//echo '<pre>';print_r(substr($value, 15, 4));echo '</pre>';
 		}
 	}
 }

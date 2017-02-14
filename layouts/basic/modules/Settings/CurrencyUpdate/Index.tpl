@@ -98,14 +98,14 @@
 				</thead>
 				{foreach from=$HISTORIA item=key}
 					<tr>
-						<td>{vtranslate($key.currency_name, 'Settings:Currency')} ({$key.code})</td>
+						<td>{vtranslate($key.currency_name, 'Settings:Currency')} ({$key.currency_code})</td>
 						<td>
 							{if $USER_MODEL->get('currency_symbol_placement') eq '$1.0'}
-								{$key.symbol} 
+								{$key.currency_symbol} 
 							{/if}
-							1 
+							1
 							{if $USER_MODEL->get('currency_symbol_placement') eq '1.0$'}
-								{$key.symbol}
+								{$key.currency_symbol}
 							{/if}
 						</td>
 						<td>
@@ -117,8 +117,8 @@
 								{$MAINCURR['currency_symbol']}
 							{/if}
 						</td>
-						<td>{Vtiger_Date_UIType::getDisplayValue($key.fetch_date)}</td>
-						<td>{Vtiger_Date_UIType::getDisplayValue($key.exchange_date)}</td>
+						<td>{DateTimeField::convertToUserFormat($key.fetch_date)}</td>
+						<td>{DateTimeField::convertToUserFormat($key.exchange_date)}</td>
 					</tr>
 				{/foreach}
 			</table>

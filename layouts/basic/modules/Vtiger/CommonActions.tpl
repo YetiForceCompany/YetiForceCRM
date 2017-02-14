@@ -55,7 +55,7 @@
 	</div>
 	<div class="navbar-form navbar-left">
 		<div class="quickActions">
-			<a id="companyLogo-container" class="" href="#"><img src="{$COMPANY_LOGO->get('imagepath')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/></a>
+			<a id="companyLogo-container" class="" href="#"><img src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/></a>
 		</div>	
 	</div>	
 	<div class="select-search navbar-form navbar-left " style="width: 216px;">

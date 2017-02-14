@@ -106,34 +106,16 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		}
 		//Added to support advance filters
 		$recordStructureInstance = Settings_Workflows_RecordStructure_Model::getInstanceForWorkFlowModule($workFlowModel, Settings_Workflows_RecordStructure_Model::RECORD_STRUCTURE_MODE_FILTER);
-
-		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$recordStructure = $recordStructureInstance->getStructure();
-		if (in_array($selectedModuleName, getInventoryModules())) {
-			$itemsBlock = "LBL_ITEM_DETAILS";
-			unset($recordStructure[$itemsBlock]);
-		}
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
-
 		$viewer->assign('WORKFLOW_MODEL', $workFlowModel);
-
 		$viewer->assign('MODULE_MODEL', $selectedModule);
 		$viewer->assign('SELECTED_MODULE_NAME', $selectedModuleName);
-
-		$dateFilters = Vtiger_Field_Model::getDateFilterTypes();
-		foreach ($dateFilters as $comparatorKey => $comparatorInfo) {
-			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
-			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $qualifiedModuleName);
-			$dateFilters[$comparatorKey] = $comparatorInfo;
-		}
-		$viewer->assign('DATE_FILTERS', $dateFilters);
+		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($qualifiedModuleName));
 		$viewer->assign('ADVANCED_FILTER_OPTIONS', Settings_Workflows_Field_Model::getAdvancedFilterOptions());
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', Settings_Workflows_Field_Model::getAdvancedFilterOpsByFieldType());
 		$viewer->assign('COLUMNNAME_API', 'getWorkFlowFilterColumnName');
-
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$viewer->assign('META_VARIABLES', Settings_Workflows_Module_Model::getMetaVariables());
 
 		// Added to show filters only when saved from vtiger6
 		if ($workFlowModel->isFilterSavedInNew()) {
@@ -185,6 +167,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",

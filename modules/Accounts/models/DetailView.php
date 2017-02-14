@@ -64,11 +64,11 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'related' => 'Details'
 		];
 
-		if ($moduleName == 'Leads') {
-			$showPSTab = \includes\Modules::isModuleActive('OutsourcedProducts') || \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('OSSOutsourcedServices');
+		if ($moduleName === 'Leads') {
+			$showPSTab = (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices'));
 		}
-		if ($moduleName == 'Accounts') {
-			$showPSTab = \includes\Modules::isModuleActive('OutsourcedProducts') || \includes\Modules::isModuleActive('Products') || \includes\Modules::isModuleActive('Services') || \includes\Modules::isModuleActive('OSSOutsourcedServices') || \includes\Modules::isModuleActive('Assets') || \includes\Modules::isModuleActive('OSSSoldServices');
+		if ($moduleName === 'Accounts') {
+			$showPSTab = (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
 		}
 		if ('Contacts' != $moduleName && $showPSTab) {
 			$relatedLinks[] = array(

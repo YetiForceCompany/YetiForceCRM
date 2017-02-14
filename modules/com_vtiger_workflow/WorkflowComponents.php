@@ -10,20 +10,20 @@
 require_once('include/utils/CommonUtils.php');
 require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/DescribeObject.php';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 function vtJsonFields($adb, Vtiger_Request $request)
 {
 	$mem = new VTExpressionsManager($adb);
 	$fields = $mem->fields($request->getModule());
-	echo \includes\utils\Json::encode(array('moduleFields' => $fields));
+	echo \App\Json::encode(array('moduleFields' => $fields));
 }
 
 function vtJsonFunctions($adb)
 {
 	$mem = new VTExpressionsManager($adb);
 	$functions = $mem->expressionFunctions();
-	echo \includes\utils\Json::encode($functions);
+	echo \App\Json::encode($functions);
 }
 
 function vtJsonDependentModules($adb, Vtiger_Request $request)
@@ -40,20 +40,20 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 	$noOfFields = $adb->num_rows($result);
 	$dependentFields = [];
 	// List of modules which will not be supported by 'Create Entity' workflow task
-	$filterModules = ['Emails', 'Calendar', 'Events', 'Accounts'];
+	$filterModules = ['Calendar', 'Events', 'Accounts'];
 	$skipFieldsList = [];
 	for ($i = 0; $i < $noOfFields; ++$i) {
 		$tabId = $adb->query_result($result, $i, 'tabid');
 		$fieldName = $adb->query_result($result, $i, 'fieldname');
 		$typeOfData = $adb->query_result($result, $i, 'typeofdata');
 		$referenceModule = $adb->query_result($result, $i, 'reference_module');
-		$tabModuleName = \includes\Modules::getModuleName($tabId);
+		$tabModuleName = \App\Module::getModuleName($tabId);
 		if (in_array($tabModuleName, $filterModules))
 			continue;
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
-			if (!\includes\Modules::isModuleActive($tabModuleName))
+			if (!\App\Module::isModuleActive($tabModuleName))
 				continue;
-			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \includes\Language::translate($tabModuleName, $tabModuleName));
+			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \App\Language::translate($tabModuleName, $tabModuleName));
 		} else {
 			$dataTypeInfo = explode('~', $typeOfData);
 			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory
@@ -70,23 +70,23 @@ function vtJsonDependentModules($adb, Vtiger_Request $request)
 
 	$returnValue = array('count' => count($dependentFields), 'entities' => $dependentFields);
 
-	echo \includes\utils\Json::encode($returnValue);
+	echo \App\Json::encode($returnValue);
 }
 
 function vtJsonOwnersList($adb)
 {
 	$ownersList = [];
-	$owner = \includes\fields\Owner::getInstance();
+	$owner = \App\Fields\Owner::getInstance();
 	$activeUsersList = $owner->getUsers();
 	$allGroupsList = $owner->getGroups();
 	foreach ($activeUsersList as $userId => $userName) {
-		$ownersList[] = array('label' => $userName, 'value' => \includes\fields\Owner::getLabel($userId));
+		$ownersList[] = array('label' => $userName, 'value' => \App\Fields\Owner::getLabel($userId));
 	}
 	foreach ($allGroupsList as $groupId => $groupName) {
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);
 	}
 
-	echo \includes\utils\Json::encode($ownersList);
+	echo \App\Json::encode($ownersList);
 }
 $adb = PearDatabase::getInstance();
 $request = AppRequest::init();

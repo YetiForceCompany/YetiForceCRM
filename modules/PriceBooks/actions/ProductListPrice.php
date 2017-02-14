@@ -26,11 +26,8 @@ class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
 		$moduleModel = $request->getModule();
 		$priceBookModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 		$listPrice = $priceBookModel->getProductsListPrice($request->get('itemId'));
-
 		$response = new Vtiger_Response();
 		$response->setResult(array($listPrice));
 		$response->emit();
 	}
 }
-
-?>

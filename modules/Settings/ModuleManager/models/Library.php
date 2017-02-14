@@ -13,24 +13,19 @@ class Settings_ModuleManager_Library_Model
 	 * List of all installation libraries
 	 * @var array 
 	 */
-	public static $dirs = [
+	public static $libraries = [
 		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
 		'roundcube' => ['dir' => 'modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
 		'PHPExcel' => ['dir' => 'libraries/PHPExcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
-		'AJAXChat' => ['dir' => 'libraries/AJAXChat/', 'url' => 'https://github.com/YetiForceCompany/lib_AJAXChat', 'name' => 'lib_AJAXChat']
+		'AJAXChat' => ['dir' => 'libraries/AJAXChat/', 'url' => 'https://github.com/YetiForceCompany/lib_AJAXChat', 'name' => 'lib_AJAXChat'],
+		'Gantt' => ['dir' => 'libraries/gantt/', 'url' => 'https://github.com/YetiForceCompany/lib_gantt', 'name' => 'lib_gantt'],
 	];
 
 	/**
 	 * Path to save temporary files
 	 * @var string 
 	 */
-	public static $tempDir = 'cache' . DIRECTORY_SEPARATOR . 'upload';
-
-	/**
-	 * Temporary table that contains checked library ststuses
-	 * @var array 
-	 */
-	public static $cache = [];
+	const TEMP_DIR = 'cache' . DIRECTORY_SEPARATOR . 'upload';
 
 	/**
 	 * Function to check library status
@@ -39,12 +34,12 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function checkLibrary($name)
 	{
-		if (isset(static::$cache[$name])) {
-			return static::$cache[$name];
+		if (App\Cache::has('LIBRARY', $name)) {
+			return App\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
-		if (isset(static::$dirs[$name])) {
-			$lib = static::$dirs[$name];
+		if (static::$libraries[$name]) {
+			$lib = static::$libraries[$name];
 			if (file_exists($lib['dir'] . 'version.php')) {
 				$libVersion = require $lib['dir'] . 'version.php';
 				if (App\Version::check($libVersion['version'], $lib['name'])) {
@@ -52,7 +47,7 @@ class Settings_ModuleManager_Library_Model
 				}
 			}
 		}
-		static::$cache[$name] = $status;
+		App\Cache::save('LIBRARY', $name, $status, App\Cache::LONG);
 		return $status;
 	}
 
@@ -62,7 +57,8 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function &getAll()
 	{
-		foreach (static::$dirs as $name => &$lib) {
+		$libs = [];
+		foreach (static::$libraries as $name => $lib) {
 			$status = 0;
 			if (is_dir($lib['dir'])) {
 				$status = 2;
@@ -74,8 +70,9 @@ class Settings_ModuleManager_Library_Model
 				}
 			}
 			$lib['status'] = $status;
+			$libs[$name] = $lib;
 		}
-		return static::$dirs;
+		return $libs;
 	}
 
 	/**
@@ -84,7 +81,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function downloadAll()
 	{
-		foreach (static::$dirs as $name => &$lib) {
+		foreach (static::$libraries as $name => &$lib) {
 			static::download($name);
 		}
 	}
@@ -97,17 +94,17 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function download($name)
 	{
-		if (!isset(static::$dirs[$name])) {
+		if (!static::$libraries[$name]) {
 			App\Log::warning('Library does not exist: ' . $name);
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$lib = static::$dirs[$name];
+		$lib = static::$libraries[$name];
 		if (file_exists($lib['dir'] . 'version.php')) {
 			App\Log::info('Library has already been downloaded: ' . $name);
 			return false;
 		}
-		$path = static::$tempDir . DIRECTORY_SEPARATOR . $name . '.zip';
+		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
 		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
@@ -131,7 +128,7 @@ class Settings_ModuleManager_Library_Model
 		}
 		if (file_exists($path) && filesize($path) > 0) {
 			$unzip = new \vtlib\Unzip($path);
-			$unzip->unzipAllEx('.', [], [ $compressedName => $lib['dir']]);
+			$unzip->unzipAllEx('.', [], [$compressedName => $lib['dir']]);
 			$unzip->close();
 			unlink($path);
 		} else {
@@ -146,7 +143,7 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function update($name)
 	{
-		$lib = static::$dirs[$name];
+		$lib = static::$libraries[$name];
 		\vtlib\Functions::recurseDelete($lib['dir']);
 		static::download($name);
 	}

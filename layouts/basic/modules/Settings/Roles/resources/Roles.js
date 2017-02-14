@@ -134,7 +134,7 @@ var Settings_Roles_Js = {
 				var sourceRoleId = sourceGroup.data('roleid');
 
 				// Attempt to push parent-into-its own child hierarchy?
-				if (targetRole.indexOf(sourceRole) == 0) {
+				if (targetRole.indexOf(sourceRole + '::') == 0) {
 					// Sorry
 					return;
 				}

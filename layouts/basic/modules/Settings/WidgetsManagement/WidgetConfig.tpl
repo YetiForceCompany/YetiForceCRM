@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	{assign var=WIDGET_INFO value=\includes\utils\Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
+	{assign var=WIDGET_INFO value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('data')))}
 	{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 	<li class="col-md-12">
 		<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
@@ -36,7 +36,7 @@
 										&nbsp;&nbsp;{vtranslate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
 								</div>
-								{assign var=WIDGET_SIZE value=\includes\utils\Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
+								{assign var=WIDGET_SIZE value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
 								<div class="row padding1per">
 									<div class="col-md-3 text-center">
 										<select class="width col-md-1 pull-left form-control" name="width" >
@@ -102,7 +102,7 @@
 							</div>
 							{if in_array($WIDGET_MODEL->get('linklabel'),$WIDGETS_WITH_FILTER_USERS)}
 								<div class="">
-									{assign var=WIDGET_OWNERS value=\includes\utils\Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
+									{assign var=WIDGET_OWNERS value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('owners')))}
 									<div class="row padding1per">
 										<div class="col-md-5">
 											<select class="widgetFilter form-control" id="owner" name="default_owner">
@@ -133,6 +133,20 @@
 										<label class="col-md-3 form-control-static" >
 											{vtranslate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</label>
+									</div>	
+								</div>
+							{/if}
+							{if in_array($WIDGET_MODEL->get('linklabel'), $WIDGETS_WITH_FILTER_DATE)}
+								<div class="form-group ">
+									<div class="col-sm-3 control-label">
+										{vtranslate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
+									</div>
+									<div class="col-sm-8 controls">
+										<select class="widgetFilterDate form-control" id="date" name="default_date">
+											{foreach key=DATE_VALUE item=DATE_TEXT from=$DATE_SELECT_DEFAULT}
+												<option value="{$DATE_VALUE}" {if $DATE_VALUE eq $WIDGET_MODEL->get('date')} selected {/if}>{vtranslate($DATE_TEXT, $QUALIFIED_MODULE)}</option>
+											{/foreach}
+										</select>
 									</div>	
 								</div>
 							{/if}

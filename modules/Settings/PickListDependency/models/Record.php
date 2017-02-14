@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 vimport('~~modules/PickList/DependentPickListUtils.php');
 
@@ -19,7 +20,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	/**
 	 * Function to get the Id
-	 * @return <Number>
+	 * @return number
 	 */
 	public function getId()
 	{
@@ -36,39 +37,35 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$soureModule = $this->get('sourceModule');
 		$sourceField = $this->get('sourcefield');
 		$targetField = $this->get('targetfield');
-		$editLink = array(
+		$editLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, '$soureModule', '$sourceField', '$targetField')",
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
-		);
+		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 
-		$deleteLink = array(
+		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
-		);
+		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
-		return array($editLinkInstance, $deleteLinkInstance);
+		return [$editLinkInstance, $deleteLinkInstance];
 	}
 
 	public function getAllPickListFields()
 	{
-		$db = PearDatabase::getInstance();
-		$tabId = \includes\Modules::getModuleId($this->get('sourceModule'));
+		
+		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 
-		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname FROM vtiger_field" .
-			" where displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','16') " .
-			" and vtiger_field.presence in ('0','2') and vtiger_field.block != 'NULL'";
-
-		$result = $db->pquery($query, array($tabId));
-		$noofrows = $db->num_rows($result);
-
-		$fieldlist = array();
-		if ($noofrows > 0) {
-			for ($i = 0; $i < $noofrows; ++$i) {
-				$fieldlist[$db->query_result($result, $i, "fieldname")] = $db->query_result($result, $i, "fieldlabel");
-			}
+		$query = (new \App\Db\Query)->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
+			->where(['displaytype' => 1, 'vtiger_field.tabid' => $tabId, 'vtiger_field.uitype' => [15, 16], 'vtiger_field.presence' => [0, 2]])
+			->andWhere(['not', ['vtiger_field.block' => null]])
+			->andWhere(['<>', 'vtiger_field.block', 0]);
+		$dataReader = $query->createCommand()->query();
+		$fieldlist = [];
+		while ($row = $dataReader->read()) {
+			$fieldlist[$row['fieldname']] = $row['fieldlabel'];
 		}
 		return $fieldlist;
 	}
@@ -84,8 +81,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	private function getPickListValues($fieldName)
 	{
-		//Need to decode the picklist values twice which are saved from old ui
-		return array_map('decode_html', getAllPickListValues($fieldName));
+		return App\Fields\Picklist::getPickListValues($fieldName);
 	}
 
 	public function getSourcePickListValues()
@@ -135,17 +131,13 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	private function loadFieldLabels()
 	{
-		$db = PearDatabase::getInstance();
-
-		$tabId = \includes\Modules::getModuleId($this->get('sourceModule'));
+		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 		$fieldNames = array($this->get('sourcefield'), $this->get('targetfield'));
-
-		$query = sprintf('SELECT fieldlabel,fieldname FROM vtiger_field WHERE fieldname IN (%s) && tabid = ?', generateQuestionMarks($fieldNames));
-		$params = array($fieldNames, $tabId);
-		$result = $db->pquery($query, $params);
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$dataReader = (new App\Db\Query())->select(['fieldlabel', 'fieldname'])
+				->from('vtiger_field')
+				->where(['fieldname' => $fieldNames, 'tabid' => $tabId])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
 			if ($fieldName == $this->get('sourcefield')) {
 				$this->set('sourcelabel', $row['fieldlabel']);

@@ -29,7 +29,6 @@ Class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		if ($id) {
 			$recordModel = Settings_PBXManager_Record_Model::getInstanceById($id, $qualifiedModuleName);
-			$gateway = $recordModel->get('gateway');
 		} else {
 			$recordModel = Settings_PBXManager_Record_Model::getCleanInstance();
 		}

@@ -56,12 +56,13 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
-		if ($db->getRowCount($result) == 0) {
+		$fieldTemp = (new App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldparams'])
+				->from('vtiger_field')
+				->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
+				->one();
+		if (!$fieldTemp) {
 			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}
-		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
 	}
@@ -87,7 +88,7 @@ class Vtiger_TreeView_Model extends Vtiger_Base_Model
 
 	/**
 	 * Load records tree address
-	 * @return <String> - url
+	 * @return string - url
 	 */
 	public function getTreeViewUrl()
 	{

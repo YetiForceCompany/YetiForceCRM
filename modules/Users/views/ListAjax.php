@@ -19,7 +19,7 @@ class Users_ListAjax_View extends Users_List_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}

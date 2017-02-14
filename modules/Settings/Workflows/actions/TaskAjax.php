@@ -118,22 +118,19 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 			foreach ($fieldNames as $fieldName) {
 				if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
-					$values = \includes\utils\Json::decode($request->getRaw($fieldName));
+					$values = \App\Json::decode($request->getRaw($fieldName));
 
 					if ($values) {
 						foreach ($values as $index => $value) {
 							$values[$index]['value'] = htmlspecialchars($value['value']);
 						}
 
-						$taskObject->$fieldName = \includes\utils\Json::encode($values);
+						$taskObject->$fieldName = \App\Json::encode($values);
 					} else {
 						$taskObject->$fieldName = $request->getRaw($fieldName);
 					}
 				} else {
 					$taskObject->$fieldName = $request->get($fieldName);
-				}
-				if ($fieldName == 'calendar_repeat_limit_date') {
-					$taskObject->$fieldName = DateTimeField::convertToDBFormat($request->get($fieldName));
 				}
 			}
 
@@ -142,20 +139,24 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-				$fieldMapping = \includes\utils\Json::decode($taskObject->field_value_mapping);
+				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
-						$ownerName = $userRecordModel->get('user_name');
+						if ($mappingInfo['value'] == 'assigned_user_id') {
+							$fieldMapping[$key]['valuetype'] = 'fieldname';
+						} else {
+							$userRecordModel = Users_Record_Model::getInstanceById($mappingInfo['value'], 'Users');
+							$ownerName = $userRecordModel->get('user_name');
 
-						if (!$ownerName) {
-							$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
-							$ownerName = $groupRecordModel->getName();
+							if (!$ownerName) {
+								$groupRecordModel = Settings_Groups_Record_Model::getInstance($mappingInfo['value']);
+								$ownerName = $groupRecordModel->getName();
+							}
+							$fieldMapping[$key]['value'] = $ownerName;
 						}
-						$fieldMapping[$key]['value'] = $ownerName;
 					}
 				}
-				$taskObject->field_value_mapping = \includes\utils\Json::encode($fieldMapping);
+				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
 			}
 
 			$taskRecordModel->save();

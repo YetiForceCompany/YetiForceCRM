@@ -20,20 +20,17 @@ class Accounts_ListView_Model extends Vtiger_ListView_Model
 	public function getListViewMassActions($linkParams)
 	{
 		$links = parent::getListViewMassActions($linkParams);
-
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-
 		$massActionLinks = [];
-		if ($currentUserModel->hasModulePermission('Emails') && $currentUserModel->hasModulePermission('OSSMail') && $moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
+		if ($moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail();',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
 				'linkicon' => ''
 			);
 		}
-
 		if ($currentUserModel->hasModulePermission('SMSNotifier') && $moduleModel->isPermitted('MassSendSMS')) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -42,7 +39,6 @@ class Accounts_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => ''
 			);
 		}
-
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
