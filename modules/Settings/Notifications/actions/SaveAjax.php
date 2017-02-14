@@ -2,54 +2,89 @@
 
 /**
  * Save notification
- * @package YetiForce.Action
+ * @package YetiForce.Settings.Action
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('saveType');
-		$this->exposeMethod('saveConfig');
+		$this->exposeMethod('addOrRemoveMembers');
+		$this->exposeMethod('lock');
+		$this->exposeMethod('exceptions');
 	}
 
-	public function saveConfig(Vtiger_Request $request)
+	/**
+	 * Function adds/removes members
+	 * @param Vtiger_Request $request
+	 */
+	public function addOrRemoveMembers(Vtiger_Request $request)
 	{
-		$moduleName = $request->get('srcModule');
-		$shareOwners = $request->get('owners');
-		$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
-		$listWatchingUsers = $watchdogModel->getWatchingUsers();
-		if (empty(!$shareOwners)) {
-			foreach ($shareOwners as $ownerId) {
-				if (!in_array($ownerId, $listWatchingUsers)) {
-					$watchdogModel->changeModuleState(1, $ownerId);
-				}
+		$module = $request->get('srcModule');
+		$members = $request->get('members');
+		$state = $request->get('isToAdd') ? 1 : 0;
+		if (!empty($members)) {
+			if (!is_array($members)) {
+				$members = [$members];
 			}
-		} else {
-			$shareOwners = [];
-		}
-		foreach ($listWatchingUsers as $ownerId) {
-			if (!in_array($ownerId, $shareOwners)) {
-				$watchdogModel->changeModuleState(0, $ownerId);
+			$watchdogModel = Vtiger_Watchdog_Model::getInstance($module);
+			foreach ($members as $member) {
+				$watchdogModel->changeModuleState($state, $member);
 			}
+			Vtiger_Watchdog_Model::reloadCache();
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 
-	public function saveType(Vtiger_Request $request)
+	/**
+	 * Function sets lock status
+	 * @param Vtiger_Request $request
+	 */
+	public function lock(Vtiger_Request $request)
 	{
-		$db = PearDatabase::getInstance();
-		$insertParams = [
-			'name' => $request->get('name'),
-			'role' => $request->get('roleId'),
-		];
-		if (($id = $request->get('id')) == 0) {
-			$insertParams['id'] = $db->getUniqueID('a_yf_notification_type');
-			$db->insert('a_yf_notification_type', $insertParams);
-		} else {
-			$db->update('a_yf_notification_type', $insertParams, 'id = ?', [$id]);
+		$module = $request->get('srcModule');
+		$members = $request->get('members');
+		$lock = $request->get('lock');
+		if (!empty($members)) {
+			if (!is_array($members)) {
+				$members = [$members];
+			}
+			$watchdogModel = Vtiger_Watchdog_Model::getInstance($module);
+			foreach ($members as $member) {
+				$watchdogModel->lock($lock, $member);
+			}
+			Vtiger_Watchdog_Model::reloadCache();
 		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
+	}
+
+	/**
+	 * Function sets exceptions for users
+	 * @param Vtiger_Request $request
+	 */
+	public function exceptions(Vtiger_Request $request)
+	{
+		$module = $request->get('srcModule');
+		$member = $request->get('member');
+		$exceptions = $request->get('exceptions');
+		if (!empty($member)) {
+			$watchdogModel = Vtiger_Watchdog_Model::getInstance($module);
+			$watchdogModel->exceptions($exceptions, $member);
+			Vtiger_Watchdog_Model::reloadCache();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(true);
+		$response->emit();
 	}
 }

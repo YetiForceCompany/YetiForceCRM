@@ -13,7 +13,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_DISCOUNT_PRICE';
 	protected $defaultValue = 0;
 	protected $columnName = 'net';
-	protected $dbType = 'decimal(27,8) NOT NULL DEFAULT 0';
+	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $summationValue = true;
 
 	/**

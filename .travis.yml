@@ -1,10 +1,11 @@
 language: php
 
 php:
-  - 5.6
+  - 7.1
   - 7.0
-  - hhvm
+  - 5.6
   - nightly
+  - hhvm
   
 matrix:
   fast_finish: true
@@ -12,6 +13,10 @@ matrix:
     - php: hhvm
     - php: nightly
     
+branches:
+  only:
+    - developer
+   
 services:
   - mysql
   
@@ -21,30 +26,35 @@ mysql:
   encoding: utf8
   
 before_script:
-- if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-add tests/travis.php.ini; fi
-- if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then cat tests/travis.php.ini >> /etc/hhvm/php.ini; fi
+- composer install
 - sudo wget https://phar.phpunit.de/phpunit.phar
 - sudo chmod +x phpunit.phar
 - sudo mv phpunit.phar /usr/local/bin/phpunit
 - phpunit --version
+- sudo wget https://scrutinizer-ci.com/ocular.phar
+- sudo chmod +x ocular.phar
+- sudo mv ocular.phar /usr/local/bin/ocular
 - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
 - mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
-- cp tests/copy/config.inc.php config/config.inc.php
-- cp tests/copy/debug.php config/debug.php
+- cp tests/config.inc.txt config/config.inc.php
+- cp tests/debug.txt config/debug.php
+- cp tests/developer.txt config/developer.php
 - cp tests/.htaccess .htaccess
   
 script:
 - cd tests
 - phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
     
-after_success:
-- cat LoginPage.txt
-- cat DetailView.txt
-- cat ListView.txt
-- cat EditView.txt
+after_script:
+- cd ..
+- cat tests/LoginPage.txt
+- cat tests/DetailView.txt
+- cat tests/ListView.txt
+- cat tests/EditView.txt
+- cat tests/records.log
+- cat cache/logs/request.log
+- cat cache/logs/phpError.log
+- cat cache/logs/system.log
+- cat cache/logs/Importer.log
+- php ocular code-coverage:upload --format=php-clover coverage.clover
 - bash <(curl -s https://codecov.io/bash) 
-- codecov
-
-branches:
-  only:
-    - developer

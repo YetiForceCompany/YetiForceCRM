@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View
@@ -29,13 +30,8 @@ class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View
 		$tooltipViewModel = Vtiger_TooltipView_Model::getInstance($moduleName, $recordId);
 
 		$viewer->assign('MODULE', $moduleName);
-
 		$viewer->assign('MODULE_MODEL', $tooltipViewModel->getRecord()->getModule());
-
-		$viewer->assign('TOOLTIP_FIELDS', $tooltipViewModel->getFields());
 		$viewer->assign('RECORD', $tooltipViewModel->getRecord());
 		$viewer->assign('RECORD_STRUCTURE', $tooltipViewModel->getStructure());
-
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 	}
 }

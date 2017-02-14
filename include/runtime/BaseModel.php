@@ -37,13 +37,13 @@ class Vtiger_Base_Model
 
 	/**
 	 * Function to get the value if its safe to use for SQL Query (column).
-	 * @param <String> $key
-	 * @param <Boolean> $skipEmpty - Skip the check if string is empty
+	 * @param string $key
+	 * @param boolean $skipEmpty - Skip the check if string is empty
 	 * @return Value for the given key
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
-		return Vtiger_Util_Helper::validateStringForSql($this->get($key), $skipEmtpy);
+		return \App\Purifier::purifySql($this->get($key), $skipEmtpy);
 	}
 
 	/**
@@ -103,5 +103,13 @@ class Vtiger_Base_Model
 	public function remove($key)
 	{
 		unset($this->valueMap[$key]);
+	}
+
+	/**
+	 * Function to get keys
+	 */
+	public function getKeys()
+	{
+		return array_keys($this->valueMap);
 	}
 }

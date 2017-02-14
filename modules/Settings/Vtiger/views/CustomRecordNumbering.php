@@ -18,7 +18,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
-			$defaultModuleModel = $supportedModules[\includes\Modules::getModuleId($sourceModule)];
+			$defaultModuleModel = $supportedModules[\App\Module::getModuleId($sourceModule)];
 		} else {
 			$defaultModuleModel = reset($supportedModules);
 		}
@@ -47,7 +47,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.CustomRecordNumbering',
-			'libraries.jquery.ZeroClipboard.ZeroClipboard',
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 		);
 

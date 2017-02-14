@@ -1,0 +1,59 @@
+{
+	"name": "yetiforce/yetiforce-crm",
+	"description": "An open and innovative CRM system.",
+	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm"],
+	"license": "YetiForce Public License 1.1",
+	"homepage": "https://yetiforce.com/",
+	"type": "project",
+	"support": {
+		"issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
+		"wiki": "https://yetiforce.com/en/documentation.html",
+		"source": "https://github.com/YetiForceCompany/YetiForceCRM"
+	},
+	"authors": [
+		{
+			"name": "YetiForce team",
+			"email": "info@yetiforce.com",
+			"homepage": "https://yetiforce.com/"
+		}
+	],
+	"require": {
+		"php": ">=5.6.0",
+		"ext-imap": "*",
+		"ext-openssl": "*",
+		"ext-mbstring": "*",
+		"ext-spl": "*",
+		"ext-json": "*",
+		"ext-dom": "*",
+		"ext-zlib": "*",
+		"ext-pdo": "*",
+		"ext-curl": "*",
+		"ext-gd": "*",
+		"ext-pcre": "*",
+		"ext-session": "*",
+		"ext-soap": "*",
+		"ext-zip": "*",
+		"ext-xml": "*",
+		"rmccue/requests": ">=1.7",
+		"smarty/smarty": ">=3.1.31",
+		"phpmailer/phpmailer": ">=v5.2.22",
+		"ezyang/htmlpurifier": ">=v4.8.0",
+		"symfony/var-dumper": "v3.2.2",
+		"simshaun/recurr": "v2.1"
+	},
+	"archive": {
+		"exclude": [
+			"tests"
+		]
+	},
+	"autoload": {
+		"psr-4": {
+			"vtlib\\": "vtlib/Vtiger/",
+			"includes\\": "include/",
+			"App\\": "vendor/yetiforce/",
+			"Api\\": "api/webservice/",
+			"Exception\\": "include/exceptions/",
+			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
+		}
+	}
+}

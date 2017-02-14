@@ -15,7 +15,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 	protected $defaultValue = '';
 	protected $columnName = '-';
 	protected $colSpan = 10;
-	protected $dbType = 'varchar(100)';
+	protected $dbType = 'string';
 	protected $customColumn = [];
 	protected $summationValue = false;
 	protected $onlyOne = true;
@@ -58,7 +58,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	public function getParamsConfig()
 	{
-		return \includes\utils\Json::decode($this->get('params'));
+		return \App\Json::decode($this->get('params'));
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	/**
 	 * Function to check whether the current field is visible
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isVisible()
 	{
@@ -215,7 +215,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	/**
 	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isEditable()
 	{
@@ -227,7 +227,7 @@ class Vtiger_Basic_InventoryField extends Vtiger_Base_Model
 
 	/**
 	 * Function to check whether the current field is editable
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isColumnType()
 	{

@@ -13,7 +13,7 @@ class Campaigns_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get selected ids list of related module for send email
-	 * @param <String> $relatedModuleName
+	 * @param string $relatedModuleName
 	 * @param <array> $excludedIds
 	 * @return <array> List of selected ids
 	 */

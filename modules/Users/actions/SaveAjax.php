@@ -26,6 +26,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
 		$this->exposeMethod('activeColor');
+		$this->exposeMethod('changeAccessKey');
 	}
 
 	public function checkPermission(Vtiger_Request $request)
@@ -43,6 +44,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 
@@ -56,19 +61,22 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		$fieldModelList = $recordModel->getModule()->getFields();
-		$result = array();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
+		$result = [];
+		foreach ($fieldModelList as $fieldName => &$fieldModel) {
+			if (!$fieldModel->isViewEnabled()) {
+				continue;
+			}
 			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
-			if ($fieldName == 'language') {
+			if ($fieldName === 'language') {
 				$displayValue = Vtiger_Language_Handler::getLanguageLabel($fieldValue);
 			}
-			if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($displayValue == '&nbsp;')) {
+			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
 				$displayValue = vtranslate('LBL_SPACE', 'Users');
 			}
-			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
+			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
 
 		$result['_recordLabel'] = $recordModel->getName();
@@ -179,7 +187,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel = Users_Record_Model::getInstanceById($record, $moduleName);
 		$recordModel->set('status', 'Active');
 		$recordModel->set('id', $record);
-		$recordModel->set('mode', 'edit');
 		$recordModel->set('user_hash', $recordModel->getUserHash());
 		$recordModel->save();
 
@@ -235,11 +242,11 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$params = $request->get('params');
 
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'color' => Users_Colors_Model::generateColor($params),
-			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
-		));
+			'message' => App\Language::translate('LBL_GENERATED_COLOR', $request->getModule(false))
+		]);
 		$response->emit();
 	}
 
@@ -265,6 +272,35 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			'color' => $color,
 			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
+		$response->emit();
+	}
+
+	public function changeAccessKey(Vtiger_Request $request)
+	{
+		$recordId = $request->get('record');
+		$moduleName = $request->getModule();
+
+		$response = new Vtiger_Response();
+		try {
+			$recordModel = Users_Record_Model::getInstanceById($recordId, $moduleName);
+			$oldAccessKey = $recordModel->get('accesskey');
+
+			$entity = $recordModel->getEntity();
+			$entity->createAccessKey();
+
+			require_once('modules/Users/CreateUserPrivilegeFile.php');
+			createUserPrivilegesfile($recordId);
+
+			require("user_privileges/user_privileges_$recordId.php");
+			$newAccessKey = $user_info['accesskey'];
+			if ($newAccessKey != $oldAccessKey) {
+				$response->setResult(array('message' => vtranslate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+			} else {
+				$response->setError(vtranslate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
+			}
+		} catch (Exception $ex) {
+			$response->setError($ex->getMessage());
+		}
 		$response->emit();
 	}
 }

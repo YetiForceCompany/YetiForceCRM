@@ -50,7 +50,7 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', ['targetenddate', "'$currentDate'", 'l', QueryGenerator::$AND]);
+		$viewer->assign('USER_CONDITIONS', ['condition' => ['<', 'targetenddate', $currentDate]]);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/AssignedProjectsTasksContents.tpl', $moduleName);

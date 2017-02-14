@@ -9,7 +9,6 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_SETUP_WEBFORMS' => 'Konfiguracja formularzy WWW',
 	'Verification data' => 'Wymagają weryfikacji',
 	'Attempted to Contact' => 'Zakwalifikowany do kontaktu',
 	'CANNOT_CONVERT' => 'Nie można wykonać konwertowania',
@@ -58,20 +57,18 @@ $languageStrings = [
 	'Warm' => 'Ciepły',
 	'Website' => 'Strona internetowa',
 	/* YetiForce Lead Status */
-	'LBL_TO_REALIZE' => 'Do realizacji',
-	'LBL_VERIFICATION_OF_DATA' => 'Wymagają weryfikacji',
-	'LBL_PRELIMINARY_ANALYSIS_OF' => 'Wstępna analiza',
-	'LBL_ADVANCED_ANALYSIS' => 'Zaawansowana analiza',
-	'LBL_INITIAL_ACQUISITION' => 'Wstępne pozyskanie',
-	'LBL_CONTACTS_IN_THE_FUTURE' => 'Kontakt w przyszłości',
-	'LBL_LEAD_UNTAPPED' => 'Kontrahent niepozyskany',
-	'LBL_LEAD_ACQUIRED' => 'Kontrahent pozyskany',
+	'PLL_TO_REALIZE' => 'Do realizacji',
+	'PLL_CONTACTS_IN_THE_FUTURE' => 'Kontakt w przyszłości',
+	'PLL_LEAD_UNTAPPED' => 'Niepozyskany',
+	'PLL_LEAD_ACQUIRED' => 'Do konwersji',
+	'PLL_PENDING' => 'Oczekujący',
+	'PLL_IN_REALIZATION' => 'W realizacji',
+	'PLL_INCORRECT' => 'Niepoprawny',
 	/* YetiForce */
 	'Approval for phone calls' => 'Zgoda na kontakt telefoniczny',
 	'Approval for email' => 'Zgoda na kontakt mailowy',
 	'Contact Information' => 'Informacje kontaktowe',
 	'LBL_REGISTRATION_INFO' => 'Informacje rejestrowe',
-	'LBL_REQUIRES_VERIFICATION' => 'Weryfikacja danych',
 	//PICKLIST VALUES
 	'PLL_B2C' => 'B2C',
 	'PLL_B2B' => 'B2B',

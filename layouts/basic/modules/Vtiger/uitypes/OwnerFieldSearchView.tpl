@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-    {assign var=FIELD_INFO value=\includes\utils\Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=explode(',',$SEARCH_INFO['searchValue'])}
@@ -20,13 +20,13 @@
     {assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
 	{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 		{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
-			{assign var=USERS_GROUP_LIST value=\includes\fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
+			{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getUsersAndGroupForModuleList($VIEWID)}
 			{assign var=ALL_ACTIVEUSER_LIST value=$USERS_GROUP_LIST['users']}
 			{assign var=ALL_ACTIVEGROUP_LIST value=$USERS_GROUP_LIST['group']}
 		{else}
-			{assign var=ALL_ACTIVEUSER_LIST value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+			{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{if $ASSIGNED_USER_ID neq 'modifiedby'}
-				{assign var=ALL_ACTIVEGROUP_LIST value=\includes\fields\Owner::getInstance()->getAccessibleGroups()}
+				{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 			{else}
 				{assign var=ALL_ACTIVEGROUP_LIST value=array()}
 			{/if}
@@ -40,13 +40,13 @@
 				data-fieldinfo='{$FIELD_INFO|escape}'>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$SEARCH_VALUES item=OWNER_ID}
-					<option value="{$OWNER_ID}" selected>{\includes\fields\Owner::getLabel($OWNER_ID)}</option>
+					<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getLabel($OWNER_ID)}</option>
 				{/foreach}
 			{else}
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}
 					<optgroup label="{vtranslate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-							<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
+							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
 								{$OWNER_NAME}
 							</option>
 						{/foreach}
@@ -55,7 +55,7 @@
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
 					<optgroup label="{vtranslate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-							<option value="{$OWNER_NAME}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_NAME),$SEARCH_VALUES)} selected {/if} >
+							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
 								{$OWNER_NAME}
 							</option>
 						{/foreach}

@@ -40,10 +40,11 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$params['status'] = Calendar_Module_Model::getComponentActivityStateLabel('current');
 		$params['user'] = $currentUser->getId();
 		$conditions = [
-			['vtiger_activity.status', "'" . implode("','", $params['status']) . "'", 'in', QueryGenerator::$AND],
-			['vtiger_crmentity.smcreatorid', $params['user'], 'e', QueryGenerator::$AND]
+			'condition' => [
+				'vtiger_activity.status' => $params['status'],
+				'vtiger_crmentity.smcreatorid' => $params['user']
+			]
 		];
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_upcoming', $pagingModel, $owner, false, $params);
 		$colorList = [];

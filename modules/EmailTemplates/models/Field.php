@@ -1,22 +1,30 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
 
+/**
+ * EmailTemplates field model class
+ * @package YetiForce.Model
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class EmailTemplates_Field_Model extends Vtiger_Field_Model
 {
 
-	/**
-	 * Function to check if the field is named field of the module
-	 * @return <Boolean> - True/False
-	 */
-	public function isNameField()
+	public function isAjaxEditable()
 	{
 		return false;
+	}
+
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 */
+	public function getModulesListValues()
+	{
+		$modules = parent::getModulesListValues();
+		$modules[App\Module::getModuleId('Reports')] = ['name' => 'Reports', 'label' => \App\Language::translate('Reports', 'Reports')];
+		$modules[App\Module::getModuleId('Users')] = ['name' => 'Users', 'label' => \App\Language::translate('Users', 'Users')];
+		$modules[App\Module::getModuleId('Events')] = ['name' => 'Events', 'label' => \App\Language::translate('Events', 'Events')];
+		$modules[App\Module::getModuleId('ModComments')] = ['name' => 'ModComments', 'label' => \App\Language::translate('ModComments')];
+		return $modules;
 	}
 }

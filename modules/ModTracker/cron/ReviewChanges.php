@@ -5,8 +5,8 @@
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$db = \App\DB::getInstance();
-$query = (new \App\db\Query())->from('u_#__reviewed_queue');
+$db = \App\Db::getInstance();
+$query = (new \App\Db\Query())->from('u_#__reviewed_queue');
 $dataReader = $query->createCommand($db)->query();
 $reviewed = new CronReviewed();
 while ($row = $dataReader->read()) {
@@ -48,7 +48,7 @@ class CronReviewed
 		}
 		foreach ($row as $key => $value) {
 			if ($key === 'data') {
-				$value = \includes\utils\Json::decode($row['data']);
+				$value = \App\Json::decode($row['data']);
 				$this->init($value);
 			}
 			$this->valueMap[$key] = $value;
@@ -97,7 +97,7 @@ class CronReviewed
 	 */
 	public function reviewChanges()
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$recordsList = $this->getRecords();
 		if (!empty($recordsList)) {
 			foreach ($recordsList as $crmId) {
@@ -105,7 +105,7 @@ class CronReviewed
 					$this->end = true;
 					break;
 				}
-				$query = (new \App\db\Query())
+				$query = (new \App\Db\Query())
 					->select('last_reviewed_users as u, id, changedon')
 					->from('vtiger_modtracker_basic')
 					->where(['crmid' => $crmId])
@@ -136,7 +136,7 @@ class CronReviewed
 	 */
 	private function setReviewed($id, $users)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$lastReviewedUsers = explode('#', $users);
 		$lastReviewedUsers[] = $this->get('userid');
 		return $db->createCommand()->update(
@@ -149,7 +149,7 @@ class CronReviewed
 	 */
 	private function finish()
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('u_#__reviewed_queue', ['=', 'id', $this->get('id')])->execute();
 		if (count($this->done) < count($this->recordList)) {
 			$records = array_diff($this->recordList, $this->done);
@@ -162,10 +162,10 @@ class CronReviewed
 	 */
 	private function addPartToDBRecursive($records)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$list = array_splice($records, 0, self::MAX_RECORDS);
-		$data = \includes\utils\Json::encode(['selected_ids' => $list]);
-		$id = (new \App\db\Query())
+		$data = \App\Json::encode(['selected_ids' => $list]);
+		$id = (new \App\Db\Query())
 				->from('u_#__reviewed_queue')
 				->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [

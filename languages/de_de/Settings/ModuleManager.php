@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
-	'ModuleManager' => 'Modul Manager',
+	'ModuleManager' => 'Modulmanager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle von Datei',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
 	'LBL_IMPORTED_UPDATE' => 'System wurde erfolgreich aktualisiert.',
@@ -72,6 +72,18 @@ $languageStrings = [
 	'LBL_EXTENSION_MODULE' => 'Erweiterungs Modul',
 	'LBL_LANGUAGE_MODULE' => 'Sprachmodul',
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
+	// Library
+	'LBL_LIBRARY_NAME' => 'Name',
+	'LBL_LIBRARY_STATUS' => 'Status',
+	'LBL_LIBRARY_URL' => 'Bibliothek Repository-Adresse',
+	'LBL_LIBRARY_DIR' => 'Bibliotheksverzeichnis',
+	'LBL_LIBRARY_ACTION' => 'Aktionen',
+	'BTN_LIBRARY_DOWNLOAD' => 'Download Bibliothek',
+	'BTN_LIBRARY_UPDATE' => 'Update Bibliothek',
+	'LBL_LIBRARY_DOWNLOADED' => 'heruntergeladene',
+	'LBL_LIBRARY_NO_DOWNLOAD' => 'Nicht heruntergeladen',
+	'LBL_LIBRARY_NEEDS_UPDATING' => 'Update erforderlich',
+	'LBL_NO_PERMISSION_TO_DIR' => 'Keine Berechtigung für die Verzeichnisse',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Erfolgreich',
@@ -82,4 +94,5 @@ $jsLanguageStrings = [
 	'JS_CLICK_HERE' => 'Hier Klicken',
 	'JS_ON' => 'Ein',
 	'JS_REMOVED_MODULE' => 'Gelöschtes Modul',
+	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Sonderzeichen wie & < > \' " : , sind nicht erlaubt',
 ];

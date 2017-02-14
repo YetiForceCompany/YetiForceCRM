@@ -21,6 +21,7 @@ $languageStrings = [
 	'Junk' => 'Kosz',
 	'Sent' => 'Wysłane',
 	'ERR_INCORRECT_ACCESS_DATA' => 'Błedne dane dostępowe',
+	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'Po zapisaniu poniżej wymienione foldery zostaną usunięte'
 ];
 $jsLanguageStrings = [
 	'start_cron' => 'Uruchomiono crona',

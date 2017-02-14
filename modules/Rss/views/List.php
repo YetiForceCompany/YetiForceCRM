@@ -87,8 +87,7 @@ class Rss_List_View extends Vtiger_Index_View
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			"modules.Emails.resources.MassEdit",
-			"modules.Vtiger.resources.CkEditor"
+			'modules.Vtiger.resources.CkEditor'
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -102,7 +101,6 @@ class Rss_List_View extends Vtiger_Index_View
 	 */
 	public function getListViewRssHeaders($module)
 	{
-		$headerFieldModels = array();
 		$headerFields = array(
 			'title' => array(
 				'uitype' => '1',
@@ -120,7 +118,10 @@ class Rss_List_View extends Vtiger_Index_View
 			)
 		);
 		foreach ($headerFields as $fieldName => $fieldDetails) {
-			$fieldModel = Settings_Webforms_Field_Model::getInstanceByRow($fieldDetails);
+			$fieldModel = new Vtiger_Field_Model();
+			foreach ($fieldDetails as $name => $value) {
+				$fieldModel->set($name, $value);
+			}
 			$fieldModel->module = $module;
 			$fieldModelsList[$fieldName] = $fieldModel;
 		}

@@ -28,6 +28,10 @@ class AppConfig
 		} elseif (isset($GLOBALS[$key])) {
 			self::$main[$key] = $GLOBALS[$key];
 			return $GLOBALS[$key];
+		} else {
+			require 'config/config.php';
+			self::$main[$key] = $$key;
+			return $$key;
 		}
 		return $value;
 	}
@@ -114,7 +118,7 @@ class AppConfig
 
 	public static function performance($key, $defvalue = false)
 	{
-		if (empty(self::$performance)) {
+		if (!self::$performance) {
 			require_once 'config/performance.php';
 			AppConfig::load('performance', $PERFORMANCE_CONFIG);
 		}
@@ -164,10 +168,11 @@ if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {
 
 require_once 'config/api.php';
 require_once 'config/config.php';
-require_once('include/autoload.php');
+require_once('vendor/autoload.php');
 
 AppConfig::load('api', $API_CONFIG);
 
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 // Change of logs directory with PHP errors
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'phpError.log');
+

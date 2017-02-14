@@ -303,9 +303,7 @@ class VTQL_Lexer
 	{
 
 		global $orderby;
-//echo "<br> ql state: ",$this->current_state," ",$this->value,"<br>";
 		if ($this->mandatory) {
-//echo "<br> ql state: ",$this->current_state," ",$this->value,"<br>";
 			$handler = 'handle' . $this->mandatory_states[$this->current_state];
 			$this->token = $handler($this, $this->value);
 		} else {

@@ -38,16 +38,12 @@
 					{foreach item=FIELD from=$MINILIST_WIDGET_MODEL->getHeaders() name="minilistWidgetModelRowHeaders"}
 						{assign var="ITERATION" value=$smarty.foreach.minilistWidgetModelRowHeaders.iteration}
 						{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
-						<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis" title="{strip_tags($RECORD->get($FIELD->get('name')))}">
+						<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis">
 							{if $LAST_RECORD}
 								<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
 								{/if}
 								{if $RECORD->get($FIELD->get('name'))}
-									{if $FIELD->getFieldDataType() eq 'tree'}
-										{$RECORD->getDisplayValue($FIELD->get('name'))}
-									{else}
-										{vtranslate($RECORD->get($FIELD->get('name')), $BASE_MODULE)}
-									{/if}
+									{$RECORD->getDisplayValue($FIELD->get('name'))}
 								{else}
 								&nbsp;
 							{/if}

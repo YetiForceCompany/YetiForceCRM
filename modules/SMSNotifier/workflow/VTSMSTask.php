@@ -8,11 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-
-require_once('modules/com_vtiger_workflow/VTEntityCache.inc');
-require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
-require_once('modules/com_vtiger_workflow/VTSimpleTemplate.inc');
-
 require_once('modules/SMSNotifier/SMSNotifier.php');
 
 class VTSMSTask extends VTTask
@@ -25,40 +20,25 @@ class VTSMSTask extends VTTask
 		return array('content', 'sms_recepient');
 	}
 
-	public function doTask($entity)
+	/**
+	 * Execute task
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function doTask($recordModel)
 	{
-
 		if (SMSNotifier::checkServer()) {
-
-			$adb = PearDatabase::getInstance();
-			
-			$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-			$util = new VTWorkflowUtils();
-			$admin = $util->adminUser();
-			$ws_id = $entity->getId();
-			$entityCache = new VTEntityCache($admin);
-
-			$et = new VTSimpleTemplate($this->sms_recepient);
-			$recepient = $et->render($entityCache, $ws_id);
+			$textParser = \App\TextParser::getInstanceByModel($recordModel);
+			$content = $textParser->setContent($this->content)->parse()->getContent();
+			$recepient = $textParser->setContent($this->sms_recepient)->parse()->getContent();
 			$recepients = explode(',', $recepient);
-
-			$ct = new VTSimpleTemplate($this->content);
-			$content = $ct->render($entityCache, $ws_id);
-			$relatedCRMid = substr($ws_id, stripos($ws_id, 'x') + 1);
-
-			$relatedModule = $entity->getModuleName();
-
 			/** Pickup only non-empty numbers */
-			$tonumbers = array();
-			foreach ($recepients as $tonumber) {
-				if (!empty($tonumber))
+			$tonumbers = [];
+			foreach ($recepients as &$tonumber) {
+				if (!empty($tonumber)) {
 					$tonumbers[] = $tonumber;
+				}
 			}
-
-			SMSNotifier::sendsms($content, $tonumbers, $current_user->id, $relatedCRMid, $relatedModule);
+			SMSNotifier::sendsms($content, $tonumbers, \App\User::getCurrentUserId(), $recordModel->getId(), $recordModel->getModuleName());
 		}
 	}
 }
-
-?>

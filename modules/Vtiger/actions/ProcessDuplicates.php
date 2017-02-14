@@ -41,7 +41,6 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 				$primaryRecordModel->set($field->getName(), $fieldValue);
 			}
 		}
-		$primaryRecordModel->set('mode', 'edit');
 		$primaryRecordModel->save();
 
 		$deleteRecords = array_diff($records, array($primaryRecord));

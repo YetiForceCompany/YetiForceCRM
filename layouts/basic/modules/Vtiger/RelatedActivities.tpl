@@ -105,7 +105,7 @@
 										{if $smarty.foreach.sowner.last}
 											,&nbsp;
 										{/if}
-										{\includes\fields\Owner::getUserLabel($SOWNERID)}
+										{\App\Fields\Owner::getUserLabel($SOWNERID)}
 									{/foreach}
 									</div>
 								{/if}

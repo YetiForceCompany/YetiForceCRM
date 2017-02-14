@@ -5,6 +5,7 @@
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Inventory_Model
 {
@@ -36,29 +37,25 @@ class Vtiger_Inventory_Model
 		$this->name = $name;
 	}
 
-	protected static $discountsConfig = false;
-
 	/**
 	 * Get discounts configuration
 	 * @return array config data
 	 */
 	public static function getDiscountsConfig()
 	{
-		if (self::$discountsConfig != false) {
-			return self::$discountsConfig;
+		if (\App\Cache::has('Inventory', 'DiscountConfiguration')) {
+			return \App\Cache::get('Inventory', 'DiscountConfiguration');
 		}
-
-		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->query('SELECT * FROM a_yf_discounts_config');
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['discounts'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
 		}
-		self::$discountsConfig = $config;
+		\App\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache::LONG);
 		return $config;
 	}
 
@@ -68,16 +65,14 @@ class Vtiger_Inventory_Model
 	 */
 	public function getGlobalDiscounts()
 	{
-		$db = PearDatabase::getInstance();
-		$config = [];
-		$result = $db->pquery('SELECT * FROM a_yf_discounts_global WHERE status = ?', [0]);
-		while ($row = $db->fetch_array($result)) {
-			$config[$row['name']] = $row['value'];
+		if (\App\Cache::has('Inventory', 'Discounts')) {
+			return \App\Cache::get('Inventory', 'Discounts');
 		}
-		return $config;
+		$discounts = (new App\Db\Query())->from('a_#__discounts_global')->where(['status' => 0])
+				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		\App\Cache::save('Inventory', 'Discounts', $discounts, \App\Cache::LONG);
+		return $discounts;
 	}
-
-	protected static $taxsConfig = false;
 
 	/**
 	 * Get tax configuration
@@ -85,21 +80,19 @@ class Vtiger_Inventory_Model
 	 */
 	public static function getTaxesConfig()
 	{
-		if (self::$taxsConfig != false) {
-			return self::$taxsConfig;
+		if (\App\Cache::has('Inventory', 'TaxConfiguration')) {
+			return \App\Cache::get('Inventory', 'TaxConfiguration');
 		}
-
-		$db = PearDatabase::getInstance();
 		$config = [];
-		$result = $db->query('SELECT * FROM a_yf_taxes_config');
-		while ($row = $db->fetch_array($result)) {
+		$dataReader = (new App\Db\Query())->from('a_#__taxes_config')->createCommand(App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['taxs'])) {
 				$value = explode(',', $value);
 			}
 			$config[$row['param']] = $value;
 		}
-		self::$taxsConfig = $config;
+		\App\Cache::save('Inventory', 'TaxConfiguration', $config, \App\Cache::LONG);
 		return $config;
 	}
 
@@ -107,15 +100,15 @@ class Vtiger_Inventory_Model
 	 * Get global tax list
 	 * @return array tax list
 	 */
-	public function getGlobalTaxs()
+	public static function getGlobalTaxes()
 	{
-		$db = PearDatabase::getInstance();
-		$config = [];
-		$result = $db->pquery('SELECT * FROM a_yf_taxes_global WHERE status = ?', [0]);
-		while ($row = $db->fetch_array($result)) {
-			$config[$row['name']] = $row['value'];
+		if (\App\Cache::has('Inventory', 'Taxes')) {
+			return \App\Cache::get('Inventory', 'Taxes');
 		}
-		return $config;
+		$taxes = (new App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
+				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		\App\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache::LONG);
+		return $taxes;
 	}
 
 	/**
@@ -165,50 +158,83 @@ class Vtiger_Inventory_Model
 
 	/**
 	 * Active inventory blocks
-	 * @param string $moduleName Module name
-	 * @return string/false
+	 * @param int/bool $type
+	 * @return bool/self
 	 */
-	public function setInventoryTable($type)
+	public function setMode($type)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$moduleName = $this->name;
 
-		$focus = CRMEntity::getInstance($moduleName);
-		$basetable = $focus->table_name;
-		$basetableid = $focus->table_index;
-
-		$tableEnds = ['_inventory', '_invfield', '_invmap'];
-
-		if ($type === true || $type === 'true') {
-			$type = 1;
-		} else {
-			$type = 0;
+		$result = $db->createCommand()->update('vtiger_tab', ['type' => (int) $type], ['name' => $moduleName])->execute();
+		if (!$result) {
+			return false;
 		}
-		$result = $db->update('vtiger_tab', [
-			'type' => $type
-			], 'name = ?', [$moduleName]
-		);
-		$i = 0;
-		if ($result && $type) {
-			while (isset($tableEnds[$i]) && $ends = $tableEnds[$i]) {
-				switch ($ends) {
-					case '_inventory':
-						$sql = '(id int(19),seq int(10),KEY id (id),CONSTRAINT `fk_1_' . $basetable . $ends . '` FOREIGN KEY (`id`) REFERENCES `' . $basetable . '` (`' . $basetableid . '`) ON DELETE CASCADE)';
-						break;
-					case '_invfield':
-						$sql = "(id int(19) AUTO_INCREMENT PRIMARY KEY, columnname varchar(30) NOT NULL, label varchar(50) NOT NULL, invtype varchar(30) NOT NULL,presence tinyint(1) unsigned NOT NULL DEFAULT '0',
-					defaultvalue varchar(255),sequence int(10) unsigned NOT NULL, block tinyint(1) unsigned NOT NULL,displaytype tinyint(1) unsigned NOT NULL DEFAULT '1', params text, colspan tinyint(1) unsigned NOT NULL DEFAULT '1')";
-						break;
-					case '_invmap':
-						$sql = '(module varchar(50) NOT NULL,field varchar(50) NOT NULL,tofield varchar(50) NOT NULL,PRIMARY KEY (`module`,`field`,`tofield`))';
-						break;
-				}
-				if (!vtlib\Utils::CheckTable($basetable . $ends)) {
-					vtlib\Utils::CreateTable($basetable . $ends, $sql, true);
-				}
-				$i++;
+		if ($type) {
+			$this->createInventoryTables();
+		}
+		return $this;
+	}
+
+	/**
+	 * Create inventory tables
+	 */
+	public function createInventoryTables()
+	{
+		$db = \App\Db::getInstance();
+		$focus = CRMEntity::getInstance($this->name);
+		$moduleLowerCase = strtolower($this->name);
+		$basetable = $focus->table_name;
+		$importer = new \App\Db\Importers\Base();
+		$tables = [
+			'_inventory' => [
+				'columns' => [
+					'id' => $importer->integer(11),
+					'seq' => $importer->integer(10),
+				],
+				'index' => [
+						[$moduleLowerCase . '_inventory_idx', 'id'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'_invfield' => [
+				'columns' => [
+					'id' => $importer->primaryKey(),
+					'columnname' => $importer->stringType(30)->notNull(),
+					'label' => $importer->stringType(50)->notNull(),
+					'invtype' => $importer->stringType(30)->notNull(),
+					'presence' => $importer->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'defaultvalue' => $importer->stringType(),
+					'sequence' => $importer->integer(10)->unsigned()->notNull(),
+					'block' => $importer->smallInteger(1)->unsigned()->notNull(),
+					'displaytype' => $importer->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'params' => $importer->text(),
+					'colspan' => $importer->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'_invmap' => [
+				'columns' => [
+					'module' => $importer->stringType(50)->notNull(),
+					'field' => $importer->stringType(50)->notNull(),
+					'tofield' => $importer->stringType(50)->notNull(),
+				],
+				'primaryKeys' => [
+						[$moduleLowerCase . '_invmap_pk', ['module', 'field', 'tofield']]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+		]];
+		$base = new \App\Db\Importer();
+		$base->dieOnError = AppConfig::debug('SQL_DIE_ON_ERROR');
+		foreach ($tables as $postFix => $data) {
+			$tableName = $basetable . $postFix;
+			if (!$db->isTableExists($tableName)) {
+				$importer->tables = [$tableName => $data];
+				$base->addTables($importer);
 			}
 		}
-		return $result;
 	}
 }

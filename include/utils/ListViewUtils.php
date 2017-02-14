@@ -32,13 +32,13 @@ require_once('include/utils/UserInfoUtil.php');
  */
 function getListQuery($module, $where = '')
 {
-	
+
 	\App\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$tab_id = \includes\Modules::getModuleId($module);
+	$tab_id = \App\Module::getModuleId($module);
 	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 			'vtiger_users.last_name'), 'Users');
 	switch ($module) {
@@ -192,39 +192,9 @@ function getListQuery($module, $where = '')
 		LEFT JOIN vtiger_groups vtiger_groups2
 			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
-			//added to fix #5135
-			if (AppRequest::get('from_homepage') == 'upcoming_activities' || AppRequest::get('from_homepage') == 'pending_activities') {
-				$query.=' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
-			}
 			//end
 			$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
-			$query.= ' ' . $where;
-			break;
-		Case "Emails":
-			$query = "SELECT DISTINCT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
-			vtiger_activity.activityid, vtiger_activity.subject,
-			vtiger_activity.date_start,
-			vtiger_contactdetails.lastname, vtiger_contactdetails.firstname,
-			vtiger_contactdetails.contactid
-			FROM vtiger_activity
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_activity.activityid
-			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_contactdetails
-				ON vtiger_contactdetails.contactid = vtiger_activity.link
-			LEFT JOIN vtiger_cntactivityrel
-				ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-				AND vtiger_cntactivityrel.contactid = vtiger_cntactivityrel.contactid
-			LEFT JOIN vtiger_groups
-				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_salesmanactivityrel
-				ON vtiger_salesmanactivityrel.activityid = vtiger_activity.activityid
-			LEFT JOIN vtiger_emaildetails
-				ON vtiger_emaildetails.emailid = vtiger_activity.activityid";
-			$query .= getNonAdminAccessControlQuery($module, $current_user);
-			$query .= "WHERE vtiger_activity.activitytype = 'Emails'";
-			$query .= "AND vtiger_crmentity.deleted = 0 " . $where;
+			$query .= ' ' . $where;
 			break;
 		Case "Faq":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime,
@@ -318,134 +288,12 @@ function getListQuery($module, $where = '')
 	\App\Log::trace("Exiting getListQuery method ...");
 	return $query;
 }
-/* * This function stores the variables in session sent in list view url string.
- * Param $lv_array - list view session array
- * Param $noofrows - no of rows
- * Param $max_ent - maximum entires
- * Param $module - module name
- * Param $related - related module
- * Return type void.
- */
-
-function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = '')
-{
-	$start = '';
-	if ($noofrows >= 1) {
-		$lv_array['start'] = 1;
-		$start = 1;
-	} elseif ($related != '' && $noofrows == 0) {
-		$lv_array['start'] = 1;
-		$start = 1;
-	} else {
-		$lv_array['start'] = 0;
-		$start = 0;
-	}
-
-	if (AppRequest::has('start') && AppRequest::get('start') != '') {
-		$lv_array['start'] = ListViewSession::getRequestStartPage();
-		$start = ListViewSession::getRequestStartPage();
-	} elseif ($_SESSION['rlvs'][$module][$related]['start'] != '') {
-
-		if ($related != '') {
-			$lv_array['start'] = $_SESSION['rlvs'][$module][$related]['start'];
-			$start = $_SESSION['rlvs'][$module][$related]['start'];
-		}
-	}
-	if (AppRequest::has('viewname') && AppRequest::get('viewname') != '')
-		$lv_array['viewname'] = AppRequest::get('viewname');
-
-	if ($related == '')
-		$_SESSION['lvs'][AppRequest::get('module')] = $lv_array;
-	else
-		$_SESSION['rlvs'][$module][$related] = $lv_array;
-
-	if ($start < ceil($noofrows / $max_ent) && $start != '') {
-		$start = ceil($noofrows / $max_ent);
-		if ($related == '')
-			$_SESSION['lvs'][$currentModule]['start'] = $start;
-	}
-}
-/* * Function to get the table headers for related listview
- * Param $navigation_arrray - navigation values in array
- * Param $url_qry - url string
- * Param $module - module name
- * Param $action- action file name
- * Param $viewid - view id
- * Returns an string value
- */
-
-function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid)
-{
-	
-	$adb = PearDatabase::getInstance();
-	\App\Log::trace("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
-	global $theme;
-	$relatedTabId = \includes\Modules::getModuleId($related_module);
-	$tabid = \includes\Modules::getModuleId($module);
-
-	$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
-		related_tabid=?', array($tabid, $relatedTabId));
-	if (empty($relatedListResult))
-		return;
-	$relatedListRow = $adb->fetchByAssoc($relatedListResult);
-	$header = $relatedListRow['label'];
-	$actions = $relatedListRow['actions'];
-	$functionName = $relatedListRow['name'];
-
-	$urldata = "module=$module&action={$module}Ajax&file=DetailViewAjax&record={$recordid}&" .
-		"ajxaction=LOADRELATEDLIST&header={$header}&relation_id={$relatedListRow['relation_id']}" .
-		"&actions={$actions}&{$url_qry}";
-
-	$formattedHeader = str_replace(' ', '', $header);
-	$target = 'tbl_' . $module . '_' . $formattedHeader;
-	$imagesuffix = $module . '_' . $formattedHeader;
-
-	$output = '<td align="right" style="padding="5px;">';
-	if (($navigation_array['prev']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LBL_FIRST') . '" title="' . \includes\Language::translate('LBL_FIRST') . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"title="' . \includes\Language::translate('LNK_LIST_PREVIOUS') . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-	} else {
-		$output .= '<img src="' . vtiger_imageurl('start_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
-		$output .= '<img src="' . vtiger_imageurl('previous_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
-	}
-
-	$jsHandler = "return VT_disableFormSubmit(event);";
-	$output .= "<input class='small' name='pagenum' type='text' value='{$navigation_array['current']}'
-		style='width: 3em;margin-right: 0.7em;' onchange=\"loadRelatedListBlock('{$urldata}&start='+this.value+'','{$target}','{$imagesuffix}');\"
-		onkeypress=\"$jsHandler\">";
-	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
-	$computeCount = AppRequest::get('withCount');
-	if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') === true || ((boolean) $computeCount) === true) {
-		$output .= \includes\Language::translate('LBL_LIST_OF') . ' ' . $navigation_array['verylast'];
-	} else {
-		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . \includes\Language::translate('LBL_HOME_COUNT') . "'
-			onclick=\"loadRelatedListBlock('{$urldata}&withCount=true&start={$navigation_array['current']}','{$target}','{$imagesuffix}');\"
-			align='absmiddle' name='" . $module . "_listViewCountRefreshIcon'/>
-			<img name='" . $module . "_listViewCountContainerBusy' src='" . vtiger_imageurl('vtbusy.gif', $theme) . "' style='display: none;'
-			align='absmiddle' alt='" . \includes\Language::translate('LBL_LOADING') . "'>";
-	}
-	$output .= '</span>';
-
-	if (($navigation_array['next']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['next'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');"><img src="' . vtiger_imageurl('next.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['verylast'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');"><img src="' . vtiger_imageurl('end.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-	} else {
-		$output .= '<img src="' . vtiger_imageurl('next_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
-		$output .= '<img src="' . vtiger_imageurl('end_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
-	}
-	$output .= '</td>';
-	\App\Log::trace("Exiting getTableHeaderNavigation method ...");
-	if ($navigation_array['first'] == '')
-		return;
-	else
-		return $output;
-}
 /* Function to get the Entity Id of a given Entity Name */
 
 function getEntityId($module, $entityName)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	\App\Log::trace("in getEntityId " . $entityName);
 
 	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
@@ -477,14 +325,10 @@ function getEntityId($module, $entityName)
 
 function decode_html($str)
 {
-	$defaultCharset = AppConfig::main('default_charset');
-	if (empty($default_charset))
-		$defaultCharset = 'UTF-8';
-	// Direct Popup action or Ajax Popup action should be treated the same.
-	if (AppRequest::get('action') == 'Popup' || (AppRequest::has('action') && AppRequest::get('file') == 'Popup'))
-		return html_entity_decode($str);
-	else
-		return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
+	static $defaultCharset = false;
+	if (empty($defaultCharset))
+		$defaultCharset = AppConfig::main('default_charset', 'UTF-8');
+	return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
 }
 
 function popup_decode_html($str)
@@ -506,7 +350,7 @@ function getFirstModule($module, $fieldname)
 {
 	$adb = PearDatabase::getInstance();
 	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
-	$result = $adb->pquery($sql, array(\includes\Modules::getModuleId($module), $fieldname));
+	$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
 
 	if ($adb->num_rows($result) > 0) {
 		$uitype = $adb->query_result($result, 0, "uitype");
@@ -525,114 +369,8 @@ function getFirstModule($module, $fieldname)
 	return $data;
 }
 
-function VT_getSimpleNavigationValues($start, $size, $total)
-{
-	$prev = $start - 1;
-	if ($prev < 0) {
-		$prev = 0;
-	}
-	if ($total === null) {
-		return array('start' => $start, 'first' => $start, 'current' => $start, 'end' => $start, 'end_val' => $size, 'allflag' => 'All',
-			'prev' => $prev, 'next' => $start + 1, 'verylast' => 'last');
-	}
-	if (empty($total)) {
-		$lastPage = 1;
-	} else {
-		$lastPage = ceil($total / $size);
-	}
-
-	$next = $start + 1;
-	if ($next > $lastPage) {
-		$next = 0;
-	}
-	return array('start' => $start, 'first' => $start, 'current' => $start, 'end' => $start, 'end_val' => $size, 'allflag' => 'All',
-		'prev' => $prev, 'next' => $next, 'verylast' => $lastPage);
-}
-
-function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '')
-{
-	$adb = PearDatabase::getInstance();
-	$numRows = $adb->num_rows($listResult);
-	$recordListRangeMsg = '';
-	if ($numRows > 0) {
-		$recordListRangeMsg = \includes\Language::translate('LBL_SHOWING') . ' ' . \includes\Language::translate('LBL_RECORDS') .
-			' ' . ($limitStartRecord + 1) . ' - ' . ($limitStartRecord + $numRows);
-		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
-			$recordListRangeMsg .= ' ' . \includes\Language::translate('LBL_LIST_OF') . " $totalRows";
-		}
-	}
-	return $recordListRangeMsg;
-}
-
 function listQueryNonAdminChange($query, $module, $scope = '')
 {
 	$instance = CRMEntity::getInstance($module);
 	return $instance->listQueryNonAdminChange($query, $scope);
-}
-
-function html_strlen($str)
-{
-	$chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-	return count($chars);
-}
-
-function html_substr($str, $start, $length = NULL)
-{
-	if ($length === 0)
-		return "";
-	//check if we can simply use the built-in functions
-	if (strpos($str, '&') === false) { //No entities. Use built-in functions
-		if ($length === NULL)
-			return substr($str, $start);
-		else
-			return substr($str, $start, $length);
-	}
-
-	// create our array of characters and html entities
-	$chars = preg_split('/(&[^;\s]+;)|/', $str, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE);
-	$html_length = count($chars);
-	// check if we can predict the return value and save some processing time
-	if (($html_length === 0) || ( $start >= $html_length) || ( isset($length) && ( $length <= -$html_length)))
-		return "";
-
-	//calculate start position
-	if ($start >= 0) {
-		$real_start = $chars[$start][1];
-	} else { //start'th character from the end of string
-		$start = max($start, -$html_length);
-		$real_start = $chars[$html_length + $start][1];
-	}
-	if (!isset($length)) // no $length argument passed, return all remaining characters
-		return substr($str, $real_start);
-	else if ($length > 0) { // copy $length chars
-		if ($start + $length >= $html_length) { // return all remaining characters
-			return substr($str, $real_start);
-		} else { //return $length characters
-			return substr($str, $real_start, $chars[max($start, 0) + $length][1] - $real_start);
-		}
-	} else { //negative $length. Omit $length characters from end
-		return substr($str, $real_start, $chars[$html_length + $length][1] - $real_start);
-	}
-}
-
-function counterValue()
-{
-	static $counter = 0;
-	$counter = $counter + 1;
-	return $counter;
-}
-
-function getUsersPasswordInfo()
-{
-	$adb = PearDatabase::getInstance();
-	$sql = "SELECT user_name, user_hash FROM vtiger_users WHERE deleted=?";
-	$result = $adb->pquery($sql, array(0));
-	$usersList = [];
-	$countResult = $adb->num_rows($result);
-	for ($i = 0; $i < $countResult; $i++) {
-		$userList['name'] = $adb->query_result($result, $i, "user_name");
-		$userList['hash'] = $adb->query_result($result, $i, "user_hash");
-		$usersList[] = $userList;
-	}
-	return $usersList;
 }

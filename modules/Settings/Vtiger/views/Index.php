@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class Settings_Vtiger_Index_View extends Vtiger_Basic_View
@@ -16,8 +17,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
 		$this->exposeMethod('DonateUs');
-		$this->exposeMethod('Index');
-		$this->exposeMethod('Github');
+		$this->exposeMethod('index');
+		$this->exposeMethod('github');
 		$this->exposeMethod('systemWarnings');
 		$this->exposeMethod('getWarningsList');
 	}
@@ -52,7 +53,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-
 		if ($settingsModel->has('selected')) {
 			$viewer->assign('SELECTED_PAGE', $settingsModel->get('selected'));
 		}
@@ -69,20 +69,19 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('SettingsIndexHeader.tpl', $qualifiedModuleName);
+		$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
 	}
 
 	public function postProcessSettings(Vtiger_Request $request)
 	{
-
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
+		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
 	}
 
-	public function Index(Vtiger_Request $request)
+	/**
+	 * Index
+	 * @param Vtiger_Request $request
+	 */
+	public function index(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -90,9 +89,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$allWorkflows = Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount();
 		$activeModules = Settings_ModuleManager_Module_Model::getModulesCount(true);
 		$pinnedSettingsShortcuts = Settings_Vtiger_MenuItem_Model::getPinnedItems();
-		$warningsCount = includes\SystemWarnings::getWarningsCount();
+		$warnings = \App\SystemWarnings::getWarnings('all');
 
-		$viewer->assign('WARNINGS_COUNT', $warningsCount);
+		$viewer->assign('WARNINGS_COUNT', count($warnings));
+		$viewer->assign('WARNINGS', !Vtiger_Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
@@ -100,7 +100,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function Github(Vtiger_Request $request)
+	public function github(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
@@ -153,9 +153,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 
-		$folders = array_values(\includes\SystemWarnings::getFolders());
+		$folders = array_values(\App\SystemWarnings::getFolders());
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('FOLDERS', \includes\utils\Json::encode($folders));
+		$viewer->assign('FOLDERS', \App\Json::encode($folders));
 		$viewer->view('SystemWarnings.tpl', $qualifiedModuleName);
 	}
 
@@ -171,7 +171,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 
-		$list = \includes\SystemWarnings::getWarnings($folder, $active);
+		$list = \App\SystemWarnings::getWarnings($folder, $active);
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('WARNINGS_LIST', $list);
 		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);

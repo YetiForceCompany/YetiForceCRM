@@ -13,7 +13,7 @@ class SMSNotifier_Provider_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get instance of provider model
-	 * @param <String> $providerName
+	 * @param string $providerName
 	 * @return <SMSNotifier_Provider_Model> provider object
 	 */
 	public static function getInstance($providerName)

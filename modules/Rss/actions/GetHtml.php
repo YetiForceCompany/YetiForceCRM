@@ -24,13 +24,11 @@ class Rss_GetHtml_Action extends Vtiger_Action_Controller
 
 	public function process(Vtiger_Request $request)
 	{
-		$module = $request->get('module');
 		$url = $request->get('url');
-		$recordModel = Rss_Record_Model::getCleanInstance($module);
-		$html = $recordModel->getHtmlFromUrl($url);
+		$request = Requests::get($url);
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('html' => $html));
+		$response->setResult(array('html' => $request->body));
 		$response->emit();
 	}
 }

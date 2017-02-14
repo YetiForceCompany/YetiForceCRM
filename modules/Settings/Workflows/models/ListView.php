@@ -22,8 +22,6 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 	 */
 	public function getListViewEntries($pagingModel)
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
 		$moduleName = $module->getName();
 		$parentModuleName = $module->getParentName();
@@ -36,19 +34,15 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		$listFields = $module->listFields;
 		unset($listFields['all_tasks']);
 		unset($listFields['active_tasks']);
-		$listQuery = "SELECT ";
-		foreach ($listFields as $fieldName => $fieldLabel) {
-			$listQuery .= "$fieldName, ";
-		}
-		$listQuery .= $module->baseIndex . " FROM " . $module->baseTable;
+		$listFields = array_keys($listFields);
+		$listFields [] = $module->baseIndex;
+		$listQuery = (new App\Db\Query())->select($listFields)
+			->from($module->baseTable);
 
-		$params = array();
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$listQuery .= ' WHERE module_name = ?';
-			$params[] = $sourceModule;
+			$listQuery->where(['module_name' => $sourceModule]);
 		}
-
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 
@@ -56,21 +50,17 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
 		if (!empty($orderBy)) {
-			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $this->getForSql('sortorder'));
+			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
 		}
-		$nextListQuery = $listQuery . ' LIMIT ' . ($startIndex + $pageLimit) . ',1';
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit + 1);
+		$listQuery->limit($pageLimit + 1)->offset($startIndex);
 
-		$listResult = $db->pquery($listQuery, $params);
-		$noOfRecords = $db->num_rows($listResult);
-
-		$listViewRecordModels = array();
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$row = $db->query_result_rowdata($listResult, $i);
+		$dataReader = $listQuery->createCommand()->query();
+		$listViewRecordModels = [];
+		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
 			$module_name = $row['module_name'];
 
@@ -92,20 +82,13 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 
-		$pagingModel->calculatePageRange($listViewRecordModels);
-
-		if ($db->num_rows($listResult) > $pageLimit) {
-			array_pop($listViewRecordModels);
+		$pagingModel->calculatePageRange($dataReader->count());
+		if ($dataReader->count() > $pageLimit) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
 
-		$nextPageResult = $db->pquery($nextListQuery, $params);
-		$nextPageNumRows = $db->num_rows($nextPageResult);
-		if ($nextPageNumRows <= 0) {
-			$pagingModel->set('nextPageExists', false);
-		}
 		return $listViewRecordModels;
 	}
 	/*	 * *
@@ -115,17 +98,12 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 
 	public function getListViewCount()
 	{
-		$db = PearDatabase::getInstance();
-
 		$module = $this->getModule();
-		$listQuery = sprintf('SELECT count(*) AS count FROM %s', $module->baseTable);
-
+		$query = (new App\Db\Query())->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {
-			$listQuery .= " WHERE module_name = '$sourceModule'";
+			$query->where(['module_name' => $sourceModule]);
 		}
-
-		$listResult = $db->query($listQuery);
-		return $db->getSingleValue($listResult);
+		return $query->count();
 	}
 }

@@ -17,8 +17,5 @@
 			</div>
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
-		{if $MODULE neq 'Home'}
-			{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
-		{/if}
 	</div>
 {/strip}

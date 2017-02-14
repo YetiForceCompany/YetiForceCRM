@@ -23,7 +23,6 @@ $languageStrings = [
 	'UA' => 'Ближайшие События',
 	'Home' => 'Главная',
 	'OLTPO' => 'Последние Закупки',
-	'LBL_NO_NOTIFICATIONS' => ' Нет уведомлений',
 	'Notifications' => 'Уведомления',
 	'LBL_MESSAGES_FROM_USERS' => 'Для пользователей',
 	'LBL_SEND_NOTIFICATION_MESSAGE' => 'Отправить сообщение',
@@ -34,4 +33,6 @@ $languageStrings = [
 	'LBL_NOTIFICATION_SETTINGS' => 'Настройки уведомлений',
 	'LBL_TYPE_NOTIFICATIONS' => 'Типы уведомлений',
 	'LBL_TIME' => 'Время',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Number of notifications by recipient',
 ];

@@ -79,11 +79,11 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		$success = '';
 
 		// get min, max, allow_chars from vtiger_passwords_config
-		$result = $adb->query("SELECT * FROM vtiger_passwords_config WHERE 1 LIMIT 1", true);
-		$min = $adb->query_result($result, 0, 'pass_length_min');
-		$max = $adb->query_result($result, 0, 'pass_length_max');
-		$allow_chars = $adb->query_result($result, 0, 'pass_allow_chars');
-		$register = $adb->query_result($result, 0, 'register_changes');
+		$passwordConfig = (new \App\Db\Query())->from('vtiger_passwords_config')->one();
+		$min = $passwordConfig['pass_length_min'];
+		$max = $passwordConfig['pass_length_max'];
+		$allow_chars = $passwordConfig['pass_allow_chars'];
+		$register = $passwordConfig['register_changes'];
 
 		// if password configuration form was sent
 		//if ( isset($_POST['save'],$_POST['pass_length_min'],$_POST['pass_length_max'],$_POST['pass_allow_chars']) ) {
@@ -95,8 +95,13 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 			// update the configuration data
 			if (strlen($error) == 0 && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
-				$adb->pquery("UPDATE vtiger_passwords_config SET pass_length_min = ?, pass_length_max = ?, pass_allow_chars = ?, register_changes= ?;", array($post_min, $post_max, $adb->sql_escape_string($aChars), $rChanges), true);
-				// uaktualnij zmienne
+				App\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
+					'pass_length_min' => $post_min,
+					'pass_length_max' => $post_max,
+					'pass_allow_chars' => $adb->sql_escape_string($aChars),
+					'pass_length_max' => $rChanges,
+				])->execute();
+				// update variables
 				$min = $post_min;
 				$max = $post_max;
 				$allow_chars = $aChars;
@@ -117,7 +122,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					// create new config
 					$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 
-					$config = array("encode" => array('key' => "$newPassword"));
+					$config = ["encode" => ['key' => "$newPassword"]];
 					$recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
 
 					// start transaction

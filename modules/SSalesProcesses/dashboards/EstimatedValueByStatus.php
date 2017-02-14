@@ -2,7 +2,7 @@
 
 /**
  * Widget show estimated value by status
- * @package YetiForce.Github
+ * @package YetiForce.Dashboard
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
@@ -38,25 +38,22 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 	{
 		$moduleName = 'SSalesProcesses';
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$securityQuery = \App\PrivilegeQuery::getAccessConditions($moduleName);
-		$paramsSql = [];
-		$query = 'SELECT SUM(u_yf_ssalesprocesses.estimated) AS estimated, u_yf_ssalesprocesses.ssalesprocesses_status FROM u_yf_ssalesprocesses 
-			INNER JOIN vtiger_crmentity ON u_yf_ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
-			WHERE (ssalesprocesses_status <> \'\' AND  ssalesprocesses_status IS NOT NULL) ';
-		$query .= $securityQuery;
+		$query = (new \App\Db\Query())->select('SUM(u_#__ssalesprocesses.estimated) AS estimated, u_#__ssalesprocesses.ssalesprocesses_status')
+			->from('u_yf_ssalesprocesses')
+			->innerJoin('vtiger_crmentity', 'u_#__ssalesprocesses.ssalesprocessesid = vtiger_crmentity.crmid')
+			->where(['and', ['<>', 'ssalesprocesses_status', ''], ['vtiger_crmentity.deleted' => 0], ['not', ['ssalesprocesses_status' => null]]]);
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($owner)) {
-			$query .= ' AND vtiger_crmentity.smownerid = ?';
-			$paramsSql [] = $owner;
+			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
-		$query .= ' GROUP BY u_yf_ssalesprocesses.ssalesprocesses_status';
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery($query, $paramsSql);
+		$query->groupBy('u_#__ssalesprocesses.ssalesprocesses_status');
+		$dataReader = $query->createCommand()->query();
 		$data = [];
 		$i = 1;
 		$currencyInfo = vtlib\Functions::getDefaultCurrencyInfo();
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$data [] = [
-				\includes\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' .$currencyInfo['currency_symbol'],
+				\App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
 				$i++,
 				$moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status'])
 			];
@@ -66,7 +63,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 
 	/**
 	 * Main function
-	 * @param <Vtiger_Request> $request
+	 * @param Vtiger_Request $request
 	 */
 	public function process(\Vtiger_Request $request)
 	{

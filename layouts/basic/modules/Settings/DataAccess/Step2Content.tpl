@@ -36,7 +36,7 @@
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
 															>{vtranslate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -67,7 +67,7 @@
 											{/foreach}
 										</select>
 									{else if $cnd_item['field_type'] eq 'time'}
-										<div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="timepicker-default form-control ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
+										<div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="clockPicker form-control" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
 											{else if $cnd_item['field_type'] eq 'date'}
 												{if $cnd_item['comparator'] == 'between'}
 											<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
@@ -101,7 +101,7 @@
 											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
 															>{vtranslate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -165,4 +165,4 @@
 	</div>
 	<div class="clearfix"></div>
 </form>
-<div id="condition_list" style="display: none;">{\includes\utils\Json::encode($CONDITION_BY_TYPE)}</div>
+<div id="condition_list" style="display: none;">{\App\Json::encode($CONDITION_BY_TYPE)}</div>

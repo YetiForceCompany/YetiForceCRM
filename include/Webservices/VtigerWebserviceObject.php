@@ -16,15 +16,10 @@ class VtigerWebserviceObject
 	private $handlerPath;
 	private $handlerClass;
 
-	private function VtigerWebserviceObject($entityId, $entityName, $handler_path, $handler_class)
+	private function __construct($entityId, $entityName, $handler_path, $handler_class)
 	{
 		$this->id = $entityId;
 		$this->name = $entityName;
-		// Quick Fix to override default Actor class & path (good to update DB itself)
-		if ($entityName == 'CompanyDetails') {
-			$handler_path = 'include/Webservices/Custom/VtigerCompanyDetails.php';
-			$handler_class = 'VtigerCompanyDetails';
-		}
 		// END
 		$this->handlerPath = $handler_path;
 		$this->handlerClass = $handler_class;
@@ -33,19 +28,14 @@ class VtigerWebserviceObject
 	// Cache variables to enable result re-use
 	private static $_fromNameCache = [];
 
-	static function fromName($adb, $entityName)
+	static function fromName($adb = false, $entityName)
 	{
-
 		$rowData = false;
-
 		// If the information not available in cache?
 		if (empty(self::$_fromNameCache)) {
-			$result = $adb->query('select * from vtiger_ws_entity');
-
-			if ($result) {
-				while ($rowData = $adb->getRow($result)) {
-					self::$_fromNameCache[$rowData['name']] = $rowData;
-				}
+			$rows = (new \App\Db\Query())->from('vtiger_ws_entity')->all();
+			foreach ($rows as &$row) {
+				self::$_fromNameCache[$row['name']] = $row;
 			}
 		}
 		if (isset(self::$_fromNameCache[$entityName])) {
@@ -64,16 +54,14 @@ class VtigerWebserviceObject
 
 		// If the information not available in cache?
 		if (!isset(self::$_fromIdCache[$entityId])) {
-			$result = $adb->pquery("select * from vtiger_ws_entity where id=?", array($entityId));
+			$id = explode('x', $entityId);
+			$query = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['id' => $id[0]]);
+			$result = $query->one();
+
 			if ($result) {
-				$rowCount = $adb->num_rows($result);
-				if ($rowCount === 1) {
-					$rowData = $adb->query_result_rowdata($result, 0);
-					self::$_fromIdCache[$entityId] = $rowData;
-				}
+				self::$_fromIdCache[$entityId] = $result;
 			}
 		}
-
 		$rowData = self::$_fromIdCache[$entityId];
 
 		if ($rowData) {

@@ -2,7 +2,7 @@
 {strip}
 	{assign var="REFERENCE_LIST" value=$FIELD->getReferenceModules()}
 	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(['mandatory'=>true]))}
+	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
 	<div class="input-group referenceGroup" style="max-width: 250px;">
 		{if $REFERENCE_LIST_COUNT eq 1}
@@ -27,7 +27,7 @@
 				</select>
 			</div>
 		{/if}
-		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-displayvalue="{Vtiger_Util_Helper::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
+		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue="{Vtiger_Util_Helper::toSafeHTML($FIELD->getEditValue($ITEM_VALUE))}" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />
 		{assign var="displayId" value=$ITEM_VALUE}
 		{if $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon clearReferenceSelection cursorPointer">

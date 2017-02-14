@@ -32,6 +32,8 @@ $languageStrings = [
 	'LBL_REVIEW_HISTORY' => 'Обзор истории',
 	'LBL_REVIEWED' => 'Непросмотренный',
 	'BTN_CHANGES_REVIEWED_ON' => 'Изменено на просмотренный',
+	'LBL_NUMBER_UNREAD_MAILS' => 'Number of unread emails',
+	'LBL_NUMBER_UNREAD_CHANGES' => 'Number of unread changes',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Due to exceeding the limit of updated data the action was added to cron tasks queue.',
 	'LBL_ESTIMATED_TIME' => 'Estimated time',
 ];

@@ -26,7 +26,7 @@ function vtws_listtypes($fieldTypeList, $user)
 		return $types[$user->id][$fieldTypeString];
 	}
 	try {
-		
+
 		/**
 		 * @var PearDatabase
 		 */
@@ -58,7 +58,7 @@ function vtws_listtypes($fieldTypeList, $user)
 			$it = new SqlResultIterator($db, $result);
 			$moduleList = [];
 			foreach ($it as $row) {
-				$moduleList[] = \includes\Modules::getModuleName($row->tabid);
+				$moduleList[] = \App\Module::getModuleName($row->tabid);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
 
@@ -77,7 +77,7 @@ function vtws_listtypes($fieldTypeList, $user)
 			}
 		}
 		//get All the CRM entity names.
-		if ($webserviceEntities === false || !CRMEntity::isBulkSaveMode()) {
+		if ($webserviceEntities === false) {
 			// Bulk Save Mode: For re-using information
 			$webserviceEntities = vtws_getWebserviceEntities();
 		}
@@ -119,8 +119,8 @@ function vtws_listtypes($fieldTypeList, $user)
 	$informationArray = [];
 	foreach ($accessibleModules as $module) {
 		$vtigerModule = ($module == 'Events') ? 'Calendar' : $module;
-		$informationArray[$module] = array('isEntity' => true, 'label' => \includes\Language::translate($module, $vtigerModule),
-			'singular' => \includes\Language::translate('SINGLE_' . $module, $vtigerModule));
+		$informationArray[$module] = array('isEntity' => true, 'label' => \App\Language::translate($module, $vtigerModule),
+			'singular' => \App\Language::translate('SINGLE_' . $module, $vtigerModule));
 	}
 
 	foreach ($accessibleEntities as $entity) {

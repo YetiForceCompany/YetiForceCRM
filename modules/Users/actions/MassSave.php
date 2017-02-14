@@ -68,7 +68,6 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
 
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				$fieldValue = $request->get($fieldName, null);
@@ -87,7 +86,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 						$recordModel->set($fieldName, $recordModel->get($fieldName));
 					} else {
 						$uiTypeModel = $fieldModel->getUITypeModel();
-						$recordModel->set($fieldName, $uiTypeModel->getUserRequestValue($recordModel->get($fieldName), $recordId));
+						$recordModel->set($fieldName, $uiTypeModel->getDBValue($recordModel->get($fieldName), $recordModel));
 					}
 				}
 			}

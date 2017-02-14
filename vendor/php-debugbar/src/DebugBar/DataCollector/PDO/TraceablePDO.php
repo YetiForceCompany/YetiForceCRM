@@ -1,4 +1,5 @@
-<?php namespace DebugBar\DataCollector\PDO;
+<?php
+namespace DebugBar\DataCollector\PDO;
 
 use PDO;
 use PDOException;

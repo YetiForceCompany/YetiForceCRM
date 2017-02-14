@@ -24,6 +24,7 @@ $languageStrings = [
 	'LBL_GROUPS_COLORS' => 'Farbgruppe',
 	'LBL_GROUP_NAME' => 'Gruppenname',
 	'LBL_PRIORITY' => 'Priorität',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Wir empfehlen keine Benutzer mit Adminberechtigung für die LDAP Anmeldung zu wählen. Zur Lösung von Anmeldeproblemen sollten dies Benutzer sein, welche keine LDAP Authentifizierung benötigen.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => ' ',
@@ -38,7 +39,7 @@ $languageStrings = [
 	'LBL_VIEW_COLORS' => 'Farben',
 	'LBL_SWITCH_USERS' => 'Benutzer wechseln',
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Funktion um den Benutzer zu wechseln.',
-	'LBL_SU_BASE_ACCESS' => 'Bneutzer',
+	'LBL_SU_BASE_ACCESS' => 'Benutzer',
 	'LBL_SU_AVAILABLE_ACCESS' => 'Es ist erlaubt, sich anzumelden.',
 	//Locks
 	'LBL_LOCKS' => 'Sperren',
@@ -52,6 +53,6 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
 	'Changed password successfully' => 'Passwort erfolgreich geändert',
 ];

@@ -52,6 +52,25 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$headerLinks = [];
+		if (Users_Module_Model::getSwitchUsers()) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'SwitchUsers',
+				'linkurl' => '',
+				'glyphicon' => 'glyphicon glyphicon-transfer',
+				'nocaret' => true,
+				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
+				'linkclass' => 'showModal',
+			];
+		}
+		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_MY_PREFERENCES',
+				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+				'glyphicon' => 'glyphicon glyphicon-tasks',
+			];
+		}
 		if ($userModel->isAdminUser()) {
 			if ($request->get('parent') != 'Settings') {
 				$headerLinks[] = [
@@ -68,25 +87,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 					'glyphicon' => 'glyphicon glyphicon-user',
 				];
 			}
-		}
-		if (AppConfig::security('SHOW_MY_PREFERENCES')) {
-			$headerLinks[] = [
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_MY_PREFERENCES',
-				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'glyphicon' => 'glyphicon glyphicon-tasks',
-			];
-		}
-		if (Users_Module_Model::getSwitchUsers()) {
-			$headerLinks[] = [
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'SwitchUsers',
-				'linkurl' => '',
-				'glyphicon' => 'glyphicon glyphicon-transfer',
-				'nocaret' => true,
-				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
-				'linkclass' => 'showModal',
-			];
 		}
 		$headerLinks[] = [
 			'linktype' => 'HEADERLINK',

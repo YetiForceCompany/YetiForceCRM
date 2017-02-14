@@ -21,6 +21,8 @@
 	<script type="text/javascript" src="../libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/pnotify/pnotify.custom.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery.hoverIntent.minified.js"></script>
+	<script type="text/javascript" src="../libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js"></script>
+	<script type="text/javascript" src="../libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-{$HTMLLANG}.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootstrap-switch.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootbox.min.js"></script>

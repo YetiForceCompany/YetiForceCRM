@@ -1,6 +1,5 @@
-<?php namespace App;
-
-include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+<?php
+namespace App;
 
 /**
  * Purifier basic class
@@ -11,11 +10,10 @@ include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
 class Purifier
 {
 
-	private static $variablesCache = [];
 	private static $purifyInstanceCache = false;
 	private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
 		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|' .
-		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste';
+		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart';
 
 	/**
 	 * Purify (Cleanup) malicious snippets of code from the input
@@ -25,11 +23,14 @@ class Purifier
 	 */
 	public static function purify($input, $ignore = false)
 	{
+		if (empty($input)) {
+			return $input;
+		}
 		$value = $input;
 		if (!is_array($input)) {
-			$md5OfInput = md5($input);
-			if (isset(static::$variablesCache[$md5OfInput])) {
-				$value = static::$variablesCache[$md5OfInput];
+			$md5OfInput = md5($input) . '0';
+			if (Cache::has('purify', $md5OfInput)) {
+				$value = Cache::get('purify', $md5OfInput);
 				$ignore = true; //to escape cleaning up again
 			}
 		}
@@ -55,9 +56,10 @@ class Purifier
 				} else { // Simple type
 					$value = static::$purifyInstanceCache->purify($input);
 					$value = static::purifyHtmlEventAttributes($value);
+					$value = str_replace('&amp;', '&', $value);
+					Cache::save('purify', $md5OfInput, $value, Cache::SHORT);
 				}
 			}
-			static::$variablesCache[$md5OfInput] = str_replace('&amp;', '&', $value);
 		}
 		return $value;
 	}
@@ -75,7 +77,6 @@ class Purifier
 		return $value;
 	}
 
-	private static $variablesHtmlCache = [];
 	private static $purifyHtmlInstanceCache = false;
 
 	/**
@@ -87,11 +88,14 @@ class Purifier
 	 */
 	public static function purifyHtml($input, $ignore = false)
 	{
+		if (empty($input)) {
+			return $input;
+		}
 		$value = $input;
 		if (!is_array($input)) {
-			$md5OfInput = md5($input);
-			if (isset(static::$variablesHtmlCache[$md5OfInput])) {
-				$value = static::$variablesHtmlCache[$md5OfInput];
+			$md5OfInput = md5($input) . '1';
+			if (Cache::has('purifyHtml', $md5OfInput)) {
+				$value = Cache::get('purifyHtml', $md5OfInput);
 				$ignore = true; //to escape cleaning up again
 			}
 		}
@@ -197,9 +201,10 @@ class Purifier
 				} else { // Simple type
 					$value = static::$purifyHtmlInstanceCache->purify($input);
 					$value = static::purifyHtmlEventAttributes($value);
+					$value = str_replace('&amp;', '&', $value);
+					Cache::save('purifyHtml', $md5OfInput, $value, Cache::SHORT);
 				}
 			}
-			static::$variablesHtmlCache[$md5OfInput] = str_replace('&amp;', '&', $value);
 		}
 		return $value;
 	}
@@ -216,5 +221,55 @@ class Purifier
 			return $string;
 		}
 		return false;
+	}
+
+	private static $toHtmlInUTF8;
+
+	/**
+	 * Function to convert the given string to html
+	 * @param $string -- string:: Type string
+	 * @param $encode -- boolean:: Type boolean
+	 * @returns $string -- string:: Type string
+	 *
+	 */
+	public static function toHtml($string, $encode = true)
+	{
+		$oginalString = $string;
+		if (Cache::has('toHtml', $oginalString)) {
+			return Cache::get('toHtml', $oginalString);
+		}
+		$default_charset = vglobal('default_charset');
+
+		$action = \AppRequest::has('action') ? \AppRequest::get('action') : false;
+		$search = \AppRequest::has('search') ? \AppRequest::get('search') : false;
+		$ajaxAction = false;
+		$doconvert = false;
+
+		// For optimization - default_charset can be either upper / lower case.
+		if (!isset(static::$toHtmlInUTF8)) {
+			static::$toHtmlInUTF8 = (strtoupper($default_charset) == 'UTF-8');
+		}
+
+		if (\AppRequest::has('module') && \AppRequest::has('file') && \AppRequest::get('module') !== 'Settings' && \AppRequest::get('file') !== 'ListView' && \AppRequest::get('module') !== 'Portal' && \AppRequest::get('module') !== 'Reports')
+			$ajaxAction = \AppRequest::get('module') . 'Ajax';
+
+		if (is_string($string) && !empty($string)) {
+			if ($action !== 'CustomView' && $action !== 'Export' && $action !== $ajaxAction && $action !== 'LeadConvertToEntities' && \AppRequest::get('module') !== 'Dashboard' && (!\AppRequest::has('submode'))) {
+				$doconvert = true;
+			} else if ($search === true) {
+				// Fix for tickets #4647, #4648. Conversion required in case of search results also.
+				$doconvert = true;
+			}
+
+			// In vtiger5 ajax request are treated specially and the data is encoded
+			if ($doconvert === true) {
+				if (static::$toHtmlInUTF8)
+					$string = htmlentities($string, ENT_QUOTES, $default_charset);
+				else
+					$string = preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
+			}
+		}
+		Cache::save('toHtml', $oginalString, $string, Cache::LONG);
+		return $string;
 	}
 }

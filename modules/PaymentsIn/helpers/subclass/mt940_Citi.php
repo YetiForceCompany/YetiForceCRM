@@ -81,9 +81,6 @@ class mt940_Citi extends mt940
 		);
 		$delimiter = substr($value, 0, 1);
 		$tab = explode($delimiter, substr($value, 1));
-		//		echo '<pre>';print_r($delimiter);	echo '</pre>';
-		//	echo '<pre>';print_r(substr($value, 1));	echo '</pre>';
-		//	echo '<pre>';print_r($tab);	echo '</pre>';
 		$transaction['code'] = $tab[0];
 		$transaction['typeCode'] = $tab[1];
 

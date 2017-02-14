@@ -56,6 +56,7 @@ $languageStrings = [
 	'Default' => 'Domyślny',
 	'LBL_SELECT_Documents' => 'Wybierz dokument',
 	'LBL_RELATIONS' => 'Powiązania',
+	'LBL_MASS_ADD' => 'Masowe dodawanie'
 ];
 
 $jsLanguageStrings = [

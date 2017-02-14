@@ -73,10 +73,13 @@ class Assets extends CRMEntity
 		'Customer Name' => 'account',
 		'Product Name' => 'product'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['asset_no', 'assetname', 'product', 'assigned_user_id'];
 	// For Popup window record selection
 	public $popup_fields = Array('assetname', 'account', 'product');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'assetname';
 	// Required Information for enabling Import feature
@@ -89,20 +92,6 @@ class Assets extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	public $unit_price;
-
-	public function save_module($module)
-	{
-		//module specific save
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
 
 	/**
 	 * Get list view query.
@@ -160,7 +149,7 @@ class Assets extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -231,7 +220,7 @@ class Assets extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		// Security Check for Field Access
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\includes\Modules::getModuleId('Assets')] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Module::getModuleId('Assets')] == 3) {
 			//Added security check to get the permitted records only
 			$query = $query . " " . getListViewSecurityParameter($thismodule);
 		}
@@ -244,7 +233,7 @@ class Assets extends CRMEntity
 	public function transform_export_value($key, $value)
 	{
 		if ($key == 'owner')
-			return \includes\fields\Owner::getLabel($value);
+			return \App\Fields\Owner::getLabel($value);
 		return parent::transform_export_value($key, $value);
 	}
 
@@ -295,48 +284,6 @@ class Assets extends CRMEntity
 
 		return $query;
 	}
-	/**
-	 * Handle saving related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function delete_related_module($module, $crmid, $with_module, $with_crmid) { }
-
-	/**
-	 * Handle getting related list information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	//function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
-
-
-	/*
-	 * Function to get the primary query part of a report
-	 * @param - $module primary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
-	// function generateReportsQuery($module){ }
-
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
-	// function generateReportsSecQuery($module,$secmodule){ }
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
-	{
-
-		parent::unlinkDependencies($module, $id);
-	}
 
 	/**
 	 * Invoked when special actions are performed on the module.
@@ -352,8 +299,6 @@ class Assets extends CRMEntity
 			//Add Assets Module to Customer Portal
 			$adb = PearDatabase::getInstance();
 
-			$this->addModuleToCustomerPortal();
-
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
@@ -366,12 +311,12 @@ class Assets extends CRMEntity
 			$assetLabel = 'Assets';
 
 			$accountInstance = vtlib\Module::getInstance('Accounts');
-			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
+			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'getDependentsList');
 
 			$productInstance = vtlib\Module::getInstance('Products');
-			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'get_dependents_list');
+			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'getDependentsList');
 
-			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.enabled') {
@@ -381,29 +326,7 @@ class Assets extends CRMEntity
 		} else if ($eventType == 'module.preupdate') {
 			
 		} else if ($eventType == 'module.postupdate') {
-			$this->addModuleToCustomerPortal();
-			\includes\fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
-		}
-	}
-
-	public function addModuleToCustomerPortal()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$assetsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Assets'));
-		$assetsTabId = $adb->query_result($assetsResult, 0, 'tabid');
-		if (\includes\Modules::getModuleId('CustomerPortal') && $assetsTabId) {
-			$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_tabs WHERE tabid=?', array($assetsTabId));
-			if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
-				$maxSequenceQuery = $adb->query("SELECT max(sequence) as maxsequence FROM vtiger_customerportal_tabs");
-				$maxSequence = $adb->query_result($maxSequenceQuery, 0, 'maxsequence');
-				$nextSequence = $maxSequence + 1;
-				$adb->query("INSERT INTO vtiger_customerportal_tabs(tabid,visible,sequence) VALUES ($assetsTabId,1,$nextSequence)");
-			}
-			$checkAlreadyExists = $adb->pquery('SELECT 1 FROM vtiger_customerportal_prefs WHERE tabid=?', array($assetsTabId));
-			if ($checkAlreadyExists && $adb->num_rows($checkAlreadyExists) < 1) {
-				$adb->query("INSERT INTO vtiger_customerportal_prefs(tabid,prefkey,prefvalue) VALUES ($assetsTabId,'showrelatedinfo',1)");
-			}
+			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		}
 	}
 

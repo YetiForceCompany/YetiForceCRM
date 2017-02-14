@@ -16,13 +16,9 @@ class Products_PriceBookProductPopupAjax_View extends Products_PriceBookProductP
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
-
 		$this->initializeListViewContents($request, $viewer);
 
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		echo $viewer->view('PriceBookProductPopupContents.tpl', 'Products', true);

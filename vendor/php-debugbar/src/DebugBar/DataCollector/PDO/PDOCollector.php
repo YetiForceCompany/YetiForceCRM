@@ -1,4 +1,5 @@
-<?php namespace DebugBar\DataCollector\PDO;
+<?php
+namespace DebugBar\DataCollector\PDO;
 
 use DebugBar\DataCollector\AssetProvider;
 use DebugBar\DataCollector\DataCollector;
@@ -11,10 +12,11 @@ use DebugBar\DataCollector\TimeDataCollector;
 class PDOCollector extends DataCollector implements Renderable, AssetProvider
 {
 
-	protected $connections = array();
+	protected $connections = [];
 	protected $timeCollector;
 	protected $renderSqlWithParams = false;
 	protected $sqlQuotationChar = '<>';
+	public $connectType = 'master';
 
 	/**
 	 * @param TraceablePDO $pdo
@@ -90,7 +92,7 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
 			'accumulated_duration' => 0,
 			'memory_usage' => 0,
 			'peak_memory_usage' => 0,
-			'statements' => array()
+			'statements' => []
 		);
 
 		foreach ($this->connections as $name => $pdo) {
@@ -122,7 +124,10 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
 	 */
 	protected function collectPDO(TraceablePDO $pdo, TimeDataCollector $timeCollector = null)
 	{
-		$stmts = array();
+		$config = \App\Db::getConfig($this->connectType);
+		$dbName = $config['dbName'];
+		$driverName = $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+		$stmts = [];
 		foreach ($pdo->getExecutedStatements() as $stmt) {
 			$stmts[] = array(
 				'sql' => $this->renderSqlWithParams ? $stmt->getSqlWithParams($this->sqlQuotationChar) : $stmt->getSql(),
@@ -140,6 +145,9 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
 				'error_code' => $stmt->getErrorCode(),
 				'error_message' => $stmt->getErrorMessage(),
 				'backtrace' => $stmt->getBackTrace(),
+				'driverName' => $driverName,
+				'dbName' => $dbName,
+				'connectType' => $this->connectType,
 			);
 			if ($timeCollector !== null) {
 				$timeCollector->addMeasure($stmt->getSql(), $stmt->getStartTime(), $stmt->getEndTime());

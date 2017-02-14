@@ -16,6 +16,7 @@ $SECURITY_CONFIG = [
 	'PERMITTED_BY_SHARED_OWNERS' => true,
 	'PERMITTED_BY_RECORD_HIERARCHY' => true,
 	'PERMITTED_BY_ADVANCED_PERMISSION' => true,
+	'PERMITTED_BY_PRIVATE_FIELD' => true,
 	/*
 	 * Configuration of the permission mechanism on records list.
 	 * true - Permissions based on the users column in vtiger_crmentity
@@ -31,4 +32,6 @@ $SECURITY_CONFIG = [
 	'RESTRICTED_DOMAINS_ALLOWED' => [],
 	//List of modules excluded from restricted domains validation.
 	'RESTRICTED_DOMAINS_EXCLUDED' => ['OSSEmployees', 'Users'],
+	// Remember user credentials
+	'LOGIN_PAGE_REMEMBER_CREDENTIALS' => false,
 ];

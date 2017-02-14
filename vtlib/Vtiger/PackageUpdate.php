@@ -420,8 +420,6 @@ class PackageUpdate extends PackageImport
 	{
 		if (empty($modulenode->sharingaccess))
 			return;
-
-
 	}
 
 	/**
@@ -430,30 +428,14 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_Events($modulenode, $moduleInstance)
 	{
-		if (empty($modulenode->events) || empty($modulenode->events->event))
+		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
-
-		$adb = \PearDatabase::getInstance();
-
-		// Deleting events before importing them
-		$adb->delete('vtiger_eventhandlers', 'handler_class IN (SELECT handler_class FROM vtiger_eventhandler_module WHERE module_name = ? )', [$moduleInstance->name]);
-		$adb->delete('vtiger_eventhandler_module', 'module_name = ?', [$moduleInstance->name]);
-
-		if (Event::hasSupport()) {
-			foreach ($modulenode->events->event as $eventnode) {
-				$this->update_Event($modulenode, $moduleInstance, $eventnode);
-			}
 		}
-	}
-
-	/**
-	 * Update Event of the module
-	 * @access private
-	 */
-	public function update_Event($modulenode, $moduleInstance, $eventnode)
-	{
-		Event::register($moduleInstance, $eventnode->eventname, $eventnode->classname, $eventnode->filename);
-
+		$moduleId = \App\Module::getModuleId($moduleInstance->name);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_eventhandlers', ['owner_id' => $moduleId])->execute();
+		foreach ($modulenode->eventHandlers->event as &$eventNode) {
+			\App\EventHandler::registerHandler($eventNode->eventName, $eventNode->className, $eventNode->includeModules, $eventNode->excludeModules, $eventNode->priority, $eventNode->isActive, $moduleId);
+		}
 	}
 
 	/**
@@ -475,7 +457,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_Action($modulenode, $moduleInstance, $actionnode)
 	{
-
+		
 	}
 
 	/**
@@ -541,7 +523,7 @@ class PackageUpdate extends PackageImport
 	{
 		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
 			return;
-		$moduleInstance->deleteLinks();
+		Link::deleteAll($moduleInstance->id);
 		$this->import_CustomLinks($modulenode, $moduleInstance);
 	}
 

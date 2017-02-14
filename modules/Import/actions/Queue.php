@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Import_Queue_Action extends Vtiger_Action_Controller
@@ -29,36 +30,20 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 
 	public static function add($request, $user)
 	{
-		$db = PearDatabase::getInstance();
-
-		if (!vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			vtlib\Utils::CreateTable(
-				'vtiger_import_queue', "(importid INT NOT NULL PRIMARY KEY,
-								userid INT NOT NULL,
-								tabid INT NOT NULL,
-								field_mapping TEXT,
-								default_values TEXT,
-								merge_type INT,
-								merge_fields TEXT,
-								type tinyint(1),
-								temp_status INT default 0)", true);
-		}
-
 		if ($request->get('is_scheduled')) {
 			$temp_status = self::$IMPORT_STATUS_SCHEDULED;
 		} else {
 			$temp_status = self::$IMPORT_STATUS_NONE;
 		}
-
-		$db->pquery('INSERT INTO vtiger_import_queue VALUES(?,?,?,?,?,?,?,?,?)', array($db->getUniqueID('vtiger_import_queue'),
-			$user->id,
-			\includes\Modules::getModuleId($request->get('module')),
-			\includes\utils\Json::encode($request->get('field_mapping')),
-			\includes\utils\Json::encode($request->get('default_values')),
-			$request->get('merge_type'),
-			\includes\utils\Json::encode($request->get('merge_fields')),
-			$request->get('createRecordsByModel'),
-			$temp_status));
+		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
+			'userid' => $user->id,
+			'tabid' => \App\Module::getModuleId($request->get('module')),
+			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
+			'default_values' => \App\Json::encode($request->get('default_values')),
+			'merge_type' => $request->get('merge_type'),
+			'merge_fields' => \App\Json::encode($request->get('merge_fields')),
+			'temp_status' => $temp_status
+		])->execute();
 	}
 
 	public static function remove($importId)
@@ -92,17 +77,17 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		return null;
 	}
 
+	/**
+	 * Import info
+	 * @param string $module
+	 * @param Users_Record_Model $user
+	 * @return null|array
+	 */
 	public static function getImportInfo($module, $user)
 	{
-		$db = PearDatabase::getInstance();
-
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE tabid=? && userid=?', array(\includes\Modules::getModuleId($module), $user->id));
-
-			if ($queueResult && $db->num_rows($queueResult) > 0) {
-				$rowData = $db->raw_query_result_rowdata($queueResult, 0);
-				return self::getImportInfoFromResult($rowData);
-			}
+		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Module::getModuleId($module), 'userid' => $user->id])->one();
+		if ($rowData) {
+			return self::getImportInfoFromResult($rowData);
 		}
 		return null;
 	}
@@ -143,17 +128,21 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		return $scheduledImports;
 	}
 
-	static function getImportInfoFromResult($rowData)
+	/**
+	 * Import info
+	 * @param array $rowData
+	 * @return array
+	 */
+	public static function getImportInfoFromResult($rowData)
 	{
 		return [
 			'id' => $rowData['importid'],
-			'module' => \includes\Modules::getModuleName($rowData['tabid']),
-			'field_mapping' => \includes\utils\Json::decode($rowData['field_mapping']),
-			'default_values' => \includes\utils\Json::decode($rowData['default_values']),
+			'module' => \App\Module::getModuleName($rowData['tabid']),
+			'field_mapping' => \App\Json::decode($rowData['field_mapping']),
+			'default_values' => \App\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],
-			'merge_fields' => \includes\utils\Json::decode($rowData['merge_fields']),
+			'merge_fields' => \App\Json::decode($rowData['merge_fields']),
 			'user_id' => $rowData['userid'],
-			'type' => $rowData['type'],
 			'temp_status' => $rowData['temp_status']
 		];
 	}

@@ -6,7 +6,7 @@ $languageStrings = [
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Beschreibung Details',
+	'LBL_DESCRIPTION_INFORMATION' => 'Details',
 	'LBL_ATTENTION' => 'Wichtig',
 	'LBL_FINANCES' => 'Finanzen',
 	//FIELDS
@@ -22,6 +22,7 @@ $languageStrings = [
 	'FL_TYPE' => 'Typ',
 	'FL_STATUS' => 'Status',
 	'FL_CAMPAIGN' => 'Kampagne',
+	'FL_MEMBER_OF' => 'Übergeordnete Verkaufschance',
 	//Picklist
 	'PLL_WEBSITE' => 'Website',
 	'PLL_PHONE' => 'Telefon',
@@ -52,7 +53,8 @@ $languageStrings = [
 	'PLL_SALE_COMPLETED' => 'Verkauf abgeschlossen',
 	'PLL_SALE_FAILED' => 'Verkauf gescheitert',
 	'PLL_SALE_CANCELLED' => 'Verkauf abgebrochen',
-	'LBL_SWITCHHEADER_ON_0' => 'Öffnen',
-	'LBL_SWITCHHEADER_OFF_0' => 'Schließen',
-	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Öffnen/Schließen',
+	'LBL_SWITCHHEADER_ON_0' => 'offene',
+	'LBL_SWITCHHEADER_OFF_0' => 'geschlossene',
+	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'offene/geschlossene',
+	'LBL_SHOW_HIERARCHY' => 'Hierarchie',
 ];

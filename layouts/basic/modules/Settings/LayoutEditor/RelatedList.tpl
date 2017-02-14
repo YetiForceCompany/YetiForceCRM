@@ -58,7 +58,7 @@
 							{else}
 								{assign var=STATUS value='0'}
 							{/if}
-							{assign var=SELECTED_FIELDS value=$MODULE_MODEL->getRelationFields(true)}
+							{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
@@ -112,7 +112,7 @@
 										<div class="form-group">
 										<label class="control-label">{vtranslate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}</label>
 											<select data-placeholder="{vtranslate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
-												{foreach item=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
+												{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
 													{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
 													{if $FIELD_INSTANCE}
 														<option value="{$FIELD_INSTANCE->getColumnName()}" data-name="{$FIELD_INSTANCE->getColumnName()}" selected>

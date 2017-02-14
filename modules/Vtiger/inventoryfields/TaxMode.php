@@ -13,7 +13,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_TAX_MODE';
 	protected $defaultValue = '0';
 	protected $columnName = 'taxmode';
-	protected $dbType = 'tinyint(1) NOT NULL DEFAULT 0';
+	protected $dbType = 'smallint(1) DEFAULT 0';
 	protected $values = [0 => 'group', 1 => 'individual'];
 	protected $blocks = [0];
 

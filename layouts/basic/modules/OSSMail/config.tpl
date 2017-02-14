@@ -33,6 +33,13 @@
 						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
+			{elseif !\App\Module::isModuleActive('OSSMail')}	
+				<br>
+				<div class="alert alert-danger" role="alert">
+					<div>
+						<h4>{vtranslate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
+					</div>
+				</div>
 			{else}
 				<form id="RCConfigEditorForm" class="form-horizontal">
 					{assign var=FIELD_DATA value=$RecordModel->getViewableData()}

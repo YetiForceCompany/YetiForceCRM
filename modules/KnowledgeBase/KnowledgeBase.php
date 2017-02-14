@@ -59,6 +59,11 @@ class KnowledgeBase extends Vtiger_CRMEntity
 		'subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['subject', 'assigned_user_id'];
 // For Popup window record selection
 	public $popup_fields = Array('subject');
 // For Alphabetical search
@@ -80,15 +85,15 @@ class KnowledgeBase extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-
+			
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 }

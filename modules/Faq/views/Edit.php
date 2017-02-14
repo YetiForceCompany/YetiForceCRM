@@ -18,7 +18,7 @@ class Faq_Edit_View extends Vtiger_Edit_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
-		if (!empty($record) && $request->get('isDuplicate') == 'true') {
+		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
 		} else if (!empty($record)) {
@@ -44,7 +44,7 @@ class Faq_Edit_View extends Vtiger_Edit_View
 		foreach ($requestFieldList as $fieldName => $fieldValue) {
 			$fieldModel = $fieldList[$fieldName];
 			if ($fieldModel->isEditable()) {
-				$recordModel->set($fieldName, $fieldModel->getDBInsertValue($fieldValue));
+				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
@@ -78,8 +78,8 @@ class Faq_Edit_View extends Vtiger_Edit_View
 				}
 			}
 		}
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \includes\utils\Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD', \includes\utils\Json::encode(Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);

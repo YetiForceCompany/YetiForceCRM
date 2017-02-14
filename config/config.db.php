@@ -18,7 +18,6 @@
   'username' => '',
   'password' => '',
   'name' => '',
-  'type' => '',
   'charset' => 'utf8'
   ],
   'log' => [
@@ -27,29 +26,26 @@
   'username' => '',
   'password' => '',
   'name' => '',
-  'type' => '',
   'charset' => 'utf8'
   ],
-  'portal' => [
+  'webservice' => [
   'host' => '',
   'port' => '',
   'username' => '',
   'password' => '',
   'name' => '',
-  'type' => '',
   'charset' => 'utf8'
   ],
  */
 $dbconfig = AppConfig::main('dbconfig');
 return [
 	'base' => [
-		'dsn' => 'mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
+		'dsn' => $dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
 		'host' => $dbconfig['db_server'],
 		'port' => $dbconfig['db_port'],
 		'username' => $dbconfig['db_username'],
 		'password' => $dbconfig['db_password'],
 		'dbName' => $dbconfig['db_name'],
-		'type' => 'mysql',
 		'tablePrefix' => 'yf_',
 		'charset' => 'utf8'
 	]

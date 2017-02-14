@@ -91,7 +91,7 @@ function getActivityDetails($description, $user_id, $from = '')
 		$end_date_lable = $mod_strings['Due Date'];
 	}
 
-	$name = \includes\fields\Owner::getUserLabel($user_id);
+	$name = \App\Fields\Owner::getUserLabel($user_id);
 
 	// Show the start date and end date in the users date format and in his time zone
 	$inviteeUser = CRMEntity::getInstance('Users');
@@ -100,20 +100,20 @@ function getActivityDetails($description, $user_id, $from = '')
 	$endDate = new DateTimeField($description['end_date_time']);
 
 	if ($from == "invite")
-		$msg = \includes\Language::translate($mod_strings['LBL_ACTIVITY_INVITATION']);
+		$msg = \App\Language::translate($mod_strings['LBL_ACTIVITY_INVITATION']);
 	else
-		$msg = \includes\Language::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
+		$msg = \App\Language::translate($mod_strings['LBL_ACTIVITY_NOTIFICATION']);
 
-	$currentUsername = \includes\fields\Owner::getUserLabel($currentUser->id);
-	$status = \includes\Language::translate($description['status'], 'Calendar');
+	$currentUsername = \App\Fields\Owner::getUserLabel($currentUser->id);
+	$status = \App\Language::translate($description['status'], 'Calendar');
 	$list = $name . ',';
 	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \includes\Language::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \includes\Language::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
 	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \includes\Language::translate($description['taskpriority']);
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \includes\Language::translate($description['relatedto']);
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \App\Language::translate($description['taskpriority']);
+	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \App\Language::translate($description['relatedto']);
 	if (!empty($description['contact_name'])) {
 		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
 	} else

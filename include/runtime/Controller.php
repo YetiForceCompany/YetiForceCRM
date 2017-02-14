@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 /**
@@ -53,7 +54,7 @@ abstract class Vtiger_Controller
 
 	/**
 	 * Function that will expose methods for external access
-	 * @param <String> $name - method name
+	 * @param string $name - method name
 	 */
 	protected function exposeMethod($name)
 	{
@@ -91,22 +92,26 @@ abstract class Vtiger_Controller
 		throw new \Exception\AppException(vtranslate('LBL_NOT_ACCESSIBLE'));
 	}
 
+	/**
+	 * Set HTTP Headers
+	 */
 	public function setHeaders()
 	{
 		if (headers_sent()) {
 			return;
 		}
-		$browser = vtlib\Functions::getBrowserInfo();
-		header("Expires: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
+		$browser = \App\RequestUtil::getBrowserInfo();
+		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		if ($browser->ie && $browser->https) {
 			header('Pragma: private');
-			header("Cache-Control: private, must-revalidate");
+			header('Cache-Control: private, must-revalidate');
 		} else {
-			header("Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0");
-			header("Pragma: no-cache");
+			header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: no-cache');
 		}
+		header('X-Frame-Options: SAMEORIGIN');
+		header_remove('X-Powered-By');
 	}
 }
 
@@ -158,6 +163,8 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 
+	protected $viewer;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -167,11 +174,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
-			$viewer->assign('APPTITLE', \includes\Language::translate('APPTITLE'));
+			$viewer->assign('APPTITLE', \App\Language::translate('APPTITLE'));
 			$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
+			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				if ($request->get('parent') == 'Settings') {
+				if ($request->get('parent') === 'Settings') {
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
@@ -182,9 +190,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	public function getPageTitle(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleLabel = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = vtranslate($moduleLabel, $moduleName);
+		$moduleName = $request->getModule(false);
+		$moduleNameArray = explode(':', $moduleName);
+		$moduleLabel = end($moduleNameArray) == 'Vtiger' ? 'YetiForce' : end($moduleNameArray);
+		$title = App\Language::translate($moduleLabel, $moduleName);
 		$pageTitle = $this->getBreadcrumbTitle($request);
 		if ($pageTitle) {
 			$title .= ' - ' . $pageTitle;
@@ -238,19 +247,18 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$viewer = $this->getViewer($request);
 		$displayed = $viewer->view($this->preProcessTplName($request), $request->getModule());
-		/* if(!$displayed) {
-		  $tplName = $this->preProcessParentTplName($request);
-		  if($tplName) {
-		  $viewer->view($tplName, $request->getModule());
-		  }
-		  } */
 	}
 
+	/**
+	 * Post process
+	 * @param Vtiger_Request $request
+	 */
 	public function postProcess(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
+		$viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('Footer.tpl');
 	}
@@ -264,6 +272,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap3/css/bootstrap.css',
+			'~libraries/font-awesome/css/font-awesome.css',
+			'skins.icons.userIcons',
+			'skins.icons.adminIcons',
+			'skins.icons.additionalIcons',
 			'~libraries/jquery/chosen/chosen.css',
 			'~libraries/jquery/chosen/chosen.bootstrap.css',
 			'~libraries/jquery/jquery-ui/jquery-ui.css',
@@ -277,11 +289,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
-			'skins.icons.userIcons',
-			'skins.icons.adminIcons',
-			'skins.icons.additionalIcons',
 			'libraries.resources.styles',
-			'~libraries/font-awesome/css/font-awesome.css',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
@@ -418,7 +426,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	/**
 	 * Function returns the css files
 	 * @param <Array> $cssFileNames
-	 * @param <String> $fileExtension
+	 * @param string $fileExtension
 	 * @return <Array of Vtiger_CssScript_Model>
 	 *
 	 * First check if $cssFileName exists
@@ -494,6 +502,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getJSLanguageStrings(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule(false);
+		if ($moduleName === 'Settings:Users') {
+			$moduleName = 'Users';
+		}
 		return Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
 	}
 }

@@ -6,7 +6,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class DigestAuth extends AbstractAuth
+class DigestAuth
 {
 
 	public function authenticate()
@@ -49,6 +49,6 @@ class DigestAuth extends AbstractAuth
 	{
 		$stmt = $this->pdo->prepare(sprintf('SELECT digesta1 FROM %s WHERE username = ?', $this->tableName));
 		$stmt->execute([$username]);
-		return $stmt->fetchColumn() ? : null;
+		return $stmt->fetchColumn() ?: null;
 	}
 }

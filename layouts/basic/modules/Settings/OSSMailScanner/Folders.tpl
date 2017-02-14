@@ -2,9 +2,19 @@
 {strip}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 class="modal-title">{vtranslate('LBL_EDIT_FOLDER_ACCOUNT', $MODULE_NAME)}</h3>
+		<h3 class="modal-title">{vtranslate('LBL_EDIT_FOLDER_ACCOUNT', $MODULE_NAME)} - {$ADDRESS_EMAIL}</h3>
 	</div>
-	<div class="modal-body col-md-12" data-user="{$RECORD}">
+	<div class="modal-body col-md-12 tl-slide-content" data-user="{$RECORD}">
+		{if count($MISSING_FOLDERS) > 0}
+			<div class="alert alert-danger" role="alert">
+				{vtranslate('LBL_INFO_ABOUT_FOLDERS_TO_REMOVE', $QUALIFIED_MODULE)}
+				<ul>
+					{foreach from=$MISSING_FOLDERS item=$FOLDER_NAME}
+						<li>{$FOLDER_NAME}</li>
+					{/foreach}
+				</ul>
+			</div>
+		{/if}
 		{if $FOLDERS === false}
 			<div class="alert alert-danger" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

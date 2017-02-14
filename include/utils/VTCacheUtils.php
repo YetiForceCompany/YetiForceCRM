@@ -122,10 +122,10 @@ class VTCacheUtils
 
 	static function lookupFieldInfo_Module($module, $presencein = array('0', '2'))
 	{
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 		$modulefields = false;
 		$fieldInfo = Vtiger_Cache::get('fieldInfo', $tabid);
-		if ($fieldInfo) {
+		if (isset($fldcache) && $fldcache) {
 			$fldcache = $fieldInfo;
 		} else if (isset(self::$_fieldinfo_cache[$tabid])) {
 			$fldcache = self::$_fieldinfo_cache[$tabid];
@@ -315,31 +315,6 @@ class VTCacheUtils
 	static function updateProfile2FieldPermissionList($module, $profileid, $value)
 	{
 		self::$_profile2fieldpermissionlist_cache[$module][$profileid] = $value;
-	}
-
-	/** Role information */
-	static $_subroles_roleid_cache = [];
-
-	static function lookupRoleSubordinates($roleid)
-	{
-		if (isset(self::$_subroles_roleid_cache[$roleid])) {
-			return self::$_subroles_roleid_cache[$roleid];
-		}
-		return false;
-	}
-
-	static function updateRoleSubordinates($roleid, $roles)
-	{
-		self::$_subroles_roleid_cache[$roleid] = $roles;
-	}
-
-	static function clearRoleSubordinates($roleid = false)
-	{
-		if ($roleid === false) {
-			self::$_subroles_roleid_cache = [];
-		} else if (isset(self::$_subroles_roleid_cache[$roleid])) {
-			unset(self::$_subroles_roleid_cache[$roleid]);
-		}
 	}
 
 	/** Record Owner Id */

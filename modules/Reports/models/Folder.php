@@ -31,7 +31,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the name of the folder
-	 * @return <String>
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -142,7 +142,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the description of the folder
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDescription()
 	{
@@ -151,7 +151,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url for edit folder from list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getEditUrl()
 	{
@@ -160,7 +160,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url for delete folder from list view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public function getDeleteUrl()
 	{
@@ -371,7 +371,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	/**
 	 * Function to get all Report Record Models
 	 * @param <Array> $allReportsList
-	 * @param <Vtiger_Module_Model> - Reports Module Model
+	 * @param Vtiger_Module_Model - Reports Module Model
 	 * @return <Array> Reports Record Models
 	 */
 	public function getAllReportModels($allReportsList, $reportModuleModel)
@@ -393,7 +393,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function which provides the records for the current view
-	 * @param <Boolean> $skipRecords - List of the RecordIds to be skipped
+	 * @param boolean $skipRecords - List of the RecordIds to be skipped
 	 * @return <Array> List of RecordsIds
 	 */
 	public function getRecordIds($skipRecords = false, $module)
@@ -405,7 +405,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		$listQuery = $this->getListViewQuery($folderId);
 
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' && ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
+			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
 		}
 		$result = $db->query($listQuery);
 		$noOfRecords = $db->num_rows($result);

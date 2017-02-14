@@ -30,7 +30,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	/**
 	 * Function to get the image path
 	 * This checks image in selected theme if not in images folder if it doest nor exists either case will retutn false
-	 * @param <string> $imageFileName - file name with extension
+	 * @param string $imageFileName - file name with extension
 	 * @return <string/boolean> - returns file path if exists or false;
 	 */
 	public static function getImagePath($imageFileName)
@@ -52,8 +52,8 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 * Function to get the image path or get defaulf
 	 * This function searches for an image, it takes a default name in case it's missing,
 	 * if there's no image with a default name it will return false
-	 * @param <string> $imageFileName - file name 
-	 * @param <string> $defaultFileName - file name 
+	 * @param string $imageFileName - file name 
+	 * @param string $defaultFileName - file name 
 	 * @return <string/boolean> - returns file path if exists or false;
 	 */
 	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
@@ -87,7 +87,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 	/**
 	 * Function to get the Base Theme Path, until theme folder not selected theme folder
-	 * @return <string> - theme folder
+	 * @return string - theme folder
 	 */
 	public static function getBaseThemePath()
 	{
@@ -95,7 +95,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	}
 
 	/**
-	 *  * @return <string> -  path to base style
+	 *  * @return string -  path to base style
 	 */
 	public static function getBaseStylePath()
 	{
@@ -104,7 +104,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 	/**
 	 * Function to get the selected theme folder path
-	 * @return <string> -  selected theme path
+	 * @return string -  selected theme path
 	 */
 	public static function getThemePath($theme = '')
 	{
@@ -128,12 +128,11 @@ class Vtiger_Theme extends Vtiger_Viewer
 
 	/**
 	 * Function to get the default theme name
-	 * @return <String> - Default theme name
+	 * @return string - Default theme name
 	 */
 	public static function getDefaultThemeName()
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$theme = $currentUserModel->get('theme');
+		$theme = \App\User::getCurrentUserModel()->getDetail('theme');
 		return empty($theme) ? self::DEFAULTTHEME : $theme;
 	}
 

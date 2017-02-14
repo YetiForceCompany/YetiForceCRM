@@ -12,7 +12,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $name = 'Name';
 	protected $defaultLabel = 'LBL_ITEM_NAME';
 	protected $columnName = 'name';
-	protected $dbType = 'int(19) NOT NULL DEFAULT 0';
+	protected $dbType = 'int DEFAULT 0';
 	protected $params = ['modules', 'limit'];
 	protected $colSpan = 30;
 
@@ -35,13 +35,13 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function limitValues()
 	{
 		return [
-			['id' => 0, 'name' => 'LBL_NO'],
-			['id' => 1, 'name' => 'LBL_YES']
+				['id' => 0, 'name' => 'LBL_NO'],
+				['id' => 1, 'name' => 'LBL_YES']
 		];
 	}
 
 	public function getConfig()
 	{
-		return \includes\utils\Json::decode($this->get('params'));
+		return \App\Json::decode($this->get('params'));
 	}
 }

@@ -215,14 +215,14 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		$accessControlQuery = $meta->getEntityAccessControlQuery();
 		$this->query = $this->query . ' ' . $accessControlQuery;
 		if ($sqlDump['where_condition']) {
-			if ((sizeof($sqlDump['where_condition']['column_names']) ==
-				sizeof($sqlDump['where_condition']['column_values'])) &&
+			if ((sizeof($sqlDump['where_condition']['column_names']) == sizeof($sqlDump['where_condition']['column_values'])) &&
 				(sizeof($sqlDump['where_condition']['column_operators']) == sizeof($sqlDump['where_condition']['operators']) + 1)) {
 				$this->query = $this->query . ' WHERE (';
 				$i = 0;
 				$referenceFields = $meta->getReferenceFieldDetails();
 				$ownerFields = $meta->getOwnerFields();
-				for (; $i < sizeof($sqlDump['where_condition']['column_values']); ++$i) {
+				$columnValuesCount = sizeof($sqlDump['where_condition']['column_values']);
+				for (; $i < $columnValuesCount; ++$i) {
 					if (!$fieldcol[$sqlDump['where_condition']['column_names'][$i]]) {
 						throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to access " . $sqlDump['where_condition']['column_names'][$i] . " attribute denied.");
 					}
@@ -272,18 +272,16 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 				throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "columns data inappropriate");
 			}
 			$this->query = $this->query . ")";
-			$nextToken = ' && ';
+			$nextToken = ' AND ';
 		} else {
 			if (!empty($deletedQuery)) {
 				$nextToken = " WHERE ";
 			}
 		}
 		if (strcasecmp('calendar', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . " $nextToken activitytype='Task' && ";
+			$this->query = $this->query . " $nextToken activitytype='Task' AND ";
 		} elseif (strcasecmp('events', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype!='Emails' && activitytype!='Task' && ";
-		} else if (strcasecmp('emails', $this->out['moduleName']) === 0) {
-			$this->query = $this->query . "$nextToken activitytype='Emails' && ";
+			$this->query = $this->query . "$nextToken activitytype!='Task' AND ";
 		} elseif (!empty($deletedQuery)) {
 			$this->query = $this->query . $nextToken;
 		}
@@ -986,8 +984,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	public function yy_find_shift_action($iLookAhead)
 	{
 		$stateno = $this->yystack[$this->yyidx]->stateno;
-
-		/* if ($this->yyidx < 0) return self::YY_NO_ACTION;  */
 		if (!isset(self::$yy_shift_ofst[$stateno])) {
 			// no shift actions
 			return self::$yy_default[$stateno];
@@ -1029,7 +1025,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 */
 	public function yy_find_reduce_action($stateno, $iLookAhead)
 	{
-		/* $stateno = $this->yystack[$this->yyidx]->stateno; */
 
 		if (!isset(self::$yy_reduce_ofst[$stateno])) {
 			return self::$yy_default[$stateno];
@@ -1069,11 +1064,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			}
 			/* Here code is inserted which will execute if the parser
 			 * * stack ever overflows */
-#line 462 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.y"
-
 			throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "Parser stack overflow");
-#line 1046 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservices\VTQL_parser.php"
-			return;
 		}
 		$yytos = new VTQL_ParseryyStackEntry;
 		$yytos->stateno = $yyNewState;
@@ -1615,7 +1606,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 		/* (re)initialize the parser, if necessary */
 		if ($this->yyidx === null || $this->yyidx < 0) {
-			/* if ($yymajor == 0) return; // not sure why this was here... */
 			$this->yyidx = 0;
 			$this->yyerrcnt = -1;
 			$x = new VTQL_ParseryyStackEntry;

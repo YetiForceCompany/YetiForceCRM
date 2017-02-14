@@ -14,7 +14,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -40,5 +40,20 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/BooleanFieldSearchView.tpl';
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if ($value === 'on' || $value == 1) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }

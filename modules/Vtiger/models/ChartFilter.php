@@ -92,21 +92,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getDataFromFilter()
 	{
 		$filterId = $this->widgetModel->get('filterid');
-		$currentUserModel = Users_Privileges_Model::getCurrentUserModel();
 		$groupField = $this->extraData['groupField'];
 		$groupFieldModel = Vtiger_Field_Model::getInstance($groupField, $this->getTargetModuleModel());
-		$groupField = $groupFieldModel->get('column');
 		$fieldName = $groupFieldModel->get('name');
-		$queryGenerator = new QueryGenerator($this->getTargetModule(), $currentUserModel);
+		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
-		$fields = $queryGenerator->getFields();
-		$fields[] = $groupField;
-		$queryGenerator->setFields($fields);
-		$db = PearDatabase::getInstance();
-		$result = $db->query($queryGenerator->getQuery());
+		$queryGenerator->setField($groupField);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$groupData = [];
 		if (empty($this->extraData['sector'])) {
-			while ($row = $db->getRow($result)) {
+			while ($row = $dataReader->read()) {
 				if (!empty($row[$groupField])) {
 					$displayValue = $groupFieldModel->getDisplayValue($row[$groupField]);
 					if (!isset($groupData[$displayValue]['count'])) {
@@ -123,26 +118,25 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		} else {
 			$sectors = $this->extraData['sector'];
 			$count = [];
-			while ($row = $db->getRow($result)) {
+			while ($row = $dataReader->read()) {
 				$sectorId = $this->getSector($sectors, $row[$groupField]);
-				if($sectorId !== false){
+				if ($sectorId !== false) {
 					if (!isset($count[$sectorId])) {
 						$count[$sectorId] = 1;
 					} else {
-						$count[$sectorId]++;
+						$count[$sectorId] ++;
 					}
 				}
-				
 			}
-			foreach($sectors as $sectorId => $sectorValue){
+			foreach ($sectors as $sectorId => &$sectorValue) {
 				$moduleModel = $this->getTargetModuleModel();
 				$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
-				$displayValue .= ' - (' . (int)$count[$sectorId] .')';
-				$groupData[$displayValue]['count'] = (int)$sectorValue ;
-				if($sectorId == 0){
-					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue]]]);;
+				$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
+				$groupData[$displayValue]['count'] = (int) $sectorValue;
+				if ($sectorId == 0) {
+					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue]]]);
 				} else {
-					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue],[$fieldName, 'g', $sectors[$sectorId - 1]]]]);;
+					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue], [$fieldName, 'g', $sectors[$sectorId - 1]]]]);
 				}
 			}
 		}
@@ -166,7 +160,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
+			$this->extraData = \App\Json::decode(decode_html($this->extraData));
 		}
 		if ($this->extraData === null) {
 			throw new Exception("Invalid data");

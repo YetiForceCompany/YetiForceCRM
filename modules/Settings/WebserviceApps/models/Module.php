@@ -9,37 +9,32 @@
 class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	/**
+	 * Webservice apps types
+	 * @return string[]
+	 */
 	static public function getTypes()
 	{
-		return ['Portal', 'POS'];
+		return ['Portal'];
 	}
 
 	static public function getServers()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM w_yf_servers';
-		$result = $db->query($query);
-		$listServers = [];
-		while ($row = $db->getRow($result)) {
-			$listServers[$row['id']] = $row;
-		}
-		return $listServers;
+
+		$db = \App\Db::getInstance('webservice');
+		$query = new \App\Db\Query();
+		$query->from('w_#__servers');
+		return $query->createCommand($db)->queryAllByGroup(true);
 	}
 
 	static public function getActiveServers($type = '')
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT * FROM w_yf_servers WHERE status = ?';
-		$params[] = 1;
+		$db = \App\Db::getInstance('webservice');
+		$query = new \App\Db\Query();
+		$query->from('w_#__servers')->andWhere(['status' => 1]);
 		if (!empty($type)) {
-			$params[] = $type;
-			$query.= ' && type = ?';
+			$query->andWhere(['type' => $type]);
 		}
-		$result = $db->pquery($query, $params);
-		$listServers = [];
-		while ($row = $db->getRow($result)) {
-			$listServers[$row['id']] = $row;
-		}
-		return $listServers;
+		return $query->createCommand($db)->queryAllByGroup(1);
 	}
 }

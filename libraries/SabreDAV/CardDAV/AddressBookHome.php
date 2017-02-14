@@ -124,7 +124,6 @@ class AddressBookHome extends DAV\Collection implements DAV\IExtendedCollection,
      * Returns a single addressbook, by name
      *
      * @param string $name
-     * @todo needs optimizing
      * @return \AddressBook
      */
     public function getChild($name) {

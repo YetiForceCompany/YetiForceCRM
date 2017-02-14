@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *
  * ******************************************************************************* */
-require_once("include/events/include.inc");
+require_once("include/events/include.php");
 
 /**
  * @author MAK
@@ -16,7 +16,7 @@ require_once("include/events/include.inc");
 function vtws_deleteUser($id, $newOwnerId, $user)
 {
 	$adb = PearDatabase::getInstance();
-	
+
 	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();

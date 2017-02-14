@@ -23,7 +23,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
-		$fileIcon = \includes\utils\Icon::getIconByFileType($fileType);
+		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
@@ -45,7 +45,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView($request)
+	public function showModuleBasicView(Vtiger_Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}

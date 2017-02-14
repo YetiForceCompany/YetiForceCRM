@@ -13,7 +13,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -36,21 +36,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
-		$queryGenerator = new QueryGenerator($params['module'], $currentUser);
-		$queryGenerator->setFields([$fieldInfo['columnname']]);
+		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] != '-') {
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
-		$query = $queryGenerator->getQuery();
-		$result = $db->query($query);
-
-		$values = [];
-		while ($value = $db->getSingleValue($result)) {
-			$values[$value] = $value;
-		}
+		$queryGenerator->setFields([$fieldInfo['fieldname']]);
+		$values = $queryGenerator->createQuery()->indexBy($fieldInfo['column'])->column();
 		$this->set('picklistValues', $values);
 		return $values;
 	}
@@ -63,70 +55,17 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getFieldsByModules($sourceModule, $destinationModule)
 	{
-		$return = Vtiger_Cache::get('mrvfm-' . $sourceModule, $destinationModule);
-		if (!$return) {
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT * FROM vtiger_field WHERE tabid = ? && presence <> ? && vtiger_field.uitype = ? && fieldparams LIKE \'%s\';', '{"module":"' . $destinationModule . '"%');
-			$result = $db->pquery($query, [vtlib\Functions::getModuleId($sourceModule), 1, 305]);
-			$return = [];
-			while ($field = $db->fetch_array($result)) {
-				$return[] = $field;
-			}
-			Vtiger_Cache::set('mrvfm-' . $sourceModule, $destinationModule, $return);
+		$cacheKey = "$sourceModule,$destinationModule";
+		if (App\Cache::has('mrvfbm', $cacheKey)) {
+			return App\Cache::get('mrvfbm', $cacheKey);
 		}
-		return $return;
-	}
-
-	/**
-	 * Loading the list of multireference fields
-	 * @param string $sourceModule Source module name
-	 * @param string $destinationModule Destination module name
-	 * @return array
-	 */
-	public static function getRelatedModules($moduleName)
-	{
-		$return = Vtiger_Cache::get('mrvf', $moduleName);
-		if (!$return) {
-			$db = PearDatabase::getInstance();
-			$moduleId = vtlib\Functions::getModuleId($moduleName);
-			$query = 'SELECT DISTINCT vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_relatedlists ON vtiger_relatedlists.related_tabid = vtiger_field.tabid'
-				. ' LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid'
-				. ' WHERE vtiger_relatedlists.tabid = ? && vtiger_field.presence <> ? && vtiger_field.uitype = ? && fieldparams LIKE \'{"module":"' . $moduleName . '"%\';';
-			$result = $db->pquery($query, [$moduleId, 1, 305]);
-			$return = [];
-			while ($module = $db->getSingleValue($result)) {
-				$return[] = $module;
-			}
-			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$fieldsModel = $moduleModel->getFields();
-			$relatedModules = [];
-			foreach ($fieldsModel as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField()) {
-					$referenceList = $fieldModel->getReferenceList();
-					$relatedModules = array_merge($relatedModules, $referenceList);
-				}
-			}
-			$relatedModules = array_unique($relatedModules);
-			foreach ($relatedModules as $key => $relatedModule) {
-				if ($relatedModule != 'Users') {
-					$relatedModules[$key] = vtlib\Functions::getModuleId($relatedModule);
-				} else {
-					unset($relatedModules[$key]);
-				}
-			}
-			if (count($relatedModules) > 0) {
-				$query = 'SELECT DISTINCT vtiger_tab.name FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid'
-					. ' WHERE vtiger_field.uitype = ? && vtiger_field.tabid IN (\'' . implode("','", $relatedModules) . '\') && vtiger_field.presence <> ? '
-					. 'AND fieldparams LIKE \'{"module":"' . $moduleName . '"%\' ;';
-				$result = $db->pquery($query, [1, 305]);
-				while ($module = $db->getSingleValue($result)) {
-					$return[] = $module;
-				}
-			}
-			$return = array_unique($return);
-			Vtiger_Cache::set('mrvf-', $moduleName, $return);
-		}
-		return $return;
+		$fields = (new \App\Db\Query())
+				->from('vtiger_field')
+				->where(['tabid' => App\Module::getModuleId($sourceModule), 'uitype' => 305])
+				->andWhere(['<>', 'presence', 1])
+				->andWhere(['like', 'fieldparams', '{"module":"' . $destinationModule . '"%', false])->all();
+		App\Cache::get('mrvfbm', $cacheKey, $fields, App\Cache::LONG);
+		return $fields;
 	}
 
 	/**
@@ -163,7 +102,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function addValue(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$db = PearDatabase::getInstance();
 		$values = $this->getRecordValues($entity, $sourceRecord, $destRecord);
 		$currentValue = $values['currentValue'];
 		if (strpos($currentValue, self::COMMA . $values['relatedValue'] . self::COMMA) !== false) {
@@ -173,10 +111,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		$db->update($this->get('field')->get('table'), [
+		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
-			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
-		);
+			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		)->execute();
 	}
 
 	/**
@@ -194,10 +132,10 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue = str_replace(self::COMMA . $values['relatedValue'] . self::COMMA, self::COMMA, $currentValue);
-		$db->update($this->get('field')->get('table'), [
+		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
-			], $entity->tab_name_index[$this->get('field')->get('table')] . ' = ?', [$sourceRecord]
-		);
+			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		)->execute();
 	}
 
 	/**
@@ -207,6 +145,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function reloadValue($sourceModule, $sourceRecord)
 	{
+		$orgUserId = App\User::getCurrentUserId();
+		App\User::setCurrentUserId(Users::getActiveAdminId());
 		$currentUser = vglobal('current_user');
 		$user = new Users();
 		vglobal('current_user', $user->retrieveCurrentUserInfoFromFile(Users::getActiveAdminId()));
@@ -218,13 +158,13 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
 		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
 		$query = $targetModel->getRelationQuery();
-		$explodedQuery = explode('FROM', $query, 2);
-		$relationQuery = sprintf("SELECT DISTINCT %s FROM %s && %s <> ''", $fieldInfo['columnname'], $explodedQuery[1], $fieldInfo['columnname']);
-
+		$dataReader = $query->select([$fieldInfo['columnname']])
+				->andWhere(['<>', $fieldInfo['columnname'], ''])
+				->createCommand()->query();
 		vglobal('current_user', $currentUser);
-		$result = $db->query($relationQuery);
+		App\User::setCurrentUserId($orgUserId);
 		$currentValue = self::COMMA;
-		while ($value = $db->getSingleValue($result)) {
+		while ($value = $dataReader->readColumn(0)) {
 			$currentValue .= $value . self::COMMA;
 		}
 		$db->update($this->get('field')->get('table'), [
@@ -239,21 +179,34 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getPicklistValuesForModuleList($module, $view)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
-
-		$queryGenerator = new QueryGenerator($module, $currentUser);
+		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([$this->get('field')->get('name')]);
-		$listQuery = $queryGenerator->getQuery('SELECT DISTINCT');
-		$result = $db->query($listQuery);
-
+		$query = $queryGenerator->createQuery();
+		$dataReader = $query->distinct()->createCommand()->query();
 		$values = [];
-		while (($value = $db->getSingleValue($result)) !== false) {
+		while (($value = $dataReader->readColumn(0)) !== false) {
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
 
 		return array_unique($values);
+	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param string $value
+	 * @param integer $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param string $rawText
+	 * @return string
+	 */
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		$value = str_replace(self::COMMA, ', ', $value);
+		$value = substr($value, 1);
+		$value = substr($value, 0, -2);
+
+		return $value;
 	}
 }

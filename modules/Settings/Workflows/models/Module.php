@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.inc';
+require_once 'modules/com_vtiger_workflow/include.php';
+require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -33,19 +33,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'nexttrigger_time'
 	];
 	public $name = 'Workflows';
-	static $metaVariables = [
-		'Current Date' => '(general : (__VtigerMeta__) date) ($_DATE_FORMAT_)',
-		'Current Time' => '(general : (__VtigerMeta__) time)',
-		'System Timezone' => '(general : (__VtigerMeta__) dbtimezone)',
-		'User Timezone' => '(general : (__VtigerMeta__) usertimezone)',
-		'CRM Detail View URL' => '(general : (__VtigerMeta__) crmdetailviewurl)',
-		'Portal Detail View URL' => '(general : (__VtigerMeta__) portaldetailviewurl)',
-		'Site Url' => '(general : (__VtigerMeta__) siteurl)',
-		'Portal Url' => '(general : (__VtigerMeta__) portalurl)',
-		'Record Id' => '(general : (__VtigerMeta__) recordId)',
-		'LBL_HELPDESK_SUPPORT_NAME' => '(general : (__VtigerMeta__) supportName)',
-		'LBL_HELPDESK_SUPPORT_EMAILID' => '(general : (__VtigerMeta__) supportEmailid)',
-	];
 	static $triggerTypes = [
 		1 => 'ON_FIRST_SAVE',
 		4 => 'ON_MODIFY',
@@ -61,7 +48,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for default view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public static function getDefaultUrl()
 	{
@@ -70,7 +57,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get the url for create view of the module
-	 * @return <string> - url
+	 * @return string - url
 	 */
 	public static function getCreateViewUrl()
 	{
@@ -116,11 +103,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return $mem->expressionFunctions();
 	}
 
-	public static function getMetaVariables()
-	{
-		return self::$metaVariables;
-	}
-
 	public function getListFields()
 	{
 		if (!$this->listFieldModels) {
@@ -158,32 +140,25 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importWorkflow(array $data)
 	{
-		$db = PearDatabase::getInstance();
-
-		$db->insert($this->getBaseTable(), $data['fields']);
-
-		$workflowId = $db->getLastInsertID();
-		$db->update($this->getBaseTable() . '_seq', ['id' => $workflowId]);
-
+		$db = App\Db::getInstance();
+		$db->createCommand()->insert($this->getBaseTable(), $data['fields'])->execute();
+		$workflowId = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		$messages = ['id' => $workflowId];
 		if ($data['workflow_methods']) {
 			foreach ($data['workflow_methods'] as $method) {
 				$this->importTaskMethod($method, $messages);
 			}
 		}
-
 		if ($data['workflow_tasks']) {
 			foreach ($data['workflow_tasks'] as $task) {
-				$db->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']]);
-				$taskId = $db->getLastInsertID();
-
-				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.inc';
+				$db->createCommand()->insert('com_vtiger_workflowtasks', ['workflow_id' => $workflowId, 'summary' => $task['summary']])->execute();
+				$taskId = $db->getLastInsertID('com_vtiger_workflowtasks_task_id_seq');
+				include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
 				$taskObject = unserialize($task['task']);
 				$taskObject->workflowId = intval($workflowId);
 				$taskObject->id = intval($taskId);
-
-				$db->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], 'task_id = ?', [$taskId]);
-				$db->update('com_vtiger_workflowtasks_seq', ['id' => $taskId]);
+				$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
+				$db->createCommand()->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
 			}
 		}
 
@@ -235,7 +210,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		$num = $db->getSingleValue($result);
 
 		if ($num == 0) {
-			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.inc';
+			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 			$emm = new VTEntityMethodManager($db);
 			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
 		}

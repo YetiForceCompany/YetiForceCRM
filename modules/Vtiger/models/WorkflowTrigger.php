@@ -6,29 +6,31 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_WorkflowTrigger_Model
 {
 
-	public function execute($moduleName, $record, $ids, $userID)
+	/**
+	 * Function executes workflow tasks
+	 * @param string $moduleName
+	 * @param int $record
+	 * @param array $ids
+	 * @param int $userId
+	 */
+	public static function execute($moduleName, $record, $ids, $userId)
 	{
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~include/Webservices/Utils.php');
-		vimport('~~include/Webservices/Retrieve.php');
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$wsId = vtws_getWebserviceEntityId($moduleName, $record);
-		$adb = PearDatabase::getInstance();
-		$wfs = new VTWorkflowManager($adb);
-		$entityCache = new VTEntityCache($currentUser);
-		$entityData = $entityCache->forId($wsId);
-		$entityData->executeUser = $userID;
+		vimport('~~modules/com_vtiger_workflow/include.php');
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		if ($userId) {
+			$recordModel->executeUser = $userId;
+		}
+		$wfs = new VTWorkflowManager();
 		foreach ($ids as $id) {
 			$workflow = $wfs->retrieve($id);
-			if ($workflow->evaluate($entityCache, $entityData->getId())) {
-				$workflow->performTasks($entityData);
+			if ($workflow->evaluate($recordModel)) {
+				$workflow->performTasks($recordModel);
 			}
 		}
 	}

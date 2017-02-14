@@ -37,8 +37,8 @@
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-				<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{vtranslate('LBL_LOADING', $MODULE)}"/>
-				<p class="listViewLoadingMsg">{vtranslate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
+				<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
@@ -49,17 +49,17 @@
 						</th>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
-								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-								<div class='pull-left'>
-									<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
-										  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
-										<span class="glyphicon glyphicon-info-sign"></span>
-									</span>
-									<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
-								</div>
-							{/if}
+									<div class='pull-left'>
+										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
+											  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+											<span class="glyphicon glyphicon-info-sign"></span>
+										</span>
+										<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
+									</div>
+								{/if}
 							</th>
 						{/foreach}
 					</tr>
@@ -97,25 +97,19 @@
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if}>
+							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" data-raw-value="{Vtiger_Util_Helper::toSafeHTML($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
 								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
 									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
-										{if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
-											{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-										{else}
-											{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-										{/if}</a>
-									{else}
-										{if $LISTVIEW_HEADER->getFieldDataType() eq 'double'}
-											{\vtlib\Functions::formatDecimal($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
-										{else if $LISTVIEW_HEADER->getFieldDataType() eq 'sharedOwner' || $LISTVIEW_HEADER->getFieldDataType() eq 'boolean' || $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
-											{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
-										{else}
-											{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
-										{/if}
-									{/if}
+										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+									</a>
+								{else}
+									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+								{/if}
 							</td>
 						{/foreach}
+						<td class="{$WIDTHTYPE} noWrap rightRecordActions">
+							{include file=vtemplate_path('ListViewRightSide.tpl',$MODULE_NAME)}
+						</td>
 					</tr>
 				{/foreach}
 			</table>

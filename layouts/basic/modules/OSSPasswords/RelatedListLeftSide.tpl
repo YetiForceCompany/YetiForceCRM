@@ -10,7 +10,7 @@
 		</div>
 	{/if}
 	<div>
-		<a href="#" id="copybtn_{$PASS_ID}" data-clipboard-target="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
+		<a href="#" id="copybtn_{$PASS_ID}" data-id="{$PASS_ID}" class="copy_pass hide" title="{vtranslate('LBL_CopyToClipboardTitle', $RELATED_MODULE_NAME)}"><span class="glyphicon glyphicon-download-alt alignMiddle"></span></a>&nbsp;
 	</div>
 	<div class="actions">
 		<span class="glyphicon glyphicon-wrench toolsAction alignMiddle"></span>

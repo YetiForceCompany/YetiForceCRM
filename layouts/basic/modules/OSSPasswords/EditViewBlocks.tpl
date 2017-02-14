@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
-* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
-* in compliance with the License.
-* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
-* See the License for the specific language governing rights and limitations under the License.
-* The Original Code is YetiForce.
-* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
-* All Rights Reserved.
-*************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -58,7 +48,7 @@
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 			{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
-			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD_MODEL,$VIEW)}
+			{assign var=BLOCKS_HIDE value=$BLOCK->isHideBlock($RECORD,$VIEW)}
 			{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
 			{if $BLOCKS_HIDE}
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
@@ -96,24 +86,18 @@
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										<label class="muted pull-right marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-											{if $FIELD_MODEL->get('uitype') eq "83"}
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) COUNTER=$COUNTER MODULE=$MODULE}
-											{else}
-												{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
-											{/if}
+											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
 										</label>
 									</div>
-									{if $FIELD_MODEL->get('uitype') neq "83"}
-										<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-md-9  {/if} ">
-											<div class="row">
-												<div class="col-md-12">
-													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-												</div>
+									<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-md-9  {/if} ">
+										<div class="row">
+											<div class="col-md-12">
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 											</div>
 										</div>
-									{/if}
+									</div>
 								</div>
-								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300' and $FIELD_MODEL->get('name') neq "recurringtype"}
+								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300'}
 									</div>
 									<div class="col-md-12 paddingLRZero">
 									{/if}

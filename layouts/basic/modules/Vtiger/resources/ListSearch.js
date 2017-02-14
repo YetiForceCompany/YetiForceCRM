@@ -77,6 +77,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 					listInstance.triggerListSearch();
 				}
 			});
+			listViewContainer.find('.clockPicker').on('change', function () {
+				listInstance.triggerListSearch();
+			})
 		}
 	},
 	resetPagination: function () {
@@ -115,7 +118,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		});
 	},
 	registerTimeListSearch: function () {
-		app.registerEventForTimeFields(this.getContainer(), false);
+		app.registerEventForClockPicker();
 	},
 	registerAlphabetClick: function () {
 		var thisInstance = this;
@@ -195,26 +198,15 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				return true;
 			}
 
-			var searchOperator = 'c';
+			var searchOperator = 'a';
 			if (fieldInfo.hasOwnProperty("searchOperator")) {
 				searchOperator = fieldInfo.searchOperator;
+			} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect']) >= 0) {
+				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			} else if (fieldInfo.type == "boolean" || fieldInfo.type == "picklist" || fieldInfo.type == "tree") {
-				searchOperator = 'e';
-			} else if (fieldInfo.type == 'currency' || fieldInfo.type == "double" || fieldInfo.type == 'percentage' ||
-					fieldInfo.type == "integer" || fieldInfo.type == "number") {
-				if (searchValue.substring(0, 2) == '>=') {
-					searchOperator = 'h';
-				} else if (searchValue.substring(0, 2) == '<=') {
-					searchOperator = 'm';
-				} else if (searchValue.substring(0, 1) == '>') {
-					searchOperator = 'g';
-				} else if (searchValue.substring(0, 1) == '<') {
-					searchOperator = 'l';
-				} else {
-					searchOperator = 'e';
-				}
+			} else if (fieldInfo.type == "multipicklist") {
+				searchOperator = 'c';
 			}
 			searchInfo.push(fieldName);
 			searchInfo.push(searchOperator);
@@ -226,6 +218,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			searchParams.push(searchInfo);
 		});
 		if (urlSearchParams) {
+			var valueInSearch = null;
 			var url = app.getUrlVar('search_params');
 			if (url != undefined && url.length) {
 				url = jQuery.parseJSON(decodeURIComponent(url));
@@ -236,7 +229,8 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 							exist = true;
 						}
 					});
-					if (exist == false) {
+					valueInSearch = listViewTable.find('.listSearchContributor[name="' + value[0] + '"]').val();
+					if (exist == false && valueInSearch != '' && valueInSearch !== null) {
 						searchParams.push(value);
 					}
 				});

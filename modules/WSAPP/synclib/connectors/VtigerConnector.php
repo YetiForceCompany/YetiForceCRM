@@ -71,7 +71,7 @@ class WSAPP_VtigerConnector extends WSAPP_BaseConnector
 			return $this->intialSync();
 		}
 		$rowData = $this->db->raw_query_result_rowdata($result);
-		$stateValues = \includes\utils\Json::decode($rowData['stateencodedvalues']);
+		$stateValues = \App\Json::decode($rowData['stateencodedvalues']);
 		$model = WSAPP_SyncStateModel::getInstanceFromQueryResult($stateValues);
 		return $model;
 	}
@@ -102,7 +102,7 @@ class WSAPP_VtigerConnector extends WSAPP_BaseConnector
 
 	public function updateSyncState(WSAPP_SyncStateModel $syncStateModel)
 	{
-		$encodedValues = \includes\utils\Json::encode(array('synctrackerid' => $syncStateModel->getSyncTrackerId(), 'synctoken' => $syncStateModel->getSyncToken(), 'more' => $syncStateModel->get('more')));
+		$encodedValues = \App\Json::encode(array('synctrackerid' => $syncStateModel->getSyncTrackerId(), 'synctoken' => $syncStateModel->getSyncToken(), 'more' => $syncStateModel->get('more')));
 		$query = 'INSERT INTO vtiger_wsapp_sync_state(stateencodedvalues,name,userid) VALUES (?,?,?)';
 		$parameters = array($encodedValues, $this->getName(), $this->getSynchronizeController()->user->id);
 		if ($this->isSyncStateExists()) {

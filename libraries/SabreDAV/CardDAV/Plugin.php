@@ -557,10 +557,6 @@ class Plugin extends DAV\ServerPlugin {
 
     /**
      * Validates if a param-filter can be applied to a specific property.
-     *
-     * @todo currently we're only validating the first parameter of the passed
-     *       property. Any subsequence parameters with the same name are
-     *       ignored.
      * @param array $vProperties
      * @param array $filters
      * @param string $test

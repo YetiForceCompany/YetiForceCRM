@@ -13,7 +13,6 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 
 	public function process(Vtiger_Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -36,13 +35,9 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				$selectedModule = $request->get('selectedModule');
 				$filterid = $request->get('filterid');
 
-				$db = PearDatabase::getInstance();
-				$generator = new QueryGenerator($selectedModule, $currentUser);
-				$generator->initForCustomViewById($filterid);
-
-				$listviewController = new ListViewController($db, $currentUser, $generator);
-				$listviewController->getListViewHeaderFields();
-				$viewer->assign('LIST_VIEW_CONTROLLER', $listviewController);
+				$queryGenerator = new \App\QueryGenerator($selectedModule);
+				$queryGenerator->initForCustomViewById($filterid);
+				$viewer->assign('QUERY_GENERATOR', $queryGenerator);
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 				break;
 		}

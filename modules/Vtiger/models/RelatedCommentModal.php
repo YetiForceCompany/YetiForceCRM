@@ -26,14 +26,13 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 
 	public function getComment()
 	{
-		$db = PearDatabase::getInstance();
-		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
-			$result = $db->pquery($this->getRelationTreeQuery(), [$this->get('record'), $this->get('relatedRecord'), vtlib\Functions::getModuleId($this->get('relatedModuleName'))]);
+		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
+			$dataReader = $this->getRelationTreeQuery()->createCommand()->query();
 		} else {
-			$result = $db->pquery($this->getRelationQuery(), [$this->get('record'), $this->get('relatedRecord')]);
+			$dataReader = $this->getRelationQuery()->createCommand()->query();
 		}
-		if ($db->getRowCount($result)) {
-			return $db->getSingleValue($result);
+		if ($result = $dataReader->readColumn(0)) {
+			return $result;
 		}
 		return '';
 	}
@@ -42,8 +41,9 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 	{
 		$relationTable = $this->getRelationTable();
 		$table = key($relationTable);
-		$query = sprintf('SELECT rel_comment FROM %s WHERE %s = ? && %s = ?', $table, $relationTable[$table][0], $relationTable[$table][1]);
-		return $query;
+		return (new \App\Db\Query())->select(['rel_comment'])
+				->from($table)
+				->where([$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]);
 	}
 
 	public function getRelationTable()
@@ -60,7 +60,9 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 
 	public function getRelationTreeQuery()
 	{
-		return 'SELECT rel_comment FROM u_yf_crmentity_rel_tree WHERE crmid = ? && tree = ? && relmodule = ?';
+		return (new \App\Db\Query())->select(['rel_comment'])
+				->from('u_#__crmentity_rel_tree')
+				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]);
 	}
 
 	public function isEditable()
@@ -70,19 +72,19 @@ class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
 
 	public function save($comment)
 	{
-		$db = PearDatabase::getInstance();
-		if (substr($this->get('relatedRecord'), 0, 1) == 'T') {
-			$db->update('u_yf_crmentity_rel_tree', [
+		$db = App\Db::getInstance();
+		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
+			$db->createCommand()->update('u_#__crmentity_rel_tree', [
 				'rel_comment' => $comment
-				], 'crmid = ? && tree = ? && relmodule = ?', [$this->get('record'), $this->get('relatedRecord'), vtlib\Functions::getModuleId($this->get('relatedModuleName'))]
-			);
+				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => App\Module::getModuleId($this->get('relatedModuleName'))]
+			)->execute();
 		} else {
 			$relationTable = $this->getRelationTable();
 			$table = key($relationTable);
-			$db->update($table, [
+			$db->createCommand()->update($table, [
 				'rel_comment' => $comment
-				], $relationTable[$table][0] . ' = ? && ' . $relationTable[$table][1] . ' = ?', [$this->get('record'), $this->get('relatedRecord')]
-			);
+				], [$relationTable[$table][0] => $this->get('record'), $relationTable[$table][1] => $this->get('relatedRecord')]
+			)->execute();
 		}
 	}
 }

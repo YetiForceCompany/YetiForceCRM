@@ -41,7 +41,7 @@ class vt_DateTime
 	 * @param array  $timearr - collection of string
 	 * @param string $check   - check string
 	 */
-	public function vt_DateTime(&$timearr, $check)
+	public function __construct(&$timearr, $check)
 	{
 		if (!isset($timearr) || count($timearr) == 0) {
 			$this->setDateTime(null);

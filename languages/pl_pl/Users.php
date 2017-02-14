@@ -30,6 +30,9 @@ $languageStrings = [
 	'Home Phone' => 'Telefon domowy',
 	'INTERNAL_MAIL_COMPOSER' => 'Wewnętrzny klient email',
 	'Language' => 'Język',
+	'FL_AVAILABLE' => 'Dostępny',
+	'FL_AUTO_ASSIGN_RECORDS' => 'Automatyczny przydział rekordów',
+	'FL_RECORD_LIMIT_IN_MODULE' => 'Limit rekordów w module',
 	'LBL_ABOUT_ME' => 'O mnie',
 	'LBL_ACTIVE_USERS' => 'Aktywni użytkownicy',
 	'LBL_ADD_RECORD' => 'Dodaj użytkownika',
@@ -107,7 +110,6 @@ $languageStrings = [
 	'Street Address' => 'Nazwa ulicy',
 	'Summary' => 'Podsumowanie',
 	'Symbol Placement' => 'Miejsce symbolu waluty',
-	'Tag Cloud' => 'Chmura tagów',
 	'Theme' => 'Skórka',
 	'Time Zone' => 'Strefa czasowa',
 	'Title' => 'Tytuł',
@@ -220,7 +222,7 @@ $languageStrings = [
 	'Invalid username or password.' => 'Nieprawidłowa nazwa użytkownika lub hasło.',
 	'Too many failed login attempts.' => 'Zbyt wiele nieudanych prób logowania. IP zostało zablokowane.',
 	'Outgoing mail server was not configured.' => 'Serwer poczty wychodzącej nie został skonfigurowany.',
-	'Mail has been sent to your inbox, please check your e-mail.' => 'Email został wysłany, sprawdź swój e-mail.',
+	'LBL_MAIL_WAITING_TO_SENT' => 'Mail oczekuje na wysłanie, w ciągu kilku minut powinien dotrzeć do Ciebie',
 	'Invalid Username or Email address.' => 'Nieprawidłowa nazwa użytkownika lub adres e-mail.',
 	'Please enter valid username' => 'Proszę podać poprawną nazwę użytkownika',
 	'Please enater valid email address' => 'Proszę podać poprawny adres e-mail',
@@ -312,13 +314,16 @@ $languageStrings = [
 	'PLL_COMPLETED' => 'Wykonane',
 	'LBL_SELECT_LAYOUT' => 'Wybierz układ',
 	'LBL_SWITCH' => 'Przełącz',
-	'LBL_SWITCH_USER' => 'Przełącz na użytkownika',
+	'LBL_SWITCH_USER' => 'Zmień kontekst pracy',
 	'LBL_SWITCH_TO_YOURSELF' => 'Przełącz na siebie',
+	'LBL_CHANGE_ACCESS_KEY' => 'Zmień Access Key',
+	'LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY' => 'Klucz pomyślnie zaktualizowane',
+	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Nie udało się zaktualizować klucza',
 ];
 
 $jsLanguageStrings = [
-	//Curency seperator validation messages
-	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
+	//Curency separator validation messages
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Wpisz potwierdzenie nowego hasła.',
 	'JS_ENTER_NEW_PASSWORD' => 'Wpisz nowe hasło.',
 	'JS_ENTER_OLD_PASSWORD' => 'Wpisz swoje stare hasło.',
@@ -328,5 +333,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_INCORRECT_OLD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS' => 'Wpisz hasła ponownie. Nowe hasło i potwierdzenie hasła nie są identyczne.',
 	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
+	'JS_NEW_ACCESS_KEY_REQUESTED' => 'Wprowadź nowy klucz dostępu',
+	'JS_CHANGE_ACCESS_KEY_CONFIRMATION' => 'Zażądano nowego klucza dostępowego. Z nowego przepisu klucz dostępu, trzeba zastąpić stary klucz dostępu z nową we wszystkich zainstalowanych rozszerzeń. chcesz kontynuować?',
 ];
-

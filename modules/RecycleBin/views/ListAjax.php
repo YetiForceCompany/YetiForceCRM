@@ -18,7 +18,7 @@ class RecycleBin_ListAjax_View extends RecycleBin_List_View
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}

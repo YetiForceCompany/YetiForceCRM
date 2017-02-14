@@ -18,8 +18,16 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	}
 
 	/**
+	 * If the field is sortable in ListView
+	 */
+	public function isListviewSortable()
+	{
+		return true;
+	}
+
+	/**
 	 * Function to get the Template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -28,21 +36,18 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getDBInsertValue($value)
+	public function getDBValue($value, $recordModel = false)
 	{
-		return $value;
-	}
-
-	/**
-	 * Function to get the Value of the field in the format, the user provides it on Save
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getUserRequestValue($value, $recordId)
-	{
+		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
+			$value = 0;
+		}
+		if (is_null($value)) {
+			$value = '';
+		}
 		return $value;
 	}
 
@@ -69,7 +74,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		$moduleSpecificUiTypeClassName = $moduleName . '_' . $uiTypeClassSuffix . '_UIType';
 		$uiTypeClassName = 'Vtiger_' . $uiTypeClassSuffix . '_UIType';
 		$fallBackClassName = 'Vtiger_Base_UIType';
-	
+
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Vtiger.uitypes.' . $uiTypeClassSuffix;
 
@@ -99,12 +104,17 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
+	}
+
+	public function getReletedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getListViewDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**
 	 * Function to get the Detailview template name for the current UI Type Object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getDetailViewTemplateName()
 	{
@@ -113,8 +123,8 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 
 	/**
 	 * Function to get Display value for RelatedList
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
@@ -124,6 +134,15 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/FieldSearchView.tpl';
+	}
+
+	/**
+	 * Get field model instance
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldModel()
+	{
+		return $this->get('field');
 	}
 
 	public function isActiveSearchView()

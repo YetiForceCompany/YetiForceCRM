@@ -2,35 +2,36 @@
 
 /**
  * Save Changes Handler Class
- * @package YetiForce.Handlers
+ * @package YetiForce.Handler
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class SaveChanges extends VTEventHandler
+class Accounts_SaveChanges_Handler
 {
 
-	public function handleEvent($eventName, $data)
+	/**
+	 * EntityAfterSave handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		$moduleName = $data->getModuleName();
-		$vtEntityDelta = new VTEntityDelta();
-		$delta = $vtEntityDelta->getEntityDelta($moduleName, $data->getId(), true);
-		if (isset($delta['active'])) {
-			$db = PearDatabase::getInstance();
-			$query = 'SELECT (1) FROM u_yf_crmentity_last_changes WHERE crmid = ? && fieldname = ?';
-			$userModel = Users_Privileges_Model::getCurrentUserModel();
-			if ($db->getRow($db->pquery($query, [$data->getId(), 'active']))) {
-				$db->update('u_yf_crmentity_last_changes', [
+		$recordModel = $eventHandler->getRecordModel();
+		if ($recordModel->getPreviousValue('active') !== $recordModel->get('active')) {
+			$isExists = (new \App\Db\Query())->from('u_#__crmentity_last_changes')
+				->where(['crmid' => $recordModel->getId(), 'fieldname' => 'active'])
+				->exists();
+			if ($isExists) {
+				App\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
-					'user_id' => $userModel->getId(),
-					], 'crmid = ? && fieldname = ?', [$data->getId(), 'active']);
+					'user_id' => App\User::getCurrentUserId(),
+					], ['crmid' => $recordModel->getId(), 'fieldname' => 'active'])->execute();
 			} else {
-				$params = [
-					'user_id' => $userModel->getId(),
-					'crmid' => $data->getId(),
+				App\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
+					'user_id' => App\User::getCurrentUserId(),
+					'crmid' => $recordModel->getId(),
 					'fieldname' => 'active',
 					'date_updated' => date('Y-m-d H:i:s'),
-				];
-				$db->insert('u_yf_crmentity_last_changes', $params);
+				])->execute();
 			}
 		}
 	}

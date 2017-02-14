@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
@@ -22,7 +23,6 @@ class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('TAXCLASS_DETAILS', $recordModel->getTaxClassDetails());
 
 		parent::process($request);
 	}

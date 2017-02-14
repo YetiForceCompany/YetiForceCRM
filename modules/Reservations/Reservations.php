@@ -54,6 +54,11 @@ class Reservations extends Vtiger_CRMEntity
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['reservations_no', 'createdtime', 'assigned_user_id'];
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
@@ -69,8 +74,6 @@ class Reservations extends Vtiger_CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('name');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'name';
 	// Column value to use on detail view record text display
@@ -94,30 +97,30 @@ class Reservations extends Vtiger_CRMEntity
 	{
 		$registerLink = false;
 		$adb = PearDatabase::getInstance();
-		
+
 		if ($event_type == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Reservations');
-			\includes\fields\RecordNumber::setNumber($moduleName, 'RES', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
 			$moduleInstance = vtlib\Module::getInstance($modulename);
 			$targetModule = vtlib\Module::getInstance('Accounts');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('HelpDesk');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Leads');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Project');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Vendors');
-			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'get_dependents_list');
+			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
 			
 		}

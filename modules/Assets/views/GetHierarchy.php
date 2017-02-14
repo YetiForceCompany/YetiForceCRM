@@ -43,7 +43,8 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$accountIds = [];
 		$check = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['hierarchy'])) {
-			$hierarchy = $classFunction['class']::$classFunction['hierarchy']($hierarchy);
+			$method = $classFunction['hierarchy'];
+			$hierarchy = $classFunction['class']::$method($hierarchy);
 		}
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {
 			$link = $accountInfo[0]['data'];

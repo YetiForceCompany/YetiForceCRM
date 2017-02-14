@@ -12,6 +12,10 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 
 	private $conditions = false;
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$linkId = $request->get('linkid');
@@ -33,8 +37,8 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$accessibleUsers = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
-		$accessibleGroups = \includes\fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
+		$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleUsersForModule();
+		$accessibleGroups = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getAccessibleGroupForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
@@ -46,27 +50,35 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		}
 	}
 
+	/**
+	 * Get widget data
+	 * @param string $moduleName
+	 * @param int|string $owner
+	 * @return array
+	 */
 	public function getWidgetData($moduleName, $owner)
 	{
 		$rawData = $data = $response = $ticks = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
-		$param = [0, $date];
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT Year(`saledate`) as y,  Month(`saledate`) as m,sum(`sum_gross`) as s FROM u_yf_finvoice
-					INNER JOIN vtiger_crmentity ON u_yf_finvoice.finvoiceid = vtiger_crmentity.crmid
-					WHERE vtiger_crmentity.deleted = ? && saledate > ?';
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
-		if ($owner != 'all') {
-			$sql .= ' && vtiger_crmentity.smownerid = ?';
-			$param[] = $owner;
+		$displayDate = \App\Fields\DateTime::currentUserDisplayDate($date);
+		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$y = new \yii\db\Expression('extract(year FROM saledate)');
+		$m = new \yii\db\Expression('extract(month FROM saledate)');
+		$s = new \yii\db\Expression('sum(sum_gross)');
+		$fieldList = ['y' => $y, 'm' => $m, 's' => $s];
+		$queryGenerator->setCustomColumn($fieldList);
+		$queryGenerator->addCondition('saledate', $displayDate, 'a');
+		if ($owner !== 'all') {
+			$queryGenerator->addCondition('assigned_user_id', $owner, 'e');
 		}
-		$sql .= ' GROUP BY YEAR(`saledate`), MONTH(`saledate`)';
-		$this->conditions = ['saledate', "'$date'", 'g', QueryGenerator::$AND];
-
-		$result = $db->pquery($sql, $param);
-		while ($row = $db->getRow($result)) {
+		$queryGenerator->setCustomGroup([new \yii\db\Expression('y'), new \yii\db\Expression('m')]);
+		$query = $queryGenerator->createQuery();
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$rawData[$row['y']][] = [$row['m'], (int) $row['s']];
 		}
+
+		$this->conditions = ['condition' => ['>', 'saledate', $date]];
 		foreach ($rawData as $y => $raw) {
 			$years[] = $y;
 		}

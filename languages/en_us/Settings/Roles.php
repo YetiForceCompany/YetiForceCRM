@@ -50,6 +50,7 @@ $languageStrings = [
 	'LBL_BLOCK_COPY' => 'Block copying',
 	'LBL_BLOCK_CUT' => 'Block cutting',
 	'LBL_BLOCK_PASTE' => 'Block pasting',
+	'LBL_AUTO_ASSIGN_RECORDS' => 'Auto assign records',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'No permissions to move',

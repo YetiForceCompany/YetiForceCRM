@@ -48,6 +48,11 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['subject', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -84,7 +89,7 @@ class SRecurringOrders extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('SRecurringOrders');
-			\includes\fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRecurringOrders']);
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -93,32 +98,15 @@ class SRecurringOrders extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SRecurringOrders'));
 			}
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModTracker');
-			if ($modcommentsModuleInstance && file_exists('modules/ModTracker/ModTracker.php')) {
-				include_once 'modules/ModTracker/ModTracker.php';
-				$tabid = vtlib\Functions::getModuleId('SRecurringOrders');
-				$moduleModTrackerInstance = new ModTracker();
-				if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
-					$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
-					$moduleModTrackerInstance->updateCache($tabid, 1);
-				} else {
-					$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
-					$moduleModTrackerInstance->updateCache($tabid, 1);
-				}
-				if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-					$moduleInstance = vtlib\Module::getInstance($tabid);
-					$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
-				}
-			}
-
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 

@@ -26,6 +26,10 @@
 						<h3 class="modal-title">{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate($SINGLE_MODULE, $MODULE)}</h3>
 					</div>
 					<div class="pull-right quickCreateActions">
+						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
+							{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
+							&nbsp;&nbsp;
+						{/foreach}
 						{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 						<button class="btn btn-success generatePass" name="save" type="button"><strong>{vtranslate('Generate Password', $RELATEDMODULE)}</strong></button>&nbsp;
 						<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;

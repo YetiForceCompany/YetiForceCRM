@@ -13,7 +13,7 @@ class Vtiger_DocumentsFolder_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -27,11 +27,21 @@ class Vtiger_DocumentsFolder_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_attachmentsfolder WHERE folderid = ?', array($value));
-		if ($db->num_rows($result)) {
-			return $db->query_result($result, 0, 'foldername');
+		return (new App\Db\Query())->select(['foldername'])->from('vtiger_attachmentsfolder')
+				->where(['folderid' => $value])->scalar();
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return 1; //the documents will stored in default folder
 		}
-		return false;
+		return $value;
 	}
 }

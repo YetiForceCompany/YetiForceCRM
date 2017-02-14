@@ -76,7 +76,7 @@
 						{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 						{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 					{/if}
-					<input  type="text" class="timepicker-default form-control" value="{$TIME}" name="time" />
+					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />
 					<span class="input-group-addon cursorPointer">
 						<i class="glyphicon glyphicon-time"></i>
 					</span>
@@ -150,7 +150,7 @@
 			<span class="col-md-5">
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
-					{foreach from=Vtiger_Util_Helper::getPickListValues('activitystatus') key=KEY item=ITEM}
+					{foreach from=App\Fields\Picklist::getPickListValues('activitystatus') key=KEY item=ITEM}
 						<option value="{$ITEM}" {if in_array($ITEM,vtlib\Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{vtranslate($ITEM,'Calendar')}</option>
 					{/foreach}
 				</select>

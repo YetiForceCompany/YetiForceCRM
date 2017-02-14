@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\base;
 
 /**
@@ -15,9 +14,11 @@ namespace yii\base;
  */
 class ModelEvent extends Event
 {
-    /**
-     * @var boolean whether the model is in valid status. Defaults to true.
-     * A model is in valid status if it passes validations or certain checks.
-     */
-    public $isValid = true;
+
+	/**
+	 * @var boolean whether the model is in valid status. Defaults to true.
+	 * A model is in valid status if it passes validations or certain checks.
+	 */
+	public $isValid = true;
+
 }

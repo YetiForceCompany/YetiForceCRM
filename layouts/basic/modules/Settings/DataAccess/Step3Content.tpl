@@ -18,7 +18,7 @@
 		{include file='ListAction.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		<br>
 		<div class="pull-right">
-			<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>
+			<a class="btn btn-danger backStep" href="index.php?module=DataAccess&parent=Settings&view=Step2&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></a>
 			<a class="btn btn-success" href="index.php?module=DataAccess&parent=Settings&view=Index">{vtranslate('NEXT', $QUALIFIED_MODULE)}</a>
 			<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
 		</div>

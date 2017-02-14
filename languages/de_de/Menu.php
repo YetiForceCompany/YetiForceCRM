@@ -19,7 +19,7 @@ $languageStrings = [
 	'MEN_MARKETING' => 'Marketing',
 	'MEN_SUPPORT' => 'Support',
 	'MEN_ACCOUNTING' => 'Rechnungswesen',
-	'MEN_HUMAN_RESOURCES' => 'Personalwesen',
+	'MEN_COMPANY' => 'Firma',
 	'MEN_SECRETARY' => 'Sekretariat',
 	'MEN_DATABESES' => 'Datenbanken',
 	'MEN_TEAMWORK' => 'Teamarbeit',
@@ -30,6 +30,6 @@ $languageStrings = [
 	'Menu' => 'Menü',
 	'MEN_LOGISTICS' => 'Logistik',
 	// profile type
-	'LBL_CHANGE_LOGIN_PASSWORD' => 'Password ändern',
+	'LBL_CHANGE_LOGIN_PASSWORD' => 'Passwort ändern',
 	'LBL_CHANGE' => 'Ändern',
 ];

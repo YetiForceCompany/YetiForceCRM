@@ -6,28 +6,35 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_CurrencyList_UIType extends Vtiger_Base_UIType
+class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 {
-
-	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return <String> - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/CurrencyList.tpl';
-	}
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT currency_name FROM vtiger_currency_info WHERE currency_status = ? && id = ?', array('Active', $value));
-		if ($db->num_rows($result)) {
-			return $db->query_result($result, 0, 'currency_name');
-		}
-		return $value;
+		$currencylist = $this->getPicklistValues();
+		return isset($currencylist[$value]) ? $currencylist[$value] : $value;
+	}
+
+	/**
+	 * Function to get all the available picklist values for the current field
+	 * @return array List of picklist values if the field
+	 */
+	public function getPicklistValues()
+	{
+		$fieldModel = $this->get('field');
+		return $fieldModel->getCurrencyList();
+	}
+
+	/**
+	 * Function defines empty picklist element availability
+	 * @return boolean
+	 */
+	public function isEmptyPicklistOptionAllowed()
+	{
+		return false;
 	}
 
 	public function getCurrenyListReferenceFieldName()

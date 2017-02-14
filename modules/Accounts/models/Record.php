@@ -38,7 +38,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create event
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateEventUrl()
 	{
@@ -48,7 +48,7 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create todo
-	 * @retun <String>
+	 * @retun string
 	 */
 	public function getCreateTaskUrl()
 	{

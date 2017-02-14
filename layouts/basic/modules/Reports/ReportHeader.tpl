@@ -11,33 +11,37 @@
 -->*}
 {strip}
     <div>
-        <div class="reportsDetailHeader">
-			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
-            <form id="detailView" onSubmit="return false;">
-				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($DATE_FILTERS))}' />
-				<br>
-				<div class="reportHeader row">
-					<div class="col-md-3">
-						<div class="btn-toolbar">
-							{if $REPORT_MODEL->isEditable() eq true}
-								<div class="btn-group">
-									<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-default">
-										<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
-										<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-									</button>
-								</div>
-							{/if}
-							<div class="btn-group">
-								<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-default">
-									<span class="fa fa-files-o"></span>&nbsp;&nbsp;
-									<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
-								</button>
-							</div>
+		<div class="widget_header row marginBottom10px">
+			<div class="col-sm-6">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+			<div class="col-sm-6">
+				<div class="btn-toolbar pull-right">
+					{if $REPORT_MODEL->isEditable() eq true}
+						<div class="btn-group">
+							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
+								<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+							</button>
 						</div>
+					{/if}
+					<div class="btn-group">
+						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-primary">
+							<span class="fa fa-files-o"></span>&nbsp;&nbsp;
+							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+						</button>
 					</div>
-					<div class="col-md-5 textAlignCenter">
-						<h3>{$REPORT_MODEL->getName()}</h3>
-						<div id="noOfRecords">{vtranslate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
+				</div>
+			</div>
+		</div>
+        <div class="reportsDetailHeader">
+			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+            <form id="detailView" onSubmit="return false;">
+				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+				<div class="reportHeader row">
+					<div class="col-md-8">
+						<h3 class="noSpaces" >{$REPORT_MODEL->getName()}</h3>
+						<div id="noOfRecords" class="marginTop10">{vtranslate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
 							{if $COUNT > 1000}
 								<span class="redColor" id="moreRecordsText"> ({vtranslate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
 							{else}

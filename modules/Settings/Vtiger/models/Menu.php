@@ -21,7 +21,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the Id of the Menu Model
-	 * @return <Number> - Menu Id
+	 * @return int - Menu Id
 	 */
 	public function getId()
 	{
@@ -30,7 +30,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the menu label
-	 * @return <String> - Menu Label
+	 * @return string - Menu Label
 	 */
 	public function getLabel()
 	{
@@ -39,7 +39,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the menu type
-	 * @return <String> - Menu Label
+	 * @return string - Menu Label
 	 */
 	public function getType()
 	{
@@ -48,7 +48,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url to get to the Settings Menu Block
-	 * @return <String> - Menu Item landing url
+	 * @return string - Menu Item landing url
 	 */
 	public function getUrl()
 	{
@@ -60,7 +60,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the url to list the items of the Menu
-	 * @return <String> - List url
+	 * @return string - List url
 	 */
 	public function getListUrl()
 	{
@@ -69,7 +69,7 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get all the menu items of the current menu
-	 * @return <Array> - List of Settings_Vtiger_MenuItem_Model instances
+	 * @return array - List of Settings_Vtiger_MenuItem_Model instances
 	 */
 	public function getItems()
 	{
@@ -78,19 +78,18 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static function to get the list of all the Settings Menus
-	 * @return <Array> - List of Settings_Vtiger_Menu_Model instances
+	 * @return array - List of Settings_Vtiger_Menu_Model instances
 	 */
 	public static function getAll()
 	{
 		if (self::$casheMenu) {
 			return self::$casheMenu;
 		}
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM %s ORDER BY sequence', self::$menusTable);
-		$result = $db->query($query);
-
+		$dataReader = (new App\Db\Query())->from(self::$menusTable)->where(['or', ['like', 'admin_access', ',' . App\User::getCurrentUserId() . ','], ['admin_access' => null]])
+				->orderBy(['sequence' => SORT_ASC])
+				->createCommand()->query();
 		$menuModels = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$blockId = $row[self::$menuId];
 			$menuModels[$blockId] = Settings_Vtiger_Menu_Model::getInstanceFromArray($row);
 		}
@@ -100,8 +99,8 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 
 	/**
 	 * Static Function to get the instance of Settings Menu model with the given value map array
-	 * @param <Array> $valueMap
-	 * @return Settings_Vtiger_Menu_Model instance
+	 * @param array $valueMap
+	 * @return <Settings_Vtiger_Menu_Model> instance
 	 */
 	public static function getInstanceFromArray($valueMap)
 	{
@@ -109,16 +108,20 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Static Function to get the instance of Settings Menu model for given menu id
-	 * @param <Number> $id - Menu Id
-	 * @return Settings_Vtiger_Menu_Model instance
+	 * Array with instances, kay as number id element of menu
+	 * @var array 
 	 */
-	
+	static $cacheInstance = false;
+
+	/**
+	 * Static Function to get the instance of Settings Menu model for given menu id
+	 * @param int $id - Menu Id
+	 * @return <Settings_Vtiger_Menu_Model> instance
+	 */
 	public static function getInstanceById($id)
 	{
-		static $cache = false;
-		if(isset($cache[$id])){
-			return $cache[$id];
+		if (isset(self::$cacheInstance[$id])) {
+			return self::$cacheInstance[$id];
 		}
 		$db = PearDatabase::getInstance();
 
@@ -130,17 +133,17 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 		if ($db->num_rows($result) > 0) {
 			$rowData = $db->query_result_rowdata($result, 0);
 			$instance = Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
-			$cache[$id] = $instance;
+			self::$cacheInstance[$id] = $instance;
 			return $instance;
 		}
-		$cache[$id] = false;
+		self::$cacheInstance[$id] = false;
 		return false;
 	}
 
 	/**
 	 * Static Function to get the instance of Settings Menu model for the given menu name
-	 * @param <String> $name - Menu Name
-	 * @return Settings_Vtiger_Menu_Model instance
+	 * @param string $name - Menu Name
+	 * @return <Settings_Vtiger_Menu_Model> instance
 	 */
 	public static function getInstance($name)
 	{

@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php
+namespace App;
 
 use \yii\log\Logger;
 
@@ -10,6 +11,10 @@ use \yii\log\Logger;
  */
 class Log extends Logger
 {
+
+	public static $logToConsole;
+	public static $logToFile;
+	public static $logToProfile;
 
 	/**
 	 * Logs a message with the given type and category.
@@ -28,7 +33,7 @@ class Log extends Logger
 		if ($this->traceLevel > 0) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
-		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
+		if (static::$logToConsole) {
 			Debuger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
@@ -46,7 +51,9 @@ class Log extends Logger
 	 */
 	public static function trace($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_TRACE, $category);
+		if (static::$logToFile) {
+			\Yii::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
+		}
 	}
 
 	/**
@@ -58,7 +65,7 @@ class Log extends Logger
 	 */
 	public static function info($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_INFO, $category);
+		\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
 	}
 
 	/**
@@ -70,7 +77,7 @@ class Log extends Logger
 	 */
 	public static function warning($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_WARNING, $category);
+		\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
 	}
 
 	/**
@@ -82,7 +89,7 @@ class Log extends Logger
 	 */
 	public static function error($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, \yii\log\Logger::LEVEL_ERROR, $category);
+		\Yii::getLogger()->log($message, Logger::LEVEL_ERROR, $category);
 	}
 
 	/**
@@ -104,7 +111,9 @@ class Log extends Logger
 	 */
 	public static function beginProfile($token, $category = '')
 	{
-		\Yii::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_BEGIN, $category);
+		if (static::$logToProfile) {
+			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_BEGIN, $category);
+		}
 	}
 
 	/**
@@ -116,6 +125,8 @@ class Log extends Logger
 	 */
 	public static function endProfile($token, $category = '')
 	{
-		\Yii::getLogger()->log($token, \yii\log\Logger::LEVEL_PROFILE_END, $category);
+		if (static::$logToProfile) {
+			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
+		}
 	}
 }

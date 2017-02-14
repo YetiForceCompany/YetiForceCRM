@@ -16,15 +16,13 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function return the url to fetch List Price of the Product for the current PriceBook
-	 * @return <String>
+	 * @return string
 	 */
 	public function getProductUnitPriceURL()
 	{
 		$url = 'module=PriceBooks&action=ProductListPrice&record=' . $this->getId();
-		$rawData = $this->getRawData();
-		$src_record = $rawData['src_record'];
-		if (!empty($src_record)) {
-			$url .= '&itemId=' . $src_record;
+		if (!$this->isEmpty('src_record')) {
+			$url .= '&itemId=' . $this->get('src_record');
 		}
 		return $url;
 	}
@@ -36,14 +34,11 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getProductsListPrice($relatedRecordId)
 	{
-		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT listprice FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($this->getId(), $relatedRecordId));
-
-		if ($db->num_rows($result)) {
-			return $db->query_result($result, 0, 'listprice');
-		}
-		return false;
+		return (new \App\Db\Query())->select(['listprice'])
+				->from('vtiger_pricebookproductrel')
+				->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
+				->scalar();
 	}
 
 	/**
@@ -53,13 +48,19 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateListPrice($relatedRecordId, $price)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($this->getId(), $relatedRecordId));
-		if ($db->num_rows($result)) {
-			$db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? && productid = ?', array($price, $this->getId(), $relatedRecordId));
+		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])->exists();
+		if ($isExists) {
+			App\Db::getInstance()->createCommand()
+				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
+				->execute();
 		} else {
-			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)', array($this->getId(), $relatedRecordId, $price, $this->get('currency_id')));
+			App\Db::getInstance()->createCommand()
+				->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $this->getId(),
+					'productid' => $relatedRecordId,
+					'listprice' => $price,
+					'usedcurrency' => $this->get('currency_id')
+				])->execute();
 		}
 	}
 
@@ -69,7 +70,32 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 */
 	public function deleteListPrice($relatedRecordId)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($this->getId(), $relatedRecordId));
+		return App\Db::getInstance()->createCommand()
+				->delete('vtiger_pricebookproductrel', ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
+				->execute();
+	}
+
+	public function saveToDb()
+	{
+		parent::saveToDb();
+		$this->updateListPrices();
+	}
+
+	public function updateListPrices()
+	{
+		\App\Log::trace('Entering function updateListPrices...');
+		$pricebookCurrency = $this->get('currency_id');
+		$dataReader = (new App\Db\Query())->from('vtiger_pricebookproductrel')
+				->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
+			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
+			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
+			App\Db::getInstance()->createCommand()
+				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])
+				->execute();
+		}
+		\App\Log::trace('Exiting function updateListPrices...');
 	}
 }

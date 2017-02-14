@@ -12,6 +12,10 @@
 Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -24,10 +28,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		if (!$request->has('owner'))
-			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
-		else
-			$owner = $request->get('owner');
+		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -35,7 +36,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 
-		$overdueActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
+		$overdueActivityLabels['status'] = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $overdueActivityLabels);
 
@@ -58,7 +59,7 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', ['vtiger_activity.status', "'$overdueActivityLabels'", 'in', QueryGenerator::$AND]);
+		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $overdueActivityLabels]]);
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);

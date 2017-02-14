@@ -37,6 +37,7 @@ $languageStrings = [
 	'Tax Class' => 'Rodzaj podatku',
 	'Website' => 'Strona internetowa',
 	'FL_RENEWABLE' => 'Odnawialny',
+	'FL_TAXES' => 'Podatki',
 	// Services popup of pricebook
 	'LBL_ADD_TO_PRICEBOOKS' => 'Dodaj do cennika',
 	// YetiForce

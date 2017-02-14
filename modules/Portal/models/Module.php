@@ -23,19 +23,23 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		return $links;
 	}
 
-	public function savePortalRecord($recordId, $bookmarkName, $bookmarkUrl)
+	public static function savePortalRecord($recordId, $bookmarkName, $bookmarkUrl)
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		if (empty($recordId)) {
-			$portalId = $db->getUniqueID('vtiger_portal');
-			$query = "INSERT INTO vtiger_portal VALUES(?,?,?,?,?,?)";
-			$params = array($portalId, $bookmarkName, $bookmarkUrl, 0, 0, date('Y-m-d H:i:s'));
+			$db->createCommand()->insert('vtiger_portal', [
+				'portalname' => $bookmarkName,
+				'portalurl' => $bookmarkUrl,
+				'sequence' => 0,
+				'setdefault' => 0,
+				'createdtime' => date('Y-m-d H:i:s')
+			])->execute();
 		} else {
-			$query = "UPDATE vtiger_portal SET portalname=?, portalurl=? WHERE portalid=?";
-			$params = array($bookmarkName, $bookmarkUrl, $recordId);
+			$db->createCommand()->update('vtiger_portal', [
+				'portalname' => $bookmarkName,
+				'portalurl' => $bookmarkUrl,
+				], ['portalid' => $recordId])->execute();
 		}
-
-		$db->pquery($query, $params);
 		return true;
 	}
 
@@ -53,8 +57,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 
 	public function deleteRecord($recordId)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_portal WHERE portalid = ?', array($recordId));
+		\App\Db::getInstance()->createCommand()->delete('vtiger_portal', ['portalid' => $recordId])->execute();
 	}
 
 	public function getWebsiteUrl($recordId)

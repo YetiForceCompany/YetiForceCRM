@@ -35,6 +35,8 @@ $languageStrings = [
 	'LBL_MEETING_ROOMS' => 'Besprechungsräume',
 	'LBL_EQUIPMENT' => 'Ausstattung',
 	'LBL_CARS' => 'Fahrzeug',
+	'PLL_DRAFT' => 'Entwurf',
+	'PLL_CANCELLED' => 'Abgebrochen',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Fehlerschlüssel: [0-9]',

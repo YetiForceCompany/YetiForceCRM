@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 
 class Users_UserSetupSave_Action extends Users_Save_Action
@@ -18,7 +19,6 @@ class Users_UserSetupSave_Action extends Users_Save_Action
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
 
 		//Handling the user preferences 
-		$userRecordModel->set('mode', 'edit');
 		$userRecordModel->set('language', $request->get('lang_name'));
 		$userRecordModel->set('time_zone', $request->get('time_zone'));
 		$userRecordModel->set('date_format', $request->get('date_format'));

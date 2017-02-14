@@ -20,5 +20,5 @@ $languageStrings = [
 	'LBL_MARK_AS_READ' => 'als gelesen markiert',
 	// Others
 	'LBL_ACCEPT_ANNOUNCEMENT' => 'Wurde akzeptiert?',
-	'LBL_DATE' => 'weiterlesen',
+	'LBL_DATE' => 'gelesen',
 ];

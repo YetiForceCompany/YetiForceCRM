@@ -26,7 +26,9 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			});
 			app.showModalWindow("", url, function (data) {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
-
+				app.showScrollBar(data.find('.modal-body'), {
+					height: app.getScreenHeight(70) + 'px'
+				});
 				data.find('[name="saveButton"]').click(function (e) {
 					var folder = {};
 					data.find('select').each(function () {

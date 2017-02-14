@@ -43,17 +43,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function ComposeEmail($params, $ModuleName)
-	{
-		header('Location: ' . self::GetSite_URL() . 'index.php?module=OSSMail&view=compose');
-	}
-
 	public static function load_roundcube_config()
 	{
-		global $no_include_config;
-		$no_include_config = true;
 		include 'modules/OSSMail/roundcube/config/defaults.inc.php';
-		include 'modules/OSSMail/roundcube/config/config.inc.php';
+		include 'config/modules/OSSMail.php';
 		return $config;
 	}
 
@@ -61,7 +54,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
-		
+
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;
@@ -114,15 +107,15 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function imapThrowError($error)
 	{
-		
+
 		\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . $error);
 		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
 	{
-		
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+
+		\App\Log::trace(__METHOD__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
@@ -148,14 +141,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		\App\Log::trace(__METHOD__ . ' - End');
 		return true;
 	}
 
 	public static function getMailBoxmsgInfo($users)
 	{
-		
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - Start');
+
+		\App\Log::trace(__METHOD__ . ' - Start');
 		$adb = PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
@@ -164,7 +157,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		for ($i = 0; $i < $countResult; $i++) {
 			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
 		}
-		\App\Log::trace(__CLASS__ . ':' . __FUNCTION__ . ' - End');
+		\App\Log::trace(__METHOD__ . ' - End');
 		return $account;
 	}
 
@@ -255,12 +248,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$return = '';
 		foreach ($text as $row) {
 			if ($return != '') {
-				$return.= ',';
+				$return .= ',';
 			}
 			if ($row->personal == '') {
-				$return.= $row->mailbox . '@' . $row->host;
+				$return .= $row->mailbox . '@' . $row->host;
 			} else {
-				$return.= self::_decode_text($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
+				$return .= self::_decode_text($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
 			}
 		}
 		return $return;
@@ -269,7 +262,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function _get_body_attach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
-		$parts = $struct->parts;
 		$i = 0;
 		$mail = array('id' => $id);
 		if (empty($struct->parts)) {
@@ -279,10 +271,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::initMailPart($mbox, $mail, $partStructure, $partNum + 1);
 			}
 		}
-		$ret = array();
-		$ret['body'] = $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'];
-		$ret['attachment'] = $mail["attachments"];
-		return $ret;
+		return [
+			'body' => $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'],
+			'attachment' => $mail['attachments']
+		];
 	}
 
 	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
@@ -297,7 +289,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		} elseif ($partStructure->encoding == 4) {
 			$data = imap_qprint($data);
 		}
-		$params = array();
+		$params = [];
 		if (!empty($partStructure->parameters)) {
 			foreach ($partStructure->parameters as $param) {
 				$params[strtolower($param->attribute)] = $param->value;
@@ -313,11 +305,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		if (!empty($params['charset']) && strtolower($params['charset']) != 'utf-8') {
-			if (function_exists('mb_convert_encoding') && in_array($params['charset'], mb_list_encodings())) {
-				$data = mb_convert_encoding($data, 'utf-8', $params['charset']);
+		if (!empty($params['charset']) && strtolower($params['charset']) !== 'utf-8') {
+			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset']), mb_list_encodings())) {
+				$encodedData = mb_convert_encoding($data, 'UTF-8', $params['charset']);
 			} else {
-				$data = iconv($params['charset'], 'utf-8', $data);
+				$encodedData = iconv($params['charset'], 'UTF-8', $data);
+			}
+			if ($encodedData) {
+				$data = $encodedData;
 			}
 		}
 		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? mt_rand() . mt_rand() : null);
@@ -400,7 +395,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $decoded != $string && urlencode($decoded) == $string;
 	}
 
-	protected function decodeRFC2231($string, $charset = 'utf-8')
+	protected static function decodeRFC2231($string, $charset = 'utf-8')
 	{
 		if (preg_match("/^(.*?)'.*?'(.*?)$/", $string, $matches)) {
 			$encoding = $matches[1];
@@ -412,83 +407,83 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $string;
 	}
 
-	public function _SaveAttachements($relID, $mail)
+	/**
+	 * Function to saving attachments
+	 * @param int $relID
+	 * @param OSSMail_Mail_Model $mail
+	 * @return int[]
+	 */
+	public static function _SaveAttachments($relID, OSSMail_Mail_Model $mail)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$attachments = $mail->get('attachments');
 		$userid = $mail->getAccountOwner();
-		$usetime = $mail->get('udate_formated');
+		$useTime = $mail->get('udate_formated');
 		$setype = 'OSSMailView Attachment';
 
 		$IDs = [];
 		if ($attachments) {
 			foreach ($attachments as $attachment) {
-				$filename = $attachment['filename'];
-				$filecontent = $attachment['attachment'];
-				$attachid = $adb->getUniqueId('vtiger_crmentity');
-				$description = $filename;
+				$fileName = $attachment['filename'];
+				$fileContent = $attachment['attachment'];
+				$description = $fileName;
 				$params = [
-					'crmid' => $attachid,
 					'smcreatorid' => $userid,
 					'smownerid' => $userid,
 					'modifiedby' => $userid,
 					'setype' => $setype,
 					'description' => $description,
-					'attention' => $attention_val,
-					'createdtime' => $usetime,
-					'modifiedtime' => $usetime
+					'createdtime' => $useTime,
+					'modifiedtime' => $useTime
 				];
-				$adb->insert('vtiger_crmentity', $params);
-				$issaved = self::_SaveAttachmentFile($attachid, $filename, $filecontent);
-				if ($issaved) {
+				$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
+				$attachId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
+				$isSaved = self::saveAttachmentFile($attachId, $fileName, $fileContent);
+				if ($isSaved) {
 					$record = Vtiger_Record_Model::getCleanInstance('Documents');
 					$record->set('assigned_user_id', $userid);
-					$record->set('notes_title', $filename);
-					$record->set('filename', $filename);
+					$record->set('notes_title', $fileName);
+					$record->set('filename', $fileName);
 					$record->set('filestatus', 1);
 					$record->set('filelocationtype', 'I');
 					$record->set('folderid', 'T2');
-					$record->set('mode', 'new');
-					$record->set('id', '');
 					$record->save();
 					$IDs[] = $record->getId();
-
-					$adb->insert('vtiger_seattachmentsrel', [
+					$db->createCommand()->insert('vtiger_seattachmentsrel', [
 						'crmid' => $record->getId(),
-						'attachmentsid' => $attachid
-					]);
-					$adb->update('vtiger_crmentity', [
-						'createdtime' => $usetime,
+						'attachmentsid' => $attachId
+					])->execute();
+					$db->createCommand()->update('vtiger_crmentity', [
+						'createdtime' => $useTime,
 						'smcreatorid' => $userid,
 						'modifiedby' => $userid,
-						], 'crmid = ?', [$record->getId()]
-					);
-					if ($relID && $relID != 0 && $relID != '') {
-						$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
-						$url_to_image = $dirname . $attachid . '_' . $filename;
-						$adb->insert('vtiger_ossmailview_files', [
+						], ['crmid' => $record->getId()]
+					)->execute();
+					if (!empty($relID)) {
+						$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
+						$urlToImage = "$dirName{$attachId}_$fileName";
+						$db->createCommand()->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
 							'documentsid' => $record->getId(),
-							'attachmentsid' => $attachid
-						]);
-						$result = $adb->pquery('SELECT content FROM vtiger_ossmailview where ossmailviewid = ?', [$relID]);
-						$content = $adb->getSingleValue($result);
+							'attachmentsid' => $attachId
+						])->execute();
+						$content = (new App\Db\Query())->select(['content'])->from('vtiger_ossmailview')->where(['ossmailviewid' => $relID])->scalar();
 						preg_match_all('/src="cid:(.*)"/Uims', $content, $matches);
 						if (count($matches)) {
-							$search = array();
-							$replace = array();
+							$search = [];
+							$replace = [];
 							foreach ($matches[1] as $match) {
-								if (strpos($filename, $match) !== false || strpos($match, $filename) !== false) {
+								if (strpos($fileName, $match) !== false || strpos($match, $fileName) !== false) {
 									$search[] = "src=\"cid:$match\"";
-									$replace[] = "src=\"$url_to_image\"";
+									$replace[] = "src=\"$urlToImage\"";
 								}
 							}
 							$content = str_replace($search, $replace, $content);
 						}
-						$adb->update('vtiger_ossmailview', [
+						$db->createCommand()->update('vtiger_ossmailview', [
 							'content' => $content
-							], 'ossmailviewid = ?', [$relID]
-						);
+							], ['ossmailviewid' => $relID]
+						)->execute();
 					}
 				}
 			}
@@ -496,32 +491,34 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $IDs;
 	}
 
-	public function _SaveAttachmentFile($attachid, $filename, $filecontent)
+	/**
+	 * Function to saving attachments files
+	 * @param int $attachId
+	 * @param string $fileName
+	 * @param string $fileContent
+	 * @return int
+	 */
+	public static function saveAttachmentFile($attachId, $fileName, $fileContent)
 	{
-		require_once 'modules/OSSMail/MailAttachmentMIME.php';
-		$adb = PearDatabase::getInstance();
-		$dirname = vtlib\Functions::initStorageFileDirectory('OSSMailView');
-		if (!is_dir($dirname))
-			mkdir($dirname);
-		$filename = str_replace(' ', '-', $filename);
-		$filename = str_replace(':', '-', $filename);
-		$filename = str_replace('/', '-', $filename);
-		$saveasfile = "$dirname$attachid" . "_$filename";
-		if (!file_exists($saveasfile)) {
-			$fh = fopen($saveasfile, 'wb');
-			fwrite($fh, $filecontent);
-			fclose($fh);
+		$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
+		if (!is_dir($dirName)) {
+			mkdir($dirName);
 		}
-		$mimetype = MailAttachmentMIME::detect($saveasfile);
-		$params = [
-			'attachmentsid' => $attachid,
-			'name' => $filename,
-			'description' => $description,
-			'type' => $mimetype,
-			'path' => $dirname
-		];
-		$adb->insert('vtiger_attachments', $params);
-		return true;
+		$fileName = str_replace([' ', ':', '/'], '-', $fileName);
+		$saveAsFile = "$dirName{$attachId}_$fileName";
+		if (!file_exists($saveAsFile)) {
+			$fh = fopen($saveAsFile, 'wb');
+			fwrite($fh, $fileContent);
+			fclose($fh);
+			return \App\Db::getInstance()->createCommand()->insert('vtiger_attachments', [
+					'attachmentsid' => $attachId,
+					'name' => $fileName,
+					'description' => '',
+					'type' => \App\Fields\File::getMimeContentType($saveAsFile),
+					'path' => $dirName
+				])->execute();
+		}
+		return false;
 	}
 
 	public static function getFolders($user)
@@ -554,10 +551,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function getViewableData()
 	{
-		global $no_include_config;
-		$no_include_config = true;
-		$return = array();
-		include 'modules/OSSMail/roundcube/config/config.inc.php';
+		$return = [];
+		include 'config/modules/OSSMail.php';
 		foreach ($config as $key => $value) {
 			if ($key == 'skin_logo') {
 				$return[$key] = $value['*'];
@@ -570,10 +565,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function setConfigData($param, $dbupdate = true)
 	{
-		$fileName = 'modules/OSSMail/roundcube/config/config.inc.php';
+		$fileName = 'config/modules/OSSMail.php';
 		$fileContent = file_get_contents($fileName);
 		$Fields = self::getEditableFields();
-
 		foreach ($param as $fieldName => $fieldValue) {
 			$type = $Fields[$fieldName]['fieldType'];
 			$pattern = '/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^;]+);/';
@@ -630,7 +624,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		);
 	}
 
-	public function GetSite_URL()
+	public static function getSiteUrl()
 	{
 		$site_URL = AppConfig::main('site_URL');
 		if (substr($site_URL, -1) != '/') {

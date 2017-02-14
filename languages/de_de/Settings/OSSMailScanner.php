@@ -10,16 +10,17 @@
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_PAGE_NUMBER' => 'Gehe zur Seite',
-	'OSSMailScanner_manual' => 'Mail Scanner',
-	'OSSMailScanner' => 'Mail Scanner',
-	'Mail Scanner' => 'Mail Scanner',
-	'LBL_VIEW_LOGS' => 'Mail Protokolle',
+	'OSSMailScanner_manual' => 'E-Mail Scanner',
+	'OSSMailScanner' => 'E-Mail Scanner',
+	'Mail Scanner' => 'E-Mail Scanner',
+	'LBL_VIEW_LOGS' => 'E-Mail Protokolle',
 	'CRM Archive' => 'CRM Archiv',
 	'CRM Archive Sent' => 'CRM Archiv Gesendet',
 	'Drafts' => 'Drafts',
 	'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
 	'Sent' => 'SENT',
+	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'The folders below will be removed after saving',
 ];
 $jsLanguageStrings = [
 	'start_cron' => 'E-Mail-Scanner gestartet',

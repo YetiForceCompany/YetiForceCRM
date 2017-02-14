@@ -19,13 +19,12 @@ class OSSMail
 		if ($eventType == 'module.postinstall') {
 			$displayLabel = 'OSSMail';
 			$adb->pquery("UPDATE vtiger_tab SET customized=0 WHERE name=?", array($displayLabel), true);
-			$blockid = $adb->query_result(
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_MAIL'", array()), 0, 'blockid');
-			$sequence = (int) $adb->query_result(
-					$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-			$fieldid = $adb->getUniqueId('vtiger_settings_field');
-			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, 'Mail', '', 'LBL_OSSMAIL_DESCRIPTION', 'index.php?module=OSSMail&parent=Settings&view=index'));
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+				'name' => 'Mail',
+				'iconpath' => 'adminIcon-mail-download-history',
+				'description' => 'LBL_OSSMAIL_DESCRIPTION',
+				'linkto' => 'index.php?module=OSSMail&parent=Settings&view=index'
+			]);
 			$adb->query("CREATE TABLE IF NOT EXISTS `vtiger_ossmails_logs` (
 					  `id` int(19) NOT NULL AUTO_INCREMENT,
 					  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -49,7 +48,7 @@ class OSSMail
 				throw new \Exception\NotAllowedMethod(vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
 			}
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
+			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {

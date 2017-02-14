@@ -1,12 +1,8 @@
 <?php
-/**
- * Polish language
- * @package YetiForce.Language
- * @license licenses/License.html
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'PLL_TEXT' => 'Text',
+	'PLL_IMAGE' => 'Image',
 	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Test Version der PDF Template Konfiguration',
 	'LBL_CREATING_PDF' => 'PDF Template erzeugen',
@@ -26,8 +22,8 @@ $languageStrings = [
 	'LBL_DOCUMENT_PERMISSIONS' => 'Berechtigungen',
 	'LBL_DOCUMENT_WATERMARK' => 'Wasserzeichen',
 	'Module' => 'Modul',
-	'active' => 'Aktiv',
-	'inactive' => 'Inaktiv',
+	'PLL_ACTIVE' => 'Aktiv',
+	'PLL_INACTIVE' => 'Inaktiv',
 	'LBL_PRIMARY_NAME' => 'Hauptname',
 	'LBL_SECONDARY_NAME' => 'Zusatzname',
 	'LBL_FOLDER_NAME' => 'Verzeichnisname',

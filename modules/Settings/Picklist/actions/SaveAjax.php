@@ -56,7 +56,6 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$recordId = $db->query_result_rowdata($result, $i);
 			$recordId = $recordId['id'];
 			$record = Vtiger_Record_Model::getInstanceById($recordId, 'Users');
-			$record->set('mode', 'edit');
 			$record->set($defaultFieldName, $newValue);
 			$record->save();
 		}

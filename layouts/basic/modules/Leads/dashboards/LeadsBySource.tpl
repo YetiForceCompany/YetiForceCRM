@@ -26,7 +26,7 @@
 	<div class="col-sm-6">
 		<div class="input-group input-group-sm">
 			<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle"></span></span>
-			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange form-control widgetFilter width90"/>
+			<input type="text" name="createdtime" title="{vtranslate('Created Time', $MODULE_NAME)}" class="dateRange form-control widgetFilter width90" value="{implode(',', $DTIME)}"/>
 		</div>
 	</div>
 	<div class="col-sm-6">

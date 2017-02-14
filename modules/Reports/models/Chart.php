@@ -18,7 +18,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
-			$decodeData = \includes\utils\Json::decode(decode_html($data));
+			$decodeData = \App\Json::decode(decode_html($data));
 			$self->setData($decodeData);
 			$self->setParent($reportModel);
 			$self->setId($reportModel->getId());
@@ -238,7 +238,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	/**
 	 * Function returns sql column for group by fields
 	 * @param <Array> $selectedfields - field info report format
-	 * @return <String>
+	 * @return string
 	 */
 	public function getReportColumnSQL($selectedfields)
 	{
@@ -262,7 +262,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	/**
 	 * Function returns sql column for data fields
 	 * @param <Array> $fieldInfo - field info report format
-	 * @return <string>
+	 * @return string
 	 */
 	public function getReportTotalColumnSQL($fieldInfo)
 	{
@@ -289,7 +289,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	/**
 	 * Function returns translated label for the field from report label
 	 * Report label format MODULE_FIELD_LABEL eg:Leads_Lead_Source
-	 * @param <String> $column
+	 * @param string $column
 	 */
 	public function getTranslatedLabelFromReportLabel($column)
 	{
@@ -300,7 +300,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 
 	/**
 	 * Function returns primary module of the report
-	 * @return <String>
+	 * @return string
 	 */
 	public function getPrimaryModule()
 	{
@@ -312,7 +312,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 
 	/**
 	 * Function returns list view url of the Primary module
-	 * @return <String>
+	 * @return string
 	 */
 	public function getBaseModuleListViewURL()
 	{
@@ -376,9 +376,9 @@ abstract class Base_Chart extends Vtiger_Base_Model
 
 	/**
 	 * Function generate links
-	 * @param <String> $field - fieldname
+	 * @param string $field - fieldname
 	 * @param <Decimal> $value - value
-	 * @return <String>
+	 * @return string
 	 */
 	public function generateLink($field, $value)
 	{
@@ -447,7 +447,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 
 	/**
 	 * Function generates graph label
-	 * @return <String>
+	 * @return string
 	 */
 	public function getGraphLabel()
 	{
@@ -598,7 +598,12 @@ class VerticalbarChart extends Base_Chart
 					} else if ($fieldDataType == 'date') {
 						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
 					} else if ($fieldDataType == 'datetime') {
-						$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[$gFieldModel->get('reportlabel')]);
+						$label = $row[$gFieldModel->get('reportlabel')];
+						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
+						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
+							$m = explode(' ', $label);
+							$label = App\Language::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
+						}
 					} else {
 						$label = $row[$gFieldModel->get('reportlabel')];
 					}

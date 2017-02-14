@@ -8,14 +8,15 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="5" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-
+			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
 			<div class="padding1per stepBorder">
 				<label>
 					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 5)}: {vtranslate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
 				<br>
-				{assign STEP_NO 5}
-				{include file="layouts/basic/modules/Settings/PDF/FieldBlock.tpl"}
+				<div class="row">
+					{include file='layouts/basic/modules/Vtiger/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
+				</div>
 				<div class="form-group">
 					<div class="col-sm-12 controls">
 						<textarea class="form-control" name="footer_content" id="footer_content">{$PDF_MODEL->get('footer_content')}</textarea>

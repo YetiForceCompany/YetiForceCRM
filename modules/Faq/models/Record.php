@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
 class Faq_Record_Model extends Vtiger_Record_Model
@@ -51,16 +52,16 @@ class Faq_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function get List of Fields which are mapping from Truoble Tickets to FAQ
-	 * @return <array>
+	 * @return array
 	 */
 	public static function getTicketToFAQMappingFields()
 	{
-		return array(
-			array('ticketField' => 'ticket_title', 'faqField' => 'question', 'defaultValue' => ''),
-			array('ticketField' => 'product_id', 'faqField' => 'product_id', 'defaultValue' => ''),
-			array('ticketField' => 'solution', 'faqField' => 'faq_answer', 'defaultValue' => ''),
-			array('ticketField' => '', 'faqField' => 'faqcategories', 'defaultValue' => 'General'),
-			array('ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft')
-		);
+		return [
+			['ticketField' => 'ticket_title', 'faqField' => 'question', 'defaultValue' => ''],
+			['ticketField' => 'product_id', 'faqField' => 'product_id', 'defaultValue' => ''],
+			['ticketField' => 'solution', 'faqField' => 'faq_answer', 'defaultValue' => ''],
+			['ticketField' => '', 'faqField' => 'faqcategories', 'defaultValue' => 'General'],
+			['ticketField' => '', 'faqField' => 'faqstatus', 'defaultValue' => 'Draft']
+		];
 	}
 }

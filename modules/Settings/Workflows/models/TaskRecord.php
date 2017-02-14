@@ -11,8 +11,8 @@
 /*
  * Workflow Task Record Model Class
  */
-require_once 'modules/com_vtiger_workflow/include.inc';
-require_once 'modules/com_vtiger_workflow/VTTaskManager.inc';
+require_once 'modules/com_vtiger_workflow/include.php';
+require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 
 class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 {

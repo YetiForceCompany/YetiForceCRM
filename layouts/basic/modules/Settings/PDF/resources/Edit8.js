@@ -76,13 +76,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 		var watermarkType = container.find('#watermark_type');
 
 		watermarkType.on('change', function () {
-			if (jQuery(this).val() === 'text') {
-				container.find('.watertext').removeClass('hide');
-				container.find('.waterimage').addClass('hide');
-			} else {
-				container.find('.watertext').addClass('hide');
-				container.find('.waterimage').removeClass('hide');
-			}
+			container.find('.watertext').toggleClass('hide')
+			container.find('.waterimage').toggleClass('hide')
 		});
 	},
 	registerUploadButton: function (form) {

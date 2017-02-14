@@ -8,8 +8,17 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 jQuery.Class('Settings_Module_Manager_Js', {
+	validateField: function(field, rules, i, options){
+		var specialChars = /[&\<\>\:\'\"\,]/;
+		if (specialChars.test(field.val())) {
+			return app.vtranslate('JS_SPECIAL_CHARACTERS_NOT_ALLOWED');
+		}
+		return true;
+	},
 	registerMondalCreateModule: function (data) {
 		data.find('[name="saveButton"]').attr("disabled", true);
+		var form = data.find('form');
+		form.validationEngine(app.validationEngineOptions);
 		var thisInstance = new Settings_Module_Manager_Js();
 		data.find('input').on('change', function (e) {
 			if ($(this).attr("name") == 'module_name') {
@@ -34,38 +43,38 @@ jQuery.Class('Settings_Module_Manager_Js', {
 			}
 		})
 		data.find('[name="saveButton"]').click(function (e) {
-			var form = data.find('form');
-			var formData = form.serializeFormData();
-			var progress = $.progressIndicator({
-				'message': app.vtranslate('Adding a Key'),
-				'blockInfo': {
-					'enabled': true
-				}
-			});
-			var params = {}
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'Basic';
-			params['mode'] = 'createModule';
-			params['formData'] = formData;
-			AppConnector.request(params).then(
-					function (data) {
-						var result = data.result;
-						if (!result.success) {
-							var params = {
-								text: result.text,
-								animation: 'show',
-								type: 'error'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-						} else {
-							window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
-						}
+			if (form.validationEngine('validate')) {
+				var formData = form.serializeFormData();
+				var progress = $.progressIndicator({
+					'message': app.vtranslate('Adding a Key'),
+					'blockInfo': {
+						'enabled': true
 					}
-			);
-			progress.progressIndicator({'mode': 'hide'});
+				});
+				var params = {}
+				params['module'] = app.getModuleName();
+				params['parent'] = app.getParentModuleName();
+				params['action'] = 'Basic';
+				params['mode'] = 'createModule';
+				params['formData'] = formData;
+				AppConnector.request(params).then(
+						function (data) {
+							var result = data.result;
+							if (!result.success) {
+								var params = {
+									text: result.text,
+									animation: 'show',
+									type: 'error'
+								};
+								Vtiger_Helper_Js.showPnotify(params);
+							} else {
+								window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+							}
+						}
+				);
+				progress.progressIndicator({'mode': 'hide'});
+			}
 		});
-
 	}
 }, {
 	/*

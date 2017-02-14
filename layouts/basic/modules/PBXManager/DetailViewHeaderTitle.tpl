@@ -43,28 +43,29 @@
 		<span class="col-md-4 margin0px">
 			<span class="row">
 				<span class="recordLabel pushDown" title="{$RECORD->getName()}">
-					{assign var=NAME_FIELD value=$MODULE_MODEL->getNameFields()}
-					{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
-					{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
-						{assign var=RECORDID value=$RECORD->get("customer")}
+					{assign var=NAME_FIELDS value=$MODULE_MODEL->getNameFields()}
+					{foreach from=$MODULE_MODEL->getNameFields() item=NAME_FIELD }
+						{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
+						{if $FIELD_MODEL && $FIELD_MODEL->getPermissions()}
+							{assign var=RECORDID value=$RECORD->get("customer")}
 
-						{if $RECORDID}
-							{assign var=MODULE value=$RECORD->get('customertype')}
-							{assign var=ENTITY_NAMES value=getEntityName($MODULE, array($RECORDID))}
-							{assign var=CALLERNAME value=$ENTITY_NAMES[$RECORDID]}
-						{else}
-							{assign var=CALLERNAME value=$RECORD->get("customernumber")}
-						{/if}
+							{if $RECORDID}
+								{assign var=MODULE value=$RECORD->get('customertype')}
+								{assign var=ENTITY_NAMES value=getEntityName($MODULE, array($RECORDID))}
+								{assign var=CALLERNAME value=$ENTITY_NAMES[$RECORDID]}
+							{else}
+								{assign var=CALLERNAME value=$RECORD->get("customernumber")}
+							{/if}
 
-						{assign var=CALLER_INFO value=PBXManager_Record_Model::lookUpRelatedWithNumber($RECORD->get('customernumber'))}
-                        {if $CALLER_INFO.id}
-                            {assign var=MODULEMODEL value=Vtiger_Module_Model::getInstance($RECORD->get('customertype'))}
-                            {assign var=FIELDMODEL value=Vtiger_Field_Model::getInstance($CALLER_INFO.fieldname,$MODULEMODEL)}
-                            {assign var=FIELD_NAME value=$FIELDMODEL->get('label')}
-                        {/if}
+							{assign var=CALLER_INFO value=PBXManager_Record_Model::lookUpRelatedWithNumber($RECORD->get('customernumber'))}
+							{if $CALLER_INFO.id}
+								{assign var=MODULEMODEL value=Vtiger_Module_Model::getInstance($RECORD->get('customertype'))}
+								{assign var=FIELDMODEL value=Vtiger_Field_Model::getInstance($CALLER_INFO.fieldname,$MODULEMODEL)}
+								{assign var=FIELD_NAME value=$FIELDMODEL->get('label')}
+							{/if}
 
-						{if $RECORD->get('direction') eq 'inbound'}
-							&nbsp;<strong><span class="{$NAME_FIELD}">
+							{if $RECORD->get('direction') eq 'inbound'}
+								&nbsp;<strong><span class="{$NAME_FIELD}">
 									{vtranslate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
 								</span><br/></strong>
 							{else}
@@ -72,12 +73,12 @@
 									{vtranslate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
 								</span><br/></strong>
 							{/if}    
-
-						{if $FIELD_NAME}           
+							{if $FIELD_NAME}
 							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->get('customernumber')}
 							</span>
-						{/if}          
-					{/if}
+							{/if}
+						{/if}
+					{/foreach}
 				</span>
 			</span>
 			<span class="row">

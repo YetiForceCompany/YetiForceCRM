@@ -15,7 +15,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 	public function getConfig($type = NULL)
 	{
 		$rawData = [];
-		$query = (new \App\db\Query())->from('vtiger_apiaddress');
+		$query = (new \App\Db\Query())->from('vtiger_apiaddress');
 		if ($type) {
 			$query->where(['type' => $type]);
 		}
@@ -33,7 +33,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 		unset($elements['api_name']);
 		$result = 0;
 		if (count($elements)) {
-			$db = \App\DB::getInstance();
+			$db = \App\Db::getInstance();
 			foreach ($elements as $key => $value) {
 				$result = $db->createCommand()
 					->update('vtiger_apiaddress', [
@@ -47,12 +47,12 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 	}
 	/*
 	 * Function that checks if keys for chosen adress api are entered, hence if this api is active
-	 * @return <Boolean> - true if active, false otherwise
+	 * @return boolean - true if active, false otherwise
 	 */
 
 	public static function isActive()
 	{
-		return (new \App\db\Query())
+		return (new \App\Db\Query())
 				->from('vtiger_apiaddress')
 				->where(['name' => 'nominatim'])
 				->andWhere(['>', 'val', 0])

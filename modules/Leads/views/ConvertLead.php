@@ -42,7 +42,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$moduleModel = $recordModel->getModule();
-
+		$marketingProcessConfig = Vtiger_Processes_Model::getConfig('marketing', 'conversion');
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('CURRENT_USER_PRIVILEGE', $currentUserPriviligeModel);
@@ -50,7 +50,12 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$viewer->assign('CONVERT_LEAD_FIELDS', $recordModel->getConvertLeadFields());
 
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
-		$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
+		if ($marketingProcessConfig['change_owner'] === 'true') {
+			$assignedToFieldModel->set('fieldvalue', App\User::getCurrentUserId());
+		} else {
+			$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
+		}
+		$viewer->assign('CONVERSION_CONFIG', $marketingProcessConfig);
 		$viewer->assign('ASSIGN_TO', $assignedToFieldModel);
 		$viewer->view('ConvertLead.tpl', $moduleName);
 	}

@@ -9,9 +9,6 @@
  * All Rights Reserved.
  *************************************************************************************************************************************/
 -->*}
-
-{* TODO: Review the order of parameters - good to eliminate $RECORD->getId, $RECORD should be used *}
-
 {* if this is password input field, display pass as hidden *}
 {if $FIELD_MODEL->get('name') eq 'password'}
     {str_repeat('*', 10)}

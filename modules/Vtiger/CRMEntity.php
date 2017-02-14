@@ -16,8 +16,6 @@ class Vtiger_CRMEntity extends CRMEntity
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = [];
 	// Required Information for enabling Import feature
 	public $required_fields = Array('assigned_user_id' => 1);
 	// Callback function list during Importing
@@ -27,20 +25,6 @@ class Vtiger_CRMEntity extends CRMEntity
 	{
 		$this->column_fields = getColumnFields(get_class($this));
 		$this->db = PearDatabase::getInstance();
-	}
-
-	public function save_module($module)
-	{
-		// Custom Save for Module
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
 	}
 
 	/**
@@ -68,7 +52,7 @@ class Vtiger_CRMEntity extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -98,7 +82,7 @@ class Vtiger_CRMEntity extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 

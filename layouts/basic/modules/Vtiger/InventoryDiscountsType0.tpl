@@ -10,9 +10,9 @@
 			</div>
 			<div class="panel-body" style="display: none;">
 				<select class="select2 globalDiscount" name="globalDiscount">
-					{foreach item=VALUE key=NAME from=$GLOBAL_DISCOUNTS}
-						<option value="{CurrencyField::convertToUserFormat($VALUE, null, true)}">
-							{$VALUE}% - {vtranslate($NAME, $MODULE)}
+					{foreach item=ITEM key=NAME from=$GLOBAL_DISCOUNTS}
+						<option value="{CurrencyField::convertToUserFormat($ITEM.value, null, true)}">
+							{$ITEM.value}% - {vtranslate($ITEM.name, $MODULE)}
 						</option>
 					{/foreach}
 				</select>

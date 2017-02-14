@@ -15,4 +15,6 @@ $CONFIG = [
 	'GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT' => 15,
 	// Global search - The minimum number of characters a user must type before a search is performed. The parameter impacts system efficiency
 	'GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH' => 3,
+	// Global search - Show operator
+	'GLOBAL_SEARCH_OPERATOR' => true,
 ];

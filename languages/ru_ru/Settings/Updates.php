@@ -21,4 +21,5 @@ $languageStrings = [
 	'LBL_UPDATES' => 'Обновление',
 	'LBL_UPDATES_DESCRIPTION' => 'История обновлений',
 	'LBL_IMPORT_UPDATE' => 'Загрузить обновление',
+	'LBL_NAME_PACKAGES' => 'Name',
 ];

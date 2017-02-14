@@ -12,7 +12,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
-		$prefix = includes\fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
+		$prefix = App\Fields\Email::findRecordNumber($mail->get('subject'), 'HelpDesk');
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_tickets'])) {
 			$exceptions = explode(',', $exceptionsAll['crating_tickets']);
@@ -66,7 +66,6 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$record->set('ticket_title', $mail->get('subject'));
 		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
 		$record->set('ticketstatus', 'Open');
-		$record->set('mode', 'new');
 		$record->set('id', '');
 		$record->save();
 		$id = $record->getId();
@@ -77,7 +76,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 
 		if ($mailId = $mail->getMailCrmId()) {
-			OSSMailView_Relation_Model::addRelation($mailId, $id, $mail->get('udate_formated'));
+			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $mail->get('udate_formated'));
 			$result = $db->pquery('SELECT documentsid FROM vtiger_ossmailview_files WHERE ossmailviewid = ?;', [$mailId]);
 			while ($documentId = $db->getSingleValue($result)) {
 				$db->insert('vtiger_senotesrel', [

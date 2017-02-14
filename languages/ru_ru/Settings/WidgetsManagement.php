@@ -43,6 +43,15 @@ $languageStrings = [
 	'LBL_ADD_CHANNEL' => 'Добавить канал',
 	'LBL_ADD_RSS' => 'RSS',
 	'LBL_ADD_CHART_FILTER' => 'Chart from filter',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Number of notifications by recipient',
+	'LBL_DEFAULT_DATE' => 'Default date',
+	'PLL_CURRENT_DAY' => 'Current day',
+	'PLL_CURRENT_WEEK' => 'Current week',
+	'PLL_CURRENT_MONTH' => 'Current month',
+	'PLL_CURRENT_YEAR' => 'Current year',
+	'LBL_SAVE_DASHBOARD' => 'Save dashboard',
+	'LBL_NAME_DASHBOARD' => 'Dashboard name',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Блок Виджетов успешно добавлен',

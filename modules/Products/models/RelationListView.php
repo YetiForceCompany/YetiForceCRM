@@ -20,6 +20,20 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	];
 
 	/**
+	 * Function extending recordModel object with additional information
+	 * @param Vtiger_Record_Model $recordModel
+	 */
+	public function getEntryExtend(Vtiger_Record_Model $recordModel)
+	{
+		if ($this->getRelationModel()->getRelationModuleModel()->getName() === 'PriceBooks') {
+			$parentId = $this->getParentRecordModel()->getId();
+			$parentModuleModel = $this->getParentRecordModel()->getModule();
+			$unitPricesList = $parentModuleModel->getPricesForProducts($recordModel->get('currency_id'), [$parentId => $parentId]);
+			$recordModel->set('unit_price', $unitPricesList[$parentId]);
+		}
+	}
+
+	/**
 	 * Function to get the links for related list
 	 * @return <Array> List of action models <Vtiger_Link_Model>
 	 */
@@ -41,18 +55,20 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
-		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'get_many_to_many') {
-			$unitPriceField = new Vtiger_Field_Model();
-			$unitPriceField->set('name', 'qtyinstock');
-			$unitPriceField->set('column', 'qtyinstock');
-			$unitPriceField->set('label', 'FL_QTY_IN_STOCK');
-			$unitPriceField->set('fromOutsideList', true);
-
-			$headerFields['qtyinstock'] = $unitPriceField;
+		if ($this->getRelationModel()->get('modulename') == 'IStorages' && $this->getRelationModel()->get('name') == 'getManyToMany') {
+			$qtyInStockField = new Vtiger_Field_Model();
+			$qtyInStockField->setModule(Vtiger_Module_Model::getInstance('IStorages'));
+			$qtyInStockField->set('name', 'qtyinstock');
+			$qtyInStockField->set('column', 'qtyinstock');
+			$qtyInStockField->set('label', 'FL_QTY_IN_STOCK');
+			$qtyInStockField->set('fromOutsideList', true);
+			$headerFields['qtyinstock'] = $qtyInStockField;
 		}
 		if ($this->getRelationModel()->getRelationModuleModel()->getName() == 'PriceBooks') {
 			//Added to support Unit Price
+			$moduleModel = Vtiger_Module_Model::getInstance('PriceBooks');
 			$unitPriceField = new Vtiger_Field_Model();
+			$unitPriceField->setModule($moduleModel);
 			$unitPriceField->set('name', 'unit_price');
 			$unitPriceField->set('column', 'unit_price');
 			$unitPriceField->set('label', 'Unit Price');
@@ -62,6 +78,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 
 			//Added to support List Price
 			$field = new Vtiger_Field_Model();
+			$field->setModule($moduleModel);
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');
 			$field->set('label', 'List Price');

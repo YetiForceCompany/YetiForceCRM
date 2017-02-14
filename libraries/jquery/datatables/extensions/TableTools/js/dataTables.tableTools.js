@@ -2153,7 +2153,7 @@ TableTools.prototype = {
 	 *  @method  _fnGetDataTablesData
 	 *  @param   {Object} oConfig Button configuration object
 	 *  @param   {String} oConfig.sFieldBoundary Field boundary for the data cells in the string
-	 *  @param   {String} oConfig.sFieldSeperator Field separator for the data cells
+	 *  @param   {String} oConfig.sFieldSeparator Field separator for the data cells
 	 *  @param   {String} oConfig.sNewline New line options
 	 *  @param   {Mixed} oConfig.mColumns Which columns should be included in the output
 	 *  @param   {Boolean} oConfig.bHeader Include the header
@@ -2189,7 +2189,7 @@ TableTools.prototype = {
 				}
 			}
 
-			aData.push( aRow.join(oConfig.sFieldSeperator) );
+			aData.push( aRow.join(oConfig.sFieldSeparator) );
 		}
 
 		bSelectedOnly = true;
@@ -2262,7 +2262,7 @@ TableTools.prototype = {
 				}
 			}
 
-			aData.push( aRow.join(oConfig.sFieldSeperator) );
+			aData.push( aRow.join(oConfig.sFieldSeparator) );
 
 			/* Details rows from fnOpen */
 			if ( oConfig.bOpenRows )
@@ -2295,7 +2295,7 @@ TableTools.prototype = {
 				}
 			}
 
-			aData.push( aRow.join(oConfig.sFieldSeperator) );
+			aData.push( aRow.join(oConfig.sFieldSeparator) );
 		}
 
 		var _sLastData = aData.join( this._fnNewline(oConfig) );
@@ -2815,7 +2815,7 @@ TableTools.buttonBase = {
 	"bBomInc": false,
 	"sFileName": "*.csv",
 	"sFieldBoundary": "",
-	"sFieldSeperator": "\t",
+	"sFieldSeparator": "\t",
 	"sNewLine": "auto",
 	"mColumns": "all", /* "all", "visible", "hidden" or array of column integers */
 	"bHeader": true,
@@ -2844,7 +2844,7 @@ TableTools.BUTTONS = {
 		"sButtonClass": "DTTT_button_csv",
 		"sButtonText": "CSV",
 		"sFieldBoundary": '"',
-		"sFieldSeperator": ",",
+		"sFieldSeparator": ",",
 		"fnClick": function( nButton, oConfig, flash ) {
 			this.fnSetText( flash, this.fnGetTableData(oConfig) );
 		}

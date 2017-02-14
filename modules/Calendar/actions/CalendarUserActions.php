@@ -57,7 +57,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 			$db->pquery('INSERT INTO vtiger_shareduserinfo (userid, shareduserid, visible) VALUES(?, ?, ?)', array($userId, $sharedUserId, '0'));
 		}
 
-		$result = array('userid' => $userId, 'sharedid' => $sharedUserId, 'username' => \includes\fields\Owner::getUserLabel($sharedUserId));
+		$result = array('userid' => $userId, 'sharedid' => $sharedUserId, 'username' => \App\Fields\Owner::getUserLabel($sharedUserId));
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

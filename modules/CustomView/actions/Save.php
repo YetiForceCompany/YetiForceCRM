@@ -21,6 +21,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
+			\App\Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
 			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 		} else {
 			$response->setError(vtranslate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
@@ -44,12 +45,12 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
 			$customViewModel->setModule($request->get('source_module'));
 		}
-
+		$setmetrics = empty($request->get('setmetrics')) ? 0 : $request->get('setmetrics');
 		$customViewData = array(
 			'cvid' => $cvId,
 			'viewname' => $request->get('viewname'),
 			'setdefault' => $request->get('setdefault'),
-			'setmetrics' => $request->get('setmetrics'),
+			'setmetrics' => $setmetrics,
 			'status' => $request->get('status'),
 			'featured' => $request->get('featured'),
 			'color' => $request->get('color'),
@@ -60,7 +61,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvIdDefault = CustomView::getDefaultCvId($request->get('source_module'));
+				$cvId = App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();

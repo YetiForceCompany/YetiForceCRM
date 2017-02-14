@@ -14,22 +14,24 @@
 			<div class="col-xs-12"><hr></div>
 			{/if}
 			{foreach from=$NEW_ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
-				<div class="col-xs-4">
-					{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
-						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
-							<b>{$ACCOUNTS_MODEL['accountname']}</b>
-						</a>
-					{else}
-						{$ACCOUNTS_MODEL['accountname']}
-					{/if}
-				</div>
-				<div class="col-xs-4">
-					{$ACCOUNTS_MODEL['userModel']->getName()}
-				</div>
-				<div class="col-xs-4">
-					<span title="{$ACCOUNTS_MODEL['createdtime']}">
-						{Vtiger_Util_Helper::formatDateDiffInStrings($ACCOUNTS_MODEL['createdtime'])}
-					</span>
+				<div class="col-xs-12 paddingLRZero">
+					<div class="col-xs-4">
+						{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
+							<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
+								<b>{$ACCOUNTS_MODEL['accountname']}</b>
+							</a>
+						{else}
+							{$ACCOUNTS_MODEL['accountname']}
+						{/if}
+					</div>
+					<div class="col-xs-4">
+						{$ACCOUNTS_MODEL['userModel']->getName()}
+					</div>
+					<div class="col-xs-4">
+						<span title="{$ACCOUNTS_MODEL['createdtime']}">
+							{Vtiger_Util_Helper::formatDateDiffInStrings($ACCOUNTS_MODEL['createdtime'])}
+						</span>
+					</div>
 				</div>
 			{/foreach}
 		{if count($NEW_ACCOUNTS) eq $PAGING_MODEL->getPageLimit()}

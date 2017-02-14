@@ -12,11 +12,14 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getCustomViews($tabId)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT vtiger_customview.* FROM vtiger_customview LEFT JOIN vtiger_tab ON  vtiger_tab.`name` = vtiger_customview.`entitytype` WHERE vtiger_tab.`tabid` = ? ORDER BY vtiger_customview.sequence ASC';
-		$result = $db->pquery($sql, [$tabId]);
+		$dataReader = (new App\Db\Query())->select('vtiger_customview.*')
+				->from('vtiger_customview')
+				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
+				->where(['vtiger_tab.tabid' => $tabId])
+				->orderBy(['vtiger_customview.sequence' => SORT_ASC])
+				->createCommand()->query();
 		$moduleEntity = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['cvid']] = $row;
 		}
 		return $moduleEntity;
@@ -24,78 +27,93 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getFilterPermissionsView($cvId, $action)
 	{
-		$db = PearDatabase::getInstance();
+		$query = new App\Db\Query();
 		if ($action == 'default') {
-			$sql = 'SELECT `userid` FROM vtiger_user_module_preferences WHERE `default_cvid` = ? ORDER BY userid';
+			$query->select('userid')
+				->from('vtiger_user_module_preferences')
+				->where(['default_cvid' => $cvId])
+				->orderBy(['userid' => SORT_ASC]);
 		} elseif ($action == 'featured') {
-			$sql = 'SELECT `user` FROM a_yf_featured_filter WHERE `cvid` = ? ORDER BY user';
+			$query->select('user')
+				->from('u_#__featured_filter')
+				->where(['cvid' => $cvId])
+				->orderBy(['user' => SORT_ASC]);
 		}
-		$result = $db->pquery($sql, [$cvId]);
+		$dataReader = $query->createCommand()->query();
 		$users = [];
-		while ($user = $db->getSingleValue($result)) {
+		while ($user = $dataReader->readColumn(0)) {
 			$members = explode(':', $user);
 			$users[$members[0]][] = $user;
 		}
 		return $users;
 	}
 
-	public function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
+	public static function setDefaultUsersFilterView($tabid, $cvId, $user, $action)
 	{
-		$db = PearDatabase::getInstance();
 		if ($action == 'add') {
-			$result = $db->pquery('SELECT vtiger_customview.`viewname` FROM `vtiger_user_module_preferences` LEFT JOIN `vtiger_customview` ON vtiger_user_module_preferences.`default_cvid` = vtiger_customview.`cvid` WHERE vtiger_user_module_preferences.tabid = ? && vtiger_user_module_preferences.userid = ?;', [$tabid, $user]);
-			if ($result->rowCount()) {
-				return $db->getSingleValue($result);
+			$dataReader = (new App\Db\Query())->select('vtiger_customview.viewname')
+					->from('vtiger_user_module_preferences')
+					->leftJoin('vtiger_customview', 'vtiger_user_module_preferences.default_cvid = vtiger_customview.cvid')
+					->where(['vtiger_user_module_preferences.tabid' => $tabid, 'vtiger_user_module_preferences.userid' => $user])
+					->createCommand()->query();
+			if ($dataReader->count()) {
+				return $dataReader->readColumn(0);
 			}
-			$db->insert('vtiger_user_module_preferences', [
+			\App\Db::getInstance()->createCommand()->insert('vtiger_user_module_preferences', [
 				'userid' => $user,
 				'tabid' => $tabid,
 				'default_cvid' => $cvId
-			]);
+			])->execute();
 		} elseif ($action == 'remove') {
-			$db->delete('vtiger_user_module_preferences', 'userid = ? && tabid = ? && default_cvid = ?', [$user, $tabid, $cvId]);
+			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
 		}
 		return false;
 	}
 
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		if ($action == 'add') {
-			$db->insert('a_yf_featured_filter', [
+			$db->createCommand()->insert('u_#__featured_filter', [
 				'user' => $user,
 				'cvid' => $cvId
-			]);
+			])->execute();
 		} elseif ($action == 'remove') {
-			$db->delete('a_yf_featured_filter', 'user = ? && cvid = ?', [$user, $cvId]);
+			$db->createCommand()
+				->delete('u_#__featured_filter', ['user' => $user, 'cvid' => $cvId])
+				->execute();
 		}
 		return false;
 	}
 
-	public function delete($params)
+	/**
+	 * Function to delete filter
+	 * @param array $params
+	 */
+	public static function delete($params)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$cvId = $params['cvid'];
 		if (is_numeric($cvId)) {
-			$db->pquery("DELETE FROM vtiger_customview WHERE cvid = ?", [$cvId]);
-			$db->delete('vtiger_user_module_preferences', 'default_cvid = ?', [$cvId]);
+			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
+			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
 			// To Delete the mini list widget associated with the filter 
-			$db->pquery('DELETE FROM vtiger_module_dashboard_widgets WHERE filterid = ?', [$cvId]);
+			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['filterid' => $cvId])->execute();
 		}
 	}
 
 	public static function updateField($params)
 	{
 		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
 		$mod = $params['mod'];
 		if (is_numeric($cvid) && in_array($name, $authorizedFields)) {
 			if ($name == 'setdefault' && $params['value'] == 1) {
-				$db->update('vtiger_customview', ['setdefault' => 0], 'entitytype = ?', [$mod]);
+				$db->createCommand()->update('vtiger_customview', ['setdefault' => 0], ['entitytype' => $mod])->execute();
 			}
-			$db->update('vtiger_customview', [$name => $params['value']], 'cvid = ?', [$cvid]);
+			$db->createCommand()->update('vtiger_customview', [$name => $params['value']], ['cvid' => $cvid])->execute();
 			return true;
 		} else {
 			return false;
@@ -104,13 +122,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function upadteSequences($params)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'UPDATE vtiger_customview SET `sequence` = CASE ';
+		$db = App\Db::getInstance();
+		$caseSequence = 'CASE ';
 		foreach ($params as $sequence => $cvId) {
-			$sql .= " WHEN `cvid` = $cvId THEN $sequence";
+			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
 		}
-		$sql .= ' END WHERE `cvid` IN (' . implode(',', $params) . ')';
-		return $db->query($sql);
+		$caseSequence .= ' END';
+		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
 	}
 
 	public function GetUrlToEdit($module, $record)
@@ -140,10 +158,13 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getSupportedModules()
 	{
-		$db = PearDatabase::getInstance();
 		$modulesList = [];
-		$result = $db->query('SELECT DISTINCT vtiger_tab.`tabid`, vtiger_customview.`entitytype` FROM `vtiger_customview` LEFT JOIN vtiger_tab ON vtiger_tab.`name` = vtiger_customview.`entitytype`;');
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new App\Db\Query())
+				->select(['vtiger_tab.tabid', 'vtiger_customview.entitytype'])
+				->from('vtiger_customview')
+				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$modulesList[$row['tabid']] = $row['entitytype'];
 		}
 		return $modulesList;
@@ -153,11 +174,11 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$customViewModel = CustomView_Record_Model::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
-		$curretView = ListViewSession::getCurrentView($moduleName);
+		$curretView = App\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {
 			$sortOrder = explode(',', $params['value']);
-			ListViewSession::setSorder($moduleName, $sortOrder[1]);
-			ListViewSession::setSortby($moduleName, $sortOrder[0]);
+			App\CustomView::setSorder($moduleName, $sortOrder[1]);
+			App\CustomView::setSortby($moduleName, $sortOrder[0]);
 		}
 	}
 }

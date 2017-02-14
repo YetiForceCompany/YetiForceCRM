@@ -73,7 +73,7 @@ $languageStrings = [
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
 	// Library
 	'LBL_LIBRARY_NAME' => 'Nazwa',
-	'LBL_LIBRARY_STATUS' => 'Ststus',
+	'LBL_LIBRARY_STATUS' => 'Status',
 	'LBL_LIBRARY_URL' => 'Adres repozytorium biblioteki',
 	'LBL_LIBRARY_DIR' => 'Katalog biblioteki',
 	'LBL_LIBRARY_ACTION' => 'Akcje',
@@ -93,4 +93,5 @@ $jsLanguageStrings = [
 	'JS_CLICK_HERE' => 'Kliknij tutaj',
 	'JS_ON' => 'Na',
 	'JS_REMOVED_MODULE' => 'Usunięto moduł',
+	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Znaki specjalne takie jak  & < > \' " : , są niedozwolone',
 ];

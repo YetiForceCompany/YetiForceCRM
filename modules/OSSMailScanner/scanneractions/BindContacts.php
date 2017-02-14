@@ -9,7 +9,7 @@
 class OSSMailScanner_BindContacts_ScannerAction extends OSSMailScanner_EmailScannerAction_Model
 {
 
-	public function process(OSSMail_Mail_Model $mail)
+	public function process(OSSMail_Mail_Model $mail, $moduleName = 'Contacts')
 	{
 		return parent::process($mail, 'Contacts');
 	}

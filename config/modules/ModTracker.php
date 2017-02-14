@@ -16,4 +16,8 @@ $CONFIG = [
 	'REVIEW_CHANGES_LIMIT' => 50,
 	// Max number to update records by cron
 	'REVIEWED_SCHEDULE_LIMIT' => 1000,
+	// Show timeline in listview [module name, ...]
+	'SHOW_TIMELINE_IN_LISTVIEW' => [],
+	// Limit of records displayed in timeline popup
+	'TIMELINE_IN_LISTVIEW_LIMIT' => 5,
 ];

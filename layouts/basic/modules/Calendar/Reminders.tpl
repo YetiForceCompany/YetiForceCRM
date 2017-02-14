@@ -1,14 +1,16 @@
 {strip}
 	<style>
-	{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
-		.borderColor{$ITEM['name']}{
-			border-color: {$ITEM['value']};
-		}
-		.headingColor{$ITEM['name']}{
-			background-color: {$ITEM['value']};
-			border-color: {$ITEM['value']};
-		}
-	{/foreach}
+	{if empty($COLOR_LIST)}	
+		{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
+			.borderColor{$ITEM['name']}{
+				border-color: {$ITEM['value']};
+			}
+			.headingColor{$ITEM['name']}{
+				background-color: {$ITEM['value']} !important;
+				border-color: {$ITEM['value']};
+			}
+		{/foreach}
+	{/if}
 	</style>
 	<div class="remindersContent">
 		{foreach item=RECORD from=$RECORDS}
@@ -75,13 +77,13 @@
 						<div>
 							{vtranslate('Location',$MODULE_NAME)}:&nbsp;
 							<strong>
-								<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" data-original-title="{vtranslate('Location', $MODULE_NAME)}" data-content="{$RECORD->get('location')}">
-									{$RECORD->get('location')}
-								</a>
+								{$RECORD->get('location')}
 							</strong>
-							<a target="_blank" class="pull-right btn btn-default btn-xs " href="https://www.google.com/maps/search/{urlencode($RECORD->get('location'))}">
-								<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-							</a>
+							{if App\Privilege::isPermitted('OpenStreetMap')}
+								<a class="pull-right btn btn-default btn-xs " onclick="Vtiger_Index_Js.showLocation('{$RECORD->get('location')}')">
+									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+								</a>
+							{/if}
 						</div>
 					{/if}
 					<hr />

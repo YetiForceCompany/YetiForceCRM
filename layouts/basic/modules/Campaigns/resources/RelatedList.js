@@ -11,14 +11,14 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 	 * function to trigger send Email
 	 * @params: send email url , module name.
 	 */
-	triggerSendEmail: function (massActionUrl, module) {
-		var params = {
+	triggerSendEmail: function () {
+		Vtiger_List_Js.triggerSendEmail({
 			relatedLoad: true,
 			sourceModule: app.getModuleName(),
 			sourceRecord: app.getRecordId(),
-			relatedModule: jQuery('.relatedModuleName').val()
-		};
-		Vtiger_List_Js.triggerSendEmail(params);
+			module: jQuery('.relatedModuleName').val(),
+			cvid: jQuery('#recordsFilter').val(),
+		});
 	}
 }, {
 	loadRelatedList: function (params) {

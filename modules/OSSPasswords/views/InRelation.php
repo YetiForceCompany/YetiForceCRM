@@ -8,7 +8,7 @@ class OSSPasswords_InRelation_View extends Vtiger_RelatedList_View
 	public function getScripts(Vtiger_Request $request)
 	{
 		$jsFileNames = [
-			'libraries.jquery.ZeroClipboard.ZeroClipboard',
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.OSSPasswords.resources.showRelatedModulePass',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

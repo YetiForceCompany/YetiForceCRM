@@ -9,19 +9,69 @@
  *************************************************************************************/
 
 var Vtiger_Index_Js = {
-	/**
-	 * Function to show email preview in popup
-	 */
-	showEmailPreview: function (recordId, parentId) {
-		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var params = {};
-		params['module'] = "Emails";
-		params['view'] = "ComposeEmail";
-		params['mode'] = "emailPreview";
-		params['record'] = recordId;
-		params['parentId'] = parentId;
-		params['relatedLoad'] = true;
-		popupInstance.show(params);
+	showLocation: function (text) {
+		app.showModalWindow(null, 'index.php?module=OpenStreetMap&view=MapModal', function (container) {
+			var mapView = new OpenStreetMap_Map_Js();
+			mapView.registerModalView(container);
+			container.find('.searchValue').val(text);
+			container.find('.searchBtn').trigger('click');
+		});
+	},
+	massAddDocuments: function (url) {
+		app.showModalWindow(null, url, function (container) {
+			var uploadButton = container.find('#filesToUpload');
+			var template = container.find('.fileContainer');
+			var uploadContainer = container.find('.uploadFileContainer');
+			var form = container.find('form');
+			uploadButton.change(function () {
+				uploadContainer.find('.fileItem').remove();
+				var files = uploadButton[0].files;
+				for (var i = 0; i < files.length; i++) {
+					uploadContainer.append(template.html());
+					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
+				}
+			});
+			form.submit(function (e) {
+				e.preventDefault();
+				var formData = new FormData(form[0]);
+				if (formData) {
+					url = 'index.php';
+					if(app.getViewName() === 'Detail'){
+						formData.append('createmode', 'link');
+						formData.append('return_module', app.getModuleName());
+						formData.append('return_id', app.getRecordId());
+					}
+					var params = {
+						url: url,
+						type: "POST",
+						data: formData,
+						processData: false,
+						contentType: false
+					};
+					var progressIndicatorElement = jQuery.progressIndicator({
+						blockInfo: {'enabled': true}
+					});
+					AppConnector.request(params).then(function (data) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						app.hideModalWindow();
+						if(app.getViewName() === 'Detail'){
+							var detailView = Vtiger_Detail_Js.getInstance();
+							if(detailView.getSelectedTab().data('reference') === 'Documents') {
+								detailView.reloadTabContent();
+							} else {
+								var updatesWidget = detailView.getContentHolder().find("[data-type='RelatedModule'][data-name='Documents']");
+								if (updatesWidget.length > 0) {
+									var params = detailView.getFiltersData(updatesWidget);
+									detailView.loadWidget(updatesWidget, params['params']);
+								}
+							}
+						} else {
+							Vtiger_List_Js.getInstance().getListViewRecords();
+						}
+					});
+				}
+			});
+		});
 	},
 	getEmailFromRecord: function (record, module, maxEmails) {
 		var aDeferred = jQuery.Deferred();
@@ -68,16 +118,7 @@ var Vtiger_Index_Js = {
 				if (toMail) {
 					url += '&to=' + toMail;
 				}
-				if (module != undefined && record != undefined && !toMail) {
-					thisInstance.getEmailFromRecord(record, module).then(function (data) {
-						if (data != '') {
-							url += '&to=' + data;
-						}
-						thisInstance.sendMailWindow(url, popup);
-					});
-				} else {
-					thisInstance.sendMailWindow(url, popup);
-				}
+				thisInstance.sendMailWindow(url, popup);
 			});
 		});
 	},
@@ -200,67 +241,9 @@ var Vtiger_Index_Js = {
 					});
 		})
 	},
-	/**
-	 * Function to show compose email popup based on number of
-	 * email fields in given module,if email fields are more than
-	 * one given option for user to select email for whom mail should
-	 * be sent,or else straight away open compose email popup
-	 * @params : accepts params object
-	 *
-	 * @cb: callback function to recieve the child window reference.
-	 */
-
-	showComposeEmailPopup: function (params, cb) {
-		var currentModule = "Emails";
-		Vtiger_Helper_Js.checkServerConfig(currentModule).then(function (data) {
-			if (data == true) {
-				var css = jQuery.extend({'text-align': 'left'}, css);
-				AppConnector.request(params).then(
-						function (data) {
-							var cbargs = [];
-							if (data) {
-								data = jQuery(data);
-								var form = data.find('#SendEmailFormStep1');
-								var emailFields = form.find('.emailField');
-								var length = emailFields.length;
-								var emailEditInstance = new Emails_MassEdit_Js();
-								if (length > 1) {
-									app.showModalWindow(data, function (data) {
-										emailEditInstance.registerEmailFieldSelectionEvent();
-										if (jQuery('#multiEmailContainer').height() > 300) {
-											jQuery('#multiEmailContainer').slimScroll({
-												height: '300px',
-												railVisible: true,
-												alwaysVisible: true,
-												size: '6px'
-											});
-										}
-									}, css);
-								} else {
-									emailFields.attr('checked', 'checked');
-									var params = form.serializeFormData();
-									// http://stackoverflow.com/questions/13953321/how-can-i-call-a-window-child-function-in-javascript
-									// This could be useful for the caller to invoke child window methods post load.
-									var win = emailEditInstance.showComposeEmailForm(params);
-									cbargs.push(win);
-								}
-							}
-							if (typeof cb == 'function')
-								cb.apply(null, cbargs);
-						},
-						function (error, err) {
-
-						}
-				);
-			} else {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_EMAIL_SERVER_CONFIGURATION'));
-			}
-		})
-
-	},
 	registerCheckNotifications: function (repeat) {
 		var thisInstance = this;
-		var notificationsButton = jQuery('.notificationsNotice.quickAction.autoRefreshing');
+		var notificationsButton = jQuery('.notificationsNotice.autoRefreshing');
 		if (notificationsButton.length < 1) {
 			return false;
 		}
@@ -369,7 +352,7 @@ var Vtiger_Index_Js = {
 	 */
 	registerActivityReminder: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
-		if (activityReminder != 0 && jQuery('.remindersNotice.quickAction.autoRefreshing').length) {
+		if (activityReminder != 0 && jQuery('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
 			window.reminder = setInterval(function () {
 				Vtiger_Index_Js.requestReminder();
@@ -631,54 +614,28 @@ var Vtiger_Index_Js = {
 		});
 		return aDeferred.promise();
 	},
-	sendNotification: function () {
-		var modalWindowParams = {
-			url: 'index.php?module=Notification&view=CreateNotificationModal',
-			id: 'CreateNotificationModal',
-			cb: function (container) {
-				var form, text, link, htmlLink;
-				text = container.find('#notificationMessage');
-				form = container.find('form');
-				container.find('#notificationTitle').val(app.getPageTitle());
-				link = $("<a/>", {
-					name: "link",
-					href: window.location.href,
-					text: app.vtranslate('JS_NOTIFICATION_LINK')
-				});
-				htmlLink = $('<div>').append(link.clone()).html();
-				text.val('<br/><hr/>' + htmlLink);
-				var ckEditorInstance = new Vtiger_CkEditor_Js();
-				ckEditorInstance.loadCkEditor(text);
-				container.find(".externalMail").click(function (e) {
-					if (form.validationEngine('validate')) {
-						var editor = CKEDITOR.instances.notificationMessage;
-						var text = $('<div>' + editor.getData() + '</div>');
-						text.find("a[href]").each(function (i, el) {
-							var href = $(this);
-							href.text(href.attr('href'));
-						});
-						var emails = [];
-						container.find("#notificationUsers option:selected").each(function (index) {
-							emails.push($(this).data('mail'))
-						});
-						$(this).attr('href', 'mailto:' + emails.join() + '?subject=' + encodeURIComponent(container.find("#notificationTitle").val()) + '&body=' + encodeURIComponent(text.text()))
-						app.hideModalWindow(container, 'CreateNotificationModal');
-					} else {
-						e.preventDefault();
-					}
-				});
-				container.find('[type="submit"]').click(function (e) {
-					var element = $(this);
-					form.find('[name="mode"]').val(element.data('mode'));
-				});
-				form.submit(function (e) {
-					if (form.validationEngine('validate')) {
-						app.hideModalWindow(container, 'CreateNotificationModal');
-					}
-				});
-			},
+	assignToOwner: function (element, userId) {
+		var aDeferred = jQuery.Deferred();
+		element = jQuery(element);
+		if (userId == undefined) {
+			userId = app.getMainParams('current_user_id');
 		}
-		app.showModalWindow(modalWindowParams);
+		var params = {
+			module: element.data('module'),
+			record: element.data('record'),
+			field: 'assigned_user_id',
+			value: userId
+		};
+		app.saveAjax('', null, params).then(function (e) {
+			app.hideModalWindow();
+			if (app.getViewName() === 'List') {
+				var listinstance = new Vtiger_List_Js();
+				listinstance.getListViewRecords();
+			}
+		})
+	},
+	sendNotification: function () {
+		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
 	},
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()

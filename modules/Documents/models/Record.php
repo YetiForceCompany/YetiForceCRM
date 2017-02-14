@@ -29,18 +29,12 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function checkFileIntegrity()
 	{
-		$recordId = $this->get('id');
-		$downloadType = $this->get('filelocationtype');
 		$returnValue = false;
-
-		if ($downloadType == 'I') {
+		if ($this->get('filelocationtype') === 'I') {
 			$fileDetails = $this->getFileDetails();
 			if (!empty($fileDetails)) {
-				$filePath = $fileDetails['path'];
-
-				$savedFile = $fileDetails['attachmentsid'] . "_" . $this->get('filename');
-
-				if (fopen($filePath . $savedFile, "r")) {
+				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'] . '_' . $fileDetails['name'];
+				if (file_exists($savedFile) && fopen($savedFile, 'r')) {
 					$returnValue = true;
 				}
 			}
@@ -50,17 +44,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function getFileDetails()
 	{
-		$db = PearDatabase::getInstance();
-		$fileDetails = array();
-
-		$result = $db->pquery("SELECT * FROM vtiger_attachments
-							INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-							WHERE crmid = ?", array($this->get('id')));
-
-		if ($db->num_rows($result)) {
-			$fileDetails = $db->query_result_rowdata($result);
-		}
-		return $fileDetails;
+		return (new \App\Db\Query())->from('vtiger_attachments')
+				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->where(['crmid' => $this->get('id')])
+				->one();
 	}
 
 	public function downloadFile()
@@ -95,8 +82,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 	public function updateFileStatus($status)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_notes SET filestatus = ? WHERE notesid= ?", array($status, $this->get('id')));
+		App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
 	}
 
 	public function updateDownloadCount()
@@ -122,14 +108,93 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
 				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 
 			   WHERE vtiger_crmentity.deleted = 0 
-				 && vtiger_senotesrel.notesid = ?';
+				 AND vtiger_senotesrel.notesid = ?';
 		$result = $db->pquery($sql, [$record]);
 		return $db->getArrayColumn($result);
 	}
 
 	public static function getFileIconByFileType($fileType)
 	{
-		$fileIcon = \includes\utils\Icon::getIconByFileType($fileType);
+		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 		return $fileIcon;
+	}
+
+	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		return $_FILES ? true : false;
+	}
+
+	/**
+	 * Function to save record
+	 */
+	public function saveToDb()
+	{
+		parent::saveToDb();
+		$db = \App\Db::getInstance();
+		$fileNameByField = 'filename';
+		if ($this->get('filelocationtype') === 'I') {
+			if (!isset($this->file)) {
+				$file = $_FILES[$fileNameByField];
+			} else {
+				$file = $this->file;
+			}
+			if (!empty($file['name'])) {
+				$errCode = $file['error'];
+				if ($errCode === 0) {
+					$fileInstance = \App\Fields\File::loadFromRequest($file);
+					if ($fileInstance->validate()) {
+						$fileName = $file['name'];
+						$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
+						$fileType = $file['type'];
+						$fileSize = $file['size'];
+						$fileLocationType = 'I';
+						$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
+					}
+				}
+			} elseif ($this->get($fileNameByField)) {
+				$fileName = $this->get($fileNameByField);
+				$fileSize = $this->get('filesize');
+				$fileType = $this->get('filetype');
+				$fileLocationType = $this->get('filelocationtype');
+				$fileDownloadCount = 0;
+			} else {
+				$fileLocationType = 'I';
+				$fileType = '';
+				$fileSize = 0;
+				$fileDownloadCount = null;
+			}
+		} else if ($this->get('filelocationtype') === 'E') {
+			$fileLocationType = 'E';
+			$fileName = $this->get($fileNameByField);
+			// If filename does not has the protocol prefix, default it to http://
+			// Protocol prefix could be like (https://, smb://, file://, \\, smb:\\,...)
+			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
+				$fileName = "http://$fileName";
+			}
+			$fileType = '';
+			$fileSize = 0;
+			$fileDownloadCount = null;
+		}
+		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
+		//Inserting into attachments table
+		if ($fileLocationType === 'I') {
+			if (!isset($this->file)) {
+				$file = $_FILES[$fileNameByField];
+			} else {
+				$file = $this->file;
+			}
+			if ($file['name'] != '' && $file['size'] > 0) {
+				$file['original_name'] = AppRequest::get('0_hidden');
+				$this->uploadAndSaveFile($file);
+			}
+		} else {
+			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
+		}
+		//set the column_fields so that its available in the event handlers
+		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
 	}
 }

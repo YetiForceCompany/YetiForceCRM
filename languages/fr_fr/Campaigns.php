@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'FL_CAMPAIGN_STATUS' => 'Statut',
 	'Campaign Name' => 'Nom de la campagne',
 	'Campaign No' => 'Campagne No',
 	'Campaigns' => 'Campagnes',
@@ -17,8 +18,9 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'List des campagnes',
 	//FIELDS
 	'Budget Cost' => 'Coût budgeté',
+	'Campaign Status' => 'Statut Campagne',
 	'Campaign Type' => 'Type de Campagne',
-	//BLOCKS
+	 //BLOCKS
 	'LBL_CAMPAIGN_INFORMATION' => 'Détails de la campagne',
 	'LBL_EXPECTATIONS_AND_ACTUALS' => 'Projections & Réels',
 	//OTHERS
@@ -60,9 +62,9 @@ $languageStrings = [
 	'Webinar' => 'Webinar',
 	'Message sent' => 'Message envoyé',
 	'LBL_COUNT_RECORDS_WIDGET' => 'Number of related modules records',
-	'LBL_LOAD_RECORDS' => 'Load from filter',
-	'LBL_LOAD_RECORDS_INFO' => 'Button used to load all records that meet the conditions specified in filter.',
+	'LBL_LOAD_RECORDS' => 'Charger depuis un filtre',
+	'LBL_LOAD_RECORDS_INFO' => 'Les enregistrements que retourne ce filtre vont être ajoutés à la campagne.',
 ];
 $jsLanguageStrings = [
-	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Are you sure you want to add all records from filter?',
+	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_ADD_THIS_FILTER' => 'Etes-vous certain de vouloir charger les enregistrements de ce filtre?',
 ];

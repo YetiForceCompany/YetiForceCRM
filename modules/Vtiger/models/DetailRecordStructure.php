@@ -30,17 +30,16 @@ class Vtiger_DetailRecordStructure_Model extends Vtiger_RecordStructure_Model
 		if (!empty($this->structuredValues)) {
 			return $this->structuredValues;
 		}
-
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
 		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
-		foreach ($blockModelList as $blockLabel => $blockModel) {
+		foreach ($blockModelList as $blockLabel => &$blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
-				foreach ($fieldModelList as $fieldName => $fieldModel) {
+				foreach ($fieldModelList as $fieldName => &$fieldModel) {
 					if ($fieldModel->isViewableInDetailView()) {
 						if ($recordExists) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));

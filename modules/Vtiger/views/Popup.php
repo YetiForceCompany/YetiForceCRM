@@ -26,7 +26,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	/**
 	 * Function returns the module name for which the popup should be initialized
 	 * @param Vtiger_request $request
-	 * @return <String>
+	 * @return string
 	 */
 	public function getModule(Vtiger_request $request)
 	{
@@ -38,12 +38,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
 
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
@@ -128,8 +125,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
-		$isRecordExists = Vtiger_Util_Helper::checkRecordExistance($relatedParentId);
-		if ($isRecordExists || $isRecordExists === NULL) {
+		if (!\App\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
 			$relatedParentId = '';
 		}
@@ -164,7 +160,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (empty($searchParmams)) {
 			$searchParmams = [];
 		}
-		$transformedSearchParams = Vtiger_Util_Helper::transferListSearchParamsToFilterCondition($searchParmams, $moduleModel);
+		$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
@@ -174,20 +170,11 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$this->listViewHeaders = $listViewModel->getHeaders();
-			$models = $listViewModel->getEntries($pagingModel);
-			$noOfEntries = count($models);
-			foreach ($models as $recordId => $recordModel) {
-				foreach ($this->listViewHeaders as $fieldName => $fieldModel) {
-					$recordModel->set($fieldName, $recordModel->getDisplayValue($fieldName));
-				}
-				$models[$recordId] = $recordModel;
-			}
-			$this->listViewEntries = $models;
+			$this->listViewEntries = $listViewModel->getEntries($pagingModel);
 			if (count($this->listViewEntries) > 0) {
-				$parent_related_records = true;
+				$parentRelatedRecords = true;
 			}
 		} else {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
@@ -195,7 +182,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		}
 
 		// If there are no related records with parent module then, we should show all the records
-		if (!$parent_related_records && !empty($relatedParentModule) && !empty($relatedParentId)) {
+		if (!$parentRelatedRecords && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentModule = null;
 			$relatedParentId = null;
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
@@ -217,18 +204,16 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		// End
-
 		$noOfEntries = count($this->listViewEntries);
-
 		if (empty($sortOrder)) {
-			$sortOrder = "ASC";
+			$sortOrder = 'ASC';
 		}
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "downArrowSmall.png";
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'downArrowSmall.png';
 		} else {
 			$nextSortOrder = "ASC";
-			$sortImage = "upArrowSmall.png";
+			$sortImage = 'upArrowSmall.png';
 		}
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RELATED_MODULE', $moduleName);
@@ -249,7 +234,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('GETURL', $getUrl);
 		$viewer->assign('CURRENCY_ID', $currencyId);
-		$viewer->assign('POPUPTYPE', vglobal('popupType'));
 
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

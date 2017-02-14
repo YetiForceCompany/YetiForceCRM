@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 namespace yii\base;
 
 /**
@@ -17,8 +16,9 @@ namespace yii\base;
  */
 interface ViewContextInterface
 {
-    /**
-     * @return string the view path that may be prefixed to a relative view name.
-     */
-    public function getViewPath();
+
+	/**
+	 * @return string the view path that may be prefixed to a relative view name.
+	 */
+	public function getViewPath();
 }

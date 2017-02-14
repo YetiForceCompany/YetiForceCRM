@@ -9,6 +9,11 @@
 class OSSMailScanner_CreatedEmail_ScannerAction
 {
 
+	/**
+	 * Process
+	 * @param OSSMail_Mail_Model $mail
+	 * @return int
+	 */
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
@@ -62,31 +67,24 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			if (count($mail->get('attachments')) > 0) {
 				$record->set('attachments_exist', 1);
 			}
-			$record->set('mode', 'new');
-			$record->set('id', '');
-
-			$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
-			vglobal('VTIGER_BULK_SAVE_MODE', true);
-
+			$record->setHandlerExceptions(['disableHandlers' => true]);
 			$record->save();
-
-			vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
-
+			$record->setHandlerExceptions([]);
 			$id = $record->getId();
 
 			$mail->setMailCrmId($id);
-			OSSMail_Record_Model::_SaveAttachements($id, $mail);
-			$db = PearDatabase::getInstance();
-			$db->update('vtiger_crmentity', [
+			OSSMail_Record_Model::_SaveAttachments($id, $mail);
+			$db = App\Db::getInstance();
+			$db->createCommand()->update('vtiger_crmentity', [
 				'createdtime' => $mail->get('udate_formated'),
 				'smcreatorid' => $mail->getAccountOwner(),
 				'modifiedby' => $mail->getAccountOwner()
-				], 'crmid = ?', [$id]
-			);
-			$db->update('vtiger_ossmailview', [
+				], ['crmid' => $id]
+			)->execute();
+			$db->createCommand()->update('vtiger_ossmailview', [
 				'date' => $mail->get('udate_formated')
-				], 'ossmailviewid = ?', [$id]
-			);
+				], ['ossmailviewid' => $id]
+			)->execute();
 		}
 		return $id;
 	}

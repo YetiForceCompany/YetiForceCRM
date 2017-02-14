@@ -52,7 +52,7 @@ class Vtiger_RecordStructure_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get the module
-	 * @return <Vtiger_Module_Model>
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule()
 	{
@@ -119,7 +119,7 @@ class Vtiger_RecordStructure_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to retieve the instance from module model
-	 * @param <Vtiger_Module_Model> $moduleModel - module instance
+	 * @param Vtiger_Module_Model $moduleModel - module instance
 	 * @return Vtiger_RecordStructure_Model
 	 */
 	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)

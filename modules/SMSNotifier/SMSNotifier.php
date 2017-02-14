@@ -92,7 +92,7 @@ class SMSNotifier extends SMSNotifierBase
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			while ($resultrow = $adb->fetch_array($result)) {
 				$accessCheck = false;
-				$relatedTabId = \includes\Modules::getModuleId($resultrow['setype']);
+				$relatedTabId = \App\Module::getModuleId($resultrow['setype']);
 				if ($relatedTabId == 0) {
 					$accessCheck = true;
 				} else {
@@ -261,7 +261,7 @@ class SMSNotifierManager
 			$provider = SMSNotifier_Provider_Model::getInstance($resultrow['providertype']);
 			$parameters = array();
 			if (!empty($resultrow['parameters']))
-				$parameters = \includes\utils\Json::decode(decode_html($resultrow['parameters']));
+				$parameters = \App\Json::decode(decode_html($resultrow['parameters']));
 			foreach ($parameters as $k => $v) {
 				$provider->setParameter($k, $v);
 			}
@@ -315,7 +315,7 @@ class SMSNotifierManager
 					$inputServerParams[$v] = App\Purifier::purify($frmvalues[$lookupkey]);
 				}
 			}
-			$parameters = \includes\utils\Json::encode($inputServerParams);
+			$parameters = \App\Json::encode($inputServerParams);
 		}
 
 		if (empty($id)) {

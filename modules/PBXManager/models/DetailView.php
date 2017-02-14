@@ -37,7 +37,7 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-trash',
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}
@@ -53,10 +53,11 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 		}
 
 		$widgets = $this->getWidgets();
-		foreach ($widgets as $widgetLinkModel) {
-			$linkModelList['DETAILVIEWWIDGET'][] = $widgetLinkModel;
+		if(!empty($widgets)){
+			foreach ($widgets as $widgetLinkModel) {
+				$linkModelList['DETAILVIEWWIDGET'][] = $widgetLinkModel;
+			}
 		}
-
 		return $linkModelList;
 	}
 }

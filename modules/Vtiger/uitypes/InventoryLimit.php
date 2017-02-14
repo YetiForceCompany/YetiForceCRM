@@ -1,82 +1,78 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
 
-class Vtiger_InventoryLimit_UIType extends Vtiger_Base_UIType
+/**
+ * UIType InventoryLimit Field Class
+ * @package YetiForce.Fields
+ * @license licenses/License.html
+ * @author YetiForce.com
+ */
+class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/InventoryLimit.tpl';
-	}
-
-	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$values = explode(',', $value);
-		$limits = $this->getLimits();
-		$display = [];
-
-		foreach ($values as $limit) {
-			if (isset($limits[$limit])) {
-				$display[] = $limits[$limit]['value'] . ' - ' . $limits[$limit]['name'];
-			}
-		}
-
-		return implode(',', $display);
+		$limits = $this->getPicklistValues();
+		return isset($limits[$value]) ? $limits[$value] : '';
 	}
 
+	/**
+	 * Function to get credit limits
+	 * @param int $value
+	 * @return array
+	 */
 	public static function getValues($value)
 	{
-		$values = explode(',', $value);
 		$limits = self::getLimits();
-		$display = [];
-
-		foreach ($values as $limit) {
-			if (isset($limits[$limit])) {
-				$display[$limit] = $limits[$limit];
-			}
-		}
-
-		return $display;
+		return isset($limits[$value]) ? $limits[$value] : [];
 	}
 
-	public function getListSearchTemplateName()
+	/**
+	 * Function to get all credit limits
+	 * @return array
+	 */
+	public static function getLimits()
 	{
-		return 'uitypes/InventoryLimitSearchView.tpl';
+		if (\App\Cache::has('Inventory', 'CreditLimits')) {
+			return \App\Cache::get('Inventory', 'CreditLimits');
+		}
+		$limits = (new App\Db\Query())->from('a_#__inventory_limits')->where(['status' => 0])
+				->createCommand(App\Db::getInstance('admin'))->queryAllByGroup(1);
+		\App\Cache::save('Inventory', 'CreditLimits', $limits, \App\Cache::LONG);
+		return $limits;
 	}
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field
 	 */
-	public function getLimits()
+	public function getPicklistValues()
 	{
-		$limits = Vtiger_Cache::get('Inventory', 'limits');
-		if (!$limits) {
-			$db = PearDatabase::getInstance();
-			$limits = [];
-			$result = $db->pquery('SELECT * FROM a_yf_inventory_limits WHERE status = ?', [0]);
-			while ($row = $db->fetch_array($result)) {
-				$limits[$row['id']] = $row;
-			}
-			Vtiger_Cache::set('Inventory', 'limits', $limits);
+		$limits = self::getLimits();
+		foreach ($limits as $key => $limit) {
+			$limits[$key] = $limit['value'] . ' - ' . $limit['name'];
 		}
-
 		return $limits;
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return $value;
 	}
 }

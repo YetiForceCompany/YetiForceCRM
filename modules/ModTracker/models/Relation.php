@@ -57,14 +57,14 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 	 */
 	public static function reviewChangesQueue($data, $module)
 	{
-		$db = \App\DB::getInstance();
+		$db = \App\Db::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$id = (new \App\db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
+		$id = (new \App\Db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
 			'userid' => $currentUserModel->getRealId(),
 			'tabid' => \vtlib\Functions::getModuleId($module),
-			'data' => \includes\utils\Json::encode($data),
+			'data' => \App\Json::encode($data),
 			'time' => date('Y-m-d H:i:s')
 		])->execute();
 	}

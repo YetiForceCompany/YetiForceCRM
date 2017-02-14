@@ -66,7 +66,7 @@ function vtws_query_related($query, $id, $relatedLabel, $user, $filterClause = n
 		} else {
 			$queryParts = explode('WHERE', $query);
 			$query = $queryParts[0] . " WHERE " . $relatedIdClause;
-			$query .= " && " . $queryParts[1];
+			$query .= " AND " . $queryParts[1];
 		}
 		if (!empty($filterClause)) {
 			$query .= " " . $filterClause;

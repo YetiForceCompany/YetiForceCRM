@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
 class CurrencyField
@@ -137,6 +138,23 @@ class CurrencyField
 		}
 		$self = new self($value);
 		$value = $self->getDisplayValue($user, $skipConversion, $skipFormatting);
+		return ($negative) ? '-' . $value : $value;
+	}
+
+	public static function convertToUserFormatSymbol($value, $skipConversion = false, $currencySymbol = false, $skipFormatting = false)
+	{
+		// To support negative values
+		$negative = false;
+		if (stripos($value, '-') === 0) {
+			$negative = true;
+			$value = substr($value, 1);
+		}
+		$self = new self($value);
+		$formattedValue = $self->getDisplayValue(null, $skipConversion);
+		if ($currencySymbol === false) {
+			$currencySymbol = $self->currencySymbol;
+		}
+		$value = self::appendCurrencySymbol($formattedValue, $currencySymbol, $self->currencySymbolPlacement);
 		return ($negative) ? '-' . $value : $value;
 	}
 
@@ -380,14 +398,12 @@ class CurrencyField
 			$currencySeparator = ' ';
 		if (empty($decimalSeparator))
 			$decimalSeparator = ' ';
-		$value = str_replace("$currencySeparator", "", $value);
-		$value = str_replace("$decimalSeparator", ".", $value);
-
+		$value = str_replace($currencySeparator, '', $value);
+		$value = str_replace($decimalSeparator, '.', $value);
+		$value = preg_replace('/[^0-9\.]/', '', $value);
 		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
-		$value = preg_replace('/\s+/u', '', $value);
-
 		return $value;
 	}
 
@@ -400,22 +416,22 @@ class CurrencyField
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
 	{
+		if (empty($value)) {
+			return 0;
+		}
 		$self = new self($value);
 		return $self->getDBInsertedValue($user, $skipConversion);
 	}
 
 	/**
 	 * Function to get the default CRM currency
-	 * @return Integer Default system currency id
+	 * @return integer Default system currency id
 	 */
 	public static function getDBCurrencyId()
 	{
-		$adb = PearDatabase::getInstance();
-
-		$result = $adb->pquery('SELECT id FROM vtiger_currency_info WHERE defaultid < 0', []);
-		$noOfRows = $adb->num_rows($result);
-		if ($noOfRows > 0) {
-			return $adb->query_result($result, 0, 'id');
+		$id = (new \App\Db\Query())->select('id')->from('vtiger_currency_info')->where(['<', 'defaultid', 0])->scalar();
+		if ($id) {
+			return $id;
 		}
 		return null;
 	}
@@ -457,18 +473,18 @@ class CurrencyField
 				$value = rtrim($value, '0');
 			}
 			if ($user->currency_decimal_separator == '&nbsp;')
-				$decimalSeperator = ' ';
+				$decimalSeparator = ' ';
 			else
-				$decimalSeperator = $user->currency_decimal_separator;
+				$decimalSeparator = $user->currency_decimal_separator;
 
-			$fieldValue = explode(decode_html($decimalSeperator), $value);
+			$fieldValue = explode(decode_html($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {
-					return $value = $fieldValue[0] . $decimalSeperator . $fieldValue[1];
+					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];
 				} else if (!strlen($fieldValue[1])) {
 					return $value = $fieldValue[0];
 				} else {
-					return $value = $fieldValue[0] . $decimalSeperator;
+					return $value = $fieldValue[0] . $decimalSeparator;
 				}
 			} else {
 				return preg_replace("/(?<=\\.[0-9])[0]+\$/", "", $value);

@@ -161,9 +161,6 @@ $breadcrumbs = true;
 //Separator for menu breadcrumbs default value = '>'
 $breadcrumbs_separator = '>';
 
-//Pop-up window type with record list  1 - Normal , 2 - Expanded search
-$popupType = 1;
-
 //Minimum cron frequency [min]
 $MINIMUM_CRON_FREQUENCY = 1;
 
@@ -173,7 +170,7 @@ $session_regenerate_id = false;
 $davStorageDir = 'storage/Files';
 $davHistoryDir = 'storage/FilesHistory';
 
-// prod and demo
+// prod, demo, test
 $systemMode = 'prod';
 
 // Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
@@ -187,9 +184,6 @@ $backgroundClosingModal = true;
 
 // Enable CSRF-protection
 $csrfProtection = true;
-
-// Enable encrypt backup, Support from PHP 5.6.x
-$encryptBackup = false;
 
 // Is sending emails active. 
 $isActiveSendingMails = true;
@@ -208,8 +202,5 @@ $layoutInLoginView = false;
 
 // Set the default layout 
 $defaultLayout = 'basic';
-
-// Logo is visible in footer.
-$isVisibleLogoInFooter = true;
 
 $forceRedirect = true;

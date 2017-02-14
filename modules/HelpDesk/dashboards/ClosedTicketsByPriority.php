@@ -11,7 +11,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * Return search params (use to in bulding address URL to listview)
 	 * @param string $priority
-	 * @param <Array> $time
+	 * @param array $time
 	 * @param int $owner
 	 * @return string
 	 */
@@ -27,52 +27,52 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$conditions [] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . \App\Json::encode($listSearchParams);
 	}
 
 	/**
 	 * Function returns Tickets grouped by priority
-	 * @param <Array> $time
+	 * @param array $time
 	 * @param int $owner
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getTicketsByPriority($time, $owner)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleName = 'HelpDesk';
 		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
-		$paramsQuery = [];
-		$sql = 'SELECT COUNT(*) AS `count` , priority, vtiger_ticketpriorities.color 
-				FROM vtiger_troubletickets 
-				INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted=0 
-				INNER JOIN vtiger_ticketstatus ON vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus 
-				INNER JOIN vtiger_ticketpriorities ON vtiger_ticketpriorities.`ticketpriorities` = vtiger_troubletickets.`priority` 
-				WHERE vtiger_crmentity.`deleted` = 0 ';
+		$query = (new App\Db\Query())->select([
+			'count' => new \yii\db\Expression('COUNT(*)'),
+			'priority',
+			'vtiger_ticketpriorities.color'
+		])->from('vtiger_troubletickets')
+			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
+			->where(['vtiger_crmentity.deleted' => 0]);
 		if (!empty($ticketStatus)) {
-			$paramsQuery = $ticketStatus;
-			$sql .= ' AND vtiger_troubletickets.status IN (' . generateQuestionMarks($ticketStatus) . ')';
+			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
-			$sql .= ' AND vtiger_crmentity.closedtime >= ? AND vtiger_crmentity.closedtime <= ?';
-			$paramsQuery [] = $time['start'];
-			$paramsQuery [] = $time['end'];
+			$query->andWhere([
+				'and',
+				['>=', 'vtiger_crmentity.closedtime', $time['start']],
+				['<=', 'vtiger_crmentity.closedtime', $time['end']]
+			]);
 		}
 		if (!empty($owner) && $owner != 'all') {
-			$sql .= ' AND vtiger_crmentity.smownerid = ?';
-			$paramsQuery [] = $owner;
+			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
-		$sql .= ' GROUP BY priority';
-		$result = $db->pquery($sql, $paramsQuery);
-
+		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		$query->groupBy(['priority', 'vtiger_ticketpriorities.color']);
+		$dataReader = $query->createCommand()->query();
 		$response = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$response[] = [
-				'name' => \includes\Language::translate($row['priority'], $moduleName),
+				'name' => \App\Language::translate($row['priority'], $moduleName),
 				'count' => $row['count'],
 				'color' => $row['color'],
 				'url' => $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner),
@@ -94,10 +94,13 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
-			$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-			$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
-			$time['start'] = vtlib\Functions::currentUserDisplayDate($time['start']);
-			$time['end'] = vtlib\Functions::currentUserDisplayDate($time['end']);
+			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
+			if($time === false) {
+				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
+			}
+			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
+			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 		}
 		$data = $this->getTicketsByPriority($time, $owner);
 		$viewer->assign('WIDGET', $widget);

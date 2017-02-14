@@ -49,7 +49,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$sortOrder = $request->get('sortorder');
 		$sourceModule = $request->get('sourceModule');
 		$forModule = $request->get('formodule');
-
+		$searchParams = $request->get('searchParams');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 
@@ -64,7 +64,10 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$pageNumber = 1;
 		}
 
-		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		if (!$this->listViewModel) {
+			$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
+		}
+		$listViewModel = $this->listViewModel;
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -72,6 +75,10 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
+		}
+		if (!empty($searchParams)) {
+			$listViewModel->set('searchParams', $searchParams);
+			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
 
 		if (!empty($orderBy)) {

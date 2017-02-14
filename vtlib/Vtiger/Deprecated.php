@@ -20,7 +20,7 @@ class Deprecated
 	{
 		$adb = \PearDatabase::getInstance();
 		$rowdata = $adb->query_result_rowdata($result, $row_count);
-		$entity_field_info = \includes\Modules::getEntityInfo($module);
+		$entity_field_info = \App\Module::getEntityInfo($module);
 		$fieldsName = $entity_field_info['fieldname'];
 		$name = '';
 		if ($rowdata != '' && count($rowdata) > 0) {
@@ -32,7 +32,7 @@ class Deprecated
 
 	public static function getFullNameFromArray($module, $fieldValues)
 	{
-		$entityInfo = \includes\Modules::getEntityInfo($module);
+		$entityInfo = \App\Module::getEntityInfo($module);
 		$fieldsName = $entityInfo['fieldname'];
 		$displayName = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 		return $displayName;
@@ -47,13 +47,12 @@ class Deprecated
 	 */
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
-		$current_user = vglobal('current_user');
 		if (strpos($fieldsName, ',') === false) {
 			return $fieldValues[$fieldsName];
 		} else {
 			$accessibleFieldNames = [];
 			foreach (explode(',', $fieldsName) as $field) {
-				if ($module == 'Users' || getColumnVisibilityPermission($current_user->id, $field, $module) == '0') {
+				if ($module === 'Users' || \App\Field::getColumnPermission($module, $field)) {
 					$accessibleFieldNames[] = $fieldValues[$field];
 				}
 			}
@@ -136,10 +135,10 @@ class Deprecated
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
-				\App\log::error("The file $filename is not writable");
+				\App\Log::error("The file $filename is not writable");
 			}
 		} else {
-			\App\log::error("The file $filename does not exist");
+			\App\Log::error("The file $filename does not exist");
 		}
 	}
 
@@ -171,27 +170,6 @@ class Deprecated
 			$cvidCache[$module] = $cvid;
 		}
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
-	}
-
-	/** Stores the option in database to display  the tagclouds or not for the current user
-	 * * @param $id -- user id:: Type integer
-	 * * Added to provide User based Tagcloud
-	 * */
-	public static function SaveTagCloudView($id = '')
-	{
-		$adb = \PearDatabase::getInstance();
-		$tag_cloud_status = \AppRequest::get('tagcloudview');
-		if ($tag_cloud_status == "true") {
-			$tag_cloud_view = 0;
-		} else {
-			$tag_cloud_view = 1;
-		}
-		if ($id == '') {
-			$tag_cloud_view = 1;
-		} else {
-			$query = "update vtiger_homestuff set visible = ? where userid=? and stufftype='Tag Cloud'";
-			$adb->pquery($query, array($tag_cloud_view, $id));
-		}
 	}
 
 	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
@@ -236,7 +214,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -259,7 +237,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -269,7 +247,7 @@ class Deprecated
 	{
 		if (!self::isFileAccessible($filepath)) {
 
-			\App\Log::error(__CLASS__ . ':' . __FUNCTION__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -318,7 +296,7 @@ class Deprecated
 
 	public static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 	{
-		$entityFieldInfo = \includes\Modules::getEntityInfo($module);
+		$entityFieldInfo = \App\Module::getEntityInfo($module);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
 		if (is_array($fieldsName)) {
 			foreach ($fieldsName as &$value) {

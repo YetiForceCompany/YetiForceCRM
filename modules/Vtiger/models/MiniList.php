@@ -14,7 +14,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	protected $widgetModel;
 	protected $extraData;
-	protected $listviewController;
 	protected $queryGenerator;
 	protected $listviewHeaders;
 	protected $listviewRecords;
@@ -27,7 +26,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = \includes\utils\Json::decode(decode_html($this->extraData));
+			$this->extraData = \App\Json::decode(decode_html($this->extraData));
 		}
 		if ($this->extraData === null) {
 			throw new Exception("Invalid data");
@@ -42,8 +41,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getTargetFields()
 	{
 		$fields = $this->extraData['fields'];
-		if (!in_array("id", $fields))
-			$fields[] = "id";
+		if (!in_array('id', $fields))
+			$fields[] = 'id';
 		return $fields;
 	}
 
@@ -57,19 +56,10 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	protected function initListViewController()
 	{
-		if (!$this->listviewController) {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$db = PearDatabase::getInstance();
-
-			$filterid = $this->widgetModel->get('filterid');
-			$this->queryGenerator = new QueryGenerator($this->getTargetModule(), $currentUserModel);
-			$this->queryGenerator->initForCustomViewById($filterid);
+		if (!$this->queryGenerator) {
+			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
+			$this->queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
 			$this->queryGenerator->setFields($this->getTargetFields());
-
-			if (!$this->listviewController) {
-				$this->listviewController = new ListViewController($db, $currentUserModel, $this->queryGenerator);
-			}
-
 			$this->listviewHeaders = $this->listviewRecords = NULL;
 		}
 	}
@@ -94,16 +84,13 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getHeaders()
 	{
 		$this->initListViewController();
-
 		if (!$this->listviewHeaders) {
 			$headerFieldModels = [];
-			foreach ($this->listviewController->getListViewHeaderFields() as $fieldName => $webserviceField) {
-				$fieldObj = vtlib\Field::getInstance($webserviceField->getFieldId());
-				$headerFieldModels[$fieldName] = Vtiger_Field_Model::getInstanceFromFieldObject($fieldObj);
+			foreach ($this->queryGenerator->getListViewFields() as $fieldName => &$fieldsModel) {
+				$headerFieldModels[$fieldName] = $fieldsModel;
 			}
 			$this->listviewHeaders = $headerFieldModels;
 		}
-
 		return $this->listviewHeaders;
 	}
 
@@ -120,48 +107,33 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	public function getRecords($user)
 	{
-		$ownerSql = '';
 		$this->initListViewController();
 		if (!$user) {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
-			$user = $currenUserModel->getId();
+			$user = App\User::getCurrentUserId();
 		} else if ($user === 'all') {
 			$user = '';
 		}
-		$params = [];
-		if (!empty($user)) {
-			$ownerSql = ' AND vtiger_crmentity.smownerid = ? ';
-			$params[] = $user;
-		}
 		if (!$this->listviewRecords) {
-			$db = PearDatabase::getInstance();
-			$query = $this->queryGenerator->getQuery() . $ownerSql;
+			if (!empty($user)) {
+				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
 			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
-			if(!empty($filterModel->get('sort'))){
-				$sort = $filterModel->get('sort');
-				$query .= sprintf(' ORDER BY %s ', str_replace(',', ' ', $sort));
+			if (!empty($filterModel->get('sort'))) {
+				$this->queryGenerator->setOrder(str_replace(',', ' ', $filterModel->get('sort')));
 			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
-				$query .= sprintf(' ORDER BY %s %s', $targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
+				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
-			$query .= sprintf(' LIMIT 0,%d', $this->getRecordLimit());
-			$query = substr($query, 6);
-			$query = sprintf('SELECT vtiger_crmentity.crmid as id, %s', $query);
-			$result = $db->pquery($query, $params);
-
-			$entries = $this->listviewController->getListViewRecords($targetModuleFocus, $targetModuleName, $result);
-
+			$query = $this->queryGenerator->createQuery();
+			$query->limit($this->getRecordLimit());
 			$this->listviewRecords = [];
-			$index = 0;
-			foreach ($entries as $id => $record) {
-				$rawData = $db->query_result_rowdata($result, $index++);
-				$record['id'] = $id;
-				$this->listviewRecords[$id] = $this->getTargetModuleModel()->getRecordFromArray($record, $rawData);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$this->listviewRecords[$row['id']] = $this->getTargetModuleModel()->getRecordFromArray($row);
 			}
 		}
-
 		return $this->listviewRecords;
 	}
 
@@ -169,23 +141,17 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
-			$userName = $currenUserModel->getName();
-		} else if ($user && $user !== 'all') {
-			$userName = \includes\fields\Owner::getUserLabel($user);
+			$user = App\User::getCurrentUserId();
 		}
-		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
+		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
 	}
 
 	public function getListViewURL($user = false)
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
-			$currenUserModel = Users_Record_Model::getCurrentUserModel();
-			$userName = $currenUserModel->getName();
-		} else if ($user && $user !== 'all') {
-			$userName = \includes\fields\Owner::getUserLabel($user);
+			$user = App\User::getCurrentUserId();
 		}
-		return empty($userName) ? $url : $url .= '&search_params=[[["assigned_user_id","c","' . $userName . '"]]]';
+		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
 	}
 }

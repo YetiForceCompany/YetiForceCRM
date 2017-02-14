@@ -17,11 +17,11 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to get the Display Name for the record
-	 * @return <String> - Entity Display Name for the record
+	 * @return string - Entity Display Name for the record
 	 */
 	public function getName()
 	{
-		$entityData = \includes\Modules::getEntityInfo('Users');
+		$entityData = \App\Module::getEntityInfo('Users');
 		$colums = [];
 		foreach ($entityData['fieldnameArr'] as $fieldname) {
 			$colums[] = $this->get($fieldname);
@@ -51,7 +51,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check if the user has Global Read Permission
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasGlobalReadPermission()
 	{
@@ -62,7 +62,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check if the user has Global Write Permission
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasGlobalWritePermission()
 	{
@@ -83,7 +83,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	/**
 	 * Function to check whether the user has access to a given module by tabid
 	 * @param <Number> $tabId
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasModulePermission($mixed)
 	{
@@ -96,7 +96,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 * Function to check whether the user has access to the specified action/operation on a given module by tabid
 	 * @param <Number> $tabId
 	 * @param <String/Number> $action
-	 * @return <Boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function hasModuleActionPermission($mixed, $action)
 	{
@@ -139,7 +139,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		if (isset(self::$userPrivilegesModelCache[$userId])) {
 			return self::$userPrivilegesModelCache[$userId];
 		}
-		$valueMap = Vtiger_Util_Helper::getUserPrivilegesFile($userId);
+		$valueMap = App\User::getPrivilegesFile($userId);
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
@@ -154,15 +154,13 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
-		$currentUser = vglobal('current_user');
-		$currentUserId = $currentUser->id;
-		return self::getInstanceById($currentUserId);
+		return self::getInstanceById(App\User::getCurrentUserId());
 	}
 
 	/**
 	 * Function to check permission for a Module/Action/Record
-	 * @param <String> $moduleName
-	 * @param <String> $actionName
+	 * @param string $moduleName
+	 * @param string $actionName
 	 * @param <Number> $record
 	 * @return Boolean
 	 */
@@ -178,8 +176,8 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function returns non admin access control check query
-	 * @param <String> $module
-	 * @return <String>
+	 * @param string $module
+	 * @return string
 	 */
 	public static function getNonAdminAccessControlQuery($module)
 	{
@@ -189,35 +187,29 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	protected static $lockEditCache = [];
 
-	public static function checkLockEdit($moduleName, $record)
+	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)
 	{
-		if (isset(self::$lockEditCache[$moduleName . $record])) {
-			return self::$lockEditCache[$moduleName . $record];
+		$recordId = $recordModel->getId();
+		if (isset(self::$lockEditCache[$moduleName . $recordId])) {
+			return self::$lockEditCache[$moduleName . $recordId];
 		}
 		$return = false;
-		if (empty($record)) {
-			self::$lockEditCache[$moduleName . $record] = $return;
+		if (empty($recordId)) {
+			self::$lockEditCache[$moduleName . $recordId] = $return;
 			return $return;
 		}
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
-		vimport('~~modules/com_vtiger_workflow/include.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.inc');
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.inc');
+		vimport('~~modules/com_vtiger_workflow/include.php');
+		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		vimport('~~include/Webservices/Retrieve.php');
-		$wfs = new VTWorkflowManager(PearDatabase::getInstance());
-		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
+		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
-			$wsId = vtws_getWebserviceEntityId($moduleName, $record);
-			$entityCache = new VTEntityCache($currentUserModel);
-			$entityData = $entityCache->forId($wsId);
-			foreach ($workflows as $id => $workflow) {
-				if ($workflow->evaluate($entityCache, $entityData->getId())) {
+			foreach ($workflows as &$workflow) {
+				if ($workflow->evaluate($recordModel)) {
 					$return = true;
 				}
 			}
 		}
-		self::$lockEditCache[$moduleName . $record] = $return;
+		self::$lockEditCache[$moduleName . $recordId] = $return;
 		return $return;
 	}
 
@@ -232,83 +224,32 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to set Shared Owner
+	 * @param int|array|string $userIds
+	 * @param int $record
 	 */
-	public static function setSharedOwner(Vtiger_Record_Model $recordModel)
+	public static function setSharedOwner($userIds, $record)
 	{
 		$saveFull = true;
 
-		$db = PearDatabase::getInstance();
-		$userIds = $recordModel->get('shownerid');
-		$record = $recordModel->getId();
+		$db = \App\Db::getInstance();
 		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
-			$db->delete('u_yf_crmentity_showners', 'crmid = ?', [$record]);
+			$db->createCommand()->delete('u_#__crmentity_showners', ['crmid' => $record])->execute();
 			if (empty($userIds)) {
 				return false;
 			}
 			if (!is_array($userIds) && $userIds) {
-				$userIds = [$userIds];
+				$userIds = explode(',', $userIds);
 			}
 			foreach ($userIds as $userId) {
-				$db->insert('u_yf_crmentity_showners', [
+				$db->createCommand()->insert('u_#__crmentity_showners', [
 					'crmid' => $record,
 					'userid' => $userId,
-				]);
+				])->execute();
 			}
 		}
-	}
-
-	/**
-	 * Function to get set Shared Owner Recursively
-	 */
-	public static function setSharedOwnerRecursively($recordId, $addUser, $removeUser, $moduleName)
-	{
-		
-		$db = PearDatabase::getInstance();
-		\App\Log::trace('Entering Into setSharedOwnerRecursively( ' . $recordId . ', ' . $moduleName . ')');
-
-		$recordsByModule = self::getSharedRecordsRecursively($recordId, $moduleName);
-		if (count($recordsByModule) === 0) {
-			\App\Log::trace('Exiting setSharedOwnerRecursively() - No shared records');
-			return false;
-		}
-		$removeUserString = $addUserString = false;
-		if (count($removeUser) > 0) {
-			$removeUserString = implode(',', $removeUser);
-		}
-		if (count($addUser) > 0) {
-			$addUserString = implode(',', $addUser);
-		}
-		foreach ($recordsByModule as $parentModuleName => &$records) {
-			$sqlRecords = implode(',', $records);
-
-			if ($removeUserString !== false) {
-				$db->delete('u_yf_crmentity_showners', 'userid IN(' . $removeUserString . ') && crmid IN (' . $sqlRecords . ')');
-			}
-
-			if ($addUserString !== false) {
-				$usersExist = [];
-				$query = 'SELECT crmid, userid FROM u_yf_crmentity_showners WHERE userid IN(%s) && crmid IN (%s)';
-				$query = sprintf($query, $addUserString, $sqlRecords);
-				$result = $db->query($query);
-				while ($row = $db->getRow($result)) {
-					$usersExist[$row['crmid']][$row['userid']] = true;
-				}
-				foreach ($records as &$record) {
-					foreach ($addUser as $userId) {
-						if (!isset($usersExist[$record][$userId])) {
-							$db->insert('u_yf_crmentity_showners', [
-								'crmid' => $record,
-								'userid' => $userId,
-							]);
-						}
-					}
-				}
-			}
-		}
-		\App\Log::trace('Exiting setSharedOwnerRecursively()');
 	}
 
 	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
@@ -321,7 +262,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
-		
+
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$db = PearDatabase::getInstance();
@@ -360,7 +301,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	protected static $parentRecordCache = [];
 
-	public function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
+	public static function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
 	{
 		if (isset(self::$parentRecordCache[$record])) {
 			return self::$parentRecordCache[$record];
@@ -377,7 +318,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 
 		$parentRecord = false;
-		if ($parentModule = Vtiger_ModulesHierarchy_Model::getModulesMap1M($moduleName)) {
+		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
 			$parentModuleModel = Vtiger_Module_Model::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
@@ -398,7 +339,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
-		} else if (in_array($moduleName, Vtiger_ModulesHierarchy_Model::getModulesMapMMBase())) {
+		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
@@ -418,7 +359,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -434,7 +375,7 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
-		} else if ($relationInfo = Vtiger_ModulesHierarchy_Model::getModulesMapMMCustom($moduleName)) {
+		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
 			$role = $userPrivilegesModel->getRoleDetail();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
@@ -455,7 +396,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], \includes\Modules::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -474,5 +415,15 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		self::$parentRecordCache[$record] = $parentRecord;
 		return $parentRecord;
+	}
+
+	/**
+	 * Get profiles ids
+	 * @return array
+	 */
+	public function getProfiles()
+	{
+		\App\Log::trace('Get profile list');
+		return $this->get('profiles');
 	}
 }

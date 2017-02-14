@@ -52,10 +52,12 @@ class DebugBar implements ArrayAccess
 		if ($collector->getName() === '__meta') {
 			throw new DebugBarException("'__meta' is a reserved name and cannot be used as a collector name");
 		}
-		if (isset($this->collectors[$collector->getName()])) {
-			throw new DebugBarException("'{$collector->getName()}' is already a registered collector");
+		$name = $collector->getName();
+		if (isset($this->collectors[$name])) {
+			$collector->connectType = 'slave';
+			$name .= '_slave';
 		}
-		$this->collectors[$collector->getName()] = $collector;
+		$this->collectors[$name] = $collector;
 		return $this;
 	}
 

@@ -10,26 +10,26 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var="CompanyDetails" value=getCompanyDetails()}
+	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="MODULE" value='Users'}
 	<div class="container">
 		<div id="login-area" class="login-area">
 			<div class="login-space"></div>
 			<div class="logo">
-				<img title="{$CompanyDetails['companyname']}" height='{$CompanyDetails['height_panellogo']}' class="logo" src="storage/Logo/{$CompanyDetails['panellogoname']}" alt="{$CompanyDetails['companyname']}">
+				<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" class="logo" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
 			</div>
 			<div class="" id="loginDiv">
 				<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
-					<form class="login-form" action="index.php?module=Users&action=Login" method="POST">
+					<form class="login-form" action="index.php?module=Users&action=Login" method="POST" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
 						<div class='marginLeft0  marginRight0 row col-xs-10'>
 							<div class="form-group first-group has-feedback">
 								<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
-								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" autofocus="">
+								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 								<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 							</div>
 							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
 								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
-								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{assign var=COUNTERFIELDS value=2}
@@ -86,7 +86,7 @@
 					{/if}
 					{if $STATUS}
 						<div class="alert alert-success">
-							<p>{vtranslate('Mail has been sent to your inbox, please check your e-mail.',$MODULE)}</p>
+							<p>{vtranslate('LBL_MAIL_WAITING_TO_SENT',$MODULE)}</p>
 						</div>
 					{/if}
 					{if $STATUS_ERROR}

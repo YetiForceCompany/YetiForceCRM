@@ -2,7 +2,7 @@
 
 /**
  * Action to create widget
- * @package YetiForce.actions
+ * @package YetiForce.Action
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
@@ -18,8 +18,8 @@ class Settings_WidgetsManagement_CreateChart_Action extends Settings_Vtiger_Inde
 		$isDefault = $request->get('isDefault');
 		$width = $request->get('width');
 		$height = $request->get('height');
-		$size = \includes\utils\Json::encode(['width' => $width, 'height' => $height]);
-		$data = \includes\utils\Json::encode(['reportId' => $request->get('reportId')]);
+		$size = \App\Json::encode(['width' => $width, 'height' => $height]);
+		$data = \App\Json::encode(['reportId' => $request->get('reportId')]);
 		$paramsToInsert = [
 			'linkid' => $linkId,
 			'blockid' => $blockid,

@@ -11,7 +11,8 @@ class Notification extends Vtiger_CRMEntity
 {
 
 	public $table_name = 'u_yf_notification';
-	public $table_index = 'id';
+	public $table_index = 'notificationid';
+	protected $lockFields = ['notification_status' => ['PLL_READ']];
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -28,7 +29,7 @@ class Notification extends Vtiger_CRMEntity
 	 */
 	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
-		'u_yf_notification' => 'id',
+		'u_yf_notification' => 'notificationid',
 	];
 
 	/**
@@ -45,6 +46,11 @@ class Notification extends Vtiger_CRMEntity
 		'FL_TITLE' => 'title',
 		'Assigned To' => 'assigned_user_id',
 	];
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['title', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support
@@ -80,15 +86,15 @@ class Notification extends Vtiger_CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-
+			
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 }

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-require 'include/events/include.inc';
+require 'include/events/include.php';
 require_once 'include/utils/utils.php';
 
 class PBXManager extends CRMEntity
@@ -44,6 +44,11 @@ class PBXManager extends CRMEntity
 		'Recording' => 'recordingurl',
 		'Start Time' => 'starttime',
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['callstatus', 'customer', 'user', 'recordingurl', 'starttime'];
 	// Make the field link to detail view
 	public $list_link_field = 'customernumber';
 	// For Popup listview and UI type support
@@ -76,43 +81,32 @@ class PBXManager extends CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		if ($event_type == 'module.postinstall') {
+		if ($event_type === 'module.postinstall') {
 			$this->addLinksForPBXManager();
 			$this->registerLookupEvents();
 			$this->addSettingsLinks();
 			$this->addActionMapping();
 			$this->setModuleRelatedDependencies();
 			$this->addUserExtensionField();
-		} else if ($event_type == 'module.disabled') {
+		} else if ($event_type === 'module.disabled') {
 			$this->removeLinksForPBXManager();
-			$this->unregisterLookupEvents();
+			App\EventHandler::setInActive('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
-		} else if ($event_type == 'module.enabled') {
+		} else if ($event_type === 'module.enabled') {
 			$this->addLinksForPBXManager();
-			$this->registerLookupEvents();
+			App\EventHandler::setActive('PBXManager_PBXManagerHandler_Handler');
 			$this->addSettingsLinks();
 			$this->addActionMapping();
 			$this->setModuleRelatedDependencies();
-		} else if ($event_type == 'module.preuninstall') {
+		} else if ($event_type === 'module.preuninstall') {
 			$this->removeLinksForPBXManager();
-			$this->unregisterLookupEvents();
+			App\EventHandler::deleteHandler('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
-		} else if ($event_type == 'module.preupdate') {
-
-		} else if ($event_type == 'module.postupdate') {
-
 		}
-	}
-
-	/** Function to handle module specific operations when saving a entity
-	 */
-	public function save_module($module)
-	{
-		
 	}
 
 	/**
@@ -120,7 +114,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addUserExtensionField()
 	{
-		
+
 		$module = vtlib\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
@@ -142,22 +136,11 @@ class PBXManager extends CRMEntity
 	 */
 	public function registerLookupEvents()
 	{
-		
-		$adb = PearDatabase::getInstance();
-		$EventManager = new VTEventsManager($adb);
-		$createEvent = 'vtiger.entity.aftersave';
-		$deleteEVent = 'vtiger.entity.afterdelete';
-		$restoreEvent = 'vtiger.entity.afterrestore';
-		$batchSaveEvent = 'vtiger.batchevent.save';
-		$batchDeleteEvent = 'vtiger.batchevent.delete';
-		$handler_path = 'modules/PBXManager/handlers/PBXManagerHandler.php';
-		$className = 'PBXManagerHandler';
-		$batchEventClassName = 'PBXManagerBatchHandler';
-		$EventManager->registerHandler($createEvent, $handler_path, $className, '', '["VTEntityDelta"]');
-		$EventManager->registerHandler($deleteEVent, $handler_path, $className);
-		$EventManager->registerHandler($restoreEvent, $handler_path, $className);
-		$EventManager->registerHandler($batchSaveEvent, $handler_path, $batchEventClassName);
-		$EventManager->registerHandler($batchDeleteEvent, $handler_path, $batchEventClassName);
+		$className = 'PBXManager_PBXManagerHandler_Handler';
+
+		App\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
+		App\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
+		App\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
 		\App\Log::error('Lookup Events Registered');
 	}
 
@@ -166,11 +149,11 @@ class PBXManager extends CRMEntity
 	 */
 	public function setModuleRelatedDependencies()
 	{
-		
+
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'get_dependents_list');
+			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'getDependentsList');
 		}
 		\App\Log::error('Successfully added Module Related lists');
 	}
@@ -180,28 +163,13 @@ class PBXManager extends CRMEntity
 	 */
 	public function unsetModuleRelatedDependencies()
 	{
-		
+
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'get_dependents_list');
+			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'getDependentsList');
 		}
 		\App\Log::error('Successfully removed Module Related lists');
-	}
-
-	/**
-	 * To unregister phone lookup events 
-	 */
-	public function unregisterLookupEvents()
-	{
-		
-		$adb = PearDatabase::getInstance();
-		$EventManager = new VTEventsManager($adb);
-		$className = 'PBXManagerHandler';
-		$batchEventClassName = 'PBXManagerBatchHandler';
-		$EventManager->unregisterHandler($className);
-		$EventManager->unregisterHandler($batchEventClassName);
-		\App\Log::error('Lookup Events Unregistered');
 	}
 
 	/**
@@ -209,7 +177,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addLinksForPBXManager()
 	{
-		
+
 		$handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
 			'method' => 'checkLinkPermission');
@@ -223,7 +191,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeLinksForPBXManager()
 	{
-		
+
 		//Deleting Headerscripts links
 		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
 		\App\Log::error('Links Removed');
@@ -234,7 +202,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addSettingsLinks()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$integrationBlock = $adb->pquery('SELECT * FROM vtiger_settings_blocks WHERE label=?', array('LBL_INTEGRATION'));
 		$integrationBlockCount = $adb->num_rows($integrationBlock);
@@ -250,11 +218,12 @@ class PBXManager extends CRMEntity
 			}
 			$adb->pquery("INSERT INTO vtiger_settings_blocks(blockid, label, sequence) VALUES(?,?,?)", array($blockid, 'LBL_INTEGRATION', ++$sequence));
 		}
-
-		// To add a Field
-		$fieldid = $adb->getUniqueID('vtiger_settings_field');
-		$adb->pquery("INSERT INTO vtiger_settings_field(fieldid, blockid, name, iconpath, description, linkto, sequence, active)
-            VALUES(?,?,?,?,?,?,?,?)", array($fieldid, $blockid, 'LBL_PBXMANAGER', '', 'PBXManager module Configuration', 'index.php?module=PBXManager&parent=Settings&view=Index', 2, 0));
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_INTEGRATION', [
+			'name' => 'LBL_PBXMANAGER',
+			'iconpath' => 'adminIcon-pbx-manager',
+			'description' => 'LBL_PBXMANAGER_DESCRIPTION',
+			'linkto' => 'index.php?module=PBXManager&parent=Settings&view=Index'
+		]);
 		\App\Log::error('Settings Block and Field added');
 	}
 
@@ -263,7 +232,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeSettingsLinks()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
 		\App\Log::error('Settings Field Removed');
@@ -274,7 +243,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function addActionMapping()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');
@@ -305,7 +274,7 @@ class PBXManager extends CRMEntity
 	 */
 	public function removeActionMapping()
 	{
-		
+
 		$adb = PearDatabase::getInstance();
 		$module = new vtlib\Module();
 		$moduleInstance = $module->getInstance('PBXManager');

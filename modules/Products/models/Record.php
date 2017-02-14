@@ -14,33 +14,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Taxes Url
-	 * @return <String> Url
+	 * @return string Url
 	 */
 	public function getTaxesURL()
 	{
 		return 'index.php?module=Inventory&action=GetTaxes&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get available taxes for this record
-	 * @return <Array> List of available taxes
-	 */
-	public function getTaxes()
-	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_producttaxrel
-					INNER JOIN vtiger_inventorytaxinfo ON vtiger_inventorytaxinfo.taxid = vtiger_producttaxrel.taxid
-					INNER JOIN vtiger_crmentity ON vtiger_producttaxrel.productid = vtiger_crmentity.crmid && vtiger_crmentity.deleted = 0
-					WHERE vtiger_producttaxrel.productid = ?', [$this->getId()]);
-		$taxes = [];
-		while ($row = $db->fetch_array($result)) {
-			$taxName = $row['taxname'];
-			$tabLabel = $row['taxlabel'];
-			$taxPercentage = $row['taxpercentage'];
-			$taxes[$taxName] = ['percentage' => $taxPercentage, 'label' => $tabLabel];
-		}
-		return $taxes;
 	}
 
 	/**
@@ -68,76 +46,20 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$result = $db->pquery("SELECT vtiger_products.productid FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid && vtiger_products.discontinued = 1 && vtiger_seproductsrel.setype='Products'
+			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = 1 AND vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.productid = ? ", array($this->getId()));
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
 
 		$subProductList = array();
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
+
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; $i++) {
 			$subProductId = $db->query_result($result, $i, 'productid');
 			$subProductList[] = Vtiger_Record_Model::getInstanceById($subProductId, 'Products');
 		}
 
 		return $subProductList;
-	}
-
-	/**
-	 * Function to get Tax Class Details for this record(Product)
-	 * @return <Array> List of Taxes
-	 */
-	public function getTaxClassDetails()
-	{
-		$taxClassDetails = $this->get('taxClassDetails');
-		if (!empty($taxClassDetails)) {
-			return $taxClassDetails;
-		}
-
-		$record = $this->getId();
-		if (empty($record)) {
-			return $this->getAllTaxes();
-		}
-
-		$taxClassDetails = getTaxDetailsForProduct($record, 'available_associated');
-		$noOfTaxes = count($taxClassDetails);
-
-		for ($i = 0; $i < $noOfTaxes; $i++) {
-			$taxValue = getProductTaxPercentage($taxClassDetails[$i]['taxname'], $this->getId());
-			$taxClassDetails[$i]['percentage'] = $taxValue;
-			$taxClassDetails[$i]['check_name'] = $taxClassDetails[$i]['taxname'] . '_check';
-			$taxClassDetails[$i]['check_value'] = 1;
-			//if the tax is not associated with the product then we should get the default value and unchecked
-			if ($taxValue == '') {
-				$taxClassDetails[$i]['check_value'] = 0;
-				$taxClassDetails[$i]['percentage'] = getTaxPercentage($taxClassDetails[$i]['taxname']);
-			}
-		}
-
-		$this->set('taxClassDetails', $taxClassDetails);
-		return $taxClassDetails;
-	}
-
-	/**
-	 * Function to get all taxes
-	 * @return <Array> List of taxes
-	 */
-	public function getAllTaxes()
-	{
-		$allTaxesList = $this->get('alltaxes');
-		if (!empty($allTaxesList)) {
-			return $allTaxesList;
-		}
-
-		$allTaxesList = getAllTaxes('available');
-		$noOfTaxes = count($allTaxesList);
-
-		for ($i = 0; $i < $noOfTaxes; $i++) {
-			$allTaxesList[$i]['check_name'] = $allTaxesList[$i]['taxname'] . '_check';
-			$allTaxesList[$i]['check_value'] = 0;
-		}
-
-		$this->set('alltaxes', $allTaxesList);
-		return $allTaxesList;
 	}
 
 	/**
@@ -196,7 +118,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
 						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
 						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' && vtiger_seattachmentsrel.crmid = ?";
+						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
 
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
@@ -230,10 +152,10 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Static Function to get the list of records matching the search key
-	 * @param <String> $searchKey
+	 * @param string $searchKey
 	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
 	 */
-	public static function getSearchResult($searchKey, $moduleName = false, $limit = false)
+	public static function getSearchResult($searchKey, $moduleName = false, $limit = false, $operator = false)
 	{
 		$query = false;
 		if ($moduleName !== false && ($moduleName == 'Products' || $moduleName == 'Services' )) {
@@ -246,7 +168,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if ($moduleName !== false) {
 				$multiMode = is_array($moduleName);
 				if ($multiMode) {
-					$queryWhere .= sprintf(' && u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
+					$queryWhere .= sprintf(' AND u_yf_crmentity_search_label.`setype` IN (%s)', $adb->generateQuestionMarks($moduleName));
 					$params = array_merge($params, $moduleName);
 				} else {
 					$queryWhere .= ' && `setype` = ?';
@@ -279,7 +201,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$rows = [];
 		if (!$query) {
-			$rows = \includes\Record::findCrmidByLabel($searchKey, $moduleName, $limit);
+			$recordSearch = new \App\RecordSearch($searchKey, $moduleName, $limit);
+			if ($operator) {
+				$recordSearch->operator = $operator;
+			}
+			$rows = $recordSearch->search();
 		} else {
 			$result = $adb->pquery($query, $params);
 			while ($row = $adb->getRow($result)) {
@@ -294,7 +220,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
-		$labels = \includes\Record::getLabel($ids);
+		$labels = \App\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
@@ -339,13 +265,19 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateListPrice($relatedRecordId, $price, $currencyId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_pricebookproductrel WHERE pricebookid = ? && productid = ?', array($relatedRecordId, $this->getId()));
-		if ($db->num_rows($result)) {
-			$db->pquery('UPDATE vtiger_pricebookproductrel SET listprice = ? WHERE pricebookid = ? && productid = ?', array($price, $relatedRecordId, $this->getId()));
+		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
+		if ($isExists) {
+			App\Db::getInstance()->createCommand()
+				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
+				->execute();
 		} else {
-			$db->pquery('INSERT INTO vtiger_pricebookproductrel (pricebookid,productid,listprice,usedcurrency) values(?,?,?,?)', array($relatedRecordId, $this->getId(), $price, $currencyId));
+			App\Db::getInstance()->createCommand()
+				->insert('vtiger_pricebookproductrel', [
+					'pricebookid' => $relatedRecordId,
+					'productid' => $this->getId(),
+					'listprice' => $price,
+					'usedcurrency' => $currencyId
+				])->execute();
 		}
 	}
 
@@ -491,5 +423,142 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$conv_rate = $adb->query_result($res, 0, 'conversion_rate');
 
 		return 1 / $conv_rate;
+	}
+
+	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		return $_FILES ? true : false;
+	}
+
+	/**
+	 * Custom Save for Module
+	 */
+	public function saveToDb()
+	{
+		parent::saveToDb();
+		//Inserting into product_taxrel table
+		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+			$this->insertPriceInformation();
+		}
+		// Update unit price value in vtiger_productcurrencyrel
+		$this->updateUnitPrice();
+		//Inserting into attachments
+		if (AppRequest::get('module') === 'Products') {
+			$this->insertAttachment();
+		}
+	}
+
+	/**
+	 * Update unit price 
+	 */
+	public function updateUnitPrice()
+	{
+		$productInfo = (new App\Db\Query())->select(['unit_price', 'currency_id'])
+			->from($this->getEntity()->table_name)
+			->where([$this->getEntity()->table_index => $this->getId()])
+			->one();
+		App\Db::getInstance()->createCommand()->update('vtiger_productcurrencyrel', ['actual_price' => $productInfo['unit_price']], ['productid' => $this->getId(), 'currencyid' => $productInfo['currency_id']])->execute();
+	}
+
+	/**
+	 * Function to save the product price information in vtiger_productcurrencyrel table
+	 */
+	public function insertPriceInformation()
+	{
+		\App\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db::getInstance();
+		$productBaseConvRate = getBaseConversionRateForProduct($this->getId(), $this->mode);
+		$currencySet = false;
+		$currencyDetails = vtlib\Functions::getAllCurrency(true);
+		if (!$this->isNew()) {
+			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->getId()])->execute();
+		}
+		foreach ($currencyDetails as $curid => $currency) {
+			$curName = $currency['currency_name'];
+			$curCheckName = 'cur_' . $curid . '_check';
+			$curValue = 'curname' . $curid;
+			if (AppRequest::get($curCheckName) === 'on' || AppRequest::get($curCheckName) === 1) {
+				$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
+				$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($curValue), null, true);
+				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
+				$convertedPrice = $actualConversionRate * $requestPrice;
+				\App\Log::trace("Going to save the Product - $curName currency relationship");
+				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
+					'productid' => $this->getId(),
+					'currencyid' => $curid,
+					'converted_price' => $convertedPrice,
+					'actual_price' => $actualPrice
+				])->execute();
+				if (AppRequest::get('base_currency') === $curValue) {
+					$currencySet = true;
+					$db->createCommand()
+						->update($this->getEntity()->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->getEntity()->table_index => $this->getId()])
+						->execute();
+				}
+			}
+		}
+		if (!$currencySet) {
+			reset($currencyDetails);
+			$curid = key($currencyDetails);
+			$db->createCommand()
+				->update($this->getEntity()->table_name, ['currency_id' => $curid], [$this->getEntity()->table_index => $this->getId()])
+				->execute();
+		}
+		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
+	 */
+	public function insertAttachment()
+	{
+		$db = App\Db::getInstance();
+		$id = $this->getId();
+		$module = AppRequest::get('module');
+		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		foreach ($_FILES as $fileindex => $files) {
+			if (empty($files['tmp_name'])) {
+				continue;
+			}
+			$fileInstance = \App\Fields\File::loadFromRequest($files);
+			if ($fileInstance->validate('image')) {
+				if (AppRequest::get($fileindex . '_hidden') != '')
+					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+				else
+					$files['original_name'] = stripslashes($files['name']);
+				$files['original_name'] = str_replace('"', '', $files['original_name']);
+				$this->uploadAndSaveFile($files);
+			}
+		}
+		//Updating image information in main table of products
+		$dataReader = (new App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
+				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->leftJoin('vtiger_products', 'vtiger_products.productid = vtiger_seattachmentsrel.crmid')
+				->where(['vtiger_seattachmentsrel.crmid' => $id])
+				->createCommand()->query();
+		$productImageMap = [];
+		while ($imageName = $dataReader->readColumn(0)) {
+			$productImageMap [] = decode_html($imageName);
+		}
+		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
+			->execute();
+		//Remove the deleted vtiger_attachments from db - Products
+		if ($module === 'Products' && AppRequest::get('del_file_list') != '') {
+			$deleteFileList = explode("###", trim(AppRequest::get('del_file_list'), "###"));
+			foreach ($deleteFileList as $fileName) {
+				$attachmentId = (new App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
+					->from('vtiger_attachments')
+					->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
+					->where(['crmid' => $id, 'name' => $fileName])
+					->scalar();
+				$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $attachmentId])->execute();
+				$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $attachmentId])->execute();
+			}
+		}
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 }

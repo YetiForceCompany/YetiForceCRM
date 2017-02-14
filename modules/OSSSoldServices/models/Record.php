@@ -27,7 +27,6 @@ class OSSSoldServices_Record_Model extends Vtiger_Record_Model
 		$value = $this->getRenewalValue();
 		if ($value && $this->get('osssoldservices_renew') != $value) {
 			$this->set('osssoldservices_renew', $value);
-			$this->set('mode', 'edit');
 			$this->save();
 		}
 	}

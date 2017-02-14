@@ -23,7 +23,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = [];
 
 		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' && description =  'OSSMail'", true);
+		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
@@ -35,7 +35,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $settingsLinks;
 	}
 
-	public function getDefaultMailAccount($accounts)
+	public static function getDefaultMailAccount($accounts)
 	{
 		$rcUser = (isset($_SESSION['AutoLoginUser']) && array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
 		return $rcUser;
@@ -59,7 +59,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public function getComposeParam(Vtiger_Request $request)
+	public static function getComposeParam(Vtiger_Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');
@@ -73,10 +73,10 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$return['to'] = $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
-			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName == 'Campaigns') {
+			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
+			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
 				$subject = '';
-				if ($type == 'new' || $moduleName == 'Campaigns') {
+				if ($type === 'new' || $moduleName === 'Campaigns') {
 					$return['title'] = $recordModel->getName();
 					$subject .= $recordModel->getName();
 				}
@@ -137,7 +137,8 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
 			$config = [];
-			for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$numRowsResult = $db->num_rows($result);
+			for ($i = 0; $i < $numRowsResult; $i++) {
 				$config[$db->query_result($result, $i, 'parameter')] = $db->query_result($result, $i, 'value');
 			}
 			$config['popup'] = $config['target'] == '_blank' ? true : false;
@@ -146,7 +147,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return self::$composeParam;
 	}
 
-	static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
+	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
 		if (!empty($record) && isRecordExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
@@ -159,11 +160,10 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
-			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
+			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
-				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?', [$moduleModel->getId(), 4]);
-				if ($db->getRowCount($result) > 0) {
+				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
+				if ($fieldName) {
 					$subject = 'subject=';
 					if ($type == 'new') {
 						switch ($moduleName) {
@@ -178,7 +178,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 								break;
 						}
 					}
-					$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
+					$subject .= '[' . $fieldName . ']';
 					$url .= $subject;
 				}
 			}
@@ -207,12 +207,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = Vtiger_ModulesHierarchy_Model::getModulesByLevel();
+			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
-				$db = PearDatabase::getInstance();
-				$result = $db->pquery('SELECT fieldname FROM vtiger_field WHERE tabid = ? && uitype = ?', [$moduleModel->getId(), 4]);
-				if ($db->getRowCount($result) > 0) {
-					$subject .= '[' . $recordModel->get($db->getSingleValue($result)) . ']';
+				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
+				if ($fieldName) {
+					$subject .= '[' . $fieldName . ']';
 				}
 			}
 		}
@@ -227,7 +226,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if ($type == 'replyAll' && !empty($cc)) {
 			$url .= '&cc=' . $cc;
 		}
-		include_once ('libraries/htmlpurifier/library/HTMLPurifier.auto.php');
+		include_once ('vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', vglobal('default_charset'));
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
@@ -239,7 +238,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = AppConfig::module('Email', 'MAILTO_LIMIT');
+		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
 			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;

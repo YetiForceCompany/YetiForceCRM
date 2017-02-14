@@ -13,8 +13,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 
 	public function isEditable()
 	{
-		$nonEditablePickListValues = array('campaignrelstatus', 'duration_minutes', 'email_flag', 'hdnTaxType',
-			'payment_duration', 'recurringtype', 'recurring_frequency', 'visibility');
+		$nonEditablePickListValues = array('duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility');
 		if (in_array($this->getName(), $nonEditablePickListValues))
 			return false;
 		return true;
@@ -26,10 +25,11 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	 * @param type $groupMode -- Intersection/Conjuction , intersection will give only picklist values that exist for all roles
 	 * @return type -- array
 	 */
-	public function getPicklistValues($roleIdList, $groupMode = 'INTERSECTION')
+	public function getPicklistValuesForRole($roleIdList, $groupMode = 'INTERSECTION')
 	{
 		if (!$this->isRoleBased()) {
-			return parent::getPicklistValues();
+			$fieldModel = new Vtiger_Field_Model();
+			return $fieldModel->getPicklistValues();
 		}
 		$intersectionMode = false;
 		if ($groupMode == 'INTERSECTION') {
@@ -69,7 +69,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get instance
-	 * @param <String> $value - fieldname or fieldid
+	 * @param string $value - fieldname or fieldid
 	 * @param <type> $module - optional - module instance
 	 * @return <Vtiger_Field_Model>
 	 */
@@ -95,58 +95,5 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			$fieldModel->$properName = $propertyValue;
 		}
 		return $fieldModel;
-	}
-
-	/**
-	 * Function which will give the editable picklist values for a field
-	 * @param type $fieldName -- string
-	 * @return type -- array of values
-	 */
-	public static function getEditablePicklistValues($fieldName)
-	{
-		$cache = Vtiger_Cache::getInstance();
-		$EditablePicklistValues = $cache->get('EditablePicklistValues', $fieldName);
-		if ($EditablePicklistValues) {
-			return $EditablePicklistValues;
-		}
-		$db = PearDatabase::getInstance();
-		$primaryKey = Vtiger_Util_Helper::getPickListId($fieldName);
-
-		$query = "SELECT $primaryKey ,$fieldName FROM vtiger_$fieldName WHERE presence=1 && $fieldName <> '--None--'";
-		$values = array();
-		$result = $db->pquery($query, array());
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			//Need to decode the picklist values twice which are saved from old ui
-			$values[$db->query_result($result, $i, $primaryKey)] = decode_html(decode_html($db->query_result($result, $i, $fieldName)));
-		}
-		$cache->set('EditablePicklistValues', $fieldName, $values);
-		return $values;
-	}
-
-	/**
-	 * Function which will give the non editable picklist values for a field
-	 * @param type $fieldName -- string
-	 * @return type -- array of values
-	 */
-	public static function getNonEditablePicklistValues($fieldName)
-	{
-		$cache = Vtiger_Cache::getInstance();
-		$NonEditablePicklistValues = $cache->get('NonEditablePicklistValues', $fieldName);
-		if ($NonEditablePicklistValues) {
-			return $NonEditablePicklistValues;
-		}
-		$db = PearDatabase::getInstance();
-
-		$query = "select $fieldName from vtiger_$fieldName where presence=0";
-		$values = array();
-		$result = $db->pquery($query, array());
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			//Need to decode the picklist values twice which are saved from old ui
-			$values[] = decode_html(decode_html($db->query_result($result, $i, $fieldName)));
-		}
-		$cache->set('NonEditablePicklistValues', $fieldName, $values);
-		return $values;
 	}
 }

@@ -206,7 +206,7 @@ class PackageExport
 	/**
 	 * Function copies language files to zip
 	 * @param <vtlib\Zip> $zip
-	 * @param <String> $module
+	 * @param string $module
 	 */
 	public function __copyLanguageFiles($zip, $module)
 	{
@@ -635,7 +635,9 @@ class PackageExport
 	 */
 	public function export_Events($moduleInstance)
 	{
-		$events = Event::getAll($moduleInstance);
+		//TODU: needs updating
+		return false;
+		//$events = Event::getAll($moduleInstance);
 		if (!$events)
 			return;
 

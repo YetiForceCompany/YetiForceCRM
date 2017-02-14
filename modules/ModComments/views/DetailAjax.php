@@ -6,16 +6,21 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class ModComments_DetailAjax_View extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
-		$recordModel = ModComments_Record_Model::getInstanceById($record);
+		$recordModel = Vtiger_Record_Model::getInstanceById($record);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 

@@ -61,6 +61,11 @@ class OSSMailView extends CRMEntity
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
 	);
+
+	/**
+	 * @var string[] List of fields in the RelationListView
+	 */
+	public $relationFields = ['ossmailview_no', 'from_email', 'subject', 'to_email', 'ossmailview_sendtype', 'assigned_user_id'];
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
@@ -85,8 +90,6 @@ class OSSMailView extends CRMEntity
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('from', 'subject', 'ossmailview_sendtype');
-	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
-	public $sortby_fields = Array();
 	// For Alphabetical search
 	public $def_basicsearch_col = 'subject';
 	// Required Information for enabling Import feature
@@ -99,20 +102,6 @@ class OSSMailView extends CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	public $unit_price;
-
-	public function save_module($module)
-	{
-		//module specific save
-	}
-
-	/**
-	 * Return query to use based on given modulename, fieldname
-	 * Useful to handle specific case handling for Popup
-	 */
-	public function getQueryByModuleField($module, $fieldname, $srcrecord)
-	{
-		// $srcrecord could be empty
-	}
 
 	/**
 	 * Get list view query.
@@ -169,7 +158,7 @@ class OSSMailView extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		$sec_query = '';
-		$tabid = \includes\Modules::getModuleId($module);
+		$tabid = \App\Module::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -240,7 +229,7 @@ class OSSMailView extends CRMEntity
 		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
 		// Security Check for Field Access
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\includes\Modules::getModuleId('OSSMailView')] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Module::getModuleId('OSSMailView')] == 3) {
 			//Added security check to get the permitted records only
 			$query = $query . " " . getListViewSecurityParameter($thismodule);
 		}
@@ -253,7 +242,7 @@ class OSSMailView extends CRMEntity
 	public function transform_export_value($key, $value)
 	{
 		if ($key == 'owner')
-			return \includes\fields\Owner::getLabel($value);
+			return \App\Fields\Owner::getLabel($value);
 		return parent::transform_export_value($key, $value);
 	}
 
@@ -305,13 +294,6 @@ class OSSMailView extends CRMEntity
 		return $query;
 	}
 
-	// Function to unlink all the dependent entities of the given Entity by Id
-	public function unlinkDependencies($module, $id)
-	{
-
-		parent::unlinkDependencies($module, $id);
-	}
-
 	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param String Module name
@@ -322,27 +304,14 @@ class OSSMailView extends CRMEntity
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			\includes\fields\RecordNumber::setNumber($moduleName, 'M_', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
 			$displayLabel = 'OSSMailView';
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$displayLabel'");
 
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'widget_limit', '10'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
-			include_once('modules/ModTracker/ModTracker.php');
-			$tabid = vtlib\Functions::getModuleId($moduleName);
-			$moduleModTrackerInstance = new ModTracker();
-			if (!$moduleModTrackerInstance->isModulePresent($tabid)) {
-				$res = $adb->pquery("INSERT INTO vtiger_modtracker_tabs VALUES(?,?)", array($tabid, 1));
-				$moduleModTrackerInstance->updateCache($tabid, 1);
-			} else {
-				$updatevisibility = $adb->pquery("UPDATE vtiger_modtracker_tabs SET visible = 1 WHERE tabid = ?", array($tabid));
-				$moduleModTrackerInstance->updateCache($tabid, 1);
-			}
-			if (!$moduleModTrackerInstance->isModTrackerLinkPresent($tabid)) {
-				$moduleInstance = vtlib\Module::getInstance($tabid);
-				$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
-			}
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
 			$registerLink = true;
 			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
@@ -362,63 +331,14 @@ class OSSMailView extends CRMEntity
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			$blockid = $adb->query_result(
-				$adb->pquery("SELECT blockid FROM vtiger_settings_blocks WHERE label='LBL_MAIL'", array()), 0, 'blockid');
-			$sequence = (int) $adb->query_result(
-					$adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_field WHERE blockid=?", array($blockid)), 0, 'sequence') + 1;
-			$fieldid = $adb->getUniqueId('vtiger_settings_field');
-			$adb->pquery("INSERT INTO vtiger_settings_field (fieldid,blockid,sequence,name,iconpath,description,linkto)
-				VALUES (?,?,?,?,?,?,?)", array($fieldid, $blockid, $sequence, $displayLabel, '', 'LBL_MAIL_VIEW_DESCRIPTION', 'index.php?module=OSSMailView&parent=Settings&view=index'));
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+				'name' => $displayLabel,
+				'iconpath' => 'adminIcon-oss_mailview',
+				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',
+				'linkto' => 'index.php?module=OSSMailView&parent=Settings&view=index'
+			]);
 		} else {
 			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
 		}
-	}
-
-	public function get_attachments($id, $cur_tab_id, $rel_tab_id, $actions = false)
-	{
-		global $currentModule, $singlepane_view;
-		$this_module = $currentModule;
-
-		$related_module = vtlib\Functions::getModuleName($rel_tab_id);
-		$other = CRMEntity::getInstance($related_module);
-		vtlib_setup_modulevars($related_module, $other);
-		$singular_modname = vtlib_toSingular($related_module);
-		$button = '';
-		if ($actions) {
-			if (is_string($actions))
-				$actions = explode(',', strtoupper($actions));
-			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\" value='" . \includes\Language::translate('LBL_SELECT') . " " . \includes\Language::translate($related_module) . "'>&nbsp;";
-			}
-			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
-					"<input title='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='" . \includes\Language::translate('LBL_ADD_NEW') . " " . \includes\Language::translate($singular_modname) . "'>&nbsp;";
-			}
-		}
-		if ($singlepane_view == 'true') {
-			$returnset = "&return_module=$this_module&return_action=DetailView&return_id=$id";
-		} else {
-			$returnset = "&return_module=$this_module&return_action=CallRelatedList&return_id=$id";
-		}
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
-				'Documents' ActivityType,vtiger_attachments.type  FileType,vtiger_crmentity.modifiedtime,
-				vtiger_seattachmentsrel.attachmentsid attachmentsid, vtiger_notes.notesid crmid, vtiger_notes.notecontent description,vtiger_notes.*
-				from vtiger_notes
-				LEFT JOIN vtiger_notescf ON vtiger_notescf.notesid= vtiger_notes.notesid
-				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid= vtiger_notes.notesid and vtiger_crmentity.deleted=0
-				LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid =vtiger_notes.notesid
-				LEFT JOIN vtiger_attachments ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid= vtiger_users.id
-				LEFT JOIN vtiger_ossmailview_files ON vtiger_ossmailview_files.documentsid =vtiger_notes.notesid
-				WHERE vtiger_ossmailview_files.ossmailviewid = '$id'";
-		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
-		if ($return_value === null)
-			$return_value = Array();
-		$return_value['CUSTOM_BUTTON'] = $button;
-		return $return_value;
 	}
 }

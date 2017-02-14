@@ -13,7 +13,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Template name for the current UI Type object
-	 * @return <String> - Template Name
+	 * @return string - Template Name
 	 */
 	public function getTemplateName()
 	{
@@ -41,21 +41,12 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Value of the field in the format, the user provides it on Save
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getUserRequestValue($value, $recordId)
-	{
-		return $this->getDisplayValue($value);
-	}
-
-	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getDBInsertValue($value)
+	public function getDBValue($value, $recordModel = false)
 	{
 		if (!empty($value)) {
 			return self::getDBInsertedValue($value);
@@ -66,8 +57,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function converts the date to database format
-	 * @param <String> $value
-	 * @return <String>
+	 * @param string $value
+	 * @return string
 	 */
 	public static function getDBInsertedValue($value)
 	{
@@ -107,7 +98,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to get Date value for Display
 	 * @param <type> $date
-	 * @return <String>
+	 * @return string
 	 */
 	public static function getDisplayDateValue($date)
 	{
@@ -118,17 +109,10 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/**
 	 * Function to get DateTime value for Display
 	 * @param <type> $dateTime
-	 * @return <String>
+	 * @return string
 	 */
 	public static function getDisplayDateTimeValue($dateTime)
 	{
-		// Fix for http://code.vtiger.com/vtiger/vtigercrm/issues/4
-		// Handle (MonthNumber Year) format value conversion.
-		if (preg_match('/([0-9]{1,2}) ([0-9]{1,4})/', $date, $m)) {
-			return date('M Y', strtotime($m[2] . '-' . $m[1] . '-' . '1'));
-		}
-		// End
-
 		$date = new DateTimeField($dateTime);
 		return $date->getDisplayDateTimeValue();
 	}

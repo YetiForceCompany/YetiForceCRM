@@ -20,11 +20,11 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 
 	public static function getConfig($type = false)
 	{
-		
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__ . " | Type: $type");
+
+		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
-			\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
 		$db = PearDatabase::getInstance();
@@ -41,7 +41,8 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 			return [];
 		}
 		$config = [];
-		for ($i = 0; $i < $db->num_rows($result); ++$i) {
+		$numRowsCount = $db->num_rows($result);
+		for ($i = 0; $i < $numRowsCount; ++$i) {
 			$param = $db->query_result_raw($result, $i, 'param');
 			$value = $db->query_result_raw($result, $i, 'value');
 			if (in_array($param, $returnArrayForFields)) {
@@ -54,21 +55,21 @@ class Settings_SalesProcesses_Module_Model extends Vtiger_Base_Model
 			}
 		}
 		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log::trace('End ' . __METHOD__);
 		return $config;
 	}
 
 	public static function setConfig($param)
 	{
-		
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
-		$db = PearDatabase::getInstance();
+		\App\Log::trace('Start ' . __METHOD__);
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		$db->pquery('UPDATE yetiforce_proc_sales SET value = ? WHERE type = ? && param = ?;', [$value, $param['type'], $param['param']]);
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		App\Db::getInstance()->createCommand()
+			->update('yetiforce_proc_sales', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
+			->execute();
+		\App\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 

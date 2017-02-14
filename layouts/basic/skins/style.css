@@ -54,6 +54,10 @@ hr {
 	margin-bottom: 8px;
 	border-bottom: 1px solid #dddddd;
 }
+.borderBottom{
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 5px;
+}
 .imageHolder{
 	margin: 0 auto;
 	background-position: center;
@@ -1058,8 +1062,9 @@ td.fieldValue .input-group {
 	color: inherit !important;
 }
 .listViewEntriesTable .listViewEntries .unreviewed .badge,
+.listViewEntriesTable .listViewEntries .timeLineIconList span,
 .listViewEntriesTable .listViewEntries .actions{
-	margin: -4px 0 0 5px;
+	margin-left: 4px;
 }
 .listViewEntriesTable td.listViewEntryValue,
 .listViewEntries td {
@@ -1427,6 +1432,8 @@ th.htColHeader,
 .groupMembersColors li > div {
 	margin-left: 10px;
 }
+.select2-results__option.Users,
+.select2-selection__choice.Users,
 #s2id_memberList .Users,
 .groupMembersColors .Users {
 	background-color: #f99984 !important;
@@ -1434,6 +1441,8 @@ th.htColHeader,
 	margin-bottom: 2px;
 	background-image: none;
 }
+.select2-results__option.Groups,
+.select2-selection__choice.Groups,
 #s2id_memberList .Groups,
 .groupMembersColors .Groups {
 	background-color: #acd5ff !important;
@@ -1441,6 +1450,8 @@ th.htColHeader,
 	padding: 5px;
 	margin-bottom: 2px;
 }
+.select2-results__option.Roles,
+.select2-selection__choice.Roles,
 #s2id_memberList .Roles,
 .groupMembersColors .Roles {
 	background-color: #ffec98 !important;
@@ -1448,12 +1459,21 @@ th.htColHeader,
 	padding: 5px;
 	margin-bottom: 2px;
 }
+.select2-results__option.RoleAndSubordinates,
+.select2-selection__choice.RoleAndSubordinates,
 #s2id_memberList .RoleAndSubordinates,
 .groupMembersColors .RoleAndSubordinates {
 	background-color: #c4dea2 !important;
 	background-image: none;
 	padding: 5px;
 	margin-bottom: 2px;
+}
+.select2-results__option.Users.select2-results__option--highlighted,
+.select2-results__option.Groups.select2-results__option--highlighted,
+.select2-results__option.Roles.select2-results__option--highlighted,
+.select2-results__option.RoleAndSubordinates.select2-results__option--highlighted
+{
+	background-color: #337ab7 !important; 
 }
 .collectiveGroupMembers {
 	border: 1px solid #dddddd;
@@ -2813,7 +2833,7 @@ td.listViewEntryValue.wide {
 .table td.medium,
 .listViewEntries td.medium,
 td.listViewEntryValue.medium {
-	padding: 5px 6px!important;
+	padding: 3px 6px!important;
 	line-height: 29px;
 }
 .table td.narrow,
@@ -3268,7 +3288,7 @@ span[name=existingImages] img{
 	min-width: 90px;
 }
 .listViewEntriesTable .searchField{
-	min-width: 50px;
+	min-width: 70px;
 }
 .paginationDiv .pageInfo {
 	border: 1px solid #ddd;
@@ -3278,8 +3298,11 @@ span[name=existingImages] img{
 	list-style: none;
 	padding: 8px 5px;
 }
-.listViewEntriesDiv .listViewEntriesCheckBox{
-	margin-left: 2px;
+.listViewEntriesDiv .listViewEntriesCheckBox, .listViewEntriesTable .entryCheckBox{
+	margin: 0;
+	vertical-align: middle;
+	width: 16px;
+    height: 16px;
 }
 #widgetsManagementEditorContainer .modal-footer .btn{
 	margin: 5px;
@@ -3829,8 +3852,7 @@ html,body,.baseContainer
 	font-weight: 600 !important; 
 }
 .logoFooter{
-	margin: 4px;
-	margin-right: 15px;
+	margin: 1px;
 	height: 27px;
 }
 .imgAnnouncement{
@@ -4524,9 +4546,6 @@ html,body,.baseContainer
 	.gridster .gs-w[data-col="11"] {
 		left: 0%!important;
 	}
-	.rightHeaderBtn{
-		display: none;
-	}
 	.actionMenuBtn{
 		display: block;
 	}
@@ -4640,9 +4659,6 @@ html,body,.baseContainer
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
 		z-index: 100;
-	}
-	.rightHeaderBtn{
-		display: block;
 	}
 	.actionMenuBtn{
 		display: none;
@@ -5467,6 +5483,19 @@ select.form-control {
 	left: 0;
 	top: 0;
 }
+.timeLineIconList > .glyphicon{
+	display: inline-block !important;
+	width: 29px;
+	height: 29px;
+	font-size: 15px;
+	line-height: 29px;
+	position: relative;
+	color: #666;
+	background: #d2d6de;
+	border-radius: 50%;
+	text-align: center;
+	vertical-align: middle;
+}
 .timeline .userImage{
 	margin: 0 auto;
 	width: 40px;
@@ -5501,9 +5530,22 @@ select.form-control {
 	background: #001f3f !important;
 	color: #fff !important; 
 }
-.bodyHeader .rightHeaderBtn .btn{
-	height: 34px;
+.bodyHeader .rightHeaderBtn{
+	margin-top: 7px;
 }
+.bodyHeader .rightHeaderBtn .glyphicon{
+	font-size: 18px;
+}
+.bodyHeader .rightHeaderBtn .fa{
+	font-size: 21px;
+}
+.bodyHeader .rightHeaderBtn a{
+	margin-left: 5px;
+}
+.bodyHeader .signOutButtonBlue{
+	border: 1px solid #ff0000;
+	color: #ff0000;
+} 
 .columnSorted{
 	background: #EAEAEA !important;
 }
@@ -5619,6 +5661,7 @@ select.form-control {
 	width: 500px;
 	margin-bottom: 2px;
 }
+.selectDashboard::after,
 .selectDashboradView::after{
 	height: 3px;
 	width: 100%;
@@ -5656,6 +5699,7 @@ select.form-control {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	line-height: 14px;
 }
 .leftPanelOpen.siteBarRight{
 	width: calc(25% - 50px);
@@ -5667,7 +5711,7 @@ select.form-control {
 	display: inline;
 }
 .addWidgetDropDown.dropdown-menu > li{
-	display: inline-block;
+	display: flex;
 	padding: 0 2px;
 	width: 100%;
 	white-space: nowrap;
@@ -5690,23 +5734,36 @@ select.form-control {
 .marginRight15{
 	margin-right: 15px;
 }
-.leftRecordActions .actions:hover .toolsAction{
+.relatedContents .leftRecordActions .actions:hover .toolsAction{
 	display: none;
 }
-.leftRecordActions .actions:hover{
+.relatedContents .leftRecordActions .actions:hover .actionImages{
+	background: ivory;
+}
+.relatedContents .leftRecordActions .actions:hover{
 	white-space: nowrap;
 	position: absolute;
 }
+.leftRecordActions .actions:hover .toolsAction,
+.rightRecordActions .actions:hover .toolsAction{
+	visibility: hidden;
+}
+.leftRecordActions .actions:hover .actionImages,
+.rightRecordActions .actions:hover .actionImages{
+	white-space: nowrap;
+	position: absolute;
+	z-index: 1;
+}
 .leftRecordActions > div,
-.leftRecordActions .actions:hover .actionImages{
+.leftRecordActions .actions:hover .actionImages,
+.rightRecordActions .actions:hover .actionImages{
 	display: inline-block !important;
 }
-.leftRecordActions .actions:hover + div .unreviewed{
-	margin-left: 20px;
+.rightRecordActions .actions:hover .actionImages{
+	right: 7px;
 }
 .leftRecordActions .actions{
 	background: inherit;
-	padding: 4px 2px 0 0;
 }
 .listViewEntries{
 	background: #fff;
@@ -5733,6 +5790,7 @@ select.form-control {
 	border-bottom-left-radius: 0;
 }
 .activityContainer{
+	padding-top: 5px;
 	padding-left: 35px;
 }
 .bigLabel{
@@ -5740,4 +5798,34 @@ select.form-control {
     font-weight: bold;
 	display: block;
     padding: .7em .5em;
+}
+.modalContainer + .ui-autocomplete {
+	z-index: 100000;
+}
+.marginIcon {
+	margin-left: .3em;
+}
+.addReletedRecordBtn {
+    top: 20px;
+    right: 30px;
+    position: absolute;
+}
+.actionImages .btn{
+	float: none !important;
+}
+.bc-gray-lighter{
+	background-color: #f5f5f5;
+}
+.pdfTemplateContents .fieldRow{
+	margin-bottom: 10px;
+}
+.middle{
+	vertical-align: middle;
+}
+.back4RightMargin{
+	margin-right: -4px;
+}
+.yetiforceDetailsLink{
+	font-size: 40px;
+	margin-right: 15px;
 }

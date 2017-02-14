@@ -1,4 +1,5 @@
-<?php namespace Exception;
+<?php
+namespace Exception;
 
 /**
  * No Permitted Exception class
@@ -20,15 +21,10 @@ class NoPermittedToApi extends \Exception
 		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \vtlib\Functions::getRemoteIP(),
-			'url' => \vtlib\Functions::getBrowserInfo()->url,
+			'ip' => \App\RequestUtil::getRemoteIP(),
+			'url' => \App\RequestUtil::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 		]);
-	}
-
-	public function stop($message)
-	{
-		die(json_encode($message));
 	}
 }

@@ -13,7 +13,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create event
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateEventUrl()
 	{
@@ -23,7 +23,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the url for create todo
-	 * @return <String>
+	 * @return string
 	 */
 	public function getCreateTaskUrl()
 	{
@@ -97,5 +97,73 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $imageDetails;
+	}
+
+	/**
+	 * The function decide about mandatory save record
+	 * @return type
+	 */
+	public function isMandatorySave()
+	{
+		return $_FILES ? true : false;
+	}
+
+	/**
+	 * Function to save data to database
+	 */
+	public function saveToDb()
+	{
+		parent::saveToDb();
+		$this->insertAttachment();
+	}
+
+	/**
+	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
+	 */
+	public function insertAttachment()
+	{
+		$module = AppRequest::get('module');
+		$id = $this->getId();
+		$db = App\Db::getInstance();
+		$fileSaved = false;
+		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
+		$oldAttachmentid = (new App\Db\Query())->select(['vtiger_crmentity.crmid'])->from('vtiger_seattachmentsrel')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_seattachmentsrel.attachmentsid')
+				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
+		if ($_FILES) {
+			foreach ($_FILES as $fileindex => $files) {
+				if (empty($files['tmp_name'])) {
+					continue;
+				}
+				$fileInstance = \App\Fields\File::loadFromRequest($files);
+				if ($fileInstance->validate('image')) {
+					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+					$fileSaved = $this->uploadAndSaveFile($files);
+				}
+			}
+		}
+		$imageName = (new App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
+				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+				->leftJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid')
+				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
+		$imageName = decode_html($imageName);
+		//Inserting image information of record into base table
+		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => $imageName], ['contactid' => $id])
+			->execute();
+		//This is to handle the delete image for contacts
+		if ($module === 'Contacts' && $fileSaved) {
+			if ($oldAttachmentid) {
+				$setype = (new App\Db\Query())->select(['setype'])
+					->from('vtiger_crmentity')
+					->where(['crmid' => $oldAttachmentid])
+					->scalar();
+				if ($setype === 'Contacts Image') {
+					$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $oldAttachmentid])->execute();
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $oldAttachmentid])->execute();
+				}
+			}
+		}
+
+		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 }

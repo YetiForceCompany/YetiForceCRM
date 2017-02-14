@@ -30,12 +30,12 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
-		if ($activeReminder = \includes\Modules::isModuleActive('Calendar')) {
+		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
-		$companyDetails = Vtiger_CompanyDetails_Model::getInstanceById();
+		$companyDetails = App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 		$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
 		$viewer->assign('CURRENTDATE', $currentDate);
@@ -50,11 +50,13 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+		if (AppConfig::performance('GLOBAL_SEARCH')) {
+			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
+		}
 		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
-		$viewer->assign('CHAT_ACTIVE', \includes\Modules::isModuleActive('AJAXChat'));
+		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if ($display) {
 			$this->preProcessDisplay($request);
@@ -120,7 +122,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			"modules.$moduleName.resources.SearchAdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
-			'modules.Vtiger.resources.Mobile',
 			'modules.Settings.DataAccess.resources.SaveResult',
 		);
 

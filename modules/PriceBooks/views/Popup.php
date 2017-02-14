@@ -98,7 +98,8 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 
-		foreach ($this->listViewEntries as $recordId => $recordModel) {
+		foreach ($this->listViewEntries as $recordModel) {
+			$recordModel->set('src_record', $sourceRecord);
 			$recordModel->set('listprice', $recordModel->getProductsListPrice($sourceRecord));
 		}
 

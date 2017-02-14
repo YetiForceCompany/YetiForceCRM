@@ -21,7 +21,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			}
 		}
 		$mode = $request->getMode();
-		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMessage')) {
+		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -36,7 +36,6 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('setMark');
 		$this->exposeMethod('getNumberOfNotifications');
 		$this->exposeMethod('saveWatchingModules');
-		$this->exposeMethod('createMessage');
 		$this->exposeMethod('createMail');
 	}
 
@@ -79,75 +78,47 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
-			foreach ($selectedModules as $moduleName) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+			foreach ($selectedModules as $moduleId) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
 				$watchdogModel->changeModuleState(1);
 			}
 		} else {
 			$selectedModules = [];
 		}
 		foreach ($watchingModules as $moduleId) {
-			$moduleName = vtlib\Functions::getModuleName($moduleId);
-			if (!in_array($moduleName, $selectedModules)) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleName);
+			if (!in_array($moduleId, $selectedModules)) {
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
 				$watchdogModel->changeModuleState(0);
 			}
 		}
-	}
-
-	public function createMessage(Vtiger_Request $request)
-	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		
-		$message = $request->get('message');
-		$title = $request->get('title');
-		$users = $request->get('users');
-		if (!is_array($users)) {
-			$users = [$users];
-		}
-		if (count($users)) {
-			foreach ($users as $user) {
-				$notificationRecordModel = Vtiger_Record_Model::getCleanInstance('Notification');
-				$notificationRecordModel->set('relatedmodule', 'Users');
-				$notificationRecordModel->set('assigned_user_id', $user);
-				$notificationRecordModel->set('relatedid', $userPrivilegesModel->getId());
-				$notificationRecordModel->set('title', $title);
-				$notificationRecordModel->set('description', $message);
-				$notificationRecordModel->set('notification_type', 'PLL_USERS');
-				$notificationRecordModel->set('notification_status', 'PLL_UNREAD');
-				$notificationRecordModel->save();
-			}
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($users);
-		$response->emit();
+		Vtiger_Watchdog_Model::reloadCache();
 	}
 
 	public function createMail(Vtiger_Request $request)
 	{
-		$accessibleUsers = \includes\fields\Owner::getInstance()->getAccessibleUsers();
+		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');
 		if (!is_array($users)) {
 			$users = [$users];
 		}
-		$sendStatus = true;
 		if (count($users)) {
-			require_once('modules/Emails/mail.php');
 			foreach ($users as $user) {
-				if (key_exists($user, $accessibleUsers)) {
-					$email = Vtiger_Util_Helper::getUserDetail($user, 'email1');
-					$name = vtlib\Functions::getOwnerRecordLabel($user);
-					$status = send_mail('Users', $email, $name, $from_email, $subject, $content);
-					if (!$status) {
-						$sendStatus = false;
-					}
+				if (isset($accessibleUsers[$user])) {
+					$email = \App\User::getUserModel($user)->getDetail('email1');
+					\App\Mailer::addMail([
+						//'smtp_id' => 1,
+						'to' => [$email => \App\Fields\Owner::getLabel($user)],
+						'owner' => $user,
+						'subject' => $subject,
+						'content' => $content,
+					]);
 				}
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($sendStatus);
+		$response->setResult(true);
 		$response->emit();
 	}
 }

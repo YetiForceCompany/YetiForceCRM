@@ -144,6 +144,7 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Verkaufsphase - Verhandlung',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Aktualisiere das Datum der erzeugten Ereignisse wenn sich das Basisdaum ändert',
 	'LBL_CURRENT_USER' => 'Aktuell eingeloggtern Benutzer',
+	'LBL_SELECT_TEMPLATE' => 'Template auswählen',
 	//workflow trigger types
 	'ONCE' => 'Nur einmal, wenn alle Bedingungen erfüllt sind',
 	'ON_EVERY_SAVE' => 'Jederzeit wenn der Datensatz gespeichert wird (z.B. Anlegen, Ändern)',
@@ -151,13 +152,12 @@ $languageStrings = [
 	'ON_MODIFY' => 'Datensatz ändern',
 	'ON_DELETE' => 'Datensatz löschen',
 	'TRIGGER' => 'Manuell getriggert durch den Benutzer',
-	'BLOCK_EDIT' => 'Block Ändern',
+	'BLOCK_EDIT' => 'Änderungsmodus sperren',
 	'ON_SCHEDULE' => 'Einplanung ausführen (definierte Zeitintervalle)',
 	//workflow task
 	'EmailTempleteList' => ' Wählen Sie eine E-Mail-Vorlage zum versenden',
 	'Do you send all attachments' => 'Alle Anhänge senden?',
 	'Select e-mail address' => 'E-Mail-Adresse auswählen',
-	'Send a copy to email' => 'Senden einer Kopie an E-Mail-Adresse',
 	//workflow task types
 	'Send Mail' => 'E-Mail senden',
 	'Invoke Custom Function' => 'Benutzerdefinierte Funktion aufrufen',
@@ -175,6 +175,7 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Arbeitszeit automatisch aktualisieren',
 	'LBL_UPDATE_WORK_TIME' => 'Arbeitszeit aktualisieren',
 	'LBL_UPDATE_RELATED_FIELD' => 'Verknüpfter Datensatz aktualisieren',
+	'LBL_AUTO_ASSIGN' => 'Automatisierte Datensatzzuordnung',
 	//workflow add time
 	'Current Date' => 'Aktuelles Datum',
 	'Current Time' => 'Aktuelle Uhrzeit',
@@ -207,8 +208,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Protokolliere Änderungen',
 	'LBL_UPDATE_WORK_TIME' => 'Arbeitszeit aktualisieren',
 	'LBL_SKIP_CURRENT_USER' => 'Aktuellen Benutzer überspringen',
-	'LBL_LIST_OF_ALL_CHANGES_IN_RECORD' => 'Liste aller Änderungen des Datensatzes',
-	'LBL_LIST_OF_ALL_VALUES_IN_RECORD' => 'Liste aller Werte des Datensatzes',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Liste von Änderungen in einem Datensatz',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Liste neuer Werte in einem Datensatz',
 	//VTWatchdog
 	'LBL_SELECT_RECIPIENTS' => 'Empfänger',
 	'LBL_MESSAGE' => 'Nachricht',
@@ -231,8 +232,9 @@ $languageStrings = [
 	'Notify Contact On Ticket Change' => 'Benachrichtige Kontakt bei Ticketänderungen',
 	'Notify Owner On Ticket Closed' => 'Benachrichtige Besitzer wenn Ticket geschlossen wurde',
 	'Notify Owner On Ticket Create' => 'Benachrichtige Besitzer wenn Ticket erzeugt wurde',
+	'Block edition' => 'Änderungen sperren',
 	'Customer Portal Login Details' => 'Details zum Kundenportal Login',
-	'Send invitations' => 'Einaldungen senden',
+	'Send invitations' => 'Einladungen senden',
 	'Send Notification Email to Record Owner' => 'Sende Benachrichtigungsmail an den Besitzer',
 	'Activity Reminder Notification' => 'Erinnerungsbenachrichtigung zu Aktivitäten',
 	'Test mail about the mail server configuration' => 'Testmail zur Mailserver Konfiguration',
@@ -242,7 +244,10 @@ $languageStrings = [
 	'Notify Contact On New comment added to ticket' => 'Benachrichtige Kontakt bei einem neuen Kommentar, welche dem Ticket hinzugefügt wurde',
 	'Security risk has been detected - Brute Force' => 'Sicherheitsrisiko wurde entdeckt - Brute Force',
 	'Backup has been made' => 'Backup wurde durchgeführt',
-	'Notify Account On New comment added to ticket' => 'Benachrichtige Organisation bei einem neuen Kommentar, welche dem Ticket hinzugefügt wurde'
+	'Notify Account On New comment added to ticket' => 'Benachrichtige Organisation bei einem neuen Kommentar, welche dem Ticket hinzugefügt wurde',
+	'LBL_OWNER_REKORD' => 'Datensatz Verantwortlicher',
+	'LBL_SMTP' => 'SMTP',
+	'LBL_CHECK_EMAIL_OPTOUT' => 'Prüfen ob Empfänger den Empfang der E-Mail bestätigt hat',
 ];
 $jsLanguageStrings = [
 	'JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE' => 'Dieselben Felder mehr als einmal ausgewählt',

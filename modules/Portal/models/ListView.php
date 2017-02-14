@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 /**
@@ -14,12 +15,12 @@
 class Portal_ListView_Model extends Vtiger_ListView_Model
 {
 
-	public function getListViewEntries($pagingModel)
+	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleModel = Vtiger_Module_Model::getInstance('Portal');
 
-		$listQuery = $this->getQuery();
+		$query = $this->getQuery();
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
@@ -27,17 +28,19 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		$orderBy = $this->get('orderby');
 		$sortOrder = $this->get('sortorder');
 
-		if (!empty($orderBy))
-			$listQuery .= sprintf(' ORDER BY %s %s', $orderBy, $sortOrder);
+		if (!empty($orderBy)) {
+			if ($sortOrder === 'ASC') {
+				$query->orderBy([$orderBy => SORT_ASC]);
+			} else {
+				$query->orderBy([$orderBy => SORT_DESC]);
+			}
+		}
+		$query->limit($pageLimit);
+		$query->offset($startIndex);
+		$dataReader = $query->all();
 
-
-		$listQuery .= " LIMIT $startIndex," . ($pageLimit);
-
-		$listResult = $db->pquery($listQuery, array());
-
-		$listViewEntries = array();
-
-		while ($row = $db->fetchByAssoc($listResult)) {
+		$listViewEntries = [];
+		foreach ($dataReader as $row) {
 			$listViewEntries[$row['portalid']] = array();
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
@@ -45,9 +48,8 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		}
 		$index = 0;
 		foreach ($listViewEntries as $recordId => $record) {
-			$rawData = $db->query_result_rowdata($listResult, $index++);
 			$record['id'] = $recordId;
-			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $rawData);
+			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
 		}
 
 		return $listViewRecordModels;
@@ -55,11 +57,13 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 	public function getQuery()
 	{
-		$query = 'SELECT portalid, portalname, portalurl, createdtime FROM vtiger_portal';
-		$searchValue = $this->get('search_value');
-		if (!empty($searchValue))
-			$query .= sprintf(" WHERE portalname LIKE '%s%'", $searchValue);
-
+		$query = (new \App\Db\Query())
+			->select(['portalid', 'portalname', 'portalurl', 'createdtime'])
+			->from('vtiger_portal');
+		$searchValue = $this->getForSql('search_value');
+		if (!empty($searchValue)) {
+			$query->where(['like', 'portalname', $searchValue]);
+		}
 		return $query;
 	}
 
@@ -96,12 +100,6 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 	public function getRecordCount()
 	{
-		$db = PearDatabase::getInstance();
-		$listQuery = $this->getQuery();
-		$queryParts = explode('FROM', $listQuery);
-		$query = sprintf('SELECT COUNT(*) AS count FROM %s', $queryParts[1]);
-		$result = $db->query($query);
-
-		return $db->query_result($result, 0, 'count');
+		return $this->getQuery()->count();
 	}
 }

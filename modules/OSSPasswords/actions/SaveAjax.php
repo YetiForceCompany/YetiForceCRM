@@ -15,7 +15,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function process(Vtiger_Request $request)
 	{
 		$db = PearDatabase::getInstance();
-		
+
 		\App\Log::trace('Starting Quick Edit OSSPasswords');
 
 		// czy to 'password'????
@@ -84,7 +84,9 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
-
+			if ($fieldName === 'password') {
+				$fieldValue = $displayValue = '**********';
+			}
 			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
 		}
 
@@ -104,36 +106,5 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	/**
-	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
-	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$recordModel->set('id', $recordId);
-			$recordModel->set('mode', 'edit');
-
-			$fieldModelList = $recordModel->getModule()->getFields();
-			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				$fieldValue = $fieldModel->getUITypeModel()->getUserRequestValue($recordModel->get($fieldName), $recordId);
-
-				if ($fieldName === $request->get('field')) {
-					$fieldValue = $request->get('value');
-				}
-				$recordModel->set($fieldName, $fieldValue);
-			}
-		} else {
-			$recordModel = parent::getRecordModelFromRequest($request);
-		}
-
-		return $recordModel;
 	}
 }

@@ -31,30 +31,30 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 	public function find(Vtiger_Request $request)
 	{
 		$value = $request->get('value');
-		$modules = array_keys(Vtiger_ModulesHierarchy_Model::getModulesByLevel(0));
+		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));
 		if (empty($modules)) {
 			return [];
 		}
-		$rows = \includes\Record::findCrmidByLabel($value, $modules);
+		$rows = (new \App\RecordSearch($value, $modules, 10))->search();
 
 		$matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
-			if ($row['moduleName'] === 'Leads') {
+			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
 			}
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
 		foreach ($rows as &$row) {
-			if ($row['moduleName'] === 'Leads' && $convertedInfo[$row['crmid']]) {
+			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
 			if (Users_Privileges_Model::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
-				$label = \includes\Record::getLabel($row['crmid']);
+				$label = \App\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
-					'module' => $row['moduleName'],
-					'category' => vtranslate($row['moduleName'], $row['moduleName']),
-					'fullLabel' => vtranslate($row['moduleName'], $row['moduleName']) . ': ' . $label,
+					'module' => $row['setype'],
+					'category' => vtranslate($row['setype'], $row['setype']),
+					'fullLabel' => vtranslate($row['setype'], $row['setype']) . ': ' . $label,
 					'label' => $label
 				];
 			}

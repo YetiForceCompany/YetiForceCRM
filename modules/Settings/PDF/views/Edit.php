@@ -42,14 +42,12 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		}
 		$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 		$viewer->assign('PDF_MODEL', $pdfModel);
-		$allModules = Settings_PDF_Module_Model::getSupportedModules();
-		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
-
 		switch ($step) {
 			case 'step8':
+				$viewer->assign('WATERMARK_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step8.tpl', $qualifiedModuleName);
 				break;
 
@@ -66,57 +64,24 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				break;
 
 			case 'step5':
-				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
-				if (count($relatedModules) > 0) {
-					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(reset($relatedModules));
-				} else {
-					$relatedFields = [];
-				}
-				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($pdfModel->get('module_name'));
-
 				$insertOperations = [
 					'PAGENO' => 'PAGENO',
 					'PAGENUM' => 'nb'
 				];
 				$viewer->assign('INSERT', $insertOperations);
-				$viewer->assign('RELATED_MODULES', $relatedModules);
-				$viewer->assign('RELATED_FIELDS', $relatedFields);
-				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
 				$viewer->view('Step5.tpl', $qualifiedModuleName);
 				break;
 
 			case 'step4':
-				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
-				if (count($relatedModules) > 0) {
-					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(reset($relatedModules));
-				} else {
-					$relatedFields = [];
-				}
-				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($pdfModel->get('module_name'));
-
-				$viewer->assign('RELATED_MODULES', $relatedModules);
-				$viewer->assign('RELATED_FIELDS', $relatedFields);
-				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 
 			case 'step3':
-				$relatedModules = Settings_PDF_Module_Model::getRelatedModules($pdfModel->get('module_name'));
-				if (count($relatedModules) > 0) {
-					$relatedFields = Settings_PDF_Module_Model::getMainModuleFields(reset($relatedModules));
-				} else {
-					$relatedFields = [];
-				}
-				$specialFunctions = Vtiger_PDF_Model::getSpecialFunctions($pdfModel->get('module_name'));
-
 				$insertOperations = [
 					'PAGENO' => 'PAGENO',
 					'PAGENUM' => 'nb'
 				];
 				$viewer->assign('INSERT', $insertOperations);
-				$viewer->assign('RELATED_MODULES', $relatedModules);
-				$viewer->assign('RELATED_FIELDS', $relatedFields);
-				$viewer->assign('SPECIAL_FUNCTIONS', $specialFunctions);
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 
@@ -126,6 +91,8 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 
 			case 'step1':
 			default:
+				$allModules = Settings_PDF_Module_Model::getSupportedModules();
+				$viewer->assign('ALL_MODULES', $allModules);
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;
 		}
@@ -137,7 +104,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.jquery.ZeroClipboard.ZeroClipboard',
+			'libraries.jquery.clipboardjs.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",

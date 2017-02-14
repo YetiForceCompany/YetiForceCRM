@@ -7,17 +7,17 @@
 	<input type="hidden" class="recordBasic" id="recordBasic" value="{$ID}">
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<input type="hidden" class="hierarchyId" id="hierarchyId" value="{$HIERARCHY_ID}">
-	<input type="hidden" class="hierarchyField" id="hierarchyField" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($HIERARCHY_FIELD))}">
+	<input type="hidden" class="hierarchyField" id="hierarchyField" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($HIERARCHY_FIELD))}">
 	{if $RELATED_EXISTS}
 		<input type="hidden" class="relatedRecord" id="relatedRecord" value="{$RELATED_RECORD}">
 		<input type="hidden" class="relatedModuleBasic" id="relatedModuleBasic" value="{$RELATED_MODULE_BASIC}">
-		<input type="hidden" class="relatedModule" id="relatedModule" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($RELATED_MODULE))}">
+		<input type="hidden" class="relatedModule" id="relatedModule" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($RELATED_MODULE))}">
 	{/if}
 	<div class="modal-header">
 		<div class="col-xs-8">
 			<h3 class="modal-title">
 				{if $RECORD->get('serviceid')}
-					{\includes\Record::getLabel($RECORD->get('serviceid'))}
+					{\App\Record::getLabel($RECORD->get('serviceid'))}
 					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{vtranslate($RECORD->get('osssoldservices_renew'), $MODULE_NAME)}</span>{/if}
 				{else}
 					{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}

@@ -48,8 +48,8 @@ class VTScheduledReport extends Reports
 				if ($adb->num_rows($result) > 0) {
 					$reportScheduleInfo = $adb->raw_query_result_rowdata($result, 0);
 
-					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \includes\utils\Json::decode($reportScheduleInfo['schedule']) : array();
-					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \includes\utils\Json::decode($reportScheduleInfo['recipients']) : array();
+					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : array();
+					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : array();
 
 					VTCacheUtils::updateReport_ScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'], $scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
 
@@ -109,8 +109,8 @@ class VTScheduledReport extends Reports
 		$recipientsEmails = array();
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
-				$userName = \includes\fields\Owner::getUserLabel($userId);
-				$userEmail = getUserEmail($userId);
+				$userName = \App\Fields\Owner::getUserLabel($userId);
+				$userEmail = \App\User::getUserModel($userId)->getDetail('email1');
 				if (!in_array($userEmail, $recipientsEmails)) {
 					$recipientsEmails[$userName] = $userEmail;
 				}
@@ -123,50 +123,43 @@ class VTScheduledReport extends Reports
 	{
 		$currentModule = vglobal('currentModule');
 
-		$vtigerMailer = new vtlib\Mailer();
-
 		$recipientEmails = $this->getRecipientEmails();
+		$to = [];
 		foreach ($recipientEmails as $name => $email) {
-			$vtigerMailer->AddAddress($email, $name);
+			$to[$email] = $name;
 		}
 
 		$currentTime = date('Y-m-d H:i:s');
 		$subject = $this->reportname . ' - ' . $currentTime . ' (' . DateTimeField::getDBTimeZone() . ')';
 
-		$contents = \includes\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
-		$contents .= '<b>' . \includes\Language::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
-		$contents .= '<b>' . \includes\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
-
-		$vtigerMailer->Subject = $subject;
-		$vtigerMailer->Body = $contents;
-		$vtigerMailer->ContentType = "text/html";
+		$contents = \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '<br/><br/>';
+		$contents .= '<b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' :</b> ' . $this->reportname . '<br/>';
+		$contents .= '<b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b><br/>' . $this->reportdescription . '<br/><br/>';
 
 		$baseFileName = preg_replace('/[^a-zA-Z0-9_-\s]/', '', $this->reportname) . '__' . preg_replace('/[^a-zA-Z0-9_-\s]/', '', $currentTime);
 
 		$oReportRun = ReportRun::getInstance($this->id);
 		$reportFormat = $this->scheduledFormat;
-		$attachments = array();
-
-		if ($reportFormat == 'pdf' || $reportFormat == 'both') {
+		$attachments = [];
+		if ($reportFormat === 'pdf' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.pdf';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$fileName] = $filePath;
+			$attachments[$filePath] = $fileName;
 			$pdf = $oReportRun->getReportPDF();
 		}
-		if ($reportFormat == 'excel' || $reportFormat == 'both') {
+		if ($reportFormat === 'excel' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.xls';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$fileName] = $filePath;
+			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
-
-		foreach ($attachments as $attachmentName => $path) {
-			$vtigerMailer->AddAttachment($path, $attachmentName);
-		}
-
-		$vtigerMailer->Send(true);
-
-		foreach ($attachments as $attachmentName => $path) {
+		\App\Mailer::addMail([
+			'to' => $to,
+			'subject' => $subject,
+			'content' => $contents,
+			'attachments' => $attachments,
+		]);
+		foreach ($attachments as $path => $attachmentName) {
 			unlink($path);
 		}
 	}
@@ -259,12 +252,12 @@ class VTScheduledReport extends Reports
 	{
 		switch ($type) {
 			case 'users' : if (empty($name))
-					$name = \includes\fields\Owner::getUserLabel($value);
+					$name = \App\Fields\Owner::getUserLabel($value);
 				$optionName = 'User::' . addslashes(decode_html($name));
 				$optionValue = 'users::' . $value;
 				break;
 			case 'groups' : if (empty($name)) {
-					$name = \includes\fields\Owner::getGroupName($value);
+					$name = \App\Fields\Owner::getGroupName($value);
 				}
 				$optionName = 'Group::' . addslashes(decode_html($name));
 				$optionValue = 'groups::' . $value;
@@ -352,8 +345,8 @@ class VTScheduledReport extends Reports
 		for ($i = 0; $i < $noOfScheduledReports; ++$i) {
 			$reportScheduleInfo = $adb->raw_query_result_rowdata($result, $i);
 
-			$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \includes\utils\Json::decode($reportScheduleInfo['schedule']) : array();
-			$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \includes\utils\Json::decode($reportScheduleInfo['recipients']) : array();
+			$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : array();
+			$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : array();
 
 			$vtScheduledReport = new VTScheduledReport($adb, $user, $reportScheduleInfo['reportid']);
 			$vtScheduledReport->isScheduled = true;

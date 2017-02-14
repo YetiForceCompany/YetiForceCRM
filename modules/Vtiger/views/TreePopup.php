@@ -15,7 +15,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	/**
 	 * Function returns the module name for which the popup should be initialized
 	 * @param Vtiger_request $request
-	 * @return <String>
+	 * @return string
 	 */
 	public function getModule(Vtiger_request $request)
 	{
@@ -42,7 +42,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 			$type = 'category';
 		}
 		$tree = $recordModel->getTree($type);
-		$viewer->assign('TREE', \includes\utils\Json::encode($tree));
+		$viewer->assign('TREE', \App\Json::encode($tree));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);

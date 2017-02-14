@@ -38,10 +38,6 @@
 										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
-									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'recurringtype')}
-										{assign var=PICKLIST_VALUES value = Calendar_Field_Model::getReccurencePicklistValues()}
-										{$FIELD_INFO['picklistvalues'] = $PICKLIST_VALUES}
-									{/if}
 									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
 										{$FIELD_INFO['picklistvalues']['Task'] = vtranslate('Task', 'Calendar')}
 									{/if}
@@ -49,7 +45,7 @@
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=array()}
-											{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 											{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 												{$USERSLIST[$USER_NAME] = $USER_NAME}
 											{/foreach}
@@ -57,8 +53,8 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_INFO))}' 
-									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\includes\utils\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
+									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
+									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
@@ -89,15 +85,11 @@
 										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
-									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'recurringtype')}
-										{assign var=PICKLIST_VALUES value = Calendar_Field_Model::getReccurencePicklistValues()}
-										{$FIELD_INFO['picklistvalues'] = $PICKLIST_VALUES}
-									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=array()}
-											{assign var=ACCESSIBLE_USERS value=\includes\fields\Owner::getInstance()->getAccessibleUsers()}
+											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 											{foreach item=USER_NAME from=$ACCESSIBLE_USERS}
 												{$USERSLIST[$USER_NAME] = $USER_NAME}
 											{/foreach}
@@ -105,7 +97,7 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode($FIELD_INFO))}' >
+									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' >
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
 									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
@@ -119,19 +111,20 @@
 		</div>
 		<div class="col-md-3">
 			<input type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
-				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
+			{if $SELECTED_FIELD_MODEL}
+				{if !$FIELD_TYPE}
+					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
+				{/if}
 				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
-				{if $FIELD_TYPE eq 'D' || $FIELD_TYPE eq 'DT'}
+				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
+			{/if}
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
+				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}"
-							{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
-								selected
-							{/if}
-							>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 				{/foreach}
 			</select>
 		</div>
@@ -139,7 +132,6 @@
 			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{vtranslate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
 		<span class="hide">
-			<!-- TODO : see if you need to respect CONDITION_INFO condition or / and  -->
 			{if empty($CONDITION)}
 				{assign var=CONDITION value="and"}
 			{/if}

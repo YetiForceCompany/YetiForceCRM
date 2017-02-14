@@ -1,30 +1,52 @@
 <?php
+
 /**
  * Sharing privileges handler
  * @package YetiForce.Handler
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-require_once 'include/events/VTEventHandler.inc';
-
-class Vtiger_SharingPrivileges_Handler extends VTEventHandler
+class Vtiger_SharingPrivileges_Handler
 {
 
-	public function handleEvent($eventName, $entityData)
+	/**
+	 * EntityAfterSave function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
-		if ($eventName == 'vtiger.entity.aftersave.final' && \AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
-			$moduleName = $entityData->getModuleName();
-			$recordId = $entityData->getId();
-			$vtEntityDelta = new VTEntityDelta();
-			$delta = $vtEntityDelta->getEntityDelta($moduleName, $recordId, true);
-
-			if (array_key_exists('assigned_user_id', $delta)) {
-				$usersUpadated = true;
-				$oldValue = vtlib\Functions::getArrayFromValue($delta['assigned_user_id']['oldValue']);
-				$currentValue = vtlib\Functions::getArrayFromValue($delta['assigned_user_id']['currentValue']);
-				$addUsers = $currentValue;
-				$removeUser = array_diff($oldValue, $currentValue);
-				Users_Privileges_Model::setSharedOwnerRecursively($recordId, $addUsers, $removeUser, $moduleName);
+		if (!\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+			return false;
+		}
+		$recordModel = $eventHandler->getRecordModel();
+		$removeUser = $recordModel->getPreviousValue('assigned_user_id');
+		if ($removeUser) {
+			$addUser = $recordModel->get('assigned_user_id');
+			$recordsByModule = Users_Privileges_Model::getSharedRecordsRecursively($recordModel->getId(), $recordModel->getModuleName());
+			if (!$recordsByModule) {
+				return false;
+			}
+			$db = \App\Db::getInstance();
+			foreach ($recordsByModule as &$records) {
+				$db->createCommand()->delete('u_#__crmentity_showners', ['userid' => $removeUser, 'crmid' => $records])->execute();
+				if ($addUser) {
+					$usersExist = [];
+					$query = (new \App\Db\Query())->select(['crmid', 'userid'])->from('u_#__crmentity_showners')->where(['userid' => $addUser, 'crmid' => $records]);
+					$dataReader = $query->createCommand()->query();
+					while ($row = $dataReader->read()) {
+						$usersExist[$row['crmid']][$row['userid']] = true;
+					}
+					foreach ($records as &$record) {
+						if (!isset($usersExist[$record][$addUser])) {
+							$db->createCommand()
+								->insert('u_#__crmentity_showners', [
+									'crmid' => $record,
+									'userid' => $addUser
+								])->execute();
+						}
+					}
+				}
 			}
 		}
 	}

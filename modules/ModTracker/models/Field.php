@@ -51,7 +51,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Old value of this Field
-	 * @return <String>
+	 * @return string
 	 */
 	public function getOldValue()
 	{
@@ -69,7 +69,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get new(updated) value of this Field
-	 * @return <String>
+	 * @return string
 	 */
 	public function getNewValue()
 	{
@@ -97,7 +97,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get Display Value
 	 * @param <type> $value
-	 * @return <String>
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -106,7 +106,7 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the module name of the field
-	 * @return <String>
+	 * @return string
 	 */
 	public function getModuleName()
 	{

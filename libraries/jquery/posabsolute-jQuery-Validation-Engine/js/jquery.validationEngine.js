@@ -724,7 +724,11 @@
 				}
 				options.showArrow = false;
 			}
-
+			// <--------   YetiForce.com - Fixed valid CKEditor element -------->
+			if (field.is('textarea') && field.hasClass('ckEditorSource') && CKEDITOR.instances[field.attr('id')] != undefined) {
+				field = field.next();
+			}
+			// <-------- End -------->
 			if(field.is(":hidden") && options.prettySelect) {
                 var jqSelector = methods._jqSelector(field.attr('id'));
                 field = form.find("#" + options.usePrefix + jqSelector);

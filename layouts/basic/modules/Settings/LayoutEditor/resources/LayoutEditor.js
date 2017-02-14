@@ -581,7 +581,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 							var pickListValuesArray = pickListValueElement.val();
 							var pickListValuesArraySize = pickListValuesArray.length;
 							var specialChars = /["]/;
-							if (fieldNameValue.toLowerCase() === 'status') {
+							if (fieldNameValue.toLowerCase() === 'status' || 'picklist' === fieldNameValue.toLowerCase()) {
 								var message = app.vtranslate('JS_RESERVED_PICKLIST_NAME');
 								jQuery('[name="fieldName"]', form).validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
@@ -612,7 +612,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 							var treeListElement = form.find('select.TreeList');
 							if (treeListElement.val() == '-') {
 								var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
-								form.find('.select2-container.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
+								form.find('.TreeList').validationEngine('showPrompt', message, 'error', 'bottomLeft', true);
 								return false;
 							}
 
@@ -784,8 +784,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		fieldContainer.find('.deleteCustomField, .saveFieldDetails').attr('data-field-id', result['id']);
 		fieldContainer.find('.fieldLabel').html(result['label'] + ' [' + result['name'] + ']');
 		fieldContainer.find('#relatedFieldValue').val(result['name']).prop('id', 'relatedFieldValue' + result['id']);
-		fieldContainer.find('.copyFieldLabel').attr('data-clipboard-target', 'relatedFieldValue' + result['id']);
-		thisInstance.registerCopyClipboard(fieldContainer.find('.copyFieldLabel'));
+		fieldContainer.find('.copyFieldLabel').attr('data-target', 'relatedFieldValue' + result['id']);
+		thisInstance.registerCopyClipboard(fieldContainer);
 		if (!result['customField']) {
 			fieldContainer.find('.deleteCustomField').remove();
 		}
@@ -1733,7 +1733,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
 		app.registerEventForDatePickerFields(contents);
-		app.registerEventForTimeFields(contents);
+		app.registerEventForClockPicker(contents);
 		app.changeSelectElementView(contents);
 
 		thisInstance.makeFieldsListSortable();
@@ -1783,7 +1783,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						});
 						var params = {};
 						params['module'] = container.find('[name="layoutEditorModules"]').val();
-						params['status'] = !state;
+						params['status'] = state ? 0 : 1;
 						app.saveAjax('setInventory', params).then(function (data) {
 							if (data.result) {
 								//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
@@ -1834,6 +1834,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var id = editField.data('id');
 			var progress = jQuery.progressIndicator();
 			app.showModalWindow(null, "index.php?module=LayoutEditor&parent=Settings&view=CreateInventoryFields&mode=step2&type=" + selectedModule + "&mtype=" + mType + "&id=" + id, function (container) {
+				app.showPopoverElementView(container.find('.HelpInfoPopover'));
 				thisInstance.registerStep2(container, blockId);
 				progress.progressIndicator({'mode': 'hide'});
 			});
@@ -1876,7 +1877,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				var params = {};
 				for (var i in formData) {
 					if (jQuery.inArray(i, paramsName) != -1) {
-						params[i] = formData[i];
+						var value = formData[i];
+						if (i === 'modules' && typeof value === 'string') {
+							value = [value];
+						}
+						params[i] = value;
 						delete formData[i];
 					}
 				}
@@ -2042,19 +2047,15 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Register label copy
 	 */
-	registerCopyClipboard : function (element) {
-		var clip = new ZeroClipboard(element, {
-			moviePath: 'libraries/jquery/ZeroClipboard/ZeroClipboard.swf',
-		});
-		clip.on('complete', function (client, args) {
-			// notification about copy to clipboard
-			var params = {
-				text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-				animation: 'show',
-				title: app.vtranslate('JS_NOTIFY_COPY_TITLE'),
-				type: 'success'
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+	registerCopyClipboard : function (form) {
+		new Clipboard('.copyFieldLabel', {
+			text: function (trigger) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+					type: 'success'
+				});
+				return form.find('#'+trigger.getAttribute('data-target')).val();
+			}
 		});
 	},
 	/**
@@ -2084,7 +2085,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		thisInstance.registerEditInventoryField();
 		thisInstance.registerInventoryFieldSequenceSaveClick();
 		thisInstance.registerDeleteInventoryField();
-		thisInstance.registerCopyClipboard(container.find('.copyFieldLabel'));
+		thisInstance.registerCopyClipboard(container);
 	}
 
 });

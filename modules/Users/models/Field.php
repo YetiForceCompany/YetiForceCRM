@@ -16,19 +16,19 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether the current field is read-only
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || $this->get('uitype') == 156 || $this->get('uitype') == 115) {
+		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}
 	}
 
 	/**
 	 * Function to check if the field is shown in detail view
-	 * @return <Boolean> - true/false
+	 * @return boolean - true/false
 	 */
 	public function isViewEnabled()
 	{
@@ -40,7 +40,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get the Webservice Field data type
-	 * @return <String> Data type of the field
+	 * @return string Data type of the field
 	 */
 	public function getFieldDataType()
 	{
@@ -62,11 +62,12 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether field is ajax editable'
-	 * @return <Boolean>
+	 * @return boolean
 	 */
 	public function isAjaxEditable()
 	{
-		if (!$this->isEditable() || $this->get('uitype') == 105 || $this->get('uitype') == 106 || $this->get('uitype') == 98 || $this->get('uitype') == 101) {
+		if (!$this->isEditable() || $this->get('uitype') === 115 || $this->get('uitype') === 105 ||
+			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName()) {
 			return false;
 		}
 		return true;
@@ -74,7 +75,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
@@ -108,8 +109,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to retieve display value for a value
-	 * @param <String> $value - value which need to be converted to display value
-	 * @return <String> - converted display value
+	 * @param string $value - value which need to be converted to display value
+	 * @return string - converted display value
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

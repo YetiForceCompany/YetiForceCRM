@@ -51,5 +51,5 @@
 		</div>
 		</div>
 	</div>
-	<div class="listViewContentDiv" id="listViewContents">
+	<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
 {/strip}

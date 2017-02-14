@@ -39,8 +39,8 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
 		$db = PearDatabase::getInstance();
+		$adb = App\Db::getInstance();
 		$productRecords = [];
-
 		foreach ($data as $product) {
 			if ($product['qtyparam'] == '1') {
 				// If product was added with diffrent units (pcs not packs)
@@ -64,25 +64,29 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		$params = [];
 		$query = 'UPDATE vtiger_products SET qtyinstock = CASE ';
 		foreach ($qtyInStock as $ID => $value) {
-			$query .= ' WHEN `productid` = ? THEN ' . $qty;
+			$query .= ' WHEN productid = ? THEN ' . $qty;
 			array_push($params, $ID, $value);
 		}
-		$query .= ' END WHERE `productid` IN (' . $db->generateQuestionMarks(array_keys($qtyInStock)) . ')';
+		$query .= ' END WHERE productid IN (' . $db->generateQuestionMarks(array_keys($qtyInStock)) . ')';
 		$db->pquery($query, array_merge($params, array_keys($qtyInStock)));
 
 		// Saving the amount of product in stock.
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo('Products', 'IStorages');
-		$query = 'SELECT %s,qtyinstock FROM %s  WHERE `%s` = ? && `%s` IN (%s);';
+		$query = 'SELECT %s,qtyinstock FROM %s  WHERE %s = ? AND %s IN (%s);';
 		$query = sprintf($query, $referenceInfo['rel'], $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel'], $db->generateQuestionMarks(array_keys($qtyInStock)));
 		$result = $db->pquery($query, array_merge([$storageId], array_keys($qtyInStock)));
 		$relData = $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 		foreach ($qtyInStock as $ID => $value) {
 			if (array_key_exists($ID, $relData)) {
-				$query = 'UPDATE %s SET `qtyinstock` = %s WHERE `%s` = ? && `%s` = ? ';
-				$query = sprintf($query, $referenceInfo['table'], $qty, $referenceInfo['base'], $referenceInfo['rel']);
-				$db->pquery($query, [$value, $storageId, $ID]);
+				$adb->createCommand()->update($referenceInfo['table'], [
+					'qtyinstock' => new yii\db\Expression('qtyinstock ' . $operator . ' ' . $value)
+					], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $ID])->execute();
 			} else {
-				$db->insert($referenceInfo['table'], [$referenceInfo['base'] => $storageId, $referenceInfo['rel'] => $ID, 'qtyinstock' => $operator == '+' ? $value : $operator . $value]);
+				$adb->createCommand()->insert($referenceInfo['table'], [
+					$referenceInfo['base'] => $storageId,
+					$referenceInfo['rel'] => $ID,
+					'qtyinstock' => $operator == '+' ? $value : $operator . $value
+				])->execute();
 			}
 		}
 	}
@@ -95,7 +99,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		foreach (self::$modulesToCalculate as $type => $modules) {
 			$sql = [];
 			foreach ($modules as $moduleName) {
-				if (\includes\Modules::isModuleActive($moduleName) === false) {
+				if (\App\Module::isModuleActive($moduleName) === false) {
 					continue;
 				}
 				$inventoryTableName = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName();

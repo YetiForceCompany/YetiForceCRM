@@ -20,33 +20,31 @@ class Settings_Vtiger_Tracker_Model
 
 	static function addBasic($type)
 	{
-		if ($type == 'view' && Vtiger_Request::isAjax()) {
+		$db = App\Db::getInstance('log');
+		if ($type == 'view' && AppRequest::isAjax()) {
 			self::lockTracking();
 		}
 		if (self::$id != false || self::$lockTrack) {
 			return true;
 		}
-		$db = PearDatabase::getInstance('log');
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-
-		$params = [
-			'user_id' => $currentUser->getId(),
-			'type' => self::$types[$type],
-			'module_name' => AppRequest::get('module'),
-			'record_id' => self::$recordId,
-			'date' => date('Y-m-d H:i:s'),
-			'action' => _PROCESS_NAME
-		];
-		$insertedInfo = $db->insert('l_yf_settings_tracker_basic', $params);
-		if ($insertedInfo['rowCount'] == 1) {
-			self::$id = $insertedInfo['id'];
+		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
+				'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
+				'type' => self::$types[$type],
+				'module_name' => AppRequest::get('module'),
+				'record_id' => self::$recordId ? self::$recordId : 0,
+				'date' => date('Y-m-d H:i:s'),
+				'action' => _PROCESS_NAME
+			])->execute();
+		if ($insertedInfo === 1) {
+			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
 		}
 	}
 
 	static function changeType($type)
 	{
-		$db = PearDatabase::getInstance('log');
-		$db->update('l_yf_settings_tracker_basic', ['type' => self::$types[$type]], ' id = ?', [self::$id]);
+		App\Db::getInstance('log')->createCommand()
+				->update('l_#__settings_tracker_basic', ['type' => self::$types[$type]], ['id' => [self::$id]])
+				->execute();
 	}
 
 	static function addDetail($prev, $post)
@@ -57,18 +55,17 @@ class Settings_Vtiger_Tracker_Model
 		if (self::$id != false) {
 			self::addBasic('save');
 		}
-		$db = PearDatabase::getInstance('log');
+		$db = App\Db::getInstance('log');
 		foreach ($post as $key => $value) {
 			if ($value == $prev[$key]) {
 				continue;
 			}
-			$paramsToSave = [
+			$db->createCommand()->insert('l_#__settings_tracker_detail', [
 				'id' => self::$id,
 				'prev_value' => isset($prev[$key]) ? $prev[$key] : '',
 				'post_value' => is_null($value) ? '' : $value,
 				'field' => $key,
-			];
-			$db->insert('l_yf_settings_tracker_detail', $paramsToSave);
+			])->execute();
 		}
 	}
 

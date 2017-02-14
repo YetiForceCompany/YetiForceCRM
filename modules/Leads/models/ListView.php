@@ -24,7 +24,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 
 		$massActionLinks = [];
-		if ($currentUserModel->hasModulePermission('Emails') && $currentUserModel->hasModulePermission('OSSMail') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassComposeEmail') && AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail') && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
+		if ($moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',

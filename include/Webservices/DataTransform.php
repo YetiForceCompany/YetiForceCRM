@@ -14,7 +14,7 @@ class DataTransform
 	public static $recordString = "record_id";
 	public static $recordModuleString = 'record_module';
 
-	public function sanitizeDataWithColumn($row, $meta)
+	public static function sanitizeDataWithColumn($row, $meta)
 	{
 
 		$newRow = [];
@@ -57,7 +57,7 @@ class DataTransform
 		return $newRow;
 	}
 
-	public function sanitizeForInsert($row, $meta)
+	public static function sanitizeForInsert($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
 		$associatedToUser = false;
@@ -112,20 +112,6 @@ class DataTransform
 			if (isset($row[$field]) && $row[$field] != null) {
 				$ownerDetails = vtws_getIdComponents($row[$field]);
 				$row[$field] = $ownerDetails[1];
-			}
-		}
-		if (strtolower($meta->getEntityName()) == "emails") {
-			if (isset($row['parent_id'])) {
-				if ($associatedToUser === true) {
-					AppRequest::set('module', 'Emails');
-					$row['parent_id'] = $row['parent_id'] . "@-1|";
-					AppRequest::set('parent_id', $row['parent_id']);
-				} else {
-					$referenceHandler = vtws_getModuleHandlerFromId($parentTypeId, $meta->getUser());
-					$referenceMeta = $referenceHandler->getMeta();
-					$fieldId = getEmailFieldId($referenceMeta, $row['parent_id']);
-					$row['parent_id'] .= "@$fieldId|";
-				}
 			}
 		}
 		if ($row["id"]) {
@@ -189,7 +175,7 @@ class DataTransform
 		}
 
 		foreach ($row as $field => $value) {
-			$row[$field] = html_entity_decode($value, ENT_QUOTES, $default_charset);
+			$row[$field] = html_entity_decode((string) $value, ENT_QUOTES, $default_charset);
 		}
 		return $row;
 	}
@@ -197,7 +183,7 @@ class DataTransform
 	public static function sanitizeReferences($row, $meta)
 	{
 		$adb = PearDatabase::getInstance();
-		
+
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
 			if (strtolower($meta->getEntityName()) == "emails") {
@@ -249,7 +235,7 @@ class DataTransform
 		return $row;
 	}
 
-	public function sanitizeDateFieldsForInsert($row, $meta)
+	public static function sanitizeDateFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();
@@ -264,7 +250,7 @@ class DataTransform
 		return $row;
 	}
 
-	public function sanitizeCurrencyFieldsForInsert($row, $meta)
+	public static function sanitizeCurrencyFieldsForInsert($row, $meta)
 	{
 		$current_user = vglobal('current_user');
 		$moduleFields = $meta->getModuleFields();

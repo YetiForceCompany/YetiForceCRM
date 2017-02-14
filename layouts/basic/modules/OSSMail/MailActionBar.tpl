@@ -7,17 +7,17 @@
 		</div>
 	{else}
 		<input type="hidden" id="mailActionBarID" value="{$RECORD}" />
-		{assign var="MODULES_LEVEL_0" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel()}
-		{assign var="MODULES_LEVEL_1" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel(1)}
-		{assign var="MODULES_LEVEL_2" value=Vtiger_ModulesHierarchy_Model::getModulesByLevel(2)}
+		{assign var="MODULES_LEVEL_0" value=\App\ModuleHierarchy::getModulesByLevel()}
+		{assign var="MODULES_LEVEL_1" value=\App\ModuleHierarchy::getModulesByLevel(1)}
+		{assign var="MODULES_LEVEL_2" value=\App\ModuleHierarchy::getModulesByLevel(2)}
 		{if !empty($MODULES_LEVEL_0)}
-			<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
+			<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
 		{/if}
 		{if !empty($MODULES_LEVEL_1)}
-			<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
+			<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
 		{/if}
 		{if !empty($MODULES_LEVEL_2)}
-			<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(\includes\utils\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
+			<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
 		{/if}
 		<div class="row actionBar">
 			<div class="col-4" >
@@ -27,7 +27,7 @@
 							<div class="col">
 								{vtranslate('LBL_RELATIONS',$MODULE_NAME)}
 								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_0" value=Vtiger_ModulesHierarchy_Model::accessModulesByLevel()}
+									{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
 									{if $ACCESS_LEVEL_0}
 										<select class="module">
 											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
@@ -40,7 +40,7 @@
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
-									{if Vtiger_ModulesHierarchy_Model::accessModulesByLevel(0,'DetailView')}
+									{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{vtranslate('LBL_SELECT_RECORD',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
@@ -71,7 +71,7 @@
 							<div class="col">
 								{vtranslate('LBL_PROCESS',$MODULE_NAME)}
 								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_1" value=Vtiger_ModulesHierarchy_Model::accessModulesByLevel(1)}
+									{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
 									{if $ACCESS_LEVEL_1}
 										<select class="module">
 											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_1}
@@ -84,7 +84,7 @@
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
-									{if Vtiger_ModulesHierarchy_Model::accessModulesByLevel(1,'DetailView')}
+									{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{vtranslate('LBL_SELECT_RECORD',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
@@ -115,11 +115,11 @@
 							<div class="col">
 								{vtranslate('LBL_SUB_PROCESS',$MODULE_NAME)}
 								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_2" value=Vtiger_ModulesHierarchy_Model::accessModulesByLevel(2)}
+									{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
 									{if $ACCESS_LEVEL_2}
 										<select class="module">
-											{foreach item="ITEM" key="MODULE" from=Vtiger_ModulesHierarchy_Model::accessModulesByLevel(1)}
-												{assign var="ACCESS_PARENT" value=Vtiger_ModulesHierarchy_Model::accessModulesByParent($MODULE)}
+											{foreach item="ITEM" key="MODULE" from=\App\ModuleHierarchy::accessModulesByLevel(1)}
+												{assign var="ACCESS_PARENT" value=\App\ModuleHierarchy::accessModulesByParent($MODULE)}
 												{if $ACCESS_PARENT}
 													<optgroup label="{vtranslate($MODULE,$MODULE)}">
 														{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
@@ -135,7 +135,7 @@
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
-									{if Vtiger_ModulesHierarchy_Model::accessModulesByLevel(2, 'DetailView')}
+									{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
 										<button class="selectRecord" data-type="0" title="{vtranslate('LBL_SELECT_RECORD',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>

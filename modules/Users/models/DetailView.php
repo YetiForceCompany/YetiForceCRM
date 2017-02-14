@@ -32,7 +32,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => 'LBL_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
 					'linkicon' => ''
-				)
+				),
 			);
 			if (vglobal('systemMode') != 'demo') {
 				$detailViewLinks[] = array(
@@ -65,19 +65,23 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				$linkModelList['DETAILVIEWPREFERENCE'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 
+			$detailViewActionLinks = [];
 			if ($currentUserModel->isAdminUser() && $currentUserModel->get('id') != $recordId) {
-				$detailViewActionLinks = array(
-					array(
+				$detailViewActionLinks[] = [
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => 'LBL_DELETE',
 						'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
 						'linkicon' => ''
-					)
-				);
-
-				foreach ($detailViewActionLinks as $detailViewLink) {
-					$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
-				}
+				];
+			}
+			$detailViewActionLinks[] = array(
+				'linktype' => 'DETAILVIEW',
+				'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
+				'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module=Users&action=SaveAjax&mode=changeAccessKey&record=$recordId')",
+				'linkicon' => ''
+			);
+			foreach ($detailViewActionLinks as $detailViewLink) {
+				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 			return $linkModelList;
 		}
