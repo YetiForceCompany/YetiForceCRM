@@ -16,14 +16,14 @@ class WebUI extends TestCase
 	public function testListView()
 	{
 		ob_start();
-		foreach (vtlib\Functions::getAllModules() as $id => &$module) {
-			if ($module['name'] === 'Events' || !\vtlib\Module::getInstance($id)) {
+		foreach (vtlib\Functions::getAllModules() as $id => $module) {
+			if ($module['name'] === 'Events' || !\App\Module::isModuleActive($id)) {
 				continue;
 			}
 			$request = AppRequest::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
-
+			print_r($module);
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
 		}
