@@ -16,6 +16,7 @@ class WebUI extends TestCase
 	public function testListView()
 	{
 		ob_start();
+		\App\Cache::clear();
 		foreach (vtlib\Functions::getAllModules() as $id => $module) {
 			if ($module['name'] === 'Events' || !\App\Module::isModuleActive($module['name'])) {
 				continue;
@@ -23,7 +24,6 @@ class WebUI extends TestCase
 			$request = AppRequest::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
-			file_put_contents('tests/ListView.txt', print_r([$module, $request], true));
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
 		}
