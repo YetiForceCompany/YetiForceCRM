@@ -3811,12 +3811,6 @@ CREATE TABLE `vtiger_blocks_hide` (
   KEY `blockid_2` (`blockid`,`enabled`,`view`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_blocks_seq` */
-
-CREATE TABLE `vtiger_blocks_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_calendar_config` */
 
 CREATE TABLE `vtiger_calendar_config` (

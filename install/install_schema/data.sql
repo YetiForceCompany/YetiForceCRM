@@ -1405,10 +1405,6 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 
 /*Data for the table `vtiger_blocks_hide` */
 
-/*Data for the table `vtiger_blocks_seq` */
-
-insert  into `vtiger_blocks_seq`(`id`) values (375);
-
 /*Data for the table `vtiger_calendar_config` */
 
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('colors','break','PLL_BREAK_TIME','#ffd000');
