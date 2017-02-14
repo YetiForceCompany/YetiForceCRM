@@ -23,12 +23,10 @@ class WebUI extends TestCase
 			$request = AppRequest::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
-			print_r($module);
-			file_put_contents('tests/ListView.txt', ob_get_contents());
+			file_put_contents('tests/ListView.txt', print_r([$module, $request], true));
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
 		}
-		file_put_contents('tests/ListView.txt', ob_get_contents());
 		ob_end_clean();
 	}
 
