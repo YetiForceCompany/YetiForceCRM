@@ -18,7 +18,7 @@ $authenticatedUserId = Vtiger_Session::get('authenticated_user_id');
 $appUniqueKey = Vtiger_Session::get('app_unique_key');
 $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === AppConfig::main('application_unique_key'));
 
-if (PHP_SAPI === 'cli' || $user || $appUniqueKey === AppRequest::get('app_key')) {
+if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') === AppRequest::get('app_key')) {
 	$cronTasks = false;
 	vtlib\Cron::setCronAction(true);
 	if (AppRequest::has('service')) {
