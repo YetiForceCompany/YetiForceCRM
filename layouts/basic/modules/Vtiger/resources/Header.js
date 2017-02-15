@@ -967,5 +967,8 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 });
 jQuery(document).ready(function () {
+	$(window).on('popstate', function (event) {
+		window.location.href = event.state.url;
+	});
 	Vtiger_Header_Js.getInstance().registerEvents();
 });
