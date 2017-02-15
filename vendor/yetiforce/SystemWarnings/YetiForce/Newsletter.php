@@ -46,7 +46,8 @@ class Newsletter extends \App\SystemWarnings\Template
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION');
 			return 'ERR_NO_INTERNET_CONNECTION';
 		}
-		$return = false;
+		$result = false;
+		$message = \App\Language::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
 		try {
 			$request = \Requests::POST('https://api.yetiforce.com/newsletter', [], array_merge($params, [
 					'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
@@ -56,11 +57,12 @@ class Newsletter extends \App\SystemWarnings\Template
 					]), ['useragent' => 'YetiForceCRM']);
 			if ($request->body === 'OK') {
 				file_put_contents('cache/' . $this->getKey(), 'Newsletter');
-				$return = true;
+				$result = true;
+				$message = \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
 			}
 		} catch (\Exception $exc) {
 			\App\Log::warning($exc->getMessage());
 		}
-		return $return;
+		return ['result' => $result, 'message' => $message];
 	}
 }

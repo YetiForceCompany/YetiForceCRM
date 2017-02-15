@@ -401,7 +401,13 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 								mode: 'update',
 								id: btn.closest('.warning').data('id'),
 								params: params,
-							});
+							}).then(function (data) {
+								if(data.result.result){
+									Vtiger_Helper_Js.showMessage({text : data.result.message, type: 'success', animation: 'show'});
+								}else{
+									Vtiger_Helper_Js.showMessage({text : data.result.message, type: 'error', animation: 'show'});
+								}
+							})
 						}
 					}
 					if (btn.hasClass('cancel')) {

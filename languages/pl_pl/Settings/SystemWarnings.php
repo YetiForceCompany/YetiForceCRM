@@ -18,6 +18,8 @@ $languageStrings = [
 	// Alerts
 	'LBL_SAVE_TO_NEWSLETTER' => 'Zapisz się do newslettera',
 	'LBL_REMIND_LATER' => 'Przypomnij później',
+	'LBL_DATA_SAVE_OK' => 'Dane zostały zapisane poprawnie',
+	'LBL_DATA_SAVE_FAIL' => 'Wystąpił błąd w trakcie zapisu, sprawdź logi',
 	// Others
 	'BTN_SET_IGNORE' => 'Ignoruj',
 	'BTN_REMOVE_IGNORE' => 'Usuń z ignorowanych',

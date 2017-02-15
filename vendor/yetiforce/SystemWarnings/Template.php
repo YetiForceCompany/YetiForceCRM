@@ -152,6 +152,6 @@ abstract class Template
 			$fileContent = preg_replace('/{/', $replacement, $fileContent, 1);
 		}
 		file_put_contents($filePath, $fileContent);
-		return true;
+		return ['result' => true, 'message' => \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings')];
 	}
 }
