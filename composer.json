@@ -39,7 +39,8 @@
 		"phpmailer/phpmailer": ">=v5.2.22",
 		"ezyang/htmlpurifier": ">=v4.8.0",
 		"symfony/var-dumper": "v3.2.2",
-		"simshaun/recurr": "v2.1"
+		"simshaun/recurr": "v2.1",
+		"linfo/linfo": "v3.0.1"
 	},
 	"archive": {
 		"exclude": [

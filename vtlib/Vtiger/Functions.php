@@ -877,11 +877,11 @@ class Functions
 		if ($bytes >= 1073741824) {
 			$unit = 'GB';
 			$gb = $bytes / 1073741824;
-			$str = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $unit;
+			$str = sprintf($gb >= 10 ? "%d " : "%.2f ", $gb) . $unit;
 		} else if ($bytes >= 1048576) {
 			$unit = 'MB';
 			$mb = $bytes / 1048576;
-			$str = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $unit;
+			$str = sprintf($mb >= 10 ? "%d " : "%.2f ", $mb) . $unit;
 		} else if ($bytes >= 1024) {
 			$unit = 'KB';
 			$str = sprintf("%d ", round($bytes / 1024)) . $unit;

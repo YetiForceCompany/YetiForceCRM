@@ -291,13 +291,18 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return $directiveValues;
 	}
 
+	/**
+	 * Get system details
+	 * @return array
+	 */
 	public static function getSystemInfo()
 	{
 		$params = [
 			'LBL_PHPINI' => php_ini_loaded_file(),
 			'LBL_LOG_FILE' => ini_get('error_log'),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
-			'LBL_PHP_SAPI' => PHP_SAPI
+			'LBL_PHP_SAPI' => PHP_SAPI,
+			'LBL_PHP_SAPI' => php_uname()
 		];
 		if (file_exists('user_privileges/cron.php')) {
 			include 'user_privileges/cron.php';
@@ -306,6 +311,33 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$params['LBL_CRON_LOG_FILE'] = $log;
 			$params['LBL_CRON_PHP_SAPI'] = $sapi;
 		}
+		return $params;
+	}
+
+	/**
+	 * Get hardware details
+	 * @return type
+	 */
+	public static function getHardwareInfo()
+	{
+		$linfo = new \Linfo\Linfo;
+		$parser = $linfo->getParser();
+		$params = [];
+		$core = 0;
+		foreach ($parser->getCPU() as $key => $value) {
+			$core++;
+			$cpu = "{$value['Model']} , {$value['MHz']} MHz";
+			if (isset($value['usage_percentage'])) {
+				$cpu .= ', ' . App\Language::translate('LBL_CPU_USAGE', 'Settings::ConfReport') . ": {$value['usage_percentage']} %";
+			}
+			$params['LBL_CPU'][] = $cpu;
+		}
+		$ram = $parser->getRam();
+		$precent = number_format(($ram['free'] / $ram['total']) * 100);
+		$params['LBL_RAM'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
+		$disk = \vtlib\Functions::getDiskSpace();
+		$precent = number_format(($disk['free'] / $disk['total']) * 100);
+		$params['LBL_HDD'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
 		return $params;
 	}
 
