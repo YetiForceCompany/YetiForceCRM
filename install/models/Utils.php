@@ -120,7 +120,7 @@ class Install_Utils_Model
 					// create the new database
 					$db_creation_failed = true;
 
-					$query = "CREATE DATABASE " . $db_name;
+					$query = "CREATE DATABASE `$db_name`";
 					if ($create_utf8_db == 'true') {
 						if (self::isMySQL($db_type))
 							$query .= ' DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci';
