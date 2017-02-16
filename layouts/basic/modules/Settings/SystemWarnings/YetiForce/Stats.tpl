@@ -15,6 +15,12 @@
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
 			</span>
+			<input type="text" name="company_industry" class="form-control" placeholder="{App\Language::translate('LBL_INDUSTRY','Settings:Companies')}" value="{$COMPANY->get('industry')}">
+		</div><br>
+		<div class="input-group">
+			<span class="input-group-addon">
+				<input type="checkbox" checked>
+			</span>
 			<input type="text" name="company_city" class="form-control" placeholder="{App\Language::translate('LBL_CITY','Settings:Companies')}" value="{$COMPANY->get('city')}">
 		</div><br>
 		<div class="input-group">
