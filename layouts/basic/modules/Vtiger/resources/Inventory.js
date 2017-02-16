@@ -744,8 +744,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
-			$('textarea.commentTextarea', parentRow.next()).html(description);
-
+			var commentElement = $('textarea.commentTextarea', parentRow.next());
+			var editorInstance = CKEDITOR.instances[commentElement.attr('id')];
+			if (editorInstance) {
+				editorInstance.setData(description);
+			} else {
+				commentElement.html(description);
+			}
 			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
 				$('input.qtyparam', parentRow).prop('checked', false);
 				switch (recordData['autoFields']['unit']) {
