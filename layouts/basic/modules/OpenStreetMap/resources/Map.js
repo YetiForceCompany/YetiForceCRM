@@ -249,9 +249,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var searchValue = container.find('.searchCompany');
 		var searchModule = container.find('.searchModule');
 		var addButton = container.find('.addRecord');
-		var map = this.mapInstance;
-		var markers = this.layerMarkers;
+		var thistInstance = this;
 		addButton.on('click', function () {
+			var map = thistInstance.mapInstance;
+			var markers = thistInstance.layerMarkers;
 			var crmId = addButton.data('crmId');
 			if (crmId == '')
 				return false;
