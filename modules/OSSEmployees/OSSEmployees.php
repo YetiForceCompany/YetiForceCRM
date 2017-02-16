@@ -45,16 +45,18 @@ class OSSEmployees extends Vtiger_CRMEntity
 	public $list_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'No.' => Array('ossemployees', 'ossemployees_no'),
+		'LBL_LASTNAME' => Array('ossemployees', 'last_name'),
+		'LBL_NAME' => Array('ossemployees', 'name'),
+		'LBL_BUSINESSPHONE' => Array('ossemployees', 'business_phone'),
+		'LBL_BUSINESSMAIL' => Array('ossemployees', 'business_mail'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Created Time' => Array('crmentity', 'createdtime'),
 	);
 	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
-		'No.' => 'ossemployees_no',
 		'LBL_LASTNAME' => 'last_name',
 		'LBL_NAME' => 'name',
 		'LBL_BUSINESSPHONE' => 'business_phone',
+		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
 	);
 
@@ -66,14 +68,18 @@ class OSSEmployees extends Vtiger_CRMEntity
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
 	public $search_fields = Array(
-		'No.' => Array('ossemployees', 'ossemployees_no'),
+		'LBL_LASTNAME' => Array('ossemployees', 'last_name'),
+		'LBL_NAME' => Array('ossemployees', 'name'),
+		'LBL_BUSINESSPHONE' => Array('ossemployees', 'business_phone'),
+		'LBL_BUSINESSMAIL' => Array('ossemployees', 'business_mail'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Created Time' => Array('crmentity', 'createdtime'),
 	);
 	public $search_fields_name = Array(
-		'No.' => 'ossemployees_no',
+		'LBL_LASTNAME' => 'last_name',
+		'LBL_NAME' => 'name',
+		'LBL_BUSINESSPHONE' => 'business_phone',
+		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
-		'Created Time' => 'createdtime',
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('last_name');
