@@ -1840,7 +1840,7 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerSlimScrollMassEdit: function () {
-		app.showScrollBar(jQuery('div[name="massEditContent"]'), {'height': '100%'});
+		app.showScrollBar(jQuery('div[name="massEditContent"]'), {'height': app.getScreenHeight(70) + 'px'});
 	},
 	/*
 	 * Function to register the submit event for mass Actions save
