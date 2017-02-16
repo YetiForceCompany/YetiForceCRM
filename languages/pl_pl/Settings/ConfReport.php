@@ -61,5 +61,10 @@ $languageStrings = [
 	'LBL_CRON_PHP' => 'Cron - Wersja PHP',
 	'LBL_CRON_PHPINI' => 'Cron - Konfiguracja PHP',
 	'LBL_CRON_LOG_FILE' => 'Cron - Logi błedów',
-	'LBL_CRON_PHP_SAPI' => 'Cron - Server API',
+	'LBL_ENVIRONMENTAL_INFORMATION' => 'Informacje o środowisku',
+	'LBL_HARDWARE_INFORMATION' => 'Informacje o sprzęcie',
+	'LBL_CPU_USAGE' => 'Obciążenie',
+	'LBL_CPU' => 'Procesor',
+	'LBL_HDD' => 'Dysk',
+	'LBL_RAM' => 'Pamięć',
 ];
