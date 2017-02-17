@@ -137,7 +137,7 @@ class User
 		if ($userId) {
 			unset(self::$userPrivilegesCache[$userId], self::$userSharingCache[$userId], static::$userModelCache[$userId]);
 			if (static::$currentUserId === $userId) {
-				unset(static::$currentUserCache);
+				static::$currentUserCache = false;
 			}
 		} else {
 			self::$userPrivilegesCache = self::$userSharingCache = static::$userModelCache = [];
