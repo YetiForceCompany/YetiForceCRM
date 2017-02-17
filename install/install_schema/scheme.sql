@@ -4991,7 +4991,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 
@@ -6200,7 +6200,7 @@ CREATE TABLE `vtiger_loginhistory` (
   `user_name` varchar(32) DEFAULT NULL,
   `user_ip` varchar(50) NOT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
-  `login_time` timestamp NOT NULL,
+  `login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`login_id`),
