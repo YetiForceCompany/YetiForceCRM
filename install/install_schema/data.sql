@@ -4364,7 +4364,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (54,'EntityAfterSave','OpenStreetMap_OpenStreetMapHandler_Handler',1,'Accounts,Leads,Partners,Vendors,Competition,Contacts','',3,110);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (55,'EntitySystemAfterCreate','Vtiger_AutomaticAssignment_Handler',0,'','',5,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (56,'EntityAfterSave','ModTracker_ModTrackerHandler_Handler',1,'','',5,32);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (57,'','',0,'','',5,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`) values (57,'EntityAfterSave','Vtiger_MultiReferenceUpdater_Handler',1,'','',5,0);
 
 /*Data for the table `vtiger_eventstatus` */
 
