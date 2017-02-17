@@ -43,25 +43,28 @@
 		</head>
 		<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
 			<div id="js_strings" class="hide noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
-			<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
-			<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
-			<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
-			<input type="hidden" id="userDateFormat" value="{$USER_MODEL->get('date_format')}" />
-			<input type="hidden" id="userTimeFormat" value="{$USER_MODEL->get('hour_format')}" />
-			<input type="hidden" id="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
-			<input type="hidden" id="currencyGroupingSeparator" value="{$USER_MODEL->get('currency_grouping_separator')}" />
-			<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
-			<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
-			<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
-			<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
-			<input type="hidden" id="gsAutocomplete" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE')}" />
-			<input type="hidden" id="gsMinLength" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}" />
-			<input type="hidden" id="gsAmountResponse" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}" />
-			<input type="hidden" id="module" value="{$MODULE}"/>
-			<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
-			<input type="hidden" id="view" value="{$VIEW}"/>
-			<input type="hidden" id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(AppConfig::sounds()))}"/>
-			<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
+			<div id="configuration">
+				<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
+				<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
+				<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
+				<input type="hidden" id="userDateFormat" value="{$USER_MODEL->get('date_format')}" />
+				<input type="hidden" id="userTimeFormat" value="{$USER_MODEL->get('hour_format')}" />
+				<input type="hidden" id="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
+				<input type="hidden" id="currencyGroupingSeparator" value="{$USER_MODEL->get('currency_grouping_separator')}" />
+				<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
+				<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
+				<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
+				<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
+				<input type="hidden" id="gsAutocomplete" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE')}" />
+				<input type="hidden" id="gsMinLength" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}" />
+				<input type="hidden" id="gsAmountResponse" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}" />
+				<input type="hidden" id="module" value="{$MODULE}"/>
+				<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
+				<input type="hidden" id="view" value="{$VIEW}"/>
+				<input type="hidden" id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(AppConfig::sounds()))}"/>
+				<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
+				<input type="hidden" id="fieldsReferencesDependent" value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
+			</div>
 			<div id="page">
 				<!-- container which holds data temporarly for pjax calls -->
 				<div id="pjaxContainer" class="hide noprint"></div>
