@@ -67,4 +67,11 @@ $languageStrings = [
 	'LBL_CPU' => 'Procesor',
 	'LBL_HDD' => 'Dysk',
 	'LBL_RAM' => 'Pamięć',
+	'BTN_SERVER_SPEED_TEST' => 'Sprawdź szybkość serwera',
+	'LBL_SERVER_SPEED_TEST' => 'Test szybkości serwera',
+	'LBL_READ_TEST' => 'Odczyt (ilość załadowanych plików na sekundę)',
+	'LBL_WRITE_TEST' => 'Zapis (ilość utworzonych plików na sekundę)',
+];
+$jsLanguageStrings = [
+	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
 ];
