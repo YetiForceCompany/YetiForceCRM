@@ -49,7 +49,6 @@ after_script:
 - cd ..
 - cat tests/LoginPage.txt
 - cat tests/DetailView.txt
-- cat tests/ListView.txt
 - cat tests/EditView.txt
 - cat tests/records.log
 - cat cache/logs/request.log

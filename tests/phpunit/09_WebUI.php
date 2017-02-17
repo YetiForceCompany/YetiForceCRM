@@ -27,7 +27,6 @@ class WebUI extends TestCase
 			$request->set('view', 'List');
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
-			file_put_contents('tests/ListView.txt', ob_get_contents(), FILE_APPEND);
 			ob_end_clean();
 		}
 	}
