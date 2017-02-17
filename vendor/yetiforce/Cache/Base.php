@@ -72,6 +72,6 @@ class Base
 	 */
 	public function clear()
 	{
-		static::$cache[$key] = [];
+		static::$cache = [];
 	}
 }
