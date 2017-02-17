@@ -12,7 +12,7 @@ class Record extends \Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
-	public $allowedMethod = ['GET', 'DELETE', 'PUT'];
+	public $allowedMethod = ['GET', 'DELETE', 'PUT', 'POST'];
 
 	/**
 	 * Get record detail
@@ -90,7 +90,7 @@ class Record extends \Api\Core\BaseAction
 	}
 
 	/**
-	 * Save record
+	 * Edit record
 	 * @return array
 	 */
 	public function put()
@@ -99,20 +99,41 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->get('module');
 		$record = $this->controller->request->get('record');
 		$result = false;
-		if ($record) {
+		if (\App\Record::isExists($record, $moduleName)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		} else {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		}
-		foreach ($recordData as $key => $value) {
-			$recordModel->set($key, $value);
-		}
-		if (!$record && $recordModel->isCreateable() || $record && $recordModel->isEditable()) {
-			$recordModel->save();
-			$result = true;
+			foreach ($recordData as $key => $value) {
+				$recordModel->set($key, $value);
+			}
+			if ($recordModel->isEditable()) {
+				$recordModel->save();
+				$result = true;
+			} else {
+				$message = \App\Language::translate('Permission to perform the operation is denied');
+			}
 		} else {
 			$message = \App\Language::translate('Permission to perform the operation is denied');
 		}
-		return ['id' => $recordModel->getId(), 'result' => $result, 'message' => $message];
+
+		return ['id' => $record, 'result' => $result, 'message' => $message];
+	}
+
+	/**
+	 * Create record
+	 * @return array
+	 */
+	public function post()
+	{
+		$recordData = $this->controller->request->get('recordData');
+		$moduleName = $this->controller->request->get('module');
+		$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+		foreach ($recordData as $key => $value) {
+			$recordModel->set($key, $value);
+		}
+		if ($recordModel->isCreateable()) {
+			$recordModel->save();
+		} else {
+			$message = \App\Language::translate('Permission to perform the operation is denied');
+		}
+		return ['id' => $recordModel->getId(), 'result' => (bool) $recordModel->getId(), 'message' => $message];
 	}
 }
