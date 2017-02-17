@@ -1194,7 +1194,11 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($returnString) {
 			$string = $data['type'];
 			if ($data['size']) {
-				$string .= '(' . $data['size'] . ')';
+				if ($data['type'] === 'decimal') {
+					$string .= '(' . $data['size'] . ',' . $data['scale'] . ')';
+				} else {
+					$string .= '(' . $data['size'] . ')';
+				}
 			}
 			return $string;
 		}

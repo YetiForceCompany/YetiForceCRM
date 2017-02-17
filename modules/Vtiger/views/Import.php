@@ -209,7 +209,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$dbTableName = Import_Module_Model::getDbTableName($user);
-		$query = (new \App\Db\Query())->select(['recordid'])->from($dbTableName)->where(['temp_status' => Import_Data_Action::$IMPORT_RECORD_CREATED, 'recordid' => null]);
+		$query = (new \App\Db\Query())->select(['recordid'])->from($dbTableName)->where(['temp_status' => Import_Data_Action::IMPORT_RECORD_CREATED, 'recordid' => null]);
 		$dataReader = $query->createCommand()->query();
 		$noOfRecords = $noOfRecordsDeleted = 0;
 		$rows = [];
