@@ -130,12 +130,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $fieldTypesInfo;
 	}
 
+	/**
+	 * Add field
+	 * @param string $fieldType
+	 * @param int $blockId
+	 * @param array $params
+	 * @return \Settings_LayoutEditor_Field_Model
+	 * @throws Exception
+	 */
 	public function addField($fieldType, $blockId, $params)
 	{
 		$label = $params['fieldLabel'];
 		$type = $params['fieldTypeList'];
 		$name = strtolower($params['fieldName']);
-		$fieldparams = '';
+		$fieldParams = '';
 		if ($this->checkFieldLableExists($label)) {
 			throw new Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
@@ -166,13 +174,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		if ($fieldType == 'Tree') {
-			$fieldparams = (int) $params['tree'];
+			$fieldParams = (int) $params['tree'];
 		} elseif ($fieldType == 'MultiReferenceValue') {
-			$fieldparams['module'] = $params['MRVModule'];
-			$fieldparams['field'] = $params['MRVField'];
-			$fieldparams['filterField'] = $params['MRVFilterField'];
-			$fieldparams['filterValue'] = $params['MRVFilterValue'];
-			\App\Db::getInstance()->createCommand()->insert('s_yf_multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+			$fieldParams = [];
+			$fieldParams['module'] = $params['MRVModule'];
+			$fieldParams['field'] = $params['MRVField'];
+			$fieldParams['filterField'] = $params['MRVFilterField'];
+			$fieldParams['filterValue'] = $params['MRVFilterValue'];
+			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];
@@ -189,7 +198,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
-			->set('fieldparams', $fieldparams ? \App\Json::encode($fieldparams) : '')
+			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
 
 		if (isset($details['displayType'])) {
