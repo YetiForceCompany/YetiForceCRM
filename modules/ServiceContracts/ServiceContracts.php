@@ -43,17 +43,21 @@ class ServiceContracts extends CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Contract No' => Array('servicecontracts', 'contract_no'),
+		'Related to' => Array('servicecontracts', 'sc_related_to'),
+		'Status' => Array('servicecontracts', 'contract_status'),
 		'Used Units' => Array('servicecontracts', 'used_units'),
-		'Total Units' => Array('servicecontracts', 'total_units')
+		'Total Units' => Array('servicecontracts', 'total_units'),
+		'Contract No' => Array('servicecontracts', 'contract_no'),
 	);
 	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-		'Contract No' => 'contract_no',
+		'Related To' => 'sc_related_to',
+		'Status' => 'contract_status',
 		'Used Units' => 'used_units',
-		'Total Units' => 'total_units'
+		'Total Units' => 'total_units',
+		'Contract No' => 'contract_no',
 	);
 
 	/**
@@ -67,18 +71,22 @@ class ServiceContracts extends CRMEntity
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
-		'Contract No' => Array('servicecontracts', 'contract_no'),
-		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
+		'Assigned To' => Array('crmentity', 'smownerid'),
+		'Related to' => Array('servicecontracts', 'sc_related_to'),
+		'Status' => Array('servicecontracts', 'contract_status'),
 		'Used Units' => Array('servicecontracts', 'used_units'),
-		'Total Units' => Array('servicecontracts', 'total_units')
+		'Total Units' => Array('servicecontracts', 'total_units'),
+		'Contract No' => Array('servicecontracts', 'contract_no'),
 	);
 	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
-		'Contract No' => 'contract_no',
 		'Assigned To' => 'assigned_user_id',
+		'Related To' => 'sc_related_to',
+		'Status' => 'contract_status',
 		'Used Units' => 'used_units',
-		'Total Units' => 'total_units'
+		'Total Units' => 'total_units',
+		'Contract No' => 'contract_no',
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('subject');
