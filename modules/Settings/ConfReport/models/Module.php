@@ -320,8 +320,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHardwareInfo()
 	{
-		$linfo = new \Linfo\Linfo;
-		$parser = $linfo->getParser();
+		try {
+			$linfo = new \Linfo\Linfo;
+			$parser = $linfo->getParser();
+		} catch (Exception $exc) {
+			return [];
+		}
 		$params = [];
 		$core = 0;
 		foreach ($parser->getCPU() as $key => $value) {
@@ -391,5 +395,36 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if (($value & $level) == $level)
 				$levels[] = $name;
 		return $levels;
+	}
+
+	/**
+	 * Test server speed
+	 * @return array
+	 */
+	public static function testSpeed()
+	{
+		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'speed' . DIRECTORY_SEPARATOR;
+		if (!is_dir($dir)) {
+			mkdir($dir, 0777);
+		}
+		$i = 5000;
+		$p = time();
+		$writeS = microtime(true);
+		for ($index = 0; $index < $i; $index++) {
+			file_put_contents("{$dir}{$p}{$index}.php", '<?php return [];');
+		}
+		$writeE = microtime(true);
+		$iterator = new \DirectoryIterator($dir);
+		$readS = microtime(true);
+		foreach ($iterator as $item) {
+			if (!$item->isDot() && !$item->isDir()) {
+				include $item->getPathname();
+			}
+		}
+		$readE = microtime(true);
+		$read = $i / ($readE - $readS);
+		$write = $i / ($writeE - $writeS);
+		\vtlib\Functions::recurseDelete('cache/speed');
+		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
 	}
 }

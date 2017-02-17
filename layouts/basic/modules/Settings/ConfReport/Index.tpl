@@ -2,9 +2,15 @@
 
 <div class="">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-xs-10">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
+		</div>
+		<div class="col-xs-2">
+			<button class="btn btn-primary testSpeed pull-right">
+				<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
+				{vtranslate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+			</button>
 		</div>
 	</div>
     <ul class="nav nav-tabs">
