@@ -159,23 +159,23 @@ class Import_Main_View extends Vtiger_View_Controller
 			$hasHeader = $fileReader->hasHeader();
 			if ($hasHeader) {
 				$firstRowData = $fileReader->getFirstRowData($hasHeader);
-				$headers = array_keys($firstRowData);
+				$headers = array_keys($firstRowData['LBL_STANDARD_FIELDS']);
+				if (isset($firstRowData['LBL_INVENTORY_FIELDS'])) {
+					$headers = array_merge($headers, array_keys($firstRowData['LBL_INVENTORY_FIELDS']));
+				}
 				foreach ($fieldMapping as $fieldName => $index) {
 					$saveMapping["$headers[$index]"] = $fieldName;
 				}
 			} else {
 				$saveMapping = array_flip($fieldMapping);
 			}
-
-			$map = array();
+			$map = [];
 			$map['name'] = $mapName;
 			$map['content'] = $saveMapping;
 			$map['module'] = $this->request->get('module');
 			$map['has_header'] = ($hasHeader) ? 1 : 0;
 			$map['assigned_user_id'] = $this->user->id;
-
-			$importMap = new Import_Map_Model($map, $this->user);
-			$importMap->save();
+			(new Import_Map_Model($map, $this->user))->save();
 		}
 	}
 
