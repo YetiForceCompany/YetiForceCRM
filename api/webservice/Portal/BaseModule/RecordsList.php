@@ -59,7 +59,7 @@ class RecordsList extends \Api\Core\BaseAction
 			$this->getQueryByParentRecord($queryGenerator);
 		}
 		$limit = 1000;
-		if ($requestLimit = $this->controller->request->getHeader('X-ROW-LIMT')) {
+		if ($requestLimit = $this->controller->request->getHeader('X-ROW-LIMIT')) {
 			$limit = (int) $requestLimit;
 		}
 		$offset = 1;
@@ -68,6 +68,10 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		$queryGenerator->setLimit($limit);
 		$queryGenerator->setOffset($offset);
+		if ($requestFields = $this->controller->request->getHeader('X-FIELDS')) {
+			$queryGenerator->setFields(\App\Json::decode($requestFields));
+			$queryGenerator->setField('id');
+		}
 		return $queryGenerator;
 	}
 
