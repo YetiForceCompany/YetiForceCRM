@@ -23,6 +23,7 @@ class RecordsList extends \Api\Core\BaseAction
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
+		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
@@ -36,10 +37,12 @@ class RecordsList extends \Api\Core\BaseAction
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
+		$rowsCount = count($records);
 		return [
 			'headers' => $headers,
 			'records' => $records,
-			'count' => count($records)
+			'count' => $rowsCount,
+			'isMorePages' => $rowsCount === $limit,
 		];
 	}
 
@@ -55,6 +58,16 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($this->getPermissionType() !== 1) {
 			$this->getQueryByParentRecord($queryGenerator);
 		}
+		$limit = 1000;
+		if ($requestLimit = $this->controller->request->getHeader('X-ROW-LIMT')) {
+			$limit = (int) $requestLimit;
+		}
+		$offset = 1;
+		if ($requestOffset = $this->controller->request->getHeader('X-ROW-OFFSET')) {
+			$offset = (int) $requestOffset;
+		}
+		$queryGenerator->setLimit($limit);
+		$queryGenerator->setOffset($offset);
 		return $queryGenerator;
 	}
 
