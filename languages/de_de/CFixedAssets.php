@@ -7,8 +7,8 @@
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
-	'CFixedAssets' => 'Anlagevermögen',
-	'SINGLE_CFixedAssets' => 'Anlagevermögen',
+	'CFixedAssets' => 'Anschaffungskosten',
+	'SINGLE_CFixedAssets' => 'Anschaffungskosten',
 	//BLOCKS
 	'LBL_VEHICLE' => 'Fahrzeug',
 	'LBL_BASIC_INFORMATION' => 'Information',
