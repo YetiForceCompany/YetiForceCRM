@@ -83,6 +83,22 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
+
+		if ($recordModel->isDeletable() && $recordModel->get('reapeat') === 1) {
+			foreach ($linkModelList['DETAILVIEW'] as $key => $linkObject) {
+				if ($linkObject->linklabel == 'LBL_DELETE_RECORD') {
+					unset($linkModelList['DETAILVIEW'][$key]);
+				}
+			}
+			$deletelinkModel = [
+				'linktype' => 'DETAILVIEW',
+				'linklabel' => 'LBL_DELETE_RECORD',
+				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'title' => App\Language::translate('LBL_DELETE_RECORD')
+			];
+			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+		}
 		return $linkModelList;
 	}
 }

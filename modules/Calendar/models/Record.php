@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~~include/utils/RecurringType.php');
 
 class Calendar_Record_Model extends Vtiger_Record_Model
 {
@@ -104,44 +103,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return 'index.php?module=Calendar&view=' . $module->getDetailViewName() . '&record=' . $this->getId();
 	}
 
-	/**
-	 * Function returns recurring information for EditView
-	 * @return <Array> - which contains recurring Information
-	 */
-	public function getRecurrenceInformation()
-	{
-		$recurringObject = $this->getRecurringObject();
-
-		if ($recurringObject) {
-			$recurringData['recurringcheck'] = 'Yes';
-			$recurringData['repeat_frequency'] = $recurringObject->getRecurringFrequency();
-			$recurringData['eventrecurringtype'] = $recurringObject->getRecurringType();
-			$recurringEndDate = $recurringObject->getRecurringEndDate();
-			if (!empty($recurringEndDate)) {
-				$recurringData['recurringenddate'] = $recurringEndDate->get_formatted_date();
-			}
-			$recurringInfo = $recurringObject->getUserRecurringInfo();
-
-			if ($recurringObject->getRecurringType() == 'Weekly') {
-				$noOfDays = count($recurringInfo['dayofweek_to_repeat']);
-				for ($i = 0; $i < $noOfDays; ++$i) {
-					$recurringData['week' . $recurringInfo['dayofweek_to_repeat'][$i]] = 'checked';
-				}
-			} elseif ($recurringObject->getRecurringType() == 'Monthly') {
-				$recurringData['repeatMonth'] = $recurringInfo['repeatmonth_type'];
-				if ($recurringInfo['repeatmonth_type'] == 'date') {
-					$recurringData['repeatMonth_date'] = $recurringInfo['repeatmonth_date'];
-				} else {
-					$recurringData['repeatMonth_daytype'] = $recurringInfo['repeatmonth_daytype'];
-					$recurringData['repeatMonth_day'] = $recurringInfo['dayofweek_to_repeat'][0];
-				}
-			}
-		} else {
-			$recurringData['recurringcheck'] = 'No';
-		}
-		return $recurringData;
-	}
-
 	public function saveToDb()
 	{
 		//Time should changed to 24hrs format
@@ -195,7 +156,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
 					'activity_id' => $this->getId(),
-					'recurringid' => 0
 				])->execute();
 			}
 		} else {
@@ -272,44 +232,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				])->execute();
 			}
 		}
-	}
-
-	/**
-	 * Function to get recurring information for the current record in detail view
-	 * @return array - which contains Recurring Information
-	 */
-	public function getRecurringDetails()
-	{
-		$recurringObject = $this->getRecurringObject();
-		if ($recurringObject) {
-			$recurringInfoDisplayData = $recurringObject->getDisplayRecurringInfo();
-			$recurringEndDate = $recurringObject->getRecurringEndDate();
-		} else {
-			$recurringInfoDisplayData['recurringcheck'] = \App\Language::translate('LBL_NO');
-			$recurringInfoDisplayData['repeat_str'] = '';
-		}
-		if (!empty($recurringEndDate)) {
-			$recurringInfoDisplayData['recurringenddate'] = $recurringEndDate->get_formatted_date();
-		}
-
-		return $recurringInfoDisplayData;
-	}
-
-	/**
-	 * Function to get the recurring object
-	 * @return Object - recurring object
-	 */
-	public function getRecurringObject()
-	{
-		$result = (new \App\Db\Query())->select(['vtiger_recurringevents.*', 'vtiger_activity.date_start', 'vtiger_activity.time_start', 'vtiger_activity.due_date', 'vtiger_activity.time_end'])
-				->from('vtiger_recurringevents')
-				->innerJoin('vtiger_activity', 'vtiger_recurringevents.activityid = vtiger_activity.activityid')
-				->where(['vtiger_recurringevents.activityid' => (int) $this->getId()])->one();
-
-		if ($result) {
-			return RecurringType::fromDBRequest($result);
-		}
-		return false;
 	}
 
 	/**

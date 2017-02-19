@@ -530,7 +530,9 @@ var app = {
 				params = jQuery.extend(params, paramsObject);
 			}
 			container.html(data);
-
+			if(container.find('.modal').hasClass('static')){
+				params.backdrop = 'static';
+			}
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog. 
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop

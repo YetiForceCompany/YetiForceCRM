@@ -28,8 +28,8 @@ class Picklist
 				->from("vtiger_$fieldName")
 				->innerJoin('vtiger_role2picklist', "vtiger_role2picklist.picklistvalueid = vtiger_$fieldName.picklist_valueid")
 				->innerJoin('vtiger_picklist', 'vtiger_picklist.picklistid = vtiger_role2picklist.picklistid')
-				->where(['roleid' => $roleId])
-				->orderBy('sortid')
+				->where(['vtiger_role2picklist.roleid' => $roleId])
+				->orderBy("vtiger_{$fieldName}.sortorderid")
 				->createCommand()->query();
 		$fldVal = [];
 		while (($val = $dataReader->readColumn(0)) !== false) {
@@ -122,7 +122,6 @@ class Picklist
 			'recurring_frequency' => 'recurring_frequency_id',
 			'payment_duration' => 'payment_duration_id',
 			'language' => 'id',
-			'recurringtype' => 'recurringeventid',
 			'duration_minutes' => 'minutesid'
 		];
 		if (isset($pickListIds[$fieldName])) {

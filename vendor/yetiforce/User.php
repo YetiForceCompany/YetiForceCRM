@@ -99,10 +99,10 @@ class User
 		if (isset(static::$userPrivilegesCache[$userId])) {
 			return self::$userPrivilegesCache[$userId];
 		}
-		if (!file_exists("user_privileges/user_privileges_$userId.php")) {
+		if (!file_exists("user_privileges/user_privileges_{$userId}.php")) {
 			return null;
 		}
-		$privileges = require("user_privileges/user_privileges_$userId.php");
+		$privileges = require("user_privileges/user_privileges_{$userId}.php");
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
@@ -128,6 +128,23 @@ class User
 		return $valueMap;
 	}
 
+	/**
+	 * Clear user cache
+	 * @param int|boolean $userId
+	 */
+	public static function clearCache($userId = false)
+	{
+		if ($userId) {
+			unset(self::$userPrivilegesCache[$userId], self::$userSharingCache[$userId], static::$userModelCache[$userId]);
+			if (static::$currentUserId === $userId) {
+				static::$currentUserCache = false;
+			}
+		} else {
+			self::$userPrivilegesCache = self::$userSharingCache = static::$userModelCache = [];
+			static::$currentUserCache = false;
+		}
+	}
+
 	protected static $userSharingCache = [];
 
 	/**
@@ -140,10 +157,10 @@ class User
 		if (isset(self::$userSharingCache[$userId])) {
 			return self::$userSharingCache[$userId];
 		}
-		if (!file_exists("user_privileges/sharing_privileges_$userId.php")) {
+		if (!file_exists("user_privileges/sharing_privileges_{$userId}.php")) {
 			return null;
 		}
-		$sharingPrivileges = require("user_privileges/sharing_privileges_$userId.php");
+		$sharingPrivileges = require("user_privileges/sharing_privileges_{$userId}.php");
 		self::$userSharingCache[$userId] = $sharingPrivileges;
 		return $sharingPrivileges;
 	}

@@ -396,9 +396,11 @@ class Owner
 		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
+		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
-			$name = self::getUserLabel($id);
-			if (!empty($name)) {
+			$userModel = \App\User::getUserModel($id);
+			$name = $userModel->getName();
+			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
 				$users[$id] = $name;
 			}
 		}

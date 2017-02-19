@@ -99,11 +99,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
-		$repeat_date = $taskModel->getTaskObject()->calendar_repeat_limit_date;
-		if (!empty($repeat_date)) {
-			$repeat_date = Vtiger_Date_UIType::getDisplayDateValue($repeat_date);
-		}
-		$viewer->assign('REPEAT_DATE', $repeat_date);
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('dateFormat', $userModel->get('date_format'));
 		$viewer->assign('timeFormat', $userModel->get('hour_format'));

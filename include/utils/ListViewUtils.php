@@ -192,10 +192,6 @@ function getListQuery($module, $where = '')
 		LEFT JOIN vtiger_groups vtiger_groups2
 			ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
-			//added to fix #5135
-			if (AppRequest::get('from_homepage') == 'upcoming_activities' || AppRequest::get('from_homepage') == 'pending_activities') {
-				$query .= ' LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid';
-			}
 			//end
 			$query .= \App\PrivilegeQuery::getAccessConditions($module, $current_user->id);
 			$query .= ' ' . $where;

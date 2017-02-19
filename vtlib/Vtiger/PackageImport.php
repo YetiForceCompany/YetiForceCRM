@@ -1009,6 +1009,7 @@ class PackageImport extends PackageExport
 		$dirName = 'cache/updates';
 		$result = false;
 		$adb = \PearDatabase::getInstance();
+		ob_start();
 		if (file_exists($dirName . '/init.php')) {
 			require_once $dirName . '/init.php';
 			$adb->query('SET FOREIGN_KEY_CHECKS = 0;');
@@ -1016,6 +1017,8 @@ class PackageImport extends PackageExport
 			$updateInstance = new \YetiForceUpdate($modulenode);
 			$updateInstance->package = $this;
 			$result = $updateInstance->preupdate();
+			file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+			ob_start();
 			if ($result != false) {
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
@@ -1024,6 +1027,8 @@ class PackageImport extends PackageExport
 					}
 				}
 				Functions::recurseCopy($dirName . '/files', '', true);
+				file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+				ob_start();
 				$result = $updateInstance->postupdate();
 			}
 
@@ -1043,6 +1048,8 @@ class PackageImport extends PackageExport
 		}
 		Functions::recurseDelete($dirName);
 		Functions::recurseDelete('cache/templates_c');
+		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
+		ob_end_clean();
 	}
 
 	/**

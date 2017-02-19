@@ -369,17 +369,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		element.text(app.parseNumberToShow(sum));
 	},
 	calculatMarginPSummary: function () {
-		var netPrice;
 		var thisInstance = this;
 		var sumRow = thisInstance.getInventoryItemsContainer().find('tfoot');
-		if (jQuery('[data-sumfield="netPrice"]', sumRow).length) {
-			netPrice = sumRow.find('[data-sumfield="netPrice"]').text();
-		} else {
-			netPrice = sumRow.find('[data-sumfield="totalPrice"]').text();
-		}
-		netPrice = app.parseNumberToFloat(netPrice);
 		var purchase = app.parseNumberToFloat(sumRow.find('[data-sumfield="purchase"]').text());
-		var margin = netPrice - purchase;
+		var margin = app.parseNumberToFloat(sumRow.find('[data-sumfield="margin"]').text());
+		margin = app.parseNumberToFloat(margin);
 		var marginp = '0';
 		if (purchase !== 0) {
 			marginp = (margin / purchase) * 100;
@@ -750,8 +744,13 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			thisInstance.setUnitPrice(parentRow, app.parseNumberToFloat(unitPrice));
 
 			$('input.unitPrice', parentRow).attr('list-info', unitPriceValuesJson);
-			$('textarea.commentTextarea', parentRow.next()).html(description);
-
+			var commentElement = $('textarea.commentTextarea', parentRow.next());
+			var editorInstance = CKEDITOR.instances[commentElement.attr('id')];
+			if (editorInstance) {
+				editorInstance.setData(description);
+			} else {
+				commentElement.html(description);
+			}
 			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
 				$('input.qtyparam', parentRow).prop('checked', false);
 				switch (recordData['autoFields']['unit']) {

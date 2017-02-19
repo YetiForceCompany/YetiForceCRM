@@ -41,17 +41,4 @@ class Events_Field_Model extends Calendar_Field_Model
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
-
-	/**
-	 * Function to check whether field is ajax editable'
-	 * @return boolean
-	 */
-	public function isAjaxEditable()
-	{
-		$return = parent::isAjaxEditable();
-		if (!$return || 'recurringtype' == $this->getFieldName()) {
-			return false;
-		}
-		return true;
-	}
 }

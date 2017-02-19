@@ -40,42 +40,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_recurringevents' => [
-				'columns' => [
-					'recurringid' => $this->primaryKey(),
-					'activityid' => $this->integer()->notNull(),
-					'recurringdate' => $this->date(),
-					'recurringtype' => $this->stringType(30),
-					'recurringfreq' => $this->integer(),
-					'recurringinfo' => $this->stringType(50),
-					'recurringenddate' => $this->date(),
-				],
-				'index' => [
-					['recurringevents_activity_idx', 'activityid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_recurringtype' => [
-				'columns' => [
-					'recurringeventid' => $this->primaryKey(),
-					'recurringtype' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-				],
-				'index' => [
-					['recurringtype_status_idx', 'recurringtype', true],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_recurringtype_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_rel_mod' => [
 				'columns' => [
 					'rel_modid' => $this->primaryKey(),
@@ -2171,31 +2135,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'yetiforce_mobile_keys' => [
-				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
-					'user' => $this->smallInteger(19)->unsigned()->notNull(),
-					'service' => $this->stringType(50)->notNull(),
-					'key' => $this->stringType(30)->notNull(),
-					'privileges_users' => $this->text(),
-				],
-				'index' => [
-					['mobile_keys_idx', ['user', 'service']],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'yetiforce_mobile_pushcall' => [
-				'columns' => [
-					'user' => $this->integer()->notNull(),
-					'number' => $this->stringType(20),
-				],
-				'primaryKeys' => [
-					['mobile_pushcall_pk', 'user']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'yetiforce_proc_marketing' => [
 				'columns' => [
 					'type' => $this->stringType(30),
@@ -2453,7 +2392,6 @@ class Base4 extends \App\Db\Importers\Base
 			['vtiger_pbxmanager_ibfk_1', 'vtiger_pbxmanager', 'pbxmanagerid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['vtiger_pbxmanager_phonelookup_ibfk_1', 'vtiger_pbxmanager_phonelookup', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['vtiger_pbxmanagercf_ibfk_1', 'vtiger_pbxmanagercf', 'pbxmanagerid', 'vtiger_pbxmanager', 'pbxmanagerid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_portalinfo', 'vtiger_portalinfo', 'id', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebook', 'vtiger_pricebook', 'pricebookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebookcf', 'vtiger_pricebookcf', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_pricebookproductrel', 'vtiger_pricebookproductrel', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
@@ -2469,7 +2407,6 @@ class Base4 extends \App\Db\Importers\Base
 			['vtiger_projectmilestonecf_ibfk_1', 'vtiger_projectmilestonecf', 'projectmilestoneid', 'vtiger_projectmilestone', 'projectmilestoneid', 'CASCADE', 'RESTRICT'],
 			['vtiger_projecttask_ibfk_1', 'vtiger_projecttask', 'projecttaskid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['vtiger_projecttaskcf_ibfk_1', 'vtiger_projecttaskcf', 'projecttaskid', 'vtiger_projecttask', 'projecttaskid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_recurringevents', 'vtiger_recurringevents', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_relcriteria', 'vtiger_relcriteria', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
 			['vtiger_relcriteria_grouping_ibfk_1', 'vtiger_relcriteria_grouping', 'queryid', 'vtiger_relcriteria', 'queryid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_report', 'vtiger_report', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
@@ -2577,21 +2514,6 @@ class Base4 extends \App\Db\Importers\Base
 				'columns' => ['id'],
 				'values' => [
 					[20],
-				]
-			],
-			'vtiger_recurringtype' => [
-				'columns' => ['recurringeventid', 'recurringtype', 'sortorderid', 'presence'],
-				'values' => [
-					[2, 'Daily', 1, 1],
-					[3, 'Weekly', 2, 1],
-					[4, 'Monthly', 3, 1],
-					[5, 'Yearly', 4, 1],
-				]
-			],
-			'vtiger_recurringtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[5],
 				]
 			],
 			'vtiger_rel_mod' => [
@@ -7410,7 +7332,6 @@ class Base4 extends \App\Db\Importers\Base
 					[65, 14, 'LBL_CONFREPORT', 'adminIcon-server-configuration', 'LBL_CONFREPORT_DESCRIPTION', 'index.php?parent=Settings&module=ConfReport&view=Index', 1, 0, 0, NULL],
 					[66, 12, 'LBL_ACTIVITY_TYPES', 'adminIcon-calendar-types', 'LBL_ACTIVITY_TYPES_DESCRIPTION', 'index.php?parent=Settings&module=Calendar&view=ActivityTypes', 1, 0, 0, NULL],
 					[67, 2, 'LBL_WIDGETS_MANAGEMENT', 'adminIcon-widgets-configuration', 'LBL_WIDGETS_MANAGEMENT_DESCRIPTION', 'index.php?module=WidgetsManagement&parent=Settings&view=Configuration', 15, 0, 0, NULL],
-					[69, 5, 'LBL_MOBILE_KEYS', 'adminIcon-mobile-applications', 'LBL_MOBILE_KEYS_DESCRIPTION', 'index.php?parent=Settings&module=MobileApps&view=MobileKeys', 6, 0, 0, NULL],
 					[70, 2, 'LBL_TREES_MANAGER', 'adminIcon-field-folders', 'LBL_TREES_MANAGER_DESCRIPTION', 'index.php?module=TreesManager&parent=Settings&view=List', 11, 0, 0, NULL],
 					[71, 2, 'LBL_MODTRACKER_SETTINGS', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_SETTINGS_DESCRIPTION', 'index.php?module=ModTracker&parent=Settings&view=List', 5, 0, 0, NULL],
 					[72, 2, 'LBL_HIDEBLOCKS', 'adminIcon-filed-hide-bloks', 'LBL_HIDEBLOCKS_DESCRIPTION', 'index.php?module=HideBlocks&parent=Settings&view=List', 12, 0, 0, NULL],
@@ -7654,16 +7575,16 @@ class Base4 extends \App\Db\Importers\Base
 					[2, 'Chancellery', 2, 1],
 					[3, 'Voivodeship Office', 3, 1],
 					[4, 'Marshal Office', 4, 1],
-					[5, 'Poviat', 5, 1],
+					[5, 'District', 5, 1],
 					[6, 'City/Township/District', 6, 1],
 					[7, 'Social Welfare Centre', 7, 1],
 					[8, 'Water and Sewerage Company', 8, 1],
 					[9, 'Voivodeship Job Centre', 9, 1],
-					[10, 'Poviat Job Centre', 10, 1],
+					[10, 'District Job Center', 10, 1],
 					[11, 'Court of justice', 11, 1],
 					[12, 'Attorney General\'s Office', 12, 1],
 					[13, 'Other', 44, 1],
-					[14, 'Deweloperzy', 14, 1],
+					[14, 'Developers', 14, 1],
 					[15, 'Real Estate', 15, 1],
 					[16, 'Primary Schools', 16, 1],
 					[17, 'High Schools', 17, 1],
@@ -8591,11 +8512,10 @@ class Base4 extends \App\Db\Importers\Base
 					[44, 303, 'taxes'],
 					[45, 304, 'inventoryLimit'],
 					[46, 305, 'multiReferenceValue'],
-					[47, 306, 'streetAddress'],
-					[48, 122, 'posList'],
 					[49, 309, 'categoryMultipicklist'],
 					[50, 4, 'recordNumber'],
 					[51, 310, 'companySelect'],
+					[52, 342, 'recurrence'],
 				]
 			],
 			'vtiger_ws_operation' => [
@@ -8725,17 +8645,6 @@ class Base4 extends \App\Db\Importers\Base
 					['Outlook', 'OutlookHandler', 'modules/WSAPP/Handlers/OutlookHandler.php'],
 					['vtigerCRM', 'vtigerCRMHandler', 'modules/WSAPP/Handlers/vtigerCRMHandler.php'],
 					['vtigerSyncLib', 'WSAPP_VtigerSyncEventHandler', 'modules/WSAPP/synclib/handlers/VtigerSyncEventHandler.php'],
-				]
-			],
-			'w_#__pos_actions' => [
-				'columns' => ['id', 'label', 'name'],
-				'values' => [
-					[1, 'LBL_SYNCHRONIZE_PRODUCTS', 'GetProducts'],
-					[2, 'LBL_SYNCHRONIZE_ORDERS', 'SetSSingleOrders'],
-					[3, 'LBL_SYNCHRONIZE_PRODUCTS_IMAGES', 'GetImage'],
-					[4, 'LBL_SYNCHRONIZE_STORAGES', 'GetIStorages'],
-					[5, 'LBL_CANCEL_ORDERS', 'CancelSSingleOrders'],
-					[6, 'LBL_SYNCHRONIZE_TREES', 'GetTree'],
 				]
 			],
 			'yetiforce_auth' => [

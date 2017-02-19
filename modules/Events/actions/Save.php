@@ -19,61 +19,22 @@ class Events_Save_Action extends Calendar_Save_Action
 	 */
 	public function saveRecord(Vtiger_Request $request)
 	{
-		$adb = PearDatabase::getInstance();
 		$recordModel = $this->getRecordModelFromRequest($request);
+		$data = $recordModel->getData();
 		$recordModel->save();
-		$originalRecordId = $recordModel->getId();
-		if ($request->get('relationOperation')) {
-			$parentModuleName = $request->get('sourceModule');
-			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->get('sourceRecord');
-			$relatedModule = $recordModel->getModule();
-			if ($relatedModule->getName() == 'Events') {
-				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
+		$recordModel->addRelationOperation($request);
+
+		if ($request->get('reapeat') === 'on') {
+			$recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
+			if ($request->isEmpty('record')) {
+				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
+				$data['followup'] = $recordModel->getId();
+			} else if (empty($data['followup'])) {
+				$data['followup'] = $recordModel->getId();
 			}
-			$relatedRecordId = $recordModel->getId();
-
-			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
-			$relationModel->addRelation($parentRecordId, $relatedRecordId);
-		}
-
-		// Handled to save follow up event
-		$followupMode = $request->get('followup');
-
-		//Start Date and Time values
-		$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('followup_time_start'));
-		$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('followup_date_start') . " " . $startTime);
-		list($startDate, $startTime) = explode(' ', $startDateTime);
-
-		$subject = $request->get('subject');
-		if ($followupMode == 'on' && $startTime != '' && $startDate != '') {
-			$recordModel->set('eventstatus', 'Planned');
-			$recordModel->set('subject', '[Followup] ' . $subject);
-			$recordModel->set('date_start', $startDate);
-			$recordModel->set('time_start', $startTime);
-
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$activityType = $recordModel->get('activitytype');
-			if ($activityType == 'Call') {
-				$minutes = $currentUser->get('callduration');
-			} else {
-				$minutes = $currentUser->get('othereventduration');
-			}
-			$dueDateTime = date('Y-m-d H:i:s', strtotime("$startDateTime+$minutes minutes"));
-			list($startDate, $startTime) = explode(' ', $dueDateTime);
-
-			$recordModel->set('due_date', $startDate);
-			$recordModel->set('time_end', $startTime);
-			$recordModel->set('recurringtype', '');
-			$recordModel->save();
-			$heldevent = true;
-		}
-
-		if (!AppRequest::isEmpty('recurringtype') && AppRequest::get('recurringtype') !== '--None--') {
-			vimport('~modules/Calendar/RepeatEvents.php');
-			$focus = CRMEntity::getInstance($recordModel->getModuleName());
-			$focus->column_fields = $recordModel->getData();
-			Calendar_RepeatEvents::repeatFromRequest($focus);
+			$recurringEvents->setChanges($recordModel->getPreviousValue());
+			$recurringEvents->setData($data);
+			$recurringEvents->save();
 		}
 		return $recordModel;
 	}
@@ -81,13 +42,14 @@ class Events_Save_Action extends Calendar_Save_Action
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param Vtiger_Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @return Vtiger_Record_Model
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	public function getRecordModelFromRequest(Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
-
-		$recordModel->set('selectedusers', $request->get('selectedusers'));
+		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
+			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
+		}
 		return $recordModel;
 	}
 }

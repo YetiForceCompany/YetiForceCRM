@@ -485,96 +485,6 @@ class Functions
 		return (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$idName => $id])->scalar();
 	}
 
-	/**
-	 *  Function to get recurring info depending on the recurring type
-	 *  return  $recurObj       - Object of class RecurringType
-	 */
-	public static function getRecurringObjValue()
-	{
-		$recurring_data = [];
-		if (!\AppRequest::isEmpty('recurringtype') && \AppRequest::get('recurringtype') != '--None--') {
-			if (!\AppRequest::isEmpty('date_start')) {
-				$startDate = \AppRequest::get('date_start');
-			}
-			if (!\AppRequest::isEmpty('calendar_repeat_limit_date')) {
-				$endDate = \AppRequest::get('calendar_repeat_limit_date');
-				$recurring_data['recurringenddate'] = $endDate;
-			} elseif (!\AppRequest::isEmpty('due_date')) {
-				$endDate = \AppRequest::get('due_date');
-			}
-			if (!\AppRequest::isEmpty('time_start')) {
-				$startTime = \AppRequest::get('time_start');
-			}
-			if (!\AppRequest::isEmpty('time_end')) {
-				$endTime = \AppRequest::get('time_end');
-			}
-
-			$recurring_data['startdate'] = $startDate;
-			$recurring_data['starttime'] = $startTime;
-			$recurring_data['enddate'] = $endDate;
-			$recurring_data['endtime'] = $endTime;
-
-			$recurring_data['type'] = \AppRequest::get('recurringtype');
-			if (\AppRequest::get('recurringtype') == 'Weekly') {
-				if (!\AppRequest::isEmpty('sun_flag'))
-					$recurring_data['sun_flag'] = true;
-				if (!\AppRequest::isEmpty('mon_flag'))
-					$recurring_data['mon_flag'] = true;
-				if (!\AppRequest::isEmpty('tue_flag'))
-					$recurring_data['tue_flag'] = true;
-				if (!\AppRequest::isEmpty('wed_flag'))
-					$recurring_data['wed_flag'] = true;
-				if (!\AppRequest::isEmpty('thu_flag'))
-					$recurring_data['thu_flag'] = true;
-				if (!\AppRequest::isEmpty('fri_flag'))
-					$recurring_data['fri_flag'] = true;
-				if (!\AppRequest::isEmpty('sat_flag'))
-					$recurring_data['sat_flag'] = true;
-			}
-			elseif (\AppRequest::get('recurringtype') == 'Monthly') {
-				if (!\AppRequest::isEmpty('repeatMonth'))
-					$recurring_data['repeatmonth_type'] = \AppRequest::get('repeatMonth');
-				if ($recurring_data['repeatmonth_type'] == 'date') {
-					if (!\AppRequest::isEmpty('repeatMonth_date'))
-						$recurring_data['repeatmonth_date'] = \AppRequest::get('repeatMonth_date');
-					else
-						$recurring_data['repeatmonth_date'] = 1;
-				}
-				elseif ($recurring_data['repeatmonth_type'] == 'day') {
-					$recurring_data['repeatmonth_daytype'] = \AppRequest::get('repeatMonth_daytype');
-					switch (\AppRequest::get('repeatMonth_day')) {
-						case 0 :
-							$recurring_data['sun_flag'] = true;
-							break;
-						case 1 :
-							$recurring_data['mon_flag'] = true;
-							break;
-						case 2 :
-							$recurring_data['tue_flag'] = true;
-							break;
-						case 3 :
-							$recurring_data['wed_flag'] = true;
-							break;
-						case 4 :
-							$recurring_data['thu_flag'] = true;
-							break;
-						case 5 :
-							$recurring_data['fri_flag'] = true;
-							break;
-						case 6 :
-							$recurring_data['sat_flag'] = true;
-							break;
-					}
-				}
-			}
-			if (!\AppRequest::isEmpty('repeat_frequency'))
-				$recurring_data['repeat_frequency'] = \AppRequest::get('repeat_frequency');
-
-			$recurObj = \RecurringType::fromUserRequest($recurring_data);
-			return $recurObj;
-		}
-	}
-
 	public static function getTicketComments($ticketid)
 	{
 		$adb = \PearDatabase::getInstance();
@@ -592,20 +502,6 @@ class Functions
 		if ($commentlist != '')
 			$commentlist = '<br><br>' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
-	}
-
-	public static function generateRandomPassword()
-	{
-		$salt = "abcdefghijklmnopqrstuvwxyz0123456789";
-		srand((double) microtime() * 1000000);
-		$i = 0;
-		while ($i <= 7) {
-			$num = rand() % 33;
-			$tmp = substr($salt, $num, 1);
-			$pass = $pass . $tmp;
-			$i++;
-		}
-		return $pass;
 	}
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
@@ -649,7 +545,6 @@ class Functions
 			'vtiger_leaddetails:secondaryemail' => 'V',
 			//Documents Related Fields
 			'vtiger_senotesrel:crmid' => 'V',
-			'vtiger_recurringevents:recurringtype' => 'V',
 			//HelpDesk Related Fields
 			'vtiger_troubletickets:parent_id' => 'V',
 			'vtiger_troubletickets:product_id' => 'V',
@@ -740,8 +635,8 @@ class Functions
 		$hour = floor($decTime);
 		$min = round(60 * ($decTime - $hour));
 		return array(
-			'short' => $hour . vtranslate('LBL_H') . ' ' . $min . vtranslate('LBL_M'),
-			'full' => $hour . vtranslate('LBL_HOURS') . ' ' . $min . vtranslate('LBL_MINUTES'),
+			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
+			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
 		);
 	}
 
@@ -933,14 +828,18 @@ class Functions
 	public function recurseCopy($src, $dest, $delete = false)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if (!file_exists($rootDir . $src))
+		if (!file_exists($rootDir . $src)) {
 			return;
-
+		}
+		if ($dest && substr($dest, -1) !== '/' && substr($dest, -1) !== '\\') {
+			$dest = $dest . DIRECTORY_SEPARATOR;
+		}
+		$dest = $rootDir . $dest;
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isDir() && !file_exists($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName())) {
-				mkdir($rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
+				mkdir($dest . $iterator->getSubPathName());
 			} elseif (!$item->isDir()) {
-				copy($item, $rootDir . $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
 			}
 		}
 	}
@@ -978,11 +877,11 @@ class Functions
 		if ($bytes >= 1073741824) {
 			$unit = 'GB';
 			$gb = $bytes / 1073741824;
-			$str = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $unit;
+			$str = sprintf($gb >= 10 ? "%d " : "%.2f ", $gb) . $unit;
 		} else if ($bytes >= 1048576) {
 			$unit = 'MB';
 			$mb = $bytes / 1048576;
-			$str = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $unit;
+			$str = sprintf($mb >= 10 ? "%d " : "%.2f ", $mb) . $unit;
 		} else if ($bytes >= 1024) {
 			$unit = 'KB';
 			$str = sprintf("%d ", round($bytes / 1024)) . $unit;

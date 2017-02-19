@@ -272,6 +272,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap3/css/bootstrap.css',
+			'~libraries/font-awesome/css/font-awesome.css',
+			'skins.icons.userIcons',
+			'skins.icons.adminIcons',
+			'skins.icons.additionalIcons',
 			'~libraries/jquery/chosen/chosen.css',
 			'~libraries/jquery/chosen/chosen.bootstrap.css',
 			'~libraries/jquery/jquery-ui/jquery-ui.css',
@@ -285,11 +289,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
-			'skins.icons.userIcons',
-			'skins.icons.adminIcons',
-			'skins.icons.additionalIcons',
 			'libraries.resources.styles',
-			'~libraries/font-awesome/css/font-awesome.css',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;

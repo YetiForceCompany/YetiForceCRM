@@ -262,7 +262,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function _get_body_attach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
-		$parts = $struct->parts;
 		$i = 0;
 		$mail = array('id' => $id);
 		if (empty($struct->parts)) {
@@ -272,10 +271,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::initMailPart($mbox, $mail, $partStructure, $partNum + 1);
 			}
 		}
-		$ret = [];
-		$ret['body'] = $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'];
-		$ret['attachment'] = $mail["attachments"];
-		return $ret;
+		return [
+			'body' => $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'],
+			'attachment' => $mail['attachments']
+		];
 	}
 
 	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
@@ -306,11 +305,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		if (!empty($params['charset']) && strtolower($params['charset']) != 'utf-8') {
-			if (function_exists('mb_convert_encoding') && in_array($params['charset'], mb_list_encodings())) {
-				$data = mb_convert_encoding($data, 'utf-8', $params['charset']);
+		if (!empty($params['charset']) && strtolower($params['charset']) !== 'utf-8') {
+			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset']), mb_list_encodings())) {
+				$encodedData = mb_convert_encoding($data, 'UTF-8', $params['charset']);
 			} else {
-				$data = iconv($params['charset'], 'utf-8', $data);
+				$encodedData = iconv($params['charset'], 'UTF-8', $data);
+			}
+			if ($encodedData) {
+				$data = $encodedData;
 			}
 		}
 		$attachmentId = $partStructure->ifid ? trim($partStructure->id, ' <>') : (isset($params['filename']) || isset($params['name']) ? mt_rand() . mt_rand() : null);

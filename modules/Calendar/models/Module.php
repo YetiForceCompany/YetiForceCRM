@@ -89,7 +89,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
@@ -102,7 +102,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			  'linkurl' => $this->getSharedCalendarViewUrl(),
 			  'linkicon' => '',
 			  ), */
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -189,7 +189,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return (new App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.description', 'assigned_user_id' => 'vtiger_crmentity.smownerid', 'vtiger_activity_reminder.reminder_time'])
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
-				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid AND vtiger_activity_reminder.recurringid = :id', [':id' => 0])
+				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid')
 				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => App\User::getCurrentUserId()]);
 	}
 
@@ -458,7 +458,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getFieldsByType($type)
 	{
-		$restrictedField = array('picklist' => array('activitystatus', 'recurringtype', 'visibility', 'duration_minutes'));
+		$restrictedField = array('picklist' => array('activitystatus', 'visibility', 'duration_minutes'));
 
 		if (!is_array($type)) {
 			$type = array($type);

@@ -66,6 +66,8 @@ function createUserPrivilegesfile($userid)
 		fputs($handle, $newbuf);
 		fclose($handle);
 		\App\PrivilegeFile::createUserPrivilegesFile($userid);
+		Users_Privileges_Model::clearCache($userid);
+		\App\User::clearCache($userid);
 	}
 }
 

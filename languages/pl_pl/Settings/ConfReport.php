@@ -57,5 +57,21 @@ $languageStrings = [
 	'LBL_SOAP_LIBRARY' => 'SOAP',
 	'LBL_PHP_SAPI' => 'Server API',
 	'LBL_APCU_LIBRARY' => 'APCu',
-	'LBL_OPCACHE_LIBRARY' => 'OPcache'
+	'LBL_OPCACHE_LIBRARY' => 'OPcache',
+	'LBL_CRON_PHP' => 'Cron - Wersja PHP',
+	'LBL_CRON_PHPINI' => 'Cron - Konfiguracja PHP',
+	'LBL_CRON_LOG_FILE' => 'Cron - Logi błedów',
+	'LBL_ENVIRONMENTAL_INFORMATION' => 'Informacje o środowisku',
+	'LBL_HARDWARE_INFORMATION' => 'Informacje o sprzęcie',
+	'LBL_CPU_USAGE' => 'Obciążenie',
+	'LBL_CPU' => 'Procesor',
+	'LBL_HDD' => 'Dysk',
+	'LBL_RAM' => 'Pamięć',
+	'BTN_SERVER_SPEED_TEST' => 'Sprawdź szybkość serwera',
+	'LBL_SERVER_SPEED_TEST' => 'Test szybkości serwera',
+	'LBL_READ_TEST' => 'Odczyt (ilość załadowanych plików na sekundę)',
+	'LBL_WRITE_TEST' => 'Zapis (ilość utworzonych plików na sekundę)',
+];
+$jsLanguageStrings = [
+	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
 ];

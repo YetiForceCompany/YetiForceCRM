@@ -9,5 +9,5 @@ namespace App\QueryField;
  */
 class SalutationField extends StringField
 {
-
+	
 }

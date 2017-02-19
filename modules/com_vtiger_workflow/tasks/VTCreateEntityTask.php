@@ -39,20 +39,17 @@ class VTCreateEntityTask extends VTTask
 		}
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
-
-			$newEntityData = VTEntityData::fromCRMEntity($newRecordModel->getEntity());
 			$entityModuleHandler = vtws_getModuleHandlerFromName($entityType, $current_user);
 			$handlerMeta = $entityModuleHandler->getMeta();
 			$ownerFields = $handlerMeta->getOwnerFields();
 			foreach ($fieldValueMapping as &$fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				$referenceModule = $fieldInfo['modulename'];
-				$fieldType = '';
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
 
 				if ($fieldValueType === 'fieldname') {
-					if ($referenceModule == $entityType) {
+					if ($referenceModule === $entityType) {
 						$fieldValue = $newRecordModel->get($fieldValue);
 					} else {
 						$fieldValue = $recordModel->get($fieldValue);
@@ -63,8 +60,8 @@ class VTCreateEntityTask extends VTTask
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
 					$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-					if ($referenceModule == $entityType) {
-						$fieldValue = $exprEvaluater->evaluate($newEntityData);
+					if ($referenceModule === $entityType) {
+						$fieldValue = $exprEvaluater->evaluate($newRecordModel);
 					} else {
 						$fieldValue = $exprEvaluater->evaluate($recordModel);
 					}
@@ -119,20 +116,20 @@ class VTCreateEntityTask extends VTTask
 	public function setFieldMapping($fieldValueMapping, $recordModel, $parentRecordModel)
 	{
 		$ownerFields = [];
+		$entityType = $this->entity_type;
 		foreach ($recordModel->getModule()->getFields() as $name => $fieldModel) {
-			if ($fieldModel->getFieldDataType() == 'owner') {
+			if ($fieldModel->getFieldDataType() === 'owner') {
 				$ownerFields[] = $name;
 			}
 		}
 		foreach ($fieldValueMapping as $fieldInfo) {
 			$fieldName = $fieldInfo['fieldname'];
 			$referenceModule = $fieldInfo['modulename'];
-			$fieldType = '';
 			$fieldValueType = $fieldInfo['valuetype'];
 			$fieldValue = trim($fieldInfo['value']);
 
-			if ($fieldValueType == 'fieldname') {
-				if ($referenceModule == $entityType) {
+			if ($fieldValueType === 'fieldname') {
+				if ($referenceModule === $entityType) {
 					$fieldValue = $recordModel->get($fieldValue);
 				} else {
 					$fieldValue = $parentRecordModel->get($fieldValue);
@@ -143,17 +140,17 @@ class VTCreateEntityTask extends VTTask
 				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 				$expression = $parser->expression();
 				$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-				if ($referenceModule == $entityType) {
-					$fieldValue = $exprEvaluater->evaluate($newEntityData);
+				if ($referenceModule === $entityType) {
+					$fieldValue = $exprEvaluater->evaluate($recordModel);
 				} else {
-					$fieldValue = $exprEvaluater->evaluate($entity);
+					$fieldValue = $exprEvaluater->evaluate($parentRecordModel);
 				}
 			} elseif (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
 				$fieldValue = $match[1];
 				if ($fieldValue == 'true') {
-					$fieldValue = '1';
+					$fieldValue = 1;
 				} else {
-					$fieldValue = '0';
+					$fieldValue = 0;
 				}
 			}
 			if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {

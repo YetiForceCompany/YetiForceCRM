@@ -28,7 +28,7 @@ class Debuger
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
 		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
-			$debugbar->addCollector(new debug\DebugBarLogs());
+			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
 		return static::$debugBar = $debugbar;

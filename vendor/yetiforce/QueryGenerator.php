@@ -82,10 +82,14 @@ class QueryGenerator
 	 */
 	private $entityModel;
 
-	/**
-	 * @var User 
-	 */
+	/** @var User */
 	private $user;
+
+	/** @var Limit */
+	private $limit;
+
+	/** @var Offset */
+	private $offset;
 
 	/**
 	 * QueryGenerator construct
@@ -149,6 +153,32 @@ class QueryGenerator
 	public function setFields($fields)
 	{
 		$this->fields = $fields;
+	}
+
+	/**
+	 * Set query offset
+	 * @param int $offset
+	 */
+	public function setOffset($offset)
+	{
+		$this->offset = $offset;
+	}
+
+	/**
+	 * Set query limit
+	 * @param int $limit
+	 */
+	public function setLimit($limit)
+	{
+		$this->limit = $limit;
+	}
+
+	/**
+	 * Get query limit
+	 */
+	public function getLimit()
+	{
+		return $this->limit;
 	}
 
 	/**
@@ -524,6 +554,12 @@ class QueryGenerator
 			$this->loadOrder();
 			$this->loadJoin();
 			$this->loadGroup();
+			if (!empty($this->limit)) {
+				$this->query->limit($this->limit);
+			}
+			if (!empty($this->offset)) {
+				$this->query->offset($this->offset);
+			}
 			$this->buildedQuery = $this->query;
 		}
 		return $this->buildedQuery;

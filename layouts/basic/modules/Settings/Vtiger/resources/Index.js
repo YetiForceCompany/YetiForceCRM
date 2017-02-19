@@ -327,14 +327,14 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	registerTabEvents: function () {
 		var thisInstance = this;
 		jQuery('.massEditTabs li').on('click', function () {
-			thisInstance.loadContent(jQuery(this).data('mode'));
+			thisInstance.loadContent(jQuery(this).data('mode'), false, jQuery(this).data('params'));
 		});
 	},
 	registerPagination: function () {
 		var page = jQuery('.pagination .pageNumber');
 		var thisInstance = this;
 		page.click(function () {
-			thisInstance.loadContent('Github', $(this).data('id'));
+			thisInstance.loadContent('github', $(this).data('id'));
 		});
 	},
 	registerAuthorizedEvent: function () {
@@ -351,10 +351,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		thisInstance.registerPagination();
 		app.showBtnSwitch(container.find('.switchBtn'));
 		container.find('.switchAuthor').on('switchChange.bootstrapSwitch', function (e, state) {
-			thisInstance.loadContent('Github', 1);
+			thisInstance.loadContent('github', 1);
 		});
 		container.find('.switchState').on('switchChange.bootstrapSwitch', function (e, state) {
-			thisInstance.loadContent('Github', 1);
+			thisInstance.loadContent('github', 1);
 		});
 		$('.addIssuesBtn').on('click', function () {
 			var params = {
@@ -371,6 +371,73 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				});
 			});
 		});
+	},
+	registerWarningsAlert: function () {
+		var aletrsContainer = jQuery('#systemWarningAletrs');
+		if (aletrsContainer.length) {
+			app.showModalWindow(aletrsContainer, function (modal) {
+				aletrsContainer.find('.warning').first().removeClass('hide');
+				aletrsContainer.find('.warning .btn').click(function (e) {
+					var btn = $(this);
+					var save = true;
+					if (btn.hasClass('ajaxBtn')) {
+						if (btn.data('params') == undefined) {
+							var form = btn.closest('form');
+							if (form.hasClass('validateForm') && !form.validationEngine('validate')) {
+								save = false;
+							}
+							var params = btn.closest('form').serializeArray().reduce(function (obj, item) {
+								obj[item.name] = item.value;
+								return obj;
+							}, {});
+						} else {
+							var params = btn.data('params');
+						}
+						if (save) {
+							AppConnector.request({
+								module: app.getModuleName(),
+								parent: app.getParentModuleName(),
+								action: 'SystemWarnings',
+								mode: 'update',
+								id: btn.closest('.warning').data('id'),
+								params: params,
+							}).then(function (data) {
+								if(data.result.result){
+									Vtiger_Helper_Js.showMessage({text : data.result.message, type: 'success', animation: 'show'});
+								}else{
+									Vtiger_Helper_Js.showMessage({text : data.result.message, type: 'error', animation: 'show'});
+								}
+							})
+						}
+					}
+					if (btn.hasClass('cancel')) {
+						AppConnector.request({
+							module: app.getModuleName(),
+							parent: app.getParentModuleName(),
+							action: 'SystemWarnings',
+							mode: 'cancel'
+						});
+					}
+					if (save) {
+						aletrsContainer.find('.warning').first().remove();
+						if (aletrsContainer.find('.warning').length) {
+							aletrsContainer.find('.warning').first().removeClass('hide');
+						} else {
+							app.hideModalWindow(modal);
+						}
+					}
+				});
+				aletrsContainer.find('.input-group-addon input[type="checkbox"]').click(function (e) {
+					var btn = $(this);
+					var group = btn.closest('.input-group')
+					if (this.checked) {
+						group.find('input[type="text"]').attr("disabled", false);
+					} else {
+						group.find('input[type="text"]').attr("disabled", true);
+					}
+				});
+			});
+		}
 	},
 	registerSystemWarningsEvents: function (container) {
 		var thisInstance = this;
@@ -467,9 +534,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				action: 'SystemWarnings',
-				mode: 'setIgnore',
+				mode: 'update',
 				id: data.id,
-				status: data.status,
+				params: data.status,
 			}).then(function (data) {
 				thisInstance.getWarningsList(container);
 			}, function (error) {
@@ -484,7 +551,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		});
 		return selected;
 	},
-	loadContent: function (mode, page) {
+	loadContent: function (mode, page, modeParams) {
 		var thisInstance = this;
 		var container = jQuery('.indexContainer');
 		var state = container.find('.switchState');
@@ -493,9 +560,14 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			mode: mode,
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
-			view: 'Index',
-			page: page
+			view: 'Index'
 		};
+		if (modeParams) {
+			params.page = page;
+		}
+		if (modeParams) {
+			params.params = modeParams;
+		}
 		if (state.is(':checked')) {
 			params.state = 'closed';
 		} else {
@@ -512,13 +584,14 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		AppConnector.request(params).then(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			container.html(data);
-			if (mode == 'Index') {
+			if (mode == 'index') {
 				thisInstance.registerSettingsShortcutClickEvent();
 				thisInstance.registerDeleteShortCutEvent();
 				thisInstance.registerWidgetsEvents();
 				thisInstance.registerAddShortcutDragDropEvent();
 				thisInstance.registerSettingShortCutAlignmentEvent();
-			} else if (mode == 'Github') {
+				thisInstance.registerWarningsAlert();
+			} else if (mode == 'github') {
 				thisInstance.registerGithubEvents(container);
 			} else if (mode == 'systemWarnings') {
 				thisInstance.registerSystemWarningsEvents(container);
@@ -529,5 +602,4 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 		this.registerTabEvents();
 		this.reloadContent();
 	}
-
 });

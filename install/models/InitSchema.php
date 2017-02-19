@@ -13,18 +13,13 @@ class Install_InitSchema_Model
 
 	protected $sql_directory = 'install/install_schema/';
 	protected $migration_schema = 'install/migrate_schema/';
-	protected $db = false;
-
-	public function __construct($db = '')
-	{
-		$this->db = $db;
-	}
 
 	/**
 	 * Function starts applying schema changes
 	 */
 	public function initialize()
 	{
+		$this->db = PearDatabase::getInstance();
 		$this->initializeDatabase($this->sql_directory, array('scheme', 'data'));
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
@@ -287,5 +282,20 @@ class Install_InitSchema_Model
 		} else {
 			unlink($src);
 		}
+	}
+
+	/**
+	 * Set company details
+	 * @param Vtiger_Request $request
+	 */
+	public function setCompanyDetails(Vtiger_Request $request)
+	{
+		$details = [];
+		foreach ($request->getAll() as $key => $value) {
+			if (strpos($key, 'company_') === 0) {
+				$details[str_replace('company_', '', $key)] = $value;
+			}
+		}
+		$this->db->update('s_yf_companies', $details);
 	}
 }

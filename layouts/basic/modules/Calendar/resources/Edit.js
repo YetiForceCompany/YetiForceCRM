@@ -33,36 +33,52 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 */
 	registerRecurrenceFieldCheckBox: function () {
 		var thisInstance = this;
-		thisInstance.getForm().find('input[name="recurringcheck"]').on('change', function (e) {
+		var form = thisInstance.getForm();
+		form.find('input[name="reapeat"]').on('change', function (e) {
 			var element = jQuery(e.currentTarget);
-			var repeatUI = jQuery('#repeatUI');
+			var repeatUI = form.find('.repeatUI');
+			var container = form.find('[name="followup"]').closest('.fieldValue');
 			if (element.is(':checked')) {
 				repeatUI.removeClass('hide');
+				container.find('[name="followup_display"]').attr('disabled', 'disabled');
+				container.find('button').attr('disabled', 'disabled');
 			} else {
+				container.find('[name="followup_display"]').removeAttr('disabled');
+				container.find('button').removeAttr('disabled');
 				repeatUI.addClass('hide');
 			}
 		});
+		if (form.find('input[name="reapeat"]').is(':checked')) {
+			form.find('.repeatUI').removeClass('hide');
+			var container = form.find('[name="followup"]').closest('.fieldValue');
+			container.find('[name="followup_display"]').attr('disabled', 'disabled');
+			container.find('button').attr('disabled', 'disabled');
+		}
 	},
 	/**
 	 * Function which will register the change event for recurring type
 	 */
 	registerRecurringTypeChangeEvent: function () {
+		var container = this.getForm();
 		var thisInstance = this;
-		jQuery('#recurringType').on('change', function (e) {
+		container.find('.recurringType').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var recurringType = currentTarget.val();
 			thisInstance.changeRecurringTypesUIStyles(recurringType);
-
 		});
-	},
-	/**
-	 * Function which will register the change event for repeatMonth radio buttons
-	 */
-	registerRepeatMonthActions: function () {
-		var thisInstance = this;
-		thisInstance.getForm().find('input[name="repeatMonth"]').on('change', function (e) {
-			//If repeatDay radio button is checked then only select2 elements will be enable
-			thisInstance.repeatMonthOptionsChangeHandling();
+		container.find('.repeatUI [name="calendarEndType"]').on('change', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var value = currentTarget.val();
+			if (value === 'never') {
+				container.find('.countEvents').attr('disabled', 'disabled');
+				container.find('.calendarUntil').attr('disabled', 'disabled');
+			} else if (value === 'count') {
+				container.find('.countEvents').removeAttr('disabled');
+				container.find('.calendarUntil').attr('disabled', 'disabled');
+			} else if (value === 'until') {
+				container.find('.countEvents').attr('disabled', 'disabled');
+				container.find('.calendarUntil').removeAttr('disabled');
+			}
 		});
 	},
 	/**
@@ -70,31 +86,16 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 	 * @params - recurringType - which recurringtype is selected
 	 */
 	changeRecurringTypesUIStyles: function (recurringType) {
-		var thisInstance = this;
-		if (recurringType == 'Daily' || recurringType == 'Yearly') {
-			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
-			jQuery('#repeatMonthUI').removeClass('show').addClass('hide');
-		} else if (recurringType == 'Weekly') {
-			jQuery('#repeatWeekUI').removeClass('hide').addClass('show');
-			jQuery('#repeatMonthUI').removeClass('show').addClass('hide');
-		} else if (recurringType == 'Monthly') {
-			jQuery('#repeatWeekUI').removeClass('show').addClass('hide');
-			jQuery('#repeatMonthUI').removeClass('hide').addClass('show');
-		}
-	},
-	/**
-	 * This function will handle the change event for RepeatMonthOptions
-	 */
-	repeatMonthOptionsChangeHandling: function () {
-		//If repeatDay radio button is checked then only select2 elements will be enable
-		if (jQuery('#repeatDay').is(':checked')) {
-			jQuery('#repeatMonthDate').attr('disabled', true);
-			jQuery('#repeatMonthDayType').prop("disabled", false);
-			jQuery('#repeatMonthDay').prop("disabled", false);
-		} else {
-			jQuery('#repeatMonthDate').removeAttr('disabled');
-			jQuery('#repeatMonthDayType').prop("disabled", true);
-			jQuery('#repeatMonthDay').prop("disabled", true);
+		var container = this.getForm();
+		if (recurringType == 'DAILY' || recurringType == 'YEARLY') {
+			container.find('.repeatWeekUI').removeClass('show').addClass('hide');
+			container.find('.repeatMonthUI').removeClass('show').addClass('hide');
+		} else if (recurringType == 'WEEKLY') {
+			container.find('.repeatWeekUI').removeClass('hide').addClass('show');
+			container.find('.repeatMonthUI').removeClass('show').addClass('hide');
+		} else if (recurringType == 'MONTHLY') {
+			container.find('.repeatWeekUI').removeClass('show').addClass('hide');
+			container.find('.repeatMonthUI').removeClass('hide').addClass('show');
 		}
 	},
 	setDefaultEndTime: function (container) {
@@ -208,16 +209,16 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 		});
 	},
-	setVisibilityBtnSaveAndClose: function(container){
+	setVisibilityBtnSaveAndClose: function (container) {
 		var secondDate = container.find('input[name="due_date"]');
 		var secondDateFormat = secondDate.data('date-format');
 		var secondDateValue = secondDate.val();
 		var secondTime = container.find('input[name="time_end"]');
 		var secondTimeValue = secondTime.val();
 		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
-		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue,secondDateFormat);
-		var timeBetweenDates =  secondDateInstance - new Date();
-		if(timeBetweenDates >= 0){
+		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
+		var timeBetweenDates = secondDateInstance - new Date();
+		if (timeBetweenDates >= 0) {
 			container.find('.saveAndComplete').addClass('hide');
 		} else {
 			container.find('.saveAndComplete').removeClass('hide');
@@ -248,24 +249,109 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		});
 	},
 	/**
+	 * 
+	 * @returns {String}
+	 */
+	getRule: function () {
+		var form = this.getForm();
+		var freq = form.find('.recurringType').val();
+		var rule = 'FREQ=' + freq;
+		rule += ';INTERVAL=' + form.find('.repeatFrequency').val();
+		var endValue = form.find('.repeatUI [name="calendarEndType"]:checked').val();
+		if (endValue === 'count') {
+			rule += ';COUNT=' + form.find('.countEvents').val();
+		} else if (endValue === 'until') {
+			var date = form.find('.calendarUntil').val();
+			date = app.getDateInDBInsertFormat(app.getMainParams('userDateFormat'), date);
+			rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T000000';
+		}
+		if (freq === 'WEEKLY') {
+			var checkedElements = [];
+			form.find('.repeatWeekUI [type="checkbox"]').each(function () {
+				var currentTarget = $(this);
+				if (currentTarget.is(':checked')) {
+					checkedElements.push(currentTarget.val());
+				}
+				;
+			});
+			if (checkedElements.length > 0) {
+				rule += ';BYDAY=' + checkedElements.join(',');
+			}
+		}
+		if (freq === 'MONTHLY') {
+			var dayOfWeek = Vtiger_Helper_Js.getDay(form.find('[name="date_start"]').val());
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), app.getMainParams('userDateFormat'));
+			var dayOfMonth = dateInstance.getDate();
+			var option = form.find('.calendarMontlyType:checked').val();
+			if (option == 'DAY') {
+				var dayOfWeekLabel = '';
+				switch (dayOfWeek) {
+					case 0:
+						dayOfWeekLabel = 'SU';
+						break;
+					case 1:
+						dayOfWeekLabel = 'MO';
+						break;
+					case 2:
+						dayOfWeekLabel = 'TU';
+						break;
+					case 3:
+						dayOfWeekLabel = 'WE';
+						break;
+					case 4:
+						dayOfWeekLabel = 'TU';
+						break;
+					case 5:
+						dayOfWeekLabel = 'FR';
+						break;
+					case 6:
+						dayOfWeekLabel = 'SA';
+						break;
+				}
+				rule += ';BYDAY=' + (parseInt((dayOfMonth - 1) / 7) + 1) + dayOfWeekLabel;
+			} else {
+				rule += ';BYMONTHDAY=' + dayOfMonth;
+			}
+		}
+		return rule;
+	},
+	/**
 	 * This function will register the submit event on form
 	 */
 	registerFormSubmitEvent: function () {
 		var thisInstance = this;
 		var form = this.getForm();
+		var lockSave = true;
+		if (app.getRecordId()) {
+			form.on(Vtiger_Edit_Js.recordPreSave, function (e) {
+				if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
+					e.preventDefault();
+					app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
+						container.find('.typeSavingBtn').click(function (e) {
+							var currentTarget = $(e.currentTarget);
+							form.find('[name="typeSaving"]').val(currentTarget.data('value'));
+							app.hideModalWindow();
+							lockSave = false;
+							form.submit();
+						})
+					});
+				}
+			});
+		}
 		form.on('submit', function (e) {
-			var recurringCheck = form.find('input[name="recurringcheck"]').is(':checked');
-
-			//If the recurring check is not enabled then recurring type should be --None--
-			if (recurringCheck == false) {
-				jQuery('#recurringType').append(jQuery('<option value="--None--">None</option>')).val('--None--');
+			var recurringCheck = form.find('input[name="reapeat"]').is(':checked');
+			if (recurringCheck) {
+				if (app.getRecordId() && lockSave) {
+					e.preventDefault();
+				}
+				form.find('[name="recurrence"]').val(thisInstance.getRule());
 			}
 			if (thisInstance.isEvents()) {
 				var rows = form.find(".inviteesContent .inviteRow");
 				var invitees = [];
 				rows.each(function (index, domElement) {
 					var row = jQuery(domElement);
-					if (row.data('crmid') != ''){
+					if (row.data('crmid') != '') {
 						invitees.push([row.data('email'), row.data('crmid'), row.data('ivid')]);
 					}
 				});
@@ -317,9 +403,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			}
 		});
 	},
-	registerSaveAndCloseBtn: function(container){
+	registerSaveAndCloseBtn: function (container) {
 		this.setVisibilityBtnSaveAndClose(container);
-		container.find('.saveAndComplete').on('click', function(){
+		container.find('.saveAndComplete').on('click', function () {
 			var invalidFields = container.data('jqv').InvalidFields;
 			if (invalidFields.length == 0) {
 				container.append('<input type=hidden name="saveAndClose" value="PLL_COMPLETED">');
@@ -475,9 +561,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerReminderFieldCheckBox();
 		this.registerRecurrenceFieldCheckBox();
 		this.registerFormSubmitEvent();
-		this.repeatMonthOptionsChangeHandling();
 		this.registerRecurringTypeChangeEvent();
-		this.registerRepeatMonthActions();
 		if (this.isEvents()) {
 			this.registerInviteEvent(editViewForm);
 		}

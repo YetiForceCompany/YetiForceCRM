@@ -17,9 +17,9 @@ $languageStrings = [
 	'BTN_SAVE' => 'Zapisz',
 	'BTN_CLOSE' => 'Anuluj',
 	'PLL_USER_PERMISSIONS' => 'Uprawnienia na podstawie użytkownika',
-	'PLL_ACCOUNTS_RELATED_RECORDS' => 'Wszystkie powiazane rekordy kontrahenta przypisanego bezpośrednio pod kontakt',
-	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'Wszystkie powiazane rekordy kontrahenta przypisanego bezpośrednio pod kontakt oraz kontrahentów niżej w hierarchii',
-	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'Wszystkie powiazane rekordy kontrahenta przypisanego bezpośrednio pod kontakt i kontrahetów z hierarchii',
+	'PLL_ACCOUNTS_RELATED_RECORDS' => 'Wszystkie powiązane rekordy kontrahenta przypisanego bezpośrednio pod kontakt',
+	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'Wszystkie powiązane rekordy kontrahenta przypisanego bezpośrednio pod kontakt oraz kontrahentów niżej w hierarchii',
+	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'Wszystkie powiązane rekordy kontrahenta przypisanego bezpośrednio pod kontakt i kontrahentów z hierarchii',
 	'PLL_ACTIVE' => 'Aktywny',
 	'PLL_INACTIVE' => 'Nieaktywny',
 	'LBL_CREATE_RECORD' => 'Utwórz',
@@ -28,4 +28,3 @@ $jsLanguageStrings = [
 	'JS_DELETE_CONFIRMATION' => 'Czy na pewno chcesz usunąć klucz?',
 	'JS_SAVE_SUCCESS' => 'Pomyślnie zapisano zmiany',
 ];
-

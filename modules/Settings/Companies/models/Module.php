@@ -45,6 +45,14 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		return false;
 	}
 
+	public static function getIndustryList()
+	{
+		return array_merge(
+			(new \App\Db\Query())->select(['industry'])->from('vtiger_industry')->column()
+			, (new \App\Db\Query())->select(['subindustry'])->from('vtiger_subindustry')->column()
+		);
+	}
+
 	/**
 	 * Function to get the all companies
 	 * @return array

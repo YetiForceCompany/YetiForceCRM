@@ -131,7 +131,6 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
-		$viewer->assign('RECURRING_INFORMATION', $recordModel->getRecurringDetails());
 
 		if ($moduleName == 'Events') {
 			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());

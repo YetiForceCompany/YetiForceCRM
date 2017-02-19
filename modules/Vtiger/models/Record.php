@@ -15,7 +15,6 @@
 class Vtiger_Record_Model extends Vtiger_Base_Model
 {
 
-	protected $isNew = true;
 	protected $module = false;
 	protected $inventoryData;
 	protected $inventoryRawData;
@@ -24,6 +23,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	protected $changes = [];
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
+	public $isNew = true;
 
 	/**
 	 * Function to get the id of the record

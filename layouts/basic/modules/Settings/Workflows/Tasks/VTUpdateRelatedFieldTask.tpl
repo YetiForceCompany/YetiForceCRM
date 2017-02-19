@@ -19,7 +19,7 @@
 							{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 							<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)}">
 								{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
-									{if !$FIELD_MODEL->isEditEnabled() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
+									{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
 										{continue}
 									{/if}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -51,7 +51,7 @@
 					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 					<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)}">
 						{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
-							{if !$FIELD_MODEL->isEditEnabled() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
+							{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}

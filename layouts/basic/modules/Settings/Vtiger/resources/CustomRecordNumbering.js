@@ -156,18 +156,6 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		})
 	},
 
-	registerRelatedFieldsChangeEvent: function (form) {
-		var thisInstance = this;
-		form.find('[name="custom_variables"]').on('change', function () {
-			thisInstance.updateRelatedFieldsValue(form);
-		});
-	},
-
-	updateRelatedFieldsValue: function (container) {
-		var value = '{{' + container.find('[name="custom_variables"]').val() + '}}';
-		container.find('#customVariable').val(value);
-	},
-
 	registerCopyClipboard: function (editViewForm) {
 		new Clipboard('#customVariableCopy', {
 			text: function (trigger) {
@@ -175,7 +163,7 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});
-				return editViewForm.find('#customVariables').val();
+				return '{{' + editViewForm.find('#customVariables').val() + '}}';
 			}
 		});
 	},
@@ -199,8 +187,6 @@ jQuery.Class('Settings_CustomRecordNumbering_Js', {}, {
 		}
 		editViewForm.validationEngine('detach');
 		editViewForm.validationEngine('attach', params);
-		this.registerRelatedFieldsChangeEvent(editViewForm);
-		this.updateRelatedFieldsValue(editViewForm);
 		this.registerCopyClipboard(editViewForm);
 	}
 })

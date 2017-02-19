@@ -35,10 +35,11 @@
 							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
+								{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
 								<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
 									<select class="input-lg form-control" title="{vtranslate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="language">
 										{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
-											<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
+											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	
 								</div>

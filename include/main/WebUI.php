@@ -125,7 +125,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
-		if (AppConfig::main('csrfProtection') && $request->get('mode') != 'reset' && $request->get('action') != 'Login' && AppConfig::main('systemMode') != 'demo') {
+		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
 			require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
 		}
@@ -137,34 +137,30 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		vglobal('current_language', $currentLanguage);
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
 		if ($currentUser && $qualifiedModuleName) {
 			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
 			if (isset($moduleLanguageStrings['languageStrings'])) {
 				vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
 			}
 		}
-
 		if ($currentUser) {
 			$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
 			if (isset($moduleLanguageStrings['languageStrings'])) {
 				vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
 			}
 		}
-
 		$view = $request->get('view');
 		$action = $request->get('action');
 		$response = false;
-
 		try {
 			if (empty($module)) {
 				if ($this->hasLogin()) {
 					$defaultModule = AppConfig::main('default_module');
-					if (!empty($defaultModule) && $defaultModule != 'Home') {
+					if (!empty($defaultModule) && $defaultModule !== 'Home') {
 						$module = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
-						if ($module == 'Calendar') {
+						if ($module === 'Calendar') {
 							$view = 'Calendar';
 						}
 					} else {
@@ -180,7 +176,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$request->set('module', $module);
 				$request->set('view', $view);
 			}
-
 			if (!empty($action)) {
 				$componentType = 'Action';
 				$componentName = $action;
@@ -200,31 +195,25 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler = new $handlerClass();
 			if ($handler) {
 				vglobal('currentModule', $module);
-				if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') != 'demo') {
+				if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') {
 					// Ensure handler validates the request
 					$handler->validateRequest($request);
 				}
 				if ($handler->loginRequired()) {
 					$this->checkLogin($request);
 				}
-
 				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'WSAPP'];
-
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
 				}
-
 				// Every settings page handler should implement this method
-				if (stripos($qualifiedModuleName, 'Settings') === 0 || ($module == 'Users')) {
+				if (stripos($qualifiedModuleName, 'Settings') === 0 || ($module === 'Users')) {
 					$handler->checkPermission($request);
 				}
-
-				$notPermittedModules = array('ModComments', 'Integration', 'DashBoard');
-
-				if (in_array($module, $notPermittedModules) && $view == 'List') {
+				$notPermittedModules = ['ModComments', 'Integration', 'DashBoard'];
+				if (in_array($module, $notPermittedModules) && $view === 'List') {
 					header('Location:index.php?module=Home&view=DashBoard');
 				}
-
 				$this->triggerPreProcess($handler, $request);
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
@@ -243,10 +232,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = false;
 			}
 			if (AppConfig::main('systemMode') === 'test') {
+				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
 				throw $e;
 			}
 		}
-
 		if ($response) {
 			$response->emit();
 		}

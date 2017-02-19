@@ -193,7 +193,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$fieldPermissions = $fieldModel->get('permissions');
 		$fieldAccessPermission = $fieldPermissions['visible'];
 		$fieldReadOnlyPermission = $fieldPermissions['readonly'];
-		if ($fieldModel->isEditEnabled() && $fieldAccessPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE && $fieldReadOnlyPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
+		if ($fieldModel->isWritable() && $fieldAccessPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE && $fieldReadOnlyPermission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 			return true;
 		}
 		return false;
@@ -486,7 +486,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$permissions['fields'] = [];
 						$moduleFields = $moduleModel->getFields();
 						foreach ($moduleFields as $fieldModel) {
-							if ($fieldModel->isEditEnabled()) {
+							if ($fieldModel->isWritable()) {
 								$permissions['fields'][$fieldModel->getId()] = Settings_Profiles_Record_Model::PROFILE_FIELD_READWRITE;
 							} elseif ($fieldModel->isViewEnabled()) {
 								$permissions['fields'][$fieldModel->getId()] = Settings_Profiles_Record_Model::PROFILE_FIELD_READONLY;

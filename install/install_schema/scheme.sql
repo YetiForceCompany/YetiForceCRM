@@ -158,7 +158,7 @@ CREATE TABLE `a_yf_pdf` (
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`),
   KEY `module_name_2` (`module_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_relatedlists_inv_fields` */
 
@@ -614,10 +614,10 @@ CREATE TABLE `o_yf_access_for_user` (
   `id` int(19) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `date` datetime NOT NULL,
-  `ip` varchar(100) NOT NULL,
+  `ip` varchar(100) DEFAULT NULL,
   `module` varchar(30) NOT NULL,
   `url` varchar(300) NOT NULL,
-  `agent` varchar(255) NOT NULL,
+  `agent` varchar(255) DEFAULT NULL,
   `request` varchar(300) NOT NULL,
   `referer` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -875,6 +875,7 @@ CREATE TABLE `s_yf_companies` (
   `name` varchar(100) NOT NULL,
   `short_name` varchar(100) DEFAULT NULL,
   `default` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `industry` varchar(50) DEFAULT NULL,
   `street` varchar(150) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `code` varchar(30) DEFAULT NULL,
@@ -3488,7 +3489,6 @@ CREATE TABLE `vtiger_activity` (
   `location` varchar(150) DEFAULT NULL,
   `notime` smallint(1) NOT NULL DEFAULT '0',
   `visibility` varchar(50) NOT NULL DEFAULT 'all',
-  `recurringtype` varchar(200) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `smownerid` smallint(19) unsigned DEFAULT NULL,
   `allday` tinyint(1) DEFAULT NULL,
@@ -3498,6 +3498,8 @@ CREATE TABLE `vtiger_activity` (
   `process` int(19) DEFAULT NULL,
   `subprocess` int(19) DEFAULT NULL,
   `followup` int(19) DEFAULT NULL,
+  `reapeat` smallint(1) DEFAULT NULL,
+  `recurrence` text,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -3520,8 +3522,7 @@ CREATE TABLE `vtiger_activity_reminder` (
   `activity_id` int(11) NOT NULL,
   `reminder_time` int(11) NOT NULL,
   `reminder_sent` int(2) NOT NULL,
-  `recurringid` int(19) NOT NULL,
-  PRIMARY KEY (`activity_id`,`recurringid`),
+  PRIMARY KEY (`activity_id`),
   CONSTRAINT `vtiger_activity_reminder_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3808,12 +3809,6 @@ CREATE TABLE `vtiger_blocks_hide` (
   KEY `blockid` (`blockid`,`enabled`),
   KEY `view` (`view`),
   KEY `blockid_2` (`blockid`,`enabled`,`view`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_blocks_seq` */
-
-CREATE TABLE `vtiger_blocks_seq` (
-  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_calendar_config` */
@@ -4260,7 +4255,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -4996,7 +4991,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 
@@ -5171,7 +5166,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2599 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2604 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6205,7 +6200,7 @@ CREATE TABLE `vtiger_loginhistory` (
   `user_name` varchar(32) DEFAULT NULL,
   `user_ip` varchar(50) NOT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
-  `login_time` timestamp NOT NULL,
+  `login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`login_id`),
@@ -7174,23 +7169,6 @@ CREATE TABLE `vtiger_portal` (
   KEY `portal_portalname_idx` (`portalname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_portalinfo` */
-
-CREATE TABLE `vtiger_portalinfo` (
-  `id` int(11) NOT NULL,
-  `user_name` varchar(50) DEFAULT NULL,
-  `user_password` varchar(200) DEFAULT NULL,
-  `type` varchar(5) DEFAULT NULL,
-  `last_login_time` datetime DEFAULT NULL,
-  `login_time` datetime DEFAULT NULL,
-  `logout_time` datetime DEFAULT NULL,
-  `isactive` int(1) DEFAULT NULL,
-  `crypt_type` varchar(20) DEFAULT NULL,
-  `password_sent` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_1_vtiger_portalinfo` FOREIGN KEY (`id`) REFERENCES `vtiger_contactdetails` (`contactid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_pricebook` */
 
 CREATE TABLE `vtiger_pricebook` (
@@ -7662,38 +7640,6 @@ CREATE TABLE `vtiger_recurring_frequency` (
 /*Table structure for table `vtiger_recurring_frequency_seq` */
 
 CREATE TABLE `vtiger_recurring_frequency_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_recurringevents` */
-
-CREATE TABLE `vtiger_recurringevents` (
-  `recurringid` int(19) NOT NULL AUTO_INCREMENT,
-  `activityid` int(19) NOT NULL,
-  `recurringdate` date DEFAULT NULL,
-  `recurringtype` varchar(30) DEFAULT NULL,
-  `recurringfreq` int(19) DEFAULT NULL,
-  `recurringinfo` varchar(50) DEFAULT NULL,
-  `recurringenddate` date DEFAULT NULL,
-  PRIMARY KEY (`recurringid`),
-  KEY `fk_1_vtiger_recurringevents` (`activityid`),
-  CONSTRAINT `fk_1_vtiger_recurringevents` FOREIGN KEY (`activityid`) REFERENCES `vtiger_activity` (`activityid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_recurringtype` */
-
-CREATE TABLE `vtiger_recurringtype` (
-  `recurringeventid` int(19) NOT NULL AUTO_INCREMENT,
-  `recurringtype` varchar(200) NOT NULL,
-  `sortorderid` int(19) NOT NULL DEFAULT '0',
-  `presence` int(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`recurringeventid`),
-  UNIQUE KEY `recurringtype_status_idx` (`recurringtype`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_recurringtype_seq` */
-
-CREATE TABLE `vtiger_recurringtype_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -9331,7 +9277,7 @@ CREATE TABLE `vtiger_ws_fieldtype` (
   `fieldtype` varchar(200) NOT NULL,
   PRIMARY KEY (`fieldtypeid`),
   UNIQUE KEY `uitype_idx` (`uitype`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_operation` */
 
@@ -9463,33 +9409,6 @@ CREATE TABLE `w_yf_portal_user` (
   KEY `user_name_2` (`user_name`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `w_yf_pos_actions` */
-
-CREATE TABLE `w_yf_pos_actions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `w_yf_pos_users` */
-
-CREATE TABLE `w_yf_pos_users` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `pass` varchar(255) NOT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  `server_id` int(11) NOT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `last_name` varchar(255) DEFAULT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `login_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_name` (`user_name`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `w_yf_servers` */
 
 CREATE TABLE `w_yf_servers` (
@@ -9584,26 +9503,6 @@ CREATE TABLE `yetiforce_menu` (
   KEY `module` (`module`),
   CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `yetiforce_mobile_keys` */
-
-CREATE TABLE `yetiforce_mobile_keys` (
-  `id` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user` smallint(19) unsigned NOT NULL,
-  `service` varchar(50) NOT NULL,
-  `key` varchar(30) NOT NULL,
-  `privileges_users` text,
-  PRIMARY KEY (`id`),
-  KEY `user` (`user`,`service`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `yetiforce_mobile_pushcall` */
-
-CREATE TABLE `yetiforce_mobile_pushcall` (
-  `user` int(19) NOT NULL,
-  `number` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_proc_marketing` */
 

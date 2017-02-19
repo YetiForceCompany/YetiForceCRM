@@ -105,13 +105,14 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			'action': "DeleteAjax",
 			'mode': 'deleteUser',
 			'transfer_user_id': transferUserId,
-			'userid': userid
+			'userid': userid,
+			'permanent': form.find('[name="deleteUserPermanent"]:checked').val()
 		}
 		AppConnector.request(params).then(
 				function (data) {
 					if (data.success) {
 						app.hideModalWindow();
-						Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.status.message));
+						Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
 						var url = data.result.listViewUrl;
 						window.location.href = url;
 					}

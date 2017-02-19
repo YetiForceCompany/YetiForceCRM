@@ -26,8 +26,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('userid');
 		$newOwnerId = $request->get('transfer_user_id');
-
-		if ($request->get('mode') == 'permanent') {
+		if ($request->get('mode') === 'permanent') {
 			Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
 		} else {
 			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);
@@ -37,12 +36,13 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 
 			vtws_deleteUser($userId, $transformUserId, $userModel);
 
-			if ($request->get('permanent') == '1')
+			if ($request->get('permanent') === '1')
 				Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
 		}
-
+		$userModuleModel = Users_Module_Model::getInstance($moduleName);
+		$listViewUrl = $userModuleModel->getListViewUrl();
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => vtranslate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName)));
+		$response->setResult(['message' => \App\Language::translate('LBL_USER_DELETED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
 		$response->emit();
 	}
 }

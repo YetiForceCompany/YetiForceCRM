@@ -82,7 +82,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check whether the user has access to a given module by tabid
-	 * @param <Number> $tabId
+	 * @param int $mixed
 	 * @return boolean true/false
 	 */
 	public function hasModulePermission($mixed)
@@ -219,6 +219,20 @@ class Users_Privileges_Model extends Users_Record_Model
 			unset(self::$lockEditCache[$cacheName]);
 		} else {
 			self::$lockEditCache = [];
+		}
+	}
+
+	/**
+	 * Clear user cache
+	 * @param int|boolean $userId
+	 */
+	public static function clearCache($userId = false)
+	{
+		self::$lockEditCache = [];
+		if ($userId) {
+			unset(self::$userPrivilegesModelCache[$userId]);
+		} else {
+			self::$userPrivilegesModelCache = [];
 		}
 	}
 

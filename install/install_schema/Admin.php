@@ -246,6 +246,7 @@ class Admin extends \App\Db\Importers\Base
 					'name' => $this->stringType(100),
 					'short_name' => $this->stringType(100),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'industry' => $this->stringType(50),
 					'street' => $this->stringType(150),
 					'city' => $this->stringType(100),
 					'code' => $this->stringType(30),
@@ -605,7 +606,7 @@ class Admin extends \App\Db\Importers\Base
 			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
 			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
 			</td>
-		</tr></tbody></table>', 1, 'Zapytanie jednorazowe', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'zapytanie_jednorazowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
+		</tr></tbody></table>', 1, 'Zapytanie jednorazowe', '*', '', '', '', 1, '', '', 'A4', NULL, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'zapytanie_jednorazowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, 'null', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
 					[4, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>
 		</tr></table><hr><div style="width:100%;">
 <table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;">$(organization : name)$<br>
@@ -1041,6 +1042,115 @@ $(custom : ProductsTableNew)$<br>
 <br>
 $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"><span style="font-size:8px;">{nb} / {PAGENO}</span></div>
 ', 1, 'Hierarchia magazynów', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'hierarchia_magazynow', 'PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
+					[25, 'FInvoice', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="60%">
+				<img alt="$(translate : LBL_COMPANY_LOGO)$" src="$(organization%20%3A%20logo_login)$" style="height:80px;float:left;"></td>
+			<td height="150" width="40%">
+				<table border="0" style="margin:0 auto;" width="100%"><tr><td height="20" width="100%">
+								Miejsce wystawienia: <b>$(organization : city)$</b><br>
+								Data wystawienia: <b>$(general : CurrentDate)$</b><br>
+								$(translate : FInvoice|FL_SALE_DATE)$: <b>$(record : saledate)$</b><br>
+								Faktura VAT:<b> $(record : number)$</b> 
+							</td>
+						</tr><tr><td height="130" width="100%"> 							
+							</td>
+						</tr></table></td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+			<td height="150" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%">
+				<table border="0" style="margin:0 auto;" width="100%"><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);font-size:21px;text-align:left;"><b>Sprzedawca</b> </p>
+							</td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;"><b>$(organization : name)$</b>
+							</p></td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;">$(organization : code)$ - $(organization : city)$,<br>$(organization : street)$   </p>
+							</td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;">NIP: $(organization : vatid)$</p>
+							</td>
+						</tr></table></td>
+			<td height="150" width="20%"></td>
+			<td height="150" width="40%">
+				<table border="0" style="margin:0 auto;" width="100%"><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);font-size:21px;text-align:left;"><b>Nabywca</b> </p>
+							</td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;"><b>$(reletedRecord : accountid|accountname|Accounts)$</b></p>
+							</td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;">$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ </p>
+							</td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;">$(reletedRecord : accountid|addresslevel7a|Accounts)$ $(reletedRecord : accountid|addresslevel5a|Accounts)$ </p>
+							</td>
+						</tr><tr><td height="20" width="100%">
+								<p style="color:rgb(0,0,0);text-align:left;">$(translate : Accounts|Vat ID)$: $(reletedRecord : accountid|vat_id|Accounts)$  </p>
+							</td>
+						</tr></table></td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+			<td height="150" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="100%">
+				<b>$(translate : FInvoice|FL_FORM_PAYMENT)$:</b> $(record : finvoice_formpayment)$
+			</td>
+		</tr><tr><td height="140" width="100%">
+				<b>Numer konta bankowego:</b> 00 0000 0000 0000 0000 0000 0000
+			</td>
+		</tr><tr><td height="140" width="100%">
+				 
+			</td>
+		</tr><tr><td height="140" width="100%">
+				<b>$(translate : FInvoice|Description)$:</b> $(record : description)$
+			</td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+			<td height="150" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+		</tr></table><div>$(custom : ProductsTableNew)$</div>
+
+<table border="0" style="margin:0 auto;" width="100%"><tr><td height="40" width="100%"> 
+			</td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%">
+				$(custom : TableTaxSummary)$
+			</td>
+			<td height="150" width="10%"></td>
+			<td height="150" width="40%">
+				$(custom : TableDiscountSummary)$
+			</td>
+			<td height="150" width="10%"></td>
+		</tr></table><br><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="100%">
+				<b>Do zapłaty:</b> $(record : sum_gross)$
+			</td>
+		</tr><tr><td height="140" width="100%">
+				<b>Do zapłaty słownie:</b> $(custom : GrossAmountInWords)$
+			</td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+			<td height="150" width="40%" style="text-align:center;">
+				<br></td>
+			<td height="150" width="10%"></td>
+		</tr></table><br><br><table border="0" style="margin:0 auto;" width="100%"><tr><td height="240" width="40%" style="text-align:center;">
+				..............................................................<br><font>Osoba upoważniona do odbioru</font>
+			</td>
+			<td height="250" width="20%"></td>
+			<td height="250" width="40%" style="text-align:center;">
+				..............................................................<br><font>Osoba upoważniona do wystawienia</font>
+			</td>
+		</tr></table>', '<table border="0" cellpadding="10" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td align="center">
+			<p style="font-size:12px;">Generated by YetiForce CRM</p>
+			</td>
+		</tr></tbody></table>', 1, 'Faktura', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'Faktura', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', '', NULL],
 				]
 			],
 			'a_#__taxes_config' => [
@@ -1058,9 +1168,9 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 				]
 			],
 			's_#__companies' => [
-				'columns' => ['id', 'name', 'short_name', 'default', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
+				'columns' => ['id', 'name', 'short_name', 'default', 'industry', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
 				'values' => [
-					[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
+					[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, NULL, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', NULL, 'yetiforce.com', NULL, NULL, NULL, NULL, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
 				]
 			],
 		];

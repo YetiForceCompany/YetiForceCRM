@@ -178,9 +178,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	public function undoImport(Vtiger_Request $request)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
-		$db = PearDatabase::getInstance();
 		$viewer = new Vtiger_Viewer();
-
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
 		$type = $request->get('type');
@@ -209,10 +207,11 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$dbTableName = Import_Module_Model::getDbTableName($user);
-		$query = (new \App\Db\Query())->select(['recordid'])->from($dbTableName)->where(['temp_status' => Import_Data_Action::$IMPORT_RECORD_CREATED, 'recordid' => null]);
-		$dataReader = $query->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['recordid'])
+				->from($dbTableName)
+				->where(['and', ['temp_status' => Import_Data_Action::IMPORT_RECORD_CREATED], ['not', ['recordid' => null]]])
+				->createCommand()->query();
 		$noOfRecords = $noOfRecordsDeleted = 0;
-		$rows = [];
 		while ($recordId = $dataReader->readColumn(0)) {
 			if (App\Record::isExists($recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);

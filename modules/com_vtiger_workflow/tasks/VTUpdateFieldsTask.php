@@ -83,7 +83,14 @@ class VTUpdateFieldsTask extends VTTask
 			//	$focus->isLineItemUpdate = false;
 
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+			$isNew = $recordModel->isNew();
+			if ($isNew) {
+				$recordModel->isNew = false;
+			}
 			$recordModel->save();
+			if ($isNew) {
+				$recordModel->isNew = true;
+			}
 			// Reverting back the action name as there can be some dependencies on this.
 			$util->revertUser();
 		}

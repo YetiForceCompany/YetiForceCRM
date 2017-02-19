@@ -546,9 +546,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 	saveCommentAjax: function (element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred) {
 		var thisInstance = this;
 		var progressIndicatorElement = jQuery.progressIndicator({});
+		var commentInfoBlock = element.closest('.singleComment');
+		var relatedTo = commentInfoBlock.find('.related_to').val()
+		if(!relatedTo){
+			relatedTo = thisInstance.getRecordId();
+		}
 		var postData = {
 			'commentcontent': commentContentValue,
-			'related_to': thisInstance.getRecordId(),
+			'related_to': relatedTo,
 			'module': 'ModComments'
 		};
 
@@ -1097,7 +1102,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		jQuery(fieldElement).each(function (index, element) {
 			var fieldName = jQuery(element).val();
 			var elementTarget = jQuery(element);
-			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist', 'posList']) != -1 ? fieldName + '[]' : fieldName;
+			var elementName = jQuery.inArray(elementTarget.data('type'), ['taxes', 'sharedOwner', 'multipicklist']) != -1 ? fieldName + '[]' : fieldName;
 			var fieldElement = jQuery('[name="' + elementName + '"]', editElement);
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
@@ -2113,31 +2118,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				});
 			}
 		});
-	},
-	saveCommentModal: function (element, moreBtn) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var currentTarget = element;
-		var commentMode = moreBtn.data('mode');
-		var closestCommentBlock = element.closest('.addCommentBlock');
-		var commentContent = closestCommentBlock.find('.commentcontent');
-		var commentContentValue = commentContent.val();
-		var errorMsg;
-		if (commentContentValue == "") {
-			errorMsg = app.vtranslate('JS_LBL_COMMENT_VALUE_CANT_BE_EMPTY')
-			commentContent.validationEngine('showPrompt', errorMsg, 'error', 'bottomLeft', true);
-			aDeferred.reject();
-			return aDeferred.promise();
-		}
-		if (commentMode == "edit") {
-			var editCommentReason = closestCommentBlock.find('[name="reasonToEdit"]').val();
-		}
-		element.attr('disabled', 'disabled');
-		var commentInfoHeader = moreBtn.closest('.commentDetails').find('.commentInfoHeader');
-		var commentId = commentInfoHeader.data('commentid');
-		var parentCommentId = commentInfoHeader.data('parentcommentid');
-		thisInstance.saveCommentAjax(element, commentMode, commentContentValue, editCommentReason, commentId, parentCommentId, aDeferred);
-		return aDeferred.promise();
 	},
 	/**
 	 * Function to display a new comments

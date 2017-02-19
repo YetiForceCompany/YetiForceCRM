@@ -19,6 +19,8 @@ RedirectMatch 403 (?i).*\.log$
 	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 </ifModule>
 <IfModule mod_php5.c>
+	#Error: 337 ,Error + Warning: 5111
+	#php_flag	error_reporting				337
 	php_flag	log_errors					On
 	php_flag	display_errors				Off
 	php_value	error_log					cache/logs/phpError.log
@@ -46,19 +48,6 @@ RedirectMatch 403 (?i).*\.log$
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
 	php_value	session.save_path			cache/session
-</IfModule>
-<IfModule fcgid_module.c>
-	FcgidIOTimeout 600
-	FcgidConnectTimeout 600
-	FcgidBusyTimeout 600
-	FcgidIdleTimeout 600
-</IfModule>
-<IfModule mod_fcgid.c>
-	IdleTimeout 600
-	ProcessLifeTime 600
-	IPCConnectTimeout 600
-	IPCCommTimeout 600
-	BusyTimeout 600
 </IfModule>
 ########################
 # <FilesMatch "\.(inc|php|php3|php4|php5|php6|phtml|phps)$">

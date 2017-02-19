@@ -49,8 +49,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			return 'datetime';
 		} else if ($this->get('uitype') == '30') {
 			return 'reminder';
-		} else if ($this->getName() == 'recurringtype') {
-			return 'recurrence';
 		}
 		return parent::getFieldDataType();
 	}
@@ -100,27 +98,6 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 			}
 		}
 		return parent::getEditViewDisplayValue($value, $record);
-	}
-
-	/**
-	 * Function which will give the picklist values for a recurrence field
-	 * @param type $fieldName -- string
-	 * @return type -- array of values
-	 */
-	public static function getReccurencePicklistValues()
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$fieldModel = Vtiger_Field_Model::getInstance('recurringtype', Vtiger_Module_Model::getInstance('Events'));
-		if ($fieldModel->isRoleBased() && !$currentUser->isAdminUser()) {
-			$userModel = Users_Record_Model::getCurrentUserModel();
-			$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues('recurringtype', $userModel->get('roleid'));
-		} else {
-			$picklistValues = App\Fields\Picklist::getPickListValues('recurringtype');
-		}
-		foreach ($picklistValues as $value) {
-			$fieldPickListValues[$value] = vtranslate($value, 'Events');
-		}
-		return $fieldPickListValues;
 	}
 
 	/**

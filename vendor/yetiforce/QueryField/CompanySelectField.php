@@ -1,4 +1,5 @@
-<?php namespace App\QueryField;
+<?php
+namespace App\QueryField;
 
 /**
  * CompanySelect Query Field Class

@@ -48,8 +48,8 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 
 		$entityValues = [];
 		$entityValues['transferRelatedRecordsTo'] = $request->get('transferModule');
-		$entityValues['assignedTo'] = vtws_getWebserviceEntityId(vtws_getOwnerType($assignId), $assignId);
-		$entityValues['leadId'] = vtws_getWebserviceEntityId($request->getModule(), $recordId);
+		$entityValues['assignedTo'] = $assignId;
+		$entityValues['leadId'] = $recordId;
 		$createAlways = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'create_always');
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
@@ -59,22 +59,9 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			if (\App\Module::isModuleActive($module) && in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
 				$entityValues['entities'][$module]['name'] = $module;
-
 				foreach ($convertLeadFields[$module] as $fieldModel) {
 					$fieldName = $fieldModel->getName();
-					$fieldValue = $request->get($fieldName);
-
-					//Potential Amount Field value converting into DB format
-					if ($fieldModel->getFieldDataType() === 'currency') {
-						$fieldValue = Vtiger_Currency_UIType::convertToDBFormat($fieldValue);
-					} elseif ($fieldModel->getFieldDataType() === 'date') {
-						$fieldValue = DateTimeField::convertToDBFormat($fieldValue);
-					} elseif ($fieldModel->getFieldDataType() === 'reference' && $fieldValue) {
-						$ids = vtws_getIdComponents($fieldValue);
-						if (count($ids) === 1) {
-							$fieldValue = vtws_getWebserviceEntityId(\vtlib\Functions::getCRMRecordType($fieldValue), $fieldValue);
-						}
-					}
+					$fieldValue = $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null));
 					$entityValues['entities'][$module][$fieldName] = $fieldValue;
 				}
 			}
@@ -106,17 +93,10 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 
 		if (!empty($result['Accounts'])) {
-			$accountIdComponents = vtws_getIdComponents($result['Accounts']);
-			$accountId = $accountIdComponents[1];
+			$accountId = $result['Accounts'];
 		}
 
 		if (!empty($accountId)) {
-			$mappingFields = $recordModel->get('mappingFields');
-			if (isset($mappingFields['Accounts']['shownerid'])) {
-				$leadShownerField = Vtiger_Field_Model::getInstance('shownerid', $recordModel->getModule());
-				$shownerId = $leadShownerField->getUITypeModel()->getEditViewDisplayValue('', $recordId);
-				Users_Privileges_Model::setSharedOwner($shownerId, $recordId);
-			}
 			ModTracker_Record_Model::addConvertToAccountRelation('Accounts', $accountId, $assignId);
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {

@@ -106,7 +106,7 @@ class OwnerField extends BaseField
 			return ['vtiger_users.last_name' => SORT_ASC, 'vtiger_users.first_name' => SORT_ASC, 'vtiger_groups.groupname' => SORT_ASC];
 		}
 	}
-	
+
 	/**
 	 * Is not empty operator
 	 * @return array
@@ -114,11 +114,11 @@ class OwnerField extends BaseField
 	public function operatorNy()
 	{
 		return ['and',
-				['not', [$this->getColumnName() => null]],
-				['<>', $this->getColumnName(), 0]
+			['not', [$this->getColumnName() => null]],
+			['<>', $this->getColumnName(), 0]
 		];
 	}
-	
+
 	/**
 	 * Is empty operator
 	 * @return array
@@ -126,8 +126,8 @@ class OwnerField extends BaseField
 	public function operatorY()
 	{
 		return ['or',
-				[$this->getColumnName() => null],
-				['=', $this->getColumnName(), 0]
+			[$this->getColumnName() => null],
+			['=', $this->getColumnName(), 0]
 		];
 	}
 }

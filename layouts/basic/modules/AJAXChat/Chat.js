@@ -5,7 +5,7 @@ var AJAXChat_Chat_Js = {
 	blinkingIcon: function () {
 		clearInterval(this.interval);
 		this.interval = setInterval(function () {
-			$('.headerLinksAJAXChat .ChatIcon').effect("pulsate", 1500);
+			$('.headerLinkChat').effect("pulsate", 1500);
 		}, 1500);
 	},
 	stopBlinkingIcon: function(){
@@ -33,7 +33,7 @@ jQuery(function () {
 			function (data) {
 				jQuery('#page').append(data);
 				var container = $("#AJAXChatBlock");
-				var icon = $('.headerLinksAJAXChat .ChatIcon');
+				var icon = $('.headerLinkChat');
 				AJAXChat_Chat_Js.checkUnreadMessage();
 				icon.click(function () {
 					AJAXChat_Chat_Js.stopBlinkingIcon();

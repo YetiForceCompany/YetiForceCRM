@@ -132,9 +132,6 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				} else {
 					$taskObject->$fieldName = $request->get($fieldName);
 				}
-				if ($fieldName == 'calendar_repeat_limit_date') {
-					$taskObject->$fieldName = DateTimeField::convertToDBFormat($request->get($fieldName));
-				}
 			}
 
 			$taskType = get_class($taskObject);

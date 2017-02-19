@@ -86,7 +86,7 @@ class SharedOwnerField extends BaseField
 		}
 		return $condition;
 	}
-	
+
 	/**
 	 * Is not empty operator
 	 * @return array
@@ -98,7 +98,7 @@ class SharedOwnerField extends BaseField
 		$baseTableIndex = $focus->table_index;
 		$this->queryGenerator->addJoin(['INNER JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
 	}
-	
+
 	/**
 	 * Is empty operator
 	 * @return array
@@ -109,6 +109,6 @@ class SharedOwnerField extends BaseField
 		$baseTable = $focus->table_name;
 		$baseTableIndex = $focus->table_index;
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'u_#__crmentity_showners', "$baseTable.$baseTableIndex = u_#__crmentity_showners.crmid"]);
-		return ['u_#__crmentity_showners.userid' => null]; 
+		return ['u_#__crmentity_showners.userid' => null];
 	}
 }

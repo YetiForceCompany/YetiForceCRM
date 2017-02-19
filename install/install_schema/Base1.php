@@ -3891,7 +3891,7 @@ class Base1 extends \App\Db\Importers\Base
 <br>
 Created for your account in the customer portal, below sending data access<br>
 						Login: $(record : email)$<br>
-						Password: $(custom : ContactsPortalPass|Contacts)$
+						Password: 
 						</td>
 			
 					</tr></table></div>
@@ -4112,7 +4112,7 @@ Created for your account in the customer portal, below sending data access<br>
 						You recently requested a reminder of your access data for the YetiForce Portal.<br>
 						You can login by entering the following data:<br><br>
 						Your username: $(record : email)$<br>
-						Your password: $(custom : ContactsPortalPass|Contacts)$</td>
+						Your password: </td>
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">

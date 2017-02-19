@@ -279,13 +279,15 @@ class Contacts extends CRMEntity
 		}
 		return $relTables[$secmodule];
 	}
+	/*
+	 * Function to unlink all the dependent entities of the given Entity by Id
+	 * @param - $recordId 
+	 */
 
-	// Function to unlink all the dependent entities of the given Entity by Id
 	public function mark_deleted($recordId)
 	{
 
 		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_portalinfo', ['id' => $recordId])->execute();
 		$db->createCommand()->update('vtiger_customerdetails', [
 			'portal' => 0,
 			'support_start_date' => null,

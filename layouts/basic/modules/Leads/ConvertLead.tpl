@@ -14,13 +14,12 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				{if !$CONVERT_LEAD_FIELDS['Accounts']}
-					<input type="hidden" id="convertLeadErrorTitle" value="{vtranslate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}"/>
-					<input id="convertLeadError" class="convertLeadError" type="hidden" value="{vtranslate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
+					<input type="hidden" id="convertLeadErrorTitle" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}"/>
+					<input id="convertLeadError" class="convertLeadError" type="hidden" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
 				{else}
-					{assign var=CONVERSION_CONFIG value=Vtiger_Processes_Model::getConfig('marketing','conversion')}
 					<div class="modal-header contentsBackground">
-						<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title">{vtranslate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
+						<button data-dismiss="modal" class="close" title="{App\Language::translate('LBL_CLOSE')}">&times;</button>
+						<h3 class="modal-title">{App\Language::translate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
 					</div>
 					<form class="form-horizontal" id="convertLeadForm" method="post" action="index.php">
 						<input type="hidden" name="module" value="{$MODULE}"/>
@@ -35,9 +34,9 @@
 										<div data-parent="#leadAccordion" data-toggle="collapse" class="panel-heading paddingTBZero accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
 											<div class="form-control-static checkbox">
 												<label>
-													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{vtranslate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
+													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{App\Language::translate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
-													<span class="panel-title">&nbsp;{vtranslate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{vtranslate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
+													<span class="panel-title">&nbsp;{App\Language::translate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{App\Language::translate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>
 												<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
 											</div>	
@@ -50,7 +49,7 @@
 													<td class="fieldLabel col-xs-5">
 														<label class='muted pull-right marginRight10px'>
 															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
-															{vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+															{App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
 
 														</label>
 													</td>
@@ -69,7 +68,7 @@
 									<tr>
 										<td class="fieldLabel col-xs-5">
 											<label class='muted pull-right'>
-												<span class="redColor">*</span> {vtranslate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+												<span class="redColor">*</span> {App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
 												{if $FIELD_MODEL->isMandatory() eq true} {/if}
 											</label>
 										</td>

@@ -9,6 +9,7 @@ $languageStrings = [
 	'FL_NUMBER' => 'Nombre',
 	'FL_SUBJECT' => 'Sujet',
 	'FL_STATUS' => 'Statut',
+	
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_IN_REALIZATION' => 'En cours',
 	'PLL_OBJECTIONS' => 'Objections',

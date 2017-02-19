@@ -5,88 +5,119 @@
 		<div class="row noSpaces">
 			<div class="rightHeader paddingRight10">
 				<div class="pull-right rightHeaderBtn">
-					<div class="dropdown quickAction historyBtn">
-						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-							<img class='dropdown-toggle alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{\App\Language::translate('LBL_PAGES_HISTORY')}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
+					{if !empty($QUICKCREATE_MODULES)}
+						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
-					</div>
-				</div>
-				{if $REMINDER_ACTIVE}
-					<div class="pull-right rightHeaderBtn">
-						<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-							<a class="btn btn-default btn-sm isBadge" title="{\App\Language::translate('LBL_REMINDER')}" href="#">
-								<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-								<span class="badge bgDanger hide">0</span>
-							</a>
-						</div>
-					</div>
-				{/if}
-				{if $CHAT_ACTIVE}
-					<div class="pull-right rightHeaderBtn">
-						<div class="headerLinksAJAXChat quickAction">
-							<a class="btn btn-default btn-sm ChatIcon" title="{\App\Language::translate('LBL_CHAT')}" href="#">
-								<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-							</a>
-						</div>
-					</div>
-				{/if}
-				{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
-					<div class="pull-right rightHeaderBtn">
-						<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-							<div class="btn-group">
-								<a class="btn btn-default btn-sm isBadge" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
-									<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-									<span class="badge hide">0</span>
-								</a>
-							</div>
-						</div>
-					</div>
-				{/if}
-				{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
-				{if !empty($QUICKCREATE_MODULES)}
-					<div class="pull-right rightHeaderBtn">
-						<div class="dropdown quickAction">
-							<a id="menubar_quickCreate" class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							</a>
-							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-								<li class="quickCreateModules">
-									<div class="panel-default">
-										<div class="panel-heading">
-											<h4 class="panel-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
-										</div>
-										<div class="panel-body paddingLRZero">
-											{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
-												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-												{if $singularLabel == 'SINGLE_Calendar'}
-													{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-												{/if}	
-												{if $quickCreateModule == '1'}
-													{if $count % 3 == 0}
-														<div class="">
-														{/if}
-														<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-																<span>{vtranslate($singularLabel,$NAME)}</span>
-															</a>
-														</div>
-														{if $count % 3 == 2}
-														</div>
+						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
+							<li class="quickCreateModules">
+								<div class="panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
+									</div>
+									<div class="panel-body paddingLRZero">
+										{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
+											{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
+											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
+											{if $singularLabel == 'SINGLE_Calendar'}
+												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+											{/if}	
+											{if $quickCreateModule == '1'}
+												{if $count % 3 == 0}
+													<div class="">
 													{/if}
-													{assign var='count' value=$count+1}
+													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
+														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
+															<span>{vtranslate($singularLabel,$NAME)}</span>
+														</a>
+													</div>
+													{if $count % 3 == 2}
+													</div>
 												{/if}
-											{/foreach}
-											{if $count % 3 >= 1}
-											</div>
+												{assign var='count' value=$count+1}
+											{/if}
+										{/foreach}
+										{if $count % 3 >= 1}
+										</div>
+									{/if}
+								</div>
+							</li>
+						</ul>
+					{/if}
+					{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
+						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
+							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+							<span class="badge hide">0</span>
+						</a>
+					{/if}
+					{if $CHAT_ACTIVE}
+						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+						</a>
+					{/if}
+					{if $REMINDER_ACTIVE}
+						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+							<span class="badge bgDanger hide">0</span>
+						</a>
+					{/if}
+					<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+						<i class="fa fa-history" aria-hidden="true"></i>
+					</a>
+					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
+						{if $obj->linktype == 'HEADERLINK'}
+							{assign var="HREF" value='#'}
+							{assign var="ICON_PATH" value=$obj->getIconPath()}
+							{assign var="LINK" value=$obj->convertToNativeLink()}
+							{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+							{assign var="TITLE" value=$obj->getLabel()}
+							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
+							{if !empty($LINK)}
+								{assign var="HREF" value=$LINK}
+							{/if}
+							<a class="btn btn-default btn-sm popoverTooltip {$obj->getClassName()} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+									   data-{$DATA_NAME}="{$DATA_VALUE}" 
+								   {/foreach}
+							   {/if}>
+								{if $GLYPHICON}
+									<span class="{$GLYPHICON}" aria-hidden="true"></span>
+								{/if}
+								{if $ICON_PATH}
+									<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+								{/if}
+							</a>
+							{if !empty($CHILD_LINKS)}
+								<ul class="dropdown-menu">
+									{foreach key=index item=obj from=$CHILD_LINKS}
+										{if $obj->getLabel() eq NULL}
+											<li class="divider"></li>
+											{else}
+												{assign var="id" value=$obj->getId()}
+												{assign var="href" value=$obj->getUrl()}
+												{assign var="label" value=$obj->getLabel()}
+												{assign var="onclick" value=""}
+												{if stripos($obj->getUrl(), 'javascript:') === 0}
+													{assign var="onclick" value="onclick="|cat:$href}
+													{assign var="href" value="javascript:;"}
+												{/if}
+											<li>
+												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
+												   {if $obj->linkdata && is_array($obj->linkdata)}
+													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+														   data-{$DATA_NAME}="{$DATA_VALUE}" 
+													   {/foreach}
+												   {/if}>{vtranslate($label,$MODULE)}</a>
+											</li>
 										{/if}
-									</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				{/if}
+									{/foreach}
+								</ul>
+							{/if}
+						{/if}
+					{/foreach}
+				</div>
 				{if AppConfig::performance('GLOBAL_SEARCH')}
 					<div class="pull-left selectSearch">
 						<div class="input-group globalSearchInput">

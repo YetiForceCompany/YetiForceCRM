@@ -1,11 +1,11 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+ 
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Ajouter mapping',
 	'LBL_IMPORT_TEMPLATE' => 'Importer modèle',
 	'LBL_MAPPEDFIELDS' => 'Mapping',
-	'LBL_MAPPEDFIELDS_DESCRIPTION' => ' ',
+	'LBL_MAPPEDFIELDS_DESCRIPTION' => ' Description',
 	'LBL_EXPORT_RECORD' => 'Exporter',
 	'LBL_MODULE' => 'Module',
 	'LBL_REL_MODULE' => 'Module lié',
@@ -39,15 +39,11 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Une erreur ou  un conflit est survenu. Echec de l\'import.',
 	'LBL_IMPORT_OK' => 'Modèle importé avec succès.',
 	'LBL_MODULE_NOT_EXIST' => 'Module dans le modèle que vous essayez d\'importer n\'existe pas.',
+
 	'multipicklist' => 'Liste déroulante (multi sélection)',
 	'percent' => 'Pourcentage',
 	'phone' => 'Téléphone',
 	'picklist' => 'Liste déroulante',
-	'owner' => 'Owner field',
-	'tree' => 'Category field',
-	'sharedOwner' => 'Users sharing field',
-	'documentsFileUpload' => 'File field',
-	'fileLocationType' => 'File type field',
 	'skype' => 'Skype ',
 	'string' => 'Chaine de caractères',
 	'textArea' => 'Zone de texte',

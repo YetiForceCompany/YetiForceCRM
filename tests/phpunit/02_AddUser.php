@@ -22,8 +22,8 @@ class AddUser extends TestCase
 		$user->set('roleid', 'H2');
 		$user->save();
 		define('TESTS_USER_ID', $user->getId());
-		$user = CRMEntity::getInstance('Users');
-		$currentUser = $user->retrieveCurrentUserInfoFromFile(TESTS_USER_ID);
+		$userForus = CRMEntity::getInstance('Users');
+		$currentUser = $userForus->retrieveCurrentUserInfoFromFile(TESTS_USER_ID);
 		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId(TESTS_USER_ID);
 	}

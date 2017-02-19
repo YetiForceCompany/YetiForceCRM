@@ -2,9 +2,15 @@
 
 <div class="">
 	<div class="widget_header row">
-		<div class="col-xs-12">
+		<div class="col-xs-10">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			{vtranslate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
+		</div>
+		<div class="col-xs-2">
+			<button class="btn btn-primary testSpeed pull-right">
+				<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
+				{vtranslate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+			</button>
 		</div>
 	</div>
     <ul class="nav nav-tabs">
@@ -75,6 +81,11 @@
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
+						<th colspan="2" class="mediumWidthType">
+							<h4>{vtranslate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}</h4>
+						</th>
+					</tr>
+					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
 							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
 						</th>
@@ -93,30 +104,42 @@
 				</tbody>
 			</table>
 			<br/>
-        </div>
-        <div id="Permissions" class="tab-pane fade">
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
-						<th class="mediumWidthType">
-							<span>{vtranslate('LBL_FILE', $MODULE)}</span>
+						<th colspan="2" class="mediumWidthType">
+							<h4>{vtranslate('LBL_HARDWARE_INFORMATION', $MODULE)}</h4>
 						</th>
-						<th class="mediumWidthType">
-							<span>{vtranslate('LBL_SPACE', $MODULE)}</span>
-						</th> 											
+					</tr>
+					<tr class="blockHeader">
+						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_PARAMETER', $MODULE)}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{vtranslate('LBL_VALUE', $MODULE)}</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=vtlib\Functions::getDiskSpace() key=key item=item}			
+					{foreach from=Settings_ConfReport_Module_Model::getHardwareInfo() key=key item=item}
 						<tr>
-							<td>{vtranslate('LBL_SPACE_'|cat:strtoupper($key), $MODULE)}</td>
-							<td>{vtlib\Functions::showBytes($item)}</td>			
+							<td><label>{vtranslate($key, $MODULE)}</label></td>
+							<td>
+								{if is_array($item)}
+									{foreach from=$item item=row}
+										<label>{$row}</label><br/>
+									{/foreach}
+								{else}
+									<label>{$item}</label>
+								{/if}
+							</td>
 						</tr>
 					{/foreach}
 				</tbody>
 			</table>
 			<br/>
-
+        </div>
+        <div id="Permissions" class="tab-pane fade">
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">

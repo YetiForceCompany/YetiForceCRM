@@ -75,5 +75,22 @@ $languageStrings = [
 	'LBL_SOAP_LIBRARY' => 'SOAP',
 	'LBL_PHP_SAPI' => 'Server API',
 	'LBL_APCU_LIBRARY' => 'APCu',
-	'LBL_OPCACHE_LIBRARY' => 'OPcache'
+	'LBL_OPCACHE_LIBRARY' => 'OPcache',
+	'LBL_CRON_PHP' => 'Cron - PHP version',
+ 	'LBL_CRON_PHPINI' => 'Cron - PHP configuration',
+ 	'LBL_CRON_LOG_FILE' => 'Cron - Error logs',
+ 	'LBL_CRON_PHP_SAPI' => 'Cron - API server',
+	'LBL_ENVIRONMENTAL_INFORMATION' => 'Environment information',
+	'LBL_HARDWARE_INFORMATION' => 'Hardware information',
+	'LBL_CPU_USAGE' => 'CPU usage',
+	'LBL_CPU' => 'CPU',
+	'LBL_HDD' => 'Disc',
+	'LBL_RAM' => 'RAM',
+	'BTN_SERVER_SPEED_TEST' => 'Check server speed',
+	'LBL_SERVER_SPEED_TEST' => 'Server speed test',
+	'LBL_READ_TEST' => 'Read (loaded files per second)',
+	'LBL_WRITE_TEST' => 'Write (created files per second)',
+];
+$jsLanguageStrings = [
+	'JS_SPEED_TEST_START' => 'Checking speed...',
 ];

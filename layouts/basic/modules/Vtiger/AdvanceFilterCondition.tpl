@@ -38,10 +38,6 @@
 										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
-									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'recurringtype')}
-										{assign var=PICKLIST_VALUES value = Calendar_Field_Model::getReccurencePicklistValues()}
-										{$FIELD_INFO['picklistvalues'] = $PICKLIST_VALUES}
-									{/if}
 									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
 										{$FIELD_INFO['picklistvalues']['Task'] = vtranslate('Task', 'Calendar')}
 									{/if}
@@ -88,10 +84,6 @@
 										{/if}
 										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 										selected="selected"
-									{/if}
-									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'recurringtype')}
-										{assign var=PICKLIST_VALUES value = Calendar_Field_Model::getReccurencePicklistValues()}
-										{$FIELD_INFO['picklistvalues'] = $PICKLIST_VALUES}
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}

@@ -291,14 +291,58 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return $directiveValues;
 	}
 
+	/**
+	 * Get system details
+	 * @return array
+	 */
 	public static function getSystemInfo()
 	{
-		return [
+		$params = [
 			'LBL_PHPINI' => php_ini_loaded_file(),
 			'LBL_LOG_FILE' => ini_get('error_log'),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
 			'LBL_PHP_SAPI' => PHP_SAPI,
+			'LBL_PHP_SAPI' => php_uname()
 		];
+		if (file_exists('user_privileges/cron.php')) {
+			include 'user_privileges/cron.php';
+			$params['LBL_CRON_PHP'] = $vphp;
+			$params['LBL_CRON_PHPINI'] = $ini;
+			$params['LBL_CRON_LOG_FILE'] = $log;
+			$params['LBL_CRON_PHP_SAPI'] = $sapi;
+		}
+		return $params;
+	}
+
+	/**
+	 * Get hardware details
+	 * @return type
+	 */
+	public static function getHardwareInfo()
+	{
+		try {
+			$linfo = new \Linfo\Linfo;
+			$parser = $linfo->getParser();
+		} catch (Exception $exc) {
+			return [];
+		}
+		$params = [];
+		$core = 0;
+		foreach ($parser->getCPU() as $key => $value) {
+			$core++;
+			$cpu = "{$value['Model']} , {$value['MHz']} MHz";
+			if (isset($value['usage_percentage'])) {
+				$cpu .= ', ' . App\Language::translate('LBL_CPU_USAGE', 'Settings::ConfReport') . ": {$value['usage_percentage']} %";
+			}
+			$params['LBL_CPU'][] = $cpu;
+		}
+		$ram = $parser->getRam();
+		$precent = number_format(($ram['free'] / $ram['total']) * 100);
+		$params['LBL_RAM'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
+		$disk = \vtlib\Functions::getDiskSpace();
+		$precent = number_format(($disk['free'] / $disk['total']) * 100);
+		$params['LBL_HDD'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
+		return $params;
 	}
 
 	/**
@@ -351,5 +395,36 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			if (($value & $level) == $level)
 				$levels[] = $name;
 		return $levels;
+	}
+
+	/**
+	 * Test server speed
+	 * @return array
+	 */
+	public static function testSpeed()
+	{
+		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'speed' . DIRECTORY_SEPARATOR;
+		if (!is_dir($dir)) {
+			mkdir($dir, 0777);
+		}
+		$i = 5000;
+		$p = time();
+		$writeS = microtime(true);
+		for ($index = 0; $index < $i; $index++) {
+			file_put_contents("{$dir}{$p}{$index}.php", '<?php return [];');
+		}
+		$writeE = microtime(true);
+		$iterator = new \DirectoryIterator($dir);
+		$readS = microtime(true);
+		foreach ($iterator as $item) {
+			if (!$item->isDot() && !$item->isDir()) {
+				include $item->getPathname();
+			}
+		}
+		$readE = microtime(true);
+		$read = $i / ($readE - $readS);
+		$write = $i / ($writeE - $writeS);
+		\vtlib\Functions::recurseDelete('cache/speed');
+		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
 	}
 }

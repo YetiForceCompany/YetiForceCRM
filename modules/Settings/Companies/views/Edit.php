@@ -26,6 +26,7 @@ class Settings_Companies_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = new Settings_Companies_Record_Model();
 		}
 		$viewer->assign('COMPANY_COLUMNS', Settings_Companies_Module_Model::getColumnNames());
+		$viewer->assign('INDUSTRY_LIST', Settings_Companies_Module_Model::getIndustryList());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);

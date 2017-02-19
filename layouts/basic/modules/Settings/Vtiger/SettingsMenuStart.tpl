@@ -14,4 +14,4 @@
     <div class="bodyContents">
         <div class="mainContainer">
 			<div class="contentsDiv">
-{/strip}
+			{/strip}

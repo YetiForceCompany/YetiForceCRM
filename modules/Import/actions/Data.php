@@ -250,7 +250,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$fieldData = array_filter($fieldData);
 							$fieldData = $this->transformForImport($fieldData, false, false);
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
-							$entityInfo['status'] = self::$IMPORT_RECORD_MERGED;
+							$entityInfo['status'] = self::IMPORT_RECORD_MERGED;
 							break;
 						default:
 							$createRecord = true;

@@ -30,7 +30,7 @@ class Activity extends CRMEntity
 	public $table_index = 'activityid';
 	public $reminder_table = 'vtiger_activity_reminder';
 	public $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_recurringevents' => 'activityid', 'vtiger_activitycf' => 'activityid');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_activitycf' => 'activityid');
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
@@ -63,7 +63,6 @@ class Activity extends CRMEntity
 		'Start Time' => Array('activity', 'time_start'),
 		'End Date' => Array('activity' => 'due_date'),
 		'End Time' => Array('activity', 'time_end'),
-		'Recurring Type' => Array('recurringevents' => 'recurringtype'),
 		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
 	public $range_fields = Array(
@@ -87,7 +86,6 @@ class Activity extends CRMEntity
 		'Related to' => 'link',
 		'Start Date & Time' => 'date_start',
 		'End Date & Time' => 'due_date',
-		'Recurring Type' => 'recurringtype',
 		'Assigned To' => 'assigned_user_id',
 		'Start Date' => 'date_start',
 		'Start Time' => 'time_start',
@@ -102,113 +100,6 @@ class Activity extends CRMEntity
 	{
 		$this->db = PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Calendar');
-	}
-
-	/**
-	 * Function to handle module specific operations when saving a entity
-	 * @param string $module
-	 */
-	public function save_module($module)
-	{
-		$recordId = $this->id;
-		$recurType = $this->column_fields['recurringtype'];
-
-		if ((empty($recurType) || $recurType === '--None--') && $this->mode === 'edit') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_recurringevents', ['activityid' => $recordId])->execute();
-		}
-
-		//Insert into vtiger_recurring event table
-		if (isset($recurType) && !empty($recurType) && $recurType !== '--None--') {
-			$recurData = \vtlib\Functions::getRecurringObjValue();
-			if (is_object($recurData))
-				$this->insertIntoRecurringTable($recurData);
-		}
-	}
-
-	/** Function to insert values in vtiger_activity_remainder table for the specified module,
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoReminderTable($table_name, $module, $recurid)
-	{
-
-		\App\Log::trace('in insertIntoReminderTable  ' . $table_name . '    module is  ' . $module);
-		if (AppRequest::get('set_reminder') == 'Yes') {
-			unset($_SESSION['next_reminder_time']);
-			\App\Log::trace('set reminder is set');
-			$rem_days = AppRequest::get('remdays');
-			$rem_hrs = AppRequest::get('remhrs');
-			$rem_min = AppRequest::get('remmin');
-			$reminder_time = $rem_days * 24 * 60 + $rem_hrs * 60 + $rem_min;
-			if ($recurid == '') {
-				if (AppRequest::get('mode') == 'edit') {
-					$this->activity_reminder($this->id, $reminder_time, 0, $recurid, 'edit');
-				} else {
-					$this->activity_reminder($this->id, $reminder_time, 0, $recurid, '');
-				}
-			} else {
-				$this->activity_reminder($this->id, $reminder_time, 0, $recurid, '');
-			}
-		} elseif (AppRequest::get('set_reminder') == 'No') {
-			$this->activity_reminder($this->id, '0', 0, $recurid, 'delete');
-		}
-	}
-
-	// Code included by Jaguar - starts
-	/** Function to insert values in vtiger_recurringevents table for the specified tablename,module
-	 * @param RecurringType $recurObj - Object of class RecurringType
-	 */
-	public function insertIntoRecurringTable(& $recurObj)
-	{
-		$db = \App\Db::getInstance();
-
-		$stDate = $recurObj->startdate->get_DB_formatted_date();
-		$endDate = $recurObj->enddate->get_DB_formatted_date();
-		if (!empty($recurObj->recurringenddate)) {
-			$recurringEndDate = $recurObj->recurringenddate->get_DB_formatted_date();
-		}
-		$type = $recurObj->getRecurringType();
-		$flag = true;
-
-		if (AppRequest::get('mode') === 'edit') {
-			$activityId = $this->id;
-
-			$data = (new \App\Db\Query())->select(['min_date' => 'recurringdate', 'max_date' => 'recurringdate', 'recurringtype', 'activityid'])->from('vtiger_recurringevents')->where(['activityid' => $activityId])->one();
-			if ($data && ($stDate === $data['min_date'] && $endDate === $data['max_date'] && $type == $data['recurringtype'])) {
-				if (AppRequest::get('set_reminder') === 'Yes') {
-					$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $activityId])->execute();
-					$db->createCommand()->delete('vtiger_recurringevents', ['activityid' => $activityId])->execute();
-					$flag = true;
-				} elseif (AppRequest::get('set_reminder') === 'No') {
-					$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $activityId])->execute();
-					$flag = false;
-				} else
-					$flag = false;
-			} else {
-				$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $activityId])->execute();
-				$db->createCommand()->delete('vtiger_recurringevents', ['activityid' => $activityId])->execute();
-			}
-		}
-
-		$recurFreq = $recurObj->getRecurringFrequency();
-		$recurringInfo = $recurObj->getDBRecurringInfoString();
-
-		if ($flag) {
-			$currentId = $db->getUniqueID('vtiger_recurringevents', 'recurringid', false);
-			$result = $db->createCommand()->insert('vtiger_recurringevents', [
-					'recurringid' => $currentId,
-					'activityid' => $this->id,
-					'recurringdate' => $stDate,
-					'recurringtype' => $type,
-					'recurringfreq' => $recurFreq,
-					'recurringinfo' => $recurringInfo,
-					'recurringenddate' => $recurringEndDate
-				])->execute();
-			unset($_SESSION['next_reminder_time']);
-			if (AppRequest::get('set_reminder') === 'Yes') {
-				$this->insertIntoReminderTable('vtiger_activity_reminder', $module, $currentId, '');
-			}
-		}
 	}
 
 	/**
@@ -290,7 +181,6 @@ class Activity extends CRMEntity
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
-					'recurringid' => $recurid
 				]);
 			}
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
@@ -301,7 +191,6 @@ class Activity extends CRMEntity
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
 					'reminder_sent' => 0,
-					'recurringid' => $recurid
 				]);
 			}
 		}
@@ -317,7 +206,6 @@ class Activity extends CRMEntity
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $recordId])->execute();
-		$db->createCommand()->delete('vtiger_recurringevents', ['activityid' => $recordId])->execute();
 		parent::deletePerminently($moduleName, $recordId);
 	}
 
@@ -328,7 +216,6 @@ class Activity extends CRMEntity
 	 */
 	public function setActivityReminder($status)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($status == "on") {
 			$flag = 0;
 		} elseif ($status == "off") {
@@ -354,7 +241,7 @@ class Activity extends CRMEntity
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentityCalendar', array('vtiger_groupsCalendar', 'vtiger_usersCalendar', 'vtiger_lastModifiedByCalendar'));
-		$matrix->setDependency('vtiger_activity', array('vtiger_activitycf', 'vtiger_activity_reminder', 'vtiger_recurringevents'));
+		$matrix->setDependency('vtiger_activity', array('vtiger_activitycf', 'vtiger_activity_reminder'));
 
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
@@ -373,9 +260,6 @@ class Activity extends CRMEntity
 		}
 		if ($queryPlanner->requireTable("vtiger_activity_reminder")) {
 			$query .= " 	left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid";
-		}
-		if ($queryPlanner->requireTable("vtiger_recurringevents")) {
-			$query .= " 	left join vtiger_recurringevents on vtiger_recurringevents.activityid = vtiger_activity.activityid";
 		}
 		if ($queryPlanner->requireTable("vtiger_accountRelCalendar")) {
 			$query .= " 	left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link";

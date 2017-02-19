@@ -28,8 +28,8 @@ class API_CardDAV_Model
 
 	public function __construct()
 	{
-		$dbconfig = vglobal('dbconfig');
-		$this->pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
+		$dbConfig = \App\Db::getConfig('base');
+		$this->pdo = new PDO($dbConfig['dsn'] . ';charset=' . $dbConfig['charset'], $dbConfig['username'], $dbConfig['password']);
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		// Autoloader
 		require_once 'libraries/SabreDAV/autoload.php';

@@ -1,8 +1,12 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Polish language
+ * @package YetiForce.Language
+ * @license licenses/License.html
+ * @author Maciej Stencel <m.stencel@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 $languageStrings = [
-	'PLL_TEXT' => 'Text',
-	'PLL_IMAGE' => 'Image',
 	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Version de Test de la configuration modèle de PDF ',
 	'LBL_CREATING_PDF' => 'Créer un modèle PDF',
@@ -22,8 +26,8 @@ $languageStrings = [
 	'LBL_DOCUMENT_PERMISSIONS' => 'Droits d\'accès',
 	'LBL_DOCUMENT_WATERMARK' => 'Filigrane',
 	'Module' => 'Module',
-	'PLL_ACTIVE' => 'Actif',
-	'PLL_INACTIVE' => 'Inactif',
+	'active' => 'Actif',
+	'inactive' => 'Inactif',
 	'LBL_PRIMARY_NAME' => 'Nom',
 	'LBL_SECONDARY_NAME' => 'Nom complémentaire',
 	'LBL_FOLDER_NAME' => 'Nom dossier',
@@ -102,8 +106,6 @@ $languageStrings = [
 	'LBL_FOOTER_HEIGHT' => 'Marge pied de page',
 	'LBL_HEADER_IN_MILIMETERS' => 'Marge en-tête en millimètres depuis le haut de la page',
 	'LBL_FOOTER_IN_MILIMETERS' => 'Marge pied de page en millimètres depuis le bas de la page',
-	'LBL_GENERATE_ONE_PDF' => 'Generate one PDF for many records',
-	'LBL_GENERATE_ONE_PDF_INFO' => 'In case when PDF includes a special function that generates one table for many records, checking this box will result in generating one PDF file.',
 	// page format names
 	'4A0' => '4A0',
 	'2A0' => '2A0',

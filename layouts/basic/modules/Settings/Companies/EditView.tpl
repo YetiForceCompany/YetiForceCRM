@@ -25,14 +25,25 @@
 									<input type="checkbox" name="{$COLUMN}" value="1" {if $RECORD_MODEL->get({$COLUMN}) eq 1}  checked {/if}>
 								</div>
 							{/if}
+						{elseif $COLUMN eq 'industry'}
+							<label class="col-sm-2 control-label">
+								{App\Language::translate('LBL_INDUSTRY', $QUALIFIED_MODULE)}
+							</label>
+							<div class="col-sm-10">
+								<select class="select2 form-control" name="industry">
+									{foreach from=$INDUSTRY_LIST item=ITEM}
+										<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+									{/foreach}
+								</select>
+							</div>
 						{elseif $COLUMN neq 'logo_login' && $COLUMN neq 'logo_main' && $COLUMN neq 'logo_mail'}
 							<label class="col-sm-2 control-label">
 								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
 								<input class="form-control" {if $COLUMN eq 'id'} readonly {/if}
-									{if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if}
-									name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
+									   {if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if}
+									   name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
 							</div>
 						{else}
 							<div class="col-sm-3">

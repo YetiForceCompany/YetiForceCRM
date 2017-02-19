@@ -350,7 +350,8 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user)
 	{
-		\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_basic', [
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
 			'whodid' => $current_user,
@@ -358,6 +359,8 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			'status' => 6,
 			'last_reviewed_users' => '#' . App\User::getCurrentUserRealId() . '#'
 		])->execute();
+		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+		self::unsetReviewed($sourceId, \App\User::getCurrentUserRealId(), $id);
 	}
 
 	/**

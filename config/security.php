@@ -34,4 +34,6 @@ $SECURITY_CONFIG = [
 	'RESTRICTED_DOMAINS_EXCLUDED' => ['OSSEmployees', 'Users'],
 	// Remember user credentials
 	'LOGIN_PAGE_REMEMBER_CREDENTIALS' => false,
+	// Interdependent reference fields
+	'FIELDS_REFERENCES_DEPENDENT' => false,
 ];
