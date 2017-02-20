@@ -17,7 +17,7 @@ class Request extends \Vtiger_Request
 
 	public function getData()
 	{
-		if ($this->getRequestMetod() === 'GET') {
+		if ($this->getRequestMethod() === 'GET') {
 			$this->rawValueMap = $_REQUEST;
 			return $this;
 		} else {

@@ -264,7 +264,7 @@ class Vtiger_Request
 		return isset($this->headers[$key]) ? $this->headers[$key] : null;
 	}
 
-	public function getRequestMetod()
+	public function getRequestMethod()
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
 		if ($method == 'POST' && array_key_exists('HTTP_X_HTTP_METHOD', $_SERVER)) {

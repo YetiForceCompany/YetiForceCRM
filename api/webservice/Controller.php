@@ -36,7 +36,7 @@ class Controller
 	{
 		$this->request = Core\Request::init();
 		$this->response = Core\Response::getInstance();
-		$this->method = strtoupper($this->request->getRequestMetod());
+		$this->method = strtoupper($this->request->getRequestMethod());
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Controller
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
-			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMetod() . PHP_EOL;
+			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
 			$log .= "Headers: \n";
 			foreach ($this->request->getHeaders() as $key => $header) {
 				$log .= "$key : $header\n";
