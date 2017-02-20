@@ -22,7 +22,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Status',
 	'FL_PAYMENT_STATUS' => 'Zahlungsstatus',
 	'FL_INVOICE_TYPE' => 'Rechnungstyp',
-	'FL_CATEGORY' => 'Category',
+	'FL_CATEGORY' => 'Kategorie',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Überweisung',
 	'PLL_WIRE_TRANSFER' => 'Banküberweisung',

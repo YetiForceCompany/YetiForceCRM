@@ -12,11 +12,11 @@ $languageStrings = [
 	'FL_MODULE' => 'Modul',
 	'FL_SUBJECT' => 'Betreff',
 	'FL_CONTENT' => 'Inhalt',
-	'FL_SMTP_PRIORITY' => 'SMTP priority',
+	'FL_SMTP_PRIORITY' => 'SMTP Priorität',
 	// PICKLIST
 	'PLL_MODULE' => 'Modul',
-	'PLL_RECORD' => 'Record',
+	'PLL_RECORD' => 'Datensatz',
 	'PLL_MAIL' => 'Nachricht',
 	'PLL_LIST' => 'Liste',
-	'PLL_DEFAULT' => 'Default company',
+	'PLL_DEFAULT' => 'Firma (Standard)',
 ];

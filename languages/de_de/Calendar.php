@@ -141,8 +141,8 @@ $languageStrings = [
 	'LBL_PROCESS' => 'Prozess',
 	'LBL_SAVE_AND_CLOSE' => 'Sichern und schließen',
 	'LBL_SHOW_LOCATION' => 'Karte anzeigen',
-	'FL_RECURRENCE' => 'Repetition',
-	'FL_REAPEAT' => 'Repeat',
+	'FL_RECURRENCE' => 'Wiederholung',
+	'FL_REAPEAT' => 'Wiederholen',
 ];
 $jsLanguageStrings = [
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
