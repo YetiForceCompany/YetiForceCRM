@@ -352,14 +352,14 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	 * @param string $moduleName Module name
 	 * @return string Tax field name
 	 */
-	public function getTaxField($moduleName)
+	public static function getTaxField($moduleName)
 	{
 		$cache = Vtiger_Cache::get('InventoryIsGetTaxField', $moduleName);
 		if ($cache) {
 			return $cache;
 		}
 		$return = false;
-		if ($moduleName == '') {
+		if ($moduleName === '') {
 			return $return;
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
