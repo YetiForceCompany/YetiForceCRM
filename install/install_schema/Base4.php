@@ -2621,7 +2621,6 @@ class Base4 extends \App\Db\Importers\Base
 					[218, 6, 58, 'getDependentsList', 17, 'OSSSoldServices', 1, 'ADD', 0, 0, 1],
 					[221, 6, 59, 'getDependentsList', 14, 'OutsourcedProducts', 1, 'ADD', 0, 0, 1],
 					[222, 7, 59, 'getDependentsList', 16, 'OutsourcedProducts', 1, 'ADD', 0, 0, 1],
-					[229, 4, 60, 'getDependentsList', 4, 'OSSPasswords', 0, 'ADD', 0, 0, 0],
 					[230, 6, 60, 'getDependentsList', 11, 'OSSPasswords', 0, 'ADD', 0, 0, 0],
 					[233, 7, 60, 'getDependentsList', 16, 'OSSPasswords', 0, 'ADD', 0, 0, 0],
 					[234, 92, 60, 'getDependentsList', 12, 'OSSPasswords', 0, 'ADD', 0, 0, 0],
