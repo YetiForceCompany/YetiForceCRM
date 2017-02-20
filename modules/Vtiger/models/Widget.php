@@ -146,15 +146,17 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		$self = new self();
 		if ($row) {
 			if ($row['linklabel'] == 'Mini List') {
-				if (!$row['isdeafult'])
+				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
+				}
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
 			} else if ($row['linklabel'] == 'ChartFilter') {
-				if (!$row['isdeafult'])
+				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
+				}
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
