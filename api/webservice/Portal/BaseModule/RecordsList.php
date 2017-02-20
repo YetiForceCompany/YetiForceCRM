@@ -62,7 +62,7 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($requestLimit = $this->controller->request->getHeader('X-ROW-LIMIT')) {
 			$limit = (int) $requestLimit;
 		}
-		$offset = 1;
+		$offset = 0;
 		if ($requestOffset = $this->controller->request->getHeader('X-ROW-OFFSET')) {
 			$offset = (int) $requestOffset;
 		}
