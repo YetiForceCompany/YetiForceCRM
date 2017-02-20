@@ -23,7 +23,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Tabdata file' => 'user_privileges/tabdata.php',
 		'Menu file' => 'user_privileges/menu_0.php',
 		'User privileges file' => 'user_privileges/user_privileges_1.php',
-		'Parent tabdata file' => 'config/parent_tabdata.php',
 		'Cache directory' => 'cache/',
 		'Address book directory' => 'cache/addressBook/',
 		'Image cache directory' => 'cache/images/',
