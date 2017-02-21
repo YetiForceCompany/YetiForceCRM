@@ -947,15 +947,16 @@ jQuery.Class("Vtiger_List_Js", {
 				"viewname": cvId,
 				"mode": "getRecordsCount"
 			}
-
-			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
-			postData.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
-			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-				postData['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
-				postData['search_value'] = searchValue;
-				postData['operator'] = 's';
+			var listSearchInstance = this.getListSearchInstance();
+			if (listSearchInstance !== false) {
+				var searchValue = listSearchInstance.getAlphabetSearchValue();
+				postData.search_params = JSON.stringify(listSearchInstance.getListSearchParams());
+				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+					postData['search_key'] = listSearchInstance.getAlphabetSearchField();
+					postData['search_value'] = searchValue;
+					postData['operator'] = 's';
+				}
 			}
-
 			AppConnector.request(postData).then(
 					function (data) {
 						var response = JSON.parse(data);
