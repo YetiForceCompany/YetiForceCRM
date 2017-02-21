@@ -53,8 +53,9 @@ class Icon
 			$fileIcon = self::$extensionIcon[$explodeExtension];
 		if (isset(self::$extensionIcon[$exntension]))
 			$fileIcon = self::$extensionIcon[$exntension];
-		if (!$fileIcon)
+		if (!isset($fileIcon) || !$fileIcon) {
 			$fileIcon = 'userIcon-Documents';
+		}
 		return $fileIcon;
 	}
 }
