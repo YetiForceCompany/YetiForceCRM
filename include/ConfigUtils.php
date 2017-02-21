@@ -86,7 +86,10 @@ class AppConfig
 			require_once 'config/debug.php';
 			AppConfig::load('debug', $DEBUG_CONFIG);
 		}
-		return self::$debug[$key];
+		if (isset(self::$debug[$key])) {
+			return self::$debug[$key];
+		}
+		return null;
 	}
 
 	public static function developer($key, $defvalue = false)
