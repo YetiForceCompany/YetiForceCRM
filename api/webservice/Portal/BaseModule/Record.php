@@ -28,7 +28,7 @@ class Record extends \Api\Core\BaseAction
 	public function checkPermission()
 	{
 		parent::checkPermission();
-		$moduleName = $this->controller->request->get('module');
+		$moduleName = $this->controller->request->getModule();
 		$method = $this->controller->method;
 		if ('POST' === $method) {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -38,7 +38,7 @@ class Record extends \Api\Core\BaseAction
 		} else {
 			$record = $this->controller->request->get('record');
 			if (!$record || !\App\Record::isExists($record, $moduleName)) {
-				throw new \Api\Core\Exception("Record doesn't exist", 401);
+				throw new \Api\Core\Exception('Record doesn\'t exist', 401);
 			}
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			switch ($method) {
@@ -137,13 +137,10 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function put()
 	{
-		$recordData = $this->controller->request->get('recordData');
-		$moduleName = $this->controller->request->get('module');
-		$result = false;
-		$newRequest = new \Vtiger_Request($recordData);
+		$moduleName = $this->controller->request->getModule();
 		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
-		$recordModel = $saveClass->saveRecord($newRequest);
+		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];
 	}
 
@@ -153,12 +150,10 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function post()
 	{
-		$recordData = $this->controller->request->get('recordData');
-		$moduleName = $this->controller->request->get('module');
-		$newRequest = new \Vtiger_Request($recordData);
+		$moduleName = $this->controller->request->getModule();
 		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
-		$recordModel = $saveClass->saveRecord($newRequest);
+		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];
 	}
 }
