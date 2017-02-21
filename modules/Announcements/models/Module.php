@@ -30,7 +30,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $row['announcementid'], 'userid' => \App\User::getCurrentUserId()]);
+				->where(['announcementid' => $row['id'], 'userid' => \App\User::getCurrentUserId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
 				$query->andWhere(['status' => 0]);
@@ -40,7 +40,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 				continue;
 			}
 			$recordModel = $this->getRecordFromArray($row);
-			$recordModel->set('id', $row['announcementid']);
+			$recordModel->set('id', $row['id']);
 			$this->announcements[] = $recordModel;
 		}
 	}
@@ -56,11 +56,10 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function setMark($record, $state)
 	{
 		$db = \App\Db::getInstance();
-
 		$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
 				->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
-		if ($query->scalar() !== false) {
+		if ($query->scalar() === false) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,
