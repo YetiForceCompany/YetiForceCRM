@@ -241,7 +241,10 @@ class PearDatabase
 
 	public function getRowCount(&$result)
 	{
-		return $result->rowCount();
+		if (method_exists($result, 'rowCount')) {
+			return $result->rowCount();
+		}
+		return 0;
 	}
 
 	public function num_rows(&$result)
