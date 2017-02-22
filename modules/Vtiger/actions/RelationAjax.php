@@ -177,7 +177,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to get the page count for reltedlist
-	 * @return total number of pages
+	 * @param \Vtiger_Request $request
 	 */
 	public function getRelatedListPageCount(Vtiger_Request $request)
 	{
@@ -196,7 +196,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		if (in_array('Comments', $relModules)) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
-		} elseif ($relatedModuleName == 'Updates') {
+		} elseif ($relatedModuleName === 'Updates') {
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {
@@ -211,10 +211,14 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 				if (!$relationListView->getRelationModel()) {
 					continue;
 				}
-				if ($relatedModuleName == 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
+				if ($relatedModuleName === 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
-				$totalCount += (int) $relationListView->getRelatedEntriesCount();
+				if ($relatedModuleName === 'Calendar' && \AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
+					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])->count();
+				} else {
+					$totalCount += (int) $relationListView->getRelatedEntriesCount();
+				}
 				$pageLimit = $pagingModel->getPageLimit();
 				$pageCount = ceil((int) $totalCount / (int) $pageLimit);
 			}

@@ -38,4 +38,6 @@ $CONFIG = [
 	'CRON_MAX_NUMERS_ACTIVITY_STATE' => 5000,
 	// Max number of records to update calendar activity fields in related modules (in cron)
 	'CRON_MAX_NUMERS_ACTIVITY_STATS' => 5000,
+	// Show number of current records in record preview for related modules
+	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
 ];

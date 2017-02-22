@@ -1,6 +1,6 @@
 <?php
 return [
-	'appVersion' => '4.0.43',
+	'appVersion' => '4.0.44',
 	'patchVersion' => '2017.02.22',
 	'lib_mPDF' => '0.0.2',
 	'lib_roundcube' => '0.0.24',
