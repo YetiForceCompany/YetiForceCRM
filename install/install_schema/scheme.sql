@@ -2457,16 +2457,16 @@ CREATE TABLE `u_yf_knowledgebasecf` (
   CONSTRAINT `fk_1_vtiger_knowledgebasecf` FOREIGN KEY (`knowledgebaseid`) REFERENCES `u_yf_knowledgebase` (`knowledgebaseid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `u_yf_mail_address_boock` */
+/*Table structure for table `u_yf_mail_address_book` */
 
-CREATE TABLE `u_yf_mail_address_boock` (
+CREATE TABLE `u_yf_mail_address_book` (
   `id` int(19) NOT NULL,
   `email` varchar(100) NOT NULL,
   `name` varchar(255) NOT NULL,
   `users` text NOT NULL,
   KEY `email` (`email`,`name`),
   KEY `id` (`id`),
-  CONSTRAINT `u_yf_mail_address_boock_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `u_yf_mail_address_book_ibfk_1` FOREIGN KEY (`id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_mail_autologin` */
