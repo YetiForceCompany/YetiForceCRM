@@ -1187,10 +1187,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if ($this->yystack[$this->yyidx + -5]->minor) {
 			$this->out['from'] = $this->yystack[$this->yyidx + -5]->minor;
 		}
-		// if (SEMI) {
-		// 	$this->out['semi_colon'] = SEMI;
-		// }
-		// /ProCRM
 		if ($this->out['select']) {
 			$this->buildSelectStmt($this->out);
 		}
