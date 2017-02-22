@@ -173,7 +173,7 @@ class ModuleHierarchy
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
-		$fields = Field::getReletedFieldForModule(false, $moduleName);
+		$fields = Field::getRelatedFieldForModule(false, $moduleName);
 		$modules = static::getChildModules($moduleName);
 		foreach ($fields as $field) {
 			if (in_array($field['name'], $modules)) {

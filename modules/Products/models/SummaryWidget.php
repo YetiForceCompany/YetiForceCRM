@@ -52,7 +52,7 @@ class Products_SummaryWidget_Model
 	}
 
 	/**
-	 * Get releted modules record counts
+	 * Get related modules record counts
 	 * @param Vtiger_Record_Model $parentRecordModel
 	 * @return type
 	 */

@@ -288,7 +288,7 @@ class Record
 		$parentId = false;
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
-				if ($fields = Field::getReletedFieldForModule($moduleName, $parentModule)) {
+				if ($fields = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
 					$entity = \CRMEntity::getInstance($moduleName);
 					$index = $entity->tab_name_index[$fields['tablename']];
 					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])

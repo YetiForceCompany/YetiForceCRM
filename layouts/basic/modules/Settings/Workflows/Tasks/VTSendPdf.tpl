@@ -55,10 +55,10 @@
 							{/foreach}
 						</optgroup>
 					{/foreach}
-					{foreach item=FIELDS from=$TEXT_PARSER->getReletedVariable('email')}
-						{foreach item=RELETED_FIELDS key=BLOCK_NAME from=$FIELDS}
+					{foreach item=FIELDS from=$TEXT_PARSER->getRelatedVariable('email')}
+						{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 							<optgroup label="{$BLOCK_NAME}">
-								{foreach item=ITEM from=$RELETED_FIELDS}
+								{foreach item=ITEM from=$RELATED_FIELDS}
 									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
 										{$ITEM['label']}
 									</option>
