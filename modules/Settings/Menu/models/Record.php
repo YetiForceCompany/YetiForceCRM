@@ -257,7 +257,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($menu['filters'])) {
 			$content = $menu['id'] . '=>[';
 			$content .= "'module'=>" . var_export($menu['mod'], true) . ",";
-			$content .= "'filters'=>'" . var_export($menu['filters'], true) . "'";
+			$content .= "'filters'=>" . var_export($menu['filters'], true);
 			$content .= '],';
 		}
 		if (count($menu['childs']) > 0) {
