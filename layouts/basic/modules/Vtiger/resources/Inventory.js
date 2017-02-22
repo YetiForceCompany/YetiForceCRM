@@ -298,12 +298,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					}
 				}
 				if (entry == 'global') {
-					discountValue = discountParams.globalDiscount;
-					discountRate += valuePrices * (discountValue / 100);
+					discountRate += valuePrices * (app.parseNumberToFloat(discountParams.globalDiscount) / 100);
 				}
 				if (entry == 'group') {
-					discountValue = discountParams.groupDiscount;
-					discountRate += valuePrices * (discountValue / 100);
+					discountRate += valuePrices * (app.parseNumberToFloat(discountParams.groupDiscount) / 100);
 				}
 				if (aggregationType == '2') {
 					valuePrices = valuePrices - discountRate;
