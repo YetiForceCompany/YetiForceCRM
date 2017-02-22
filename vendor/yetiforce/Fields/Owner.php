@@ -183,7 +183,8 @@ class Owner
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
-		return \App\Cache::get('getUsers', $cacheKey);
+		$tmp = \App\Cache::get('getUsers', $cacheKey);
+		return $tmp;
 	}
 
 	/**
