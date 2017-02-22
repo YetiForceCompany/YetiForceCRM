@@ -288,7 +288,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 		$this->query = $this->query . ' ' . $deletedQuery;
 
-		if ($sqlDump['orderby']) {
+		if (!empty($sqlDump['orderby'])) {
 			$i = 0;
 			$this->query = $this->query . ' ORDER BY ';
 			foreach ($sqlDump['orderby'] as $ind => $field) {
@@ -1187,9 +1187,10 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if ($this->yystack[$this->yyidx + -5]->minor) {
 			$this->out['from'] = $this->yystack[$this->yyidx + -5]->minor;
 		}
-		if (SEMI) {
-			$this->out['semi_colon'] = SEMI;
-		}
+		// if (SEMI) {
+		// 	$this->out['semi_colon'] = SEMI;
+		// }
+		// /ProCRM
 		if ($this->out['select']) {
 			$this->buildSelectStmt($this->out);
 		}
@@ -1275,7 +1276,10 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	public function yy_r17()
 	{
-		$length = sizeof($this->out['where_condition']['column_values']);
+		$length = 0;
+		if (!empty($this->out['where_condition']['column_values'])) {
+			$length = sizeof($this->out['where_condition']['column_values']);
+		}
 		$pos = $length - 1;
 		if ($pos < 0) {
 			$pos = 0;
@@ -1391,7 +1395,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	public function yy_r41()
 	{
 		$adb = PearDatabase::getInstance();
-		if (!$this->out['meta']) {
+		if (empty($this->out['meta'])) {
+		// / ProCRM
 			$module = $this->out['moduleName'];
 			$handler = vtws_getModuleHandlerFromName($module, $this->user);
 			$objectMeta = $handler->getMeta();
@@ -1426,6 +1431,9 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$firstIndex = $tabNameIndex[$firstTable];
 			foreach ($tables as $ind => $table) {
 				if ($firstTable != $table) {
+					if (!isset($this->out['defaultJoinConditions'])) {
+						$this->out['defaultJoinConditions'] = '';
+					}
 					if (!isset($tabNameIndex[$table]) && $table == "vtiger_crmentity") {
 						$this->out['defaultJoinConditions'] = $this->out['defaultJoinConditions'] . " LEFT JOIN $table ON $firstTable.$firstIndex=$table.crmid";
 					} else {
