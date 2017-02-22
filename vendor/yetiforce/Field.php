@@ -150,7 +150,7 @@ class Field
 	{
 		$key = 'all';
 		if (Cache::has('getReletedFieldForModule', $key)) {
-			$fileds = Cache::get('getReletedFieldForModule', $key);
+			$fields = Cache::get('getReletedFieldForModule', $key);
 		} else {
 			$db = Db::getInstance();
 			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
@@ -164,10 +164,10 @@ class Field
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
 				->where(['vtiger_tab.presence' => 0]);
-			$fileds = [];
+			$fields = [];
 			$dataReader = $wsQuery->union($fmrQuery)->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$fileds[$row['name']][$row['relmod']] = $row;
+				$fields[$row['name']][$row['relmod']] = $row;
 			}
 			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
 				->from('vtiger_field')
@@ -178,31 +178,31 @@ class Field
 				foreach (ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
 					$row['relmod'] = $module;
 					$row['type'] = 3;
-					$fileds[$row['name']][$row['relmod']] = $row;
+					$fields[$row['name']][$row['relmod']] = $row;
 				}
 			}
-			Cache::save('getReletedFieldForModule', $key, $fileds, Cache::LONG);
+			Cache::save('getReletedFieldForModule', $key, $fields, Cache::LONG);
 		}
 		if ($moduleName) {
-			if (isset($fileds[$moduleName])) {
+			if (isset($fields[$moduleName])) {
 				if ($forModule) {
-					return isset($fileds[$moduleName][$forModule]) ? $fileds[$moduleName][$forModule] : [];
+					return isset($fields[$moduleName][$forModule]) ? $fields[$moduleName][$forModule] : [];
 				}
-				return $fileds[$moduleName];
+				return $fields[$moduleName];
 			}
 			return [];
 		} else {
 			if ($forModule) {
-				$rfileds = [];
-				foreach ($fileds as $moduleName => $forModules) {
+				$rfields = [];
+				foreach ($fields as $moduleName => $forModules) {
 					if (isset($forModules[$forModule])) {
-						$rfileds[$moduleName] = $forModules[$forModule];
+						$rfields[$moduleName] = $forModules[$forModule];
 					}
 				}
-				return $rfileds;
+				return $rfields;
 			}
 		}
-		return $fileds;
+		return $fields;
 	}
 
 	/**
