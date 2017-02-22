@@ -101,7 +101,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			} else {
 				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-			$row['body'] = vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($row['body']))), 100);
+			$row['body'] = vtlib\Functions::textLength(trim(App\Purifier::purify($row['body'])), 100);
 			$history[] = $row;
 		}
 		return $history;
