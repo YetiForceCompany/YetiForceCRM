@@ -221,7 +221,7 @@ class DateTimeField
 		} elseif (strpos($date[0], '/') !== false) {
 			$separator = '/';
 		}
-		list($y, $m, $d) = explode($separator, $date[0]);
+		list($y, $m, $d) = array_pad(explode($separator, $date[0]), 3, null);;
 
 		switch ($format) {
 			case 'dd-mm-yyyy': $date[0] = $d . '-' . $m . '-' . $y;
