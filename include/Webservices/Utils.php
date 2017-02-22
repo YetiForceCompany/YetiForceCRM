@@ -123,7 +123,9 @@ function vtws_getUserWebservicesGroups($tabId, $user)
 
 function vtws_getIdComponents($elementid)
 {
-	return explode("x", $elementid);
+	if (strpos($elementid, 'x') !== false) {
+		return explode("x", $elementid);
+	}
 }
 
 function vtws_getId($objId, $elemId)
@@ -442,6 +444,7 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
  */
 function vtws_getModuleHandlerFromName($name, $user)
 {
+	global $log;
 	$adb = PearDatabase::getInstance();
 
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
