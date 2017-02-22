@@ -444,7 +444,6 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
  */
 function vtws_getModuleHandlerFromName($name, $user)
 {
-	global $log;
 	$adb = PearDatabase::getInstance();
 
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
