@@ -102,7 +102,7 @@ class DataTransform
 		}
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
-			if (strpos($row[$field], 'x') !== false) {
+			if (isset($row[$field]) && strpos($row[$field], 'x') !== false) {
 				$row[$field] = vtws_getIdComponents($row[$field]);
 				$row[$field] = $row[$field][1];
 			}
@@ -114,7 +114,7 @@ class DataTransform
 				$row[$field] = $ownerDetails[1];
 			}
 		}
-		if ($row["id"]) {
+		if (!empty($row["id"])) {
 			unset($row["id"]);
 		}
 		if (isset($row[$meta->getObectIndexColumn()])) {
@@ -182,6 +182,7 @@ class DataTransform
 
 	public static function sanitizeReferences($row, $meta)
 	{
+		global $log;
 		$adb = PearDatabase::getInstance();
 
 		$references = $meta->getReferenceFieldDetails();
