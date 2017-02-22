@@ -9,7 +9,7 @@
 $updaterLimit = 10;
 $cronMaxTime = 60;
 $interval = 2;
-$endTime = time() + $time;
+$endTime = time() + $cronMaxTime;
 $eventHandler = new App\EventHandler();
 $db = \App\Db::getInstance('admin');
 do {
