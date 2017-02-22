@@ -467,6 +467,9 @@ class PearDatabase
 		if (!isset($result->tmp)) {
 			$result->tmp = $result->fetchAll(PDO::FETCH_ASSOC);
 		}
+		if (!isset($result->tmp[$row]) || !isset($result->tmp[$row][$col])) {
+			return null;
+		}
 		return $result->tmp[$row][$col];
 	}
 
