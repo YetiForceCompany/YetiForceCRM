@@ -1075,7 +1075,7 @@ insert  into `vtiger_announcementstatus`(`announcementstatusid`,`announcementsta
 
 /*Data for the table `vtiger_apiaddress` */
 
-insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (1,'min_lenght','3','global');
+insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (1,'min_length','3','global');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (2,'key','','google_map_api');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (3,'nominatim','0','google_map_api');
 insert  into `vtiger_apiaddress`(`id`,`name`,`val`,`type`) values (4,'source','https://maps.googleapis.com/maps/api/geocode/json','google_map_api');

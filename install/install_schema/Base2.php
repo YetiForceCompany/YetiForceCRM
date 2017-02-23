@@ -2431,7 +2431,7 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_apiaddress' => [
 				'columns' => ['id', 'name', 'val', 'type'],
 				'values' => [
-						[1, 'min_lenght', '3', 'global'],
+						[1, 'min_length', '3', 'global'],
 						[2, 'key', '', 'google_map_api'],
 						[3, 'nominatim', '0', 'google_map_api'],
 						[4, 'source', 'https://maps.googleapis.com/maps/api/geocode/json', 'google_map_api'],
