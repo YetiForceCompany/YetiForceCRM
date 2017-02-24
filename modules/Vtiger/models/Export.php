@@ -61,7 +61,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			foreach ($this->accessibleFields as &$fieldName) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
 				// Check added as querygenerator is not checking this for admin users
-				if ($fieldModel && $fieldModel->isViewEnabled()) {
+				if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
 					$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 					if ($exportBlockName) {
 						$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
@@ -136,7 +136,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		$fields[] = 'id';
 		foreach ($fieldInstances as &$fieldModel) {
 			// Check added as querygenerator is not checking this for admin users
-			if ($fieldModel->isViewEnabled()) {
+			if ($fieldModel->isViewEnabled() || $fieldModel->isMandatory()) {  // also export mandatory fields
 				$fields[] = $fieldModel->getName();
 			}
 		}
