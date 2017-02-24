@@ -25,7 +25,10 @@ class Module
 		$action = \Api\Controller::getAction();
 		//$permissionType = $action->getPermissionType();
 		$modules = [];
-		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
+		// migoi
+		// foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
+		foreach (\vtlib\Functions::getAllModules(false, false, 0) as $value) {
+		// / migoi
 			if (\App\Privilege::isPermitted($value['name'])) {
 				$modules[$value['name']] = \App\Language::translate($value['name'], $value['name']);
 			}
