@@ -26,7 +26,7 @@ font-size: 75%;
 			<div class='pull-left'>
 				{assign var=PROJECT_ID value=$TASKS->get('projectid')}
 				{assign var=ACCOUNT value=$TASKS->get('account')}
-				<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGHT:'...'}</a>
+				<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}</a>
 				{if $PROJECT_ID}
 				   <br/><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
 				{/if}

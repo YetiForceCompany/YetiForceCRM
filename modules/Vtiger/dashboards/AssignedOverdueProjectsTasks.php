@@ -45,8 +45,8 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$title_max_length = vglobal('title_max_length');
 		$href_max_length = vglobal('href_max_length');
-		$viewer->assign('NAMELENGHT', $title_max_length);
-		$viewer->assign('HREFNAMELENGHT', $href_max_length);
+		$viewer->assign('NAMELENGTH', $title_max_length);
+		$viewer->assign('HREFNAMELENGTH', $href_max_length);
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('DATA', $data);

@@ -97,7 +97,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 		// max length of a password
 		if ( typeof(max) === 'undefined' )
 			max = 15;   // default 15
-		// get the password lenght
+		// get the password length
 		var passlength = parseInt(Math.random() * (max - min) + min);
 		var i = 0;    // index for the loop
 		// loop to get random string with *pass_length* characters

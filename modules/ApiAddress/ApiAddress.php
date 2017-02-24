@@ -28,7 +28,7 @@ class ApiAddress
 			$registerLink = true;
 
 			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
-			$sql = "INSERT INTO `vtiger_apiaddress` ( `nominatim`, `key`, `source`, `min_lenght` ) VALUES ( ?, ?, ?, ?);";
+			$sql = "INSERT INTO `vtiger_apiaddress` ( `nominatim`, `key`, `source`, `min_length` ) VALUES ( ?, ?, ?, ?);";
 			$adb->pquery($sql, array(0, 0, 'https://api.opencagedata.com/geocode/v1/', 3), true);
 		} else if ($eventType == 'module.disabled') {
 

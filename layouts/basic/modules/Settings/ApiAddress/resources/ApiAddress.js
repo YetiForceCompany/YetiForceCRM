@@ -13,11 +13,11 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		var thisInstance = this;
 		content.find('.saveGlobal').on('click', function () {
 			var elements = {
-				min_lenght: $('[name="min_lenght"]').val(),
+				min_length: $('[name="min_length"]').val(),
 				result_num: $('[name="result_num"]').val(),
 				api_name: 'global',
 			};
-			var params = {}
+			var params = {};
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
@@ -148,8 +148,8 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		var thisInstance = this;
 		var status = true;
 		for (var i in elements) {
-			if (i == 'min_lenght' || i == 'result_num') {
-				if (!thisInstance.registerValidatemin_lenght(elements[i])) {
+			if (i == 'min_length' || i == 'result_num') {
+				if (!thisInstance.registerValidatemin_length(elements[i])) {
 					return false;
 				}
 			}
@@ -163,7 +163,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 		return status;
 		
 	},
-	registerValidatemin_lenght: function (val) {
+	registerValidatemin_length: function (val) {
 		var filter = /^\d+$/;
 
 		if (!filter.test(val) || (1 == val || 0 == val)) {

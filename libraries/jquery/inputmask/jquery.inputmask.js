@@ -890,7 +890,7 @@
                     positionsClone = $.extend(true, {}, getMaskSet()["validPositions"]); //clone the currentPositions
 
                 //if (fromSetValid && maskPos >= getMaskLength()) {
-                //    resetMaskSet(true); //masklenght can be altered on the process => reset to get the actual length
+                //    resetMaskSet(true); //masklength can be altered on the process => reset to get the actual length
                 //}
                 if (maskPos < getMaskLength()) {
                     result = _isValid(maskPos, c, strict, fromSetValid);
