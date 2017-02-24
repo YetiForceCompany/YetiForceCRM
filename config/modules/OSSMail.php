@@ -1,20 +1,21 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+include ROOT_DIRECTORY.DIRECTORY_SEPARATOR.'config/config.inc.php';
 $config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
-$config['default_host'] = ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com',];
+$config['default_host'] = ['192.168.3.2' => '192.168.3.2',];
 $config['validate_cert'] = false;
-$config['default_port'] = 993;
-$config['smtp_server'] = 'ssl://smtp.gmail.com';
-$config['smtp_port'] = 465;
-$config['smtp_user'] = '%u';
-$config['smtp_pass'] = '%p';
+$config['default_port'] = 143;
+$config['smtp_server'] = '172.17.10.82';
+$config['smtp_port'] = 25;
+$config['smtp_user'] = '';
+$config['smtp_pass'] = '';
 $config['support_url'] = 'http://yetiforce.com';
 $config['des_key'] = 'rGOQ26hR%gxlZk=QA!$HMOvb';
-$config['username_domain'] = 'gmail.com';
+$config['username_domain'] = 'pro-crm.local';
 $config['product_name'] = 'YetiForce';
 $config['plugins'] = array('identity_smtp', 'ical_attachments', 'yetiforce', 'thunderbird_labels', 'zipdownload', 'archive', 'authres_status');
-$config['language'] = 'en_US';
+$config['language'] = 'de_DE';
 $config['mime_param_folding'] = 0;
 $config['skin_logo'] = array('*' => '/images/null.png');
 $config['ip_check'] = false;
@@ -28,7 +29,7 @@ $config['preview_pane'] = false;
 $config['htmleditor'] = '1';
 $config['draft_autosave'] = 300;
 $config['mdn_requests'] = '0';
-$config['session_lifetime'] = 30;
+$config['session_lifetime'] = 100000;
 $config['sendmail_delay'] = 0;
 $config['date_long'] = 'Y-m-d H:i';
 $config['date_format'] = 'Y-m-d';
@@ -48,8 +49,8 @@ $config['imap_debug'] = AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
 $config['ldap_debug'] = AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
 $config['smtp_debug'] = AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
 $config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
-$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
-$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/mail/';
+$config['log_dir'] = ROOT_DIRECTORY.DIRECTORY_SEPARATOR.'cache/logs/';
+$config['temp_dir'] = ROOT_DIRECTORY.DIRECTORY_SEPARATOR.'cache/mail/';
 //Socket context options
 $config['imap_conn_options'] = [
 	'ssl' => [
@@ -57,6 +58,8 @@ $config['imap_conn_options'] = [
 		'verfify_peer_name' => false,
 	],
 ];
+$config['imap_auth_type'] = 'PLAIN';
+$config['smtp_timeout'] = 5;
 $config['smtp_conn_options'] = [
 	'ssl' => [
 		'verify_peer' => false,
@@ -65,6 +68,10 @@ $config['smtp_conn_options'] = [
 ];
 $config['smtp_timeout'] = 5;
 $config['smtp_helo_host'] = 'YetiForceCRM';
+$config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+$config['site_URL'] = $site_URL;
+$config['imap_open_add_connection_type'] = true;
+$config['enable_variables_in_signature'] = false;
 $config['skin'] = 'yetiforce';
 $config['list_cols'] = array('flag', 'status', 'subject', 'fromto', 'date', 'size', 'attachment', 'authres_status', 'threads');
 // plugin authres_status
@@ -76,3 +83,5 @@ $config['site_URL'] = $site_URL;
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;
 
+// migoi Exchange fix
+$config['imap_fix_msexchange_kerberos'] = true;
