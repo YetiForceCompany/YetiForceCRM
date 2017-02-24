@@ -2,6 +2,7 @@
 /.settings
 /.project
 /.buildpath
+/.vscode
 /_private
 README.md
 /user_privileges/cron.php
