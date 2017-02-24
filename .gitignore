@@ -9,6 +9,7 @@ README.md
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php
+/config/config.inc.php
 /cache/logs/*.log
 /cache/vtlib/
 /test/templates_c/basic/*.php
@@ -26,3 +27,5 @@ README.md
 /vendor/doctrine/
 /vendor/simshaun/
 /vendor/linfo/
+/user_privileges/*
+
