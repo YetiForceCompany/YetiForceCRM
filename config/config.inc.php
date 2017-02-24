@@ -32,8 +32,8 @@ $USE_RTE = 'true';
 $PORTAL_URL = 'https://portal.yetiforce.com';
 
 // helpdesk support email id and support name (Example: 'support@yetiforce.com' and 'yetiforce support')
-$HELPDESK_SUPPORT_NAME = 'your-support name';
-$HELPDESK_SUPPORT_EMAIL_REPLY = '';
+$HELPDESK_SUPPORT_NAME = 'ProCRM Helpdesk';
+$HELPDESK_SUPPORT_EMAIL_REPLY = 'support@pro-crm.de';
 
 /* database configuration
   db_server
@@ -79,14 +79,14 @@ $upload_maxsize = 52428800;  // 50MB
 // 'admin' to only allow admins to export 
 // 'none' to block exports completely 
 // allow_exports default value = all
-$allow_exports = 'all';
+$allow_exports = 'admin';
 
 // files with one of these extensions will have '.txt' appended to their filename on upload
 // upload_badext default value = php, php3, php4, php5, pl, cgi, py, asp, cfm, js, vbs, html, htm
 $upload_badext = array('php', 'php3', 'php4', 'php5', 'pl', 'cgi', 'py', 'asp', 'cfm', 'js', 'vbs', 'html', 'htm', 'exe', 'bin', 'bat', 'sh', 'dll', 'phps', 'phtml', 'xhtml', 'rb', 'msi', 'jsp', 'shtml', 'sth', 'shtm');
 
 // list_max_entries_per_page default value = 20
-$list_max_entries_per_page = '20';
+$list_max_entries_per_page = '25';
 
 // limitpage_navigation default value = 5
 $limitpage_navigation = '5';
@@ -117,7 +117,8 @@ $default_charset = 'UTF-8';
 
 // default language
 // default_language default value = en_us
-$default_language = 'en_us';
+// $default_language = 'en_us';
+$default_language = 'de_de';
 
 // add the language pack name to every translation string in the display.
 // translation_string_prefix default value = false
