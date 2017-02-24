@@ -6,14 +6,15 @@ $DEBUG_CONFIG = [
 	 * 	Logger 
 	 * ************************************************************** */
 	// Enable saving logs to file. Values: false/true
-	'LOG_TO_FILE' => false,
+	'LOG_TO_FILE' => true,
 	// Enable displaying logs in debug console. Values: false/true
 	'LOG_TO_CONSOLE' => false,
 	// Enable saving logs profiling.  Values: false/true
 	'LOG_TO_PROFILE' => false,
 	// Level of saved/displayed logs
 	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'], 
-	'LOG_LEVELS' => false,
+	//'LOG_LEVELS' => false,
+	'LOG_LEVELS' => 3,
 	// Level of saved/displayed tracerts. // Values: int
 	'LOG_TRACE_LEVEL' => 0,
 	// Display Main Debug Console
@@ -29,6 +30,7 @@ $DEBUG_CONFIG = [
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
+	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
@@ -50,7 +52,7 @@ $DEBUG_CONFIG = [
 	// Activate the plugin recording log in DAV
 	'DAV_DEBUG_PLUGIN' => false,
 	// Show errors messages in web service
-	'WEBSERVICE_SHOW_ERROR' => false,
+	'WEBSERVICE_SHOW_ERROR' => true,
 	// web service logs
 	'WEBSERVICE_DEBUG' => false,
 	/* +***************************************************************
