@@ -51,9 +51,9 @@ class Install_InitSchema_Model
 
 			$splitQueries .= $fileBuffer;
 		}
-		$create_query += substr_count($splitQueries, 'CREATE TABLE');
-		$insert_query += substr_count($splitQueries, 'INSERT INTO');
-		$alter_query += substr_count($splitQueries, 'ALTER TABLE');
+		$create_query = substr_count($splitQueries, 'CREATE TABLE');
+		$insert_query = substr_count($splitQueries, 'INSERT INTO');
+		$alter_query = substr_count($splitQueries, 'ALTER TABLE');
 		$executed_query = 0;
 		$queries = $this->_splitQueries($splitQueries);
 		foreach ($queries as $query) {
