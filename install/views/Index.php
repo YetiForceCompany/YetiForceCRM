@@ -78,6 +78,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		define('INSTALLATION_MODE', true);
 		define('INSTALLATION_MODE_DEBUG', $this->debug);
+		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
 		echo $this->viewer->fetch('InstallPreProcess.tpl');
 	}
 
