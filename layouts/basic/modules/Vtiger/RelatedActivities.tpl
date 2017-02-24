@@ -12,7 +12,16 @@
 {strip}
 	{assign var=MODULE_NAME value="Calendar"}
 	{if count($ACTIVITIES) neq '0'}
+		{if $PAGE_NUMBER eq 1}
+			<input type="hidden" class="totaltActivities" value="{$PAGING_MODEL->get('totalCount')}">
+			<input type="hidden" class="pageLimit" value="{$PAGING_MODEL->getPageLimit()}">
+		{/if}
+		<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}">
+		<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}">
 		{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
+			{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
+				<hr>
+			{/if}
 			{assign var=START_DATE value=$RECORD->get('date_start')}
 			{assign var=START_TIME value=$RECORD->get('time_start')}
 			{assign var=END_DATE value=$RECORD->get('due_date')}
@@ -141,7 +150,7 @@
 			</div>
 		</div>
 		{if !$smarty.foreach.activities.last}
-			<hr>
+		<hr>
 		{/if}
 	{/foreach}
 {else}
