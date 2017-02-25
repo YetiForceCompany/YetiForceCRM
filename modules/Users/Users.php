@@ -899,7 +899,7 @@ class Users extends CRMEntity
 		if (!empty($this->column_fields['currency_id'])) {
 			$currency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => $this->column_fields['currency_id'], 'deleted' => 0])->one();
 		}
-		if (!$currency) {
+		if (empty($currency)) {
 			$currency = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => 1])->one();
 		}
 		$currencyArray = ['$' => '&#36;', '&euro;' => '&#8364;', '&pound;' => '&#163;', '&yen;' => '&#165;'];
