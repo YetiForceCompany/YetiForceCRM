@@ -996,7 +996,7 @@ class Users extends CRMEntity
 			if ((new \App\Db\Query())->from('vtiger_users')
 					->where(['or', ['user_name' => $this->column_fields['user_name']], ['email1' => $this->column_fields['email1']]])
 					->exists()) {
-				throw new \Exception('LBL_USER_EXISTS');
+				throw new \Exception(vtranslate('LBL_USER_EXISTS').' -> '.$this->column_fields['user_name']);
 			}
 			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
