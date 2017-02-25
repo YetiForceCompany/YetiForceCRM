@@ -726,6 +726,7 @@ class Functions
 		if ($request->isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
+			$trace = '';
 			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
