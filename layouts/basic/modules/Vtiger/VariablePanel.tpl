@@ -35,20 +35,20 @@
 				</div>
 			</div>
 		</div>
-		{assign var=RELETED_VARIABLE value=$TEXT_PARSER->getReletedVariable()}
-		{if $RELETED_VARIABLE}
+		{assign var=RELATED_VARIABLE value=$TEXT_PARSER->getRelatedVariable()}
+		{if $RELATED_VARIABLE}
 			<div class="col-md-6 fieldRow">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-					<label class="muted">{\App\Language::translate('LBL_RELETED_MODULE_FIELDS')}</label>
+					<label class="muted">{\App\Language::translate('LBL_RELATED_MODULE_FIELDS')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
 						<div class="input-group">
 							<select class="select2" id="relatedVariable">
-								{foreach item=FIELDS from=$RELETED_VARIABLE}
-									{foreach item=RELETED_FIELDS key=BLOCK_NAME from=$FIELDS}
+								{foreach item=FIELDS from=$RELATED_VARIABLE}
+									{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 										<optgroup label="{$BLOCK_NAME}">
-											{foreach item=ITEM from=$RELETED_FIELDS}
+											{foreach item=ITEM from=$RELATED_FIELDS}
 												<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
 											{/foreach}
 										</optgroup> 
