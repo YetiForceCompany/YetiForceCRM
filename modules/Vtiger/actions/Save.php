@@ -78,8 +78,12 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 	public function postProcess(Vtiger_Request $request)
 	{
-		define('_PROCESS_TYPE', 'View');
-		define('_PROCESS_NAME', 'Detail');
+		if (!defined('_PROCESS_TYPE')) {
+			define('_PROCESS_TYPE', 'View');  // fixme hardcoded and via define?
+		}
+		if (!defined('_PROCESS_NAME')) {
+			define('_PROCESS_NAME', 'Detail'); // fixme hardcoded and via define?
+		}
 		$request->set('view', 'Detail');
 		$request->delete('action');
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
