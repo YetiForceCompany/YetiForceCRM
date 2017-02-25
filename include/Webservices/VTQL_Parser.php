@@ -210,6 +210,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 				}
 			}
 		}
+		$this->query = $this->query.', vtiger_crmentity.crmid ';
 		$this->query = $this->query . ' FROM ' . $sqlDump['tableName'] . $sqlDump['defaultJoinConditions'];
 		$deletedQuery = $meta->getEntityDeletedQuery();
 		$accessControlQuery = $meta->getEntityAccessControlQuery();
