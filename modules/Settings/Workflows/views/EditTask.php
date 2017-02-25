@@ -112,7 +112,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$emailFieldoptions[$blockName][$field['var_value']] = \App\Language::translate($field['label'], $sourceModule);
 			}
 		}
-		foreach ($textParser->getReletedVariable('email') as $modules) {
+		foreach ($textParser->getRelatedVariable('email') as $modules) {
 			foreach ($modules as $blockName => $fields) {
 				$blockName = \App\Language::translate($blockName, $sourceModule);
 				foreach ($fields as $field) {

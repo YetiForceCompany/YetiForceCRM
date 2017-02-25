@@ -33,7 +33,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 		if (!empty($fieldValueMapping)) {
 			$util->loggedInUser();
 			foreach ($fieldValueMapping as $fieldInfo) {
-				$reletedData = $fieldInfo['fieldname'];
+				$relatedData = $fieldInfo['fieldname'];
 				$fieldValue = trim($fieldInfo['value']);
 				switch ($fieldInfo['valuetype']) {
 					case 'fieldname':
@@ -59,7 +59,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 						break;
 				}
 				if (!empty($fieldValue) || $fieldValue == 0) {
-					$this->updateRecords($recordModel, $reletedData, $fieldValue);
+					$this->updateRecords($recordModel, $relatedData, $fieldValue);
 				}
 			}
 		}
@@ -68,19 +68,19 @@ class VTUpdateRelatedFieldTask extends VTTask
 
 	function updateRecords($recordModel, $relatedData, $fieldValue)
 	{
-		$reletedDataEx = explode('::', $relatedData);
-		$reletedModuleName = $reletedDataEx[0];
-		$reletedFieldName = $reletedDataEx[1];
-		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $reletedModuleName);
+		$relatedDataEx = explode('::', $relatedData);
+		$relatedModuleName = $relatedDataEx[0];
+		$relatedFieldName = $relatedDataEx[1];
+		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModuleName);
 		if (!$targetModel->getRelationModel()) {
 			return false;
 		}
 		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $reletedModuleName);
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedModuleName);
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
-			$recordModel->set($reletedFieldName, $fieldValue);
+			$recordModel->set($relatedFieldName, $fieldValue);
 			$recordModel->save();
 		}
 	}

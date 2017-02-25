@@ -223,7 +223,7 @@ class Vtiger_AdvancedFilter_Helper
 					if (!empty($fieldModelList)) {
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
-								$name = "$(reletedRecord : $parentFieldName|$fieldName|$refModule)$";
+								$name = "$(relatedRecord : $parentFieldName|$fieldName|$refModule)$";
 								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
 								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {

@@ -84,7 +84,7 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$parentId = $this->getParentCrmId();
 		$parentModule = \App\Record::getType($parentId);
-		$fields = \App\Field::getReletedFieldForModule($queryGenerator->getModule());
+		$fields = \App\Field::getRelatedFieldForModule($queryGenerator->getModule());
 		$foundField = true;
 		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
@@ -97,11 +97,11 @@ class RecordsList extends \Api\Core\BaseAction
 				if ($moduleName === $parentModule) {
 					continue;
 				}
-				if ($reletedField = \App\Field::getReletedFieldForModule($moduleName, $parentModule)) {
-					$queryGenerator->addReletedCondition([
+				if ($relatedField = \App\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
+					$queryGenerator->addRelatedCondition([
 						'sourceField' => $field['fieldname'],
 						'relatedModule' => $moduleName,
-						'relatedField' => $reletedField['fieldname'],
+						'relatedField' => $relatedField['fieldname'],
 						'value' => $parentId,
 						'operator' => 'e',
 						'conditionGroup' => true

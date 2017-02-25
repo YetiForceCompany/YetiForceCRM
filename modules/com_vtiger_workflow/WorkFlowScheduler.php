@@ -155,13 +155,13 @@ class WorkFlowScheduler
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {
-					list($full, $sourceField, $relatedModule, $reletedFieldName) = $matches;
+					list($full, $sourceField, $relatedModule, $relatedFieldName) = $matches;
 				}
 				if ($sourceField) {
-					$queryGenerator->addReletedCondition([
+					$queryGenerator->addRelatedCondition([
 						'sourceField' => $sourceField,
 						'relatedModule' => $relatedModule,
-						'relatedField' => $reletedFieldName,
+						'relatedField' => $relatedFieldName,
 						'value' => $value,
 						'operator' => $operator,
 						'conditionGroup' => $groupJoin === 'and',

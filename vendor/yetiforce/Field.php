@@ -141,16 +141,16 @@ class Field
 	}
 
 	/**
-	 * Get releted field for module
+	 * Get related field for module
 	 * @param string|boolean $moduleName
 	 * @param string|boolean $forModule
 	 * @return array
 	 */
-	public static function getReletedFieldForModule($moduleName = false, $forModule = false)
+	public static function getRelatedFieldForModule($moduleName = false, $forModule = false)
 	{
 		$key = 'all';
-		if (Cache::has('getReletedFieldForModule', $key)) {
-			$fields = Cache::get('getReletedFieldForModule', $key);
+		if (Cache::has('getRelatedFieldForModule', $key)) {
+			$fields = Cache::get('getRelatedFieldForModule', $key);
 		} else {
 			$db = Db::getInstance();
 			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
@@ -181,7 +181,7 @@ class Field
 					$fields[$row['name']][$row['relmod']] = $row;
 				}
 			}
-			Cache::save('getReletedFieldForModule', $key, $fields, Cache::LONG);
+			Cache::save('getRelatedFieldForModule', $key, $fields, Cache::LONG);
 		}
 		if ($moduleName) {
 			if (isset($fields[$moduleName])) {

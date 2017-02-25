@@ -55,7 +55,7 @@
 						<div data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_0}
-									{foreach item=RELETED from=$RELETED_RECORDS[$MODULE]}
+									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
 										{include file='MailActionBarRow.tpl'|@vtemplate_path:$MODULE_NAME}
 									{/foreach}
 								{/foreach}
@@ -99,7 +99,7 @@
 						<div data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_1}
-									{foreach item=RELETED from=$RELETED_RECORDS[$MODULE]}
+									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
 										{include file='MailActionBarRow.tpl'|@vtemplate_path:$MODULE_NAME}
 									{/foreach}
 								{/foreach}
@@ -150,7 +150,7 @@
 						<div  data-type="link">
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_2}
-									{foreach item=RELETED from=$RELETED_RECORDS[$MODULE]}
+									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
 										{include file='MailActionBarRow.tpl'|@vtemplate_path:$MODULE_NAME}
 									{/foreach}
 								{/foreach}
@@ -160,7 +160,7 @@
 				</div>
 			</div>	
 		</div>
-		{if $RELETED_RECORDS}
+		{if $RELATED_RECORDS}
 			<div class="chevronBtnCube">
 				<button class="hideBtn" data-type="0" title="{vtranslate('LBL_MINIMIZE_BAR',$MODULE_NAME)}">
 					<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>

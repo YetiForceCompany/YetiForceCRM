@@ -759,7 +759,7 @@ class CRMEntity
 					}
 				}
 			}
-			$fields = App\Field::getReletedFieldForModule(false, $module);
+			$fields = App\Field::getRelatedFieldForModule(false, $module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
 				$db->update($field['tablename'], [

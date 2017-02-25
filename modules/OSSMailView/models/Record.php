@@ -262,7 +262,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return $db->getRowCount($result) > 0 ? $db->getSingleValue($result) : false;
 	}
 
-	public function getReletedRecords($record)
+	public function getRelatedRecords($record)
 	{
 		$db = PearDatabase::getInstance();
 		$relations = [];
