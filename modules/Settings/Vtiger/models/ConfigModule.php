@@ -73,8 +73,8 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				$configContents = $matches[0];
 			}
 			$data = [];
-			$editableFileds = $this->getEditableFields();
-			foreach ($editableFileds as $fieldName => $fieldDetails) {
+			$editableFields = $this->getEditableFields();
+			foreach ($editableFields as $fieldName => $fieldDetails) {
 				foreach ($configContents as $configContent) {
 					if (strpos($configContent, $fieldName)) {
 						$fieldValue = explode(' = ', $configContent);

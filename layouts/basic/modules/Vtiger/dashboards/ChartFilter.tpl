@@ -91,7 +91,7 @@
 		{/foreach}
 	{elseif $WIZARD_STEP eq 'step3'}
 		<option></option>
-		{foreach from=$MODULE_FILEDS item=FIELD key=FIELD_NAME}
+		{foreach from=$MODULE_FIELDS item=FIELD key=FIELD_NAME}
 			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 		{/foreach}
 	{/if}
