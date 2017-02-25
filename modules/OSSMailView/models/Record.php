@@ -79,6 +79,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				return [];
 			}
 			$queryParams[] = $ids;
+			$ifwhere = '';
 			if ($type != 'All') {
 				$ifwhere = ' AND type = ?';
 				$queryParams[] = $type;
