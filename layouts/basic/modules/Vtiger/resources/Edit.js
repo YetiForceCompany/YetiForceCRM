@@ -802,7 +802,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 * Function to copy address between fields
 	 * @param strings which accepts value as either odd or even
 	 */
-	copyAddress: function (fromLabel, toLabel, reletedRecord, sourceModule) {
+	copyAddress: function (fromLabel, toLabel, relatedRecord, sourceModule) {
 		var status = false;
 		var thisInstance = this;
 		var formElement = this.getForm();
@@ -810,13 +810,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var BlockIds = this.addressFieldsMappingBlockID;
 
 		from = BlockIds[fromLabel];
-		if (reletedRecord === false || sourceModule === false)
+		if (relatedRecord === false || sourceModule === false)
 			from = BlockIds[fromLabel];
 		to = BlockIds[toLabel];
 		for (var key in addressMapping) {
 			var nameElementFrom = addressMapping[key] + from;
 			var nameElementTo = addressMapping[key] + to;
-			if (reletedRecord) {
+			if (relatedRecord) {
 				var fromElement = thisInstance.addressFieldsData[nameElementFrom];
 				var fromElementLable = thisInstance.addressFieldsData[nameElementFrom + '_label'];
 			} else {
