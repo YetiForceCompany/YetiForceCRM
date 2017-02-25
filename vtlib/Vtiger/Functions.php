@@ -114,7 +114,10 @@ class Functions
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
-		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
+		// migoi
+		// $restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
+		$restrictedModules = ['SMSNotifier', 'Dashboard'];
+		// / migoi
 		foreach ($moduleList as $id => &$module) {
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
