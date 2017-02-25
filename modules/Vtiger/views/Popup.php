@@ -182,7 +182,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		}
 
 		// If there are no related records with parent module then, we should show all the records
-		if (!$parentRelatedRecords && !empty($relatedParentModule) && !empty($relatedParentId)) {
+		if (empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentModule = null;
 			$relatedParentId = null;
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
