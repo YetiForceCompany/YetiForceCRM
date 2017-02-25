@@ -448,6 +448,8 @@ function vtws_getModuleHandlerFromName($name, $user)
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
+	$log = null; // not used
+
 	require_once $handlerPath;
 
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
