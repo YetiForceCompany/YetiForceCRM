@@ -508,6 +508,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentCommentId = $request->get('commentid');
 		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
+		$moduleName = $request->getModule();
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
