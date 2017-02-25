@@ -458,10 +458,10 @@ class Admin extends \App\Db\Importers\Base
 			</td>
 			<td height="150" width="30%">
 			<p style="text-transform:uppercase;color:#fff;">NABYWCA:<br><br>
-			$(reletedRecord : parent_id|accountname|Accounts)$<br>
-			$(reletedRecord : parent_id|addresslevel8a|Accounts)$ $(reletedRecord : parent_id|buildingnumbera|Accounts)$<br>
-			$(reletedRecord : parent_id|addresslevel7a|Accounts)$ $(reletedRecord : parent_id|addresslevel5a|Accounts)$(reletedRecord : parent_id|addresslevel7b|Accounts)$ $(reletedRecord : parent_id|addresslevel5b|Accounts)$<br>
-			$(translate : Accounts|vat_id)$ $(reletedRecord : parent_id|vat_id|Accounts)$</p>
+			$(relatedRecord : parent_id|accountname|Accounts)$<br>
+			$(relatedRecord : parent_id|addresslevel8a|Accounts)$ $(relatedRecord : parent_id|buildingnumbera|Accounts)$<br>
+			$(relatedRecord : parent_id|addresslevel7a|Accounts)$ $(relatedRecord : parent_id|addresslevel5a|Accounts)$(relatedRecord : parent_id|addresslevel7b|Accounts)$ $(relatedRecord : parent_id|addresslevel5b|Accounts)$<br>
+			$(translate : Accounts|vat_id)$ $(relatedRecord : parent_id|vat_id|Accounts)$</p>
 			</td>
 			<td height="150" width="5%"> </td>
 		</tr></table>
@@ -480,7 +480,7 @@ class Admin extends \App\Db\Importers\Base
 
 <table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
 			<td style="font-size:13px;border:1px solid #ddd;" width="45%">Wystawił:<br><br>
-			$(reletedRecord : assigned_user_id|first_name|Users)$ $(reletedRecord : assigned_user_id|last_name|Users)$</td>
+			$(relatedRecord : assigned_user_id|first_name|Users)$ $(relatedRecord : assigned_user_id|last_name|Users)$</td>
 			<td width="45%"> </td>
 			<td height="150" width="5%"> </td>
 		</tr></table>', '<div style="text-align:center;">{nb} z {PAGENO}</div>
@@ -519,10 +519,10 @@ class Admin extends \App\Db\Importers\Base
 			</td>
 			<td height="150" width="30%">
 			<p style="text-transform:uppercase;color:#fff;">NABYWCA:<br><br>
-			$(reletedRecord : parent_id|accountname|Accounts)$<br>
-			$(reletedRecord : parent_id|addresslevel8a|Accounts)$ $(reletedRecord : parent_id|buildingnumbera|Accounts)$<br>
-			$(reletedRecord : parent_id|addresslevel7a|Accounts)$ $(reletedRecord : parent_id|addresslevel5a|Accounts)$(reletedRecord : parent_id|addresslevel7b|Accounts)$ $(reletedRecord : parent_id|addresslevel5b|Accounts)$<br>
-			$(translate : Accounts|vat_id)$ $(reletedRecord : parent_id|vat_id|Accounts)$</p>
+			$(relatedRecord : parent_id|accountname|Accounts)$<br>
+			$(relatedRecord : parent_id|addresslevel8a|Accounts)$ $(relatedRecord : parent_id|buildingnumbera|Accounts)$<br>
+			$(relatedRecord : parent_id|addresslevel7a|Accounts)$ $(relatedRecord : parent_id|addresslevel5a|Accounts)$(relatedRecord : parent_id|addresslevel7b|Accounts)$ $(relatedRecord : parent_id|addresslevel5b|Accounts)$<br>
+			$(translate : Accounts|vat_id)$ $(relatedRecord : parent_id|vat_id|Accounts)$</p>
 			</td>
 			<td height="150" width="5%"> </td>
 		</tr></table><div style="padding-left:50px;padding-right:50px;">$(custom : ProductsTableNew)$</div>
@@ -537,7 +537,7 @@ class Admin extends \App\Db\Importers\Base
 
 <table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
 			<td style="font-size:13px;border:1px solid #ddd;" width="45%">Wystawił:<br><br>
-			$(reletedRecord : assigned_user_id|first_name|Users)$ $(reletedRecord : assigned_user_id|last_name|Users)$</td>
+			$(relatedRecord : assigned_user_id|first_name|Users)$ $(relatedRecord : assigned_user_id|last_name|Users)$</td>
 			<td width="45%">$(custom : TableDiscountSummary)$</td>
 			<td height="150" width="5%"> </td>
 		</tr></table>', '<div style="text-align:center;"> </div>
@@ -576,10 +576,10 @@ class Admin extends \App\Db\Importers\Base
 			</td>
 			<td height="150" width="30%">
 			<p style="text-transform:uppercase;color:#fff;">NABYWCA:<br><br>
-			$(reletedRecord : parent_id|accountname|Accounts)$<br>
-			$(reletedRecord : parent_id|addresslevel8a|Accounts)$ $(reletedRecord : parent_id|buildingnumbera|Accounts)$<br>
-			$(reletedRecord : parent_id|addresslevel7a|Accounts)$ $(reletedRecord : parent_id|addresslevel5a|Accounts)$(reletedRecord : parent_id|addresslevel7b|Accounts)$ $(reletedRecord : parent_id|addresslevel5b|Accounts)$<br>
-			$(translate : Accounts|vat_id)$ $(reletedRecord : parent_id|vat_id|Accounts)$</p>
+			$(relatedRecord : parent_id|accountname|Accounts)$<br>
+			$(relatedRecord : parent_id|addresslevel8a|Accounts)$ $(relatedRecord : parent_id|buildingnumbera|Accounts)$<br>
+			$(relatedRecord : parent_id|addresslevel7a|Accounts)$ $(relatedRecord : parent_id|addresslevel5a|Accounts)$(relatedRecord : parent_id|addresslevel7b|Accounts)$ $(relatedRecord : parent_id|addresslevel5b|Accounts)$<br>
+			$(translate : Accounts|vat_id)$ $(relatedRecord : parent_id|vat_id|Accounts)$</p>
 			</td>
 			<td height="150" width="5%"> </td>
 		</tr></table>
@@ -597,7 +597,7 @@ class Admin extends \App\Db\Importers\Base
 
 <table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
 			<td style="font-size:13px;border:1px solid #ddd;" width="45%">Wystawił:<br><br>
-			$(reletedRecord : assigned_user_id|first_name|Users)$ $(reletedRecord : assigned_user_id|last_name|Users)$</td>
+			$(relatedRecord : assigned_user_id|first_name|Users)$ $(relatedRecord : assigned_user_id|last_name|Users)$</td>
 			<td width="45%">$(custom : TableDiscountSummary)$</td>
 			<td height="150" width="5%"> </td>
 		</tr></table>', '<div style="text-align:center;"> </div>
@@ -655,8 +655,8 @@ $(custom : ProductsValueTable|IStorages)$', '<div style="text-align:center;"><sp
 			$(translate : Vat ID)$ $(organization : vatid)$<br><b>$(translate : Registration number 2)$ : </b>$(organization : id1)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
 			$(record : RecordId)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$ <br>
@@ -672,13 +672,13 @@ $(translate : IIDN|Attention)$: $(record : attention)$<br>
 					[8, 'IGRN', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Przyjęcie z zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGRN|Assigned To)$:</strong> $(translate : IGRN|Assigned To)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $number$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br>
-			$(reletedRecord : storageid|RecordId)$<br>
-			$(reletedRecord : vendorid|addresslevel8a|Vendors)$ $(reletedRecord : vendorid|addresslevel8a|Vendors)$ $(reletedRecord : vendorid|localnumbera|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel7a|Vendors)$<span style="font-size:10px;">,$(reletedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(reletedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(reletedRecord : vendorid|registration_number_2|Vendors)$</span></td>
+			$(relatedRecord : storageid|RecordId)$<br>
+			$(relatedRecord : vendorid|addresslevel8a|Vendors)$ $(relatedRecord : vendorid|addresslevel8a|Vendors)$ $(relatedRecord : vendorid|localnumbera|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel7a|Vendors)$<span style="font-size:10px;">,$(relatedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(relatedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(relatedRecord : vendorid|registration_number_2|Vendors)$</span></td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -701,8 +701,8 @@ $(translate : IGRN|Attention)$: $(record : attention)$<br>
 			$(translate : Vat ID)$ $(organization : vatid)$<br><b>$(translate : Registration number 2)$ : </b>$(organization : id1)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
 			$(record : RecordId)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -718,13 +718,13 @@ $(custom : ProductsTableNew)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(organization : code)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(translate : Accounts|Registration number 2)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(organization : code)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(translate : Accounts|Registration number 2)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|RecordId)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|RecordId)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -741,13 +741,13 @@ $(translate : IGDN|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTRN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br>
-			$(reletedRecord : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel8a|Vendors)$ $(reletedRecord : vendorid|buildingnumbera|Vendors)$ $(reletedRecord : vendorid|localnumbera|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel7a|Vendors)$ $(reletedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(reletedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(reletedRecord : vendorid|registration_number_2|Vendors)$</td>
+			$(relatedRecord : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel8a|Vendors)$ $(relatedRecord : vendorid|buildingnumbera|Vendors)$ $(relatedRecord : vendorid|localnumbera|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel7a|Vendors)$ $(relatedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(relatedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(relatedRecord : vendorid|registration_number_2|Vendors)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|RecordId)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|RecordId)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -763,13 +763,13 @@ $(translate : ISTRN|Attention)$: $(record : attention)$<br>
 					[12, 'IPreOrder', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;line-height:25.6px;"><b>Rezerwacja magazynowa</b></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IPreOrder|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IPreOrder|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', '<table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(organization : code)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(translate : Accounts|Registration number 2)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(organization : code)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(translate : Accounts|Registration number 2)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -787,13 +787,13 @@ $(translate : IPreOrder|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTDN|Assigned To)$ :</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel7a|Accounts)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(translate : Accounts|Registration number 2)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel7a|Accounts)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(translate : Accounts|Registration number 2)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -816,9 +816,9 @@ $(translate : ISTDN|Attention)$: $(record : attention)$<br>
 			$(organization : code)$ $(organization : city)$<br>
 			$(translate : Vat ID)$ $(organization : vatid)$<br><b>$(translate : Registration number 2)$ : </b>$(organization : id1)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|RecordId)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|RecordId)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -836,13 +836,13 @@ $(translate : IIDN|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGRN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(translate : IGRN|Assigned To)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><b>VENDOR</b><br>
-			$(reletedRecord : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel8a|Vendors)$ $(reletedRecord : vendorid|buildingnumbera|Vendors)$ $(localnumbera : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel7a|Vendors)$ $(reletedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(reletedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(reletedRecord : vendorid|registration_number_2|Vendors)$</td>
+			$(relatedRecord : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel8a|Vendors)$ $(relatedRecord : vendorid|buildingnumbera|Vendors)$ $(localnumbera : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel7a|Vendors)$ $(relatedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(relatedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(relatedRecord : vendorid|registration_number_2|Vendors)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -865,9 +865,9 @@ $(translate : IGRN|Attention)$: $(record : attention)$<br>
 			$(organization : code)$ $(organization : city)$<br>
 			$(translate : Vat ID)$ $(organization : vatid)$<br><b>$(translate : Registration number 2)$ : </b>$(organization : id1)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -885,13 +885,13 @@ $(translate : IGIN|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(organization : code)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(reletedRecord : accountid|registration_number_2|Accounts)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(organization : code)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(relatedRecord : accountid|registration_number_2|Accounts)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -909,13 +909,13 @@ $(translate : IGDN|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTRN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTRN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>VENDOR</strong><br>
-			$(reletedRecord : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel8a|Vendors)$ $(reletedRecord : vendorid|buildingnumbera|Vendors)$ $(localnumbera : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel7a|Vendors)$<span style="font-size:10px;">, $(reletedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(reletedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(reletedRecord : vendorid|registration_number_2|Vendors)$</span></td>
+			$(relatedRecord : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel8a|Vendors)$ $(relatedRecord : vendorid|buildingnumbera|Vendors)$ $(localnumbera : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel7a|Vendors)$<span style="font-size:10px;">, $(relatedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(relatedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(relatedRecord : vendorid|registration_number_2|Vendors)$</span></td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -933,13 +933,13 @@ $(translate : ISTRN|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IPreOrder|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IPreOrder|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(organization : code)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(reletedRecord : accountid|registration_number_2|Accounts)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(organization : code)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(relatedRecord : accountid|registration_number_2|Accounts)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br>
 $(custom : ProductsTableNew)$<br>
@@ -957,13 +957,13 @@ $(translate : IPreOrder|Attention)$: $(record : attention)$<br>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : ISTDN|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : ISTDN|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Document number:</strong> $(record : number)$</span></td>
 		</tr></tbody></table><hr />', ' 
 <table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>RECIPIENT</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(organization : code)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(reletedRecord : accountid|registration_number_2|Accounts)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(organization : code)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(relatedRecord : accountid|registration_number_2|Accounts)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>STORAGE</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><br> 
 $(custom : ProductsTableNew)$<br>
@@ -988,13 +988,13 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 					[22, 'IGRNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta przyjęcia z zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGRNC|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGRNC|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$<br /><strong>Data wystawienia:</strong> $(general : CurrentDate)$</span></td>
 		</tr></tbody></table><hr />', '<br><br><table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>DOSTAWCA</strong><br>
-			$(reletedRecord : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel8a|Vendors)$ $(reletedRecord : vendorid|buildingnumbera|Vendors)$ $(localnumbera : vendorid|vendorname|Vendors)$<br>
-			$(reletedRecord : vendorid|addresslevel7a|Vendors)$ $(reletedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(reletedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(reletedRecord : vendorid|registration_number_2|Vendors)$</td>
+			$(relatedRecord : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel8a|Vendors)$ $(relatedRecord : vendorid|buildingnumbera|Vendors)$ $(localnumbera : vendorid|vendorname|Vendors)$<br>
+			$(relatedRecord : vendorid|addresslevel7a|Vendors)$ $(relatedRecord : vendorid|addresslevel5a|Vendors)$<br><strong>$(translate : Vendors|Vat ID)$:</strong> $(relatedRecord : vendorid|vat_id|Vendors)$<br><strong>$(translate : Vendors|Registration number 2)$: </strong>$(relatedRecord : vendorid|registration_number_2|Vendors)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><hr><strong><span style="font-size:16px;">Było</span></strong><br><br>
 $(custom : ProductsTableRelatedModule)$
@@ -1010,13 +1010,13 @@ $(custom : ProductsTableNew)$<br>
 					[23, 'IGDNC', '<table style="width:100%;"><tbody><tr><td style="width:50%;"><span style="font-size:16px;"><strong>Korekta wydania na zewnątrz</strong></span></td>
 			<td style="width:50%;text-align:right;"><span style="font-size:10px;"><strong>$(translate : IGDNC|FL_ACCEPTANCE_DATE)$:</strong> $(record : acceptance_date)$</span><br /><span style="font-size:10px;"><strong>$(translate : IGDNC|Assigned To)$:</strong> $(record : assigned_user_id)$</span><br /><span style="font-size:10px;"><strong>Numer dokumentu:</strong> $(record : number)$<br /><strong>Data wystawienia:</strong> $(general : CurrentDate)$</span></td>
 		</tr></tbody></table><hr />', '<br><br><table style="width:100%;"><tr><td style="width:50%;font-size:10px;"><strong>ODBIORCA</strong><br>
-			$(reletedRecord : accountid|accountname|Accounts)$<br>
-			$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ $(reletedRecord : accountid|localnumbera|Accounts)$<br>
-			$(organization : code)$, $(reletedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(reletedRecord : accountid|vat_id|Accounts)$<br><strong>$(reletedRecord : accountid|registration_number_2|Accounts)$: </strong>$(reletedRecord : accountid|registration_number_2|Accounts)$</td>
+			$(relatedRecord : accountid|accountname|Accounts)$<br>
+			$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ $(relatedRecord : accountid|localnumbera|Accounts)$<br>
+			$(organization : code)$, $(relatedRecord : accountid|addresslevel5a|Accounts)$<br><strong>$(translate : Accounts|Vat ID)$: </strong>$(relatedRecord : accountid|vat_id|Accounts)$<br><strong>$(relatedRecord : accountid|registration_number_2|Accounts)$: </strong>$(relatedRecord : accountid|registration_number_2|Accounts)$</td>
 			<td style="width:50%;font-size:10px;text-align:right;"><b>MAGAZYN</b><br>
-			$(reletedRecord : storageid|number|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel8a|IStorages)$ $(reletedRecord : storageid|buildingnumbera|IStorages)$ $(reletedRecord : storageid|localnumbera|IStorages)$<br>
-			$(reletedRecord : storageid|addresslevel7a|IStorages)$ $(reletedRecord : storageid|addresslevel5a|IStorages)$<br><br>
+			$(relatedRecord : storageid|number|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br>
+			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br><br>
 			 </td>
 		</tr></table><hr><strong><span style="font-size:16px;">Było</span></strong><br><br>
 $(custom : ProductsTableRelatedModule)$
@@ -1080,16 +1080,16 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 								<p style="color:rgb(0,0,0);font-size:21px;text-align:left;"><b>Nabywca</b> </p>
 							</td>
 						</tr><tr><td height="20" width="100%">
-								<p style="color:rgb(0,0,0);text-align:left;"><b>$(reletedRecord : accountid|accountname|Accounts)$</b></p>
+								<p style="color:rgb(0,0,0);text-align:left;"><b>$(relatedRecord : accountid|accountname|Accounts)$</b></p>
 							</td>
 						</tr><tr><td height="20" width="100%">
-								<p style="color:rgb(0,0,0);text-align:left;">$(reletedRecord : accountid|addresslevel8a|Accounts)$ $(reletedRecord : accountid|buildingnumbera|Accounts)$ </p>
+								<p style="color:rgb(0,0,0);text-align:left;">$(relatedRecord : accountid|addresslevel8a|Accounts)$ $(relatedRecord : accountid|buildingnumbera|Accounts)$ </p>
 							</td>
 						</tr><tr><td height="20" width="100%">
-								<p style="color:rgb(0,0,0);text-align:left;">$(reletedRecord : accountid|addresslevel7a|Accounts)$ $(reletedRecord : accountid|addresslevel5a|Accounts)$ </p>
+								<p style="color:rgb(0,0,0);text-align:left;">$(relatedRecord : accountid|addresslevel7a|Accounts)$ $(relatedRecord : accountid|addresslevel5a|Accounts)$ </p>
 							</td>
 						</tr><tr><td height="20" width="100%">
-								<p style="color:rgb(0,0,0);text-align:left;">$(translate : Accounts|Vat ID)$: $(reletedRecord : accountid|vat_id|Accounts)$  </p>
+								<p style="color:rgb(0,0,0);text-align:left;">$(translate : Accounts|Vat ID)$: $(relatedRecord : accountid|vat_id|Accounts)$  </p>
 							</td>
 						</tr></table></td>
 		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">

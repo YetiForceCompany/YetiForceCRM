@@ -49,8 +49,8 @@ class QueryGenerator
 	private $group = [];
 	private $sourceRecord;
 	private $concatColumn = [];
-	private $reletedFields = [];
-	private $reletedQueryFields = [];
+	private $relatedFields = [];
+	private $relatedQueryFields = [];
 
 	/**
 	 * @var boolean 
@@ -268,13 +268,13 @@ class QueryGenerator
 	}
 
 	/**
-	 * Set releted field
+	 * Set related field
 	 * @param string[] $field
 	 */
-	public function addReletedField($field)
+	public function addRelatedField($field)
 	{
-		$reletedFieldModel = $this->addReletedJoin($field);
-		$this->reletedFields["{$field['relatedModule']}{$reletedFieldModel->getName()}"] = "{$reletedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
+		$relatedFieldModel = $this->addRelatedJoin($field);
+		$this->relatedFields["{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
 	}
 
 	/**
@@ -588,7 +588,7 @@ class QueryGenerator
 				$columns[$key] = $customColumn;
 			}
 		}
-		$this->query->select(array_merge($columns, $this->reletedFields));
+		$this->query->select(array_merge($columns, $this->relatedFields));
 	}
 
 	/**
@@ -794,13 +794,13 @@ class QueryGenerator
 	 * Set condition on reference module fields
 	 * @param array $condition
 	 */
-	public function addReletedCondition($condition)
+	public function addRelatedCondition($condition)
 	{
-		$field = $this->addReletedJoin($condition);
+		$field = $this->addRelatedJoin($condition);
 		if (!$field) {
 			return false;
 		}
-		$queryField = $this->getQueryReletedField($field, $condition);
+		$queryField = $this->getQueryRelatedField($field, $condition);
 		$queryField->setValue($condition['value']);
 		$queryField->setOperator($condition['operator']);
 		$queryCondition = $queryField->getCondition();
@@ -816,43 +816,43 @@ class QueryGenerator
 	}
 
 	/**
-	 * Set releted field join
+	 * Set related field join
 	 * @param string[] $fieldDetail
 	 * @return Vtiger_Field_Model|boolean
 	 */
-	protected function addReletedJoin($fieldDetail)
+	protected function addRelatedJoin($fieldDetail)
 	{
-		$reletedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
-		$reletedFieldModel = $reletedModuleModel->getField($fieldDetail['relatedField']);
-		if (!$reletedFieldModel || !$reletedFieldModel->isActiveField()) {
-			Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['relatedField']}");
+		$relatedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
+		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
+		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
+			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
 			return false;
 		}
-		$tableName = $reletedFieldModel->getTableName();
+		$tableName = $relatedFieldModel->getTableName();
 		$sourceFieldModel = $this->getModuleField($fieldDetail['sourceField']);
-		$reletedTableName = $tableName . $fieldDetail['sourceField'];
-		$reletedTableIndex = $reletedModuleModel->getEntityInstance()->tab_name_index[$tableName];
-		$this->addJoin(['LEFT JOIN', "$tableName $reletedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $reletedTableName.$reletedTableIndex"]);
-		return $reletedFieldModel;
+		$relatedTableName = $tableName . $fieldDetail['sourceField'];
+		$relatedTableIndex = $relatedModuleModel->getEntityInstance()->tab_name_index[$tableName];
+		$this->addJoin(['LEFT JOIN', "$tableName $relatedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $relatedTableName.$relatedTableIndex"]);
+		return $relatedFieldModel;
 	}
 
 	/**
-	 * Get query releted field instance
+	 * Get query related field instance
 	 * @param \Vtiger_Field_Model $field
-	 * @param array $reletedInfo
+	 * @param array $relatedInfo
 	 * @return QueryField\BaseField
 	 * @throws \Exception\AppException
 	 */
-	private function getQueryReletedField($field, $reletedInfo)
+	private function getQueryRelatedField($field, $relatedInfo)
 	{
-		$relatedModule = $reletedInfo['relatedModule'];
-		if (isset($this->reletedQueryFields[$relatedModule][$field->getName()])) {
-			return $this->reletedQueryFields[$relatedModule][$field->getName()];
+		$relatedModule = $relatedInfo['relatedModule'];
+		if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
+			return $this->relatedQueryFields[$relatedModule][$field->getName()];
 		}
 		if ($field->getName() === 'id') {
 			$queryField = new QueryField\IdField($this, '');
-			$queryField->setReleted($reletedInfo);
-			return $this->reletedQueryFields[$relatedModule][$field->getName()] = $queryField;
+			$queryField->setRelated($relatedInfo);
+			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
@@ -860,8 +860,8 @@ class QueryGenerator
 			throw new \Exception\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
-		$queryField->setReleted($reletedInfo);
-		return $this->reletedQueryFields[$relatedModule][$field->getName()] = $queryField;
+		$queryField->setRelated($relatedInfo);
+		return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 	}
 
 	/**

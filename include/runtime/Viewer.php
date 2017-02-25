@@ -195,9 +195,7 @@ class Vtiger_Viewer extends SmartyBC
 		// END
 		if ($templateFound) {
 			if (!empty(AppConfig::debug('SMARTY_ERROR_REPORTING'))) {
-				$this->error_reporting = AppConfig::debug('SMARTY_ERROR_REPORTING'); // E_ALL & ~E_NOTICE;
-			} else {
-				$this->error_reporting = E_ALL & ~E_NOTICE;
+				$this->error_reporting = AppConfig::debug('SMARTY_ERROR_REPORTING');
 			}
 
 			if ($fetch) {

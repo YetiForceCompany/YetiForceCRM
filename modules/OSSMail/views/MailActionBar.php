@@ -44,8 +44,8 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
 		if ($record) {
-			$reletedRecords = $mailViewModel->getReletedRecords($record);
-			$viewer->assign('RELETED_RECORDS', $reletedRecords);
+			$relatedRecords = $mailViewModel->getRelatedRecords($record);
+			$viewer->assign('RELATED_RECORDS', $relatedRecords);
 		}
 		\App\ModuleHierarchy::getModulesByLevel();
 		$viewer->assign('MODULE_NAME', $moduleName);

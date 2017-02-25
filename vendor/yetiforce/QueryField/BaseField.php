@@ -43,9 +43,9 @@ class BaseField
 	protected $operator;
 
 	/**
-	 * @var array Releted detail 
+	 * @var array Related detail 
 	 */
-	protected $releted = false;
+	protected $related = false;
 
 	/**
 	 * Constructor
@@ -97,12 +97,12 @@ class BaseField
 	}
 
 	/**
-	 * Set releted details
-	 * @param array $reletedInfo
+	 * Set related details
+	 * @param array $relatedInfo
 	 */
-	public function setReleted($reletedInfo)
+	public function setRelated($relatedInfo)
 	{
-		$this->releted = $reletedInfo;
+		$this->related = $relatedInfo;
 	}
 
 	/**
@@ -124,8 +124,8 @@ class BaseField
 			return $this->tableName;
 		}
 		$tableName = $this->fieldModel->getTableName();
-		if ($this->releted) {
-			$tableName .= $this->releted['sourceField'];
+		if ($this->related) {
+			$tableName .= $this->related['sourceField'];
 		}
 		return $this->tableName = $tableName;
 	}

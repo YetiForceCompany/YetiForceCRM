@@ -30,6 +30,7 @@ $DEBUG_CONFIG = [
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
+	// Don't show Smarty Notice in phpError.log
 	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
 	/* +***************************************************************
 	 * Configure a user-defined error handler function

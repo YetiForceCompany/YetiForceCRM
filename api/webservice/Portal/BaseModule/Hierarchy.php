@@ -49,9 +49,7 @@ class Hierarchy extends \Api\Core\BaseAction
 	{
 		$parentCrmId = $this->getParentCrmId();
 		if ($this->getPermissionType() > 2) {
-			// migoi
 			$fields = \App\Field::getRelatedFieldForModule($this->moduleName);
-			// / migoi
 			if (!isset($fields[$this->moduleName])) {
 				throw new \Api\Core\Exception('No hierarchy', 405);
 			}

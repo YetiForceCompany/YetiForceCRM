@@ -10,7 +10,6 @@
 
 function vtws_create($elementType, $element, $user)
 {
-
 	$types = vtws_listtypes(null, $user);
 	if (!in_array($elementType, $types['types'])) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied");
@@ -61,7 +60,6 @@ function vtws_create($elementType, $element, $user)
 			unset($element[$fieldName]);
 		}
 	}
-
 
 	if ($meta->hasMandatoryFields($element)) {
 

@@ -317,15 +317,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Function to get the display value in ReletedListView
+	 * Function to get the display value in RelatedListView
 	 * @param string $fieldName
 	 * @return string
 	 */
-	public function getReletedListViewDisplayValue($fieldName)
+	public function getRelatedListViewDisplayValue($fieldName)
 	{
 		$recordId = $this->getId();
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-		return $fieldModel->getUITypeModel()->getReletedListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $recordId, $this);
 	}
 
 	/**
