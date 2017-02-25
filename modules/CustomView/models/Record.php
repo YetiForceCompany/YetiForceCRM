@@ -403,7 +403,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 					continue;
 
 				$groupColumns = $groupInfo['columns'];
-				$groupCondition = $groupInfo['condition'];
+				$groupCondition = isset($groupInfo['condition']) ? $groupInfo['condition'] : false;
 
 				foreach ($groupColumns as $columnIndex => $columnCondition) {
 					if (empty($columnCondition))
