@@ -506,7 +506,10 @@ class PrivilegeUtil
 	{
 		$modTabId = \App\Module::getModuleId($module);
 		$modShareWritePermission = $modShareReadPermission = ['ROLE' => [], 'GROUP' => []];
-		$modDefOrgShare = $defOrgShare[$modTabId];
+		$modDefOrgShare = null;
+		if (isset($defOrgShare[$modTabId])) {
+			$modDefOrgShare = $defOrgShare[$modTabId];
+		}
 		$shareIdMembers = [];
 		//If Sharing of leads is Private
 		if ($modDefOrgShare === 3 || $modDefOrgShare === 0) {
