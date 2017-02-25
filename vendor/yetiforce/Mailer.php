@@ -188,8 +188,8 @@ class Mailer
 		if ($this->smtp['from_name']) {
 			$this->mailer->FromName = $this->smtp['from_name'];
 		}
-		if ($this->smtp['replay_to']) {
-			$this->mailer->addReplyTo($this->smtp['replay_to']);
+		if ($this->smtp['reply_to']) {
+			$this->mailer->addReplyTo($this->smtp['reply_to']);
 		}
 	}
 

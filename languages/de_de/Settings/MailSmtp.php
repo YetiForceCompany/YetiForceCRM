@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_AUTHENTICATION' => 'Authentifikation',
 	'LBL_REPLY_TO' => 'Antwort an',
 	'LBL_INDIVIDUAL_DELIVERY' => 'Individuelle Zustellung',
-	'LBL_REPLAY_TO' => 'Replay to',
+	'LBL_REPLY_TO' => 'Reply to',
 	'LBL_NAME' => 'Name',
 	'LBL_FROM_EMAIL' => 'Sender E-Mail',
 	// Picklist

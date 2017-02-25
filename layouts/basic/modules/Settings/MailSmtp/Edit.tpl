@@ -1,5 +1,5 @@
-{strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip} {*
+<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -131,10 +131,10 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label col-md-3">
-					{\App\Language::translate('LBL_REPLAY_TO', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_REPLY_TO', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="replay_to"  value="{$RECORD_MODEL->get('replay_to')}" data-validation-engine="validate[custom[email]]">
+					<input class="form-control" type="text" name="reply_to"  value="{$RECORD_MODEL->get('reply_to')}" data-validation-engine="validate[custom[email]]">
 				</div>
 			</div>
 			<div class="form-group">
