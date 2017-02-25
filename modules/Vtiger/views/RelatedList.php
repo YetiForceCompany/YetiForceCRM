@@ -85,6 +85,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relationModel = $relationListView->getRelationModel();
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
+		$colorList = array();
 		foreach ($models as &$record) {
 			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
 		}
