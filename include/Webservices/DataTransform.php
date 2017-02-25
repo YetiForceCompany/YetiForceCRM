@@ -182,7 +182,6 @@ class DataTransform
 
 	public static function sanitizeReferences($row, $meta)
 	{
-		global $log;
 		$adb = PearDatabase::getInstance();
 
 		$references = $meta->getReferenceFieldDetails();
