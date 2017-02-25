@@ -85,7 +85,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (empty($port)) {
 			$port = $rcConfig['default_port'];
 		}
-		if (!$rcConfig['validate_cert']) {
+		if (!$rcConfig['validate_cert'] && $rcConfig['imap_open_add_connection_type']) {
 			$validatecert = '/novalidate-cert';
 		}
 		if ($rcConfig['imap_open_add_connection_type']) {
