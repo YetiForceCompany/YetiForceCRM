@@ -69,7 +69,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->valueMap[$key] != $value) {
+		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->valueMap[$key]) && $this->valueMap[$key] != $value)) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->valueMap[$key] = $value;
@@ -966,10 +966,13 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function editFieldByModalPermission($profileAction = false)
 	{
-		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
-			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
+		if (isset($this->privileges['editFieldByModal'])) {
+			if ($this->privileges['editFieldByModal'] === true && $profileAction) {
+				return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
+			}
+			return (bool) $this->privileges['editFieldByModal'];
 		}
-		return (bool) $this->privileges['editFieldByModal'];
+		return false;
 	}
 
 	/**
