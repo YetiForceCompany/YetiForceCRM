@@ -318,13 +318,16 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relatedModuleName = $relatedModuleModel->getName();
 		$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
-		foreach ($relatedModelFields as &$fieldModel) {
-			if ($fieldModel->getId() === $fieldRel['fieldid']) {
-				$relationField = $fieldModel;
-				break;
+		if (isset($fieldRel['fieldid'])) {
+			foreach ($relatedModelFields as &$fieldModel) {
+				if ($fieldModel->getId() === $fieldRel['fieldid']) {
+					$relationField = $fieldModel;
+					break;
+				}
 			}
 		}
-		if (!$relationField) {
+		if (!isset($relationField) || !$relationField) {
+			$relationField = false;
 			foreach ($relatedModelFields as &$fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
