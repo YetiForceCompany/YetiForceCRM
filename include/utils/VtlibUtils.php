@@ -238,7 +238,10 @@ function __vtlib_get_modulevar_value($module, $varname)
 			),
 		)
 	);
-	return $mod_var_mapping[$module][$varname];
+	if (isset($mod_var_mapping[$module]) && isset($mod_var_mapping[$module][$varname])) {
+		return $mod_var_mapping[$module][$varname];
+	}
+	return null;
 }
 
 /**
