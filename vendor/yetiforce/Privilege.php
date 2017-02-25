@@ -353,7 +353,10 @@ class Privilege
 		}
 
 		//Checking for the Related Sharing Permission
-		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
+		$relatedModuleArray = null;
+		if (isset($sharingPrivileges['relatedModuleShare'][$tabId])) {
+			$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
+		}
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
