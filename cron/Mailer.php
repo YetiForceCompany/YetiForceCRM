@@ -9,7 +9,7 @@ $db = \App\Db::getInstance('admin');
 $dataReader = (new \App\Db\Query())->from('s_#__mail_queue')
 		->where(['status' => 1])
 		->orderBy(['priority' => SORT_DESC, 'date' => SORT_ASC])
-		->limit(AppConfig::performance('CRON_MAX_NUMERS_SENDING_MAILS'))
+		->limit(AppConfig::performance('CRON_MAX_NUMBERS_SENDING_MAILS'))
 		->createCommand($db)->query();
 while ($rowQueue = $dataReader->read()) {
 	$status = \App\Mailer::sendByRowQueue($rowQueue);

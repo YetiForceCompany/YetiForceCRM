@@ -48,13 +48,13 @@ $PERFORMANCE_CONFIG = [
 	// The numbers of emails downloaded during one scanning
 	'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => 100,
 	// In how many records should the global search permissions be updated in cron
-	'CRON_MAX_NUMERS_RECORD_PRIVILEGES_UPDATER' => 1000000,
+	'CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER' => 1000000,
 	// In how many records should the address book be updated in cron
-	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOK_UPDATER' => 10000,
+	'CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER' => 10000,
 	// In how many records should the label be updated in cron
-	'CRON_MAX_NUMERS_RECORD_LABELS_UPDATER' => 1000,
+	'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => 1000,
 	// In how many mails should the send in cron (Mailer).
-	'CRON_MAX_NUMERS_SENDING_MAILS' => 1000,
+	'CRON_MAX_NUMBERS_SENDING_MAILS' => 1000,
 	// Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php 
 	'LOAD_CUSTOM_FILES' => false,
