@@ -57,7 +57,7 @@ function vtws_create($elementType, $element, $user)
 			if (!in_array($referenceObject->getEntityName(), $types['types']) && $referenceObject->getEntityName() != 'Users') {
 				throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to access reference type is denied" . $referenceObject->getEntityName());
 			}
-		} else if ($element[$fieldName] !== NULL) {
+		} else if (isset($element[$fieldName]) && $element[$fieldName] !== NULL) {
 			unset($element[$fieldName]);
 		}
 	}
