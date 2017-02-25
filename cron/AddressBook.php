@@ -8,7 +8,7 @@
  */
 \App\Log::trace('Start create AddressBook');
 
-$limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_ADDRESS_BOOK_UPDATER');
+$limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
 $db = PearDatabase::getInstance();
 $currentUser = Users::getActiveAdminUser();
 $usersIds = \App\Fields\Owner::getUsersIds();
