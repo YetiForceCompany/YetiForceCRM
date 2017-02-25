@@ -13,8 +13,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=$LIST_SERVERS item=SERVER}
-						<tr data-id="{$SERVER['id']}">
+					{foreach from=$LIST_SERVERS key=KEY item=SERVER}
+						<tr data-id="{$KEY}">
 							<td>{$SERVER['name']}</td>
 							<td>{$SERVER['acceptable_url']}</td>
 							<td>
