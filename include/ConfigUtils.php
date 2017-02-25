@@ -53,7 +53,10 @@ class AppConfig
 					return self::$modules[$module];
 					break;
 				case 2:
-					return self::$modules[$module][$key];
+					if (isset(self::$modules[$module][$key])) {
+						return self::$modules[$module][$key];
+					} 
+					return null;
 					break;
 			}
 		}
