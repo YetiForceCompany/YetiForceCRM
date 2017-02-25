@@ -30,8 +30,11 @@ class AppConfig
 			return $GLOBALS[$key];
 		} else {
 			require 'config/config.php';
-			self::$main[$key] = $$key;
-			return $$key;
+			if (isset($$key)) {
+				self::$main[$key] = $$key;
+				return $$key;
+			}
+			return null;
 		}
 		return $value;
 	}
