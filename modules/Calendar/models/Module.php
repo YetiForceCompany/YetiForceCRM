@@ -109,7 +109,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkicon' => '',
 			],
 		];
-		if ($linkParams['ACTION'] == 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
@@ -124,7 +124,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$quickWidgets = [];
 		$quickWidgetsRight = [];
 
-		if ($linkParams['ACTION'] == 'Calendar') {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar') {
 			$quickWidgetsRight[] = array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'Activity Type',
@@ -145,7 +145,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			);
 		}
 
-		if ($linkParams['ACTION'] == 'SharedCalendar') {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'SharedCalendar') {
 			$quickWidgets[] = array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_ADDED_CALENDARS',
