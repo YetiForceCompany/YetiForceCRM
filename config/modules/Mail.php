@@ -10,7 +10,7 @@ $CONFIG = [
 	 */
 	'MAILTO_LIMIT' => 2030,
 	// List of of modules from which you can choose e-mail address in the mail
-	'RC_COMPOSE_ADDRESS_MODULES' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
+	'RC_COMPOSE_ADDRESS_MODULES' => ['Accounts', 'Tickets', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
 	// What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.
 	'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => 'Answered',
 	// What status should be set when a ticket is closed, but a new mail regarding the ticket is received.
