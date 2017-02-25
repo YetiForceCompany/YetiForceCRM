@@ -389,7 +389,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (empty($this->relatedModuleName)) {
 			$queryParams = vtlib\Functions::getQueryParams($this->get('linkurl'));
 			if (isset($queryParams['module'])) {
-				$this->relatedModuleName = $relatedModuleName = $queryParams['parent'] ? $queryParams['parent'] . ':' . $queryParams['module'] : $queryParams['module'];
+				$this->relatedModuleName = $relatedModuleName = (isset($queryParams['parent']) && $queryParams['parent']) ? $queryParams['parent'] . ':' . $queryParams['module'] : $queryParams['module'];
 			}
 		} else {
 			$relatedModuleName = $this->relatedModuleName;
