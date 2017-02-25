@@ -99,6 +99,7 @@ class Import_Utils_Helper
 	public static function getAssignedToUserList($module)
 	{
 		$cache = Vtiger_Cache::getInstance();
+		$current_user = Users_Record_Model::getCurrentUserModel();
 		if ($cache->getUserList($module, $current_user->id)) {
 			return $cache->getUserList($module, $current_user->id);
 		} else {
@@ -111,6 +112,7 @@ class Import_Utils_Helper
 	public static function getAssignedToGroupList($module)
 	{
 		$cache = Vtiger_Cache::getInstance();
+		$current_user = Users_Record_Model::getCurrentUserModel();
 		if ($cache->getGroupList($module, $current_user->id)) {
 			return $cache->getGroupList($module, $current_user->id);
 		} else {

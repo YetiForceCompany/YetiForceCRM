@@ -802,7 +802,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 * Function to copy address between fields
 	 * @param strings which accepts value as either odd or even
 	 */
-	copyAddress: function (fromLabel, toLabel, reletedRecord, sourceModule) {
+	copyAddress: function (fromLabel, toLabel, relatedRecord, sourceModule) {
 		var status = false;
 		var thisInstance = this;
 		var formElement = this.getForm();
@@ -810,13 +810,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var BlockIds = this.addressFieldsMappingBlockID;
 
 		from = BlockIds[fromLabel];
-		if (reletedRecord === false || sourceModule === false)
+		if (relatedRecord === false || sourceModule === false)
 			from = BlockIds[fromLabel];
 		to = BlockIds[toLabel];
 		for (var key in addressMapping) {
 			var nameElementFrom = addressMapping[key] + from;
 			var nameElementTo = addressMapping[key] + to;
-			if (reletedRecord) {
+			if (relatedRecord) {
 				var fromElement = thisInstance.addressFieldsData[nameElementFrom];
 				var fromElementLable = thisInstance.addressFieldsData[nameElementFrom + '_label'];
 			} else {
@@ -1302,7 +1302,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 
 			apiData[apiName] = info;
-			apiData["minLookupLenght"] = jQuery(item).data('lenght');
+			apiData["minLookupLength"] = jQuery(item).data('length');
 			apiData["max_num"] = jQuery(item).data('max-num');
 		});
 
@@ -1327,7 +1327,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						response([{label: app.vtranslate('An error has occurred. No results.'), value: ''}]);
 					});
 				},
-				minLength: apiData.minLookupLenght,
+				minLength: apiData.minLookupLength,
 				select: function (event, ui) {
 					for (var key in ui.item.components) {
 						var addressType = thisInstance.addressFieldsMappingFromApi[key];

@@ -11,7 +11,8 @@ jQuery.Class("Vtiger_PDF_Js", {
 		});
 		if (templateIds.length > 0) {
 			container.find('#generate_pdf').attr('disabled', false);
-			if (templateIds.length > 1 || (app.getUrlVar('view').replace('#', '') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
+			var view = app.getUrlVar('view');
+			if (templateIds.length > 1 || (view && view.replace('#', '') === 'List' && JSON.parse(container.find('[name="validRecords"]').val()).length > 0)) {
 				container.find('#single_pdf').show();
 			} else {
 				container.find('#single_pdf').hide();
@@ -41,8 +42,8 @@ jQuery.Class("Vtiger_PDF_Js", {
 					i++;
 				}
 			});
-
-			if (app.getUrlVar('view').replace('#', '') === 'List') {
+			var view = app.getUrlVar('view');
+			if (view && view.replace('#', '') === 'List') {
 				container.find('[name="record"]').val(container.find('[name="validRecords"]').val());
 			}
 

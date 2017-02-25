@@ -10,7 +10,6 @@
 
 function vtws_create($elementType, $element, $user)
 {
-
 	$types = vtws_listtypes(null, $user);
 	if (!in_array($elementType, $types['types'])) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied");
@@ -57,11 +56,10 @@ function vtws_create($elementType, $element, $user)
 			if (!in_array($referenceObject->getEntityName(), $types['types']) && $referenceObject->getEntityName() != 'Users') {
 				throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to access reference type is denied" . $referenceObject->getEntityName());
 			}
-		} else if ($element[$fieldName] !== NULL) {
+		} else if (isset($element[$fieldName]) && $element[$fieldName] !== NULL) {
 			unset($element[$fieldName]);
 		}
 	}
-
 
 	if ($meta->hasMandatoryFields($element)) {
 

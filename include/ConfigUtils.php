@@ -30,8 +30,11 @@ class AppConfig
 			return $GLOBALS[$key];
 		} else {
 			require 'config/config.php';
-			self::$main[$key] = $$key;
-			return $$key;
+			if (isset($$key)) {
+				self::$main[$key] = $$key;
+				return $$key;
+			}
+			return null;
 		}
 		return $value;
 	}
@@ -50,7 +53,10 @@ class AppConfig
 					return self::$modules[$module];
 					break;
 				case 2:
-					return self::$modules[$module][$key];
+					if (isset(self::$modules[$module][$key])) {
+						return self::$modules[$module][$key];
+					} 
+					return null;
 					break;
 			}
 		}
@@ -86,8 +92,8 @@ class AppConfig
 			require_once 'config/debug.php';
 			AppConfig::load('debug', $DEBUG_CONFIG);
 		}
-		return isset(self::$debug[$key]) ? self::$debug[$key] : false;
-	}
+		return isset(self::$debug[$key]) ? self::$debug[$key] : false;	
+}
 
 	public static function developer($key, $defvalue = false)
 	{
@@ -162,7 +168,7 @@ class AppConfig
 	}
 }
 
-if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {
+if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', dirname(__FILE__)));
 }
 

@@ -504,7 +504,7 @@ class Reports extends CRMEntity
 		return true;
 	}
 
-	/** Function to set the Secondary module fileds for the given Report
+	/** Function to set the Secondary module fields for the given Report
 	 *  This function sets the secondary module columns for the given module
 	 *  It accepts the module as the argument and set the vtiger_fields of the module
 	 *  to the varialbe sec_module_columnslist and returns true if sucess

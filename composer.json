@@ -47,6 +47,9 @@
 			"tests"
 		]
 	},
+	 "config": {
+        "autoloader-suffix": "YT"
+    },
 	"autoload": {
 		"psr-4": {
 			"vtlib\\": "vtlib/Vtiger/",

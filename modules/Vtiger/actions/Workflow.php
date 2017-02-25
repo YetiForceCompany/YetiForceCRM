@@ -48,6 +48,6 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
-		$response->emit($taggedInfo);
+		$response->emit();
 	}
 }

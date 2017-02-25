@@ -14,9 +14,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 
 	public function checkPermission(Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$record = $request->get('record');
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'WorkflowTrigger', $record))) {
+		if (!(Users_Privileges_Model::isPermitted($request->getModule(), 'WorkflowTrigger', $request->get('record')))) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -26,24 +24,12 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
-		vimport('~~include/Webservices/Utils.php');
-		vimport('~~include/Webservices/Retrieve.php');
-
-		$adb = PearDatabase::getInstance();
-		$wfs = new VTWorkflowManager($adb);
-		$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
-
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$wsId = vtws_getWebserviceEntityId($moduleName, $record);
-		$entityCache = new VTEntityCache($currentUser);
-		$entityData = $entityCache->forId($wsId);
+		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 		foreach ($workflows as $id => $workflow) {
-			if (!$workflow->evaluate($entityCache, $entityData->getId())) {
+			if (!$workflow->evaluate(Vtiger_Record_Model::getInstanceById($record))) {
 				unset($workflows[$id]);
 			}
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('MODULE', $moduleName);

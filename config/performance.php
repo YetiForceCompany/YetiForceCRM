@@ -49,8 +49,8 @@ $PERFORMANCE_CONFIG = [
 	'NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING' => 100,
 	// In how many records should the global search permissions be updated in cron
 	'CRON_MAX_NUMERS_RECORD_PRIVILEGES_UPDATER' => 1000000,
-	// In how many records should the address boock be updated in cron
-	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER' => 10000,
+	// In how many records should the address book be updated in cron
+	'CRON_MAX_NUMERS_RECORD_ADDRESS_BOOK_UPDATER' => 10000,
 	// In how many records should the label be updated in cron
 	'CRON_MAX_NUMERS_RECORD_LABELS_UPDATER' => 1000,
 	// In how many mails should the send in cron (Mailer).

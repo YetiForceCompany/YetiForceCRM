@@ -316,7 +316,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$parentModuleName = $this->getParentModuleModel()->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
-		$fieldRel = App\Field::getReletedFieldForModule($relatedModuleName, $parentModuleName);
+		$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		foreach ($relatedModelFields as &$fieldModel) {
 			if ($fieldModel->getId() === $fieldRel['fieldid']) {

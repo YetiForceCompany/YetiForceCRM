@@ -2381,7 +2381,7 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'u_#__mail_address_boock' => [
+			'u_#__mail_address_book' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),
 					'email' => $this->stringType(100)->notNull(),
@@ -2389,8 +2389,8 @@ class Base1 extends \App\Db\Importers\Base
 					'users' => $this->text()->notNull(),
 				],
 				'index' => [
-					['mail_address_boock_email_idx', ['email', 'name']],
-					['mail_address_boock_id_idx', 'id'],
+					['mail_address_book_email_idx', ['email', 'name']],
+					['mail_address_book_id_idx', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

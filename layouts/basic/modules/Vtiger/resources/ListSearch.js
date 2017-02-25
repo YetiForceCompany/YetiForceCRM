@@ -221,6 +221,10 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var valueInSearch = null;
 			var url = app.getUrlVar('search_params');
 			if (url != undefined && url.length) {
+				var lengthUrl = url.length;
+				if (url.charAt(lengthUrl - 1) === '#') {
+					url = url.substr(0, lengthUrl - 1);
+				}
 				url = jQuery.parseJSON(decodeURIComponent(url));
 				$.each(url[0], function (index, value) {
 					var exist = false;

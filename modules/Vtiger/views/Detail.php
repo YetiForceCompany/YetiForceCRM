@@ -617,7 +617,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$pagingModel->set('page', $pageNumber);
 			$pagingModel->set('orderby', $orderBy);
 			$pagingModel->set('sortorder', $sortOrder);
-
+			if (!$request->isEmpty('totalCount')) {
+				$pagingModel->set('totalCount', $request->get('totalCount'));
+			}
 			if (!empty($pageLimit)) {
 				$pagingModel->set('limit', $pageLimit);
 			} else {

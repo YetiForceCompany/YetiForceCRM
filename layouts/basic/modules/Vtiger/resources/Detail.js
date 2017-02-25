@@ -548,7 +548,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var progressIndicatorElement = jQuery.progressIndicator({});
 		var commentInfoBlock = element.closest('.singleComment');
 		var relatedTo = commentInfoBlock.find('.related_to').val()
-		if(!relatedTo){
+		if (!relatedTo) {
 			relatedTo = thisInstance.getRecordId();
 		}
 		var postData = {
@@ -1531,19 +1531,22 @@ jQuery.Class("Vtiger_Detail_Js", {
 			thisInstance.getFiltersDataAndLoad(e);
 		});
 	},
-	registerChangeSwitchForWidget: function () {
+	registerChangeSwitchForWidget: function (summaryViewContainer) {
 		var thisInstance = this;
-		$('.activityWidgetContainer .switchBtn').on('switchChange.bootstrapSwitch', function (e, state) {
+		summaryViewContainer.find('.activityWidgetContainer').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
 			var currentElement = jQuery(e.currentTarget);
 			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
 			var url = widget.data('url');
 			url = url.replace('&type=current', '');
 			url += '&type=';
-			if (state)
+			if (state) {
+				summaryWidgetContainer.find('.ativitiesPagination').removeClass('hide');
 				url += 'current';
-			else
+			} else {
+				summaryWidgetContainer.find('.ativitiesPagination').addClass('hide');
 				url += 'history';
+			}
 			widget.data('url', url);
 			thisInstance.loadWidget($(widget));
 		});
@@ -1570,7 +1573,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		this.registerEventForActivityWidget();
 		this.registerChangeFilterForWidget();
-		this.registerChangeSwitchForWidget();
+		this.registerChangeSwitchForWidget(summaryViewContainer);
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
 		this.registerEmailEvent();
 		if (Vtiger_Detail_Js.SaveResultInstance == false) {
@@ -2617,9 +2620,32 @@ jQuery.Class("Vtiger_Detail_Js", {
 			recentDocumentsTab.trigger('click');
 		});
 
-		detailContentsHolder.on('click', '.moreRecentActivities', function () {
-			var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
-			recentActivitiesTab.trigger('click');
+		detailContentsHolder.find('.widgetContentBlock[data-name="Calendar"] .widget_contents').on(thisInstance.widgetPostLoad, function (e) {
+			var container = $(e.currentTarget).closest('.activityWidgetContainer');
+			thisInstance.reloadWidgetActivitesStats(container);
+		});
+		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
+			var currentTarget = $(e.currentTarget);
+			currentTarget.prop('disabled', true);
+			var container = currentTarget.closest('.activityWidgetContainer');
+			var page = container.find('.currentPage').val();
+			page++;
+			var url = container.find('.widgetContentBlock').data('url');
+			url = url.replace('&page=1', '&page=' + page);
+			url += '&totalCount=' + container.find('.totaltActivities').val();
+			AppConnector.request(url).then(
+					function (data) {
+						currentTarget.prop('disabled', false);
+						currentTarget.addClass('hide');
+						var currentPage = container.find('.currentPage').val();
+						container.find('.currentPage').remove();
+						container.find('.countActivities').remove();
+						container.find('.widget_contents').append(data);
+						container.find('.countActivities').val(parseInt(container.find('.countActivities').val()) + currentPage * parseInt(container.find('.pageLimit').val()));
+						thisInstance.reloadWidgetActivitesStats(container);
+						app.showPopoverElementView(container.find('.popoverTooltip'));
+					}
+			);
 		});
 
 		detailContentsHolder.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.relatedContainer .switchBtn', function (e, state) {
@@ -2628,10 +2654,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			url = url.replace('&time=current', '');
 			url = url.replace('&time=history', '');
 			url += '&time=';
-			if (state)
+			if (state) {
 				url += 'current';
-			else
+			} else {
 				url += 'history';
+			}
+
 			recentActivitiesTab.data('url', url);
 			recentActivitiesTab.trigger('click');
 		});
@@ -2659,6 +2687,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 			tabElement.data('url', url);
 			tabElement.trigger('click');
 		});
+	},
+	reloadWidgetActivitesStats: function (container) {
+		var countElement = container.find('.countActivities');
+		var totalElement = container.find('.totaltActivities');
+		if (!countElement.length || !totalElement.length) {
+			return false;
+		}
+		var stats = ' (' + countElement.val() + '/' + totalElement.val() + ')';
+		var switchBtn = container.find('.switchBtn');
+		if (switchBtn.prop('checked')) {
+			var text = switchBtn.data('basic-texton') + stats;
+			switchBtn.data('on-text', text);
+		} else {
+			var text = switchBtn.data('basic-textoff') + stats;
+			switchBtn.data('off-text', text);
+		}
+		switchBtn.bootstrapSwitch('destroy');
+		switchBtn.bootstrapSwitch();
 	},
 	refreshRelatedList: function () {
 		var container = jQuery('.related');

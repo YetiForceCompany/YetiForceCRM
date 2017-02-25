@@ -22,8 +22,8 @@ class TextParser
 		'LBL_LIST_OF_CHANGES_IN_RECORD' => '(record: ChangesListChanges)',
 		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(record: ChangesListValues)',
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
-		'LBL_RELETED_RECORD_LABEL' => '$(reletedRecord : parent_id|email1|Accounts)$, $(reletedRecord : parent_id|email1)$',
-		'LBL_OWNER_EMAIL' => '$(reletedRecord : assigned_user_id|email1|Users)$',
+		'LBL_RELATED_RECORD_LABEL' => '$(relatedRecord : parent_id|email1|Accounts)$, $(relatedRecord : parent_id|email1)$',
+		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
 	];
@@ -51,14 +51,14 @@ class TextParser
 	];
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'reletedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom'];
 
 	/** @var string[] List of source modules */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
 	];
 	private static $recordVariable;
-	private static $reletedVariable;
+	private static $relatedVariable;
 
 	/** @var int Record id */
 	public $record;
@@ -231,7 +231,7 @@ class TextParser
 			return $this;
 		}
 		if (isset($this->language)) {
-			$courentLanguage = \Vtiger_Language_Handler::$language;
+			$currentLanguage = \Vtiger_Language_Handler::$language;
 			\Vtiger_Language_Handler::$language = $this->language;
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\&\w\s\|]+)\)\$/', function ($matches) {
@@ -241,8 +241,8 @@ class TextParser
 			}
 			return '';
 		}, $this->content);
-		if ($courentLanguage) {
-			\Vtiger_Language_Handler::$language = $courentLanguage;
+		if (!empty($currentLanguage)) {
+			\Vtiger_Language_Handler::$language = $currentLanguage;
 		}
 		return $this;
 	}
@@ -254,15 +254,15 @@ class TextParser
 	public function parseTranslations()
 	{
 		if (isset($this->language)) {
-			$courentLanguage = \Vtiger_Language_Handler::$language;
+			$currentLanguage = \Vtiger_Language_Handler::$language;
 			\Vtiger_Language_Handler::$language = $this->language;
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
-		if ($courentLanguage) {
-			\Vtiger_Language_Handler::$language = $courentLanguage;
+		if (!empty($currentLanguage)) {
+			\Vtiger_Language_Handler::$language = $currentLanguage;
 		}
 		return $this;
 	}
@@ -337,8 +337,8 @@ class TextParser
 		}
 		$value = '';
 		if ($employee) {
-			$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($employee, 'OSSEmployees');
-			$instance = static::getInstanceByModel($reletedRecordModel);
+			$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($employee, 'OSSEmployees');
+			$instance = static::getInstanceByModel($relatedRecordModel);
 			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 				if (isset($this->$key)) {
 					$instance->$key = $this->$key;
@@ -444,43 +444,43 @@ class TextParser
 	}
 
 	/**
-	 * Parsing releted record data
+	 * Parsing related record data
 	 * @param string $params
 	 * @return mixed
 	 */
-	protected function reletedRecord($params)
+	protected function relatedRecord($params)
 	{
-		list($fieldName, $reletedField, $reletedModule) = explode('|', $params);
+		list($fieldName, $relatedField, $relatedModule) = explode('|', $params);
 		if (!isset($this->recordModel) ||
 			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			$this->recordModel->isEmpty($fieldName)) {
 			return '';
 		}
-		$reletedId = $this->recordModel->get($fieldName);
-		if ($reletedModule === 'Users') {
-			$userRecordModel = \Users_Privileges_Model::getInstanceById($reletedId);
+		$relatedId = $this->recordModel->get($fieldName);
+		if ($relatedModule === 'Users') {
+			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
 			$instance = static::getInstanceByModel($userRecordModel);
 			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 				if (isset($this->$key)) {
 					$instance->$key = $this->$key;
 				}
 			}
-			return $instance->record($reletedField, false);
+			return $instance->record($relatedField, false);
 		}
-		$moduleName = Record::getType($reletedId);
+		$moduleName = Record::getType($relatedId);
 		if (!empty($moduleName)) {
-			if (($reletedModule && $reletedModule !== $moduleName)) {
+			if (($relatedModule && $relatedModule !== $moduleName)) {
 				return '';
 			}
 		}
-		$reletedRecordModel = \Vtiger_Record_Model::getInstanceById($reletedId, $moduleName);
-		$instance = static::getInstanceByModel($reletedRecordModel);
+		$relatedRecordModel = \Vtiger_Record_Model::getInstanceById($relatedId, $moduleName);
+		$instance = static::getInstanceByModel($relatedRecordModel);
 		foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
 			if (isset($this->$key)) {
 				$instance->$key = $this->$key;
 			}
 		}
-		return $instance->record($reletedField);
+		return $instance->record($relatedField);
 	}
 
 	/**
@@ -734,53 +734,53 @@ class TextParser
 	}
 
 	/**
-	 * Get releted variables
+	 * Get related variables
 	 * @param bool|string $fieldType
 	 * @return array
 	 */
-	public function getReletedVariable($fieldType = false)
+	public function getRelatedVariable($fieldType = false)
 	{
 		$cacheKey = "$this->moduleName|$fieldType";
-		if (isset(static::$reletedVariable[$cacheKey])) {
-			return static::$reletedVariable[$cacheKey];
+		if (isset(static::$relatedVariable[$cacheKey])) {
+			return static::$relatedVariable[$cacheKey];
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 		$variables = [];
 		$entityVariables = Language::translate('LBL_ENTITY_VARIABLES');
 		foreach ($moduleModel->getFieldsByType(array_merge(\Vtiger_Field_Model::$referenceTypes, ['owner', 'multireference'])) as $parentFieldName => $field) {
 			if ($field->getFieldDataType() === 'owner') {
-				$reletedModules = ['Users'];
+				$relatedModules = ['Users'];
 			} else {
-				$reletedModules = $field->getReferenceList();
+				$relatedModules = $field->getReferenceList();
 			}
 			$parentFieldNameLabel = Language::translate($field->getFieldLabel(), $this->moduleName);
 			if (!$fieldType) {
 				foreach (static::$variableEntity as $key => $name) {
 					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
-						'var_value' => "$(reletedRecord : $parentFieldName|$key)$",
+						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
 						'var_label' => "$(translate : $key)$",
 						'label' => $parentFieldNameLabel . ': ' . Language::translate($name)
 					];
 				}
 			}
-			foreach ($reletedModules as $reletedModule) {
-				$reletedModuleLang = Language::translate($reletedModule, $reletedModule);
-				$moduleModel = \Vtiger_Module_Model::getInstance($reletedModule);
+			foreach ($relatedModules as $relatedModule) {
+				$relatedModuleLang = Language::translate($relatedModule, $relatedModule);
+				$moduleModel = \Vtiger_Module_Model::getInstance($relatedModule);
 				foreach ($moduleModel->getBlocks() as $blockModel) {
 					foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 						if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
-							$labelGroup = "$parentFieldNameLabel: ($reletedModuleLang) " . Language::translate($blockModel->get('label'), $reletedModule);
+							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
 							$variables[$parentFieldName][$labelGroup][] = [
-								'var_value' => "$(reletedRecord : $parentFieldName|$fieldName|$reletedModule)$",
-								'var_label' => "$(translate : $reletedModule|{$fieldModel->getFieldLabel()})$",
-								'label' => "$parentFieldNameLabel: ($reletedModuleLang) " . Language::translate($fieldModel->getFieldLabel(), $reletedModule)
+								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",
+								'var_label' => "$(translate : $relatedModule|{$fieldModel->getFieldLabel()})$",
+								'label' => "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($fieldModel->getFieldLabel(), $relatedModule)
 							];
 						}
 					}
 				}
 			}
 		}
-		static::$reletedVariable[$cacheKey] = $variables;
+		static::$relatedVariable[$cacheKey] = $variables;
 		return $variables;
 	}
 

@@ -28,7 +28,7 @@ class Base
 	/**
 	 * Creates a primary key column.
 	 * @param integer $length column size or precision definition.
-	 * This par,ameter will be ignored if not supported by the DBMS.
+	 * This parameter will be ignored if not supported by the DBMS.
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
 	 */
 	public function primaryKey($length = null)

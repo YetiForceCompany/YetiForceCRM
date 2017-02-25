@@ -139,7 +139,7 @@ class OperationManager
 		$result;
 		$value = stripslashes($value);
 		$type = strtolower($type);
-		if ($this->inParamProcess[$type]) {
+		if (!empty($this->inParamProcess[$type])) {
 			$result = call_user_func($this->inParamProcess[$type], $value);
 		} else {
 			$result = $value;

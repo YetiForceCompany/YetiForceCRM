@@ -45,8 +45,8 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$title_max_length = vglobal('title_max_length');
 		$href_max_length = vglobal('href_max_length');
-		$viewer->assign('NAMELENGHT', $title_max_length);
-		$viewer->assign('HREFNAMELENGHT', $href_max_length);
+		$viewer->assign('NAMELENGTH', $title_max_length);
+		$viewer->assign('HREFNAMELENGTH', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

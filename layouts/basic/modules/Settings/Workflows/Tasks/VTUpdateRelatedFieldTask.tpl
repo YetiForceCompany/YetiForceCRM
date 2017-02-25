@@ -23,7 +23,7 @@
 										{continue}
 									{/if}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-									<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{\App\Json::encode($FIELD_INFO)}" >
+									<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
 										{vtranslate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
 									</option>
 								{/foreach}

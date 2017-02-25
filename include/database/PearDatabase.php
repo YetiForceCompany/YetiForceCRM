@@ -241,7 +241,10 @@ class PearDatabase
 
 	public function getRowCount(&$result)
 	{
-		return $result->rowCount();
+		if (method_exists($result, 'rowCount')) {
+			return $result->rowCount();
+		}
+		return 0;
 	}
 
 	public function num_rows(&$result)
@@ -466,6 +469,9 @@ class PearDatabase
 
 		if (!isset($result->tmp)) {
 			$result->tmp = $result->fetchAll(PDO::FETCH_ASSOC);
+		}
+		if (!isset($result->tmp[$row]) || !isset($result->tmp[$row][$col])) {
+			return null;
 		}
 		return $result->tmp[$row][$col];
 	}

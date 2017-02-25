@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Address boock model class
+ * Address book model class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMail_AddressBoock_Model
+class OSSMail_AddressBook_Model
 {
 
-	const TABLE = 'u_yf_mail_address_boock';
+	const TABLE = 'u_yf_mail_address_book';
 	const LAST_RECORD_CACHE = 'cache/addressBook.php';
 
 	public static function createABFile()

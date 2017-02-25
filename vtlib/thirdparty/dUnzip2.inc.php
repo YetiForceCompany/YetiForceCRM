@@ -355,8 +355,8 @@ class dUnzip2
 				$eodir['total_entries'] = unpack("v", fread($fh, 2)); // total number of entries in
 				$eodir['size_of_cd'] = unpack("V", fread($fh, 4)); // size of the central directory
 				$eodir['offset_start_cd'] = unpack("V", fread($fh, 4)); // offset of start of central directory with respect to the starting disk number
-				$zipFileCommentLenght = unpack("v", fread($fh, 2)); // zipfile comment length
-				$eodir['zipfile_comment'] = $zipFileCommentLenght[1] ? fread($fh, $zipFileCommentLenght[1]) : ''; // zipfile comment
+				$zipFileCommentLength = unpack("v", fread($fh, 2)); // zipfile comment length
+				$eodir['zipfile_comment'] = $zipFileCommentLength[1] ? fread($fh, $zipFileCommentLength[1]) : ''; // zipfile comment
 				$this->endOfCentral = Array(
 					'disk_number_this' => $eodir['disk_number_this'][1],
 					'disk_number' => $eodir['disk_number'][1],

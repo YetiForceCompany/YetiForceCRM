@@ -1,23 +1,24 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <div  class="summaryWidgetContainer activityWidgetContainer">
 	<div class="widget_header row">
 		<div class="col-xs-5">
 			<h4 class="widgetTitle textOverflowEllipsis">
 				{if $WIDGET['label'] eq ''}
-					{vtranslate('LBL_ACTIVITIES',$MODULE_NAME)}
+					{App\Language::translate('LBL_ACTIVITIES',$MODULE_NAME)}
 				{else}	
-					{vtranslate($WIDGET['label'],$MODULE_NAME)}
+					{App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 				{/if}
 			</h4>
 		</div>
 		<div class="col-xs-5">
 			<span class="pull-right">
-				<input class="switchBtn" title="{vtranslate('LBL_CHANGE_ACTIVITY_TYPE')}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{vtranslate('LBL_CURRENT')}" data-off-text="{vtranslate('LBL_HISTORY')}">
+				<input class="switchBtn" title="{App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" type="checkbox" checked data-size="small" data-label-width="5" data-handle-width="100" data-on-text="{App\Language::translate('LBL_CURRENT')}" data-off-text="{App\Language::translate('LBL_HISTORY')}" data-basic-texton="{App\Language::translate('LBL_CURRENT')}" data-basic-textoff="{App\Language::translate('LBL_HISTORY')}">
 			</span>
 		</div>
 		<div class="col-xs-2">
 			<button class="btn btn-sm btn-default pull-right addButton createActivity" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true" type="button"
-					 title="{vtranslate('LBL_ADD',$MODULE_NAME)}">
+					 title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
 				<span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
