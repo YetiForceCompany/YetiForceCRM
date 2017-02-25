@@ -92,11 +92,8 @@ class AppConfig
 			require_once 'config/debug.php';
 			AppConfig::load('debug', $DEBUG_CONFIG);
 		}
-		if (isset(self::$debug[$key])) {
-			return self::$debug[$key];
-		}
-		return null;
-	}
+		return isset(self::$debug[$key]) ? self::$debug[$key] : false;	
+}
 
 	public static function developer($key, $defvalue = false)
 	{
@@ -104,7 +101,7 @@ class AppConfig
 			require_once 'config/developer.php';
 			AppConfig::load('developer', $DEVELOPER_CONFIG);
 		}
-		return self::$developer[$key];
+		return isset(self::$developer[$key]) ? self::$developer[$key] : false;
 	}
 
 	public static function security($key, $defvalue = false)
@@ -113,7 +110,7 @@ class AppConfig
 			require_once 'config/security.php';
 			AppConfig::load('security', $SECURITY_CONFIG);
 		}
-		return self::$security[$key];
+		return isset(self::$security[$key]) ? self::$security[$key] : false;
 	}
 
 	public static function securityKeys($key, $defvalue = false)
@@ -122,7 +119,7 @@ class AppConfig
 			require_once 'config/secret_keys.php';
 			AppConfig::load('securityKeys', $SECURITY_KEYS_CONFIG);
 		}
-		return self::$securityKeys[$key];
+		return isset(self::$securityKeys[$key]) ? self::$securityKeys[$key] : false;
 	}
 
 	public static function performance($key, $defvalue = false)
@@ -131,7 +128,7 @@ class AppConfig
 			require_once 'config/performance.php';
 			AppConfig::load('performance', $PERFORMANCE_CONFIG);
 		}
-		return self::$performance[$key];
+		return isset(self::$performance[$key]) ? self::$performance[$key] : false;
 	}
 
 	public static function relation($key, $defvalue = false)
@@ -140,7 +137,7 @@ class AppConfig
 			require_once 'config/relation.php';
 			AppConfig::load('relation', $RELATION_CONFIG);
 		}
-		return self::$relation[$key];
+		return isset(self::$relation[$key]) ? self::$relation[$key] : false;
 	}
 
 	public static function sounds()
@@ -184,4 +181,3 @@ AppConfig::load('api', $API_CONFIG);
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 // Change of logs directory with PHP errors
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'phpError.log');
-
