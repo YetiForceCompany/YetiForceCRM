@@ -325,6 +325,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 			vglobal('current_language', 'en_us');
 
 		$scheduledReports = self::getScheduledReports();
+		$status = '';
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
 			vtlib\Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);

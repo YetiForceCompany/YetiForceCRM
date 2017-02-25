@@ -47,6 +47,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 			$listViewEntries[$row['portalid']]['createdtime'] = Vtiger_Date_UIType::getDisplayDateValue($row['createdtime']);
 		}
 		$index = 0;
+		$listViewRecordModels = array();
 		foreach ($listViewEntries as $recordId => $record) {
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
