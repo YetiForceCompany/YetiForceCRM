@@ -866,7 +866,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$inventoryData = $fieldData['inventoryData'];
 			unset($fieldData['inventoryData']);
 		}
-		if ($inventoryData) {
+		if (!empty($inventoryData)) {
 			$recordModel->setInventoryRawData($this->convertInventoryDataToObject($inventoryData));
 		}
 		foreach ($fieldData as $fieldName => &$value) {
