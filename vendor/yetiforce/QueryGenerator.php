@@ -941,7 +941,7 @@ class QueryGenerator
 			}
 			$groupColumnsInfo = $groupConditionInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
-				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
+				list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
 				$field = $this->getModuleField($fieldName);
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
 					$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
