@@ -89,7 +89,6 @@ $languageStrings = [
 	'Roundcube config' => 'Roundcube configuration',
 	'LBL_SAVE' => 'Save configuration',
 	'Spam' => 'Spam',
-	'Spam' => 'Spam',
 	'JS_save_info' => 'Saved list of actions',
 	'JS_saveuser_info' => 'User is saved',
 	'LBL_SAVE_FOLDER_INFO' => 'Saved list of folders',
