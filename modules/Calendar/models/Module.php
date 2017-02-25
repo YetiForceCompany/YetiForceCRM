@@ -547,13 +547,17 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$dates[$key] = strtotime($dBFomatedDate . " " . $timeFormatedString);
 			}
 			$activityStatusLabels = Calendar_Module_Model::getComponentActivityStateLabel();
-			$state = $activityStatusLabels['not_started'];
-			if ($dates['end'] > $dates['current'] && $dates['start'] < $dates['current']) {
-				$state = $activityStatusLabels['in_realization'];
-			} elseif ($dates['end'] > $dates['current']) {
+			if (!empty($data['activitystatus']) && isset($activityStatusLabels[$data['activitystatus']])) {
+				$state = $activityStatusLabels[$data['activitystatus']];
+			} else {
 				$state = $activityStatusLabels['not_started'];
-			} elseif ($dates['end'] < $dates['current']) {
-				$state = $activityStatusLabels['overdue'];
+				if ($dates['end'] > $dates['current'] && $dates['start'] < $dates['current']) {
+					$state = $activityStatusLabels['in_realization'];
+				} elseif ($dates['end'] > $dates['current']) {
+					$state = $activityStatusLabels['not_started'];
+				} elseif ($dates['end'] < $dates['current']) {
+					$state = $activityStatusLabels['overdue'];
+				}
 			}
 			return $state;
 		}
