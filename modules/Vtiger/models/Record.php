@@ -486,7 +486,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
-		$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+		if (property_exists($focus, 'column_fields')) {
+			$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+		}
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
 		return $instance;
 	}
