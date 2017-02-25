@@ -182,11 +182,15 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$header = imap_header($mbox, $msgno);
 		$structure = self::_get_body_attach($mbox, $id, $msgno);
 
+		$msgid = '';
+		if (property_exists($header, 'message_id')) {
+			$msgid = $header->message_id;
+		}
 		$mail = new OSSMail_Mail_Model();
 		$mail->set('header', $header);
 		$mail->set('id', $id);
 		$mail->set('Msgno', $header->Msgno);
-		$mail->set('message_id', $header->message_id);
+		$mail->set('message_id', $msgid);
 		$mail->set('toaddress', $mail->getEmail('to'));
 		$mail->set('fromaddress', $mail->getEmail('from'));
 		$mail->set('reply_toaddress', $mail->getEmail('reply_to'));
