@@ -347,10 +347,12 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	 */
 	public function getDependentsList()
 	{
-		$fieldModel = $this->getRelationField(true);
-		$this->getQueryGenerator()->addNativeCondition([
-			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
-		]);
+		$fieldModel = $this->getRelationField();
+		if (!empty($fieldModel)) {
+			$this->getQueryGenerator()->addNativeCondition([
+				$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
+			]);
+		}
 	}
 
 	/**
