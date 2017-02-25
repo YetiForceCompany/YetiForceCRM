@@ -22,7 +22,7 @@ RedirectMatch 403 (?i).*\.log$
 	#Error: 337 ,Error + Warning: 5111
 	#php_flag	error_reporting				337
 	php_flag	log_errors					On
-	php_flag	display_errors				Off
+	php_flag	display_errors				On
 	php_value	error_log					cache/logs/phpError.log
 	php_value	memory_limit				512M
 	php_flag	output_buffering			On
