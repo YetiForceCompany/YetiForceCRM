@@ -29,5 +29,5 @@ $languageStrings = [
 	'LBL_CREATE_SMTP' => 'Utwórz SMTP',
 	'LBL_SMTP_DETAIL' => 'Szczegóły SMTP',
 	'LBL_INDIVIDUAL_DELIVERY_INFO' => 'Wiadomości email będą wysyłane oddzielnie do każdego z odbiorców',
-	'LBL_OPTIONS_INFO' => "Przykładowe parametry dodatkowe:<br /> 'ssl' => [<br />'verify_peer'  => true,<br />'verify_depth' => 3,<br />'allow_self_signed' => true,<br />'peer_name' => 'smtp.example.com',<br />'cafile' => '/etc/ssl/ca_cert.pem',<br />]",
+	'LBL_OPTIONS_INFO' => "Przykładowe parametry dodatkowe(Json):<br /> {<br />  &quot;ssl&quot;: {<br />    &quot;verify_peer&quot;:false,<br />    &quot;verify_peer_name&quot;:false,<br />    &quot;allow_self_signed&quot;:true<br />  }<br />}",
 ];

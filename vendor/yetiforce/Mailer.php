@@ -180,7 +180,7 @@ class Mailer
 		$this->mailer->Username = $this->smtp['username'];
 		$this->mailer->Password = $this->smtp['password'];
 		if ($this->smtp['options']) {
-			$this->mailer->SMTPOptions = $this->smtp['options'];
+			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
 		}
 		if ($this->smtp['from_email']) {
 			$this->mailer->From = $this->smtp['from_email'];

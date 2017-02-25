@@ -50,8 +50,8 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITIES', $overDueActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGHT', AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGHT', AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

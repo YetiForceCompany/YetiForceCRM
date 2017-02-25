@@ -59,9 +59,15 @@ class Vtiger_Language_Handler
 	{
 		$moduleStrings = [];
 
-		$module = str_replace(':', '.', $module);
-		if (is_array($module))
+		if (is_array($module) || empty($key)) {
 			return null;
+		}
+		if (is_numeric($module)) {
+			// ok, we have a tab id, lets turn it into name
+			$module = \App\Module::getModuleName($module);
+		} else {
+			$module = str_replace(':', '.', $module);
+		}
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
 		if (!empty($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);

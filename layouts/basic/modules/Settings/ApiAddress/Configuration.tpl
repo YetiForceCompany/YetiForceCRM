@@ -26,12 +26,12 @@
 				<div class="col-xs-12 row marginBottom5px">
 					<div class="col-sm-6 col-md-4 row">
 						<div >
-							{vtranslate('LBL_MIN_LOOKUP_LENGHT', $MODULENAME)}: 
+							{vtranslate('LBL_MIN_LOOKUP_LENGTH', $MODULENAME)}: 
 						</div>
 					</div>
 					<div class="col-sm-6 col-md-4">
 						<div style="text-align:center" >
-							<input name="min_lenght" type="text" class="api form-control" value="{$CONFIG['global']['min_lenght']}" style="margin:0 auto;">
+							<input name="min_length" type="text" class="api form-control" value="{$CONFIG['global']['min_length']}" style="margin:0 auto;">
 						</div>
 					</div>
 				</div>
