@@ -328,7 +328,7 @@ class Admin extends \App\Db\Importers\Base
 					'options' => $this->text(),
 					'from_email' => $this->stringType(),
 					'from_name' => $this->stringType(),
-					'replay_to' => $this->stringType(),
+					'reply_to' => $this->stringType(),
 					'individual_delivery' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'columns_mysql' => [
