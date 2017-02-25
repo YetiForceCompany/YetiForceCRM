@@ -271,9 +271,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::initMailPart($mbox, $mail, $partStructure, $partNum + 1);
 			}
 		}
+		$body = '';
+		$body = (isset($mail['textPlain']) && $mail['textPlain']) ? $mail['textPlain']: $body;
+		$body = (isset($mail['textHtml']) && $mail['textHtml']) ? $mail['textHtml']: $body;
+		$attachment = (isset($mail['attachments'])) ? $mail['attachments'] : '';
 		return [
-			'body' => $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'],
-			'attachment' => $mail['attachments']
+			'body' => $body,
+			'attachment' => $attachment,
 		];
 	}
 
