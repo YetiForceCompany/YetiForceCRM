@@ -25,6 +25,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		$uid = $request->get('uid');
 		$folder = $request->get('folder');
 		$rcId = $request->get('rcId');
+		$params = null; // fixme - non existent
 
 		$account = OSSMail_Record_Model::getAccountByHash($rcId);
 		if (!$account) {
