@@ -381,7 +381,9 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		//To keep the reference fieldname and record value in the url if it is direct relation
 		if ($relationModel->isDirectRelation()) {
 			$relationField = $relationModel->getRelationField();
-			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
+			if ($relationField) {
+				$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
+			}
 		}
 		return $createViewUrl;
 	}
