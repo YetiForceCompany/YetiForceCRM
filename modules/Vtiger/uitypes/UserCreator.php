@@ -26,6 +26,9 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
+		if ($value){
+			return $value;
+		}
 		return \App\User::getCurrentUserId();
 	}
 }
