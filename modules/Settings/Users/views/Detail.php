@@ -43,7 +43,9 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
 
 		$viewer->assign('SELECTED_FIELDID', $fieldId);  // used only in old layout 
-		$viewer->assign('SELECTED_MENU', $selectedMenu); // used only in old layout 
+		// fixme where should that var come from?
+		// $viewer->assign('SELECTED_MENU', $selectedMenu); // used only in old layout 
+		$viewer->assign('SELECTED_MENU', $selectedMenuId); // used only in old layout 
 		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 
 		$viewer->assign('MENUS', $menu);
