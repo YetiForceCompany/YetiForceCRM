@@ -11,7 +11,11 @@
 -->*}
 {strip}
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
-    {assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
+	{if isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
+	{else}
+		{assign var=SEARCH_VALUES value=''}
+	{/if}
     <div class="boolenSearchField">
     <select class="select2noactive select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-fieldinfo='{$FIELD_INFO|escape}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
         <option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
