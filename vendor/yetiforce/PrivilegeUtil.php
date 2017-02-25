@@ -95,7 +95,7 @@ class PrivilegeUtil
 			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
 			while ($row = $adb->getRow($result)) {
 				$relTabId = $row['relatedto_tabid'];
-				if (is_array($relModSharArr[$relTabId])) {
+				if (isset($relModSharArr[$relTabId]) && is_array($relModSharArr[$relTabId])) {
 					$temArr = $relModSharArr[$relTabId];
 					$temArr[] = $row['tabid'];
 				} else {
