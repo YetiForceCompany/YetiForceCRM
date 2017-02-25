@@ -120,52 +120,68 @@ class DateTimeField
 		if ($format == '') {
 			$format = 'yyyy-mm-dd';
 		}
-		$dbDate = '';
-		switch ($format) {
-			case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $date);
-				break;
-			case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $date);
-				break;
-			case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $date);
-				break;
-			case 'dd.mm.yyyy': list($d, $m, $y) = explode('.', $date);
-				break;
-			case 'mm.dd.yyyy': list($m, $d, $y) = explode('.', $date);
-				break;
-			case 'yyyy.mm.dd': list($y, $m, $d) = explode('.', $date);
-				break;
-			case 'dd/mm/yyyy': list($d, $m, $y) = explode('/', $date);
-				break;
-			case 'mm/dd/yyyy': list($m, $d, $y) = explode('/', $date);
-				break;
-			case 'yyyy/mm/dd': list($y, $m, $d) = explode('/', $date);
-				break;
+		$format = str_replace('yyyy', 'Y', $format);
+		$format = str_replace('yy', 'y', $format);
+		$format = str_replace('mm', 'm', $format);
+		$format = str_replace('dd', 'd', $format);
+		$timeformat = '';
+		if (strlen($date) > 10) {
+			$timeformat .= ' H:i:s';
+		}
+		$obj_date = DateTime::createFromFormat($format.$timeformat, $date);
+		if ($obj_date) {
+			$dbDate = $obj_date->format('Y-m-d'.$timeformat);
+		} else {
+			$dbDate = '';
 		}
 
-		if (!$y || !$m || !$d) {
-			if (strpos($date, '-') !== false) {
-				$separator = '-';
-			} elseif (strpos($date, '.') !== false) {
-				$separator = '.';
-			} elseif (strpos($date, '/') !== false) {
-				$separator = '/';
-			}
-			$formatToConvert = str_replace(array('/', '.'), array('-', '-'), $format);
-			$dateToConvert = str_replace($separator, '-', $date);
-			switch ($formatToConvert) {
-				case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $dateToConvert);
-					break;
-				case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $dateToConvert);
-					break;
-				case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $dateToConvert);
-					break;
-			}
-			$dbDate = $y . '-' . $m . '-' . $d;
-		} elseif (!$y && !$m && !$d) {
-			$dbDate = '';
-		} else {
-			$dbDate = $y . '-' . $m . '-' . $d;
-		}
+		// $dbDate = '';
+		// switch ($format) {
+		// 	case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $date);
+		// 		break;
+		// 	case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $date);
+		// 		break;
+		// 	case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $date);
+		// 		break;
+		// 	case 'dd.mm.yyyy': list($d, $m, $y) = explode('.', $date);
+		// 		break;
+		// 	case 'mm.dd.yyyy': list($m, $d, $y) = explode('.', $date);
+		// 		break;
+		// 	case 'yyyy.mm.dd': list($y, $m, $d) = explode('.', $date);
+		// 		break;
+		// 	case 'dd/mm/yyyy': list($d, $m, $y) = explode('/', $date);
+		// 		break;
+		// 	case 'mm/dd/yyyy': list($m, $d, $y) = explode('/', $date);
+		// 		break;
+		// 	case 'yyyy/mm/dd': list($y, $m, $d) = explode('/', $date);
+		// 		break;
+		// }
+
+		// if (!$y || !$m || !$d) {
+		// 	if (strpos($date, '-') !== false) {
+		// 		$separator = '-';
+		// 	} elseif (strpos($date, '.') !== false) {
+		// 		$separator = '.';
+		// 	} elseif (strpos($date, '/') !== false) {
+		// 		$separator = '/';
+		// 	}
+		// 	$formatToConvert = str_replace(array('/', '.'), array('-', '-'), $format);
+		// 	$dateToConvert = str_replace($separator, '-', $date);
+		// 	switch ($formatToConvert) {
+		// 		case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $dateToConvert);
+		// 			break;
+		// 		case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $dateToConvert);
+		// 			break;
+		// 		case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $dateToConvert);
+		// 			break;
+		// 	}
+		// 	$dbDate = $y . '-' . $m . '-' . $d;
+		// } elseif (!$y && !$m && !$d) {
+		// 	$dbDate = '';
+		// } else {
+		// 	$dbDate = $y . '-' . $m . '-' . $d;
+		// }
+
 		\App\Log::trace('End ' . __METHOD__);
 		return $dbDate;
 	}
