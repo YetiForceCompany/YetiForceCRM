@@ -53,7 +53,10 @@ class AppConfig
 					return self::$modules[$module];
 					break;
 				case 2:
-					return self::$modules[$module][$key];
+					if (isset(self::$modules[$module][$key])) {
+						return self::$modules[$module][$key];
+					} 
+					return null;
 					break;
 			}
 		}
@@ -89,7 +92,10 @@ class AppConfig
 			require_once 'config/debug.php';
 			AppConfig::load('debug', $DEBUG_CONFIG);
 		}
-		return self::$debug[$key];
+		if (isset(self::$debug[$key])) {
+			return self::$debug[$key];
+		}
+		return null;
 	}
 
 	public static function developer($key, $defvalue = false)
