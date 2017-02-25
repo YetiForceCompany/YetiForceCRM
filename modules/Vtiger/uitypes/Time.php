@@ -69,8 +69,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public static function getTimeValueWithSeconds($time)
 	{
 		if ($time) {
-			$timeDetails = explode(' ', $time);
-			list($hours, $minutes, $seconds) = explode(':', $timeDetails[0]);
+			$timeDetails = array_pad(explode(' ', $time), 2, '');
+			list($hours, $minutes, $seconds) = array_pad(explode(':', $timeDetails[0]), 3, 0);
 
 			//If pm exists and if it not 12 then we need to make it to 24 hour format
 			if ($timeDetails[1] === 'PM' && $hours != '12') {
