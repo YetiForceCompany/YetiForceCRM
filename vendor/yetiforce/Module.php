@@ -79,7 +79,7 @@ class Module
 			return true;
 		}
 		$tabPresence = static::getTabData('tabPresence');
-		$isActive = $tabPresence[static::getModuleId($moduleName)] == 0 ? true : false;
+		$isActive = (isset($tabPresence[static::getModuleId($moduleName)]) && $tabPresence[static::getModuleId($moduleName)] == 0) ? true : false;
 		static::$isModuleActiveCache[$moduleName] = $isActive;
 		return $isActive;
 	}
