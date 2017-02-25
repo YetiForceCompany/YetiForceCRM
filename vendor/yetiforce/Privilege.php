@@ -82,7 +82,7 @@ class Privilege
 				return $permission;
 			}
 			//Checking for vtiger_tab permission
-			if ($userPrivileges['profile_tabs_permission'][$tabid] != 0) {
+			if (!isset($userPrivileges['profile_tabs_permission'][$tabid]) || $userPrivileges['profile_tabs_permission'][$tabid] != 0) {
 				static::$isPermittedLevel = 'SEC_MODULE_PERMISSIONS_NO';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_PERMISSIONS_NO');
 				return false;
