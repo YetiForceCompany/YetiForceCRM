@@ -165,7 +165,7 @@ class AppConfig
 	}
 }
 
-if (ROOT_DIRECTORY == 'ROOT_DIRECTORY') {
+if (!defined('ROOT_DIRECTORY')) {
 	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', dirname(__FILE__)));
 }
 
