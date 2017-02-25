@@ -43,6 +43,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 	public function getActionResult($action = false)
 	{
 		if ($action) {
+		if ($action && isset($this->actionResult[$action])) {
 			return $this->actionResult[$action];
 		}
 		return $this->actionResult;
