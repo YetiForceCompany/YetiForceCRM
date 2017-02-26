@@ -20,7 +20,7 @@ class YetiRest {
     /** @var string url path for REST webservice */
     protected $baseurl;
     /** @var int The user id returned after login */
-    public $userId;
+    // public $userId; // did not make it with PR to YetiForceCRM
     /** @var boolean debug output of curl communication */
     public $debug;
 
@@ -39,7 +39,7 @@ class YetiRest {
         $this->wstoken = (string) $wstoken;
         $this->token = '';
         $this->baseurl = 'api/webservice';
-        $this->userId = false;
+        // $this->userId = false; // did not make it with PR to YetiForceCRM
         $this->debug = false;
     }
 
@@ -130,8 +130,7 @@ class YetiRest {
         $response = $this->request($type, $module, $action, $data);
         if ($response && $response['status'] == 1){
           $this->token = $response['result']['token'];
-          var_export($response);
-          // $this->userId = $response['result']['id'];
+          // $this->userId = $response['result']['id']; // did not make it with PR to YetiForceCRM
           return true;
         }
         return false;
