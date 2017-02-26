@@ -154,7 +154,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if (is_array($detailViewLinks['DETAILVIEWTAB'])) {
+		if (isset(($detailViewLinks['DETAILVIEWTAB'])) && is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() == $selectedTabLabel) {
 					$params = vtlib\Functions::getQueryParams($link->getUrl());
