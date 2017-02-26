@@ -1,0 +1,23 @@
+logged in with token a5ea103fdf9a951e2bf8be1e15bb6022
+Array
+(
+    [mandatory] => 1
+    [presence] => 1
+    [quickcreate] => 1
+    [masseditable] => 1
+    [header_field] => 
+    [maxlengthtext] => 0
+    [maxwidthcolumn] => 0
+    [defaultvalue] => 
+    [type] => string
+    [name] => accountname
+    [label] => Account name
+    [id] => 1
+    [isEditable] => 1
+    [isViewable] => 1
+    [isEditableReadOnly] => 
+    [sequence] => 1
+    [fieldparams] => 
+    [blockId] => 9
+)
+ accountname *
