@@ -1174,7 +1174,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveSearchView()
 	{
-		if ($this->fromOutsideList) {
+		if ($this->get('fromOutsideList')) {
 			return false;
 		}
 		return $this->getUITypeModel()->isActiveSearchView();

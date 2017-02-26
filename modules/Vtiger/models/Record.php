@@ -975,13 +975,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 
 	public function editFieldByModalPermission($profileAction = false)
 	{
-		if (isset($this->privileges['editFieldByModal'])) {
-			if ($this->privileges['editFieldByModal'] === true && $profileAction) {
-				return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
-			}
-			return (bool) $this->privileges['editFieldByModal'];
+		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
+			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
-		return false;
+		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
 	}
 
 	/**
