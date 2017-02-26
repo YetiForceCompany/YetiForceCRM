@@ -29,7 +29,7 @@ class OSSMail_AddressBook_Model
 			}
 		}
 		$fstart = '<?php $bookMails = [';
-		$fend .= '];';
+		$fend = '];';
 
 		foreach ($mails as $user => $file) {
 			file_put_contents('cache/addressBook/mails_' . $user . '.php', $fstart . $file . $fend);
