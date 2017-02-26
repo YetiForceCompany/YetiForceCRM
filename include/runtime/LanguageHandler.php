@@ -68,7 +68,7 @@ class Vtiger_Language_Handler
 		} else {
 			$module = str_replace(':', '.', $module);
 		}
-		$moduleStrings = self::getModuleStringsFromFile($language, $module);
+		$moduleStrings = self::getModuleStringsFromFile($language, $module, $key);
 		if (!empty($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
 		}
