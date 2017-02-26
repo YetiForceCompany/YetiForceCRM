@@ -94,7 +94,8 @@ die;
   $recorddata = array(
     'accountname' => 'Foobar',
     'active' => 1,
-    'assigned_user_id' => $yr->userId, // preset current users id based on login information
+    // rejected PR for userid
+    // 'assigned_user_id' => $yr->userId, // preset current users id based on login information
   );
   echo 'create new record';
   $response = $yr->createRecord($module, $recorddata);
