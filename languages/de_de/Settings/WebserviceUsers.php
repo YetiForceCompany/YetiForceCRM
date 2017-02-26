@@ -20,7 +20,7 @@ $languageStrings = [
 	'PLL_ACCOUNTS_RELATED_RECORDS' => 'Alle Datensätze der Organisation direkt dem Kontakt zuweisen',
 	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'Alle Datensätze der Organisation direkt dem Kontakt und untergeordnete Organisationen zuweisen',
 	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'Alle relevanten Datensätze der Organisation direkt dem Kontakt zuweisen und Organisationen in Hierchie',
-	'PLL_ACTIVE' => 'AKtiv',
+	'PLL_ACTIVE' => 'Aktiv',
 	'PLL_INACTIVE' => 'Inaktiv',
 	'LBL_CREATE_RECORD' => 'Erzeugen',
 ];
