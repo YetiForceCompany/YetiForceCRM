@@ -87,6 +87,8 @@ class Vtiger_Language_Handler
 		if (!empty($commonStrings['languageStrings'][$key]))
 			return stripslashes($commonStrings['languageStrings'][$key]);
 
+ 		\App\Log::warning('cannot translate this: "'.$key.'" for module '.$module.'  (or base or Vtiger)');
+
 		return null;
 	}
 
@@ -130,7 +132,7 @@ class Vtiger_Language_Handler
 	 * @param string $module - module Name
 	 * @return <array> - array if module has language strings else returns empty array
 	 */
-	public static function getModuleStringsFromFile($language, $module = 'Vtiger')
+	public static function getModuleStringsFromFile($language, $module = 'Vtiger', $key=false)
 	{
 		$module = str_replace(':', '.', $module);
 		if (!isset(self::$languageContainer[$language][$module])) {
@@ -140,7 +142,15 @@ class Vtiger_Language_Handler
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				\App\Log::warning("Language file does not exist, module: $module ,language: $language");
+				$reason = '';
+				if ($key) {
+					$reason = 'looking for key: '.$key.', but ';
+				}
+				\App\Log::warning($reason.'language file does not exist, module: '.$module.' ,language: '.$language.', file: '.$file);
+				$bt = debug_backtrace();
+				foreach($bt as $caller) {
+					\App\Log::info('called by: '.$caller['file'].' on line: '.$caller['line']);
+				}
 			}
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
