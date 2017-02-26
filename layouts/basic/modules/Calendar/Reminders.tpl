@@ -18,16 +18,17 @@
 			{assign var=START_TIME value=$RECORD->get('time_start')}
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
-			<div class="panel borderColor{$RECORD->get('activitytype')}" data-record="{$RECORD->getId()}">
+			{assign var=RECORD_ID value=$RECORD->getId()}
+			<div class="panel borderColor{$RECORD->get('activitytype')}" data-record="{$RECORD_ID}">
 				<div class="panel-heading headingColor{$RECORD->get('activitytype')}" 
-					 {if !empty($COLOR_LIST[$RECORD->getId()])}
-					 style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']};"
+					 {if !empty($COLOR_LIST[$RECORD_ID])}
+					 style="background: {$COLOR_LIST[$RECORD_ID]['background']}; color: {$COLOR_LIST[$RECORD_ID]['text']};"
 					 {/if}>
 					<button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</button>
 					<img class="activityTypeIcon" src="{vimage_path($RECORD->getActivityTypeIcon())}" />&nbsp;
-					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}">
+					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
 						{$RECORD->get('subject')}
 					</a>
 				</div>

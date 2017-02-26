@@ -12,7 +12,12 @@
 {strip}
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
+	{if isset($SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
+	{else}
+		{assign var=SEARCH_VALUES value=''}
+	{/if}
     <div class="picklistSearchField">
-        <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateField form-control" data-date-format="{$dateFormat}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-calendar-type="range" value="{$SEARCH_INFO['searchValue']}" data-fieldinfo='{$FIELD_INFO|escape}'/>
+        <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateField form-control" data-date-format="{$dateFormat}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-calendar-type="range" value="{$SEARCH_VALUES}" data-fieldinfo='{$FIELD_INFO|escape}'/>
     </div>
 {/strip}

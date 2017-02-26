@@ -85,7 +85,7 @@
 								{str_repeat('*', 10)}
 							{elseif $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
 								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
-							{elseif $HEADER_FIELD->fromOutsideList eq true}
+							{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 							{else}
 								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
