@@ -54,7 +54,6 @@ class API_DAV_Model
 			}
 		}
 		$cardDav = new API_CalDAV_Model();
-		// $cardDav->log = $dav->log;  // fixme - seems to be old code - remove?
 		$cardDav->davUsers = $dav->davUsers;
 		$cardDav->calDavCrm2Dav();
 		$cardDav->calDav2Crm();
