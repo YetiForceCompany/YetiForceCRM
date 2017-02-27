@@ -340,11 +340,20 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				if (isset($uuDecode['attachments'])) {
 					$mail['attachments'] = $uuDecode['attachments'];
 				}
+				if (!isset($mail['textPlain'])) {
+					$mail['textPlain'] = '';
+				}
 				$mail['textPlain'] .= $uuDecode['text'];
 			} else {
+				if (!isset($mail['textHtml'])) {
+					$mail['textHtml'] = '';
+				}
 				$mail['textHtml'] .= $data;
 			}
 		} elseif ($partStructure->type == 2 && $data) {
+			if (!isset($mail['textPlain'])) {
+				$mail['textPlain'] = '';
+			}
 			$mail['textPlain'] .= trim($data);
 		}
 		if (!empty($partStructure->parts)) {

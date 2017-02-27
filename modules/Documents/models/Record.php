@@ -136,9 +136,14 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		parent::saveToDb();
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
+		$fileName = '';
 		if ($this->get('filelocationtype') === 'I') {
 			if (!isset($this->file)) {
-				$file = $_FILES[$fileNameByField];
+				if (isset($_FILES[$fileNameByField])) {
+					$file = $_FILES[$fileNameByField];
+				} else {
+					$file = null;
+				}
 			} else {
 				$file = $this->file;
 			}
@@ -183,7 +188,11 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		//Inserting into attachments table
 		if ($fileLocationType === 'I') {
 			if (!isset($this->file)) {
-				$file = $_FILES[$fileNameByField];
+				if (isset($_FILES[$fileNameByField])) {
+					$file = $_FILES[$fileNameByField];
+				} else {
+					$file = null;
+				}
 			} else {
 				$file = $this->file;
 			}

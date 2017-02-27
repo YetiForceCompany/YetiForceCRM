@@ -132,7 +132,10 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 	public function getEmail($name)
 	{
 		$header = $this->get('header');
-		$text = $header->$name;
+		$text = '';
+		if (property_exists($header, 'name')) {
+			$text = $header->$name;
+		}
 		$return = '';
 		if (is_array($text)) {
 			foreach ($text as $row) {
