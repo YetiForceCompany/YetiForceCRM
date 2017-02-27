@@ -311,8 +311,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if (!empty($params['charset']) && strtolower($params['charset']) !== 'utf-8') {
-			var_dump($partStructure,$params['charset'],mb_list_encodings(),$data);
-			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset']), mb_list_encodings())) {
+			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset'],true), mb_list_encodings())) {
 				$encodedData = mb_convert_encoding($data, 'UTF-8', $params['charset']);
 			} else {
 				$encodedData = iconv($params['charset'], 'UTF-8', $data);
