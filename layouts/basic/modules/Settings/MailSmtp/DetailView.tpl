@@ -1,5 +1,5 @@
-{strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip} {*
+<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -106,9 +106,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_REPLAY_TO', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_REPLY_TO', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
-						{$RECORD_MODEL->getDisplayValue('replay_to')}
+						{$RECORD_MODEL->getDisplayValue('reply_to')}
 					</td>
 				</tr>
 				<tr>
