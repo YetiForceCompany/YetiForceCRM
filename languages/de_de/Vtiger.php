@@ -1266,6 +1266,8 @@ $languageStrings = [
 	'LBL_UPDATE_DATE_FIELD' => 'Aktualisiere %s Feld mit der aktuellen Uhrzeit',
 	'LBL_UPDATE_FIELD' => 'Aktualisiere Feld',
 	'FL_IS_PRIVATE' => 'Privat',
+	'BTN_REALIZE' => 'Kenntnisnahme
+	',
 	//TextParser
 	'LBL_TRANSLATE' => 'Übersetzung',
 	'LBL_COMPANY_VARIABLES' => 'Firmendetails',
