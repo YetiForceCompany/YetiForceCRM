@@ -123,7 +123,9 @@ function vtws_getUserWebservicesGroups($tabId, $user)
 
 function vtws_getIdComponents($elementid)
 {
-	return explode("x", $elementid);
+	if (strpos($elementid, 'x') !== false) {
+		return explode("x", $elementid);
+	}
 }
 
 function vtws_getId($objId, $elemId)
