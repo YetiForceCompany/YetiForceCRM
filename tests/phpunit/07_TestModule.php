@@ -22,8 +22,7 @@ class TestModule extends TestCase
 			
 		}
 		if (file_exists($testModule)) {
-			$package = new vtlib\Package();
-			$package->import($testModule);
+			(new vtlib\Package())->import($testModule);
 		}
 	}
 
