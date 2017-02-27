@@ -12,6 +12,7 @@
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Błąd podczas wgrywania plików',
 	'ModuleManager' => 'Zarządzanie Modułami',
+	'Module Manager' => 'Zarządzanie Modułami',
 	'LBL_ACCEPT_AND_INSTALL' => 'Akceptuj i instaluj',
 	'LBL_DECLINE' => 'Odrzuć',
 	'LBL_EXISTS' => 'Istnieje',

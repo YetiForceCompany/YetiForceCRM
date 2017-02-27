@@ -11,6 +11,7 @@
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Uploading files failed',
 	'ModuleManager' => 'Module Manager',
+	'Module Manager' => 'Module Manager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import bundle from file',
 	'LBL_IMPORT_MODULE' => 'Import module',
 	'LBL_IMPORTED_UPDATE' => 'System has been updated successfully.',
