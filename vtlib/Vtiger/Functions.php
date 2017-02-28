@@ -716,8 +716,9 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
+		$message = is_string($e) ? $e : $e->getMessage();
 		if (REQUEST_MODE == 'API') {
-			throw new \APIException($e->getMessage(), 401);
+			throw new \APIException($message, 401);
 		}
 		$request = \AppRequest::init();
 		if ($request->isAjax()) {
@@ -730,11 +731,11 @@ class Functions
 			$response->emit();
 		} else {
 			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $e->getMessage());
+			$viewer->assign('MESSAGE', $message);
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
-			trigger_error(print_r($e->getMessage(), true), E_USER_ERROR);
+			trigger_error(print_r($message, true), E_USER_ERROR);
 			throw new \Exception('');
 		}
 	}
