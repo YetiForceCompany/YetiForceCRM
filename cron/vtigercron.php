@@ -70,10 +70,10 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			$startTime = microtime(true);
 
 			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
-			//ob_start();
+			ob_start();
 			require_once $cronTask->getHandlerFile();
-			//$taskResponse = ob_get_contents();
-			//ob_end_clean();
+			$taskResponse = ob_get_contents();
+			ob_end_clean();
 
 			$taskTime = round(microtime(true) - $startTime, 2);
 			if ($taskResponse != '') {
