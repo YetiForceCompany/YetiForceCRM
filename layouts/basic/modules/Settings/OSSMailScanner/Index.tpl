@@ -66,7 +66,7 @@
 				<tbody>
 					{assign var=USERS_ENTITY_INFO value=\App\Module::getEntityInfo('Users')}
 					{foreach from=$ACCOUNTS_LIST item=row}
-						{assign var=FOLDERS value=$RECORD_MODEL->getFolders($row['crm_user_id'])}
+						{assign var=FOLDERS value=$RECORD_MODEL->getFolders($row['user_id'])}
 						<tr id="row_account_{$row['user_id']}" style="{cycle values="'',background-color: #f9f9f9"}">
 							<td>{$row['username']}</td>
 							<td>{$row['mail_host']}</td>
