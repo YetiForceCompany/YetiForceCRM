@@ -284,7 +284,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
 	{
 		$data = $partNum ? imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK) : imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
-		var_dump($data);
 		if ($partStructure->encoding == 1) {
 			$data = imap_utf8($data);
 		} elseif ($partStructure->encoding == 2) {
@@ -311,7 +310,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if (!empty($params['charset']) && strtolower($params['charset']) !== 'utf-8') {
-			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset'],true), mb_list_encodings())) {
+			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset'], true), mb_list_encodings())) {
 				$encodedData = mb_convert_encoding($data, 'UTF-8', $params['charset']);
 			} else {
 				$encodedData = iconv($params['charset'], 'UTF-8', $data);
