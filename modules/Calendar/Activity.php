@@ -246,8 +246,13 @@ class Activity extends CRMEntity
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
 		}
-
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
+		$moduleLevel = App\ModuleHierarchy::getModuleLevel($module);
+		if ($moduleLevel === false) {
+			$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
+		} else {
+			$field = App\ModuleHierarchy::getMappingRelatedField($module);
+			$query = " LEFT JOIN vtiger_activity ON vtiger_activity.$field = vtiger_crmentity.crmid";
+		}
 
 		if ($queryPlanner->requireTable("vtiger_crmentityCalendar", $matrix)) {
 			$query .= " left join vtiger_crmentity as vtiger_crmentityCalendar on vtiger_crmentityCalendar.crmid=vtiger_activity.activityid and vtiger_crmentityCalendar.deleted=0";
