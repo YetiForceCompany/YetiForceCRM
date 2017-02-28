@@ -67,7 +67,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		$parseHost = parse_url($host);
 		$validatecert = '';
-		if ($parseHost['host']) {
+		if (!empty($parseHost['host'])) {
 			$host = $parseHost['host'];
 			$sslMode = (isset($a_host['scheme']) && in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
 			if (!empty($parseHost['port'])) {
