@@ -93,7 +93,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
-			'linkclass' => 'signOutButtonBlue'
+			'linkclass' => 'btn-danger'
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
