@@ -153,7 +153,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function updateImportStatus($entryId, $entityInfo)
 	{
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityInfo['id']], ['id' => $entryId])->execute();
+		$entityId = isset($entityInfo['id']) ? $entityInfo['id'] : null;
+		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityId], ['id' => $entryId])->execute();
 	}
 
 	/**
