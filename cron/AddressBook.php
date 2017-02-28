@@ -54,8 +54,8 @@ while ($row = $dataReader->read()) {
 		$emailCondition[] = ['<>', $fieldName, ''];
 	}
 	$query->andWhere($emailCondition)->limit($limit + 1);
-	$dataReader = $query->createCommand()->query();
-	while ($row = $dataReader->read()) {
+	$dataReaderRows = $query->createCommand()->query();
+	while ($row = $dataReaderRows->read()) {
 		$users = $name = '';
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $row[$entityName];
