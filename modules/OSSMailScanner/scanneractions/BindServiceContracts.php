@@ -32,7 +32,6 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 			$query = 'SELECT servicecontractsid FROM vtiger_servicecontracts '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '
 				. 'WHERE vtiger_crmentity.deleted = 0 && sc_related_to IN (' . implode(',', $accountnumbers) . ') && contract_status = ?';
-		// / migoi
 			$result = $db->pquery($query, ['In Progress']);
 			if ($db->getRowCount($result)) {
 				$serviceContractsId = $db->getSingleValue($result);
