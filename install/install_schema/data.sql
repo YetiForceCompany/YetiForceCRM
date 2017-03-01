@@ -2013,9 +2013,10 @@ insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (42
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (42,3,'vtiger_crmentity:smownerid:assigned_user_id:ModComments_Assigned_To:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,0,'vtiger_projectmilestone:projectmilestonename:projectmilestonename:ProjectMilestone_Project_Milestone_Name:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,1,'vtiger_projectmilestone:projectmilestonedate:projectmilestonedate:ProjectMilestone_Milestone_Date:D');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,3,'vtiger_crmentity:description:description:ProjectMilestone_description:V');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,4,'vtiger_crmentity:createdtime:createdtime:ProjectMilestone_Created_Time:T');
-insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,5,'vtiger_crmentity:modifiedtime:modifiedtime:ProjectMilestone_Modified_Time:T');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,2,'vtiger_crmentity:description:description:ProjectMilestone_description:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,3,'vtiger_projectmilestone:projectid:projectid:ProjectMilestone_Related_to:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,4,'vtiger_projectmilestone:projectmilestone_priority:projectmilestone_priority:ProjectMilestone_LBL_PRIORITY:V');
+insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (43,5,'vtiger_projectmilestone:projectmilestonetype:projectmilestonetype:ProjectMilestone_Type:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (44,2,'vtiger_projecttask:projecttaskname:projecttaskname:ProjectTask_Project_Task_Name:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (44,3,'vtiger_projecttask:projectid:projectid:ProjectTask_Related_to:V');
 insert  into `vtiger_cvcolumnlist`(`cvid`,`columnindex`,`columnname`) values (44,4,'vtiger_projecttask:projecttaskpriority:projecttaskpriority:ProjectTask_Priority:V');
