@@ -5290,7 +5290,6 @@ CREATE TABLE `vtiger_fixed_assets_fuel_type` (
   `fixed_assets_fuel_typeid` int(11) NOT NULL AUTO_INCREMENT,
   `fixed_assets_fuel_type` varchar(255) DEFAULT NULL,
   `presence` tinyint(1) DEFAULT '1',
-  `picklist_valueid` smallint(6) DEFAULT '0',
   `sortorderid` smallint(6) DEFAULT '0',
   PRIMARY KEY (`fixed_assets_fuel_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
