@@ -717,17 +717,22 @@ class Functions
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		$message = is_string($e) ? $e : $e->getMessage();
-		if (REQUEST_MODE == 'API') {
+		if (REQUEST_MODE === 'API') {
 			throw new \APIException($message, 401);
 		}
 		$request = \AppRequest::init();
 		if ($request->isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
-			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			$trace = '';
+			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
-			$response->setError($e->getCode(), $e->getMessage(), $trace);
+			if(is_object($e)){
+				$response->setError($e->getCode(), $e->getMessage(), $trace);
+			}else{
+				$response->setError('error', $message, $trace);
+			}
 			$response->emit();
 		} else {
 			$viewer = new \Vtiger_Viewer();
@@ -736,7 +741,12 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			throw new \Exception('');
+			if(is_object($e)){
+				throw new $e;
+			}else{
+				throw new \Exception($message);
+			}
+			
 		}
 	}
 
