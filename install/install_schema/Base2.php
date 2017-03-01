@@ -3413,9 +3413,10 @@ class Base2 extends \App\Db\Importers\Base
 					[42, 3, 'vtiger_crmentity:smownerid:assigned_user_id:ModComments_Assigned_To:V'],
 					[43, 0, 'vtiger_projectmilestone:projectmilestonename:projectmilestonename:ProjectMilestone_Project_Milestone_Name:V'],
 					[43, 1, 'vtiger_projectmilestone:projectmilestonedate:projectmilestonedate:ProjectMilestone_Milestone_Date:D'],
-					[43, 3, 'vtiger_crmentity:description:description:ProjectMilestone_description:V'],
-					[43, 4, 'vtiger_crmentity:createdtime:createdtime:ProjectMilestone_Created_Time:T'],
-					[43, 5, 'vtiger_crmentity:modifiedtime:modifiedtime:ProjectMilestone_Modified_Time:T'],
+					[43, 2, 'vtiger_crmentity:description:description:ProjectMilestone_description:V'],
+					[43, 3, 'vtiger_projectmilestone:projectid:projectid:ProjectMilestone_Related_to:V'],
+					[43, 4, 'vtiger_projectmilestone:projectmilestone_priority:projectmilestone_priority:ProjectMilestone_LBL_PRIORITY:V'],
+					[43, 5, 'vtiger_projectmilestone:projectmilestonetype:projectmilestonetype:ProjectMilestone_Type:V'],
 					[44, 2, 'vtiger_projecttask:projecttaskname:projecttaskname:ProjectTask_Project_Task_Name:V'],
 					[44, 3, 'vtiger_projecttask:projectid:projectid:ProjectTask_Related_to:V'],
 					[44, 4, 'vtiger_projecttask:projecttaskpriority:projecttaskpriority:ProjectTask_Priority:V'],
@@ -5444,6 +5445,7 @@ class Base2 extends \App\Db\Importers\Base
 					[16, 2601, 0, 0],
 					[9, 2602, 0, 0],
 					[9, 2603, 0, 0],
+					[43, 2604, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -7536,12 +7538,13 @@ class Base2 extends \App\Db\Importers\Base
 					[16, 2601, 'recurrence', 'vtiger_activity', 1, 342, 'recurrence', 'FL_RECURRENCE', 1, 2, '', 100, 8, 117, 1, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[9, 2602, 'reapeat', 'vtiger_activity', 1, 56, 'reapeat', 'FL_REAPEAT', 1, 2, '', 100, 0, 19, 3, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[9, 2603, 'recurrence', 'vtiger_activity', 1, 342, 'recurrence', 'FL_RECURRENCE', 1, 2, '', 100, 0, 19, 3, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[43, 2604, 'parentid', 'vtiger_project', 1, 10, 'parentid', 'FL_MEMBER_OF', 1, 2, '', 100, 10, 108, 1, 'I~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2603],
+					[2604],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7715,6 +7718,7 @@ class Base2 extends \App\Db\Importers\Base
 					[2585, 'SVendorEnquiries', 'Vendors', NULL, 0],
 					[2586, 'SVendorEnquiries', 'SCalculations', NULL, 0],
 					[601, 'ModComments', 'SVendorEnquiries', NULL, 0],
+					[2604, 'Project', 'Project', NULL, 0],
 				]
 			],
 			'vtiger_finvoice_formpayment' => [

@@ -32,6 +32,7 @@ $languageStrings = [
 	'LBL_SELECT_PROGRESS' => 'Wybierz Postęp',
 	'description' => 'Opis',
 	'Related to' => 'Powiązane z',
+	'FL_MEMBER_OF' => 'Projekt nadrzędny',
 	//Summary Information
 	'LBL_TASKS_OPEN' => 'Zadania otwarte',
 	'LBL_TASKS_DUE' => 'Zadania po terminie',
