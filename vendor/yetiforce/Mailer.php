@@ -46,6 +46,7 @@ class Mailer
 		}
 		$this->mailer->XMailer = 'YetiForceCRM mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
+		$this->mailer->CharSet = AppConfig::main('default_charset');
 	}
 
 	/**
@@ -177,8 +178,8 @@ class Mailer
 		}
 		$this->mailer->SMTPSecure = $this->smtp['secure'];
 		$this->mailer->SMTPAuth = (bool) $this->smtp['authentication'];
-		$this->mailer->Username = $this->smtp['username'];
-		$this->mailer->Password = $this->smtp['password'];
+		$this->mailer->Username = trim($this->smtp['username']);
+		$this->mailer->Password = trim($this->smtp['password']);
 		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
 		}
