@@ -291,7 +291,7 @@
 																					{/if}
 																					<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 																						{vtranslate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}
-																						<div class="input-group">
+																						<div class="form-inline">
 																							<input type="text" class="form-control" name="maxlengthtext" value="{$FIELD_MODEL->get('maxlengthtext')}" />&nbsp;
 																						</div>
 																					</div>
@@ -508,7 +508,7 @@
 																				</div>
 																				<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 																					{vtranslate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}
-																					<div class="input-group">
+																					<div class="form-inline">
 																						<input type="text" class="form-control" name="maxlengthtext" value="{$FIELD_MODEL->get('maxlengthtext')}" />&nbsp;
 																					</div>
 																				</div>
@@ -687,14 +687,14 @@
 														{/if}
 														<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 															{vtranslate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}
-															<div class="input-group">
-																<input type="text" class="form-control" name="maxlengthtext" value="{$FIELD_MODEL->get('maxlengthtext')}" />&nbsp;
+															<div class="form-inline">
+																<input type="text" class="form-control" name="maxlengthtext" value="0" />&nbsp;
 															</div>
 														</div>
 														<div class="padding1per" style="padding : 0px 10px 0px 25px;">
 															{vtranslate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}
 															<div class="form-inline">
-																<input type="text" class="form-control" name="maxwidthcolumn" value="{$FIELD_MODEL->get('maxwidthcolumn')}" />&nbsp;
+																<input type="text" class="form-control" name="maxwidthcolumn" value="0" />&nbsp;
 															</div>
 														</div>
 													</div>
