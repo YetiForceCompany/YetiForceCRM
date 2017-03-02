@@ -272,8 +272,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$body = '';
-		$body = (isset($mail['textPlain']) && $mail['textPlain']) ? $mail['textPlain']: $body;
-		$body = (isset($mail['textHtml']) && $mail['textHtml']) ? $mail['textHtml']: $body;
+		$body = (!empty($mail['textPlain'])) ? $mail['textPlain']: $body;
+		$body = (!empty($mail['textHtml'])) ? $mail['textHtml']: $body;
 		$attachment = (isset($mail['attachments'])) ? $mail['attachments'] : [];
 		return [
 			'body' => $body,
