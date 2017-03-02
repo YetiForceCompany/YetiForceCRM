@@ -79,7 +79,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getConfigurationValue($instalMode = false)
 	{
-		$errorReportingValue = 'E_WARNING & E_ERROR & ~E_NOTICE';
+		$errorReportingValue = 'E_ALL & ~E_NOTICE';
 		$directiveValues = [
 			'PHP' => ['prefer' => '5.5.0'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
