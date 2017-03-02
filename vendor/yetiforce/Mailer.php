@@ -46,7 +46,7 @@ class Mailer
 		}
 		$this->mailer->XMailer = 'YetiForceCRM mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
-		$this->mailer->CharSet = AppConfig::main('default_charset');
+		$this->mailer->CharSet = \AppConfig::main('default_charset');
 	}
 
 	/**
