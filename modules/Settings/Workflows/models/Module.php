@@ -211,7 +211,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 		if ($num == 0) {
 			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
-			$emm = new VTEntityMethodManager($db);
+			$emm = new VTEntityMethodManager();
 			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
 		}
 	}

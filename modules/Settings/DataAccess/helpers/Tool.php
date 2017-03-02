@@ -245,9 +245,7 @@ class Oss_Tool
 	{
 		if (self::checkArg(func_get_args(), 3)) {
 			vglobal('Vtiger_Utils_Log', true);
-
-			$db = PearDatabase::getInstance();
-			$vtemm = new VTEntityMethodManager($db);
+			$vtemm = new VTEntityMethodManager();
 			$vtemm->addEntityMethod($moduleName, $methodName, $functionPath, $methodName);
 		}
 	}
