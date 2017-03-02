@@ -20,7 +20,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	const RELATION_O2M = 1;
 	//Many to many and many to one
 	const RELATION_M2M = 2;
-	protected $RELATIONS_O2M = ['getDependentsList'];
+
+	/** @var string[] */
+	protected static $RELATIONS_O2M = ['getDependentsList'];
 
 	/**
 	 * Function returns the relation id
