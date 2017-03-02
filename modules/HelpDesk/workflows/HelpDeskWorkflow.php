@@ -33,9 +33,9 @@ function getContactsMailsFromTicket($id)
 	return $mails;
 }
 
-function HeldDeskChangeNotifyContacts($entityData)
+function HelpDeskChangeNotifyContacts($entityData)
 {
-	\App\Log::trace('Entering HeldDeskChangeNotifyContacts');
+	\App\Log::trace('Entering HelpDeskChangeNotifyContacts');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -49,12 +49,12 @@ function HeldDeskChangeNotifyContacts($entityData)
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HeldDeskChangeNotifyContacts');
+	\App\Log::trace('HelpDeskChangeNotifyContacts');
 }
 
-function HeldDeskClosedNotifyContacts($entityData)
+function HelpDeskClosedNotifyContacts($entityData)
 {
-	\App\Log::trace('Entering HeldDeskClosedNotifyContacts');
+	\App\Log::trace('Entering HelpDeskClosedNotifyContacts');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -67,13 +67,13 @@ function HeldDeskClosedNotifyContacts($entityData)
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HeldDeskClosedNotifyContacts');
+	\App\Log::trace('HelpDeskClosedNotifyContacts');
 }
 
-function HeldDeskNewCommentAccount($entityData)
+function HelpDeskNewCommentAccount($entityData)
 {
 	$db = PearDatabase::getInstance();
-	\App\Log::trace('Entering HeldDeskNewCommentAccount');
+	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
@@ -104,12 +104,12 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 			'to' => $mail,
 		]);
 	}
-	\App\Log::trace('HeldDeskNewCommentAccount');
+	\App\Log::trace('HelpDeskNewCommentAccount');
 }
 
-function HeldDeskNewCommentContacts($entityData)
+function HelpDeskNewCommentContacts($entityData)
 {
-	\App\Log::trace('Entering HeldDeskNewCommentAccount');
+	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$wsId = $entityData->getId();
 	$parts = explode('x', $wsId);
 	$entityId = $parts[1];
@@ -126,12 +126,12 @@ function HeldDeskNewCommentContacts($entityData)
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HeldDeskNewCommentAccount');
+	\App\Log::trace('HelpDeskNewCommentAccount');
 }
 
-function HeldDeskNewCommentOwner($entityData)
+function HelpDeskNewCommentOwner($entityData)
 {
-	\App\Log::trace('Entering HeldDeskNewCommentAccount');
+	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$db = PearDatabase::getInstance();
 
 	$wsId = $entityData->getId();
@@ -174,5 +174,5 @@ function HeldDeskNewCommentOwner($entityData)
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HeldDeskNewCommentAccount');
+	\App\Log::trace('HelpDeskNewCommentAccount');
 }
