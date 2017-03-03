@@ -37,7 +37,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
-		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] !== '-') {
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
@@ -114,7 +114,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$currentValue = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $entity->tab_name_index[$fieldModel->getTableName()], $sourceRecord);
 		// Get value to added
 		$relatedValue = '';
-		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$recordModel = Vtiger_Record_Model::getInstanceById($destRecord, $params['module']);
 		if ($params['filterField'] === '-' || ($params['filterField'] !== '-' && $recordModel->get($params['filterField']) === $params['filterValue'])) {
 			$relatedValue = $recordModel->get($fieldInfo['fieldname']);
@@ -157,7 +157,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $params['module']);
-		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$targetModel->getRelationQuery();
 		$queryGenerator = $targetModel->getRelationModel()->getQueryGenerator();
 		$queryGenerator->permissions = false;
@@ -225,7 +225,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	{
 		$field = $this->get('field');
 		$params = $field->getFieldParams();
-		$fieldInfo = vtlib\Functions::getModuleFieldInfoWithId($params['field']);
+		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
 			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));

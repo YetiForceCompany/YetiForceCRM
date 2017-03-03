@@ -314,39 +314,16 @@ class Functions
 		return \App\Cache::get($cacheName, $module);
 	}
 
-	public static function getModuleFieldInfoWithId($fieldid)
+	/**
+	 * Function to gets mudule field ID
+	 * @param string|int $moduleId
+	 * @param string|int $mixed
+	 * @param boolean $onlyactive
+	 * @return int|bool
+	 */
+	public static function getModuleFieldId($moduleId, $mixed, $onlyactive = true)
 	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_field WHERE fieldid=?', array($fieldid));
-		return ($adb->num_rows($result)) ? $adb->fetch_array($result) : NULL;
-	}
-
-	public static function getModuleFieldInfo($moduleid, $mixed)
-	{
-		$field = NULL;
-		if (empty($moduleid) && is_numeric($mixed)) {
-			$field = self::getModuleFieldInfoWithId($mixed);
-		} else {
-			$fieldsInfo = self::getModuleFieldInfos($moduleid);
-			if ($fieldsInfo) {
-				if (is_numeric($mixed)) {
-					foreach ($fieldsInfo as $name => $row) {
-						if ($row['fieldid'] == $mixed) {
-							$field = $row;
-							break;
-						}
-					}
-				} else {
-					$field = isset($fieldsInfo[$mixed]) ? $fieldsInfo[$mixed] : NULL;
-				}
-			}
-		}
-		return $field;
-	}
-
-	public static function getModuleFieldId($moduleid, $mixed, $onlyactive = true)
-	{
-		$field = self::getModuleFieldInfo($moduleid, $mixed, $onlyactive);
+		$field = \App\Field::getFieldInfo($mixed, $moduleId);
 
 		if ($field) {
 			if ($onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
@@ -728,9 +705,9 @@ class Functions
 			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
-			if(is_object($e)){
+			if (is_object($e)) {
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
-			}else{
+			} else {
 				$response->setError('error', $message, $trace);
 			}
 			$response->emit();
@@ -741,12 +718,11 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			if(is_object($e)){
+			if (is_object($e)) {
 				throw new $e;
-			}else{
+			} else {
 				throw new \Exception($message);
 			}
-			
 		}
 	}
 

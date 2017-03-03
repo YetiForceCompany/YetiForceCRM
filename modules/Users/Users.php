@@ -299,7 +299,7 @@ class Users extends CRMEntity
 	{
 		$userName = $this->column_fields['user_name'];
 		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
-		if (!$userInfo || $userInfo['deleted'] !== 0) {
+		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
 			return false;
 		}
@@ -996,7 +996,7 @@ class Users extends CRMEntity
 			if ((new \App\Db\Query())->from('vtiger_users')
 					->where(['or', ['user_name' => $this->column_fields['user_name']], ['email1' => $this->column_fields['email1']]])
 					->exists()) {
-				throw new \Exception(vtranslate('LBL_USER_EXISTS').' -> '.$this->column_fields['user_name']);
+				throw new \Exception(vtranslate('LBL_USER_EXISTS') . ' -> ' . $this->column_fields['user_name']);
 			}
 			\App\Privilege::setAllUpdater();
 		} else {// update dashboard widgets when changing users role
