@@ -52,7 +52,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 				$module_name = vtranslate($module_name, $module_name);
 			}
 			$row['module_name'] = $module_name;
-			$row['summary'] = vtranslate($row['summary'], $qualifiedModuleName);
+			$row['summary'] = isset($row['summary']) ? vtranslate($row['summary'], $qualifiedModuleName) : '';
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
