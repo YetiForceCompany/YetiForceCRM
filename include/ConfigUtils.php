@@ -34,6 +34,7 @@ class AppConfig
 				self::$main[$key] = $$key;
 				return $$key;
 			}
+			App\Log::warning('Parameter does not exist');
 			return null;
 		}
 		return $value;
@@ -55,7 +56,8 @@ class AppConfig
 				case 2:
 					if (isset(self::$modules[$module][$key])) {
 						return self::$modules[$module][$key];
-					} 
+					}
+					App\Log::warning('Parameter does not exist');
 					return null;
 					break;
 			}
@@ -92,8 +94,8 @@ class AppConfig
 			require_once 'config/debug.php';
 			AppConfig::load('debug', $DEBUG_CONFIG);
 		}
-		return isset(self::$debug[$key]) ? self::$debug[$key] : false;	
-}
+		return isset(self::$debug[$key]) ? self::$debug[$key] : false;
+	}
 
 	public static function developer($key, $defvalue = false)
 	{

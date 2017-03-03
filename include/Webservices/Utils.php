@@ -124,8 +124,9 @@ function vtws_getUserWebservicesGroups($tabId, $user)
 function vtws_getIdComponents($elementid)
 {
 	if (strpos($elementid, 'x') !== false) {
-		return explode("x", $elementid);
+		return explode('x', $elementid);
 	}
+	App\Log::warning('Incorrect ID');
 }
 
 function vtws_getId($objId, $elemId)
