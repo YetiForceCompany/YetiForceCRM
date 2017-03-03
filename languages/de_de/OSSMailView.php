@@ -53,9 +53,9 @@ $languageStrings = [
 	'FromID' => 'Sender Id',
 	'ToID' => 'Empfänger Id',
 	'LBL_SHOW_PREVIEW_EMAIL' => 'E-Mail anzeigen',
-  'LBL_SHOW_PREVIEW_EMAILS' => 'Vorschau der E-Mails',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Vorschau der E-Mails',
 	'LBL_NO_MAILS' => 'keine E-Mails',
-  'LBL_CHANGE_FILTER' => 'Filter ändern',
+	'LBL_CHANGE_FILTER' => 'Filter ändern',
 	'LBL_VERIFY' => 'Zur Überprüfung',
 	'LBL_REL_MOD' => 'Verknüpfte Module',
 	'LBL_BindMailsOK' => 'Zugeordnete E-Mails werden beim nächsten CRON Durchlauf den Datensätzen zugewiesen',
@@ -82,8 +82,7 @@ $languageStrings = [
 	'LBL_FILTER_CONTACTS' => 'Alle Kontakte',
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Original E-Mail Inhalt',
 	'BTN_RESET_RELATED_MAILS' => 'zugeordnete E-Mails zurücksetzen',
-  'LBL_SET_RELOAD_RELATIONS' => 'Zuordnung neu laden',
-
+	'LBL_SET_RELOAD_RELATIONS' => 'Zuordnung neu laden',
 ];
 $jsLanguageStrings = [
 	'From' => 'Von',

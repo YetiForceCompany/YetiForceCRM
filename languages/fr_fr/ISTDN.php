@@ -11,13 +11,11 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Sujet',
 	'FL_STORAGE' => 'Stockage',
 	'FL_STATUS' => 'Statut',
-	
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_IN_REALIZATION' => 'En cours',
 	'PLL_OBJECTIONS' => 'Objections',
 	'PLL_FOR_APPROVAL' => 'Pour approbation',
 	'PLL_CANCELLED' => 'Annulé',
 	'PLL_ACCEPTED' => 'Accepté',
-	
 	'LBL_CHANGE_STATUS' => 'Changer le statut',
 ];

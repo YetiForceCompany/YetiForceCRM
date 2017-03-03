@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-  'OpenStreetMap' => 'OpenStreetMap',
+	'OpenStreetMap' => 'OpenStreetMap',
 	'LBL_GROUP_BY' => 'Grupuj',
 	'LBL_GROUP_NEIGHBOURS' => 'Połącz najbliższe elementy',
 	'LBL_NOT_FOUND_PLACE' => 'Nie odnaleziono miejsca',

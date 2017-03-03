@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,20 +7,20 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- *************************************************************************************/
+ * *********************************************************************************** */
 $languageStrings = [
 	'LBL_MAP' => 'Carte',
 	'Account Name' => 'Compte',
 	'Account No' => 'Compte Id',
 	'Accounts' => 'Comptes',
-	'Analyst'=>'Analyste',
-	'Competitor'=>'Concurrent',
-	'Customer'=>'Client',
+	'Analyst' => 'Analyste',
+	'Competitor' => 'Concurrent',
+	'Customer' => 'Client',
 	'Email' => 'Email',
 	'Employees' => 'Nombre d\'employés',
 	'industry' => 'Secteur',
-	'Integrator'=>'Integrateur',
-	'Investor'=>'Investisseur',
+	'Integrator' => 'Integrateur',
+	'Investor' => 'Investisseur',
 	'LBL_ACCOUNT_INFORMATION' => 'Détails du Compte',
 	'LBL_ADD_RECORD' => 'Ajouter un Compte',
 	'LBL_COPY_BILLING_ADDRESS' => 'Copier adresse de facturation',
@@ -35,9 +35,9 @@ $languageStrings = [
 	'Other Phone' => 'Téléphone (autre)',
 	'Ownership' => 'Propriété',
 	'Phone' => 'Téléphone',
-	'Press'=>'Presse',
+	'Press' => 'Presse',
 	'Prospect' => 'Suspect',
-	'Reseller'=>'Revendeur',
+	'Reseller' => 'Revendeur',
 	'SIC Code' => 'Code NAF',
 	'SINGLE_Accounts' => 'Compte',
 	'Ticker Symbol' => 'Symbole boursier',
@@ -45,7 +45,6 @@ $languageStrings = [
 	//OpenSaaS
 	'LBL_CREATING_NEW' => 'Nouveau',
 	'Fax' => 'Fax',
-
 	//PICKLIST VALUES
 	'PLL_NATURAL_PERSON' => 'Individuel',
 	'PLL_BUSINESS_ACTIVITY' => 'Entreprise Individuelle',
@@ -67,18 +66,17 @@ $languageStrings = [
 	'PLL_EUROPEAN_ASSOCIATION' => 'Association européenne',
 	'PLL_UFCIITS' => 'Organisme de placements collectif en valeurs mobilières (OPCVM)',
 	'LBL_ACCOUNTS_LIST_TREE_ALERT' => 'La liste des comptes dépend du filtre et des produits sélectionnés.',
-
-	'Calculations all'=>'Tous les calculs',
-	'Calculations accepted'=>'Calculs acceptés',
-	'Offers all'=>'Tous les devis',
-	'Offers accepted'=>'Devis acceptés',
-	'Orders all'=>'Toutes les commandes',
-	'Orders accepted'=>'Commandes acceptées',
-	'Total time worked'=>'Total temps presté',
-	'Total sale'=>'Ventes totales',
-    'LBL_ADVANCED_BLOCK' => 'Bloc avancé',
-    'LBL_CONTACT_INFO' => 'Information de contact',
-    'LBL_REGISTRATION_INFO' => 'Détails d\'enregistrement',
+	'Calculations all' => 'Tous les calculs',
+	'Calculations accepted' => 'Calculs acceptés',
+	'Offers all' => 'Tous les devis',
+	'Offers accepted' => 'Devis acceptés',
+	'Orders all' => 'Toutes les commandes',
+	'Orders accepted' => 'Commandes acceptées',
+	'Total time worked' => 'Total temps presté',
+	'Total sale' => 'Ventes totales',
+	'LBL_ADVANCED_BLOCK' => 'Bloc avancé',
+	'LBL_CONTACT_INFO' => 'Information de contact',
+	'LBL_REGISTRATION_INFO' => 'Détails d\'enregistrement',
 	'LBL_FINANSIAL_SUMMARY' => 'Résumé financier',
 	'Balance' => 'Solde',
 	'Average profit sales order' => 'Marge moyenne par commande(%)',

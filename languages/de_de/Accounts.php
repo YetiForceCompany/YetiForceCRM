@@ -106,5 +106,4 @@ $jsLanguageStrings = [
 	'LBL_DELETE_CONFIRMATION' => 'Beim Löschen dieser Organisation, werden die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisation löschen möchten?',
 	'LBL_MASS_DELETE_CONFIRMATION' => 'Beim Löschen dieser Organisationen werden, die damit verbundenen Verkaufschancen und Angebote mit entfernt. Sind Sie sicher, dass Sie diese Organisationen löschen möchten?',
 	'LBL_APPROVE' => 'geprüft',
-
 ];

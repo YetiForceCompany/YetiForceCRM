@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'LBL_MARK_AS_READ' => 'Marquer comme lu',
 	'LBL_MESSAGES_FROM_USERS' => 'Messages',
@@ -36,7 +36,6 @@ $languageStrings = [
 	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Fréquence du lancement du CRON',
 	'LBL_SCHEDULE' => 'Planification',
 	'LBL_CRON' => 'Cron',
-	
 	'PLL_5_MIN' => '5 minutes',
 	'PLL_15_MIN' => '15 minutes',
 	'PLL_30_MIN' => '30 minutes',

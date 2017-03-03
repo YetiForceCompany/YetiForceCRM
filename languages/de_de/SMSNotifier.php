@@ -15,8 +15,8 @@ $languageStrings = [
 	'username' => 'Benutzername',
 	'password' => 'Passwort',
 	'isactive' => 'Aktiv',
-  'SINGLE_SMSNotifier' => 'SMS Notifier',
-  'Server configuration' => 'Server Konfiguration',
+	'SINGLE_SMSNotifier' => 'SMS Notifier',
+	'Server configuration' => 'Server Konfiguration',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'SMS senden an die ausgewählten Nummern',
 	'LBL_STEP_1' => 'Schritt 1',
