@@ -120,6 +120,8 @@ class Vtiger_AdvancedFilter_Helper
 	public static function transformToAdvancedFilterCondition($conditions = false)
 	{
 		$transformedConditions = [];
+		$firstGroup = [];
+		$secondGroup = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
