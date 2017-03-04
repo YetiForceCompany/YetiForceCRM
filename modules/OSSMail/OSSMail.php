@@ -10,7 +10,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-class OSSMail
+class OSSMail extends CRMEntity
 {
 
 	public function vtlib_handler($moduleName, $eventType)
