@@ -315,8 +315,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$relationModel = $this->getRelationModel();
 		$template = $this->getTreeViewModel()->getTemplate();
-		$showCreatorDetail = $relationModel->showCreatorDetail();
-		$showComment = $relationModel->showComment();
+		$showCreatorDetail = $relationModel->get('creator_detail');
+		$showComment = $relationModel->get('relation_comment');
 
 		$rows = (new \App\Db\Query())
 				->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])

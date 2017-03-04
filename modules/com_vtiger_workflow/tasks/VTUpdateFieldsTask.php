@@ -55,8 +55,6 @@ class VTUpdateFieldsTask extends VTTask
 					//for Product Unit Price value converted with based product currency
 					if ($fieldInstance && $fieldInstance->getFieldDataType() == 'currency' && $fieldName == 'unit_price') {
 						$fieldValue = $this->calculateProductUnitPrice($fieldValue);
-					} else {
-						$fieldValue = $this->convertValueToUserFormat($fieldInstance, $fieldValue);
 					}
 				} elseif ($fieldValueType !== 'fieldname') {
 					if (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
@@ -95,31 +93,6 @@ class VTUpdateFieldsTask extends VTTask
 			$util->revertUser();
 		}
 		$util->revertUser();
-	}
-
-	//Function use to convert the field value in to current user format
-	public function convertValueToUserFormat($fieldObj, $fieldValue)
-	{
-		$current_user = vglobal('current_user');
-		if (!empty($fieldObj)) {
-			// handle the case for Date field
-			if ($fieldObj->getFieldDataType() == "date") {
-				if (!empty($fieldValue)) {
-					$dateFieldObj = new DateTimeField($fieldValue);
-					$fieldValue = $dateFieldObj->getDisplayDate($current_user);
-				}
-			}
-
-			// handle the case for currency field
-			if ($fieldObj->getFieldDataType() == "currency" && !empty($fieldValue)) {
-				if ($fieldObj->getUIType() == '71') {
-					$fieldValue = CurrencyField::convertToUserFormat($fieldValue, $current_user, false);
-				} else if ($fieldObj->getUIType() == '72') {
-					$fieldValue = CurrencyField::convertToUserFormat($fieldValue, $current_user, true);
-				}
-			}
-		}
-		return $fieldValue;
 	}
 
 	/**

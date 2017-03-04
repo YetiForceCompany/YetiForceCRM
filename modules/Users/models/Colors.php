@@ -23,12 +23,16 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		return $modulesFields;
 	}
 
+	/**
+	 * Get tab info
+	 * @return null|array
+	 */
 	public static function getTablesAll()
 	{
 		$modulesFields = self::getAllField();
 		foreach ($modulesFields AS $key => $fields) {
 			foreach ($fields AS $field) {
-				$instance[$key][] = vtlib\Functions::getModuleFieldInfo(\App\Module::getModuleId($field['module']), $field['nameField']);
+				$instance[$key][] = \App\Field::getFieldInfo($field['nameField'], $field['module']);
 			}
 		}
 		return $instance;

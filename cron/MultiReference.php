@@ -11,7 +11,7 @@ $executed = [];
 $limit = 1000;
 $rows = (new \App\Db\Query())->from('s_#__multireference')->all();
 foreach ($rows as &$multireference) {
-	if ($multireference['type'] === 0) {
+	if ((int) $multireference['type'] === 0) {
 		$entity = CRMEntity::getInstance($multireference['source_module']);
 		$queryGenerator = new App\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);

@@ -858,9 +858,14 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
+	/**
+	 * Function to gets inventory default data fields
+	 * @return string|int|null
+	 */
 	public function getInventoryDefaultDataFields()
 	{
-		$lastItem = end($this->getInventoryData());
+		$inventoryData = $this->getInventoryData();
+		$lastItem = end($inventoryData);
 		$defaultData = [];
 		if (!empty($lastItem)) {
 			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
@@ -974,7 +979,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
 			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
-		return (bool) $this->privileges['editFieldByModal'];
+		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
 	}
 
 	/**

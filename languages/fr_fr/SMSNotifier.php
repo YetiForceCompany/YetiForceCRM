@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'providertype' => 'Fournisseur',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS 160 caractères maximum',
@@ -24,11 +24,9 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_MESSAGE_HERE' => 'Ecrire votre message ici',
 	'LBL_ADD_MORE_FIELDS' => 'Ajouter des champs',
 	'LBL_SERVER_CONFIG' => 'Configuration serveur',
-
 	//DetailView Actions
 	'LBL_CHECK_STATUS' => 'Vérifier le statut',
 	'message' => 'Message',
-
 	//Blocks
 	'LBL_SMSNOTIFIER_INFORMATION' => 'Information SMS',
 	'SINGLE_SMSNotifier' => 'Notification SMS',

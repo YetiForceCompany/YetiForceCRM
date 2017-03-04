@@ -22,6 +22,12 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		return $this->moduleName;
 	}
 
+	private function getLabel($labels, $key) {
+		if (isset($labels[$key])) {
+			return $labels[$key];
+		}
+		return '';
+	}
 	/**
 	 * Get query
 	 * @return \App\Db\Query
@@ -150,15 +156,17 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 
 			//Relation
 			$item['link'] = $record['link'];
-			$item['linkl'] = $labels[$record['link']];
+			$item['linkl'] = $this->getLabel($labels, $record['link']);
+			// / migoi
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = vtlib\Functions::textLength($labels[$record['process']]);
+			$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+			// / migoi
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = vtlib\Functions::textLength($labels[$record['subprocess']]);
+			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {

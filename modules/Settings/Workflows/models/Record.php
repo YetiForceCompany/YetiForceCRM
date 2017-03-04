@@ -125,8 +125,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEntityMethods()
 	{
-		$db = PearDatabase::getInstance();
-		$emm = new VTEntityMethodManager($db);
+		$emm = new VTEntityMethodManager();
 		$methodNames = $emm->methodsForModule($this->get('module_name'));
 		return $methodNames;
 	}

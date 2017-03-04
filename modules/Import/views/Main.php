@@ -119,8 +119,6 @@ class Import_Main_View extends Vtiger_View_Controller
 		$ownerId = $importInfo['user_id'];
 
 		$viewer = new Vtiger_Viewer();
-
-		$viewer->assign('SKIPPED_RECORDS', $skippedRecords);
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('OWNER_ID', $ownerId);

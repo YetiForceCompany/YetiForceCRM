@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_LABELS_UPDATER');
+$limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER');
 $executed = [];
 $dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype',
 			'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])

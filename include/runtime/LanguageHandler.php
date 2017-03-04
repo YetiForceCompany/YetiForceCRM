@@ -60,6 +60,7 @@ class Vtiger_Language_Handler
 		$moduleStrings = [];
 
 		if (is_array($module) || empty($key)) {
+			App\Log::warning('Invalid module name');
 			return null;
 		}
 		if (is_numeric($module)) {

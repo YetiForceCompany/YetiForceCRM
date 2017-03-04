@@ -82,6 +82,13 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		define('_PROCESS_NAME', 'Detail');
 		$request->set('view', 'Detail');
 		$request->delete('action');
+		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
+			$userId = Vtiger_Session::get('authenticated_user_id');
+			$user = new Users();
+			$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
+			vglobal('current_user', $currentUser);
+			App\User::setCurrentUserId($userId);
+		}
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
 		$handler = new $handlerClass();
 		if ($handler) {

@@ -918,9 +918,9 @@ CREATE TABLE `s_yf_mail_queue` (
   `date` datetime NOT NULL,
   `owner` int(11) NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `from` text NOT NULL,
+  `from` text,
   `subject` text,
-  `to` text NOT NULL,
+  `to` text,
   `content` text,
   `cc` text,
   `bcc` text,
@@ -955,7 +955,7 @@ CREATE TABLE `s_yf_mail_smtp` (
   `options` text,
   `from_email` varchar(255) DEFAULT NULL,
   `from_name` varchar(255) DEFAULT NULL,
-  `replay_to` varchar(255) DEFAULT NULL,
+  `reply_to` varchar(255) DEFAULT NULL,
   `individual_delivery` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `params` text,
   PRIMARY KEY (`id`)
@@ -5166,7 +5166,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2604 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2605 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5290,7 +5290,6 @@ CREATE TABLE `vtiger_fixed_assets_fuel_type` (
   `fixed_assets_fuel_typeid` int(11) NOT NULL AUTO_INCREMENT,
   `fixed_assets_fuel_type` varchar(255) DEFAULT NULL,
   `presence` tinyint(1) DEFAULT '1',
-  `picklist_valueid` smallint(6) DEFAULT '0',
   `sortorderid` smallint(6) DEFAULT '0',
   PRIMARY KEY (`fixed_assets_fuel_typeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -7381,11 +7380,13 @@ CREATE TABLE `vtiger_project` (
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `servicecontractsid` int(19) DEFAULT NULL,
   `ssalesprocessesid` int(19) DEFAULT NULL,
+  `parentid` int(19) DEFAULT NULL,
   PRIMARY KEY (`projectid`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `linktoaccountscontacts` (`linktoaccountscontacts`),
   KEY `projectname` (`projectname`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
+  KEY `project_parentid_idx` (`parentid`),
   CONSTRAINT `vtiger_project_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

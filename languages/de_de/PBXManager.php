@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-
 	//Blocks
 	'LBL_PBXMANAGER_INFORMATION' => 'Anrufdetails',
 	'LBL_CUSTOM_INFORMATION' => 'Kundenspezifische Informationen',

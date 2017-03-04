@@ -23,7 +23,6 @@ $languageStrings = [
 	'LBL_CREATE_CUSTOM_FIELD' => 'Ajouter widget au panel',
 	'LBL_ADD_CONDITION' => 'Ajouter rôle',
 	'LBL_INVALID_DATA' => 'Données invalide',
-
 	'WidgetsManagement' => 'Gestion des Widgets',
 	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => 'Widgets – Description',

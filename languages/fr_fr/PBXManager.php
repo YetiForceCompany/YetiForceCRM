@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-
 	//Blocks
 	'LBL_PBXMANAGER_INFORMATION' => 'Détails des appels',
 	'LBL_CUSTOM_INFORMATION' => 'Information particulière',

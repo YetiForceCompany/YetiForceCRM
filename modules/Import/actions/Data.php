@@ -153,7 +153,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function updateImportStatus($entryId, $entityInfo)
 	{
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityInfo['id']], ['id' => $entryId])->execute();
+		$entityId = isset($entityInfo['id']) ? $entityInfo['id'] : null;
+		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityId], ['id' => $entryId])->execute();
 	}
 
 	/**
@@ -240,7 +241,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$this->updateRecordByModel($baseRecordId, $fieldData, $moduleName);
 							$entityInfo['status'] = self::IMPORT_RECORD_UPDATED;
 							break;
-						case Import_Module_Model::$AUTO_MERGE_MERGEFIELDS:
+						case Import_Module_Model::AUTO_MERGE_MERGEFIELDS:
 							$defaultFieldValues = $this->getDefaultFieldValues();
 							foreach ($fieldData as $fieldName => &$fieldValue) {
 								if (empty($fieldValue) && !empty($defaultFieldValues[$fieldName])) {

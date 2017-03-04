@@ -52,7 +52,7 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$recordModel->set('options', $data['options']);
 			$recordModel->set('from_email', $data['from_email']);
 			$recordModel->set('from_name', $data['from_name']);
-			$recordModel->set('replay_to', $data['replay_to']);
+			$recordModel->set('reply_to', $data['reply_to']);
 			$recordModel->set('individual_delivery', (int) $data['individual_delivery']);
 			$recordModel->save();
 

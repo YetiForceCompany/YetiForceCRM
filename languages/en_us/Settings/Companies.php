@@ -33,5 +33,5 @@ $languageStrings = [
 	'LBL_LOGO_PATH_MAIN' => 'Path to company logo (visible after logging in)',
 	'LBL_LOGO_PATH_MAIL' => 'Path to company logo (email)',
 	// Others
-	 'LBL_COMPANY_NAMES_EXIST' => 'The company name already exists',
+	'LBL_COMPANY_NAMES_EXIST' => 'The company name already exists',
 ];

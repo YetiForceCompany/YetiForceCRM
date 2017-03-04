@@ -1149,7 +1149,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($fieldModel) {
 			return $fieldModel;
 		}
-		$field = vtlib\Functions::getModuleFieldInfoWithId($fieldId);
+		$field = \App\Field::getFieldInfo($fieldId);
 		$className = Vtiger_Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);
@@ -1174,7 +1174,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isActiveSearchView()
 	{
-		if ($this->fromOutsideList) {
+		if ($this->get('fromOutsideList')) {
 			return false;
 		}
 		return $this->getUITypeModel()->isActiveSearchView();

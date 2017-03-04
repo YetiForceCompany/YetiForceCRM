@@ -183,7 +183,7 @@ class Db extends \yii\db\Connection
 	 */
 	public function isTableExists($tableName)
 	{
-		return $this->getSchema()->getTableSchema($tableName) !== null;
+		return in_array($tableName, $this->getSchema()->getTableNames());
 	}
 
 	/**

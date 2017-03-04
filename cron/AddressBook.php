@@ -8,7 +8,7 @@
  */
 \App\Log::trace('Start create AddressBook');
 
-$limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_ADDRESS_BOOK_UPDATER');
+$limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
 $db = PearDatabase::getInstance();
 $currentUser = Users::getActiveAdminUser();
 $usersIds = \App\Fields\Owner::getUsersIds();
@@ -54,8 +54,8 @@ while ($row = $dataReader->read()) {
 		$emailCondition[] = ['<>', $fieldName, ''];
 	}
 	$query->andWhere($emailCondition)->limit($limit + 1);
-	$dataReader = $query->createCommand()->query();
-	while ($row = $dataReader->read()) {
+	$dataReaderRows = $query->createCommand()->query();
+	while ($row = $dataReaderRows->read()) {
 		$users = $name = '';
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $row[$entityName];

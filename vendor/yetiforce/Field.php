@@ -6,6 +6,7 @@ namespace App;
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Field
 {
@@ -223,5 +224,29 @@ class Field
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;
+	}
+
+	/**
+	 * Function to gets module field info
+	 * @param string|int $mixed
+	 * @param string|int $module
+	 * @return null|array
+	 */
+	public static function getFieldInfo($mixed, $module = false)
+	{
+		if (is_numeric($mixed)) {
+			if (Cache::has('FieldInfoById', $mixed)) {
+				return Cache::get('FieldInfoById', $mixed);
+			}
+			$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => $fieldId])->one();
+			Cache::save('FieldInfoById', $mixed, $fieldInfo, Cache::LONG);
+		} else {
+			$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);
+			if ($fieldsInfo && isset($fieldsInfo[$mixed])) {
+				$fieldInfo = $fieldsInfo[$mixed];
+				Cache::save('FieldInfoById', $fieldInfo['fieldid'], $fieldInfo, Cache::LONG);
+			}
+		}
+		return $fieldInfo;
 	}
 }

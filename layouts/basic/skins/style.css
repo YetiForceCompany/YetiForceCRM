@@ -5542,10 +5542,6 @@ select.form-control {
 .bodyHeader .rightHeaderBtn a{
 	margin-left: 5px;
 }
-.bodyHeader .signOutButtonBlue{
-	border: 1px solid #ff0000;
-	color: #ff0000;
-} 
 .columnSorted{
 	background: #EAEAEA !important;
 }

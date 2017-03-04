@@ -43,6 +43,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		parent::postProcess($request);
 	}
 
+	/**
+	 * Pre process settings
+	 * @param Vtiger_Request $request
+	 */
 	public function preProcessSettings(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -56,8 +60,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		if ($settingsModel->has('selected')) {
 			$viewer->assign('SELECTED_PAGE', $settingsModel->get('selected'));
 		}
-		$viewer->assign('SELECTED_MENU', $selectedMenuId);
-		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
 		$viewer->assign('MENUS', $menu);
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
