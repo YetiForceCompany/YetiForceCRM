@@ -37,6 +37,11 @@ $config['show_images'] = '0';
 $config['imap_cache'] = 'db';
 $config['messages_cache'] = 'db';
 $config['reply_mode'] = 1;
+$config['imap_max_retries'] = 0;
+$config['imap_params'] = [
+	// enable this for imap and MS Exchange bug "Kerberos error: Credentials cache file  ... not found
+	// 	'DISABLE_AUTHENTICATOR' => 'GSSAPI'
+];
 // Debug
 $config['debug_level'] = AppConfig::debug('ROUNDCUBE_DEBUG_LEVEL');
 $config['per_user_logging'] = AppConfig::debug('ROUNDCUBE_PER_USER_LOGGING');

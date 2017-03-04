@@ -96,13 +96,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
 		$options = 0;
-		$n_retries = 0;
-		$params = null;
-		if ($rcConfig['imap_fix_msexchange_kerberos']) {
-			$params = array('DISABLE_AUTHENTICATOR' => 'GSSAPI');
-		} 
-		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password. $options, $n_retries) method ...");
-		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password, $options, $n_retries, $params);
+		$max_retries = $rcConfig['imap_max_retries'];
+		$params = $rcConfig['imap_params'];
+		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password. $options, $max_retries, " . var_export($params, true) . ") method ...");
+		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password, $options, $max_retries, $params);
 		if ($mbox === false && $dieOnError) {
 			self::imapThrowError(imap_last_error());
 		}
