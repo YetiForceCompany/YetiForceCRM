@@ -48,7 +48,7 @@ $languageStrings = [
 	'LBL_ONLY_PARENT' => 'Eltern Datensatz',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'Zugriff zur Hierarchie',
 	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Erweiterte globale Suche anzeigen',
-  'LBL_AUTO_ASSIGN_RECORDS' => 'Automatische Zuordnung',
+	'LBL_AUTO_ASSIGN_RECORDS' => 'Automatische Zuordnung',
 ];
 $jsLanguageStrings = [
 	'JS_NO_PERMISSIONS_TO_MOVE' => 'keine Berechtigungen zum verschieben',
