@@ -212,7 +212,7 @@ class Accounts extends CRMEntity
 			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
 				$listview_header[] = $fieldLabel;
 			}
-			$field = vtlib\Functions::getModuleFieldInfo('Accounts', $fieldName);
+			$field = \App\Field::getFieldInfo($fieldName, 'Accounts');
 			$hierarchyFields[] = $field;
 		}
 		$this->hierarchyFields = $hierarchyFields;

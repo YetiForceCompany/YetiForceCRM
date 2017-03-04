@@ -49,6 +49,7 @@ $languageStrings = [
 	'completed' => 'Завершен',
 	'delivered' => 'Внедрен',
 	'description' => 'Описание',
+	'FL_MEMBER_OF' => 'Parent Project',
 	'high' => 'Высокий',
 	'in progress' => 'Выполняется',
 	'initiated' => 'Ознакомление',

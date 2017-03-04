@@ -29,11 +29,13 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$this->preProcessSettings($request);
 	}
 
+	/**
+	 * Pre process settings
+	 * @param Vtiger_Request $request
+	 */
 	public function preProcessSettings(Vtiger_Request $request)
 	{
-
 		$viewer = $this->getViewer($request);
-
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
@@ -41,11 +43,6 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$settingsModel = Settings_Vtiger_Module_Model::getInstance();
 		$menuModels = $settingsModel->getMenus();
 		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-
-		$viewer->assign('SELECTED_FIELDID', $fieldId);  // used only in old layout 
-		$viewer->assign('SELECTED_MENU', $selectedMenu); // used only in old layout 
-		$viewer->assign('SETTINGS_MENUS', $menuModels); // used only in old layout 
-
 		$viewer->assign('MENUS', $menu);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

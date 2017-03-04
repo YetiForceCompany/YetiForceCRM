@@ -67,7 +67,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		$parseHost = parse_url($host);
 		$validatecert = '';
-		if ($parseHost['host']) {
+		if (!empty($parseHost['host'])) {
 			$host = $parseHost['host'];
 			$sslMode = (isset($a_host['scheme']) && in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
 			if (!empty($parseHost['port'])) {
@@ -85,7 +85,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (empty($port)) {
 			$port = $rcConfig['default_port'];
 		}
-		if (!$rcConfig['validate_cert']) {
+		if (!$rcConfig['validate_cert'] && $rcConfig['imap_open_add_connection_type']) {
 			$validatecert = '/novalidate-cert';
 		}
 		if ($rcConfig['imap_open_add_connection_type']) {
@@ -176,11 +176,15 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$header = imap_header($mbox, $msgno);
 		$structure = self::_get_body_attach($mbox, $id, $msgno);
 
+		$msgid = '';
+		if (property_exists($header, 'message_id')) {
+			$msgid = $header->message_id;
+		}
 		$mail = new OSSMail_Mail_Model();
 		$mail->set('header', $header);
 		$mail->set('id', $id);
 		$mail->set('Msgno', $header->Msgno);
-		$mail->set('message_id', $header->message_id);
+		$mail->set('message_id', $msgid);
 		$mail->set('toaddress', $mail->getEmail('to'));
 		$mail->set('fromaddress', $mail->getEmail('from'));
 		$mail->set('reply_toaddress', $mail->getEmail('reply_to'));
@@ -271,9 +275,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mail = self::initMailPart($mbox, $mail, $partStructure, $partNum + 1);
 			}
 		}
+		$body = '';
+		$body = (!empty($mail['textPlain'])) ? $mail['textPlain']: $body;
+		$body = (!empty($mail['textHtml'])) ? $mail['textHtml']: $body;
+		$attachment = (isset($mail['attachments'])) ? $mail['attachments'] : [];
 		return [
-			'body' => $mail['textHtml'] ? $mail['textHtml'] : $mail['textPlain'],
-			'attachment' => $mail['attachments']
+			'body' => $body,
+			'attachment' => $attachment,
 		];
 	}
 
@@ -306,7 +314,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if (!empty($params['charset']) && strtolower($params['charset']) !== 'utf-8') {
-			if (function_exists('mb_convert_encoding') && in_array(mb_detect_encoding($data, $params['charset']), mb_list_encodings())) {
+			if (function_exists('mb_convert_encoding') && in_array($params['charset'], mb_list_encodings())) {
 				$encodedData = mb_convert_encoding($data, 'UTF-8', $params['charset']);
 			} else {
 				$encodedData = iconv($params['charset'], 'UTF-8', $data);
@@ -335,11 +343,20 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				if (isset($uuDecode['attachments'])) {
 					$mail['attachments'] = $uuDecode['attachments'];
 				}
+				if (!isset($mail['textPlain'])) {
+					$mail['textPlain'] = '';
+				}
 				$mail['textPlain'] .= $uuDecode['text'];
 			} else {
+				if (!isset($mail['textHtml'])) {
+					$mail['textHtml'] = '';
+				}
 				$mail['textHtml'] .= $data;
 			}
 		} elseif ($partStructure->type == 2 && $data) {
+			if (!isset($mail['textPlain'])) {
+				$mail['textPlain'] = '';
+			}
 			$mail['textPlain'] .= trim($data);
 		}
 		if (!empty($partStructure->parts)) {

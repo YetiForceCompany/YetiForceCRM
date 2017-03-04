@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-	<div class="btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $WIDTHTYPE eq 'medium'}btn-group-sm{/if}">
+	<div class="btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}
 		{if $LINK->get('linkhint') neq ''}

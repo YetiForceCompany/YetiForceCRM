@@ -18,7 +18,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getFields($blockInstance = false)
 	{
-		if (empty($this->fields)) {
+		if (empty($this->fieldsModule)) {
 			$fieldList = [];
 			$blocks = $this->getBlocks();
 			$blockId = [];
@@ -46,9 +46,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$fieldModel->setModule($this);
 				$fieldList[] = $fieldModel;
 			}
-			$this->fields = $fieldList;
+			$this->fieldsModule = $fieldList;
 		}
-		return $this->fields;
+		return $this->fieldsModule;
 	}
 
 	/**

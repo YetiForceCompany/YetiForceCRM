@@ -82,7 +82,7 @@ class Privilege
 				return $permission;
 			}
 			//Checking for vtiger_tab permission
-			if ($userPrivileges['profile_tabs_permission'][$tabid] != 0) {
+			if (!isset($userPrivileges['profile_tabs_permission'][$tabid]) || $userPrivileges['profile_tabs_permission'][$tabid] != 0) {
 				static::$isPermittedLevel = 'SEC_MODULE_PERMISSIONS_NO';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_PERMISSIONS_NO');
 				return false;
@@ -353,7 +353,10 @@ class Privilege
 		}
 
 		//Checking for the Related Sharing Permission
-		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
+		$relatedModuleArray = null;
+		if (isset($sharingPrivileges['relatedModuleShare'][$tabId])) {
+			$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
+		}
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);

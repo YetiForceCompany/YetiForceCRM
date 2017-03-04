@@ -194,7 +194,7 @@ class CRMEntity
 				while ($row = $dataReader->read()) {
 					// Update cache
 					VTCacheUtils::updateFieldInfo(
-						$tabid, $row['fieldname'], $row['fieldid'], $row['fieldlabel'], $row['columnname'], $row['tablename'], $row['uitype'], $row['typeofdata'], $row['presence']
+						(int) $tabid, $row['fieldname'], (int) $row['fieldid'], $row['fieldlabel'], $row['columnname'], $row['tablename'], (int) $row['uitype'], $row['typeofdata'], (int) $row['presence']
 					);
 				}
 				// Get only active field information
@@ -451,12 +451,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid

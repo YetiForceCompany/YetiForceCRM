@@ -324,6 +324,7 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Wechsel',
 	'LBL_SWITCH_USER' => 'Benutzer wechseln',
 	'LBL_SWITCH_TO_YOURSELF' => 'Zurückwechseln',
+	'LBL_USER_EXISTS' => 'Benutzer existiert bereits',
 ];
 
 $jsLanguageStrings = [

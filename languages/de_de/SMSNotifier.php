@@ -6,14 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * *********************************************************************************** */
+ * Contributor(s): YetiForce.com
+ * ********************************************************************************** */
 $languageStrings = [
-	'isactive' => 'Aktiv',
-	'password' => 'Passwort',
-	'username' => 'User Name',
+	'providertype' => 'Provider',
 	'LBL_SEREVER_CONFIG' => 'Neue Konfiguration',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 Zeichen erlaubt',
-	'providertype' => 'Provider',
+	'username' => 'Benutzername',
+	'password' => 'Passwort',
+	'isactive' => 'Aktiv',
+	'SINGLE_SMSNotifier' => 'SMS Notifier',
+	'Server configuration' => 'Server Konfiguration',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'SMS senden an die ausgewählten Nummern',
 	'LBL_STEP_1' => 'Schritt 1',

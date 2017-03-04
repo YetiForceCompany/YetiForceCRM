@@ -187,8 +187,9 @@ class Field extends FieldBasic
 
 	/**
 	 * Get Field instance by fieldid or fieldname
-	 * @param mixed fieldid or fieldname
-	 * @param Module Instance of the module if fieldname is used
+	 * @param string|int $value mixed fieldid or fieldname
+	 * @param \vtlib\Module $moduleInstance Instance of the module if fieldname is used
+	 * @return \vtlib\Field|null
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
@@ -197,7 +198,7 @@ class Field extends FieldBasic
 		if ($moduleInstance) {
 			$moduleid = $moduleInstance->id;
 		}
-		$data = Functions::getModuleFieldInfo($moduleid, $value);
+		$data = \App\Field::getFieldInfo($value, $moduleid);
 		if ($data) {
 			$instance = new self();
 			$instance->initialize($data, $moduleInstance);

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CFixedAssets language
  * @package YetiForce.Language

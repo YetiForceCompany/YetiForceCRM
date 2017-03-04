@@ -244,6 +244,7 @@ class PearDatabase
 		if (method_exists($result, 'rowCount')) {
 			return $result->rowCount();
 		}
+		App\Log::warning('No rowCount function');
 		return 0;
 	}
 

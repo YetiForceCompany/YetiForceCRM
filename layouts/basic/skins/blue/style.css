@@ -661,12 +661,6 @@ btn-danger:hover{
 #AJAXChatBlock{
 	top: 90px !important;
 }
-.signOutButtonBlue .glyphicon{
-	color: #ff0000;
-}	
-.signOutButtonBlue{
-	border: 1px solid #ff0000 !important;
-}
 .baseContainer .leftPanel .menuContainer .modulesList > .menuShortcut a .menuName{
 	text-transform: uppercase;
 }

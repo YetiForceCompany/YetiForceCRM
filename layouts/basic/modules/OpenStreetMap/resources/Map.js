@@ -522,7 +522,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var description = containerPopup.find('.description').html();
 			var template = container.find('.indirectTemplate');
 			var indirect = template.clone();
-			template.after(indirect);
+			template.before(indirect);
 			indirect.removeClass('indirectTemplate');
 			indirect.removeClass('hide');
 			var coordinates = containerPopup.find('.coordinates');

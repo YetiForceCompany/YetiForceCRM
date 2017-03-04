@@ -9,7 +9,6 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-
 	//Blocks
 	'LBL_PBXMANAGER_INFORMATION' => 'Wezwanie Szczegóły',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje dodatkowe',

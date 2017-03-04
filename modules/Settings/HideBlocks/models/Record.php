@@ -209,7 +209,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		return $fieldValue;
 	}
 
-	public function getModuleInstanceByBlockId($blockId)
+	public static function getModuleInstanceByBlockId($blockId)
 	{
 		$tabid = (new \App\Db\Query())->select('tabid')
 				->from('vtiger_blocks')

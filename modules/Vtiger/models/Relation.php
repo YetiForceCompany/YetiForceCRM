@@ -20,7 +20,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	const RELATION_O2M = 1;
 	//Many to many and many to one
 	const RELATION_M2M = 2;
-	const RELATIONS_O2M = ['getDependentsList'];
+
+	/** @var string[] */
+	protected static $RELATIONS_O2M = ['getDependentsList'];
 
 	/**
 	 * Function returns the relation id
@@ -180,7 +182,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getRelationType()
 	{
 		if (!$this->get('relationType')) {
-			if (in_array($this->get('name'), self::RELATIONS_O2M) || $this->getRelationField()) {
+			if (in_array($this->get('name'), self::$RELATIONS_O2M) || $this->getRelationField()) {
 				$this->set('relationType', self::RELATION_O2M);
 			} else {
 				$this->set('relationType', self::RELATION_M2M);
@@ -318,13 +320,16 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relatedModuleName = $relatedModuleModel->getName();
 		$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
-		foreach ($relatedModelFields as &$fieldModel) {
-			if ($fieldModel->getId() === $fieldRel['fieldid']) {
-				$relationField = $fieldModel;
-				break;
+		if (isset($fieldRel['fieldid'])) {
+			foreach ($relatedModelFields as &$fieldModel) {
+				if ($fieldModel->getId() === $fieldRel['fieldid']) {
+					$relationField = $fieldModel;
+					break;
+				}
 			}
 		}
-		if (!$relationField) {
+		if (!isset($relationField) || !$relationField) {
+			$relationField = false;
 			foreach ($relatedModelFields as &$fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();

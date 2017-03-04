@@ -1,6 +1,6 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
- 
+
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Ajouter mapping',
 	'LBL_IMPORT_TEMPLATE' => 'Importer modèle',
@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Une erreur ou  un conflit est survenu. Echec de l\'import.',
 	'LBL_IMPORT_OK' => 'Modèle importé avec succès.',
 	'LBL_MODULE_NOT_EXIST' => 'Module dans le modèle que vous essayez d\'importer n\'existe pas.',
-
 	'multipicklist' => 'Liste déroulante (multi sélection)',
 	'percent' => 'Pourcentage',
 	'phone' => 'Téléphone',

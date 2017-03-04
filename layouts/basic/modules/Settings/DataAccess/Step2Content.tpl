@@ -119,7 +119,6 @@
 									</select>
 								</span>
 								<span class="col-md-4 fieldUiHolder">
-									{*                                    {var_dump($cnd_item)}*}
 									{if $cnd_item['field_type'] eq 'picklist'}
 										<select name="val" data-value=value" class="form-control select2">
 											{foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}

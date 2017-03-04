@@ -17,14 +17,21 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 			return $returnIds;
 		}
 
+		$accountnumbers = array();
 		$accounts = $mail->getActionResult('Accounts');
 		if (!empty($accounts)) {
+			$keys = array('BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk');
+			foreach($keys as $key) {
+				$accountnumbers = array_merge($accountnumbers, $accounts[$key]);
+			}
+		}
+
+		if (!empty($accountnumbers)) {
 			$db = PearDatabase::getInstance();
 
 			$query = 'SELECT servicecontractsid FROM vtiger_servicecontracts '
 				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '
-				. 'WHERE vtiger_crmentity.deleted = 0 && sc_related_to IN (' . implode(',', $accounts) . ') && contract_status = ?';
-
+				. 'WHERE vtiger_crmentity.deleted = 0 && sc_related_to IN (' . implode(',', $accountnumbers) . ') && contract_status = ?';
 			$result = $db->pquery($query, ['In Progress']);
 			if ($db->getRowCount($result)) {
 				$serviceContractsId = $db->getSingleValue($result);

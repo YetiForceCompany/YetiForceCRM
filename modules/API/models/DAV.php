@@ -31,7 +31,6 @@ class API_DAV_Model
 			}
 		}
 		$cardDav = new API_CardDAV_Model();
-		$cardDav->log = $dav->log;
 		$cardDav->davUsers = $dav->davUsers;
 		$cardDav->cardDavCrm2Dav();
 		$cardDav->cardDav2Crm();
@@ -55,7 +54,6 @@ class API_DAV_Model
 			}
 		}
 		$cardDav = new API_CalDAV_Model();
-		$cardDav->log = $dav->log;
 		$cardDav->davUsers = $dav->davUsers;
 		$cardDav->calDavCrm2Dav();
 		$cardDav->calDav2Crm();

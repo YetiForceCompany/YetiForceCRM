@@ -38,7 +38,8 @@ class Record
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					Cache::save('recordLabel', $id, $computeLabel[$id]);
+					$recordLabel = \vtlib\Functions::textLength(decode_html($computeLabel[$id]), 254, false);
+					Cache::save('recordLabel', $id, $recordLabel);
 				}
 			}
 		}

@@ -122,7 +122,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$filterId = $this->widgetModel->get('filterid');
 			$filterModel = CustomView_Record_Model::getInstanceById($filterId);
 			if (!empty($filterModel->get('sort'))) {
-				$this->queryGenerator->setOrder(str_replace(',', ' ', $filterModel->get('sort')));
+				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
+				$this->queryGenerator->setOrder($orderby, $sort);
 			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
