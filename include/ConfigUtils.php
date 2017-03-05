@@ -34,7 +34,7 @@ class AppConfig
 				self::$main[$key] = $$key;
 				return $$key;
 			}
-			App\Log::warning('Parameter does not exist');
+			App\Log::warning('Parameter does not exist: '.$key);
 			return null;
 		}
 		return $value;
@@ -57,7 +57,7 @@ class AppConfig
 					if (isset(self::$modules[$module][$key])) {
 						return self::$modules[$module][$key];
 					}
-					App\Log::warning('Parameter does not exist');
+					App\Log::warning('Parameter does not exist - module: ' . $module . ' and key: ' .$key);
 					return null;
 					break;
 			}
