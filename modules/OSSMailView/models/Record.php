@@ -52,7 +52,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$widgets = $this->modules_email_actions_widgets;
 		$queryParams = [];
-		if ($widgets[$smodule]) {
+		if (!empty($widgets[$smodule])) {
 			$ids = [];
 			$relatedID = [];
 			if ($filter == 'All' || $filter == 'Contacts') {
