@@ -64,7 +64,7 @@ class Vtiger_Language_Handler
 		}
 		if (is_array($module)) {
 			App\Log::warning('Invalid module name - module: ' . var_export($module));
-			return '';
+			return null;
 		}
 		if (is_numeric($module)) {
 			// ok, we have a tab id, lets turn it into name
@@ -93,7 +93,7 @@ class Vtiger_Language_Handler
 
  		\App\Log::info('cannot translate this: "'.$key.'" for module '.$module.'  (or base or Vtiger)');
 
-		return '';
+		return null;
 	}
 
 	/**
