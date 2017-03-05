@@ -59,9 +59,12 @@ class Vtiger_Language_Handler
 	{
 		$moduleStrings = [];
 
-		if (is_array($module) || empty($key)) {
-			App\Log::warning('Invalid module name');
-			return null;
+		if (empty($key)) { // nothing to translate
+			return '';
+		}
+		if (is_array($module)) {
+			App\Log::warning('Invalid module name - module: ' . var_export($module));
+			return '';
 		}
 		if (is_numeric($module)) {
 			// ok, we have a tab id, lets turn it into name
@@ -88,7 +91,9 @@ class Vtiger_Language_Handler
 		if (!empty($commonStrings['languageStrings'][$key]))
 			return stripslashes($commonStrings['languageStrings'][$key]);
 
-		return null;
+ 		\App\Log::info('cannot translate this: "'.$key.'" for module '.$module.'  (or base or Vtiger)');
+
+		return '';
 	}
 
 	/**
