@@ -236,45 +236,53 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$userIdsList = $usersList = [];
 		$members = $this->getMembers();
 
-		foreach ($members['Users'] as $memberModel) {
-			$userId = $memberModel->get('userId');
-			$userIdsList[$userId] = $userId;
-		}
-
-		foreach ($members['Groups'] as $memberModel) {
-			$groupModel = Settings_Groups_Record_Model::getInstance($memberModel->get('groupId'));
-			$groupMembers = $groupModel->getMembers();
-
-			foreach ($groupMembers['Users'] as $groupMemberModel) {
-				$userId = $groupMemberModel->get('userId');
+		if (isset($members['Users'])) {
+			foreach ($members['Users'] as $memberModel) {
+				$userId = $memberModel->get('userId');
 				$userIdsList[$userId] = $userId;
 			}
 		}
 
-		foreach ($members['Roles'] as $memberModel) {
-			$roleModel = new Settings_Roles_Record_Model();
-			$roleModel->set('roleid', $memberModel->get('roleId'));
+		if (isset($members['Groups'])) {
+			foreach ($members['Groups'] as $memberModel) {
+				$groupModel = Settings_Groups_Record_Model::getInstance($memberModel->get('groupId'));
+				$groupMembers = $groupModel->getMembers();
 
-			$roleUsers = $roleModel->getUsers();
-			foreach ($roleUsers as $userId => $userRecordModel) {
-				$userIdsList[$userId] = $userId;
+				foreach ($groupMembers['Users'] as $groupMemberModel) {
+					$userId = $groupMemberModel->get('userId');
+					$userIdsList[$userId] = $userId;
+				}
 			}
 		}
 
-		foreach ($members['RoleAndSubordinates'] as $memberModel) {
-			$roleModel = Settings_Roles_Record_Model::getInstanceById($memberModel->get('roleId'));
-			$roleUsers = $roleModel->getUsers();
-			foreach ($roleUsers as $userId => $userRecordModel) {
-				$userIdsList[$userId] = $userId;
-			}
-			$childernRoles = $roleModel->getAllChildren();
-			foreach ($childernRoles as $role) {
-				$childRoleModel = new Settings_Roles_Record_Model();
-				$childRoleModel->set('roleid', $role->getId());
+		if (isset($members['Roles'])) {
+			foreach ($members['Roles'] as $memberModel) {
+				$roleModel = new Settings_Roles_Record_Model();
+				$roleModel->set('roleid', $memberModel->get('roleId'));
 
-				$roleUsers = $childRoleModel->getUsers();
+				$roleUsers = $roleModel->getUsers();
 				foreach ($roleUsers as $userId => $userRecordModel) {
 					$userIdsList[$userId] = $userId;
+				}
+			}
+		}
+
+		if (isset($members['RoleAndSubordinates'])) {
+			foreach ($members['RoleAndSubordinates'] as $memberModel) {
+				$roleModel = Settings_Roles_Record_Model::getInstanceById($memberModel->get('roleId'));
+				$roleUsers = $roleModel->getUsers();
+				foreach ($roleUsers as $userId => $userRecordModel) {
+					$userIdsList[$userId] = $userId;
+				}
+				$childernRoles = $roleModel->getAllChildren();
+				foreach ($childernRoles as $role) {
+					$childRoleModel = new Settings_Roles_Record_Model();
+					$childRoleModel->set('roleid', $role->getId());
+
+					$roleUsers = $childRoleModel->getUsers();
+					foreach ($roleUsers as $userId => $userRecordModel) {
+						$userIdsList[$userId] = $userId;
+					}
 				}
 			}
 		}
