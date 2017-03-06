@@ -540,8 +540,10 @@ class PrivilegeUtil
 			}
 			//Retreiving from role to rs
 			$parRoleList = [];
-			foreach ($parentRoles as $par_role_id) {
-				array_push($parRoleList, $par_role_id);
+			if (is_array($parentRoles)) {
+				foreach ($parentRoles as $par_role_id) {
+					array_push($parRoleList, $par_role_id);
+				}
 			}
 			array_push($parRoleList, $currentUserRoles);
 			$rows = static::getDatashare('role2rs', $modTabId, $parRoleList);
