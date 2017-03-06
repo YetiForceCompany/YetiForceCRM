@@ -1101,6 +1101,7 @@ $languageStrings = [
 	'LBL_NR' => 'Nr',
 	'LBL_ADD_TO_FAVORITES' => 'Zu Favoriten hinzufügen',
 	'LBL_REMOVE_FROM_FAVORITES' => 'Aus Favoriten löschen',
+	'LBL_TREE_VIEW' => 'Baumansicht',
 	'LBL_TIMELINE' => 'Zeitlinie',
 	'LBL_DESELECT_ALL' => 'Alle demarkieren',
 	'LBL_INFO_REFRESH' => 'Änderungen festgestellt',
