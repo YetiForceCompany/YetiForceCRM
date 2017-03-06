@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 $languageStrings = [
+	'SINGLE_Calendar' => 'calendar',
+	'LBL_TAG_CLOUD' => 'tag cloud',
 	'LBL_PAGES_HISTORY' => 'Recently viewed pages',
 	'LBL_MARK_AS_DONE' => 'Mark as done',
 	'days later' => 'days later',
