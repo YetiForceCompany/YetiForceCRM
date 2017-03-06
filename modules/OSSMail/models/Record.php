@@ -95,8 +95,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
-		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password) method ...");
-		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password);
+		$options = 0;
+		$max_retries = $rcConfig['imap_max_retries'];
+		$params = $rcConfig['imap_params'];
+		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password. $options, $max_retries, " . var_export($params, true) . ") method ...");
+		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password, $options, $max_retries, $params);
 		if ($mbox === false && $dieOnError) {
 			self::imapThrowError(imap_last_error());
 		}
