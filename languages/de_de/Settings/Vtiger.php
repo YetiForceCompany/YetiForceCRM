@@ -320,7 +320,7 @@ $languageStrings = [
 	'ERR_NO_REQUIRED_LIBRARY' => 'Benötigte %s Bibliothek nicht gefunden. Manche Funktionen wurden deaktiviert. Gehe zu <a href="index.php?module=ModuleManager&parent=Settings&view=List">Modul – Installation</a> download.',
 	// System warnings
 	'LBL_SYSTEM_WARNINGS' => 'System Warnungen',
-	'LBL_WARNINGS_FOLDERS' => 'Warungskategorie',
+	'LBL_WARNINGS_FOLDERS' => 'Wartungskategorie',
 	'LBL_WARNINGS_TITLE' => 'Titel',
 	'LBL_WARNINGS_FOLDER' => 'Kategorie',
 	'LBL_WARNINGS_PRIORITY' => 'Priorität',
