@@ -105,7 +105,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getListFields()
 	{
-		if (!$this->listFieldModels) {
+		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
 			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
