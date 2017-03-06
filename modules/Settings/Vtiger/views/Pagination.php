@@ -53,10 +53,10 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		if (!empty($searchResult) && is_array($searchResult)) {
 			$listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
-		if (!$this->listViewEntries) {
+		if (!property_exists($this, 'listViewEntries') || empty($this->listViewEntries)) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		if (!$this->listViewCount) {
+		if (!property_exists($this, 'listViewCount') || empty($this->listViewCount)) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$noOfEntries = count($this->listViewEntries);
