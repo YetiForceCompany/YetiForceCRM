@@ -59,14 +59,16 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			foreach ($this->accessibleFields as &$fieldName) {
-				$fieldModel = $this->moduleFieldInstances[$fieldName];
-				// Check added as querygenerator is not checking this for admin users
-				if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
-					$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
-					if ($exportBlockName) {
-						$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+				if (!empty($this->moduleFieldInstances[$fieldName])) {
+					$fieldModel = $this->moduleFieldInstances[$fieldName];
+					// Check added as querygenerator is not checking this for admin users
+					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
+						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
+						if ($exportBlockName) {
+							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
+						}
+						$headers[] = $header;
 					}
-					$headers[] = $header;
 				}
 			}
 		} else {
@@ -254,7 +256,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 
-			if (!$this->fieldDataTypeCache[$fieldName]) {
+			if (empty($this->fieldDataTypeCache[$fieldName])) {
 				$this->fieldDataTypeCache[$fieldName] = $fieldInfo->getFieldDataType();
 			}
 			$type = $this->fieldDataTypeCache[$fieldName];
