@@ -57,7 +57,7 @@ class Settings_Vtiger_Tracker_Model
 		}
 		$db = App\Db::getInstance('log');
 		foreach ($post as $key => $value) {
-			if ($value == $prev[$key]) {
+			if (isset($prev[$key]) && $value == $prev[$key]) {
 				continue;
 			}
 			$db->createCommand()->insert('l_#__settings_tracker_detail', [

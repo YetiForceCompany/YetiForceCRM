@@ -8,6 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
+	'Status' => 'Status',
 	'Not Held' => 'Nicht stattgefunden',
 	'Held' => 'Stattgefunden',
 	'Activity Type' => 'Aktivitätsart',
@@ -145,6 +146,11 @@ $languageStrings = [
 	'FL_REAPEAT' => 'Wiederholen',
 ];
 $jsLanguageStrings = [
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Kann nicht den Kontakt aus Lead nehmen',
+	'JS Activity Type' => 'Aktivitätstyp',
+	'JS_SATATUS' => 'Status',
+	'JS_END_DATE' => 'Enddatum',
+	'JS_START_DATE' => 'Startdatum',
 	'JS_NO_EDIT_PERMISSION' => 'Sie haben keine Berechtigung, die Kalendereinträge zu ändern',
 	'JS_NO_DELETE_PERMISSION' => 'Sie haben keine Erlaubnis, Kalendereinträge zu löschen.',
 	'JS_RECORD_DELETED' => 'Datensatz wurde gelöscht',

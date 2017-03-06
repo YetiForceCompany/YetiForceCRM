@@ -68,7 +68,7 @@ $languageStrings = [
 	'LBL_INVALID_MODULE' => 'Ungültiges Modul',
 	'LBL_INVALID_NUMBER' => 'Ungültige Nummer',
 	'LBL_INVALID_SUPPORT_NAME' => 'Ungültiger Name',
-	'LBL_INV_TANDC_DESCRIPTION' => 'Angeben ihre allgemeinen Geschäftsbedingungen',
+	'LBL_INV_TANDC_DESCRIPTION' => 'Ihre allgemeinen Geschäftsbedingungen',
 	'LBL_LAST_SCAN_AT' => 'Zum letzten Mal abgerufen am ',
 	'LBL_LAST_SCAN_TIMED_OUT' => 'Zeitüberschreitung beim letzten Abruf',
 	'LBL_LAYOUT_EDITOR_DESCRIPTION' => 'Gestalten und bearbeiten Sie das Layout in jedem Modul',
@@ -320,7 +320,7 @@ $languageStrings = [
 	'ERR_NO_REQUIRED_LIBRARY' => 'Benötigte %s Bibliothek nicht gefunden. Manche Funktionen wurden deaktiviert. Gehe zu <a href="index.php?module=ModuleManager&parent=Settings&view=List">Modul – Installation</a> download.',
 	// System warnings
 	'LBL_SYSTEM_WARNINGS' => 'System Warnungen',
-	'LBL_WARNINGS_FOLDERS' => 'Warungskategorie',
+	'LBL_WARNINGS_FOLDERS' => 'Wartungskategorie',
 	'LBL_WARNINGS_TITLE' => 'Titel',
 	'LBL_WARNINGS_FOLDER' => 'Kategorie',
 	'LBL_WARNINGS_PRIORITY' => 'Priorität',

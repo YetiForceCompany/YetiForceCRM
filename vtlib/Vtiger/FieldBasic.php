@@ -227,7 +227,10 @@ class FieldBasic
 		if ($this->tabid) {
 			return $this->tabid;
 		}
-		return $this->block->module->id;
+		if (!empty($this->block)) {
+			return $this->block->module->id;
+		}
+		return false;
 	}
 
 	/**

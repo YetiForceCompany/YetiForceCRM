@@ -177,7 +177,7 @@ class Mailer
 			$this->mailer->Port = $this->smtp['port'];
 		}
 		$this->mailer->SMTPSecure = $this->smtp['secure'];
-		$this->mailer->SMTPAuth = (bool) $this->smtp['authentication'];
+		$this->mailer->SMTPAuth = isset($this->smtp['authentication']) ? (bool) $this->smtp['authentication'] : false;
 		$this->mailer->Username = trim($this->smtp['username']);
 		$this->mailer->Password = trim($this->smtp['password']);
 		if ($this->smtp['options']) {
