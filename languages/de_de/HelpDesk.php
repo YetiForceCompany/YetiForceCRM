@@ -9,6 +9,10 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Administrative' => 'administrativ',
+	'Support' => 'Support',
+	'Services' => 'Dienste',
+	'LBL_SUBJECT_PORTAL_LOGIN_DETAILS' => 'Anmeldeinformationen zum Kundenportal',
 	'PLL_SUBMITTED_COMMENTS' => 'Gesendete Kommentare',
 	'PLL_FOR_APPROVAL' => 'Zur Freigabe',
 	'PLL_TO_CLOSE' => 'Zum Schließen',
