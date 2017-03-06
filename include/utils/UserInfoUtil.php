@@ -566,6 +566,7 @@ function getProfileGlobalPermission($profileid)
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
 
+	$copy = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$act_id = $adb->query_result($result, $i, "globalactionid");
 		$per_id = $adb->query_result($result, $i, "globalactionpermission");
