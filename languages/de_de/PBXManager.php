@@ -35,4 +35,5 @@ $languageStrings = [
 	'Source UUID' => 'Source UUID',
 	'End Time' => 'Endezeit',
 	'Record Id' => 'Record Id',
+	'dial' => 'anrufen',
 ];
