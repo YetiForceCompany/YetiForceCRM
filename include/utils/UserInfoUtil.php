@@ -1081,7 +1081,9 @@ function getCombinedUserGlobalPermissions($userId)
 	$no_of_profiles = sizeof($profArr);
 	$userGlobalPerrArr = [];
 
-	$userGlobalPerrArr = getProfileGlobalPermission($profArr[0]);
+	if (isset($profArr[0])) {
+		$userGlobalPerrArr = getProfileGlobalPermission($profArr[0]);
+	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
 			$tempUserGlobalPerrArr = getProfileGlobalPermission($profArr[$i]);
@@ -1116,7 +1118,9 @@ function getCombinedUserTabsPermissions($userId)
 	$no_of_profiles = sizeof($profArr);
 	$userTabPerrArr = [];
 
-	$userTabPerrArr = getProfileTabsPermission($profArr[0]);
+	if (isset($profArr[0])) {
+		$userTabPerrArr = getProfileTabsPermission($profArr[0]);
+	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
 			$tempUserTabPerrArr = getProfileTabsPermission($profArr[$i]);
@@ -1154,8 +1158,9 @@ function getCombinedUserActionPermissions($userId)
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
-
-	$actionPerrArr = getProfileAllActionPermission($profArr[0]);
+	if (isset($profArr[0])) {
+		$actionPerrArr = getProfileAllActionPermission($profArr[0]);
+	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
 			$tempActionPerrArr = getProfileAllActionPermission($profArr[$i]);
