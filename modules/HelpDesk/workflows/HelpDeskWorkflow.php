@@ -9,6 +9,11 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
+/**
+ * Function to get addresses email to contacts
+ * @param int $id
+ * @return array
+ */
 function getContactsMailsFromTicket($id)
 {
 	if (empty($id)) {
@@ -31,6 +36,10 @@ function getContactsMailsFromTicket($id)
 	return $mails;
 }
 
+/**
+ * Function to send mail to contacts. Function invoke by workflow
+ * @param Vtiger_Record_Model $recordModel
+ */
 function HelpDeskChangeNotifyContacts(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskChangeNotifyContacts');
@@ -47,6 +56,10 @@ function HelpDeskChangeNotifyContacts(Vtiger_Record_Model $recordModel)
 	\App\Log::trace('HelpDeskChangeNotifyContacts');
 }
 
+/**
+ * Function to send mail to contacts. Function invoke by workflow
+ * @param Vtiger_Record_Model $recordModel
+ */
 function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskClosedNotifyContacts');
@@ -63,6 +76,10 @@ function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
 	\App\Log::trace('HelpDeskClosedNotifyContacts');
 }
 
+/**
+ * Function to send mail to accounts. Function invoke by workflow
+ * @param Vtiger_Record_Model $recordModel
+ */
 function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 {
 	$db = PearDatabase::getInstance();
@@ -93,6 +110,10 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 	\App\Log::trace('HelpDeskNewCommentAccount');
 }
 
+/**
+ * Function to send mail to contacts. Function invoke by workflow
+ * @param Vtiger_Record_Model $recordModel
+ */
 function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
@@ -108,6 +129,10 @@ function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 	\App\Log::trace('HelpDeskNewCommentAccount');
 }
 
+/**
+ * Function to send mail to users. Function invoke by workflow
+ * @param Vtiger_Record_Model $recordModel
+ */
 function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
