@@ -1,6 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'FL_START_DATE' => 'Startdatum',
 	'SSalesProcesses' => 'Verkaufschancen',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
 	//BLOCKS
