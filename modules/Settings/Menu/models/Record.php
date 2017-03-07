@@ -347,6 +347,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				];
 				$db->createCommand()->insert('yetiforce_menu', $params)->execute();
 			}
+			$this->generateFileMenu($toRole);
 		}
 	}
 }
