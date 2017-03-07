@@ -115,6 +115,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
 			$data = [];
+			$ticks = [];
 			$i = 0;
 			while ($row = $dataReader->read()) {
 				$name = App\Fields\Owner::getLabel($row['smownerid']);
