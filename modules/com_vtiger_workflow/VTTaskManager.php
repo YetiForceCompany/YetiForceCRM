@@ -172,6 +172,8 @@ class VTTaskManager
 abstract class VTTask
 {
 
+	var $contents;
+
 	public abstract function doTask($recordModel);
 
 	public abstract function getFieldNames();
