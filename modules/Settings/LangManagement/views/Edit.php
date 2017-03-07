@@ -32,7 +32,7 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 		$tpl = $request->get('tpl');
 		$ShowDifferences = $request->get('sd');
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
-		$data = false;
+		$data = null;
 		if ($lang != '' && $mod != '') {
 			if ($tpl == 'editLang') {
 				$data = $moduleModel->loadLangTranslation($lang, $mod, $ShowDifferences);
