@@ -123,6 +123,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
 			}
 		} else {
+			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+				self::createCustomLangDirectory($params);
+			}
 			$fileContent = '<?php' . PHP_EOL;
 		}
 		$filePointer = fopen($fileName, 'w');
@@ -184,6 +187,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$fileContent = implode("", $fileContentEdit);
 		} else {
+			if ($customType) {
+				self::createCustomLangDirectory($params);
+			}
 			$fileContent = '<?php' . PHP_EOL;
 		}
 		$filePointer = fopen($fileName, 'w+');
@@ -193,6 +199,29 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			self::updateTranslation($params);
 		}
 		return array('success' => true, 'data' => 'LBL_UpdateTranslationOK');
+	}
+
+	/**
+	 * Function creates directory structure
+	 * @param array $params
+	 * @throws \Exception\AppException
+	 */
+	public static function createCustomLangDirectory($params)
+	{
+		$mod = explode(self::url_separator, $params['mod']);
+		$folders = ['custom', 'languages', $params['lang']];
+		if (count($mod) > 1) {
+			$folders[] = 'Settings';
+		}
+		foreach ($folders as $key => $name) {
+			$loc .= DIRECTORY_SEPARATOR . $name;
+			if (!file_exists(ROOT_DIRECTORY . $loc)) {
+				if (!mkdir(ROOT_DIRECTORY . $loc)) {
+					\App\Log::warning("No permissions to create directories: $loc");
+					throw new \Exception\AppException('No permissions to create directories');
+				}
+			}
+		}
 	}
 
 	/**
