@@ -789,23 +789,23 @@ insert  into `u_yf_squoteenquiries_invmap`(`module`,`field`,`tofield`) values ('
 
 /*Data for the table `u_yf_squotes_invfield` */
 
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',0,1,0,'{\"modules\":[\"Products\",\"Services\"],\"limit\":\" \"}',10);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'discount','LBL_DISCOUNT','Discount',0,'0',6,1,0,'{}',7);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (1,'name','LBL_ITEM_NAME','Name',0,'',0,1,0,'{\"modules\":[\"Products\",\"Services\"],\"limit\":\" \"}',25);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (2,'qty','LBL_QUANTITY','Quantity',0,'1',3,1,0,'{}',6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (3,'discount','LBL_DISCOUNT','Discount',0,'0',6,1,0,'{}',6);
 insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (4,'marginp','LBL_MARGIN_PERCENT','MarginP',0,'0',9,1,0,'{}',10);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'margin','LBL_MARGIN','Margin',0,'0',10,1,0,'{}',7);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (5,'margin','LBL_MARGIN','Margin',0,'0',10,1,0,'{}',6);
 insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (6,'comment1','LBL_COMMENT','Comment',0,'',6,2,0,'{}',0);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',4,1,0,NULL,7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',5,1,0,NULL,7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'purchase','LBL_PURCHASE','Purchase',0,'0',8,1,0,NULL,7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (10,'tax','LBL_TAX','Tax',0,'0',11,1,0,NULL,7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (11,'gross','LBL_GROSS_PRICE','GrossPrice',0,'0',12,1,0,NULL,7);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (7,'price','LBL_UNIT_PRICE','UnitPrice',0,'0',4,1,0,NULL,6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (8,'total','LBL_TOTAL_PRICE','TotalPrice',0,'0',5,1,0,NULL,6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (9,'purchase','LBL_PURCHASE','Purchase',0,'0',8,1,0,NULL,6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (10,'tax','LBL_TAX','Tax',0,'0',11,1,0,NULL,6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (11,'gross','LBL_GROSS_PRICE','GrossPrice',0,'0',12,1,0,NULL,6);
 insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (12,'discountmode','LBL_DISCOUNT_MODE','DiscountMode',0,'0',10,0,0,NULL,1);
 insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (13,'taxmode','LBL_TAX_MODE','TaxMode',0,'0',11,0,0,NULL,1);
 insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (14,'currency','LBL_CURRENCY','Currency',0,'',12,0,0,NULL,1);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (15,'net','LBL_DISCOUNT_PRICE','NetPrice',0,'0',7,1,0,NULL,7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (16,'subunit','FL_SUBUNIT','Value',0,'',2,1,10,NULL,7);
-insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (17,'unit','LBL_UNIT','Value',0,'',1,1,10,NULL,7);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (15,'net','LBL_DISCOUNT_PRICE','NetPrice',0,'0',7,1,0,NULL,6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (16,'subunit','FL_SUBUNIT','Value',0,'',2,1,10,NULL,6);
+insert  into `u_yf_squotes_invfield`(`id`,`columnname`,`label`,`invtype`,`presence`,`defaultvalue`,`sequence`,`block`,`displaytype`,`params`,`colspan`) values (17,'unit','LBL_UNIT','Value',0,'',1,1,10,NULL,6);
 
 /*Data for the table `u_yf_squotes_invmap` */
 
