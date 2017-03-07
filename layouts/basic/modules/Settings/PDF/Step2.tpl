@@ -34,10 +34,10 @@
 						{vtranslate('LBL_MAIN_MARGIN', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 row">
-						{if $PDF_MODEL->get('margin_chkbox') === 0}
-							{assign 'MARGIN_CHECKED' false}
-						{else}
+						{if $PDF_MODEL->get('margin_chkbox') === 1}
 							{assign 'MARGIN_CHECKED' true}
+						{else}
+							{assign 'MARGIN_CHECKED' false}
 						{/if}
 						<div class="col-sm-1">
 							<input type="checkbox" id="margin_chkbox" name="margin_chkbox" value="1" {if $MARGIN_CHECKED eq 'true'}checked="checked"{/if} />
