@@ -35,6 +35,7 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Translation updated',
 	'LBL_AddTranslationOK' => 'New translation added',
 	'LBL_DeleteTranslationOK' => 'Translation deleted',
+	'LBL_DELETE_TRANSLATION_FAILED' => 'Removing translation unsuccessful',
 	'Modules' => 'Modules',
 	'Module' => 'Module',
 	'Language' => 'Language',
@@ -55,6 +56,7 @@ $languageStrings = [
 	'LBL_SHOW' => 'Show',
 	'LBL_STATS_INFO' => 'The presented statistical values determine the ratio of untranslated labels to all labels that exist in the base language file(s) in percentage.',
 	'LBL_UNTRANSLATED_LABELS' => 'Untranslated labels',
+	'LBL_CUSTOM_TYPE_INFO' => 'Custom mode is enabled. You cannot modify source language files. All modifications will take place in the custom/ directory.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Translations',

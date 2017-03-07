@@ -223,7 +223,7 @@ var Settings_Index_Js = {
 		if (mod == undefined) {
 			mod = jQuery(".LangManagement " + position + " #mods_list").data('target') ? jQuery(".LangManagement " + position + " #mods_list").data('target') : jQuery(".LangManagement " + position + " #mods_list").val();
 		}
-		Settings_Index_Js.registerSaveEvent('SaveTranslation', {
+		Settings_Index_Js.registerSaveEvent('saveTranslation', {
 			'lang': target.data('lang'),
 			'mod': mod,
 			'type': target.data('type'),
@@ -247,7 +247,7 @@ var Settings_Index_Js = {
 				'enabled': true
 			}
 		});
-		Settings_Index_Js.registerSaveEvent('DeleteTranslation', {
+		Settings_Index_Js.registerSaveEvent('deleteTranslation', {
 			'lang': $(".LangManagement #langs_list").val(),
 			'mod': $(".LangManagement " + position + " #mods_list").data('target') ? $(".LangManagement " + position + " #mods_list").data('target') : $(".LangManagement " + position + " #mods_list").val(),
 			'langkey': closestTrElement.data('langkey'),
@@ -340,7 +340,7 @@ var Settings_Index_Js = {
 	AddTranslationMondal: function (e) {
 		var currentTarget = $(e.currentTarget);
 		var container = currentTarget.closest('.modalContainer');
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('AddTranslation', {
+		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation', {
 			'mod': $(".LangManagement #mods_list").val(),
 			'form_data': container.find(".AddTranslationForm").serializeFormData()
 		});

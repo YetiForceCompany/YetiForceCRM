@@ -43,6 +43,7 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Zaktualizowano tłumaczenie',
 	'LBL_AddTranslationOK' => 'Dodano nowe tłumaczenie',
 	'LBL_DeleteTranslationOK' => 'Usunięto tłumaczenie',
+	'LBL_DELETE_TRANSLATION_FAILED' => 'Usunięcie tłumaczenia nie powiodło się',
 	'Modules' => 'Moduły',
 	'Module' => 'Moduł',
 	'Language' => 'Język',
@@ -63,6 +64,7 @@ $languageStrings = [
 	'LBL_SHOW' => 'Pokaż',
 	'LBL_STATS_INFO' => 'Prezentowane wartości statystyczne określają stosunek etykiet nieprzetłumaczonych do wszystkich etykiet występujących w pliku(-ach) języka bazowego w procentach.',
 	'LBL_UNTRANSLATED_LABELS' => 'Nieprzetłumaczone etykiety',
+	'LBL_CUSTOM_TYPE_INFO' => 'Włączony jest tryb Custom. Nie można modyfikować źródłowych plików językowych. Wszelkie modyfikacje będą miały miejsce w katalogu custom/.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',

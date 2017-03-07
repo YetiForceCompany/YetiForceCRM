@@ -12,12 +12,15 @@
 class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('AddTranslation');
-		$this->exposeMethod('SaveTranslation');
-		$this->exposeMethod('DeleteTranslation');
+		$this->exposeMethod('addTranslation');
+		$this->exposeMethod('saveTranslation');
+		$this->exposeMethod('deleteTranslation');
 		$this->exposeMethod('add');
 		$this->exposeMethod('save');
 		$this->exposeMethod('saveView');
@@ -25,7 +28,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$this->exposeMethod('setAsDefault');
 	}
 
-	public function AddTranslation(Vtiger_Request $request)
+	public function addTranslation(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
 		$form_data = $params['form_data'];
@@ -35,7 +38,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		foreach ($langs as $lang) {
 			$params['lang'] = $lang;
 			$params['val'] = $form_data[$lang];
-			$saveResp = Settings_LangManagement_Module_Model::AddTranslation($params);
+			$saveResp = Settings_LangManagement_Module_Model::addTranslation($params);
 			if ($saveResp['success'] === false) {
 				break;
 			}
@@ -48,15 +51,19 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function SaveTranslation(Vtiger_Request $request)
+	/**
+	 * Save translations
+	 * @param \Vtiger_Request $request
+	 */
+	public function saveTranslation(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::SaveTranslation($params);
+		$saveResp = Settings_LangManagement_Module_Model::saveTranslation($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => vtranslate($saveResp['data'], $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -72,15 +79,19 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function DeleteTranslation(Vtiger_Request $request)
+	/**
+	 * Remove translation
+	 * @param \Vtiger_Request $request
+	 */
+	public function deleteTranslation(Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::DeleteTranslation($params);
+		$saveResp = Settings_LangManagement_Module_Model::deleteTranslation($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => vtranslate($saveResp['data'], $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 

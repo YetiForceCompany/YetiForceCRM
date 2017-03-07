@@ -8,6 +8,14 @@
 		</div>
 	</div>
 	<hr>
+	{if \AppConfig::performance('LOAD_CUSTOM_FILES')}
+		<div class="alert alert-info fade in">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			{\App\Language::translate('LBL_CUSTOM_TYPE_INFO', $QUALIFIED_MODULE)}
+		</div>
+	{/if}
 	<div class="">
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
