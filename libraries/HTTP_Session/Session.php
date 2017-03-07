@@ -6,7 +6,7 @@
  *
  * Provides access to session-state values as well as session-level
  * settings and lifetime management methods.
- * Based on the standart PHP session handling mechanism
+ * Based on the standard PHP session handling mechanism
  * it provides for you more advanced features such as
  * database container, idle and expire timeouts, etc.
  *
@@ -40,7 +40,7 @@ define("HTTP_SESSION_CONTINUED", 2);
  *
  * Provides access to session-state values as well as session-level
  * settings and lifetime management methods.
- * Based on the standart PHP session handling mechanism
+ * Based on the standard PHP session handling mechanism
  * it provides for you more advanced features such as
  * database container, idle and expire timeouts, etc.
  *
