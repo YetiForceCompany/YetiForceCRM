@@ -123,6 +123,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$result = $db->pquery($sql, array($recordId));
 			$count = $db->num_rows($result);
 
+			$imageOriginalNamesList = [];
+
 			for ($i = 0; $i < $count; $i++) {
 				$imageIdsList[] = $db->query_result($result, $i, 'attachmentsid');
 				$imagePathList[] = $db->query_result($result, $i, 'path');
