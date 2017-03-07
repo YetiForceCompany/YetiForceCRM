@@ -131,7 +131,7 @@ class Access
 	{
 		$actionId = getActionid($toolAction);
 		if ($actionId) {
-			$permission = ($flag === true) ? 0 : 1;
+			$permission = ($flag === true) ? '0' : '1';
 
 			$profileids = [];
 			if ($profileid) {
@@ -146,8 +146,8 @@ class Access
 				$curpermission = (new \App\Db\Query)->select('permission')->from('vtiger_profile2utility')
 					->where(['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])
 					->scalar();
-				if ($curpermission) {
-					if ($curpermission !== $permission) {
+				if ($curpermission !== false) {
+					if (((string) $curpermission) !== $permission) {
 						$db->createCommand()->update('vtiger_profile2utility', ['permission' => $permission], ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])->execute();
 					}
 				} else {
