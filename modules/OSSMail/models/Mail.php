@@ -133,7 +133,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 	{
 		$header = $this->get('header');
 		$text = '';
-		if (property_exists($header, 'name')) {
+		if (property_exists($header, $name)) {
 			$text = $header->$name;
 		}
 		$return = '';
