@@ -41,25 +41,37 @@ class ModuleHierarchy
 	public static function getModulesMap1M($moduleName)
 	{
 		static::init();
-		return static::$hierarchy['modulesMap1M'][$moduleName];
+		if (isset(static::$hierarchy['modulesMap1M'][$moduleName])) { 
+			return static::$hierarchy['modulesMap1M'][$moduleName];
+		}
+		return false;
 	}
 
 	public static function getModulesMapMMBase()
 	{
 		static::init();
-		return static::$hierarchy['modulesMapMMBase'];
+		if (isset(static::$hierarchy['modulesMapMMBase'])) {
+			return static::$hierarchy['modulesMapMMBase'];
+		}
+		return false;
 	}
 
 	public static function getModulesMapMMCustom($moduleName)
 	{
 		static::init();
-		return static::$hierarchy['modulesMapMMCustom'][$moduleName];
+		if (isset(static::$hierarchy['modulesMapMMCustom'][$moduleName])) {
+			return static::$hierarchy['modulesMapMMCustom'][$moduleName];
+		}
+		return false;
 	}
 
 	public static function getModulesByLevel($level = 0)
 	{
 		static::init();
-		return static::$modulesByLevels[$level];
+		if (isset(static::$modulesByLevels[$level])) {
+			return static::$modulesByLevels[$level];
+		}
+		return false;
 	}
 
 	/**
