@@ -1480,6 +1480,7 @@ class Base4 extends \App\Db\Importers\Base
 					['troubletickets_product_idx', 'product_id'],
 					['troubletickets_serv_idx', 'servicecontractsid'],
 					['troubletickets_sold_idx', 'pssold_id'],
+					['troubletickets_ticket_no_idx', 'ticket_no'],
 				],
 				'primaryKeys' => [
 					['troubletickets_pk', 'ticketid']
@@ -2371,6 +2372,7 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_2_vtiger_org_share_action2tab', 'vtiger_org_share_action2tab', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_ossemployees', 'vtiger_ossemployees', 'ossemployeesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_ossemployeescf', 'vtiger_ossemployeescf', 'ossemployeesid', 'vtiger_ossemployees', 'ossemployeesid', 'CASCADE', 'RESTRICT'],
+			['fk_ossmailscanner_folders_user_id', 'vtiger_ossmailscanner_folders_uid', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_ossmailview', 'vtiger_ossmailview', 'ossmailviewid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_ossmailview_files', 'vtiger_ossmailview_files', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
 			['vtiger_ossmailview_relation_ibfk_1', 'vtiger_ossmailview_relation', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
