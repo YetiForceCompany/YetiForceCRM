@@ -243,6 +243,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function saveCompanyLogos()
 	{
+		$logoDetails = [];
 		foreach (self::$logoNames as $image) {
 			$saveLogo[$image] = true;
 			if (!empty($_FILES[$image]['name'])) {
