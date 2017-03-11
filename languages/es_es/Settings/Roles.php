@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_ALL_USERS' => 'All Users',
 	'LBL_ASSIGN_EXISTING_PRIVILEGES' => 'Assign privileges from existing profiles',
 	'LBL_ASSIGN_NEW_PRIVILEGES' => 'Assign privileges directly to Role',

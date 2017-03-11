@@ -5,22 +5,22 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Ideas' => 'Ideas',
 	'SINGLE_Ideas' => 'Idea',
 	//Bloks
-	'LBL_IDEAS_INFORMATION' => 'Basic Information',
+	'LBL_IDEAS_INFORMATION' => 'Información sobre la Idea',
 	//Fields
-	'LBL_SUBJECT' => 'Subject',
-	'LBL_STATUS' => 'Status',
-	'Description' => 'Basic description',
-	'LBL_EXTENT_DESCRIPTION' => 'Detailed description',
-	'Attention' => 'Comments',
-	'LBL_NO' => 'Number',
+	'LBL_SUBJECT' => 'Asunto',
+	'LBL_STATUS' => 'Estado',
+	'Description' => 'Descripción básica',
+	'LBL_EXTENT_DESCRIPTION' => 'Descripción detallada',
+	'Attention' => 'Comentarios',
+	'LBL_NO' => 'ID',
 	//pick list values
-	'Draft' => 'Draft',
-	'Proposition' => 'Proposal',
+	'Draft' => 'Borrador',
+	'Proposition' => 'Propuesta',
 ];

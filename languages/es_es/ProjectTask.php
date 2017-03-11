@@ -12,7 +12,7 @@ $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Project Task',
 	'Project Task' => 'Project Tasks',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Project Task List',
 	'Start Date' => 'Start Date',
 	'Target End Date' => 'Target End Date',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'Project Task Number' => 'Project Task Number',
 	'description' => ' Description',
 	'FL_TOTAL_TIME_H' => 'Total working time',
-	'Project Task No' => 'Project Task No',
+	'Project Task No' => 'ID',
 	'Project Task Name' => 'Project Task Name',
 	'LBL_ESTIMATED_WORK_TIME' => 'Estimated work time',
 	'Add Project Task' => 'Add project task',

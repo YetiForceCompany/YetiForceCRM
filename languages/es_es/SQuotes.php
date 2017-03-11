@@ -10,7 +10,7 @@ $languageStrings = [
 	'LBL_STATISTICS' => 'Statistics',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
-	'LBL_NUMBER' => 'Number',
+	'LBL_NUMBER' => 'ID',
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Response time',
@@ -23,12 +23,12 @@ $languageStrings = [
 	'FL_SUM_DISCOUNT' => 'Discount amount',
 	'FL_VALID_UNTIL' => 'Valid until',
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_DRAFT' => 'Borrador',
+	'PLL_IN_REALIZATION' => 'En progreso',
 	'PLL_FOR_VERIFICATION' => 'For verification',
 	'PLL_AWAITING_DECISION' => 'Awaiting decision',
 	'PLL_NEGOTIATIONS' => 'Negotiations',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
-	'LBL_CHANGE_STATUS' => 'Change status',
+	'PLL_CANCELLED' => 'Cancelado',
+	'PLL_ACCEPTED' => 'Aceptado',
+	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

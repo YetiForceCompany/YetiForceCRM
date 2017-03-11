@@ -5,14 +5,14 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_CONVERSION' => 'Conversion',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Change Assigned To',
 	'LBL_CONVERSION_TO_ACCOUNT_INFO' => 'When this option is ticked, a user who converts a Lead to an Account becomes its Assigned To',
-	'LBL_LEADS' => 'Leads',
+	'LBL_LEADS' => 'Contactos Potenciales',
 	'LBL_INFO' => 'Information',
 	'LBL_VALUES' => 'Values',
 	'LBL_GROUPS_INFO' => 'Groups with no Assigned To',

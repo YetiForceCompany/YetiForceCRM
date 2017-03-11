@@ -14,7 +14,7 @@ $languageStrings = [
 	// Basic Strings
 	'OutsourcedProducts' => 'Outsourced Products',
 	'SINGLE_OutsourcedProducts' => 'Outsourced Product',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
 	'LBL_INFORMATION' => 'Outsourced Products',
 	//Field Labels

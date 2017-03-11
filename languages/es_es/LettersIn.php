@@ -12,7 +12,7 @@ $languageStrings = [
 	// Basic Strings
 	'LettersIn' => 'Letters incoming',
 	'SINGLE_LettersIn' => 'Letters incoming',
-	'LBL_ADD_RECORD' => 'Add letters incoming',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Letters incoming',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Letters Information',

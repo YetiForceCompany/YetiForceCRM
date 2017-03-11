@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_SUMMARY' => 'Work time summary',
 	// Basic Strings
 	'SINGLE_Project' => 'Project',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Projects list',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Project details',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'Start Date' => 'Start date',
 	'Target End Date' => 'Target end date',
 	'Actual End Date' => 'Actual end date',
-	'Project No' => 'Project number',
+	'Project No' => 'ID',
 	'Target Budget' => 'Target budget',
 	'Project Url' => 'Project URL',
 	'Progress' => 'Progress',
@@ -50,8 +50,8 @@ $languageStrings = [
 	'LBL_TICKET_PRIORITY' => 'Priority',
 	'LBL_MORE' => 'more',
 	//PickList
-	'PLL_INTERNAL' => 'Internal',
-	'PLL_EXTERNAL' => 'External',
+	'PLL_INTERNAL' => 'Interno',
+	'PLL_EXTERNAL' => 'Externo',
 	'PLL_COMMON' => 'Shared',
 	//Summary View Widgets
 	'LBL_DOWNLOAD_FILE' => 'Download file',

@@ -11,7 +11,7 @@ $languageStrings = [
 	'LBL_PERIODIC_GENERATION' => 'Periodic generation',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
-	'LBL_NUMBER' => 'Number',
+	'LBL_NUMBER' => 'ID',
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Respone time',
@@ -25,7 +25,7 @@ $languageStrings = [
 	'LBL_START_PERIOD' => 'Start period',
 	'LBL_TARGET_MODULE' => 'Target module',
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
+	'PLL_DRAFT' => 'Borrador',
 	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requires to be complemented',
 	'PLL_REQUIRES_CONSULTATION' => 'Requires consultation',
 	'PLL_WAITING_FOR_SHIPPING' => 'Waiting for shipping',
@@ -53,5 +53,5 @@ $languageStrings = [
 	'last day of next month' => 'Last day of next month',
 	'first day of +3 months' => 'First day of next quarter',
 	'last day of +3 months' => 'Last day of next quarter',
-	'LBL_CHANGE_STATUS' => 'Change status',
+	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

@@ -7,12 +7,12 @@ $languageStrings = [
 	'ServiceContracts' => 'Service Contracts',
 	'Service Contracts' => 'Service Contracts',
 	'SINGLE_ServiceContracts' => 'Service Contract',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Service Contracts list',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Service Contract details',
 	//Field Labels
-	'Contract No' => 'Contract number',
+	'Contract No' => 'ID',
 	'Start Date' => 'Start date',
 	'End Date' => 'End date',
 	'Tracking Unit' => 'Tracking unit',

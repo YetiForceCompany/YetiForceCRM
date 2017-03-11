@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'Account Name' => 'Nombre de la Cuenta',
-	'Account No' => 'ID Cuenta',
+	'Account No' => 'ID',
 	'Accounts' => 'Cuentas',
 	'Analyst' => 'Analista',
 	'Competitor' => 'Competidor',
@@ -93,7 +93,7 @@ $languageStrings = [
 	'Average profit sales order' => 'Media de beneficio por pedido de ventas (%)',
 	'Approval for email' => 'Permiso para envío de correos',
 	'Approval for phone calls' => 'Permiso para llamar',
-	'LBL_CONVERTED_FROM_LEAD' => 'Convertido desde el lead',
+	'LBL_CONVERTED_FROM_LEAD' => 'Convertido desde el Contacto Potencial',
 	'LBL_LEGAL_FORM' => 'Forma jurídica',
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Descuento',

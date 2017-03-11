@@ -5,7 +5,7 @@ $languageStrings = [
 	// Basic Strings
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Services list',
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Service details',
@@ -20,7 +20,7 @@ $languageStrings = [
 	'Service Name' => 'Service name',
 	'Service Active' => 'Active',
 	'Service Category' => 'Category',
-	'Service No' => 'Service number',
+	'Service No' => 'ID',
 	'Owner' => 'Assigned To',
 	'Share with users' => 'Shared with',
 	'No of Units' => 'Number of units',

@@ -5,9 +5,9 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): 
+ * Contributor(s):
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'OSSMail' => 'My mailbox',
@@ -72,7 +72,7 @@ $languageStrings = [
 	'LBL_PROCESS' => 'Processes',
 	'LBL_SUB_PROCESS' => 'Subprocesses',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
-	'LBL_ADD_RECORD' => 'Create record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_SELECT_RECORD' => 'Relate to existing record',
 	'LBL_ADD_CALENDAR' => 'Add event',
 	'LBL_ADD_MODCOMMENTS' => 'Add comment',

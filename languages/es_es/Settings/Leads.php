@@ -1,7 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'Leads' => 'Leads',
+	'Leads' => 'Contactos Potenciales',
 	'LBL_OPPURTUNITIES' => 'Opportunities',
 	'checkBox' => 'Check Box',
 	'currency' => 'Currency',
@@ -10,7 +10,7 @@ $languageStrings = [
 	'email' => 'Email',
 	'LBL_ADD_MAPPING' => 'Add Mapping',
 	'LBL_CONTACTS' => 'Contacts',
-	'LBL_CONVERT_LEAD_FIELD_MAPPING' => 'Convert Lead Mapping',
+	'LBL_CONVERT_LEAD_FIELD_MAPPING' => 'Convert Contacto Potencial Mapping',
 	'LBL_DELETED_SUCCESSFULLY' => 'Deleted Successfully',
 	'LBL_FIELD_LABEL' => 'Field Label',
 	'LBL_FIELD_TYPE' => 'Field Type',

@@ -5,18 +5,18 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'HolidaysEntitlement' => 'Annual holiday entitlement',
-	'SINGLE_HolidaysEntitlement' => 'Annual holiday entitlement',
+	'HolidaysEntitlement' => 'Vacaciones Anuales',
+	'SINGLE_HolidaysEntitlement' => 'Vacaciones Anuales',
 	//Bloks
-	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Custom Information',
-	'LBL_CUSTOM_INFORMATION' => 'System Information',
+	'LBL_HOLIDAYSENTITLEMENT_INFORMATION' => 'Información de Vacaciones Anuales',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	//Fields
-	'LBL_YEAR' => 'Year',
-	'LBL_DAYS' => 'Number of holidays',
-	'LBL_EMPLOYEE' => 'Employee',
-	'LBL_NUMBER' => 'Number',
+	'LBL_YEAR' => 'Año',
+	'LBL_DAYS' => 'Número de días de vacaciones',
+	'LBL_EMPLOYEE' => 'Empleado',
+	'LBL_NUMBER' => 'ID',
 ];

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'Member Of' => 'Miembro de',
 	'Birthdate' => 'Fecha de nacimiento',
-	'Contact Id' => 'ID contacto',
+	'Contact Id' => 'ID',
 	'Contact Image' => 'Imagen del Contacto',
 	'Contacts' => 'Contactos',
 	'Do Not Call' => 'No llamar',

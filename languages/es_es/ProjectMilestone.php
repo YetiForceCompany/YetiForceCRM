@@ -11,7 +11,7 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Project Milestone',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Project Milestones List',
 	// Blocks
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Project Milestone Details',
@@ -23,12 +23,12 @@ $languageStrings = [
 	//Field Labels
 	'Project Milestone Name' => 'Project Milestone Name',
 	'Milestone Date' => 'Milestone Date',
-	'Project Milestone No' => 'Project Milestone Number',
+	'Project Milestone No' => 'ID',
 	'LBL_PRIORITY' => 'Priority',
 	'LBL_PROGRESS' => 'Progress',
 	//PICKLIST
-	'PLL_INTERNAL' => 'Internal',
-	'PLL_EXTERNAL' => 'External',
+	'PLL_INTERNAL' => 'Interno',
+	'PLL_EXTERNAL' => 'Externo',
 	'PLL_SHARED' => 'Shared',
 	'PLL_LOW' => 'Low',
 	'PLL_NORMAL' => 'Normal',

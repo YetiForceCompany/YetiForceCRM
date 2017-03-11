@@ -13,7 +13,7 @@ $languageStrings = [
 	// Basic Strings
 	'OSSMailView' => 'Corporate emails',
 	'SINGLE_OSSMailView' => 'Corporate email',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'List of emails',
 	// Blocks
 	'LBL_INFORMATION' => 'General Information',

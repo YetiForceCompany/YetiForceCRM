@@ -148,7 +148,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'No se puede seleccionar el contacto de "Clientes Potenciales"',
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'No se puede seleccionar el contacto de "Contactos Potenciales"',
 	'JS_SATATUS' => 'Estado',
 	'JS_End Date' => 'Fecha fin',
 	'JS_Start Date' => 'Fecha inicio',

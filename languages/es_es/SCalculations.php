@@ -10,7 +10,7 @@ $languageStrings = [
 	'LBL_STATISTICS' => 'Statistics',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
-	'LBL_NUMBER' => 'Number',
+	'LBL_NUMBER' => 'ID',
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Respone time',
@@ -19,10 +19,10 @@ $languageStrings = [
 	'FL_MARGINP' => 'Total margin percentage',
 	'FL_MARGIN' => 'Total margin',
 	//PICKLIST VALUES
-	'PLL_DRAFT' => 'Draft',
-	'PLL_IN_REALIZATION' => 'In realization',
+	'PLL_DRAFT' => 'Borrador',
+	'PLL_IN_REALIZATION' => 'En progreso',
 	'PLL_FOR_VERIFICATION' => 'For verification',
-	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_CANCELLED' => 'Cancelado',
 	'PLL_COMPLETED' => 'Completed',
-	'LBL_CHANGE_STATUS' => 'Change status',
+	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

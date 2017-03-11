@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'Active' => 'Activo',
-	'Document No' => 'ID documento',
+	'Document No' => 'ID',
 	'Documents' => 'Documentos',
 	'Download Count' => 'Empresa de descarga',
 	'Download Type' => 'Tipo de Documento',

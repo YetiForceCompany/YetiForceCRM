@@ -17,7 +17,7 @@ $languageStrings = [
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Información sobre el Activo',
 	//Field Labels
-	'Asset No' => 'ID Activo',
+	'Asset No' => 'ID',
 	'Serial Number' => 'Número de serie',
 	'Date Sold' => 'Fecha de venta',
 	'Date in Service' => 'Fecha de caducidad',

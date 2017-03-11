@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_CHOOSE_PROFILES' => 'Choose profiles',
 	'LBL_CREATE_PROFILE' => 'Create profile',
 	'LBL_DELETE_PROFILE' => 'Delete profile',
@@ -45,7 +45,7 @@ $languageStrings = [
 	'Import' => 'Import',
 	'Export' => 'Export',
 	'Merge' => 'Merge',
-	'ConvertLead' => 'Convert Lead',
+	'ConvertLead' => 'Convertir Contacto Potencial',
 	'DuplicatesHandling' => 'Duplicates handling',
 	'ReceiveIncomingCalls' => 'Receive incoming calls',
 	'MakeOutgoingCalls' => 'Make outgoing calls',

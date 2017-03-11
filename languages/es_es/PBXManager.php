@@ -17,7 +17,7 @@ $languageStrings = [
 	//Detail view header title
 	'LBL_CALL_FROM' => 'Call from',
 	'LBL_CALL_TO' => 'Call to',
-	//Incoming call pop-up 
+	//Incoming call pop-up
 	'LBL_HIDDEN' => '(HIDDEN)',
 	// Fields
 	'Total Duration' => 'Duration (sec)',
@@ -34,5 +34,5 @@ $languageStrings = [
 	'Customer type' => 'Customer type',
 	'Source UUID' => 'Source UUID',
 	'End Time' => 'End time',
-	'Record Id' => 'Record ID',
+	'Record Id' => 'ID',
 ];

@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'Selected Values' => 'Selected values',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'PickListDependency' => 'PickList Dependency',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Only mapped picklist values of the source field will be shown below (except for first time)',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_2' => "If you want to see or change the mapping for the other picklist values of source field, <br/>then you can select the values by clicking on <b>'Select Source values'</b> button on the right side",

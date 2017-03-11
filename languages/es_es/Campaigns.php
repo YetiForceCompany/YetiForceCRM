@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'Campaign Name' => 'Nombre de la Campaña',
-	'Campaign No' => 'ID Camapaña',
+	'Campaign No' => 'ID',
 	'Campaigns' => 'Campañas',
 	'SINGLE_Campaigns' => 'Campaña de Marketing',
 	'LBL_ADD_RECORD' => 'Añadir',

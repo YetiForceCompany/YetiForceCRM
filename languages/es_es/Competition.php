@@ -9,7 +9,7 @@ $languageStrings = [
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	//FIELDS
 	'LBL_SUBJECT' => 'Nombre',
-	'LBL_NUMBER' => 'Número',
+	'LBL_NUMBER' => 'ID',
 	'LBL_CLOSED_TIME' => 'Fecha de cierre',
 	'LBL_VAT_ID' => 'ID Impuesto',
 ];

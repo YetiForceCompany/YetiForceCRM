@@ -7,7 +7,7 @@ $languageStrings = [
 	'LBL_ANNOUNCEMENTS_INFORMATION' => 'Información sobre el Anuncio',
 	//FIELDS
 	'LBL_SUBJECT' => 'Asunto',
-	'LBL_NUMBER' => 'ID Anuncio',
+	'LBL_NUMBER' => 'ID',
 	'FL_STATUS' => 'Estado',
 	'FL_INTERVAL' => 'Intervalo de tiempo',
 	// Picklist values

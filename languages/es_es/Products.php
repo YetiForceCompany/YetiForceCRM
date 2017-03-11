@@ -11,11 +11,11 @@
 $languageStrings = [
 	// Field Labels
 	'FL_RENEWABLE' => 'Renewable',
-	// 
+	//
 	'Unit Code' => 'Unit code',
 	'Mf. Country Code' => 'Mf. country code',
 	'Manuf. Country' => 'Manuf. country',
-	'Customs ID' => 'Customs ID',
+	'Customs ID' => 'ID',
 	'300-Sales-Software' => '300-Sales-Software',
 	'301-Sales-Hardware' => '301-Sales-Hardware',
 	'302-Rental-Income' => '302-Rental-Income',
@@ -38,7 +38,7 @@ $languageStrings = [
 	'Hardware' => 'Hardware',
 	'Hours' => 'Hours',
 	'Impressions' => 'Impressions',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_ADD_TO_PRICEBOOKS' => 'Add to PriceBooks', //Duplicated key-value pairs
 	'Lb' => 'Lb',
 	'LBL_IMAGE_INFORMATION' => 'Product image information',
@@ -62,7 +62,7 @@ $languageStrings = [
 	'Product Active' => 'Product active',
 	'Product Category' => 'Product category',
 	'Product Image' => 'Product image',
-	'Product No' => 'Product number',
+	'Product No' => 'ID',
 	'Product Sheet' => 'Product sheet',
 	'Products' => 'Products',
 	'Qty In Demand' => 'Qty. in demand',
@@ -90,7 +90,7 @@ $languageStrings = [
 	'LBL_TAXES' => 'Taxes',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'List of records is limited to the products and services associated with the sales opportunity',
 	'FL_EAN_13' => 'EAN-13',
-	'FL_QTY_IN_STOCK' => 'Quantity of product in stock',
+	'FL_QTY_IN_STOCK' => 'Cantidad de productos en Stock',
 	'pcs' => 'unit',
 	'pack' => 'pack',
 	'FL_POS' => 'POS',

@@ -13,7 +13,7 @@ $languageStrings = [
 	'OSSSoldServices' => 'Sold Services',
 	'SINGLE_OSSSoldServices' => 'Sold Service',
 	'LBL_RECORDS_LIST' => 'Records List',
-	'LBL_ADD_RECORD' => 'Add record',
+	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
 	'LBL_INFORMATION' => 'Information block',
 	// Field Labels
@@ -36,11 +36,11 @@ $languageStrings = [
 	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
 	// picklist values
 	'FL_RENEWAL' => 'Renewal',
-	'PLL_DRAFT' => 'Draft',
+	'PLL_DRAFT' => 'Borrador',
 	'PLL_WAITING_FOR_VERIFICATION' => 'Waiting for verification',
 	'PLL_WAITING_FOR_ACCEPTANCE' => 'Waiting for acceptance',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_ACCEPTED' => 'Aceptado',
+	'PLL_CANCELLED' => 'Cancelado',
 	'PLL_PLANNED' => 'Planned',
 	'PLL_WAITING_FOR_RENEWAL' => 'Waiting for renewal',
 	'PLL_RENEWED' => 'Renewed',
