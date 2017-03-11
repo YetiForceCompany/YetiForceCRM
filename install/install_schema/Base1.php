@@ -3683,7 +3683,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -3721,7 +3721,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -3759,7 +3759,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -3841,7 +3841,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -3951,7 +3951,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4001,7 +4001,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4035,7 +4035,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4069,7 +4069,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4099,7 +4099,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4118,7 +4118,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4140,7 +4140,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4162,7 +4162,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4178,7 +4178,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4200,7 +4200,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4215,7 +4215,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
@@ -4237,7 +4237,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			Â 
+			 
 
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
