@@ -1,0 +1,25 @@
+<?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+$languageStrings = [
+	'IStorages' => 'Depósitos',
+	'SINGLE_IStorages' => 'Depósito',
+	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
+	'LBL_ATTENTION_BLOCK' => 'Comentarios',
+	'FL_PARENT_STORAGE' => 'Depósito Principal',
+	'FL_SUBJECT' => 'Subject',
+	'FL_STATUS' => 'Estado',
+	'FL_TYPE' => 'Tipo',
+	'FL_NUMBER' => 'Número',
+	'FL_QTY_IN_STOCK' => 'Cantidad de producto en stock',
+	'PLL_ACTIVE' => 'Activo',
+	'PLL_INACTIVE' => 'Inactivo',
+	'PLL_INTERNAL' => 'Interno',
+	'PLL_EXTERNAL' => 'Externo',
+	'LBL_NOT_PARENT_STORAGE' => 'Debe completar el nombre del depósito principal',
+	'LBL_SHOW_HIERARCHY' => 'Jerarquía',
+	'LBL_PARENT_IS_CHILD' => 'El depósito principal seleccionado no puede ser secundario del depósito actual',
+	'LBL_SECONDARY_STORAGES' => 'Depósitos secundarios',
+	'LBL_ROW_NUM' => 'Nº',
+	'LBL_STORAGE_OWNER' => 'Titular',
+	'FL_POS' => 'POS',
+];

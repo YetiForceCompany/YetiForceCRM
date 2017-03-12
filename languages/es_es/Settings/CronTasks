@@ -1,0 +1,61 @@
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * *********************************************************************************** */
+$languageStrings = [
+	'Recommended frequency for Scheduled Import is 15 mins' => 'La frecuencia recomendada para "Importación Agendada" es de 15 minutos',
+	'Recommended frequency for SendReminder is 15 mins' => 'La frecuencia recomendada para "Enviar Recordatorio" es de 15 minutos',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'La frecuencia recomendada para "Factura Recurrente" es de 12 horas',
+	'Recommended frequency for Workflow is 15 mins' => 'La frecuencia recomendada para "Flujo de Trabajo" es de 15 minutos',
+	'Recommended frequency for MailScanner is 15 mins' => 'La frecuencia recomendada para "Escanear Email" es de 15 minutos',
+	'Recommended frequency for ScheduleReports is 15 mins' => 'La frecuencia recomendada para "Reporte de Agenda" es de 15 minutos',
+	'Recommended frequency for Currency Update is 24 hours' => 'La frecuencia recomendada para "Actualizar Moneda" es de 24 horas',
+	'Cron Job' => 'Tarea de Reloj',
+	'CronTasks' => 'Planificador',
+	'Frequency' => 'Frequencia',
+	'Frequency(H:M)' => 'Frequencia (H:M)',
+	'Id' => 'Id',
+	'Last End' => 'Último escaneo terminado',
+	'Last Start' => 'Último escaneo iniciado',
+	'LBL_ACTIVE' => 'Activo',
+	'LBL_COMPLETED' => 'Completo',
+	'LBL_INACTIVE' => 'Inactivo',
+	'LBL_RUNNING' => 'En ejecución',
+	'Sequence' => 'Secuencia',
+	'Status' => 'Estado',
+	'LBL_ADD_CRON' => 'Añadir Tarea de Reloj',
+	'MODULE' => 'Módulo',
+	'LBL_NAME' => 'Nombre',
+	'LBL_PATH_TO_FILE' => 'Ruta de Archivo',
+	'Workflow' => 'Flujo de Trabajo',
+	'RecurringInvoice' => 'Factura Recurrente',
+	'MailScannerAction' => 'Acción de Escanear Email',
+	'MailScannerVerification' => 'Verificación de Escanear Email',
+	'SendReminder' => 'Enviar Recordatorio',
+	'Scheduled Import' => 'Importación agendada',
+	'ScheduleReports' => 'Reportes de Agenda',
+	'MailScannerBind' => 'Enlazar a Escaner de Email',
+	'LBL_CURRENCY_UPDATE' => 'Actualizar Moneda',
+	'LBL_MULTI_REFERENCE_VALUE' => 'Actualizar Campos Multireferencia',
+	'LBL_CRMACTIVITY_DAYS' => 'Actualizar campo de actividades de calendario en módulos relacionados',
+	'Activity State' => 'Estado de Actividad',
+	'Assets Renewal' => 'Renovación de Activos',
+	'SoldServices Renewal' => 'Renovación de Servicios Vendidos',
+	'LBL_SEND_NOTIFICATIONS' => 'Enviar Notificaciones',
+];
+$jsLanguageStrings = [
+	'Recommended frequency for Scheduled Import is 15 mins' => 'La frecuencia recomendada para "Importación Agendada" es de 15 minutos',
+	'Recommended frequency for SendReminder is 15 mins' => 'La frecuencia recomendada para "Enviar Recordatorio" es de 15 minutos',
+	'Recommended frequency for RecurringInvoice is 12 hours' => 'La frecuencia recomendada para "Factura Recurrente" es de 12 horas',
+	'Recommended frequency for Workflow is 15 mins' => 'La frecuencia recomendada para "Flujo de Trabajo" es de 15 minutos',
+	'Recommended frequency for MailScanner is 15 mins' => 'La frecuencia recomendada para "Escanear Email" es de 15 minutos',
+	'FREQUENCY_NUMBER' => 'La frecuencia debe ser un número entero',
+	'FREQUENCY_REQUIRED' => 'El campo "Frecuencia" es necesario',
+	'PATH_REQUIRED' => 'El campo "Ruta" es necesario',
+	'NAME_REQUIRED' => 'El campo "Nombre" es necesario',
+];

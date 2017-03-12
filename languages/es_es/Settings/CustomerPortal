@@ -1,0 +1,29 @@
+<?php
+/* +***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * *********************************************************************************** */
+$languageStrings = [
+	'CustomerPortal' => 'Portal de Clientes',
+	'LBL_PORTAL_DESCRIPTION' => 'Configurar permisos de Usuario de Portal',
+	'LBL_PRIVILEGES' => 'Permisos',
+	'LBL_DEFAULT_ASSIGNEE' => 'Encargado por defecto',
+	'LBL_PORTAL_URL' => 'Portal URL',
+	//Fields
+	'LBL_MODULE_NAME' => 'Nombre de Módulo',
+	'LBL_ENABLE_MODULE' => 'Habilitar Módulo',
+	'LBL_VIEW_ALL_RECORDS' => 'Ver registros a través de la cuenta',
+	//Messages
+	'LBL_PRIVILEGES_MESSAGE' => "Los permisos de este rol serán aplicados al Usuario de Portal.",
+	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Los tickets serán asignados al Encargado por defecto en el Portal de Clientes.',
+	'LBL_PORTAL_URL_MESSAGE' => 'Esta es la URL del Portal, donde sus contactos pueden enviar tickets y hacer seguimiento del soporte, acceder a la base de conocimiento, etc. Los contactos recibirán sus credenciales cuando el acceso al Portal esté habilitado en la ficha del contacto.',
+	'LBL_DRAG_AND_DROP_MESSAGE' => 'Arrastre y suelte los módulos para reordenarlos en el Portal de Clientes',
+];
+
+$jsLanguageStrings = [
+	'JS_PORTAL_INFO_SAVED' => 'Se guardaron los ajustes del Portal de Clientes',
+];

@@ -1,0 +1,54 @@
+<?php
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * *********************************************************************************************************************************** */
+$languageStrings = [
+	'ConfReport' => 'Ajustes del Servidor',
+	'LBL_CONFIGURATION' => 'Ajustes del Servidor',
+	'LBL_CONFREPORT_DESCRIPTION' => 'Permite verificar si los ajustes del servidor principal son compatibles con los parámetros recomendados.',
+	'LBL_PARAMETER' => 'Parámetro',
+	'LBL_VALUE' => 'Configuración actual',
+	'LBL_RECOMMENDED' => 'Ajustes recomendados',
+	'LBL_FILES_PERMISSIONS' => 'Archivos/Carpetas',
+	'LBL_FILE' => 'Nombre',
+	'LBL_PATH' => 'Ruta',
+	'LBL_PERMISSION' => 'Permisos',
+	'LBL_TRUE_PERMISSION' => 'Permitido',
+	'LBL_FAILED_PERMISSION' => 'No permitido',
+	'On' => 'Sí',
+	'Off' => 'No',
+	'NOT RECOMMENDED' => 'No recomendado',
+	'LBL_YETIFORCE_ENGINE' => 'Ajustes de YetiForce',
+	'LBL_CHECK_CONFIG' => 'Ajustes de RoundCube',
+	'LBL_MANDATORY' => 'Obligatorio',
+	'LBL_OPTIONAL' => 'Opcional',
+	'LBL_LIBRARY' => 'Soporte de librerías',
+	'LBL_INSTALLED' => 'Instalado',
+	'LBL_PDO_SUPPORT' => 'PDO',
+	'LBL_OPEN_SSL' => 'OPENSSL',
+	'LBL_CURL' => 'cURL',
+	'LBL_ZLIB_SUPPORT' => 'ZLIB',
+	'LBL_IMAP_SUPPORT' => 'IMAP',
+	'LBL_GD_LIBRARY' => 'GD',
+	'LBL_LDAP_LIBRARY' => 'LDAP',
+	'LBL_PCRE_LIBRARY' => 'PCRE',
+	'LBL_XML_LIBRARY' => 'XML',
+	'LBL_JSON_LIBRARY' => 'JSON',
+	'LBL_SESSION_LIBRARY' => 'SESSION',
+	'LBL_DOM_LIBRARY' => 'DOM',
+	'LBL_ZIP_ARCHIVE' => 'ZIP',
+	'LBL_SPACE' => 'Capacidad',
+	'LBL_SPACE_TOTAL' => 'Total',
+	'LBL_SPACE_FREE' => 'Libre',
+	'LBL_SPACE_USED' => 'Usado',
+	'LBL_VALUE' => 'Valor',
+	'LBL_PHPINI' => 'Ajustes PHP',
+ 	'LBL_LOG_FILE' => 'Registros',
+ 	'LBL_CRM_DIR' => 'Directorio local CRM',
+];

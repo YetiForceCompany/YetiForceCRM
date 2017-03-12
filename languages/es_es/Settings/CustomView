@@ -1,0 +1,35 @@
+<?php
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
+$languageStrings = [
+	'CustomView' => 'Filtros - Configuración',
+	'LBL_CUSTOMVIEW_DESCRIPTION' => 'Esta herramienta permite crear vistas personalizadas para módulos. Estos módulos deben contener registros y usar filtros estandar en YetiForce CRM.',
+	'ViewName' => 'Nombre de Vista',
+	'SetDefault' => 'Por Defecto',
+	'Privileges' => 'Privilegios',
+	'Delete' => 'Borrar',
+	'Delete CustomView' => 'Fue eliminada la Vista personalizada',
+	'Saving CustomView' => 'Se guardó Vista personalizada',
+	'Actions' => 'Acciones',
+	'Edit' => 'Editar',
+	'LBL_FEATURED_LABELS' => 'En favoritos',
+	'LBL_CREATED_BY' => 'Creado por',
+	'LBL_ADD_FILTER' => 'Añadir filtro',
+	'LBL_MANAGE_PERMISSIONS' => 'Gestionar permisos',
+	'LBL_ALL_GROUP_LIST' => 'Opciones disponibles',
+	'LBL_GROUP_MEMBERS' => 'Incluído en la acción',
+	'LBL_ADD_PERMISSIONS' => 'Añadir permisos',
+	'LBL_RECEIVE_PERMISSION' => 'Recibe permisos',
+	'LBL_SAVE_SEQUENCES' => 'Secuencias guardadas con éxito',
+	'LBL_EXISTS_PERMISSION_IN_CONFIG' => 'Conflicto con %s <br> Los permisos seleccionados no pueden ser usados en más de un filtro.',
+	'LBL_SORTING' => 'Ordenamiento',
+	'LBL_SORTING_SETTINGS' => 'Ajustes de Ordenamiento',
+	'LBL_SORTING_SETTINGS_WORNING' => '<strong>Cuidado!<strong><br>El ordenamiento de registros puede incrementar el tiempo de carga de página.',
+	'LBL_SELECT_FIELD_TO_SORT_RECORDS' => 'Seleccionar un campo para ordenar los registros',
+	'LBL_SORT_ASCENDING_ORDER' => 'Orden ascendente',
+	'LBL_SORT_DESCENDING_ORDER' => 'Orden descendente',
+];
+$jsLanguageStrings = [
+	'Saving changes' => 'Guardando cambios...',
+	'Update labels' => 'Actualizar',
+];

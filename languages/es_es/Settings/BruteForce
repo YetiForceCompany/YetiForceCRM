@@ -1,0 +1,44 @@
+<?php
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * *********************************************************************************************************************************** */
+$languageStrings = [
+	'BruteForce' => 'Fuerza Bruta',
+	'Number of attempts' => 'Número de Intentos',
+	'Time lock' => 'Tiempo de bloqueo (minutos)',
+	'Settings' => 'Ajustes',
+	'Blocked IP' => 'Dirección IP bloqueada',
+	'BruteForce settings' => 'Ajustes de Fuerza Bruta',
+	'Save' => 'Guardar',
+	'LBL_SAVE_SUCCESS' => 'Se han guardado los cambios',
+	'LBL_FAIL' => 'Los cambios no se guardaron',
+	'LBL_UNBLOCK_FAIL' => 'La dirección IP no fue desbloqueada',
+	'LBL_UNBLOCK_SUCCESS' => 'La dirección IP ha sido desbloqueada',
+	'LBL_BRUTEFORCE_DESCRIPTION' => 'Indicar el máximo de intentos fallidos de ingreso y el límite de tiempo para bloquear una IP.',
+	'Could not finnish reaction.' => 'Los cambios no se guardaron',
+	'IP' => 'Dirección IP',
+	'Date' => 'Fecha',
+	'Users' => 'Usuarios',
+	'Browsers' => 'Navegadores',
+	'Unblock' => 'Desbloquear',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuarios a notificar',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Activado',
+	'LBL_SAVE' => 'Guardar',
+	'LBL_VIEW_SHOW' => 'Fuerza Bruta',
+];
+$jsLanguageStrings = [
+	'Could not finnish reaction.' => 'No se pudo finalizar esta acción.',
+	'Complete the fields' => 'Complete los campos',
+	'LBL_SAVE_SUCCESS' => 'Se han guardado los cambios',
+	'LBL_FAIL' => 'Los cambios no se guardaron',
+	'LBL_UNBLOCK_FAIL' => 'La dirección IP no fue desbloqueada',
+	'LBL_UNBLOCK_SUCCESS' => 'La dirección IP ha sido desbloqueada',
+	'JS_WRONG_ATTEMPS_NUMBER' => 'Ha ingresado un formato incorrecto para el número de intentos, debe corregirlo.',
+	'JS_WRONG_TIME_LOCK_FORMAT' => 'Ha ingresado un formato incorrecto para el tiempo de bloqueo, debe corregirlo.'
+];
