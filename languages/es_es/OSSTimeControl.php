@@ -5,9 +5,9 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): 
+ * Contributor(s):
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'PLL_HOLIDAY' => 'Holiday',
@@ -19,8 +19,8 @@ $languageStrings = [
 	'LBL_BLOCK' => 'Relations',
 	'Payment' => 'Payment',
 	'LBL_TOTAL_TIME' => 'Total time [h]',
-	'LBL_STATUS' => 'Status',
-	'Assigned To' => 'Assigned to',
+	'LBL_STATUS' => 'Estado',
+	'Assigned To' => 'Asignado a',
 	'name' => 'Subject',
 	'Start Date' => 'Start date',
 	'End Date' => 'End date',
@@ -29,7 +29,7 @@ $languageStrings = [
 	'Draft' => 'Borrador',
 	'Achieved' => 'Achieved',
 	'Canceled' => 'Cancelled',
-	'No.' => 'Number',
+	'No.' => 'ID',
 	'LBL_SUMPRODUCTS' => 'Cost of products and services',
 	'ProductsSumCost' => 'Total cost of products: ',
 	'ServicesSumCost' => 'Total cost of services: ',
@@ -61,7 +61,6 @@ $languageStrings = [
 	'As part of the support' => 'As part of the support',
 	'Extra cost' => 'Extra cost',
 	'Free' => 'Free',
-	'LBL_STATUS' => 'Status',
 	'LBL_PRODUCT_INFORMATION' => 'Description information',
 	'To approval' => 'For approval',
 	'Accepted' => 'Accepted',

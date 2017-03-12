@@ -5,33 +5,33 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): 
+ * Contributor(s):
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'OSSOutsourcedServices' => 'Outsourced Services',
-	'SINGLE_OSSOutsourcedServices' => 'Outsourced Service',
-	'LBL_INFORMATION' => 'Information block',
+	'OSSOutsourcedServices' => 'Servicios externalizados',
+	'SINGLE_OSSOutsourcedServices' => 'Servicio externalizado',
+	'LBL_INFORMATION' => 'Información sobre el Servicio externalizado',
 	//fields
-	'Assigned To' => 'Assigned to',
-	'LBL_osservicesstatus' => 'Status',
-	'Individual Agreement' => 'Individual agreement',
-	'In service' => 'Is supported',
-	'Finished support' => 'Support terminated',
-	'Product Name' => 'Service name',
-	'Sub Category' => 'Subcategory',
-	'Category' => 'Category',
-	'Date Sold' => 'Date of sale',
-	'Date in Service' => 'Support termination date',
-	'Description' => 'Description',
-	'LBL_DESCRIPTION_INFORMATION' => 'Descriptive information',
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'Where bought' => 'Where bought',
-	'Number' => 'Number',
-	'Save' => 'Save',
-	'Selling proposition' => 'Opportunity',
-	'LBL_GENERATE_EXTENSION' => 'Generate extension',
-	'Active' => 'Active',
-	'Inactive' => 'Inactive',
+	'Assigned To' => 'Asignado a',
+	'LBL_osservicesstatus' => 'Estado',
+	'Individual Agreement' => 'Acuerdo individual',
+	'In service' => 'Tiene soporte',
+	'Finished support' => 'Soporte terminado',
+	'Product Name' => 'Nombre del servicio',
+	'Sub Category' => 'Subcategoría',
+	'Category' => 'Categoría',
+	'Date Sold' => 'Fecha de venta',
+	'Date in Service' => 'Fecha fin de soporte',
+	'Description' => 'Descripción',
+	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'Where bought' => 'Donde compró',
+	'Number' => 'ID',
+	'Save' => 'Guardar',
+	'Selling proposition' => 'Oportunidad',
+	'LBL_GENERATE_EXTENSION' => 'Generar extension',
+	'Active' => 'Activa',
+	'Inactive' => 'Inactiva',
 ];

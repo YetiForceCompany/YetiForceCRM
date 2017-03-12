@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_PROJECT_CONFIGURATION' => 'Project',
 	'LBL_INFO' => 'Information',
-	'LBL_TYPE' => 'Status',
+	'LBL_TYPE' => 'Estado',
 	'LBL_PROJECT' => 'Project',
 	'LBL_PROJECT_STATUS_INFO' => 'Statuses determining that the project is closed',
 	'LBL_SAVE_CONFIG_OK' => 'Changes saved successfully.',

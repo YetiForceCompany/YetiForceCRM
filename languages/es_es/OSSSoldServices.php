@@ -5,30 +5,30 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s): 
+ * Contributor(s):
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'OSSSoldServices' => 'Sold Services',
 	'SINGLE_OSSSoldServices' => 'Sold Service',
-	'LBL_RECORDS_LIST' => 'Records List',
+	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
 	'LBL_INFORMATION' => 'Information block',
 	// Field Labels
-	'Number' => 'Number',
-	'Assigned To' => 'Assigned to',
+	'Number' => 'ID',
+	'Assigned To' => 'Asignado a',
 	'LBL_RODZAJUMOWY' => 'Type of agreement',
-	'LBL_ssservicesstatus' => 'Status',
-	'Product Name' => 'Product name',
-	'Sub Category' => 'Subcategory',
-	'Category' => 'Category',
+	'LBL_ssservicesstatus' => 'Estado',
+	'Product Name' => 'Nombre del producto',
+	'Sub Category' => 'Subcategoría',
+	'Category' => 'Categoría',
 	'Date Sold' => 'Date of sale',
 	'Date in Service' => 'Support termination date',
-	'Description' => 'Description',
-	'LBL_DESCRIPTION_INFORMATION' => 'Descriptive information',
-	'LBL_CUSTOM_INFORMATION' => 'System information',
+	'Description' => 'Descripción',
+	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
 	'Where bought' => 'Where bought',
 	'Services' => 'Services',
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
@@ -51,5 +51,3 @@ $languageStrings = [
 	'PLL_NOT_RENEWED_VERIFICATION' => 'Not renewed (verification)',
 	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Not applicable (verification)',
 ];
-
-

@@ -75,7 +75,7 @@ $languageStrings = [
 	'LBL_VIEW_MODULEIMPORT' => 'Import',
 	// Library
 	'LBL_LIBRARY_NAME' => 'Name',
-	'LBL_LIBRARY_STATUS' => 'Status',
+	'LBL_LIBRARY_STATUS' => 'Estado',
 	'LBL_LIBRARY_URL' => 'Library repository address',
 	'LBL_LIBRARY_DIR' => 'Library directory',
 	'LBL_LIBRARY_ACTION' => 'Actions',

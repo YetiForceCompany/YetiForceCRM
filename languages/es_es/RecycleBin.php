@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_EMPTY_RECYCLEBIN' => 'Empty recycle bin',
 	'LBL_RESTORE' => 'Restore',
 	'LBL_NO_PERMITTED_MODULES' => 'No permitted modules available',
-	'LBL_RECORDS_LIST' => 'Recycle Bin list',
+	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_NO_RECORDS_FOUND' => 'No records found to restore in module',
 ];
 $jsLanguageStrings = [

@@ -5,13 +5,13 @@ $languageStrings = [
 	'SINGLE_SRequirementsCards' => 'Sales requirement',
 	//BLOCKS
 	'LBL_SREQUIREMENTSCARDS_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Statistics',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'ID',
-	'LBL_STATUS' => 'Status',
+	'LBL_STATUS' => 'Estado',
 	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Response time',
 	'SINGLE_SSalesProcesses' => 'Opportunity',

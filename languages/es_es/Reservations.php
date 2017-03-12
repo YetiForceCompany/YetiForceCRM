@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
@@ -14,17 +14,16 @@ $languageStrings = [
 	'LBL_MAIN_INFORMATION' => 'Reservation details',
 	'LBL_BLOCK' => 'Relations',
 	'LBL_TOTAL_TIME' => 'Total time',
-	'LBL_STATUS' => 'Status',
-	'Assigned To' => 'Assigned to',
+	'LBL_STATUS' => 'Estado',
+	'Assigned To' => 'Asignado a',
 	'LBL_TITLE' => 'Title',
 	'LBL_START_DATE' => 'Start date',
 	'LBL_END_DATE' => 'End date',
 	'LBL_TIME_START' => 'Start time',
 	'LBL_END_TIME' => 'End time',
-	'LBL_NUM' => 'Number',
+	'LBL_NUM' => 'ID',
 	'LBL_CALENDAR_VIEW' => 'Calendar',
 	'LBL_RESERVATIONS_TYPE' => 'Reservation type',
-	'LBL_STATUS' => 'Status',
 	'PLL_ACCEPTED' => 'For approval',
 	'PLL_TO_APPROVAL' => 'Accepted',
 	'LBL_RELATEDA' => 'Company',

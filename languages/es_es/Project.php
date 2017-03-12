@@ -14,7 +14,7 @@ $languageStrings = [
 	// Basic Strings
 	'SINGLE_Project' => 'Project',
 	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Projects list',
+	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Project details',
 	//Field Labels
@@ -32,7 +32,7 @@ $languageStrings = [
 	'LBL_TASKS_LOW' => 'Low priority',
 	'LBL_TASKS_OTHER' => 'Other priorities',
 	'LBL_SELECT_PROGRESS' => 'Select progress',
-	'description' => 'Description',
+	'Description' => 'Descripción',
 	'Related to' => 'Related to',
 	'FL_MEMBER_OF' => 'Parent Project',
 	//Summary Information
@@ -46,7 +46,7 @@ $languageStrings = [
 	'LBL_MILESTONES' => 'Milestones',
 	'LBL_TASKS' => 'Tasks',
 	'LBL_STATUS_IS' => 'Status is',
-	'LBL_STATUS' => 'Status',
+	'LBL_STATUS' => 'Estado',
 	'LBL_TICKET_PRIORITY' => 'Priority',
 	'LBL_MORE' => 'more',
 	//PickList

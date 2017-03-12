@@ -6,7 +6,7 @@ $languageStrings = [
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',
 	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Services list',
+	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Service details',
 	'LBL_MORE_CURRENCIES' => 'more currencies',
@@ -17,7 +17,7 @@ $languageStrings = [
 	//Services popup of pricebook
 	'LBL_ADD_TO_PRICEBOOKS' => 'Add to PriceBooks',
 	//Field Labels
-	'Service Name' => 'Service name',
+	'Service Name' => 'Nombre del servicio',
 	'Service Active' => 'Active',
 	'Service Category' => 'Category',
 	'Service No' => 'ID',

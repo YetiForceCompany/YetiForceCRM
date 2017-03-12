@@ -5,14 +5,14 @@ $languageStrings = [
 	'SINGLE_SRecurringOrders' => 'Recurring Sales Order',
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Statistics',
 	'LBL_PERIODIC_GENERATION' => 'Periodic generation',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'ID',
-	'LBL_STATUS' => 'Status',
+	'LBL_STATUS' => 'Estado',
 	'LBL_CLOSED_TIME' => 'Closed time',
 	'LBL_RESPONSE_TIME' => 'Respone time',
 	'LBL_REALIZATION_START_DATE' => 'Realization start date',

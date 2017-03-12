@@ -5,8 +5,8 @@ $languageStrings = [
 	'SINGLE_Partners' => 'Partner',
 	//BLOCKS
 	'LBL_PARTNERS_INFORMATION' => 'Basic information',
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description details',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	//FIELDS
 	'LBL_SUBJECT' => 'Subject',
 	'LBL_NUMBER' => 'ID',

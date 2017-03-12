@@ -14,7 +14,7 @@ $languageStrings = [
 	'OSSPasswords' => 'Passwords',
 	'SINGLE_OSSPasswords' => 'Password',
 	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Passwords list',
+	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_PASS_CONFIGURATION' => 'Passwords configuration',
 	'LBL_HELP' => 'Help',
 	// Blocks
@@ -25,7 +25,7 @@ $languageStrings = [
 	'Username' => 'Username',
 	'Password' => 'Password',
 	'WWW page' => 'Website',
-	'Description' => 'Description',
+	'Description' => 'Descripción',
 	'Generate Password' => 'Generate password',
 	'Configure Password' => 'Configure password',
 	'Minimum Length' => 'Minimum length',
