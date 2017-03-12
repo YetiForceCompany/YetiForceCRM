@@ -1,28 +1,28 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'SCalculations' => 'Calculations',
-	'SINGLE_SCalculations' => 'Calculation',
+	'SCalculations' => 'Cálculos',
+	'SINGLE_SCalculations' => 'Cálculo',
 	//BLOCKS
-	'LBL_SCALCULATIONS_INFORMATION' => 'Basic information',
+	'LBL_SCALCULATIONS_INFORMATION' => 'Información sobre el Cálculo',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
-	'LBL_STATISTICS' => 'Statistics',
+	'LBL_STATISTICS' => 'Estadísticas',
 	//FIELDS
-	'LBL_SUBJECT' => 'Subject',
+	'LBL_SUBJECT' => 'Asunto',
 	'LBL_NUMBER' => 'ID',
 	'LBL_STATUS' => 'Estado',
-	'LBL_CLOSED_TIME' => 'Closed time',
-	'LBL_RESPONSE_TIME' => 'Respone time',
-	'SINGLE_SSalesProcesses' => 'Opportunity',
-	'FL_TOTAL_PRICE' => 'Net total',
-	'FL_MARGINP' => 'Total margin percentage',
-	'FL_MARGIN' => 'Total margin',
+	'LBL_CLOSED_TIME' => 'Fecha de cierre',
+	'LBL_RESPONSE_TIME' => 'Tiempo de respuesta',
+	'SINGLE_SSalesProcesses' => 'Oportunidad',
+	'FL_TOTAL_PRICE' => 'Neto',
+	'FL_MARGINP' => 'Porcentaje de margen total',
+	'FL_MARGIN' => 'Margen total',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Borrador',
 	'PLL_IN_REALIZATION' => 'En progreso',
-	'PLL_FOR_VERIFICATION' => 'For verification',
+	'PLL_FOR_VERIFICATION' => 'Por Aprobar',
 	'PLL_CANCELLED' => 'Cancelado',
-	'PLL_COMPLETED' => 'Completed',
+	'PLL_COMPLETED' => 'Completado',
 	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

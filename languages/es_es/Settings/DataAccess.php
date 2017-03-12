@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
@@ -21,8 +21,8 @@ $languageStrings = [
 	'LBL_ENTER_BASIC_INFO' => 'Add condition details',
 	'LBL_CHOOSE_ACTIONS' => 'Actions list',
 	'ADD_ACTIONS' => 'Actions',
-	'LBL_STEP_1' => 'Step 1',
-	'FOLDER_LIST' => 'Folder list',
+	'LBL_STEP_1' => 'Paso 1',
+	'FOLDER_LIST' => 'Lista de carpetas',
 	'DOC_NAME' => 'Condition name',
 	'NEXT' => 'Next',
 	'CANCEL' => 'Cancel',

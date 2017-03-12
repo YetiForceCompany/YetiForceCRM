@@ -7,36 +7,36 @@
  * The Original Code is YetiForce.
  * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
- * Contributor(s):
+ * Contributor(s): YetiForce.com, Itop.es
  * *********************************************************************************************************************************** */
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista',
 	// Basic Strings
-	'OutsourcedProducts' => 'Outsourced Products',
-	'SINGLE_OutsourcedProducts' => 'Outsourced Product',
+	'OutsourcedProducts' => 'Productos Subcontratados',
+	'SINGLE_OutsourcedProducts' => 'Productos Subcontratados',
 	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
-	'LBL_INFORMATION' => 'Outsourced Products',
+	'LBL_INFORMATION' => 'Información sobre Productos Subcontratados',
 	//Field Labels
 	'Assigned To' => 'Asignado a',
-	'LBL_RODZAJUMOWY' => 'Type of agreement',
+	'LBL_RODZAJUMOWY' => 'Tipo de acuerdo',
 	'LBL_osservicesstatus' => 'Estado',
-	'Individual Agreement' => 'Individual agreement',
-	'In service' => 'Is supported',
-	'Finished support' => 'Support terminated',
+	'Individual Agreement' => 'Acuerdo individual',
+	'In service' => 'Tiene soporte',
+	'Finished support' => 'Soporte terminado',
 	'Product Name' => 'Nombre del producto',
 	'Sub Category' => 'Subcategoría',
 	'Category' => 'Categoría',
-	'Date Sold' => 'Date of sale',
-	'Date in Service' => 'Support termination date',
+	'Date Sold' => 'Fecha de venta',
+	'Date in Service' => 'Fecha fin de soporte',
 	'Description' => 'Descripción',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
-	'Where bought' => 'Where bought',
+	'Where bought' => 'Donde compró',
 	'Number' => 'ID',
-	'Save' => 'Save',
-	'Selling proposition' => 'Potential',
-	'LBL_GENERATE_EXTENSION' => 'Generate extension',
+	'Save' => 'Guardar',
+	'Selling proposition' => 'Oportunidad',
+	'LBL_GENERATE_EXTENSION' => 'Generar extension',
 	'Active' => 'Activa',
 	'Inactive' => 'Inactiva',
 ];

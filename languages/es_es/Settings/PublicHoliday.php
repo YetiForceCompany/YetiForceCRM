@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_PUBLIC_HOLIDAY' => 'Calendar - Holidays',
 	'LBL_PUBLIC_HOLIDAY_DESCRIPTION' => ' ',
 	'LBL_ADD_HOLIDAY' => 'Add holiday',
-	'LBL_HOLIDAY_LIST' => 'List of public holidays',
+	'LBL_HOLIDAY_LIST' => 'Lista',
 	'LBL_YEAR_FROM' => 'From',
 	'LBL_YEAR_TO' => 'To',
 	'LBL_EDIT' => 'Edit',

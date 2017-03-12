@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_TO_OTHER_GROUP' => 'To other group ',
 	'LBL_TRANSFORM_OWNERSHIP' => 'Transfer ownership',
 	'SINGLE_Groups' => 'Group',
-	'Users' => 'Users',
+	'Users' => 'Usuarios',
 	'Name' => 'Group name',
 	'Description' => 'Descripción',
 ];

@@ -6,20 +6,20 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_ADD_TO' => 'Add to',
-	'LBL_EDIT_LIST_PRICE' => 'Edit list price',
-	'LBL_PRICEBOOK_INFORMATION' => 'Price Book details',
+	'LBL_ADD_TO' => 'Añadir a',
+	'LBL_EDIT_LIST_PRICE' => 'Editar Tarifas',
+	'LBL_PRICEBOOK_INFORMATION' => 'Información sobre Tarifas',
 	'LBL_RECORDS_LIST' => 'Lista',
-	'LBL_UNIT_PRICE' => 'Unit price',
-	'Price Book Name' => 'Price Book name',
+	'LBL_UNIT_PRICE' => 'Precio unitario',
+	'Price Book Name' => 'Nombre de la Tarifa',
 	'PriceBook No' => 'ID',
-	'PriceBooks' => 'Price Books',
-	'SINGLE_PriceBooks' => 'Price Book',
-	'yes' => 'Yes',
+	'PriceBooks' => 'Tarifas',
+	'SINGLE_PriceBooks' => 'Tarifa',
+	'yes' => 'Si',
 	'no' => 'No',
-	'Unit Price' => 'Unit price',
+	'Unit Price' => 'Precio unitario',
 ];

@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com, ITOP Management Consulting
+ * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
 	'csv' => 'CSV',

@@ -12,11 +12,11 @@ $languageStrings = [
 	'LBL_BRUTEFORCE_DESCRIPTION' => 'Set the maximum number of failed login attempts and time limit for IP blocking.',
 	'LBL_IP' => 'IP address',
 	'LBL_DATE' => 'Date',
-	'LBL_USERS' => 'Users',
+	'LBL_USERS' => 'Usuarios',
 	'LBL_BROWSERS' => 'Browsers',
 	'LBL_UNBLOCK' => 'Unblock',
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
-	'LBL_BRUTEFORCE_ACTIVE' => 'Active',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Activa',
 	'LBL_VIEW_SHOW' => 'Brute Force',
 	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
 ];

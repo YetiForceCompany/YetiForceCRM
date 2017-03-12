@@ -8,7 +8,7 @@ $languageStrings = [
 	// Fields
 	'LBL_HOST' => 'Host',
 	'LBL_PORT' => 'Port',
-	'LBL_USERNAME' => 'User name',
+	'LBL_USERNAME' => 'Nombre de usuario',
 	'LBL_MAILER_TYPE' => 'Mailer type',
 	'LBL_SECURE' => 'Safety protocol',
 	'LBL_OPTIONS' => 'Additional parameters',

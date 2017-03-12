@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_SALES_PROCESSES' => 'Sales',
+	'LBL_SALES_PROCESSES' => 'Ventas',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Limit the choice of products/services only to the ones related to currently selected Opportunity. Applies to modules: Quote Enquiries, Sales requirements, Calculations, Quotes, Sales Orders, Recurring Sales Orders.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Products and Services selection list',
@@ -21,10 +21,10 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Statuses determining that sold product is closed',
 	'LBL_CREATE_POTENTIALS' => 'Blocked the creation of Opportunities for Accounts in which Assigned To is not a user',
 	'SalesProcesses' => 'Sales processes',
-	'LBL_SQUOTEENQUIRIES' => 'Sales enquiries',
+	'LBL_SQUOTEENQUIRIES' => 'Consultas de ventas',
 	'LBL_SREQUIREMENTSCARD' => 'Sales Requirements',
 	'LBL_SCALCULATIONS' => 'Calculations',
-	'LBL_SQUOTES' => 'Quotes',
+	'LBL_SQUOTES' => 'Presupuestos',
 	'LBL_SSALESORDER' => 'Sales Order',
 	'LBL_STATUSES_CLOSED_SSALESORDER' => 'Statuses that define closing a sales order',
 	'LBL_STATUSES_CLOSED_SQUOTEENQUIRIES' => 'Statuses that define closing a quote enquiry',

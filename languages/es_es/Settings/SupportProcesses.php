@@ -9,11 +9,11 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_SUPPORT_PROCESSES' => 'Support',
+	'LBL_SUPPORT_PROCESSES' => 'Soporte',
 	'LBL_GENERAL_CONFIGURATION' => 'General configuration',
-	'LBL_OTHER' => 'Other',
+	'LBL_OTHER' => 'Otro',
 	'LBL_INFO' => 'Info',
-	'LBL_TYPE' => 'Type',
+	'LBL_TYPE' => 'Tipo',
 	'LBL_TICKET_STATUS_INFO' => 'Statuses determining that ticket is closed',
 	'LBL_SAVE_CONFIG_OK' => 'Changes have been saved',
 	'LBL_SAVE_CONFIG_ERROR' => 'Changes have been saved.',

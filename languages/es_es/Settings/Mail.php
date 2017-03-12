@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_RC_USER' => 'User Email Account',
 	'LBL_CRM_USER' => 'Users with access to Mailbox',
 	'LBL_SAVED_CHANGES' => 'Changes have been saved',
-	'LBL_USER_LIST' => 'User List',
+	'LBL_USER_LIST' => 'Lista de usuario',
 	'LBL_CONFIGURATION' => 'Configuration',
 	'LBL_SHOW_MAIL_ICON' => 'Show mail icon',
 	'LBL_SHOW_MAIL_ACCOUNTS' => 'Show email accounts related to current user',
@@ -28,7 +28,7 @@ $languageStrings = [
 	'LBL_SAVED_SIGNATURE' => 'Signature saved',
 	'LBL_VIEW_AUTOLOGIN' => 'Auto Login',
 	'LBL_VIEW_CONFIG' => 'General configuration',
-	//Mail queue	
+	//Mail queue
 	'LBL_PRIORITY' => 'Priority',
 	'LBL_CREATED_BY' => 'Created by',
 	'LBL_SMTP_NAME' => 'Smtp name',

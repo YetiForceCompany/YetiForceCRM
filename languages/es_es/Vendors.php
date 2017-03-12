@@ -6,11 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
 	'LBL_TO_LC' => 'to',
-	'LBL_EXPORT_TO_PDF' => 'Export to PDF',
+	'LBL_EXPORT_TO_PDF' => 'Exportar a PDF',
 	'LBL_VENDOR_ADDRESS_INFORMATION' => 'Address information',
 	'LBL_VENDORS_ADD_TASK' => 'Add Task',
 	'LBL_VENDORS_ADD_EVENT' => 'Add Event',
@@ -29,11 +29,11 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_VENDOR_INFORMATION' => 'Vendor details',
 	'Phone' => 'Primary phone',
-	'SINGLE_Vendors' => 'Vendor',
+	'SINGLE_Vendors' => 'Vendedor',
 	'Vendor Name' => 'Vendor name',
 	'Vendor No' => 'ID',
-	'Vendors' => 'Vendors',
-	'Website' => 'Website',
+	'Vendors' => 'Vendedores',
+	'Website' => 'Sitio web',
 	'LBL_BUILDING_NUMBER' => 'Building number',
 	'LBL_LOCAL_NUMBER' => 'Office number',
 ];

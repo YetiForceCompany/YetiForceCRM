@@ -8,7 +8,7 @@ $languageStrings = [
 	'LBL_LIBRARY_ROUNDCUBE' => 'Roundcube library',
 	'LBL_LIBRARY_PHPEXCEL' => 'PHPExcel library',
 	'LBL_LIBRARY_CHAT' => 'AJAXChat library',
-	'LBL_CONFIG_REPORT' => 'Server configuration',
+	'LBL_CONFIG_REPORT' => 'Configuración del servidor',
 	'LBL_CONFIG_REPORT_LINK' => 'Show missing library',
 	'LBL_CONFIG_REPORT_DESC' => 'The server has not been properly configured. The system may malfunction, or the entered data may be corrupted or removed. More information in the article <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>on server requirements at yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',

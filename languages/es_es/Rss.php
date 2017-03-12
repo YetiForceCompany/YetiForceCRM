@@ -6,21 +6,21 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_FEED_SOURCE' => 'Add Feed Source',
-	'LBL_ENTER_FEED_SOURCE' => 'Enter Feed Source',
-	'LBL_FEEDS_LIST_FROM' => 'Feeds list from',
-	'LBL_FEED_SOURCE' => 'Feed Source',
-	'LBL_RSS_FEED_SOURCES' => 'Rss Feed Sources',
-	'LBL_SENDER' => 'Sender',
-	'LBL_SET_AS_DEFAULT' => 'Set as default',
-	'SINGLE_Rss' => 'Rss Feed',
-	'LBL_CHANGE_RSS_CHANNEL' => 'Change RSS channel',
+	'LBL_ADD_FEED_SOURCE' => 'Añadir Fuente de origen',
+	'LBL_ENTER_FEED_SOURCE' => 'Añadir Fuente de origen',
+	'LBL_FEEDS_LIST_FROM' => 'Lista de canales de',
+	'LBL_FEED_SOURCE' => 'Fuente de origen',
+	'LBL_RSS_FEED_SOURCES' => 'Fuente de origen RSS',
+	'LBL_SENDER' => 'Remitente',
+	'LBL_SET_AS_DEFAULT' => 'Establecer como predeterminado',
+	'SINGLE_Rss' => 'RSS Feed',
+	'LBL_CHANGE_RSS_CHANNEL' => 'Cambiar canal RSS',
 ];
 $jsLanguageStrings = [
-	'JS_INVALID_RSS_URL' => 'Invalid Rss URL',
-	'JS_RSS_MADE_AS_DEFAULT' => 'Rss made as default',
+	'JS_INVALID_RSS_URL' => 'URL inválida',
+	'JS_RSS_MADE_AS_DEFAULT' => 'RSS marcado por defecto',
 	'JS_RSS_SUCCESSFULLY_SAVED' => 'Rss successfully saved',
 ];

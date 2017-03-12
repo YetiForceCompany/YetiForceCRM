@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'LBL_SELECT_ONE' => 'Select',
-	'LBL_PBXMANAGER' => 'PBXManager',
+	'LBL_PBXMANAGER' => 'Registro de llamadas',
 	'LBL_PBXMANAGER_CONFIG' => 'Asterisk Server Details',
 	'LBL_NOTE' => 'Note:',
 	'LBL_INFO_WEBAPP_URL' => 'Configure your Asterisk App URL in the  format',

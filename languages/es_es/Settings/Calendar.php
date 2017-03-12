@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'Calendar' => 'Calendar',
+	'Calendar' => 'Calendario',
 	//ActivityTypes
 	'LBL_ACTIVITY_TYPES' => 'Calendar – Types',
 	'LBL_ACTIVITY_TYPES_DESCRIPTION' => 'Management of activity types.',
@@ -17,7 +17,7 @@ $languageStrings = [
 	'LBL_MODULE' => 'Module',
 	'LBL_COLOR' => 'Color',
 	'LBL_TOOLS' => 'Tools',
-	'LBL_ACTIVE' => 'Active',
+	'LBL_ACTIVE' => 'Activa',
 	'LBL_SAVE_ACTIVE_TYPE' => 'Saved change',
 	'LBL_UPDATE_COLOR' => 'Change Color',
 	'LBL_EDIT_COLOR' => 'Edit color',
@@ -46,7 +46,7 @@ $languageStrings = [
 	'LBL_VIEW_USERCOLORS' => 'Calendar configuration',
 	'LBL_VIEW_ACTIVITYTYPES' => 'Activity Types',
 	'Task' => 'Task',
-	'Meeting' => 'Meeting',
+	'Meeting' => 'Reunión',
 	'Call' => 'Call',
 ];
 $jsLanguageStrings = [

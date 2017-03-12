@@ -6,33 +6,33 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
 	//Blocks
-	'LBL_PBXMANAGER_INFORMATION' => 'Call details',
-	'LBL_CUSTOM_INFORMATION' => 'Custom information',
+	'LBL_PBXMANAGER_INFORMATION' => 'Información sobre la llamada',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	// list view settings links
-	'LBL_SERVER_CONFIGURATION' => 'Provider configuration',
+	'LBL_SERVER_CONFIGURATION' => 'Configuración del proveedor',
 	//Detail view header title
-	'LBL_CALL_FROM' => 'Call from',
-	'LBL_CALL_TO' => 'Call to',
+	'LBL_CALL_FROM' => 'Llamada de',
+	'LBL_CALL_TO' => 'Llamada a',
 	//Incoming call pop-up
-	'LBL_HIDDEN' => '(HIDDEN)',
+	'LBL_HIDDEN' => '(OCULTO)',
 	// Fields
-	'Total Duration' => 'Duration (sec)',
-	'Bill Duration' => 'Bill duration (sec)',
-	'Recording URL' => 'Recording',
-	'Start Time' => 'Start time',
-	'Call Status' => 'Call status',
-	'Customer Number' => 'Customer number',
-	'Customer' => 'Customer',
-	'User' => 'User',
-	'SINGLE_PBXManager' => 'Call record',
-	'Direction' => 'Direction',
-	'Gateway' => 'Gateway',
-	'Customer type' => 'Customer type',
-	'Source UUID' => 'Source UUID',
-	'End Time' => 'End time',
+	'Total Duration' => 'Duración total (seg)',
+	'Bill Duration' => 'Duración de la factura (seg)',
+	'Recording URL' => 'Grabación',
+	'Start Time' => 'Hora inicio',
+	'Call Status' => 'Estado de la llamada',
+	'Customer Number' => 'Número de cliente',
+	'Customer' => 'Cliente',
+	'User' => 'Usuario',
+	'SINGLE_PBXManager' => 'Registro de llamada',
+	'Direction' => 'Dirección',
+	'Gateway' => 'Puerta de enlace',
+	'Customer type' => 'Tipo de cliente',
+	'Source UUID' => 'UUID de origen',
+	'End Time' => 'Hora fin',
 	'Record Id' => 'ID',
 ];
