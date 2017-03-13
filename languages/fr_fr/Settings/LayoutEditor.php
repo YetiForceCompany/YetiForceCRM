@@ -99,7 +99,7 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Label',
 	'PLL_RELATED_LIST' => 'Plusieurs à plusieurs',
 	'PLL_DEPENDENTS_LIST' => 'Une à plusieurs',
-	'PLL_ATTACHMENTS' => 'Attachments',
+	'PLL_ATTACHMENTS' => 'Pièces jointes',
 	'PLL_SPLITED_RELATED_LIST' => 'Plusieurs à plusieurs - avec séparation des données',
 	'PLL_ADD' => 'Ajouter',
 	'PLL_SELECT' => 'Sélectionner',
@@ -151,11 +151,11 @@ $languageStrings = [
 	'LBL_ACTIVATE_FAVORITES' => 'Activer la fonction: Ajouter aux favoris',
 	'LBL_HEADER_FIELD' => 'Visible dans l\'en-tête de prévisualisation',
 	'LBL_COPY' => 'Copier',
-	'LBL_STANDARD_FIELDS' => 'Standard fields',
-	'LBL_ADVANCED_BLOCK_FIELDS' => 'Advanced block fields',
-	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
-	'LBL_MAX_LENGTH_TEXT' => 'Max text length',
-	'LBL_MAX_WIDTH_COLUMN' => 'Column width [%]'
+	'LBL_STANDARD_FIELDS' => 'Champs standard',
+	'LBL_ADVANCED_BLOCK_FIELDS' => 'Bloc avancé de champs',
+	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Ajouter un bloc avancé de champs',
+	'LBL_MAX_LENGTH_TEXT' => 'Longueur maximum du texte',
+	'LBL_MAX_WIDTH_COLUMN' => 'Largeur de la Colonne [%]'
 ];
 
 $jsLanguageStrings = [

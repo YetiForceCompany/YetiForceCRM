@@ -89,7 +89,7 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Annuel',
 	'LBL_MAIN' => 'Principal',
 	'LBL_SELECT_REPORT' => 'Sélectionner un rapport',
-	'LBL_FILE_TYPE' => 'File type',
+	'LBL_FILE_TYPE' => 'Type de Fichier ',
 	'LBL_CSV' => 'CSV',
 	'LBL_EXCEL' => 'EXCEL',
 	//charts labels

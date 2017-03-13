@@ -30,7 +30,7 @@ $languageStrings = [
 	'PLL_INTERNAL' => 'Interne',
 	'PLL_EXTERNAL' => 'Externe',
 	'PLL_SHARED' => 'Partagé',
-	'PLL_LOW' => 'Bas',
-	'PLL_NORMAL' => 'Normal',
-	'PLL_HIGH' => 'Haut',
+	'PLL_LOW' => 'Basse',
+	'PLL_NORMAL' => 'Normale',
+	'PLL_HIGH' => 'Haute',
 ];

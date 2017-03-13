@@ -8,9 +8,9 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Information systeme',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description détaillée',
 	//FIELDS
-	'LBL_SUBJECT' => 'Sujet',
-	'LBL_NUMBER' => 'Nombre',
+	'LBL_SUBJECT' => 'Nom du partenaire',
+	'LBL_NUMBER' => 'N° enregistrement',
 	'LBL_CLOSED_TIME' => 'Heure de fermeture',
-	'LBL_VAT_ID' => 'ID TVA',
-	'FL_CATEGORY' => 'Category',
+	'LBL_VAT_ID' => 'TVA N°',
+	'FL_CATEGORY' => 'Categorie',
 ];

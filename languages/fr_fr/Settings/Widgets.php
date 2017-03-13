@@ -59,8 +59,8 @@ $languageStrings = [
 	'LBL_SHOW_ALL_RECORDS_INFO' => 'Non - Les droits d\'accès sont pris en compte <br> Oui - Recherche parmi tous les enregistrements',
 	'LBL_SHITCH_HEADER' => 'Basculer dans l\'en-tête',
 	'LBL_SHITCH_HEADER_INFO' => 'Basculer peut être trouvé dans l\'en-tête du widget.',
-	'HistoryRelation' => 'Timeline',
-	'CountRecords' => 'Number of records'
+	'HistoryRelation' => 'Ligne de temps',
+	'CountRecords' => 'Nombre d\'enregistrements',
 ];
 $jsLanguageStrings = [
 	'Loading data' => 'Chargement...',

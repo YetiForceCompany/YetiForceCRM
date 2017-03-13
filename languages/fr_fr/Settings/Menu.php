@@ -9,7 +9,7 @@
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_MENU_BUILDER' => 'Configuration - menu',
+	'LBL_MENU_BUILDER' => 'Configuration – Menu',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Créer et gérer les items menu.',
 	'LBL_DEFAULT_MENU' => 'Menu par défaut',
 	'LBL_ADD_MENU' => 'Ajouter un item menu',
@@ -61,11 +61,11 @@ $languageStrings = [
 	'LBL_CANCEL' => 'Annuler',
 	//End remove modal
 	'LBL_MORE_INFO' => 'Cliquer ici pour plus d\'information',
-	'LBL_COPY_MENU' => 'Copy menu',
+	'LBL_COPY_MENU' => 'Copier le menu',
 ];
 $jsLanguageStrings = [
-	'JS_EDIT' => 'Edit',
-	'JS_REMOVE' => 'Remove',
-	'JS_NO_DATA' => 'No menu',
-	'JS_TEST_HOTKEY_OK' => 'Hot key works properly.',
+	'JS_EDIT' => 'Modifier',
+	'JS_REMOVE' => 'Supprimer',
+	'JS_NO_DATA' => 'Aucun menu',
+	'JS_TEST_HOTKEY_OK' => 'La touche personnalisée (hot key) fonctionne.',
 ];
