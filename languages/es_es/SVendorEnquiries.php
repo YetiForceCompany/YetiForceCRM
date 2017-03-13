@@ -6,7 +6,7 @@ $languageStrings = [
 	'SINGLE_SQuoteEnquiries' => 'Consulta de venta',
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Información sobre la Consulta de venta',
-	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
 	//FIELDS

@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_Partners' => 'Socio',
 	//BLOCKS
 	'LBL_PARTNERS_INFORMATION' => 'Información sobre el Socio',
-	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	//FIELDS
 	'LBL_SUBJECT' => 'Asunto',

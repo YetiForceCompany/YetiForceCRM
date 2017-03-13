@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_SRecurringOrders' => 'Pedido de venta periódico',
 	//BLOCKS
 	'LBL_SRECURRINGORDERS_INFORMATION' => 'Información sobre el Pedido de venta periódico',
-	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
 	'LBL_PERIODIC_GENERATION' => 'Generación periódica',

@@ -4,8 +4,8 @@ $languageStrings = [
 	'SQuotes' => 'Presupuestos',
 	'SINGLE_SQuotes' => 'Presupuesto',
 	//BLOCKS
-	'LBL_SQUOTES_INFORMATION' => 'Información sobre el registro',/////////////////////////////
-	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_SQUOTES_INFORMATION' => 'Información sobre el Presupuesto',
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
 	//FIELDS

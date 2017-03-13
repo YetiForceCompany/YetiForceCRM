@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
 	//BLOCKS
 	'LBL_SSALESPROCESSES_INFORMATION' => 'Información sobre la Oportunidad',
-	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_ATTENTION' => 'Comentarios',
 	'LBL_FINANCES' => 'Finanzas',

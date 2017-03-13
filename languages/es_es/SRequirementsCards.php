@@ -5,7 +5,7 @@ $languageStrings = [
 	'SINGLE_SRequirementsCards' => 'Requisitos de venta',
 	//BLOCKS
 	'LBL_SREQUIREMENTSCARDS_INFORMATION' => 'Información sobre el Requisitos de venta',
-	'LBL_CUSTOM_INFORMATION' => 'Información adicional'
+	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
 	//FIELDS
