@@ -1,6 +1,10 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_OWNER_ALLOCATION' => 'Assigner au propriétaire',
+	'LBL_OWNER_ALLOCATION_DESCRIPTION' => 'Affecter au propriétaire',
+	'LBL_MULTIOWNER_ALLOCATION' => 'Assigner des utilisateurs en partage',
+	'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION' => ' Affecter des utilisateurs à l\'accès partagé',
 	'LBL_SORTING_SETTINGS_WORNING' => 'Attention!<br> La configuration sera fonctionnelle seulement si vous l\'activez via les rôles',
 	'LBL_ADD_PANEL_TO_MODULE' => 'Ajouter une allocation au module',
 	'LBL_SELECT_MODULE' => 'Sélectionner le module',

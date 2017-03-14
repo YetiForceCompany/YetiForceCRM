@@ -33,7 +33,7 @@ $languageStrings = [
 	'PLL_RECORD' => 'Enregistrement',
 	'PLL_MAIL' => 'Email',
 	'PLL_LIST' => 'Liste',
-	'PLL_SYSTEM' => 'System',
+	'PLL_SYSTEM' => 'Systeme',
 	/// special_functions
 	'CurrentDate' => 'Date courante',
 	'CurrentDateTime' => 'Date et heure courante',
