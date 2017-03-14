@@ -31,12 +31,12 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_CONVERT_LEAD' => 'Convertir le prospect ',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Modules désactivés',
-	'LBL_CONVERT_LEAD_ERROR' => 'Vous devez activer soit les Organisations ou les Contacts pour convertir le prospect ',
+	'LBL_CONVERT_LEAD_ERROR' => 'Vous devez activer soit les Comptes ou les Contacts pour convertir le prospect',
 	'LBL_CUSTOM_FIELD_MAPPING' => 'Editer le mapping des champs',
 	'LBL_FOLLOWING_ARE_POSSIBLE_REASONS' => 'Les raisons possibles sont:',
-	'LBL_LEAD_INFORMATION' => 'Détails du prospect ',
-	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Le mapping des champs Prospect  est incomplet (Paramètres &gt; Management Module &gt; Prospects &gt; Mapping champs prospects)',
-	'LBL_LEADS_FIELD_MAPPING' => 'Mapping des champs prospect ',
+	'LBL_LEAD_INFORMATION' => 'Détails du prospect',
+	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Le mapping des champs Prospect est incomplet (Paramètres &gt; Management Module &gt; Prospects &gt; Mapping champs prospects)',
+	'LBL_LEADS_FIELD_MAPPING' => 'Mapping des champs prospect',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Les champs obligatoires sont vides',
 	'LBL_LEAD_ALREADY_CONVERTED' => 'Prospect déjà converti',
 	'LBL_RECORDS_LIST' => 'Liste des Prospects',
@@ -107,7 +107,7 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Forme légale',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Au moins deux Comptes remplissent les critères de liaisons : (Administration &gt; Processus &gt; Processus Marketing &gt; Conversion) %s',
-	'Campaign status' => 'Satut Campagne',
+	'Campaign status' => 'État de la campagne',
 ];
 
 $jsLanguageStrings = [

@@ -11,7 +11,7 @@
 $languageStrings = [
 	'LBL_MAP' => 'Carte',
 	'Account Name' => 'Compte',
-	'Account No' => 'Compte Id',
+	'Account No' => 'Compte N°',
 	'Accounts' => 'Comptes',
 	'Analyst' => 'Analyste',
 	'Competitor' => 'Concurrent',

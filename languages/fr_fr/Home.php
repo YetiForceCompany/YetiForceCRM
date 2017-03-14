@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'LBL_MARK_AS_READ' => 'Marquer comme lu',
-	'LBL_MESSAGES_FROM_USERS' => 'Messages',
+	'LBL_MESSAGES_FROM_USERS' => 'Messages des utilisateurs',
 	'LBL_WATCHDOG' => 'Suivi',
 	'ALVT' => 'Top Comptes',
 	'CVLVT' => 'Métriques clés',
@@ -26,6 +26,7 @@ $languageStrings = [
 	'QLTQ' => 'Top Devis',
 	'UA' => 'Activités à venir',
 	'LBL_WATCHING_MODULES' => 'Modules surveillés',
+	'LBL_SEND_NOTIFICATION_MAIL' => 'Envoyer via email',
 	'LBL_NO_NOTIFICATIONS' => 'Pas de notifications',
 	'Notifications' => 'Notifications',
 	'LBL_CREATING_NOTIFICATION' => 'Envoyer une notification',
@@ -47,7 +48,7 @@ $languageStrings = [
 	'LBL_TYPE_NOTIFICATIONS' => 'Types de notification',
 	'LBL_TITLE' => 'Titre',
 	'LBL_MESSAGE' => 'Message',
-	'LBL_TIME' => 'Timer',
+	'LBL_TIME' => 'Chronomètre',
 ];
 
 $jsLanguageStrings = [
