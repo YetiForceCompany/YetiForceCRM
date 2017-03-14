@@ -319,6 +319,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHardwareInfo()
 	{
+		if (!class_exists('\Linfo\Linfo')) {
+			return [];
+		}
 		try {
 			$linfo = new \Linfo\Linfo;
 			$parser = $linfo->getParser();

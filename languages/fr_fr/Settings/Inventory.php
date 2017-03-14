@@ -1,6 +1,7 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_LIBRARY_NO_DOWNLOAD' => 'Non Téléchargé',
 	'LBL_CREDITLIMITS' => 'Limites de crédit',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
 	'LBL_CREDITLIMITS_SINGLE' => 'Limite de crédit',
@@ -28,7 +29,7 @@ $languageStrings = [
 	'LBL_GROUP' => 'Groupe',
 	'LBL_INDIVIDUAL' => 'Individuelle',
 	'LBL_REGIONAL' => 'Régionale',
-	'LBL_ARE_ACTIVE' => 'Active?',
+	'LBL_ARE_ACTIVE' => 'Actif ?',
 	'LBL_SUMMATION_TYPE' => 'Type de sommation',
 	'LBL_AVAILABLE_TAXS' => 'Taxes disponibles',
 	'LBL_AVAILABLE_DISCOUNTS' => 'Remises disponibles',

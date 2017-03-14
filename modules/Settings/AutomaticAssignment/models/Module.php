@@ -169,7 +169,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 */
 	public function clearCache($param)
 	{
-		if ($param) {
+		if (!empty($param) && isset($param['tabid']) && isset($param['roleid'])) {
 			$tabId = \App\Module::getModuleName($param['tabid']);
 			$cacheKey = $tabId . $param['roleid'];
 			\App\Cache::delete(get_class() . '::searchRecord', $cacheKey);

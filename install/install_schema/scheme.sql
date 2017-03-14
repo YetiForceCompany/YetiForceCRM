@@ -3079,6 +3079,7 @@ CREATE TABLE `u_yf_ssalesprocesses` (
   KEY `related_to` (`related_to`),
   KEY `campaignid` (`campaignid`),
   KEY `parentid` (`parentid`),
+  KEY `ssalesprocesses_no` (`ssalesprocesses_no`),
   CONSTRAINT `fk_1_u_yf_ssalesprocesses` FOREIGN KEY (`ssalesprocessesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4341,9 +4342,10 @@ CREATE TABLE `vtiger_currency_info` (
   `currency_symbol` varchar(30) DEFAULT NULL,
   `conversion_rate` decimal(12,5) DEFAULT NULL,
   `currency_status` varchar(25) DEFAULT NULL,
-  `defaultid` varchar(10) NOT NULL DEFAULT '0',
+  `defaultid` tinyint(6) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `deleted` (`deleted`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currency_info_seq` */
@@ -6685,10 +6687,13 @@ CREATE TABLE `vtiger_ossmailscanner_config` (
 /*Table structure for table `vtiger_ossmailscanner_folders_uid` */
 
 CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
-  `user_id` int(10) DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `folder` varchar(100) DEFAULT NULL,
-  `uid` int(19) DEFAULT '1'
+  `uid` int(19) DEFAULT '1',
+  KEY `user_id` (`user_id`),
+  KEY `folder` (`folder`),
+  CONSTRAINT `vtiger_ossmailscanner_folders_uid_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ossmailscanner_log_cron` */
@@ -6728,7 +6733,9 @@ CREATE TABLE `vtiger_ossmailview` (
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`ossmailviewid`),
   KEY `id` (`id`),
-  KEY `message_id` (`uid`),
+  KEY `verify` (`verify`),
+  KEY `message_id` (`uid`,`rc_user`),
+  KEY `mbox` (`mbox`),
   CONSTRAINT `fk_1_vtiger_ossmailview` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7387,6 +7394,7 @@ CREATE TABLE `vtiger_project` (
   KEY `projectname` (`projectname`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
   KEY `project_parentid_idx` (`parentid`),
+  KEY `project_no` (`project_no`),
   CONSTRAINT `vtiger_project_ibfk_1` FOREIGN KEY (`projectid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8892,6 +8900,7 @@ CREATE TABLE `vtiger_troubletickets` (
   KEY `product_id` (`product_id`),
   KEY `servicecontractsid` (`servicecontractsid`),
   KEY `pssold_id` (`pssold_id`),
+  KEY `ticket_no` (`ticket_no`),
   CONSTRAINT `fk_1_vtiger_troubletickets` FOREIGN KEY (`ticketid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
