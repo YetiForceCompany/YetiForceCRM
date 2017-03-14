@@ -7,4 +7,6 @@ $CONFIG = [
 	'MAX_HIERARCHY_DEPTH' => 50,
 	// Count Sales in hierarchy
 	'COUNT_IN_HIERARCHY' => true,
+	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
+	'DEFAULT_VIEW_RECORD' => 'LBL_RECORD_PREVIEW',
 ];
