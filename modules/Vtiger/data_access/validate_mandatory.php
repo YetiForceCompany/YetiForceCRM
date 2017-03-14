@@ -23,7 +23,7 @@ Class DataAccess_validate_mandatory
 			$recordModel = Users_Record_Model::getCleanInstance($moduleName);
 			$fieldList = $recordModel->getModule()->getFields();
 			foreach ($fieldList as $fieldName => $field) {
-				if ($field->isMandatory() && !$records->get($fieldName) && !$record_form[$fieldName]) {
+				if ($field->isMandatory() && !$records->get($fieldName) && !isset($record_form[$fieldName])) {
 					$invalidField = $field->get('label');
 					$fieldName2 = $fieldName;
 					$save_record = false;

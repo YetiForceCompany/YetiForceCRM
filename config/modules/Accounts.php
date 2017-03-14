@@ -11,4 +11,5 @@ $CONFIG = [
 	'MAX_HIERARCHY_DEPTH' => 50,
 	// Count Accounts in hierarchy
 	'COUNT_IN_HIERARCHY' => true,
+	'HIDE_SUMMARY_PRODUCTS_SERVICES' => false,
 ];

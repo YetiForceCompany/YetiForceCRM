@@ -164,7 +164,7 @@ class Functions
 		if ($name && \App\Cache::has('moduleTabByName', $name)) {
 			return \App\Cache::get('moduleTabByName', $name);
 		}
-		return $id ? \App\Cache::get('moduleTabById', $name) : NULL;
+		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
 	}
 
 	public static function getModuleId($name)
