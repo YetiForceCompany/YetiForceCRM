@@ -719,16 +719,17 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
 		}
 		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
-		$result = $db->pquery($query, array($sourceModuleTabId, $relation_ids));
+		$db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
+	/**
+	 * Function to set presence relation
+	 * @param int $relationId
+	 * @param string $status
+	 */
 	public static function updateRelationPresence($relationId, $status)
 	{
-		$presence = 0;
-		if ($status === 0) {
-			$presence = 1;
-		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $presence], ['relation_id' => $relationId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === '0' ? 1 : 0], ['relation_id' => $relationId])->execute();
 	}
 
 	public static function removeRelationById($relationId)

@@ -227,12 +227,15 @@ class Owner
 			$query = new \App\Db\Query();
 			$query->select($selectFields)->from('vtiger_users');
 		}
+		$where = false;
 		if (!empty($this->searchValue)) {
-			$concat = \App\Module::getSqlForNameInDisplayFormat('Users');
-			$query->where(['like', $concat, $this->searchValue]);
+			$where []= ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
 		}
 		if ($status) {
-			$query->where(['status' => $status]);
+			$where []= ['status' => $status];
+		}
+		if ($where) {
+			$query->where(array_merge(['and'], $where));
 		}
 		return $query;
 	}
