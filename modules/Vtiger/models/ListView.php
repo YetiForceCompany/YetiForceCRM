@@ -253,8 +253,8 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			if ($field || $orderBy === 'id') {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
+			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 		}
-		\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 	}
 
 	/**

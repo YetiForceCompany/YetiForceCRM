@@ -254,12 +254,11 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			if ($field) {
 				$orderBy = $field->getName();
 			}
-
 			if ($field || $orderBy === 'id') {
 				return $this->getRelationModel()->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
+			\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
 		}
-		\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
 	}
 
 	/**
