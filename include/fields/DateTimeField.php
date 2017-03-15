@@ -426,7 +426,7 @@ class DateTimeField
 		}
 
 		$value = str_replace('T', ' ', $value);
-		list($date, $time) = explode(' ', $value);
+		list($date, $time) = array_pad(explode(' ', $value), 2, '');
 		if (!empty($date) && !in_array($time, ['AM', 'PM'])) {
 			$date = self::__convertToDBFormat($date, $user->date_format);
 			$value = $date;
