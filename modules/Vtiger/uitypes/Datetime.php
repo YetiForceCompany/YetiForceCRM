@@ -67,7 +67,8 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return parent::getDBValue($value, $recordModel);
+		$v = parent::getDBValue($value, $recordModel);
+		return $v;
 	}
 
 	/**
