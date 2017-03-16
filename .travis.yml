@@ -30,7 +30,7 @@ before_script:
 - sudo wget https://phar.phpunit.de/phpunit-5.7.phar
 - sudo chmod +x phpunit-5.7.phar
 - sudo mv phpunit-5.7.phar /usr/local/bin/phpunit
-- phpunit --version
+- /usr/local/bin/phpunit --version
 - sudo wget https://scrutinizer-ci.com/ocular.phar
 - sudo chmod +x ocular.phar
 - sudo mv ocular.phar /usr/local/bin/ocular
@@ -43,7 +43,7 @@ before_script:
   
 script:
 - cd tests
-- phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
+- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
     
 after_script:
 - cd ..
