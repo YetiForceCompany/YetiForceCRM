@@ -85,11 +85,11 @@ class VTCreateEventTask extends VTTask
 				}
 			}
 		}
-
+		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$fields = array(
 			'activitytype' => $this->eventType,
-			'description' => $this->description,
-			'subject' => $this->eventName,
+			'description' => $textParser->setContent($this->description)->parse()->getContent(),
+			'subject' => $textParser->setContent($this->eventName)->parse()->getContent(),
 			'taskpriority' => $this->priority,
 			'activitystatus' => $this->status,
 			'assigned_user_id' => $userId,
