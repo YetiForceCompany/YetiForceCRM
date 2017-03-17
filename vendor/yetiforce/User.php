@@ -169,7 +169,7 @@ class User
 	 * Get user id
 	 * @return int
 	 */
-	public function getUserId()
+	public function getId()
 	{
 		return $this->privileges['details']['record_id'];
 	}
@@ -218,6 +218,18 @@ class User
 	public function getRole()
 	{
 		return $this->privileges['details']['roleid'];
+	}
+
+	/**
+	 * Get user role instance
+	 * @return \Settings_Roles_Record_Model
+	 */
+	public function getRoleInstance()
+	{
+		if (!empty($this->privileges['roleInstance'])) {
+			return $this->privileges['roleInstance'];
+		}
+		return $this->privileges['roleInstance'] = \Settings_Roles_Record_Model::getInstanceById($this->getRole());
 	}
 
 	/**
