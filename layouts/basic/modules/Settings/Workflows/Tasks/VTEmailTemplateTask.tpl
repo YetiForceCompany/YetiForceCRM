@@ -31,6 +31,7 @@
 				</span>
 			</div>
 			<div class="row padding-bottom1per">
+				{assign var=EMAIL value=settype($TASK_OBJECT->email, 'array')}
 				<span class="col-md-4 control-label">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select class="chzn-select form-control" name="email" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" multiple  data-validation-engine="validate[required]">
