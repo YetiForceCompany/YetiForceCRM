@@ -71,7 +71,7 @@ class PrivilegeQuery
 	public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
 	{
 		if ($user && $user instanceof User) {
-			$userId = $user->getUserId();
+			$userId = $user->getId();
 		} elseif (!$user) {
 			$userId = \App\User::getCurrentUserId();
 		}

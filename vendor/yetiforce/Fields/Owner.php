@@ -33,7 +33,7 @@ class Owner
 			$currentUser = \App\User::getUserModel($currentUser->getId());
 		}
 
-		$cacheKey = $moduleName . $currentUser->getUserId();
+		$cacheKey = $moduleName . $currentUser->getId();
 		$instance = \Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
@@ -103,11 +103,11 @@ class Owner
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
-				$accessibleUser[$this->currentUser->getUserId()] = $this->currentUser->getName();
+				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			} else if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5') {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
 			} else {
-				$accessibleUser[$this->currentUser->getUserId()] = $this->currentUser->getName();
+				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			}
 			\Vtiger_Cache::set('getAccessibleUsers', $cacheKey, $accessibleUser);
 		}
@@ -130,7 +130,7 @@ class Owner
 
 		$result = [];
 		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
-		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getUserId()]) ? $usersGroups[$this->currentUser->getUserId()] : [];
+		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
 		if ($mode == 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];
 			if (!empty($users)) {
@@ -200,10 +200,10 @@ class Owner
 		$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
 		// Including deleted vtiger_users for now.
 		if ($private === 'private') {
-			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getUserId());
+			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query = new \App\Db\Query ();
-			$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getUserId()]);
+			$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
 			$queryByUserRole = new \App\Db\Query ();
 			$selectFields['id'] = 'vtiger_user2role.userid';
 			$queryByUserRole->
@@ -218,7 +218,7 @@ class Owner
 				select($selectFields)
 				->from('vtiger_tmp_write_user_sharing_per')
 				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
-				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getUserId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
 			$query->union($queryByUserRole)->union($queryBySharing);
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid')->where(['vtiger_user2role.roleid' => $roles]);
@@ -298,13 +298,13 @@ class Owner
 			$params[] = $tabid;
 		}
 		if ($private == 'private') {
-			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getUserId());
+			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			if (strpos($query, 'WHERE') === false)
 				$query .= ' WHERE';
 			else
 				$query .= ' AND';
 			$query .= ' groupid=?';
-			array_push($params, $this->currentUser->getUserId());
+			array_push($params, $this->currentUser->getId());
 
 			if (count($userPrivileges['groups']) != 0) {
 				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
@@ -320,7 +320,7 @@ class Owner
 			}
 
 			$query .= ' union select sharedgroupid as groupid,vtiger_groups.groupname as groupname from vtiger_tmp_write_group_sharing_per inner join vtiger_groups on vtiger_groups.groupid=vtiger_tmp_write_group_sharing_per.sharedgroupid where vtiger_tmp_write_group_sharing_per.userid=?';
-			array_push($params, $this->currentUser->getUserId());
+			array_push($params, $this->currentUser->getId());
 
 			$query .= ' and vtiger_tmp_write_group_sharing_per.tabid=?';
 			array_push($params, $tabid);
@@ -385,7 +385,7 @@ class Owner
 
 	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
 	{
-		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getUserId());
+		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
 			$queryGenerator->initForCustomViewById($view);
 		}

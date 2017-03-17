@@ -243,7 +243,7 @@ class CustomView
 		if (is_numeric($user)) {
 			$user = User::getUserModel($user);
 		}
-		$cacheName = $moduleName . '.' . $user->getUserId();
+		$cacheName = $moduleName . '.' . $user->getId();
 		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
 			return \App\Cache::staticGet('AppCustomView', $cacheName);
 		}
@@ -490,13 +490,13 @@ class CustomView
 	public function getDefaultCvId()
 	{
 		Log::trace(__METHOD__);
-		$cacheName = $this->moduleName . $this->user->getUserId();
+		$cacheName = $this->moduleName . $this->user->getId();
 		if (Cache::has('GetDefaultCvId', $cacheName)) {
 			return Cache::get('GetDefaultCvId', $cacheName);
 		}
 		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
-		$user = 'Users:' . $this->user->getUserId();
+		$user = 'Users:' . $this->user->getId();
 		if (isset($data[$user])) {
 			Cache::save('GetDefaultCvId', $cacheName, $data[$user]);
 			return $data[$user];
@@ -546,7 +546,7 @@ class CustomView
 				if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
 					$permission = true;
 				} elseif (\AppRequest::get('view') !== 'ChangeStatus') {
-					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getUserId()) {
+					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
 						$permission = true;
 					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
 						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
@@ -560,7 +560,7 @@ class CustomView
 							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
 						$userArray = $query->column();
 						if ($userArray) {
-							if (!in_array($this->user->getUserId(), $userArray)) {
+							if (!in_array($this->user->getId(), $userArray)) {
 								$permission = false;
 							} else {
 								$permission = true;
