@@ -2966,12 +2966,13 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 'Deutsch', 'de_de', 'DE Deutsch', '2014-11-21 11:20:40', NULL, 0, 1],
 					[5, 'Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', NULL, 0, 1],
 					[6, 'French', 'fr_fr', 'French', '2016-04-29 12:20:00', NULL, 0, 1],
+					[7, 'Spanish', 'es_es', 'ES Spanish', '2017-03-11 12:20:00', NULL, 0, 1],
 				]
 			],
 			'vtiger_language_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[6],
+					[7],
 				]
 			],
 			'vtiger_lead_view' => [
