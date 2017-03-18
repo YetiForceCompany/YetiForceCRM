@@ -6,7 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_Popup_Js("PriceBook_Products_Popup_Js",{
+Vtiger_Popup_Js("PriceBooks_ProductPriceBookPopup_Js",{
 
 },{
 	/**
@@ -36,7 +36,7 @@ Vtiger_Popup_Js("PriceBook_Products_Popup_Js",{
 			var selectedRecords = jQuery('input.entryCheckBox', tableEntriesElement).filter(':checked');
 			if((selectedRecords.length) == 0){
 				var message = app.vtranslate("JS_PLEASE_SELECT_ONE_RECORD");
-				Vtiger_Helper_Js.showConfirmationBox({'message' : message});
+				bootbox.alert(message);
 				return;
 			}
 			var invalidFields = popupPageContentsContainer.data('jqv').InvalidFields;
@@ -136,22 +136,6 @@ Vtiger_Popup_Js("PriceBook_Products_Popup_Js",{
 		app.showScrollBar(element, {"height" : '400px'});
 	},
 
-     /**
-     * Function which will register event when user clicks on the row
-     */
-    registerEventForListViewEntries : function() {
-        //To Make sure we will not close the window once he clicks on the row,
-        //which is default behaviour in normal popup
-        return true;
-    },
-
-	registerEventForListViewEntries : function(){
-		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','.listViewEntries',function(e){
-		    return;
-		});
-	},
-	
 	/**
 	 * Function to register events
 	 */
