@@ -59,9 +59,7 @@ jQuery.Class("Settings_CustomView_Sorting_Js", {}, {
 	},
 	registerEvents: function () {
 		this.registerButtonsEvent();
-		;
 	}
-
 });
 
 jQuery(document).ready(function (e) {

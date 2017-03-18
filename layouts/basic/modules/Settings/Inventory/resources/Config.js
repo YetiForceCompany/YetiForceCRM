@@ -24,7 +24,6 @@ jQuery.Class("Settings_Inventory_Config_Js", {}, {
 				} else {
 					target.parent().removeClass('btn-success').addClass('btn-default').find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
 					target.next().html('&nbsp;&nbsp;' + app.vtranslate('JS_NO'));
-					;
 				}
 			});
 		});
