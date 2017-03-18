@@ -19,14 +19,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var fallbackClass = window["Vtiger_" + widgetClassName + "_Widget_Js"];
 		var yetiClass = window["YetiForce_" + widgetClassName + "_Widget_Js"];
 		var basicClass = Vtiger_Widget_Js;
+		var instance;
 		if (typeof moduleClass != 'undefined') {
-			var instance = new moduleClass(container);
+			instance = new moduleClass(container);
 		} else if (typeof fallbackClass != 'undefined') {
-			var instance = new fallbackClass(container);
+			instance = new fallbackClass(container);
 		} else if (typeof yetiClass != 'undefined') {
-			var instance = new yetiClass(container);
+			instance = new yetiClass(container);
 		} else {
-			var instance = new basicClass(container);
+			instance = new basicClass(container);
 		}
 		return instance;
 	}
@@ -87,37 +88,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			//Stop the event propagation so that drag will not start for contents
 			e.stopPropagation();
-		})
+		});
 	},
 	convertToDateRangePicketFormat: function (userDateFormat) {
 		switch (userDateFormat) {
 			case 'yyyy-mm-dd':
 				return 'yyyy-MM-dd';
-				break;
 			case 'mm-dd-yyyy':
 				return 'MM-dd-yyyy';
-				break;
 			case 'dd-mm-yyyy':
 				return 'dd-MM-yyyy';
-				break;
 			case 'yyyy.mm.dd':
 				return 'yyyy.MM.dd';
-				break;
 			case 'mm.dd.yyyy':
 				return 'MM.dd.yyyy';
-				break;
 			case 'dd.mm.yyyy':
 				return 'dd.MM.yyyy';
-				break;
 			case 'yyyy/mm/dd':
 				return 'yyyy/MM/dd';
-				break;
 			case 'mm/dd/yyyy':
 				return 'MM/dd/yyyy';
-				break;
 			case 'dd/mm/yyyy':
 				return 'dd/MM/yyyy';
-				break;
 		}
 	},
 	generateData: function () {
@@ -143,7 +135,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			'my': 'center center',
 			'at': 'center center',
 			'of': widgetContentsContainer
-		})
+		});
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function () {
@@ -268,7 +260,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (widgetFilters.length > 0) {
 			params = {};
 			params.url = url;
-			params.data = {}
+			params.data = {};
 			widgetFilters.each(function (index, domElement) {
 				var widgetFilter = jQuery(domElement);
 				if (widgetFilter.is('.dateRange')) {
@@ -300,10 +292,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 			if (typeof params == 'string') {
 				url = params;
 				params = {};
-				params.url = url
+				params.url = url;
 				params.data = {};
 			}
-			params.data = jQuery.extend(params.data, this.getFilterData())
+			params.data = jQuery.extend(params.data, this.getFilterData());
 		}
 		var refreshContainer = parent.find('.dashboardWidgetContent');
 		var refreshContainerFooter = parent.find('.dashboardWidgetFooter');

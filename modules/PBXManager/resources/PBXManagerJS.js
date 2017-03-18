@@ -195,18 +195,18 @@ var Vtiger_PBXManager_Js = {
 			'record': record,
 			'module': 'PBXManager',
 			'action': 'OutgoingCall'
-		}
+		};
 		AppConnector.request(params).then(function (data) {
 			if (data.result) {
 				params = {
 					'text': app.vtranslate('JS_PBX_OUTGOING_SUCCESS'),
 					'type': 'info'
-				}
+				};
 			} else {
 				params = {
 					'text': app.vtranslate('JS_PBX_OUTGOING_FAILURE'),
 					'type': 'error'
-				}
+				};
 			}
 			Vtiger_Helper_Js.showPnotify(params);
 		});
@@ -226,7 +226,7 @@ var Vtiger_PBXManager_Js = {
 		});
 	}
 
-}
+};
 
 //On Page Load
 jQuery(document).ready(function () {

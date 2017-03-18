@@ -66,7 +66,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 		var fieldSelected = fieldSelect.find('option:selected');
 		var fieldLabel = fieldSelected.val();
 		var match = fieldLabel.match(/\((\w+)\) (\w+)/);
-		var fieldSpecificType = this.getFieldSpecificType(fieldSelected)
+		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		//for none in field name
 		if (typeof conditionList == 'undefined') {
@@ -233,7 +233,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 			var conditionsContainer = fieldValueElement.closest('.conditionsContainer');
 			var conditionRow = fieldValueElement.closest('.conditionRow');
 
-			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi')
+			var clonedPopupUi = conditionsContainer.find('.popupUi').clone(true, true).removeClass('popupUi').addClass('clonedPopupUi');
 			clonedPopupUi.find('select').addClass('chzn-select');
 			clonedPopupUi.find('.fieldValue').val(fieldValue);
 			if (fieldValueElement.hasClass('date')) {
@@ -244,7 +244,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				} else {
 					value = '';
 				}
-				var clonedDateElement = '<input type="text" class="dateField fieldValue col-md-4" value="' + value + '" data-date-format="' + dataFormat + '" data-input="true" >'
+				var clonedDateElement = '<input type="text" class="dateField fieldValue col-md-4" value="' + value + '" data-date-format="' + dataFormat + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedDateElement);
 			} else if (fieldValueElement.hasClass('time')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -253,7 +253,7 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				} else {
 					value = '';
 				}
-				var clonedTimeElement = '<input type="text" class="timepicker-default fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >'
+				var clonedTimeElement = '<input type="text" class="timepicker-default fieldValue col-md-4 form-control" value="' + value + '" data-input="true" >';
 				clonedPopupUi.find('.fieldValueContainer').prepend(clonedTimeElement);
 			} else if (fieldValueElement.hasClass('boolean')) {
 				clonedPopupUi.find('.textType').find('option[value="rawtext"]').attr('data-ui', 'input');
@@ -291,8 +291,8 @@ Vtiger_AdvanceFilter_Js('Vtiger_AdvanceFilterEx_Js', {}, {
 				data.find('.fieldValue').filter(':visible').trigger('focus');
 				data.find('[data-close-modal="modal"]').off('click').on('click', function () {
 					jQuery(this).closest('.modal').removeClass('in').css('display', 'none');
-				})
-			}
+				});
+			};
 			conditionsContainer.find('.clonedPopUp').html(clonedPopupUi);	
 			jQuery('.clonedPopupUi').on('shown.bs.modal', function () {
 				if (typeof callBackFunction == 'function') {
@@ -447,7 +447,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Date_Field_Js', {}, {
 			} else if (comparatorSelectedOptionVal in dateSpecificConditions) {
 				var startValue = dateSpecificConditions[comparatorSelectedOptionVal]['startdate'];
 				var endValue = dateSpecificConditions[comparatorSelectedOptionVal]['enddate'];
-				var html = '<input name="' + this.getName() + '"  type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">'
+				var html = '<input name="' + this.getName() + '"  type="text" ReadOnly="true" value="' + startValue + ',' + endValue + '">';
 				return jQuery(html);
 			} else if (comparatorSelectedOptionVal == 'is today') {
 				//show nothing
@@ -456,7 +456,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Date_Field_Js', {}, {
 			}
 		} else {
 			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />'
+					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			var element = jQuery(html);
 			return this.addValidationToElement(element);
 		}
@@ -490,7 +490,7 @@ Vtiger_Date_Field_Js('AdvanceFilterEx_Datetime_Field_Js', {}, {
 			var element = jQuery(html);
 		} else {
 			var html = '<input type="text" class="getPopupUi date form-control" name="' + this.getName() + '"  data-date-format="' + this.getDateFormat() + '"  value="' + this.getValue() + '" />' +
-					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />'
+					'<input type="hidden" name="valuetype" value="' + this.get('workflow_valuetype') + '" />';
 			var element = jQuery(html);
 		}
 		return element;
@@ -575,7 +575,7 @@ Vtiger_Owner_Field_Js('AdvanceFilterEx_Owner_Field_Js', {}, {
 		var pickListValues = this.getPickListValues();
 		var selectedOption = this.getValue();
 		for (var optGroup in pickListValues) {
-			html += '<optgroup label="' + optGroup + '">'
+			html += '<optgroup label="' + optGroup + '">';
 			var optionGroupValues = pickListValues[optGroup];
 			for (var option in optionGroupValues) {
 				html += '<option value="' + option + '" ';
@@ -584,7 +584,7 @@ Vtiger_Owner_Field_Js('AdvanceFilterEx_Owner_Field_Js', {}, {
 				}
 				html += '>' + optionGroupValues[option] + '</option>';
 			}
-			html += '</optgroup>'
+			html += '</optgroup>';
 		}
 
 		html += '</select>';

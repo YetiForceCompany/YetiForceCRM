@@ -30,12 +30,12 @@ Vtiger_List_Js("Rss_List_Js",{},
 							thisInstance.rssFeedSave(form);
 						}
 						return false;
-					}
+					};
 					form.validationEngine(params);
-				}
+				};
 				app.showModalWindow(data, callBackFunction);
 			});
-		})
+		});
 		container.on('click', '.changeFeedSource', function (e) {
 			thisInstance.showRssModal('getRssWidget').then(function (data) {
 				var callBackFunction = function (data) {
@@ -46,10 +46,10 @@ Vtiger_List_Js("Rss_List_Js",{},
 							app.hideModalWindow();
 						});
 					});
-				}
+				};
 				app.showModalWindow(data, callBackFunction);
 			});
-		})
+		});
 	},
 	breadCrumbsFilter: function(text){
 		return;
@@ -69,7 +69,7 @@ Vtiger_List_Js("Rss_List_Js",{},
 		};
 		AppConnector.request(actionParams).then(
 			function(data){
-				progressInstance.progressIndicator({'mode': 'hide'})
+				progressInstance.progressIndicator({'mode': 'hide'});
 				aDeferred.resolve(data);
 			},
 			function(textStatus, errorThrown){}
@@ -94,7 +94,7 @@ Vtiger_List_Js("Rss_List_Js",{},
         'module': app.getModuleName(),
         'action' : 'Save',
         'feedurl' : data.feedurl
-        }
+        };
         AppConnector.request(params).then(
             function(result) {
                 progressIndicatorElement.progressIndicator({
@@ -133,14 +133,14 @@ Vtiger_List_Js("Rss_List_Js",{},
             'module' : app.getModuleName(),
             'view'   : 'List',
             'id'     : id
-        }
+        };
         AppConnector.requestPjax(params).then(function(data) {
             aDeferred.resolve(data);
             container.find('#listViewContents').html(data);
             thisInstance.setFeedContainerHeight(container);
             progressIndicatorElement.progressIndicator({
                 'mode' : 'hide'
-            })
+            });
         });
         
         return aDeferred.promise();  
@@ -212,7 +212,7 @@ Vtiger_List_Js("Rss_List_Js",{},
             'module' : app.getModuleName(),
             'action' : 'GetHtml',
             'url'    : url
-        }
+        };
         AppConnector.request(params).then(function(data) {
             aDeferred.resolve(data.result.html);
         });
@@ -228,7 +228,7 @@ Vtiger_List_Js("Rss_List_Js",{},
         var thisInstance = this;
         container.on('click','#deleteButton', function(e) {
             thisInstance.deleteRecord(container);
-        })
+        });
     },
     
     /**
@@ -245,7 +245,7 @@ Vtiger_List_Js("Rss_List_Js",{},
 					"module": module,
 					"action": "DeleteAjax",
 					"record": recordId
-				}
+				};
 				var deleteMessage = app.vtranslate('JS_RECORD_GETTING_DELETED');
 				var progressIndicatorElement = jQuery.progressIndicator({
 					'message' : deleteMessage,
@@ -258,14 +258,14 @@ Vtiger_List_Js("Rss_List_Js",{},
 					function(data){
 						progressIndicatorElement.progressIndicator({
 							'mode' : 'hide'
-						})
+						});
 						if(data.success) {
                             thisInstance.getRssFeeds();
 						} else {
 							var  params = {
 								text : app.vtranslate(data.error.message),
 								title : app.vtranslate('JS_LBL_PERMISSION')
-							}
+							};
 							Vtiger_Helper_Js.showPnotify(params);
 						}
 					},
@@ -300,7 +300,7 @@ Vtiger_List_Js("Rss_List_Js",{},
             "module": module,
             "action": "MakeDefaultAjax",
             "record": recordId
-        }
+        };
         var progressIndicatorElement = jQuery.progressIndicator({
             'position' : 'html',
             'blockInfo' : {
@@ -311,7 +311,7 @@ Vtiger_List_Js("Rss_List_Js",{},
             function(data){
                 progressIndicatorElement.progressIndicator({
                     'mode' : 'hide'
-                })
+                });
                 if(data.success) {
                     var params = {
                         title : app.vtranslate('JS_MESSAGE'),
@@ -324,7 +324,7 @@ Vtiger_List_Js("Rss_List_Js",{},
                     var  params = {
                         text : app.vtranslate(data.error.message),
                         title : app.vtranslate('JS_LBL_PERMISSION')
-                    }
+                    };
                     Vtiger_Helper_Js.showPnotify(params);
                 }
             }

@@ -17,12 +17,12 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 							var params = app.validationEngineOptions;
 							params.onValidationComplete = function (form, valid) {
 								if (valid) {
-									Users_Detail_Js.savePassword(form)
+									Users_Detail_Js.savePassword(form);
 								}
 								return false;
-							}
+							};
 							jQuery('#changePassword').validationEngine(app.validationEngineOptions);
-						}
+						};
 						app.showModalWindow(data, function (data) {
 							if (typeof callback == 'function') {
 								callback(data);
@@ -46,7 +46,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 				'old_password': old_password.val(),
 				'new_password': new_password.val(),
 				'userid': userid
-			}
+			};
 			AppConnector.request(params).then(
 					function (data) {
 						if (data.success) {
@@ -78,12 +78,12 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 								var params = app.validationEngineOptions;
 								params.onValidationComplete = function (form, valid) {
 									if (valid) {
-										Users_Detail_Js.deleteUser(form)
+										Users_Detail_Js.deleteUser(form);
 									}
 									return false;
-								}
+								};
 								jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
-							}
+							};
 							app.showModalWindow(data, function (data) {
 								if (typeof callback == 'function') {
 									callback(data);
@@ -107,7 +107,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			'transfer_user_id': transferUserId,
 			'userid': userid,
 			'permanent': form.find('[name="deleteUserPermanent"]:checked').val()
-		}
+		};
 		AppConnector.request(params).then(
 				function (data) {
 					if (data.success) {
@@ -129,12 +129,12 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 								var params = app.validationEngineOptions;
 								params.onValidationComplete = function (form, valid) {
 									if (valid) {
-										Users_Detail_Js.transferOwner(form)
+										Users_Detail_Js.transferOwner(form);
 									}
 									return false;
-								}
+								};
 								jQuery('#transferOwner').validationEngine(app.validationEngineOptions);
-							}
+							};
 							app.showModalWindow(data, function (data) {
 								if (typeof callback == 'function') {
 									callback(data);
@@ -157,7 +157,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			'mode': 'transferOwner',
 			'transfer_user_id': transferUserId,
 			'userid': userid
-		}
+		};
 		AppConnector.request(params).then(
 				function (data) {
 					if (data.success) {

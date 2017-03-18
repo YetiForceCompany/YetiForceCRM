@@ -21,7 +21,7 @@ Vtiger_BaseValidator_Js("Vtiger_PhoneValidator_Js", {}, {
 
 			this.getPhoneNumberIllegalCharacterError();
 
-		} else if (!(strippedValue.length == 10)) {
+		} else if (strippedValue.length !== 10) {
 
 			this.getPhoneNumberWrongLengthError();
 
@@ -39,4 +39,4 @@ Vtiger_BaseValidator_Js("Vtiger_PhoneValidator_Js", {}, {
 		this.error = "The phone number is the wrong length. Make sure you included an area code.\n";
 		return this.error;
 	}
-})
+});

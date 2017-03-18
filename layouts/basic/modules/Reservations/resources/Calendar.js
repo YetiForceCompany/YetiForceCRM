@@ -33,7 +33,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			container.addClass(fieldClass + '_' + selectedId);
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
-		}
+		};
 		app.changeSelectElementView(field, 'select2', params);
 	},
 }, {
@@ -197,7 +197,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 				end: end_date,
 				user: user,
 				types: types
-			}
+			};
 			AppConnector.request(params).then(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.hide();
@@ -218,7 +218,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			id: event.id,
 			start: start,
 			delta: delta._data
-		}
+		};
 		AppConnector.request(params).then(function (response) {
 			if (!response['result']) {
 				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_NO_EDIT_PERMISSION'));

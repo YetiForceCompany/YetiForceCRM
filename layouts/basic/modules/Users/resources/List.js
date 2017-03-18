@@ -22,12 +22,12 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 								var params = app.validationEngineOptions;
 								params.onValidationComplete = function (form, valid) {
 									if (valid) {
-										Settings_Users_List_Js.deleteUser(form)
+										Settings_Users_List_Js.deleteUser(form);
 									}
 									return false;
-								}
+								};
 								jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
-							}
+							};
 							app.showModalWindow(data, function (data) {
 								if (typeof callback == 'function') {
 									callback(data);
@@ -56,7 +56,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			'transfer_user_id': transferUserId,
 			'userid': userid,
 			'permanent': jQuery('[name="deleteUserPermanent"]:checked', form).val()
-		}
+		};
 		AppConnector.request(params).then(
 				function (data) {
 					if (data.success) {
@@ -116,7 +116,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 													'userid': userId,
 													'transfer_user_id': form.find('[name="tranfer_owner_id"]').val(),
 													'mode': 'permanent'
-												}
+												};
 												app.hideModalWindow();
 												AppConnector.request(params).then(
 														function (response) {
@@ -137,9 +137,9 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 												);
 											}
 											return false;
-										}
+										};
 										jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
-									}
+									};
 									app.showModalWindow(data, function (data) {
 										if (typeof callback == 'function') {
 											callback(data);
@@ -170,7 +170,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 				'action': "SaveAjax",
 				'userid': userId,
 				'mode': 'restoreUser'
-			}
+			};
 			AppConnector.request(params).then(
 					function (response) {
 						if (response.success) {
@@ -216,7 +216,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 							var params = app.validationEngineOptions;
 							params.onValidationComplete = function (form, valid) {
 								if (valid) {
-									thisInstance.editPasswords(form)
+									thisInstance.editPasswords(form);
 								}
 								return false;
 							};
@@ -243,7 +243,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 				'mode': 'editPasswords',
 				'new_password': new_password.val(),
 				'userids': userids
-			}
+			};
 			AppConnector.request(params).then(
 					function (data) {
 						if (data.success) {
@@ -274,7 +274,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 			'search_key': 'status',
 			'operator': 'e',
 			'search_value': jQuery('#usersFilter').val()
-		}
+		};
 		return pageCountParams;
 	},
 	/*
@@ -329,13 +329,13 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	updatePaginationFilter: function () {
 		var thisInstance = this;
 		var params = {};
-		params['page'] = 1
+		params['page'] = 1;
 		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName(),
-				params['view'] = 'Pagination';
+		params['parent'] = app.getParentModuleName();
+		params['view'] = 'Pagination';
 		params['mode'] = 'getPagination';
 		params['search_key'] = 'status';
-		params['search_value'] = jQuery('#usersFilter').val()
+		params['search_value'] = jQuery('#usersFilter').val();
 		params['operator'] = "e";
 		AppConnector.request(params).then(function (data) {
 			jQuery('.paginationDiv').html(data);
@@ -347,14 +347,14 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		var thisInstance = this;
 		var params = {};
 		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName()
+		params['parent'] = app.getParentModuleName();
 		params['view'] = 'Pagination';
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
 		var searchValue = this.getAlphabetSearchValue();
 		if ('status' == searchValue) {
 			params['search_key'] = 'status';
-			params['search_value'] = jQuery('#usersFilter').val()
+			params['search_value'] = jQuery('#usersFilter').val();
 			params['operator'] = "e";
 		} else {
 			params['search_key'] = this.getAlphabetSearchField();

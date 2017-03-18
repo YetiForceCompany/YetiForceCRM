@@ -113,7 +113,7 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 			var body = jQuery(data).find('.contents');
 			//app.showScrollBar(body,{'height':'600px','railVisible':'true'});
 			aDeferred.resolve(data);
-		}
+		};
 		var params = {};
 		params.data = data;
 		params.cb = postLoad;

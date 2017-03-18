@@ -74,7 +74,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		this.fieldTypeConditionMapping = jQuery('input[name="advanceFilterOpsByFieldType"]', filterContainer).data('value');
 		this.conditonOperatorLabelMapping = jQuery('input[name="advanceFilterOptions"]', filterContainer).data('value');
 		this.dateConditionInfo = jQuery('[name="date_filters"]').data('value');
-		;
 		return this;
 	},
 	/**
@@ -191,7 +190,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var conditionSelected = conditionSelectElement.val();
 		var fieldSelected = fieldSelect.find('option:selected');
-		var fieldSpecificType = this.getFieldSpecificType(fieldSelected)
+		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		var fieldName = fieldSelected.data('field-name');
 		var fieldInfo = fieldSelected.data('fieldinfo');
@@ -258,10 +257,10 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				html += ' selected="selected" ';
 			}
 			html += '>' + app.vtranslate('JS_IS_ENABLED') + '</option>';
-			html += '</select>'
+			html += '</select>';
 			return jQuery(html);
 		} else {
-			return  jQuery(fieldModel.getUiTypeSpecificHtml())
+			return  jQuery(fieldModel.getUiTypeSpecificHtml());
 		}
 	},
 	/**
@@ -285,7 +284,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		if (fieldType == 'date' || fieldType == 'datetime') {
 			fieldInfo.dateSpecificConditions = this.getDateSpecificConditionInfo();
 		}
-		var moduleName = this.getModuleName()
+		var moduleName = this.getModuleName();
 		var fieldModel = Vtiger_Field_Js.getInstance(fieldInfo, moduleName);
 		this.fieldModelInstance = fieldModel;
 		var fieldSpecificUi = this.getFieldSpecificUi(fieldSelect);
@@ -323,7 +322,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		if (fieldSpecificUi.is('select')) {
 			if (fieldSpecificUi.hasClass('chzn-select')) {
-				app.changeSelectElementView(fieldSpecificUi)
+				app.changeSelectElementView(fieldSpecificUi);
 			} else {
 				app.showSelect2ElementView(fieldSpecificUi);
 			}
@@ -337,7 +336,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 					onChange: function (formated) {
 						fieldSpecificUi.find('.dateField').val(formated.join(','));
 					}
-				}
+				};
 				app.registerEventForDatePickerFields(fieldSpecificUi, false, customParams);
 			} else {
 				app.registerEventForDatePickerFields(fieldSpecificUi);
@@ -618,7 +617,7 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 		var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
 		var pickListValues = this.getPickListValues();
 		var selectedOption = app.htmlDecode(this.getValue());
-		var selectedOptionsArray = selectedOption.split(',')
+		var selectedOptionsArray = selectedOption.split(',');
 		for (var option in pickListValues) {
 			html += '<option value="' + option + '" ';
 			if (jQuery.inArray(option, selectedOptionsArray) != -1) {
@@ -664,7 +663,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 			var html = '<select class="select2 row" multiple name="' + this.getName() + '[]">';
 			var pickListValues = this.getPickListValues();
 			var selectedOption = app.htmlDecode(this.getValue());
-			var selectedOptionsArray = selectedOption.split(',')
+			var selectedOptionsArray = selectedOption.split(',');
 			for (var optGroup in pickListValues) {
 				html += '<optgroup label="' + optGroup + '">'
 				var optionGroupValues = pickListValues[optGroup];
@@ -675,7 +674,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 					}
 					html += '>' + optionGroupValues[option] + '</option>';
 				}
-				html += '</optgroup>'
+				html += '</optgroup>';
 			}
 			html += '</select>';
 			var selectContainer = jQuery(html);
@@ -688,7 +687,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 			jQuery.each(pickListValues, function (groups, blocks) {
 				jQuery.each(blocks, function (i, e) {
 					tagsArray.push(jQuery.trim(e));
-				})
+				});
 			});
 			var html = '<input data-tags="' + tagsArray + '" type="hidden" class="row select2" name="' + this.getName() + '">';
 			var selectContainer = jQuery(html).val(selectedOption);

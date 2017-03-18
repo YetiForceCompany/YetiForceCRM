@@ -63,9 +63,7 @@ function SMSTask($) {
 			var startPos = element.selectionStart;
 			var endPos = element.selectionEnd;
 			var scrollTop = element.scrollTop;
-			element.value = element.value.substring(0, startPos)
-					+ value
-					+ element.value.substring(endPos,
+			element.value = element.value.substring(0, startPos) + value + element.value.substring(endPos,
 							element.value.length);
 			element.focus();
 			element.selectionStart = startPos + value.length;
@@ -114,12 +112,14 @@ function SMSTask($) {
 
 		function getFieldType(fullFieldName) {
 			var group = fullFieldName.match(/(\w+) : \((\w+)\) (\w+)/);
+			var fieldModule = '';
+			var fieldName = '';
 			if (group == null) {
-				var fieldModule = moduleName;
-				var fieldName = fullFieldName;
+				fieldModule = moduleName;
+				fieldName = fullFieldName;
 			} else {
-				var fieldModule = group[2];
-				var fieldName = group[3];
+				fieldModule = group[2];
+				fieldName = group[3];
 			}
 			return moduleFieldTypes[fieldModule][fieldName];
 		}

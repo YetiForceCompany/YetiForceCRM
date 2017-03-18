@@ -64,10 +64,10 @@ jQuery.Class("Vtiger_CkEditor_Js", {}, {
 						editor.updateElement();
 					});
 				}}
-		}
+		};
 
 		if (typeof customConfig != 'undefined') {
-			var config = jQuery.extend(config, customConfig);
+			config = jQuery.extend(config, customConfig);
 		}
 		if (instance)
 		{
