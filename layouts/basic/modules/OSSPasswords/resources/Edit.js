@@ -26,7 +26,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 					module : "OSSPasswords",
 					action : "GetPass",
 					record : id
-				}
+				};
 				params.async = false;
 
 				AppConnector.request(params).then(
@@ -48,8 +48,8 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			
 			}
 			password = form.find('[name="password"]').val();
-			var params = {}
-			params.data = { module: 'OSSPasswords', action: 'CheckPass', 'password': password , 'id': id}
+			var params = {};
+			params.data = { module: 'OSSPasswords', action: 'CheckPass', 'password': password , 'id': id};
 			params.async = false;
 			params.dataType = 'json';
 			
@@ -77,7 +77,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			
 			if ( send == false )
 				return false;
-		})
+		});
 	},
 	generatePassword: function (e) {
 		var element = jQuery(e.currentTarget);
@@ -122,4 +122,4 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 		this.registerButtonsEvents();
 		this.registerRecordPreSaveEvent(container);
 	}
-})
+});

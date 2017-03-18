@@ -40,7 +40,7 @@ Vtiger_Detail_Js("Contacts_Detail_Js",{},{
 					e.preventDefault();
  				} 
 			}
-		})
+		});
 	},
 	
 	/**
@@ -51,4 +51,4 @@ Vtiger_Detail_Js("Contacts_Detail_Js",{},{
 		this._super();
 		this.registerRecordPreSaveEvent(form);
 	}
-})
+});

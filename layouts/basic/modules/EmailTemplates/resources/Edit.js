@@ -19,7 +19,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			thisInstance.afterLoadVariablePanel(panel);
 		}, function (data, err) {
 			panel.progressIndicator({mode: 'hide'});
-		})
+		});
 	},
 	afterLoadVariablePanel: function (html) {
 		app.showSelect2ElementView(html.find('select.select2'));
@@ -40,4 +40,4 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		this.registerVariablePanelEvent(container);
 		app.registerCopyClipboard();
 	}
-})
+});

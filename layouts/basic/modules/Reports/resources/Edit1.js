@@ -105,7 +105,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 			'reportname' : details.reportName,
 			'record' : details.reportId,
 			'isDuplicate' : details.isDuplicate
-		}
+		};
 		
 		AppConnector.request(params).then(
 			function(data) {
@@ -153,7 +153,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 						form.hide();
 						progressIndicatorElement.progressIndicator({
 							'mode' : 'hide'
-						})
+						});
 						aDeferred.resolve(data);
 					},
 					function(error,err){

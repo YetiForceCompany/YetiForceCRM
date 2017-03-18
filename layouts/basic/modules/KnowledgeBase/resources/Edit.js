@@ -25,4 +25,4 @@ Vtiger_Edit_Js("KnowledgeBase_Edit_Js", {}, {
 	registerEvents: function () {
 		this._super();
 	}
-})
+});

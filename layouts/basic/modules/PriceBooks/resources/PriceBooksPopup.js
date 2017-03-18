@@ -28,7 +28,7 @@ Vtiger_Popup_Js("PriceBook_Products_Popup_Js",{
 	 */
 
 	registerSelectButton : function(){
-		var popupPageContentsContainer = jQuery('#popupPage')
+		var popupPageContentsContainer = jQuery('#popupPage');
 		var thisInstance = this;
 		popupPageContentsContainer.on('jqv.form.result', function(e){
 			e.preventDefault();
@@ -36,14 +36,14 @@ Vtiger_Popup_Js("PriceBook_Products_Popup_Js",{
 			var selectedRecords = jQuery('input.entryCheckBox', tableEntriesElement).filter(':checked');
 			if((selectedRecords.length) == 0){
 				var message = app.vtranslate("JS_PLEASE_SELECT_ONE_RECORD");
-				Vtiger_Helper_Js.showConfirmationBox({'message' : message})
+				Vtiger_Helper_Js.showConfirmationBox({'message' : message});
 				return;
 			}
 			var invalidFields = popupPageContentsContainer.data('jqv').InvalidFields;
 			if((invalidFields.length) == 0){
 				var selectedRecordDetails = new Array();
 				selectedRecords.each(function(index, checkBoxElement){
-					var checkBoxJqueryObject = jQuery(checkBoxElement)
+					var checkBoxJqueryObject = jQuery(checkBoxElement);
 					var row = checkBoxJqueryObject.closest('tr');
 					var rowListPrice = row.find('input[name=listPrice]');
 					var listPrice = rowListPrice.val();
@@ -79,7 +79,7 @@ Vtiger_Popup_Js("PriceBook_Products_Popup_Js",{
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('click','.cancelLink',function(e){
 			thisInstance.done();
-		})
+		});
 	},
 
 	/**

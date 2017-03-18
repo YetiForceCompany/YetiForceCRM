@@ -18,7 +18,7 @@ jQuery.Class("Migration_Index_Js",{
 				jQuery("#success").show();
 				jQuery("#nextButton").show();
 				jQuery("#showDetails").show().html(data);
-			})
+			});
 	},
 	
 	registerEvents : function(){

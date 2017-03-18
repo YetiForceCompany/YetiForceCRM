@@ -126,7 +126,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var html = '';
 			var legend = response.result.legend;
 			legend.forEach(function (e) {
-				html += '<div class="pull-left"><span class="leegendIcon" style="background:' + e.color + '"></span> ' + e.value + '</div>'
+				html += '<div class="pull-left"><span class="leegendIcon" style="background:' + e.color + '"></span> ' + e.value + '</div>';
 			});
 			footer.html(html);
 		} else {
@@ -335,7 +335,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 						});
 					}
 					response(reponseDataList);
-				})
+				});
 			},
 			select: function (event, ui) {
 				var selected = ui.item;
@@ -492,7 +492,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.addLayer(startIconLayer);
 			thisInstance.showCalculateBtn();
 		});
-		var endIconLayer = false
+		var endIconLayer = false;
 		container.on('click', '.endTrack', function (e) {
 			map.removeLayer(endIconLayer);
 			var currentTarget = $(e.currentTarget);
@@ -500,7 +500,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			var description = containerPopup.find('.description').html();
 			var endElement = container.find('.end');
 			var coordinates = containerPopup.find('.coordinates');
-			var description = description.replace(/\<br\>/gi, ", ");
+			description = description.replace(/\<br\>/gi, ", ");
 			endElement.val(description);
 			endElement.data('lat', coordinates.data('lat'));
 			endElement.data('lon', coordinates.data('lon'));

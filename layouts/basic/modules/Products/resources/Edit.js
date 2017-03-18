@@ -152,7 +152,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 				jQuery('input', parentRow).attr('disabled', true).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', true).removeAttr('disabled');
 				var calculatedPrice = app.parseNumberToShow(price);
-				jQuery('input.convertedPrice', parentRow).val(calculatedPrice)
+				jQuery('input.convertedPrice', parentRow).val(calculatedPrice);
 			} else {
 				var baseCurrency = jQuery('.baseCurrency', parentRow);
 				if (baseCurrency.is(':checked')) {
@@ -170,7 +170,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 				jQuery('input.enableCurrency', parentRow).removeAttr('disabled');
 				jQuery('button.currencyReset', parentRow).attr('disabled', 'disabled');
 			}
-		})
+		});
 		return this;
 	},
 	/**
@@ -191,7 +191,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 				'view': "MoreCurrenciesList",
 				'currency': baseCurrency,
 				'record': recordId
-			}
+			};
 
 			AppConnector.request(moreCurrenciesParams).then(
 					function (data) {
@@ -230,7 +230,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 								thisInstance.saveCurrencies();
 							}
 							return false;
-						}
+						};
 						form.validationEngine(params);
 						app.showScrollBar(data.find('.currencyContent'), {'height': '400px'});
 						thisInstance.baseCurrency = thisInstance.getUnitPrice().val();
@@ -241,11 +241,11 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 						thisInstance.registerEventForEnableBaseCurrency();
 						thisInstance.registerEventForResetCurrency();
 						thisInstance.triggerForBaseCurrencyCalc();
-					}
+					};
 					var moreCurrenciesContainer = jQuery('#moreCurrenciesContainer').find('.multiCurrencyEditUI');
 					var contentInsideForm = moreCurrenciesUi.find('.multiCurrencyContainer').html();
 					moreCurrenciesUi.find('.multiCurrencyContainer').remove();
-					var form = '<form id="currencyContainer"></form>'
+					var form = '<form id="currencyContainer"></form>';
 					jQuery(form).insertAfter(moreCurrenciesUi.find('.modal-header'));
 					moreCurrenciesUi.find('form').html(contentInsideForm);
 					moreCurrenciesContainer.find('input[name^=curname]').each(function (index, element) {
@@ -257,10 +257,10 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 						data: moreCurrenciesUi,
 						css: css,
 						cb: callback
-					}
-					app.showModalWindow(modalWindowParams)
+					};
+					app.showModalWindow(modalWindowParams);
 				}
-			})
+			});
 		});
 	},
 	/**
@@ -280,7 +280,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 				var baseCurrencyRow = jQuery(val).closest('tr');
 				baseCurrencyRow.find('.convertedPrice').val('');
 			}
-		})
+		});
 	},
 	/**
 	 * Function to register onchange event for unit price
@@ -290,7 +290,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 		var unitPrice = this.getUnitPrice();
 		unitPrice.on('change', function () {
 			thisInstance.triggerForBaseCurrencyCalc();
-		})
+		});
 	},
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
@@ -307,11 +307,11 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 					thisInstance.preSaveConfigOfForm(form);
 					InitialFormData = form.serialize();
 					form.submit();
-				})
+				});
 			} else if (multiCurrencyContent.length > 0) {
 				thisInstance.preSaveConfigOfForm(form);
 			}
-		})
+		});
 	},
 	/**
 	 * Function to handle settings before save of record
@@ -428,4 +428,4 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 		this.registerRecordPreSaveEvent();
 		this.registerEventForUsageunit();
 	}
-})
+});

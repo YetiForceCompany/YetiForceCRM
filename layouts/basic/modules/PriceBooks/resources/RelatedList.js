@@ -37,7 +37,7 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 			'view': "PriceBookProductPopup",
 			'src_field': 'priceBookRelatedList',
 			'multi_select': true
-		}
+		};
 		return parameters;
 	},
 	/**
@@ -66,4 +66,4 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 		);
 		return aDeferred.promise();
 	}
-})
+});

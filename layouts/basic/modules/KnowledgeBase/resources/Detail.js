@@ -27,4 +27,4 @@ Vtiger_Detail_Js("KnowledgeBase_Detail_Js", {}, {
 			this.setSlideHeight('#carouselPresentation');
 		}
 	}
-})
+});

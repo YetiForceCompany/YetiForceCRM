@@ -97,7 +97,7 @@ var Vtiger_CustomView_Js = {
 				function (error) {
 					aDeferred.reject(error);
 				}
-		)
+		);
 		return aDeferred.promise();
 	},
 	saveAndViewFilter: function () {
@@ -111,7 +111,7 @@ var Vtiger_CustomView_Js = {
 						}
 						window.location.href = url;
 					} else {
-						$.unblockUI()
+						$.unblockUI();
 						var params = {
 							title: app.vtranslate('JS_DUPLICATE_RECORD'),
 							text: response.error['message']
@@ -147,14 +147,14 @@ var Vtiger_CustomView_Js = {
 		});
 		container.find('.iconPreferences input').each(function (e) {
 			jQuery(this).trigger('change');
-		})
+		});
 	},
 	registerCkEditorElement: function () {
 		var container = this.getContentsContainer();
 		container.find('.ckEditorSource').each(function (e) {
 			var ckEditorInstance = new Vtiger_CkEditor_Js();
 			ckEditorInstance.loadCkEditor(jQuery(this)); //{toolbar: 'Basic'}
-		})
+		});
 	},
 	registerBlockToggleEvent: function () {
 		var container = this.getContentsContainer();
@@ -214,7 +214,7 @@ var Vtiger_CustomView_Js = {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_VIEWNAME_ALERT')
-				}
+				};
 				Vtiger_Helper_Js.showPnotify(params);
 				e.preventDefault();
 				return;
@@ -267,4 +267,4 @@ var Vtiger_CustomView_Js = {
 		});
 		jQuery('#CustomView').validationEngine(app.validationEngineOptions);
 	}
-}
+};

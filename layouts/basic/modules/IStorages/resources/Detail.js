@@ -33,7 +33,7 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 				railVisible: true,
 				size: '6px'
 			});
-		}
+		};
 		app.showModalWindow(data, function (data) {
 			if (typeof callbackFunction == 'function' && jQuery('#hierarchyScroll').height() > 300) {
 				callbackFunction(data);
@@ -48,7 +48,7 @@ Vtiger_Detail_Js("IStorages_Detail_Js", {}, {
 				action: 'RelationAjax',
 				record: app.getRecordId(),
 				mode: 'getHierarchyCount',
-			}
+			};
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
 					$('.detailViewTitle .hierarchy').append(' <span class="badge">' + response.result + '</span>');

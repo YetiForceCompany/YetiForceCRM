@@ -43,7 +43,7 @@ Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
 			if((invalidFields.length) == 0){
 				var selectedRecordDetails = new Array();
 				selectedRecords.each(function(index, checkBoxElement){
-					var checkBoxJqueryObject = jQuery(checkBoxElement)
+					var checkBoxJqueryObject = jQuery(checkBoxElement);
 					var row = checkBoxJqueryObject.closest('tr');
 					var rowListPrice = row.find('input[name=listPrice]');
 					var listPrice = rowListPrice.val();
@@ -79,7 +79,7 @@ Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('click','.cancelLink',function(e){
 			thisInstance.done();
-		})
+		});
 	},
 
 	/**

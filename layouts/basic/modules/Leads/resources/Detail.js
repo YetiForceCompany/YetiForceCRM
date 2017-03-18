@@ -97,7 +97,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 				pnotify_after_close: function () {
 					instance.enableConvertLeadButton(buttonElement);
 				}
-			}
+			};
 			Vtiger_Helper_Js.showPnotify(params);
 		} else {
 			var callBackFunction = function (data) {
@@ -116,7 +116,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 				instance.registerConvertLeadEvents();
 				instance.getConvertLeadForm().validationEngine(app.validationEngineOptions);
 				instance.registerConvertLeadSubmit();
-			}
+			};
 			app.showModalWindow(data, function (data) {
 				if (typeof callBackFunction == 'function') {
 					callBackFunction(data);

@@ -21,7 +21,7 @@ function showRelatedListPassword(record) {
 			'module': "OSSPasswords",
 			'action': "GetPass",
 			'record': record
-		}
+		};
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
 			'blockInfo': {

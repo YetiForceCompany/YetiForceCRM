@@ -46,7 +46,7 @@ Vtiger_Edit_Js("Reports_Edit_Js", {
 			var view = app.getViewName();
 			var moduleClassName = app.getModuleName() + "_" + view + step + "_Js";
 			Reports_Edit_Js.instance[step] = new window[moduleClassName]();
-			return Reports_Edit_Js.instance[step]
+			return Reports_Edit_Js.instance[step];
 		}
 	},
 	/*
@@ -116,7 +116,7 @@ Vtiger_Edit_Js("Reports_Edit_Js", {
 					});
 				}
 				e.preventDefault();
-			})
+			});
 		}
 	},
 	back: function () {

@@ -164,9 +164,9 @@ Report_Verticalbarchart_Js('Report_Linechart_Js', {}, {
 		var chartData = [];
 		var yMaxValue = 0;
 
-		chartData[1] = []
-		chartData[2] = []
-		chartData[0] = []
+		chartData[1] = [];
+		chartData[2] = [];
+		chartData[0] = [];
 		for (var i in values) {
 			var value = values[i];
 			for (var j in value) {

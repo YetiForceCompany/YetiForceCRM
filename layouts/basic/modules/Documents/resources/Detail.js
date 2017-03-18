@@ -58,12 +58,12 @@ Vtiger_Detail_Js("Documents_Detail_Js", {
 			params = {
 				text: message,
 				type: 'success'
-			}
+			};
 		} else {
 			params = {
 				text: message,
 				type: 'error'
-			}
+			};
 		}
 		Documents_Detail_Js.showNotify(params);
 		window.location.href = result['url'];

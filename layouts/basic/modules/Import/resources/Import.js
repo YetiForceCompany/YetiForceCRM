@@ -65,7 +65,7 @@ if (typeof (ImportJs) == 'undefined') {
 		},
 		registerImportClickEvent: function () {
 			jQuery('#importButton').on('click', function (e) {
-				var result = ImportJs.sanitizeAndSubmit()
+				var result = ImportJs.sanitizeAndSubmit();
 				return result;
 			});
 		},
@@ -329,7 +329,7 @@ if (typeof (ImportJs) == 'undefined') {
 				return;
 			}
 			deleteMapContainer.show();
-			var mappingString = selectedMapElement.val()
+			var mappingString = selectedMapElement.val();
 			if (mappingString == '')
 				return;
 			var mappingPairs = mappingString.split('&');
@@ -367,7 +367,7 @@ if (typeof (ImportJs) == 'undefined') {
 					"view": 'Import',
 					"mode": 'deleteMap',
 					"mapid": mapId
-				}
+				};
 
 				AppConnector.request(postData).then(
 						function (data) {
@@ -421,7 +421,7 @@ if (typeof (ImportJs) == 'undefined') {
 				});
 			});
 		}
-	}
+	};
 
 	jQuery(document).ready(function () {
 		ImportJs.toogleMergeConfiguration();

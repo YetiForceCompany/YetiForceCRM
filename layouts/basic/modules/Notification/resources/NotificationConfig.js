@@ -43,7 +43,8 @@ jQuery.Class("Notification_NotificationConfig_Js", {}, {
 						progress.progressIndicator({'mode': 'hide'});
 						app.hideModalWindow();
 						app.errorLog(textStatus, errorThrown);
-					})
+					}
+			);
 		});
 		container.find('.selectAllModules').on('click', function (e) {
 			e.stopPropagation();

@@ -43,11 +43,11 @@ Vtiger_Edit_Js("Contacts_Edit_Js",{},{
 			if(!result){
 				e.preventDefault();
 			}
-		})
+		});
 	},
 	
 	registerBasicEvents : function(container){
 		this._super(container);
 		this.registerRecordPreSaveEvent(container);
 	}
-})
+});

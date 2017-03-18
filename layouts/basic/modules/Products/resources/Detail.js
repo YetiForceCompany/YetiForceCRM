@@ -24,7 +24,7 @@ PriceBooks_Detail_Js("Products_Detail_Js",{},{
 			 imageContainer.cycle('pause');
 		 }).on('mouseout',function(){
 			 imageContainer.cycle('resume');
-		 })
+		 });
 	},
 	
 	/**
@@ -48,4 +48,4 @@ PriceBooks_Detail_Js("Products_Detail_Js",{},{
 		this._super();
 		this.registerEventForImageGraphics();
 	}
-})
+});
