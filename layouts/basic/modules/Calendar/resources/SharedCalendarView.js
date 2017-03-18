@@ -93,7 +93,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				userid : feedcheckbox.data('calendar-userid'),
 				color : feedcheckbox.data('calendar-feed-color'),
 				textColor : feedcheckbox.data('calendar-feed-textcolor')
-			}
+			};
 
 			AppConnector.request(params).then(function(events){
 				callback(events);
@@ -103,7 +103,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
                 //To send empty events if error occurs
                 callback([]);
             });
-		}
+		};
 		if(thisInstance.multipleEventsOnLoad == 1){
 			this.getCalendarView().fullCalendar('addEventSource', this.calendarfeedDS[feedcheckbox.data('calendar-sourcekey')]);
 		}
@@ -127,10 +127,11 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				feedUserLabel.css({'background-color':color});
 			}
 			var colorContrast = app.getColorContrast(color.slice(1));
+			var textColor;
 			if(colorContrast == 'light') {
-				var textColor = 'black'
+				textColor = 'black';
 			} else {
-				textColor = 'white'
+				textColor = 'white';
 			}
 			feedUserElement.data('calendar-feed-textcolor',textColor);
 			feedUserLabel.css({'color':textColor});
@@ -154,7 +155,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			end: app.getStringDate(thisInstance.getCalendarView().fullCalendar('getView').visEnd),
 			type: 'MultipleEvents',
 			mapping : result
-		}
+		};
 
 		AppConnector.request(params).then(function(multipleEvents){
 				thisInstance.multipleEvents = multipleEvents;
@@ -180,7 +181,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			var customParams = {
 				text : msg,
 				 type: 'info'
-			}
+			};
 			Vtiger_Helper_Js.showPnotify(customParams);
 			return;
 		} else {
@@ -199,7 +200,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			action: 'CalendarUserActions',
 			mode : 'deleteUserCalendar',
 			userid : feedcheckbox.data('calendar-userid')
-		}
+		};
 		
 		AppConnector.request(params).then(function(response) {
 			var result = response['result'];
@@ -242,7 +243,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			selectElement.find('option:selected').removeAttr('selected');
 			selectElement.find('option[value="'+feedUserEle.data('calendar-userid')+'"]').attr('selected', true);
 			thisInstance.showAddUserCalendarModal(currentTarget);
-		})
+		});
 	},
 	
 	/**
@@ -257,7 +258,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			var userid = selectElement.find('option:selected').val();
 			var userColor = jQuery('[data-calendar-userid="'+userid+'"]', parentElement).data('calendar-feed-color');
 			selectedUserColor.val(userColor);
-			data.find('.calendarColorPicker').ColorPickerSetColor(userColor)
+			data.find('.calendarColorPicker').ColorPickerSetColor(userColor);
 		});
 	},
 	
@@ -282,10 +283,11 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			
 			var parentElement = jQuery('#calendarview-feeds');
 			var colorContrast = app.getColorContrast(userColor.slice(1));
+			var textColor;
 			if(colorContrast == 'light') {
-				var textColor = 'black'
+				textColor = 'black';
 			} else {
-				textColor = 'white'
+				textColor = 'white';
 			}
 			if(data.find('.userCalendarMode').val() == 'edit') {
 				var feedUserEle = jQuery('[data-calendar-userid="'+userId+'"]', parentElement);
@@ -301,7 +303,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				var labelModal = jQuery('.labelModal', parentElement);
 				var clonedContainer = labelModal.clone(true, true);
 				var labelView = clonedContainer.find('label');
-				feedUserEle = labelView.find('[type="checkbox"]');
+				var feedUserEle = labelView.find('[type="checkbox"]');
 				feedUserEle.attr('checked', 'checked');
 				feedUserEle.attr('data-calendar-feed-color',userColor).attr('data-calendar-feed', 'Events').attr('data-calendar-userid', userId)
 						.attr('data-calendar-sourcekey', 'Events33_'+userId).attr('data-calendar-feed-textcolor',textColor);

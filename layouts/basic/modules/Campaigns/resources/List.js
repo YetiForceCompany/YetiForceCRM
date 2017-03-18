@@ -127,7 +127,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 				"relatedModule" : relatedModuleName,
 				'record' : recordId,
 				'tab_label' : tab_label
-			}
+			};
 			AppConnector.request(postData).then(
 				function(data) {
 					jQuery("#recordsCount").val(data['result']['count']);
@@ -156,4 +156,4 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 		this.registerSelectAllClickEvent();
 		this.registerDeselectAllClickEvent();
 	}
-})
+});

@@ -190,7 +190,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 						} else {
 							jQuery(this).addClass('hide');
 						}
-					})
+					});
 					progressInstance.progressIndicator({'mode': 'hide'});
 					var text = app.vtranslate('JS_REMOVED_FROM_FAVORITES');
 					if (state) {
@@ -237,7 +237,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 				}
 				relatedController.registerEvents();
 			});
-		})
+		});
 	},
 	/**
 	 * Function to register email enabled actions
@@ -317,4 +317,4 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		var listInstance = Vtiger_List_Js.getInstance();
 		listInstance.registerEvents();
 	}
-})
+});

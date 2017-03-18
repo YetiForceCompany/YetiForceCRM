@@ -28,7 +28,7 @@ jQuery(function () {
 	var params = {
 		'view': 'Index',
 		'module': 'AJAXChat'
-	}
+	};
 	AppConnector.request(params).then(
 			function (data) {
 				jQuery('#page').append(data);

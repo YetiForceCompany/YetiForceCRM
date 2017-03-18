@@ -28,7 +28,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				var subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
 				var headerInstance = Vtiger_Header_Js.getInstance();
 				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'})
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (currentTarget.data('type') == '0' && typeof subject != 'undefinied' && subject.length > 0) {
 						data = jQuery(data);
 						var element = data.find('[name="subject"]');
@@ -58,7 +58,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			action: "ActivityStateAjax",
 			record: currentTarget.data('id'),
 			state: currentTarget.data('state')
-		}
+		};
 		app.hideModalWindow();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -117,4 +117,4 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 jQuery(document).ready(function (e) {
 	var instance = new Calendar_ActivityStateModal_Js();
 	instance.registerEvents();
-})
+});

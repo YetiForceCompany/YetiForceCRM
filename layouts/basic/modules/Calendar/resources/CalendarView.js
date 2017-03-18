@@ -12,8 +12,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var view = jQuery('#currentView').val();
 		var jsFileName = view + 'View';
 		var moduleClassName = view + "_" + jsFileName + "_Js";
+		var instance;
 		if (typeof window[moduleClassName] != 'undefined') {
-			var instance = new window[moduleClassName]();
+			instance = new window[moduleClassName]();
 		} else {
 			instance = new Calendar_CalendarView_Js();
 		}
@@ -30,7 +31,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					height: '250px'
 				});
 			}
-			;
 		});
 	},
 	registerWidget: function () {
@@ -54,9 +54,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			container.addClass(fieldClass + '_' + selectedId);
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
-		}
+		};
 		app.changeSelectElementView(field, 'select2', params);
-	},
+	}
 }, {
 	calendarView: false,
 	calendarCreateView: false,
@@ -171,11 +171,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + event.data('id');
 					var callbackFunction = function (data) {
 						progressInstance.progressIndicator({mode: 'hide'});
-					}
+					};
 					var modalWindowParams = {
 						url: url,
-						cb: callbackFunction,
-					}
+						cb: callbackFunction
+					};
 					app.showModalWindow(modalWindowParams);
 				});
 			},
@@ -296,7 +296,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				time: app.getMainParams('showType'),
 				types: types,
 				filters: filters
-			}
+			};
 			AppConnector.request(params).then(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
@@ -317,7 +317,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			start: start,
 			delta: delta._data,
 			allDay: event.allDay
-		}
+		};
 		AppConnector.request(params).then(function (response) {
 			progressInstance.progressIndicator({mode: 'hide'});
 			if (!response['result']) {
@@ -505,7 +505,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 						thisInstance.addCalendarEvent(data.result);
 					}});
 			});
-		})
+		});
 	},
 	createAddSwitch: function () {
 		var thisInstance = this;
@@ -525,7 +525,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 						app.moduleCacheSet('defaultShowType', 'history');
 					}
 					thisInstance.loadCalendarData();
-				})
+				});
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
 		var checked = '';
 		if (app.getMainParams('switchingDays') == 'workDays' && app.moduleCacheGet('defaultSwitchingDays') != 'all') {
@@ -544,7 +544,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 						}
 						thisInstance.renderCalendar();
 						thisInstance.loadCalendarData();
-					})
+					});
 			app.showBtnSwitch(switchBtn.find('.switchBtn'));
 		}
 	},
@@ -646,7 +646,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 });
 jQuery(document).ready(function () {
 	var instance = Calendar_CalendarView_Js.getInstanceByView();
-	instance.registerEvents()
+	instance.registerEvents();
 	Calendar_CalendarView_Js.currentInstance = instance;
 	Calendar_CalendarView_Js.registerWidget();
-})
+});

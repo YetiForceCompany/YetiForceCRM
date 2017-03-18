@@ -24,7 +24,7 @@ jQuery.Class('Install_Index_Js', {}, {
 		});
 
 		jQuery('input[name="step4"]').on('click', function (e) {
-			var elements = jQuery('.no')
+			var elements = jQuery('.no');
 			if (elements.length > 0) {
 				var msg = app.vtranslate('LBL_PHP_WARNING');
 				if (confirm(msg)) {
@@ -41,7 +41,7 @@ jQuery.Class('Install_Index_Js', {}, {
 		var thisInstance = this;
 		jQuery('input[name="password"]').on('blur', function () {
 			thisInstance.checkPwd(jQuery(this).val());
-		})
+		});
 	},
 	checkPwd: function (pass) {
 		var error = false;
@@ -160,9 +160,10 @@ jQuery.Class('Install_Index_Js', {}, {
 				error = true;
 
 			var emailField = jQuery('input[name="admin_email"]');
+			var invalidEmailAddress = false;
 			var regex = /^[_/a-zA-Z0-9*]+([!"#$%&'()*+,./:;<=>?\^_`{|}~-]?[a-zA-Z0-9/_/-])*@[a-zA-Z0-9]+([\_\-\.]?[a-zA-Z0-9]+)*\.([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)?$/;
 			if (!regex.test(emailField.val()) && emailField.val() != '') {
-				var invalidEmailAddress = true;
+				invalidEmailAddress = true;
 				emailField.addClass('error').focus();
 				error = true;
 			} else {
@@ -216,7 +217,7 @@ jQuery.Class('Install_Index_Js', {}, {
 					admin_email: document.step4.admin_email.value,
 					dateformat: document.step4.dateformat.value,
 					timezone: document.step4.timezone.value
-				}
+				};
 				window.localStorage.setItem('yetiforce_install', JSON.stringify(config));
 				jQuery('form[name="step4"]').submit();
 			}
@@ -279,4 +280,4 @@ jQuery.Class('Install_Index_Js', {}, {
 jQuery(document).ready(function () {
 	var install = new Install_Index_Js();
 	install.registerEvents();
-})
+});
