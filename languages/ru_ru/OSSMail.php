@@ -83,6 +83,8 @@ $languageStrings = [
 	'LBL_ADD_HELPDESK' => 'Добавить заявку',
 	'LBL_ADD_PRODUCTS' => 'Добавить товар',
 	'LBL_ADD_SERVICES' => 'Добавить услугу',
+	//BTN
+	'LBL_CREATEMAIL' => 'Написать Письмо',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Запись не имеет адреса электронной почты',

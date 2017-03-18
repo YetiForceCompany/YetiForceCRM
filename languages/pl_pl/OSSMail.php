@@ -82,6 +82,8 @@ $languageStrings = [
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',
 	'LBL_MINIMIZE_BAR' => 'Zwijanie i rozwijanie paska',
+	//BTN
+	'LBL_CREATEMAIL' => 'Wyślij maila',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Rekord nie posiada adresu email',

@@ -82,6 +82,8 @@ $languageStrings = [
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Número de direcciones de correos encontrados',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Número de registros seleccionados',
 	'LBL_MINIMIZE_BAR' => 'Minimizar barra',
+	//BTN
+	'LBL_CREATEMAIL' => 'Crear',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'El registro no tiene dirección de correo',
