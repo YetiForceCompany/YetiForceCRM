@@ -60,7 +60,7 @@ class Users_ForgotPassword_Action
 		if (strcasecmp($request->get('emailId'), $email) === 0) {
 			$userId = $adb->query_result($result, 0, 'id');
 			$time = time();
-			$options = array(
+			$options = [
 				'handler_path' => 'modules/Users/handlers/ForgotPassword.php',
 				'handler_class' => 'Users_ForgotPassword_Handler',
 				'handler_function' => 'changePassword',
@@ -70,15 +70,17 @@ class Users_ForgotPassword_Action
 					'time' => $time,
 					'hash' => md5($username . $time)
 				)
-			);
-			$status = \App\Mailer::sendFromTemplate([
-					'template' => 'UsersForgotPassword',
-					'moduleName' => 'Users',
-					'recordId' => $userId,
-					'to' => $email,
-					'priority' => 9,
-					'trackURL' => Vtiger_ShortURL_Helper::generateURL($options)
-			]);
+			];
+			if (App\Mail::getDefaultSmtp()) {
+				$status = \App\Mailer::sendFromTemplate([
+						'template' => 'UsersForgotPassword',
+						'moduleName' => 'Users',
+						'recordId' => $userId,
+						'to' => $email,
+						'priority' => 9,
+						'trackURL' => Vtiger_ShortURL_Helper::generateURL($options)
+				]);
+			}
 			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
 			if ($status)
 				header('Location:  ' . $site_URL . '&status=1');
