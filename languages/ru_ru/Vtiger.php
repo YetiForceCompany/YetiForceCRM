@@ -1301,6 +1301,7 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'Copy to clipboard',
 	'LBL_COPY_VALUE' => 'Field value',
 	'LBL_COPY_LABEL' => 'Field name',
+	'LBL_AUTOMATIC' => 'Automatic',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Number of found e-mail addresses',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Number of selected records',
