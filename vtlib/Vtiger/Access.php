@@ -143,13 +143,11 @@ class Access
 			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
 			$db = \App\Db::getInstance();
 			foreach ($profileids as &$useProfileId) {
-				$curpermission = (new \App\Db\Query)->select('permission')->from('vtiger_profile2utility')
+				$isExists = (new \App\Db\Query)->from('vtiger_profile2utility')
 					->where(['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])
-					->scalar();
-				if ($curpermission !== false) {
-					if (((string) $curpermission) !== $permission) {
-						$db->createCommand()->update('vtiger_profile2utility', ['permission' => $permission], ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])->execute();
-					}
+					->exists();
+				if ($isExists) {
+					$db->createCommand()->update('vtiger_profile2utility', ['permission' => $permission], ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])->execute();
 				} else {
 					$db->createCommand()->insert('vtiger_profile2utility', ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId, 'permission' => $permission])->execute();
 				}
