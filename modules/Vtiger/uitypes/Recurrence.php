@@ -53,7 +53,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	public static function getRecurringInfo($value)
 	{
 		$result = [];
-		if 	(!empty($value)) {
+		if (!$value) {
 			$values = explode(';', $value);
 			foreach ($values as $val) {
 				$val = explode('=', $val, 2);
@@ -93,7 +93,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	{
 		$info = self::getRecurringInfo($value);
 		$text = '';
-		if (count($info) > 0) {
+		if (!$info) {
 			$moduleName = 'Events';
 			$text = App\Language::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
 				. App\Language::translate($info['freqLabel'], $moduleName) . ' '
