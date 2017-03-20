@@ -59,8 +59,11 @@ class Vtiger_Language_Handler
 	{
 		$moduleStrings = [];
 
-		if (is_array($module) || empty($key)) {
-			App\Log::warning('Invalid module name');
+		if (empty($key)) { // nothing to translate
+			return '';
+		}
+		if (is_array($module)) {
+			App\Log::warning('Invalid module name - module: ' . var_export($module));
 			return null;
 		}
 		if (is_numeric($module)) {
@@ -87,6 +90,8 @@ class Vtiger_Language_Handler
 		$commonStrings = self::getModuleStringsFromFile($language);
 		if (!empty($commonStrings['languageStrings'][$key]))
 			return stripslashes($commonStrings['languageStrings'][$key]);
+
+ 		\App\Log::info('cannot translate this: "'.$key.'" for module '.$module.'  (or base or Vtiger)');
 
 		return null;
 	}
