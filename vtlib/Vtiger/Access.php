@@ -143,7 +143,7 @@ class Access
 			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
 			$db = \App\Db::getInstance();
 			foreach ($profileids as &$useProfileId) {
-				$curpermission = (new \App\Db\Query)->select('permission')->from('vtiger_profile2utility')
+				$curpermission = (new \App\Db\Query)->select('count(permission)')->from('vtiger_profile2utility')
 					->where(['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])
 					->scalar();
 				if ($curpermission !== false) {
