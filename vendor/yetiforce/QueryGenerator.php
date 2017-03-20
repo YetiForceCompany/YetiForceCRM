@@ -299,6 +299,15 @@ class QueryGenerator
 	}
 
 	/**
+	 * Add table to query
+	 * @param string $tableName
+	 */
+	public function addTableToQuery($tableName)
+	{
+		$this->tablesList[$tableName] = $tableName;
+	}
+
+	/**
 	 * Set ignore comma
 	 * @param boolean $val
 	 */

@@ -350,9 +350,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getDependentsList()
 	{
 		$fieldModel = $this->getRelationField(true);
-		$this->getQueryGenerator()->addNativeCondition([
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addNativeCondition([
 			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
 		]);
+		$queryGenerator->addTableToQuery($fieldModel->getTableName());
 	}
 
 	/**
