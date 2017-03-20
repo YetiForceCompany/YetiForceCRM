@@ -1297,6 +1297,7 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'In Zwischenspeicher kopieren',
 	'LBL_COPY_VALUE' => 'Feldwert',
 	'LBL_COPY_LABEL' => 'Feldname',
+	'LBL_AUTOMATIC' => 'Automatic',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Anzahl gefundener E-Mail Adressen',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Anzahl selektierter Datensätze',
