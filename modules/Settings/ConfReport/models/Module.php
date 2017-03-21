@@ -353,7 +353,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
-		require_once ('include/utils/VtlibUtils.php');
+		require_once ROOT_DIRECTORY . '/include/utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = vtlib_isWriteable($value);
 			if (!$isWriteable || !$onlyError) {
