@@ -408,4 +408,84 @@ class DataAccess_ConditionsTest
 			return !($new_value == $pre_value);
 		}
 	}
+
+	/**
+	 * Function to test, how many hours after current datetime
+	 * @param array $form
+	 * @param array $cndArray
+	 * @return boolean
+	 */
+	public static function lessThanHoursLater($form, $cndArray) {
+		$val = self::getValue($form, $cndArray['fieldname']);
+		$cndDate = new DateTime();
+		$val = new DateTime($val);
+		$interval = $cndDate->diff($val);
+		if($interval->invert === 0) {
+			$maxInterval = (int) $cndArray['val'];
+			$diffHours = $interval->h + $interval->d * 24;
+			return $diffHours < $maxInterval;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Function to test, how many hours after current datetime
+	 * @param array $form
+	 * @param array $cndArray
+	 * @return boolean
+	 */
+	public static function moreThanHoursLater($form, $cndArray) {
+		$val = self::getValue($form, $cndArray['fieldname']);
+		$cndDate = new DateTime();
+		$val = new DateTime($val);
+		$interval = $cndDate->diff($val);
+		if ($interval->invert === 0) {
+			$maxInterval = (int) $cndArray['val'];
+			$diffHours = $interval->h + $interval->d * 24;
+			return $diffHours > $maxInterval;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Function to test, how many hours before current datetime
+	 * @param array $form
+	 * @param array $cndArray
+	 * @return boolean
+	 */
+	public static function lessThanHoursBefore($form, $cndArray) {
+		$val = self::getValue($form, $cndArray['fieldname']);
+		$cndDate = new DateTime();
+		$val = new DateTime($val);
+		$interval = $cndDate->diff($val);
+		if($interval->invert === 1) {
+			$maxInterval = (int) $cndArray['val'];
+			$diffHours = $interval->h + $interval->d * 24;
+			return $diffHours < $maxInterval;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Function to test, how many hours before current datetime
+	 * @param array $form
+	 * @param array $cndArray
+	 * @return boolean
+	 */
+	public static function moreThanHoursBefore($form, $cndArray) {
+		$val = self::getValue($form, $cndArray['fieldname']);
+		$cndDate = new DateTime();
+		$val = new DateTime($val);
+		$interval = $cndDate->diff($val);
+		if($interval->invert === 1) {
+			$maxInterval = (int) $cndArray['val'];
+			$diffHours = $interval->h + $interval->d * 24;
+			return $diffHours > $maxInterval;
+		} else {
+			return false;
+		}
+	}
 }
