@@ -27651,8 +27651,6 @@ insert  into `vtiger_timecontrol_type_seq`(`id`) values (3);
 
 /*Data for the table `vtiger_tmp_write_user_sharing_per` */
 
-/*Data for the table `vtiger_tracker` */
-
 /*Data for the table `vtiger_tracking_unit` */
 
 insert  into `vtiger_tracking_unit`(`tracking_unitid`,`tracking_unit`,`presence`,`picklist_valueid`,`sortorderid`) values (2,'Hours',1,211,2);

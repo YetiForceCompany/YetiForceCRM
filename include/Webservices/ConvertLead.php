@@ -251,10 +251,6 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
 		if ($result === false) {
 			throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, "Failed mark lead converted");
 		}
-
-		$sql = "DELETE FROM vtiger_tracker WHERE item_id=?";
-		$adb->pquery($sql, [$leadId]);
-
 		//update the modifiedtime and modified by information for the record
 		$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
 		$crmentityUpdateSql = "UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?";

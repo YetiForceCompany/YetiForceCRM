@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 require_once('include/CRMEntity.php');
-require_once('include/Tracker.php');
 
 class ModCommentsCore extends CRMEntity
 {

@@ -1387,17 +1387,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_tracker' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'user_id' => $this->stringType(36),
-					'module_name' => $this->stringType(25),
-					'item_id' => $this->stringType(36),
-					'item_summary' => $this->stringType(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_tracking_unit' => [
 				'columns' => [
 					'tracking_unitid' => $this->primaryKey(),

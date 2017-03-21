@@ -8813,17 +8813,6 @@ CREATE TABLE `vtiger_tmp_write_user_sharing_per` (
   CONSTRAINT `fk_3_vtiger_tmp_write_user_sharing_per` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_tracker` */
-
-CREATE TABLE `vtiger_tracker` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(36) DEFAULT NULL,
-  `module_name` varchar(25) DEFAULT NULL,
-  `item_id` varchar(36) DEFAULT NULL,
-  `item_summary` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_tracking_unit` */
 
 CREATE TABLE `vtiger_tracking_unit` (
