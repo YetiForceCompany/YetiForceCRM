@@ -99,7 +99,7 @@
 						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('rel_comment')}</td>
 					{/if}
 				</tr>
-				{if $RELATED_RECORD->getModule()->isInventory()}
+				{if $RELATED_RECORD->getModule()->isInventory() && !empty($INVENTORY_FIELDS)}
 					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
 					<tr class="listViewInventoryEntries hide">
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
