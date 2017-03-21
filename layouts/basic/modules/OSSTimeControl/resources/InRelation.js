@@ -33,7 +33,7 @@ jQuery(document).ready(function ($) {
 					series: {
 						bars: {
 							show: true,
-							barWidth: .9,
+							barWidth: 0.9,
 							dataLabels: false,
 							align: "center",
 							//lineWidth: 0

@@ -490,10 +490,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		var params = {};
 		params['action'] = "RelationAjax";
 		params['module'] = this.parentModuleName;
-		params['record'] = this.getParentId(),
-				params['relatedModule'] = this.relatedModulename,
-				params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
-		params['mode'] = "getRelatedListPageCount"
+		params['record'] = this.getParentId();
+		params['relatedModule'] = this.relatedModulename;
+		params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
+		params['mode'] = "getRelatedListPageCount";
 
 		var element = jQuery('#totalPageCount');
 		var totalCountElem = jQuery('#totalCount');
@@ -577,8 +577,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		});
 	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		this.selectedRelatedTabElement = selectedRelatedTabElement,
-				this.parentRecordId = parentId;
+		this.selectedRelatedTabElement = selectedRelatedTabElement;
+		this.parentRecordId = parentId;
 		this.parentModuleName = parentModule;
 		this.relatedModulename = relatedModuleName;
 		this.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');

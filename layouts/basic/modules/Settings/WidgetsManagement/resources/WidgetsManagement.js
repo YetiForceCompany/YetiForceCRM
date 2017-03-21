@@ -457,33 +457,33 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			dropDownContainer.append(dropDown);
 			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
 			var params = app.getvalidationEngineOptions(true);
-			params.binded = false,
-					params.onValidationComplete = function (form, valid) {
-						if (valid) {
-							if (form == undefined) {
-								return true;
-							}
-							var paramsForm = form.serializeFormData();
-							if (form.find('[name="isdefault"]').prop("checked"))
-								paramsForm['isdefault'] = 1;
-							if (form.find('[name="cache"]').prop("checked"))
-								paramsForm['cache'] = 1;
-							var id = form.find('.saveFieldDetails').data('field-id');
-							paramsForm['action'] = 'saveDetails';
-							paramsForm['id'] = id;
-							if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined') {
-								var params = {};
-								params['type'] = 'error';
-								params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
-								Settings_Vtiger_Index_Js.showMessage(params);
-								e.preventDefault();
-								return false;
-							}
-							thisInstance.save(paramsForm, 'save');
-							thisInstance.registerSaveFieldDetailsEvent(form);
-						}
+			params.binded = false;
+			params.onValidationComplete = function (form, valid) {
+				if (valid) {
+					if (form == undefined) {
+						return true;
+					}
+					var paramsForm = form.serializeFormData();
+					if (form.find('[name="isdefault"]').prop("checked"))
+						paramsForm['isdefault'] = 1;
+					if (form.find('[name="cache"]').prop("checked"))
+						paramsForm['cache'] = 1;
+					var id = form.find('.saveFieldDetails').data('field-id');
+					paramsForm['action'] = 'saveDetails';
+					paramsForm['id'] = id;
+					if (paramsForm['default_owner'] && typeof paramsForm['owners_all'] == 'undefined') {
+						var params = {};
+						params['type'] = 'error';
+						params['text'] = app.vtranslate('JS_FILTERS_AVAILABLE') + ': ' + app.vtranslate('JS_FIELD_EMPTY');
+						Settings_Vtiger_Index_Js.showMessage(params);
+						e.preventDefault();
 						return false;
 					}
+					thisInstance.save(paramsForm, 'save');
+					thisInstance.registerSaveFieldDetailsEvent(form);
+				}
+				return false;
+			};
 			dropDownMenu.find('form').validationEngine(params);
 			//handled registration of selectize for select element
 			var selectElements = basicDropDown.find('select[name="owners_all"]');
@@ -775,7 +775,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel + ' - ' + fieldLabel;
 			paramsForm['name'] = 'ChartFilter';
 			paramsForm['filterid'] = filterid;
-			paramsForm['title'] = form.find('[name="widgetTitle"]').val(),
+			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
 			paramsForm['isdefault'] = 0;
 			paramsForm['cache'] = 0;
 			paramsForm['height'] = 4;
@@ -955,7 +955,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
 			paramsForm['blockid'] = element.data('block-id');
-			paramsForm['title'] = form.find('[name="widgetTitle"]').val(),
+			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
 			paramsForm['linkid'] = element.data('linkid');
 			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel;
 			paramsForm['name'] = 'Mini List';

@@ -295,8 +295,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'categoryMultipicklist']) > -1) {
 			fieldName = fieldName + "[]";
-		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1)
-				&& fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
+		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1) &&
+				fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
 			fieldName = fieldName + "[]";
 		}
 

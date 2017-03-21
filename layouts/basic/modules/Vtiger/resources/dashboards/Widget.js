@@ -535,7 +535,7 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
@@ -584,7 +584,7 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
@@ -670,7 +670,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
@@ -776,7 +776,7 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 			}
 		}
 
-		for (j in stages) {
+		for (var j in stages) {
 			var salesStageCount = new Array();
 			for (i in users) {
 				var salesCount = 0;
@@ -1030,7 +1030,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 			series: {
 				bars: {
 					show: true,
-					barWidth: .9,
+					barWidth: 0.9,
 					dataLabels: false,
 					align: "center",
 					lineWidth: 0
@@ -1084,7 +1084,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js',{},{
 			series: {
 				bars: {
 					show: true,
-					barWidth: .9,
+					barWidth: 0.9,
 					dataLabels: false,
 					align: "center",
 					lineWidth: 0
@@ -1533,7 +1533,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	},
 	registerSectionClick: function () {
 		var chartData = this.generateData();
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, arguments) {
+		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = chartData['url'][pointIndex];
 			window.location.href = url;
 		});

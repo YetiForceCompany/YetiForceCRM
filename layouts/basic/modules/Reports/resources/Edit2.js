@@ -163,7 +163,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: app.getMainParams('maxReportColumn')});
 		var selectizeInstance = selectElement[0].selectize;
 		selectizeInstance.clear();
-		for (i in selectedFields) {
+		for (var i in selectedFields) {
 			selectizeInstance.addItem(selectedFields[i]);
 		}
 	},

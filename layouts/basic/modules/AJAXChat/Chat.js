@@ -46,9 +46,9 @@ jQuery(function () {
 				});
 				$(document).mouseup(function (e)
 				{
-					if (container.hasClass('chat-opened')
-							&& !container.is(e.target) && !icon.is(e.target)// if the target of the click isn't the container...
-							&& container.has(e.target).length === 0 && icon.has(e.target).length === 0) // ... nor a descendant of the container
+					if (container.hasClass('chat-opened') &&
+						!container.is(e.target) && !icon.is(e.target) &&// if the target of the click isn't the container...
+						container.has(e.target).length === 0 && icon.has(e.target).length === 0) // ... nor a descendant of the container
 					{
 						container.addClass('chat-closed').removeClass('chat-opened');
 					}
