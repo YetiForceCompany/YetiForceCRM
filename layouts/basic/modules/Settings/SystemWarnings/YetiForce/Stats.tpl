@@ -13,21 +13,25 @@
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_industry" class="form-control" placeholder="{App\Language::translate('LBL_INDUSTRY','Settings:Companies')}" value="{$COMPANY->get('industry')}">
+			<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
+				{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
+					<option value="{$ITEM}" {if $COMPANY->get('industry') eq $ITEM}selected{/if}>{App\Language::translate($ITEM)}</option>
+				{/foreach}
+			</select>
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_city" class="form-control" placeholder="{App\Language::translate('LBL_CITY','Settings:Companies')}" value="{$COMPANY->get('city')}">
+			<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_CITY','Settings:Companies')}" value="{$COMPANY->get('city')}">
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_country" class="form-control" placeholder="{App\Language::translate('LBL_COUNTRY','Settings:Companies')}" value="{$COMPANY->get('country')}">
+			<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_COUNTRY','Settings:Companies')}" value="{$COMPANY->get('country')}">
 		</div><br>
 		<div class="input-group">
 			<span class="input-group-addon">

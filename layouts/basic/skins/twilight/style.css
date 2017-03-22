@@ -44,9 +44,6 @@ input[type=checkbox]:checked {
 	background-color: #4a5364;
 	border-color: #384150;
 }
-input[type=checkbox]:disabled {
-	background-color: #e6e6e6;
-}
 input[type=checkbox]:checked:disabled {
 	opacity: 0.35;
 }
