@@ -1361,17 +1361,10 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	registerRowAutoComplete: function (container) {
 		var thisInstance = this;
 		var sourceFieldElement = container.find('.sourceField');
-		sourceFieldElement.on(Vtiger_Edit_Js.postReferenceSelectionEvent, function (e, params) {
-			var record;
+		sourceFieldElement.on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, params) {
+			var record = params.record;
 			var element = $(e.currentTarget);
 			var parentRow = element.closest(thisInstance.rowClass);
-			if (params.data.label) {
-				record = params.data.id;
-			} else {
-				for (var id in params.data) {
-					record = id;
-				}
-			}
 			var selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
 			var dataUrl = "index.php?module=" + app.getModuleName() + "&action=Inventory&mode=getDetails&record=" + record + "&currency_id=" + thisInstance.getCurrency() + '&fieldname=' + element.data('columnname');
 			AppConnector.request(dataUrl).then(function (data) {
