@@ -57,7 +57,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguageTranslatedString($language, $key, $module = 'Vtiger')
 	{
-		if (empty($key)) { // nothing to translate
+		if ($key === '') { // nothing to translate
 			return '';
 		}
 		if (is_array($module)) {
