@@ -89,6 +89,7 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Es wurde versucht im Schnellerfassungsmodus etwas zu ändern. <br>Wählen Sie die Änderungen aus, welche Sie übernehmen möchten.<br>Achtung!<br>Nimmt Änderungen in diesem Datensatz zurück.',
 	'LBL_DONT_ASK_AGAIN' => 'Nicht nochmal für diesen Datensatz nachfragen.',
 	'LBL_SEARCH_TRASH' => 'Papierkorb durchsuchen',
+	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',

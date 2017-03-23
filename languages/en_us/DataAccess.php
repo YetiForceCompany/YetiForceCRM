@@ -90,6 +90,7 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
 	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
 	'LBL_SEARCH_TRASH' => 'Search trash',
+	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

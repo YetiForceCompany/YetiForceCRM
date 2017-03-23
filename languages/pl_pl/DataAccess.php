@@ -90,6 +90,7 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Dokonano próby zmiany wartości w rekordzie w trybie szybkiej edycji.<br>Chcąc dokonać zmiany w tym widoku zaznacz poniższe pole wyboru i zatwierdź wybór.<br><strong>Uwaga!</strong><br>Należy ponownie wprowadzić zamierzone modyfikacje na rekordzie.',
 	'LBL_DONT_ASK_AGAIN' => 'Nie pytaj ponownie dla tego rekordu.',
 	'LBL_SEARCH_TRASH' => 'Przeszukaj kosz',
+	'LBL_BLOCK_EDITVIEW' => 'Zablokowano edycję rekordu',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',
