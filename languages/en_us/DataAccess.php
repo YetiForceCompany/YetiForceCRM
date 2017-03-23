@@ -91,6 +91,7 @@ $languageStrings = [
 	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
 	'LBL_SEARCH_TRASH' => 'Search trash',
 	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
+	'LBL_CONTENT_MESSAGE' => 'Message contents',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

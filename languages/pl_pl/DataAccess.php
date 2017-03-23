@@ -91,6 +91,7 @@ $languageStrings = [
 	'LBL_DONT_ASK_AGAIN' => 'Nie pytaj ponownie dla tego rekordu.',
 	'LBL_SEARCH_TRASH' => 'Przeszukaj kosz',
 	'LBL_BLOCK_EDITVIEW' => 'Zablokowano edycję rekordu',
+	'LBL_CONTENT_MESSAGE' => 'Treść komunikatu',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

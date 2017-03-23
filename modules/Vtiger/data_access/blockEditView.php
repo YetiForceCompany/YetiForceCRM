@@ -15,7 +15,7 @@
 class DataAccess_blockEditView
 {
 
-	public $config = false;
+	public $config = true;
 
 	/**
 	 * Main process
@@ -27,12 +27,15 @@ class DataAccess_blockEditView
 	 */
 	public function process($moduleName, $id, $recordForm, $config)
 	{
-
+		$message = 'LBL_BLOCK_EDITVIEW';
+		if (!empty($config['message'])) {
+			$message = $config['message'];
+		}
 		return [
 			'save_record' => false,
 			'type' => 0,
 			'info' => [
-				'text' => App\Language::translate('LBL_BLOCK_EDITVIEW', 'DataAccess'),
+				'text' => App\Language::translate($message, 'DataAccess'),
 				'type' => 'error'
 			]
 		];
@@ -43,10 +46,10 @@ class DataAccess_blockEditView
 	 * @param int $id
 	 * @param string $module
 	 * @param string $baseModule
-	 * @return boolean
+	 * @return array
 	 */
 	public function getConfig($id, $module, $baseModule)
 	{
-		return false;
+		return [];
 	}
 }
