@@ -550,6 +550,22 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.removeLayer(thisInstance.indirectPointLayer[container.find('.indirect').val()]);
 			currentTarget.closest('.indirectContainer').remove();
 		});
+		container.on('click', '.moveUp', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var container = currentTarget.closest('.indirectContainer');
+			var previousElement = container.prev();
+			if(!previousElement.hasClass('startContainer')) {
+				previousElement.before(container);
+			}
+		});
+		container.on('click', '.moveDown', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var container = currentTarget.closest('.indirectContainer');
+			var nextElement = container.next();
+			if(!nextElement.hasClass('indirectTemplate')) {
+				nextElement.after(container);
+			}	
+		});
 		container.on('click', '.searchInRadius', function (e) {
 			map.removeLayer(endIconLayer);
 			var currentTarget = $(e.currentTarget);

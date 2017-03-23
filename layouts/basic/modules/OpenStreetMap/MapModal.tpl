@@ -65,29 +65,35 @@
 					{vtranslate('LBL_CALCULATE_ROUTE_HEADER_BLOCK', $MODULE_NAME)}
 				</div>
 				<div class="panel-body track">
-					<div class="input-group group-btn form-group">
+					<div class="input-group group-btn input-group-sm form-group startContainer">
 						<input type="text" readonly="readonly" class="form-control start">
 						<div class="input-group-btn">
-							<button class="btn btn-success setView">
+							<button class="btn btn-success btn-sm setView">
 								<span class="fa fa-truck"></span>
 							</button>
 						</div>
 					</div>
-					<div class="input-group group-btn form-group indirectContainer indirectTemplate hide">
-						<input type="text" readonly="readonly" class="form-control indirect">
+					<div class="input-group group-btn input-group-sm form-group indirectContainer indirectTemplate hide">
+						<input type="text" readonly="readonly" class="form-control indirect ">
 						<div class="input-group-btn">
-							<button class="btn btn-warning setView">
+							<button class="btn btn-warning btn-sm setView">
 								<span class="fa fa-flag"></span>
 							</button>
-							<button class="btn btn-danger removeIndirect">
+							<button class="btn btn-success btn-sm moveUp">
+								<span class="fa fa-arrow-up"></span>
+							</button>
+							<button class="btn btn-success  btn-sm moveDown">
+								<span class="fa fa-arrow-down"></span>
+							</button>
+							<button class="btn btn-danger btn-sm removeIndirect">
 								<span class="glyphicon glyphicon-remove"></span>
 							</button>
 						</div>
 					</div>
-					<div class="input-group group-btn form-group">
+					<div class="input-group group-btn input-group-sm form-group">
 						<input type="text" readonly="readonly" class="form-control end">
 						<div class="input-group-btn">
-							<button class="btn btn-danger setView">
+							<button class="btn btn-danger btn-sm setView">
 								<span class="fa fa-flag-checkered"></span>
 							</button>
 						</div>
