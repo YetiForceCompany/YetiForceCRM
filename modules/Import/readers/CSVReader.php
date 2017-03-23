@@ -142,12 +142,18 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$allValuesEmpty = true;
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
-				$mappedData[$fieldName] = $fieldValue;
 				if ($this->request->get('file_encoding') !== $defaultCharset) {
-					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
+					$fieldValue = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 				}
-				if (!empty($fieldValue))
+				$fieldValueTemp = $fieldValue;
+				$fieldValueTemp = str_replace(',', '.', $fieldValueTemp);
+				if (is_numeric($fieldValueTemp)) {
+					$fieldValue = $fieldValueTemp;
+				}
+				$mappedData[$fieldName] = $fieldValue;
+				if (!empty($fieldValue)) {
 					$allValuesEmpty = false;
+				}
 			}
 			foreach ($inventoryFieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
