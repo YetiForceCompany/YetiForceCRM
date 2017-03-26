@@ -92,12 +92,10 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							listinstance.getListViewRecords();
 						}
 						if (viewName == 'DashBoard') {
-							var instance = new Vtiger_DashBoard_Js();
-							instance.getContainer().find('a[name="drefresh"]').trigger('click');
+							(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 						}
 						if (app.getModuleName() == 'Calendar' && viewName == 'Calendar') {
-							var instance = Calendar_CalendarView_Js.getInstanceByView();
-							instance.loadCalendarData();
+							(Calendar_CalendarView_Js.getInstanceByView()).loadCalendarData();
 						}
 						//updates the Calendar Reminder popup's status
 						Vtiger_Index_Js.requestReminder();

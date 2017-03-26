@@ -104,10 +104,11 @@ var Vtiger_CustomView_Js = {
 		Vtiger_CustomView_Js.saveFilter().then(
 				function (response) {
 					if (response.success) {
+						var url;
 						if (app.getParentModuleName() == 'Settings') {
-							var url = 'index.php?module=CustomView&parent=Settings&view=Index';
+							url = 'index.php?module=CustomView&parent=Settings&view=Index';
 						} else {
-							var url = response['result']['listviewurl'];
+							url = response['result']['listviewurl'];
 						}
 						window.location.href = url;
 					} else {
@@ -234,8 +235,8 @@ var Vtiger_CustomView_Js = {
 				}
 			}
 			if (mandatoryFieldsMissing) {
-				var result = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
-				select2Element.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+				var message = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
+				select2Element.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 				e.preventDefault();
 				return;
 			} else {

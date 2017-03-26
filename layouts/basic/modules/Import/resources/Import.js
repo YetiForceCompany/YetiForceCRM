@@ -232,11 +232,12 @@ if (typeof (ImportJs) == 'undefined') {
 					defaultValue = selectedFieldDefaultValueElement.val();
 				}
 				if (selectedFieldName != '') {
+					var stopImmediately;
 					if(selectElement.hasClass('inventory')){
-						var stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, inventoryMappedFields, selectedFieldElement);
+						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, inventoryMappedFields, selectedFieldElement);
 						inventoryMappedFields[selectedFieldName] = rowId - 1;
-					}else{
-						var stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
+					} else {
+						stopImmediately = ImportJs.checkIfMappedFieldExist(selectedFieldName, mappedFields, selectedFieldElement);
 						mappedFields[selectedFieldName] = rowId - 1;
 					}
 					if(stopImmediately){

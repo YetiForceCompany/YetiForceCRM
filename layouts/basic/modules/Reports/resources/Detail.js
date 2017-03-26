@@ -93,14 +93,15 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 			var type = element.attr("name");
 			var advFilterCondition = thisInstance.calculateValues();
 			var headerContainer = thisInstance.getHeaderContentsHolder();
+			var newEle;
 			if (type.indexOf("Print") != -1) {
-				var newEle = '<form action=' + href + ' method="POST" target="_blank">';
+				newEle = '<form action=' + href + ' method="POST" target="_blank">';
 				if (typeof csrfMagicName !== 'undefined') {
 					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}
 				newEle += '<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
 			} else {
-				var newEle = '<form action=' + href + ' method="POST">';
+				newEle = '<form action=' + href + ' method="POST">';
 				if (typeof csrfMagicName !== 'undefined') {
 					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}

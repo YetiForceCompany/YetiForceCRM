@@ -351,6 +351,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		var thisInstance = this;
 		var container = this.container;
 		var map = thisInstance.mapInstance;
+		var layer, description;
 		thisInstance.registerCacheEvents(container);
 		container.find('.groupBy').on('click', function () {
 			var progressIndicatorElement = jQuery.progressIndicator({
@@ -379,7 +380,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.removeLayer(thisInstance.layerMarkers);
 			var markers = thisInstance.markers;
 			if (currentTarget.is(':checked')) {
-				var layer = L.markerClusterGroup({
+				layer = L.markerClusterGroup({
 					maxClusterRadius: 10
 				});
 				markers.forEach(function (e) {
@@ -426,7 +427,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 					}).bindPopup(e.label);
 					markerArray.push(marker);
 				});
-				var layer = L.featureGroup(markerArray);
+				layer = L.featureGroup(markerArray);
 				Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
 					map.removeLayer(thisInstance.cacheLayerMarkers[key]);
 					var markerArray = [];
@@ -474,10 +475,10 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.removeLayer(startIconLayer);
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
-			var description = containerPopup.find('.description').html();
+			description = containerPopup.find('.description').html();
 			var startElement = container.find('.start');
 			var coordinates = containerPopup.find('.coordinates');
-			var description = description.replace(/\<br\>/gi, ", ");
+			description = description.replace(/\<br\>/gi, ", ");
 			startElement.val(description);
 			startElement.data('lat', coordinates.data('lat'));
 			startElement.data('lon', coordinates.data('lon'));
@@ -497,7 +498,7 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			map.removeLayer(endIconLayer);
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
-			var description = containerPopup.find('.description').html();
+			description = containerPopup.find('.description').html();
 			var endElement = container.find('.end');
 			var coordinates = containerPopup.find('.coordinates');
 			description = description.replace(/\<br\>/gi, ", ");
@@ -519,14 +520,14 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		container.on('click', '.indirectPoint', function (e) {
 			var currentTarget = $(e.currentTarget);
 			var containerPopup = currentTarget.closest('.leaflet-popup-content');
-			var description = containerPopup.find('.description').html();
+			description = containerPopup.find('.description').html();
 			var template = container.find('.indirectTemplate');
 			var indirect = template.clone();
 			template.before(indirect);
 			indirect.removeClass('indirectTemplate');
 			indirect.removeClass('hide');
 			var coordinates = containerPopup.find('.coordinates');
-			var description = description.replace(/\<br\>/gi, ", ");
+			description = description.replace(/\<br\>/gi, ", ");
 			if (typeof thisInstance.indirectPointLayer[description] != 'undefined') {
 				map.removeLayer(thisInstance.indirectPointLayer[description]);
 			}

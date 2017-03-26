@@ -177,10 +177,11 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
 		var start_date = view.start.format();
 		var end_date = view.end.format();
+		var user;
 		if (jQuery('#calendarUserList').length == 0) {
-			var user = jQuery('#current_user_id').val();
+			user = jQuery('#current_user_id').val();
 		} else {
-			var user = jQuery('#calendarUserList').val();
+			user = jQuery('#calendarUserList').val();
 		}
 		if (jQuery('#timecontrolTypes').length > 0) {
 			var types = jQuery('#timecontrolTypes').val();
@@ -253,25 +254,25 @@ jQuery.Class("Reservations_Calendar_Js", {
 
 
 			var view = thisInstance.getCalendarView().fullCalendar('getView');
+			var endTimeString;
 			if ('month' == view.name) {
 				var diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24));
 				if (diffDays > 1) {
 					var defaultFirstHour = jQuery('#start_hour').val();
 					var explodedTime = defaultFirstHour.split(':');
 					startTimeString = explodedTime['0'];
-
 					var defaultLastHour = jQuery('#end_hour').val();
-					var explodedTime = defaultLastHour.split(':');
+					explodedTime = defaultLastHour.split(':');
 					endTimeString = explodedTime['0'];
 				} else {
 					var now = new Date();
-					var startTimeString = now.toString(defaultTimeFormat);
+					startTimeString = now.toString(defaultTimeFormat);
 					now.setMinutes(now.getMinutes() + 15);
-					var endTimeString = now.toString(defaultTimeFormat);
+					endTimeString = now.toString(defaultTimeFormat);
 				}
 			} else {
 				endDateInstance.setMinutes(endDateInstance.getMinutes() + 30);
-				var endTimeString = endDateInstance.toString(defaultTimeFormat);
+				endTimeString = endDateInstance.toString(defaultTimeFormat);
 			}
 
 			data.find('[name="date_start"]').val(startDateString);

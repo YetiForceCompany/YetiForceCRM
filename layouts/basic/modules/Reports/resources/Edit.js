@@ -101,7 +101,7 @@ Vtiger_Edit_Js("Reports_Edit_Js", {
 				var form = jQuery(e.currentTarget);
 				var specialValidation = true;
 				if (jQuery.isFunction(thisInstance.currentInstance.isFormValidate)) {
-					var specialValidation = thisInstance.currentInstance.isFormValidate();
+					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
 					thisInstance.currentInstance.submit().then(function (data) {

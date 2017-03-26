@@ -56,11 +56,11 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 
 		var chartData = [];
 		var yMaxValue = 0;
-
+		var multiValue;
 		if (data['type'] == 'singleBar') {
 			chartData[0] = [];
 			for (var i in values) {
-				var multiValue = values[i];
+				multiValue = values[i];
 				for (var j in multiValue) {
 					chartData[0].push(multiValue[j]);
 					if (multiValue[j] > yMaxValue)
@@ -71,13 +71,13 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 			chartData[0] = [];
 			chartData[1] = [];
 			chartData[2] = [];
-			for (var i in values) {
-				var multiValue = values[i];
+			for (var k in values) {
+				multiValue = values[k];
 				var info = [];
-				for (var j in multiValue) {
-					chartData[j].push(multiValue[j]);
-					if (multiValue[j] > yMaxValue)
-						yMaxValue = multiValue[j];
+				for (var l in multiValue) {
+					chartData[l].push(multiValue[l]);
+					if (multiValue[l] > yMaxValue)
+						yMaxValue = multiValue[l];
 				}
 			}
 		}
@@ -227,10 +227,10 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 
 		var chartData = [];
 		var yMaxValue = 0;
-
+		var multiValue;
 		if (data['type'] == 'singleBar') {
 			for (var i in values) {
-				var multiValue = values[i];
+				multiValue = values[i];
 				chartData[i] = [];
 				for (var j in multiValue) {
 					chartData[i].push(multiValue[j]);
@@ -246,14 +246,14 @@ Report_Verticalbarchart_Js('Report_Horizontalbarchart_Js', {}, {
 			chartData[0] = [];
 			chartData[1] = [];
 			chartData[2] = [];
-			for (var i in values) {
-				var multiValue = values[i];
-				for (var j in multiValue) {
-					chartData[j][i] = [];
-					chartData[j][i].push(multiValue[j]);
-					chartData[j][i].push(parseInt(i) + 1);
-					if (multiValue[j] > yMaxValue) {
-						yMaxValue = multiValue[j];
+			for (var k in values) {
+				multiValue = values[k];
+				for (var l in multiValue) {
+					chartData[l][k] = [];
+					chartData[l][k].push(multiValue[l]);
+					chartData[l][k].push(parseInt(k) + 1);
+					if (multiValue[l] > yMaxValue) {
+						yMaxValue = multiValue[l];
 					}
 				}
 			}

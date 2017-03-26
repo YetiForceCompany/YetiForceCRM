@@ -118,7 +118,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var startDateTime = startDate + ' ' + startTime;
 		var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 		var timeFormat = endTimeElement.data('format');
-		var startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
+		startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
 		var startDateInstance = Date.parse(startDate);
 		var endDateInstance = false;
 
@@ -454,14 +454,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var endTime = endTimeElement.val();
 		var endDate = endDateElement.val();
 		var dateFormat = $('#userDateFormat').val();
-		var timeFormat = $('#userTimeFormat').val();
 		if (type == 'start') {
-			var dateInstance = Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
+			return Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
 		}
 		if (type == 'end') {
-			var dateInstance = Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
+			return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
 		}
-		return dateInstance;
 	},
 	registerInviteEvent: function (editViewForm) {
 		var thisInstance = this;

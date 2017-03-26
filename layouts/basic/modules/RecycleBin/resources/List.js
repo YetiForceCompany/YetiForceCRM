@@ -119,7 +119,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
      * Function to delete a record
      */
     deleteRecord : function(recordId) {
-        var recordId = RecycleBin_List_Js.convertToJsonString(recordId);
+        recordId = RecycleBin_List_Js.convertToJsonString(recordId);
 		var listInstance = Vtiger_List_Js.getInstance();
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
         var sourceModule = jQuery('#customFilter').val();
@@ -163,7 +163,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
     * Function to restore a record
     */
     restoreRecord : function(recordId){
-        var recordId = RecycleBin_List_Js.convertToJsonString(recordId);
+        recordId = RecycleBin_List_Js.convertToJsonString(recordId);
 		var listInstance = Vtiger_List_Js.getInstance();
         var sourceModule = jQuery('#customFilter').val();
         var cvId = listInstance.getCurrentCvId();
@@ -256,11 +256,10 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 				});
 		} else {
 			app.hideModalWindow();
-			var params = {
+			Vtiger_Helper_Js.showPnotify({
 				title : app.vtranslate('JS_LBL_PERMISSION'),
 				text : data.error.message
-			};
-			Vtiger_Helper_Js.showPnotify(params);
+			});
 		}
 	},
 	

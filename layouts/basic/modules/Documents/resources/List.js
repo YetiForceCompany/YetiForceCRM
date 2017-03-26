@@ -44,23 +44,21 @@ Vtiger_List_Js("Documents_List_Js", {
 									var result = data.result;
 									if (result.success) {
 										app.hideModalWindow();
-										var params = {
+										Vtiger_Helper_Js.showPnotify({
 											title: app.vtranslate('JS_MOVE_DOCUMENTS'),
 											text: result.message,
 											delay: '2000',
 											type: 'success'
-										};
-										Vtiger_Helper_Js.showPnotify(params);
+										});
 										var urlParams = listInstance.getDefaultParams();
 										listInstance.getListViewRecords(urlParams);
 									} else {
-										var params = {
+										Vtiger_Helper_Js.showPnotify({
 											title: app.vtranslate('JS_OPERATION_DENIED'),
 											text: result.message,
 											delay: '2000',
 											type: 'error'
-										};
-										Vtiger_Helper_Js.showPnotify(params);
+										});
 									}
 								}
 							});

@@ -321,11 +321,10 @@ Vtiger_List_Js("Rss_List_Js",{},
                     };
                     Vtiger_Helper_Js.showPnotify(params);
                 } else {
-                    var  params = {
+                    Vtiger_Helper_Js.showPnotify({
                         text : app.vtranslate(data.error.message),
                         title : app.vtranslate('JS_LBL_PERMISSION')
-                    };
-                    Vtiger_Helper_Js.showPnotify(params);
+                    });
                 }
             }
         );

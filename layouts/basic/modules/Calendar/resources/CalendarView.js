@@ -25,7 +25,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var switchesContainer = widgetContainer.find('.widgetContainer input.switchBtn');
 		app.showBtnSwitch(switchesContainer);
 		widgetContainer.find('.widgetContainer').each(function () {
-			h = jQuery(this).height();
+			var h = jQuery(this).height();
 			if (h > 250) {
 				jQuery(this).find('div:first').slimScroll({
 					height: '250px'
@@ -37,7 +37,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var thisInstance = this.getInstanceByView();
 		var widgetContainer = jQuery('#rightPanel .quickWidget');
 		widgetContainer.find('.switchsParent').on('switchChange.bootstrapSwitch', function (event, state) {
-			element = jQuery(this).closest('.quickWidget');
+			var element = jQuery(this).closest('.quickWidget');
 			if (state) {
 				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', true);
 			} else {
@@ -103,10 +103,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
+		var hiddenDays = [];
 		if (app.getMainParams('switchingDays') == 'workDays') {
-			var hiddenDays = app.getMainParams('hiddenDays', true);
-		} else {
-			var hiddenDays = [];
+			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
 		var options = {
 			header: {
@@ -276,12 +275,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var filters = [];
 		$(".calendarFilters .filterField").each(function (index) {
 			var element = $(this);
+			var name, value;
 			if (element.attr('type') == 'checkbox') {
-				var name = element.val();
-				var value = element.prop('checked') ? 1 : 0;
+				name = element.val();
+				value = element.prop('checked') ? 1 : 0;
 			} else {
-				var name = element.attr('name');
-				var value = element.val();
+				name = element.attr('name');
+				value = element.val();
 			}
 			filters.push({name: name, value: value});
 		});
@@ -359,9 +359,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					} else {
 						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
 					}
-					var startDateInstance = Date.parse(start_hour);
-					var endDateInstance = startDateInstance.addMinutes(defaulDuration);
-					end_hour = endDateInstance.toString('HH:mm');
+					var startDateObject = Date.parse(start_hour);
+					var endDateObject = startDateObject.addMinutes(defaulDuration);
+					end_hour = endDateObject.toString('HH:mm');
 				}
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + end_hour + ':00';
@@ -527,12 +527,12 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					thisInstance.loadCalendarData();
 				});
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
-		var checked = '';
+		checked = '';
 		if (app.getMainParams('switchingDays') == 'workDays' && app.moduleCacheGet('defaultSwitchingDays') != 'all') {
 			checked = ' checked ';
 		}
 		if (app.getMainParams('hiddenDays', true) !== false){
-			var switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
+			switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
 					.prependTo(calendarview.find('.fc-toolbar .fc-right'))
 					.on('switchChange.bootstrapSwitch', function (e, state) {
 						if (state) {

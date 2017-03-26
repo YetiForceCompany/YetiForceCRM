@@ -15,16 +15,16 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var moduleClassName2 = module + "_AdvanceFilter_Js";
 		var moduleClassName3 = "Vtiger_AdvanceFilterEx_Js";
 		var moduleClassName4 = "Vtiger_AdvanceFilter_Js";
+		var instance;
 		if (typeof window[moduleClassName1] != 'undefined') {
-			var instance = new window[moduleClassName1](container);
+			instance = new window[moduleClassName1](container);
 		} else if (typeof window[moduleClassName2] != 'undefined') {
-			var instance = new window[moduleClassName2](container);
+			instance = new window[moduleClassName2](container);
 		} else if (typeof window[moduleClassName3] != 'undefined') {
-			var instance = new window[moduleClassName3](container);
+			instance = new window[moduleClassName3](container);
 		} else {
-			var instance = new window[moduleClassName4](container);
+			instance = new window[moduleClassName4](container);
 		}
-
 		return instance;
 	}
 }, {

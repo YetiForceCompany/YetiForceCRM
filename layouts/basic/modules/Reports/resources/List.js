@@ -34,7 +34,7 @@ Vtiger_List_Js("Reports_List_Js", {
 									var info = result.info;
 									Reports_List_Js.listInstance.updateCustomFilter(info);
 								} else {
-									var result = result.message;
+									result = result.message;
 									var folderNameElement = jQuery('#foldername');
 									folderNameElement.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 								}
@@ -248,11 +248,10 @@ Vtiger_List_Js("Reports_List_Js", {
 						}
 					} else {
 						app.hideModalWindow();
-						var params = {
+						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_INFORMATION'),
 							text: data.error.message
-						};
-						Vtiger_Helper_Js.showPnotify(params);
+						});
 					}
 				}
 		);

@@ -277,8 +277,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 					baseCurrencyRow.find('.currencyReset').trigger('click');
 				}
 			} else {
-				var baseCurrencyRow = jQuery(val).closest('tr');
-				baseCurrencyRow.find('.convertedPrice').val('');
+				jQuery(val).closest('tr').find('.convertedPrice').val('');
 			}
 		});
 	},

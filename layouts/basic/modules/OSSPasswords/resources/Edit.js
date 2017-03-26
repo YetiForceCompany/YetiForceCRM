@@ -20,8 +20,9 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
 			var password = form.find('[name="password"]').val();
 			var id = form.find('[name="record"]').val();
+			var params = {};
 			if(password == '**********'){
-				var params = {};
+				params = {};
 				params.data = {
 					module : "OSSPasswords",
 					action : "GetPass",
@@ -48,7 +49,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			
 			}
 			password = form.find('[name="password"]').val();
-			var params = {};
+			params = {};
 			params.data = { module: 'OSSPasswords', action: 'CheckPass', 'password': password , 'id': id};
 			params.async = false;
 			params.dataType = 'json';
