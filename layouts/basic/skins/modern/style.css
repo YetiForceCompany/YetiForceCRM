@@ -546,7 +546,7 @@ label {
 	border:0;
 	padding: 5px 15px;
 }
-.contents-topscroll, #reportDetails {
+.contents-topscroll {
     display: none;
 }
 .widget_header button.btn.btn-default.addButton,.widget_header button.btn.btn-default.createRecordFromFilter {
