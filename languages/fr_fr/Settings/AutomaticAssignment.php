@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'LBL_AUTOMATIC_ASSIGNMENT' => 'Auto assign records',
-	'AutomaticAssignment' => 'Auto assign records',
+	'LBL_AUTOMATIC_ASSIGNMENT' => 'Affectation automatique des enregistrements',
+	'AutomaticAssignment' => 'Affectation automatique des enregistrements',
 	'LBL_AUTOMATICASSIGNMENT_DESCRIPTION' => ' ',
 	// Fields
 	'FL_FIELD' => 'Field name',

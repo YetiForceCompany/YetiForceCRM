@@ -50,7 +50,7 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 				});
 				AppConnector.request(postData).then(
 						function (data) {
-							progressIndicatorElement.progressIndicator({mode: 'hide'})
+							progressIndicatorElement.progressIndicator({mode: 'hide'});
 							Vtiger_Helper_Js.showPnotify({text: app.vtranslate('JS_SAVE_NOTIFY_OK'), type: 'success'});
 							thisInstance.getContentHolder().find('#reportContentsDiv').html(data);
 							Vtiger_Helper_Js.showHorizontalTopScrollBar();
@@ -93,14 +93,15 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 			var type = element.attr("name");
 			var advFilterCondition = thisInstance.calculateValues();
 			var headerContainer = thisInstance.getHeaderContentsHolder();
+			var newEle;
 			if (type.indexOf("Print") != -1) {
-				var newEle = '<form action=' + href + ' method="POST" target="_blank">';
+				newEle = '<form action=' + href + ' method="POST" target="_blank">';
 				if (typeof csrfMagicName !== 'undefined') {
 					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}
 				newEle += '<input type="hidden" value="" name="advanced_filter" id="advanced_filter" /></form>';
 			} else {
-				var newEle = '<form action=' + href + ' method="POST">';
+				newEle = '<form action=' + href + ' method="POST">';
 				if (typeof csrfMagicName !== 'undefined') {
 					newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 				}
@@ -110,7 +111,7 @@ Vtiger_Detail_Js("Reports_Detail_Js", {}, {
 			var form = ele.appendTo(headerContainer);
 			form.find('#advanced_filter').val(advFilterCondition);
 			form.submit();
-		})
+		});
 	},
 	registerEvents: function () {
 		this._super();

@@ -28,8 +28,8 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 				var subject = currentTarget.closest('.modalEditStatus').find('.modalSummaryValues .fieldVal').data('subject');
 				var headerInstance = Vtiger_Header_Js.getInstance();
 				headerInstance.getQuickCreateForm(url, moduleName, params).then(function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'})
-					if (currentTarget.data('type') == '0' && typeof subject != 'undefinied' && subject.length > 0) {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					if (currentTarget.data('type') == '0' && typeof subject != 'undefined' && subject.length > 0) {
 						data = jQuery(data);
 						var element = data.find('[name="subject"]');
 						if (element.length) {
@@ -58,7 +58,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 			action: "ActivityStateAjax",
 			record: currentTarget.data('id'),
 			state: currentTarget.data('state')
-		}
+		};
 		app.hideModalWindow();
 		var progressIndicatorElement = jQuery.progressIndicator({
 			'position': 'html',
@@ -92,12 +92,10 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							listinstance.getListViewRecords();
 						}
 						if (viewName == 'DashBoard') {
-							var instance = new Vtiger_DashBoard_Js();
-							instance.getContainer().find('a[name="drefresh"]').trigger('click');
+							(new Vtiger_DashBoard_Js()).getContainer().find('a[name="drefresh"]').trigger('click');
 						}
 						if (app.getModuleName() == 'Calendar' && viewName == 'Calendar') {
-							var instance = Calendar_CalendarView_Js.getInstanceByView();
-							instance.loadCalendarData();
+							(Calendar_CalendarView_Js.getInstanceByView()).loadCalendarData();
 						}
 						//updates the Calendar Reminder popup's status
 						Vtiger_Index_Js.requestReminder();
@@ -117,4 +115,4 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 jQuery(document).ready(function (e) {
 	var instance = new Calendar_ActivityStateModal_Js();
 	instance.registerEvents();
-})
+});

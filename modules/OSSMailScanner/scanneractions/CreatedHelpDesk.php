@@ -34,10 +34,15 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		return $id;
 	}
 
+	/**
+	 * Tworzenie zgłoszenia z maila
+	 * @param OSSMail_Mail_Model $mail
+	 * @return int
+	 */
 	public function add(OSSMail_Mail_Model $mail)
 	{
-		$contactId = $mail->findEmailAdress('fromaddress', 'Contacts', false);
-		$parentId = $mail->findEmailAdress('fromaddress', 'Accounts', false);
+		$contactId = (int) $mail->findEmailAdress('fromaddress', 'Contacts', false);
+		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
 
 		$db = PearDatabase::getInstance();
@@ -60,7 +65,6 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 				$record->set('ticketpriorities', $serviceContracts['priority']);
 			}
 		}
-
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
 		$record->set('ticket_title', $mail->get('subject'));
@@ -70,7 +74,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$record->save();
 		$id = $record->getId();
 
-		if (!empty($contactId) && $contactId != '0') {
+		if (!empty($contactId)) {
 			$relationModel = Vtiger_Relation_Model::getInstance($record->getModule(), Vtiger_Module_Model::getInstance('Contacts'));
 			$relationModel->addRelation($id, $contactId);
 		}

@@ -179,10 +179,10 @@ class Record
 			$db = \App\Db::getInstance();
 			$label = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['name']), 254, false);
 			$search = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['search']), 254, false);
-			if (empty($label)) {
+			if (!is_numeric($label) && empty($label)) {
 				$label = '';
 			}
-			if (empty($search)) {
+			if (!is_numeric($search) && empty($search)) {
 				$search = '';
 			}
 			if (!$insertMode) {

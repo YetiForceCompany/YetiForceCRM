@@ -58,4 +58,4 @@ Vtiger_Detail_Js("Project_Detail_Js",{},{
 			recentTasksTab.trigger('click');
 		});
 	}
-})
+});

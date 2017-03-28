@@ -105,7 +105,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 					// reset the annual dates
 					var annualDatesEle = jQuery('#annualDates');
 					thisInstance.updateAnnualDates(annualDatesEle);
-					for(index in dates) {
+					for(var index in dates) {
 						var date = dates[index];
 						datesInfo.push({
 								id:thisInstance.DateToYMD(date),
@@ -142,7 +142,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 		if(annualDatesJSON) {
 			var hiddenDates = '';
 			var annualDates = JSON.parse(annualDatesJSON);
-			for(j in annualDates) {
+			for(var j in annualDates) {
 				hiddenDates += '<option selected value='+annualDates[j]+'>'+annualDates[j]+'</option>';
 			}
 			annualDatesEle.html(hiddenDates);

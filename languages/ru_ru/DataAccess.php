@@ -91,6 +91,8 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Была сделана попытка изменить значения в записи в режиме Быстрого редактирования. <br> Выберите флажок ниже, для того, чтобы изменения вступили в силу. <br> Внимание! <br> Повторные изменения в записи.',
 	'LBL_DONT_ASK_AGAIN' => 'Не спрашивать бльше для этой записи.',
 	'LBL_SEARCH_TRASH' => 'Поиск мусора',
+	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
+	'LBL_CONTENT_MESSAGE' => 'Message contents',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Редактор условий',

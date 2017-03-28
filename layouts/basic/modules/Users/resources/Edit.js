@@ -32,7 +32,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 			} else {
 				element.data('selectedValue', selectedValue);
 			}
-		})
+		});
 		jQuery('[name="currency_grouping_separator"]', form).on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var selectedValue = element.val();
@@ -51,7 +51,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 			} else {
 				element.data('selectedValue', selectedValue);
 			}
-		})
+		});
 	}
 
 }, {
@@ -167,20 +167,20 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 				if (thisInstance.passCheckCache.name != pass) {
 					thisInstance.checkPass(pass).then(
 							function (data) {
-								thisInstance.passCheckCache = {name: pass, result: data.result}
+								thisInstance.passCheckCache = {name: pass, result: data.result};
 								Vtiger_Helper_Js.showPnotify(data.result);
 								e.preventDefault();
 							},
 							function (data, error) {
-								thisInstance.passCheckCache = {name: pass, result: data.result}
+								thisInstance.passCheckCache = {name: pass, result: data.result};
 							}
-					)
+					);
 				} else if (thisInstance.passCheckCache.result != false) {
 					Vtiger_Helper_Js.showPnotify(thisInstance.passCheckCache.result);
 					e.preventDefault();
 				}
 			}
-		})
+		});
 	},
 	checkEmail: function (email) {
 		var aDeferred = jQuery.Deferred();
@@ -188,11 +188,11 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		if (thisInstance.userExistCheckCache.name != email) {
 			thisInstance.userExist(email).then(
 					function (data) {
-						thisInstance.userExistCheckCache = {name: email, status: data.result}
+						thisInstance.userExistCheckCache = {name: email, status: data.result};
 						aDeferred.resolve(true);
 					},
 					function (data, error) {
-						thisInstance.userExistCheckCache = {name: email, status: data.result}
+						thisInstance.userExistCheckCache = {name: email, status: data.result};
 						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
 						aDeferred.reject();
 					}
@@ -211,7 +211,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 			} else {
 				form.find('#selectUsers').hide();
 			}
-		})
+		});
 	},
 	checkDuplicateUser: function (userName) {
 		var aDeferred = jQuery.Deferred();
@@ -220,7 +220,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 			'action': "SaveAjax",
 			'mode': 'userExists',
 			'user_name': userName
-		}
+		};
 		AppConnector.request(params).then(
 				function (data) {
 					if (data.result) {

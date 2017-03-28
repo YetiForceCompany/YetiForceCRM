@@ -93,7 +93,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				userid : feedcheckbox.data('calendar-userid'),
 				color : feedcheckbox.data('calendar-feed-color'),
 				textColor : feedcheckbox.data('calendar-feed-textcolor')
-			}
+			};
 
 			AppConnector.request(params).then(function(events){
 				callback(events);
@@ -103,7 +103,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
                 //To send empty events if error occurs
                 callback([]);
             });
-		}
+		};
 		if(thisInstance.multipleEventsOnLoad == 1){
 			this.getCalendarView().fullCalendar('addEventSource', this.calendarfeedDS[feedcheckbox.data('calendar-sourcekey')]);
 		}
@@ -118,8 +118,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			var color = feedUserElement.data('calendar-feed-color');
 			if(color == '' || typeof color == 'undefined') {
 				color = app.cacheGet(sourcekey);
-				if(color != null){
-				} else {
+				if (color == null) {
 					color = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
 					app.cacheSet(sourcekey, color);
 				}
@@ -127,10 +126,11 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				feedUserLabel.css({'background-color':color});
 			}
 			var colorContrast = app.getColorContrast(color.slice(1));
+			var textColor;
 			if(colorContrast == 'light') {
-				var textColor = 'black'
+				textColor = 'black';
 			} else {
-				textColor = 'white'
+				textColor = 'white';
 			}
 			feedUserElement.data('calendar-feed-textcolor',textColor);
 			feedUserLabel.css({'color':textColor});
@@ -154,7 +154,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			end: app.getStringDate(thisInstance.getCalendarView().fullCalendar('getView').visEnd),
 			type: 'MultipleEvents',
 			mapping : result
-		}
+		};
 
 		AppConnector.request(params).then(function(multipleEvents){
 				thisInstance.multipleEvents = multipleEvents;
@@ -180,9 +180,8 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			var customParams = {
 				text : msg,
 				 type: 'info'
-			}
+			};
 			Vtiger_Helper_Js.showPnotify(customParams);
-			return;
 		} else {
 			this._super(calendarDetails);
 		}
@@ -199,7 +198,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			action: 'CalendarUserActions',
 			mode : 'deleteUserCalendar',
 			userid : feedcheckbox.data('calendar-userid')
-		}
+		};
 		
 		AppConnector.request(params).then(function(response) {
 			var result = response['result'];
@@ -242,7 +241,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			selectElement.find('option:selected').removeAttr('selected');
 			selectElement.find('option[value="'+feedUserEle.data('calendar-userid')+'"]').attr('selected', true);
 			thisInstance.showAddUserCalendarModal(currentTarget);
-		})
+		});
 	},
 	
 	/**
@@ -257,7 +256,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			var userid = selectElement.find('option:selected').val();
 			var userColor = jQuery('[data-calendar-userid="'+userid+'"]', parentElement).data('calendar-feed-color');
 			selectedUserColor.val(userColor);
-			data.find('.calendarColorPicker').ColorPickerSetColor(userColor)
+			data.find('.calendarColorPicker').ColorPickerSetColor(userColor);
 		});
 	},
 	
@@ -282,13 +281,15 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			
 			var parentElement = jQuery('#calendarview-feeds');
 			var colorContrast = app.getColorContrast(userColor.slice(1));
+			var textColor;
 			if(colorContrast == 'light') {
-				var textColor = 'black'
+				textColor = 'black';
 			} else {
-				textColor = 'white'
+				textColor = 'white';
 			}
+			var feedUserEle, message;
 			if(data.find('.userCalendarMode').val() == 'edit') {
-				var feedUserEle = jQuery('[data-calendar-userid="'+userId+'"]', parentElement);
+				feedUserEle = jQuery('[data-calendar-userid="'+userId+'"]', parentElement);
 				feedUserEle.data('calendar-feed-color',userColor).data('calendar-feed-textcolor',textColor);
 				feedUserEle.closest('.addedCalendars').find('.label').css({'background-color':userColor,'color':textColor});
 				
@@ -296,7 +297,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				thisInstance.fetchCalendarFeed(feedUserEle);
 				
 				//notification message
-				var message = app.vtranslate('JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY');
+				message = app.vtranslate('JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY');
 			} else {
 				var labelModal = jQuery('.labelModal', parentElement);
 				var clonedContainer = labelModal.clone(true, true);
@@ -325,7 +326,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				editUserSelectElement.append('<option value="'+userId+'">'+userName+'</option>');
 				
 				//notification message
-				var message = app.vtranslate('JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY');
+				message = app.vtranslate('JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY');
 			}
 			
 			//show notification after add or edit user
@@ -361,9 +362,10 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			});
 			var currentTarget = $(e.currentTarget);
 			var type = currentTarget.data('calendar-sourcekey');
+			var disabledOnes;
 			if(currentTarget.is(':checked')) {
 				// NOTE: We are getting cache data fresh - as it shared between browser tabs
-				var disabledOnes = app.cacheGet('calendar.feeds.disabled',[]);
+				disabledOnes = app.cacheGet('calendar.feeds.disabled',[]);
 				// http://stackoverflow.com/a/3596096
 				disabledOnes = jQuery.grep(disabledOnes, function(value){return value != type;});
 				app.cacheSet('calendar.feeds.disabled', disabledOnes);
@@ -375,7 +377,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				thisInstance.getCalendarView().fullCalendar('addEventSource', thisInstance.calendarfeedDS[type]);
 			} else {
 				// NOTE: We are getting cache data fresh - as it shared between browser tabs
-				var disabledOnes = app.cacheGet('calendar.feeds.disabled',[]);
+				disabledOnes = app.cacheGet('calendar.feeds.disabled',[]);
 				if (disabledOnes.indexOf(type) == -1) disabledOnes.push(type);
 				app.cacheSet('calendar.feeds.disabled', disabledOnes);
 

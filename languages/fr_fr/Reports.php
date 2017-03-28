@@ -89,6 +89,9 @@ $languageStrings = [
 	'LBL_YEARLY' => 'Annuel',
 	'LBL_MAIN' => 'Principal',
 	'LBL_SELECT_REPORT' => 'Sélectionner un rapport',
+	'LBL_FILE_TYPE' => 'Type de Fichier ',
+	'LBL_CSV' => 'CSV',
+	'LBL_EXCEL' => 'EXCEL',
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Sélectionner type de graphique',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Click through non disponible comme vous avez sélectionné plusieurs modules',

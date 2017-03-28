@@ -20,7 +20,7 @@ PriceBooks_RelatedList_Js("Products_RelatedList_Js",{},{
 			'view' : "ProductPriceBookPopup",
 			'src_field' : 'productsRelatedList',
 			'multi_select' : true
-		}
+		};
 		return parameters;
 	}
-})
+});

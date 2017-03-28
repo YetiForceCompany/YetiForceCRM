@@ -31,6 +31,7 @@ $languageStrings = [
 	'LBL_EMAIL' => 'E-Mail',
 	'LBL_GD_LIBRARY' => 'GD Bibliothek Support',
 	'LBL_HOST_NAME' => 'Hostname',
+	'LBL_HOST_PORT' => 'Host port',
 	'LBL_I_AGREE' => 'Ich stimme zu',
 	'LBL_IMAP_SUPPORT' => 'IMAP Support',
 	'LBL_INSTALLATION_IN_PROGRESS' => 'Installation in Arbeit',
@@ -72,6 +73,7 @@ $languageStrings = [
 	'LBL_CURL' => 'cURL Support',
 	'LBL_INDUSTRY_OPTION' => 'Bitte wählen Sie eine entsprechende Branche.',
 	'LBL_ERROR_LOGIN' => 'Berechtigungsfehler, Login Daten falsch',
+	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Enter company details',
 	//Migration
 	'LBL_MIGRATION' => 'Migration',
 	'LBL_START_MIGRATION' => 'Starte Migration',

@@ -144,7 +144,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 				form.hide();
 				progressIndicatorElement.progressIndicator({
 					'mode' : 'hide'
-				})
+				});
 				aDeferred.resolve(data);
 			},
 			function(error,err){
@@ -163,7 +163,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: app.getMainParams('maxReportColumn')});
 		var selectizeInstance = selectElement[0].selectize;
 		selectizeInstance.clear();
-		for (i in selectedFields) {
+		for (var i in selectedFields) {
 			selectizeInstance.addItem(selectedFields[i]);
 		}
 	},
@@ -212,9 +212,9 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 					}
 				} else {		// some other field is selected
 					if(attr) {
-						lineItemCalculationFields.attr('checked',false).attr('disabled',true)
+						lineItemCalculationFields.attr('checked',false).attr('disabled',true);
 					} else {
-						var moduleCalculationFieldLength = moduleCalculationFields.filter(':checked').length
+						var moduleCalculationFieldLength = moduleCalculationFields.filter(':checked').length;
 						if(moduleCalculationFieldLength == 0) lineItemCalculationFields.attr('disabled', false);
 						else lineItemCalculationFields.attr('disabled', true).attr('checked',false);
 					}

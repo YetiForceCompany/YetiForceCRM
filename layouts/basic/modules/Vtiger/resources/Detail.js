@@ -1636,7 +1636,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var previousValue = fieldnameElement.data('prevValue');
 				var ajaxEditNewValue = fieldElement.val();
 				var ajaxEditNewLable = fieldElement.val();
-				;
 				var activityDiv = currentDiv.closest('.activityEntries');
 				var activityId = activityDiv.find('.activityId').val();
 				var moduleName = activityDiv.find('.activityModule').val();

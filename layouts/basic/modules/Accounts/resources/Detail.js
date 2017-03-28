@@ -92,7 +92,7 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 				action: 'RelationAjax',
 				record: app.getRecordId(),
 				mode: 'getHierarchyCount',
-			}
+			};
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
 					$('.detailViewTitle .hierarchy .badge').html(response.result);

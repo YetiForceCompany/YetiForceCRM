@@ -50,8 +50,8 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			Vtiger_Session::set('user_name', $username);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
-			if ($request->has('language') && AppConfig::main('langInLoginView')) {
-				Vtiger_Session::set('language', $request->get('language'));
+			if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
+				Vtiger_Session::set('language', $request->get('loginLanguage'));
 			}
 			if ($request->has('layout')) {
 				Vtiger_Session::set('layout', $request->get('layout'));

@@ -765,11 +765,6 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 		->execute();
 	$db->createCommand()->update('vtiger_crmentity', ['modifiedby' => $newOwnerId], ['modifiedby' => $ownerId])
 		->execute();
-	//deleting from vtiger_tracker
-	if ($delete) {
-		$db->createCommand()->delete('vtiger_tracker', ['user_id' => $ownerId])
-			->execute();
-	}
 	//updating the vtiger_import_maps
 	$db->createCommand()->update('vtiger_import_maps', ['assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
 		->execute();

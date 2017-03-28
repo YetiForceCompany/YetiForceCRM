@@ -133,7 +133,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 				var ajaxParams = {};
 				var userid = jQuery(this).data('user-id');
-				ajaxParams.data = {module: 'OSSMailScanner', action: "AccontRemove", id: userid},
+				ajaxParams.data = {module: 'OSSMailScanner', action: "AccontRemove", id: userid};
 				ajaxParams.async = true;
 				AppConnector.request(ajaxParams).then(
 						function (data) {
@@ -155,7 +155,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 			var button = this;
 			if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 				var ajaxParams = {};
-				ajaxParams.data = {module: 'OSSMailScanner', action: "IdentitiesDel", id: jQuery(this).data('id')},
+				ajaxParams.data = {module: 'OSSMailScanner', action: "IdentitiesDel", id: jQuery(this).data('id')};
 				ajaxParams.async = true;
 
 				AppConnector.request(ajaxParams).then(

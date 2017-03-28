@@ -83,6 +83,8 @@ $languageStrings = [
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Number of found email addresses',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Number of selected records',
 	'LBL_MINIMIZE_BAR' => 'Minimize bar',
+	//BTN
+	'LBL_CREATEMAIL' => 'Send email',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Record does not have email address',

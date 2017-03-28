@@ -74,7 +74,7 @@ function DataAccessSave() {
 			});
 		}
 
-    },
+    };
 	this.preSaveDetail = function(form) {
 		var thisInstance = this;
 		form.on('Vtiger.Field.PreSave', function(e) {
@@ -94,7 +94,7 @@ function DataAccessSave() {
 				}
 			}
 		})
-	},
+	};
 	this.preSaveEdit = function() {
 		var thisInstance = this;
 		jQuery(':submit').on('click', function() {
@@ -114,7 +114,7 @@ function DataAccessSave() {
 				}
 			}
 		})
-	},
+	};
 	this.registerEvents = function() {
 		var thisInstance = this;
 		var view = app.getViewName();
@@ -135,10 +135,10 @@ function DataAccessSave() {
 		var editViewForm = this.getForm();
 		form.on('Vtiger.Field.PreSave', function(e) {
 			e.preventDefault();
-		})
+		});
 		form.on('Vtiger.Record.PreSave', function(e) {
 			e.preventDefault();
-		})
+		});
 		
 		//Vtiger_Edit_Js.recordPreSave
 	};
@@ -146,4 +146,4 @@ function DataAccessSave() {
 jQuery(document).ready(function() {
     var dc = new DataAccessSave();
     dc.registerEvents();
-})
+});

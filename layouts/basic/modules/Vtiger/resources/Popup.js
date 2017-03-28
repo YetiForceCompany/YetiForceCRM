@@ -470,7 +470,6 @@ jQuery.Class("Vtiger_Popup_Js", {
 				function (textStatus, errorThrown) {
 					aDeferred.reject(textStatus, errorThrown);
 				});
-		return aDeferred.promise();
 	},
 
 	/**
@@ -498,7 +497,6 @@ jQuery.Class("Vtiger_Popup_Js", {
 					aDeferred.reject(textStatus, errorThrown);
 				}
 		);
-		return aDeferred.promise();
 	},
 
 	/**

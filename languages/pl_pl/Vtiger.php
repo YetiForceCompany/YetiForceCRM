@@ -1295,6 +1295,7 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'Kopiuj do schowka',
 	'LBL_COPY_VALUE' => 'Wartość pola',
 	'LBL_COPY_LABEL' => 'Nazwa pola',
+	'LBL_AUTOMATIC' => 'Automatyczny',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',

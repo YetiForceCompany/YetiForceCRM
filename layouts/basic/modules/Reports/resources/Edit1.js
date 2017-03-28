@@ -105,7 +105,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 			'reportname' : details.reportName,
 			'record' : details.reportId,
 			'isDuplicate' : details.isDuplicate
-		}
+		};
 		
 		AppConnector.request(params).then(
 			function(data) {
@@ -153,7 +153,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 						form.hide();
 						progressIndicatorElement.progressIndicator({
 							'mode' : 'hide'
-						})
+						});
 						aDeferred.resolve(data);
 					},
 					function(error,err){
@@ -224,7 +224,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 					// reset the annual dates
 					var annualDatesEle = jQuery('#annualDates');
 					thisInstance.updateAnnualDates(annualDatesEle);
-					for(index in dates) {
+					for(var index in dates) {
 						var date = dates[index];
 						datesInfo.push({
 								id:thisInstance.DateToYMD(date),
@@ -261,7 +261,7 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 		if(annualDatesJSON) {
 			var hiddenDates = '';
 			var annualDates = JSON.parse(annualDatesJSON);
-			for(i in annualDates) {
+			for(var i in annualDates) {
 				hiddenDates += '<option selected value='+annualDates[i]+'>'+annualDates[i]+'</option>';
 			}
 			annualDatesEle.html(hiddenDates);

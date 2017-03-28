@@ -215,10 +215,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
-			App\Log::info('ERR_NO_DATA');
-			return $recordModel;
-		}
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
@@ -227,7 +223,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$eventHandler->trigger('EntityBeforeSave');
 
-		$recordModel->saveToDb();
+		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
+			App\Log::info('ERR_NO_DATA');
+		} else {
+			$recordModel->saveToDb();
+		}
 
 		$recordId = $recordModel->getId();
 		Users_Privileges_Model::setSharedOwner($recordModel->get('shownerid'), $recordId);
@@ -988,7 +988,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$quickLinks = [
-				[
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),

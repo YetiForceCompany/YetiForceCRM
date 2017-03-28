@@ -24,7 +24,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                     );
                 },
                 function(error, err) {
-                })
+                });
     },
     deleteRecords: function(url) {
         var listInstance = Vtiger_List_Js.getInstance();
@@ -50,7 +50,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                                     if (data) {
                                         progressIndicatorElement.progressIndicator({
                                             'mode': 'hide'
-                                        })
+                                        });
                                         var instance = new RecycleBin_List_Js();
                                         instance.recycleBinActionPostOperations(data);
                                     }
@@ -58,7 +58,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                         );
                     },
                     function(error, err) {
-                    })
+                    });
         } else {
             listInstance.noRecordSelectedAlert();
         }
@@ -89,7 +89,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                                     if (data) {
                                         progressIndicatorElement.progressIndicator({
                                             'mode': 'hide'
-                                        })
+                                        });
                                         var instance = new RecycleBin_List_Js();
                                         instance.recycleBinActionPostOperations(data);
                                     }
@@ -97,7 +97,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                         );
                     },
                     function(error, err) {
-                    })
+                    });
         } else {
             listInstance.noRecordSelectedAlert();
         }
@@ -119,7 +119,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
      * Function to delete a record
      */
     deleteRecord : function(recordId) {
-        var recordId = RecycleBin_List_Js.convertToJsonString(recordId);
+        recordId = RecycleBin_List_Js.convertToJsonString(recordId);
 		var listInstance = Vtiger_List_Js.getInstance();
 		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
         var sourceModule = jQuery('#customFilter').val();
@@ -134,7 +134,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 					"action": "RecycleBinAjax",
 					"sourceModule": sourceModule,
                     "mode": "deleteRecords"
-				}
+				};
 				var deleteMessage = app.vtranslate('JS_RECORD_GETTING_DELETED');
 				var progressIndicatorElement = jQuery.progressIndicator({
 					'message' : deleteMessage,
@@ -148,7 +148,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                         if(data){
                             progressIndicatorElement.progressIndicator({
                                 'mode' : 'hide'
-                            })
+                            });
                             var instance = new RecycleBin_List_Js();
                             instance.recycleBinActionPostOperations(data);
                         }
@@ -163,7 +163,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
     * Function to restore a record
     */
     restoreRecord : function(recordId){
-        var recordId = RecycleBin_List_Js.convertToJsonString(recordId);
+        recordId = RecycleBin_List_Js.convertToJsonString(recordId);
 		var listInstance = Vtiger_List_Js.getInstance();
         var sourceModule = jQuery('#customFilter').val();
         var cvId = listInstance.getCurrentCvId();
@@ -178,7 +178,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                     "selected_ids": recordId,
                     "mode": "restoreRecords",
                     "sourceModule": sourceModule
-                }
+                };
                 var restoreMessage = app.vtranslate('JS_RESTORING_RECORD');
                 var progressIndicatorElement = jQuery.progressIndicator({
                     'message' : restoreMessage,
@@ -192,7 +192,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
                         if(data){
                             progressIndicatorElement.progressIndicator({
                                 'mode' : 'hide'
-                            })
+                            });
                             var instance = new RecycleBin_List_Js();
                             instance.recycleBinActionPostOperations(data);
                         }
@@ -229,7 +229,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 			'orderby' : orderBy,
 			'sortorder' : sortOrder,
 			'sourceModule' : jQuery('#customFilter').val()
-		}
+		};
 		return params;
 	},
 	/*
@@ -256,11 +256,10 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 				});
 		} else {
 			app.hideModalWindow();
-			var params = {
+			Vtiger_Helper_Js.showPnotify({
 				title : app.vtranslate('JS_LBL_PERMISSION'),
 				text : data.error.message
-			}
-			Vtiger_Helper_Js.showPnotify(params);
+			});
 		}
 	},
 	
@@ -278,7 +277,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 				"sourceModule": sourceModule,
 				"view": "ListAjax",
 				"mode": "getRecordsCount"
-			}
+			};
 
 			AppConnector.request(postData).then(
 				function(data) {
@@ -307,7 +306,7 @@ Vtiger_List_Js("RecycleBin_List_Js", {
 			'view' : "ListAjax",
 			'mode' : "getPageCount",
 			'sourceModule': jQuery('#sourceModule').val()
-		}
+		};
 		return pageCountParams;
 	},
     

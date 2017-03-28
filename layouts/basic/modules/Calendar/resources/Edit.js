@@ -26,7 +26,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			} else {
 				closestDiv.addClass('hide');
 			}
-		})
+		});
 	},
 	/**
 	 * Function which will register change event on recurrence field checkbox
@@ -118,7 +118,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var startDateTime = startDate + ' ' + startTime;
 		var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 		var timeFormat = endTimeElement.data('format');
-		var startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
+		startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
 		var startDateInstance = Date.parse(startDate);
 		var endDateInstance = false;
 
@@ -181,7 +181,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		container.find('input[name="time_start"]').on('focus', function (e) {
 			var element = jQuery(e.currentTarget);
 			element.data('prevValue', element.val());
-		})
+		});
 
 		container.find('input[name="time_start"]').on('blur', function (e, data) {
 			if (typeof data == 'undefined') {
@@ -272,7 +272,6 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				if (currentTarget.is(':checked')) {
 					checkedElements.push(currentTarget.val());
 				}
-				;
 			});
 			if (checkedElements.length > 0) {
 				rule += ';BYDAY=' + checkedElements.join(',');
@@ -333,7 +332,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 							app.hideModalWindow();
 							lockSave = false;
 							form.submit();
-						})
+						});
 					});
 				}
 			});
@@ -357,7 +356,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 				});
 				jQuery('<input type="hidden" name="inviteesid" />').appendTo(form).val(JSON.stringify(invitees));
 			}
-		})
+		});
 	},
 	getFreeTime: function (container) {
 		var timeStart = container.find('[name="time_start"], [data-element-name="time_start"]');
@@ -455,14 +454,12 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var endTime = endTimeElement.val();
 		var endDate = endDateElement.val();
 		var dateFormat = $('#userDateFormat').val();
-		var timeFormat = $('#userTimeFormat').val();
 		if (type == 'start') {
-			var dateInstance = Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
+			return Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
 		}
 		if (type == 'end') {
-			var dateInstance = Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
+			return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
 		}
-		return dateInstance;
 	},
 	registerInviteEvent: function (editViewForm) {
 		var thisInstance = this;
@@ -514,7 +511,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 						});
 					}
 					response(reponseDataList);
-				})
+				});
 			},
 			select: function (event, ui) {
 				var selected = ui.item;

@@ -137,11 +137,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		}
 
 		if ($defaultSelected == 'mine' && in_array($defaultSelected, $owners['available'])) {
-			$user = $currentUser->getUserId();
+			$user = $currentUser->getId();
 		} elseif ($defaultSelected == 'all' && in_array($defaultSelected, $owners['available'])) {
 			$user = $defaultSelected;
 		} elseif (in_array('users', $owners['available'])) {
-			if (key($accessibleUsers) == $currentUser->getUserId())
+			if (key($accessibleUsers) == $currentUser->getId())
 				next($accessibleUsers);
 			$user = key($accessibleUsers);
 		} elseif (in_array('groups', $owners['available'])) {

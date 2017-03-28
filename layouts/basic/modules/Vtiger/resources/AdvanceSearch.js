@@ -112,7 +112,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 				app.showScrollBar(jQuery('#searchContainer'), {'height': '400px', 'railVisible': 'true'});
 			}
 			aDeferred.resolve();
-		}
+		};
 		thisInstance.getAdvanceSearch().then(
 				function (data) {
 					var params = {};
@@ -124,7 +124,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 				function (error) {
 					aDeferred.reject();
 				}
-		)
+		);
 		return aDeferred.promise();
 	},
 	getNameFields: function () {
@@ -189,7 +189,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		var postLoad = function (data) {
 			//app.showScrollBar(jQuery(data).find('.contents'));
 			aDeferred.resolve(data);
-		}
+		};
 		var html = '<div class="row">' +
 				'<span class="col-md-4 searchHolder"></span>' +
 				'<span class="col-md-8 filterHolder marginLeftZero hide"></span>' +
@@ -229,7 +229,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 				Vtiger_Helper_Js.showPnotify(params);
 			}
 			aDeferred.resolve(data);
-		})
+		});
 		return aDeferred.promise();
 	},
 	/**
@@ -281,7 +281,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		var thisInstance = this;
 		var callback = function () {
 			app.showModalWindow(thisInstance.getContainer());
-		}
+		};
 		app.hideModalWindow(callback);
 	},
 	/**
@@ -299,7 +299,7 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			} else {
 				thisInstance.formValidationDeferred.reject();
 			}
-		}
+		};
 		//To perform validation registration only once
 		if (!this.filterValidationRegistered) {
 			this.filterValidationRegistered = true;
@@ -389,9 +389,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 		//DO nothing on submit of filter form
 		this.getFilterForm().on('submit', function (e) {
 			e.preventDefault();
-		})
+		});
 
 		//To set the search module with the currently selected values.
 		this.setSearchModule(jQuery('#searchModuleList').val());
 	}
-})
+});

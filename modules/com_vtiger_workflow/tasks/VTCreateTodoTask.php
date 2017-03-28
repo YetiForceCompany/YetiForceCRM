@@ -154,10 +154,11 @@ class VTCreateTodoTask extends VTTask
 		$baseDateEnd = strtotime($match[0]);
 		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
 		$due_date = strftime('%Y-%m-%d', $baseDateEnd + (int) $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
+		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$fields = [
 			'activitytype' => 'Task',
-			'description' => $this->description,
-			'subject' => $this->todo,
+			'description' => $textParser->setContent($this->description)->parse()->getContent(),
+			'subject' => $textParser->setContent($this->todo)->parse()->getContent(),
 			'taskpriority' => $this->priority,
 			'activitystatus' => $this->status,
 			'assigned_user_id' => $userId,

@@ -79,7 +79,7 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 		this.registerSaveMapping(content);
 		this.registerMapping(content);
 		this.registerEventToDeleteMapping(content);
-		var instance = new Settings_LeadMapping_Js;
+		var instance = new Settings_LeadMapping_Js();
 		instance.registerEventForAddingNewMapping();
 	}
 });

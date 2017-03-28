@@ -20,7 +20,7 @@ $languageStrings = [
 	//Messages
 	'LBL_PRIVILEGES_MESSAGE' => "Les droits d\'accès de ce rôle seront appliqués au portail client.",
 	'LBL_DEFAULT_ASSIGNEE_MESSAGE' => 'Les tickets seront assignés à l\'assigné par défaut du groupe/utilisateur du portail client.',
-	'LBL_PORTAL_URL_MESSAGE' => 'Ceci est l\'URL pour le poratil client dans lequel vos contacts peuvent se connecter pour soumettre et suivre leurs tickets, accéder à la base de connaissance et plus encore. Les contacts recevront les informations de connexion lorsue le portail sera activé sur leur fiche.',
+	'LBL_PORTAL_URL_MESSAGE' => 'Ceci est l\'URL pour le poratil client dans lequel vos contacts peuvent se connecter pour soumettre et suivre leurs tickets, accéder à la base de connaissance et plus encore. Les contacts recevront les informations de connexion lorsque le portail sera activé sur leur fiche.',
 	'LBL_DRAG_AND_DROP_MESSAGE' => 'Glisser et déplacer les modules pour les réarranger dans le portail client',
 ];
 

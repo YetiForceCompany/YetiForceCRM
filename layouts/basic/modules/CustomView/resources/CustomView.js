@@ -97,21 +97,22 @@ var Vtiger_CustomView_Js = {
 				function (error) {
 					aDeferred.reject(error);
 				}
-		)
+		);
 		return aDeferred.promise();
 	},
 	saveAndViewFilter: function () {
 		Vtiger_CustomView_Js.saveFilter().then(
 				function (response) {
 					if (response.success) {
+						var url;
 						if (app.getParentModuleName() == 'Settings') {
-							var url = 'index.php?module=CustomView&parent=Settings&view=Index';
+							url = 'index.php?module=CustomView&parent=Settings&view=Index';
 						} else {
-							var url = response['result']['listviewurl'];
+							url = response['result']['listviewurl'];
 						}
 						window.location.href = url;
 					} else {
-						$.unblockUI()
+						$.unblockUI();
 						var params = {
 							title: app.vtranslate('JS_DUPLICATE_RECORD'),
 							text: response.error['message']
@@ -147,14 +148,14 @@ var Vtiger_CustomView_Js = {
 		});
 		container.find('.iconPreferences input').each(function (e) {
 			jQuery(this).trigger('change');
-		})
+		});
 	},
 	registerCkEditorElement: function () {
 		var container = this.getContentsContainer();
 		container.find('.ckEditorSource').each(function (e) {
 			var ckEditorInstance = new Vtiger_CkEditor_Js();
 			ckEditorInstance.loadCkEditor(jQuery(this)); //{toolbar: 'Basic'}
-		})
+		});
 	},
 	registerBlockToggleEvent: function () {
 		var container = this.getContentsContainer();
@@ -201,7 +202,7 @@ var Vtiger_CustomView_Js = {
 		var selectizeInstance = select2Element[0].selectize;
 		var columnsList = JSON.parse(jQuery('input[name="columnslist"]').val());
 		selectizeInstance.clear();
-		for (i in columnsList) {
+		for (var i in columnsList) {
 			selectizeInstance.addItem(columnsList[i]);
 		}
 		jQuery("#standardDateFilter").change(function () {
@@ -214,7 +215,7 @@ var Vtiger_CustomView_Js = {
 				var params = {
 					title: app.vtranslate('JS_MESSAGE'),
 					text: app.vtranslate('JS_VIEWNAME_ALERT')
-				}
+				};
 				Vtiger_Helper_Js.showPnotify(params);
 				e.preventDefault();
 				return;
@@ -234,8 +235,8 @@ var Vtiger_CustomView_Js = {
 				}
 			}
 			if (mandatoryFieldsMissing) {
-				var result = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
-				select2Element.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+				var message = app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_MANDATORY_FIELD');
+				select2Element.validationEngine('showPrompt', message, 'error', 'topLeft', true);
 				e.preventDefault();
 				return;
 			} else {
@@ -267,4 +268,4 @@ var Vtiger_CustomView_Js = {
 		});
 		jQuery('#CustomView').validationEngine(app.validationEngineOptions);
 	}
-}
+};

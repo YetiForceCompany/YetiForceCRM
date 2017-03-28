@@ -146,7 +146,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];
 		if (!empty($users)) {
-			foreach (explode(',', $users) as $userId) {
+			$users = is_array($users) ? $users : explode(',', $users);
+			foreach ($users as $userId) {
 				$userType = \App\Fields\Owner::getType($userId);
 				if ($userType === 'Groups') {
 					$usersCollection = array_merge($usersCollection, \App\PrivilegeUtil::getUsersByGroup($userId));

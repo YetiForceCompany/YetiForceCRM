@@ -88,7 +88,7 @@ Vtiger_Base_Validator_Js("Vtiger_UserName_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 	/**
@@ -122,7 +122,7 @@ Vtiger_Base_Validator_Js("Vtiger_PositiveNumber_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
 	/**
@@ -160,7 +160,7 @@ Vtiger_Base_Validator_Js("Vtiger_Integer_Validator_Js", {
 			return true;
 		}
 	}
-})
+});
 
 Vtiger_PositiveNumber_Validator_Js("Vtiger_Percentage_Validator_Js", {
 	/**
@@ -224,7 +224,7 @@ Vtiger_Base_Validator_Js('Vtiger_Url_Validator_Js', {}, {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_MultiSelect_Validator_Js", {
 	invokeValidation: function (field, rules, i, options) {
@@ -254,7 +254,7 @@ Vtiger_Base_Validator_Js("Vtiger_MultiSelect_Validator_Js", {
 		return true;
 	}
 
-})
+});
 
 
 Vtiger_Email_Validator_Js("Vtiger_MultiEmails_Validator_Js", {
@@ -327,7 +327,7 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_GreaterThanZero_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_PositiveNumber_Validator_Js("Vtiger_WholeNumber_Validator_Js", {
 	/**
@@ -369,7 +369,7 @@ Vtiger_PositiveNumber_Validator_Js("Vtiger_WholeNumber_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_lessThanToday_Validator_Js", {}, {
 	/**
@@ -400,7 +400,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanToday_Validator_Js", {}, {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_lessThanOrEqualToToday_Validator_Js", {}, {
 	/**
@@ -431,7 +431,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanOrEqualToToday_Validator_Js", {}, {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js('Vtiger_greaterThanOrEqualToToday_Validator_Js', {}, {
 	/**
@@ -457,13 +457,12 @@ Vtiger_Base_Validator_Js('Vtiger_greaterThanOrEqualToToday_Validator_Js', {}, {
 		var comparedDateVal = todayDateInstance - fieldDateInstance;
 		if (comparedDateVal > 0) {
 			var errorInfo = fieldInfo.label + " " + app.vtranslate('JS_SHOULD_BE_GREATER_THAN_OR_EQUAL_TO') + " " + app.vtranslate('JS_CURRENT_DATE');
-			;
 			this.setError(errorInfo);
 			return false;
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js", {
 	/**
@@ -527,7 +526,7 @@ Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js", {
 		}
 		return dateTimeInstance;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_Js", {}, {
 	fieldDateTime: '',
@@ -576,7 +575,7 @@ Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_futureEventCannotBeHeld_Validator_Js", {}, {
 	/**
@@ -609,7 +608,7 @@ Vtiger_Base_Validator_Js("Vtiger_futureEventCannotBeHeld_Validator_Js", {}, {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js", {}, {
 	/**
@@ -657,7 +656,7 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js", {}, {
 		}
 		return dateTimeInstance;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 	/**
@@ -695,7 +694,7 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 		var errorInfo;
 
 		if (fieldData.groupSeparator == "$") {
-			fieldData.groupSeparator = "\\$"
+			fieldData.groupSeparator = "\\$";
 		}
 
 		var regex = new RegExp(fieldData.groupSeparator, 'g');
@@ -718,7 +717,7 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 		}
 		return true;
 	}
-})
+});
 Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -775,7 +774,7 @@ Vtiger_Base_Validator_Js("Vtiger_NumberUserFormat_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_ReferenceField_Validator_Js", {}, {
 	/**
@@ -796,7 +795,7 @@ Vtiger_Base_Validator_Js("Vtiger_ReferenceField_Validator_Js", {}, {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Integer_Validator_Js("Vtiger_Double_Validator_Js", {}, {
 	/**
@@ -818,7 +817,7 @@ Vtiger_Integer_Validator_Js("Vtiger_Double_Validator_Js", {}, {
 		}
 		return response;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 	/**
@@ -856,9 +855,7 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		}
 		return true;
 	}
-
-
-})
+});
 
 Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 	/**
@@ -894,8 +891,7 @@ Vtiger_Base_Validator_Js("Vtiger_Time_Validator_Js", {
 		}
 		return true;
 	}
-
-})
+});
 
 //Calendar Specific validators
 // We have placed it here since quick create will not load module specific validators
@@ -952,7 +948,7 @@ Vtiger_Base_Validator_Js('Calendar_greaterThanToday_Validator_Js', {}, {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_Base_Validator_Js("Calendar_RepeatMonthDate_Validator_Js", {
 	/**
@@ -985,7 +981,7 @@ Vtiger_Base_Validator_Js("Calendar_RepeatMonthDate_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 
 Vtiger_WholeNumber_Validator_Js("Vtiger_WholeNumberGreaterThanZero_Validator_Js", {
 	/**
@@ -1024,7 +1020,7 @@ Vtiger_WholeNumber_Validator_Js("Vtiger_WholeNumberGreaterThanZero_Validator_Js"
 		}
 		return true;
 	}
-})
+});
 Vtiger_Base_Validator_Js("Vtiger_AlphaNumeric_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -1057,7 +1053,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumeric_Validator_Js", {
 		}
 		return true;
 	}
-})
+});
 Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -1090,7 +1086,7 @@ Vtiger_Base_Validator_Js("Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js
 		}
 		return true;
 	}
-})
+});
 Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 	/**
 	 *Function which invokes field validation
@@ -1139,4 +1135,4 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 		}
 		return true;
 	}
-})
+});

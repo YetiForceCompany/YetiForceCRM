@@ -57,10 +57,11 @@ class Vtiger_Language_Handler
 	 */
 	public static function getLanguageTranslatedString($language, $key, $module = 'Vtiger')
 	{
-		$moduleStrings = [];
-
-		if (is_array($module) || empty($key)) {
-			App\Log::warning('Invalid module name');
+		if ($key === '') { // nothing to translate
+			return '';
+		}
+		if (is_array($module)) {
+			App\Log::warning('Invalid module name - module: ' . var_export($module, true));
 			return null;
 		}
 		if (is_numeric($module)) {
@@ -85,9 +86,10 @@ class Vtiger_Language_Handler
 			}
 		}
 		$commonStrings = self::getModuleStringsFromFile($language);
-		if (!empty($commonStrings['languageStrings'][$key]))
+		if (!empty($commonStrings['languageStrings'][$key])) {
 			return stripslashes($commonStrings['languageStrings'][$key]);
-
+		}
+		\App\Log::warning("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
 		return null;
 	}
 
@@ -99,8 +101,6 @@ class Vtiger_Language_Handler
 	 */
 	public static function getJSTranslatedString($language, $key, $module = 'Vtiger')
 	{
-		$moduleStrings = [];
-
 		$module = str_replace(':', '.', $module);
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
 		if (!empty($moduleStrings['jsLanguageStrings'][$key])) {
@@ -117,11 +117,11 @@ class Vtiger_Language_Handler
 				return $moduleStrings['jsLanguageStrings'][$key];
 			}
 		}
-
 		$commonStrings = self::getModuleStringsFromFile($language);
-		if (!empty($commonStrings['jsLanguageStrings'][$key]))
+		if (!empty($commonStrings['jsLanguageStrings'][$key])) {
 			return $commonStrings['jsLanguageStrings'][$key];
-
+		}
+		\App\Log::warning("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
 		return $key;
 	}
 

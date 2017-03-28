@@ -55,7 +55,7 @@ Vtiger_Detail_Js("PriceBooks_Detail_Js",{},{
 				var params = {'page':relatedCurrentPage};
 				relatedListInstance.loadRelatedList(params);
 			}
-		})
+		});
 	},
 	/**
 	 * Function to show listprice update form
@@ -129,4 +129,4 @@ Vtiger_Detail_Js("PriceBooks_Detail_Js",{},{
 		this._super();
 		this.registerEventForSelectRecords();
 	}
-})
+});

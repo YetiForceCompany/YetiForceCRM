@@ -134,13 +134,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
 
-		if ((ini_get('output_buffering') <= '4096' && ini_get('output_buffering') != '1') || stripos(ini_get('output_buffering'), 'Off') !== false)
+		if (ini_get('output_buffering') !== 'On') {
 			$directiveValues['output_buffering']['status'] = true;
-		if (!in_array(ini_get('output_buffering'), ['On', 1, 0, 'Off'])) {
-			$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
-		} else {
-			$directiveValues['output_buffering']['current'] = self::getFlag(ini_get('output_buffering'));
 		}
+		$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
+
 
 		if (ini_get('max_execution_time') != 0 && ini_get('max_execution_time') < 600)
 			$directiveValues['max_execution_time']['status'] = true;
@@ -319,6 +317,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getHardwareInfo()
 	{
+		if (!class_exists('\Linfo\Linfo')) {
+			return [];
+		}
 		try {
 			$linfo = new \Linfo\Linfo;
 			$parser = $linfo->getParser();
@@ -352,7 +353,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
 		$permissions = array();
-		require_once ('include/utils/VtlibUtils.php');
+		require_once ROOT_DIRECTORY . '/include/utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = vtlib_isWriteable($value);
 			if (!$isWriteable || !$onlyError) {

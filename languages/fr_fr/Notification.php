@@ -2,15 +2,14 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'Notification' => 'Notifications',
-	'Notification' => 'Notifications',
-	'Notification ID' => 'Notification ID',
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'Notification ID' => 'Notification N°',
+	'LBL_CUSTOM_INFORMATION' => 'Informations personnalisées',
 	'FL_TITLE' => 'Titre',
 	'LBL_NOTIFICATION_INFORMATION' => 'Détails de la notification',
 	'FL_RELATED_MODULE' => 'Module lié',
 	'FL_MESSAGE' => 'Contenu de la notification',
 	'LBL_SCHEDULE' => 'Planificateur',
-	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Recevoir les notifications par mail',
+	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Recevoir les notifications par email',
 	'PLL_5_MIN' => '5 minutes',
 	'PLL_15_MIN' => '15 minutes',
 	'PLL_30_MIN' => '30 minutes',

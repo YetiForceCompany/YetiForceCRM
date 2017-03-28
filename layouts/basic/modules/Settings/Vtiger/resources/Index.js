@@ -33,9 +33,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						container.find('.iconName').text(data.id);
 						container.find('#iconName').val(data.id);
 						container.find('#iconType').val(type);
-						if (type == 'icon') {
+						if (type === 'icon') {
 							container.find('.iconExample').html('<span class="' + data.element.value + '" aria-hidden="true"></span>');
-						} else if (type = 'image') {
+						} else if (type === 'image') {
 							container.find('.iconExample').html('<img width="24px" src="' + data.element.value + '"/>')
 						}
 						return data.text;
@@ -45,10 +45,11 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							return (data.text);
 						}
 						var type = $(data.element).data('type');
-						if (type == 'icon') {
-							var option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
-						} else if (type = 'image') {
-							var option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
+						var option;
+						if (type === 'icon') {
+							option = $('<span class="' + data.element.value + '" aria-hidden="true"> - ' + $(data.element).data('class') + '</span>');
+						} else if (type === 'image') {
+							option = $('<img width="24px" src="' + data.element.value + '" title="' + data.text + '" /><span> - ' + data.text + '</span>');
 						}
 						return option;
 					},

@@ -97,7 +97,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 							module: app.getModuleName(),
 							action: "RelationAjax",
 							mode: 'addRelationsFromRelatedModuleViewId'
-						}
+						};
 
 						var progressIndicatorElement = jQuery.progressIndicator({
 							position: 'html',
@@ -109,7 +109,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 								function (responseData) {
 									progressIndicatorElement.progressIndicator({
 										'mode': 'hide'
-									})
+									});
 									if (responseData != null) {
 										var message = app.vtranslate('JS_NO_RECORDS_RELATED_TO_THIS_FILTER');
 										var params = {
@@ -157,7 +157,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 				'action': 'RelationAjax',
 				'sourceRecord': thisInstance.parentRecordId,
 				'mode': 'updateStatus'
-			}
+			};
 			element.progressIndicator({});
 			AppConnector.request(params).then(
 					function (responseData) {
@@ -177,4 +177,4 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		this.registerChangeCustomFilterEvent();
 		this.registerEventToEditRelatedStatus();
 	}
-})
+});

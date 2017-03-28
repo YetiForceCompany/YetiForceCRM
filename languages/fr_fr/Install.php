@@ -29,6 +29,7 @@ $languageStrings = [
 	'LBL_EMAIL' => 'Email',
 	'LBL_GD_LIBRARY' => 'Support librairie GD',
 	'LBL_HOST_NAME' => 'Nom hôte',
+	'LBL_HOST_PORT' => 'Host port',
 	'LBL_I_AGREE' => 'Accord',
 	'LBL_IMAP_SUPPORT' => 'Support IMAP',
 	'LBL_INSTALLATION_IN_PROGRESS' => 'Installation en-cours',
@@ -72,6 +73,7 @@ $languageStrings = [
 	'LBL_ERROR_LOGIN' => 'Erreur d\'autorisation, les données fournies sont incorrectes.',
 	'LBL_BACK' => 'Retour',
 	'LBL_READ_LICENSE' => 'Lire la licence',
+	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Enter company details',
 	//Migration
 	'LBL_MIGRATION' => 'Migration',
 	'LBL_START_MIGRATION' => 'Démarrer la migration',

@@ -7,10 +7,10 @@ jQuery.Class("Users_ChangePassword_Js", {}, {
 		var params = app.validationEngineOptionsForRecord;
 		params.onValidationComplete = function (form, valid) {
 			if (valid) {
-				thisInstance.savePassword(form)
+				thisInstance.savePassword(form);
 			}
 			return false;
-		}
+		};
 		form.validationEngine(app.validationEngineOptionsForRecord);
 
 	},
@@ -28,7 +28,7 @@ jQuery.Class("Users_ChangePassword_Js", {}, {
 				'old_password': old_password.val(),
 				'new_password': new_password.val(),
 				'userid': userid
-			}
+			};
 			AppConnector.request(params).then(
 					function (data) {
 						if (data.success) {
@@ -55,4 +55,4 @@ jQuery.Class("Users_ChangePassword_Js", {}, {
 jQuery(document).ready(function (e) {
 	var instance = new Users_ChangePassword_Js();
 	instance.registerEvents();
-})
+});

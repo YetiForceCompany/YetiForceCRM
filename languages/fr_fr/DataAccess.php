@@ -86,6 +86,8 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Une tentative de modification a été faite en mode création rapide.<br>Sélectionner les champs ci-dessous et accepter pour appliquer les changements.<br>Attention!<br>Resaisir les modifications dans l\'enregistrement.',
 	'LBL_DONT_ASK_AGAIN' => 'Ne plus me demander pour cet enregistrement.',
 	'LBL_SEARCH_TRASH' => 'Chercher dans la poubelle',
+	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
+	'LBL_CONTENT_MESSAGE' => 'Message contents',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Accès aux données',

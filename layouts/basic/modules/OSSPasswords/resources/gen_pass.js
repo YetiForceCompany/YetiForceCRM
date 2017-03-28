@@ -74,7 +74,7 @@ function showPassword( record ) {
             'module' : "OSSPasswords",
             'action' : "GetPass",
             'record' : record
-        }
+        };
         
         AppConnector.request(params).then(
             function(data) {
@@ -115,7 +115,7 @@ function showDetailsPassword( record ) {
             'module' : "OSSPasswords",
             'action' : "GetPass",
             'record' : record
-        }
+        };
         
         AppConnector.request(params).then(
             function(data) {
@@ -149,7 +149,7 @@ function showPasswordQuickEdit( record ) {
         'module' : "OSSPasswords",
         'action' : "GetPass",
         'record' : record
-    }
+    };
     
     AppConnector.request(params).then(
         function(data) {

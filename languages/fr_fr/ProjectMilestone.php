@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 $languageStrings = [
 	// Basic Strings
-	'SINGLE_ProjectMilestone' => 'Jalon Projet ',
+	'SINGLE_ProjectMilestone' => 'Jalon Projet',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_RECORDS_LIST' => 'Liste des jalons projet',
 	// Blocks
@@ -31,6 +31,6 @@ $languageStrings = [
 	'PLL_EXTERNAL' => 'Externe',
 	'PLL_SHARED' => 'Partagé',
 	'PLL_LOW' => 'Basse',
-	'PLL_NORMAL' => 'Normal',
+	'PLL_NORMAL' => 'Normale',
 	'PLL_HIGH' => 'Haute',
 ];

@@ -34,7 +34,7 @@ Vtiger_List_Js("Reports_List_Js", {
 									var info = result.info;
 									Reports_List_Js.listInstance.updateCustomFilter(info);
 								} else {
-									var result = result.message;
+									result = result.message;
 									var folderNameElement = jQuery('#foldername');
 									folderNameElement.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 								}
@@ -43,7 +43,7 @@ Vtiger_List_Js("Reports_List_Js", {
 								var params = {
 									title: app.vtranslate('JS_ERROR'),
 									text: data.error.message
-								}
+								};
 								Vtiger_Helper_Js.showPnotify(params);
 							}
 						});
@@ -54,7 +54,7 @@ Vtiger_List_Js("Reports_List_Js", {
 						}
 					});
 				}
-		)
+		);
 	},
 	massDelete: function (url) {
 		var listInstance = Reports_List_Js.listInstance;
@@ -81,7 +81,7 @@ Vtiger_List_Js("Reports_List_Js", {
 								function (data) {
 									progressIndicatorElement.progressIndicator({
 										'mode': 'hide'
-									})
+									});
 									if (data) {
 										listInstance.massActionPostOperations(data);
 									}
@@ -124,10 +124,10 @@ Vtiger_List_Js("Reports_List_Js", {
 									listInstance.massActionPostOperations(data);
 								}
 							});
-						}
+						};
 						app.showModalWindow(data, callBackFunction);
 					}
-			)
+			);
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -215,7 +215,7 @@ Vtiger_List_Js("Reports_List_Js", {
 			var params = {
 				title: app.vtranslate('JS_LBL_PERMISSION'),
 				text: data.error.message + ' : ' + data.error.code
-			}
+			};
 			Vtiger_Helper_Js.showPnotify(params);
 		}
 	},
@@ -227,7 +227,7 @@ Vtiger_List_Js("Reports_List_Js", {
 		AppConnector.request(url).then(
 				function (data) {
 					if (data.success) {
-						var response = data.result
+						var response = data.result;
 						if (response.success) {
 							var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
@@ -243,19 +243,18 @@ Vtiger_List_Js("Reports_List_Js", {
 							var params = {
 								title: app.vtranslate('JS_INFORMATION'),
 								text: response.message
-							}
+							};
 							Vtiger_Helper_Js.showPnotify(params);
 						}
 					} else {
 						app.hideModalWindow();
-						var params = {
+						Vtiger_Helper_Js.showPnotify({
 							title: app.vtranslate('JS_INFORMATION'),
 							text: data.error.message
-						}
-						Vtiger_Helper_Js.showPnotify(params);
+						});
 					}
 				}
-		)
+		);
 	},
 	/*
 	 * Function to register the click event for edit filter

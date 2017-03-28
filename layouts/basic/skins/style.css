@@ -5269,6 +5269,7 @@ select.form-control {
 .detailViewHeaderFields .detailViewHeaderFieldsValue .badge{
 	padding: 3px 10px !important;
 	margin: 2px 0px;
+	white-space: normal;
 }
 .detailViewHeaderFields .detailViewHeaderFieldsValue .badge a{
 	color: inherit;

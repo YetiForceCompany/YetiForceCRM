@@ -1837,7 +1837,7 @@ insert  into `vtiger_currency_grouping_separator_seq`(`id`) values (5);
 
 /*Data for the table `vtiger_currency_info` */
 
-insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active','-11',0);
+insert  into `vtiger_currency_info`(`id`,`currency_name`,`currency_code`,`currency_symbol`,`conversion_rate`,`currency_status`,`defaultid`,`deleted`) values (1,'Poland, Zlotych','PLN','zł','1.00000','Active',-11,0);
 
 /*Data for the table `vtiger_currency_info_seq` */
 
@@ -6663,10 +6663,11 @@ insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`seque
 insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (3,'Deutsch','de_de','DE Deutsch','2014-11-21 11:20:40',NULL,0,1);
 insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (5,'Russian','ru_ru','Russian','2015-01-13 15:12:39',NULL,0,1);
 insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (6,'French','fr_fr','French','2016-04-29 12:20:00',NULL,0,1);
+insert  into `vtiger_language`(`id`,`name`,`prefix`,`label`,`lastupdated`,`sequence`,`isdefault`,`active`) values (7,'Spanish','es_es','ES Spanish','2017-03-11 00:00:00',NULL,0,1);
 
 /*Data for the table `vtiger_language_seq` */
 
-insert  into `vtiger_language_seq`(`id`) values (6);
+insert  into `vtiger_language_seq`(`id`) values (7);
 
 /*Data for the table `vtiger_layout` */
 
@@ -27649,8 +27650,6 @@ insert  into `vtiger_timecontrol_type_seq`(`id`) values (3);
 /*Data for the table `vtiger_tmp_write_user_rel_sharing_per` */
 
 /*Data for the table `vtiger_tmp_write_user_sharing_per` */
-
-/*Data for the table `vtiger_tracker` */
 
 /*Data for the table `vtiger_tracking_unit` */
 

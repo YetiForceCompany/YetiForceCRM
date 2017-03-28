@@ -5,7 +5,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		var form = this.getForm();
-		var relatedRecord = form.find('.relatedRecord')
+		var relatedRecord = form.find('.relatedRecord');
 		if (!relatedRecord.length) {
 			aDeferred.resolve(form);
 			return false;
@@ -21,7 +21,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 				}
 			});
 			thisInstance.getRelatedData(modules[i]).then(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'})
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				aDeferred.resolve(form);
 			});
 		}
@@ -39,11 +39,11 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 			'relatedModule': module,
 			'limit': 'no_limit',
 			'record': this.relatedRecord ? this.relatedRecord : form.find('.relatedRecord').val()
-		}
+		};
 		AppConnector.request(params).then(
 				function (data) {
 					data = jQuery(data);
-					var container = form.find('.relatedRecordsContents #' + moduleNameToLower)
+					var container = form.find('.relatedRecordsContents #' + moduleNameToLower);
 					if (module == 'ModComments') {
 						thisInstance.showCommentData(data.find('.commentsBody'), container);
 					} else {
@@ -68,7 +68,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 			fields: form.find('.hierarchyField').val(),
 			view: 'GetHierarchy',
 			record: hierarchyId
-		}
+		};
 		var hierarchyContainer = form.find('.hierarchyContainer');
 		AppConnector.request(params).then(
 				function (data) {

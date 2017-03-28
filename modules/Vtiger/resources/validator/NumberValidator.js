@@ -13,14 +13,14 @@ Vtiger_BaseValidator_Js("Vtiger_NumberValidator_Js", {}, {
 		if (jQuery(field).attr('id') == "probability") {
 			if (isNaN(field.val())) {
 				// this allows the use of i18 for the error msgs
-				this.getOnlyNumbersError;
+				this.getOnlyNumbersError();
 			} else if (field.val() > 100) {
-				this.getProbabilityNumberError;
+				this.getProbabilityNumberError();
 			}
 		}
 		if (isNaN(field.val())) {
 			// this allows the use of i18 for the error msgs
-			this.getOnlyNumbersError;
+			this.getOnlyNumbersError();
 		}
 	},
 	getOnlyNumbersError: function () {
@@ -31,4 +31,4 @@ Vtiger_BaseValidator_Js("Vtiger_NumberValidator_Js", {}, {
 		this.error = "please enter only numbers less than 100 as field value is in percentage";
 		return this.error;
 	}
-})
+});

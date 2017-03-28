@@ -26,4 +26,4 @@ jQuery.Class("Vtiger_SwitchUsers_Js", {}, {
 jQuery(document).ready(function (e) {
 	var instance = new Vtiger_SwitchUsers_Js();
 	instance.registerEvents();
-})
+});

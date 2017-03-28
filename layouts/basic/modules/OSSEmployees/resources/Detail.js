@@ -40,7 +40,7 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js",{
                 alwaysVisible: true,
                 size: '6px'
             });
-        }
+        };
         app.showModalWindow(data, function(data){
             if(typeof callbackFunction == 'function'){
                 callbackFunction(data);
@@ -54,8 +54,8 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js",{
 		jQuery('select[name="year"]').change(function(){
 			var year = jQuery(this).val();
 			var id = jQuery('input#recordId').val();
-			 var params = {}
-            params.data = {module: 'OSSEmployees', action: 'GetHoliday', year: year, id: id}
+			var params = {};
+            params.data = {module: 'OSSEmployees', action: 'GetHoliday', year: year, id: id};
             params.async = false;
             params.dataType = 'json';
             AppConnector.request(params).then(

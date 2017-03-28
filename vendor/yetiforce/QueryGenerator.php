@@ -299,6 +299,15 @@ class QueryGenerator
 	}
 
 	/**
+	 * Add table to query
+	 * @param string $tableName
+	 */
+	public function addTableToQuery($tableName)
+	{
+		$this->tablesList[$tableName] = $tableName;
+	}
+
+	/**
 	 * Set ignore comma
 	 * @param boolean $val
 	 */
@@ -706,7 +715,7 @@ class QueryGenerator
 		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		if ($this->permissions) {
 			if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
-				$userId = $this->user->getUserId();
+				$userId = $this->user->getId();
 				$this->query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 			} else {
 				PrivilegeQuery::getConditions($this->query, $this->moduleName, $this->user, $this->sourceRecord);

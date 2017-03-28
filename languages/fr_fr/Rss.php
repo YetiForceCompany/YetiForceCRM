@@ -10,13 +10,14 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_FEED_SOURCE' => 'Ajouter une source de flux',
-	'LBL_ENTER_FEED_SOURCE' => 'Saisir une source de flux',
+	'LBL_ENTER_FEED_SOURCE' => 'Saisir la source du flux',
 	'LBL_FEEDS_LIST_FROM' => 'Liste de flux de',
 	'LBL_FEED_SOURCE' => 'Source de flux',
-	'LBL_RSS_FEED_SOURCES' => 'Source de flux RSS',
+	'LBL_RSS_FEED_SOURCES' => 'Sources de flux RSS',
 	'LBL_SENDER' => 'Expéditeur',
 	'LBL_SET_AS_DEFAULT' => 'Choisir comme défaut',
 	'SINGLE_Rss' => 'Flux RSS',
+	'LBL_CHANGE_RSS_CHANNEL' => 'Changer le canal RSS',
 ];
 $jsLanguageStrings = [
 	'JS_INVALID_RSS_URL' => 'URL RSS invalide',

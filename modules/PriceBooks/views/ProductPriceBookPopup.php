@@ -33,17 +33,13 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->get('src_module');
-		$jsFileNames = array(
-			"modules.Products.resources.ProductsPopup",
+		$jsFileNames = [
+			"modules.PriceBooks.resources.PriceBooksPopup",
 			'modules.Vtiger.resources.validator.BaseValidator',
 			'modules.Vtiger.resources.validator.FieldValidator',
 			"modules.$moduleName.resources.validator.FieldValidator"
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		];
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts($jsFileNames));
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents

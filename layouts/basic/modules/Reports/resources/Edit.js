@@ -46,7 +46,7 @@ Vtiger_Edit_Js("Reports_Edit_Js", {
 			var view = app.getViewName();
 			var moduleClassName = app.getModuleName() + "_" + view + step + "_Js";
 			Reports_Edit_Js.instance[step] = new window[moduleClassName]();
-			return Reports_Edit_Js.instance[step]
+			return Reports_Edit_Js.instance[step];
 		}
 	},
 	/*
@@ -101,7 +101,7 @@ Vtiger_Edit_Js("Reports_Edit_Js", {
 				var form = jQuery(e.currentTarget);
 				var specialValidation = true;
 				if (jQuery.isFunction(thisInstance.currentInstance.isFormValidate)) {
-					var specialValidation = thisInstance.currentInstance.isFormValidate();
+					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
 					thisInstance.currentInstance.submit().then(function (data) {
@@ -116,7 +116,7 @@ Vtiger_Edit_Js("Reports_Edit_Js", {
 					});
 				}
 				e.preventDefault();
-			})
+			});
 		}
 	},
 	back: function () {

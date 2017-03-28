@@ -16,7 +16,7 @@ Vtiger_List_Js("Portal_List_Js",{
 			'orderby' : jQuery('#orderBy').val(),
 			'sortorder' : jQuery('#sortOrder').val(),
             'search_value' : jQuery('#alphabetValue').val()
-		}
+		};
         return params;
     },
 
@@ -219,7 +219,7 @@ Vtiger_List_Js("Portal_List_Js",{
             var url = Portal_List_Js.getDefaultParams();
             url['search_value'] = searchValue;
             Portal_List_Js.loadListViewContent(url);
-        })
+        });
     },
     
     registerSortingEvent : function() {

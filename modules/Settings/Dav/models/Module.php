@@ -69,6 +69,8 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 				'uri' => API_CardDAV_Model::ADDRESSBOOK_NAME,
 				'description' => ''
 			])->execute();
+			$db->createCommand()->update('vtiger_contactdetails', ['dav_status' => 1])->execute();
+			$db->createCommand()->update('vtiger_ossemployees', ['dav_status' => 1])->execute();
 		}
 		if (in_array('CalDav', $type)) {
 			$db->createCommand()->insert('dav_calendars', [
@@ -77,6 +79,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 				'uri' => API_CalDAV_Model::CALENDAR_NAME,
 				'components' => API_CalDAV_Model::COMPONENTS
 			])->execute();
+			$db->createCommand()->update('vtiger_activity', ['dav_status' => 1])->execute();
 		}
 		if (in_array('WebDav', $type)) {
 			$this->createUserDirectory($params);

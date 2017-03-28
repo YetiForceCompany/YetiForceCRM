@@ -45,4 +45,4 @@ var Vtiger_BaseList_Js = {
 	getCurrentPageNum: function () {
 		return jQuery('#pageNumber').val();
 	}
-}
+};

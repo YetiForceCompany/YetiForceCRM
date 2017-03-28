@@ -3097,6 +3097,7 @@ class Base1 extends \App\Db\Importers\Base
 					['ssalesprocesses_rel_idx', 'related_to'],
 					['ssalesprocesses_cam_idx', 'campaignid'],
 					['ssalesprocesses_parent_idx', 'parentid'],
+					['ssalesprocesses_no_idx', 'ssalesprocesses_no'],
 				],
 				'primaryKeys' => [
 					['ssalesprocesses_pk', 'ssalesprocessesid']

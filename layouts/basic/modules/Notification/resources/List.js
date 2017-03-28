@@ -6,7 +6,7 @@ Vtiger_List_Js("Notification_List_Js", {
 			action: 'Notification',
 			mode: 'setMark',
 			ids: id
-		}
+		};
 		AppConnector.request(params).then(function (data) {
 			var row = $('.noticeRow[data-id="' + id + '"]');
 			Vtiger_Helper_Js.showPnotify({

@@ -507,7 +507,6 @@ var Settings_Index_Js = {
 		var instance = Vtiger_Widget_Js.getInstance(jQuery('.chartBlock'), 'Bar');
 		instance.init(jQuery('.chartBlock'));
 		instance.loadChart();
-		;
 	},
 	registerEvents: function () {
 		Settings_Index_Js.initEvants();

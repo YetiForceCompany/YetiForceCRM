@@ -432,6 +432,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$value = $this->get($fieldName);
 				if ($value === '' || $value === null) {
 					$value = $fieldModel->getUITypeModel()->getDBValue($value, $this);
+					$this->set($fieldName, $value);
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
 			}

@@ -15,7 +15,7 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 			if (!confirm(app.vtranslate('JS_BIND_CONFIRM'))) {
 				return false;
 			}
-			var params = {}
+			var params = {};
 			params.data = {module: 'OSSMailView', action: 'BindMails'};
 			$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 			params.async = false;
@@ -35,8 +35,8 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 		var selectedIds = listInstance.readSelectedIds(true);
 		$("#ChangeType").submit(function (event) {
 			var mail_type = jQuery('#mail_type').val();
-			var save_params = {}
-			save_params.data = {module: 'OSSMailView', action: 'ChangeType', data: selectedIds, mail_type: mail_type}
+			var save_params = {};
+			save_params.data = {module: 'OSSMailView', action: 'ChangeType', data: selectedIds, mail_type: mail_type};
 			save_params.async = false;
 			AppConnector.request(save_params).then(
 					function (data) {

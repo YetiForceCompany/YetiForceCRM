@@ -70,6 +70,8 @@ $languageStrings = [
 	'LBL_ADD_HELPDESK' => 'Ticket hinzufügen',
 	'LBL_ADD_PRODUCTS' => 'Produkt hinzufügen',
 	'LBL_ADD_SERVICES' => 'Service  hinzufügen',
+	//BTN
+	'LBL_CREATEMAIL' => 'E-Mail senden',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Datensatz hat keine E-Mail-Adresse',

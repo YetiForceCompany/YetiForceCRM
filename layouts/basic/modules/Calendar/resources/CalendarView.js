@@ -12,8 +12,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var view = jQuery('#currentView').val();
 		var jsFileName = view + 'View';
 		var moduleClassName = view + "_" + jsFileName + "_Js";
+		var instance;
 		if (typeof window[moduleClassName] != 'undefined') {
-			var instance = new window[moduleClassName]();
+			instance = new window[moduleClassName]();
 		} else {
 			instance = new Calendar_CalendarView_Js();
 		}
@@ -24,20 +25,19 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var switchesContainer = widgetContainer.find('.widgetContainer input.switchBtn');
 		app.showBtnSwitch(switchesContainer);
 		widgetContainer.find('.widgetContainer').each(function () {
-			h = jQuery(this).height();
+			var h = jQuery(this).height();
 			if (h > 250) {
 				jQuery(this).find('div:first').slimScroll({
 					height: '250px'
 				});
 			}
-			;
 		});
 	},
 	registerWidget: function () {
 		var thisInstance = this.getInstanceByView();
 		var widgetContainer = jQuery('#rightPanel .quickWidget');
 		widgetContainer.find('.switchsParent').on('switchChange.bootstrapSwitch', function (event, state) {
-			element = jQuery(this).closest('.quickWidget');
+			var element = jQuery(this).closest('.quickWidget');
 			if (state) {
 				element.find('.widgetContainer input.switchBtn').bootstrapSwitch('state', true);
 			} else {
@@ -54,9 +54,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			container.addClass(fieldClass + '_' + selectedId);
 			var element = '<div>' + selectedOptionTag.text() + '</div>';
 			return element;
-		}
+		};
 		app.changeSelectElementView(field, 'select2', params);
-	},
+	}
 }, {
 	calendarView: false,
 	calendarCreateView: false,
@@ -103,10 +103,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
+		var hiddenDays = [];
 		if (app.getMainParams('switchingDays') == 'workDays') {
-			var hiddenDays = app.getMainParams('hiddenDays', true);
-		} else {
-			var hiddenDays = [];
+			hiddenDays = app.getMainParams('hiddenDays', true);
 		}
 		var options = {
 			header: {
@@ -171,11 +170,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + event.data('id');
 					var callbackFunction = function (data) {
 						progressInstance.progressIndicator({mode: 'hide'});
-					}
+					};
 					var modalWindowParams = {
 						url: url,
-						cb: callbackFunction,
-					}
+						cb: callbackFunction
+					};
 					app.showModalWindow(modalWindowParams);
 				});
 			},
@@ -276,12 +275,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var filters = [];
 		$(".calendarFilters .filterField").each(function (index) {
 			var element = $(this);
+			var name, value;
 			if (element.attr('type') == 'checkbox') {
-				var name = element.val();
-				var value = element.prop('checked') ? 1 : 0;
+				name = element.val();
+				value = element.prop('checked') ? 1 : 0;
 			} else {
-				var name = element.attr('name');
-				var value = element.val();
+				name = element.attr('name');
+				value = element.val();
 			}
 			filters.push({name: name, value: value});
 		});
@@ -296,7 +296,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				time: app.getMainParams('showType'),
 				types: types,
 				filters: filters
-			}
+			};
 			AppConnector.request(params).then(function (events) {
 				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
 				progressInstance.progressIndicator({mode: 'hide'});
@@ -317,7 +317,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			start: start,
 			delta: delta._data,
 			allDay: event.allDay
-		}
+		};
 		AppConnector.request(params).then(function (response) {
 			progressInstance.progressIndicator({mode: 'hide'});
 			if (!response['result']) {
@@ -359,9 +359,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					} else {
 						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
 					}
-					var startDateInstance = Date.parse(start_hour);
-					var endDateInstance = startDateInstance.addMinutes(defaulDuration);
-					end_hour = endDateInstance.toString('HH:mm');
+					var startDateObject = Date.parse(start_hour);
+					var endDateObject = startDateObject.addMinutes(defaulDuration);
+					end_hour = endDateObject.toString('HH:mm');
 				}
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + end_hour + ':00';
@@ -505,7 +505,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 						thisInstance.addCalendarEvent(data.result);
 					}});
 			});
-		})
+		});
 	},
 	createAddSwitch: function () {
 		var thisInstance = this;
@@ -525,14 +525,14 @@ jQuery.Class("Calendar_CalendarView_Js", {
 						app.moduleCacheSet('defaultShowType', 'history');
 					}
 					thisInstance.loadCalendarData();
-				})
+				});
 		app.showBtnSwitch(switchBtn.find('.switchBtn'));
-		var checked = '';
+		checked = '';
 		if (app.getMainParams('switchingDays') == 'workDays' && app.moduleCacheGet('defaultSwitchingDays') != 'all') {
 			checked = ' checked ';
 		}
 		if (app.getMainParams('hiddenDays', true) !== false){
-			var switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
+			switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
 					.prependTo(calendarview.find('.fc-toolbar .fc-right'))
 					.on('switchChange.bootstrapSwitch', function (e, state) {
 						if (state) {
@@ -544,7 +544,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 						}
 						thisInstance.renderCalendar();
 						thisInstance.loadCalendarData();
-					})
+					});
 			app.showBtnSwitch(switchBtn.find('.switchBtn'));
 		}
 	},
@@ -646,7 +646,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 });
 jQuery(document).ready(function () {
 	var instance = Calendar_CalendarView_Js.getInstanceByView();
-	instance.registerEvents()
+	instance.registerEvents();
 	Calendar_CalendarView_Js.currentInstance = instance;
 	Calendar_CalendarView_Js.registerWidget();
-})
+});

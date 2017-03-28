@@ -44,7 +44,7 @@ Reports_Edit3_Js("Reports_ChartEdit2_Js",{},{
 				form.hide();
 				progressIndicatorElement.progressIndicator({
 					'mode' : 'hide'
-				})
+				});
 				aDeferred.resolve(data);
 			},
 			function(error,err){

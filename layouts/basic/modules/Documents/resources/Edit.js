@@ -47,10 +47,11 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 		container.on('change', 'select[name="filelocationtype"]', function(e){
             var fileLocationTypeElement = container.find('[name="filelocationtype"]');
             var fileNameElement = container.find('[name="filename"]');
-			if(thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
-				var newFileNameElement = jQuery('<input type="file"/>');
-			}else{
-				var newFileNameElement = jQuery('<input type="text" />');
+			var newFileNameElement;
+			if (thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
+				newFileNameElement = jQuery('<input type="file"/>');
+			} else {
+				newFileNameElement = jQuery('<input type="text" />');
 			}
 			var oldElementAttributeList = fileNameElement.get(0).attributes;
 			
@@ -60,7 +61,7 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 				if(attributeObject.name=='type' || attributeObject.name == 'value' || attributeObject.name == 'class'){
 					continue;
 				}
-				var value = attributeObject.value
+				var value = attributeObject.value;
 				var className = '';
 				if(attributeObject.name=='data-fieldinfo') {
 					value = JSON.parse(value);

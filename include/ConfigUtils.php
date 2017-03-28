@@ -34,7 +34,7 @@ class AppConfig
 				self::$main[$key] = $$key;
 				return $$key;
 			}
-			App\Log::warning('Parameter does not exist');
+			App\Log::warning("Parameter does not exist: $key");
 			return null;
 		}
 		return $value;
@@ -52,14 +52,12 @@ class AppConfig
 			switch ($argsLength) {
 				case 1:
 					return self::$modules[$module];
-					break;
 				case 2:
 					if (isset(self::$modules[$module][$key])) {
 						return self::$modules[$module][$key];
 					}
-					App\Log::warning('Parameter does not exist');
+					App\Log::warning("Parameter does not exist: $module, $key");
 					return null;
-					break;
 			}
 		}
 		$fileName = 'config/modules/' . $module . '.php';
@@ -73,13 +71,12 @@ class AppConfig
 		self::$modules[$module] = $CONFIG;
 		switch ($argsLength) {
 			case 2:
-				if (!isset($CONFIG[$key]))
+				if (!isset($CONFIG[$key])) {
 					return false;
+				}
 				return $CONFIG[$key];
-				break;
 			default:
 				return $CONFIG;
-				break;
 		}
 	}
 

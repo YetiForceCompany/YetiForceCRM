@@ -19,7 +19,6 @@
  * be overloaded with module-specific methods and variables particular to the
  * module's base entity class.
  * ****************************************************************************** */
-require_once('include/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
 
@@ -393,7 +392,6 @@ class CRMEntity
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 		$this->mark_deleted($id);
-		\App\Db::getInstance()->createCommand()->delete('vtiger_tracker', ['user_id' => \App\User::getCurrentUserRealId(), 'item_id' => $id])->execute();
 	}
 
 	/**

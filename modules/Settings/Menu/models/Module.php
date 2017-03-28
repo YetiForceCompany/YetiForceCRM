@@ -117,13 +117,15 @@ class Settings_Menu_Module_Model
 		return (int) $maxSequence;
 	}
 
+	/**
+	 * Function to get all filters
+	 * @return array
+	 */
 	public function getCustomViewList()
 	{
-		$query = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
+		$filters = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
 			->from('vtiger_customview')
-			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype');
-		$dataReader = $query->createCommand()->query();
-		$filters = $dataReader->readAll();
+			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
 		foreach (Vtiger_Module_Model::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {
@@ -133,7 +135,7 @@ class Settings_Menu_Module_Model
 					$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
 					if (class_exists($handlerClass)) {
 						$filters[] = [
-							'viewname' => $handler->getViewName(),
+							'viewname' => (new $handlerClass())->getViewName(),
 							'cvid' => $name,
 							'entitytype' => $module->get('name'),
 							'tabid' => $module->getId(),

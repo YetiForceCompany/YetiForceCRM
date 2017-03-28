@@ -35,7 +35,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		}
 	},
 	submit: function () {
-		for (instance in CKEDITOR.instances) {
+		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
 		var aDeferred = jQuery.Deferred();

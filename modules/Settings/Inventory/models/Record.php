@@ -28,7 +28,7 @@ class Settings_Inventory_Record_Model extends Vtiger_Base_Model
 
 	public function getValue()
 	{
-		return $this->get('value');
+		return CurrencyField::convertToUserFormat($this->get('value'), null, true);
 	}
 
 	public function getStatus()

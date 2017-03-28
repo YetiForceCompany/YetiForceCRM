@@ -26,7 +26,6 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				thisInstance.loadFilters(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").change(function () {
 					thisInstance.changeRelatedModule();
-					;
 				});
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});

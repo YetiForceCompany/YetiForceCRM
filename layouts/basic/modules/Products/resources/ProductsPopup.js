@@ -6,7 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
+Vtiger_Popup_Js("Products_PriceBookProductPopup_Js",{
 
 },{
 	/**
@@ -36,14 +36,14 @@ Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
 			var selectedRecords = jQuery('input.entryCheckBox', tableEntriesElement).filter(':checked');
 			if((selectedRecords.length) == 0){
 				var message = app.vtranslate("JS_PLEASE_SELECT_ONE_RECORD");
-				bootbox.alert(message);
+				Vtiger_Helper_Js.showConfirmationBox({'message' : message});
 				return;
 			}
 			var invalidFields = popupPageContentsContainer.data('jqv').InvalidFields;
 			if((invalidFields.length) == 0){
 				var selectedRecordDetails = new Array();
 				selectedRecords.each(function(index, checkBoxElement){
-					var checkBoxJqueryObject = jQuery(checkBoxElement)
+					var checkBoxJqueryObject = jQuery(checkBoxElement);
 					var row = checkBoxJqueryObject.closest('tr');
 					var rowListPrice = row.find('input[name=listPrice]');
 					var listPrice = rowListPrice.val();
@@ -79,7 +79,7 @@ Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		popupPageContentsContainer.on('click','.cancelLink',function(e){
 			thisInstance.done();
-		})
+		});
 	},
 
 	/**
@@ -136,22 +136,6 @@ Vtiger_Popup_Js("Product_PriceBooks_Popup_Js",{
 		app.showScrollBar(element, {"height" : '400px'});
 	},
 
-     /**
-     * Function which will register event when user clicks on the row
-     */
-    registerEventForListViewEntries : function() {
-        //To Make sure we will not close the window once he clicks on the row,
-        //which is default behaviour in normal popup
-        return true;
-    },
-
-	registerEventForListViewEntries : function(){
-		var popupPageContentsContainer = this.getPopupPageContainer();
-		popupPageContentsContainer.on('click','.listViewEntries',function(e){
-		    return;
-		});
-	},
-	
 	/**
 	 * Function to register events
 	 */

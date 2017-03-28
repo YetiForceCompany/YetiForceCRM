@@ -1630,15 +1630,15 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			dropDownContainer.append(dropDown);
 			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
 			var params = app.getvalidationEngineOptions(true);
-			params.binded = false,
-					params.onValidationComplete = function (form, valid) {
-						if (valid) {
-							if (form.hasClass('fieldDetailsForm')) {
-								thisInstance.registerSaveFieldDetailsEvent(form);
-							}
-						}
-						return false;
+			params.binded = false;
+			params.onValidationComplete = function (form, valid) {
+				if (valid) {
+					if (form.hasClass('fieldDetailsForm')) {
+						thisInstance.registerSaveFieldDetailsEvent(form);
 					}
+				}
+				return false;
+			};
 			dropDownMenu.find('form').validationEngine(params);
 			var defaultValueUiContainer = basicDropDown.find('.defaultValueUi');
 
