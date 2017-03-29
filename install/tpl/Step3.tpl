@@ -16,6 +16,11 @@
 
 		<div class="row main-container">
 			<div class="inner-container">
+				<div class="pull-right">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+					</a>
+				</div>
 				<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
 				<hr>
 				<div>

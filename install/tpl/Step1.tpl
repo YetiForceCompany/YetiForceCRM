@@ -26,6 +26,11 @@
 					</div>
 				</div>
 				<hr>
+				<div class="pull-right">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+					</a>
+				</div>
 				<input type="hidden" name="mode" value="Step2" />
 				<div class="col-md-4 welcome-image">
 					<img src="../layouts/basic/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
