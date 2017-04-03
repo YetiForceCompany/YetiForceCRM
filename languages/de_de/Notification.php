@@ -36,6 +36,7 @@ $languageStrings = [
 	'LBL_MARK_AS_READ' => 'Als gelesen markieren',
 	'LBL_NO_NOTIFICATIONS' => 'Keine Benachrichtigungen',
 	'LBL_NOTIFICATION_SETTINGS' => 'Einstellungen',
+	'LBL_UNREAD' => 'Ungelesen',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Als gelesen markieren',

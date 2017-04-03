@@ -1919,7 +1919,7 @@ insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`en
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (101,'All',1,0,'FCorectingInvoice',0,1,1,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (102,'All',1,0,'IGRNC',0,1,1,0,NULL,0,NULL,'','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (103,'All',1,0,'IGDNC',0,1,1,0,NULL,0,NULL,'','');
-insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (104,'All',1,0,'Notification',0,1,1,0,1,0,NULL,NULL,'');
+insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (104,'LBL_UNREAD',1,0,'Notification',0,1,1,0,1,0,NULL,NULL,'');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (105,'All',1,0,'EmailTemplates',0,1,1,0,0,0,'',NULL,'');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (106,'All',1,0,'CFixedAssets',0,1,1,0,0,0,'','','');
 insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`entitytype`,`status`,`userid`,`privileges`,`featured`,`sequence`,`presence`,`description`,`sort`,`color`) values (107,'All',1,0,'CInternalTickets',0,1,1,0,0,0,'','','');
@@ -1929,7 +1929,12 @@ insert  into `vtiger_customview`(`cvid`,`viewname`,`setdefault`,`setmetrics`,`en
 
 /*Data for the table `vtiger_cvadvfilter` */
 
+insert  into `vtiger_cvadvfilter`(`cvid`,`columnindex`,`columnname`,`comparator`,`value`,`groupid`,`column_condition`) values (104,0,'u_yf_notification:notification_status:notification_status:Notification_FL_STATUS:V','e','PLL_UNREAD',1,'');
+
 /*Data for the table `vtiger_cvadvfilter_grouping` */
+
+insert  into `vtiger_cvadvfilter_grouping`(`groupid`,`cvid`,`group_condition`,`condition_expression`) values (1,104,'and',' 0 ');
+insert  into `vtiger_cvadvfilter_grouping`(`groupid`,`cvid`,`group_condition`,`condition_expression`) values (2,104,'',' 0 ');
 
 /*Data for the table `vtiger_cvcolumnlist` */
 

@@ -3327,13 +3327,26 @@ class Base2 extends \App\Db\Importers\Base
 					[101, 'All', 1, 0, 'FCorectingInvoice', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[102, 'All', 1, 0, 'IGRNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
 					[103, 'All', 1, 0, 'IGDNC', 0, 1, 1, 0, NULL, 0, NULL, '', ''],
-					[104, 'All', 1, 0, 'Notification', 0, 1, 1, 0, 1, 0, NULL, NULL, ''],
+					[104, 'LBL_UNREAD', 1, 0, 'Notification', 0, 1, 1, 0, 1, 0, NULL, NULL, ''],
 					[105, 'All', 1, 0, 'EmailTemplates', 0, 1, 1, 0, 0, 0, '', NULL, ''],
 					[106, 'All', 1, 0, 'CFixedAssets', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[107, 'All', 1, 0, 'CInternalTickets', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[108, 'All', 1, 0, 'FInvoiceCost', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[109, 'All', 1, 0, 'CMileageLogbook', 0, 1, 1, 0, 0, 0, '', '', ''],
 					[110, 'All', 1, 0, 'SVendorEnquiries', 0, 1, 1, 0, 0, 0, '', '', ''],
+				]
+			],
+			'vtiger_cvadvfilter' => [
+				'columns' => ['cvid', 'columnindex', 'columnname', 'comparator', 'value', 'groupid', 'column_condition'],
+				'values' => [
+					[104, 0, 'u_yf_notification:notification_status:notification_status:Notification_FL_STATUS:V', 'e', 'PLL_UNREAD', 1, ''],
+				]
+			],
+			'vtiger_cvadvfilter_grouping' => [
+				'columns' => ['groupid', 'cvid', 'group_condition', 'condition_expression'],
+				'values' => [
+					[1, 104, 'and', ' 0 '],
+					[2, 104, '', ' 0 '],
 				]
 			],
 			'vtiger_cvcolumnlist' => [
