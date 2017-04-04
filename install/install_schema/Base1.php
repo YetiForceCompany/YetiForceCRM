@@ -3603,7 +3603,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			 <p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
+			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', NULL, 1],
 					[37, 'Notify Contact On Ticket Closed', 'N3', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -4593,23 +4593,23 @@ Created for your account in the customer portal, below sending data access<br>
 			'u_#__squotes_invfield' => [
 				'columns' => ['id', 'columnname', 'label', 'invtype', 'presence', 'defaultvalue', 'sequence', 'block', 'displaytype', 'params', 'colspan'],
 				'values' => [
-					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 10],
-					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 7],
-					[3, 'discount', 'LBL_DISCOUNT', 'Discount', 0, '0', 6, 1, 0, '{}', 7],
+					[1, 'name', 'LBL_ITEM_NAME', 'Name', 0, '', 0, 1, 0, '{"modules":["Products","Services"],"limit":" "}', 25],
+					[2, 'qty', 'LBL_QUANTITY', 'Quantity', 0, '1', 3, 1, 0, '{}', 6],
+					[3, 'discount', 'LBL_DISCOUNT', 'Discount', 0, '0', 6, 1, 0, '{}', 6],
 					[4, 'marginp', 'LBL_MARGIN_PERCENT', 'MarginP', 0, '0', 9, 1, 0, '{}', 10],
-					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 10, 1, 0, '{}', 7],
+					[5, 'margin', 'LBL_MARGIN', 'Margin', 0, '0', 10, 1, 0, '{}', 6],
 					[6, 'comment1', 'LBL_COMMENT', 'Comment', 0, '', 6, 2, 0, '{}', 0],
-					[7, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 7],
-					[8, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 7],
-					[9, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, NULL, 7],
-					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, NULL, 7],
-					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, NULL, 7],
+					[7, 'price', 'LBL_UNIT_PRICE', 'UnitPrice', 0, '0', 4, 1, 0, NULL, 6],
+					[8, 'total', 'LBL_TOTAL_PRICE', 'TotalPrice', 0, '0', 5, 1, 0, NULL, 6],
+					[9, 'purchase', 'LBL_PURCHASE', 'Purchase', 0, '0', 8, 1, 0, NULL, 6],
+					[10, 'tax', 'LBL_TAX', 'Tax', 0, '0', 11, 1, 0, NULL, 6],
+					[11, 'gross', 'LBL_GROSS_PRICE', 'GrossPrice', 0, '0', 12, 1, 0, NULL, 6],
 					[12, 'discountmode', 'LBL_DISCOUNT_MODE', 'DiscountMode', 0, '0', 10, 0, 0, NULL, 1],
 					[13, 'taxmode', 'LBL_TAX_MODE', 'TaxMode', 0, '0', 11, 0, 0, NULL, 1],
 					[14, 'currency', 'LBL_CURRENCY', 'Currency', 0, '', 12, 0, 0, NULL, 1],
-					[15, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 7],
-					[16, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 7],
-					[17, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 7],
+					[15, 'net', 'LBL_DISCOUNT_PRICE', 'NetPrice', 0, '0', 7, 1, 0, NULL, 6],
+					[16, 'subunit', 'FL_SUBUNIT', 'Value', 0, '', 2, 1, 10, NULL, 6],
+					[17, 'unit', 'LBL_UNIT', 'Value', 0, '', 1, 1, 10, NULL, 6],
 				]
 			],
 			'u_#__squotes_invmap' => [
