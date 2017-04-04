@@ -1526,7 +1526,9 @@ var app = {
 				if (currentElement.hasClass('popoverTooltip')) {
 					currentElement.popover('hide');
 				}
-				currentElement.attr("disabled", true);
+				if(currentElement.hasClass('disabledOnClick')){
+					currentElement.attr("disabled", true);
+				}
 				var modalWindowParams = {
 					url: url,
 					cb: function (container) {

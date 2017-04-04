@@ -5826,3 +5826,27 @@ select.form-control {
 	font-size: 40px;
 	margin-right: 15px;
 }
+.modalRightSiteBar{
+	margin: 0;
+	width: 35%;
+	height: 100%;
+    right: 0px;
+    top: 0px;
+    position: fixed;
+    z-index: 1070;
+}
+.modalRightSiteBar .modal-content{
+	height: 100%;
+}
+.modalRightSiteBar .modal-body{
+	padding: 5px;
+	margin-top: 5px;
+}
+.modalRightSiteBar button.close{
+    position: absolute;
+    right: 10px;
+    z-index: 5;
+}
+.modalRightSiteBar .moduleIcon{
+	float: left;
+}
