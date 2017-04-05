@@ -27,7 +27,7 @@
 								{if $HISTORY['attachments_exist'] eq 1}
 									&nbsp;<span class="body-icon glyphicon glyphicon-paperclip"></span>
 								{/if}
-								{if $HISTORY['type'] eq 'OSSMailView'}
+								{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
 									<div class="pull-right marginRight10 btn-group" role="group">
 										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{vtranslate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showModal btn btn-xs btn-default" data-cb="Vtiger_Index_Js.registerMailButtons">
 											<span class="body-icon glyphicon glyphicon-search"></span>
@@ -52,7 +52,7 @@
 					</li>
 				{/foreach}
 			</ul>
-			{if count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
+			{if !$IS_READ_ONLY && count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
 				<div id="moreRelatedUpdates">
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary btn-xs moreRelatedUpdates cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
@@ -66,6 +66,5 @@
 				</div>
 			{/if}
 		{/if}
-
 	</div>
 {/strip}

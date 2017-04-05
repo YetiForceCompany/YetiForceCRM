@@ -24,7 +24,12 @@
 		</div>
 	{/if}
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
-	{if $LIMIT neq 'no_limit' && $NUMBER_OF_RECORDS >= $LIMIT}
+	{if $NUMBER_OF_RECORDS == 0}
+		<div class="summaryWidgetContainer noCommentsMsgContainer">
+			<p class="textAlignCenter">{vtranslate('LBL_NO_RECORDS_FOUND',$MODULE_NAME)}</p>
+		</div>
+	{/if}
+	{if !$IS_READ_ONLY && $LIMIT neq 'no_limit' && $NUMBER_OF_RECORDS >= $LIMIT}
 		<div class="container-fluid">
 			<div class="pull-right">
 				<button type="button" class="btn btn-primary btn-xs moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{vtranslate('LBL_MORE',$MODULE_NAME)}</button>

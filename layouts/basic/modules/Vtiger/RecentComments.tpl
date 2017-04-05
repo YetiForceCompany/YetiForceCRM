@@ -14,7 +14,7 @@
 	{* Change to this also refer: AddCommentForm.tpl *}
 	<div class="commentContainer recentComments">
 		<div class="commentTitle">
-			{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+			{if !$IS_READ_ONLY && $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 				<div class="addCommentBlock">
 					<div class="input-group">
 						<span class="input-group-addon" >

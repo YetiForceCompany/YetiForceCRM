@@ -4,7 +4,9 @@
 		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
-					<th class="noWrap listViewSearchTd">&nbsp;</th>
+					{if !$IS_READ_ONLY}
+						<th class="noWrap listViewSearchTd">&nbsp;</th>
+					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<th nowrap>
 							{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
@@ -27,9 +29,11 @@
 					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
 						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
-						{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
-					</td>
+					{if !$IS_READ_ONLY}
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
+						</td>
+					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>

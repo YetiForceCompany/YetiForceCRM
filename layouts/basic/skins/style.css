@@ -5828,19 +5828,17 @@ select.form-control {
 }
 .modalRightSiteBar{
 	margin: 0;
-	width: 35%;
+	width: 40%;
 	height: 100%;
     right: 0px;
     top: 0px;
     position: fixed;
     z-index: 1070;
+	overflow: hidden;
 }
 .modalRightSiteBar .modal-content{
 	height: 100%;
-}
-.modalRightSiteBar .modal-body{
-	padding: 5px;
-	margin-top: 5px;
+	overflow: auto;
 }
 .modalRightSiteBar button.close{
     position: absolute;
@@ -5849,4 +5847,11 @@ select.form-control {
 }
 .modalRightSiteBar .moduleIcon{
 	float: left;
+}
+.modalRightSiteBar .quickDetailWidget h4{
+    background-color: #eee;
+    padding: 4px 10px;
+}
+.modalRightSiteBar .listViewEntriesTable thead>tr>th{
+	padding: 2px;
 }
