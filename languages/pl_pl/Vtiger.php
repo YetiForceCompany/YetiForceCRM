@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
@@ -1267,6 +1267,7 @@ $languageStrings = [
 	'LBL_NO_USERS_TO_ASSIGN' => 'Brak użytkowników do przypisania',
 	'BTN_ASSIGN_TO' => 'Przekaż',
 	'BTN_REALIZE' => 'Realizuj',
+	'LBL_SHOW_QUICK_DETAILS' => 'Szybki podgląd',
 	//TextParser
 	'LBL_TRANSLATE' => 'Tłumaczenie',
 	'LBL_COMPANY_VARIABLES' => 'Dane firmy',
