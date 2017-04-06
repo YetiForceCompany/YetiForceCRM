@@ -1578,4 +1578,5 @@ $jsLanguageStrings = [
 	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Le temps de travail ne peut pas excéder 24 heures',
 	'LBL_AUTOMATIC' => 'Automatic',
+	'LBL_SHOW_QUICK_DETAILS' => 'Quick preview',
 ];
