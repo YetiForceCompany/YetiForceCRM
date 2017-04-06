@@ -1311,6 +1311,7 @@ $languageStrings = [
 	'ERR_NO_DEFAULT_SMTP' => 'No default mailbox to send e-mails',
 	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
 	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
+	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',

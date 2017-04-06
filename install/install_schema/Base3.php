@@ -3289,6 +3289,7 @@ class Base3 extends \App\Db\Importers\Base
 					[311, 115, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
 					[312, 117, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, '', '', '', NULL],
 					[313, 86, 'DASHBOARDWIDGET', 'DW_TEAMS_ESTIMATED_SALES', 'index.php?module=SSalesProcesses&view=ShowWidget&name=TeamsEstimatedSales', '', 0, NULL, NULL, NULL, NULL],
+					[314, 86, 'DASHBOARDWIDGET', 'DW_ACTUAL_SALES_OF_TEAM', 'index.php?module=SSalesProcesses&view=ShowWidget&name=ActualSalesOfTeam', '', 0, NULL, NULL, NULL, NULL],
 				]
 			],
 			'vtiger_lout_dimensions' => [
