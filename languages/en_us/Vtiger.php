@@ -1292,6 +1292,8 @@ $languageStrings = [
 	'LBL_ADD_FILES' => 'Add files',
 	'BTN_ADD_FILE' => 'Add file',
 	'BTN_SUBMIT' => 'Submit',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

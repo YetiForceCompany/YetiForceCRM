@@ -5891,3 +5891,9 @@ select.form-control {
 .textOverflowEllipsis:hover{
 	overflow: initial;
 }
+.input-group-sm .input-group-addon.checkbox-addon{
+	padding: 4px 7px !important;
+}
+.input-group-sm .input-group-addon.checkbox-addon input[type="checkbox"]{
+	vertical-align: middle !important;
+}

@@ -1268,6 +1268,8 @@ $languageStrings = [
 	'BTN_ASSIGN_TO' => 'Przekaż',
 	'BTN_REALIZE' => 'Realizuj',
 	'LBL_SHOW_QUICK_DETAILS' => 'Szybki podgląd',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Szacowana sprzedaż zespołu',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Porównaj z poprzednim okresem o tej samej długości co obecny zakres dat.',
 	//TextParser
 	'LBL_TRANSLATE' => 'Tłumaczenie',
 	'LBL_COMPANY_VARIABLES' => 'Dane firmy',

@@ -967,7 +967,7 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Add conditions',
 	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
 	'MEN_LEADS' => 'Companies and Contacts',
-	'LBL_VIEW_STEP1' => 'Información sobre el registro',/////////////////////////////
+	'LBL_VIEW_STEP1' => 'Información sobre el registro', /////////////////////////////
 	'LBL_VIEW_STEP2' => 'Add conditions',
 	'LBL_VIEW_STEP3' => 'Actions',
 	'LBL_VIEW_ADDACTION' => 'Actions',
@@ -1288,6 +1288,8 @@ $languageStrings = [
 	'LBL_EMAIL_TEMPLATE' => 'E-mail template',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'All e-mails are queued and sent in CRON.',
 	'ERR_NO_DEFAULT_SMTP' => 'No default mailbox to send e-mails',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumen',

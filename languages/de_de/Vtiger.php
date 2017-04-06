@@ -1267,8 +1267,9 @@ $languageStrings = [
 	'LBL_UPDATE_DATE_FIELD' => 'Aktualisiere %s Feld mit der aktuellen Uhrzeit',
 	'LBL_UPDATE_FIELD' => 'Aktualisiere Feld',
 	'FL_IS_PRIVATE' => 'Privat',
-	'BTN_REALIZE' => 'Kenntnisnahme
-	',
+	'BTN_REALIZE' => 'Kenntnisnahme',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
 	//TextParser
 	'LBL_TRANSLATE' => 'Übersetzung',
 	'LBL_COMPANY_VARIABLES' => 'Firmendetails',
