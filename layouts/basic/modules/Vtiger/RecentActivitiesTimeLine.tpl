@@ -201,7 +201,7 @@
 		{/if}
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
-			{if $PAGING_MODEL->isNextPageExists()}
+			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="pull-right">
 					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
