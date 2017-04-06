@@ -633,7 +633,7 @@ var app = {
 						sendByAjaxCb(formData, data);
 						app.hideModalWindow();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					})
+					});
 				}
 			});
 		}

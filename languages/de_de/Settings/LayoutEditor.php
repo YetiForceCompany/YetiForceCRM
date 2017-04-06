@@ -159,7 +159,8 @@ $languageStrings = [
 	'LBL_ADVANCED_BLOCK_FIELDS' => 'Felder erweitert',
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Advanced Block Felder hinzufügen',
 	'LBL_MAX_LENGTH_TEXT' => 'Maximale Textlänge',
-	'LBL_MAX_WIDTH_COLUMN' => 'Spaltenbreite [%]'
+	'LBL_MAX_WIDTH_COLUMN' => 'Spaltenbreite [%]',
+	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
 ];
 
 $jsLanguageStrings = [

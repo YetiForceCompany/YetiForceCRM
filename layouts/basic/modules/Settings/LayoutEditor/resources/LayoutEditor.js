@@ -1249,7 +1249,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		if (typeof contents == 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
-		contents.find('a.deleteCustomField').click(function (e) {
+		contents.find('.deleteCustomField').click(function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldId = currentTarget.data('fieldId');
 			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
@@ -1309,131 +1309,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		return aDeferred.promise();
 	},
 	/**
-	 * Function to register the click event for save button after edit field details
-	 */
-	registerSaveFieldDetailsEvent: function (form) {
-		var thisInstance = this;
-		var submitButtton = form.find('.saveFieldDetails');
-		var fieldId = submitButtton.data('fieldId');
-		var block = submitButtton.closest('.editFieldsTable');
-		var blockId = block.data('blockId');
-		//close the drop down
-		submitButtton.closest('.btn-group').removeClass('open');
-		//adding class opacity to fieldRow - to give opacity to the actions of the fields
-		var fieldRow = submitButtton.closest('.editFields');
-		fieldRow.addClass('opacity');
-
-		thisInstance.saveFieldDetails(submitButtton).then(
-				function (data) {
-					var result = data['result'];
-					var fieldLabel = fieldRow.find('.fieldLabel');
-					if (result['presence'] == '1') {
-						fieldRow.parent().fadeOut('slow').remove();
-
-						if (jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
-							if (thisInstance.inActiveFieldsList.length == '0') {
-								thisInstance.inActiveFieldsList = {};
-							}
-							thisInstance.inActiveFieldsList[blockId] = {};
-							thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
-						} else {
-							thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
-						}
-						thisInstance.reArrangeBlockFields(block);
-					}
-					if (result['mandatory']) {
-						if (fieldLabel.find('.redColor').length == '0') {
-							fieldRow.find('.fieldLabel').append(jQuery('<span class="redColor">*</span>'));
-						}
-					} else {
-						fieldRow.find('.fieldLabel').find('.redColor').remove();
-					}
-
-					//updating the hidden container with saved values.
-					var dropDownMenu = form.closest('.dropdown-menu');
-					app.destroyChosenElement(form);
-					var selectElemet = form.find('.defaultValueUi ').find('select');
-					var selectedvalue = selectElemet.val();
-					selectElemet.removeAttr('disabled');
-					selectElemet.find('option').removeAttr('selected');
-					if (selectedvalue != null) {
-						if (typeof (selectElemet.attr('multiple')) == 'undefined') {
-							var encodedSelectedValue = selectedvalue.replace(/"/g, '\\"');
-							selectElemet.find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
-						} else {
-							for (var i = 0; i < selectedvalue.length; i++) {
-								var encodedSelectedValue = selectedvalue[i].replace(/"/g, '\\"');
-								selectElemet.find('[value="' + encodedSelectedValue + '"]').attr('selected', 'selected');
-							}
-						}
-					}
-					//handled registration of time field
-					var timeFieldElement = form.find('[data-toregister="time"]');
-					if (timeFieldElement.length > 0) {
-						app.destroyTimeFields(timeFieldElement);
-					}
-					var basicContents = form.closest('.editFields').find('.basicFieldOperations');
-					basicContents.html(form);
-					dropDownMenu.remove();
-				},
-				function (error, err) {
-
-				}
-		);
-	},
-	/**
-	 * Function to save all the field details which are changed
-	 */
-	saveFieldDetails: function (currentTarget) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
-		var form = currentTarget.closest('form.fieldDetailsForm');
-		var fieldId = currentTarget.data('fieldId');
-		var defaultValueField = form.find('[name=fieldDefaultValue]');
-		var defaultValue = defaultValueField.val();
-		var progressIndicatorElement = jQuery.progressIndicator({
-			'position': 'html',
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-
-		var params = form.serializeFormData();
-		params['module'] = app.getModuleName();
-		params['parent'] = app.getParentModuleName();
-		params['action'] = 'Field';
-		params['mode'] = 'save';
-		params['fieldid'] = fieldId;
-		params['sourceModule'] = jQuery('#selectedModuleName').val();
-
-		AppConnector.request(params).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					var params = {};
-					params['text'] = app.vtranslate('JS_FIELD_DETAILS_SAVED');
-					Settings_Vtiger_Index_Js.showMessage(params);
-					if (defaultValueField.prop("tagName") == 'TEXTAREA') {
-						defaultValueField.text(defaultValue);
-					}
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					aDeferred.reject();
-				}
-		);
-		return aDeferred.promise();
-	},
-	/**
 	 * Function to register the cahnge event for mandatory & default checkboxes in edit field details
 	 */
 	registerFieldDetailsChange: function (contents) {
-		if (typeof contents == 'undefined') {
-			contents = jQuery('#layoutEditorContainer').find('.contents');
-		}
-		contents.on('change', '[name="mandatory"]', function (e) {
+		contents.find('[name="mandatory"]').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			if (currentTarget.attr('readonly') != 'readonly') {
+			if (currentTarget.attr('readonly') !== 'readonly') {
 				var form = currentTarget.closest('.fieldDetailsForm');
 				var quickcreateEle = form.find('[name="quickcreate"]').filter(':checkbox').not('.optionDisabled');
 				var presenceEle = form.find('[name="presence"]').filter(':checkbox').not('.optionDisabled');
@@ -1445,11 +1326,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					presenceEle.removeAttr('readonly');
 				}
 			}
-		})
-
-		contents.on('change', '[name="defaultvalue"]', function (e) {
+		});
+		contents.find('[name="defaultvalue"]').on('change', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
-			var defaultValueUi = currentTarget.closest('span').find('.defaultValueUi');
+			var defaultValueUi = currentTarget.closest('.checkbox').find('.defaultValueUi');
 			var defaultField = defaultValueUi.find('[name="fieldDefaultValue"]');
 			if (currentTarget.is(':checked')) {
 				defaultValueUi.removeClass('zeroOpacity');
@@ -1459,11 +1339,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				}
 			} else {
 				defaultField.attr('disabled', 'disabled');
-				//	defaultField.val('');
 				defaultValueUi.addClass('zeroOpacity');
 			}
-		})
-
+		});
 	},
 	/**
 	 * Function to register the click event for related modules list tab
@@ -1606,111 +1484,66 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		});
 
 	},
-	/**
-	 * Function to register click event for drop-downs in fields list
-	 */
-	avoidDropDownClick: function (dropDownContainer) {
-		dropDownContainer.find('.dropdown-menu').click(function (e) {
-			e.stopPropagation();
+	lockCheckbox: function (contents) {
+		contents.on('change', ':checkbox', function (e) {
+			var currentTarget = $(e.currentTarget);
+			if (currentTarget.attr('readonly') === 'readonly') {
+				var status = $(e.currentTarget).is(':checked');
+				if (!status) {
+					$(e.currentTarget).attr('checked', 'checked');
+				} else {
+					$(e.currentTarget).removeAttr('checked');
+				}
+				e.preventDefault();
+			}
 		});
 	},
 	registerEditFieldDetailsClick: function (contents) {
 		var thisInstance = this;
-		if (typeof contents == 'undefined') {
+		if (typeof contents === 'undefined') {
 			contents = jQuery('#layoutEditorContainer').find('.contents');
 		}
 		contents.find('.editFieldDetails').click(function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var fieldRow = currentTarget.closest('div.editFields');
-			fieldRow.removeClass('opacity');
-			var basicDropDown = fieldRow.find('.basicFieldOperations');
-			var dropDownContainer = currentTarget.closest('.btn-group');
-			dropDownContainer.find('.dropdown-menu').remove();
-			var dropDown = basicDropDown.clone().removeClass('basicFieldOperations hide').addClass('dropdown-menu');
-			dropDownContainer.append(dropDown);
-			var dropDownMenu = dropDownContainer.find('.dropdown-menu');
-			var params = app.getvalidationEngineOptions(true);
-			params.binded = false;
-			params.onValidationComplete = function (form, valid) {
-				if (valid) {
-					if (form.hasClass('fieldDetailsForm')) {
-						thisInstance.registerSaveFieldDetailsEvent(form);
+			var fieldId = fieldRow.data('fieldId');
+			var block = fieldRow.closest('.editFieldsTable');
+			var blockId = block.data('blockId');
+			app.showModalWindow({
+				url: 'index.php?parent=Settings&module=LayoutEditor&view=EditField&fieldId=' + fieldRow.data('fieldId'),
+				cb: function (modalContainer) {
+					thisInstance.registerFieldDetailsChange(modalContainer);
+					thisInstance.lockCheckbox(modalContainer);
+					app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
+				},
+				sendByAjaxCb: function (formData, response) {
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_FIELD_DETAILS_SAVED')
+					});
+					var result = response['result'];
+					var fieldLabel = fieldRow.find('.fieldLabel');
+					if (result['presence'] === '1') {
+						fieldRow.parent().fadeOut('slow').remove();
+						if (jQuery.isEmptyObject(thisInstance.inActiveFieldsList[blockId])) {
+							if (thisInstance.inActiveFieldsList.length === 0) {
+								thisInstance.inActiveFieldsList = {};
+							}
+							thisInstance.inActiveFieldsList[blockId] = {};
+							thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
+						} else {
+							thisInstance.inActiveFieldsList[blockId][fieldId] = result['label'];
+						}
+						thisInstance.reArrangeBlockFields(block);
 					}
-				}
-				return false;
-			};
-			dropDownMenu.find('form').validationEngine(params);
-			var defaultValueUiContainer = basicDropDown.find('.defaultValueUi');
-
-			var popoverTooltipElements = fieldRow.find('.popoverTooltip');
-			if (popoverTooltipElements.length > 0) {
-				app.showPopoverElementView(popoverTooltipElements);
-			}
-			//handled registration of chosen for select element
-			var selectElements = defaultValueUiContainer.find('select');
-			if (selectElements.length > 0) {
-				dropDownMenu.find('select').addClass('chzn-select');
-				app.changeSelectElementView(dropDownMenu);
-			}
-
-			//handled registration of time field
-			var timeFieldElement = defaultValueUiContainer.find('[data-toregister="time"]');
-			if (timeFieldElement.length > 0) {
-				dropDownMenu.find('[data-toregister="time"]').addClass('timepicker-default timePicker');
-				app.registerEventForTimeFields(dropDownMenu);
-			}
-
-			//handled registration for date fields
-			var dateField = defaultValueUiContainer.find('[data-toregister="date"]');
-			if (dateField.length > 0) {
-				dropDownMenu.find('[data-toregister="date"]').addClass('dateField');
-				app.registerEventForDatePickerFields(dropDownMenu);
-			}
-			thisInstance.avoidDropDownClick(dropDownContainer);
-
-			dropDownMenu.on('change', ':checkbox', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				if (currentTarget.attr('readonly') == 'readonly') {
-					var status = jQuery(e.currentTarget).is(':checked');
-					if (!status) {
-						jQuery(e.currentTarget).attr('checked', 'checked')
+					if (result['mandatory']) {
+						if (fieldLabel.find('.redColor').length === 0) {
+							fieldRow.find('.fieldLabel').append(jQuery('<span class="redColor">*</span>'));
+						}
 					} else {
-						jQuery(e.currentTarget).removeAttr('checked');
+						fieldRow.find('.fieldLabel').find('.redColor').remove();
 					}
-					e.preventDefault();
 				}
 			});
-
-			//added for drop down position change
-			var offset = currentTarget.offset(),
-					height = currentTarget.outerHeight(),
-					dropHeight = dropDown.outerHeight(),
-					viewportBottom = $(window).scrollTop() + document.documentElement.clientHeight,
-					dropTop = offset.top + height,
-					enoughRoomBelow = dropTop + dropHeight <= viewportBottom;
-			if (!enoughRoomBelow) {
-				dropDown.addClass('bottom-up');
-			} else {
-				dropDown.removeClass('bottom-up');
-			}
-
-			var callbackFunction = function () {
-				fieldRow.addClass('opacity');
-				dropDown.remove();
-				jQuery('body').off('click.dropdown.data-api.layouteditor');
-			}
-			thisInstance.addClickOutSideEvent(dropDown, callbackFunction);
-
-			jQuery('.cancel').click(function () {
-				callbackFunction();
-			});
-			jQuery('body').on('click.dropdown.data-api.layouteditor', function (e) {
-				var target = jQuery(e.target);
-				//user clicked on time picker
-				if (target.closest('.ui-timepicker-list').length > 0) {
-					e.stopPropagation();
-				}
-			})
 		});
 	},
 	/**
@@ -1738,7 +1571,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 		thisInstance.makeFieldsListSortable();
 		thisInstance.registerDeleteCustomFieldEvent(contents);
-		thisInstance.registerFieldDetailsChange(contents);
 		thisInstance.registerEditFieldDetailsClick(contents);
 
 		contents.find(':checkbox').change(function (e) {
@@ -1753,14 +1585,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				e.preventDefault();
 			}
 		});
-	},
-	/*
-	 * Function to add clickoutside event on the element - By using outside events plugin
-	 * @params element---On which element you want to apply the click outside event
-	 * @params callbackFunction---This function will contain the actions triggered after clickoutside event
-	 */
-	addClickOutSideEvent: function (element, callbackFunction) {
-		element.one('clickoutside', callbackFunction);
 	},
 	/**
 	 * Function to register switch
@@ -2036,8 +1860,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					function (data) {
 						$.each(data.result, function (index, value) {
 							form.find('[name="MRVFilterValue"]').append(
-								$('<option>').val(index).html(value)
-							);
+									$('<option>').val(index).html(value)
+									);
 						});
 						app.showSelect2ElementView(form.find('[name="MRVFilterValue"]'), {width: '100%'});
 					}
@@ -2047,14 +1871,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	/**
 	 * Register label copy
 	 */
-	registerCopyClipboard : function (form) {
+	registerCopyClipboard: function (form) {
 		new Clipboard('.copyFieldLabel', {
 			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 					type: 'success'
 				});
-				return form.find('#'+trigger.getAttribute('data-target')).val();
+				return form.find('#' + trigger.getAttribute('data-target')).val();
 			}
 		});
 	},
