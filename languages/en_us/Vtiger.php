@@ -1613,5 +1613,5 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Are you sure you want to reset related mails once again?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 	'JS_MARKED_AS_READ' => 'Marked as read',
-	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'Co najmniej jeden z załączonych plików jest za duży',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'At least one of the attached files is too large',
 ];

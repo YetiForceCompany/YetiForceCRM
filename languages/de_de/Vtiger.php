@@ -1308,6 +1308,9 @@ $languageStrings = [
 	'LBL_EMAIL_TEMPLATE' => 'E-Mail Template',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Alle E-Mails in Warteschlange aufgenommen, versenden erfolgt per CRON.',
 	'ERR_NO_DEFAULT_SMTP' => 'Kein Default Postfach um E-Mails zu versenden',
+	'LBL_ADD_FILES' => 'Add files',
+	'BTN_ADD_FILE' => 'Add file',
+	'BTN_SUBMIT' => 'Submit',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1578,4 +1581,5 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESTRICTED_DOMAINS' => 'Domain wurde gesperrt. Bitte geben Sie eine andere an.',
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Sind Sie sicher, dass Sie die verknüpften E-Mails nochmal zurücksetzen möchten?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Sind Sie sicher, dass Sie die Änderungen in den selektierten Datensätze anschauen möchten?',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'At least one of the attached files is too large',
 ];
