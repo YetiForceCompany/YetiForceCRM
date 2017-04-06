@@ -15,6 +15,13 @@ class Vtiger_Files_Model extends Vtiger_Base_Model
 	const ATTACHMENT_ACTIVE = 1;
 	const ATTACHMENT_INACTIVE = 0;
 
+	/**
+	 * Update attachments status
+	 * @param string $previousValue
+	 * @param string $currentValue
+	 * @param int $id
+	 * @param int $fieldId
+	 */
 	public static function updateStatus($previousValue, $currentValue, $id = '', $fieldId = '')
 	{
 		$db = \App\Db::getInstance();
@@ -38,6 +45,10 @@ class Vtiger_Files_Model extends Vtiger_Base_Model
 		}
 	}
 
+	/**
+	 * Deleting attachment from database and storage
+	 * @param array $condition
+	 */
 	public static function getRidOfTrash($condition = [])
 	{
 		$db = \App\Db::getInstance();
@@ -59,6 +70,13 @@ class Vtiger_Files_Model extends Vtiger_Base_Model
 		}
 	}
 
+	/**
+	 * Upload and save attachment
+	 * @param array $fileDetails
+	 * @param string $type
+	 * @param string $storageName
+	 * @return int|boolean
+	 */
 	static public function uploadAndSave(array $fileDetails, $type = false, $storageName = false)
 	{
 		$db = \App\Db::getInstance();

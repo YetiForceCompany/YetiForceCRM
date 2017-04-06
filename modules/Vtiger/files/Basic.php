@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Basic class to handle files
  * @package YetiForce.Files
  * @license licenses/License.html
@@ -12,18 +12,36 @@
 class Vtiger_Basic_File
 {
 
+	/**
+	 * Storage name
+	 * @var string 
+	 */
 	public $storageName = '';
 
+	/**
+	 * Checking permission in get method
+	 * @param Vtiger_Request $request
+	 * @return boolean
+	 */
 	public function getCheckPermission(Vtiger_Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * Checking permission in post method
+	 * @param Vtiger_Request $request
+	 * @return boolean
+	 */
 	public function postCheckPermission(Vtiger_Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * Get and save files
+	 * @param Vtiger_Request $request
+	 */
 	public function post(Vtiger_Request $request)
 	{
 		$attachIds = [];
@@ -47,11 +65,19 @@ class Vtiger_Basic_File
 		}
 	}
 
+	/**
+	 * Get storage name
+	 * @return string
+	 */
 	public function getStorageName()
 	{
 		return $this->storageName;
 	}
 
+	/**
+	 * Get file type
+	 * @return string
+	 */
 	public function getFileType()
 	{
 		return $this->fileType;

@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Image class to handle files
  * @package YetiForce.Files
  * @license licenses/License.html
@@ -12,9 +12,24 @@
 class Vtiger_Image_File extends Vtiger_Basic_File
 {
 
+	/**
+	 * Storage name
+	 * @var string 
+	 */
 	public $storageName = 'MultiImage';
+
+	/**
+	 * File type
+	 * @var string
+	 */
 	public $fileType = 'image';
 
+	/**
+	 * View image
+	 * @param Vtiger_Request $request
+	 * @return string|boolean
+	 * @throws \Exception\NoPermitted
+	 */
 	public function get(Vtiger_Request $request)
 	{
 		$record = $request->get('record');

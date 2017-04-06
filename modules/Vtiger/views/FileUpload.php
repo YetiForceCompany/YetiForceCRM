@@ -12,6 +12,10 @@
 class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * Process
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -23,6 +27,11 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
+	/**
+	 * Get scripts for modal window
+	 * @param Vtiger_Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
 	public function getModalScripts(Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getModalScripts($request);
