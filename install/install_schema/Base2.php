@@ -5796,6 +5796,7 @@ class Base2 extends \App\Db\Importers\Base
 					[55, 'EntitySystemAfterCreate', 'Vtiger_AutomaticAssignment_Handler', 0, '', '', 5, 0],
 					[56, 'EntityAfterSave', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 					[57, 'EntityAfterSave', 'Vtiger_MultiReferenceUpdater_Handler', 1, '', '', 5, 0],
+					[58, 'EntityAfterSave', 'Vtiger_Attachments_Handler', 1, '', '', 5, 0],
 				]
 			],
 			'vtiger_eventstatus' => [

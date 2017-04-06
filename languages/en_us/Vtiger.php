@@ -1289,6 +1289,9 @@ $languageStrings = [
 	'LBL_EMAIL_TEMPLATE' => 'E-mail template',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'All e-mails are queued and sent in CRON.',
 	'ERR_NO_DEFAULT_SMTP' => 'No default mailbox to send e-mails',
+	'LBL_ADD_FILES' => 'Add files',
+	'BTN_ADD_FILE' => 'Add file',
+	'BTN_SUBMIT' => 'Submit',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
@@ -1606,4 +1609,5 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Are you sure you want to reset related mails once again?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 	'JS_MARKED_AS_READ' => 'Marked as read',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'Co najmniej jeden z załączonych plików jest za duży',
 ];

@@ -5855,3 +5855,39 @@ select.form-control {
 .modalRightSiteBar .listViewEntriesTable thead>tr>th{
 	padding: 2px;
 }
+.medium .multiImageListIcon{
+	width: 24px;
+	height: 24px;
+	margin: 0;
+	border: 1px solid #fff;
+	vertical-align: top;
+	position: relative;
+	z-index: 1;
+}
+.contentImage:hover .multiImageListIcon{
+	max-width: 160px;
+	max-height: 160px;
+	border: 1px solid #ccc;
+	width: auto;
+	height: auto;
+	margin: 25px 0 0 -80px;
+	white-space: nowrap;
+	position: absolute;
+	z-index: 2;
+}
+.contentImage{
+	width: 24px;
+	height: 24px;
+	vertical-align: top;
+	display: inline-block !important;
+}
+.contentImage:hover{
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.multiImageContenDiv{
+	z-index: 1000;
+}
+.textOverflowEllipsis:hover{
+	overflow: initial;
+}

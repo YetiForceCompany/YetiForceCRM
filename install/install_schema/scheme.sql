@@ -1031,6 +1031,20 @@ CREATE TABLE `u_yf_announcementcf` (
   CONSTRAINT `fk_1_u_yf_announcementcf` FOREIGN KEY (`announcementid`) REFERENCES `u_yf_announcement` (`announcementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_attachments` */
+
+CREATE TABLE `u_yf_attachments` (
+  `attachmentid` int(19) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `path` text NOT NULL,
+  `status` smallint(1) DEFAULT '0',
+  `fieldid` int(19) DEFAULT NULL,
+  `crmid` int(19) DEFAULT NULL,
+  `createdtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`attachmentid`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_cfixedassets` */
 
 CREATE TABLE `u_yf_cfixedassets` (
@@ -4993,7 +5007,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
   UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
 

@@ -260,6 +260,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 309: $fieldDataType = 'categoryMultipicklist';
 						break;
+					case 311: $fieldDataType = 'multiImage';
+						break;
 					default:
 						$webserviceField = $this->getWebserviceFieldObject();
 						$fieldDataType = $webserviceField->getFieldDataType();
@@ -550,7 +552,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$moduleModel = $this->getModule();
 		$quickCreate = $this->get('quickcreate');
-		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory()) && $this->get('uitype') != 69) {
+		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED || $this->isMandatory()) && $this->get('uitype') != 69 && $this->get('uitype') != 311) {
 			//isQuickCreateSupported will not be there for settings
 			if (method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
 				return true;

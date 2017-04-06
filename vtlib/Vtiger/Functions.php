@@ -393,7 +393,7 @@ class Functions
 	{
 		$filepath = 'storage/';
 
-		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView'))) {
+		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'))) {
 			$filepath .= $module . '/';
 		}
 		if (!is_dir($filepath)) {
