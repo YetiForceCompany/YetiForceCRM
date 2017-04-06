@@ -48,8 +48,9 @@ class Vtiger_Files_Model extends Vtiger_Base_Model
 	/**
 	 * Deleting attachment from database and storage
 	 * @param array $condition
+	 * @param int $limit
 	 */
-	public static function getRidOfTrash($condition = [])
+	public static function getRidOfTrash($condition = [], $limit = false)
 	{
 		$db = \App\Db::getInstance();
 
@@ -57,8 +58,13 @@ class Vtiger_Files_Model extends Vtiger_Base_Model
 		if ($condition) {
 			$query->where($condition);
 		} else {
-			$query->where([['status' => self::ATTACHMENT_INACTIVE], ['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))]]);
+			$query->where(['status' => self::ATTACHMENT_INACTIVE]);
+			$query->andWhere(['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))]);
 		}
+		if ($limit) {
+			$query->limit($limit);
+		}
+
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$db->createCommand()->delete('u_#__attachments', ['attachmentid' => $row['attachmentid']])->execute();

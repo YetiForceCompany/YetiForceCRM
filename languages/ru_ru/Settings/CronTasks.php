@@ -59,6 +59,7 @@ $languageStrings = [
 	'LBL_MAILER' => 'Emails sender',
 	'LBL_CARD_DAV' => 'CardDav integration',
 	'LBL_CAL_DAV' => 'CalDav integration',
+	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Clear attachments table',
 ];
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',
