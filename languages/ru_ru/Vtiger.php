@@ -1273,6 +1273,7 @@ $languageStrings = [
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
 	'LBL_UPDATE_FIELD' => 'Update field',
 	'FL_IS_PRIVATE' => 'Private',
+	'LBL_SHOW_QUICK_DETAILS' => 'Quick preview',
 	//TextParser
 	'LBL_TRANSLATE' => 'Translation',
 	'LBL_COMPANY_VARIABLES' => 'Company details',
