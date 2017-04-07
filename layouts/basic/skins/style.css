@@ -5856,8 +5856,8 @@ select.form-control {
 	padding: 2px;
 }
 .medium .multiImageListIcon{
-	width: 24px;
-	height: 24px;
+	width: 28px;
+	height: 28px;
 	margin: 0;
 	border: 1px solid #fff;
 	vertical-align: top;
@@ -5870,14 +5870,14 @@ select.form-control {
 	border: 1px solid #ccc;
 	width: auto;
 	height: auto;
-	margin: 25px 0 0 -80px;
+	margin: 28px 0 0 -80px;
 	white-space: nowrap;
 	position: absolute;
 	z-index: 2;
 }
 .contentImage{
-	width: 24px;
-	height: 24px;
+	width: 28px;
+	height: 28px;
 	vertical-align: top;
 	display: inline-block !important;
 }

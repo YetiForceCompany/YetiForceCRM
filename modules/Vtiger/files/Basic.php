@@ -9,7 +9,7 @@
 /**
  * Basic class to handle files
  */
-class Vtiger_Basic_File
+abstract class Vtiger_Basic_File
 {
 
 	/**
