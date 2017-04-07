@@ -33,7 +33,7 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	 * @param string|bool $compare
 	 * @return array
 	 */
-	private function getEstimatedValue($time, $compare = false)
+	public function getEstimatedValue($time, $compare = false)
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);

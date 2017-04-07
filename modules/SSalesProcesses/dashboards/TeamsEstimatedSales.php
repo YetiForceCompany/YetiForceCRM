@@ -51,7 +51,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	 * @param string|bool $compare
 	 * @return array
 	 */
-	private function getEstimatedValue($time, $compare = false)
+	public function getEstimatedValue($time, $compare = false)
 	{
 		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
@@ -89,6 +89,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$compare = $request->get('compare') === 'true';
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
+			$time = ['start' => ''];
 			$date = new \DateTime();
 			$time['end'] = $date->format('Y-m-d');
 			$date->modify('-30 days');
@@ -97,6 +98,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
 		}
 		$timeSting = implode(',', $time);
+
 		$data = $this->getEstimatedValue($timeSting, $compare);
 		if ($compare) {
 			$start = new \DateTime(\DateTimeField::convertToDBFormat($time['start']));
@@ -112,7 +114,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$previousData = $this->getEstimatedValue($previousTime, $compare);
 			if (!empty($data) || !empty($previousData)) {
 				list($data, $previousData) = $this->parseData($data, $previousData);
-				$data = ['compare' => $previousData, $data];
+				$data = [$previousData, 'compare' => $data];
 			}
 		}
 		$viewer->assign('WIDGET', $widget);

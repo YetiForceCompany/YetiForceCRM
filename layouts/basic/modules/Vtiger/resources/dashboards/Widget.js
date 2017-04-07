@@ -626,6 +626,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 			this.getPlotContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				animate: !$.jqplot.use_excanvas,
+				seriesColors: (data['colors']) ? data['colors'] : false,
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
@@ -657,8 +658,8 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 				},
 				legend: {
 					show: (data['data_labels']) ? true : false,
-					location: 'e',
-					placement: 'outside',
+					location: (data['location']) ? data['location'] : 'e',
+					placement: (data['placement']) ? data['placement'] : 'outside',
 					showLabels: (data['data_labels']) ? true : false,
 					showSwatch: (data['data_labels']) ? true : false,
 					labels: data['data_labels']
@@ -1667,35 +1668,38 @@ Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
-		var chartData = [[], [], []];
+		var chartData = [[], [], [], []];
 		var yMaxValue = 0;
 		if (data.hasOwnProperty('compare')) {
 			for (var index in data) {
 				var parseData = thisInstance.parseChartData(data[index], chartData);
 				chartData[0].push(parseData[0]);
-				chartData = [chartData[0], parseData[1], parseData[2]];
+				chartData[3].push(parseData[3]);
+				chartData = [chartData[0], parseData[1], parseData[2], chartData[3], ['#CC6600', '#208CB3']];
 			}
 		} else {
 			var parseData = thisInstance.parseChartData(data, chartData);
-			chartData = [[parseData[0]], parseData[1], parseData[2]];
+			chartData = [[parseData[0]], parseData[1], parseData[2], [parseData[3]], ['#208CB3']];
 		}
 		var yMaxValue = chartData[1];
 		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
-		return {'chartData': chartData[0], 'yMaxValue': yMaxValue, 'labels': chartData[2]};
+		return {'chartData': chartData[0], 'yMaxValue': yMaxValue, 'labels': chartData[2], data_labels: chartData[3], placement: 'inside', location: 'n', colors: chartData[4]};
 	},
 	parseChartData: function (data, chartDataGlobal) {
 		var chartData = [];
 		var xLabels = [];
+		var sum = 0;
 		for (var index in data) {
 			var row = data[index];
 			row[0] = parseInt(row[0]);
+			sum += row[0];
 			xLabels.push(app.getDecodedValue(row[1]))
 			chartData.push(row[0]);
 			if (parseInt(row[0]) > chartDataGlobal[1]) {
 				chartDataGlobal[1] = parseInt(row[0]);
 			}
 		}
-		return [chartData, chartDataGlobal[1], xLabels];
+		return [chartData, chartDataGlobal[1], xLabels, '&nbsp; \u03A3 ' + sum + '&nbsp;'];
 	},
 	registerSectionClick: function () {
 		var container = this.getContainer();
@@ -1714,3 +1718,4 @@ Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
 		});
 	}
 });
+YetiForce_Teamsestimatedsales_Widget_Js('YetiForce_Actualsalesofteam_Widget_Js', {}, {});
