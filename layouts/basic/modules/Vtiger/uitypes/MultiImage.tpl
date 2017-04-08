@@ -18,7 +18,7 @@
 			{assign var="IMAGES" value=[]}
 		{/if}
 		{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
-			<div class="multiImageContenDiv pull-left">
+			<div class="multiImageContenDiv pull-left" title="{$IMAGE_INFO.name}">
 				<div class="contentImage"><img src="{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}" class="multiImageListIcon"></div>
 				<span class="btn btn-danger btn-xs multiImageDelete glyphicon glyphicon-trash" data-id="{$IMAGE_INFO.attachmentid}"></span>&nbsp;
 			</div>

@@ -68,7 +68,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 			$images = $this->getMultiImageQuery($value);
 			foreach ($images->all() as $attach) {
-				$imageIcons .= '<div class="contentImage"><img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
+				$imageIcons .= '<div class="contentImage" title="' . $attach['name'] . '"><img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
 			}
 		}
 		$imageIcons .= '</div>';

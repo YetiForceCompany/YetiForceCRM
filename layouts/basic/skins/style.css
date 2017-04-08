@@ -5873,7 +5873,7 @@ select.form-control {
 	margin: 28px 0 0 -80px;
 	white-space: nowrap;
 	position: absolute;
-	z-index: 2;
+	z-index: 3;
 }
 .contentImage{
 	width: 28px;
