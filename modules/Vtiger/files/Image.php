@@ -32,7 +32,7 @@ class Vtiger_Image_File extends Vtiger_Basic_File
 	 */
 	public function get(Vtiger_Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->get('attachment');
 		if (empty($record)) {
 			throw new \Exception\NoPermitted('Not Acceptable', 406);
 		}

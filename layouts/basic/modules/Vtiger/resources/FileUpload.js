@@ -28,15 +28,15 @@ jQuery.Class('Vtiger_FileUpload_Js', {}, {
 		return this.formElement;
 	},
 	updateForm: function (data) {
-		var input = $("#input" + data.result['inputName']);
-		var newValues = data.result['attachIds'].concat(JSON.parse("[" + input.val().replace(/(^,)|(,$)/g, "") + ']'));
-		input.val(',' + newValues.toString() + ',');
-		$.each(data.result['attachIds'], function (index, value) {
-			var html = '<div class="contentImage">'
-					+ '<img src="file.php?module=' + data.result['module'] + '&action=Image&record=' + value + '" class="multiImageListIcon">'
-					+ '</div><span class="btn btn-danger btn-xs multiImageDelete glyphicon glyphicon-trash" data-id="' + value + '"></span>&nbsp;';
-			$('<div class="multiImageContenDiv pull-left">').html(html).appendTo("#fileResult" + data.result['inputName']);
+		var input = $("#input" + data.result['field']);
+		var ids = [];
+		$.each(data.result['attach'], function (index, value) {
+			ids.push(value.id);
+			var html = value.name + '&nbsp;<span class="btn btn-danger btn-xs multiImageDelete glyphicon glyphicon-trash" data-id="' + value.id + '"></span>';
+			$('<div class="multiImageContenDiv row col-xs-12">').html(html).appendTo("#fileResult" + data.result['field']);
 		});
+		var newValues = ids.concat(JSON.parse("[" + input.val().replace(/(^,)|(,$)/g, "") + ']'));
+		input.val(',' + newValues.toString() + ',');
 	},
 	registerUploadFiles: function () {
 		var thisInstance = this;
@@ -50,19 +50,19 @@ jQuery.Class('Vtiger_FileUpload_Js', {}, {
 			uploadContainer.find('.fileItem').remove();
 			var files = fileElement[0].files;
 			for (var i = 0; i < files.length; i++) {
-				if(files[i].size > maxFileSize){
+				if (files[i].size > maxFileSize) {
 					alert(app.vtranslate('JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE'));
 					fileElement.val('');
-					submitBtn.prop('disabled',true);
+					submitBtn.prop('disabled', true);
 					break;
 				}
 				uploadContainer.append(template.html());
 				uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 			}
-			if(files.length){
-				submitBtn.prop('disabled',false);
-			}else{
-				submitBtn.prop('disabled',true);
+			if (files.length) {
+				submitBtn.prop('disabled', false);
+			} else {
+				submitBtn.prop('disabled', true);
 			}
 		});
 		this.getForm().on('submit', function (e) {

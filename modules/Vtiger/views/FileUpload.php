@@ -13,6 +13,28 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 {
 
 	/**
+	 * Checking permission
+	 * @param Vtiger_Request $request
+	 * @throws \Exception\NoPermittedToRecord
+	 */
+	public function checkPermission(Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$record = $request->get('record');
+		$fieldName = $request->get('inputName');
+		if (!empty($record)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $fieldName, false)) {
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+		} else {
+			if (!\App\Field::getFieldPermission($moduleName, $fieldName, false) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+		}
+	}
+
+	/**
 	 * Process
 	 * @param Vtiger_Request $request
 	 */
@@ -23,6 +45,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer->assign('INPUT_NAME', $request->get('inputName'));
 		$viewer->assign('FILE_TYPE', $request->get('fileType'));
+		$viewer->assign('RECORD', $request->get('record'));
 		$viewer->view('FileUpload.tpl', $moduleName);
 		$this->postProcess($request);
 	}

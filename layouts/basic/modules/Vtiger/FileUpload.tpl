@@ -7,8 +7,9 @@
 	<form class="form-horizontal" id="fileUploadForm" name="fileUploadForm" method="post" action="file.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE_NAME}">
 		<input type="hidden" name="action" value="Image">
-		<input type="hidden" name="inputName" value="{$INPUT_NAME}">
+		<input type="hidden" name="field" value="{$INPUT_NAME}">
 		<input type="hidden" name="fileType" value="{$FILE_TYPE}">
+		<input type="hidden" name="record" value="{$RECORD}">
 		<input type="hidden" id="maxUploadFileSize" class="maxUploadFileSize" value={\AppConfig::main('upload_maxsize')}>
 		<div class="modal-body">
 			<div>

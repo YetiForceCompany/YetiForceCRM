@@ -11,13 +11,15 @@
 
 	<div id="fileResult{$FIELD_MODEL->getFieldName()}">
 		{if $RECORD}
-			{assign var="IMAGES" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId())}
+			{assign var="RECORD_ID" value=$RECORD->getId()}
+			{assign var="IMAGES" value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD_ID)}
 		{else}
+			{assign var="RECORD_ID" value=''}
 			{assign var="IMAGES" value=[]}
 		{/if}
 		{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
 			<div class="multiImageContenDiv pull-left">
-				<div class="contentImage"><img src="file.php?module={$FIELD_MODEL->getModuleName()}&action=Image&record={$IMAGE_INFO.attachmentid}" class="multiImageListIcon"></div>
+				<div class="contentImage"><img src="{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}" class="multiImageListIcon"></div>
 				<span class="btn btn-danger btn-xs multiImageDelete glyphicon glyphicon-trash" data-id="{$IMAGE_INFO.attachmentid}"></span>&nbsp;
 			</div>
 		{/foreach}

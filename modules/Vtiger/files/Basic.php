@@ -25,6 +25,16 @@ abstract class Vtiger_Basic_File
 	 */
 	public function getCheckPermission(Vtiger_Request $request)
 	{
+		$moduleName = $request->getModule();
+		$record = $request->get('record');
+		$field = $request->get('field');
+		if ($record) {
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+		} else {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 		return true;
 	}
 
@@ -35,6 +45,19 @@ abstract class Vtiger_Basic_File
 	 */
 	public function postCheckPermission(Vtiger_Request $request)
 	{
+		$moduleName = $request->getModule();
+		$record = $request->get('record');
+		$field = $request->get('field');
+		if (!empty($record)) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+		} else {
+			if (!\App\Field::getFieldPermission($moduleName, $field, false) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
+				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+		}
 		return true;
 	}
 
@@ -50,16 +73,16 @@ abstract class Vtiger_Basic_File
 			foreach ($file as $key => $fileData) {
 				$result = \Vtiger_Files_Model::uploadAndSave($fileData, $this->getFileType(), $this->getStorageName());
 				if ($result) {
-					$attachIds[] = $result;
+					$attach[] = ['id' => $result, 'name' => $fileData['name']];
 				}
 			}
 		}
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
-				'inputName' => $request->get('inputName'),
+				'field' => $request->get('field'),
 				'module' => $request->getModule(),
-				'attachIds' => $attachIds
+				'attach' => $attach
 			]);
 			$response->emit();
 		}

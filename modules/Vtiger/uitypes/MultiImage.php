@@ -68,7 +68,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 			}
 			$images = $this->getMultiImageQuery($value);
 			foreach ($images->all() as $attach) {
-				$imageIcons .= '<div class="contentImage"><img src="' . $this->getImagePath($attach['attachmentid']) . '" class="multiImageListIcon"></div>';
+				$imageIcons .= '<div class="contentImage"><img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
 			}
 		}
 		$imageIcons .= '</div>';
@@ -80,11 +80,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 * @param string $value
 	 * @return string
 	 */
-	public function getImagePath($value)
+	public function getImagePath($value, $recordId)
 	{
 		$field = $this->getFieldModel();
 		$moduleName = $field->getModuleName();
-		return "file.php?module=$moduleName&action=Image&record=$value";
+		return "file.php?module=$moduleName&action=Image&attachment=$value&record=$recordId&field={$field->getId()}";
 	}
 
 	/**
