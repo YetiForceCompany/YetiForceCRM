@@ -106,7 +106,7 @@ class Record
 				return $entityDisplay;
 			}
 			$table = $metainfo['tablename'];
-			$idColumn = $metainfo['entityidfield'];
+			$idColumn = $table . '.' . $metainfo['entityidfield'];
 			$columnsName = $metainfo['fieldnameArr'];
 			$columnsSearch = $metainfo['searchcolumnArr'];
 			$columns = array_unique(array_merge($columnsName, $columnsSearch));
@@ -118,9 +118,10 @@ class Record
 			$focus = \CRMEntity::getInstance($moduleName);
 			foreach (array_filter($columns) as $column) {
 				if (array_key_exists($column, $moduleInfoExtend)) {
-					$paramsCol[] = $column;
-					if ($moduleInfoExtend[$column]['tablename'] !== $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
-						$otherTable = $moduleInfoExtend[$column]['tablename'];
+					$otherTable = $moduleInfoExtend[$column]['tablename'];
+
+					$paramsCol[] = $otherTable . '.' . $column;
+					if ($otherTable !== $table && !in_array($otherTable, $leftJoinTables)) {
 						$leftJoinTables[] = $otherTable;
 						$focusTables = $focus->tab_name_index;
 						$query->leftJoin($otherTable, "$table.$focusTables[$table] = $otherTable.$focusTables[$otherTable]");
