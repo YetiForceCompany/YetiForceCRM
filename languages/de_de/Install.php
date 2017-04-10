@@ -73,7 +73,7 @@ $languageStrings = [
 	'LBL_CURL' => 'cURL Support',
 	'LBL_INDUSTRY_OPTION' => 'Bitte wählen Sie eine entsprechende Branche.',
 	'LBL_ERROR_LOGIN' => 'Berechtigungsfehler, Login Daten falsch',
-	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Enter company details',
+	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Firmeninformationen',
 	//Migration
 	'LBL_MIGRATION' => 'Migration',
 	'LBL_START_MIGRATION' => 'Starte Migration',

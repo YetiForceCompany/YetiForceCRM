@@ -1267,8 +1267,7 @@ $languageStrings = [
 	'LBL_UPDATE_DATE_FIELD' => 'Aktualisiere %s Feld mit der aktuellen Uhrzeit',
 	'LBL_UPDATE_FIELD' => 'Aktualisiere Feld',
 	'FL_IS_PRIVATE' => 'Privat',
-	'BTN_REALIZE' => 'Kenntnisnahme
-	',
+	'BTN_REALIZE' => 'Kenntnisnahme',
 	//TextParser
 	'LBL_TRANSLATE' => 'Übersetzung',
 	'LBL_COMPANY_VARIABLES' => 'Firmendetails',
@@ -1297,7 +1296,7 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'In Zwischenspeicher kopieren',
 	'LBL_COPY_VALUE' => 'Feldwert',
 	'LBL_COPY_LABEL' => 'Feldname',
-	'LBL_AUTOMATIC' => 'Automatic',
+	'LBL_AUTOMATIC' => 'Automatisch',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Anzahl gefundener E-Mail Adressen',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Anzahl selektierter Datensätze',
