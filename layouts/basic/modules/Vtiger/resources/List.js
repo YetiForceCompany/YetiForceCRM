@@ -1737,6 +1737,8 @@ jQuery.Class("Vtiger_List_Js", {
 		listViewContentDiv.on('click', '.listViewEntries', function (e) {
 			if (jQuery(e.target).closest('div').hasClass('actions'))
 				return;
+			if (jQuery(e.target).is('button') || jQuery(e.target).parent().is('button'))
+				return;
 			if (jQuery(e.target).closest('a').hasClass('noLinkBtn'))
 				return;
 			if (jQuery(e.target, jQuery(e.currentTarget)).is('td:first-child'))
