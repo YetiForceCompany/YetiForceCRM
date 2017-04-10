@@ -300,7 +300,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 				} else {
 					$value = '';
 				}
-			} else if (in_array($uitype, [302])) {
+			} else if (in_array($uitype, [302, 309])) {
 				$value = $fieldInfo->getDisplayValue($value);
 			}
 			if ($moduleName === 'Documents' && $fieldname === 'description') {

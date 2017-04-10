@@ -178,7 +178,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			selectedName: selectedName
 		});
 		fieldDisplayElement.validationEngine('closePrompt', fieldDisplayElement);
-		if(sourceFieldElement.data('type') == 'inventory'){
+		if (sourceFieldElement.data('type') == 'inventory') {
 			return params;
 		}
 		var formElement = container.closest('form');
@@ -279,11 +279,14 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(urlOrParams, function (data) {
 			var responseData = JSON.parse(data);
-			var ids = responseData.id.split(',');
-			$.each(ids, function (index, value) {
-				ids[index] = 'T' + value;
-			});
-			ids.join();
+			var ids = '';
+			if (responseData.id) {
+				ids = responseData.id.split(',');
+				$.each(ids, function (index, value) {
+					ids[index] = 'T' + value;
+				});
+				ids.join();
+			}
 			sourceFieldElement.val(ids);
 			fieldDisplayElement.val(responseData.name).attr('readonly', true);
 		});
@@ -932,15 +935,15 @@ jQuery.Class("Vtiger_Edit_Js", {
 				formElement.append('<input type="hidden" name="imageid" value="' + JSON.stringify(imageIdJson) + '" />');
 			}
 		});
-		formElement.on('click', '.multiImageDelete', function(){
+		formElement.on('click', '.multiImageDelete', function () {
 			var input = $(this).parents('div.fieldValue').find('input[type=hidden]');
 			var arrayValues = JSON.parse('[' + input.val().replace(/(^,)|(,$)/g, '') + ']');
 			var index = arrayValues.indexOf($(this).data('id'));
-			if(index >= 0) {
+			if (index >= 0) {
 				arrayValues.splice(index, 1);
 			}
-			input.val(','+arrayValues.toString()+',');
-			$(this).parent('div.multiImageContenDiv').hide();			
+			input.val(',' + arrayValues.toString() + ',');
+			$(this).parent('div.multiImageContenDiv').hide();
 		});
 	},
 	triggerDisplayTypeEvent: function () {
@@ -1407,7 +1410,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	checkReferencesField: function (container, clear) {
 		var thisInstance = this;
 		var activeProcess = false, activeSubProcess = false;
-		if(!app.getMainParams('fieldsReferencesDependent')){
+		if (!app.getMainParams('fieldsReferencesDependent')) {
 			return false;
 		}
 		container.find('input[data-fieldtype="referenceLink"]').each(function (index, element) {
@@ -1482,7 +1485,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
-		if(!app.getMainParams('fieldsReferencesDependent')){
+		if (!app.getMainParams('fieldsReferencesDependent')) {
 			return false;
 		}
 		thisInstance.checkReferenceModulesList(container);

@@ -205,7 +205,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
-			} else if (fieldInfo.type == "multipicklist") {
+			} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
 				searchOperator = 'c';
 			}
 			searchInfo.push(fieldName);

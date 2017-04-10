@@ -85,11 +85,15 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $this->blocks;
 	}
 
+	/**
+	 * List of supported field types
+	 * @return string[]
+	 */
 	public function getAddSupportedFieldTypes()
 	{
-		return array(
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'MultiImage'
-		);
+		return [
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'MultiImage', 'CategoryMultipicklist'
+		];
 	}
 
 	/**
@@ -173,7 +177,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$tableName = 'vtiger_' . strtolower($moduleName) . 'cf';
 			}
 		}
-		if ($fieldType == 'Tree') {
+		if ($fieldType === 'Tree' || $fieldType === 'CategoryMultipicklist') {
 			$fieldParams = (int) $params['tree'];
 		} elseif ($fieldType == 'MultiReferenceValue') {
 			$fieldParams = [];
@@ -227,6 +231,12 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $fieldModel;
 	}
 
+	/**
+	 * Function defines details of the created field
+	 * @param string $fieldType
+	 * @param array $params
+	 * @return (sting|int)[]
+	 */
 	public function getTypeDetailsForAddField($fieldType, $params)
 	{
 		$displayType = 1;
@@ -351,6 +361,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			Case 'MultiImage' :
 				$uitype = 311;
+				$type = $importerType->text();
+				$uichekdata = 'V~O';
+				break;
+			Case 'CategoryMultipicklist' :
+				$uitype = 309;
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;

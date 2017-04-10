@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_GENERATED_TYPE' => 'Systemowe',
 	'LBL_TREE_TEMPLATE' => 'Drzewo',
 	'Tree' => 'Pole drzewa',
+	'CategoryMultipicklist' => 'Pole drzewa (wielokrotnego wyboru)',
 	'LBL_FIELD_MASK' => 'Maska',
 	'LBL_FIELD_MASK_INFO' => 'Domyślnie definicje maskujące<br />9: numeryczny<br />a: alfabetycznie<br />*: Alfanumeryczny<br /><br />Przykład:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Wartości z modułu powiązanego',

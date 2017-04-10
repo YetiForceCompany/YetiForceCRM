@@ -613,7 +613,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {
 				$fieldData[$fieldName] = $this->transformPicklist($fieldInstance, $fieldValue);
-			} else if ($fieldInstance->getFieldDataType() === 'tree') {
+			} else if ($fieldInstance->getFieldDataType() === 'tree' || $fieldInstance->getFieldDataType() === 'categoryMultipicklist') {
 				$fieldData[$fieldName] = $this->transformTree($fieldInstance, $fieldValue);
 			} else {
 				if ($fieldInstance->getFieldDataType() === 'datetime' && !empty($fieldValue)) {
