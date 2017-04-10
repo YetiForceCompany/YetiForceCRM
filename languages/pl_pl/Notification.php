@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_MODULES' => 'Moduły',
 	'LBL_SENT_NOTIFICATIONS' => 'Wysyłaj powiadomienia',
 	'LBL_NOTIFICATION_SETTINGS' => 'Konfiguracja powiadomień',
+	'LBL_UNREAD' => 'Nieprzeczytane',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',

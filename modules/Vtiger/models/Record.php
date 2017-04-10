@@ -1188,6 +1188,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if ($this->isViewable()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-expand',
+				'linkclass' => 'btn-sm btn-default',
+				'modalView' => true
+			];
+
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 				'linkurl' => $this->getFullDetailViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-th-list',

@@ -19,7 +19,6 @@ function getContactsMailsFromTicket($id)
 	if (empty($id)) {
 		return [];
 	}
-
 	$db = PearDatabase::getInstance();
 	$mails = [];
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
@@ -28,7 +27,7 @@ function getContactsMailsFromTicket($id)
 		if (App\Record::isExists($contactId)) {
 			$contactRecord = Vtiger_Record_Model::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
-			if ($contactRecord->get('emailoptout') == 1 && !empty($primaryEmail)) {
+			if (($contactRecord->get('emailoptout') == 1 || !AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
 				$mails[] = $primaryEmail;
 			}
 		}

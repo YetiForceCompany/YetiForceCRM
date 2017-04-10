@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************************************************************** */
@@ -1267,6 +1267,10 @@ $languageStrings = [
 	'LBL_NO_USERS_TO_ASSIGN' => 'Brak użytkowników do przypisania',
 	'BTN_ASSIGN_TO' => 'Przekaż',
 	'BTN_REALIZE' => 'Realizuj',
+	'LBL_SHOW_QUICK_DETAILS' => 'Szybki podgląd',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Szacowana sprzedaż zespołu',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Porównaj z poprzednim okresem o tej samej długości co obecny zakres dat.',
+	'DW_ACTUAL_SALES_OF_TEAM' => 'Rzeczywista sprzedaż zespołu',
 	//TextParser
 	'LBL_TRANSLATE' => 'Tłumaczenie',
 	'LBL_COMPANY_VARIABLES' => 'Dane firmy',
@@ -1303,6 +1307,9 @@ $languageStrings = [
 	'LBL_EMAIL_TEMPLATE' => 'Szablon mailowy',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Wszystkie maile są kolejkowane i wysłane w cronie.',
 	'ERR_NO_DEFAULT_SMTP' => 'Brak domyślnej skrzynki pocztowej do wysyłania wiadomości.',
+	'LBL_ADD_FILES' => 'Dodaj pliki',
+	'BTN_ADD_FILE' => 'Dodaj plik',
+	'BTN_SUBMIT' => 'Prześlij',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1577,4 +1584,5 @@ $jsLanguageStrings = [
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Czy jesteś pewien, że chcesz zapoznać się ze zmianami wybranych rekordów?',
 	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'Waluta bazowa musi być zmieniona na wyłączony',
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'Co najmniej jeden z załączonych plików jest za duży',
 ];

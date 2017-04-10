@@ -162,6 +162,7 @@ $languageStrings = [
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Добавить дополнительное поле в блок',
 	'LBL_MAX_LENGTH_TEXT' => 'Максимальная длина текста',
 	'LBL_MAX_WIDTH_COLUMN' => 'Ширина колонки [%]',
+	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
 ];
 
 $jsLanguageStrings = [

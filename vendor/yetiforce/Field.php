@@ -75,7 +75,12 @@ class Field
 			return static::$fieldPermissionCacheWrite[$tabId][$fieldMix];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
-		$key = is_numeric($fieldMix) ? 'fieldid' : 'fieldname';
+		if (is_numeric($fieldMix)) {
+			$key = 'fieldid';
+			settype($fieldMix, 'int');
+		} else {
+			$key = 'fieldname';
+		}
 		foreach ($fields as &$field) {
 			if ($field[$key] === $fieldMix) {
 				$permission = !($field['visible']);

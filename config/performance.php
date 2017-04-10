@@ -55,6 +55,8 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => 1000,
 	// In how many mails should the send in cron (Mailer).
 	'CRON_MAX_NUMBERS_SENDING_MAILS' => 1000,
+	// In how many atachments should the delete in cron.
+	'CRON_MAX_ATACHMENTS_DELETE' => 1000,
 	// Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php 
 	'LOAD_CUSTOM_FILES' => true,
@@ -64,4 +66,8 @@ $PERFORMANCE_CONFIG = [
 	'SHOW_ADMINISTRATORS_IN_USERS_LIST' => true,
 	//Global search: true/false
 	'GLOBAL_SEARCH' => true,
+	//Maximum MultiImage icon view in lists
+	'MAX_MULTIIMAGE_VIEW' => 5,
+	//View MultiImage as icon or names
+	'ICON_MULTIIMAGE_VIEW' => true,
 ];

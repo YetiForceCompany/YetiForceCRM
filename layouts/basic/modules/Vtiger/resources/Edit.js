@@ -932,6 +932,16 @@ jQuery.Class("Vtiger_Edit_Js", {
 				formElement.append('<input type="hidden" name="imageid" value="' + JSON.stringify(imageIdJson) + '" />');
 			}
 		});
+		formElement.on('click', '.multiImageDelete', function(){
+			var input = $(this).parents('div.fieldValue').find('input[type=hidden]');
+			var arrayValues = JSON.parse('[' + input.val().replace(/(^,)|(,$)/g, '') + ']');
+			var index = arrayValues.indexOf($(this).data('id'));
+			if(index >= 0) {
+				arrayValues.splice(index, 1);
+			}
+			input.val(','+arrayValues.toString()+',');
+			$(this).parent('div.multiImageContenDiv').hide();			
+		});
 	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');

@@ -967,7 +967,7 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Add conditions',
 	'LBL_VIEW_CONFIGURATION' => 'Configuration view',
 	'MEN_LEADS' => 'Companies and Contacts',
-	'LBL_VIEW_STEP1' => 'Información sobre el registro',/////////////////////////////
+	'LBL_VIEW_STEP1' => 'Información sobre el registro', /////////////////////////////
 	'LBL_VIEW_STEP2' => 'Add conditions',
 	'LBL_VIEW_STEP3' => 'Actions',
 	'LBL_VIEW_ADDACTION' => 'Actions',
@@ -1252,6 +1252,7 @@ $languageStrings = [
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
 	'LBL_UPDATE_FIELD' => 'Update field',
 	'FL_IS_PRIVATE' => 'Private',
+	'LBL_SHOW_QUICK_DETAILS' => 'Quick preview',
 	//TextParser
 	'LBL_TRANSLATE' => 'Translation',
 	'LBL_COMPANY_VARIABLES' => 'Company details',
@@ -1288,6 +1289,12 @@ $languageStrings = [
 	'LBL_EMAIL_TEMPLATE' => 'E-mail template',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'All e-mails are queued and sent in CRON.',
 	'ERR_NO_DEFAULT_SMTP' => 'No default mailbox to send e-mails',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
+	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
+	'LBL_ADD_FILES' => 'Add files',
+	'BTN_ADD_FILE' => 'Add file',
+	'BTN_SUBMIT' => 'Submit',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumen',
@@ -1605,4 +1612,5 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Are you sure you want to reset related mails once again?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 	'JS_MARKED_AS_READ' => 'Marked as read',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'At least one of the attached files is too large',
 ];

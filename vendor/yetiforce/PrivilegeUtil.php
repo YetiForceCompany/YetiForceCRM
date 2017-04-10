@@ -576,7 +576,7 @@ class PrivilegeUtil
 			}
 			if ($groupList) {
 				$rows = static::getDatashare('role2group', $modTabId, $groupList);
-				foreach ($rows as &$row) {
+				foreach ($rows as $row) {
 					$shareRoleId = $row['share_roleid'];
 					$shareIdRoleMembers = [];
 					$shareIdRoles = [];
@@ -737,7 +737,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2role sharing 
 			$rows = static::getDatashare('group2role', $modTabId, $currentUserRoles);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -792,7 +792,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2rs sharing 
 			$rows = static::getDatashare('group2rs', $modTabId, $parRoleList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -847,7 +847,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2us sharing 
 			$rows = static::getDatashare('group2user', $modTabId, $userid);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -902,7 +902,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2grp sharing 
 			$rows = static::getDatashare('group2group', $modTabId, $groupList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -957,7 +957,7 @@ class PrivilegeUtil
 
 			//Get roles from Us2Us 
 			$rows = static::getDatashare('user2user', $modTabId, $userid);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
@@ -981,7 +981,7 @@ class PrivilegeUtil
 			}
 			//Get roles from Us2Grp 
 			$rows = static::getDatashare('user2group', $modTabId, $groupList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
@@ -1005,7 +1005,7 @@ class PrivilegeUtil
 			}
 			//Get roles from Us2role 
 			$rows = static::getDatashare('user2role', $modTabId, $currentUserRoles);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
@@ -1030,7 +1030,7 @@ class PrivilegeUtil
 
 			//Get roles from Us2rs 
 			$rows = static::getDatashare('user2rs', $modTabId, $parRoleList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];

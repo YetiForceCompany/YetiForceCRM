@@ -47,6 +47,7 @@ $languageStrings = [
 	'Assets Renewal' => 'Assets Renewal',
 	'SoldServices Renewal' => 'SoldServices Renewal',
 	'LBL_SEND_NOTIFICATIONS' => 'Send notifications',
+	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Clear attachments table',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'La fréquence recommandée pour les imports programmés est de 15 mins',

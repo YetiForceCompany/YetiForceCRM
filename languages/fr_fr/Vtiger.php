@@ -1258,6 +1258,12 @@ $languageStrings = [
 	'LBL_NOVEMDECILLIONS' => 'décillions',
 	'LBL_NOVEMDECILLIONSS' => 'décillions',
 	'LBL_SECTOR' => 'Secteurs',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
+	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
+	'LBL_ADD_FILES' => 'Add files',
+	'BTN_ADD_FILE' => 'Add file',
+	'BTN_SUBMIT' => 'Submit',
 ];
 $jsLanguageStrings = [
 	'JS_Haute' => 'Haute',
@@ -1575,4 +1581,6 @@ $jsLanguageStrings = [
 	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Le temps de travail ne peut pas excéder 24 heures',
 	'LBL_AUTOMATIC' => 'Automatic',
+	'LBL_SHOW_QUICK_DETAILS' => 'Quick preview',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'At least one of the attached files is too large',
 ];

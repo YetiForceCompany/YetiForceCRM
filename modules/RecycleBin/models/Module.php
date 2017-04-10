@@ -150,6 +150,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 			->execute();
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
+		\Vtiger_Files_Model::getRidOfTrash(['crmid' => $recordIds]);
 	}
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds

@@ -31,21 +31,21 @@
 	<div class="vtFooter">
 		<div class="pull-left">
 			<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576">
-				<span class="AdditionalIcon-Linkedin" title="Linkendin"/>
+				<span class="AdditionalIcon-Linkedin" title="Linkendin"></span>
 			</a>
 			<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
-				<span class="AdditionalIcon-Twitter" title="Twitter"/>
+				<span class="AdditionalIcon-Twitter" title="Twitter"></span>
 			</a>
 			<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-				<span class="AdditionalIcon-Facebook" title="Facebook"/>
+				<span class="AdditionalIcon-Facebook" title="Facebook"></span>
 			</a>
 			<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM">
-				<span class="AdditionalIcon-Github" title="Github"/>
+				<span class="AdditionalIcon-Github" title="Github"></span>
 			</a>
 		</div>
 		<div class="pull-right">
 			<button type="button" class="btn-link" data-toggle="modal" data-target="#yetiforceDetails">
-				<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png"/>
+				<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" alt="YetiForceCRM"/>
 			</button>
 		</div>
 		{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
@@ -79,16 +79,16 @@
 				<p><span class="label label-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
 				<p class="text-center">
 					<a class="yetiforceDetailsLink" href="https://www.linkedin.com/groups/8177576">
-						<span class="fa fa-linkedin-square" title="LinkendIn"/>
+						<span class="fa fa-linkedin-square" title="LinkendIn"></span>
 					</a>
 					<a class="yetiforceDetailsLink" href="https://twitter.com/YetiForceEN">
-						<span class="fa fa-twitter-square" title="Twitter"/>
+						<span class="fa fa-twitter-square" title="Twitter"></span>
 					</a>
 					<a class="yetiforceDetailsLink" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-						<span class="fa fa-facebook-square" title="Facebook"/>
+						<span class="fa fa-facebook-square" title="Facebook"></span>
 					</a>
 					<a class="yetiforceDetailsLink" href="https://github.com/YetiForceCompany/YetiForceCRM">
-						<span class="fa fa-github-square" title="Github"/>
+						<span class="fa fa-github-square" title="Github"></span>
 					</a>
 				</p>
 			</div>

@@ -7,6 +7,7 @@ CKEDITOR.editorConfig = function (config) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+	config.removePlugins = 'copyformatting';
 	config.fullPage = false;
 	config.allowedContent = true;
 	config.scayt_autoStartup = false;
@@ -26,13 +27,13 @@ CKEDITOR.editorConfig = function (config) {
 		{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
 		{name: 'colors', items: ['TextColor', 'BGColor']},
 		{name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']},
-		{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+		{name: 'basicstyles', items: ['RemoveFormat']},
 	];
 	config.toolbar_Min = [
 		{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript']},
 		{name: 'colors', items: ['TextColor', 'BGColor']},
 		{name: 'tools', items: ['Maximize']},
 		{name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']},
-		{name: 'basicstyles', items: ['CopyFormatting', 'RemoveFormat']},
+		{name: 'basicstyles', items: ['RemoveFormat']},
 	];
 };

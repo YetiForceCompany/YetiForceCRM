@@ -42,6 +42,7 @@
 										</div>
 									{/if}
 								</div>
+								</div>
 							</li>
 						</ul>
 					{/if}

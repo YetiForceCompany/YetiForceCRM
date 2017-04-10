@@ -52,7 +52,7 @@
 						{else}
 							{$RECORD->get('subject')}
 						{/if}&nbsp;
-					{if $RECORD->isEditable()}
+					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
 							<span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
@@ -69,7 +69,7 @@
 							{assign var=MODULE_NAME value=$RECORD->getModuleName()}
 							<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
-							{if $RECORD->isEditable()}
+							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
 										<span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span>
@@ -85,7 +85,7 @@
 							{assign var=MODULE_NAME value="Events"}
 							<input type="hidden" class="activityModule" value="Events"/>
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
-							{if $RECORD->isEditable()}
+							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
 										{if $DATA_TYPE != 'history'}
@@ -105,31 +105,35 @@
 								<span class="muted">{vtranslate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
 							{/if}
 						</span>&nbsp&nbsp;
-						<span class="editDescription cursorPointer"><span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span></span>
+						{if !$IS_READ_ONLY}
+							<span class="editDescription cursorPointer">
+								<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+							</span>
+						{/if}
 						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-								data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
-								{if $SHAREDOWNER}<div> 
-									{vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
-									{foreach $SHAREDOWNER item=SOWNERID name=sowner}
-										{if $smarty.foreach.sowner.last}
-											,&nbsp;
-										{/if}
-										{\App\Fields\Owner::getUserLabel($SOWNERID)}
-									{/foreach}
-									</div>
-								{/if}
-								{if $MODULE_NAME eq 'Events'}
-									{if count($RECORD->get('selectedusers')) > 0}
-										<br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
-										{foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-											{if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
-										{/foreach}
-									{/if}
-								{/if}
-								">
+							  data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+							  {if $SHAREDOWNER}<div> 
+								  {vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
+								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
+									  {if $smarty.foreach.sowner.last}
+										  ,&nbsp;
+									  {/if}
+									  {\App\Fields\Owner::getUserLabel($SOWNERID)}
+								  {/foreach}
+								  </div>
+							  {/if}
+							  {if $MODULE_NAME eq 'Events'}
+								  {if count($RECORD->get('selectedusers')) > 0}
+									  <br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
+									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
+									  {if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
+								  {/foreach}
+							  {/if}
+						{/if}
+						">
 						<span class="glyphicon glyphicon-info-sign"></span>
 					</span>
-					{if $RECORD->isEditable()}
+					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<span class="2 edit hide row">
 							{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('description')}
 							{assign var=FIELD_VALUE value=$FIELD_MODEL->set('fieldvalue', $RECORD->get('description'))}
@@ -150,7 +154,7 @@
 			</div>
 		</div>
 		{if !$smarty.foreach.activities.last}
-		<hr>
+			<hr>
 		{/if}
 	{/foreach}
 {else}

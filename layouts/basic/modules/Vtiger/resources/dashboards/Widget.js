@@ -149,6 +149,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerFilterChangeEvent();
 		this.restrictContentDrag();
 		app.showBtnSwitch(this.getContainer().find('.switchBtn'));
+		app.showPopoverElementView(this.getContainer().find('.popoverTooltip'));
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
@@ -535,7 +536,7 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
@@ -584,7 +585,7 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
@@ -625,6 +626,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 			this.getPlotContainer(false).jqplot(data['chartData'], {
 				title: data['title'],
 				animate: !$.jqplot.use_excanvas,
+				seriesColors: (data['colors']) ? data['colors'] : false,
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
@@ -656,8 +658,8 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 				},
 				legend: {
 					show: (data['data_labels']) ? true : false,
-					location: 'e',
-					placement: 'outside',
+					location: (data['location']) ? data['location'] : 'e',
+					placement: (data['placement']) ? data['placement'] : 'outside',
 					showLabels: (data['data_labels']) ? true : false,
 					showSwatch: (data['data_labels']) ? true : false,
 					labels: data['data_labels']
@@ -670,7 +672,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
@@ -1064,8 +1066,8 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		});
 	}
 });
-YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js',{},{
-		loadChart: function () {
+YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
+	loadChart: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
 		var options = {
@@ -1533,7 +1535,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	},
 	registerSectionClick: function () {
 		var chartData = this.generateData();
-		this.getContainer().on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
 			var url = chartData['url'][pointIndex];
 			window.location.href = url;
 		});
@@ -1575,7 +1577,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 						showDataLabels: true,
 						dataLabels: 'value',
 						barDirection: 'vertical',
-						 varyBarColor: true
+						varyBarColor: true
 					},
 					pointLabels: {show: true, edgeTolerance: -15}
 				},
@@ -1583,7 +1585,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 					xaxis: {
 						tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
 						renderer: jQuery.jqplot.CategoryAxisRenderer,
-			
+
 						tickOptions: {
 							angle: -45,
 							labelPosition: 'auto'
@@ -1660,3 +1662,60 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 });
 Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbysender_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Notificationsbyrecipient_Widget_Js', {}, {});
+Vtiger_Barchat_Widget_Js('YetiForce_Teamsestimatedsales_Widget_Js', {}, {
+	generateChartData: function () {
+		var thisInstance = this;
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [[], [], [], []];
+		var yMaxValue = 0;
+		if (data.hasOwnProperty('compare')) {
+			for (var index in data) {
+				var parseData = thisInstance.parseChartData(data[index], chartData);
+				chartData[0].push(parseData[0]);
+				chartData[3].push(parseData[3]);
+				chartData = [chartData[0], parseData[1], parseData[2], chartData[3], ['#CC6600', '#208CB3']];
+			}
+		} else {
+			var parseData = thisInstance.parseChartData(data, chartData);
+			chartData = [[parseData[0]], parseData[1], parseData[2], [parseData[3]], ['#208CB3']];
+		}
+		var yMaxValue = chartData[1];
+		yMaxValue = yMaxValue + 2 + (yMaxValue / 100) * 25;
+		return {'chartData': chartData[0], 'yMaxValue': yMaxValue, 'labels': chartData[2], data_labels: chartData[3], placement: 'inside', location: 'n', colors: chartData[4]};
+	},
+	parseChartData: function (data, chartDataGlobal) {
+		var chartData = [];
+		var xLabels = [];
+		var sum = 0;
+		for (var index in data) {
+			var row = data[index];
+			row[0] = parseInt(row[0]);
+			sum += row[0];
+			xLabels.push(app.getDecodedValue(row[1]))
+			chartData.push(row[0]);
+			if (parseInt(row[0]) > chartDataGlobal[1]) {
+				chartDataGlobal[1] = parseInt(row[0]);
+			}
+		}
+		return [chartData, chartDataGlobal[1], xLabels, '&nbsp; \u03A3 ' + sum + '&nbsp;'];
+	},
+	registerSectionClick: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		var compare = dataInfo && dataInfo.hasOwnProperty('compare');
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+			if (seriesIndex) {
+				var url = dataInfo['compare'][pointIndex][2];
+			} else if (compare) {
+				var url = dataInfo[0][pointIndex][2];
+			} else {
+				var url = dataInfo[pointIndex][2];
+			}
+			window.location.href = url;
+		});
+	}
+});
+YetiForce_Teamsestimatedsales_Widget_Js('YetiForce_Actualsalesofteam_Widget_Js', {}, {});

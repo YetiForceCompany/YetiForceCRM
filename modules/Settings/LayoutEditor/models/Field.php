@@ -266,20 +266,4 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
 		return $fieldInfo;
 	}
-
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
-	{
-		if (is_string($fieldId)) {
-			$fieldId = [$fieldId];
-		}
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $moduleTabId, 'fieldid' => $fieldId])->orderBy('sequence');
-		$dataReader = $query->createCommand()->query();
-		$fieldModelList = [];
-		while ($row = $dataReader->read()) {
-			$fieldModel = new self();
-			$fieldModel->initialize($row);
-			$fieldModelList[] = $fieldModel;
-		}
-		return $fieldModelList;
-	}
 }

@@ -5826,3 +5826,74 @@ select.form-control {
 	font-size: 40px;
 	margin-right: 15px;
 }
+.modalRightSiteBar{
+	margin: 0;
+	width: 40%;
+	height: 100%;
+    right: 0px;
+    top: 0px;
+    position: fixed;
+    z-index: 1070;
+	overflow: hidden;
+}
+.modalRightSiteBar .modal-content{
+	height: 100%;
+	overflow: auto;
+}
+.modalRightSiteBar button.close{
+    position: absolute;
+    right: 10px;
+    z-index: 5;
+}
+.modalRightSiteBar .moduleIcon{
+	float: left;
+}
+.modalRightSiteBar .quickDetailWidget h4{
+    background-color: #eee;
+    padding: 4px 10px;
+}
+.modalRightSiteBar .listViewEntriesTable thead>tr>th{
+	padding: 2px;
+}
+.medium .multiImageListIcon{
+	width: 28px;
+	height: 28px;
+	margin: 0;
+	border: 1px solid #fff;
+	vertical-align: top;
+	position: relative;
+	z-index: 1;
+}
+.contentImage:hover .multiImageListIcon{
+	max-width: 160px;
+	max-height: 160px;
+	border: 1px solid #ccc;
+	width: auto;
+	height: auto;
+	margin: 28px 0 0 -80px;
+	white-space: nowrap;
+	position: absolute;
+	z-index: 3;
+}
+.contentImage{
+	width: 28px;
+	height: 28px;
+	vertical-align: top;
+	display: inline-block !important;
+}
+.contentImage:hover{
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.multiImageContenDiv{
+	z-index: 1000;
+}
+.textOverflowEllipsis:hover{
+	overflow: initial;
+}
+.input-group-sm .input-group-addon.checkbox-addon{
+	padding: 4px 7px !important;
+}
+.input-group-sm .input-group-addon.checkbox-addon input[type="checkbox"]{
+	vertical-align: middle !important;
+}
