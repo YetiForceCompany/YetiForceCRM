@@ -2646,7 +2646,21 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 			);
 		});
-
+		detailContentsHolder.on('click', '.widgetFullscreen', function (e) {
+			var currentTarget = $(e.currentTarget);
+			var widgetContentBlock = currentTarget.closest('.widgetContentBlock');
+			var url = widgetContentBlock.data('url');
+			url = url.replace('&view=Detail&', '&view=WidgetFullscreen&');
+			var progressIndicatorElement = jQuery.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
+			app.showModalWindow(null, "index.php?" + url, function (modal) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+			});
+		});
 		detailContentsHolder.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.relatedContainer .switchBtn', function (e, state) {
 			var recentActivitiesTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentActivitiesTabLabel);
 			var url = recentActivitiesTab.data('url');

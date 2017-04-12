@@ -860,6 +860,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('POPUP', $config['popup']);
 		$viewer->assign('NO_MORE', $request->get('noMore'));
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_FULLSCREEN', $request->getBoolean('isFullscreen'));
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);
 	}
 
