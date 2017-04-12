@@ -21,6 +21,18 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
+	 * Function to get the value for ListView
+	 * @param string $value
+	 * @param integer $record
+	 * @param Vtiger_Record_Model
+	 * @return string
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
+	}
+
+	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param <Integer> $record
