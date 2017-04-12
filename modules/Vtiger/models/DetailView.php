@@ -312,7 +312,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$module = $this->getModuleName();
 		$record = $this->getRecord()->getId();
 		$modelWidgets = $moduleModel->getWidgets($module);
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
 				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
