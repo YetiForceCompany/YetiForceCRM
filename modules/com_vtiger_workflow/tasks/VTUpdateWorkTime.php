@@ -48,7 +48,7 @@ class VTUpdateWorkTime extends VTTask
 		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
-			if (!empty($metaData['delete']) && in_array($metaData['setype'], $modulesHierarchy)) {
+			if (((int) $metaData['delete']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {
 				OSSTimeControl_Record_Model::recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
 				$globalIds[] = $referenceId;
 			}
