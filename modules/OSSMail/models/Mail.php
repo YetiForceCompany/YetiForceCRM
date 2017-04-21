@@ -11,7 +11,6 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	protected $mailAccount = [];
 	protected $mailFolder = '';
-	protected $accountOwner = false;
 	protected $mailCrmId = false;
 	protected $actionResult = [];
 
@@ -100,15 +99,8 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function getAccountOwner()
 	{
-		if ($this->accountOwner) {
-			return $this->accountOwner;
-		}
-		$db = PearDatabase::getInstance();
 		$account = $this->getAccount();
-
-		$result = $db->pquery('SELECT crm_user_id FROM roundcube_users where user_id = ? ', [$account['user_id']]);
-		$this->accountOwner = $db->getSingleValue($result);
-		return $this->accountOwner;
+		return $account['crm_user_id'];
 	}
 
 	public function getMailCrmId()
@@ -140,9 +132,9 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 		if (is_array($text)) {
 			foreach ($text as $row) {
 				if ($return != '') {
-					$return.= ',';
+					$return .= ',';
 				}
-				$return.= $row->mailbox . '@' . $row->host;
+				$return .= $row->mailbox . '@' . $row->host;
 			}
 		}
 		return $return;
