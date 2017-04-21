@@ -1005,6 +1005,7 @@ CREATE TABLE `u_yf_announcement` (
   `subject` varchar(255) DEFAULT NULL,
   `announcementstatus` varchar(255) NOT NULL DEFAULT '',
   `interval` smallint(5) DEFAULT NULL,
+  `is_mandatory` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`announcementid`),
   KEY `announcementstatus` (`announcementstatus`),
   CONSTRAINT `fk_1_u_yf_announcement` FOREIGN KEY (`announcementid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -5182,7 +5183,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2605 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2606 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
