@@ -126,8 +126,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
-			require_once('libraries/csrf-magic/csrf-magic.php');
 			require_once('config/csrf_config.php');
+			require_once('libraries/csrf-magic/csrf-magic.php');
 		}
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
