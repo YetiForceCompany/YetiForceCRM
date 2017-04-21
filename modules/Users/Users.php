@@ -42,8 +42,8 @@ class Users extends CRMEntity
 	public $error_string;
 	public $is_admin;
 	public $deleted;
-	public $tab_name = Array('vtiger_users', 'vtiger_attachments', 'vtiger_user2role', 'vtiger_asteriskextensions');
-	public $tab_name_index = Array('vtiger_users' => 'id', 'vtiger_attachments' => 'attachmentsid', 'vtiger_user2role' => 'userid', 'vtiger_asteriskextensions' => 'userid');
+	public $tab_name = ['vtiger_users', 'vtiger_user2role'];
+	public $tab_name_index = ['vtiger_users' => 'id', 'vtiger_user2role' => 'userid'];
 	public $table_name = "vtiger_users";
 	public $table_index = 'id';
 	// This is the list of fields that are in the lists.
@@ -90,7 +90,6 @@ class Users extends CRMEntity
 	public $default_sort_order = 'ASC';
 	public $record_id;
 	public $new_schema = true;
-	public $DEFAULT_PASSWORD_CRYPT_TYPE = 'PHP5.3MD5'; //'BLOWFISH', /* before PHP5.3*/ MD5;
 	//Default Widgests
 	public $default_widgets = array('CVLVT', 'UA');
 
@@ -196,7 +195,7 @@ class Users extends CRMEntity
 		}
 	}
 
-	protected function get_user_hash($input)
+	public function get_user_hash($input)
 	{
 		return strtolower(md5($input));
 	}
@@ -214,13 +213,11 @@ class Users extends CRMEntity
 	{
 		// encrypt the password.
 		$salt = substr($this->column_fields["user_name"], 0, 2);
-
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
 		if ($crypt_type == '') {
 			// Try to get the crypt_type which is in database for the user
-			$crypt_type = $this->get_user_crypt_type();
+			$crypt_type = $this->getCryptType();
 		}
-
 		// For more details on salt format look at: http://in.php.net/crypt
 		if ($crypt_type == 'MD5') {
 			$salt = '$1$' . $salt . '$';
@@ -232,29 +229,7 @@ class Users extends CRMEntity
 			//crypt API is lot stricter in taking the value for salt.
 			$salt = '$1$' . str_pad($salt, 9, '0');
 		}
-
-		$encrypted_password = crypt($user_password, $salt);
-		return $encrypted_password;
-	}
-
-	/** Function to authenticate the current user with the given password
-	 * @param $password -- password::Type varchar
-	 * @returns true if authenticated or false if not authenticated
-	 */
-	public function authenticate_user($password)
-	{
-		$usr_name = $this->column_fields["user_name"];
-
-		$query = "SELECT * from $this->table_name where user_name=? && user_hash=?";
-		$params = array($usr_name, $password);
-		$result = $this->db->requirePsSingleResult($query, $params, false);
-
-		if (empty($result)) {
-			\App\Log::error("SECURITY: failed login by $usr_name");
-			return false;
-		}
-
-		return true;
+		return crypt($user_password, $salt);
 	}
 
 	/** Function for validation check
@@ -308,7 +283,7 @@ class Users extends CRMEntity
 			\App\Log::trace("Authentication failed. User: $userName");
 			return false;
 		}
-		$this->column_fields['id'] = $userInfo['id'];
+		$this->column_fields['id'] = (int) $userInfo['id'];
 		if (\App\Cache::has('Authorization', 'config')) {
 			$auth = \App\Cache::get('Authorization', 'config');
 		} else {
@@ -360,89 +335,21 @@ class Users extends CRMEntity
 	}
 
 	/**
-	 * Load a user based on the user_name in $this
-	 * @return -- this if load was successul and null if load failed.
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function load_user($user_password)
-	{
-		$usr_name = $this->column_fields["user_name"];
-		if (isset($_SESSION['loginattempts'])) {
-			$_SESSION['loginattempts'] += 1;
-		} else {
-			$_SESSION['loginattempts'] = 1;
-		}
-		if ($_SESSION['loginattempts'] > 5) {
-			\App\Log::warning("SECURITY: " . $usr_name . " has attempted to login " . $_SESSION['loginattempts'] . " times.");
-		}
-		\App\Log::trace("Starting user load for $usr_name");
-
-		if (!isset($this->column_fields["user_name"]) || $this->column_fields["user_name"] == "" || !isset($user_password) || $user_password == "")
-			return null;
-
-		$authCheck = false;
-		$authCheck = $this->doLogin($user_password);
-
-		if (!$authCheck) {
-			\App\Log::warning("User authentication for $usr_name failed");
-			return null;
-		}
-
-		// Get the fields for the user
-		$query = "SELECT * from $this->table_name where user_name='$usr_name'";
-		$result = $this->db->requireSingleResult($query, false);
-
-		$row = $this->db->fetchByAssoc($result);
-		$this->column_fields = $row;
-		$this->id = $row['id'];
-
-		$user_hash = $this->get_user_hash($user_password);
-
-		// If there is no user_hash is not present or is out of date, then create a new one.
-		if (!isset($row['user_hash']) || $row['user_hash'] != $user_hash) {
-			$query = "UPDATE $this->table_name SET user_hash=? where id=?";
-			$this->db->pquery($query, array($user_hash, $row['id']), true, "Error setting new hash for {$row['user_name']}: ");
-		}
-		$this->loadPreferencesFromDB($row['user_preferences']);
-
-
-		if ($row['status'] != "Inactive")
-			$this->authenticated = true;
-
-		unset($_SESSION['loginattempts']);
-		return $this;
-	}
-
-	/**
 	 * Get crypt type to use for password for the user.
 	 * Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
 	 */
-	public function get_user_crypt_type()
+	public function getCryptType()
 	{
-
 		$crypt_res = null;
-		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
-
-		// For backward compatability, we need to make sure to handle this case.
-		$adb = PearDatabase::getInstance();
-		$table_cols = $adb->getColumnNames("vtiger_users");
-		if (!in_array("crypt_type", $table_cols)) {
-			return $crypt_type;
-		}
-
+		$crypt_type = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if (isset($this->id)) {
 			// Get the type of crypt used on password before actual comparision
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where id=?";
 			$crypt_res = $this->db->pquery($qcrypt_sql, array($this->id), true);
-		} else if (isset($this->column_fields["user_name"])) {
+		} else if (isset($this->column_fields['user_name'])) {
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where user_name=?";
 			$crypt_res = $this->db->pquery($qcrypt_sql, array($this->column_fields["user_name"]));
-		} else {
-			$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 		}
-
 		if ($crypt_res && $this->db->num_rows($crypt_res)) {
 			$crypt_row = $this->db->fetchByAssoc($crypt_res);
 			$crypt_type = $crypt_row['crypt_type'];
@@ -467,10 +374,9 @@ class Users extends CRMEntity
 		\App\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {
-			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $user_name . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
+			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
-
 		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
@@ -478,23 +384,15 @@ class Users extends CRMEntity
 				return false;
 			}
 		}
-		$userHash = $this->get_user_hash($newPassword);
-
 		//set new password
-		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
+		$crypt_type = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		$encryptedNewPassword = $this->encrypt_password($newPassword, $crypt_type);
 
 		\App\Db::getInstance()->createCommand()->update($this->table_name, [
 			'user_password' => $encryptedNewPassword,
 			'confirm_password' => $encryptedNewPassword,
-			'user_hash' => $userHash,
 			'crypt_type' => $crypt_type,
 			], ['id' => $this->id])->execute();
-
-		// Fill up the post-save state of the instance.
-		if (empty($this->column_fields['user_hash'])) {
-			$this->column_fields['user_hash'] = $userHash;
-		}
 
 		$this->column_fields['user_password'] = $encryptedNewPassword;
 		$this->column_fields['confirm_password'] = $encryptedNewPassword;
@@ -596,257 +494,8 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/** Function to save the user information into the database
-	 * @param $module -- module name:: Type varchar
-	 * @param $fileid
-	 */
-	public function saveentity($module, $fileid = '')
-	{
-		$db = PearDatabase::getInstance();
-		$insertion_mode = $this->mode;
-		if (empty($this->column_fields['time_zone'])) {
-			$dbDefaultTimeZone = DateTimeField::getDBTimeZone();
-			$this->column_fields['time_zone'] = $dbDefaultTimeZone;
-			$this->time_zone = $dbDefaultTimeZone;
-		}
-		$defaults = [
-			'currency_id' => CurrencyField::getDBCurrencyId(),
-			'date_format' => 'yyyy-mm-dd',
-			'start_hour' => '08:00',
-			'end_hour' => '16:00',
-			'dayoftheweek' => 'Monday',
-			'activity_view' => 'Today',
-			'callduration' => 10,
-			'othereventduration' => 30,
-			'hour_format' => 24,
-			'activity_view' => 'This Month',
-			'calendarsharedtype' => 'public',
-			'default_record_view' => 'Summary',
-			'status' => 'Active',
-			'internal_mailer' => 1,
-			'defaulteventstatus' => 'PLL_PLANNED',
-			'defaultactivitytype' => 'Meeting',
-			'calendarsharedtype' => 'private',
-			'truncate_trailing_zeros' => 0,
-			'no_of_currency_decimals' => 2,
-			'currency_grouping_pattern' => '123,456,789',
-			'currency_symbol_placement' => '1.0$',
-			'truncate_trailing_zeros' => 0,
-			'reminder_interval' => '15 Minutes',
-			'rowheight' => 'medium',
-			'lead_view' => 'Today',
-		];
-		foreach ($defaults as $column => $value) {
-			if ($this->column_fields[$column] == '') {
-				$this->column_fields[$column] = $value;
-			}
-		}
-
-		if (empty($this->column_fields['currency_decimal_separator']) && $this->column_fields['currency_decimal_separator'] != ' ') {
-			$this->column_fields['currency_decimal_separator'] = '.';
-		}
-		if (empty($this->column_fields['currency_grouping_separator']) && $this->column_fields['currency_grouping_separator'] != ' ') {
-			$this->column_fields['currency_grouping_separator'] = ' ';
-		}
-
-		foreach ($this->tab_name as $table_name) {
-			if ($table_name == 'vtiger_attachments') {
-				$this->insertIntoAttachment($this->id, $module);
-			} else {
-				$this->insertIntoEntityTable($table_name, $module);
-			}
-		}
-		if (Settings_Roles_Record_Model::getInstanceById($this->column_fields['roleid']) === null) {
-			$roleid = Settings_Roles_Record_Model::getInstanceByName($this->column_fields['roleid']);
-			if ($roleid) {
-				$this->column_fields['roleid'] = $roleid->getId();
-			} else {
-				$roles = Settings_Roles_Record_Model::getAll();
-				$this->column_fields['roleid'] = key($roles);
-			}
-		}
-		if ($insertion_mode != 'edit') {
-			$this->createAccessKey();
-		}
-
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile($this->id);
-		unset($_SESSION['next_reminder_interval']);
-		unset($_SESSION['next_reminder_time']);
-
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-			\App\PrivilegeFile::createUsersFile();
-		}
-	}
-
-	public function createAccessKey()
-	{
-		$adb = PearDatabase::getInstance();
-
-
-		\App\Log::trace("Entering Into function createAccessKey()");
-		$updateQuery = "update vtiger_users set accesskey=? where id=?";
-		$insertResult = $adb->pquery($updateQuery, array(vtws_generateRandomAccessKey(16), $this->id));
-		\App\Log::trace("Exiting function createAccessKey()");
-	}
-
-	/** Function to insert values in the specifed table for the specified module
-	 * @param $table_name -- table name:: Type varchar
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoEntityTable($table_name, $module, $fileid = '')
-	{
-
-		\App\Log::trace("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
-		$adb = PearDatabase::getInstance();
-		$db = \App\Db::getInstance();
-		$current_user = vglobal('current_user');
-		$insertion_mode = $this->mode;
-		//Checkin whether an entry is already is present in the vtiger_table to update
-		if ($insertion_mode === 'edit') {
-			$check_query = "SELECT * FROM %s WHERE %s = ?";
-			$check_query = sprintf($check_query, $table_name, $this->tab_name_index[$table_name]);
-			$check_result = $this->db->pquery($check_query, array($this->id));
-
-			$num_rows = $this->db->num_rows($check_result);
-
-			if ($num_rows <= 0) {
-				$insertion_mode = '';
-			}
-		}
-
-		// We will set the crypt_type based on the insertion_mode
-		$crypt_type = '';
-
-		$params = [];
-		if ($insertion_mode === 'edit') {
-			$tabid = \App\Module::getModuleId($module);
-			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,5) and vtiger_field.presence in (0,2)";
-			$paramsField = array($tabid, $table_name);
-		} else {
-			$column = $this->tab_name_index[$table_name];
-			if ($column === 'id' && $table_name === 'vtiger_users') {
-				$this->column_fields['id'] = $this->id = $db->getUniqueID("vtiger_users");
-			}
-			$params[$column] = $this->id;
-			$tabid = \App\Module::getModuleId($module);
-			$sql = "select * from vtiger_field where tabid=? and tablename=? and displaytype in (1,3,4,5) and vtiger_field.presence in (0,2)";
-			$paramsField = array($tabid, $table_name);
-			$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
-		}
-
-		$result = $this->db->pquery($sql, $paramsField);
-		$noofrows = $this->db->num_rows($result);
-		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldname = $this->db->query_result($result, $i, "fieldname");
-			$columname = $this->db->query_result($result, $i, "columnname");
-			$uitype = $this->db->query_result($result, $i, "uitype");
-			$typeofdata = $adb->query_result($result, $i, "typeofdata");
-
-			$typeofdata_array = explode("~", $typeofdata);
-			$datatype = $typeofdata_array[0];
-
-			if (isset($this->column_fields[$fieldname])) {
-				if ($uitype == 56) {
-					if ($this->column_fields[$fieldname] === 'on' || $this->column_fields[$fieldname] == 1) {
-						$fldvalue = 1;
-					} else {
-						$fldvalue = 0;
-					}
-				} elseif ($uitype == 15) {
-					if ($this->column_fields[$fieldname] == \App\Language::translate('LBL_NOT_ACCESSIBLE')) {
-						//If the value in the request is Not Accessible for a picklist, the existing value will be replaced instead of Not Accessible value.
-						$sql = "select $columname from  $table_name where " . $this->tab_name_index[$table_name] . "=?";
-						$res = $adb->pquery($sql, array($this->id));
-						$pick_val = $adb->query_result($res, 0, $columname);
-						$fldvalue = $pick_val;
-					} else {
-						$fldvalue = $this->column_fields[$fieldname];
-					}
-				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
-					if (isset($current_user->date_format)) {
-						$fldvalue = getValidDBInsertDateValue($this->column_fields[$fieldname]);
-					} else {
-						$fldvalue = $this->column_fields[$fieldname];
-					}
-				} elseif ($uitype == 33) {
-					if (is_array($this->column_fields[$fieldname])) {
-						$field_list = implode(' |##| ', $this->column_fields[$fieldname]);
-					} else {
-						$field_list = $this->column_fields[$fieldname];
-					}
-					$fldvalue = $field_list;
-				} elseif ($uitype == 99) {
-					$plain_text = $this->column_fields[$fieldname];
-					$fldvalue = $this->encrypt_password($plain_text, $crypt_type);
-					// Update the plain-text value with encrypted value and dependent fields
-					$this->column_fields[$fieldname] = $fldvalue;
-					$this->column_fields['crypt_type'] = $crypt_type;
-					$this->column_fields['user_hash'] = $this->get_user_hash($plain_text);
-				} else {
-					$fldvalue = $this->column_fields[$fieldname];
-					$fldvalue = stripslashes($fldvalue);
-				}
-				$fldvalue = \vtlib\Functions::fromHTML($fldvalue, ($insertion_mode == 'edit') ? true : false);
-			} else {
-				$fldvalue = '';
-			}
-			if ($uitype == 31) {
-				$themeList = array_keys(Vtiger_Util_Helper::getAllSkins());
-				if (!in_array($fldvalue, $themeList) || $fldvalue == '') {
-					global $default_theme;
-					if (!empty($default_theme) && in_array($default_theme, $themeList)) {
-						$fldvalue = $default_theme;
-					} else {
-						$fldvalue = $themeList[0];
-					}
-				}
-				if ($current_user->id == $this->id) {
-					$_SESSION['vtiger_authenticated_user_theme'] = $fldvalue;
-				}
-			} elseif ($uitype == 32) {
-				$languageList = vtlib\Language::getAll();
-				$languageList = array_keys($languageList);
-				if (!in_array($fldvalue, $languageList) || $fldvalue == '') {
-					$default_language = vglobal('default_language');
-					if (!empty($default_language) && in_array($default_language, $languageList)) {
-						$fldvalue = vglobal('default_language');
-					} else {
-						$fldvalue = $languageList[0];
-					}
-				}
-				if ($current_user->id == $this->id) {
-					Vtiger_Session::set('language', $fldvalue);
-				}
-			}
-			if ($fldvalue == '') {
-				//$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
-			}
-			$params[$columname] = $fldvalue;
-		}
-		if ($table_name === 'vtiger_users') {
-			$params['date_modified'] = date('Y-m-d H:i:s');
-		}
-		if ($insertion_mode == 'edit') {
-			//Check done by Don. If update is empty the the query fails
-			if ($params) {
-				$db->createCommand()
-					->update($table_name, $params, [$this->tab_name_index[$table_name] => $this->id])->execute();
-			}
-		} else {
-			if ($table_name === 'vtiger_users') {
-				if (!isset($params['crypt_type'])) {
-					$params['crypt_type'] = $crypt_type;
-				}
-				if (!isset($params['user_hash'])) {
-					$params['user_hash'] = $this->column_fields['user_hash'];
-				}
-			}
-			$db->createCommand()->insert($table_name, $params)->execute();
-		}
-	}
-
-	/** Function to insert values into the attachment table
+	/**
+	 * Function to insert values into the attachment table
 	 * @param $id -- entity id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 */
@@ -982,69 +631,6 @@ class Users extends CRMEntity
 		}
 		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
 		return false;
-	}
-
-	/** Function to save the user information into the database
-	 * @param $module -- module name:: Type varchar
-	 *
-	 */
-	public function save($module_name, $fileid = '')
-	{
-		$adb = PearDatabase::getInstance();
-		$db = App\Db::getInstance();
-		if ($this->mode !== 'edit') {
-			if ((new \App\Db\Query())->from('vtiger_users')
-					->where(['or', ['user_name' => $this->column_fields['user_name']], ['email1' => $this->column_fields['email1']]])
-					->exists()) {
-				throw new \Exception(vtranslate('LBL_USER_EXISTS') . ' -> ' . $this->column_fields['user_name']);
-			}
-			\App\Privilege::setAllUpdater();
-		} else {// update dashboard widgets when changing users role
-			$oldRole = (new App\Db\Query())->select('roleid')
-				->from('vtiger_user2role')
-				->where(['userid' => $this->id])
-				->scalar();
-			$privilegesModel = Users_Privileges_Model::getInstanceById($this->id);
-			if ($this->column_fields['is_admin'] != $privilegesModel->get('is_admin')) {
-				\App\Privilege::setAllUpdater();
-			}
-			if ($oldRole != $this->column_fields['roleid']) {
-				$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->id])->execute();
-				\App\Privilege::setAllUpdater();
-			}
-		}
-		//Save entity being called with the modulename as parameter
-		$this->saveentity($module_name);
-
-		// Added for Reminder Popup support
-		$query_prev_interval = $adb->pquery("SELECT reminder_interval from vtiger_users where id=?", array($this->id));
-		$prev_reminder_interval = $adb->query_result($query_prev_interval, 0, 'reminder_interval');
-
-		//$this->saveHomeStuffOrder($this->id);
-		// Added for Reminder Popup support
-		$this->resetReminderInterval($prev_reminder_interval);
-		//Creating the Privileges Flat File
-		if (isset($this->column_fields['roleid']) && $this->mode === 'edit') {
-			$this->updateUser2RoleMapping();
-		}
-		//After adding new user, set the default activity types for new user
-		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($this->id);
-
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile($this->id);
-		createUserSharingPrivilegesfile($this->id);
-	}
-
-	/**
-	 * Function to update user to vtiger_role mapping based on the userid
-	 * @param $roleid -- Role Id:: Type varchar
-	 * @param $userid User Id:: Type integer
-	 */
-	public function updateUser2RoleMapping()
-	{
-		\App\Db::getInstance()->createCommand()
-			->update('vtiger_user2role', ['roleid' => $this->column_fields['roleid']], ['userid' => $this->id])
-			->execute();
 	}
 
 	/**
@@ -1209,22 +795,6 @@ class Users extends CRMEntity
 			$this->insertUserdetails('postinstall');
 		}
 		\App\Log::trace("Exiting from function saveHomeOrder($id)");
-	}
-
-	/**
-	 * Function to reset the Reminder Interval setup and update the time for next reminder interval
-	 * @param $prev_reminder_interval -- Last Reminder Interval on which the reminder popup's were triggered.
-	 */
-	public function resetReminderInterval($prev_reminder_interval)
-	{
-		$adb = PearDatabase::getInstance();
-		if ($prev_reminder_interval != $this->column_fields['reminder_interval']) {
-			unset($_SESSION['next_reminder_interval']);
-			unset($_SESSION['next_reminder_time']);
-			$set_reminder_next = date('Y-m-d H:i');
-			// NOTE date_entered has CURRENT_TIMESTAMP constraint, so we need to reset when updating the table
-			$adb->pquery("UPDATE vtiger_users SET reminder_next_time=?, date_entered=? WHERE id=?", array($set_reminder_next, $this->column_fields['date_entered'], $this->id));
-		}
 	}
 
 	public function filterInactiveFields($module)
