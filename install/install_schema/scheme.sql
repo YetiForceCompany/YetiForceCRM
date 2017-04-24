@@ -8875,6 +8875,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `name` varchar(255) DEFAULT NULL,
   `module` int(19) DEFAULT NULL,
   `access` int(1) DEFAULT '1',
+  `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`module`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
@@ -8888,7 +8889,7 @@ CREATE TABLE `vtiger_trees_templates_data` (
   `parenttrre` varchar(255) NOT NULL,
   `depth` tinyint(3) unsigned NOT NULL,
   `label` varchar(255) NOT NULL,
-  `state` varchar(10) NOT NULL DEFAULT '',
+  `state` varchar(100) NOT NULL DEFAULT '',
   `icon` varchar(255) NOT NULL DEFAULT '',
   KEY `id` (`templateid`),
   KEY `parenttrre` (`parenttrre`,`templateid`)

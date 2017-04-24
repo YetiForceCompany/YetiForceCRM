@@ -24,6 +24,7 @@ $languageStrings = [
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Изменить Каталог:',
 	'Category' => 'Категория',
 	'Reservations' => 'Бронирование',
+	'LBL_SHARE_WITH' => 'Share with',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Шаблон Каталога успешно удален',

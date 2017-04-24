@@ -24,6 +24,7 @@ $languageStrings = [
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Ändere Eintrag in Baumstruktur:',
 	'Category' => 'Kategorie',
 	'Reservations' => 'Einschränkungen',
+	'LBL_SHARE_WITH' => 'Share with',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Vorlage erfolgreich gelöscht',

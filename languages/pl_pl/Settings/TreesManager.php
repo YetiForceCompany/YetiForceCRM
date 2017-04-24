@@ -24,6 +24,7 @@ $languageStrings = [
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Zamień element drzewa na:',
 	'Category' => 'Kategoria',
 	'Reservations' => 'Rzerezwacje',
+	'LBL_SHARE_WITH' => 'Współdziel z',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Szablon drzewa został usunięty',
