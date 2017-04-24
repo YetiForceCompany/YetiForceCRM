@@ -197,7 +197,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			]
 		];
 		$moduleModel = $this->getModule();
-		$saveFields = $moduleModel->getFieldsForSave();
+		$saveFields = $moduleModel->getFieldsForSave($this);
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		} else {
