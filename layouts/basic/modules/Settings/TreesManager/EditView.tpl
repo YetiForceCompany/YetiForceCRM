@@ -35,12 +35,12 @@
 		</div>
 	</div>
 	<br>
+	{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
 	<div class="row">
 		<div class="col-md-3">
 			<label class=""><strong>{vtranslate('LBL_MODULE', $QUALIFIED_MODULE)}: </strong></label>
 		</div>
 		<div class="col-md-4 fieldValue">
-			{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
 			<select class="chzn-select form-control" name="templatemodule" {if !$ACCESS} disabled {/if} >
 				{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 					<option {if $SOURCE_MODULE eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
@@ -57,6 +57,26 @@
 			{/if}
 		</div>
 	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-3">
+			<label class=""><strong>{vtranslate('LBL_SHARE_WITH', $QUALIFIED_MODULE)}: </strong></label>
+		</div>
+		<div class="col-md-4 fieldValue">
+			<select class="select2 form-control" name="share[]" multiple>
+				{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
+					<option {if in_array($TAB_ID, $RECORD_MODEL->get('share'))} selected="" {/if} value="{$TAB_ID}">
+						{if $MODULE_MODEL->getName() eq 'Calendar'}
+							{vtranslate('LBL_TASK', $MODULE_MODEL->getName())}
+						{else}
+							{vtranslate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
+						{/if}
+					</option>
+				{/foreach}
+			</select>
+		</div>
+	</div>
+	<br>
 	<hr>
 	<div class="row">
 		<div class="col-md-3">

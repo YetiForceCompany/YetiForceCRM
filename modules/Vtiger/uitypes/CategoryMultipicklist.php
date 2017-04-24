@@ -29,7 +29,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			return '';
 		}
 		$names = [];
-		$trees = explode(',', $tree);
+		$trees = array_filter(explode(',', $tree));
 		if (\App\Cache::has('TreeData', $template)) {
 			$treeData = \App\Cache::get('TreeData', $template);
 		} else {
@@ -59,5 +59,21 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			}
 		}
 		return implode(', ', $names);
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return string
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if ($value) {
+			$value = ",$value,";
+		} elseif (is_null($value)) {
+			$value = '';
+		}
+		return $value;
 	}
 }

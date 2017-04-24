@@ -952,7 +952,7 @@ class QueryGenerator
 			foreach ($groupInfo as &$fieldSearchInfo) {
 				list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
 				$field = $this->getModuleField($fieldName);
-				if ($field->getFieldDataType() === 'tree' && $specialOption) {
+				if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
 					$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting

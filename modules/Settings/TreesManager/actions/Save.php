@@ -20,6 +20,10 @@ class Settings_TreesManager_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Save tree
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -39,6 +43,7 @@ class Settings_TreesManager_Save_Action extends Vtiger_Action_Controller
 		$recordModel->set('name', $name);
 		$recordModel->set('module', $templatemodule);
 		$recordModel->set('tree', $tree);
+		$recordModel->set('share', $request->get('share'));
 		$recordModel->set('replace', $replace);
 		$recordModel->save();
 		header('Location: ' . $moduleModel->getListViewUrl());

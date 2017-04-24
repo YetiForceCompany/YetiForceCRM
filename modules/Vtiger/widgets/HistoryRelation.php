@@ -101,7 +101,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			} else {
 				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-			$row['body'] = vtlib\Functions::textLength(trim(App\Purifier::purify($row['body'])), 100);
+			$body = trim(App\Purifier::purify($row['body']));
+			if (!$request->getBoolean('isFullscreen')) {
+				$body = vtlib\Functions::textLength($body, 100);
+			} else {
+				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], decode_html(App\Purifier::purify($body)));
+				$body = nl2br(vtlib\Functions::textLength($body, 500), false);
+			}
+			$row['body'] = $body;
 			$history[] = $row;
 		}
 		return $history;

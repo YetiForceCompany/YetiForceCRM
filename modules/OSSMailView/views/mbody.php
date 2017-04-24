@@ -17,12 +17,6 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 		parent::preProcess($request, false);
 	}
 
-	public function postProcess(Vtiger_Request $request)
-	{
-		global $GLOBALS;
-		$GLOBALS['csrf']['frame-breaker'] = false;
-	}
-
 	public function checkPermission(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -41,6 +35,8 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 		$record = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$content = $recordModel->get('content');
+		CSRF::$frameBreaker = false;
+		CSRF::$rewriteJs = null;
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);

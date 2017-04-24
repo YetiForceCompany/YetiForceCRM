@@ -71,21 +71,27 @@ class ServiceContracts extends CRMEntity
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Related to' => Array('servicecontracts', 'sc_related_to'),
 		'Status' => Array('servicecontracts', 'contract_status'),
+		'Due Date' => Array('servicecontracts', 'due_date'),
+		'Start Date' => Array('servicecontracts', 'start_date'),
+		'Type' => Array('servicecontracts', 'contract_type'),
+		'Related to' => Array('servicecontracts', 'sc_related_to'),
 		'Used Units' => Array('servicecontracts', 'used_units'),
 		'Total Units' => Array('servicecontracts', 'total_units'),
+		'Assigned To' => Array('crmentity', 'smownerid'),
 		'Contract No' => Array('servicecontracts', 'contract_no'),
 	);
 	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-		'Related To' => 'sc_related_to',
 		'Status' => 'contract_status',
+		'Due Date' => 'due_date',
+		'Start Date' => 'start_date',
+		'Type' => 'contract_type',
+		'Related To' => 'sc_related_to',
 		'Used Units' => 'used_units',
 		'Total Units' => 'total_units',
+		'Assigned To' => 'assigned_user_id',
 		'Contract No' => 'contract_no',
 	);
 	// For Popup window record selection

@@ -10,6 +10,7 @@ $languageStrings = [
 	'LBL_NUMBER' => 'Number',
 	'FL_STATUS' => 'Status',
 	'FL_INTERVAL' => 'Reminder time',
+	'FL_IS_MANDATORY' => 'Obligatory to accept',
 	// Picklist values
 	'PLL_DRAFT' => 'Draft',
 	'PLL_FOR_ACCEPTANCE' => 'For approval',

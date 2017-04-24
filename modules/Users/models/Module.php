@@ -295,27 +295,48 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to save a given record model of the current module
 	 * @param Vtiger_Record_Model $recordModel
+	 * @copyright Modyfikowane przez PWC
 	 */
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = $this->getEntityInstance();
-		$fields = $focus->column_fields;
-		foreach ($fields as $fieldName => $fieldValue) {
-			$fieldValue = $recordModel->get($fieldName);
-			if (is_array($fieldValue)) {
-				$focus->column_fields[$fieldName] = $fieldValue;
-			} else if ($fieldValue !== null) {
-				$focus->column_fields[$fieldName] = decode_html($fieldValue);
-			}
+		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
+			App\Log::info('ERR_NO_DATA');
+			return $recordModel;
 		}
-		$focus->mode = !$recordModel->isNew() ? 'edit' : '';
-		$focus->id = $recordModel->getId();
+		$recordModel->validate();
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setModuleName($moduleName);
+		if ($recordModel->getHandlerExceptions()) {
+			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
+		}
+		$recordModel->saveToDb();
+		//After adding new user, set the default activity types for new user
+		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
+			Vtiger_Session::set('language', $recordModel->get('language'));
+		}
+		vimport('~/modules/Users/CreateUserPrivilegeFile.php');
+		createUserPrivilegesfile($recordModel->getId());
+		createUserSharingPrivilegesfile($recordModel->getId());
 
-		$recordModel->setData($focus->column_fields)->setEntity($focus);
-		$focus->save($moduleName);
-		$recordModel->setId($focus->id);
-
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			\App\PrivilegeFile::createUsersFile();
+		}
 		return $recordModel;
+	}
+
+	/**
+	 * Function gives list fields for save
+	 * @return string[]
+	 */
+	public function getFieldsForSave()
+	{
+		$editFields = [];
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+			$editFields[] = $field['fieldname'];
+		}
+		return $editFields;
 	}
 }

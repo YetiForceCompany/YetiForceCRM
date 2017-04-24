@@ -54,21 +54,22 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 * @param string $value
 	 * @param int $recordId
 	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
+	 * @param bool $noLimit
 	 * @return string
 	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $noLimit = false)
 	{
 		$imageIcons = '<div class="multiImageContenDiv">';
-		$viewImage = AppConfig::performance('ICON_MULTIIMAGE_VIEW');
 		if ($recordId) {
 			if (!AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
-				$images = $this->getMultiImageQuery($value, ['name'])->column('name');
+				$images = $this->getMultiImageQuery($value, ['name'], false)->column('name');
 				return implode(', ', $images);
 			}
-			$images = $this->getMultiImageQuery($value);
+			$images = $this->getMultiImageQuery($value, [], $noLimit);
 			foreach ($images->all() as $attach) {
-				$imageIcons .= '<div class="contentImage" title="' . $attach['name'] . '"><img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
+				$imageIcons .= '<div class="contentImage" title="' . $attach['name'] . '">'
+					. '<button type="button" class="btn btn-sm btn-default imageFullModal hide"><span class="glyphicon glyphicon-fullscreen"></span></button>'
+					. '<img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
 			}
 		}
 		$imageIcons .= '</div>';
@@ -97,7 +98,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$images = $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
 		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
 	}
 

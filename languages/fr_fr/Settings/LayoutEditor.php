@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Additionel (eg. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Arbre',
 	'Tree' => 'Champ d\'arbres',
+	'CategoryMultipicklist' => 'Tree field (multiple choice)',
 	'LBL_FIELD_MASK_INFO' => 'Dëfinitions des masques de saisie par défaut <br />9: Numérique<br />a: Alphabétique<br />*: Alphanumérique<br /><br />Exemple:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Valeur du module lié',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Module lié',

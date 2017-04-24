@@ -5856,13 +5856,25 @@ select.form-control {
 	padding: 2px;
 }
 .medium .multiImageListIcon{
-	width: 28px;
-	height: 28px;
+	width: 32px;
+	height: 32px;
 	margin: 0;
 	border: 1px solid #fff;
 	vertical-align: top;
 	position: relative;
 	z-index: 1;
+}
+.detailViewContainer .detailViewTable .multiImageListIcon{
+	width: 48px;
+	height: 48px;
+	margin: 0;
+	border: 1px solid #fff;
+	vertical-align: top;
+	position: relative;
+	z-index: 1;
+}
+.contentImage:hover .imageFullModal{
+	display: inline-block !important;
 }
 .contentImage:hover .multiImageListIcon{
 	max-width: 160px;
@@ -5870,20 +5882,21 @@ select.form-control {
 	border: 1px solid #ccc;
 	width: auto;
 	height: auto;
-	margin: 28px 0 0 -80px;
+	margin: 32px 0 0 -80px;
 	white-space: nowrap;
 	position: absolute;
 	z-index: 3;
 }
 .contentImage{
-	width: 28px;
-	height: 28px;
+	width: 35px;
+	height: 32px;
 	vertical-align: top;
 	display: inline-block !important;
 }
-.contentImage:hover{
-	border: 1px solid #ccc;
-	border-radius: 4px;
+.detailViewContainer .detailViewTable .contentImage{
+	width: 48px;
+	height: 48px;
+	display: inline-block !important;
 }
 .multiImageContenDiv{
 	z-index: 1000;

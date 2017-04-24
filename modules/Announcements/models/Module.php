@@ -23,7 +23,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function loadAnnouncements()
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
+		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime', 'is_mandatory']);
 		$query = $queryGenerator->createQuery();
 		$query->andWhere(['announcementstatus' => 'PLL_PUBLISHED']);
 		$dataReader = $query->createCommand()->query();

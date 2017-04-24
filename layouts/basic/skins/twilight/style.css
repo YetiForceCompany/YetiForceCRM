@@ -44,6 +44,9 @@ input[type=checkbox]:checked {
 	background-color: #4a5364;
 	border-color: #384150;
 }
+.bootstrap-switch input[type='radio'], .bootstrap-switch input[type='checkbox']{
+	opacity: 0 !important;
+}
 input[type=checkbox]:checked:disabled {
 	opacity: 0.35;
 }

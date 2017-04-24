@@ -23,6 +23,10 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		return $moduleName;
 	}
 
+	/**
+	 * Tree in popup
+	 * @param Vtiger_Request $request
+	 */
 	public function process(Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -30,6 +34,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		$template = $request->get('template');
 		$srcField = $request->get('src_field');
 		$srcRecord = $request->get('src_record');
+		$value = $request->get('value');
 		$type = false;
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
@@ -41,7 +46,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}
-		$tree = $recordModel->getTree($type);
+		$tree = $recordModel->getTree($type, $value);
 		$viewer->assign('TREE', \App\Json::encode($tree));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_FIELD', $srcField);

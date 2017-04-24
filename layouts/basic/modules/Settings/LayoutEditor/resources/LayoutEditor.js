@@ -608,7 +608,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 							}
 
 						}
-						if (fieldTypeValue == 'Tree') {
+						if (fieldTypeValue == 'Tree' || fieldTypeValue == 'CategoryMultipicklist') {
 							var treeListElement = form.find('select.TreeList');
 							if (treeListElement.val() == '-') {
 								var message = app.vtranslate('JS_FIELD_CAN_NOT_BE_EMPTY');
@@ -762,7 +762,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			if (selectedOption.val() == 'Related1M') {
 				form.find('.preDefinedModuleList').removeClass('hide');
 			}
-			if (selectedOption.val() == 'Tree') {
+			if (selectedOption.val() == 'Tree' || selectedOption.val() == 'CategoryMultipicklist') {
 				form.find('.preDefinedTreeList').removeClass('hide');
 			}
 			if (selectedOption.val() == 'MultiReferenceValue') {
