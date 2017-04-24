@@ -211,8 +211,8 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			searchInfo.push(fieldName);
 			searchInfo.push(searchOperator);
 			searchInfo.push(searchValue);
-			if (fieldInfo.type == "tree") {
-				var searchInSubcategories = jQuery('.listViewHeaders #searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
+			if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
+				var searchInSubcategories = jQuery('.listViewHeaders .searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
 				searchInfo.push(searchInSubcategories);
 			}
 			searchParams.push(searchInfo);

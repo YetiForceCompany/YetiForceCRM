@@ -275,7 +275,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (sourceRecordElement.length > 0) {
 			sourceRecordId = sourceRecordElement.val();
 		}
-		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId + '&multiple=' + sourceFieldElement.data('multiple');
+		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId + '&multiple=' + sourceFieldElement.data('multiple')+'&value='+sourceFieldElement.val();
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(urlOrParams, function (data) {
 			var responseData = JSON.parse(data);

@@ -2051,9 +2051,10 @@ jQuery.Class("Vtiger_List_Js", {
 	registerListViewSpecialOptiopn: function () {
 		var thisInstance = this;
 		var listViewContainer = this.getListViewContentContainer();
-		var box = listViewContainer.find('.listViewEntriesTable #searchInSubcategories');
+		var box = listViewContainer.find('.listViewEntriesTable input.searchInSubcategories');
 		box.on("change", function (e) {
-			var searchContributorElement = jQuery('.listSearchContributor[name="' + box.data('columnname') + '"]');
+			var element = jQuery(e.currentTarget);
+			var searchContributorElement = jQuery('.listSearchContributor[name="' + element.data('columnname') + '"]');
 			var searchValue = searchContributorElement.val();
 			if (searchValue) {
 				thisInstance.getListSearchInstance().triggerListSearch();

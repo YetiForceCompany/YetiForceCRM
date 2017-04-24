@@ -104,12 +104,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to save the role
+	 * @param array $tree
+	 * @param int $depth
+	 * @param string $parenttrre
 	 */
 	public function insertData($tree, $depth, $parenttrre)
 	{
 		$label = $tree['text'];
 		$id = $tree['id'];
-		$state = '';
 		$treeID = 'T' . $id;
 		$icon = $tree['icon'] == 1 ? '' : $tree['icon'];
 		if ($parenttrre != '')
@@ -122,7 +124,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			'parenttrre' => $parenttrre,
 			'depth' => $depth,
 			'label' => $label,
-			'state' => $state,
+			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
 			'icon' => $icon
 		];
 		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
@@ -135,7 +137,13 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
-	public function getTree($category = false)
+	/**
+	 * Get tree
+	 * @param string $category
+	 * @param string $treeValue
+	 * @return boolean|array
+	 */
+	public function getTree($category = false, $treeValue = false)
 	{
 		$tree = [];
 		$templateId = $this->getId();
@@ -160,11 +168,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => vtranslate($row['name'], $module),
-				'state' => ($row['state']) ? $row['state'] : '',
-				'icon' => $row['icon'],
+				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
+				'icon' => $row['icon']
 			];
 			if ($category) {
 				$parameters['type'] = $category;
+				if ($treeValue && strpos($treeValue, ",{$row['tree']},") !== false) {
+					$parameters[$category] = ['checked' => true];
+				}
 			}
 			$tree[] = $parameters;
 			if ($treeID > $lastId)
