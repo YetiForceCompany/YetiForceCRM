@@ -60,8 +60,10 @@ class BaseAction
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->from($sessionTable)->innerJoin($userTable, "$sessionTable.user_id = $userTable.id")
-				->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])->one($db);
+		$row = (new \App\Db\Query())->from($userTable)
+			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
+			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
+			->one($db);
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
