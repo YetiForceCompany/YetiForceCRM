@@ -5688,7 +5688,7 @@ class Base2 extends \App\Db\Importers\Base
 					[7, 'Leads', 'vtiger_leaddetails', 'company', 'leadid', 'leadid', 'company', 1, 0],
 					[8, 'Documents', 'vtiger_notes', 'title', 'notesid', 'notesid', 'title', 1, 0],
 					[9, 'Calendar', 'vtiger_activity', 'subject', 'activityid', 'activityid', 'subject', 1, 0],
-					[13, 'HelpDesk', 'vtiger_troubletickets', 'title', 'ticketid', 'ticketid', 'title', 1, 0],
+					[13, 'HelpDesk', 'vtiger_troubletickets', 'ticket_title', 'ticketid', 'ticketid', 'ticket_title', 1, 0],
 					[14, 'Products', 'vtiger_products', 'productname', 'productid', 'product_id', 'productname,ean', 1, 0],
 					[15, 'Faq', 'vtiger_faq', 'question', 'id', 'id', 'question', 1, 0],
 					[16, 'Events', 'vtiger_activity', 'subject', 'activityid', 'activityid', 'subject', 1, 0],
