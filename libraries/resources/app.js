@@ -530,7 +530,7 @@ var app = {
 				params = jQuery.extend(params, paramsObject);
 			}
 			container.html(data);
-			if(container.find('.modal').hasClass('static')){
+			if (container.find('.modal').hasClass('static')) {
 				params.backdrop = 'static';
 			}
 			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog. 
@@ -561,6 +561,19 @@ var app = {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
+
+				var modalBody = modalContainer.find('.modal-body');
+				var modalDialog = modalContainer.find('.modal-dialog');
+				$(window).resize(function () {
+					var height = app.getScreenHeight() - modalDialog.outerHeight(true);
+					modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
+					modalBody.css('overflow', 'auto');
+					modalBody.perfectScrollbar('update');
+				});
+				var height = app.getScreenHeight() - modalDialog.outerHeight(true);
+				modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
+				modalBody.css('overflow', 'auto');
+				modalBody.perfectScrollbar();
 			})
 		}
 		if (data) {
@@ -1526,7 +1539,7 @@ var app = {
 				if (currentElement.hasClass('popoverTooltip')) {
 					currentElement.popover('hide');
 				}
-				if(currentElement.hasClass('disabledOnClick')){
+				if (currentElement.hasClass('disabledOnClick')) {
 					currentElement.attr("disabled", true);
 				}
 				var modalWindowParams = {
@@ -1534,9 +1547,9 @@ var app = {
 					cb: function (container) {
 						var call = currentElement.data('cb');
 						if (typeof call !== 'undefined') {
-							if(call.indexOf('.') != -1) {
+							if (call.indexOf('.') != -1) {
 								var callerArray = call.split('.');
-								if(typeof window[callerArray[0]] === 'object') {
+								if (typeof window[callerArray[0]] === 'object') {
 									window[callerArray[0]][callerArray[1]](container);
 								}
 							} else {
@@ -1544,7 +1557,7 @@ var app = {
 									window[call](container);
 								}
 							}
-							
+
 						}
 						currentElement.removeAttr("disabled");
 					}
@@ -1552,7 +1565,7 @@ var app = {
 				var id = 'globalmodal';
 				if ($('#' + id).length) {
 					var numberGlobalModal = 1;
-					while($('#' + id).length) {
+					while ($('#' + id).length) {
 						id = 'globalmodal' + numberGlobalModal++;
 					}
 					modalWindowParams['id'] = id;
@@ -1656,10 +1669,10 @@ var app = {
 		});
 	},
 	registerImageFullModal: function () {
-		$('body').on('click','.imageFullModal', function(e){
+		$('body').on('click', '.imageFullModal', function (e) {
 			e.preventDefault();
-			var img = $(this).next().clone(true,true).addClass('modal-content img-responsive');
-			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">'+img.get(0).outerHTML+'</div></div>';
+			var img = $(this).next().clone(true, true).addClass('modal-content img-responsive');
+			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">' + img.get(0).outerHTML + '</div></div>';
 			app.showModalWindow(html);
 		})
 	},
