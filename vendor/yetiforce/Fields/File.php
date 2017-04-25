@@ -141,6 +141,9 @@ class File
 					throw new \Exception('Error php code injection');
 				}
 			}
+			if (stripos('<?xpacket', $this->getContents()) !== false) {
+				throw new \Exception('Error xpacket code injection');
+			}
 		}
 	}
 
