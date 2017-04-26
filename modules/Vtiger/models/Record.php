@@ -440,6 +440,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $forSave;
 	}
 
+	/**
+	 * Get entity data for save
+	 * @return array
+	 */
 	public function getEntityDataForSave()
 	{
 		$row = [];
@@ -451,9 +455,8 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
 			$this->set('createdtime', $time);
 		}
-
 		if ($this->getPreviousValue('modifiedtime')) {
-			$time = $this->getPreviousValue('modifiedtime');
+			$time = $this->get('modifiedtime');
 		}
 		$row['modifiedtime'] = $time;
 		$row['modifiedby'] = \App\User::getCurrentUserRealId();
