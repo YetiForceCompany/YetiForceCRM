@@ -451,8 +451,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
 			$this->set('createdtime', $time);
 		}
-		if (!empty($this->valueMap['modifiedtime'])) {
-			$time = $this->valueMap['modifiedtime'];
+
+		if ($this->getPreviousValue('modifiedtime')) {
+			$time = $this->getPreviousValue('modifiedtime');
 		}
 		$row['modifiedtime'] = $time;
 		$row['modifiedby'] = \App\User::getCurrentUserRealId();
