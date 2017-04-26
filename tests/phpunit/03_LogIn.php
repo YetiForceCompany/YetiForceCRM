@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LogIn test class
  * @package YetiForce.Tests
@@ -13,6 +12,14 @@ use PHPUnit\Framework\TestCase;
  */
 class LogIn extends TestCase
 {
+
+	public function testLoginPage()
+	{
+		ob_start();
+		(new Vtiger_WebUI())->process(AppRequest::init());
+		file_put_contents('tests/LoginPage.txt', ob_get_contents());
+		ob_end_clean();
+	}
 
 	public function testLoginInToCrm()
 	{
