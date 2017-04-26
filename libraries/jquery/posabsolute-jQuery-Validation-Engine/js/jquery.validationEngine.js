@@ -724,8 +724,8 @@
 				}
 				options.showArrow = false;
 			}
-			// <--------   YetiForce.com - Fixed valid CKEditor element -------->
-			if (field.is('textarea') && field.hasClass('ckEditorSource') && CKEDITOR.instances[field.attr('id')] != undefined) {
+			// <--------   YetiForce.com - Fixed valid CKEditor element and MultiImage -------->
+			if ((field.is('textarea') && field.hasClass('ckEditorSource') && CKEDITOR.instances[field.attr('id')] != undefined) || (field.is(":hidden") && field.hasClass('multiImage'))) {
 				field = field.next();
 			}
 			// <-------- End -------->
