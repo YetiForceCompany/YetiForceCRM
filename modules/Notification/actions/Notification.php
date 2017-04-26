@@ -25,16 +25,18 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
+		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('setMark');
-		$this->exposeMethod('getNumberOfNotifications');
 		$this->exposeMethod('saveWatchingModules');
 		$this->exposeMethod('createMail');
 	}
@@ -62,13 +64,6 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 
 		$response = new Vtiger_Response();
 		$response->setResult(true);
-		$response->emit();
-	}
-
-	public function getNumberOfNotifications(Vtiger_Request $request)
-	{
-		$response = new Vtiger_Response();
-		$response->setResult(Notification_Module_Model::getNumberOfEntries());
 		$response->emit();
 	}
 

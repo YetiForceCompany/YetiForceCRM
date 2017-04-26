@@ -36,7 +36,7 @@ var Vtiger_Index_Js = {
 				var formData = new FormData(form[0]);
 				if (formData) {
 					url = 'index.php';
-					if(app.getViewName() === 'Detail'){
+					if (app.getViewName() === 'Detail') {
 						formData.append('createmode', 'link');
 						formData.append('return_module', app.getModuleName());
 						formData.append('return_id', app.getRecordId());
@@ -54,9 +54,9 @@ var Vtiger_Index_Js = {
 					AppConnector.request(params).then(function (data) {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						app.hideModalWindow();
-						if(app.getViewName() === 'Detail'){
+						if (app.getViewName() === 'Detail') {
 							var detailView = Vtiger_Detail_Js.getInstance();
-							if(detailView.getSelectedTab().data('reference') === 'Documents') {
+							if (detailView.getSelectedTab().data('reference') === 'Documents') {
 								detailView.reloadTabContent();
 							} else {
 								var updatesWidget = detailView.getContentHolder().find("[data-type='RelatedModule'][data-name='Documents']");
@@ -241,54 +241,8 @@ var Vtiger_Index_Js = {
 					});
 		})
 	},
-	registerCheckNotifications: function (repeat) {
-		var thisInstance = this;
-		var notificationsButton = jQuery('.notificationsNotice.autoRefreshing');
-		if (notificationsButton.length < 1) {
-			return false;
-		}
-		var delay = parseInt(app.getMainParams('intervalForNotificationNumberCheck')) * 1000;
-		var currentTime = new Date().getTime();
-		var nextActivityReminderCheck = app.cacheGet('NotificationsNextCheckTime', 0);
-		if ((currentTime - delay) > nextActivityReminderCheck) {
-			Vtiger_Index_Js.requestNotification();
-			var currentTime = new Date().getTime();
-			app.cacheSet('NotificationsNextCheckTime', (currentTime + delay));
-		} else {
-			thisInstance.setNotification(app.cacheGet('NotificationsData', 0));
-		}
-		if (repeat !== false) {
-			setTimeout('Vtiger_Index_Js.registerCheckNotifications()', delay);
-		}
-
-	},
-	requestNotification: function () {
-		var thisInstance = this;
-		AppConnector.request({
-			async: false,
-			dataType: 'json',
-			data: {
-				module: 'Notification',
-				action: 'Notification',
-				mode: 'getNumberOfNotifications'
-			}
-		}).then(function (data) {
-			var notificationsCount = data.result;
-			app.cacheSet('NotificationsData', notificationsCount);
-			thisInstance.setNotification(notificationsCount);
-		})
-	},
-	setNotification: function (notificationsCount) {
-		var badge = $(".notificationsNotice .badge");
-		badge.text(notificationsCount);
-		badge.removeClass('hide');
-		if (notificationsCount > 0) {
-			$(".notificationsNotice .isBadge").effect("pulsate", 1500);
-		} else {
-			badge.addClass('hide');
-		}
-	},
 	markNotifications: function (id) {
+		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var params = {
 			module: 'Notification',
@@ -296,28 +250,34 @@ var Vtiger_Index_Js = {
 			mode: 'setMark',
 			ids: id
 		}
-		AppConnector.request(params).then(function (data) {
-			var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
-			Vtiger_Helper_Js.showPnotify({
-				title: app.vtranslate('JS_MESSAGE'),
-				text: app.vtranslate('JS_MARKED_AS_READ'),
-				type: 'info'
-			});
-			if (data.result) {
-				row.fadeOut(300, function () {
-					var entries = row.closest('.notificationEntries')
-					row.remove();
-					entries.each(function (index) {
-						var block = $(this);
-						if (block.find(".noticeRow").length == 0) {
-							block.closest('.panel').hide();
-						}
+		AppConnector.request(params).then(
+				function (data) {
+					var row = $('.notificationEntries .noticeRow[data-id="' + id + '"]');
+					Vtiger_Helper_Js.showPnotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_MARKED_AS_READ'),
+						type: 'info'
 					});
+					if (row.length) {
+						row.fadeOut(300, function () {
+							var entries = row.closest('.notificationEntries')
+							row.remove();
+							entries.each(function (index) {
+								var block = $(this);
+								if (block.find(".noticeRow").length == 0) {
+									block.closest('.panel').hide();
+								}
+							});
+						});
+						thisInstance.getNotificationsForReminder();
+					}
+					aDeferred.resolve(data);
+				},
+				function (textStatus, errorThrown) {
+					app.errorLog(textStatus, errorThrown);
+					aDeferred.reject(textStatus, errorThrown);
 				});
-			}
-			app.cacheSet('NotificationsNextCheckTime', 0);
-			Vtiger_Index_Js.registerCheckNotifications(false);
-		});
+		return aDeferred.promise();
 	},
 	markAllNotifications: function (element) {
 		var ids = [];
@@ -343,14 +303,13 @@ var Vtiger_Index_Js = {
 				text: app.vtranslate('JS_MARKED_AS_READ'),
 				type: 'info'
 			});
-			app.cacheSet('NotificationsNextCheckTime', 0);
-			Vtiger_Index_Js.registerCheckNotifications(false);
+			Vtiger_Index_Js.getNotificationsForReminder();
 		});
 	},
 	/**
-	 * Function registers event for Calendar Reminder popups
+	 * Function registers event for Reminder popups
 	 */
-	registerActivityReminder: function () {
+	registerReminders: function () {
 		var activityReminder = (parseInt(app.getMainParams('activityReminder')) || 0) * 1000;
 		if (activityReminder != 0 && jQuery('.remindersNotice.autoRefreshing').length) {
 			Vtiger_Index_Js.requestReminder();
@@ -358,6 +317,36 @@ var Vtiger_Index_Js = {
 				Vtiger_Index_Js.requestReminder();
 			}, activityReminder);
 		}
+		var reminder = (parseInt(app.getMainParams('intervalForNotificationNumberCheck')) || 0) * 1000;
+		if (reminder != 0 && jQuery('.notificationsNotice.autoRefreshing').length) {
+			Vtiger_Index_Js.getNotificationsForReminder();
+			window.reminderNotifications = setInterval(function () {
+				Vtiger_Index_Js.getNotificationsForReminder();
+			}, reminder);
+		}
+	},
+	getNotificationsForReminder: function () {
+		var thisInstance = this;
+		var content = $('.remindersNotificationContainer');
+		var element = $(".notificationsNotice");
+		var url = 'index.php?module=Notification&view=Reminders';
+		AppConnector.request(url).then(function (data) {
+			content.html(data);
+			app.registerMoreContent(content.find('button.moreBtn'));
+			thisInstance.refreshReminderCount(content, element, 'countNotificationsReminder');
+			content.find('.setAsMarked').on('click', function (e) {
+				var currentElement = jQuery(e.currentTarget);
+				var recordID = currentElement.closest('.panel').data('record');
+				thisInstance.markNotifications(recordID).then(function (data) {
+					currentElement.closest('.panel').fadeOut(300, function () {
+						$(this).remove();
+						thisInstance.refreshReminderCount(content, element, 'countNotificationsReminder');
+					});
+				});
+			});
+		}, function (data, err) {
+			clearInterval(window.reminderNotifications);
+		});
 	},
 	/**
 	 * Function request for reminder popups
@@ -365,10 +354,11 @@ var Vtiger_Index_Js = {
 	requestReminder: function () {
 		var thisInstance = this;
 		var content = $('.remindersNoticeContainer');
+		var element = $('.remindersNotice');
 		var url = 'index.php?module=Calendar&view=Reminders&type_remainder=true';
 		AppConnector.request(url).then(function (data) {
 			content.html(data);
-			thisInstance.refreshNumberNotifications(content);
+			thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 			app.registerModal(content);
 			content.find('.reminderPostpone').on('click', function (e) {
 				var currentElement = jQuery(e.currentTarget);
@@ -377,7 +367,7 @@ var Vtiger_Index_Js = {
 				AppConnector.request(url).then(function (data) {
 					currentElement.closest('.panel').fadeOut(300, function () {
 						$(this).remove();
-						thisInstance.refreshNumberNotifications(content);
+						thisInstance.refreshReminderCount(content, element, 'countRemindersNotice');
 					});
 				});
 			});
@@ -385,17 +375,16 @@ var Vtiger_Index_Js = {
 			clearInterval(window.reminder);
 		});
 	},
-	refreshNumberNotifications: function (content) {
-		var remindersNotice = $(".remindersNotice");
-		var badge = remindersNotice.find('.badge');
+	refreshReminderCount: function (content, element, tag) {
+		var badge = element.find('.badge');
 		var count = content.find('.panel:visible').length;
 		badge.text(count);
 		badge.removeClass('hide');
-		if (count > 0 && remindersNotice.hasClass('autoRefreshing')) {
-			$(".remindersNotice .isBadge").effect("pulsate", 1500);
-			if (app.cacheGet('countRemindersNotice') != count) {
+		if (count > 0 && element.hasClass('autoRefreshing')) {
+			element.effect("pulsate", 1500);
+			if (app.cacheGet(tag) != count) {
 				app.playSound('REMINDERS');
-				app.cacheSet('countRemindersNotice', count);
+				app.cacheSet(tag, count);
 			}
 		} else {
 			badge.addClass('hide');
@@ -644,8 +633,7 @@ var Vtiger_Index_Js = {
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
-		Vtiger_Index_Js.registerActivityReminder();
-		Vtiger_Index_Js.registerCheckNotifications();
+		Vtiger_Index_Js.registerReminders();
 		Vtiger_Index_Js.adjustTopMenuBarItems();
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();

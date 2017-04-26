@@ -46,8 +46,8 @@
 							</li>
 						</ul>
 					{/if}
-					{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
+					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
+						<a type="button" class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>

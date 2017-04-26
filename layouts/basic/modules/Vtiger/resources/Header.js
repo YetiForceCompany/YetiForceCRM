@@ -747,6 +747,21 @@ jQuery.Class("Vtiger_Header_Js", {
 		block.css('top', $('.commonActionsContainer').height());
 		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
 	},
+	registerReminderNotification: function () {
+		var thisInstance = this;
+		$('#page').before('<div class="remindersNotificationContainer"></div>');
+		var block = $('.remindersNotificationContainer');
+		var remindersNotice = $('.notificationsNotice');
+		remindersNotice.on('click', function () {
+			if (!remindersNotice.hasClass('autoRefreshing')) {
+				Vtiger_Index_Js.getNotificationsForReminder();
+			}
+			thisInstance.hideActionMenu();
+			block.toggleClass("toggled");
+		});
+		block.css('top', $('.commonActionsContainer').height());
+		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
+	},
 	registerMobileEvents: function () {
 		var thisInstance = this;
 		$('.rightHeaderBtnMenu').click(function () {
@@ -954,6 +969,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				//$('.headerLinksContainer').css('margin-right', '8px');
 			}
 			thisInstance.registerReminderNotice();
+			thisInstance.registerReminderNotification();
 		}
 	},
 });

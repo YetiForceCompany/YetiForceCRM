@@ -2962,7 +2962,8 @@ table.dataTable .form-control {
 .fc-center, .fc-left, .fc-right{
 	margin-bottom: 1em;
 }
-.calendarRightPanel {
+.calendarRightPanel,
+.paddingLR5{
 	padding-left: 5px;
 	padding-right: 5px;
 }
@@ -3086,7 +3087,8 @@ span[name=existingImages] img{
 .cursorDefault{
 	cursor: default !important;
 }
-.remindersNoticeContainer{
+.remindersNoticeContainer,
+.remindersNotificationContainer{
 	position: fixed;
 	right: -380px;
 	top: 109px;
@@ -3103,7 +3105,8 @@ span[name=existingImages] img{
 	transition: all 0.5s ease;
 	overflow-y: auto;
 }
-.remindersNoticeContainer.toggled{
+.remindersNoticeContainer.toggled,
+.remindersNotificationContainer.toggled{
 	right: 0px;
 }
 .remindersContent{
@@ -3116,7 +3119,8 @@ span[name=existingImages] img{
 .activityTypeIcon{
 	height: 20px;
 }
-.remindersNoticeContainer .panel{
+.remindersNoticeContainer .panel,
+.remindersNotificationContainer .panel{
 	margin-bottom: 10px;
 }
 .remindersNoticeContainer .panel-body{
@@ -5909,4 +5913,14 @@ select.form-control {
 }
 .input-group-sm .input-group-addon.checkbox-addon input[type="checkbox"]{
 	vertical-align: middle !important;
+}
+.remindersContent .notificationIcon{
+	font-size: 30px;
+	text-align: center;
+	padding: 7% 0 0 0;
+	color: white;
+}
+.remindersContent .notiContent{
+	background: #fff !important;
+	border-radius: 0 4px 4px 0;
 }
