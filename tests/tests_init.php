@@ -15,11 +15,16 @@ if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
 
+//fix phpunit console for windows
+if (!getenv('ANSICON')) {
+	putenv('ANSICON=80');
+}
+
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 'On');
 ini_set('log_errors', 'On');
-ini_set('error_log', ROOT_DIRECTORY.'cache/logs/phpError.log');
+ini_set('error_log', ROOT_DIRECTORY . 'cache/logs/phpError.log');
 ini_set('output_buffering', 'On');
 ini_set('max_execution_time', 600);
 ini_set('default_socket_timeout', 600);
