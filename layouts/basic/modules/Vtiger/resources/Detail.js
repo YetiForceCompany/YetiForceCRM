@@ -1316,10 +1316,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
-			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined') {
-				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
-				customParams[relField] = recordId;
-			}
 			var fullFormUrl = element.data('url');
 			var preQuickCreateSave = function (data) {
 				thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
@@ -1538,7 +1534,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 			var widget = summaryWidgetContainer.find('.widgetContentBlock');
 			var url = widget.data('url');
-			url = url.replace('&type=current', '');
+			url = url.replace('&type=current', '').replace('&type=history', '');
 			url += '&type=';
 			if (state) {
 				summaryWidgetContainer.find('.ativitiesPagination').removeClass('hide');
