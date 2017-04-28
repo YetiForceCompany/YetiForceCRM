@@ -97,6 +97,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	$value = $valueArray[$fieldName];
 	$fld_type = $dbField->type;
 	list($module, $fieldLabel) = explode('__', $dbField->name, 2);
+	$fieldLabel = str_replace('__', '_', $fieldLabel);
 	$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 	$fieldType = null;
 	$fieldvalue = $value;
