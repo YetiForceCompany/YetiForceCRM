@@ -743,6 +743,9 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
+			thisInstance.hideReminderNotification();
+			thisInstance.hideMobileMenu();
+			thisInstance.hideSearchMenu();
 		});
 		block.css('top', $('.commonActionsContainer').height());
 		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
@@ -758,6 +761,9 @@ jQuery.Class("Vtiger_Header_Js", {
 			}
 			thisInstance.hideActionMenu();
 			block.toggleClass("toggled");
+			thisInstance.hideReminderNotice();
+			thisInstance.hideMobileMenu();
+			thisInstance.hideSearchMenu();
 		});
 		block.css('top', $('.commonActionsContainer').height());
 		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
@@ -767,11 +773,15 @@ jQuery.Class("Vtiger_Header_Js", {
 		$('.rightHeaderBtnMenu').click(function () {
 			thisInstance.hideActionMenu();
 			thisInstance.hideSearchMenu();
+			thisInstance.hideReminderNotice();
+			thisInstance.hideReminderNotification();
 			$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 		});
 		$('.actionMenuBtn').click(function () {
 			thisInstance.hideSearchMenu();
 			thisInstance.hideMobileMenu();
+			thisInstance.hideReminderNotice();
+			thisInstance.hideReminderNotification();
 			$('.actionMenu').toggleClass('actionMenuOn');
 			$('.quickCreateModules').click(function () {
 				thisInstance.hideActionMenu();
@@ -780,6 +790,8 @@ jQuery.Class("Vtiger_Header_Js", {
 		$('.searchMenuBtn').click(function () {
 			thisInstance.hideActionMenu();
 			thisInstance.hideMobileMenu();
+			thisInstance.hideReminderNotice();
+			thisInstance.hideReminderNotification();
 			$('.searchMenu').toggleClass('toogleSearchMenu');
 		});
 	},
@@ -791,6 +803,12 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	hideActionMenu: function () {
 		$('.actionMenu').removeClass('actionMenuOn');
+	},
+	hideReminderNotice: function () {
+		$('.remindersNoticeContainer').removeClass('toggled');
+	},
+	hideReminderNotification: function () {
+		$('.remindersNotificationContainer').removeClass('toggled');
 	},
 	showPdfModal: function (url) {
 		var params = {};
