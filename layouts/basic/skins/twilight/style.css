@@ -15,6 +15,7 @@ input[type=checkbox] {
 	transition: 0.25s;
 	white-space: nowrap;
 	height: 17px;
+	min-height: 17px !important;
 	position: relative;
 	-webkit-appearance: none;
 	background: #fff;
@@ -29,6 +30,7 @@ input[type=checkbox]:checked::after,
 	transform: rotate(45deg);
 	position: absolute;
 	left: 4.5px;
+	border-spacing: 0;
 	border-color: #fff;
 	top: 0px;
 	display: table;
