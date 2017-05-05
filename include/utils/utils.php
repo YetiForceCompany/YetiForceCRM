@@ -87,15 +87,6 @@ function return_name(&$row, $first_column, $last_column)
 	\App\Log::trace("Exiting return_name method ...");
 	return $full_name;
 }
-$toHtml = array(
-	'"' => '&quot;',
-	'<' => '&lt;',
-	'>' => '&gt;',
-	'& ' => '&amp; ',
-	"'" => '&#039;',
-	'' => '\r',
-	'\r\n' => '\n',
-);
 
 /** Function to get column fields for a given module
  * @param $module -- module:: Type string

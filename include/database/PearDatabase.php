@@ -458,7 +458,7 @@ class PearDatabase
 
 	public function query_result(&$result, $row, $col = 0)
 	{
-		return \App\Purifier::toHtml($this->query_result_raw($result, $row, $col));
+		return $this->query_result_raw($result, $row, $col);
 	}
 
 	public function query_result_raw(&$result, $row, $col = 0)
@@ -590,15 +590,11 @@ class PearDatabase
 	{
 		if (isset($result) && $rowNum < 0) {
 			$row = $this->getRow($result);
-			if ($encode && is_array($row))
-				return array_map('\App\Purifier::toHtml', $row);
 			return $row;
 		}
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->raw_query_result_rowdata($result, $rowNum);
 		}
-		if ($encode && is_array($row))
-			return array_map('\App\Purifier::toHtml', $row);
 		return $row;
 	}
 

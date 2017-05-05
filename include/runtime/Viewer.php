@@ -85,14 +85,6 @@ class Vtiger_Viewer extends SmartyBC
 		}
 	}
 
-	public function safeHtmlFilter($content, $smarty)
-	{
-		//return htmlspecialchars($content,ENT_QUOTES,UTF-8);
-		// NOTE: \App\Purifier::toHtml is being used as data-extraction depends on this
-		// We shall improve this as it plays role across the product.
-		return \App\Purifier::toHtml($content);
-	}
-
 	/**
 	 * Function to get the current layout name
 	 * @return string - Current layout name if not empty, otherwise Default layout name

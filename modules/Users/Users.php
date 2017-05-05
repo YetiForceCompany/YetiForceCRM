@@ -442,39 +442,6 @@ class Users extends CRMEntity
 		return false;
 	}
 
-	/** Function to return the column name array
-	 *
-	 */
-	public function getColumnNames_User()
-	{
-
-		$mergeflds = array("FIRSTNAME", "LASTNAME", "USERNAME", "SECONDARYEMAIL", "TITLE", "OFFICEPHONE", "DEPARTMENT",
-			"MOBILE", "OTHERPHONE", "FAX", "EMAIL",
-			"HOMEPHONE", "OTHEREMAIL", "PRIMARYADDRESS",
-			"CITY", "STATE", "POSTALCODE", "COUNTRY");
-		return $mergeflds;
-	}
-
-	public function fill_in_additional_list_fields()
-	{
-		$this->fill_in_additional_detail_fields();
-	}
-
-	public function fill_in_additional_detail_fields()
-	{
-		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id && u2.id = ? and u1.deleted=0";
-		$result = $this->db->pquery($query, array($this->id), true, "Error filling in additional detail vtiger_fields");
-
-		$row = $this->db->fetchByAssoc($result);
-		\App\Log::trace("additional detail query results: $row");
-
-		if ($row != null) {
-			$this->reports_to_name = stripslashes(\vtlib\Deprecated::getFullNameFromArray('Users', $row));
-		} else {
-			$this->reports_to_name = '';
-		}
-	}
-
 	/** Function to get the current user information from the user_privileges file
 	 * @param $userid -- user id:: Type integer
 	 * @returns user info in $this->column_fields array:: Type array

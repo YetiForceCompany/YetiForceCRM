@@ -268,39 +268,6 @@ class CRMEntity
 		$this->column_fields['record_module'] = $module;
 	}
 
-	public function process_full_list_query($query)
-	{
-		\App\Log::trace("CRMEntity:process_full_list_query");
-		$result = & $this->db->query($query, false);
-
-
-		if ($this->db->getRowCount($result) > 0) {
-
-			while ($row = $this->db->fetchByAssoc($result)) {
-				$rowid = $row[$this->table_index];
-
-				if (isset($rowid))
-					$this->retrieve_entity_info($rowid, $this->module_name);
-				else
-					$this->db->println("rowid not set unable to retrieve");
-
-
-
-				//clone function added to resolvoe PHP5 compatibility issue in Dashboards
-				//If we do not use clone, while using PHP5, the memory address remains fixed but the
-				//data gets overridden hence all the rows that come in bear the same value. This in turn
-//provides a wrong display of the Dashboard graphs. The data is erroneously shown for a specific month alone
-//Added by Richie
-				$list[] = clone($this); //added by Richie to support PHP5
-			}
-		}
-
-		if (isset($list))
-			return $list;
-		else
-			return null;
-	}
-
 	/** This function should be overridden in each module.  It marks an item as deleted.
 	 * If it is not overridden, then marking this type of item is not allowed
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
@@ -449,12 +416,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid

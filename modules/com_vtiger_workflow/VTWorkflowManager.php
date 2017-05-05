@@ -323,7 +323,7 @@ class Workflow
 	{
 		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
 		$this->moduleName = isset($row['module_name']) ? $row['module_name'] : '';
-		$this->description = \App\Purifier::toHtml(isset($row['summary']) ? $row['summary'] : '');
+		$this->description = isset($row['summary']) ? $row['summary'] : '';
 		$this->test = isset($row['test']) ? $row['test'] : '';
 		$this->executionCondition = isset($row['execution_condition']) ? $row['execution_condition'] : '';
 		$this->schtypeid = isset($row['schtypeid']) ? $row['schtypeid'] : '';
