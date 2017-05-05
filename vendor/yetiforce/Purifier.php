@@ -225,10 +225,10 @@ class Purifier
 	 * @param boolean $encode
 	 * @return string
 	 */
-	public static function toHtml($string)
+	public static function encodeHtml($string)
 	{
 		if (static::$UTF8) {
-			$value = htmlentities($string, ENT_QUOTES, static::$defaultCharset);
+			$value = htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
 		} else {
 			$value = str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], $string);
 		}

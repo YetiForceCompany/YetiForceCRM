@@ -46,16 +46,20 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue($fieldName, $recordId = false)
 	{
-		if ($fieldName == 'login_time' || $fieldName == 'logout_time') {
-			if ($this->get($fieldName) != '0000-00-00 00:00:00') {
-				return Vtiger_Datetime_UIType::getDateTimeValue($this->get($fieldName));
-			} else {
-				return '---';
-			}
-		} elseif ($fieldName == 'status') {
-			return vtranslate($this->get($fieldName), 'Settings::Vtiger');
-		} else {
-			return $this->get($fieldName);
+		switch ($fieldName) {
+			case 'login_time':
+			case 'logout_time':
+				if ($this->get($fieldName) !== '0000-00-00 00:00:00') {
+					return Vtiger_Datetime_UIType::getDateTimeValue($this->get($fieldName));
+				} else {
+					return '---';
+				}
+			case 'user_name':
+				return $this->getHtmlEncode($fieldName);
+			case 'status':
+				return App\Language::translate($this->get($fieldName), 'Settings::Vtiger');
+			default:
+				return $this->get($fieldName);
 		}
 	}
 }

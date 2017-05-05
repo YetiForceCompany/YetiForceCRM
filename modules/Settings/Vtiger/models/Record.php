@@ -11,7 +11,7 @@
 /**
  * Roles Record Model Class
  */
-abstract class Settings_Vtiger_Record_Model extends Vtiger_Base_Model
+abstract class Settings_Vtiger_Record_Model extends App\Base
 {
 
 	abstract function getId();

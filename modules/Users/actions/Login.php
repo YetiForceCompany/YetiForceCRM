@@ -77,7 +77,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				$error = 2;
 			}
 			//Track the login History
-			$moduleModel->saveLoginHistory($username, 'Failed login');
+			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 			header("Location: index.php?module=Users&view=Login&error=$error");
 		}
 	}

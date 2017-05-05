@@ -117,8 +117,8 @@ class Base
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function getDisplayValue($key)
+	public function getHtmlEncode($key)
 	{
-		return htmlspecialchars($this->get($key));
+		return Purifier::encodeHtml($this->get($key));
 	}
 }
