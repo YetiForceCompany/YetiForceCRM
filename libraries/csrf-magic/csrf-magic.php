@@ -202,24 +202,28 @@ class CSRF
 	 */
 	public static function check($fatal = true)
 	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			return true;
+		}
 		static::start();
 		$ok = false;
 		$tokens = '';
 		do {
-			if (!isset($_POST[static::$inputName]))
+			if (!isset($_POST[static::$inputName])) {
 				break;
+			}
 			// we don't regenerate a token and check it because some token creation
 			// schemes are volatile.
 			$tokens = $_POST[static::$inputName];
-			if (!static::checkTokens($tokens))
+			if (!static::checkTokens($tokens)) {
 				break;
+			}
 			$ok = true;
 		} while (false);
 		if ($fatal && !$ok) {
-			if (trim($tokens, 'A..Za..z0..9:;,') !== '')
+			if (trim($tokens, 'A..Za..z0..9:;,') !== '') {
 				$tokens = 'hidden';
+			}
 			call_user_func(static::$callback, $tokens);
 			exit;
 		}

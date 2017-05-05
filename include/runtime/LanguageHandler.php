@@ -29,8 +29,9 @@ class Vtiger_Language_Handler
 			$currentLanguage = self::getLanguage();
 		}
 		//decoding for Start Date & Time and End Date & Time 
-		if (!is_array($key))
-			$key = decode_html($key);
+		if (!is_array($key)) {
+			$key = App\Purifier::decodeHtml($key);
+		}
 		$translatedString = self::getLanguageTranslatedString($currentLanguage, $key, $module);
 
 		// label not found in users language pack, then check in the default language pack(config.inc.php)

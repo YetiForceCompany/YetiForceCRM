@@ -23,7 +23,7 @@ class Base
 
 	/**
 	 * Function to get the value for a given key
-	 * @param $key
+	 * @param string $key
 	 * @return mixed Value for the given key
 	 */
 	public function get($key)
@@ -91,7 +91,7 @@ class Base
 	 */
 	public function isEmpty($key)
 	{
-		return (!isset($this->value[$key]) || empty($this->value[$key]));
+		return (!isset($this->value[$key]) || $this->value[$key] === '');
 	}
 
 	/**
@@ -105,9 +105,20 @@ class Base
 
 	/**
 	 * Function to get keys
+	 * @return string[]
 	 */
 	public function getKeys()
 	{
 		return array_keys($this->value);
+	}
+
+	/**
+	 * Function to get the html value for a given key
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getDisplayValue($key)
+	{
+		return htmlspecialchars($this->get($key));
 	}
 }

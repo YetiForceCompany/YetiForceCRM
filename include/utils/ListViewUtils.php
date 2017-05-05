@@ -323,12 +323,12 @@ function getEntityId($module, $entityName)
 		return 0;
 }
 
-function decode_html($str)
+/**
+ * To remove
+ */
+function decode_html($string)
 {
-	static $defaultCharset = false;
-	if (empty($defaultCharset))
-		$defaultCharset = AppConfig::main('default_charset', 'UTF-8');
-	return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
+	return App\Purifier::decodeHtml($string);
 }
 
 function popup_decode_html($str)
