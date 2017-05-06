@@ -5,7 +5,7 @@
 
     if (typeof define === 'function' && define.amd) {
         define(function(){ return factory(root); });
-    } else if (typeof module !== 'undefined') {
+    } else if (typeof exports === 'object') {
         module.exports = factory(root);
     } else {
         root.DOMPurify = factory(root);
