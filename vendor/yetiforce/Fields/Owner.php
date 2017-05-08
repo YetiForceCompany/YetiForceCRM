@@ -37,7 +37,7 @@ class Owner
 		$instance = \Vtiger_Cache::get('App\Fields\Owner', $cacheKey);
 		if ($instance === false) {
 			$instance = new self();
-			$instance->moduleName = $moduleName != false ? $moduleName : Request::_get('module');
+			$instance->moduleName = $moduleName != false ? $moduleName : \App\Request::_get('module');
 			$instance->currentUser = $currentUser;
 			\Vtiger_Cache::set('App\Fields\Owner', $cacheKey, $instance);
 		}
@@ -124,7 +124,7 @@ class Owner
 
 	public function getAllocation($mode, $private = '', $fieldType)
 	{
-		if (Request::_get('parent') != 'Settings') {
+		if (\App\Request::_get('parent') != 'Settings') {
 			$moduleName = $this->moduleName;
 		}
 
@@ -279,7 +279,7 @@ class Owner
 	{
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$moduleName = '';
-		if (Request::_get('parent') != 'Settings' && $this->moduleName) {
+		if (\App\Request::_get('parent') != 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabid = \App\Module::getModuleId($moduleName);
 		}
