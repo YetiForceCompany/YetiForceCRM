@@ -6,7 +6,6 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): Jorge Lucas Pimentel jorgelucas@dialo.com.br
  * *********************************************************************************** */
 $languageStrings = [
 	'Account Name' => 'Nome da Conta',
