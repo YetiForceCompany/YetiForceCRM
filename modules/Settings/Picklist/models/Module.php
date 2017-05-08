@@ -14,6 +14,9 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 	public function getPickListTableName($fieldName)
 	{
+		if (empty($fieldName) || !preg_match("/^[_a-zA-Z0-9]+$/", $fieldName)) {
+			throw new \Exception\AppException('Incorrect picklist name');
+		}
 		return 'vtiger_' . $fieldName;
 	}
 
@@ -36,7 +39,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	{
 		$db = App\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
-		$tableName = 'vtiger_' . $pickListFieldName;
+		$tableName = $this->getPickListTableName($pickListFieldName);
 		if ($db->isTableExists($tableName . '_seq')) {
 			$id = $db->getUniqueID($tableName);
 		} else {
@@ -216,8 +219,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 
 	public function updateSequence($pickListFieldName, $picklistValues)
 	{
-		$db = PearDatabase::getInstance();
-
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$set = ' CASE ';
 		foreach ($picklistValues as $values => $sequence) {

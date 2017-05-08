@@ -104,7 +104,7 @@ class Request
 			$value = $this->rawValues[$key];
 		}
 		settype($value, 'integer');
-		return $value;
+		return $this->parseValues[$key] = $value;
 	}
 
 	/**
@@ -120,17 +120,18 @@ class Request
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
-		}
-		if (is_string($value) && strpos($value, '[') === 0 || strpos($value, '{') === 0) {
-			if ($decodeValue = Json::decode($value)) {
-				$value = $decodeValue;
+			if (is_string($value) && strpos($value, '[') === 0 || strpos($value, '{') === 0) {
+				if ($decodeValue = Json::decode($value)) {
+					$value = $decodeValue;
+				}
 			}
+			settype($value, 'array');
+			if ($value) {
+				$value = Purifier::purify($value);
+			}
+			return $this->parseValues[$key] = $value;
 		}
-		settype($value, 'array');
-		if ($value) {
-			$value = Purifier::purify($value);
-		}
-		return $this->parseValues[$key] = $value;
+		return $value;
 	}
 
 	/**
