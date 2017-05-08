@@ -4,7 +4,7 @@ namespace App;
 /**
  * Request basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @license YetiForce Public License 1.2 (licenses/License.html)
  * @copyright YetiForce Sp. z o.o.
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -97,11 +97,37 @@ class Request
 	 */
 	public function getInteger($key, $value = 0)
 	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 		}
 		settype($value, 'integer');
 		return $value;
+	}
+
+	/**
+	 * Function to get the array values for a given key
+	 * @param string $key
+	 * @param array $value
+	 * @return array
+	 */
+	public function getArray($key, $value = [])
+	{
+		if (isset($this->rawValues[$key])) {
+			$value = $this->rawValues[$key];
+		}
+		if (is_string($value) && strpos($value, '[') === 0 || strpos($value, '{') === 0) {
+			if ($decodeValue = Json::decode($value)) {
+				$value = $decodeValue;
+			}
+		}
+		settype($value, 'array');
+		if ($value) {
+			$value = Purifier::purify($value);
+		}
+		return $this->parseValues[$key] = $value;
 	}
 
 	/**
