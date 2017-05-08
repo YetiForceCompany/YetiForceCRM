@@ -414,7 +414,11 @@ class Request
 		if (empty($arguments)) {
 			return static::$request->$function();
 		} else {
-			return call_user_func([static::$request, $function], $arguments);
+			$first = array_shift($arguments);
+			if (empty($arguments)) {
+				return static::$request->$function($first);
+			}
+			return static::$request->$function($first, $arguments[0]);
 		}
 	}
 }
