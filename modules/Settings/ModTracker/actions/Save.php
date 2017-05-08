@@ -18,7 +18,7 @@ class Settings_ModTracker_Save_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('changeActiveStatus');
 	}
 
-	public function changeActiveStatus(Vtiger_Request $request)
+	public function changeActiveStatus(\App\Request $request)
 	{
 		$id = $request->get('id');
 		$status = $request->get('status');

@@ -11,10 +11,10 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 
 	/**
 	 * Initiate data values for listview
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param Vtiger_Viewer $viewer
 	 */
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->has('typeApi')) {

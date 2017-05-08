@@ -11,7 +11,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -19,7 +19,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -27,7 +27,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function getEvent(Vtiger_Request $request)
+	public function getEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('id');
@@ -46,7 +46,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function updateEvent(Vtiger_Request $request)
+	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');

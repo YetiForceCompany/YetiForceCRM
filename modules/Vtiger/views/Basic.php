@@ -25,7 +25,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		parent::__construct();
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -68,18 +68,18 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return Vtiger_Menu_Model::getAll(true);
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request)
+	protected function preProcessTplName(\App\Request $request)
 	{
 		return 'BasicHeader.tpl';
 	}
 
 	//Note: To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		parent::postProcess($request);
@@ -87,10 +87,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -130,7 +130,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return $headerScriptInstances;
 	}
 
-	public function getGuiderModels(Vtiger_Request $request)
+	public function getGuiderModels(\App\Request $request)
 	{
 		return [];
 	}

@@ -9,7 +9,7 @@
 class Assets_GetHierarchy_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$hierarchyModuleName = 'Accounts';
@@ -27,7 +27,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

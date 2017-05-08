@@ -12,7 +12,7 @@
 Class OSSMailView_preview_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -24,12 +24,12 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		return true;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->getModule();
@@ -93,7 +93,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$viewer->view('preview.tpl', 'OSSMailView');
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$scripts = [
 			'~layouts/basic/modules/OSSMailView/resources/preview.js'

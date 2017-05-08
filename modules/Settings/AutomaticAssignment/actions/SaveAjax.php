@@ -23,9 +23,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 
 	/**
 	 * Save
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$data = $request->get('param');
 		$recordId = $request->get('record');
@@ -47,9 +47,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 
 	/**
 	 * Function changes the type of a given role
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function changeRoleType(Vtiger_Request $request)
+	public function changeRoleType(\App\Request $request)
 	{
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
@@ -68,9 +68,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 
 	/**
 	 * Function removes given value from record
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function deleteElement(Vtiger_Request $request)
+	public function deleteElement(\App\Request $request)
 	{
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);

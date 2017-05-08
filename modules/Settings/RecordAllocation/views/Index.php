@@ -15,7 +15,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('getPanel');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, $display);
 		$moduleName = $request->getModule();
@@ -26,7 +26,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('IndexPreProcess.tpl', $qualifiedModuleName);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -46,7 +46,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getPanel(Vtiger_Request $request)
+	public function getPanel(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -66,7 +66,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -80,7 +80,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

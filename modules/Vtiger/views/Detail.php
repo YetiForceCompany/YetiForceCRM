@@ -37,7 +37,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showOpenStreetMap');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -51,13 +51,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return true;
 	}
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return vtranslate('LBL_VIEW_DETAIL', $moduleName);
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -186,12 +186,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(\App\Request $request)
 	{
 		return 'DetailViewPreProcess.tpl';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -216,7 +216,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		echo $this->$defaultMode($request);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -229,7 +229,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
@@ -243,7 +243,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $cssInstances;
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -275,10 +275,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function shows the entire detail for the record
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <type>
 	 */
-	public function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -306,7 +306,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 	}
 
-	public function showModuleSummaryView(Vtiger_Request $request)
+	public function showModuleSummaryView(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -337,7 +337,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(Vtiger_Request $request)
+	public function showModuleBasicView(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -378,9 +378,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function returns recent changes made on the record
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function showRecentActivities(Vtiger_Request $request)
+	public function showRecentActivities(\App\Request $request)
 	{
 		$type = 'changes';
 		$parentRecordId = $request->get('record');
@@ -439,10 +439,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function returns latest comments
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <type>
 	 */
-	public function showRecentComments(Vtiger_Request $request)
+	public function showRecentComments(\App\Request $request)
 	{
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
@@ -476,10 +476,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function returns related records
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <type>
 	 */
-	public function showRelatedList(Vtiger_Request $request)
+	public function showRelatedList(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -501,10 +501,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function sends the child comments for a comment
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return mixed
 	 */
-	public function showChildComments(Vtiger_Request $request)
+	public function showChildComments(\App\Request $request)
 	{
 		$parentCommentId = $request->get('commentid');
 		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
@@ -523,10 +523,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function send all the comments in thead
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return mixed
 	 */
-	public function showThreadComments(Vtiger_Request $request)
+	public function showThreadComments(\App\Request $request)
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
@@ -545,10 +545,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function sends all the comments for a parent(Accounts, Contacts etc)
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return mixed
 	 */
-	public function showAllComments(Vtiger_Request $request)
+	public function showAllComments(\App\Request $request)
 	{
 		$parentRecordId = $request->get('record');
 		$commentRecordId = $request->get('commentid');
@@ -599,10 +599,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function to get activities
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <List of activity models>
 	 */
-	public function getActivities(Vtiger_Request $request)
+	public function getActivities(\App\Request $request)
 	{
 		$moduleName = 'Calendar';
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -656,10 +656,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Function returns related records based on related moduleName
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <type>
 	 */
-	public function showRelatedRecords(Vtiger_Request $request)
+	public function showRelatedRecords(\App\Request $request)
 	{
 		$parentId = $request->get('record');
 		$pageNumber = $request->get('page');
@@ -769,7 +769,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, true);
 	}
 
-	public function showRelatedTree(Vtiger_Request $request)
+	public function showRelatedTree(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$parentId = $request->get('record');
@@ -795,7 +795,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return $viewer->view('RelatedTreeContent.tpl', $moduleName, true);
 	}
 
-	public function showRelatedProductsServices(Vtiger_Request $request)
+	public function showRelatedProductsServices(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -832,10 +832,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Show recent relation
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function showRecentRelation(Vtiger_Request $request)
+	public function showRecentRelation(\App\Request $request)
 	{
 		$pageNumber = $request->get('page');
 		$limitPage = $request->get('limit');

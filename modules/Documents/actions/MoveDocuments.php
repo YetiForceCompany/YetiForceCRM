@@ -12,7 +12,7 @@
 class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -21,7 +21,7 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$documentIdsList = $this->getRecordsListFromRequest($request);

@@ -18,7 +18,7 @@ class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_IndexA
 		$this->exposeMethod('updateConfig');
 	}
 
-	public function updateConfig(Vtiger_Request $request)
+	public function updateConfig(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_MarketingProcesses_Module_Model::getCleanInstance();

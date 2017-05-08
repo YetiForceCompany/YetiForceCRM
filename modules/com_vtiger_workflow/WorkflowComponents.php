@@ -12,7 +12,7 @@ require_once 'include/Webservices/Utils.php';
 require_once 'include/Webservices/DescribeObject.php';
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
-function vtJsonFields($adb, Vtiger_Request $request)
+function vtJsonFields($adb, \App\Request $request)
 {
 	$mem = new VTExpressionsManager($adb);
 	$fields = $mem->fields($request->getModule());
@@ -26,7 +26,7 @@ function vtJsonFunctions($adb)
 	echo \App\Json::encode($functions);
 }
 
-function vtJsonDependentModules($adb, Vtiger_Request $request)
+function vtJsonDependentModules($adb, \App\Request $request)
 {
 	$moduleName = $request->getModule();
 

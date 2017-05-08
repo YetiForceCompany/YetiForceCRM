@@ -12,7 +12,7 @@
 class CustomView_Save_Action extends Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
 		$customViewModel = $this->getCVModelFromRequest($request);
@@ -32,10 +32,10 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to get the custom view model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return CustomView_Record_Model or Module specific Record Model instance
 	 */
-	private function getCVModelFromRequest(Vtiger_Request $request)
+	private function getCVModelFromRequest(\App\Request $request)
 	{
 		$cvId = $request->get('record');
 
@@ -79,7 +79,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		return $customViewModel->setData($customViewData);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

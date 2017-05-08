@@ -13,7 +13,7 @@
 class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -32,7 +32,7 @@ class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public static function getData(Vtiger_Request $request, $widget)
+	public static function getData(\App\Request $request, $widget)
 	{
 		$fields = ['id', 'assetname', 'dateinservice', 'parent_id'];
 		$limit = 10;

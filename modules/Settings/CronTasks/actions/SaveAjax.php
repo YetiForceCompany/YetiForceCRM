@@ -11,7 +11,7 @@
 class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
 
@@ -21,7 +21,7 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -43,7 +43,7 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

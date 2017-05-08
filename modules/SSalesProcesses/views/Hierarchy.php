@@ -9,19 +9,19 @@
 class SSalesProcesses_Hierarchy_View extends Vtiger_View_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		if (!App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->get('record'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -35,7 +35,7 @@ class SSalesProcesses_Hierarchy_View extends Vtiger_View_Controller
 		$viewer->view('Hierarchy.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}

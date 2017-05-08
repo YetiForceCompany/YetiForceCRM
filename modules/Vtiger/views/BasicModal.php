@@ -10,7 +10,7 @@
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -18,12 +18,12 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return '';
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
@@ -33,7 +33,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
 			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
@@ -41,14 +41,14 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		echo '</div></div></div>';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		//Content
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');
@@ -62,7 +62,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		return $scriptInstances;
 	}
 
-	public function getModalCss(Vtiger_Request $request)
+	public function getModalCss(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('view');

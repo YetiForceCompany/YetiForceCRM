@@ -11,7 +11,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 
 	private $prefixesForModules = ['Project', 'HelpDesk', 'SSalesProcesses', 'Campaigns'];
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');

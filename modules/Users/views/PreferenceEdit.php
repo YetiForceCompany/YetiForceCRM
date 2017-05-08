@@ -12,7 +12,7 @@
 Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -33,12 +33,12 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		}
 	}
 
-	public function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(\App\Request $request)
 	{
 		return 'UserEditViewPreProcess.tpl';
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		if ($this->checkPermission($request)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -82,13 +82,13 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		}
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

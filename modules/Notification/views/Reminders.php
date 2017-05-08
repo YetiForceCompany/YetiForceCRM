@@ -14,9 +14,9 @@ class Notification_Reminders_View extends Vtiger_IndexAjax_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

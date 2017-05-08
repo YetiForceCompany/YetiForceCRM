@@ -12,12 +12,12 @@
 Class Settings_DataAccess_Step1_View extends Settings_Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
@@ -39,7 +39,7 @@ Class Settings_DataAccess_Step1_View extends Settings_Vtiger_Index_View
 		echo $viewer->view('Step1.tpl', $qualifiedModuleName, true);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

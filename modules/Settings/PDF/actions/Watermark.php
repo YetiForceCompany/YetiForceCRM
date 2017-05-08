@@ -16,7 +16,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('Upload');
 	}
 
-	public function Delete(Vtiger_Request $request)
+	public function Delete(\App\Request $request)
 	{
 		$recordId = $request->get('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
@@ -27,7 +27,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function Upload(Vtiger_Request $request)
+	public function Upload(\App\Request $request)
 	{
 		$templateId = $request->get('template_id');
 		$newName = basename($_FILES['watermark']['name'][0]);

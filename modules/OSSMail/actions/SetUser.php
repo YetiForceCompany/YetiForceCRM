@@ -12,14 +12,14 @@
 class OSSMail_SetUser_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::isPermitted('OSSMail')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$user = $request->get('user');
 		$_SESSION['AutoLoginUser'] = $user;

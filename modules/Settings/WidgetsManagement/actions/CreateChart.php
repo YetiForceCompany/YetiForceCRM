@@ -9,7 +9,7 @@
 class Settings_WidgetsManagement_CreateChart_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$linkId = $request->get('linkId');

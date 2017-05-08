@@ -10,7 +10,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\App\Request $request)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);

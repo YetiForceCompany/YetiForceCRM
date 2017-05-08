@@ -12,7 +12,7 @@
 class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -30,7 +30,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -38,7 +38,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function getEvents(Vtiger_Request $request)
+	public function getEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->get('user'));
@@ -63,7 +63,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function updateEvent(Vtiger_Request $request)
+	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');

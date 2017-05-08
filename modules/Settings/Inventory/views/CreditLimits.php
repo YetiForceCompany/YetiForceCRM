@@ -14,7 +14,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		return 'CreditLimits';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -36,7 +36,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if ($request->get('type')) {

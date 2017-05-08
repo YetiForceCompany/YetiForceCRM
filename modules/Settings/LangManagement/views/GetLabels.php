@@ -9,12 +9,12 @@
 class Settings_LangManagement_GetLabels_View extends Settings_Vtiger_BasicModal_View
 {
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$langBase = $request->get('langBase');

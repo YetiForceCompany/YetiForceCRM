@@ -9,12 +9,12 @@
 class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 {
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');

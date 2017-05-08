@@ -12,7 +12,7 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 	protected $showFields = [];
 	protected $restrictItems = [];
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -24,7 +24,7 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ID = $request->get('record');

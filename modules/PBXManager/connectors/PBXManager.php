@@ -114,7 +114,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle the dial call event
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function handleDialCall($details)
 	{
@@ -145,7 +145,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle the EndCall event
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function handleEndCall($details)
 	{
@@ -162,7 +162,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle the hangup call event
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function handleHangupCall($details)
 	{
@@ -199,7 +199,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle record event
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function handleRecording($details)
 	{
@@ -211,7 +211,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to handle AGI event
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function handleStartupCall($details, $userInfo, $customerInfo)
 	{
@@ -246,7 +246,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to respond for incoming calls
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function respondToIncomingCall($details)
 	{
@@ -293,7 +293,7 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to respond for outgoing calls
-	 * @param Vtiger_Request $details 
+	 * @param \App\Request $details 
 	 */
 	public function respondToOutgoingCall($to)
 	{

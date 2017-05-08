@@ -18,7 +18,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		$this->exposeMethod('showProductsServices');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -27,7 +27,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		}
 	}
 
-	public function showProductsServices(Vtiger_Request $request)
+	public function showProductsServices(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->get('fromModule');

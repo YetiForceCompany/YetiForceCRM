@@ -20,9 +20,9 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 
 	/**
 	 * Function to add relations using related module viewid
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function addRelationsFromRelatedModuleViewId(Vtiger_Request $request)
+	public function addRelationsFromRelatedModuleViewId(\App\Request $request)
 	{
 		$sourceRecordId = $request->get('sourceRecord');
 		$relatedModuleName = $request->get('relatedModule');
@@ -53,9 +53,9 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 
 	/**
 	 * Function to update Relation status
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function updateStatus(Vtiger_Request $request)
+	public function updateStatus(\App\Request $request)
 	{
 		$relatedModuleName = $request->get('relatedModule');
 		$relatedRecordId = $request->get('relatedRecord');

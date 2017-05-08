@@ -13,7 +13,7 @@ vimport('~include/Webservices/Custom/DeleteUser.php');
 class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -21,7 +21,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('userid');

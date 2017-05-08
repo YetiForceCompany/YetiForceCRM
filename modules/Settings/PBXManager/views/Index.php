@@ -16,12 +16,12 @@ class Settings_PBXManager_Index_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('gatewayInfo');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->gatewayInfo($request);
 	}
 
-	public function gatewayInfo(Vtiger_Request $request)
+	public function gatewayInfo(\App\Request $request)
 	{
 		$recordModel = Settings_PBXManager_Record_Model::getInstance();
 		$moduleModel = Settings_PBXManager_Module_Model::getCleanInstance();

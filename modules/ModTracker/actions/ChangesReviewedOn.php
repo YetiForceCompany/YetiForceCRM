@@ -9,7 +9,7 @@
 class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('sourceModule');
@@ -35,7 +35,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('reviewChanges');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -50,7 +50,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function getUnreviewed(Vtiger_Request $request)
+	public function getUnreviewed(\App\Request $request)
 	{
 		$records = $request->get('recordsId');
 		$result = ModTracker_Record_Model::getUnreviewed($records, false, true);
@@ -61,9 +61,9 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function marks forwarded records as reviewed
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function reviewChanges(Vtiger_Request $request)
+	public function reviewChanges(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
@@ -93,7 +93,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

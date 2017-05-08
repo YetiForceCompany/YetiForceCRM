@@ -13,7 +13,7 @@ vimport('~include/Webservices/ConvertLead.php');
 class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -34,12 +34,12 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$modules = $request->get('modules');
@@ -122,7 +122,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

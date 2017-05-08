@@ -10,7 +10,7 @@
 class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$state = $request->get('state');

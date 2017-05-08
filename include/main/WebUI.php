@@ -14,8 +14,8 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
-\App\Debuger::init();
-\App\Cache::init();
+App\Debuger::init();
+App\Cache::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = Yii::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
 App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
@@ -26,10 +26,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Function to check if the User has logged in
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\AppException
 	 */
-	protected function checkLogin(Vtiger_Request $request)
+	protected function checkLogin(\App\Request $request)
 	{
 		if (!$this->hasLogin()) {
 			$return_params = $_SERVER['QUERY_STRING'];
@@ -107,7 +107,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);

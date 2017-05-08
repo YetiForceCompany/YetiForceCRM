@@ -9,7 +9,7 @@
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -24,15 +24,15 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to get size modal window
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -58,7 +58,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 
@@ -79,7 +79,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		return $scriptInstances;
 	}
 
-	public function getModalCss(Vtiger_Request $request)
+	public function getModalCss(\App\Request $request)
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [

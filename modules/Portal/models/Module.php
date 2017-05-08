@@ -85,7 +85,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		return $record;
 	}
 
-	public function deleteRecords(Vtiger_Request $request)
+	public function deleteRecords(\App\Request $request)
 	{
 		$searchValue = $request->get('search_value');
 		$selectedIds = $request->get('selected_ids');

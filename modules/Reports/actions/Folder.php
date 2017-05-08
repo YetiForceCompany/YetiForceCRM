@@ -19,7 +19,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('delete');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -27,7 +27,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -38,9 +38,9 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function that saves/updates the Folder
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$folderModel = Reports_Folder_Model::getInstance();
@@ -67,9 +67,9 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function that deletes the Folder
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$folderId = $request->get('folderid');
 		$moduleName = $request->getModule();
@@ -97,7 +97,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

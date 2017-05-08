@@ -14,10 +14,10 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -32,7 +32,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		// check if passwords are encrypted

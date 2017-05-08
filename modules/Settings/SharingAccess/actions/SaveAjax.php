@@ -12,7 +12,7 @@
 Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$modulePermissions = $request->get('permissions');
 		$modulePermissions[4] = $modulePermissions[6];

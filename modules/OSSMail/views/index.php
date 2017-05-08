@@ -50,14 +50,14 @@ class OSSMail_index_View extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		$this->initAutologin();
 
 		parent::preProcess($request, $display);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

@@ -22,7 +22,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('generateColor');
 	}
 
-	public function generateColor(Vtiger_Request $request)
+	public function generateColor(\App\Request $request)
 	{
 		$params = $request->get('param');
 		$color = Settings_Calendar_Module_Model::generateColor();
@@ -41,7 +41,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function UpdateModuleColor(Vtiger_Request $request)
+	public function UpdateModuleColor(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateModuleColor($params);
@@ -53,7 +53,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function UpdateModuleActiveType(Vtiger_Request $request)
+	public function UpdateModuleActiveType(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateModuleActiveType($params);
@@ -65,7 +65,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function UpdateCalendarConfig(Vtiger_Request $request)
+	public function UpdateCalendarConfig(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);
@@ -77,7 +77,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function updateNotWorkingDays(Vtiger_Request $request)
+	public function updateNotWorkingDays(\App\Request $request)
 	{
 		$params = $request->get('param');
 		Settings_Calendar_Module_Model::updateNotWorkingDays($params);

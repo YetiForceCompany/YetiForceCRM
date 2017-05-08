@@ -12,7 +12,7 @@
 class OSSPasswords_Save_Action extends Vtiger_Save_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
@@ -30,10 +30,10 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \App\Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$recordModel = $this->getRecordModelFromRequest($request);

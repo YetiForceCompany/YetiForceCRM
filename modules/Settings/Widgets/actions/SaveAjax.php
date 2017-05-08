@@ -20,7 +20,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('updateSequence');
 	}
 
-	public function saveWidget(Vtiger_Request $request)
+	public function saveWidget(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Widgets_Module_Model::saveWidget($params);
@@ -32,7 +32,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function removeWidget(Vtiger_Request $request)
+	public function removeWidget(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Widgets_Module_Model::removeWidget($params['wid']);
@@ -44,7 +44,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function updateSequence(Vtiger_Request $request)
+	public function updateSequence(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Widgets_Module_Model::updateSequence($params);

@@ -22,7 +22,7 @@ class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_I
 	 * @param <array> request
 	 * @return true if saved, false otherwise
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$status = $request->get('status');

@@ -19,7 +19,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -36,7 +36,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		}
 	}
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('isDuplicate')) {
@@ -49,7 +49,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		return $pageTitle;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -168,10 +168,10 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$parentScript = parent::getFooterScripts($request);
 

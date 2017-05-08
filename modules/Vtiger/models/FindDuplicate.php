@@ -208,7 +208,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		return $rows;
 	}
 
-	public function getMassDeleteRecords(Vtiger_Request $request)
+	public function getMassDeleteRecords(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$module = $request->getModule();

@@ -11,10 +11,10 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Checking permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -25,10 +25,10 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * The initial process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param type $display
 	 */
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		echo '<div class="modal-header">
@@ -40,9 +40,9 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * The final process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		parent::postProcess($request);
 		echo '</div>';
@@ -50,9 +50,9 @@ class Vtiger_TimeLineModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Proceess
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$request->set('limit', AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));

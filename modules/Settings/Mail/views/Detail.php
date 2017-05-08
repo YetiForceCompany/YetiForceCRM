@@ -11,10 +11,10 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
@@ -24,9 +24,9 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -44,10 +44,10 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return array - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -63,10 +63,10 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function to get the page title
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(\App\Request $request)
 	{
 		return 'LBL_MAIL_QUEUE_PAGE_TITLE';
 	}

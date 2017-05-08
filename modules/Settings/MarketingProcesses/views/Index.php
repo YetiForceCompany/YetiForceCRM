@@ -12,7 +12,7 @@
 class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
@@ -30,7 +30,7 @@ class Settings_MarketingProcesses_Index_View extends Settings_Vtiger_Index_View
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

@@ -210,10 +210,10 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to check if company duplicated
-	 * @param Vtiger_Request $request	
+	 * @param \App\Request $request	
 	 * @return boolean
 	 */
-	public function isCompanyDuplicated(Vtiger_Request $request)
+	public function isCompanyDuplicated(\App\Request $request)
 	{
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();

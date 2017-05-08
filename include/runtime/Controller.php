@@ -25,26 +25,26 @@ abstract class Vtiger_Controller
 		return true;
 	}
 
-	abstract function getViewer(Vtiger_Request $request);
+	abstract function getViewer(\App\Request $request);
 
-	abstract function process(Vtiger_Request $request);
+	abstract function process(\App\Request $request);
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		
 	}
 
-	public function preProcessAjax(Vtiger_Request $request)
+	public function preProcessAjax(\App\Request $request)
 	{
 		
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}
@@ -79,7 +79,7 @@ abstract class Vtiger_Controller
 	/**
 	 * Function invokes exposed methods for this class
 	 * @param string $name - method name
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws Exception
 	 */
 	public function invokeExposedMethod()
@@ -126,32 +126,32 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
-	public function getViewer(Vtiger_Request $request)
+	public function getViewer(\App\Request $request)
 	{
 		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateReadAccess();
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Request $request)
 	{
 		
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request)
+	protected function preProcessTplName(\App\Request $request)
 	{
 		return false;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
@@ -170,7 +170,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		parent::__construct();
 	}
 
-	public function getViewer(Vtiger_Request $request)
+	public function getViewer(\App\Request $request)
 	{
 		if (!isset($this->viewer)) {
 			$viewer = Vtiger_Viewer::getInstance();
@@ -188,7 +188,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $this->viewer;
 	}
 
-	public function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$moduleNameArray = explode(':', $moduleName);
@@ -201,7 +201,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $title;
 	}
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		if (!empty($this->pageTitle)) {
 			return $this->pageTitle;
@@ -209,7 +209,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return 0;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -233,7 +233,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		}
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request)
+	protected function preProcessTplName(\App\Request $request)
 	{
 		return 'Header.tpl';
 	}
@@ -243,7 +243,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return true;
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$displayed = $viewer->view($this->preProcessTplName($request), $request->getModule());
@@ -251,9 +251,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	/**
 	 * Post process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -265,10 +265,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap3/css/bootstrap.css',
@@ -297,10 +297,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	/**
 	 * Retrieves headers scripts that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Request $request - request model
 	 * @return <array> - array of Vtiger_JsScript_Model
 	 */
-	public function getHeaderScripts(Vtiger_Request $request)
+	public function getHeaderScripts(\App\Request $request)
 	{
 		$headerScriptInstances = [
 			'libraries.jquery.jquery',
@@ -310,7 +310,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $jsScriptInstances;
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
 			'~libraries/jquery/jquery.blockUI.js',
@@ -498,9 +498,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	/**
 	 * Function returns the Client side language string
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getJSLanguageStrings(Vtiger_Request $request)
+	public function getJSLanguageStrings(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		if ($moduleName === 'Settings:Users') {

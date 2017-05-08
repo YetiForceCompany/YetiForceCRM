@@ -9,12 +9,12 @@
 class OSSMail_compose_View extends OSSMail_index_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		$this->initAutologin();
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (strpos($this->mainUrl, '?') !== false) {
@@ -37,7 +37,7 @@ class OSSMail_compose_View extends OSSMail_index_View
 		header('Location: ' . $this->mainUrl);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}

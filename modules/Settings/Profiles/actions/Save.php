@@ -11,7 +11,7 @@
 class Settings_Profiles_Save_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
@@ -19,7 +19,7 @@ class Settings_Profiles_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 
@@ -41,7 +41,7 @@ class Settings_Profiles_Save_Action extends Vtiger_Action_Controller
 		header("Location: $redirectUrl");
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

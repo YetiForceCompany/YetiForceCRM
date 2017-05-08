@@ -21,7 +21,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('acceptanceRecord');
 	}
 
-	public function updateUsers(Vtiger_Request $request)
+	public function updateUsers(\App\Request $request)
 	{
 		$id = $request->get('id');
 		$user = $request->get('user');
@@ -34,7 +34,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function updateConfig(Vtiger_Request $request)
+	public function updateConfig(\App\Request $request)
 	{
 		$name = $request->get('name');
 		$val = $request->get('val');
@@ -48,7 +48,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function updateSignature(Vtiger_Request $request)
+	public function updateSignature(\App\Request $request)
 	{
 		$val = $request->get('val');
 		Settings_Mail_Config_Model::updateConfig('signature', $val, 'signature');
@@ -60,7 +60,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 	
-	public function acceptanceRecord(Vtiger_Request $request)
+	public function acceptanceRecord(\App\Request $request)
 	{
 		Settings_Mail_Config_Model::acceptanceRecord($request->get('id'));
 		$response = new Vtiger_Response();

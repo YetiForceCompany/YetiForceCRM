@@ -20,7 +20,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('SaveSequenceNumber');
 	}
 
-	public function Save(Vtiger_Request $request)
+	public function Save(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Search_Module_Model::save($params);
@@ -35,7 +35,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function UpdateLabels(Vtiger_Request $request)
+	public function UpdateLabels(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Search_Module_Model::updateLabels($params);
@@ -47,7 +47,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function SaveSequenceNumber(Vtiger_Request $request)
+	public function SaveSequenceNumber(\App\Request $request)
 	{
 		$updatedFieldsList = $request->get('updatedFields');
 

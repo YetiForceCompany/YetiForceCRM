@@ -4,7 +4,7 @@
 class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -13,7 +13,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$module = $request->getModule();
 		$transferOwnerId = $request->get('transferOwnerId');
@@ -43,7 +43,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	protected function getBaseModuleRecordIds(Vtiger_Request $request)
+	protected function getBaseModuleRecordIds(\App\Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$module = $request->getModule();
@@ -81,7 +81,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		return [];
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -16,7 +16,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		$this->exposeMethod('step2');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -26,9 +26,9 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 
 	/**
 	 * Save first step
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function step1(Vtiger_Request $request)
+	public function step1(\App\Request $request)
 	{
 		if ($request->isEmpty('record') === false) {
 			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
@@ -48,9 +48,9 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 
 	/**
 	 * Save second step
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function step2(Vtiger_Request $request)
+	public function step2(\App\Request $request)
 	{
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->get('record'));
 		$conditions = Vtiger_AdvancedFilter_Helper::transformToSave($request->get('conditions'));
@@ -60,7 +60,7 @@ class Settings_AdvancedPermission_Save_Action extends Settings_Vtiger_Save_Actio
 		header("Location: {$recordModel->getDetailViewUrl()}");
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

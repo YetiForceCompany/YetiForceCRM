@@ -7,7 +7,7 @@ namespace Api\Core;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Request extends \Vtiger_Request
+class Request extends \App\Request
 {
 
 	public static function init()

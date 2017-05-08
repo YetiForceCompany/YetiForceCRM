@@ -16,7 +16,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 	protected $index;
 	protected $inventoryFields;
 
-	public function exportData(Vtiger_Request $request)
+	public function exportData(\App\Request $request)
 	{
 		if ($request->get('xmlExportType')) {
 			$this->tplName = $request->get('xmlExportType');

@@ -12,7 +12,7 @@
 class Settings_Dav_Keys_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		include 'config/api.php';
 		$moduleName = $request->getModule();

@@ -17,16 +17,16 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		return false;
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
 	/**
 	 * Function verifies application access
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$username = $request->get('username');
 		$password = $request->getRaw('password');

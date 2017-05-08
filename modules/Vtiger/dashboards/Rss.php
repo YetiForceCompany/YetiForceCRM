@@ -9,7 +9,7 @@
 class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request, $widget = NULL)
+	public function process(\App\Request $request, $widget = NULL)
 	{
 		vimport('~libraries/RSSFeeds/Feed.php');
 		$currentUser = Users_Record_Model::getCurrentUserModel();

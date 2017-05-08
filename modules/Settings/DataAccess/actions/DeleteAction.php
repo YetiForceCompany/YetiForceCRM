@@ -12,12 +12,12 @@
 class Settings_DataAccess_DeleteAction_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		return;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$id = $request->get('id');
 		$aid = $request->get('a');

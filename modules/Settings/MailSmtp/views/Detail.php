@@ -11,10 +11,10 @@ class Settings_MailSmtp_Detail_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
@@ -24,9 +24,9 @@ class Settings_MailSmtp_Detail_View extends Settings_Vtiger_Index_View
 	
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);

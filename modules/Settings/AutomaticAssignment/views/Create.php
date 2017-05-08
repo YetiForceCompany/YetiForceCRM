@@ -11,19 +11,19 @@ class Settings_AutomaticAssignment_Create_View extends Settings_Vtiger_BasicModa
 
 	/**
 	 * Function returns name that defines modal window size
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-sm';
 	}
 
 	/**
 	 * Function proccess
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);

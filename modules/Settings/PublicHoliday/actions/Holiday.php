@@ -23,7 +23,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 	 * @param <Object> $request
 	 * @return true if deleted, false otherwise
 	 */
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$moduleName = 'Settings:' . $request->getModule();
@@ -48,7 +48,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 	 * @param <Object> $request
 	 * @return true if saved, false otherwise
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$moduleName = 'Settings:' . $request->getModule();

@@ -59,7 +59,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public static function getComposeParam(Vtiger_Request $request)
+	public static function getComposeParam(\App\Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');

@@ -19,9 +19,9 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 
 	/**
 	 * Function returns the number of records for the current filter
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -38,7 +38,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 		$response->emit();
 	}
 
-	public function getListViewCount(Vtiger_Request $request)
+	public function getListViewCount(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
@@ -52,7 +52,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 		return $listViewModel->getListViewCount();
 	}
 
-	public function getPageCount(Vtiger_Request $request)
+	public function getPageCount(\App\Request $request)
 	{
 		$numOfRecords = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();

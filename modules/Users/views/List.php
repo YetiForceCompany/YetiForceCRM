@@ -12,7 +12,7 @@
 class Users_List_View extends Settings_Vtiger_List_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -20,7 +20,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
@@ -32,7 +32,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -42,7 +42,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -169,9 +169,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 	/**
 	 * Function returns the number of records for the current filter
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
@@ -190,9 +190,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 	/**
 	 * Function to get listView count
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getListViewCount(Vtiger_Request $request)
+	public function getListViewCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = App\CustomView::getInstance($moduleName)->getViewId();
@@ -226,7 +226,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(Vtiger_Request $request)
+	public function getPageCount(\App\Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();

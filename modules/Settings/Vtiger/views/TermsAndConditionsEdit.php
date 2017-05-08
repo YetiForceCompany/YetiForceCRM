@@ -11,7 +11,7 @@
 class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$model = Settings_Vtiger_TermsAndConditions_Model::getInstance();
 		$conditionText = $model->getText();
@@ -24,7 +24,7 @@ class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_
 		$viewer->view('TermsAndConditions.tpl', $qualifiedName);
 	}
 
-	public function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		return vtranslate('INVENTORYTERMSANDCONDITIONS', $qualifiedModuleName);
@@ -32,10 +32,10 @@ class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

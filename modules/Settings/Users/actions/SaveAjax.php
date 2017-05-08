@@ -17,7 +17,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$this->exposeMethod('saveLocks');
 	}
 
-	public function updateConfig(Vtiger_Request $request)
+	public function updateConfig(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$recordModel = Settings_Users_Module_Model::getInstance();
@@ -29,7 +29,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response->emit();
 	}
 
-	public function saveSwitchUsers(Vtiger_Request $request)
+	public function saveSwitchUsers(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
@@ -41,7 +41,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response->emit();
 	}
 
-	public function saveLocks(Vtiger_Request $request)
+	public function saveLocks(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();

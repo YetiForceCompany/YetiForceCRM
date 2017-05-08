@@ -11,9 +11,9 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 
 	/**
 	 * Save
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$data = $request->get('param');
 		$typeApi = $request->get('typeApi');

@@ -11,7 +11,7 @@
 class Settings_Leads_MappingDelete_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('mappingId');
 		$qualifiedModuleName = $request->getModule(false);

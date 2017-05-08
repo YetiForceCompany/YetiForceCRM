@@ -21,7 +21,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('enableOrDisable');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		$this->invokeExposedMethod($mode, $request);
@@ -61,7 +61,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 	}
 
-	public function add(Vtiger_Request $request)
+	public function add(\App\Request $request)
 	{
 		$newValue = $request->get('newValue');
 		$moduleName = $request->get('source_module');
@@ -90,7 +90,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function rename(Vtiger_Request $request)
+	public function rename(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$newValue = $request->get('newValue');
@@ -111,7 +111,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function remove(Vtiger_Request $request)
+	public function remove(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$valueToDelete = $request->getArray('delete_value');
@@ -133,9 +133,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	/**
 	 * Function which will assign existing values to the roles
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function assignValueToRole(Vtiger_Request $request)
+	public function assignValueToRole(\App\Request $request)
 	{
 		$userSelectedRoles = $request->getArray('rolesSelected');
 		$roleIdList = [];
@@ -161,7 +161,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function saveOrder(Vtiger_Request $request)
+	public function saveOrder(\App\Request $request)
 	{
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
@@ -174,7 +174,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function enableOrDisable(Vtiger_Request $request)
+	public function enableOrDisable(\App\Request $request)
 	{
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
@@ -187,7 +187,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

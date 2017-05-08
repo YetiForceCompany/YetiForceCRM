@@ -14,9 +14,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -50,10 +50,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {

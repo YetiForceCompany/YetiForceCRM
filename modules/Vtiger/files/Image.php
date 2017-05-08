@@ -26,11 +26,11 @@ class Vtiger_Image_File extends Vtiger_Basic_File
 
 	/**
 	 * View image
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string|boolean
 	 * @throws \Exception\NoPermitted
 	 */
-	public function get(Vtiger_Request $request)
+	public function get(\App\Request $request)
 	{
 		$record = $request->get('attachment');
 		if (empty($record)) {

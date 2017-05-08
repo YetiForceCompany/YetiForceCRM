@@ -11,9 +11,9 @@ class Settings_WebserviceUsers_Edit_View extends Settings_Vtiger_BasicModal_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

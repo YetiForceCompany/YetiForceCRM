@@ -20,9 +20,9 @@ class Settings_MailSmtp_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	/**
 	 * Function updates smtp configuration 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function updateSmtp(Vtiger_Request $request)
+	public function updateSmtp(\App\Request $request)
 	{
 		$data = $request->get('param');
 		$mailer = new \App\Mailer();

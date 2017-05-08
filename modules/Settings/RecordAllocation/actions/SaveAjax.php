@@ -16,7 +16,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 		$this->exposeMethod('removePanel');
 	}
 
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('save');
@@ -41,7 +41,7 @@ class Settings_RecordAllocation_SaveAjax_Action extends Settings_Vtiger_Save_Act
 		$responceToEmit->emit();
 	}
 
-	public function removePanel(Vtiger_Request $request)
+	public function removePanel(\App\Request $request)
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('delete');

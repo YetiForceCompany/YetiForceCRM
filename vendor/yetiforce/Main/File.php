@@ -11,7 +11,7 @@ namespace App\Main;
 class File
 {
 
-	public function process(\Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		if (\AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);

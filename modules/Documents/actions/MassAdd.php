@@ -11,10 +11,10 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Function to check permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::isPermitted($request->getModule(), 'CreateView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
@@ -23,9 +23,9 @@ class Documents_MassAdd_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$nameFiles = $request->get('nameFile');

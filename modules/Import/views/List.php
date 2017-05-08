@@ -22,9 +22,9 @@ class Import_List_View extends Vtiger_Popup_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$mode = $request->get('mode');
@@ -42,7 +42,7 @@ class Import_List_View extends Vtiger_Popup_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->get('for_module');
 		$cvId = $request->get('viewname');
@@ -105,7 +105,7 @@ class Import_List_View extends Vtiger_Popup_View
 		$viewer->assign('CURRENT_USER_MODEL', Users_Record_Model::getCurrentUserModel());
 	}
 
-	public function getImportDetails(Vtiger_Request $request)
+	public function getImportDetails(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

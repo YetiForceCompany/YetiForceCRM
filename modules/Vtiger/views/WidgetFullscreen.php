@@ -14,11 +14,11 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
@@ -30,12 +30,12 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-blg';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();

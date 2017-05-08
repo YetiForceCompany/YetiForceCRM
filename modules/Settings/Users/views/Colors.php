@@ -12,7 +12,7 @@
 class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$tablesAll = Users_Colors_Model::getTablesAll();
 		$moduleName = $request->getModule();
@@ -26,7 +26,7 @@ class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
 		$viewer->view('Colors.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -39,7 +39,7 @@ class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(

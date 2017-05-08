@@ -376,7 +376,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 	/**
 	 * Get the value to save
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param string $field Field name
 	 * @param int $i Sequence number
 	 * @return string

@@ -8,7 +8,7 @@
 class KnowledgeBase_Tree_View extends Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -20,7 +20,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 		$scripts = [
@@ -33,7 +33,7 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

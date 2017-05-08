@@ -16,7 +16,7 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 		$this->exposeMethod('step2');
 	}
 
-	public function step1(Vtiger_Request $request)
+	public function step1(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('type');
@@ -37,7 +37,7 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 		$viewer->view('CreateInventoryFieldsStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(Vtiger_Request $request)
+	public function step2(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$type = $request->get('mtype');

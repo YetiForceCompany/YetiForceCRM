@@ -11,10 +11,10 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName)) {
@@ -38,9 +38,9 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Process function
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -50,9 +50,9 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Check if smtps are active
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function checkSmtp(Vtiger_Request $request)
+	public function checkSmtp(\App\Request $request)
 	{
 		$result = false;
 		if (AppConfig::main('isActiveSendingMails')) {
@@ -65,9 +65,9 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Send mails
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function sendMails(Vtiger_Request $request)
+	public function sendMails(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$field = $request->get('field');
@@ -98,10 +98,10 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Get query instance
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(Vtiger_Request $request)
+	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');

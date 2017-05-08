@@ -23,7 +23,7 @@ class OSSMailView_Detail_View extends Vtiger_Detail_View
 		return false;
 	}
 
-	public function showSummary(Vtiger_Request $request)
+	public function showSummary(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$viewer = $this->getViewer($request);

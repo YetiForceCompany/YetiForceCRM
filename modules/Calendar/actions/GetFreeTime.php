@@ -9,7 +9,7 @@
 class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -93,7 +93,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$dateStart = $request->get('dateStart');
 		$dateStart = DateTimeField::convertToDBFormat($dateStart);

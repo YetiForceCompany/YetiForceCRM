@@ -55,5 +55,5 @@ abstract class Vtiger_EntryPoint
 		return $this->getLogin() ? true : false;
 	}
 
-	abstract function process(Vtiger_Request $request);
+	abstract function process(\App\Request $request);
 }

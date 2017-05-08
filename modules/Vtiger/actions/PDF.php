@@ -11,7 +11,7 @@
 class Vtiger_PDF_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
@@ -27,7 +27,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('generate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -36,7 +36,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRecords(Vtiger_Request $request)
+	public function validateRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = $request->get('records');
@@ -64,7 +64,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function generate(Vtiger_Request $request)
+	public function generate(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -219,10 +219,10 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Checks if given record has valid pdf template
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean true if valid template exists for this record
 	 */
-	public function hasValidTemplate(Vtiger_Request $request)
+	public function hasValidTemplate(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->get('modulename');

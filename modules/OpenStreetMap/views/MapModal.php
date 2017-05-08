@@ -9,12 +9,12 @@
 class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 {
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-fullscreen';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -44,7 +44,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$jsFileNames = array(
 			'~libraries/leaflet/leaflet.js',
@@ -55,7 +55,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
-	public function getModalCss(Vtiger_Request $request)
+	public function getModalCss(\App\Request $request)
 	{
 		$cssFileNames = [
 			'~libraries/leaflet/leaflet.css',

@@ -10,7 +10,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

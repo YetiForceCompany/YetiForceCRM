@@ -23,7 +23,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->exposeMethod('getWarningsList');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -31,13 +31,13 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
@@ -45,9 +45,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	/**
 	 * Pre process settings
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function preProcessSettings(Vtiger_Request $request)
+	public function preProcessSettings(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -64,7 +64,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -74,16 +74,16 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
 	}
 
-	public function postProcessSettings(Vtiger_Request $request)
+	public function postProcessSettings(\App\Request $request)
 	{
 		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
 	}
 
 	/**
 	 * Index
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function index(Vtiger_Request $request)
+	public function index(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -102,7 +102,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	public function github(Vtiger_Request $request)
+	public function github(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = 'Settings:Github';
@@ -138,7 +138,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('Github.tpl', $qualifiedModuleName);
 	}
 
-	public function DonateUs(Vtiger_Request $request)
+	public function DonateUs(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -148,9 +148,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	/**
 	 * Displays warnings system
 	 * 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function systemWarnings(Vtiger_Request $request)
+	public function systemWarnings(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -164,9 +164,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	/**
 	 * Displays a list of system warnings
 	 * 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getWarningsList(Vtiger_Request $request)
+	public function getWarningsList(\App\Request $request)
 	{
 		$folder = $request->get('folder');
 		$active = $request->getBoolean('active');
@@ -186,10 +186,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -215,10 +215,10 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
@@ -246,7 +246,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		return false;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

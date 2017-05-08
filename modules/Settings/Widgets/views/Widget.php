@@ -12,7 +12,7 @@
 class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($mode) {
@@ -22,7 +22,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function createStep1(Vtiger_Request $request)
+	public function createStep1(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$sourceModule = $request->get('mod');
@@ -36,7 +36,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->view('WidgetList.tpl', $qualifiedModuleName);
 	}
 
-	public function createStep2(Vtiger_Request $request)
+	public function createStep2(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -66,7 +66,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function edit(Vtiger_Request $request)
+	public function edit(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

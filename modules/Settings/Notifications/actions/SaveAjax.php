@@ -23,9 +23,9 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 
 	/**
 	 * Function adds/removes members
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function addOrRemoveMembers(Vtiger_Request $request)
+	public function addOrRemoveMembers(\App\Request $request)
 	{
 		$module = $request->get('srcModule');
 		$members = $request->get('members');
@@ -47,9 +47,9 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 
 	/**
 	 * Function sets lock status
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function lock(Vtiger_Request $request)
+	public function lock(\App\Request $request)
 	{
 		$module = $request->get('srcModule');
 		$members = $request->get('members');
@@ -71,9 +71,9 @@ class Settings_Notifications_SaveAjax_Action extends Settings_Vtiger_Index_Actio
 
 	/**
 	 * Function sets exceptions for users
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function exceptions(Vtiger_Request $request)
+	public function exceptions(\App\Request $request)
 	{
 		$module = $request->get('srcModule');
 		$member = $request->get('member');

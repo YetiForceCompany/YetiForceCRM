@@ -27,7 +27,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$this->exposeMethod('checkImportStatus');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Import')) {
@@ -37,9 +37,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -56,10 +56,10 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
@@ -74,9 +74,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	/**
 	 * First step to import records
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function importBasicStep(Vtiger_Request $request)
+	public function importBasicStep(\App\Request $request)
 	{
 		$uploadMaxSize = AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
@@ -101,9 +101,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	/**
 	 * Function verifies, validates and uploads data for import
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function uploadAndParse(Vtiger_Request $request)
+	public function uploadAndParse(\App\Request $request)
 	{
 		if (Import_Utils_Helper::validateFileUpload($request)) {
 			$moduleName = $request->getModule();
@@ -160,7 +160,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		}
 	}
 
-	public function import(Vtiger_Request $request)
+	public function import(\App\Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		Import_Main_View::import($request, $user);
@@ -168,14 +168,14 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	/**
 	 * Continue import
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function continueImport(Vtiger_Request $request)
+	public function continueImport(\App\Request $request)
 	{
 		$this->checkImportStatus($request);
 	}
 
-	public function undoImport(Vtiger_Request $request)
+	public function undoImport(\App\Request $request)
 	{
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 		$viewer = new Vtiger_Viewer();
@@ -225,25 +225,25 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		return [$noOfRecords, $noOfRecordsDeleted];
 	}
 
-	public function lastImportedRecords(Vtiger_Request $request)
+	public function lastImportedRecords(\App\Request $request)
 	{
 		$importList = new Import_List_View();
 		$importList->process($request);
 	}
 
-	public function deleteMap(Vtiger_Request $request)
+	public function deleteMap(\App\Request $request)
 	{
 		Import_Main_View::deleteMap($request);
 	}
 
-	public function clearCorruptedData(Vtiger_Request $request)
+	public function clearCorruptedData(\App\Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		Import_Module_Model::clearUserImportInfo($user);
 		$this->importBasicStep($request);
 	}
 
-	public function cancelImport(Vtiger_Request $request)
+	public function cancelImport(\App\Request $request)
 	{
 		$importId = $request->get('import_id');
 		$user = Users_Record_Model::getCurrentUserModel();
@@ -260,7 +260,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		}
 	}
 
-	public function checkImportStatus(Vtiger_Request $request)
+	public function checkImportStatus(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$user = Users_Record_Model::getCurrentUserModel();

@@ -8,7 +8,7 @@
 class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'RecordMappingList') ||
@@ -28,7 +28,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 		return false;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = $request->get('records');
@@ -63,7 +63,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

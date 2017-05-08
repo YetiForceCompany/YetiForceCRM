@@ -22,7 +22,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateFavoriteForRecord');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -32,17 +32,17 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -126,7 +126,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	 * 		toRemove				list of related record to remove
 	 * 		toAdd					list of related record to add
 	 */
-	public function updateRelation(Vtiger_Request $request)
+	public function updateRelation(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('src_record');
@@ -177,9 +177,9 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to get the page count for reltedlist
-	 * @param \Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getRelatedListPageCount(Vtiger_Request $request)
+	public function getRelatedListPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relModules = $relatedModuleName = $request->get('relatedModule');
@@ -234,7 +234,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function updateFavoriteForRecord(Vtiger_Request $request)
+	public function updateFavoriteForRecord(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
 		$relatedModule = $request->get('relatedModule');
@@ -253,7 +253,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -21,7 +21,7 @@ class Products_SummaryWidget_Model
 		return $instance;
 	}
 
-	public function getProductsServices(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function getProductsServices(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$fromModule = $request->get('fromModule');
 		$record = $request->get('record');

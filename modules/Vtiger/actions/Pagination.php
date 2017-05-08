@@ -14,12 +14,12 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('getTotalCount');
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}
 
-	public function getTotalCount(Vtiger_Request $request)
+	public function getTotalCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->get('viewname');
@@ -39,7 +39,7 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

@@ -18,17 +18,17 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('realignSettingsShortCutBlock');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -38,7 +38,7 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function getSettingsShortCutBlock(Vtiger_Request $request)
+	public function getSettingsShortCutBlock(\App\Request $request)
 	{
 		$fieldid = $request->get('fieldid');
 		$viewer = $this->getViewer($request);
@@ -49,7 +49,7 @@ class Settings_Vtiger_IndexAjax_View extends Settings_Vtiger_Index_View
 		$viewer->view('SettingsShortCut.tpl', $qualifiedModuleName);
 	}
 
-	public function realignSettingsShortCutBlock(Vtiger_Request $request)
+	public function realignSettingsShortCutBlock(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);

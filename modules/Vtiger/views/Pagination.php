@@ -11,7 +11,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getRelationPagination');
 	}
 
-	public function getRelationPagination(Vtiger_Request $request)
+	public function getRelationPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
@@ -43,7 +43,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$cvId = $request->get('viewname');

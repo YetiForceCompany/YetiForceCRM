@@ -18,7 +18,7 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('execute');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -30,7 +30,7 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -39,7 +39,7 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function execute(Vtiger_Request $request)
+	public function execute(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

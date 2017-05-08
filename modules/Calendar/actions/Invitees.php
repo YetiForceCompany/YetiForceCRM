@@ -4,7 +4,7 @@
 class Calendar_Invitees_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -19,7 +19,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('find');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -28,7 +28,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function find(Vtiger_Request $request)
+	public function find(\App\Request $request)
 	{
 		$value = $request->get('value');
 		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));

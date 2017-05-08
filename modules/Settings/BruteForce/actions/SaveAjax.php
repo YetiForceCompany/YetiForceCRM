@@ -21,9 +21,9 @@ class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function updates module configuration 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function saveConfig(Vtiger_Request $request)
+	public function saveConfig(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$data = $request->get('param');
@@ -36,9 +36,9 @@ class Settings_BruteForce_SaveAjax_Action extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function unblocks user
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function unBlock(Vtiger_Request $request)
+	public function unBlock(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$id = $request->get('param');

@@ -16,7 +16,7 @@ class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexA
 		$this->exposeMethod('delete');
 	}
 
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		Settings_WidgetsManagement_Module_Model::saveDashboard($request->get('dashboardId'), $request->get('name'));
 		$response = new Vtiger_Response();
@@ -24,7 +24,7 @@ class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexA
 		$response->emit();
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$dashboardId = $request->get('dashboardId');
 		if($dashboardId === Settings_WidgetsManagement_Module_Model::getDefaultDashboard()) {

@@ -14,7 +14,7 @@ vimport('~include/Webservices/Query.php');
 class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		try {
 			$result = array();

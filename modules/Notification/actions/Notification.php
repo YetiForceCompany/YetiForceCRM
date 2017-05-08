@@ -10,7 +10,7 @@
 class Notification_Notification_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$id = $request->get('id');
 		if (!empty($id)) {
@@ -41,7 +41,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('createMail');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -51,7 +51,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
-	public function setMark(Vtiger_Request $request)
+	public function setMark(\App\Request $request)
 	{
 		$ids = $request->get('ids');
 		if (!is_array($ids)) {
@@ -67,7 +67,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function saveWatchingModules(Vtiger_Request $request)
+	public function saveWatchingModules(\App\Request $request)
 	{
 		$selectedModules = $request->get('selctedModules');
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
@@ -89,7 +89,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		Vtiger_Watchdog_Model::reloadCache();
 	}
 
-	public function createMail(Vtiger_Request $request)
+	public function createMail(\App\Request $request)
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');

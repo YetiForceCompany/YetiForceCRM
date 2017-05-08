@@ -51,10 +51,10 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get instance of class
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Events_RecuringEvents_Model
 	 */
-	public static function getInstanceFromRequest(Vtiger_Request $request)
+	public static function getInstanceFromRequest(\App\Request $request)
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();

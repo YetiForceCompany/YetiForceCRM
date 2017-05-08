@@ -17,7 +17,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('getDetails');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -25,7 +25,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -36,9 +36,9 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function verifies whether the Account's credit limit has been reached
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function checkLimits(Vtiger_Request $request)
+	public function checkLimits(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -94,7 +94,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function getUnitPrice(Vtiger_Request $request)
+	public function getUnitPrice(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$recordModule = $request->get('recordModule');
@@ -110,7 +110,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function getDetails(Vtiger_Request $request)
+	public function getDetails(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$idList = $request->get('idlist');

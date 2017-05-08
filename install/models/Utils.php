@@ -71,7 +71,7 @@ class Install_Utils_Model
 	 * @param string $root_password
 	 * @return <Array>
 	 */
-	public static function checkDbConnection(Vtiger_Request $request)
+	public static function checkDbConnection(\App\Request $request)
 	{
 		$create_db = false;
 		$createDB = $request->get('create_db');

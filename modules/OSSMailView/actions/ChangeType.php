@@ -9,7 +9,7 @@
 class OSSMailView_ChangeType_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -17,7 +17,7 @@ class OSSMailView_ChangeType_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);

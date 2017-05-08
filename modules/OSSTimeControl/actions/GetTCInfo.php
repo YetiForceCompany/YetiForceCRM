@@ -4,7 +4,7 @@
 class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -21,7 +21,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$moduleName = $request->getModule();

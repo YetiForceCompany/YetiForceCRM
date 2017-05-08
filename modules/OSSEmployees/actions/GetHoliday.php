@@ -4,7 +4,7 @@
 class OSSEmployees_GetHoliday_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -15,7 +15,7 @@ class OSSEmployees_GetHoliday_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$moduleName = $request->getModule();

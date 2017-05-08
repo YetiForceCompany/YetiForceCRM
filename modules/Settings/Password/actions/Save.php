@@ -12,7 +12,7 @@
 class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
 		$type = $request->get('type');

@@ -18,7 +18,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		parent::__construct();
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
@@ -26,7 +26,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$profileID = $request->get('profileID');
 		$checked = $request->get('checked');

@@ -10,7 +10,7 @@
 class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
@@ -74,7 +74,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

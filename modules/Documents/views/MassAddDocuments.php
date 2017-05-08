@@ -11,10 +11,10 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to check permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -25,9 +25,9 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

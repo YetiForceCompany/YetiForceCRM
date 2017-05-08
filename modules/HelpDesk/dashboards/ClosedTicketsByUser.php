@@ -76,9 +76,9 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Main function 
-	 * @param Vtiger_Request $request 
+	 * @param \App\Request $request 
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

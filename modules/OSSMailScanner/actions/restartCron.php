@@ -12,7 +12,7 @@
 class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -20,7 +20,7 @@ class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$param = $request->get('updatedFields');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');

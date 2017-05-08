@@ -14,7 +14,7 @@ class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('mark');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -23,7 +23,7 @@ class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function mark(Vtiger_Request $request)
+	public function mark(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -37,7 +37,7 @@ class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

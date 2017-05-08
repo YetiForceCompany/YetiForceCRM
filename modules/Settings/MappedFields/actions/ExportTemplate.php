@@ -9,7 +9,7 @@
 class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('id');
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);

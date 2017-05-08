@@ -9,7 +9,7 @@
 class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('id');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($recordId);

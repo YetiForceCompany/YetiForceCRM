@@ -9,7 +9,7 @@
 class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -19,7 +19,7 @@ class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

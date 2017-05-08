@@ -17,7 +17,7 @@ class Settings_QuickCreateEditor_SaveSequenceNumber_Action extends Settings_Vtig
 		$this->exposeMethod('move');
 	}
 
-	public function move(Vtiger_Request $request)
+	public function move(\App\Request $request)
 	{
 		$updatedFieldsList = $request->get('updatedFields');
 

@@ -19,7 +19,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('setFilterPermissions');
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$params = $request->get('param');
 		Settings_CustomView_Module_Model::delete($params);
@@ -31,7 +31,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function updateField(Vtiger_Request $request)
+	public function updateField(\App\Request $request)
 	{
 		$params = $request->get('param');
 		Settings_CustomView_Module_Model::updateField($params);
@@ -43,7 +43,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function upadteSequences(Vtiger_Request $request)
+	public function upadteSequences(\App\Request $request)
 	{
 		$params = $request->get('param');
 		$result = Settings_CustomView_Module_Model::upadteSequences($params);
@@ -54,7 +54,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function setFilterPermissions(Vtiger_Request $request)
+	public function setFilterPermissions(\App\Request $request)
 	{
 		$params = $request->get('param');
 		$type = $request->get('type');

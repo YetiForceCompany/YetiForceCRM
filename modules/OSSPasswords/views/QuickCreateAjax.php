@@ -9,7 +9,7 @@
 class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		// get min, max, allow_chars from vtiger_passwords_config
 		$passwordConfig = (new App\Db\Query())->from('vtiger_passwords_config')->one();

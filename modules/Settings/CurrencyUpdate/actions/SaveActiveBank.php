@@ -8,12 +8,12 @@
 class Settings_CurrencyUpdate_SaveActiveBank_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$id = $request->get('id');
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();

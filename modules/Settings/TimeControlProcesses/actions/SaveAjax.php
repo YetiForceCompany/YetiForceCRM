@@ -12,7 +12,7 @@
 class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$params = $request->get('param');
 		$moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();

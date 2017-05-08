@@ -61,11 +61,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 
 	/**
 	 * Function gets records for timeline widget
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return array - List of records
 	 */
-	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(\App\Request $request, Vtiger_Paging_Model $pagingModel)
 	{
 		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');

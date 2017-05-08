@@ -17,7 +17,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('noteBookCreate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -26,7 +26,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function noteBookCreate(Vtiger_Request $request)
+	public function noteBookCreate(\App\Request $request)
 	{
 		$userModel = Users_Record_Model::getCurrentUserModel();
 		$dataValue['contents'] = $request->get('notePadContent');
@@ -54,7 +54,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

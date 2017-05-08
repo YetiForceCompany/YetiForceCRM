@@ -13,7 +13,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		return 'DiscountConfiguration';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		
 		\App\Log::trace('Start ' . __METHOD__);
@@ -32,7 +32,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getPageLabels(Vtiger_Request $request)
+	public function getPageLabels(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$view = $this->getView();
@@ -43,7 +43,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 		return $translations;
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

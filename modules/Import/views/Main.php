@@ -16,7 +16,7 @@ class Import_Main_View extends Vtiger_View_Controller
 	public $user;
 	public $numberOfRecords;
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		return;
 	}

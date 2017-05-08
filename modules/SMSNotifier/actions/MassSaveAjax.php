@@ -12,7 +12,7 @@
 class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
@@ -22,9 +22,9 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Function that saves SMS records
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 

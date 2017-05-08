@@ -10,11 +10,11 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param Vtiger_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');

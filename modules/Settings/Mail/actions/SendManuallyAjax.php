@@ -11,10 +11,10 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -24,9 +24,9 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$record = $request->get('id');
 		$db = \App\Db::getInstance('admin');
@@ -45,9 +45,9 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 
 	/**
 	 * Validate Request
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

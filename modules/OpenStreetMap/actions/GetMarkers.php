@@ -9,7 +9,7 @@
 class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$data = [];
 		$sourceModule = $request->get('srcModule');

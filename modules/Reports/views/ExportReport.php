@@ -20,7 +20,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		$this->exposeMethod('GetCSV');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
@@ -33,16 +33,16 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 
 	/**
 	 * Preprocess
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param boolean $display
 	 * @return boolean
 	 */
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return false;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return false;
 	}
@@ -57,9 +57,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 
 	/**
 	 * Function exports the report in a Excel sheet
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function GetXLS(Vtiger_Request $request)
+	public function GetXLS(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -69,9 +69,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 
 	/**
 	 * Function exports report in a CSV file
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function GetCSV(Vtiger_Request $request)
+	public function GetCSV(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -81,9 +81,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 
 	/**
 	 * Function displays the report in printable format
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function GetPrintReport(Vtiger_Request $request)
+	public function GetPrintReport(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

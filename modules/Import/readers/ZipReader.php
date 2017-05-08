@@ -13,7 +13,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	protected $importFolderLocation;
 	protected $filelist = [];
 
-	public function __construct(Vtiger_Request $request, $user)
+	public function __construct(\App\Request $request, $user)
 	{
 		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
 		if (!empty($instance)) {
@@ -85,7 +85,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	public function getFirstRowData($hasHeader)
 	{
 		$data = $this->request->getAll();
-		$newRequest = new Vtiger_Request($data);
+		$newRequest = new \App\Request($data);
 		$newRequest->set('type', $this->extension);
 		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
@@ -120,7 +120,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	public function read()
 	{
 		$data = $this->request->getAll();
-		$newRequest = new Vtiger_Request($data);
+		$newRequest = new \App\Request($data);
 		$newRequest->set('type', $this->extension);
 		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {

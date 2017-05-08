@@ -9,7 +9,7 @@
 class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$title = $request->get('title');
 		$body = $request->get('body');
@@ -21,7 +21,7 @@ class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 		$responce->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}
