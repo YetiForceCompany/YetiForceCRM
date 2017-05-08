@@ -13,6 +13,14 @@ use PHPUnit\Framework\TestCase;
 class LogIn extends TestCase
 {
 
+	public function testLoginPage()
+	{
+		ob_start();
+		(new Vtiger_WebUI())->process(App\Request::init());
+		file_put_contents('tests/LoginPage.txt', ob_get_contents());
+		ob_end_clean();
+	}
+
 	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
