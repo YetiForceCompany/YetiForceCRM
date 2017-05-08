@@ -50,7 +50,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$queryToGetId .= '"' . $oldValue . '")';
 		}
-		$result = $db->pquery($queryToGetId, array());
+		$result = $db->pquery($queryToGetId, []);
 		$rowCount = $db->num_rows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
 			$recordId = $db->query_result_rowdata($result, $i);
@@ -68,9 +68,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleName = $request->get('source_module');
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListName, $moduleModel);
-		$rolesSelected = array();
+		$rolesSelected = [];
 		if ($fieldModel->isRoleBased()) {
-			$userSelectedRoles = $request->get('rolesSelected', array());
+			$userSelectedRoles = $request->get('rolesSelected', []);
 			//selected all roles option
 			if (in_array('all', $userSelectedRoles)) {
 				$roleRecordList = Settings_Roles_Record_Model::getAll();
@@ -141,11 +141,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function assignValueToRole(Vtiger_Request $request)
 	{
-		$pickListFieldName = $request->get('picklistName');
 		$valueToAssign = $request->getRaw('assign_values');
 		$userSelectedRoles = $request->get('rolesSelected');
 
-		$roleIdList = array();
+		$roleIdList = [];
 		//selected all roles option
 		if (in_array('all', $userSelectedRoles)) {
 			$roleRecordList = Settings_Roles_Record_Model::getAll();
@@ -160,7 +159,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->enableOrDisableValuesForRole($pickListFieldName, $valueToAssign, array(), $roleIdList);
+			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $valueToAssign, [], $roleIdList);
 			$response->setResult(array('success', true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -170,13 +169,12 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function saveOrder(Vtiger_Request $request)
 	{
-		$pickListFieldName = $request->get('picklistName');
 		$picklistValues = $request->getRaw('picklistValues');
 
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->updateSequence($pickListFieldName, $picklistValues);
+			$moduleModel->updateSequence($request->getForSql('picklistName'), $picklistValues);
 			$response->setResult(array('success', true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -186,15 +184,14 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function enableOrDisable(Vtiger_Request $request)
 	{
-		$pickListFieldName = $request->get('picklistName');
-		$enabledValues = $request->getRaw('enabled_values', array());
-		$disabledValues = $request->getRaw('disabled_values', array());
+		$enabledValues = $request->getRaw('enabled_values', []);
+		$disabledValues = $request->getRaw('disabled_values', []);
 		$roleSelected = $request->get('rolesSelected');
 
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->enableOrDisableValuesForRole($pickListFieldName, $enabledValues, $disabledValues, array($roleSelected));
+			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $enabledValues, $disabledValues, array($roleSelected));
 			$response->setResult(array('success', true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

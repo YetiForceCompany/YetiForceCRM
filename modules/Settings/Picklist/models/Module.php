@@ -175,7 +175,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public function enableOrDisableValuesForRole($picklistFieldName, $valuesToEnables, $valuesToDisable, $roleIdList)
 	{
 		$db = App\Db::getInstance();
-		$picklistid = (new App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')
+		$picklistId = (new App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')
 				->where(['name' => $picklistFieldName])->scalar();
 		$primaryKey = App\Fields\Picklist::getPickListId($picklistFieldName);
 		$pickListValueList = array_merge($valuesToEnables, $valuesToDisable);
@@ -185,31 +185,27 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				->createCommand()->query();
 		$pickListValueDetails = [];
 		while ($row = $dataReader->read()) {
-			$pickListValueDetails[decode_html($row[$primaryKey])] = [
-				'picklistvalueid' => $row['picklist_valueid'],
-				'picklistid' => $picklistid
-			];
+			$pickListValueDetails[App\Purifier::decodeHtml($row[$primaryKey])] = $row['picklist_valueid'];
 		}
 		$insertValueList = [];
 		$deleteValueList = ['or'];
 		foreach ($roleIdList as $roleId) {
 			foreach ($valuesToEnables as $picklistValue) {
-				$valueDetail = $pickListValueDetails[$picklistValue];
-				if (empty($valueDetail)) {
-					$valueDetail = $pickListValueDetails[Vtiger_Util_Helper::toSafeHTML($picklistValue)];
+				if (empty($pickListValueDetails[$picklistValue])) {
+					$pickListValueId = $pickListValueDetails[App\Purifier::encodeHtml($picklistValue)];
+				} else {
+					$pickListValueId = $pickListValueDetails[$picklistValue];
 				}
-				$pickListValueId = $valueDetail['picklistvalueid'];
-				$picklistId = $valueDetail['picklistid'];
-				$insertValueList [] = [$roleId, $pickListValueId, $picklistId];
-				$deleteValueList [] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
+				$insertValueList[] = [$roleId, $pickListValueId, $picklistId];
+				$deleteValueList[] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
 			}
 			foreach ($valuesToDisable as $picklistValue) {
-				$valueDetail = $pickListValueDetails[$picklistValue];
-				if (empty($valueDetail)) {
-					$valueDetail = $pickListValueDetails[Vtiger_Util_Helper::toSafeHTML($picklistValue)];
+				if (empty($pickListValueDetails[$picklistValue])) {
+					$pickListValueId = $pickListValueDetails[App\Purifier::encodeHtml($picklistValue)];
+				} else {
+					$pickListValueId = $pickListValueDetails[$picklistValue];
 				}
-				$pickListValueId = $valueDetail['picklistvalueid'];
-				$deleteValueList [] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
+				$deleteValueList[] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
 			}
 		}
 		if ($deleteValueList) {
