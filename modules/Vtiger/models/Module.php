@@ -1458,18 +1458,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function returns all the related modules for workflows create entity task
-	 * @return <JSON>
-	 */
-	public function vtJsonDependentModules()
-	{
-		vimport('~modules/com_vtiger_workflow/WorkflowComponents.php');
-		$db = PearDatabase::getInstance();
-		$param = array('modulename' => $this->getName());
-		return vtJsonDependentModules($db, $param);
-	}
-
-	/**
 	 * Function returns mandatory field Models
 	 * @return Vtiger_Field_Model[]
 	 */
