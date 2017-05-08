@@ -402,7 +402,7 @@ class Request
 	 * @return mied
 	 * @throws Exceptions\AppException
 	 */
-	public function __callStatic($name, $arguments = null)
+	public static function __callStatic($name, $arguments = null)
 	{
 		if (!static::$request) {
 			self::init();
