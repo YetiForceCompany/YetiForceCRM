@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WebUI test class
  * @package YetiForce.Tests
@@ -22,11 +21,14 @@ class WebUI extends TestCase
 				continue;
 			}
 			ob_start();
+			ob_implicit_flush(false);
+
 			$request = App\Request::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
+
 			ob_end_clean();
 		}
 	}
