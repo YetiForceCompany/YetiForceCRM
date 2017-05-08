@@ -4,7 +4,7 @@ namespace App;
 /**
  * Request basic class
  * @package YetiForce.App
- * @license YetiForce Public License 1.2 (licenses/License.html)
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @copyright YetiForce Sp. z o.o.
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
