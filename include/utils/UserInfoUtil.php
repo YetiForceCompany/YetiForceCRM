@@ -86,7 +86,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	$userPrivileges = App\User::getPrivilegesFile($current_user->id);
 
 	$permission = 'no';
-	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && AppRequest::get('parenttab') != 'Settings') {
+	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && \App\Request::_get('parenttab') != 'Settings') {
 		//These modules dont have security right now
 		vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
 		\App\Log::trace('Exiting isPermitted method ...');
@@ -94,7 +94,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	}
 
 	//Checking the Access for the Settings Module
-	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || AppRequest::get('parenttab') == 'Settings') {
+	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || \App\Request::_get('parenttab') == 'Settings') {
 		if (!$userPrivileges['is_admin']) {
 			$permission = 'no';
 		} else {

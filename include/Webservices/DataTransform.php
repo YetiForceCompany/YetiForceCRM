@@ -75,8 +75,8 @@ class DataTransform
 		// added to handle the setting reminder time
 		if (strtolower($meta->getEntityName()) == "events") {
 			if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
-				AppRequest::set('set_reminder', 'Yes');
-				AppRequest::set('mode', 'edit');
+				\App\Request::_set('set_reminder', 'Yes');
+				\App\Request::_set('mode', 'edit');
 
 				$reminder = $row['reminder_time'];
 				$seconds = (int) $reminder % 60;
@@ -89,11 +89,11 @@ class DataTransform
 					$minutes = 1;
 				}
 
-				AppRequest::set('remmin', $minutes);
-				AppRequest::set('remhrs', $hours);
-				AppRequest::set('remdays', $days);
+				\App\Request::_set('remmin', $minutes);
+				\App\Request::_set('remhrs', $hours);
+				\App\Request::_set('remdays', $days);
 			} else {
-				AppRequest::set('set_reminder', 'No');
+				\App\Request::_set('set_reminder', 'No');
 			}
 		} elseif (strtolower($meta->getEntityName()) == "calendar") {
 			if (empty($row['sendnotification']) || strtolower($row['sendnotificaiton']) == 'no' || $row['sendnotificaiton'] == '0' || $row['sendnotificaiton'] == 'false' || strtolower($row['sendnotificaiton']) == 'n') {

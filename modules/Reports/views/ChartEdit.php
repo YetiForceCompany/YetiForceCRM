@@ -188,7 +188,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->view('ChartEditStep2.tpl', $moduleName);
 	}
 
-	public function step3(Vtiger_request $request)
+	public function step3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

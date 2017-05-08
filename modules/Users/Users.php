@@ -116,8 +116,8 @@ class Users extends CRMEntity
 	{
 
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (\App\Request::_has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder method ...");
@@ -138,8 +138,8 @@ class Users extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (\App\Request::_has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -473,7 +473,7 @@ class Users extends CRMEntity
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+				$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -646,7 +646,7 @@ class Users extends CRMEntity
 	{
 		$homeModComptVisibility = 1;
 		if ($inVal == 'postinstall') {
-			if (AppRequest::get($home_string) != '') {
+			if (\App\Request::_get($home_string) != '') {
 				$homeModComptVisibility = 0;
 			} else if (in_array($home_string, $this->default_widgets)) {
 				$homeModComptVisibility = 0;
@@ -745,7 +745,7 @@ class Users extends CRMEntity
 		if ($this->mode == 'edit') {
 			$countHomeorderArray = count($this->homeorder_array);
 			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (AppRequest::get($this->homeorder_array[$i]) != '') {
+				if (\App\Request::_get($this->homeorder_array[$i]) != '') {
 					$save_array[] = $this->homeorder_array[$i];
 					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);

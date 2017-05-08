@@ -44,7 +44,7 @@ class Exception extends \Exception
 	public function handleError()
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
-			$request = \AppRequest::init();
+			$request = \App\Request::init();
 			$error .= "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;

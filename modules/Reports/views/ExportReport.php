@@ -47,7 +47,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		return false;
 	}
 
-	public function process(Vtiger_request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {

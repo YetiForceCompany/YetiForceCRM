@@ -235,9 +235,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$recordModel->saveInventoryData($moduleName);
 		}
 		// vtlib customization: Hook provide to enable generic module relation.
-		if (AppRequest::get('createmode') === 'link') {
-			$forModule = AppRequest::get('return_module');
-			$forCrmid = AppRequest::get('return_id');
+		if (\App\Request::_get('createmode') === 'link') {
+			$forModule = \App\Request::_get('return_module');
+			$forCrmid = \App\Request::_get('return_id');
 			if ($forModule && $forCrmid) {
 				$focus = CRMEntity::getInstance($forModule);
 				relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
@@ -1620,7 +1620,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					}
 				}
 			}
-			if ($relationField && ($moduleName != $sourceModule || AppRequest::get('addRelation'))) {
+			if ($relationField && ($moduleName != $sourceModule || \App\Request::_get('addRelation'))) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}

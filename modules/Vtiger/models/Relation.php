@@ -419,7 +419,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		switch (AppRequest::get('time')) {
+		switch (\App\Request::_get('time')) {
 			case 'current':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
 				break;

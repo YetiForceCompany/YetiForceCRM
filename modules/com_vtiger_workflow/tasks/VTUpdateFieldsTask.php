@@ -107,9 +107,9 @@ class VTUpdateFieldsTask extends VTTask
 			$curid = $currency_details[$i]['curid'];
 			$cur_checkname = 'cur_' . $curid . '_check';
 			$cur_valuename = 'curname' . $curid;
-			if ($cur_valuename == AppRequest::get('base_currency') && (AppRequest::get($cur_checkname) == 'on' || AppRequest::get($cur_checkname) == 1)) {
+			if ($cur_valuename == \App\Request::_get('base_currency') && (\App\Request::_get($cur_checkname) == 'on' || \App\Request::_get($cur_checkname) == 1)) {
 				$fieldValue = $fieldValue * $currency_details[$i]['conversionrate'];
-				AppRequest::set($cur_valuename, $fieldValue);
+				\App\Request::_set($cur_valuename, $fieldValue);
 			}
 		}
 		return $fieldValue;

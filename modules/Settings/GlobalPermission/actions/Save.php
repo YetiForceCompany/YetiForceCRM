@@ -14,7 +14,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 
 	public function __construct()
 	{
-		Settings_Vtiger_Tracker_Model::setRecordId(AppRequest::get('profileID'));
+		Settings_Vtiger_Tracker_Model::setRecordId(\App\Request::_get('profileID'));
 		parent::__construct();
 	}
 

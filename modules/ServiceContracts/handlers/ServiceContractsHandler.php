@@ -17,7 +17,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 	{
 		$moduleName = $eventHandler->getModuleName();
 		// Update Used Units for the Service Contract, everytime the status of a ticket related to the Service Contract changes
-		if ($moduleName === 'HelpDesk' && AppRequest::get('return_module') !== 'ServiceContracts') {
+		if ($moduleName === 'HelpDesk' && \App\Request::_get('return_module') !== 'ServiceContracts') {
 			$recordModel = $eventHandler->getRecordModel();
 			$ticketId = $recordModel->getId();
 			$status = $recordModel->get('ticketstatus');

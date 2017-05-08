@@ -930,7 +930,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
-			$request = AppRequest::init();
+			$request = App\Request::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
@@ -1043,7 +1043,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
 	{
 		$id = $this->getId();
-		$module = AppRequest::get('module');
+		$module = \App\Request::_get('module');
 		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$db = \App\Db::getInstance();
 		$userId = \App\User::getCurrentUserId();
@@ -1099,9 +1099,9 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				'path' => $uploadFilePath
 			])->execute();
 
-			if (AppRequest::get('mode') === 'edit') {
-				if (!empty($id) && !empty(AppRequest::get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => AppRequest::get('fileid')])->execute();
+			if (\App\Request::_get('mode') === 'edit') {
+				if (!empty($id) && !empty(\App\Request::_get('fileid'))) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
 				}
 			}
 			if ($module === 'Documents') {

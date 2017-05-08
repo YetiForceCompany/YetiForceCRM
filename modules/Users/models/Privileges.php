@@ -246,7 +246,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$saveFull = true;
 
 		$db = \App\Db::getInstance();
-		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
+		if (\App\Request::_get('action') == 'SaveAjax' && \App\Request::_has('field') && \App\Request::_get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {

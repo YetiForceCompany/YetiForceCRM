@@ -14,10 +14,10 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 
 	/**
 	 * Function returns the module name for which the popup should be initialized
-	 * @param Vtiger_request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getModule(Vtiger_request $request)
+	public function getModule(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return $moduleName;

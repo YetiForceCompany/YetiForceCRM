@@ -28,7 +28,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function get($key)
 	{
 		$value = parent::get($key);
-		if ($key === 'content' && AppRequest::get('view') == 'Detail') {
+		if ($key === 'content' && \App\Request::_get('view') == 'Detail') {
 			return vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), vtlib\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {

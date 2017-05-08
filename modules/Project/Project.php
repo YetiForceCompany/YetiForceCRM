@@ -398,7 +398,7 @@ class Project extends CRMEntity
 			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
 			return;
 		}
-		$destinationModule = AppRequest::get('destination_module');
+		$destinationModule = \App\Request::_get('destination_module');
 		if (empty($destinationModule))
 			$destinationModule = $with_module;
 		if (!is_array($with_crmid))

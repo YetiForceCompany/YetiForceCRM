@@ -22,7 +22,7 @@ class WebUI extends TestCase
 				continue;
 			}
 			ob_start();
-			$request = AppRequest::init();
+			$request = App\Request::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
 			$webUI = new Vtiger_WebUI();
@@ -34,7 +34,7 @@ class WebUI extends TestCase
 	public function testDetailView()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Accounts');
 		$request->set('view', 'Detail');
 		$request->set('record', ACCOUNT_ID);
@@ -48,7 +48,7 @@ class WebUI extends TestCase
 	public function testEditView()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Accounts');
 		$request->set('view', 'Edit');
 		$request->set('record', ACCOUNT_ID);
@@ -63,7 +63,7 @@ class WebUI extends TestCase
 	public function testGlobalSearch()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Vtiger');
 		$request->set('view', 'BasicAjax');
 		$request->set('value', 'yeti');
@@ -83,7 +83,7 @@ class WebUI extends TestCase
 	public function testReminders()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Calendar');
 		$request->set('view', 'Reminders');
 		$request->set('type_remainder', true);

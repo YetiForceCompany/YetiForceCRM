@@ -1448,8 +1448,8 @@ class CRMEntity
 
 		$currentModule = vglobal('currentModule');
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::getForSql('sorder'));
+		if (\App\Request::_has('sorder'))
+			$sorder = $this->db->sql_escape_string(App\Request::_getForSql('sorder'));
 		else
 			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder() method ...");
@@ -1471,8 +1471,8 @@ class CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::getForSql('order_by'));
+		if (\App\Request::_has('order_by'))
+			$order_by = $this->db->sql_escape_string(App\Request::_getForSql('order_by'));
 		else
 			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");

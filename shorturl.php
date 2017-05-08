@@ -11,4 +11,4 @@
 require_once 'include/RequirementsValidation.php';
 require_once 'include/main/WebUI.php';
 
-Vtiger_ShortURL_Helper::handle(AppRequest::get('id'));
+Vtiger_ShortURL_Helper::handle(\App\Request::_get('id'));

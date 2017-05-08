@@ -18,7 +18,7 @@ class Pdf extends TestCase
 		/*
 		  $row = (new \App\Db\Query())->from('vtiger_crmentity')->where(['setype' => 'SQuotes'])->limit(1)->one();
 		  if ($row) {
-		  $request = AppRequest::init();
+		  $request = App\Request::init();
 		  $request->set('module', $row['setype']);
 		  $request->set('action', 'Detail');
 		  $request->set('record', $row['crmid']);

@@ -75,7 +75,7 @@ function getaddEventPopupTime($starttime, $endtime, $format)
  */
 function getActivityDetails($description, $user_id, $from = '')
 {
-	
+
 	$currentUser = vglobal('current_user');
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
@@ -143,7 +143,7 @@ function twoDigit($no)
 function calendarview_getSelectedUserId()
 {
 	$currentUser = Users_Privileges_Model::getCurrentUserModel();
-	$onlyForUser = htmlspecialchars(strip_tags(AppRequest::getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
+	$onlyForUser = htmlspecialchars(strip_tags(App\Request::_getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
 	return $onlyForUser;

@@ -197,7 +197,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				$file = $this->file;
 			}
 			if ($file['name'] != '' && $file['size'] > 0) {
-				$file['original_name'] = AppRequest::get('0_hidden');
+				$file['original_name'] = \App\Request::_get('0_hidden');
 				$this->uploadAndSaveFile($file);
 			}
 		} else {

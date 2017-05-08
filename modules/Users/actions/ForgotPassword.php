@@ -107,4 +107,4 @@ class Users_ForgotPassword_Action
 	}
 }
 
-Users_ForgotPassword_Action::run(AppRequest::init());
+Users_ForgotPassword_Action::run(App\Request::init());

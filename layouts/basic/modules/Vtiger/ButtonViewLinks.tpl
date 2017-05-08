@@ -4,7 +4,7 @@
 		{assign var=TEXT_HOLDER value=''}
 		{foreach item=LINK from=$LINKS}
 			{assign var=LINK_PARAMS value=vtlib\Functions::getQueryParams($LINK->getUrl())}
-			{if AppRequest::init()->getModule() == $LINK_PARAMS['module'] && AppRequest::get('view') == $LINK_PARAMS['view']}
+			{if \App\Request::_getModule() == $LINK_PARAMS['module'] && \App\Request::_get('view') == $LINK_PARAMS['view']}
 				{assign var=TEXT_HOLDER value=$LINK->getLabel()}
 			{/if} 
 		{/foreach}
