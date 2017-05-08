@@ -1,4 +1,4 @@
-YetiForce Public License 1.1
+YetiForce Public License 1.2
 
 PLEASE READ THE FOLLOWING LICENSE AGREEMENT CAREFULLY. ANY USE OF SOFTWARE DOWNLOADED OR ORDERED FROM YETIFORCE IS PERMITTED ONLY UNDER LICENSE WITH YETIFORCE. BY DOWNLOADING THIS SOFTWARE YOU AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE AGREEMENT. 
 
@@ -216,7 +216,7 @@ Initial Developer may designate portions of the Covered Code as “Multiple-Lice
 
 [NOTE: The text of this Exhibit A may differ slightly from the text of the notices in the Source Code files of the Original Code. You should use the text of this Exhibit A rather than the text found in the Original Code Source Code for Your Modifications.]
 
-EXHIBIT A -YetiForce Public License.
+EXHIBIT A - YetiForce Public License.
 
 "The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except in compliance with the License."
 
@@ -227,5 +227,18 @@ The Original Code is YetiForce.
 The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. All Rights Reserved.
 
 Contributor(s): ______________________________________.
+
+EXHIBIT B - YetiForce Public License.
+
+Additional Terms applicable to the YetiForce License.
+
+I. Effect.
+
+These additional terms described in this YetiForce License – Additional Terms shall apply to the Covered Code under this License.
+
+II. YetiForce and logo.
+This License does not grant any rights to use the trademarks "YetiForce" and the "YetiForce" logos even if such marks are included in the Original Code or Modifications.
+
+However, in addition to the other notice obligations, all copies of the Covered Code in Executable and Source Code form distributed must, as a form of attribution of the original author, include on each user interface screen the "Fueled by YetiForce" copyright notice in the same form as the latest version of the Covered Code distributed by YetiForce Sp. z o.o. [Ltd] at the time of distribution of such copy. In addition, the "Fueled by YetiForce" notice must be displayed in the same font and size as the font from this notice in the latest version of the Covered Code, must be visible to all users and be located at the very bottom center of each user interface screen.
 
 Copyright (c) 2014 www.yetiforce.com All rights reserved.

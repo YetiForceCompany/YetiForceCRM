@@ -1,4 +1,4 @@
-YetiForce Publiczna licencja 1.1
+YetiForce Publiczna licencja 1.2
 
 PROSZĘ PRZECZYTAĆ PONIŻSZĄ UMOWĘ LICENCYJNĄ UWAŻNIE. KAŻDE UŻYCIE OPROGRAMOWANIA ŚCIĄGNIĘTEGO LUB ZAMÓWIONEGO OD YETIFORCE DOZWOLONE JEST JEDYNIE NA PODSTAWIE UMOWY LICENCYJNEJ Z YETIFORCE. ŚCIĄGAJĄC TEN PROGRAM ZGADZACIE SIĘ PAŃSTWO NA PONIŻSZE WARUNKI I STAJECIE SIĘ STRONĄ PONIŻSZEJ UMOWY LICENCYJNEJ.
 
@@ -216,7 +216,7 @@ Pierwotny Programista może oznaczyć niektóre części Kodu Przedmiotowego jak
 
 [UWAGA: Treść Załącznika A może nieznacznie różnić się od treści zapisów zawartych w plikach Kodu Źródłowego Oryginalnego Kodu. Obowiązywać powinna treść Załącznika A, a nie treść zawarta w Oryginalnym Kodzie Źródłowego Kodu przeznaczonym do Twoich Modyfikacji.]
 
-ałącznik A – Licencja Publiczna YetiForce
+Załącznik A – Licencja Publiczna YetiForce
 
 „Zawartość tego pliku jest objęta licencją YetiForce  (YFPL) w wersji 1.0 („Licencja”). Nie możesz wykorzystywać tego pliku w sposób niezgodny z postanowieniami Licencji.”
 
@@ -227,5 +227,19 @@ Kod Oryginalny to YetiForce.
 Pierwotnym Programistą Kodu Oryginalnego jest YetiForce. Fragmenty stworzone przez YetiForce są przedmiotem praw autorskich. YetiForce © Copyright.
 
 Współtwórca(y): ______________________________________.
+
+Załącznik B – Licencja Publiczna YetiForce
+
+Dodatkowe warunki dotyczące Licencji YetiForce
+
+I. Efekt
+
+Poniższe dodatkowe zasady opisane w Licencji YetiForce – Dodatkowe warunki dotyczą Kodu Przedmiotowego na tej Licencji.
+
+II. YetiForce i logo
+
+Ta licencja nie nadaje żadnych praw do posługiwania się znakiem towarowym "YetiForce", ani logami "YetiForce" nawet jeśli są one zawarte w Oryginalnym Kodzie, lub Modyfikacjach.
+
+Oprócz innych obowiązków wynikających z licencji, wszystkie kopie Kodu Przedmiotowego w formie Wykonawczej i Kodu Źródłowego muszą, jako formę przypisania oryginalnego autorstwa, zawierać na każdym ekranie interfejsu użytkownika notę o prawach autorskich w postaci tekstu "Fueled by YetiForce", w tej samej formie jak najnowsza wersja Kodu Przedmiotowego rozpowszechnianego przez YetiForce Sp. z o.o. w czasie dystrybucji takiej kopii. Dodatkowo, tekst "Fueled by YetiForce" musi być wyświetlany tą samą czcionką, o tym samym rozmiarze co czcionka tego tekstu w najnowszej wersji Kodu Przedmiotowego, oraz musi być widoczny dla wszystkich użytkowników, i znajdować się na samym dole, na środku każdego ekranu interfejsu użytkownika.
 
 Copyright (c) 2014 www.yetiforce.com All rights reserved.
