@@ -115,6 +115,9 @@ class Request
 	 */
 	public function getArray($key, $value = [])
 	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 		}
