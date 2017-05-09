@@ -69,6 +69,8 @@ class Login extends \Api\Core\BaseAction
 				'hour_format' => $userModel->getDetail('hour_format'),
 				'start_hour' => $userModel->getDetail('start_hour'),
 				'date_format' => $userModel->getDetail('date_format'),
+				'date_format_js' => \App\Fields\DateTime::currentUserJSDateFormat($userModel->getDetail('date_format')),
+				'dayoftheweek' => $userModel->getDetail('dayoftheweek'),
 				'time_zone' => $userModel->getDetail('time_zone'),
 				'currency_id' => $userModel->getDetail('currency_id'),
 				'currency_grouping_pattern' => $userModel->getDetail('currency_grouping_pattern'),
