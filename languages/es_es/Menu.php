@@ -20,6 +20,7 @@ $languageStrings = [
 	'MEN_SUPPORT' => 'Soporte',
 	'MEN_ACCOUNTING' => 'Contabilidad',
 	'MEN_HUMAN_RESOURCES' => 'Recursos Humanos',
+	'MEN_COMPANY' => 'Empresa',
 	'MEN_SECRETARY' => 'Secretaría',
 	'MEN_DATABESES' => 'Bases de datos',
 	'MEN_TEAMWORK' => 'Trabajo de equipo',

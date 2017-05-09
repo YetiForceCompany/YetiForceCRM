@@ -1,12 +1,12 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'ISTRN' => 'Storage Transfer Received Notes',
-	'SINGLE_ISTRN' => 'Storage Transfer Received Notes',
+	'ISTRN' => 'Notas de transferencia de almacenamiento recibidas',
+	'SINGLE_ISTRN' => 'Notas de transferencia de almacenamiento recibidas',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',
-	'FL_VENDOR' => 'Vendor',
+	'FL_VENDOR' => 'Proveedor',
 	'FL_NUMBER' => 'ID',
 	'FL_SUBJECT' => 'Asunto',
 	'FL_STORAGE' => 'Almacenamiento',

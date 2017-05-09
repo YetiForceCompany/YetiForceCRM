@@ -10,7 +10,7 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
-	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Service Contract details',
+	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Información sobre el Contrato de servicio',
 	//Field Labels
 	'Contract No' => 'ID',
 	'Start Date' => 'Fecha inicio',
@@ -28,7 +28,7 @@ $languageStrings = [
 	'In Planning' => 'En planificación',
 	'In progress' => 'En progreso',
 	'On Hold' => 'En espera',
-	'Complete' => 'Complete',
+	'Complete' => 'Completo',
 	'Archived' => 'Archivado',
 	'Due date' => 'Fecha de vencimiento',
 	'Related to' => 'Relacionado con',

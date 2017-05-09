@@ -24,7 +24,7 @@ $languageStrings = [
 	'FL_INVOICE_TYPE' => 'Tipo de Factura',
 	'FL_CATEGORY' => 'Categoría',
 	//PICKLIST VALUES
-	'PLL_TRANSFER' => 'Banco de transferencia',
+	'PLL_TRANSFER' => 'Transferencia',
 	'PLL_WIRE_TRANSFER' => 'Transferencia bancaria',
 	'PLL_CASH' => 'Efectivo',
 	'PLL_AWAITING_PAYMENT' => 'En espera de pago',

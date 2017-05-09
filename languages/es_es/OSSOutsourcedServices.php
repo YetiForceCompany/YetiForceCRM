@@ -32,6 +32,7 @@ $languageStrings = [
 	'Save' => 'Guardar',
 	'Selling proposition' => 'Oportunidad',
 	'LBL_GENERATE_EXTENSION' => 'Generar extension',
-	'Active' => 'Activa',
+	'Active' => 'Activo',
 	'Inactive' => 'Inactiva',
+	'Notes' => 'Notas'
 ];

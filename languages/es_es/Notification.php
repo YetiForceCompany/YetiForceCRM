@@ -32,6 +32,7 @@ $languageStrings = [
 	'FL_USER' => 'Usuario',
 	'FL_TYPE' => 'Tipo',
 	'LBL_MARK_AS_READ' => 'Marcar como leído',
+	'LBL_MODULES' => 'Módulos',
 	'LBL_NO_NOTIFICATIONS' => 'Cantidad de notificaciones',
 	'LBL_NOTIFICATION_SETTINGS' => 'Configuración',
 	'LBL_UNREAD' => 'Sin leer',
