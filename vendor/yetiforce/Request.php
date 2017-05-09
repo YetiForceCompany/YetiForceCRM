@@ -15,25 +15,25 @@ class Request
 	 * Cleared request data
 	 * @var array 
 	 */
-	private $parseValues = [];
+	protected $parseValues = [];
 
 	/**
 	 * Raw request data
 	 * @var array 
 	 */
-	private $rawValues = [];
+	protected $rawValues = [];
 
 	/**
 	 * Headers request
 	 * @var array 
 	 */
-	private $headers;
+	protected $headers;
 
 	/**
 	 * Self instance
 	 * @var Request 
 	 */
-	private static $request;
+	protected static $request;
 
 	/**
 	 * Constructor
@@ -63,7 +63,7 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 		}
-		if (is_string($value) && strpos($value, '[') === 0 || strpos($value, '{') === 0) {
+		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 			if ($decodeValue = Json::decode($value)) {
 				$value = $decodeValue;
 			}
@@ -120,7 +120,7 @@ class Request
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
-			if (is_string($value) && strpos($value, '[') === 0 || strpos($value, '{') === 0) {
+			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 				if ($decodeValue = Json::decode($value)) {
 					$value = $decodeValue;
 				}

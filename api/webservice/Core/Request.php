@@ -11,10 +11,22 @@ namespace Api\Core;
 class Request extends \App\Request
 {
 
+	/**
+	 * Static instance initialization
+	 * @param boolean|array $request
+	 * @return Request
+	 */
+	public static function init($request = false)
+	{
+		if (!static::$request) {
+			static::$request = new self($request ? $request : $_REQUEST);
+		}
+		return static::$request;
+	}
+
 	public function getData()
 	{
 		if ($this->getRequestMethod() === 'GET') {
-			$this->rawValueMap = $_REQUEST;
 			return $this;
 		} else {
 			$encrypted = $this->getHeader('Encrypted');
@@ -26,7 +38,7 @@ class Request extends \App\Request
 		if (empty($content)) {
 			return false;
 		}
-		$this->rawValueMap = array_merge($this->contentParse($content), $_REQUEST);
+		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
 		return $this;
 	}
 
