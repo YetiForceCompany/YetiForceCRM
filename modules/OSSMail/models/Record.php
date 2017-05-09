@@ -279,8 +279,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		$body = '';
-		$body = (!empty($mail['textPlain'])) ? $mail['textPlain']: $body;
-		$body = (!empty($mail['textHtml'])) ? $mail['textHtml']: $body;
+		$body = (!empty($mail['textPlain'])) ? $mail['textPlain'] : $body;
+		$body = (!empty($mail['textHtml'])) ? $mail['textHtml'] : $body;
 		$attachment = (isset($mail['attachments'])) ? $mail['attachments'] : [];
 		return [
 			'body' => $body,
@@ -674,15 +674,22 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $mails;
 	}
 
+	/**
+	 * Get mail account detail by hash ID
+	 * @param string $hash
+	 * @return boolean|array
+	 */
 	public static function getAccountByHash($hash)
 	{
-		$db = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM roundcube_users WHERE preferences LIKE \'%s\'', "%:\"$hash\";%");
-		$result = $db->query($query);
-		if ($db->getRowCount($result) > 0) {
-			return $db->getRow($result);
-		} else {
-			return false;
+		if (preg_match("/^[_a-zA-Z0-9.,]+$/", $hash)) {
+			$result = (new \App\Db\Query())
+				->from('roundcube_users')
+				->where(['like', 'preferences', "%:\"$hash\";%", false])
+				->one();
+			if ($result) {
+				return $result;
+			}
 		}
+		return false;
 	}
 }
