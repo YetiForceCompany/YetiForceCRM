@@ -11,11 +11,6 @@ namespace Api\Core;
 class Request extends \App\Request
 {
 
-	public static function init()
-	{
-		return new self($_REQUEST);
-	}
-
 	public function getData()
 	{
 		if ($this->getRequestMethod() === 'GET') {
