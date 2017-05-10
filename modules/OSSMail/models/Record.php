@@ -408,7 +408,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return ['attachments' => $attachments, 'text' => $input];
 	}
 
-	public function isUrlEncoded($string)
+	public static function isUrlEncoded($string)
 	{
 		$string = str_replace('%20', '+', $string);
 		$decoded = urldecode($string);
