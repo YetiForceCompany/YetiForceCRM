@@ -1042,6 +1042,7 @@ class PackageImport extends PackageExport
 			'from_version' => $modulenode->from_version,
 			'to_version' => $modulenode->to_version,
 			'result' => $result,
+			'time' => date('Y-m-d H:i:s')
 		]);
 		if ($result) {
 			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);

@@ -488,9 +488,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public function add_scan_history($array)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("INSERT INTO vtiger_ossmails_logs (start_time,status,user) VALUES (?,1,?)", array(date('Y-m-d H:i:s'), $array['user']));
-		return $adb->getLastInsertID();
+		$db = \App\Db::getInstance();
+		$db->createCommand()->insert('vtiger_ossmails_logs', ['status' => 1, 'user' => $array['user'], 'start_time' => date('Y-m-d H:i:s')])->execute();
+		return $db->getLastInsertID('vtiger_ossmails_logs_id_seq');
 	}
 
 	public static function updateScanHistory($id, $array)
@@ -570,7 +570,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$adb = PearDatabase::getInstance();
 			$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_log_cron WHERE laststart = ?", array($checkCronStatus));
 			if ($adb->getRowCount($result) == 0) {
-				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status) VALUES (?,0)", array($checkCronStatus));
+				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status,created_time) VALUES (?,0,?)", array($checkCronStatus, date('Y-m-d H:i:s')));
 				$config = self::getConfig('cron');
 				$mail_status = \App\Mailer::addMail([
 						//'smtp_id' => 1,

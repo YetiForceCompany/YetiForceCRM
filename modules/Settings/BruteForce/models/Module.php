@@ -175,6 +175,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->insert('a_#__bruteforce_blocked', [
 			'ip' => $ip,
+			'time' => date('Y-m-d H:i:s'),
 			'attempts' => 1,
 			'blocked' => self::UNBLOCKED,
 		])->execute();

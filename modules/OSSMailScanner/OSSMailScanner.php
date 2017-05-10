@@ -40,22 +40,22 @@ class OSSMailScanner
 			$this->turn_off($moduleName);
 			$adb->pquery('UPDATE vtiger_cron_task SET status=0 WHERE module=?', array('OSSMailScanner'));
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_DisabledModule', $moduleName, $user_id), false);
+			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} else if ($eventType == 'module.enabled') {
 			$adb->pquery('UPDATE vtiger_cron_task SET status=1 WHERE module=?', array('OSSMailScanner'));
 			$this->turn_on($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
+			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
 			$adb = PearDatabase::getInstance();
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
+				App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 			}
 		}
 	}

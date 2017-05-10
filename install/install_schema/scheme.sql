@@ -35,7 +35,7 @@ CREATE TABLE `a_yf_bruteforce` (
 CREATE TABLE `a_yf_bruteforce_blocked` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `ip` varchar(50) NOT NULL,
-  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `time` timestamp NULL DEFAULT NULL,
   `attempts` tinyint(2) DEFAULT '0',
   `blocked` tinyint(1) DEFAULT '0',
   `userid` int(11) DEFAULT NULL,
@@ -1262,7 +1262,7 @@ CREATE TABLE `u_yf_favorites` (
   `relcrmid` int(19) DEFAULT NULL,
   `relmodule` varchar(30) DEFAULT NULL,
   `userid` int(19) DEFAULT NULL,
-  `data` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data` timestamp NULL DEFAULT NULL,
   KEY `crmid` (`crmid`),
   KEY `relcrmid` (`relcrmid`),
   KEY `mix` (`crmid`,`module`,`relcrmid`,`relmodule`,`userid`),
@@ -5677,8 +5677,8 @@ CREATE TABLE `vtiger_import_maps` (
   `content` longblob,
   `has_header` int(1) NOT NULL DEFAULT '1',
   `deleted` int(1) NOT NULL DEFAULT '0',
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_entered` timestamp NULL DEFAULT NULL,
+  `date_modified` timestamp NULL DEFAULT NULL,
   `assigned_user_id` varchar(36) DEFAULT NULL,
   `is_published` varchar(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
@@ -6693,7 +6693,7 @@ CREATE TABLE `vtiger_osservicesstatus_seq` (
 
 CREATE TABLE `vtiger_ossmails_logs` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `start_time` timestamp NULL DEFAULT NULL,
   `end_time` timestamp NULL DEFAULT NULL,
   `action` varchar(100) DEFAULT NULL,
   `status` tinyint(3) DEFAULT NULL,
@@ -6728,7 +6728,7 @@ CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
 
 CREATE TABLE `vtiger_ossmailscanner_log_cron` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_time` timestamp NULL DEFAULT NULL,
   `laststart` int(11) unsigned DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -8068,7 +8068,7 @@ CREATE TABLE `vtiger_scheduled_reports` (
   `recipients` text,
   `schedule` text,
   `format` varchar(10) DEFAULT NULL,
-  `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `next_trigger_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`reportid`),
   CONSTRAINT `vtiger_scheduled_reports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8085,7 +8085,7 @@ CREATE TABLE `vtiger_schedulereports` (
   `schdayofthemonth` varchar(100) DEFAULT NULL,
   `schannualdates` varchar(500) DEFAULT NULL,
   `specificemails` varchar(500) DEFAULT NULL,
-  `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `next_trigger_time` timestamp NULL DEFAULT NULL,
   `filetype` varchar(20) DEFAULT NULL,
   KEY `reportid` (`reportid`),
   CONSTRAINT `vtiger_schedulereports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
@@ -8994,8 +8994,8 @@ CREATE TABLE `vtiger_users` (
   `is_admin` varchar(3) DEFAULT '0',
   `currency_id` mediumint(19) NOT NULL DEFAULT '1',
   `description` text,
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_entered` timestamp NULL DEFAULT NULL,
+  `date_modified` timestamp NULL DEFAULT NULL,
   `modified_user_id` varchar(36) DEFAULT NULL,
   `email1` varchar(100) DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
@@ -9571,7 +9571,7 @@ CREATE TABLE `yetiforce_proc_tc` (
 
 CREATE TABLE `yetiforce_updates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time` timestamp NULL DEFAULT NULL,
   `user` varchar(50) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `from_version` varchar(10) DEFAULT NULL,

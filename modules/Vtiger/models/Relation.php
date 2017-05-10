@@ -840,6 +840,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = false;
 		if ('add' === $action) {
 			$result = $db->createCommand()->insert('u_#__favorites', [
+					'data' => date('Y-m-d H:i:s'),
 					'crmid' => $data['crmid'],
 					'module' => $moduleName,
 					'relcrmid' => $data['relcrmid'],
