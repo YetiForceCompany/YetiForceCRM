@@ -165,7 +165,7 @@ $breadcrumbs_separator = '>';
 $MINIMUM_CRON_FREQUENCY = 1;
 
 //Update the current session id with a newly generated one after login
-$session_regenerate_id = false;
+$session_regenerate_id = true;
 
 $davStorageDir = 'storage/Files';
 $davHistoryDir = 'storage/FilesHistory';
