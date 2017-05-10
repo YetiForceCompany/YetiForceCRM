@@ -41,7 +41,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		$zipfile = Import_Utils_Helper::getImportFilePath($user);
 		$this->importFolderLocation = $zipfile . '_' . $user->id;
 		// clean old data
-		if ($request->getMode() == 'uploadAndParse') {
+		if ($request->getMode() === 'uploadAndParse') {
 			$this->deleteFolder();
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
@@ -136,19 +136,8 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 
 	public function deleteFolder()
 	{
-		if (!empty($this->importFolderLocation) && is_dir($this->importFolderLocation)) {
-			$dirs[] = $this->importFolderLocation;
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->importFolderLocation, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isDir()) {
-					$dirs[] = $this->importFolderLocation . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
-				} else {
-					unlink($this->importFolderLocation . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-				}
-			}
-			arsort($dirs);
-			foreach ($dirs as $dir) {
-				rmdir($dir);
-			}
+		if (!empty($this->importFolderLocation)) {
+			\vtlib\Functions::recurseDelete($this->importFolderLocation);
 		}
 	}
 }
