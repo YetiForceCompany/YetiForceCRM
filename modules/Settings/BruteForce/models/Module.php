@@ -104,7 +104,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$time = $this->get('timelock');
 		$blockDate = new DateTime();
 		$blockDate->modify("-$time minutes");
-		$ip = \App\RequestUtil::getRemoteIP();
+		$ip = \App\RequestUtil::getRemoteIP(true);
 		$this->blockedId = (new \App\Db\Query())
 			->select(['id'])
 			->from('a_#__bruteforce_blocked')
@@ -139,7 +139,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$time = $this->get('timelock');
 		$date = new DateTime();
 		$checkData = $date->modify("-$time minutes")->format('Y-m-d H:i:s');
-		$ip = \App\RequestUtil::getRemoteIP();
+		$ip = \App\RequestUtil::getRemoteIP(true);
 
 		$bfData = (new \App\Db\Query())
 				->select(['id', 'attempts'])
