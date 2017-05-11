@@ -10,7 +10,7 @@
 {strip}
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
-	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
+	{assign var=CURRENTUSERID value=$USER_MODEL->getId()}
 	<div class="dashboardWidgetHeader">
 		<div class="row">
 			<div class="col-md-8">
@@ -24,12 +24,18 @@
 		</div>
 		<hr class="widgetHr"/>
 		<div class="row" >
+			<div class="col-sm-6">
+				{if $FILTER_FIELD}
+					<div class="widgetFilterByField">
+						{include file=vtemplate_path($FILTER_FIELD->getUITypeModel()->getListSearchTemplateName(),$BASE_MODULE) MODULE=$BASE_MODULE FIELD_MODEL=$FILTER_FIELD SEARCH_INFO=[] USER_MODEL=$USER_MODEL}
+					</div>
+				{/if}
+			</div>
 			<div class="col-sm-6 pull-right">
 				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
-
 	<div class="dashboardWidgetContent">
 		{include file="dashboards/MiniListContents.tpl"|@vtemplate_path:$MODULE_NAME}
 	</div>

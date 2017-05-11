@@ -212,7 +212,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $title;
 	}
 
-	public function getGetTotalCountURL()
+	public function getTotalCountURL()
 	{
 		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 	}

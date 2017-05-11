@@ -272,7 +272,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					data.find('.widgetFilterDate').remove();
 					var elementsToFilter = contents.find('.createFieldModal .widgetFilter').clone(true, true);
 					var elementsToFilterDate = contents.find('.createFieldModal .widgetFilterDate').clone(true, true);
-					
+
 					data.find('.modal-body').append(elementsToFilter);
 					data.find('.modal-body').append(elementsToFilterDate);
 					var name = jQuery(this).find(':selected').data('name');
@@ -872,6 +872,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
 			var filteridSelectDOM = jQuery('select[name="filterid"]', wizardContainer);
 			var fieldsSelectDOM = jQuery('select[name="fields"]', wizardContainer);
+			var filterFieldsSelectDOM = jQuery('select[name="filter_fields"]', wizardContainer);
 
 			var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
@@ -884,10 +885,14 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				closeOnSelect: true,
 				maximumSelectionLength: 6
 			});
+			var filterFieldsSelect2 = app.showSelect2ElementView(filterFieldsSelectDOM, {
+				placeholder: app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION')
+			});
 			var footer = jQuery('.modal-footer', wizardContainer);
 
 			filteridSelectDOM.closest('tr').hide();
 			fieldsSelectDOM.closest('tr').hide();
+			filterFieldsSelectDOM.closest('tr').hide();
 			footer.hide();
 
 			moduleNameSelect2.change(function () {
@@ -902,6 +907,8 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				}).then(function (res) {
 					filteridSelectDOM.empty().html(res).trigger('change');
 					filteridSelect2.closest('tr').show();
+					fieldsSelectDOM.closest('tr').hide();
+					filterFieldsSelectDOM.closest('tr').hide();
 				})
 			});
 			filteridSelect2.change(function () {
@@ -909,6 +916,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					return;
 				footer.hide();
 				fieldsSelectDOM.closest('tr').hide();
+				filterFieldsSelectDOM.closest('tr').hide();
 				AppConnector.request({
 					module: 'Home',
 					view: 'MiniListWizard',
@@ -916,9 +924,13 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					selectedModule: moduleNameSelect2.val(),
 					filterid: filteridSelect2.val()
 				}).then(function (res) {
-					fieldsSelectDOM.empty().html(res).trigger('change');
+					var res = jQuery(res);
+					fieldsSelectDOM.empty().html(res.find('select[name="fields"]').html()).trigger('change');
+					filterFieldsSelectDOM.empty().html(res.find('select[name="filter_fields"]').html()).trigger('change');
 					fieldsSelect2.closest('tr').show();
+					filterFieldsSelect2.closest('tr').show();
 					fieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
+					filterFieldsSelect2.data('select2').$selection.find('.select2-search__field').parent().css('width', '100%');
 				});
 			});
 			fieldsSelect2.change(function () {
@@ -928,7 +940,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					footer.show();
 				}
 			});
-
 			form.submit(function (e) {
 				e.preventDefault();
 				var selectedModule = moduleNameSelect2.val();
@@ -939,57 +950,52 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				fieldsSelect2.select2('data').map(function (obj) {
 					selectedFields.push(obj.id);
 				});
-				finializeAdd(selectedModule, selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFields, form);
+				var data = {
+					module: selectedModule
+				}
+				if (typeof selectedFields != 'object') {
+					selectedFields = [selectedFields];
+				}
+				data['fields'] = selectedFields;
+				data['filterFields'] = filterFieldsSelect2.val();
+				var paramsForm = {
+					data: JSON.stringify(data),
+					action: 'addWidget',
+					blockid: element.data('block-id'),
+					title: form.find('[name="widgetTitle"]').val(),
+					linkid: element.data('linkid'),
+					label: selectedModuleLabel + ' - ' + selectedFilterLabel,
+					name: 'Mini List',
+					filterid: selectedFilterId,
+					isdefault: 0,
+					cache: 0,
+					height: 4,
+					width: 4,
+					owners_all: ["mine", "all", "users", "groups"],
+					default_owner: 'mine'
+				};
+				thisInstance.save(paramsForm, 'save').then(function (data) {
+					var result = data['result'];
+					var params = {};
+					if (data['success']) {
+						app.hideModalWindow();
+						paramsForm['id'] = result['id'];
+						paramsForm['status'] = result['status'];
+						params['text'] = app.vtranslate('JS_WIDGET_ADDED');
+						Settings_Vtiger_Index_Js.showMessage(params);
+						thisInstance.showCustomField(paramsForm);
+					} else {
+						var message = data['error']['message'];
+						if (data['error']['code'] != 513) {
+							var errorField = form.find('[name="fieldName"]');
+						} else {
+							var errorField = form.find('[name="fieldLabel"]');
+						}
+						errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
+					}
+				});
 			});
 		});
-
-		function finializeAdd(moduleName, moduleNameLabel, filterid, filterLabel, fields, form) {
-			var data = {
-				module: moduleName
-			}
-			if (typeof fields != 'object')
-				fields = [fields];
-			data['fields'] = fields;
-
-			var paramsForm = {};
-			paramsForm['data'] = JSON.stringify(data);
-			paramsForm['action'] = 'addWidget';
-			paramsForm['blockid'] = element.data('block-id');
-			paramsForm['title'] = form.find('[name="widgetTitle"]').val();
-			paramsForm['linkid'] = element.data('linkid');
-			paramsForm['label'] = moduleNameLabel + ' - ' + filterLabel;
-			paramsForm['name'] = 'Mini List';
-			paramsForm['filterid'] = filterid;
-			paramsForm['isdefault'] = 0;
-			paramsForm['cache'] = 0;
-			paramsForm['height'] = 4;
-			paramsForm['width'] = 4;
-			paramsForm['owners_all'] = ["mine", "all", "users", "groups"];
-			paramsForm['default_owner'] = 'mine';
-
-			thisInstance.save(paramsForm, 'save').then(
-					function (data) {
-						var result = data['result'];
-						var params = {};
-						if (data['success']) {
-							app.hideModalWindow();
-							paramsForm['id'] = result['id'];
-							paramsForm['status'] = result['status'];
-							params['text'] = app.vtranslate('JS_WIDGET_ADDED');
-							Settings_Vtiger_Index_Js.showMessage(params);
-							thisInstance.showCustomField(paramsForm);
-						} else {
-							var message = data['error']['message'];
-							if (data['error']['code'] != 513) {
-								var errorField = form.find('[name="fieldName"]');
-							} else {
-								var errorField = form.find('[name="fieldLabel"]');
-							}
-							errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-						}
-					}
-			);
-		}
 	},
 	/**
 	 * Function to register the click event for delete custom field
