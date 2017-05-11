@@ -359,7 +359,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$fileExtension = 'js';
 		$jsScriptInstances = [];
-
+		$subfix = '';
+		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
+			$subfix = 'public/';
+		}
 		foreach ($jsFileNames as $jsFileName) {
 			$jsScript = new Vtiger_JsScript_Model();
 
@@ -379,7 +382,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $subfix . $filePath);
 				continue;
 			} else {
 				$preLayoutPath = '';
@@ -401,7 +404,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $layoutPath . '/' . $filePath);
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', "{$subfix}{$layoutPath}/{$filePath}");
 					continue;
 				}
 
@@ -416,7 +419,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $layoutPath . '/' . $filePath);
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', "{$subfix}{$layoutPath}/{$filePath}");
 					continue;
 				}
 			}
@@ -435,6 +438,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	 */
 	public function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
+		$subfix = '';
+		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
+			$subfix = 'public/';
+		}
 		$cssStyleInstances = [];
 		foreach ($cssFileNames as $cssFileName) {
 			$cssScriptModel = new Vtiger_CssScript_Model();
@@ -453,7 +460,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
+				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $subfix . $filePath);
 				continue;
 			} else {
 				$preLayoutPath = '';
@@ -474,7 +481,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $layoutPath . '/' . $filePath);
+					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', "{$subfix}{$layoutPath}/{$filePath}");
 					continue;
 				}
 
@@ -488,7 +495,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $layoutPath . '/' . $filePath);
+					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', "{$subfix}{$layoutPath}/{$filePath}");
 					continue;
 				}
 			}

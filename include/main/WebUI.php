@@ -8,6 +8,9 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+if (!defined('IS_PUBLIC_DIR')) {
+	define('IS_PUBLIC_DIR', false);
+}
 require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
