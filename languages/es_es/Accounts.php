@@ -93,7 +93,7 @@ $languageStrings = [
 	'Average profit sales order' => 'Media de beneficio por pedido de ventas (%)',
 	'Approval for email' => 'Permiso para envío de correos',
 	'Approval for phone calls' => 'Permiso para llamar',
-	'LBL_CONVERTED_FROM_LEAD' => 'Convertido desde el Contacto Potencial',
+	'LBL_CONVERTED_FROM_LEAD' => 'Convertido desde el Potencial',
 	'LBL_LEGAL_FORM' => 'Forma jurídica',
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Descuento',
@@ -102,7 +102,7 @@ $languageStrings = [
 	'LBL_DEACTIVATED_BY' => 'Cuenta desactivada por ',
 	'SINGLE_Vendors' => 'Proveedor',
 	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Número de contratos activos (SLA)',
-	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Productos y servicios',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Productos & Servicios',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'El nombre de la Cuenta ya existe. ¿Quieres crear un registro duplicado?',

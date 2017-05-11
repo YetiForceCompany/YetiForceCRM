@@ -224,9 +224,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function addLog($action, $info)
 	{
-		$adb = PearDatabase::getInstance();
 		$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-		$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?); ", array($action, $info, $user_id), true);
+		App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => $action, 'info' => $info, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 	}
 
 	public function getMailsQuery($recordId, $moduleName)

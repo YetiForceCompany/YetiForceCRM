@@ -32,6 +32,7 @@ $languageStrings = [
 	'Direction' => 'Dirección',
 	'Gateway' => 'Puerta de enlace',
 	'Customer type' => 'Tipo de cliente',
+	'Customer Type' => 'Tipo de cliente',
 	'Source UUID' => 'UUID de origen',
 	'End Time' => 'Hora fin',
 	'Record Id' => 'ID',

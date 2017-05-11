@@ -33,15 +33,12 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				break;
 			case 'step3':
 				$selectedModule = $request->get('selectedModule');
-				$filterid = $request->get('filterid');
-
 				$queryGenerator = new \App\QueryGenerator($selectedModule);
-				$queryGenerator->initForCustomViewById($filterid);
+				$queryGenerator->initForCustomViewById($request->getInteger('filterid'));
 				$viewer->assign('QUERY_GENERATOR', $queryGenerator);
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 				break;
 		}
-
 		$viewer->view('dashboards/MiniListWizard.tpl', $moduleName);
 	}
 }

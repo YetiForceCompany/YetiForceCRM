@@ -502,7 +502,7 @@ hr {
 	box-sizing: border-box;
 	word-wrap: break-word;
 }
-.gridster ul {
+.gridster > ul {
 	width: auto;
 	display: block;
 	-webkit-box-sizing: border-box;
@@ -511,13 +511,13 @@ hr {
 	word-wrap: break-word;
 	min-height: 460px;
 }
-.gridster ul {
+.gridster > ul {
 	list-style: none;
 	margin-left: 0 !important;
 	padding-left :0 !important;
 	margin-top: 5px !important;
 }
-.gridster ul li.dashboardWidget {
+.gridster > ul li.dashboardWidget {
 	background: #ffffff;
 	border-radius: 1px;
 	border: 1px solid #dddddd;
@@ -525,7 +525,7 @@ hr {
 	-moz-box-shadow: 0 0 3px -1px #dddddd;
 	box-shadow: 0 0 3px -1px #dddddd;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetHeader {
+.gridster > ul li.dashboardWidget .dashboardWidgetHeader {
 	background-color: #f5f5f5;
 	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
 	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
@@ -544,25 +544,25 @@ hr {
 	cursor: move;
 	padding: 5px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetHeader table {
+.gridster > ul li.dashboardWidget .dashboardWidgetHeader table {
 	height: 28px;
 }
-.gridster ul li.dashboardWidget .widgetFooterContent .row:first-child{
+.gridster > ul li.dashboardWidget .widgetFooterContent .row:first-child{
 	position: relative;
 	background-color: #f5f5f5;
 	padding-top: 3px;
 	padding-bottom: 2px;
 
 }
-.gridster ul li.dashboardWidget .dashboardWidgetHeader .dashboardTitle {
+.gridster > ul li.dashboardWidget .dashboardWidgetHeader .dashboardTitle {
 	text-align: left;
 	padding-left: 10px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetHeader .widgeticons {
+.gridster > ul li.dashboardWidget .dashboardWidgetHeader .widgeticons {
 	opacity: 0.5;
 	padding-right: 6px;
 }
-.gridster ul li.dashboardWidget .filterContainer {
+.gridster > ul li.dashboardWidget .filterContainer {
 	position: absolute;
 	border: 1px solid #dddddd;
 	background: #ffffff;
@@ -573,29 +573,29 @@ hr {
 	border-radius: 0 0 5px 5px;
 	box-shadow: 0 5px 8px -5px #888888;
 }
-.gridster ul li.dashboardWidget .filterContainer div span {
+.gridster > ul li.dashboardWidget .filterContainer div span {
 	margin-top: 6px;
 }
-.gridster ul li.dashboardWidget .filterContainer .col-md-5 {
+.gridster > ul li.dashboardWidget .filterContainer .col-md-5 {
 	margin-top: 3px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
+.gridster > ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
 	padding: 10px 0;
 	line-height: 20px;
 }
-.gridster ul li.dashboardWidget .dashboardWidgetContent .dashboard_notebookWidget_viewarea {
+.gridster > ul li.dashboardWidget .dashboardWidgetContent .dashboard_notebookWidget_viewarea {
 	height: 200px;
 }
-.gridster ul li.dashboardWidget .widgeticons {
+.gridster > ul li.dashboardWidget .widgeticons {
 	min-width: 50px;
 	height: 30px;
 	margin-right: 30px;
 }
-.gridster ul li.dashboardWidget .widgeticons a {
+.gridster > ul li.dashboardWidget .widgeticons a {
 	cursor: pointer;
 	text-decoration: none;
 }
-.gridster ul .widgetChartContainer {
+.gridster > ul .widgetChartContainer {
 	margin-left: 10px;
 	height: 100% !important;
 }
@@ -5923,4 +5923,22 @@ select.form-control {
 .remindersContent .notiContent{
 	background: #fff !important;
 	border-radius: 0 4px 4px 0;
+}
+.dashboardWidget .select2-selection--multiple .select2-search--inline .select2-search__field{
+	height: 25px;
+}
+.dashboardWidget  .select2-container--bootstrap .select2-selection--multiple{
+	min-height: 30px;
+}
+.dashboardWidgetContent {
+	position: relative;
+}
+.dashboardWidgetFooter{
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.dashboardWidget {
+	overflow: hidden;
 }

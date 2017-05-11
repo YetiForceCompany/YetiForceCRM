@@ -182,7 +182,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var searchContributorElement = jQuery(domElement);
 			var fieldInfo = searchContributorElement.data('fieldinfo');
 			var fieldName = searchContributorElement.attr('name');
-
 			var searchValue = searchContributorElement.val();
 
 			if (typeof searchValue == "object") {

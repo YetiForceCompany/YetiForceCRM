@@ -111,22 +111,21 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 				var cecheUrl = app.cacheGet(name + userId, false);
 				urlParams = cecheUrl ? cecheUrl : urlParams;
 			}
-			AppConnector.request(urlParams).then(
-					function (data) {
-						widgetContainer.html(data);
-						var headerHeight = widgetContainer.find('.dashboardWidgetHeader').height() + 15;
-						var adjustedHeight = widgetContainer.height() - headerHeight;
-						if (widgetContainer.find('.dashboardWidgetFooter').length) {
-							adjustedHeight -= 20;
-						}
-						app.showSelect2ElementView(widgetContainer.find('.select2'));
-						app.showScrollBar(widgetContainer.find('.dashboardWidgetContent'), {'height': adjustedHeight});
-						thisInstance.getWidgetInstance(widgetContainer);
-						widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
-					},
-					function () {
-					}
-			);
+			AppConnector.request(urlParams).then(function (data) {
+				widgetContainer.html(data);
+				app.showSelect2ElementView(widgetContainer.find('.select2'));
+				thisInstance.getWidgetInstance(widgetContainer);
+				widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
+				var headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();
+				var adjustedHeight = widgetContainer.height() - headerHeight;
+				if (widgetContainer.find('.dashboardWidgetFooter').length) {
+					adjustedHeight -= widgetContainer.find('.dashboardWidgetFooter').outerHeight();
+				}
+				var widgetContent = widgetContainer.find('.dashboardWidgetContent');
+				widgetContent.css('max-height', adjustedHeight + 'px');
+				widgetContent.css('overflow', 'auto');
+				widgetContent.perfectScrollbar();
+			});
 		} else {
 		}
 	},

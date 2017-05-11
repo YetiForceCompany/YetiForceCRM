@@ -10,6 +10,9 @@
  * Contributor(s): YetiForce.com, Itop.es
  * *********************************************************************************************************************************** */
 $languageStrings = [
+	//Innovaris
+	'LBL_MORE_DETAILS' => 'Más detalles',
+	//
 	'OSSEmployees' => 'Empleados',
 	'SINGLE_OSSEmployees' => 'Empleado',
 	'LBL_INFORMATION' => 'Información sobre el Empleado',
@@ -22,7 +25,7 @@ $languageStrings = [
 	'LBL_EMPLOYEESTATUS' => 'Estado',
 	'LBL_NAME' => 'Nombre',
 	'LBL_LASTNAME' => 'Apellidos',
-	'LBL_PESEL' => 'Número de identificación personal',
+	'LBL_PESEL' => 'DNI',
 	'LBL_IDCARD' => 'Tarjeta de identificación',
 	'LBL_EDUCATION' => 'Formación',
 	'LBL_BIRTHDATE' => 'Fecha de cumpleaños',

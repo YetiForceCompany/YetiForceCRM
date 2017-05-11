@@ -38,12 +38,25 @@ class Vtiger_Base_Model
 	/**
 	 * Function to get the value if its safe to use for SQL Query (column).
 	 * @param string $key
-	 * @param boolean $skipEmpty - Skip the check if string is empty
+	 * @param boolean $skipEmtpy - Skip the check if string is empty
 	 * @return Value for the given key
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
 		return \App\Purifier::purifySql($this->get($key), $skipEmtpy);
+	}
+
+	/**
+	 * Function to get the array values for a given key
+	 * @param string $key
+	 * @return array
+	 */
+	public function getFromJson($key)
+	{
+		if ($this->isEmpty($key)) {
+			return [];
+		}
+		return App\Json::decode($this->get($key));
 	}
 
 	/**

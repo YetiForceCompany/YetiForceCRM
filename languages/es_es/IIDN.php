@@ -1,8 +1,8 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'IIDN' => 'Internal Delivery Notes',
-	'SINGLE_IIDN' => 'Internal Delivery Notes',
+	'IIDN' => 'Notas de Entrega Interna',
+	'SINGLE_IIDN' => 'Notas de Entrega Interna',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',

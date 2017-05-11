@@ -18,7 +18,7 @@ $languageStrings = [
 	'LBL_ADD_TO_PRICEBOOKS' => 'Añadir a Tarifas',
 	//Field Labels
 	'Service Name' => 'Nombre del servicio',
-	'Service Active' => 'Activa',
+	'Service Active' => 'Activo',
 	'Service Category' => 'Categoría',
 	'Service No' => 'ID',
 	'Owner' => 'Asignado a',
@@ -46,5 +46,5 @@ $languageStrings = [
 	'Migration' => 'Migración',
 	'Customization' => 'Personalización',
 	'Training' => 'Formación',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'La lista de registros se limita a los productos y servicios asociados con la oportunidad de ventas',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'La lista de registros se limita a los productos y servicios asociados en la pestaña de “Productos & Servicios” del Módulo relacionado',
 ];

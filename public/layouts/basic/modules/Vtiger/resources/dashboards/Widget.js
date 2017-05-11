@@ -288,6 +288,51 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 			});
 		}
+		var widgetFilterByField = parent.find('.widgetFilterByField');
+		if (widgetFilterByField.length) {
+			var searchParams = new Array();
+			widgetFilterByField.find('.listSearchContributor').each(function (index, domElement) {
+				var searchInfo = new Array();
+				var searchContributorElement = jQuery(domElement);
+				var fieldInfo = searchContributorElement.data('fieldinfo');
+				var fieldName = searchContributorElement.attr('name');
+				var searchValue = searchContributorElement.val();
+
+				if (typeof searchValue == "object") {
+					if (searchValue == null) {
+						searchValue = "";
+					} else {
+						searchValue = searchValue.join(',');
+					}
+				}
+				searchValue = searchValue.trim();
+				if (searchValue.length <= 0) {
+					return true;
+				}
+				var searchOperator = 'a';
+				if (fieldInfo.hasOwnProperty("searchOperator")) {
+					searchOperator = fieldInfo.searchOperator;
+				} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'multiReferenceValue']) >= 0) {
+					searchOperator = 'e';
+				} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
+					searchOperator = 'bw';
+				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'categoryMultipicklist') {
+					searchOperator = 'c';
+				}
+				searchInfo.push(fieldName);
+				searchInfo.push(searchOperator);
+				searchInfo.push(searchValue);
+				if (fieldInfo.type == 'tree' || fieldInfo.type == 'categoryMultipicklist') {
+					var searchInSubcategories = parent.find('.searchInSubcategories[data-columnname="' + fieldName + '"]').prop('checked');
+					searchInfo.push(searchInSubcategories);
+				}
+				searchParams.push(searchInfo);
+			});
+			if(searchParams.length){
+				params.data.search_params = new Array(searchParams);
+			}
+		}
+
 		var filterData = this.getFilterData();
 		if (!jQuery.isEmptyObject(filterData)) {
 			if (typeof params == 'string') {
@@ -307,7 +352,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		if (this.paramCache && widgetFilters.length > 0) {
 			thisInstance.setFilterToCache(params.url, params.data);
 		}
-
 		AppConnector.request(params).then(
 				function (data) {
 					var data = jQuery(data);
@@ -323,6 +367,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 						})
 					}
 					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+					var headerHeight = parent.find('.dashboardWidgetHeader').outerHeight();
+					var adjustedHeight = parent.height() - headerHeight;
+					if (refreshContainerFooter.length) {
+						adjustedHeight -= refreshContainerFooter.outerHeight();
+					}
+					refreshContainer.css('max-height', adjustedHeight + 'px');
+					refreshContainer.css('overflow', 'auto');
+					refreshContainer.perfectScrollbar();
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});
@@ -360,10 +412,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 		app.registerEventForDatePickerFields(dateRangeElement, false, customParams);
 	},
 	registerFilterChangeEvent: function () {
-		this.getContainer().on('change', '.widgetFilter', function (e) {
+		var container = this.getContainer();
+		container.on('change', '.widgetFilter', function (e) {
 			var widgetContainer = jQuery(e.currentTarget).closest('li');
 			widgetContainer.find('a[name="drefresh"]').trigger('click');
-		})
+		});
+		if (container.find('.widgetFilterByField').length) {
+			app.showSelect2ElementView(container.find('.select2noactive'));
+			this.getContainer().on('change', '.widgetFilterByField .form-control', function (e) {
+				var widgetContainer = jQuery(e.currentTarget).closest('li');
+				widgetContainer.find('a[name="drefresh"]').trigger('click');
+			});
+		}
 	},
 	registerWidgetPostLoadEvent: function (container) {
 		var thisInstance = this;

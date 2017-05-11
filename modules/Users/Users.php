@@ -209,21 +209,21 @@ class Users extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	public function encrypt_password($user_password, $crypt_type = '')
+	public function encrypt_password($user_password, $crypt_type = 'PHP5.3MD5')
 	{
 		// encrypt the password.
 		$salt = substr($this->column_fields["user_name"], 0, 2);
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
-		if ($crypt_type == '') {
+		if ($crypt_type === '') {
 			// Try to get the crypt_type which is in database for the user
 			$crypt_type = $this->getCryptType();
 		}
 		// For more details on salt format look at: http://in.php.net/crypt
-		if ($crypt_type == 'MD5') {
+		if ($crypt_type === 'MD5') {
 			$salt = '$1$' . $salt . '$';
-		} elseif ($crypt_type == 'BLOWFISH') {
+		} elseif ($crypt_type === 'BLOWFISH') {
 			$salt = '$2$' . $salt . '$';
-		} elseif ($crypt_type == 'PHP5.3MD5') {
+		} elseif ($crypt_type === 'PHP5.3MD5') {
 			//only change salt for php 5.3 or higher version for backward
 			//compactibility.
 			//crypt API is lot stricter in taking the value for salt.
@@ -274,6 +274,7 @@ class Users extends CRMEntity
 	{
 		$userName = $this->column_fields['user_name'];
 		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
+		$encryptedPassword = $this->encrypt_password($userPassword, empty($userInfo['crypt_type']) ? 'PHP5.3MD5' : $userInfo['crypt_type']);
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
 			return false;
@@ -322,10 +323,6 @@ class Users extends CRMEntity
 			}
 			\App\Log::trace('End LDAP authentication');
 		}
-
-		//Default authentication
-		\App\Log::trace('Using integrated/SQL authentication');
-		$encryptedPassword = $this->encrypt_password($userPassword, $userInfo['crypt_type']);
 		if ($encryptedPassword === $userInfo['user_password']) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;

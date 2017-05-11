@@ -789,10 +789,11 @@ class Functions
 	public static function recurseDelete($src)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if (!file_exists($rootDir . $src))
+		if (!file_exists($rootDir . $src)) {
 			return;
+		}
 		$dirs = [];
-		@chmod($root_dir . $src, 0777);
+		@chmod($rootDir . $src, 0777);
 		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {

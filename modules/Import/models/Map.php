@@ -44,8 +44,10 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 	public static function markAsDeleted($mapId)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_import_maps SET deleted=1 WHERE id=?', array($mapId));
+		\App\Db::getInstance()
+			->createCommand()
+			->update('vtiger_import_maps', ['date_modified' => date('Y-m-d H:i:s'), 'deleted' => 1], ['id' => $mapId])
+			->execute();
 	}
 
 	public function getId()
@@ -86,6 +88,7 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 		$map = $this->getAllValues();
 		$map['content'] = "" . $db->getEmptyBlob() . "";
+		$map['date_entered'] = date('Y-m-d H:i:s');
 		$columnNames = array_keys($map);
 		$columnValues = array_values($map);
 		if (count($map) > 0) {

@@ -20,7 +20,7 @@ $languageStrings = [
 	'LBL_RELATED_INFORMATION' => 'Información relacionada',
 	//Fields
 	'LBL_TYPE' => 'Tipo',
-	'LBL_FROM_NUMBER' => 'DESDE número',
+	'LBL_FROM_NUMBER' => 'Desde número',
 	'LBL_TO_NUMBER' => 'A número',
 	'LBL_LOCATION' => 'Localización',
 	'LBL_PHONE_CALL_ID' => 'ID',
