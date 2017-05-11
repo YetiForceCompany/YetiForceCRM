@@ -1,11 +1,11 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'CFixedAssets' => 'Activos fijos',
-	'SINGLE_CFixedAssets' => 'Activo fijo',
+	'CFixedAssets' => 'Gestión de flota',
+	'SINGLE_CFixedAssets' => 'Gestión de flota',
 	//BLOCKS
 	'LBL_VEHICLE' => 'Vehículo',
-	'LBL_BASIC_INFORMATION' => 'Información sobre el Activo Fijo',
+	'LBL_BASIC_INFORMATION' => 'Información sobre la gestión de flota',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	//FIELDS
@@ -25,6 +25,9 @@ $languageStrings = [
 	'FL_TIMING_CHANGE' => 'Período de reemplazo del árbol de levas',
 	'FL_OIL_TYPE' => 'Período de cambio de aceite',
 	'FL_AVARAGE_FUEL_CONSUPTION' => 'Consumo medio de combustible por 100 km',
+	'FL_CURRENT_ODOMETER_READING' => 'Lectura actual del cuentakilómetros',
+	'FL_DATE_OF_LAST_REPAIR' => 'Fecha de la última reparación',
+	'FL_NUMBER_REPAIR' => 'Número de reparación',
 	// Picklist
 	'PLL_UNAVAILABLE' => 'Indisponible',
 	'PLL_AVAILABLE' => 'Disponible',

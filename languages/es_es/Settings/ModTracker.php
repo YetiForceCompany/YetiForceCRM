@@ -5,16 +5,16 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 $languageStrings = [
-	'ModTracker' => 'Change history',
-	'LBL_MODTRACKER_SETTINGS' => 'Modules – Track Changes / History',
-	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Manage change history in modules',
-	'LBL_MODULE' => 'Module',
-	'LBL_ACTIVE' => 'Track changes',
-	'LBL_TOOLS' => 'Tools',
-	'LBL_TRACK_CHANGES_ENABLED' => 'Track changes enabled',
-	'LBL_TRACK_CHANGES_DISABLE' => 'Track changes disabled',
+	'ModTracker' => 'Historial de cambios',
+	'LBL_MODTRACKER_SETTINGS' => 'Módulos – Control de cambios / Historial',
+	'LBL_MODTRACKER_SETTINGS_DESCRIPTION' => 'Administrar el historial de cambios en los módulos',
+	'LBL_MODULE' => 'Módulo',
+	'LBL_ACTIVE' => 'Control de cambios',
+	'LBL_TOOLS' => 'Herramientas',
+	'LBL_TRACK_CHANGES_ENABLED' => 'Control de cambios habilitado',
+	'LBL_TRACK_CHANGES_DISABLE' => 'Control de cambios inhabilitado',
 ];

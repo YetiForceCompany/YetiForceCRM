@@ -8,19 +8,19 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'LBL_SELECT_ONE' => 'Select',
+	'LBL_SELECT_ONE' => 'Seleccionar',
 	'LBL_PBXMANAGER' => 'Registro de llamadas',
-	'LBL_PBXMANAGER_CONFIG' => 'Asterisk Server Details',
-	'LBL_NOTE' => 'Note:',
-	'LBL_INFO_WEBAPP_URL' => 'Configure your Asterisk App URL in the  format',
+	'LBL_PBXMANAGER_CONFIG' => 'Detalles del Servidor Asterisk',
+	'LBL_NOTE' => 'Nota:',
+	'LBL_INFO_WEBAPP_URL' => 'Configurar la URL de su aplicación Asterisk en el formato',
 	'LBL_FORMAT_WEBAPP_URL' => '(protocol)://(asterisk_ip):(VtigerConnector_port)',
 	'LBL_FORMAT_INFO_WEBAPP_URL' => 'ex:http://0.0.0.0:5000',
-	'LBL_INFO_CONTEXT' => 'YetiForce Specfic context configured in your Asterisk server(extensions.conf)',
-	'LBL_PBXMANAGER_INFO' => 'Configure Asterisk Server Details after Installing YetiForce Asterisk Connector in your Asterisk Server',
-	'webappurl' => 'YetiForce Asterisk App URL',
-	'vtigersecretkey' => 'YetiForce Secret Key',
-	'outboundcontext' => 'Outbound Context',
-	'outboundtrunk' => 'Outbound Trunk',
+	'LBL_INFO_CONTEXT' => 'Contexto específico de YetiForce configurado en su servidor Asterisk (extensions.conf)',
+	'LBL_PBXMANAGER_INFO' => 'Configurar los detalles del servidor de Asterisk después de instalar YetiForce Asterisk Connector en su servidor Asterisk',
+	'webappurl' => 'URL de la aplicación de YetiForce Asterisk',
+	'vtigersecretkey' => 'Clave secreta de YetiForce',
+	'outboundcontext' => 'Contexto de salida',
+	'outboundtrunk' => 'Salida principal',
 ];
 $jsLanguageStrings = [
 ];

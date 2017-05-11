@@ -21,5 +21,5 @@ $languageStrings = [
 	'LBL_SECONDARY_STORAGES' => 'Almacenes secundarios',
 	'LBL_ROW_NUM' => 'Fila',
 	'LBL_STORAGE_OWNER' => 'Propietario',
-	'FL_POS' => 'POS',
+	'FL_POS' => 'TPV',
 ];

@@ -7,6 +7,8 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_INVOICE_ADDRESS' => 'Dirección de facturación',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Información sobre la Dirección de Entrega',
+	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
+	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	//FIELDS
 	'FL_SUBJECT' => 'Asunto',
 	'FL_PAYMENT_DATE' => 'Fecha de vencimiento',
@@ -20,8 +22,9 @@ $languageStrings = [
 	'FL_STATUS' => 'Estado',
 	'FL_PAYMENT_STATUS' => 'Estado de pago',
 	'FL_INVOICE_TYPE' => 'Tipo de Factura',
+	'FL_CATEGORY' => 'Categoría',
 	//PICKLIST VALUES
-	'PLL_TRANSFER' => 'Banco de transferencia',
+	'PLL_TRANSFER' => 'Transferencia',
 	'PLL_WIRE_TRANSFER' => 'Transferencia bancaria',
 	'PLL_CASH' => 'Efectivo',
 	'PLL_AWAITING_PAYMENT' => 'En espera de pago',
