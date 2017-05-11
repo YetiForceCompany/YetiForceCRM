@@ -1,0 +1,55 @@
+RedirectMatch 403 (?i).*\.log$
+
+<IfModule mod_autoindex.c>
+	Options -Indexes -MultiViews
+</ifModule>
+########################
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+	RewriteRule ^favicon.ico layouts/basic/skins/images/favicon.ico [L,NC]
+	RewriteRule ^api/webservice/(.*)/(.*)/(.*)$ api/webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
+	RewriteRule ^api/webservice/(.*)/(.*)$ api/webservice.php?module=$1&action=$2 [QSA,NC,L]
+	RewriteRule ^api/webservice/(.*)$ api/webservice.php?action=$1 [QSA,NC,L]
+
+	RewriteRule ^\.well-known/carddav /api/dav.php/addressbooks/ [R]
+	RewriteRule ^\.well-known/caldav /api/dav.php/calendars/ [R]
+	RewriteRule /.well-known/carddav /api/dav.php/addressbooks/ [R,L]
+	RewriteRule /.well-known/caldav /api/dav.php/calendars/ [R,L]
+	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+</ifModule>
+<IfModule mod_php5.c>
+	#Error: 337 ,Error + Warning: 5111
+	#php_flag	error_reporting				337
+	php_flag	log_errors					On
+	php_flag	display_errors				Off
+	php_value	error_log					cache/logs/phpError.log
+	php_value	memory_limit				512M
+	php_flag	output_buffering			On
+	php_flag    zlib.output_compression		Off
+	php_flag	file_uploads				On
+	php_value   upload_max_filesize			100M
+	php_value   post_max_size				50M
+
+	#php_value	max_execution_time			600
+	php_value	max_input_time				600
+
+	php_value	suhosin.request.max_vars	5000
+	php_value	suhosin.post.max_vars		5000
+	php_flag	suhosin.session.encrypt		Off
+
+	php_flag	session.cookie_httponly		On
+	#php_flag	session.cookie_secure		On
+	php_flag	session.auto_start			Off
+	# 86400 = 3600*24
+	php_value	session.gc_maxlifetime		86400 
+	# 1440 = 60*24
+	php_value	session.cache_expire		1440
+	php_value	session.gc_divisor			500
+	php_value	session.gc_probability		1
+	php_value	session.save_path			cache/session
+</IfModule>
+########################
+# <FilesMatch "\.(inc|php|php3|php4|php5|php6|phtml|phps)$">
+# AddHandler x-httpd-php56 .inc .php .php3 .php4 .php5 .php6 .phtml
+# </FilesMatch>
