@@ -182,7 +182,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');
