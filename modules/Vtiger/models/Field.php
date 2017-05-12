@@ -709,7 +709,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['header_field'] = $this->isHeaderField();
 		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
-		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
+		$this->fieldInfo['defaultvalue'] = $this->get('defaultvalue');
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
@@ -1171,7 +1171,11 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function getFieldParams()
 	{
-		return \App\Json::decode($this->get('fieldparams'));
+		$data = \App\Json::decode($this->get('fieldparams'));
+		if (!is_array($data)) {
+			$data = $this->get('fieldparams');
+		}
+		return $data;
 	}
 
 	public function isActiveSearchView()
