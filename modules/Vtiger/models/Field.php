@@ -699,9 +699,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldInfo()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$fieldDataType = $this->getFieldDataType();
-
 		$this->fieldInfo['mandatory'] = $this->isMandatory();
 		$this->fieldInfo['presence'] = $this->isActiveField();
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
@@ -709,11 +707,12 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['header_field'] = $this->isHeaderField();
 		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
-		$this->fieldInfo['defaultvalue'] = $this->get('defaultvalue');
+		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
-		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
+		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
 
+		$currentUser = \App\User::getCurrentUserModel();
 		switch ($fieldDataType) {
 			case 'picklist' :
 			case 'multipicklist':
@@ -733,15 +732,15 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 			case 'date':
 			case 'datetime':
-				$this->fieldInfo['date-format'] = $currentUser->get('date_format');
+				$this->fieldInfo['date-format'] = $currentUser->getDetail('date_format');
 				break;
 			case 'time':
-				$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
+				$this->fieldInfo['time-format'] = $currentUser->getDetail('hour_format');
 				break;
 			case 'currency':
-				$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
-				$this->fieldInfo['decimal_separator'] = $currentUser->get('currency_decimal_separator');
-				$this->fieldInfo['group_separator'] = $currentUser->get('currency_grouping_separator');
+				$this->fieldInfo['currency_symbol'] = $currentUser->getDetail('currency_symbol');
+				$this->fieldInfo['decimal_separator'] = $currentUser->getDetail('currency_decimal_separator');
+				$this->fieldInfo['group_separator'] = $currentUser->getDetail('currency_grouping_separator');
 				break;
 			case 'owner':
 			case 'userCreator':
