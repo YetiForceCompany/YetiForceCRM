@@ -135,7 +135,7 @@ class File
 			if (stripos($shortTagSupported ? '<?' : '<?php', $this->getContents()) !== false) {
 				throw new \Exception('Error php code injection');
 			}
-			if ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') {
+			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff')) {
 				$exifdata = exif_read_data($this->path);
 				if ($exifdata && !$this->validateImageMetadata($exifdata, $shortTagSupported)) {
 					throw new \Exception('Error php code injection');
