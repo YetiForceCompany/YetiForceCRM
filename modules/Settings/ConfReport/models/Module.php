@@ -43,6 +43,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Logo directory' => 'storage/Logo/',
 		'MailView attachments directory' => 'storage/OSSMailView/'
 	);
+
+	/**
+	 * List of libraries
+	 * @var array 
+	 */
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
 		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
@@ -58,6 +63,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 		'LBL_ZIP_ARCHIVE' => ['type' => 'e', 'name' => 'zip', 'mandatory' => true],
 		'LBL_MBSTRING_LIBRARY' => ['type' => 'e', 'name' => 'mbstring', 'mandatory' => true],
+		'LBL_EXIF_LIBRARY' => ['type' => 'f', 'name' => 'exif_read_data', 'mandatory' => false],
 		'LBL_SOAP_LIBRARY' => ['type' => 'e', 'name' => 'soap', 'mandatory' => true],
 		'LBL_MYSQLND_LIBRARY' => ['type' => 'e', 'name' => 'mysqlnd', 'mandatory' => true],
 		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
@@ -308,40 +314,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$params['LBL_CRON_LOG_FILE'] = $log;
 			$params['LBL_CRON_PHP_SAPI'] = $sapi;
 		}
-		return $params;
-	}
-
-	/**
-	 * Get hardware details
-	 * @return type
-	 */
-	public static function getHardwareInfo()
-	{
-		if (!class_exists('\Linfo\Linfo')) {
-			return [];
-		}
-		try {
-			$linfo = new \Linfo\Linfo;
-			$parser = $linfo->getParser();
-		} catch (Exception $exc) {
-			return [];
-		}
-		$params = [];
-		$core = 0;
-		foreach ($parser->getCPU() as $key => $value) {
-			$core++;
-			$cpu = "{$value['Model']} , {$value['MHz']} MHz";
-			if (isset($value['usage_percentage'])) {
-				$cpu .= ', ' . App\Language::translate('LBL_CPU_USAGE', 'Settings::ConfReport') . ": {$value['usage_percentage']} %";
-			}
-			$params['LBL_CPU'][] = $cpu;
-		}
-		$ram = $parser->getRam();
-		$precent = number_format(($ram['free'] / $ram['total']) * 100);
-		$params['LBL_RAM'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
-		$disk = \vtlib\Functions::getDiskSpace();
-		$precent = number_format(($disk['free'] / $disk['total']) * 100);
-		$params['LBL_HDD'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
 		return $params;
 	}
 

@@ -283,67 +283,6 @@
 		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
 	},
 	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.3.0",
-		"version_normalized": "1.3.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
-			"reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
-		},
-		"suggest": {
-			"ext-mbstring": "For best performance"
-		},
-		"time": "2016-11-14T01:06:16+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
-		]
-	},
-	{
 		"name": "symfony/var-dumper",
 		"version": "v3.2.2",
 		"version_normalized": "3.2.2.0",
@@ -465,55 +404,64 @@
 		]
 	},
 	{
-		"name": "linfo/linfo",
-		"version": "v3.0.1",
-		"version_normalized": "3.0.1.0",
+		"name": "symfony/polyfill-mbstring",
+		"version": "v1.3.0",
+		"version_normalized": "1.3.0.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/jrgp/linfo.git",
-			"reference": "c6b3af3e103235ad00976ef3532c43ac32df71ff"
+			"url": "https://github.com/symfony/polyfill-mbstring.git",
+			"reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/jrgp/linfo/zipball/c6b3af3e103235ad00976ef3532c43ac32df71ff",
-			"reference": "c6b3af3e103235ad00976ef3532c43ac32df71ff",
+			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
+			"reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
 			"shasum": ""
 		},
 		"require": {
-			"ext-pcre": "*",
-			"php": ">=5.3.0"
+			"php": ">=5.3.3"
 		},
 		"suggest": {
-			"ext-com": "On Windows"
+			"ext-mbstring": "For best performance"
 		},
-		"time": "2016-08-25T03:19:33+00:00",
+		"time": "2016-11-14T01:06:16+00:00",
 		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.3-dev"
+			}
+		},
 		"installation-source": "dist",
 		"autoload": {
 			"psr-4": {
-				"Linfo\\": "src/Linfo"
-			}
+				"Symfony\\Polyfill\\Mbstring\\": ""
+			},
+			"files": [
+				"bootstrap.php"
+			]
 		},
 		"notification-url": "https://packagist.org/downloads/",
 		"license": [
-			"GPL"
+			"MIT"
 		],
 		"authors": [
 			{
-				"name": "Joe Gillotti",
-				"email": "joe@joegillotti.com",
-				"homepage": "http://joegillotti.com",
-				"role": "Author"
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
 			}
 		],
-		"description": "App and library for easily parsing and displaying system information of the host, like network/torrents/cpu/memory/usb/pci/sound cards/filesystems/raid array/ipmi/etc.",
-		"homepage": "http://github.com/jrgp/linfo",
+		"description": "Symfony polyfill for the Mbstring extension",
+		"homepage": "https://symfony.com",
 		"keywords": [
-			"CPU",
-			"health",
-			"linux",
-			"specs",
-			"system"
+			"compatibility",
+			"mbstring",
+			"polyfill",
+			"portable",
+			"shim"
 		]
 	}
 ]
