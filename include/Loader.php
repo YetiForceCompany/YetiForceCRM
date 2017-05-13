@@ -31,14 +31,17 @@ class Vtiger_Loader
 		if (!in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
-
+		$subfix = '';
+		if ($fileExtension !== 'php') {
+			$subfix = 'public' . DIRECTORY_SEPARATOR;
+		}
 		// TO handle loading vtiger files
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $subfix . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $subfix . $file;
 		}
 		return $file;
 	}
@@ -204,5 +207,4 @@ function vimport($qualifiedName)
 {
 	return Vtiger_Loader::includeOnce($qualifiedName);
 }
-
 spl_autoload_register('Vtiger_Loader::autoLoad');
