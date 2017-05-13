@@ -46,17 +46,8 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ($recordModel->isNew()) {
 			$recordModel->set('user_name', $request->get('user_name', null));
-			$recordModel->set('user_password', $request->get('user_password', null));
-			$recordModel->set('confirm_password', $request->get('confirm_password', null));
-		}
-		$homePageComponents = $recordModel->getHomePageComponents();
-		$selectedHomePageComponents = $request->get('homepage_components', array());
-		foreach ($homePageComponents as $key => $value) {
-			if (in_array($key, $selectedHomePageComponents)) {
-				$request->setGlobal($key, $key);
-			} else {
-				$request->setGlobal($key, '');
-			}
+			$recordModel->set('user_password', $request->getRaw('user_password', null));
+			$recordModel->set('confirm_password', $request->getRaw('confirm_password', null));
 		}
 		return $recordModel;
 	}
