@@ -307,17 +307,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get all the Home Page components list
-	 * @return <Array> List of the Home Page components
-	 */
-	public function getHomePageComponents()
-	{
-		$entity = $this->getEntity();
-		$homePageComponents = $entity->getHomeStuffOrder($this->getId());
-		return $homePageComponents;
-	}
-
-	/**
 	 * Static Function to get the instance of the User Record model for the current user
 	 * @return Users_Record_Model instance
 	 */

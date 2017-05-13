@@ -768,10 +768,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	//updating the vtiger_import_maps
 	$db->createCommand()->update('vtiger_import_maps', ['date_modified' => date('Y-m-d H:i:s'), 'assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
 		->execute();
-	//delete from vtiger_homestuff
 	if ($delete) {
-		$db->createCommand()->delete('vtiger_homestuff', ['userid' => $ownerId])
-			->execute();
 		$db->createCommand()->delete('vtiger_users2group', ['userid' => $ownerId])
 			->execute();
 	}
