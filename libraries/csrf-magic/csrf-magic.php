@@ -180,6 +180,9 @@ class CSRF
 			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
+			if (!IS_PUBLIC_DIR) {
+				$js = 'public/' . $js;
+			}
 			$buffer = preg_replace(
 				'/<\/head>/', '<script type="text/javascript">' .
 				'var csrfMagicToken = "' . $tokens . '";' .

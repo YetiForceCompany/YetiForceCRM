@@ -336,11 +336,11 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/jquery.placeholder.js',
 			'~libraries/jquery/dompurify/purify.js',
 			'~libraries/footable/js/footable.js',
-			'~libraries/resources/jquery.additions.js',
-			'libraries.resources.app',
-			'libraries.resources.helper',
-			'libraries.resources.Connector',
-			'libraries.resources.ProgressIndicator',
+			'~layouts/resources/jquery.additions.js',
+			'~layouts/resources/app.js',
+			'~layouts/resources/helper.js',
+			'~layouts/resources/Connector.js',
+			'~layouts/resources/ProgressIndicator.js',
 		];
 
 		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();

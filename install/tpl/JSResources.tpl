@@ -28,14 +28,14 @@
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootbox.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/selectize/js/selectize.js"></script>
 	<script type="text/javascript" src="../libraries/resources/jquery.additions.js"></script>
-	<script type="text/javascript" src="../libraries/resources/app.js"></script>
-	<script type="text/javascript" src="../libraries/resources/helper.js"></script>
-	<script type="text/javascript" src="../libraries/resources/Connector.js"></script>
-	<script type="text/javascript" src="../libraries/resources/ProgressIndicator.js" ></script>
 	<script type="text/javascript" src="../libraries/jquery/datepicker/js/datepicker.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery.ba-outside-events.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery.placeholder.js"></script>
+	<script type="text/javascript" src="../libraries/resources/app.js"></script>
+	<script type="text/javascript" src="../libraries/resources/helper.js"></script>
+	<script type="text/javascript" src="../libraries/resources/Connector.js"></script>
+	<script type="text/javascript" src="../libraries/resources/ProgressIndicator.js" ></script>
 	<script type="text/javascript" src="../install/tpl/resources/Index.js"></script>
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}?&v={$YETIFORCE_VERSION}"></script>
