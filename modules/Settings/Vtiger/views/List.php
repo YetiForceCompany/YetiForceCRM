@@ -64,7 +64,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$pageNumber = 1;
 		}
 
-		if (!$this->listViewModel) {
+		if (!property_exists($this, '>listViewModel')) {
 			$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		}
 		$listViewModel = $this->listViewModel;

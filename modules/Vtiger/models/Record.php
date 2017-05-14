@@ -494,7 +494,12 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
+
+		if (!property_exists($focus, 'column_fields')) {
+			\App\Log::warning('Module ' . $moduleName . ' is not based on CRMEntity - "extends CRMEntity" is missing');
+		} 
 		$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
 		return $instance;
 	}
