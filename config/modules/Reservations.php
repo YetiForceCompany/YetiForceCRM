@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Reservations module config
+ * @package YetiForce.Config
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $CONFIG = [
 	// Right calendar panel visible by default
 	// true - show right panel, false - hide right panel;
