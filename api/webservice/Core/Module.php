@@ -12,7 +12,7 @@ class Module
 {
 
 	/** @var array Permitted modules */
-	static protected $permittedModules;
+	protected static $permittedModules;
 
 	/**
 	 * Get permitted modules
@@ -41,9 +41,9 @@ class Module
 	 */
 	public static function checkModuleAccess($moduleName)
 	{
-		if (!isset(static::$permittedModules)) {
-			self::getPermittedModules();
+		if (isset(static::$permittedModules)) {
+			return isset(static::$permittedModules[$moduleName]);
 		}
-		return isset(static::$permittedModules[$moduleName]);
+		return \App\Privilege::isPermitted($moduleName);
 	}
 }

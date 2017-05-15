@@ -215,7 +215,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$moduleName = end(explode(':', $qualifiedModuleName));
 		$prefix = '';
 		if ($moduleName !== 'Vtiger') {
-			$prefix = App\Language::translate($moduleName, $qualifiedModuleName) . ' - ';
+			$prefix = App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
 		}
 		if (isset($this->pageTitle)) {
 			$pageTitle = App\Language::translate($this->pageTitle, $qualifiedModuleName);

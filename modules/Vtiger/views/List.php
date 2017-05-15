@@ -28,13 +28,13 @@ class Vtiger_List_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = vtranslate($moduleName, $moduleName);
-		$title = $title . ' - ' . vtranslate('LBL_VIEW_LIST', $moduleName);
+		$title = App\Language::translate($moduleName, $moduleName);
+		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
 		if ($request->has('viewname')) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= ' [' . vtranslate('LBL_FILTER', $moduleName) . ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']';
+				$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
 			}
 		}
 		return $title;

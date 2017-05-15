@@ -25,8 +25,8 @@ class BaseAction
 		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
 			throw new \Api\Core\Exception('Invalid method', 405);
 		}
-		$this->checkPermissionToModule();
 		$this->checkPermission();
+		$this->checkPermissionToModule();
 		/*
 		  $acceptableUrl = $this->controller->app['acceptable_url'];
 		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
