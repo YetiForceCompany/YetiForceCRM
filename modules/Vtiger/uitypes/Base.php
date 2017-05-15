@@ -58,7 +58,10 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $value;
+		if ($rawText) {
+			return $value;
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**

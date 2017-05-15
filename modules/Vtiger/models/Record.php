@@ -12,7 +12,7 @@
 /**
  * Vtiger Entity Record Model Class
  */
-class Vtiger_Record_Model extends Vtiger_Base_Model
+class Vtiger_Record_Model extends \App\Base
 {
 
 	protected $module = false;
@@ -32,16 +32,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getId()
 	{
 		return $this->get('id');
-	}
-
-	/**
-	 * Function to get the value for a given key
-	 * @param $key
-	 * @return Value for the given key
-	 */
-	public function get($key)
-	{
-		return isset($this->valueMap[$key]) ? $this->valueMap[$key] : null;
 	}
 
 	/**
@@ -69,10 +59,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->valueMap[$key] != $value) {
+		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->value[$key] !== $value) {
 			$this->changes[$key] = $this->get($key);
 		}
-		$this->valueMap[$key] = $value;
+		$this->value[$key] = $value;
 		return $this;
 	}
 

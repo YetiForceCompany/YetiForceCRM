@@ -2,11 +2,11 @@
 
 /**
  * Mail Scanner bind email action 
- * @package YetiForce.models
+ * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMail_Mail_Model extends Vtiger_Base_Model
+class OSSMail_Mail_Model extends \App\Base
 {
 
 	protected $mailAccount = [];
@@ -100,7 +100,10 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 	public function getAccountOwner()
 	{
 		$account = $this->getAccount();
-		return $account['crm_user_id'];
+		if ($account['crm_user_id']) {
+			return $account['crm_user_id'];
+		}
+		return \App\User::getCurrentUserId();
 	}
 
 	public function getMailCrmId()

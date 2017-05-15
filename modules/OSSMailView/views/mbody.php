@@ -14,7 +14,12 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		parent::preProcess($request, false);
+		
+	}
+
+	public function postProcess(\App\Request $request, $display = true)
+	{
+		
 	}
 
 	public function checkPermission(\App\Request $request)
@@ -31,16 +36,14 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 
 	public function process(\App\Request $request)
 	{
+		CSRF::$frameBreaker = false;
+		CSRF::$rewriteJs = null;
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$content = $recordModel->get('content');
-		CSRF::$frameBreaker = false;
-		CSRF::$rewriteJs = null;
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
-		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($content));
+		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($recordModel->get('content')));
 		$viewer->assign('RECORD', $record);
 		$viewer->view('mbody.tpl', 'OSSMailView');
 	}

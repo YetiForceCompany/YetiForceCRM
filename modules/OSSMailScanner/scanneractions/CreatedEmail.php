@@ -47,16 +47,16 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 
 			$record = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
-			$record->set('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
-			$record->set('to_email', $mail->get('toaddress'));
-			$record->set('from_email', $mail->get('fromaddress'));
-			$record->set('reply_to_email', $mail->get('reply_toaddress'));
-			$record->set('cc_email', $mail->get('ccaddress'));
-			$record->set('bcc_email', $mail->get('bccaddress'));
-			$record->set('fromaddress', $mail->get('from'));
-			$record->set('content', $mail->get('body'));
-			$record->set('orginal_mail', $mail->get('clean'));
-			$record->set('uid', $mail->get('message_id'));
+			$record->set('subject', $mail->isEmpty('subject') ? '-' : \App\Purifier::purify($mail->get('subject')));
+			$record->set('to_email', \App\Purifier::purify($mail->get('toaddress')));
+			$record->set('from_email', \App\Purifier::purify($mail->get('fromaddress')));
+			$record->set('reply_to_email', \App\Purifier::purify($mail->get('reply_toaddress')));
+			$record->set('cc_email', \App\Purifier::purify($mail->get('ccaddress')));
+			$record->set('bcc_email', \App\Purifier::purify($mail->get('bccaddress')));
+			$record->set('fromaddress', \App\Purifier::purify($mail->get('from')));
+			$record->set('content', \App\Purifier::purifyHtml($mail->get('body')));
+			$record->set('orginal_mail', \App\Purifier::purifyHtml($mail->get('clean')));
+			$record->set('uid', \App\Purifier::purify($mail->get('message_id')));
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder());
 			$record->set('type', $type);
