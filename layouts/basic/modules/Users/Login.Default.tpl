@@ -10,7 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="MODULE" value='Users'}
 	<div class="container">
 		<div id="login-area" class="login-area">
@@ -48,7 +47,7 @@
 								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group">
 									<select class="input-lg form-control" title="{vtranslate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
-										{foreach item=VALUE key=KEY from=Yeti_Layout::getAllLayouts()}
+										{foreach item=VALUE key=KEY from=\App\Layout::getAllLayouts()}
 											<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	

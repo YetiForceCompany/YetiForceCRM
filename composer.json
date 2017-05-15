@@ -2,7 +2,7 @@
 	"name": "yetiforce/yetiforce-crm",
 	"description": "An open and innovative CRM system.",
 	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm"],
-	"license": "YetiForce Public License 1.1",
+	"license": "YetiForce Public License 2.0",
 	"homepage": "https://yetiforce.com/",
 	"type": "project",
 	"support": {
