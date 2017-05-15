@@ -39,8 +39,8 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 		}
 		$jsFileNames = [
 			"modules.$moduleName.resources.ProductsPopup",
-			'~layouts/resources/BaseValidator.js',
-			'~layouts/resources/FieldValidator.js',
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		];
 		$jsFileNames = array_merge($jsServices, $jsFileNames);

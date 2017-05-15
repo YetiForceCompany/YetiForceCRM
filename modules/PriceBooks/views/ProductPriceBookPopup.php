@@ -35,8 +35,8 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		$moduleName = $request->get('src_module');
 		$jsFileNames = [
 			"modules.PriceBooks.resources.PriceBooksPopup",
-			'~layouts/resources/BaseValidator.js',
-			'~layouts/resources/FieldValidator.js',
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		];
 		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts($jsFileNames));
