@@ -1,5 +1,9 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * @package YetiForce.ConfigModules
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $CONFIG = [
 	// How long before the renewal date should the status be changed
 	// ex. 2 month, 1 day https://secure.php.net/manual/en/datetime.formats.php

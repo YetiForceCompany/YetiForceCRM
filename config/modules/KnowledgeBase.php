@@ -1,5 +1,9 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * @package YetiForce.ConfigModules
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $CONFIG = [
 	// Tab name in record preview
 	'DEFAULT_VIEW_RECORD' => 'LBL_RECORD_PREVIEW',
@@ -35,7 +39,7 @@ $CONFIG = [
 			// Path to uploaded videos
 			'dir' => '/storage/KnowledgeBase/Video/',
 			// Maximum file size, in KiloBytes (20 MB)
-			'maxsize' => 20000, 
+			'maxsize' => 20000,
 			// Allowed extensions
 			'type' => ['mp4'],
 			'tagclass' => 'responsiveVideo'
