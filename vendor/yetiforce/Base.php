@@ -28,7 +28,7 @@ class Base
 	 */
 	public function get($key)
 	{
-		return isset($this->value[$key]) ? $this->value[$key] : false;
+		return isset($this->value[$key]) ? $this->value[$key] : null;
 	}
 
 	/**
@@ -40,6 +40,16 @@ class Base
 	public function getForSql($key, $skipEmtpy = true)
 	{
 		return Purifier::purifySql($this->get($key), $skipEmtpy);
+	}
+
+	/**
+	 * Function to get the html encoded value for a given key
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getForHtml($key)
+	{
+		return Purifier::encodeHtml($this->get($key));
 	}
 
 	/**
@@ -110,15 +120,5 @@ class Base
 	public function getKeys()
 	{
 		return array_keys($this->value);
-	}
-
-	/**
-	 * Function to get the html value for a given key
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function getHtmlEncode($key)
-	{
-		return Purifier::encodeHtml($this->get($key));
 	}
 }

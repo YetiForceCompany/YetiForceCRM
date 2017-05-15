@@ -36,17 +36,8 @@ class OSSMailView_sview_View extends Vtiger_Index_View
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-
-		$from = $recordModel->get('from_email');
-		$to = $recordModel->get('to_email');
+		$to = $recordModel->getForHtml('to_email');
 		$to = explode(',', $to);
-		$cc = $recordModel->get('cc_email');
-		$bcc = $recordModel->get('bcc_email');
-		$subject = $recordModel->get('subject');
-		$owner = $recordModel->get('assigned_user_id');
-		$sent = $recordModel->get('createdtime');
-
-		// pobierz załączniki
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 				'Documents' ActivityType,vtiger_attachments.type  FileType,vtiger_crmentity.modifiedtime,
@@ -73,14 +64,14 @@ class OSSMailView_sview_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $load);
-		$viewer->assign('FROM', $from);
+		$viewer->assign('FROM', $recordModel->getForHtml('from_email'));
 		$viewer->assign('TO', $to);
-		$viewer->assign('CC', $cc);
-		$viewer->assign('BCC', $bcc);
-		$viewer->assign('SUBJECT', $subject);
+		$viewer->assign('CC', $recordModel->getForHtml('cc_email'));
+		$viewer->assign('BCC', $recordModel->getForHtml('bcc_email'));
+		$viewer->assign('SUBJECT', $recordModel->getForHtml('subject'));
 		$viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
-		$viewer->assign('OWNER', $owner);
-		$viewer->assign('SENT', $sent);
+		$viewer->assign('OWNER', $recordModel->get('assigned_user_id'));
+		$viewer->assign('SENT', $recordModel->get('createdtime'));
 		$viewer->assign('ATTACHMENTS', $attachments);
 		$viewer->assign('RECORD', $record);
 		$viewer->view('sview.tpl', 'OSSMailView');
