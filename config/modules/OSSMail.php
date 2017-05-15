@@ -1,9 +1,5 @@
 <?php
-/**
- * @package YetiForce.ConfigModules
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
 $config['default_host'] = ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com',];
