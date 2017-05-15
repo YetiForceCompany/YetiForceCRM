@@ -233,10 +233,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		if (isset($this->breadcrumbTitle)) {
-			return App\Language::translate($this->breadcrumbTitle, $request->getModule(false));
+			return $this->breadcrumbTitle;
 		}
 		if (isset($this->pageTitle)) {
-			return App\Language::translate($this->pageTitle, $request->getModule(false));
+			return $this->pageTitle;
 		}
 		return '';
 	}

@@ -40,42 +40,10 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
+		parent::preProcess($request, false);
 		if ($this->checkPermission($request)) {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$viewer = $this->getViewer($request);
-			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-				$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
-			}
-			$selectedModule = $request->getModule();
-			$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
-			$viewer->assign('CURRENTDATE', $currentDate);
-			$viewer->assign('MODULE', $selectedModule);
-			$viewer->assign('MODULE_NAME', $selectedModule);
-			$viewer->assign('QUALIFIED_MODULE', $selectedModule);
-			$viewer->assign('PARENT_MODULE', $request->get('parent'));
-			$viewer->assign('MENUS', Vtiger_Menu_Model::getAll(true));
-			$viewer->assign('VIEW', $request->get('view'));
-			$viewer->assign('USER_MODEL', $currentUser);
-
-			$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
-			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-			$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
-			$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
-			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
-			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-			//Additional parameters
-			$viewer->assign('CURRENT_VIEW', $request->get('view'));
-			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-			$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-			$viewer->assign('STYLES', $this->getHeaderCss($request));
-			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-			$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
-			$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
-			$viewer->assign('LANGUAGE', $currentUser->get('language'));
-			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 			if ($display) {
 				$this->preProcessDisplay($request);
 			}

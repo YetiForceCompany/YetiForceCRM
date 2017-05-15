@@ -88,11 +88,11 @@ class Vtiger_Menu_Model
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => vtranslate($pageTitle, $qualifiedModuleName)];
 			} elseif ($view == 'Edit' && $request->get('record') == '') {
 				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 			} elseif ($view == '') {
 				$breadcrumbs[] = ['name' => vtranslate('LBL_HOME', $moduleName)];
 			}
@@ -139,7 +139,7 @@ class Vtiger_Menu_Model
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => vtranslate($pageTitle, $qualifiedModuleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
 						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
