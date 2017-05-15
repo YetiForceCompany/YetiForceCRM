@@ -302,7 +302,7 @@ class TextParser
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName);
+			$logo = $company->getLogo($fieldName, true);
 			if (!$logo) {
 				return '';
 			}

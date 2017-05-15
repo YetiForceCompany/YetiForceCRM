@@ -50,7 +50,7 @@ class Vtiger_Viewer extends SmartyBC
 		if (!empty($media)) {
 			self::$currentLayout = $media;
 		} else {
-			self::$currentLayout = Yeti_Layout::getActiveLayout();
+			self::$currentLayout = \App\Layout::getActiveLayout();
 		}
 		if (AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
@@ -125,7 +125,7 @@ class Vtiger_Viewer extends SmartyBC
 				$filePath = "modules/$moduleName/$templateName";
 			} else {
 				// Fall back lookup on actual module, in case where parent module doesn't contain actual module within in (directory structure)
-				if (strpos($moduleName, '/') > 0) {
+				if (strpos($moduleName, '/')) {
 					$moduleHierarchyParts = explode('/', $moduleName);
 					$actualModuleName = $moduleHierarchyParts[count($moduleHierarchyParts) - 1];
 					$baseModuleName = $moduleHierarchyParts[0];
@@ -219,15 +219,4 @@ function vtemplate_path($templateName, $moduleName = '')
 {
 	$viewerInstance = Vtiger_Viewer::getInstance();
 	return $viewerInstance->getTemplatePath($templateName, $moduleName);
-}
-
-/**
- * Generated cache friendly resource URL linked with version of Vtiger
- */
-function vresource_url($url)
-{
-	if (stripos($url, '://') === false && $fs = @filemtime($url)) {
-		$url = $url . '?s=' . $fs;
-	}
-	return $url;
 }

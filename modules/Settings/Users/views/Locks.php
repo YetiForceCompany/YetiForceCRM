@@ -9,10 +9,11 @@
 class Settings_Users_Locks_View extends Settings_Vtiger_Index_View
 {
 
-	public function getBreadcrumbTitle(\App\Request $request)
-	{
-		return vtranslate('LBL_LOCKS', $request->getModule(false));
-	}
+	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'LBL_LOCKS';
 
 	public function process(\App\Request $request)
 	{

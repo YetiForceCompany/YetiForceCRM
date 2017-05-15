@@ -12,6 +12,12 @@
 class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 {
 
+	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'LBL_SYSTEM_SETTINGS';
+
 	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');

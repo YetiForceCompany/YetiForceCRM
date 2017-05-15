@@ -10,6 +10,12 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 {
 
 	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'LBL_MAIL_QUEUE_PAGE_TITLE';
+
+	/**
 	 * Checking permission 
 	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedForAdmin
@@ -59,15 +65,5 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	/**
-	 * Function to get the page title
-	 * @param \App\Request $request
-	 * @return string
-	 */
-	public function getPageTitle(\App\Request $request)
-	{
-		return 'LBL_MAIL_QUEUE_PAGE_TITLE';
 	}
 }

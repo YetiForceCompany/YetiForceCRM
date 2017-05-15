@@ -10,28 +10,25 @@
 	* Contributor(s): YetiForce.com
 	********************************************************************************/
 	-->*}
-
 	<!DOCTYPE html>
 	<html lang="{$HTMLLANG}">
 		<head>
-			<title>{vtranslate($PAGETITLE, $QUALIFIED_MODULE)}</title>
+			<title>{$PAGETITLE}</title>
 			<link REL="SHORTCUT ICON" HREF="{vimage_path('favicon.ico')}">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<meta name="robots" content="noindex" />
-
 			{foreach key=index item=cssModel from=$STYLES}
-				<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" />
+				<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" />
 			{/foreach}
 			{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
-				<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+				<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 			{/foreach}
 			<!--[if IE]>
 				<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
 				<script type="text/javascript" src="libraries/html5shim/respond.js"></script>
 			<![endif]-->
 			{* ends *}
-
 			{* ADD <script> INCLUDES in JSResources.tpl - for better performance *}
 			{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}
 			{if $HEAD_LOCKS}

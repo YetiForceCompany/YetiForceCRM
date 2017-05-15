@@ -35,8 +35,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
 		$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
 		$viewer->assign('CURRENTDATE', $currentDate);
 		$viewer->assign('MODULE', $selectedModule);
@@ -45,7 +43,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
 
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);

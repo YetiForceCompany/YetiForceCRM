@@ -10,12 +10,9 @@ class Settings_Mail_List_View extends Settings_Vtiger_List_View
 {
 
 	/**
-	 * Function to get the page title
-	 * @param \App\Request $request
-	 * @return string
+	 * Page title
+	 * @var type 
 	 */
-	public function getPageTitle(\App\Request $request)
-	{
-		return 'LBL_MAIL_QUEUE_PAGE_TITLE';
-	}
+	protected $pageTitle = 'LBL_MAIL_QUEUE_PAGE_TITLE';
+
 }

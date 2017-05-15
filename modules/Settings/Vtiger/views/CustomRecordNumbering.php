@@ -11,6 +11,12 @@
 class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'LBL_CUSTOMIZE_RECORD_NUMBERING';
+
 	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -27,12 +33,6 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
-	}
-
-	public function getPageTitle(\App\Request $request)
-	{
-		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('LBL_CUSTOMIZE_RECORD_NUMBERING', $qualifiedModuleName);
 	}
 
 	/**

@@ -11,6 +11,12 @@
 class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'INVENTORYTERMSANDCONDITIONS';
+
 	public function process(\App\Request $request)
 	{
 		$model = Settings_Vtiger_TermsAndConditions_Model::getInstance();
@@ -22,12 +28,6 @@ class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_
 		$viewer->assign('CONDITION_TEXT', $conditionText);
 		$viewer->assign('MODEL', $model);
 		$viewer->view('TermsAndConditions.tpl', $qualifiedName);
-	}
-
-	public function getPageTitle(\App\Request $request)
-	{
-		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('INVENTORYTERMSANDCONDITIONS', $qualifiedModuleName);
 	}
 
 	/**

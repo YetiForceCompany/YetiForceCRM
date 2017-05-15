@@ -163,7 +163,23 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Viewer instance
+	 * @var self 
+	 */
 	protected $viewer;
+
+	/**
+	 * Page title
+	 * @var string 
+	 */
+	protected $pageTitle;
+
+	/**
+	 * Breadcrumb title
+	 * @var string 
+	 */
+	protected $breadcrumbTitle;
 
 	public function __construct()
 	{
@@ -188,25 +204,41 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return $this->viewer;
 	}
 
+	/**
+	 * Get page title
+	 * @param \App\Request $request
+	 * @return string
+	 */
 	public function getPageTitle(\App\Request $request)
 	{
-		$moduleName = $request->getModule(false);
-		$moduleNameArray = explode(':', $moduleName);
-		$moduleLabel = end($moduleNameArray) == 'Vtiger' ? 'YetiForce' : end($moduleNameArray);
-		$title = App\Language::translate($moduleLabel, $moduleName);
-		$pageTitle = $this->getBreadcrumbTitle($request);
-		if ($pageTitle) {
-			$title .= ' - ' . $pageTitle;
+		$qualifiedModuleName = $request->getModule(false);
+		$moduleName = end(explode(':', $qualifiedModuleName));
+		$prefix = '';
+		if ($moduleName !== 'Vtiger') {
+			$prefix = App\Language::translate($moduleName, $qualifiedModuleName) . ' - ';
 		}
-		return $title;
+		if (isset($this->pageTitle)) {
+			$pageTitle = App\Language::translate($this->pageTitle, $qualifiedModuleName);
+		} else {
+			$pageTitle = $this->getBreadcrumbTitle($request);
+		}
+		return $prefix . $pageTitle;
 	}
 
+	/**
+	 * Get breadcrumb title
+	 * @param \App\Request $request
+	 * @return string
+	 */
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
-		if (!empty($this->pageTitle)) {
-			return $this->pageTitle;
+		if (isset($this->breadcrumbTitle)) {
+			return App\Language::translate($this->breadcrumbTitle, $request->getModule(false));
 		}
-		return 0;
+		if (isset($this->pageTitle)) {
+			return App\Language::translate($this->pageTitle, $request->getModule(false));
+		}
+		return '';
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -218,7 +250,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
-		$viewer->assign('LAYOUT_PATH', 'layouts' . '/' . Yeti_Layout::getActiveLayout());
+		$viewer->assign('LAYOUT_PATH', \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()));
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
 		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
@@ -228,6 +260,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$companyDetails = App\Company::getInstanceById();
+		$viewer->assign('COMPANY_DETAILS', $companyDetails);
+		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -258,7 +293,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer = $this->getViewer($request);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-		$viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('Footer.tpl');
 	}
@@ -373,6 +407,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			}
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($jsFileName, $fileExtension);
 			if (is_file($completeFilePath)) {
+				$jsScript->set('base', $completeFilePath);
 				if (strpos($jsFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
@@ -394,12 +429,14 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				}
 
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . Yeti_Layout::getActiveLayout();
+				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
+					$jsScript->set('base', $fallBackFilePath);
 					$filePath = $jsFile;
-					if (empty($preLayoutPath))
+					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $filePath) . '.js';
+					}
 					$minFilePath = str_replace('.js', '.min.js', $filePath);
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
@@ -407,14 +444,15 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					$jsScriptInstances[$jsFileName] = $jsScript->set('src', "{$subfix}{$layoutPath}/{$filePath}");
 					continue;
 				}
-
 				// Checking if file exists in default layout
 				$layoutPath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
+					$jsScript->set('base', $fallBackFilePath);
 					$filePath = $jsFile;
-					if (empty($preLayoutPath))
+					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $jsFile) . '.js';
+					}
 					$minFilePath = str_replace('.js', '.min.js', $filePath);
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
@@ -451,6 +489,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			}
 			$completeFilePath = Vtiger_Loader::resolveNameToPath($cssFileName, $fileExtension);
 			if (file_exists($completeFilePath)) {
+				$cssScriptModel->set('base', $completeFilePath);
 				if (strpos($cssFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
 				} else {
@@ -472,11 +511,13 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				}
 
 				// Checking if file exists in selected layout
-				$layoutPath = 'layouts' . '/' . Yeti_Layout::getActiveLayout();
+				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
-					if (empty($preLayoutPath))
+					$cssScriptModel->set('base', $fallBackFilePath);
+					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
+					}
 					$minFilePath = str_replace('.css', '.min.css', $filePath);
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
@@ -489,8 +530,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				$layoutPath = 'layouts' . '/' . Vtiger_Viewer::getDefaultLayoutName();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 				if (is_file($fallBackFilePath)) {
-					if (empty($preLayoutPath))
+					$cssScriptModel->set('base', $fallBackFilePath);
+					if (empty($preLayoutPath)) {
 						$filePath = str_replace('.', '/', $cssFile) . '.css';
+					}
 					$minFilePath = str_replace('.css', '.min.css', $filePath);
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;

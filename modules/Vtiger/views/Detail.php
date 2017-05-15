@@ -16,6 +16,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	protected $recordStructure = false;
 	public $defaultMode = false;
 
+	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'LBL_VIEW_DETAIL';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -49,12 +55,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
-	}
-
-	public function getBreadcrumbTitle(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		return vtranslate('LBL_VIEW_DETAIL', $moduleName);
 	}
 
 	public function preProcess(\App\Request $request, $display = true)

@@ -107,6 +107,6 @@
 		</table>
 	</div>
 	{foreach key=index item=jsModel from=$RELATED_SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 {/strip}

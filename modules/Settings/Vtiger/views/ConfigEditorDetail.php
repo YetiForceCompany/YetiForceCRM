@@ -11,6 +11,12 @@
 class Settings_Vtiger_ConfigEditorDetail_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Page title
+	 * @var type 
+	 */
+	protected $pageTitle = 'LBL_CONFIG_EDITOR';
+
 	public function process(\App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
@@ -19,12 +25,6 @@ class Settings_Vtiger_ConfigEditorDetail_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODEL', $moduleModel);
 		$viewer->view('ConfigEditorDetail.tpl', $qualifiedName);
-	}
-
-	public function getPageTitle(\App\Request $request)
-	{
-		$qualifiedModuleName = $request->getModule(false);
-		return vtranslate('LBL_CONFIG_EDITOR', $qualifiedModuleName);
 	}
 
 	/**

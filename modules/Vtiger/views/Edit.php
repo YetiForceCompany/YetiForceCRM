@@ -36,15 +36,20 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * Get breadcrumb title
+	 * @param \App\Request $request
+	 * @return string
+	 */
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->has('isDuplicate')) {
-			$pageTitle = vtranslate('LBL_VIEW_DUPLICATE', $moduleName);
+			$pageTitle = App\Language::translate('LBL_VIEW_DUPLICATE', $moduleName);
 		} elseif ($request->has('record')) {
-			$pageTitle = vtranslate('LBL_VIEW_EDIT', $moduleName);
+			$pageTitle = App\Language::translate('LBL_VIEW_EDIT', $moduleName);
 		} else {
-			$pageTitle = vtranslate('LBL_VIEW_CREATE', $moduleName);
+			$pageTitle = App\Language::translate('LBL_VIEW_CREATE', $moduleName);
 		}
 		return $pageTitle;
 	}

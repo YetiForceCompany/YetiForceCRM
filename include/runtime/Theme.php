@@ -35,15 +35,19 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getImagePath($imageFileName)
 	{
+		$basePath = '';
+		if (!IS_PUBLIC_DIR) {
+			$basePath = 'public/';
+		}
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
-		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;
-		$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
-		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
-
+		$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . 'public/' . $imageFilePath);
 		if (file_exists($completeImageFilePath)) {
-			return $imageFilePath;
-		} else if (file_exists($completeFallBackThemePath)) {
-			return $fallbackPath;
+			return $basePath . $imageFilePath;
+		}
+		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;
+		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . 'public/' . $fallbackPath);
+		if (file_exists($completeFallBackThemePath)) {
+			return $basePath . $fallbackPath;
 		}
 		return false;
 	}
@@ -58,6 +62,10 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
 	{
+		$basePath = '';
+		if (!IS_PUBLIC_DIR) {
+			$basePath = 'public/';
+		}
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
@@ -65,21 +73,20 @@ class Vtiger_Theme extends Vtiger_Viewer
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
 			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
 			if (file_exists($completeImageFilePath)) {
-				return $imageFilePath;
+				return $basePath . $imageFilePath;
 			} else if (file_exists($completeFallBackThemePath)) {
-				return $fallbackPath;
+				return $basePath . $fallbackPath;
 			}
 		}
-
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
 			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
 			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
 			if (file_exists($completeImageFilePath)) {
-				return $imageFilePath;
+				return $basePath . $imageFilePath;
 			} else if (file_exists($completeFallBackThemePath)) {
-				return $fallbackPath;
+				return $basePath . $fallbackPath;
 			}
 		}
 		return false;
@@ -91,7 +98,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseThemePath()
 	{
-		return 'layouts' . '/' . self::getLayoutName() . '/skins';
+		return 'layouts/' . self::getLayoutName() . '/skins';
 	}
 
 	/**
@@ -111,7 +118,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (empty($theme)) {
 			$theme = self::getDefaultThemeName();
 		}
-
 		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
 		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
 
