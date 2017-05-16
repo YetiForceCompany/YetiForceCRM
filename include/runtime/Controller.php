@@ -212,7 +212,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getPageTitle(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleName = end(explode(':', $qualifiedModuleName));
+		$moduleNameArray = explode(':', $qualifiedModuleName);
+		$moduleName = end($moduleNameArray);
 		$prefix = '';
 		if ($moduleName !== 'Vtiger') {
 			$prefix = App\Language::translate($moduleName, $qualifiedModuleName) . ' ';
