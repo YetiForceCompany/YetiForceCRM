@@ -400,7 +400,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		}
 		foreach ($jsFileNames as $jsFileName) {
 			$jsScript = new Vtiger_JsScript_Model();
-
+			if (\App\Cache::has('ConvertJsScripts', $jsFileName)) {
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', \App\Cache::get('ConvertJsScripts', $jsFileName));
+				continue;
+			}
 			// external javascript source file handling
 			if (strpos($jsFileName, 'http://') === 0 || strpos($jsFileName, 'https://') === 0) {
 				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $jsFileName);
@@ -410,15 +413,16 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			if (is_file($completeFilePath)) {
 				$jsScript->set('base', $completeFilePath);
 				if (strpos($jsFileName, '~') === 0) {
-					$filePath = ltrim(ltrim($jsFileName, '~'), '/');
+					$filePath = $prefix . ltrim(ltrim($jsFileName, '~'), '/');
 				} else {
-					$filePath = str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
+					$filePath = $prefix . str_replace('.', '/', $jsFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
 				if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $prefix . $filePath);
+				\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
+				$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 				continue;
 			} else {
 				$preLayoutPath = '';
@@ -442,7 +446,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', "{$prefix}{$layoutPath}/{$filePath}");
+					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
+					\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 					continue;
 				}
 				// Checking if file exists in default layout
@@ -458,7 +464,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$jsScriptInstances[$jsFileName] = $jsScript->set('src', "{$prefix}{$layoutPath}/{$filePath}");
+					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
+					\App\Cache::save('ConvertJsScripts', $jsFileName, $filePath, \App\Cache::LONG);
+					$jsScriptInstances[$jsFileName] = $jsScript->set('src', $filePath);
 					continue;
 				}
 			}
@@ -484,6 +492,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$cssStyleInstances = [];
 		foreach ($cssFileNames as $cssFileName) {
 			$cssScriptModel = new Vtiger_CssScript_Model();
+			if (\App\Cache::has('ConvertCssStyles', $cssFileName)) {
+				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', \App\Cache::get('ConvertCssStyles', $cssFileName));
+				continue;
+			}
 			if (strpos($cssFileName, 'http://') === 0 || strpos($cssFileName, 'https://') === 0) {
 				$cssStyleInstances[] = $cssScriptModel->set('href', $cssFileName);
 				continue;
@@ -492,15 +504,16 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			if (file_exists($completeFilePath)) {
 				$cssScriptModel->set('base', $completeFilePath);
 				if (strpos($cssFileName, '~') === 0) {
-					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
+					$filePath = $prefix . ltrim(ltrim($cssFileName, '~'), '/');
 				} else {
-					$filePath = str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
+					$filePath = $prefix . str_replace('.', '/', $cssFileName) . '.' . $fileExtension;
 				}
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
 				if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
-				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $prefix . $filePath);
+				\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
+				$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
 				continue;
 			} else {
 				$preLayoutPath = '';
@@ -510,7 +523,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 				} else {
 					$cssFile = $cssFileName;
 				}
-
 				// Checking if file exists in selected layout
 				$layoutPath = 'layouts' . '/' . \App\Layout::getActiveLayout();
 				$fallBackFilePath = Vtiger_Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
@@ -523,7 +535,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', "{$prefix}{$layoutPath}/{$filePath}");
+					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
+					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
+					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
 					continue;
 				}
 
@@ -539,7 +553,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 					if (vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(Vtiger_Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 						$filePath = $minFilePath;
 					}
-					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', "{$prefix}{$layoutPath}/{$filePath}");
+					$filePath = "{$prefix}{$layoutPath}/{$filePath}";
+					\App\Cache::save('ConvertCssStyles', $cssFileName, $filePath, \App\Cache::LONG);
+					$cssStyleInstances[$cssFileName] = $cssScriptModel->set('href', $filePath);
 					continue;
 				}
 			}
