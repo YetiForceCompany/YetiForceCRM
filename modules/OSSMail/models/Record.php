@@ -45,7 +45,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function load_roundcube_config()
 	{
-		include 'modules/OSSMail/roundcube/config/defaults.inc.php';
+		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
 		include 'config/modules/OSSMail.php';
 		return $config;
 	}
