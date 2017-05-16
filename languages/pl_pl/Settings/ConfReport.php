@@ -63,6 +63,8 @@ $languageStrings = [
 	'LBL_CRON_PHPINI' => 'Cron - Konfiguracja PHP',
 	'LBL_CRON_LOG_FILE' => 'Cron - Logi błedów',
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Informacje o środowisku',
+	'LBL_CRON_PHP_SAPI' => 'Cron - Server API',
+	'LBL_OPERATING_SYSTEM' => 'System operacyjny',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
