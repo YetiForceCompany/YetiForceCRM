@@ -25,4 +25,7 @@ $languageStrings = [
 	'BTN_REMOVE_IGNORE' => 'Usuń z ignorowanych',
 	'LBL_MISSING_LIBRARY' => 'Wykryto, że nie została zainstalowana biblioteka. Część funkcjonalności została zablokowana, w celu odblokowania należy pobrać bibliotekę. Jeśli CRM nie ma połączenia z internetem możesz pobrać pliki i skopiować do folderu: %s',
 	'BTN_DOWNLOAD_LIBRARY' => 'Pobierz bibliotekę',
+	'LBL_SERVER_HTTPS' => 'Szyfrowanie HTTPS',
+	'BTN_CONFIGURE_HTTPS' => 'Zalecana konfiguracja',
+	'LBL_MISSING_HTTPS' => 'Wykryto, że połączenie z serwerem nie jest szyfrowane. Jeśli połączenie z serwerem nie zostało nawiązane za pomocą protokołu HTTPS komunikacja może zostać podsłuchana lub zmieniona przez osoby postronne. Zalecaną konfigurację można znaleźć w dokumentacji w temacie "Wymagania dla serwera WWW."',
 ];
