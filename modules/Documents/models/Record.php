@@ -16,7 +16,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	{
 		if ($this->get('filelocationtype') == 'I') {
 			$fileDetails = $this->getFileDetails();
-			return 'index.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId() . '&fileid=' . $fileDetails['attachmentsid'];
+			return 'file.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId() . '&fileid=' . $fileDetails['attachmentsid'];
 		} else {
 			return $this->get('filename');
 		}
@@ -72,7 +72,11 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					header("Content-type: " . $fileDetails['type']);
 					header("Pragma: public");
 					header("Cache-Control: private");
-					header("Content-Disposition: attachment; filename=\"$fileName\"");
+					if ($this->get('show')) {
+						header("Content-Disposition: inline");
+					} else {
+						header("Content-Disposition: attachment; filename=\"$fileName\"");
+					}
 					header("Content-Description: PHP Generated Data");
 				}
 			}

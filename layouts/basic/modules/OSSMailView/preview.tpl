@@ -126,7 +126,7 @@
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
 												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}" 
-												   href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
+												   href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
 													<span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 											{/foreach}
 										</span>

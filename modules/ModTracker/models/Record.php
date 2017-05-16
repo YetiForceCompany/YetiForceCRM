@@ -182,14 +182,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	{
 		$moduleName = $this->getModuleName();
 		switch ($moduleName) {
-			case 'Documents': $action = 'action=DownloadFile';
+			case 'Documents':
+				return "file.php?module=Documents&action=DownloadFile&record=" . $this->get('crmid');
 				break;
 			case 'OSSMailView': $action = 'view=preview';
 				break;
 			default: $action = 'view=Detail';
 				break;
 		}
-		if ($moduleName == 'Events') {
+		if ($moduleName === 'Events') {
 			$moduleName = 'Calendar';
 		}
 		return "index.php?module=$moduleName&$action&record=" . $this->get('crmid');

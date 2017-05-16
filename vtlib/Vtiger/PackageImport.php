@@ -436,9 +436,6 @@ class PackageImport extends PackageExport
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
-			if ($zip) {
-				$zip->close();
-			}
 		}
 		return $module;
 	}
@@ -547,7 +544,6 @@ class PackageImport extends PackageExport
 				}
 				sort($installSequenceArray);
 				$zip->unzip($this->getTemporaryFilePath());
-				$zip->close();
 				foreach ($installSequenceArray as $sequence) {
 					foreach ($buildModuleArray as $moduleInfo) {
 						if ($moduleInfo['install_sequence'] == $sequence) {
@@ -560,6 +556,7 @@ class PackageImport extends PackageExport
 				// Call module import function
 				$this->import_Module();
 			}
+			unlink($zipfile);
 		}
 	}
 

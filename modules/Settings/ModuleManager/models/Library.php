@@ -104,7 +104,7 @@ class Settings_ModuleManager_Library_Model
 			App\Log::info('Library has already been downloaded: ' . $name);
 			return false;
 		}
-		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
+		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $lib['name'] . '.zip';
 		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
@@ -127,7 +127,7 @@ class Settings_ModuleManager_Library_Model
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
-			$zip = new \App\Zip($path);
+			$zip = new \App\Zip($path, ['checkFiles' => false]);
 			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
 		} else {
