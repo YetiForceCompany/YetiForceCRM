@@ -16,7 +16,7 @@ class ModuleManager extends TestCase
 	public function testLanguageExport()
 	{
 		$package = new \vtlib\LanguageExport();
-		$package->export('pl_pl', ROOT_DIRECTORY . 'PL.zip', 'PL.zip');
+		$package->export('pl_pl', ROOT_DIRECTORY . '/PL.zip', 'PL.zip');
 	}
 
 	public function testCreateModule()
