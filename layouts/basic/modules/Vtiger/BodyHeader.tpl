@@ -63,9 +63,6 @@
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
-					<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
-						<i class="fa fa-history" aria-hidden="true"></i>
-					</a>
 					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
 						{if $obj->linktype == 'HEADERLINK'}
 							{assign var="HREF" value='#'}

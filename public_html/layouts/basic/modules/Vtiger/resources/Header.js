@@ -613,91 +613,6 @@ jQuery.Class("Vtiger_Header_Js", {
 			});
 		});
 	},
-	recentPageViews: function () {
-		var thisInstance = this;
-		var maxValues = 20;
-		var BtnText = '';
-		var BtnLink = 'javascript:void();';
-		var userId = app.getMainParams('current_user_id');
-		if (userId == undefined) {
-			return false;
-		}
-		var key = 'yf_history_' + userId;
-		var history = localStorage.getItem(key);
-		if (history != "" && history != null) {
-			var sp = history.toString().split("_|_");
-			var item = sp[sp.length - 1].toString().split("|");
-			BtnText = item[0];
-			BtnLink = item[1];
-		}
-		var htmlContent = '<ul class="dropdown-menu pull-right historyList" role="menu">';
-		var date = new Date().getTime();
-		var howManyDays = -1;
-		var writeSelector = true;
-		if (sp != null) {
-			for (var i = sp.length - 1; i >= 0; i--) {
-				item = sp[i].toString().split("|");
-				var d = new Date();
-				var t = '';
-				if (item[2] != undefined) {
-					d.setTime(item[2]);
-					var hours = app.formatDateZ(d.getHours());
-					var minutes = app.formatDateZ(d.getMinutes());
-					if (writeSelector && (howManyDays != app.howManyDaysFromDate(d))) {
-						howManyDays = app.howManyDaysFromDate(d);
-						if (howManyDays == 0) {
-							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_TODAY') + '</li>';
-						} else if (howManyDays == 1) {
-							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_YESTERDAY') + '</li>';
-						} else {
-							htmlContent += '<li class="selectorHistory">' + app.vtranslate('JS_OLDER') + '</li>';
-							writeSelector = false;
-						}
-					}
-					if (writeSelector)
-						t = '<span class="historyHour">' + hours + ":" + minutes + "</span> | ";
-					else
-						t = app.formatDate(d) + ' | ';
-				}
-				var format = $('#userDateFormat').val() + '' + $('#userDateFormat').val();
-				htmlContent += '<li><a href="' + item[1] + '">' + t + item[0] + '</a></li>';
-			}
-			var Label = this.getHistoryLabel();
-			if (Label.length > 1 && document.URL != BtnLink) {
-				sp.push(this.getHistoryLabel() + '|' + document.URL + '|' + date);
-			}
-			if (sp.length >= maxValues) {
-				sp.splice(0, 1);
-			}
-			localStorage.setItem(key, sp.join('_|_'));
-		} else {
-			var stack = new Array();
-			var Label = this.getHistoryLabel();
-			if (Label.length > 1) {
-				stack.push(this.getHistoryLabel() + '|' + document.URL + '|' + date);
-				localStorage.setItem(key, stack.join('_|_'));
-			}
-		}
-		htmlContent += '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
-		htmlContent += '</ul>';
-		$(".showHistoryBtn").after(htmlContent);
-		this.registerClearHistory();
-	},
-	getHistoryLabel: function () {
-		var label = "";
-		$(".breadcrumbsLinks span:not(.hideToHistory)").each(function (index) {
-			label += $(this).text();
-		});
-		return label;
-	},
-	registerClearHistory: function () {
-		$(".historyList .clearHistory").click(function () {
-			var key = 'yf_history_' + app.getMainParams('current_user_id');
-			localStorage.removeItem(key);
-			var htmlContent = '<li class="divider"></li><li><a class="clearHistory" href="#">' + app.vtranslate('JS_CLEAR_HISTORY') + '</a></li>';
-			$(".historyList.dropdown-menu").html(htmlContent);
-		});
-	},
 	registerHotKeys: function () {
 		$(".hotKey").each(function (index) {
 			var thisObject = this;
@@ -931,7 +846,6 @@ jQuery.Class("Vtiger_Header_Js", {
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.listenTextAreaChange();
-		thisInstance.recentPageViews();
 		thisInstance.registerFooTable(); //Enable footable
 		thisInstance.registerScrollForMenu();
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
