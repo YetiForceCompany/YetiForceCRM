@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * OSSMail french translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'OSSMail' => 'Ma boîte mail',
 	'ERR_NO_MODULE_IS_INACTIVE' => '"My mailbox" module is inactive, it should be enabled before configuration.',
