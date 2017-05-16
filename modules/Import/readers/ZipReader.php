@@ -57,8 +57,8 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
 			mkdir($this->importFolderLocation);
 			$zip = new \App\Zip($zipfile);
-			$this->filelist = $zip->unzipByExtension($this->importFolderLocation, $this->extension);
-			$zip->close();
+			$zip->onlyExtension($this->extension);
+			$this->filelist = $zip->unzip($this->importFolderLocation);
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
 			foreach (new DirectoryIterator($this->importFolderLocation) as $file) {

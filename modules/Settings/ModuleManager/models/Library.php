@@ -127,9 +127,8 @@ class Settings_ModuleManager_Library_Model
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
-			$unzip = new \vtlib\Unzip($path);
-			$unzip->unzipAllEx('.', [], [$compressedName => $lib['dir']]);
-			$unzip->close();
+			$zip = new \App\Zip($path);
+			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
 		} else {
 			App\Log::warning('No import file: ' . $name);
