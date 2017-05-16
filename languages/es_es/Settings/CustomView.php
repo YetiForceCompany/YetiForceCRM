@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * CustomView spanish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'CustomView' => 'Filtros - Configuración',
 	'LBL_CUSTOMVIEW_DESCRIPTION' => 'Esta herramienta permite configurar vistas personalizadas para los módulos. Estos módulos deben contener registros y utilizar filtros estándar en YetiForce CRM.',
