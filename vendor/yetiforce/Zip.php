@@ -26,7 +26,7 @@ class Zip extends \ZipArchive
 	public function __construct($fileName = false)
 	{
 		if ($fileName) {
-			if (!$this->open($fileName)) {
+			if (!file_exists($fileName) || !$this->open($fileName)) {
 				throw new Exceptions\AppException('Unable to open the zip file');
 			}
 		}
@@ -51,12 +51,6 @@ class Zip extends \ZipArchive
 	 */
 	public function unzip($toDir)
 	{
-		if (!is_dir($toDir)) {
-			throw new Exceptions\AppException('Directory not found, and unable to create it');
-		}
-		if (!is_writable($toDir)) {
-			throw new Exceptions\AppException('No permissions to create files');
-		}
 		$fileList = [];
 		if (is_array($toDir)) {
 			foreach ($toDir as $dirname => $target) {
@@ -73,7 +67,7 @@ class Zip extends \ZipArchive
 						mkdir($dir, 0777, true);
 					}
 					$fileList[] = $path;
-					if (substr($path, -1) !== '/') {
+					if (!$this->isDir($path)) {
 						// Read from Zip and write to disk
 						$fpr = $this->getStream($path);
 						$fpw = fopen($file, 'w');
@@ -86,6 +80,12 @@ class Zip extends \ZipArchive
 				}
 			}
 		} else {
+			if (!is_dir($toDir)) {
+				throw new Exceptions\AppException('Directory not found, and unable to create it');
+			}
+			if (!is_writable($toDir)) {
+				throw new Exceptions\AppException('No permissions to create files');
+			}
 			for ($i = 0; $i < $this->numFiles; $i++) {
 				$path = $this->getNameIndex($i);
 				if ($this->checkFile($path)) {
@@ -117,5 +117,29 @@ class Zip extends \ZipArchive
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Check if the file path is directory
+	 * @param string $filePath
+	 * @return boolean
+	 */
+	public function isDir($filePath)
+	{
+		if (substr($filePath, -1, 1) === '/') {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Function to extract single file
+	 * @param string $compressedFileName
+	 * @param string $targetFileName
+	 * @return boolean
+	 */
+	public function unzipFile($compressedFileName, $targetFileName)
+	{
+		return copy("zip://{$this->filename}#{$compressedFileName}", $targetFileName);
 	}
 }
