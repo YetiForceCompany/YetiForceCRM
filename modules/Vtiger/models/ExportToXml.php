@@ -116,16 +116,15 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		header("Cache-Control: post-check=0, pre-check=0", false);
 
 		readfile($this->tmpXmlPath);
+		unlink($this->tmpXmlPath);
 	}
 
 	protected function outputZipFile($fileName)
 	{
-
 		$zipName = 'cache/import/' . uniqid() . '.zip';
 
 		$zip = new ZipArchive();
 		$zip->open($zipName, ZipArchive::CREATE);
-
 		$countXmlList = count($this->xmlList);
 		for ($i = 0; $i < $countXmlList; $i++) {
 			$xmlFile = basename($this->xmlList[$i]);
@@ -134,7 +133,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			$xmlFile = $fileName . $i . implode('_', $xmlFile);
 			$zip->addFile($this->xmlList[$i], $xmlFile);
 		}
-
 		$zip->close();
 
 		header("Content-Disposition:attachment;filename=$fileName.zip");
@@ -142,8 +140,9 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: post-check=0, pre-check=0", false);
-
 		readfile($zipName);
+		unlink($zipName);
+		array_map('unlink', $this->xmlList);
 	}
 
 	public function createXml($entries, $entriesInventory)

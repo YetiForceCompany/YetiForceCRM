@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ZipReader Class
+ * ZipReader class
  * @package YetiForce.Reader
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -13,6 +13,11 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	protected $importFolderLocation;
 	protected $filelist = [];
 
+	/**
+	 * Construct
+	 * @param \App\Request $request
+	 * @param Users_Record_Model $user
+	 */
 	public function __construct(\App\Request $request, $user)
 	{
 		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
@@ -36,27 +41,29 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		}
 	}
 
-	public function initialize($request, $user)
+	/**
+	 * Initialize zip file
+	 * @param \App\Request $request
+	 * @param Users_Record_Model $user
+	 */
+	public function initialize(\App\Request $request, $user)
 	{
 		$zipfile = Import_Utils_Helper::getImportFilePath($user);
-		$this->importFolderLocation = $zipfile . '_' . $user->id;
+		$this->importFolderLocation = "{$zipfile}_{$this->extension}";
 		// clean old data
 		if ($request->getMode() === 'uploadAndParse') {
 			$this->deleteFolder();
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
 			mkdir($this->importFolderLocation);
-			$unzip = new vtlib\Unzip($zipfile);
-			$unzip->unzipAllEx($this->importFolderLocation);
-			foreach ($unzip->getList() as $name => $data) {
-				$this->filelist[] = $name;
-			}
-			$unzip->__destroy();
+			$zip = new \App\Zip($zipfile);
+			$this->filelist = $zip->unzipByExtension($this->importFolderLocation, $this->extension);
+			$zip->close();
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
 			foreach (new DirectoryIterator($this->importFolderLocation) as $file) {
 				if (!$file->isDot()) {
-					if (strpos($file->getFilename(), '.xml') !== false) {
+					if (strpos($file->getFilename(), '.' . $this->extension) !== false) {
 						$this->filelist[] = $file->getFilename();
 					}
 				}
@@ -82,7 +89,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		return $return;
 	}
 
-	public function getFirstRowData($hasHeader)
+	public function getFirstRowData($hasHeader = true)
 	{
 		$data = $this->request->getAll();
 		$newRequest = new \App\Request($data);
