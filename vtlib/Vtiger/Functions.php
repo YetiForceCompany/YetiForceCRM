@@ -788,7 +788,7 @@ class Functions
 
 	public static function recurseDelete($src)
 	{
-		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDir = strpos($src, ROOT_DIRECTORY) === 0 ? '' : ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
 			return;
 		}
