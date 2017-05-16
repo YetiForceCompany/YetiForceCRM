@@ -27,24 +27,19 @@ class PackageUpdate extends PackageImport
 	public function initUpdate($moduleInstance, $zipfile, $overwrite)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-
 		if (!$moduleInstance || $moduleInstance->name != $module) {
 			self::log('Module name mismatch!');
 			return false;
 		}
-
 		if ($module != null) {
-			$unzip = new Unzip($zipfile, $overwrite);
-
-			// Unzip selectively
-			$unzip->unzipAllEx('.', [
-				'include' => ['templates', "modules/$module", 'cron', 'languages', 'layouts',
-					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'],
-				// DEFAULT: excludes all not in include
-				], [// Templates folder to be renamed while copying
-				'templates' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
+			$zip = new \App\Zip($zipfile);
+			$zip->unzip([
+				// Templates folder
+				'templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
+				// Config
+				'config' => 'config/modules',
 				// Settings folder
 				'settings/actions' => "modules/Settings/$module/actions",
 				'settings/views' => "modules/Settings/$module/views",
@@ -52,21 +47,22 @@ class PackageUpdate extends PackageImport
 				'settings/connectors' => "modules/Settings/$module/connectors",
 				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
-				'settings/templates' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
-				'images' => "layouts/" . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'settings' => 'modules/Settings',
-				'layouts' => 'layouts',
-				]
-			);
-
+				'layouts' => 'layouts'
+			]);
+			if ($zip->statName("$module.png")) {
+				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+			}
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
-				$this->__parseManifestFile($unzip);
+				$this->__parseManifestFile($zip);
 			}
-
-			if ($unzip)
-				$unzip->close();
+			if ($zip) {
+				$zip->close();
+			}
 		}
 		return $module;
 	}
@@ -79,13 +75,12 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update($moduleInstance, $zipfile, $overwrite = true)
 	{
-
 		$module = $this->getModuleNameFromZip($zipfile);
-
 		if ($module != null) {
+			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
-				$this->__parseManifestFile($unzip);
+				$this->__parseManifestFile($zip);
 			}
 
 			$buildModuleArray = [];
@@ -101,8 +96,8 @@ class PackageUpdate extends PackageImport
 					}
 				}
 				sort($installSequenceArray);
-				$unzip = new Unzip($zipfile);
-				$unzip->unzipAllEx($this->getTemporaryFilePath());
+				$zip->unzip($this->getTemporaryFilePath());
+				$zip->close();
 				foreach ($installSequenceArray as $sequence) {
 					foreach ($buildModuleArray as $moduleInfo) {
 						if ($moduleInfo['install_sequence'] == $sequence) {

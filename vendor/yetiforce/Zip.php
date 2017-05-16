@@ -27,37 +27,24 @@ class Zip extends \ZipArchive
 	protected $illegalExtensions;
 
 	/**
+	 * Check files before unpacking
+	 * @var boolean 
+	 */
+	protected $checkFiles = true;
+
+	/**
 	 * Construct
 	 */
-	public function __construct($fileName = false)
+	public function __construct($fileName = false, $options = [])
 	{
 		if ($fileName) {
 			if (!file_exists($fileName) || !$this->open($fileName)) {
 				throw new Exceptions\AppException('Unable to open the zip file');
 			}
+			foreach ($options as $key => $value) {
+				$this->$key = $value;
+			}
 		}
-	}
-
-	/**
-	 * Extract files only for a given extension
-	 * @param array|string $ex File extension
-	 * @return $this 
-	 */
-	public function onlyExtension($ex)
-	{
-		$this->onlyExtensions = is_array($ex) ? $ex : [$ex];
-		return $this;
-	}
-
-	/**
-	 * Extract files outside of illegal extensions
-	 * @param array|string $ex
-	 * @return $this
-	 */
-	public function illegalExtensions($ex)
-	{
-		$this->illegalExtensions = is_array($ex) ? $ex : [$ex];
-		return $this;
 	}
 
 	/**
@@ -73,7 +60,7 @@ class Zip extends \ZipArchive
 			foreach ($toDir as $dirname => $target) {
 				for ($i = 0; $i < $this->numFiles; $i++) {
 					$path = $this->getNameIndex($i);
-					if (strpos($path, "{$dirname}/") !== 0 || $this->checkFile($path)) {
+					if (strpos($path, "{$dirname}/") !== 0 || ($this->checkFiles && $this->checkFile($path))) {
 						continue;
 					}
 					// Determine output filename (removing the $source prefix)
@@ -105,7 +92,7 @@ class Zip extends \ZipArchive
 			}
 			for ($i = 0; $i < $this->numFiles; $i++) {
 				$path = $this->getNameIndex($i);
-				if ($this->checkFile($path)) {
+				if ($this->checkFiles && $this->checkFile($path)) {
 					continue;
 				}
 				$fileList[] = $path;
@@ -141,6 +128,7 @@ class Zip extends \ZipArchive
 			$info = pathinfo($path);
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
+					'content' => $this->getFromName($path),
 					'path' => $this->getLocalPath($path),
 					'name' => $info['basename'],
 					'size' => $stat['size'],
