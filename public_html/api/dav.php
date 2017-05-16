@@ -7,5 +7,5 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(dirname(__FILE__) . '/../../api/');
-
+define('IS_PUBLIC_DIR', true);
 require 'dav.php';

@@ -17,6 +17,9 @@ class OSSMail_index_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
+		if (!IS_PUBLIC_DIR) {
+			$this->mainUrl = 'public_html/' . $this->mainUrl;
+		}
 		$this->mainUrl = OSSMail_Record_Model::getSiteUrl() . $this->mainUrl;
 	}
 

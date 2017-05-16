@@ -8,9 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-if (!defined('IS_PUBLIC_DIR')) {
-	define('IS_PUBLIC_DIR', false);
-}
 require_once 'vendor/yii/Yii.php';
 require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
@@ -243,22 +240,4 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$response->emit();
 		}
 	}
-}
-
-if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
-
-	function exception_error_handler($errno, $errstr, $errfile, $errline)
-	{
-		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
-			$file = 'cache/logs/errors.log';
-			$content = print_r($msg, true);
-			$content .= PHP_EOL . \App\Debuger::getBacktrace();
-			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
-		}
-		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-			\vtlib\Functions::throwNewException($msg, false);
-		}
-	}
-	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }

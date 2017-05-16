@@ -287,11 +287,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
 
-		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
-		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting))
+		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\Exceptions\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
+		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting)) {
 			$directiveValues['error_reporting']['status'] = true;
+		}
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
-
 		return $directiveValues;
 	}
 
@@ -346,28 +346,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			return 'On';
 		}
 		return 'Off';
-	}
-
-	public static function error2string($value)
-	{
-		$level_names = array(
-			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',
-			E_PARSE => 'E_PARSE', E_NOTICE => 'E_NOTICE',
-			E_CORE_ERROR => 'E_CORE_ERROR', E_CORE_WARNING => 'E_CORE_WARNING',
-			E_COMPILE_ERROR => 'E_COMPILE_ERROR', E_COMPILE_WARNING => 'E_COMPILE_WARNING',
-			E_USER_ERROR => 'E_USER_ERROR', E_USER_WARNING => 'E_USER_WARNING',
-			E_USER_NOTICE => 'E_USER_NOTICE');
-		if (defined('E_STRICT'))
-			$level_names[E_STRICT] = 'E_STRICT';
-		$levels = array();
-		if (($value & E_ALL) == E_ALL) {
-			$levels[] = 'E_ALL';
-			$value &= ~E_ALL;
-		}
-		foreach ($level_names as $level => $name)
-			if (($value & $level) == $level)
-				$levels[] = $name;
-		return $levels;
 	}
 
 	/**

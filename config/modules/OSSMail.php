@@ -58,8 +58,8 @@ $config['imap_debug'] = AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
 $config['ldap_debug'] = AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
 $config['smtp_debug'] = AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
 $config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
-$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
-$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/mail/';
+$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/logs/';
+$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/mail/';
 //Socket context options
 $config['imap_conn_options'] = [
 	'ssl' => [
@@ -82,7 +82,8 @@ $config['enable_authres_status_column'] = true;
 $config['show_statuses'] = 127;
 //CRM Additional configuration parameters
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-$config['site_URL'] = $site_URL;
+$config['site_URL'] = $config['public_URL'] = $site_URL;
+$config['public_URL'] .= strpos($_SERVER['SCRIPT_NAME'], 'public_html/modules/OSSMail') === false ? '' : 'public_html/';
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;
 
