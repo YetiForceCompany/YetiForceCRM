@@ -181,7 +181,7 @@ class CSRF
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
 			if (!IS_PUBLIC_DIR) {
-				$js = 'public/' . $js;
+				$js = 'public_html/' . $js;
 			}
 			$buffer = preg_replace(
 				'/<\/head>/', '<script type="text/javascript">' .

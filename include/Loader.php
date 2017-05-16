@@ -31,17 +31,17 @@ class Vtiger_Loader
 		if (!in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
-		$subfix = '';
+		$prefix = '';
 		if ($fileExtension !== 'php') {
-			$subfix = 'public' . DIRECTORY_SEPARATOR;
+			$prefix = 'public_html' . DIRECTORY_SEPARATOR;
 		}
 		// TO handle loading vtiger files
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $subfix . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $subfix . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
 		}
 		return $file;
 	}

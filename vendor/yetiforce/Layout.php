@@ -38,13 +38,13 @@ class Layout
 		$filePath = \Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			if (!IS_PUBLIC_DIR) {
-				$basePath = 'public/' . $basePath;
+				$basePath = 'public_html/' . $basePath;
 			}
 			return $basePath . $name;
 		}
 		$basePath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';
 		if (!IS_PUBLIC_DIR) {
-			$basePath = 'public/' . $basePath;
+			$basePath = 'public_html/' . $basePath;
 		}
 		return $basePath . $name;
 	}
@@ -78,7 +78,7 @@ class Layout
 			$basePath .= AppConfig::main('site_URL');
 		}
 		if (!IS_PUBLIC_DIR) {
-			$basePath = 'public/';
+			$basePath = 'public_html/';
 		}
 		return $basePath . $name;
 	}

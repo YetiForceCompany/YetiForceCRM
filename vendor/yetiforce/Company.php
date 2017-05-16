@@ -14,7 +14,7 @@ class Company extends Base
 	 * Logo directory
 	 * @var string 
 	 */
-	public static $logoPath = 'public/layouts/resources/Logo/';
+	public static $logoPath = 'public_html/layouts/resources/Logo/';
 
 	/**
 	 * Function to get the instance of the Company model
@@ -54,7 +54,7 @@ class Company extends Base
 		}
 		$logoURL = static::$logoPath . $logoName;
 		if (IS_PUBLIC_DIR) {
-			$logoURL = str_replace('public/', '', $logoURL);
+			$logoURL = str_replace('public_html/', '', $logoURL);
 		}
 		if ($fullUrl) {
 			$logoURL = \AppConfig::main('site_URL') . $logoURL;

@@ -23,7 +23,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Tabdata file' => 'user_privileges/tabdata.php',
 		'Menu file' => 'user_privileges/menu_0.php',
 		'User privileges file' => 'user_privileges/user_privileges_1.php',
-		'Logo directory' => 'public/layouts/resources/Logo/',
+		'Logo directory' => 'public_html/layouts/resources/Logo/',
 		'Cache directory' => 'cache/',
 		'Address book directory' => 'cache/addressBook/',
 		'Image cache directory' => 'cache/images/',
@@ -41,7 +41,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Product image directory' => 'storage/Products/',
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
-		'MailView attachments directory' => 'storage/OSSMailView/'
+		'MailView attachments directory' => 'storage/OSSMailView/',
+		'Roundcube directory' => 'public_html/modules/OSSMail/',
 	);
 
 	/**
