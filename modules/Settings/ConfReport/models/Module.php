@@ -5,7 +5,7 @@
  * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
  * See the License for the specific language governing rights and limitations under the License.
  * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
@@ -47,7 +47,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * List of libraries
-	 * @var array 
+	 * @var array
 	 */
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
@@ -88,6 +88,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$errorReportingValue = 'E_ALL & ~E_NOTICE';
 		$directiveValues = [
+			'HTTPS' => ['prefer' => 'On'],
 			'PHP' => ['prefer' => '5.5.0'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
 			'output_buffering' => ['prefer' => 'On'],
@@ -111,6 +112,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+			$directiveValues['HTTPS']['status'] = false;
+			$directiveValues['HTTPS']['current'] = self::getFlag(true);
+		} else {
+			$directiveValues['HTTPS']['status'] = true;
+			$directiveValues['HTTPS']['current'] = self::getFlag(false);
+		}
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
 			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
