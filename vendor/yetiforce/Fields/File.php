@@ -19,7 +19,13 @@ class File
 	private $size;
 	private $content;
 	private $error = false;
+	private $validateAllCodeInjection = false;
 
+	/**
+	 * Load file instance from request
+	 * @param array $file
+	 * @return \self
+	 */
 	public static function loadFromRequest($file)
 	{
 		$instance = new self();
@@ -30,12 +36,32 @@ class File
 		return $instance;
 	}
 
+	/**
+	 * Load file instance from file path
+	 * @param array $path
+	 * @param string $separator
+	 * @return \self
+	 */
 	public static function loadFromPath($path, $separator = DIRECTORY_SEPARATOR)
 	{
 		$info = pathinfo($path);
 		$instance = new self();
 		$instance->name = $info['basename'];
 		$instance->path = $path;
+		return $instance;
+	}
+
+	/**
+	 * Load file instance from file info
+	 * @param array $fileInfo
+	 * @return \self
+	 */
+	public static function loadFromInfo($fileInfo)
+	{
+		$instance = new self();
+		foreach ($fileInfo as $key => $value) {
+			$instance->$key = $fileInfo[$key];
+		}
 		return $instance;
 	}
 
@@ -81,7 +107,7 @@ class File
 			$this->checkFile();
 			$this->validateFormat();
 			$this->validateCodeInjection();
-			if (($type && $type == 'image') || $this->getShortMimeType(0) == 'image') {
+			if (($type && $type === 'image') || $this->getShortMimeType(0) === 'image') {
 				$this->validateImage();
 			}
 			if ($type && $this->getShortMimeType(0) != $type) {
@@ -103,7 +129,7 @@ class File
 		if (empty($this->name)) {
 			throw new \Exception('Empty name');
 		}
-		if ($this->getSize() == 0) {
+		if ($this->getSize() === 0) {
 			throw new \Exception('Wrong size');
 		}
 	}
@@ -129,10 +155,9 @@ class File
 
 	public function validateCodeInjection()
 	{
-		if (in_array($this->getShortMimeType(0), self::$phpInjection)) {
+		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
-			$shortTagSupported = ini_get('short_open_tag') ? true : false;
-			if (stripos($shortTagSupported ? '<?' : '<?php', $this->getContents()) !== false) {
+			if (preg_match('/(<\?php?(.*?))/i', $this->getContents()) === 1) {
 				throw new \Exception('Error php code injection');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff')) {

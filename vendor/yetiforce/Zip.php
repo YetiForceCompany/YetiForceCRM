@@ -16,9 +16,15 @@ class Zip extends \ZipArchive
 
 	/**
 	 * Files extension for extract
-	 * @var type 
+	 * @var array 
 	 */
-	protected $extensionOnly;
+	protected $onlyExtensions;
+
+	/**
+	 * Illegal extensions for extract
+	 * @var array 
+	 */
+	protected $illegalExtensions;
 
 	/**
 	 * Construct
@@ -34,12 +40,23 @@ class Zip extends \ZipArchive
 
 	/**
 	 * Extract files only for a given extension
-	 * @param string $ex File extension
+	 * @param array|string $ex File extension
 	 * @return $this 
 	 */
 	public function onlyExtension($ex)
 	{
-		$this->extensionOnly = $ex;
+		$this->onlyExtensions = is_array($ex) ? $ex : [$ex];
+		return $this;
+	}
+
+	/**
+	 * Extract files outside of illegal extensions
+	 * @param array|string $ex
+	 * @return $this
+	 */
+	public function illegalExtensions($ex)
+	{
+		$this->illegalExtensions = is_array($ex) ? $ex : [$ex];
 		return $this;
 	}
 
@@ -101,20 +118,37 @@ class Zip extends \ZipArchive
 
 	/**
 	 * Check illegal characters
-	 * @param string $fileName
+	 * @param string $path
 	 * @return boolean
 	 */
-	public function checkFile($fileName)
+	public function checkFile($path)
 	{
-		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $fileName, $matches);
+		preg_match("[^\w\s\d\.\-_~,;:\[\]\(\]]", $path, $matches);
 		if ($matches) {
 			return true;
 		}
-		if (stripos($fileName, '..') === 0 || stripos($fileName, '/') === 0) {
+		if (stripos($path, '..') === 0 || stripos($path, '/') === 0) {
 			return true;
 		}
-		if (isset($this->extensionOnly) && $this->extensionOnly !== pathinfo($fileName, PATHINFO_EXTENSION)) {
-			return true;
+		if (!$this->isDir($path)) {
+			$extension = pathinfo($path, PATHINFO_EXTENSION);
+			if (isset($this->onlyExtensions) && !in_array($extension, $this->onlyExtensions)) {
+				return true;
+			}
+			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
+				return true;
+			}
+			$info = pathinfo($path);
+			$stat = $this->statName($path);
+			$fileInstance = \App\Fields\File::loadFromInfo([
+					'path' => $this->getLocalPath($path),
+					'name' => $info['basename'],
+					'size' => $stat['size'],
+					'validateAllCodeInjection' => true
+			]);
+			if (!$fileInstance->validate()) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -140,6 +174,16 @@ class Zip extends \ZipArchive
 	 */
 	public function unzipFile($compressedFileName, $targetFileName)
 	{
-		return copy("zip://{$this->filename}#{$compressedFileName}", $targetFileName);
+		return copy($this->getLocalPath($compressedFileName), $targetFileName);
+	}
+
+	/**
+	 * Get compressed file path
+	 * @param string $compressedFileName
+	 * @return string
+	 */
+	public function getLocalPath($compressedFileName)
+	{
+		return "zip://{$this->filename}#{$compressedFileName}";
 	}
 }

@@ -69,23 +69,19 @@ class LayoutImport extends LayoutExport
 		$label = $this->_modulexml->label;
 
 		self::log("Importing $name ... STARTED");
-		$unzip = new Unzip($zipfile);
-		$filelist = $unzip->getList();
 		$vtiger6format = false;
 
-		$badFileExtensions = array_diff(vglobal('upload_badext'), ['js']);
-
-		foreach ($filelist as $filename => $fileinfo) {
-			if (!$unzip->isdir($filename)) {
-
-				if (strpos($filename, '/') === false)
+		$zip = new \App\Zip($zipfile);
+		$zip->illegalExtensions(array_diff(vglobal('upload_badext'), ['js']));
+		for ($i = 0; $i < $zip->numFiles; $i++) {
+			$fileName = $zip->getNameIndex($i);
+			if (!$zip->isdir($fileName)) {
+				if (strpos($fileName, '/') === false) {
 					continue;
-
-
-				$targetdir = substr($filename, 0, strripos($filename, '/'));
-				$targetfile = basename($filename);
+				}
+				$targetdir = substr($fileName, 0, strripos($fileName, '/'));
+				$targetfile = basename($fileName);
 				$dounzip = false;
-				$fileValidation = true;
 				// Case handling for jscalendar
 				if (stripos($targetdir, "layouts/$name/skins") === 0) {
 					$dounzip = true;
@@ -107,34 +103,24 @@ class LayoutImport extends LayoutExport
 						$targetdir = "layouts/$name/" . str_replace("layouts/$name", "", $targetdir);
 						@mkdir($targetdir, 0755, true);
 					}
-					$filepath = 'zip://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $zipfile . '#' . $filename;
-					$fileInfo = pathinfo($filepath);
-					if (in_array($fileInfo['extension'], $badFileExtensions)) {
-						$fileValidation = false;
-					}
-					// Check for php code injection
-					if (preg_match('/(<\?php?(.*?))/i', file_get_contents($filepath)) == 1) {
-						$fileValidation = false;
-					}
-					if ($fileValidation) {
-						if ($unzip->unzip($filename, "$targetdir/$targetfile") !== false) {
-							self::log("Copying file $filename ... DONE");
+					if (!$zip->checkFile($fileName)) {
+						if ($zip->unzipFile($fileName, "$targetdir/$targetfile") !== false) {
+							self::log("Copying file $fileName ... DONE");
 						} else {
-							self::log("Copying file $filename ... FAILED");
+							self::log("Copying file $fileName ... FAILED");
 						}
 					} else {
-						self::log("Incorrect file $filename ... SKIPPED");
+						self::log("Incorrect file $fileName ... SKIPPED");
 					}
 				} else {
-					self::log("Copying file $filename ... SKIPPED");
+					self::log("Copying file $fileName ... SKIPPED");
 				}
 			}
 		}
-		if ($unzip)
-			$unzip->close();
-
+		if ($zip) {
+			$zip->close();
+		}
 		self::register($name, $label);
-
 		self::log("Importing $name($label) ... DONE");
 		return;
 	}
