@@ -136,7 +136,7 @@ class Settings_Github_Client_Model
 		}
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
 		$content = curl_exec($curl);
 		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);

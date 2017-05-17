@@ -201,6 +201,7 @@ class Feed
 			curl_setopt($curl, CURLOPT_ENCODING, '');
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); // no echo, just return result
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, TRUE); // no echo, just return result
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
 			if (!ini_get('open_basedir')) {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE); // sometime is useful :)
 			}

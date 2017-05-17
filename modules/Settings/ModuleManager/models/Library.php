@@ -111,7 +111,7 @@ class Settings_ModuleManager_Library_Model
 		if (!file_exists($path)) {
 			stream_context_set_default([
 				'ssl' => [
-					'verify_peer' => false,
+					'verify_peer' => true,
 					'verify_peer_name' => true,
 				],
 			]);
@@ -119,7 +119,7 @@ class Settings_ModuleManager_Library_Model
 			$headers = get_headers($url, 1);
 			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
 				App\Log::trace('Started downloading library: ' . $name);
-				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => true]]))) {
+				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true]]))) {
 					file_put_contents($path, $file);
 					App\Log::trace('Completed downloads library: ' . $name);
 				}
