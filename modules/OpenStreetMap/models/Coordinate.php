@@ -36,6 +36,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 			CURLOPT_TIMEOUT => 10,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_SSL_VERIFYHOST => 1,
 		));
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
