@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
 {strip}
 <input type="hidden" id="currentView" value="{$VIEW}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />

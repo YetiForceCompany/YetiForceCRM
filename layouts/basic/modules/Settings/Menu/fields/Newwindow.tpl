@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
 
 <div class="form-group">
 	<label class="col-md-4 control-label">{vtranslate('LBL_NEW_WINDOW', $QUALIFIED_MODULE)}:</label>
