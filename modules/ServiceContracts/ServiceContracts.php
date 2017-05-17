@@ -1,9 +1,10 @@
 <?php
 
 /**
- * 
- * @package YetiForce.ServiceContracts
- * @license licenses/License.html
+ * ServiceContracts CRMEntity class
+ * @package YetiForce.CRMEntity
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts extends CRMEntity

@@ -3,7 +3,8 @@
 /**
  * ChangesReviewedOn Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller

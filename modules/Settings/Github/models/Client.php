@@ -3,7 +3,8 @@
 /**
  * Client Model
  * @package YetiForce.Github
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_Github_Client_Model
@@ -40,7 +41,7 @@ class Settings_Github_Client_Model
 		$path = '/search/issues';
 		$data['q'] = 'user:' . self::ownerRepository . ' repo:' . self::repository . " is:issue is:$state";
 		if ($author) {
-			$data['q'].=" author:$this->username";
+			$data['q'] .= " author:$this->username";
 		}
 		$issues = $this->doRequest($path, 'GET', $data, '200');
 		if ($issues === false) {
@@ -75,9 +76,9 @@ class Settings_Github_Client_Model
 	{
 		$instance = new self();
 		$row = (new App\Db\Query())
-			->select(['client_id', 'token', 'username'])
-			->from('u_#__github')
-			->createCommand()->queryOne();
+				->select(['client_id', 'token', 'username'])
+				->from('u_#__github')
+				->createCommand()->queryOne();
 		if (!empty($row)) {
 			$instance->setClientId($row['client_id']);
 			$instance->setToken(base64_decode($row['token']));
@@ -134,8 +135,8 @@ class Settings_Github_Client_Model
 				break;
 		}
 		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
 		$content = curl_exec($curl);
 		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);

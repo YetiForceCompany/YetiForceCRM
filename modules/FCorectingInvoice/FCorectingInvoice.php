@@ -1,8 +1,9 @@
 <?php
 /**
  * FCorectingInvoice CRMEntity Class
- * @package YetiForce.Model
- * @license licenses/License.html
+ * @package YetiForce.CRMEntity
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';

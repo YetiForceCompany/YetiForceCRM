@@ -3,7 +3,8 @@
 /**
  * Calendar Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author YetiForce.com
  */
 class Calendar_Calendar_Model extends Vtiger_Base_Model
@@ -22,12 +23,14 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		return $this->moduleName;
 	}
 
-	private function getLabel($labels, $key) {
+	private function getLabel($labels, $key)
+	{
 		if (isset($labels[$key])) {
 			return $labels[$key];
 		}
 		return '';
 	}
+
 	/**
 	 * Get query
 	 * @return \App\Db\Query
@@ -53,20 +56,20 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query->andWhere([
 				'or',
-					[
+				[
 					'and',
-						['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
+					['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
 				],
-					[
+				[
 					'and',
-						['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime]
+					['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime]
 				],
-					[
+				[
 					'and',
-						['<', 'date_start', $dbStartDate],
-						['>', 'due_date', $dbEndDate]
+					['<', 'date_start', $dbStartDate],
+					['>', 'due_date', $dbEndDate]
 				]
 			]);
 		}

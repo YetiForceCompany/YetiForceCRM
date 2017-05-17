@@ -3,7 +3,8 @@
 /**
  * EditFieldByModal View Class for Assets
  * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
@@ -28,7 +29,7 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 		}
 		$showFields = array_keys($recordModel->getModule()->getQuickCreateFields());
 		$configureFields = AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL');
-		if($configureFields){
+		if ($configureFields) {
 			$showFields = array_merge($showFields, $configureFields);
 		}
 

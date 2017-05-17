@@ -3,7 +3,8 @@
 /**
  * Services TreeView View Class
  * @package YetiForce.TreeView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Services_TreeRecords_View extends Products_TreeRecords_View

@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Calendar export model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 vimport('modules.Calendar.iCal.iCalendar_rfc2445');
 vimport('modules.Calendar.iCal.iCalendar_components');
 vimport('modules.Calendar.iCal.iCalendar_properties');

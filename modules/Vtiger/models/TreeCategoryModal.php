@@ -3,7 +3,8 @@
 /**
  * Basic TreeCategoryModal Model Class
  * @package YetiForce.TreeCategoryModal
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
