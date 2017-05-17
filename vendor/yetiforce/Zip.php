@@ -114,7 +114,7 @@ class Zip extends \ZipArchive
 		if ($matches) {
 			return true;
 		}
-		if (stripos($path, '..') === 0 || stripos($path, '/') === 0) {
+		if (stripos($path, '../') === 0 || stripos($path, '..\\') === 0) {
 			return true;
 		}
 		if (!$this->isDir($path)) {

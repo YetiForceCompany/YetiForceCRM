@@ -440,7 +440,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$userid = $mail->getAccountOwner();
 		$useTime = $mail->get('udate_formated');
 		$setype = 'OSSMailView Attachment';
-
 		$IDs = [];
 		if ($attachments) {
 			foreach ($attachments as $attachment) {
@@ -481,7 +480,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 					)->execute();
 					if (!empty($relID)) {
 						$dirName = vtlib\Functions::initStorageFileDirectory('OSSMailView');
-						$urlToImage = "$dirName{$attachId}_$fileName";
+						$urlToImage = 'file.php?module=Documents&action=DownloadFile&record=' . $record->getId() . "&fileid=$attachId&show=true";
 						$db->createCommand()->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
 							'documentsid' => $record->getId(),
