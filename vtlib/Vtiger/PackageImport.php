@@ -45,7 +45,7 @@ class PackageImport extends PackageExport
 	 */
 	public function __parseManifestFile(\App\Zip $zip)
 	{
-		$this->_modulexml = simplexml_load_file($zip->getFromName('manifest.xml'));
+		$this->_modulexml = simplexml_load_string($zip->getFromName('manifest.xml'));
 	}
 
 	/**
