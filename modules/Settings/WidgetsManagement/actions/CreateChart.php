@@ -3,7 +3,8 @@
 /**
  * Action to create widget
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WidgetsManagement_CreateChart_Action extends Settings_Vtiger_IndexAjax_View

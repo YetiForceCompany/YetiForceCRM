@@ -3,7 +3,8 @@
 /**
  * Recurring Events Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Events_RecuringEvents_Model extends Vtiger_Base_Model

@@ -3,7 +3,8 @@
 /**
  * Form to add/edit dashboard
  * @package YetiForce.view
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WidgetsManagement_DashboardType_View extends Settings_Vtiger_BasicModal_View
