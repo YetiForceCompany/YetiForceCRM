@@ -411,7 +411,7 @@ class PackageImport extends PackageExport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
-			$zip = new \App\Zip($zipfile);
+			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
@@ -422,17 +422,16 @@ class PackageImport extends PackageExport
 				'cron' => "cron/modules/$module",
 				// Config
 				'config' => 'config/modules',
+				// Modules folder
+				'modules' => 'modules',
 				// Settings folder
 				'settings/actions' => "modules/Settings/$module/actions",
 				'settings/views' => "modules/Settings/$module/views",
 				'settings/models' => "modules/Settings/$module/models",
-				'settings/connectors' => "modules/Settings/$module/connectors",
-				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
 				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
 				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
-				'settings' => 'modules/Settings',
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
 			]);
