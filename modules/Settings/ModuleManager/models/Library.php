@@ -11,7 +11,7 @@ class Settings_ModuleManager_Library_Model
 
 	/**
 	 * List of all installation libraries
-	 * @var array 
+	 * @var array
 	 */
 	public static $libraries = [
 		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
@@ -23,7 +23,7 @@ class Settings_ModuleManager_Library_Model
 
 	/**
 	 * Path to save temporary files
-	 * @var string 
+	 * @var string
 	 */
 	const TEMP_DIR = 'cache' . DIRECTORY_SEPARATOR . 'upload';
 
@@ -111,14 +111,14 @@ class Settings_ModuleManager_Library_Model
 			stream_context_set_default([
 				'ssl' => [
 					'verify_peer' => false,
-					'verify_peer_name' => false,
+					'verify_peer_name' => true,
 				],
 			]);
 			$url = $lib['url'] . "/archive/$mode.zip";
 			$headers = get_headers($url, 1);
 			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
 				App\Log::trace('Started downloading library: ' . $name);
-				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]))) {
+				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => true]]))) {
 					file_put_contents($path, $file);
 					App\Log::trace('Completed downloads library: ' . $name);
 				}
