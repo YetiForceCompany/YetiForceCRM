@@ -412,6 +412,9 @@ class PackageImport extends PackageExport
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
 			$zip = new \App\Zip($zipfile);
+			if ($zip->statName("$module.png")) {
+				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+			}
 			$zip->unzip([
 				// Templates folder
 				'templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
@@ -433,9 +436,6 @@ class PackageImport extends PackageExport
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
 			]);
-			if ($zip->statName("$module.png")) {
-				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
-			}
 		}
 		return $module;
 	}
