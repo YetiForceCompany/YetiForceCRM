@@ -1,11 +1,15 @@
 <?php
-
 /**
- * 
+ * Login history
  * @package YetiForce.Models
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+/**
+ * Login history
  */
 class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -50,10 +54,11 @@ class Settings_LoginHistory_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($fieldName) {
 			case 'login_time':
 			case 'logout_time':
-				if ($this->get($fieldName) !== '0000-00-00 00:00:00') {
-					return Vtiger_Datetime_UIType::getDateTimeValue($this->get($fieldName));
+				$value = $this->get($fieldName);
+				if ($value && $value !== '0000-00-00 00:00:00') {
+					return Vtiger_Datetime_UIType::getDateTimeValue($value);
 				} else {
-					return '---';
+					return '--';
 				}
 			case 'user_name':
 				return $this->getForHtml($fieldName);
