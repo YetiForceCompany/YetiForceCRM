@@ -70,4 +70,6 @@ $PERFORMANCE_CONFIG = [
 	'MAX_MULTIIMAGE_VIEW' => 5,
 	//View MultiImage as icon or names
 	'ICON_MULTIIMAGE_VIEW' => true,
+	//Number of browsing history steps
+	'BROWSING_HISTORY_VIEW_LIMIT' => 20,
 ];

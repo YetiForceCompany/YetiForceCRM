@@ -1,6 +1,19 @@
 {strip}
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
 	<div class="actionMenu" aria-hidden="true">
+		<div class="row">
+ 			<div class="dropdown quickAction historyBtn">
+ 				<div class="pull-left">
+ 					{\App\Language::translate('LBL_PAGES_HISTORY')}
+ 				</div>						
+ 				<div class="pull-right">
+ 					<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
+ 						<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{\App\Language::translate('LBL_PAGES_HISTORY')}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+ 					</a>
+					{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+ 				</div>
+ 			</div>
+ 		</div>
 		{if $REMINDER_ACTIVE}
 			<div class="row">
 				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
