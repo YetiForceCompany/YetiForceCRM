@@ -106,6 +106,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'zlib.output_compression' => ['prefer' => 'Off'],
 			'expose_php' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
+			'session.use_strict_mode' => ['prefer' => 'On'],
 			'session.cookie_httponly' => ['prefer' => 'On'],
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
@@ -186,6 +187,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false)
 			$directiveValues['session.auto_start']['status'] = true;
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
+
+		if (ini_get('session.use_strict_mode') == '1' || stripos(ini_get('session.use_strict_mode'), 'On') !== false) {
+			$directiveValues['session.use_strict_mode']['status'] = false;
+		} else {
+			$directiveValues['session.use_strict_mode']['status'] = true;
+		}
 
 		if (ini_get('session.cookie_httponly') != '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false)
 			$directiveValues['session.cookie_httponly']['status'] = true;
