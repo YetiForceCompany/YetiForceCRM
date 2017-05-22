@@ -41,10 +41,7 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['fieldparams'] = $field->getFieldParams();
 			$fieldInfo['blockId'] = $block->id;
 			if (isset($fieldInfo['picklistvalues']) && $field->isEmptyPicklistOptionAllowed()) {
-				$firstKey = key($fieldInfo['picklistvalues']);
-				if (!is_array($fieldInfo['picklistvalues'][$firstKey])) {
-					$fieldInfo['picklistvalues'] = ['' => \App\Language::translate('LBL_SELECT_OPTION')] + $fieldInfo['picklistvalues'];
-				}
+				$fieldInfo['isEmptyPicklistOptionAllowed'] = $field->isEmptyPicklistOptionAllowed();
 			}
 			if ($field->isReferenceField()) {
 				$fieldInfo['referenceList'] = $field->getReferenceList();
