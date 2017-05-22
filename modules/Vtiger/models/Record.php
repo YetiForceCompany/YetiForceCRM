@@ -1041,9 +1041,9 @@ class Vtiger_Record_Model extends \App\Base
 
 		//to get the owner id
 		$ownerid = $this->get('assigned_user_id');
-		if (!isset($ownerid) || $ownerid === '')
+		if (!isset($ownerid) || $ownerid === '') {
 			$ownerid = $userId;
-
+		}
 		if (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) {
 			$fileName = $fileDetails['original_name'];
 		} else {
@@ -1054,11 +1054,8 @@ class Vtiger_Record_Model extends \App\Base
 		if (!$fileInstance->validate()) {
 			return false;
 		}
-		$binFile = \App\Fields\File::sanitizeUploadFileName($fileName);
-
-		$filename = ltrim(basename(' ' . $binFile)); //allowed filename like UTF-8 characters
+		$fileName = ltrim(App\Purifier::purify($fileName)); //allowed filename like UTF-8 characters
 		$filetype = $fileDetails['type'];
-		$filesize = $fileDetails['size'];
 		$filetmp_name = $fileDetails['tmp_name'];
 
 		//get the file path inwhich folder we want to upload the file
@@ -1079,11 +1076,11 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		$uploadStatus = move_uploaded_file($filetmp_name, $uploadFilePath . $currentId . '_' . $binFile);
+		$uploadStatus = move_uploaded_file($filetmp_name, $uploadFilePath . $currentId);
 		if ($uploadStatus) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,
-				'name' => $filename,
+				'name' => $fileName,
 				'description' => $this->get('description'),
 				'type' => $filetype,
 				'path' => $uploadFilePath

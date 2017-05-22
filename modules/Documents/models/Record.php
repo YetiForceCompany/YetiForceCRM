@@ -50,6 +50,9 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				->one();
 	}
 
+	/**
+	 * Download file
+	 */
 	public function downloadFile()
 	{
 		$fileDetails = $this->getFileDetails();
@@ -61,23 +64,27 @@ class Documents_Record_Model extends Vtiger_Record_Model
 
 			if ($this->get('filelocationtype') == 'I') {
 				$fileName = html_entity_decode($fileName, ENT_QUOTES, vglobal('default_charset'));
-				$savedFile = $fileDetails['attachmentsid'] . "_" . $fileName;
+				if (file_exists($filePath . $fileDetails['attachmentsid'])) {
+					$savedFile = $fileDetails['attachmentsid'];
+				} else {
+					$savedFile = $fileDetails['attachmentsid'] . '_' . $fileName;
+				}
 
 				$fileSize = filesize($filePath . $savedFile);
 				$fileSize = $fileSize + ($fileSize % 1024);
 
-				if (fopen($filePath . $savedFile, "r")) {
-					$fileContent = fread(fopen($filePath . $savedFile, "r"), $fileSize);
+				if (fopen($filePath . $savedFile, 'r')) {
+					$fileContent = fread(fopen($filePath . $savedFile, 'r'), $fileSize);
 					$fileName = $this->get('filename');
-					header("Content-type: " . $fileDetails['type']);
-					header("Pragma: public");
-					header("Cache-Control: private");
+					header('Content-type: ' . $fileDetails['type']);
+					header('Pragma: public');
+					header('Cache-Control: private');
 					if ($this->get('show')) {
-						header("Content-Disposition: inline");
+						header('Content-Disposition: inline');
 					} else {
 						header("Content-Disposition: attachment; filename=\"$fileName\"");
 					}
-					header("Content-Description: PHP Generated Data");
+					header('Content-Description: PHP Generated Data');
 				}
 			}
 		}
@@ -156,12 +163,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				if ($errCode === 0) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
 					if ($fileInstance->validate()) {
-						$fileName = $file['name'];
-						$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
+						$fileName = App\Purifier::purify($file['name']);
 						$fileType = $file['type'];
 						$fileSize = $file['size'];
 						$fileLocationType = 'I';
-						$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
 					}
 				}
 			} elseif ($this->get($fileNameByField)) {
@@ -188,7 +193,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			$fileSize = 0;
 			$fileDownloadCount = null;
 		}
-		$db->createCommand()->update('vtiger_notes', ['filename' => decode_html($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
+		$db->createCommand()->update('vtiger_notes', ['filename' => App\Purifier::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
 		if ($fileLocationType === 'I') {
 			if (!isset($this->file)) {
@@ -200,7 +205,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			} else {
 				$file = $this->file;
 			}
-			if ($file['name'] != '' && $file['size'] > 0) {
+			if ($file['name'] !== '' && $file['size'] > 0) {
 				$file['original_name'] = \App\Request::_get('0_hidden');
 				$this->uploadAndSaveFile($file);
 			}
