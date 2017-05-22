@@ -7,11 +7,21 @@
  * @author Michał Lorencik <m.lorencik.com>
  */
 $limitView = AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT');
-$sql = "SELECT COUNT(id) AS record_count, userid, (SELECT sub.view_date FROM u_yf_browsinghistory as sub WHERE userid=sub.userid ORDER BY sub.view_date LIMIT $limitView,1) AS view_date FROM u_yf_browsinghistory GROUP BY id_user HAVING record_count > $limitView";
 
-$result = (new \App\Db\Query())->createCommand()->setSql($sql)->queryAll();
+$subQuery = (new App\Db\Query())->select(['sub.view_date'])
+	->from(['sub' => 'u_#__browsinghistory'])
+	->where('t.userid=sub.userid')
+	->orderBy(['sub.view_date' => SORT_ASC])
+	->limit(1)
+	->offset($limitView);
+$result = (new \App\Db\Query())->select(['record_count' => 'count(t.id)', 't.userid', 'view_date' => $subQuery])
+	->from(['t' => 'u_#__browsinghistory'])
+	->groupBy(['t.userid'])
+	->having('record_count > :limit', ['limit' => $limitView])
+	->all();
+
 foreach ($result as $record) {
 	(new \App\Db\Query())->createCommand()
-		->delete('u_yf_browsinghistory', 'userid=:userId and view_date < :viewDate', ['userId' => $record['userid'], 'viewDate' => $record['view_date']])
+		->delete('u_#__browsinghistory', 'userid=:userId and view_date < :viewDate', ['userId' => $record['userid'], 'viewDate' => $record['view_date']])
 		->execute();
 }

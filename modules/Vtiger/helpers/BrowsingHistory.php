@@ -2,63 +2,41 @@
 
 /**
  * Browsing history
- * @package YetiForce.BrowsingHistory
+ * @package YetiForce.Helpers
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Michał Lorencik <m.lorencik.com>
  */
-class Vtiger_BrowsingHistory_Model extends Vtiger_Widget_Model
+class Vtiger_BrowsingHistory_Helper
 {
 
 	/**
-	 * History engine
-	 * @param \App\Request $request
-	 * @param string $title
-	 * @return array
-	 */
-	public static function historyEngine(\App\Request $request, $title = '')
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$userId = $currentUser->getId();
-
-		if ($request->has('clearBrowsingHistory')) {
-			self::deleteHistory($userId);
-		}
-
-		$history = self::getHistory($userId);
-
-		if (!$request->has('clearBrowsingHistory')) {
-			self::saveHistory($userId, $title);
-		}
-
-		return $history;
-	}
-
-	/**
 	 * Get browsing history
-	 * @param int $userId
 	 * @return array
 	 */
-	public static function getHistory($userId)
+	public static function getHistory()
 	{
-		$results = (new \App\Db\Query())->from('u_yf_browsinghistory')
+		$userId = App\User::getCurrentUserId();
+		$results = (new \App\Db\Query())->from('u_#__browsinghistory')
 			->where(['userid' => $userId])
-			->orderBy('view_date desc')
+			->orderBy(['view_date' => SORT_DESC])
 			->limit(AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT'))
 			->all();
 
 		$today = false;
 		$yesterday = false;
 		$older = false;
+		$dateToday = DateTimeField::convertToUserTimeZone('today')->format("U");
+		$dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format("U");
 		foreach ($results as $key => $value) {
 			$results[$key]['view_date'] = DateTimeField::convertToUserTimeZone($value['view_date'])->format("Y-m-d H:i:s");
-			if (strtotime($results[$key]['view_date']) >= DateTimeField::convertToUserTimeZone('today')->format("U")) {
+			if (strtotime($results[$key]['view_date']) >= $dateToday) {
 				$results[$key]['hour'] = true;
 				if (!$today) {
 					$results[$key]['viewToday'] = true;
 					$today = true;
 				}
-			} elseif (strtotime($results[$key]['view_date']) >= DateTimeField::convertToUserTimeZone('yesterday')->format("U")) {
+			} elseif (strtotime($results[$key]['view_date']) >= $dateYesterday) {
 				$results[$key]['hour'] = true;
 				if (!$yesterday) {
 					$results[$key]['viewYesterday'] = true;
@@ -78,11 +56,11 @@ class Vtiger_BrowsingHistory_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Save step in browsing history
-	 * @param int $userId
 	 * @param string $title
 	 */
-	public static function saveHistory($userId, $title)
+	public static function saveHistory($title)
 	{
+		$userId = App\User::getCurrentUserId();
 		$data = [
 			'userid' => $userId,
 			'view_date' => date('Y-m-d H:i:s'),
@@ -90,20 +68,18 @@ class Vtiger_BrowsingHistory_Model extends Vtiger_Widget_Model
 			'url' => $_SERVER['REQUEST_URI']
 		];
 		\App\Db::getInstance()->createCommand()
-			->insert('u_yf_browsinghistory', $data)
+			->insert('u_#__browsinghistory', $data)
 			->execute();
 	}
 
 	/**
 	 * Clear browsing history for user
-	 * @param int $userId
 	 */
-	public static function deleteHistory($userId)
+	public static function deleteHistory()
 	{
+		$userId = App\User::getCurrentUserId();
 		\App\Db::getInstance()->createCommand()
-			->delete('u_yf_browsinghistory', ['userid' => $userId])
+			->delete('u_#__browsinghistory', ['userid' => $userId])
 			->execute();
-
-		header("Location: " . $_SERVER['HTTP_REFERER']);
 	}
 }

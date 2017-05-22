@@ -39,7 +39,8 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('MENUS', $this->getMenu());
 
-		$viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Model::historyEngine($request, $this->getPageTitle($request)));
+		$viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Helper::getHistory());
+		Vtiger_BrowsingHistory_Helper::saveHistory($this->getPageTitle($request));
 
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
