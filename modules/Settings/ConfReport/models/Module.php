@@ -108,6 +108,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
+			'session_regenerate_id' => ['prefer' => 'On'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
 		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
@@ -169,30 +170,34 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
 
-		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800)
+		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800) {
 			$directiveValues['post_max_size']['status'] = true;
+		}
 		$directiveValues['post_max_size']['current'] = vtlib\Functions::showBytes(ini_get('post_max_size'));
 
-		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600)
+		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600) {
 			$directiveValues['upload_max_filesize']['status'] = true;
+		}
 		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
-		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false)
+		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false) {
 			$directiveValues['zlib.output_compression']['status'] = true;
+		}
 		$directiveValues['zlib.output_compression']['current'] = self::getFlag((ini_get('zlib.output_compression')));
 
-		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false)
+		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false) {
 			$directiveValues['session.auto_start']['status'] = true;
+		}
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
 
-		if (ini_get('session.use_strict_mode') == '1' || stripos(ini_get('session.use_strict_mode'), 'On') !== false) {
-			$directiveValues['session.use_strict_mode']['status'] = false;
-		} else {
+		if (ini_get('session.use_strict_mode') != '1' || stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
 			$directiveValues['session.use_strict_mode']['status'] = true;
 		}
+		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
 
-		if (ini_get('session.cookie_httponly') != '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false)
+		if (ini_get('session.cookie_httponly') != '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false) {
 			$directiveValues['session.cookie_httponly']['status'] = true;
+		}
 		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
 
 		/*
@@ -240,6 +245,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
+		if (!AppConfig::main('session_regenerate_id')) {
+			$directiveValues['session_regenerate_id']['status'] = true;
+		}
+		$directiveValues['session_regenerate_id']['current'] = self::getFlag(AppConfig::main('session_regenerate_id'));
 
 		if (extension_loaded('suhosin')) {
 			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
