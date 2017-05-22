@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings search Module model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
 
@@ -106,13 +103,13 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function updateSequenceNumber($modulesSequence)
 	{
-		
+
 		\App\Log::trace("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
 		$tabIdList = array();
 		$db = PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_entityname SET ';
-		$query .=' sequence= CASE ';
+		$query .= ' sequence= CASE ';
 		foreach ($modulesSequence as $newModuleSequence) {
 			$tabId = $newModuleSequence['tabid'];
 			$sequence = $newModuleSequence['sequence'];
@@ -120,7 +117,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 			$query .= ' WHEN tabid=' . $tabId . ' THEN ' . $sequence;
 		}
 
-		$query .=' END ';
+		$query .= ' END ';
 
 		$query .= sprintf(' WHERE tabid IN (%s)', generateQuestionMarks($tabIdList));
 		$db->pquery($query, [$tabIdList]);
