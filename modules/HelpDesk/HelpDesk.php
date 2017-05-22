@@ -290,6 +290,9 @@ class HelpDesk extends CRMEntity
 		if ($queryplanner->requireTable("vtiger_accountRelHelpDesk")) {
 			$query .= " left join vtiger_account as vtiger_accountRelHelpDesk on vtiger_accountRelHelpDesk.accountid=vtiger_crmentityRelHelpDesk.crmid";
 		}
+		if ($queryplanner->requireTable('vtiger_vendorRelHelpDesk')) {
+			$query .= ' left join vtiger_vendor as vtiger_vendorRelHelpDesk on vtiger_vendorRelHelpDesk.vendorid=vtiger_crmentityRelHelpDesk.crmid';
+		}
 		if ($queryplanner->requireTable("vtiger_contactdetailsRelHelpDesk")) {
 			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsRelHelpDesk on vtiger_contactdetailsRelHelpDesk.contactid= vtiger_troubletickets.contact_id";
 		}
