@@ -42,7 +42,7 @@ class Vtiger_BrowsingHistory_Model extends Vtiger_Widget_Model
 	public static function getHistory($userId)
 	{
 		$results = (new \App\Db\Query())->from('u_yf_browsinghistory')
-			->where(['id_user' => $userId])
+			->where(['userid' => $userId])
 			->orderBy('view_date desc')
 			->limit(AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT'))
 			->all();
@@ -84,7 +84,7 @@ class Vtiger_BrowsingHistory_Model extends Vtiger_Widget_Model
 	public static function saveHistory($userId, $title)
 	{
 		$data = [
-			'id_user' => $userId,
+			'userid' => $userId,
 			'view_date' => date('Y-m-d H:i:s'),
 			'page_title' => $title,
 			'url' => $_SERVER['REQUEST_URI']
@@ -101,7 +101,7 @@ class Vtiger_BrowsingHistory_Model extends Vtiger_Widget_Model
 	public static function deleteHistory($userId)
 	{
 		\App\Db::getInstance()->createCommand()
-			->delete('u_yf_browsinghistory', ['id_user' => $userId])
+			->delete('u_yf_browsinghistory', ['userid' => $userId])
 			->execute();
 
 		header("Location: " . $_SERVER['HTTP_REFERER']);

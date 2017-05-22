@@ -1050,12 +1050,12 @@ CREATE TABLE `u_yf_attachments` (
 
 CREATE TABLE `u_yf_browsinghistory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
   `view_date` datetime DEFAULT NULL,
   `page_title` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
+  `url` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cfixedassets` */
 
