@@ -1676,6 +1676,11 @@ var app = {
 			app.showModalWindow(html);
 		})
 	},
+	clearBrowsingHistory: function () {
+		$.get('?action=browsingHistory', function(){
+			$('ul.historyList li.item').remove();
+		});		
+	},
 }
 jQuery(document).ready(function () {
 	app.changeSelectElementView();

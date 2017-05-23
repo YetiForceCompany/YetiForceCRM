@@ -10,18 +10,19 @@ $limitView = AppConfig::performance('BROWSING_HISTORY_VIEW_LIMIT');
 
 $subQuery = (new App\Db\Query())->select(['sub.view_date'])
 	->from(['sub' => 'u_#__browsinghistory'])
-	->where('t.userid=sub.userid')
-	->orderBy(['sub.view_date' => SORT_ASC])
+	->where(['and', 't.userid = sub.userid'])
+	->orderBy(['sub.view_date' => SORT_DESC])
 	->limit(1)
 	->offset($limitView);
+
 $result = (new \App\Db\Query())->select(['record_count' => 'count(t.id)', 't.userid', 'view_date' => $subQuery])
 	->from(['t' => 'u_#__browsinghistory'])
 	->groupBy(['t.userid'])
-	->having('record_count > :limit', ['limit' => $limitView])
+	->having(['and', 'record_count > :limit'], ['limit' => $limitView])
 	->all();
 
 foreach ($result as $record) {
-	(new \App\Db\Query())->createCommand()
-		->delete('u_#__browsinghistory', 'userid=:userId and view_date < :viewDate', ['userId' => $record['userid'], 'viewDate' => $record['view_date']])
+	\App\Db::getInstance()->createCommand()
+		->delete('u_#__browsinghistory', ['and', 'userid = :userId', 'view_date <= :viewDate'], ['userId' => $record['userid'], 'viewDate' => $record['view_date']])
 		->execute();
 }
