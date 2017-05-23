@@ -69,9 +69,9 @@ class Vtiger_Theme extends Vtiger_Viewer
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
-			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
-			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
 			if (file_exists($completeImageFilePath)) {
 				return $basePath . $imageFilePath;
 			} else if (file_exists($completeFallBackThemePath)) {
@@ -80,9 +80,9 @@ class Vtiger_Theme extends Vtiger_Viewer
 		}
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
-			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~' . $imageFilePath);
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath, $type);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
-			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallbackPath);
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath, $type);
 			if (file_exists($completeImageFilePath)) {
 				return $basePath . $imageFilePath;
 			} else if (file_exists($completeFallBackThemePath)) {

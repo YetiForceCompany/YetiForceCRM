@@ -26,7 +26,7 @@ font-size: 75%;
 				<div class="pull-left marginLeft5 marginTop5">
 					{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
-					<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
+					<image src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
 				</div>
 				{assign var=START_DATE value=$ACTIVITY->get('date_start')}
 				{assign var=START_TIME value=$ACTIVITY->get('time_start')}

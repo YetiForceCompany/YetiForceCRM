@@ -44,7 +44,7 @@
 				<div class="summaryViewEntries">
 					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
-					<image src="{vimage_path_default($ACTIVITY_TYPE, Calendar)}" width="14px" class="textOverflowEllipsis" alt="{vtranslate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
+					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{vtranslate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
 					{vtranslate($ACTIVITY_TYPE,$MODULE_NAME)}&nbsp;-&nbsp; 
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
