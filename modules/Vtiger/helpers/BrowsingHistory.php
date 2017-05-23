@@ -26,10 +26,10 @@ class Vtiger_BrowsingHistory_Helper
 		$today = false;
 		$yesterday = false;
 		$older = false;
-		$dateToday = DateTimeField::convertToUserTimeZone('today')->format("U");
-		$dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format("U");
+		$dateToday = DateTimeField::convertToUserTimeZone('today')->format('U');
+		$dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format('U');
 		foreach ($results as $key => $value) {
-			$results[$key]['view_date'] = DateTimeField::convertToUserTimeZone($value['view_date'])->format("Y-m-d H:i:s");
+			$results[$key]['view_date'] = DateTimeField::convertToUserTimeZone($value['view_date'])->format('Y-m-d H:i:s');
 			if (strtotime($results[$key]['view_date']) >= $dateToday) {
 				$results[$key]['hour'] = true;
 				if (!$today) {
