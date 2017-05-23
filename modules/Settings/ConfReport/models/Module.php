@@ -144,7 +144,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['display_errors']['status'] = true;
 		$directiveValues['display_errors']['current'] = self::getFlag(ini_get('display_errors'));
 
-		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
+		if (ini_get('file_uploads') != '1' && stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
 
@@ -190,12 +190,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
 
-		if (ini_get('session.use_strict_mode') != '1' || stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
+		if (ini_get('session.use_strict_mode') != '1' && stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
 			$directiveValues['session.use_strict_mode']['status'] = true;
 		}
 		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
 
-		if (ini_get('session.cookie_httponly') == '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false) {
+		if (ini_get('session.cookie_httponly') != '1' && stripos(ini_get('session.cookie_httponly'), 'Off') !== false) {
 			$directiveValues['session.cookie_httponly']['status'] = true;
 		}
 		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
@@ -211,11 +211,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['mbstring.func_overload']['current'] = self::getFlag(ini_get('mbstring.func_overload'));
 
-		if (ini_get('log_errors') != '1' || stripos(ini_get('log_errors'), 'Off') !== false)
+		if (ini_get('log_errors') != '1' && stripos(ini_get('log_errors'), 'Off') !== false)
 			$directiveValues['log_errors']['status'] = true;
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
-		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') !== false)
+		if (ini_get('short_open_tag') != '1' && stripos(ini_get('short_open_tag'), 'Off') !== false)
 			$directiveValues['short_open_tag']['status'] = true;
 		$directiveValues['short_open_tag']['current'] = self::getFlag(ini_get('short_open_tag'));
 
