@@ -3042,6 +3042,7 @@ class Base2 extends \App\Db\Importers\Base
 					[27, 'LBL_CACHE', 'cron/Cache.php', 86400, NULL, NULL, 1, 'Vtiger', 25, NULL],
 					[28, 'LBL_NEVER_ENDING_RECURRING_EVENTS', 'modules/Events/cron/RecurringEvents.php', 86400, NULL, NULL, 1, 'Events', 26, NULL],
 					[29, 'LBL_CLEAR_ATTACHMENTS_TABLE', 'cron/Attachments.php', 86400, NULL, NULL, 1, 'Vtiger', 27, NULL],
+					[30, 'LBL_SMSNOTIFIER', 'modules/SMSNotifier/cron/SMSNotifier.php', 300, NULL, NULL, 1, 'SMSNotifier', 28, NULL],
 				]
 			],
 			'vtiger_currencies' => [

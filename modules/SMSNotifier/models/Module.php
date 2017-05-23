@@ -125,9 +125,9 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 			$provider = self::getProviderInstance($data['providertype']);
 			if (!empty($data['parameters'])) {
 				$parameters = \App\Json::decode(decode_html($data['parameters']));
-			}
-			foreach ($parameters as $k => $v) {
-				$provider->set($k, $v);
+				foreach ($parameters as $k => $v) {
+					$provider->set($k, $v);
+				}
 			}
 			$provider->set('api_key', $data['api_key']);
 		}
@@ -135,9 +135,30 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		return $provider;
 	}
 
+	/**
+	 * Check server
+	 * @return bool
+	 */
 	public static function checkServer()
 	{
 		$provider = self::getActiveProviderInstance();
 		return ($provider !== false);
+	}
+
+	/**
+	 * Adds sms notifications to cron
+	 * @param string $message
+	 * @param string[] $toNumbers
+	 * @param int[] $recordIds
+	 * @param string $ralModuleName
+	 * @return int
+	 */
+	public static function addSmsToCron($message, $toNumbers, $recordIds, $ralModuleName)
+	{
+		return \App\Db::getInstance('admin')->createCommand()->insert('s_#__smsnotifier_queue', [
+				'message' => $message,
+				'tonumbers' => is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers,
+				'records' => is_array($recordIds) ? implode(',', $recordIds) : $recordIds,
+				'module' => $ralModuleName])->execute();
 	}
 }

@@ -51,7 +51,8 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 			$recordModel->getEntity()->save_related_module($moduleName, $recordModel->getId(), $ralModuleName, $recordIds);
 		}
 		$provider = SMSNotifier_Module_Model::getActiveProviderInstance();
-		$provider->set($provider->toName, is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers);
+		$numbers = is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers;
+		$provider->set($provider->toName, $numbers);
 		$provider->set($provider->messageName, $message);
 		$result = $provider->send();
 		if ($result) {

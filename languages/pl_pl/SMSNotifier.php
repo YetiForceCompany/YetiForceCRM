@@ -26,6 +26,7 @@ $languageStrings = [
 	'PLL_UNDEFINED' => 'Niezdefiniowany',
 	'PLL_DELIVERED' => 'Dostarczony',
 	'PLL_FAILED' => 'Niepowodzenie',
+	'LBL_MASS_SEND_SMS_INFO' => 'Wszystkie SMS-y są wysłane w cronie.',
 	//DetailView Actions
 	'LBL_CHECK_STATUS' => 'Sprawdź status',
 	'message' => 'Wiadomość',

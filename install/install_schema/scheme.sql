@@ -993,6 +993,17 @@ CREATE TABLE `s_yf_privileges_updater` (
   KEY `crmid` (`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_smsnotifier_queue` */
+
+CREATE TABLE `s_yf_smsnotifier_queue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `message` varchar(255) NOT NULL,
+  `tonumbers` text NOT NULL,
+  `records` text NOT NULL,
+  `module` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_activity_invitation` */
 
 CREATE TABLE `u_yf_activity_invitation` (
@@ -4293,7 +4304,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 

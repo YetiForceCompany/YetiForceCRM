@@ -21,7 +21,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	{
 		$sourceModule = $request->get('source_module');
 		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($sourceModule, 'CreateView') || !\App\Privilege::isPermitted($sourceModule, 'MassSendSMS') && !SMSNotifier_Module_Model::checkServer()) {
+		if (!\App\Privilege::isPermitted($sourceModule, 'CreateView') || !\App\Privilege::isPermitted($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -46,7 +46,9 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 			$numberSelected = false;
 			foreach ($phoneFieldList as $fieldName) {
 				if (!empty($row[$fieldName])) {
-					$toNumbers[] = $row[$fieldName];
+					$toNumbers[] = preg_replace_callback('/[^\d]/s', function($m) {
+						return '';
+					}, $row[$fieldName]);
 					$numberSelected = true;
 				}
 			}
@@ -57,7 +59,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$toNumbers = array_unique($toNumbers);
 		$response = new Vtiger_Response();
 		if (!empty($toNumbers)) {
-			$result = SMSNotifier_Record_Model::sendSMS($request->getForHtml('message'), $toNumbers, $recordIds, $sourceModule);
+			$result = SMSNotifier_Module_Model::addSmsToCron($request->getForHtml('message'), $toNumbers, $recordIds, $sourceModule);
 			$response->setResult(true);
 		} else {
 			$response->setResult(false);

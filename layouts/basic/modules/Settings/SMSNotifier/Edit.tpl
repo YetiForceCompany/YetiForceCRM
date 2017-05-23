@@ -14,7 +14,7 @@
 			<div class="form-group">
 				<label class="control-label col-md-3">
 					{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
-					{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
+					{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}
 				</label>
 				<div class="col-md-8 fieldValue">
 					{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
@@ -28,7 +28,7 @@
 				<div class="form-group" data-provider="{$PROVIDER->getName()}">
 					<label class="control-label col-md-3">
 						{\App\Language::translate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
-						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
+						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}
 					</label>
 					<div class="col-md-8 fieldValue">
 						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}

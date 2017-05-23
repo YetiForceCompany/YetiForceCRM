@@ -55,6 +55,8 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => 1000,
 	// In how many mails should the send in cron (Mailer).
 	'CRON_MAX_NUMBERS_SENDING_MAILS' => 1000,
+	// In how many sms should the send in cron.
+	'CRON_MAX_NUMBERS_SENDING_SMS' => 10,
 	// In how many atachments should the delete in cron.
 	'CRON_MAX_ATACHMENTS_DELETE' => 1000,
 	// Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory.

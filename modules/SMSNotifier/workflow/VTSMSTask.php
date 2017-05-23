@@ -32,8 +32,11 @@ class VTSMSTask extends VTTask
 			$recepients = explode(',', $recepient);
 			$toNumbers = [];
 			foreach ($recepients as $toNumber) {
-				if (!empty($toNumber) && !in_array($toNumber, $toNumbers)) {
-					$toNumbers[] = $toNumber;
+				$parseNumber = preg_replace_callback('/[^\d]/s', function($m) {
+					return '';
+				}, $toNumber);
+				if (!empty($parseNumber) && !in_array($parseNumber, $toNumbers)) {
+					$toNumbers[] = $parseNumber;
 				}
 			}
 			if ($toNumbers) {
