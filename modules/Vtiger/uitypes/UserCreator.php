@@ -18,7 +18,7 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	{
 		return 'uitypes/OwnerFieldSearchView.tpl';
 	}
-	
+
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
@@ -27,6 +27,6 @@ class Vtiger_UserCreator_UIType extends Vtiger_Reference_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\User::getCurrentUserId();
+		return \App\User::getCurrentUserRealId();
 	}
 }

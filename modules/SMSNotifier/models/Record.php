@@ -1,49 +1,66 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
-vimport('~modules/SMSNotifier/SMSNotifier.php');
+/**
+ * Record Class for SMSNotifier
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 
+/**
+ * Record Class for SMSNotifier
+ */
 class SMSNotifier_Record_Model extends Vtiger_Record_Model
 {
 
-	public static function SendSMS($message, $toNumbers, $currentUserId, $recordIds, $moduleName)
+	/**
+	 * Function defines the ability to create a record
+	 * @return boolean
+	 */
+	public function isCreateable()
 	{
-		SMSNotifier::sendsms($message, $toNumbers, $currentUserId, $recordIds, $moduleName);
+		return false;
 	}
 
-	public function checkStatus()
+	/**
+	 * Function defines the ability to edit a record
+	 * @return boolean
+	 */
+	public function isEditable()
 	{
-		$statusDetails = SMSNotifier::getSMSStatusInfo($this->get('id'));
-		$statusColor = $this->getColorForStatus($statusDetails[0]['status']);
-
-		$data = array_merge($statusDetails[0], ['statuscolor' => $statusColor]);
-		$this->setData($data);
-
-		return $this;
+		return false;
 	}
 
-	public function getCheckStatusUrl()
+	/**
+	 * Function sends sms
+	 * @param string $message
+	 * @param string[] $toNumbers
+	 * @param int[] $recordIds
+	 * @param string $ralModuleName
+	 * @return bool
+	 */
+	public static function sendSMS($message, $toNumbers, $recordIds, $ralModuleName)
 	{
-		return "index.php?module=" . $this->getModuleName() . "&view=CheckStatus&record=" . $this->getId();
-	}
-
-	public function getColorForStatus($smsStatus)
-	{
-		if ($smsStatus == 'Processing') {
-			$statusColor = '#FFFCDF';
-		} elseif ($smsStatus == 'Dispatched') {
-			$statusColor = '#E8FFCF';
-		} elseif ($smsStatus == 'Failed') {
-			$statusColor = '#FFE2AF';
-		} else {
-			$statusColor = '#FFFFFF';
+		$moduleName = 'SMSNotifier';
+		$recordModel = self::getCleanInstance($moduleName);
+		$recordModel->set('message', $message);
+		$recordModel->set('smsnotifier_status', 'PLL_UNDEFINED');
+		$recordModel->save();
+		if ($recordModel->getId()) {
+			$recordModel->isNew = false;
+			$recordModel->getEntity()->save_related_module($moduleName, $recordModel->getId(), $ralModuleName, $recordIds);
 		}
-		return $statusColor;
+		$provider = SMSNotifier_Module_Model::getActiveProviderInstance();
+		$provider->set($provider->toName, is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers);
+		$provider->set($provider->messageName, $message);
+		$result = $provider->send();
+		if ($result) {
+			$recordModel->set('smsnotifier_status', 'PLL_DELIVERED');
+		} else {
+			$recordModel->set('smsnotifier_status', 'PLL_FAILED');
+		}
+		$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+		$recordModel->save();
+		return $result;
 	}
 }

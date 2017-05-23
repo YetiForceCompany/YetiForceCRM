@@ -1,18 +1,43 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * Edit View Class
+ * @package YetiForce.Settings.Modal
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 
-class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_IndexAjax_View
+/**
+ * Edit View Class
+ */
+class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 {
 
+	/**
+	 * Check Permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermittedForAdmin
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		$record = $request->get('record');
+		$moduleName = $request->getModule(false);
+		if ($record) {
+			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($record, $moduleName);
+			if (!$recordModel->getProviderInstance()) {
+				throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			}
+		}
+	}
+
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
+		parent::preProcess($request);
 		$recordId = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
 
@@ -25,11 +50,9 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('EDITABLE_FIELDS', $recordModel->getEditableFields());
-		$viewer->assign('PROVIDERS_FIELD_MODELS', Settings_SMSNotifier_ProviderField_Model::getAll());
-		$viewer->assign('QUALIFIED_MODULE_NAME', $qualifiedModuleName);
+		$viewer->assign('MODULE_MODEL', $recordModel->getModule());
 		$viewer->assign('PROVIDERS', $recordModel->getModule()->getAllProviders());
-
-		$viewer->view('EditView.tpl', $qualifiedModuleName);
+		$viewer->view('Edit.tpl', $qualifiedModuleName);
+		parent::postProcess($request);
 	}
 }

@@ -6,36 +6,24 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'Enter new data' => 'Wprowadź nowe dane',
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Numer Kontrahenta',
-	'LBL_SMS_SENDER' => 'Nadawca',
-	'LBL_SMSPM_AUTH_HASH' => 'Symbol # potwierdzenia autentyczności',
-	'LBL_SMS_TIME' => 'Czas (min)',
-	'No' => 'Nie',
-	'Yes' => 'Tak',
-	'User Name' => 'Nazwa Użytkownika',
-	'Provider' => 'Dostawca',
+	'FL_PROVIDER' => 'Dostawca',
+	'FL_STATUS' => 'Status',
+	'FL_SMSAPI_FROM' => 'Rodzaj wiadomości',
+	'FL_API_KEY' => 'Api key',
+	'PLL_INACTIVE' => 'Nieaktywny',
+	'PLL_ACTIVE' => 'Aktywny',
 	'LBL_ADD_RECORD' => 'Nowa konfiguracja',
-	'SMSNotifier' => 'Konfiguracja dostawcy SMS',
+	'LBL_SMSNOTIFIER' => 'Konfiguracja dostawcy SMS',
+	'LBL_SMSNOTIFIER_DESCRIPTION' => ' ',
 	'LBL_ADD_CONFIGURATION' => 'Nowa konfiguracja',
 	'LBL_EDIT_CONFIGURATION' => 'Edytuj konfiguracje',
-	'LBL_SELECT_ONE' => 'Zaznacz jeden',
-	//Fields
-	'providertype' => 'Dostawca SMS',
-	'isactive' => 'Aktywny',
-	'username' => 'Nazwa użytkownika',
-	'password' => 'Hasło',
-	'api_id' => 'API Id',
-	'from' => 'Od',
-	'mo' => ''
+	'LBL_EDIT_CONFIGURATION' => 'Edytuj konfiguracje',
+	'BTN_SAVE' => 'Zapisz',
+	'BTN_CLOSE' => 'Anuluj',
 ];
 
 $jsLanguageStrings = [
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Numer Kontrahenta',
-	'LBL_SMSPM_AUTH_HASH' => 'Symbol # potwierdzenia autentyczności',
-	'LBL_SMS_TIME' => 'Czas (min)',
-	'LBL_SMS_SENDER' => 'Nadawca',
-	'LBL_DELETE_CONFIRMATION' => 'Czy jesteś pewien, że chcesz usunąć tą konfiguracje?',
+	'LBL_DELETE_CONFIRMATION' => 'Czy jesteś pewien, że chcesz usunąć tę konfiguracje?',
 	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Konfiguracja została poprawnie usunięta',
-	'JS_CONFIGURATION_SAVED' => 'Konfiguracja została zapisana',
+	'JS_SAVE_SUCCESS' => 'Pomyślnie zapisano zmiany',
 ];

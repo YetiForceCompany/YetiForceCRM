@@ -154,7 +154,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
-			[
+				[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
@@ -324,7 +324,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$conditions = $this->get('conditions');
 		$wfCondition = array();
 
-		if (!empty($conditions)) {
+		if (is_array($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {

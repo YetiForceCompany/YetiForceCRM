@@ -22,6 +22,10 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_MESSAGE_HERE' => 'tutaj wpisz swoją wiadomość',
 	'LBL_ADD_MORE_FIELDS' => 'Dodaj więcej pól',
 	'LBL_SERVER_CONFIG' => 'Konfiguracja serwera',
+	'FL_STATUS' => 'Status',
+	'PLL_UNDEFINED' => 'Niezdefiniowany',
+	'PLL_DELIVERED' => 'Dostarczony',
+	'PLL_FAILED' => 'Niepowodzenie',
 	//DetailView Actions
 	'LBL_CHECK_STATUS' => 'Sprawdź status',
 	'message' => 'Wiadomość',

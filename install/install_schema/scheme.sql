@@ -169,6 +169,17 @@ CREATE TABLE `a_yf_relatedlists_inv_fields` (
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_smsnotifier_servers` */
+
+CREATE TABLE `a_yf_smsnotifier_servers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `providertype` varchar(50) NOT NULL,
+  `isactive` tinyint(1) DEFAULT '0',
+  `api_key` varchar(255) NOT NULL,
+  `parameters` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_taxes_config` */
 
 CREATE TABLE `a_yf_taxes_config` (
@@ -1053,7 +1064,7 @@ CREATE TABLE `u_yf_browsinghistory` (
   `userid` int(11) NOT NULL,
   `view_date` datetime DEFAULT NULL,
   `page_title` varchar(255) DEFAULT NULL,
-  `url` text DEFAULT NULL,
+  `url` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5194,7 +5205,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2606 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2607 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8200,7 +8211,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -8238,35 +8249,20 @@ CREATE TABLE `vtiger_shorturls` (
 CREATE TABLE `vtiger_smsnotifier` (
   `smsnotifierid` int(19) NOT NULL,
   `message` text,
-  `status` varchar(100) DEFAULT NULL,
+  `smsnotifier_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`smsnotifierid`),
   CONSTRAINT `vtiger_smsnotifier_ibfk_1` FOREIGN KEY (`smsnotifierid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_smsnotifier_servers` */
-
-CREATE TABLE `vtiger_smsnotifier_servers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(255) DEFAULT NULL,
-  `isactive` int(1) DEFAULT NULL,
-  `providertype` varchar(50) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `parameters` text,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifier_status` */
 
 CREATE TABLE `vtiger_smsnotifier_status` (
-  `smsnotifierid` int(11) DEFAULT NULL,
-  `tonumber` varchar(20) DEFAULT NULL,
-  `status` varchar(10) DEFAULT NULL,
-  `smsmessageid` varchar(50) DEFAULT NULL,
-  `needlookup` int(1) DEFAULT '1',
-  `statusid` int(11) NOT NULL AUTO_INCREMENT,
-  `statusmessage` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `smsnotifier_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `smsnotifier_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `sortorderid` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`smsnotifier_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifiercf` */
 

@@ -250,6 +250,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
+		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords);
+		return $queryGenerator->createQuery()->column();
+	}
+
+	/**
+	 * Create query
+	 * @param int[] $skipRecords
+	 * @param string $module
+	 * @param bool $lockRecords
+	 * @return \App\QueryGenerator
+	 */
+	public function getRecordsListQuery($skipRecords = false, $module = false, $lockRecords = false)
+	{
 		$cvId = $this->getId();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
@@ -279,7 +292,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$queryGenerator->deletedCondition = false;
 			$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted = 1']);
 		}
-		if (!empty($skipRecords) && count($skipRecords) > 0) {
+		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
@@ -290,7 +303,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		return $queryGenerator->createQuery()->column();
+		return $queryGenerator;
 	}
 
 	/**

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
@@ -125,20 +126,18 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	 */
 	public function showSendSMSForm(\App\Request $request)
 	{
-
 		$sourceModule = $request->getModule();
 		$moduleName = 'SMSNotifier';
-		$selectedIds = $this->getRecordsListFromRequest($request);
+		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 		$cvId = $request->get('viewname');
 
-		$user = Users_Record_Model::getCurrentUserModel();
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$phoneFields = $moduleModel->getFieldsByType('phone');
 		$viewer = $this->getViewer($request);
 
-		if (count($selectedIds) == 1) {
-			$recordId = $selectedIds[0];
+		if (is_array($selectedIds) && count($selectedIds) === 1) {
+			$recordId = current($selectedIds);
 			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
 			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
 		}
@@ -147,7 +146,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
-		$viewer->assign('USER_MODEL', $user);
 		$viewer->assign('PHONE_FIELDS', $phoneFields);
 
 		$searchKey = $request->get('search_key');
