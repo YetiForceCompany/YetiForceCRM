@@ -1,8 +1,4 @@
-/**
- * @license licenses/License.html
- * @package YetiForce.View
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
+/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 jQuery.Class("Vtiger_Export_Js", {}, {
 	exportForm: false,
 	getForm: function () {

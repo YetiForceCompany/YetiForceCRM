@@ -1,5 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 	/*
 	 * Shows or hides block informing about supported currencies by presently chosen bank

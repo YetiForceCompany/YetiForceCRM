@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 jQuery.Class("Vtiger_RelatedCommentModal_Js", {
 	/*
 	 * Function to register the click event for generate button
