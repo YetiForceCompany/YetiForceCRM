@@ -80,9 +80,9 @@ class Vtiger_Theme extends Vtiger_Viewer
 		}
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
-			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath, $type);
+			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath);
 			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
-			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath, $type);
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
 			if (file_exists($completeImageFilePath)) {
 				return $basePath . $imageFilePath;
 			} else if (file_exists($completeFallBackThemePath)) {
