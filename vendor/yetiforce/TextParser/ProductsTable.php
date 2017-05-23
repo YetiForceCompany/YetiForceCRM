@@ -83,7 +83,7 @@ class ProductsTable extends Base
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible($inventoryRows)) {
+				if ($field->isVisible()) {
 					$html .= '<th style="' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
@@ -95,7 +95,7 @@ class ProductsTable extends Base
 				$rowNo = $key + 1;
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
-					if ($field->isVisible($inventoryRows)) {
+					if ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
 
 						$html .= '<td ' . ($field->getName() == 'Name' ? 'width="40%;" ' : '') . ' class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
@@ -121,7 +121,7 @@ class ProductsTable extends Base
 					<tfoot>
 						<tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible($inventoryRows)) {
+				if ($field->isVisible()) {
 					$html .= '<td class="textAlignRight ';
 					if ($field->isSummary()) {
 						$html .= 'summaryBorder';

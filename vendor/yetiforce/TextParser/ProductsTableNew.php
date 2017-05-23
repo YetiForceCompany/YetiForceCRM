@@ -46,7 +46,7 @@ class ProductsTableNew extends Base
 				<thead>
 					<tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible($inventoryRows)) {
+				if ($field->isVisible()) {
 					$html .= '<th style="width:' . $field->get('colspan') . '%;" class="textAlignCenter tBorder tHeader">' . \App\Language::translate($field->get('label'), $this->textParser->moduleName) . '</th>';
 				}
 			}
@@ -56,12 +56,15 @@ class ProductsTableNew extends Base
 			foreach ($inventoryRows as $key => &$inventoryRow) {
 				$html .= '<tr>';
 				foreach ($fields[1] as $field) {
+					if (!$field->isVisible()) {
+						continue;
+					}
 					if ($field->getName() == 'ItemNumber') {
 						$html .= '<td><strong>' . $inventoryRow['seq'] . '</strong></td>';
 					} else if ($field->get('columnname') == 'ean') {
 						$code = $inventoryRow[$field->get('columnname')];
 						$html .= '<td><barcode code="' . $code . '" type="EAN13" size="0.5" height="0.5" class="barcode" /></td>';
-					} else if ($field->isVisible($inventoryRows)) {
+					} else if ($field->isVisible()) {
 						$itemValue = $inventoryRow[$field->get('columnname')];
 						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
 						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
@@ -84,7 +87,7 @@ class ProductsTableNew extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($fields[1] as $field) {
-				if ($field->isVisible($inventoryRows)) {
+				if ($field->isVisible()) {
 					$html .= '<td class="textAlignRight ';
 					if ($field->isSummary()) {
 						$html .= 'summaryContainer';
