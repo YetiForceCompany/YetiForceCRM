@@ -195,7 +195,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
 
-		if (ini_get('session.cookie_httponly') != '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false) {
+		if (ini_get('session.cookie_httponly') == '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false) {
 			$directiveValues['session.cookie_httponly']['status'] = true;
 		}
 		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
