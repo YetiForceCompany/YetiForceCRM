@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 Vtiger_Popup_Js("KnowledgeBase_Popup_Js", {}, {
 	showPresentationContent : function(recordId) {
 		var url = 'index.php?module=KnowledgeBase&view=FullScreen&record=' + recordId;

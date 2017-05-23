@@ -1,4 +1,4 @@
-/*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*/
+/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 // show/hide password
 $('.show_pass').click(function (e) {
 	var id = $(this).attr('id').substr(4);
