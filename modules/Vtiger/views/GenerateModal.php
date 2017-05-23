@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package YetiForce.ModalView
+ * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -16,7 +16,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 
 	public function process(\App\Request $request)
 	{
-		
+
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 
 		$moduleName = $request->getModule();
