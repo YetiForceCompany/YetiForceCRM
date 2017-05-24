@@ -14,7 +14,11 @@ class Settings_ConfReport_Index_View extends Settings_Vtiger_Index_View
 		\App\Cache::clear();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');
+
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($userPrivilegesModel->hasModulePermission($qualifiedModuleName)) {
+			$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');
+		}
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}

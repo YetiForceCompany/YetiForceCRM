@@ -81,7 +81,9 @@ class Mailer
 	 */
 	public static function sendFromTemplate($params)
 	{
+		Log::trace('Send mail from template', 'Mailer');
 		if (empty($params['template'])) {
+			Log::warning('No templete', 'Mailer');
 			return false;
 		}
 		$recordModel = false;
@@ -95,9 +97,9 @@ class Mailer
 		}
 		$template = Mail::getTemplete($params['template']);
 		if (!$template) {
+			Log::warning('No mail templete', 'Mailer');
 			return false;
 		}
-
 		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);
@@ -112,8 +114,7 @@ class Mailer
 		if (isset($template['attachments'])) {
 			$params['attachments'] = array_merge(empty($params['attachments']) ? [] : $params['attachments'], $template['attachments']);
 		}
-		static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
-		return true;
+		return static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
 	}
 
 	/**
@@ -125,6 +126,10 @@ class Mailer
 		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
+		}
+		if (!$params['smtp_id']) {
+			Log::warning('No SMTP configuration', 'Mailer');
+			return false;
 		}
 		if (empty($params['owner'])) {
 			$owner = User::getCurrentUserRealId();
@@ -140,6 +145,7 @@ class Mailer
 			}
 		}
 		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
+		return true;
 	}
 
 	/**
