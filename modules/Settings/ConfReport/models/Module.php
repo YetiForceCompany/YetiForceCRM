@@ -148,11 +148,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
 
-		if (ini_get('output_buffering') !== 'On') {
+		if (ini_get('output_buffering') !== 'On' && ini_get('output_buffering') !== '1') {
 			$directiveValues['output_buffering']['status'] = true;
 		}
-		$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
 
+		$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
 
 		if (ini_get('max_execution_time') != 0 && ini_get('max_execution_time') < 600)
 			$directiveValues['max_execution_time']['status'] = true;
@@ -240,7 +240,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
 
-		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+		if (version_compare(PHP_VERSION, '5.5.0', '<')) {
 			$directiveValues['PHP']['status'] = true;
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
