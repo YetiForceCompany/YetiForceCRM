@@ -1677,9 +1677,12 @@ var app = {
 		})
 	},
 	clearBrowsingHistory: function () {
-		$.get('?action=browsingHistory', function(){
-			$('ul.historyList li.item').remove();
-		});		
+		AppConnector.request({
+			module : app.getModuleName(),
+			action: 'browsingHistory',
+		}).then(function(response) {
+			$('ul.historyList').remove();
+		});
 	},
 }
 jQuery(document).ready(function () {

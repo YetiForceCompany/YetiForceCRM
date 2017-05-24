@@ -12,7 +12,7 @@
 		<li class="item">
 			<a href="{$HISTORY['url']}">
 				{if $HISTORY['hour']}
-					<span class="historyHour">{$HISTORY['date']|date_format:"H:i"}</span> 
+					<span class="historyHour">{$HISTORY['date']}</span> 
 				{else}
 					{$HISTORY['date']}
 				{/if} 

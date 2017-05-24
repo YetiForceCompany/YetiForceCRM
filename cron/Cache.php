@@ -9,6 +9,4 @@
 $deleteAfter = AppConfig::performance('BROWSING_HISTORY_DELETE_AFTER');
 $deleteAfter = date('Y-m-d ', strtotime("-$deleteAfter DAY")) . '00:00:00';
 
-\App\Db::getInstance()->createCommand()
-	->delete('u_#__browsinghistory', ['and', 'date < :viewDate'], ['viewDate' => $deleteAfter])
-	->execute();
+\App\Db::getInstance()->createCommand()->delete('u_#__browsinghistory', ['<', 'date', $deleteAfter])->execute();

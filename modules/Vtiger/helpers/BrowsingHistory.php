@@ -28,14 +28,14 @@ class Vtiger_BrowsingHistory_Helper
 		$dateToday = DateTimeField::convertToUserTimeZone('today')->format('U');
 		$dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format('U');
 		foreach ($results as $key => $value) {
-			$results[$key]['date'] = DateTimeField::convertToUserTimeZone($value['date'])->format('Y-m-d H:i:s');
-			if (strtotime($results[$key]['date']) >= $dateToday) {
+			$userDate = DateTimeField::convertToUserTimeZone($value['date'])->format('Y-m-d H:i:s');
+			if (strtotime($userDate) >= $dateToday) {
 				$results[$key]['hour'] = true;
 				if (!$today) {
 					$results[$key]['viewToday'] = true;
 					$today = true;
 				}
-			} elseif (strtotime($results[$key]['date']) >= $dateYesterday) {
+			} elseif (strtotime($userDate) >= $dateYesterday) {
 				$results[$key]['hour'] = true;
 				if (!$yesterday) {
 					$results[$key]['viewYesterday'] = true;
@@ -47,6 +47,11 @@ class Vtiger_BrowsingHistory_Helper
 					$results[$key]['viewOlder'] = true;
 					$older = true;
 				}
+			}
+			if ($results[$key]['hour']) {
+				$results[$key]['date'] = (new DateTimeField($userDate))->getDisplayTime();
+			} else {
+				$results[$key]['date'] = DateTimeField::convertToUserFormat($userDate);
 			}
 		}
 
@@ -64,7 +69,7 @@ class Vtiger_BrowsingHistory_Helper
 				'userid' => App\User::getCurrentUserId(),
 				'date' => date('Y-m-d H:i:s'),
 				'title' => $title,
-				'url' => App\RequestUtil::getBrowserInfo()->requestUri
+				'url' => ltrim(App\RequestUtil::getBrowserInfo()->requestUri, '/')
 			])->execute();
 	}
 
