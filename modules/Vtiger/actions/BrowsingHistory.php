@@ -10,6 +10,11 @@
 class Vtiger_BrowsingHistory_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Checking permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!AppConfig::performance('BROWSING_HISTORY_WORKING')) {
@@ -17,6 +22,10 @@ class Vtiger_BrowsingHistory_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Clear user browsing history process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		Vtiger_BrowsingHistory_Helper::deleteHistory();
