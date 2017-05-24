@@ -248,10 +248,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-
 		$pageTitle = $this->getPageTitle($request);
-		Vtiger_BrowsingHistory_Helper::saveHistory($pageTitle);
-
+		if (AppConfig::performance('BROWSING_HISTORY_WORKING')) {
+			Vtiger_BrowsingHistory_Helper::saveHistory($pageTitle);
+		}
 		$viewer->assign('PAGETITLE', $pageTitle);
 		$viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($request));
 		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
