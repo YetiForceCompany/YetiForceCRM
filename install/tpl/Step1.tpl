@@ -33,7 +33,7 @@
 				</div>
 				<input type="hidden" name="mode" value="Step2" />
 				<div class="col-md-4 welcome-image">
-					<img src="../layouts/basic/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
+					<img src="../public_html/layouts/resources/Logo/wizard_screen.png" alt="Vtiger Logo"/>
 				</div>
 				<div class="col-md-8">
 					<div class="welcome-div">
