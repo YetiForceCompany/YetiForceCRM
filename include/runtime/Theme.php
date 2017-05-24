@@ -17,11 +17,14 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getThemeStyle()
 	{
+		$basePath = '';
+		if (!IS_PUBLIC_DIR) {
+			$basePath = 'public_html/';
+		}
 		$filePath = self::getThemePath() . '/' . 'style.css';
-		$completeFilePath = Vtiger_Loader::resolveNameToPath('~' . $filePath);
-
+		$completeFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $filePath);
 		if (file_exists($completeFilePath)) {
-			return $filePath;
+			return $basePath . $filePath;
 		}
 		// Exception should be thrown???
 		return false;
@@ -120,10 +123,8 @@ class Vtiger_Theme extends Vtiger_Viewer
 		}
 		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
 		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
-
-		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~' . $selectedThemePath);
-		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~' . $fallBackThemePath);
-
+		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $selectedThemePath);
+		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallBackThemePath);
 		if (file_exists($completeSelectedThemePath)) {
 			return $selectedThemePath;
 		} else if (file_exists($completeFallBackThemePath)) {

@@ -330,7 +330,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
-			'libraries.resources.styles',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
