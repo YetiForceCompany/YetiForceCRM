@@ -3,8 +3,9 @@ namespace App\SystemWarnings;
 
 /**
  * System warnings template abstract class
- * @package YetiForce.SystemWarnings
- * @license licenses/License.html
+ * @package YetiForce.SystemWarning
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class Template
