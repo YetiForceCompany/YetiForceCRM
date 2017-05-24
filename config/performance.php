@@ -59,8 +59,8 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMBERS_SENDING_SMS' => 10,
 	// In how many atachments should the delete in cron.
 	'CRON_MAX_ATACHMENTS_DELETE' => 1000,
-	// Parameter that allows to disable file overwriting. After enabling it the system will 
-	// additionally check whether the file existnin the custom directory.
+	// Parameter that allows to disable file overwriting. After 
+	// enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php 
 	'LOAD_CUSTOM_FILES' => true,
 	//Parameter that determines whether admin panel should be available to admin by default
