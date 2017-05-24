@@ -15,6 +15,11 @@ class Install_Index_view extends Vtiger_View_Controller
 	protected $debug = false;
 	protected $viewer;
 
+	public function checkPermission(\App\Request $request)
+	{
+		
+	}
+
 	public function loginRequired()
 	{
 		return false;
