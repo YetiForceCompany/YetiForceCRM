@@ -87,6 +87,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues = [
 			'HTTPS' => ['prefer' => 'On'],
 			'PHP' => ['prefer' => '5.5.0'],
+			'.htaccess' => ['prefer' => 'On'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -244,6 +245,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
+		if (!isset($_SERVER['HTACCESS_TEST'])) {
+			$directiveValues['.htaccess']['status'] = true;
+			$directiveValues['.htaccess']['current'] = 'Off';
+		} else {
+			$directiveValues['.htaccess']['current'] = 'On';
+		}
 		if (!AppConfig::main('session_regenerate_id')) {
 			$directiveValues['session_regenerate_id']['status'] = true;
 		}
