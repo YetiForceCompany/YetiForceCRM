@@ -5,7 +5,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-$CONFIG = [
+return[
 	// Check if account exists
 	'CHECK_ACCOUNT_EXISTS' => true,
 	// Check if service contracts exists

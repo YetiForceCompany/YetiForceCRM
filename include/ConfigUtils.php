@@ -50,7 +50,7 @@ class AppConfig
 		$argsLength = func_num_args();
 		$args = func_get_args();
 		$module = $args[0];
-		if ($argsLength == 2) {
+		if ($argsLength === 2) {
 			$key = $args[1];
 		}
 		if (isset(self::$modules[$module])) {
@@ -65,23 +65,23 @@ class AppConfig
 					return null;
 			}
 		}
-		$fileName = 'config/modules/' . $module . '.php';
+		$fileName = "config/modules/$module.php";
 		if (!file_exists($fileName)) {
 			return false;
 		}
-		require_once $fileName;
-		if (empty($CONFIG)) {
+		$moduleConfig = require $fileName;
+		if (empty($moduleConfig)) {
 			return false;
 		}
-		self::$modules[$module] = $CONFIG;
+		self::$modules[$module] = $moduleConfig;
 		switch ($argsLength) {
 			case 2:
-				if (!isset($CONFIG[$key])) {
+				if (!isset($moduleConfig[$key])) {
 					return false;
 				}
-				return $CONFIG[$key];
+				return $moduleConfig[$key];
 			default:
-				return $CONFIG;
+				return $moduleConfig;
 		}
 	}
 

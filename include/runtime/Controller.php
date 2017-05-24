@@ -126,6 +126,8 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
+	abstract function checkPermission(\App\Request $request);
+
 	public function getViewer(\App\Request $request)
 	{
 		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
