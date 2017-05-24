@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSTimeControl calendar model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 {
 
@@ -26,7 +23,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query.= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) OR (vtiger_osstimecontrol.date_start < ? AND vtiger_osstimecontrol.due_date > ?) )";
+			$query .= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) OR (vtiger_osstimecontrol.date_start < ? AND vtiger_osstimecontrol.due_date > ?) )";
 			$params[] = $dbStartDateTime;
 			$params[] = $dbEndDateTime;
 			$params[] = $dbStartDateTime;
@@ -35,13 +32,13 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Base_Model
 			$params[] = $dbEndDate;
 		}
 		if ($this->get('types')) {
-			$query.= " AND vtiger_osstimecontrol.timecontrol_type IN ('" . implode("','", $this->get('types')) . "')";
+			$query .= " AND vtiger_osstimecontrol.timecontrol_type IN ('" . implode("','", $this->get('types')) . "')";
 		}
 		if ($this->get('user')) {
 			if (is_array($this->get('user'))) {
-				$query.= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
+				$query .= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
 			} else {
-				$query.= ' AND vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
+				$query .= ' AND vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
 			}
 		}
 		$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
