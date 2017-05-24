@@ -74,4 +74,6 @@ $PERFORMANCE_CONFIG = [
 	'ICON_MULTIIMAGE_VIEW' => true,
 	//Number of browsing history steps
 	'BROWSING_HISTORY_VIEW_LIMIT' => 20,
+	//Days after browsing history has deleted
+	'BROWSING_HISTORY_DELETE_AFTER' => 7,
 ];

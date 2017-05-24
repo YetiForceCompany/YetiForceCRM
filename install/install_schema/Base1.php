@@ -766,6 +766,23 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__browsinghistory' => [
+				'columns' => [
+					'id' => $this->integer(11)->notNull(),
+					'userid' => $this->integer(11)->notNull(),
+					'date' => $this->dateTime(),
+					'title' => $this->stringType(255),
+					'url' => $this->text()
+				],
+				'primaryKeys' => [
+					['browsinghistory_pk', 'id']
+				],
+				'index' => [
+					['browsinghistory_user_idx', 'userid'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__cfixedassets' => [
 				'columns' => [
 					'cfixedassetsid' => $this->integer()->notNull()->defaultValue(0),
