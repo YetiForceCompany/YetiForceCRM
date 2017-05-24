@@ -6,6 +6,6 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 return [
-	// Add only one mail for multiple recipients
-	'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS' => true, // Boolean
+	// Add only one mail for multiple recipients, type: boolean
+	'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS' => false,
 ];

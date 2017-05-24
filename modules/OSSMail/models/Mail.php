@@ -107,17 +107,20 @@ class OSSMail_Mail_Model extends \App\Base
 		return \App\User::getCurrentUserId();
 	}
 
+	/**
+	 * Get mail crm id 
+	 * @return int|bool
+	 */
 	public function getMailCrmId()
 	{
-		if ($this->mailCrmId != false) {
+		if ($this->mailCrmId) {
 			return $this->mailCrmId;
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? && rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
-		if ($db->getRowCount($result) > 0) {
-			$this->mailCrmId = $db->getSingleValue($result);
+		$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id')])->limit(1);
+		if (!AppConfig::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
+			$query->andWhere(['rc_user' => $this->getAccountOwner()]);
 		}
-		return $this->mailCrmId;
+		return $this->mailCrmId = $query->scalar();
 	}
 
 	public function setMailCrmId($id)
