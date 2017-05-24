@@ -73,22 +73,24 @@ class Vtiger_Theme extends Vtiger_Viewer
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
 			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath);
-			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
-			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
 			if (file_exists($completeImageFilePath)) {
 				return $basePath . $imageFilePath;
-			} else if (file_exists($completeFallBackThemePath)) {
+			}
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName . $type;
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
+			if (file_exists($completeFallBackThemePath)) {
 				return $basePath . $fallbackPath;
 			}
 		}
 		foreach ($allowedImgTypes as $type) {
 			$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
 			$completeImageFilePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $imageFilePath);
-			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
-			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
 			if (file_exists($completeImageFilePath)) {
 				return $basePath . $imageFilePath;
-			} else if (file_exists($completeFallBackThemePath)) {
+			}
+			$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $defaultFileName . $type;
+			$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallbackPath);
+			if (file_exists($completeFallBackThemePath)) {
 				return $basePath . $fallbackPath;
 			}
 		}
@@ -122,12 +124,13 @@ class Vtiger_Theme extends Vtiger_Viewer
 			$theme = self::getDefaultThemeName();
 		}
 		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
-		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
 		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $selectedThemePath);
-		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallBackThemePath);
 		if (file_exists($completeSelectedThemePath)) {
 			return $selectedThemePath;
-		} else if (file_exists($completeFallBackThemePath)) {
+		}
+		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
+		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallBackThemePath);
+		if (file_exists($completeFallBackThemePath)) {
 			return $fallBackThemePath;
 		}
 		return false;
