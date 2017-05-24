@@ -1,7 +1,7 @@
 <?php
 /**
  * Login history
- * @package YetiForce.Models
+ * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
