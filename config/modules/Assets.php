@@ -5,7 +5,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-$CONFIG = [
+return [
 	// How long before the renewal date should the status be changed
 	// ex. 2 month, 1 day https://secure.php.net/manual/en/datetime.formats.php
 	'RENEWAL_TIME' => '2 month',

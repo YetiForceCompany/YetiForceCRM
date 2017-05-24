@@ -18,7 +18,7 @@ class Apcu
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('apcu') && ini_get('apc.enabled');
+		return function_exists('apcu_enabled') && apcu_enabled();
 	}
 
 	/**
