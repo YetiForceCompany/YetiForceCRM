@@ -49,6 +49,14 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$this->user = $user;
 	}
 
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	public function process(\App\Request $request)
 	{
 		return;
