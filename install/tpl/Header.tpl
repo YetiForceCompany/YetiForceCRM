@@ -54,7 +54,7 @@
 		<body data-skinpath="{$SKIN_PATH}" data-language="{$LANGUAGE}">
 			<div id="js_strings" class="hide noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
 			<input type="hidden" id="start_day" value="" />
-			<input type="hidden" id="row_type"value="" />
+			<input type="hidden" id="row_type" value="" />
 			<input type="hidden" id="current_user_id" value="" />
 			<div id="page">
 				<!-- container which holds data temporarly for pjax calls -->
