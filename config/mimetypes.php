@@ -5,7 +5,7 @@
  * Please note that this mapping takes precedence over the content-based mime-type detection
  * and should only contain mappings which cannot be detected properly from the file contents.
  */
-$mimeTypes = [
+return [
 	'txt' => 'text/plain',
 	'htm' => 'text/html',
 	'html' => 'text/html',
@@ -98,4 +98,5 @@ $mimeTypes = [
 	's7z' => 'application/x-7z-compressed',
 	'vcf' => 'text/vcard',
 	'ics' => 'text/calendar',
+	'dwg' => 'application/acad',
 ];

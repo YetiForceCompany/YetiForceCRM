@@ -79,10 +79,29 @@ class File
 		return self::sanitizeUploadFileName($this->name);
 	}
 
+	/**
+	 * Get mime type
+	 * @return string 
+	 */
 	public function getMimeType()
 	{
 		if (empty($this->mimeType)) {
-			$this->mimeType = self::getMimeContentType($this->path);
+			if (empty(self::$mimeTypes)) {
+				self::$mimeTypes = require 'config/mimetypes.php';
+			}
+			$ext = explode('.', $this->name);
+			$ext = strtolower(array_pop($ext));
+			if (isset(self::$mimeTypes[$ext])) {
+				$this->mimeType = self::$mimeTypes[$ext];
+			} elseif (function_exists('mime_content_type')) {
+				$this->mimeType = mime_content_type($this->path);
+			} elseif (function_exists('finfo_open')) {
+				$finfo = finfo_open(FILEINFO_MIME);
+				$this->mimeType = finfo_file($finfo, $this->path);
+				finfo_close($finfo);
+			} else {
+				$this->mimeType = 'application/octet-stream';
+			}
 		}
 		return $this->mimeType;
 	}
@@ -234,8 +253,7 @@ class File
 	static public function getMimeContentType($fileName)
 	{
 		if (empty(self::$mimeTypes)) {
-			require 'config/mimetypes.php';
-			self::$mimeTypes = $mimeTypes;
+			self::$mimeTypes = require 'config/mimetypes.php';
 		}
 		$ext = explode('.', $fileName);
 		$ext = strtolower(array_pop($ext));
