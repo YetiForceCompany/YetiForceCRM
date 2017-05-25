@@ -60,6 +60,8 @@ $languageStrings = [
 	'LBL_CRON_LOG_FILE' => 'Cron - Registros de errores',
 	'LBL_CRON_PHP_SAPI' => 'Cron - API del servidor',
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Información del entorno',
+	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
+	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to alter the configuration of the server software to enable/disable additional functionality and features that the server software has to offer'
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Comprobando la velocidad...',

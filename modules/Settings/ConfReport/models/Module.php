@@ -119,6 +119,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = self::getFlag(false);
 		}
+		$directiveValues['HTTPS']['help'] = 'HTTPS_HELP_TEXT';
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
 			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
@@ -251,6 +252,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['.htaccess']['current'] = 'On';
 		}
+		$directiveValues['.htaccess']['help'] = 'HTACCESS_HELP_TEXT';
+
 		if (!AppConfig::main('session_regenerate_id')) {
 			$directiveValues['session_regenerate_id']['status'] = true;
 		}

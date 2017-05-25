@@ -62,6 +62,8 @@ $languageStrings = [
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Informacje o środowisku',
 	'LBL_CRON_PHP_SAPI' => 'Cron - Server API',
 	'LBL_OPERATING_SYSTEM' => 'System operacyjny',
+	'HTTPS_HELP_TEXT' => 'SSL to standardowa technologia zabezpieczeń służąca do tworzenia zaszyfrowanego łącza między serwerem internetowym a przeglądarką',
+	'HTACCESS_HELP_TEXT' => 'Pliki .htaccess mogą zostać użyte do zmiany konfiguracji oprogramowania serwera w celu włączenia / wyłączenia dodatkowych funkcji i funkcji oferowanych przez oprogramowanie serwera'
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
