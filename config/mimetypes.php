@@ -7,8 +7,8 @@
  */
 return [
 	'txt' => 'text/plain',
-	'htm' => 'text/html',
 	'html' => 'text/html',
+	'htm' => 'text/html',
 	'php' => 'text/php',
 	'css' => 'text/css',
 	'js' => 'application/javascript',
@@ -18,9 +18,9 @@ return [
 	'flv' => 'video/x-flv',
 	// images
 	'png' => 'image/png',
+	'jpg' => 'image/jpeg',
 	'jpe' => 'image/jpeg',
 	'jpeg' => 'image/jpeg',
-	'jpg' => 'image/jpeg',
 	'gif' => 'image/gif',
 	'bmp' => 'image/bmp',
 	'ico' => 'image/vnd.microsoft.icon',
@@ -36,8 +36,8 @@ return [
 	'cab' => 'application/vnd.ms-cab-compressed',
 	// audio/video
 	'mp3' => 'audio/mpeg',
-	'qt' => 'video/quicktime',
 	'mov' => 'video/quicktime',
+	'qt' => 'video/quicktime',
 	// adobe
 	'pdf' => 'application/pdf',
 	'psd' => 'image/vnd.adobe.photoshop',

@@ -24,6 +24,7 @@ class Vtiger_Record_Model extends \App\Base
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
+	public $ext = [];
 
 	/**
 	 * Function to get the id of the record
@@ -440,18 +441,15 @@ class Vtiger_Record_Model extends \App\Base
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
-			$row['smcreatorid'] = \App\User::getCurrentUserRealId();
-			$row['createdtime'] = $time;
 			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
-			$this->set('createdtime', $time);
+			$row['smcreatorid'] = $this->isEmpty('created_user_id') ? \App\User::getCurrentUserRealId() : $this->get('created_user_id');
+			$row['createdtime'] = $this->isEmpty('createdtime') ? $time : $this->get('createdtime');
+			$this->set('createdtime', $row['createdtime']);
 		}
-		if ($this->getPreviousValue('modifiedtime')) {
-			$time = $this->get('modifiedtime');
-		}
-		$row['modifiedtime'] = $time;
-		$row['modifiedby'] = \App\User::getCurrentUserRealId();
-		$this->set('modifiedtime', $time);
-		$this->set('modifiedby', \App\User::getCurrentUserRealId());
+		$row['modifiedtime'] = $this->getPreviousValue('modifiedtime') ? $this->get('modifiedtime') : $time;
+		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
+		$this->set('modifiedtime', $row['modifiedtime']);
+		$this->set('modifiedby', $row['modifiedby']);
 		return ['vtiger_crmentity' => $row];
 	}
 
@@ -1030,71 +1028,46 @@ class Vtiger_Record_Model extends \App\Base
 	 * @param array $fileDetails  - array which contains the file information(name, type, size, tmp_name and error)
 	 * @return boolean
 	 */
-	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
+	public function uploadAndSaveFile($fileDetails)
 	{
 		$id = $this->getId();
-		$module = \App\Request::_get('module');
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
-		$db = \App\Db::getInstance();
-		$userId = \App\User::getCurrentUserId();
-		$date = date('Y-m-d H:i:s');
-
-		//to get the owner id
-		$ownerid = $this->get('assigned_user_id');
-		if (!isset($ownerid) || $ownerid === '') {
-			$ownerid = $userId;
-		}
-		if (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) {
-			$fileName = $fileDetails['original_name'];
-		} else {
-			$fileName = $fileDetails['name'];
-		}
-
+		$moduleName = $this->getModuleName();
+		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate()) {
+			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
-		$fileName = ltrim(App\Purifier::purify($fileName)); //allowed filename like UTF-8 characters
-		$filetype = $fileDetails['type'];
-		$filetmp_name = $fileDetails['tmp_name'];
-
-		//get the file path inwhich folder we want to upload the file
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
-
+		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) ? $fileDetails['original_name'] : $fileDetails['name'];
+		$db = \App\Db::getInstance();
+		$date = date('Y-m-d H:i:s');
+		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \vtlib\Functions::initStorageFileDirectory($moduleName);
 		$params = [
-			'smcreatorid' => $userId,
-			'smownerid' => $ownerid,
-			'setype' => $module . ' Image',
-			'description' => $this->get('description'),
-			'createdtime' => $date,
-			'modifiedtime' => $date
+			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
+			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
+			'setype' => $moduleName . ' Image',
+			'createdtime' => $this->isEmpty('createdtime') ? $date : $this->get('createdtime'),
+			'modifiedtime' => $this->isEmpty('modifiedtime') ? $date : $this->get('modifiedtime'),
 		];
-		if ($module === 'Contacts' || $module === 'Products') {
-			$params['setype'] = $module . ' Image';
-		} else {
-			$params['setype'] = $module . ' Attachment';
-		}
+		$params['setype'] = ($moduleName === 'Contacts' || $moduleName === 'Products') ? $moduleName . ' Image' : $moduleName . ' Attachment';
 		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		$uploadStatus = move_uploaded_file($filetmp_name, $uploadFilePath . $currentId);
-		if ($uploadStatus) {
+		if ($fileInstance->moveFile($uploadFilePath . $currentId)) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,
-				'name' => $fileName,
-				'description' => $this->get('description'),
-				'type' => $filetype,
+				'name' => ltrim(App\Purifier::purify($fileName)),
+				'type' => $fileDetails['type'],
 				'path' => $uploadFilePath
 			])->execute();
-
 			if (\App\Request::_get('mode') === 'edit') {
 				if (!empty($id) && !empty(\App\Request::_get('fileid'))) {
 					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
 				}
 			}
-			if ($module === 'Documents') {
+			if ($moduleName === 'Documents') {
 				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
 			}
-			if ($module === 'Contacts') {
+			if ($moduleName === 'Contacts') {
 				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
 					->from('vtiger_seattachmentsrel')
 					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
@@ -1110,6 +1083,7 @@ class Vtiger_Record_Model extends \App\Base
 			} else {
 				$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
 			}
+			$this->ext['attachmentsId'] = $currentId;
 			return true;
 		} else {
 			\App\Log::trace('Skip the save attachment process.');
