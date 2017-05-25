@@ -6658,7 +6658,7 @@ CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
   `user_id` int(10) unsigned DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `folder` varchar(100) DEFAULT NULL,
-  `uid` int(19) DEFAULT '1',
+  `uid` int(19) DEFAULT '0',
   KEY `user_id` (`user_id`),
   KEY `folder` (`folder`),
   CONSTRAINT `vtiger_ossmailscanner_folders_uid_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE

@@ -32,7 +32,7 @@ class Mail extends TestCase
 				'user_id' => '1',
 				'type' => 'Received',
 				'folder' => 'INBOX',
-				'uid' => '1',
+				'uid' => '0',
 			])->execute();
 	}
 }
