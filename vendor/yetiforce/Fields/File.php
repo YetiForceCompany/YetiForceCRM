@@ -434,6 +434,10 @@ class File
 	 */
 	public static function saveFromUrl($url, $params = [])
 	{
+		$arrHeader = get_headers($url, 1);
+		if (strpos($arrHeader[0], '404') !== false) {
+			return false;
+		}
 		$content = file_get_contents($url);
 		if (empty($content)) {
 			return false;
@@ -475,5 +479,49 @@ class File
 			return array_merge(['crmid' => $record->getId()], $record->ext);
 		}
 		return false;
+	}
+
+	/**
+	 * Init storage file directory
+	 * @param string $module
+	 * @return string
+	 */
+	public static function initStorageFileDirectory($module = false)
+	{
+		$filepath = 'storage' . DIRECTORY_SEPARATOR;
+		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'))) {
+			$filepath .= $module . DIRECTORY_SEPARATOR;
+		}
+		if (!is_dir($filepath)) { //create new folder
+			mkdir($filepath);
+		}
+		$year = date('Y');
+		$month = date('F');
+		$day = date('j');
+		$week = '';
+		$filepath .= $year;
+		if (!is_dir($filepath)) { //create new folder
+			mkdir($filepath);
+		}
+		$filepath .= DIRECTORY_SEPARATOR . $month;
+		if (!is_dir($filepath)) { //create new folder
+			mkdir($filepath);
+		}
+		if ($day > 0 && $day <= 7) {
+			$week = 'week1';
+		} elseif ($day > 7 && $day <= 14) {
+			$week = 'week2';
+		} elseif ($day > 14 && $day <= 21) {
+			$week = 'week3';
+		} elseif ($day > 21 && $day <= 28) {
+			$week = 'week4';
+		} else {
+			$week = 'week5';
+		}
+		$filepath .= DIRECTORY_SEPARATOR . $week;
+		if (!is_dir($filepath)) { //create new folder
+			mkdir($filepath);
+		}
+		return $filepath . DIRECTORY_SEPARATOR;
 	}
 }

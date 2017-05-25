@@ -1041,7 +1041,7 @@ class Vtiger_Record_Model extends \App\Base
 		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) ? $fileDetails['original_name'] : $fileDetails['name'];
 		$db = \App\Db::getInstance();
 		$date = date('Y-m-d H:i:s');
-		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \vtlib\Functions::initStorageFileDirectory($moduleName);
+		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
 		$params = [
 			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
 			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),

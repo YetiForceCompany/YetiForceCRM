@@ -147,7 +147,9 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		parent::saveToDb();
 		$db = \App\Db::getInstance();
 		$fileNameByField = 'filename';
-		$fileName = '';
+		$fileName = $fileType = '';
+		$fileSize = 0;
+		$fileDownloadCount = null;
 		if ($this->get('filelocationtype') === 'I') {
 			if (!isset($this->file)) {
 				if (isset($_FILES[$fileNameByField])) {
@@ -159,8 +161,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 				$file = $this->file;
 			}
 			if (!empty($file['name'])) {
-				$errCode = $file['error'];
-				if ($errCode === 0) {
+				if (isset($file['error']) && $file['error'] === 0) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
 					if ($fileInstance->validate()) {
 						$fileName = App\Purifier::purify($file['name']);
@@ -189,9 +190,6 @@ class Documents_Record_Model extends Vtiger_Record_Model
 			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
 				$fileName = "http://$fileName";
 			}
-			$fileType = '';
-			$fileSize = 0;
-			$fileDownloadCount = null;
 		}
 		$db->createCommand()->update('vtiger_notes', ['filename' => App\Purifier::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table

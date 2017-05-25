@@ -96,7 +96,7 @@ class Vtiger_Files_Model extends Vtiger_Base_Model
 		$filetype = $fileDetails['type'];
 		$filetmp_name = $fileDetails['tmp_name'];
 
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($storageName);
+		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($storageName);
 		$db->createCommand()->insert('u_#__attachments', [
 			'name' => $fileName,
 			'type' => $filetype,

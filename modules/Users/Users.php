@@ -563,7 +563,7 @@ class Users extends CRMEntity
 		$fileName = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$fileType = $fileDetails['type'];
 		$fileTmpName = $fileDetails['tmp_name'];
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
+		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($module);
 		$db->createCommand()->insert('vtiger_crmentity', [
 			'smcreatorid' => $currentUserId,
 			'smownerid' => $ownerid,
