@@ -21,8 +21,7 @@
 				<a class="span0 changeDetailViewMode height20 cursorPointer"><sub>{vtranslate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</sub></a>
 				{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 				{assign var="SUMMARY_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=summary'} }
-				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{vtranslate('LBL_SHOW_SUMMARY_DETAILS',{$MODULE_NAME})}"
-					  data-summary-url="{$SUMMARY_MODE_URL}" data-full-url="{$FULL_MODE_URL}"  />
+				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{vtranslate('LBL_SHOW_SUMMARY_DETAILS',{$MODULE_NAME})}" data-summary-url="{$SUMMARY_MODE_URL}" data-full-url="{$FULL_MODE_URL}" />
 			</div>
 			<div class="col-md-7">
 				<div class="pull-right">
