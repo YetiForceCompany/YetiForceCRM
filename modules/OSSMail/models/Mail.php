@@ -206,4 +206,36 @@ class OSSMail_Mail_Model extends \App\Base
 		}
 		return $return;
 	}
+
+	/**
+	 * Function to saving attachments
+	 */
+	public function saveAttachments()
+	{
+		$userId = $this->getAccountOwner();
+		$useTime = $this->get('udate_formated');
+		$files = $this->get('files');
+		$params = [
+			'created_user_id' => $userId,
+			'assigned_user_id' => $userId,
+			'modifiedby' => $userId,
+			'createdtime' => $useTime,
+			'modifiedtime' => $useTime
+		];
+		if ($attachments = $this->get('attachments')) {
+			foreach ($attachments as $attachment) {
+				if ($id = App\Fields\File::saveFromContent($attachment['attachment'], $attachment['filename'], false, $params)) {
+					$files[] = $id;
+				}
+			}
+		}
+		$db = App\Db::getInstance();
+		foreach ($files as $file) {
+			$db->createCommand()->insert('vtiger_ossmailview_files', [
+				'ossmailviewid' => $this->mailCrmId,
+				'documentsid' => $file['crmid'],
+				'attachmentsid' => $file['attachmentsId']
+			])->execute();
+		}
+	}
 }

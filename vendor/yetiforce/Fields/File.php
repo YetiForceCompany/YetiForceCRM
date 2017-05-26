@@ -435,7 +435,7 @@ class File
 	public static function saveFromUrl($url, $params = [])
 	{
 		$arrHeader = get_headers($url, 1);
-		if (strpos($arrHeader[0], '404') !== false) {
+		if (strpos($arrHeader[0], '200') === false) {
 			return false;
 		}
 		$content = file_get_contents($url);
@@ -455,7 +455,8 @@ class File
 	 */
 	public static function saveFromContent($content, $fileName, $contentType = false, $params = [])
 	{
-		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $fileName;
+		$name = \vtlib\Functions::textLength($fileName, 50, false);
+		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $name;
 		$success = file_put_contents($filePath, $content);
 		if (!$success) {
 			return false;
@@ -463,7 +464,7 @@ class File
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		$record->setData($params);
 		$record->set('notes_title', $fileName);
-		$record->set('filename', $fileName);
+		$record->set('filename', $name);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
 		$record->set('folderid', 'T2');
@@ -489,7 +490,7 @@ class File
 	public static function initStorageFileDirectory($module = false)
 	{
 		$filepath = 'storage' . DIRECTORY_SEPARATOR;
-		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'))) {
+		if ($module && in_array($module, ['Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'])) {
 			$filepath .= $module . DIRECTORY_SEPARATOR;
 		}
 		if (!is_dir($filepath)) { //create new folder
