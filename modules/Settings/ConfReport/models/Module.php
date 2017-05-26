@@ -258,8 +258,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['.htaccess']['current'] = 'On';
 		}
-
-		if (!AppConfig::main('session_regenerate_id')) {
+		if (AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')) {
 			$directiveValues['session_regenerate_id']['status'] = true;
 		}
 		$directiveValues['session_regenerate_id']['current'] = self::getFlag(AppConfig::main('session_regenerate_id'));
