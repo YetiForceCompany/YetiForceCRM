@@ -36,8 +36,10 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 
 	public function process(\App\Request $request)
 	{
-		CSRF::$frameBreaker = false;
-		CSRF::$rewriteJs = null;
+		if (class_exists('CSRF')) {
+			CSRF::$frameBreaker = false;
+			CSRF::$rewriteJs = null;
+		}
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);

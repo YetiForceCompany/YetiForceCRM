@@ -380,7 +380,7 @@ class Request
 				throw new \Exception\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
-		if (!\CSRF::check(false)) {
+		if (class_exists('CSRF') && !\CSRF::check(false)) {
 			throw new \Exception\Csrf('Unsupported request');
 		}
 	}
