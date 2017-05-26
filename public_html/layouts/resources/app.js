@@ -419,7 +419,7 @@ var app = {
 			}
 			var data = element.data();
 			if (data != null) {
-				sparams = jQuery.extend(data, sparams);
+				sparams = jQuery.extend(sparams, data);
 			}
 			element.popover(sparams);
 		});

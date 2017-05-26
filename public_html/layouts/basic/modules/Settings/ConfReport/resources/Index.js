@@ -28,17 +28,10 @@ jQuery.Class("Settings_ConfReport_Index_Js", {}, {
 		});
 	},
 	/**
-	 * Popover help information
-	 */
-	registerHelpInfo: function () {
-		$('.HelpInfoPopover').popover({trigger: 'focus', html: 'true', })
-	},
-	/**
 	 * Register events
 	 */
 	registerEvents: function () {
 		var container = jQuery('.contentsDiv');
 		this.registerTestButton(container);
-		this.registerHelpInfo();
 	}
 });
