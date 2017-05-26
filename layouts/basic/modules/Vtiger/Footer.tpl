@@ -24,7 +24,7 @@
 	<div class="infoUser">
 		{$USER_MODEL->getName()}&nbsp;(
 		{$USER_MODEL->get('email1')}&nbsp;
-		{if !empty({$USER_MODEL->get('phone_crm_extension')})} 
+		{if !empty({$USER_MODEL->get('phone_crm_extension')})}
 			,&nbsp; {$USER_MODEL->get('phone_crm_extension')}
 		{/if}
 		)
@@ -51,7 +51,7 @@
 				<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM"/>
 			</button>
 		</div>
-		{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
+		{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
 		{if $USER_MODEL->is_admin == 'on'}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}

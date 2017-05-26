@@ -18,7 +18,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getThemeStyle()
 	{
 		$basePath = '';
-		if (!IS_PUBLIC_DIR) {
+		if (!\App\Config::$isPublicDir) {
 			$basePath = 'public_html/';
 		}
 		$filePath = self::getThemePath() . '/' . 'style.css';
@@ -39,7 +39,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getImagePath($imageFileName)
 	{
 		$basePath = '';
-		if (!IS_PUBLIC_DIR) {
+		if (!\App\Config::$isPublicDir) {
 			$basePath = 'public_html/';
 		}
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
@@ -59,14 +59,14 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 * Function to get the image path or get defaulf
 	 * This function searches for an image, it takes a default name in case it's missing,
 	 * if there's no image with a default name it will return false
-	 * @param string $imageFileName - file name 
-	 * @param string $defaultFileName - file name 
+	 * @param string $imageFileName - file name
+	 * @param string $defaultFileName - file name
 	 * @return <string/boolean> - returns file path if exists or false;
 	 */
 	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
 	{
 		$basePath = '';
-		if (!IS_PUBLIC_DIR) {
+		if (!\App\Config::$isPublicDir) {
 			$basePath = 'public_html/';
 		}
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];

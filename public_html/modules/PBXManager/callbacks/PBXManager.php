@@ -6,6 +6,6 @@
  * @copyright YetiForce Sp. z o.o.
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-chdir(dirname(__FILE__) . '/../../../../modules/PBXManager/callbacks/');
-define('IS_PUBLIC_DIR', true);
+chdir(__DIR__ . '/../../../../modules/PBXManager/callbacks/');
+\App\Config::$isPublicDir = true;
 require 'PBXManager.php';

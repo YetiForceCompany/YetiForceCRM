@@ -120,7 +120,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = self::getFlag(false);
 		}
-		if (defined('IS_PUBLIC_DIR') && IS_PUBLIC_DIR === true) {
+		if (\App\Config::$isPublicDir === true) {
 			$directiveValues['public_html']['current'] = self::getFlag(true);
 		} else {
 			$directiveValues['public_html']['status'] = true;

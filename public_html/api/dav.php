@@ -6,6 +6,6 @@
  * @copyright YetiForce Sp. z o.o.
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-chdir(dirname(__FILE__) . '/../../api/');
-define('IS_PUBLIC_DIR', true);
+chdir(__DIR__ . '/../../api/');
+\App\Config::$isPublicDir = true;
 require 'dav.php';

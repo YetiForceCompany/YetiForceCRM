@@ -7,12 +7,12 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ****************************************************************************** */
-chdir(dirname(__FILE__) . '/../');
+chdir(__DIR__ . '/../');
 /**
  * Start the cron services configured.
  */
 include_once 'include/main/WebUI.php';
-
+\App\Config::$requestMode = 'Cron';
 file_put_contents('user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
 
 Vtiger_Session::init();
@@ -44,7 +44,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 		try {
 			\App\Log::trace($cronTask->getName() . ' - Start');
 			// Timeout could happen if intermediate cron-tasks fails
-			// and affect the next task. Which need to be handled in this cycle.				
+			// and affect the next task. Which need to be handled in this cycle.
 			if ($cronTask->hadTimeout()) {
 				echo sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
 				if (AppConfig::main('unblockedTimeoutCronTasks')) {
@@ -66,10 +66,10 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 				continue;
 			}
 
-			// Mark the status - running		
+			// Mark the status - running
 			$cronTask->markRunning();
 			echo sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-			$startTime = microtime(true);
+			$startTaskTime = microtime(true);
 
 			vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
 			ob_start();
@@ -77,7 +77,7 @@ if (PHP_SAPI === 'cli' || $user || AppConfig::main('application_unique_key') ===
 			$taskResponse = ob_get_contents();
 			ob_end_clean();
 
-			$taskTime = round(microtime(true) - $startTime, 2);
+			$taskTime = round(microtime(true) - $startTaskTime, 2);
 			if ($taskResponse != '') {
 				\App\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
 				echo 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;

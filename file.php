@@ -6,10 +6,10 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-define('REQUEST_MODE', 'File');
 define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 
 require 'include/main/WebUI.php';
+\App\Config::$requestMode = 'File';
 
 try {
 	$webUI = new App\Main\File();

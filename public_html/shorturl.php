@@ -7,5 +7,5 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(dirname(__FILE__) . '/../');
-define('IS_PUBLIC_DIR', true);
+\App\Config::$isPublicDir = true;
 require 'shorturl.php';

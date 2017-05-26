@@ -610,14 +610,14 @@ class Functions
 	}
 
 	/**
-	 * myBcmod - get modulus (substitute for bcmod) 
-	 * string my_bcmod ( string left_operand, int modulus ) 
-	 * left_operand can be really big, but be carefull with modulus :( 
-	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania 
+	 * myBcmod - get modulus (substitute for bcmod)
+	 * string my_bcmod ( string left_operand, int modulus )
+	 * left_operand can be really big, but be carefull with modulus :(
+	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania
 	 * */
 	public static function myBcmod($x, $y)
 	{
-		// how many numbers to take at once? carefull not to exceed (int) 
+		// how many numbers to take at once? carefull not to exceed (int)
 		$take = 5;
 		$mod = '';
 
@@ -649,7 +649,7 @@ class Functions
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		$message = is_string($e) ? $e : $e->getMessage();
-		if (REQUEST_MODE === 'API') {
+		if (\App\Config::$requestMode === 'API') {
 			throw new \APIException($message, 401);
 		}
 		if (\App\Request::_isAjax()) {

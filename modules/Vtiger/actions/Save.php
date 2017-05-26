@@ -12,7 +12,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record = false;
 
@@ -78,8 +78,8 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 	public function postProcess(\App\Request $request)
 	{
-		define('_PROCESS_TYPE', 'View');
-		define('_PROCESS_NAME', 'Detail');
+		\App\Config::$processName = 'Detail';
+		\App\Config::$processType = 'View';
 		$request->set('view', 'Detail');
 		$request->delete('action');
 		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {

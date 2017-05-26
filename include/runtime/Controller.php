@@ -31,22 +31,22 @@ abstract class Vtiger_Controller
 
 	public function validateRequest(\App\Request $request)
 	{
-		
+
 	}
 
 	public function preProcessAjax(\App\Request $request)
 	{
-		
+
 	}
 
 	public function preProcess(\App\Request $request)
 	{
-		
+
 	}
 
 	public function postProcess(\App\Request $request)
 	{
-		
+
 	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
@@ -145,7 +145,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-		
+
 	}
 
 	protected function preProcessTplName(\App\Request $request)
@@ -167,19 +167,19 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 
 	/**
 	 * Viewer instance
-	 * @var self 
+	 * @var self
 	 */
 	protected $viewer;
 
 	/**
 	 * Page title
-	 * @var string 
+	 * @var string
 	 */
 	protected $pageTitle;
 
 	/**
 	 * Breadcrumb title
-	 * @var string 
+	 * @var string
 	 */
 	protected $breadcrumbTitle;
 
@@ -400,7 +400,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$fileExtension = 'js';
 		$jsScriptInstances = [];
 		$prefix = '';
-		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
+		if (!\App\Config::$isPublicDir && $fileExtension !== 'php') {
 			$prefix = 'public_html/';
 		}
 		foreach ($jsFileNames as $jsFileName) {
@@ -491,7 +491,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
 		$prefix = '';
-		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
+		if (!\App\Config::$isPublicDir && $fileExtension !== 'php') {
 			$prefix = 'public_html/';
 		}
 		$cssStyleInstances = [];

@@ -13,7 +13,7 @@ class Company extends Base
 
 	/**
 	 * Logo directory
-	 * @var string 
+	 * @var string
 	 */
 	public static $logoPath = 'public_html/layouts/resources/Logo/';
 
@@ -54,7 +54,7 @@ class Company extends Base
 			return false;
 		}
 		$logoURL = static::$logoPath . $logoName;
-		if (IS_PUBLIC_DIR) {
+		if (\App\Config::$isPublicDir) {
 			$logoURL = str_replace('public_html/', '', $logoURL);
 		}
 		if ($fullUrl) {

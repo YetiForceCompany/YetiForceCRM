@@ -37,13 +37,13 @@ class Layout
 		$basePath = 'layouts' . '/' . \AppConfig::main('defaultLayout') . '/';
 		$filePath = \Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
-			if (!IS_PUBLIC_DIR) {
+			if (!\App\Config::$isPublicDir) {
 				$basePath = 'public_html/' . $basePath;
 			}
 			return $basePath . $name;
 		}
 		$basePath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';
-		if (!IS_PUBLIC_DIR) {
+		if (!\App\Config::$isPublicDir) {
 			$basePath = 'public_html/' . $basePath;
 		}
 		return $basePath . $name;
@@ -77,7 +77,7 @@ class Layout
 		if ($full) {
 			$basePath .= AppConfig::main('site_URL');
 		}
-		if (!IS_PUBLIC_DIR) {
+		if (!\App\Config::$isPublicDir) {
 			$basePath = 'public_html/';
 		}
 		return $basePath . $name;

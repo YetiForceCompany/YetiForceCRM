@@ -9,8 +9,7 @@ chdir(__DIR__ . '/../');
 require_once 'include/main/WebUI.php';
 
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
-define('REQUEST_MODE', 'API');
-
+\App\Config::$requestMode = 'API';
 try {
 	if (!in_array('webservice', $enabledServices)) {
 		throw new Exception\NoPermittedToApi('Webservice - Service is not active', 403);

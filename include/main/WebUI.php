@@ -186,8 +186,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 				$componentName = $view;
 			}
-			define('_PROCESS_TYPE', $componentType);
-			define('_PROCESS_NAME', $componentName);
+			\App\Config::$processName = $componentName;
+			\App\Config::$processType = $componentType;
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($currentUser)) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}

@@ -34,7 +34,7 @@ class Settings_Vtiger_Tracker_Model
 				'module_name' => \App\Request::_get('module'),
 				'record_id' => self::$recordId ? self::$recordId : 0,
 				'date' => date('Y-m-d H:i:s'),
-				'action' => _PROCESS_NAME
+				'action' => \App\Config::$processType . ':' . \App\Config::$processName
 			])->execute();
 		if ($insertedInfo === 1) {
 			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
