@@ -6,6 +6,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+$disable = true;
 $iterator = new \DirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cron' . DIRECTORY_SEPARATOR . 'Batch');
 foreach ($iterator as $item) {
 	if ($item->isFile() && $item->getExtension() === 'php') {
@@ -17,5 +18,12 @@ foreach ($iterator as $item) {
 		if ($handler->postProcess()) {
 			unlink($item->getPathname());
 		}
+		$disable = false;
 	}
 }
+if ($disable) {
+	\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => 0], ['name' => 'LBL_BATCH_PROCESSES'])
+		->execute();
+}
+
+
