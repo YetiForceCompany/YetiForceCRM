@@ -74,13 +74,18 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	 */
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
+		$html = $mail->get('body');
+		file_put_contents('aa.html', $html);
+		$html = preg_replace('/<html[^>]+\>/', '', $html);
+		$html = preg_replace('/<body[^>]+\>/', '', $html);
+		$html = str_replace(['<html>', '<body>', '</html>', '</body>'], '', $html);
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
 		/*
 		 * Alternative when coding problems
 		 * $doc->loadHTML(mb_convert_encoding($mail->get('body'), 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 		 */
-		$doc->loadHTML('<?xml encoding="utf-8"?>' . $mail->get('body'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
 		$params = [
@@ -124,8 +129,9 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			}
 			$img->removeAttribute('src');
 		}
+
 		$mail->set('files', $files);
 		$mail->set('attachments', $attachments);
-		return \App\Purifier::purifyHtml($doc->saveHTML($doc->documentElement));
+		return \App\Purifier::purifyHtml($doc->saveHTML());
 	}
 }

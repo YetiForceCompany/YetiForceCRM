@@ -434,7 +434,10 @@ class File
 	 */
 	public static function saveFromUrl($url, $params = [])
 	{
-		$arrHeader = get_headers($url, 1);
+		if (empty($url)) {
+			return false;
+		}
+		$arrHeader = @get_headers($url, 1);
 		if (strpos($arrHeader[0], '200') === false) {
 			return false;
 		}
