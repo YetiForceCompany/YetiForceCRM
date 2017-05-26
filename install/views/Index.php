@@ -375,6 +375,9 @@ class Install_Index_view extends Vtiger_View_Controller
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
+		if ($request->getMode() === 'Step7') {
+			return [];
+		}
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = array(
 			'~install/tpl/resources/Index.js',
