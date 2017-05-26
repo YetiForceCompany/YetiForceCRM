@@ -21,11 +21,6 @@ class AppConfig
 	protected static $sounds = [];
 	protected static $search = [];
 
-	public static function load($key, $config)
-	{
-		self::$$key = $config;
-	}
-
 	public static function main($key, $value = false)
 	{
 		if (isset(self::$main[$key])) {
@@ -164,6 +159,22 @@ class AppConfig
 			AppConfig::load('search', $CONFIG);
 		}
 		return self::$search[$key];
+	}
+
+	public static function load($key, $config)
+	{
+		self::$$key = $config;
+	}
+
+	/**
+	 * Set config value
+	 * @param string $config
+	 * @param string $key
+	 * @param miexd $value
+	 */
+	public static function set($config, $key, $value)
+	{
+		self::$$config[$key] = $value;
 	}
 
 	public static function iniSet($key, $value)
