@@ -62,9 +62,9 @@ $languageStrings = [
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Informacje o środowisku',
 	'LBL_CRON_PHP_SAPI' => 'Cron - Server API',
 	'LBL_OPERATING_SYSTEM' => 'System operacyjny',
-	'HTTPS_HELP_TEXT' => 'SSL to standardowa technologia zabezpieczeń służąca do tworzenia zaszyfrowanego łącza między serwerem internetowym a przeglądarką',
-	'HTACCESS_HELP_TEXT' => 'Pliki .htaccess mogą zostać użyte do zmiany konfiguracji oprogramowania serwera w celu konfiguracji oraz włączenia / wyłączenia dodatkowych usług. YetiForceCRM wymaga dostępu do pliku do poprawnego działania niektórych funkcji.',
-	'PUBLIC_HTML_HELP_TEXT' => 'Sugerujemy aby zainstalować system tak aby był używany wyłącznie folder public_html. Poprawia to bezpieczeństwo danych poprzez brak dostępu do niepublicznych katalogów i plików bezpośrednio z adresu'
+	'HTTPS_HELP_TEXT' => 'SSL to technologia zabezpieczeń służąca do tworzenia zaszyfrowanego połaczenia między serwerem internetowym a przeglądarką. Zalecamy właczenie aby nikt nie kopiował Twojich danych.',
+	'HTACCESS_HELP_TEXT' => 'Pliki .htaccess jest nie aktywny, jest on potrzeby do prawidłowej obsługi wszystkich integracji oraz do zabezpieczenia dostępu do katalogów z danymi użytkownika.',
+	'PUBLIC_HTML_HELP_TEXT' => 'Zalecamy aby domena kierowała do katalogu public_html, dzięki temu pliki systemu oraz twoje dane nie będą publiczne i nikt nie będzie mógł ich pobrać.'
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
