@@ -129,9 +129,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			}
 			$img->removeAttribute('src');
 		}
-
 		$mail->set('files', $files);
 		$mail->set('attachments', $attachments);
-		return \App\Purifier::purifyHtml($doc->saveHTML());
+		return \App\Purifier::purifyHtml(str_replace('<?xml encoding="utf-8"?>', '', $doc->saveHTML()));
 	}
 }
