@@ -11,6 +11,7 @@ return array(
 	'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
 	'Exception\\' => array($baseDir . '/include/exceptions'),
 	'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+	'Cron\\' => array($baseDir . '/cron'),
 	'App\\' => array($vendorDir . '/yetiforce'),
 	'Api\\' => array($baseDir . '/api/webservice'),
 );

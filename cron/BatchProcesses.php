@@ -1,8 +1,21 @@
 <?php
 /**
- * Clear cache cron
+ * Support of one-time processes to execute scripts whose execution time is very long
  * @package YetiForce.Cron
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+$iterator = new \DirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cron' . DIRECTORY_SEPARATOR . 'Batch');
+foreach ($iterator as $item) {
+	if ($item->isFile() && $item->getExtension() === 'php') {
+		$class = 'Cron\Batch\\' . $item->getBasename('.php');
+		$handler = new $class();
+		if ($handler->preProcess()) {
+			$handler->process();
+		}
+		if ($handler->postProcess()) {
+			unlink($item->getPathname());
+		}
+	}
+}

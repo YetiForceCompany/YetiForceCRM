@@ -31,6 +31,10 @@ class ComposerStaticInitYT
 		array(
 			'DebugBar\\' => 9,
 		),
+		'C' =>
+		array(
+			'Cron\\' => 5,
+		),
 		'A' =>
 		array(
 			'App\\' => 4,
@@ -61,6 +65,10 @@ class ComposerStaticInitYT
 		'DebugBar\\' =>
 		array(
 			0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
+		),
+		'Cron\\' =>
+		array(
+			0 => __DIR__ . '/../..' . '/cron',
 		),
 		'App\\' =>
 		array(
