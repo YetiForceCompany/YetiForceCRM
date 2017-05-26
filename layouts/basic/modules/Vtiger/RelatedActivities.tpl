@@ -72,8 +72,8 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span>
-									</strong>&nbsp&nbsp;
+										<span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span>
+									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-ok"></span>
@@ -87,7 +87,7 @@
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp&nbsp;
+									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
 										{/if}
@@ -98,13 +98,13 @@
 				</div>
 				<div class="activityDescription">					    
 					<div>
-						<span class="value"><span class="glyphicon glyphicon-align-justify"></span>&nbsp&nbsp;
+						<span class="value"><span class="glyphicon glyphicon-align-justify"></span>&nbsp;&nbsp;
 							{if $RECORD->get('description') neq ''}
 								{vtranslate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
 							{else}
 								<span class="muted">{vtranslate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
 							{/if}
-						</span>&nbsp&nbsp;
+						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
 							<span class="editDescription cursorPointer">
 								<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>

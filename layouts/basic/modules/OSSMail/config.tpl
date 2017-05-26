@@ -77,7 +77,7 @@
 						</div>
 					{/foreach}
 					<div class="pull-right">
-						<button class="btn btn-success saveButton" style="margin-top:10px;"type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
+						<button class="btn btn-success saveButton" style="margin-top:10px;" type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
 					</div>
 				</form>
 			{/if}
