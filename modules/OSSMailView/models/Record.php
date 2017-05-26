@@ -28,8 +28,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function get($key)
 	{
 		$value = parent::get($key);
-		if ($key === 'content' && \App\Request::_get('view') == 'Detail') {
-			return vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), vtlib\Functions::getHtmlOrPlainText($value));
+		if ($key === 'content' && \App\Request::_get('view') === 'Detail') {
+			return vtlib\Functions::getHtmlOrPlainText($value);
 		}
 		if ($key === 'uid' || $key === 'content') {
 			return decode_html($value);
@@ -90,15 +90,13 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if ($config['widget_limit'] != '') {
 				$query .= sprintf(' LIMIT %s', $config['widget_limit']);
 			}
-
 			$result = $adb->pquery($query, $queryParams, true);
-
 			while ($row = $adb->fetch_array($result)) {
 				$from = $this->findRecordsById($row['from_id']);
 				$from = ($from && $from != '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
 				$to = ($to && $to != '') ? $to : $row['to_email'];
-				$content = vtlib\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], vtlib\Functions::getHtmlOrPlainText($row['content']));
+				$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
 				$return[] = [
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],

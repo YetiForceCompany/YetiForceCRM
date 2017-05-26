@@ -19,7 +19,7 @@
 			<span class="pull-left" style="margin-left:2%;">{vtranslate('From', 'OSSMailView')}: {$item->get('fromaddress')}</span>
 		</div>
 		<div class="col-md-12 mailBody marginLeftZero" style="display: none;border: 1px solid #ddd;">
-			{vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), $item->get('body'))}
+			{$item->get('body'))}
 		</div>
 	</div>
 	<hr/>
