@@ -136,7 +136,7 @@
 				<div class="row">
 					<div class="span12 welcome-div alignCenter">
 						<h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-						<img src="../public_html/layouts/basic/skins/images/install_loading.gif"/>
+						<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
 						<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
 					</div>
 				</div>

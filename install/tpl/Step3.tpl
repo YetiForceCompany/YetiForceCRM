@@ -73,9 +73,12 @@
 									{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
 										{if $item.status}
 											<tr class="danger">
-												<td><label>{$key}</label></td>
-												<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
-												<td><label>{vtranslate($item.current, $MODULE)}</label></td>
+												<td>
+													<label>{$key}</label>
+													{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{vtranslate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+												</td>
+												<td><label>{vtranslate($item.prefer, 'Settings::ConfReport')}</label></td>
+												<td><label>{vtranslate($item.current, 'Settings::ConfReport')}</label></td>
 											</tr>
 										{/if}
 									{/foreach}

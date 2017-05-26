@@ -11,7 +11,6 @@
 -->*}
 {strip}
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
-
 	{if !$MAIN_PRODUCT_WHITELABEL}
 		<footer class="noprint">
 			<div class="vtFooter">
@@ -21,7 +20,6 @@
 			</div>
 		</footer>
 	{/if}
-
 	{* javascript files *}
 	{include file='JSResources.tpl'}
 </div>

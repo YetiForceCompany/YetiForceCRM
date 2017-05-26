@@ -81,6 +81,10 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->get('lang'));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
+		$this->viewer->assign('LANGUAGE', $defaultLanguage);
+		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
+		$this->viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
+
 		define('INSTALLATION_MODE', true);
 		define('INSTALLATION_MODE_DEBUG', $this->debug);
 		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
@@ -102,6 +106,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function postProcess(\App\Request $request)
 	{
+		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		echo $this->viewer->fetch('InstallPostProcess.tpl');
 		if ($request->getMode() === 'Step7') {
 			$this->cleanInstallationFiles();
@@ -339,11 +344,43 @@ class Install_Index_view extends Vtiger_View_Controller
 			}
 		}
 		\vtlib\Functions::recurseDelete('install');
+		\vtlib\Functions::recurseDelete('public_html/install');
 		\vtlib\Functions::recurseDelete('tests');
 		\vtlib\Functions::recurseDelete('config/config.template.php');
 		\vtlib\Functions::recurseDelete('.github');
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');
 		\vtlib\Functions::recurseDelete('.travis.yml');
+	}
+
+	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param \App\Request $request - request model
+	 * @return Vtiger_CssScript_Model[]
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'~install/tpl/resources/css/style.css',
+			'~install/tpl/resources/css/mkCheckbox.css',
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		return array_merge($headerCssInstances, $cssInstances);
+	}
+
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$jsFileNames = array(
+			'~install/tpl/resources/Index.js',
+		);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}
 }
