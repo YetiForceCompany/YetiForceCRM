@@ -41,7 +41,7 @@
 						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
 							<td>
 								<label>{$key}</label>
-								{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+								{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 							</td>
 							<td><label>{vtranslate($item.status, $MODULE)}</label></td>
 							<td><label>
@@ -75,7 +75,7 @@
 						<tr {if $item.status}class="danger"{/if}>
 							<td>
 								<label>{$key}</label>
-								{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+								{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 							</td>
 							<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
 							<td><label>{vtranslate($item.current, $MODULE)}</label></td>
