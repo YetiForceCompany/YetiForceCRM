@@ -39,7 +39,10 @@
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
 						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
-							<td><label>{vtranslate($key, $MODULE)}{if isset($item.help)}<a href="#" class="HelpInfoPopover" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}</label></td>
+							<td>
+								<label>{$key}</label>
+								{if isset($item.help)}<a href="#" class="HelpInfoPopover pull-right" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+							</td>
 							<td><label>{vtranslate($item.status, $MODULE)}</label></td>
 							<td><label>
 									{if $item.mandatory}
@@ -70,7 +73,10 @@
 				<tbody>
 					{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
 						<tr {if $item.status}class="danger"{/if}>
-							<td><label>{$key} {if isset($item.help)}<a href="#" class="HelpInfoPopover" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}</label></td>
+							<td>
+								<label>{$key}</label>
+								{if isset($item.help)}<a href="#" class="HelpInfoPopover pull-right" data-placement="rigth" data-content="{vtranslate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+							</td>
 							<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
 							<td><label>{vtranslate($item.current, $MODULE)}</label></td>
 						</tr>

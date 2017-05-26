@@ -85,9 +85,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$errorReportingValue = 'E_ALL & ~E_NOTICE';
 		$directiveValues = [
-			'HTTPS' => ['prefer' => 'On'],
+			'HTTPS' => ['prefer' => 'On', 'help' => 'HTTPS_HELP_TEXT'],
 			'PHP' => ['prefer' => '5.5.0'],
-			'.htaccess' => ['prefer' => 'On'],
+			'.htaccess' => ['prefer' => 'On', 'help' => 'HTACCESS_HELP_TEXT'],
+			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -119,7 +120,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = self::getFlag(false);
 		}
-		$directiveValues['HTTPS']['help'] = 'HTTPS_HELP_TEXT';
+		if (defined('IS_PUBLIC_DIR') && IS_PUBLIC_DIR === true) {
+			$directiveValues['public_html']['current'] = self::getFlag(true);
+		} else {
+			$directiveValues['public_html']['status'] = true;
+			$directiveValues['public_html']['current'] = self::getFlag(false);
+		}
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
 			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
@@ -252,7 +258,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['.htaccess']['current'] = 'On';
 		}
-		$directiveValues['.htaccess']['help'] = 'HTACCESS_HELP_TEXT';
 
 		if (!AppConfig::main('session_regenerate_id')) {
 			$directiveValues['session_regenerate_id']['status'] = true;
