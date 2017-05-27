@@ -18,7 +18,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getThemeStyle()
 	{
 		$basePath = '';
-		if (!\App\Config::$isPublicDir) {
+		if (!IS_PUBLIC_DIR) {
 			$basePath = 'public_html/';
 		}
 		$filePath = self::getThemePath() . '/' . 'style.css';
@@ -39,7 +39,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getImagePath($imageFileName)
 	{
 		$basePath = '';
-		if (!\App\Config::$isPublicDir) {
+		if (!IS_PUBLIC_DIR) {
 			$basePath = 'public_html/';
 		}
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
@@ -66,7 +66,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getOrignOrDefaultImgPath($imageFileName, $defaultFileName)
 	{
 		$basePath = '';
-		if (!\App\Config::$isPublicDir) {
+		if (!IS_PUBLIC_DIR) {
 			$basePath = 'public_html/';
 		}
 		$allowedImgTypes = ['.gif', '.jpg', '.png'];

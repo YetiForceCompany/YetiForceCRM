@@ -1,7 +1,5 @@
 RedirectMatch 403 (?i).*\.log$
-
 SetEnv HTACCESS_TEST on
-
 <IfModule mod_autoindex.c>
 	Options -Indexes -MultiViews
 </ifModule>

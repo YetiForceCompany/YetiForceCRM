@@ -400,7 +400,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$fileExtension = 'js';
 		$jsScriptInstances = [];
 		$prefix = '';
-		if (!\App\Config::$isPublicDir && $fileExtension !== 'php') {
+		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
 			$prefix = 'public_html/';
 		}
 		foreach ($jsFileNames as $jsFileName) {
@@ -491,7 +491,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function checkAndConvertCssStyles($cssFileNames, $fileExtension = 'css')
 	{
 		$prefix = '';
-		if (!\App\Config::$isPublicDir && $fileExtension !== 'php') {
+		if (!IS_PUBLIC_DIR && $fileExtension !== 'php') {
 			$prefix = 'public_html/';
 		}
 		$cssStyleInstances = [];

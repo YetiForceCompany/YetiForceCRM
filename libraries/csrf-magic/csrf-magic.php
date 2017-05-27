@@ -180,7 +180,7 @@ class CSRF
 			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
-			if (!\App\Config::$isPublicDir) {
+			if (!IS_PUBLIC_DIR) {
 				$js = 'public_html/' . $js;
 			}
 			$buffer = preg_replace(

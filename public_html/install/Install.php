@@ -1,4 +1,4 @@
 <?php
 chdir(__DIR__ . '/../../install/');
-\App\Config::$isPublicDir = true;
+define('IS_PUBLIC_DIR', true);
 require 'Install.php';

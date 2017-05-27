@@ -7,7 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(__DIR__ . '/../');
-\App\Config::$isPublicDir = true;
+define('IS_PUBLIC_DIR', true);
 require './index.php';
 
 

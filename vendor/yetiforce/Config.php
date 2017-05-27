@@ -44,10 +44,4 @@ class Config
 	 */
 	public static $processName;
 
-	/**
-	 * Is public dir
-	 * @var bool
-	 */
-	public static $isPublicDir;
-
 }

@@ -54,7 +54,7 @@ class Company extends Base
 			return false;
 		}
 		$logoURL = static::$logoPath . $logoName;
-		if (\App\Config::$isPublicDir) {
+		if (IS_PUBLIC_DIR) {
 			$logoURL = str_replace('public_html/', '', $logoURL);
 		}
 		if ($fullUrl) {
