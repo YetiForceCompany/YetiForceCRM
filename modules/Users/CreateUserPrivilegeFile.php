@@ -42,8 +42,8 @@ function createUserPrivilegesfile($userid)
 		} else {
 			$newbuf .= "\$is_admin=false;\n";
 
-			$globalPermissionArr = getCombinedUserGlobalPermissions($userid);
-			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
+			$globalPermissionArr = App\PrivilegeUtil::getCombinedUserGlobalPermissions($userid);
+			$tabsPermissionArr = App\PrivilegeUtil::getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = \App\PrivilegeUtil::getRoleByUsers($userid);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
