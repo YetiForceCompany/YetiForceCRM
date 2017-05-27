@@ -7,14 +7,12 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(__DIR__ . '/../');
-
-\App\Config::$startTime = microtime(true);
-\App\Config::$requestMode = 'TEST';
 define('ROOT_DIRECTORY', getcwd());
 
 if (!class_exists('Vtiger_WebUI')) {
 	require_once 'include/main/WebUI.php';
 }
+\App\Config::$requestMode = 'TEST';
 
 //fix phpunit console for windows
 if (!getenv('ANSICON')) {
@@ -33,7 +31,4 @@ AppConfig::iniSet('post_max_size', '200M');
 AppConfig::iniSet('upload_max_filesize', '200M');
 AppConfig::iniSet('max_input_vars', 10000);
 AppConfig::iniSet('xdebug.enable', 'On');
-
 Vtiger_Session::init();
-
-vglobal('Vtiger_Utils_Log', true);

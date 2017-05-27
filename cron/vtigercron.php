@@ -13,7 +13,6 @@ chdir(__DIR__ . '/../');
  */
 include_once 'include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
-\App\Config::$startTime = microtime(true);
 file_put_contents('user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
 
 Vtiger_Session::init();

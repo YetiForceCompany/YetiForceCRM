@@ -18,4 +18,3 @@ require 'include/main/WebUI.php';
 
 $webUI = new Vtiger_WebUI();
 $webUI->process(\App\Request::init());
-
