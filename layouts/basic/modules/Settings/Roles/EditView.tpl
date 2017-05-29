@@ -123,6 +123,7 @@
 							<option value="0" {if in_array('0', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('Assigned To', $QUALIFIED_MODULE)}</option>
 							<option value="1" {if in_array('1', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('Share with users', $QUALIFIED_MODULE)}</option>
 							<option value="2" {if in_array('2', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('LBL_PERMITTED_BY_SHARING', $QUALIFIED_MODULE)}</option>
+							<option value="3" {if in_array('3', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('LBL_PERMITTED_BY_READ_ACCESS', $QUALIFIED_MODULE)}</option>
 						</select>
 					</div>
 				</div>

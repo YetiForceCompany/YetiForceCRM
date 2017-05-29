@@ -235,7 +235,7 @@ class Privilege
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 						$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 						$relatedPermission = false;
-						foreach ($permissionsRelatedField as &$row) {
+						foreach ($permissionsRelatedField as $row) {
 							switch ($row) {
 								case 0:
 									$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
@@ -247,6 +247,10 @@ class Privilege
 									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
 										$relatedPermission = static::isPermittedBySharing($recordMetaData['setype'], Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
 									}
+									break;
+								case 3:
+									$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+									$relatedPermission = $permission == 'yes' ? true : false;
 									break;
 							}
 							if ($relatedPermission) {
