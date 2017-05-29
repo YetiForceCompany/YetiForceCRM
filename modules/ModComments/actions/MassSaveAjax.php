@@ -12,6 +12,11 @@
 class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -20,11 +25,17 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 		}
 	}
 
+	/**
+	 * Main process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
-		foreach ($recordModels as &$recordModel) {
+		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->get('source_module')), Vtiger_Module_Model::getInstance($request->getModule()));
+		foreach ($recordModels as $relatedRecordId => &$recordModel) {
 			$recordModel->save();
+			$relationModel->addRelation($relatedRecordId, $recordModel->getId());
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(true);

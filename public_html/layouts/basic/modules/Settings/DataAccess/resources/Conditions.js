@@ -222,7 +222,6 @@ function DataAccessConditions() {
 	};
 	this.fieldTypeHasChanged = function () {
 		var thisInstance = this;
-
 		jQuery('.comparator-select').on('change', function () {
 			var valInput = jQuery(this).parents('.conditionRow').find('[name="val"]'),
 					fieldInfo = jQuery(this).find('option:selected').data('info');
@@ -234,17 +233,17 @@ function DataAccessConditions() {
 				thisInstance.showDataInput(this);
 			} else if (fieldInfo.type == 'multipicklist') {
 				thisInstance.showMultiPicklist(this);
+			} else if (fieldInfo.type == 'owner') {
+				thisInstance.showOwner(this);
 			} else if (fieldInfo.type == 'time') {
 				thisInstance.showTime(this, fieldInfo);
 			} else {
 				thisInstance.showInput(this);
 			}
-
-		})
+		});
 	};
 	this.comparatorHasChanged = function () {
 		var thisInstance = this;
-
 		jQuery('[name="comparator"]').on('change', function () {
 			var val = jQuery(this).val(),
 					conditionToHideValElement = ['is not empty', 'is empty', 'is enabled', 'is disabled', 'is today', 'has changed'],
@@ -327,9 +326,25 @@ function DataAccessConditions() {
 		app.showSelect2ElementView(jQuery('select.select2'));
 
 	};
+	this.showOwner = function (element) {
+		var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
+		valPlace.children().remove();
+		var select = jQuery('<select name="val" multiple="multiple" data-value="value" class="select2 form-control"></select>').appendTo(valPlace);
+		var fieldInfo = jQuery(element).find('option:selected').data('info');
+		jQuery.each(fieldInfo.picklistvalues, function (type, item) {
+			var optiongroup = $('<optgroup label="' + type + '"></optgroup>');
+			jQuery.each(item, function (id, owner) {
+				optiongroup.append(jQuery('<option>', {
+					value: id,
+					text: owner
+				}));
+			});
+			select.append(optiongroup);
+		});
+		app.showSelect2ElementView(jQuery('select.select2'));
+	};
 	this.showInput = function (element) {
 		var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
-
 		if (valPlace.children().prop('tagName') != 'INPUT') {
 			valPlace.children().remove();
 			jQuery('<input type="text" name="val" class="form-control" data-value="value" />').appendTo(valPlace);

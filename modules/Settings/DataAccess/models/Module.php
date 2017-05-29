@@ -99,7 +99,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					$requiredConditions[$requiredNum]['fieldname'] = $row['fieldname'];
 					$requiredConditions[$requiredNum]['comparator'] = $row['comparator'];
 					$requiredConditions[$requiredNum]['field_type'] = $row['field_type'];
-					if ($requiredConditions[$requiredNum]['field_type'] == 'multipicklist') {
+					if (in_array($requiredConditions[$requiredNum]['field_type'], ['multipicklist', 'owner', 'sharedOwner'])) {
 						$requiredConditions[$requiredNum]['val'] = explode('::', $row['val']);
 					} else {
 						$requiredConditions[$requiredNum]['val'] = $row['val'];
@@ -109,7 +109,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					$optionalConditions[$optionalNum]['fieldname'] = $row['fieldname'];
 					$optionalConditions[$optionalNum]['comparator'] = $row['comparator'];
 					$optionalConditions[$optionalNum]['field_type'] = $row['field_type'];
-					if ($optionalConditions[$optionalNum]['field_type'] == 'multipicklist') {
+					if (in_array($optionalConditions[$optionalNum]['field_type'],['multipicklist', 'owner', 'sharedOwner'])) {
 						$optionalConditions[$optionalNum]['val'] = explode('::', $row['val']);
 					} else {
 						$optionalConditions[$optionalNum]['val'] = $row['val'];
@@ -163,13 +163,15 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			'date' => array('is', 'is not', 'between', 'before', 'after', 'is today', 'in less than', 'in more than', 'days ago', 'days later', 'has changed'),
 			'boolean' => array('is enabled', 'is disabled', 'has changed'),
 			'reference' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'owner' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'sharedOwner' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
+			'owner' => array('is', 'is not', 'has changed'),
+			'sharedOwner' => array('is empty', 'is not empty', 'has changed'),
 			'recurrence' => array('is', 'is not'),
 			'comment' => array('is added'),
 			'rangeTime' => ['is empty', 'is not empty'],
 			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'multiImage' => ['is empty', 'is not empty'],
+			'multiReferenceValue' => ['is empty', 'is not empty'],
 		);
 		if (NULL != $type) {
 			return $list[$type];

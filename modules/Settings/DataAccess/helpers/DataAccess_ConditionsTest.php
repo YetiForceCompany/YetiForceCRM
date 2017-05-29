@@ -22,7 +22,6 @@ class DataAccess_ConditionsTest
 	{
 
 		$val = self::getValue($form, $cndArray['fieldname']);
-
 		if ('date' == $cndArray['field_type']) {
 			$format = \App\Fields\DateTime::currentUserJSDateFormat();
 			$cndDate = DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
@@ -34,20 +33,14 @@ class DataAccess_ConditionsTest
 				return false;
 			}
 		} else if ('multipicklist' == $cndArray['field_type']) {
-
 			$cndTab = explode('::', $cndArray['val']);
 			$recordTab = explode(" |##| ", $val);
-
 			sort($cndTab);
 			sort($recordTab);
-
 			return $cndTab == $recordTab;
 		} else if ('time' == $cndArray['field_type']) {
-
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
-
-
 			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') == '+') {
 					return true;
@@ -55,6 +48,9 @@ class DataAccess_ConditionsTest
 					return false;
 				}
 			}
+		} else if ('owner' === $cndArray['field_type']) {
+			$conditionValues = explode('::', $cndArray['val']);
+			return in_array($val, $conditionValues);
 		} else {
 			if ($cndArray['val'] == $val) {
 				return true;
@@ -100,6 +96,9 @@ class DataAccess_ConditionsTest
 					return false;
 				}
 			}
+		} else if ('owner' === $cndArray['field_type']) {
+			$conditionValues = explode('::', $cndArray['val']);
+			return !in_array($val, $conditionValues);
 		} else {
 			if ($cndArray['val'] != $val) {
 				return true;
@@ -153,6 +152,9 @@ class DataAccess_ConditionsTest
 	public static function isEmpty($form, $cndArray)
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
+		if ('multiImage' === $cndArray['field_type']) {
+			return $val === ',,';
+		}
 		if (empty($val)) {
 			return true;
 		} else {
@@ -163,7 +165,9 @@ class DataAccess_ConditionsTest
 	public static function isNotEmpty($form, $cndArray)
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
-
+		if ('multiImage' === $cndArray['field_type']) {
+			return $val !== ',,';
+		}
 		if (!empty($val)) {
 			return true;
 		} else {

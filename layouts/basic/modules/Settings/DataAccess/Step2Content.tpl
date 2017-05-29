@@ -17,7 +17,6 @@
 				<div class="header"><span><strong>{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_ALL_DSC', $QUALIFIED_MODULE)}</span></div>
 				<div id="condition_all">
 					{if $TPL_ID}
-						{*                        <pre>*}
 						{foreach from=$REQUIRED_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<div class="col-md-4">
@@ -54,6 +53,15 @@
 										<select multiple="multiple" name="val" data-value="value" class="form-control select2">
 											{foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
 												<option value="{$pick_key}"  {if in_array($pick_key, $cnd_item['val'])} selected {/if}>{$pick_item}</option>
+											{/foreach}
+										</select>
+									{else if $cnd_item['field_type'] eq 'owner'}
+										<select multiple="multiple" name="val" data-value="value" class="form-control select2">
+											{foreach from=$cnd_item['info']['picklistvalues'] key=TYPE item=ITEMS}
+												<optgroup label="{$TYPE}"></optgroup>
+												{foreach from=$ITEMS key=VALUE item=USER}
+													<option value="{$VALUE}"  {if in_array($VALUE, $cnd_item['val'])} selected {/if}>{$USER}</option>
+												{/foreach}
 											{/foreach}
 										</select>
 									{else if $cnd_item['field_type'] eq 'time'}
