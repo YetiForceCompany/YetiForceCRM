@@ -30,6 +30,7 @@
 					{if !empty($MAPPING_RELATED_FIELD)}
 						<input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
 					{/if}
+					<input type="hidden" id="disallowLongerThan24Hours" value="{AppConfig::module('OSSTimeControl', 'DISALLOW_LONGER_THAN_24_HOURS')}" />
 					<input type="hidden" name="module" value="{$MODULE}">
 					<input type="hidden" name="action" value="SaveAjax">
 					<div class="quickCreateContent">
