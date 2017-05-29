@@ -167,7 +167,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	public static function getMail($mbox, $id, $msgno = false)
 	{
-		$return = [];
 		if (!$msgno) {
 			$msgno = imap_msgno($mbox, $id);
 		}
@@ -199,7 +198,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('MailDate', $header->MailDate);
 		$mail->set('date', $header->date);
 		$mail->set('udate', $header->udate);
-		$mail->set('udate_formated', date("Y-m-d H:i:s", $header->udate));
+		$mail->set('udate_formated', date('Y-m-d H:i:s', $header->udate));
 		$mail->set('Recent', $header->Recent);
 		$mail->set('Unseen', $header->Unseen);
 		$mail->set('Flagged', $header->Flagged);

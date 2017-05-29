@@ -108,6 +108,20 @@ class OSSMail_Mail_Model extends \App\Base
 	}
 
 	/**
+	 * Generation crm unique id
+	 * @return string
+	 */
+	public function getUniqueId()
+	{
+		if ($this->has('cid')) {
+			return $this->get('cid');
+		}
+		$uid = sha1($this->get('fromaddress') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('body'));
+		$this->set('cid', $uid);
+		return $uid;
+	}
+
+	/**
 	 * Get mail crm id 
 	 * @return int|bool
 	 */
@@ -116,9 +130,10 @@ class OSSMail_Mail_Model extends \App\Base
 		if ($this->mailCrmId) {
 			return $this->mailCrmId;
 		}
-		$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id')])->limit(1);
-		if (!AppConfig::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
-			$query->andWhere(['rc_user' => $this->getAccountOwner()]);
+		if (empty($this->get('message_id')) || AppConfig::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
+			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1);
+		} else {
+			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id'), 'rc_user' => $this->getAccountOwner()])->limit(1);
 		}
 		return $this->mailCrmId = $query->scalar();
 	}

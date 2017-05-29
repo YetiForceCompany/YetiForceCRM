@@ -246,39 +246,37 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function mail_Scan($mbox, $account, $folder, $scan_id, $countEmails)
 	{
-		$last_user_uid = self::getUidFolder($account['user_id'], $folder);
-		$msgno = imap_msgno($mbox, $last_user_uid);
-		$num_msg = imap_num_msg($mbox);
-		$get_emails = false;
-		if ($msgno == 0 && $num_msg != 0) {
-			$last_email_uid = imap_uid($mbox, $num_msg);
-			if ($last_user_uid == 1) {
-				$get_emails = true;
+		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
+		$msgno = imap_msgno($mbox, $lastScanUid);
+		$numMsg = imap_num_msg($mbox);
+		$getEmails = false;
+		if ($msgno === 0 && $numMsg !== 0) {
+			$lastEmailUid = imap_uid($mbox, $numMsg);
+			if ($lastScanUid === 1) {
+				$getEmails = true;
 				$msgno = 1;
-			} elseif ($last_email_uid > $last_user_uid) {
+			} elseif ($lastEmailUid > $lastScanUid) {
 				$exit = true;
 				while ($exit) {
-					$last_user_uid++;
-					$last_scaned_num = imap_msgno($mbox, $last_user_uid);
-					if ($last_scaned_num != 0) {
+					$lastScanUid++;
+					$lastScanedNum = imap_msgno($mbox, $lastScanUid);
+					if ($lastScanedNum !== 0) {
 						$exit = false;
-						$msgno = $last_scaned_num;
-					} elseif ($last_user_uid == $last_email_uid) {
+						$msgno = $lastScanedNum;
+					} elseif ($lastScanUid === $lastEmailUid) {
 						$exit = false;
-						$msgno = $num_msg;
+						$msgno = $numMsg;
 					}
 				}
-				$get_emails = true;
+				$getEmails = true;
 			}
-		} else if ($msgno < $num_msg) {
+		} else if ($msgno < $numMsg) {
 			++$msgno;
-			$get_emails = true;
+			$getEmails = true;
 		}
-
-		if ($get_emails) {
-			for ($i = $msgno; $i <= $num_msg; $i++) {
+		if ($getEmails) {
+			for ($i = $msgno; $i <= $numMsg; $i++) {
 				$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
-
 				$uid = imap_uid($mbox, $i);
 				$mail = $mailModel->getMail($mbox, $uid, $i);
 

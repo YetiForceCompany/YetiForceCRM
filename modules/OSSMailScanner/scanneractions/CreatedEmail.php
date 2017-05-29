@@ -29,7 +29,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				}
 			}
 		}
-		if ($mail->getMailCrmId() === false && !empty($mail->get('message_id'))) {
+		if ($mail->getMailCrmId() === false) {
 			$fromIds = array_merge($mail->findEmailAdress('fromaddress'), $mail->findEmailAdress('reply_toaddress'));
 			$toIds = array_merge($mail->findEmailAdress('toaddress'), $mail->findEmailAdress('ccaddress'), $mail->findEmailAdress('bccaddress'));
 			$account = $mail->getAccount();
@@ -59,7 +59,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				$mail->setMailCrmId($id);
 				$mail->saveAttachments();
 				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
-					'date' => $mail->get('udate_formated')
+					'date' => $mail->get('udate_formated'),
+					'cid' => $mail->getUniqueId()
 					], ['ossmailviewid' => $id]
 				)->execute();
 			}
@@ -75,7 +76,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
-		file_put_contents('aa.html', $html);
 		$html = preg_replace('/<html[^>]+\>/', '', $html);
 		$html = preg_replace('/<body[^>]+\>/', '', $html);
 		$html = str_replace(['<html>', '<body>', '</html>', '</body>'], '', $html);
