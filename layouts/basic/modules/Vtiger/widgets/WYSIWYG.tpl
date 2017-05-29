@@ -4,7 +4,7 @@
 			<span class="col-md-5 margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 		</div>
 		<div class="defaultMarginP">
-			{assign var=FULL_TEXT value=App\Purifier::decodeHtml($RECORD->get($WIDGET['data']['field_name'])}
+			{assign var=FULL_TEXT value=\App\Purifier::decodeHtml($RECORD->get($WIDGET['data']['field_name']))}
 			<div class="moreContent table-responsive">
 				<span class="teaserContent">
 					{Vtiger_Util_Helper::toVtiger6SafeHTML($FULL_TEXT)|substr:0:600}
