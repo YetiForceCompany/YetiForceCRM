@@ -255,7 +255,7 @@ function isPermitted($module, $actionname, $record_id = '')
 					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 					$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 					$relatedPermission = false;
-					foreach ($permissionsRelatedField as &$row) {
+					foreach ($permissionsRelatedField as $row) {
 						switch ($row) {
 							case 0:
 								$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
@@ -268,6 +268,10 @@ function isPermitted($module, $actionname, $record_id = '')
 									$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
+								break;
+							case 3:
+								$permission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
 						if ($relatedPermission) {

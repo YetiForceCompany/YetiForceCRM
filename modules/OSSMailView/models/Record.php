@@ -97,12 +97,17 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$to = $this->findRecordsById($row['to_id']);
 				$to = ($to && $to != '') ? $to : $row['to_email'];
 				$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
+				if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
+					$subject = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';
+				} else {
+					$subject = $row['subject'];
+				}
 				$return[] = [
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],
 					'firstLetter' => strtoupper(vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
 					'subjectRaw' => $row['subject'],
-					'subject' => '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>',
+					'subject' => $subject,
 					'attachments' => $row['attachments_exist'],
 					'from' => $from,
 					'fromRaw' => $row['from_email'],
