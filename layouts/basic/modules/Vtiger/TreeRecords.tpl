@@ -16,7 +16,7 @@
 					{foreach item=HEADER from=$HEADERS}
 						{assign var=HEADERNAME value=$HEADER->get('name')}
 						<td>
-							{if $HEADER->isNameField() eq true && && $ENTRY->isViewable()}
+							{if $HEADER->isNameField() eq true && $ENTRY->isViewable()}
 								<a {if $HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$ENTRY->getDetailViewUrl()}">
 									{$ENTRY->getListViewDisplayValue($HEADERNAME)}
 								</a>
