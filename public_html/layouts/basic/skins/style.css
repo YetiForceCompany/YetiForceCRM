@@ -5923,6 +5923,9 @@ select.form-control {
 	background: #fff !important;
 	border-radius: 0 4px 4px 0;
 }
+.remindersContent .panel-body .btn.actionIcon {
+	margin-top: -5px;
+}
 .dashboardWidget .select2-selection--multiple .select2-search--inline .select2-search__field{
 	height: 25px;
 }
