@@ -174,7 +174,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = App\Db::getInstance();
-		$inviteesRequest = \App\Request::_get('inviteesid');
+		$inviteesRequest = \App\Request::_getArray('inviteesid');
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
 		$invities = [];
 		while ($row = $dataReader->read()) {

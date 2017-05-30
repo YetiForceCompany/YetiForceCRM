@@ -28,9 +28,9 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ? OFFSET ?';
-	
+
 		$params[] = $pagingModel->getPageLimit();
 		$params[] = $pagingModel->getStartIndex();
 		$db = PearDatabase::getInstance();
@@ -51,7 +51,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
-		$time = $request->get('time');
+		$time = $request->getArray('time');
 		if (empty($time)) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
 			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();

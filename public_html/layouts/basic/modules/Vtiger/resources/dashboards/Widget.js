@@ -79,6 +79,20 @@ jQuery.Class('Vtiger_Widget_Js', {
 			});
 		});
 	},
+	loadScrollbar: function () {
+		var widget = this.getPlotContainer(false).closest('.dashboardWidget');
+		var content = widget.find('.dashboardWidgetContent');
+		var footer = widget.find('.dashboardWidgetFooter');
+		var header = widget.find('.dashboardWidgetHeader');
+		var headerHeight = header.outerHeight();
+		var adjustedHeight = widget.height() - headerHeight;
+		if (footer.length) {
+			adjustedHeight -= footer.outerHeight();
+		}
+		content.css('height', adjustedHeight + 'px');
+		content.css('overflow', 'auto');
+		content.perfectScrollbar();
+	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
 			var element = jQuery(e.target);
@@ -139,19 +153,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function () {
-		var widget = this.getPlotContainer(true).closest('.dashboardWidget');
-		var content = widget.find('.dashboardWidgetContent');
-		var footer = widget.find('.dashboardWidgetFooter');
-		var header = widget.find('.dashboardWidgetHeader');
-		var headerHeight = header.outerHeight();
-		var adjustedHeight = widget.height() - headerHeight;
-		if (footer.length) {
-			adjustedHeight -= footer.outerHeight();
-		}
-		content.css('height', adjustedHeight + 'px');
-		content.css('overflow', 'auto');
-		content.perfectScrollbar();
-		
+		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart();
 		} else {
@@ -168,6 +170,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerLoadMore();
 	},
 	postRefreshWidget: function () {
+		this.loadScrollbar();
 		if (!this.isEmptyData()) {
 			this.loadChart();
 		} else {
