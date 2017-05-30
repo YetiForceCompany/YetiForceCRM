@@ -127,6 +127,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
+			height: 'auto',
 			views: {
 				basic: {
 					eventLimit: false,

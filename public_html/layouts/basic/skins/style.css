@@ -5941,3 +5941,6 @@ select.form-control {
 .dashboardWidget {
 	overflow: hidden;
 }
+.fc-basic-view .fc-body .fc-row {
+    min-height: 9em  !important;
+}

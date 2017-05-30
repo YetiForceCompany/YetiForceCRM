@@ -94,6 +94,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			allDaySlot: false,
+			height: 'auto',
 			views: {
 				basic: {
 					eventLimit: false,
