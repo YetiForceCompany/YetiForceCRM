@@ -580,7 +580,7 @@ hr {
 	margin-top: 3px;
 }
 .gridster > ul li.dashboardWidget .dashboardWidgetContent:not(.dashboardWidgetCalendar) {
-	padding: 10px 0;
+	padding: 5px;
 	line-height: 20px;
 }
 .gridster > ul li.dashboardWidget .dashboardWidgetContent .dashboard_notebookWidget_viewarea {
@@ -596,7 +596,6 @@ hr {
 	text-decoration: none;
 }
 .gridster > ul .widgetChartContainer {
-	margin-left: 10px;
 	height: 100% !important;
 }
 .listViewPageDiv {
