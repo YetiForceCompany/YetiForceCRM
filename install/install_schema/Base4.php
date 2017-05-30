@@ -74,11 +74,11 @@ class Base4 extends \App\Db\Importers\Base
 					'relation_comment' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['relatedlists_tabid_idx', 'tabid'],
-						['relatedlists_reltab_idx', 'related_tabid'],
-						['relatedlists_tabid_2_idx', ['tabid', 'related_tabid']],
-						['relatedlists_label_idx', ['tabid', 'related_tabid', 'label']],
-						['relatedlists_pres_idx', ['tabid', 'related_tabid', 'presence']],
+					['relatedlists_tabid_idx', 'tabid'],
+					['relatedlists_reltab_idx', 'related_tabid'],
+					['relatedlists_tabid_2_idx', ['tabid', 'related_tabid']],
+					['relatedlists_label_idx', ['tabid', 'related_tabid', 'label']],
+					['relatedlists_pres_idx', ['tabid', 'related_tabid', 'presence']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -91,7 +91,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sequence' => $this->integer(10),
 				],
 				'index' => [
-						['relatedlists_fields_idx', 'relation_id'],
+					['relatedlists_fields_idx', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -107,10 +107,10 @@ class Base4 extends \App\Db\Importers\Base
 					'column_condition' => $this->stringType(256)->defaultValue('and'),
 				],
 				'index' => [
-						['relcriteria_queryid_idx', 'queryid'],
+					['relcriteria_queryid_idx', 'queryid'],
 				],
 				'primaryKeys' => [
-						['relcriteria_pk', 'queryid']
+					['relcriteria_pk', 'queryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -123,10 +123,10 @@ class Base4 extends \App\Db\Importers\Base
 					'condition_expression' => $this->text(),
 				],
 				'index' => [
-						['relcriteria_grouping_idx', 'queryid'],
+					['relcriteria_grouping_idx', 'queryid'],
 				],
 				'primaryKeys' => [
-						['relcriteria_grouping_pk', 'queryid']
+					['relcriteria_grouping_pk', 'queryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -163,11 +163,11 @@ class Base4 extends \App\Db\Importers\Base
 					'sharingtype' => $this->stringType(200)->defaultValue('Private'),
 				],
 				'index' => [
-						['report_queryid_idx', 'queryid'],
-						['report_folderid_idx', 'folderid'],
+					['report_queryid_idx', 'queryid'],
+					['report_folderid_idx', 'folderid'],
 				],
 				'primaryKeys' => [
-						['report_idx', 'reportid']
+					['report_idx', 'reportid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -181,10 +181,10 @@ class Base4 extends \App\Db\Importers\Base
 					'enddate' => $this->date(),
 				],
 				'index' => [
-						['reportdatefilter_datefilterid_idx', 'datefilterid'],
+					['reportdatefilter_datefilterid_idx', 'datefilterid'],
 				],
 				'primaryKeys' => [
-						['reportdatefilter_pk', 'datefilterid']
+					['reportdatefilter_pk', 'datefilterid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -215,7 +215,7 @@ class Base4 extends \App\Db\Importers\Base
 					'dategroupbycriteria' => $this->stringType(250),
 				],
 				'index' => [
-						['reportgroupbycolumn_idx', 'reportid'],
+					['reportgroupbycolumn_idx', 'reportid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -227,7 +227,7 @@ class Base4 extends \App\Db\Importers\Base
 					'secondarymodules' => $this->stringType(250)->defaultValue(''),
 				],
 				'primaryKeys' => [
-						['reportmodules_pk', 'reportmodulesid']
+					['reportmodules_pk', 'reportmodulesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -249,10 +249,10 @@ class Base4 extends \App\Db\Importers\Base
 					'sortorder' => $this->stringType(250)->defaultValue('Asc'),
 				],
 				'index' => [
-						['reportsortcol_idx', 'reportid'],
+					['reportsortcol_idx', 'reportid'],
 				],
 				'primaryKeys' => [
-						['reportsortcol_pk', ['sortcolid', 'reportid']]
+					['reportsortcol_pk', ['sortcolid', 'reportid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -264,10 +264,10 @@ class Base4 extends \App\Db\Importers\Base
 					'columnname' => $this->stringType(250)->notNull()->defaultValue(''),
 				],
 				'index' => [
-						['reportsummary_reportsummaryid_idx', 'reportsummaryid'],
+					['reportsummary_reportsummaryid_idx', 'reportsummaryid'],
 				],
 				'primaryKeys' => [
-						['reportsummary_pk', ['reportsummaryid', 'summarytype', 'columnname']]
+					['reportsummary_pk', ['reportsummaryid', 'summarytype', 'columnname']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -278,7 +278,7 @@ class Base4 extends \App\Db\Importers\Base
 					'data' => $this->text(),
 				],
 				'primaryKeys' => [
-						['reporttype_pk', 'reportid']
+					['reporttype_pk', 'reportid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -300,7 +300,7 @@ class Base4 extends \App\Db\Importers\Base
 					'type' => $this->stringType(128),
 				],
 				'primaryKeys' => [
-						['reservations_pk', 'reservationsid']
+					['reservations_pk', 'reservationsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -328,7 +328,7 @@ class Base4 extends \App\Db\Importers\Base
 					'reservationsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['reservationscf_pk', 'reservationsid']
+					['reservationscf_pk', 'reservationsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -352,11 +352,11 @@ class Base4 extends \App\Db\Importers\Base
 					'auto_assign' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['role_parent_idx', 'parentrole'],
-						['role_depth_idx', ['parentrole', 'depth']],
+					['role_parent_idx', 'parentrole'],
+					['role_depth_idx', ['parentrole', 'depth']],
 				],
 				'primaryKeys' => [
-						['role_pk', 'roleid']
+					['role_pk', 'roleid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -369,11 +369,11 @@ class Base4 extends \App\Db\Importers\Base
 					'sortid' => $this->integer(),
 				],
 				'index' => [
-						['role2picklist_roleid_picklistid_idx', ['roleid', 'picklistid', 'picklistvalueid']],
-						['role2picklist_idx', 'picklistid'],
+					['role2picklist_roleid_picklistid_idx', ['roleid', 'picklistid', 'picklistvalueid']],
+					['role2picklist_idx', 'picklistid'],
 				],
 				'primaryKeys' => [
-						['role2picklist_pk', ['roleid', 'picklistvalueid', 'picklistid']]
+					['role2picklist_pk', ['roleid', 'picklistvalueid', 'picklistid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -384,12 +384,12 @@ class Base4 extends \App\Db\Importers\Base
 					'profileid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['role2profile_roleid_profileid_idx', ['roleid', 'profileid']],
-						['role2profile_id_idx', 'roleid'],
-						['role2profile_profile_idx', 'profileid'],
+					['role2profile_roleid_profileid_idx', ['roleid', 'profileid']],
+					['role2profile_id_idx', 'roleid'],
+					['role2profile_profile_idx', 'profileid'],
 				],
 				'primaryKeys' => [
-						['role2profile_pk', ['roleid', 'profileid']]
+					['role2profile_pk', ['roleid', 'profileid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -435,11 +435,11 @@ class Base4 extends \App\Db\Importers\Base
 					'attachmentsid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['salesmanattachmentsrel_smid_idx', 'smid'],
-						['salesmanattachmentsrel_attachmentsid_idx', 'attachmentsid'],
+					['salesmanattachmentsrel_smid_idx', 'smid'],
+					['salesmanattachmentsrel_attachmentsid_idx', 'attachmentsid'],
 				],
 				'primaryKeys' => [
-						['salesmanattachmentsrel_pk', ['smid', 'attachmentsid']]
+					['salesmanattachmentsrel_pk', ['smid', 'attachmentsid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -450,11 +450,11 @@ class Base4 extends \App\Db\Importers\Base
 					'id' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['salesmanticketrel_smid_idx', 'smid'],
-						['salesmanticketrel_id_idx', 'id'],
+					['salesmanticketrel_smid_idx', 'smid'],
+					['salesmanticketrel_id_idx', 'id'],
 				],
 				'primaryKeys' => [
-						['salesmanticketrel_pk', ['smid', 'id']]
+					['salesmanticketrel_pk', ['smid', 'id']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -497,7 +497,7 @@ class Base4 extends \App\Db\Importers\Base
 					'next_trigger_time' => $this->timestamp()->notNull(),
 				],
 				'primaryKeys' => [
-						['scheduled_reports_pk', 'reportid']
+					['scheduled_reports_pk', 'reportid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -517,7 +517,7 @@ class Base4 extends \App\Db\Importers\Base
 					'filetype' => $this->stringType(20),
 				],
 				'index' => [
-						['schedulereports_idx', 'reportid'],
+					['schedulereports_idx', 'reportid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -528,12 +528,12 @@ class Base4 extends \App\Db\Importers\Base
 					'attachmentsid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['seattachmentsrel_attachmentsid_idx', 'attachmentsid'],
-						['seattachmentsrel_crmid_idx', 'crmid'],
-						['seattachmentsrel_attachmentsid_crmid_idx', ['attachmentsid', 'crmid']],
+					['seattachmentsrel_attachmentsid_idx', 'attachmentsid'],
+					['seattachmentsrel_crmid_idx', 'crmid'],
+					['seattachmentsrel_attachmentsid_crmid_idx', ['attachmentsid', 'crmid']],
 				],
 				'primaryKeys' => [
-						['seattachmentsrel_pk', ['crmid', 'attachmentsid']]
+					['seattachmentsrel_pk', ['crmid', 'attachmentsid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -545,10 +545,10 @@ class Base4 extends \App\Db\Importers\Base
 					'columnname' => $this->stringType(250)->defaultValue(''),
 				],
 				'index' => [
-						['selectcolumn_queryid_idx', 'queryid'],
+					['selectcolumn_queryid_idx', 'queryid'],
 				],
 				'primaryKeys' => [
-						['selectcolumn_pk', ['queryid', 'columnindex']]
+					['selectcolumn_pk', ['queryid', 'columnindex']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -560,10 +560,10 @@ class Base4 extends \App\Db\Importers\Base
 					'numofobjects' => $this->integer()->defaultValue(0),
 				],
 				'index' => [
-						['selectquery_queryid_idx', 'queryid'],
+					['selectquery_queryid_idx', 'queryid'],
 				],
 				'primaryKeys' => [
-						['selectquery_pk', 'queryid']
+					['selectquery_pk', 'queryid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -581,11 +581,11 @@ class Base4 extends \App\Db\Importers\Base
 					'notesid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['senotesrel_notesid_idx', 'notesid'],
-						['senotesrel_crmid_idx', 'crmid'],
+					['senotesrel_notesid_idx', 'notesid'],
+					['senotesrel_crmid_idx', 'crmid'],
 				],
 				'primaryKeys' => [
-						['senotesrel_pk', ['crmid', 'notesid']]
+					['senotesrel_pk', ['crmid', 'notesid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -600,11 +600,11 @@ class Base4 extends \App\Db\Importers\Base
 					'rel_comment' => $this->stringType(),
 				],
 				'index' => [
-						['seproductsrel_productid_idx', 'productid'],
-						['seproductrel_crmid_idx', 'crmid'],
+					['seproductsrel_productid_idx', 'productid'],
+					['seproductrel_crmid_idx', 'crmid'],
 				],
 				'primaryKeys' => [
-						['seproductsrel_pk', ['crmid', 'productid']]
+					['seproductsrel_pk', ['crmid', 'productid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -630,7 +630,7 @@ class Base4 extends \App\Db\Importers\Base
 					'taxes' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['service_pk', 'serviceid']
+					['service_pk', 'serviceid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -658,7 +658,7 @@ class Base4 extends \App\Db\Importers\Base
 					'serviceid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['servicecf_pk', 'serviceid']
+					['servicecf_pk', 'serviceid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -684,10 +684,10 @@ class Base4 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-						['servicecontracts_idx', 'sc_related_to'],
+					['servicecontracts_idx', 'sc_related_to'],
 				],
 				'primaryKeys' => [
-						['servicecontracts_pk', 'servicecontractsid']
+					['servicecontracts_pk', 'servicecontractsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -697,7 +697,7 @@ class Base4 extends \App\Db\Importers\Base
 					'servicecontractsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['servicecontractscf_pk', 'servicecontractsid']
+					['servicecontractscf_pk', 'servicecontractsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -708,11 +708,11 @@ class Base4 extends \App\Db\Importers\Base
 					'ticketid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['seticketsrel_crmid_idx', 'crmid'],
-						['seticketsrel_ticketid_idx', 'ticketid'],
+					['seticketsrel_crmid_idx', 'crmid'],
+					['seticketsrel_ticketid_idx', 'ticketid'],
 				],
 				'primaryKeys' => [
-						['seticketsrel_pk', ['crmid', 'ticketid']]
+					['seticketsrel_pk', ['crmid', 'ticketid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -728,7 +728,7 @@ class Base4 extends \App\Db\Importers\Base
 					'admin_access' => $this->text(),
 				],
 				'primaryKeys' => [
-						['settings_blocks_idx', 'blockid']
+					['settings_blocks_idx', 'blockid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -754,7 +754,7 @@ class Base4 extends \App\Db\Importers\Base
 					'admin_access' => $this->text()
 				],
 				'index' => [
-						['settings_field_idx', 'blockid'],
+					['settings_field_idx', 'blockid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -765,7 +765,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['sharedcalendar_pk', ['userid', 'sharedid']]
+					['sharedcalendar_pk', ['userid', 'sharedid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -791,7 +791,7 @@ class Base4 extends \App\Db\Importers\Base
 					'onetime' => $this->integer(5),
 				],
 				'index' => [
-						['shorturls_idx', 'uid'],
+					['shorturls_idx', 'uid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -803,7 +803,7 @@ class Base4 extends \App\Db\Importers\Base
 					'smsnotifier_status' => $this->stringType(255),
 				],
 				'primaryKeys' => [
-						['smsnotifier_pk', 'smsnotifierid']
+					['smsnotifier_pk', 'smsnotifierid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -840,7 +840,7 @@ class Base4 extends \App\Db\Importers\Base
 					'smsnotifierid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['smsnotifiercf_pk', 'smsnotifierid']
+					['smsnotifiercf_pk', 'smsnotifierid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -853,7 +853,7 @@ class Base4 extends \App\Db\Importers\Base
 					'lang' => $this->stringType(10),
 				],
 				'index' => [
-						['soapservice_idx', ['id', 'type']],
+					['soapservice_idx', ['id', 'type']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1107,7 +1107,7 @@ class Base4 extends \App\Db\Importers\Base
 					'from_email_field' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-						['systems_pk', 'id']
+					['systems_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1131,15 +1131,15 @@ class Base4 extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['tab_name_idx', 'name', true],
-						['tab_modifiedby_idx', 'modifiedby'],
-						['tab_tabid_idx', 'tabid'],
-						['tab_name_presence_idx', ['name', 'presence']],
-						['tab_presence_idx', 'presence'],
-						['tab_idx', ['name', 'presence', 'type']],
+					['tab_name_idx', 'name', true],
+					['tab_modifiedby_idx', 'modifiedby'],
+					['tab_tabid_idx', 'tabid'],
+					['tab_name_presence_idx', ['name', 'presence']],
+					['tab_presence_idx', 'presence'],
+					['tab_idx', ['name', 'presence', 'type']],
 				],
 				'primaryKeys' => [
-						['tab_pk', 'tabid']
+					['tab_pk', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1151,7 +1151,7 @@ class Base4 extends \App\Db\Importers\Base
 					'prefvalue' => $this->stringType(256),
 				],
 				'index' => [
-						['tab_info_idx', 'tabid'],
+					['tab_info_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1179,7 +1179,7 @@ class Base4 extends \App\Db\Importers\Base
 					'ticketid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['ticketcf_pk', 'ticketid']
+					['ticketcf_pk', 'ticketid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1283,10 +1283,10 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_read_group_rel_sharing_per_idx', ['userid', 'sharedgroupid', 'tabid']],
+					['tmp_read_group_rel_sharing_per_idx', ['userid', 'sharedgroupid', 'tabid']],
 				],
 				'primaryKeys' => [
-						['tmp_read_group_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'sharedgroupid']]
+					['tmp_read_group_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'sharedgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1298,10 +1298,10 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_read_group_sharing_per_idx', ['userid', 'sharedgroupid']],
+					['tmp_read_group_sharing_per_idx', ['userid', 'sharedgroupid']],
 				],
 				'primaryKeys' => [
-						['tmp_read_group_sharing_per_pk', ['userid', 'tabid', 'sharedgroupid']]
+					['tmp_read_group_sharing_per_pk', ['userid', 'tabid', 'sharedgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1314,10 +1314,10 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_read_user_rel_sharing_per_idx', ['userid', 'shareduserid', 'relatedtabid']],
+					['tmp_read_user_rel_sharing_per_idx', ['userid', 'shareduserid', 'relatedtabid']],
 				],
 				'primaryKeys' => [
-						['tmp_read_user_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'shareduserid']]
+					['tmp_read_user_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'shareduserid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1329,10 +1329,10 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_read_user_sharing_per_idx', ['userid', 'shareduserid']],
+					['tmp_read_user_sharing_per_idx', ['userid', 'shareduserid']],
 				],
 				'primaryKeys' => [
-						['tmp_read_user_sharing_per_pk', ['userid', 'tabid', 'shareduserid']]
+					['tmp_read_user_sharing_per_pk', ['userid', 'tabid', 'shareduserid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1345,10 +1345,10 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_write_group_rel_sharing_per_idx', ['userid', 'sharedgroupid', 'tabid']],
+					['tmp_write_group_rel_sharing_per_idx', ['userid', 'sharedgroupid', 'tabid']],
 				],
 				'primaryKeys' => [
-						['tmp_write_group_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'sharedgroupid']]
+					['tmp_write_group_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'sharedgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1360,10 +1360,10 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_write_group_sharing_per_idx', ['userid', 'sharedgroupid']],
+					['tmp_write_group_sharing_per_idx', ['userid', 'sharedgroupid']],
 				],
 				'primaryKeys' => [
-						['tmp_write_group_sharing_per_pk', ['userid', 'tabid', 'sharedgroupid']]
+					['tmp_write_group_sharing_per_pk', ['userid', 'tabid', 'sharedgroupid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1376,10 +1376,10 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_write_user_rel_sharing_per_idx', ['userid', 'shareduserid', 'tabid']],
+					['tmp_write_user_rel_sharing_per_idx', ['userid', 'shareduserid', 'tabid']],
 				],
 				'primaryKeys' => [
-						['tmp_write_user_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'shareduserid']]
+					['tmp_write_user_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'shareduserid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1391,10 +1391,10 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['tmp_write_user_sharing_per_idx', ['userid', 'shareduserid']],
+					['tmp_write_user_sharing_per_idx', ['userid', 'shareduserid']],
 				],
 				'primaryKeys' => [
-						['tmp_write_user_sharing_per_pk', ['userid', 'tabid', 'shareduserid']]
+					['tmp_write_user_sharing_per_pk', ['userid', 'tabid', 'shareduserid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1426,7 +1426,7 @@ class Base4 extends \App\Db\Importers\Base
 					'share' => $this->stringType(),
 				],
 				'index' => [
-						['module', 'module'],
+					['module', 'module'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1443,8 +1443,8 @@ class Base4 extends \App\Db\Importers\Base
 					'icon' => $this->stringType()->notNull()->defaultValue(''),
 				],
 				'index' => [
-						['trees_templates_data_id_idx', 'templateid'],
-						['trees_templates_data_idx', ['parenttrre', 'templateid']],
+					['trees_templates_data_id_idx', 'templateid'],
+					['trees_templates_data_idx', ['parenttrre', 'templateid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1476,16 +1476,16 @@ class Base4 extends \App\Db\Importers\Base
 					'response_time' => $this->dateTime(),
 				],
 				'index' => [
-						['troubletickets_ticketid_idx', 'ticketid'],
-						['troubletickets_status_idx', 'status'],
-						['troubletickets_parent_idx', 'parent_id'],
-						['troubletickets_product_idx', 'product_id'],
-						['troubletickets_serv_idx', 'servicecontractsid'],
-						['troubletickets_sold_idx', 'pssold_id'],
-						['troubletickets_ticket_no_idx', 'ticket_no'],
+					['troubletickets_ticketid_idx', 'ticketid'],
+					['troubletickets_status_idx', 'status'],
+					['troubletickets_parent_idx', 'parent_id'],
+					['troubletickets_product_idx', 'product_id'],
+					['troubletickets_serv_idx', 'servicecontractsid'],
+					['troubletickets_sold_idx', 'pssold_id'],
+					['troubletickets_ticket_no_idx', 'ticket_no'],
 				],
 				'primaryKeys' => [
-						['troubletickets_pk', 'ticketid']
+					['troubletickets_pk', 'ticketid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1499,7 +1499,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sortorderid' => $this->integer(),
 				],
 				'index' => [
-						['usageunit_usageunit_idx', 'usageunit', true],
+					['usageunit_usageunit_idx', 'usageunit', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1519,7 +1519,7 @@ class Base4 extends \App\Db\Importers\Base
 					'visible' => $this->integer(2),
 				],
 				'index' => [
-						['user2mergefields_idx', ['userid', 'tabid']],
+					['user2mergefields_idx', ['userid', 'tabid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1530,10 +1530,10 @@ class Base4 extends \App\Db\Importers\Base
 					'roleid' => $this->stringType()->notNull(),
 				],
 				'index' => [
-						['user2role_roleid_idx', 'roleid'],
+					['user2role_roleid_idx', 'roleid'],
 				],
 				'primaryKeys' => [
-						['user2role_pk', 'userid']
+					['user2role_pk', 'userid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1545,10 +1545,10 @@ class Base4 extends \App\Db\Importers\Base
 					'default_cvid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['user_module_preferences_idx', 'tabid'],
+					['user_module_preferences_idx', 'tabid'],
 				],
 				'primaryKeys' => [
-						['user_module_preferences_pk', ['userid', 'tabid']]
+					['user_module_preferences_pk', ['userid', 'tabid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1617,10 +1617,10 @@ class Base4 extends \App\Db\Importers\Base
 					'records_limit' => $this->integer(11),
 				],
 				'index' => [
-						['users_email1_idx', 'email1', true],
-						['user_user_name_idx', 'user_name'],
-						['user_user_password_idx', 'user_password'],
-						['users_status_idx', 'status'],
+					['users_email1_idx', 'email1', true],
+					['user_user_name_idx', 'user_name'],
+					['user_user_password_idx', 'user_password'],
+					['users_status_idx', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1631,11 +1631,11 @@ class Base4 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['users2group_groupname_uerid_idx', ['groupid', 'userid']],
-						['users2group_idx', 'userid'],
+					['users2group_groupname_uerid_idx', ['groupid', 'userid']],
+					['users2group_idx', 'userid'],
 				],
 				'primaryKeys' => [
-						['users2group_pk', ['groupid', 'userid']]
+					['users2group_pk', ['groupid', 'userid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1649,7 +1649,7 @@ class Base4 extends \App\Db\Importers\Base
 					'deleted' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['users_last_import_idx', 'assigned_user_id'],
+					['users_last_import_idx', 'assigned_user_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1666,7 +1666,7 @@ class Base4 extends \App\Db\Importers\Base
 					'usersid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['userscf_pk', 'usersid']
+					['userscf_pk', 'usersid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1690,10 +1690,10 @@ class Base4 extends \App\Db\Importers\Base
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'index' => [
-						['vendor_idx', 'vendorname'],
+					['vendor_idx', 'vendorname'],
 				],
 				'primaryKeys' => [
-						['vendor_pk', 'vendorid']
+					['vendor_pk', 'vendorid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1736,7 +1736,7 @@ class Base4 extends \App\Db\Importers\Base
 					'localnumberc' => $this->stringType(100),
 				],
 				'primaryKeys' => [
-						['vendoraddress_idx', 'vendorid']
+					['vendoraddress_idx', 'vendorid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1746,7 +1746,7 @@ class Base4 extends \App\Db\Importers\Base
 					'vendorid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['vendorcf_pk', 'vendorid']
+					['vendorcf_pk', 'vendorid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1757,11 +1757,11 @@ class Base4 extends \App\Db\Importers\Base
 					'contactid' => $this->integer()->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['vendorcontactrel_vendorid_idx', 'vendorid'],
-						['vendorcontactrel_contact_idx', 'contactid'],
+					['vendorcontactrel_vendorid_idx', 'vendorid'],
+					['vendorcontactrel_contact_idx', 'contactid'],
 				],
 				'primaryKeys' => [
-						['vendorcontactrel_pk', ['vendorid', 'contactid']]
+					['vendorcontactrel_pk', ['vendorid', 'contactid']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1808,7 +1808,7 @@ class Base4 extends \App\Db\Importers\Base
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
-						['visibility_visibility_idx', 'visibility', true],
+					['visibility_visibility_idx', 'visibility', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1832,7 +1832,7 @@ class Base4 extends \App\Db\Importers\Base
 					'data' => $this->text(),
 				],
 				'index' => [
-						['widgets_tabid_idx', 'tabid'],
+					['widgets_tabid_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1856,7 +1856,7 @@ class Base4 extends \App\Db\Importers\Base
 					'fieldtype' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-						['ws_entity_fieldtype_idx', ['table_name', 'field_name'], true],
+					['ws_entity_fieldtype_idx', ['table_name', 'field_name'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1876,7 +1876,7 @@ class Base4 extends \App\Db\Importers\Base
 					'table_name' => $this->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-						['ws_entity_name_pk', 'entity_id']
+					['ws_entity_name_pk', 'entity_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1887,7 +1887,7 @@ class Base4 extends \App\Db\Importers\Base
 					'type' => $this->stringType(25)->notNull(),
 				],
 				'primaryKeys' => [
-						['ws_entity_referencetype_pk', ['fieldtypeid', 'type']]
+					['ws_entity_referencetype_pk', ['fieldtypeid', 'type']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1905,7 +1905,7 @@ class Base4 extends \App\Db\Importers\Base
 					'table_name' => $this->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-						['ws_entity_tables_pk', ['webservice_entity_id', 'table_name']]
+					['ws_entity_tables_pk', ['webservice_entity_id', 'table_name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1917,7 +1917,7 @@ class Base4 extends \App\Db\Importers\Base
 					'property_value' => $this->stringType(64),
 				],
 				'primaryKeys' => [
-						['ws_fieldinfo_pk', 'id']
+					['ws_fieldinfo_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1929,7 +1929,7 @@ class Base4 extends \App\Db\Importers\Base
 					'fieldtype' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-						['ws_fieldtype_idx', 'uitype', true],
+					['ws_fieldtype_idx', 'uitype', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1954,7 +1954,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sequence' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['ws_operation_parameters_idx', ['operationid', 'name']]
+					['ws_operation_parameters_idx', ['operationid', 'name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1972,10 +1972,10 @@ class Base4 extends \App\Db\Importers\Base
 					'type' => $this->stringType(25)->notNull(),
 				],
 				'index' => [
-						['ws_referencetype_idx', 'fieldtypeid'],
+					['ws_referencetype_idx', 'fieldtypeid'],
 				],
 				'primaryKeys' => [
-						['ws_referencetype_pk', ['fieldtypeid', 'type']]
+					['ws_referencetype_pk', ['fieldtypeid', 'type']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1987,10 +1987,10 @@ class Base4 extends \App\Db\Importers\Base
 					'expiretime' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['ws_userauthtoken_idx', 'userid', true],
+					['ws_userauthtoken_idx', 'userid', true],
 				],
 				'primaryKeys' => [
-						['ws_userauthtoken_pk', ['userid', 'expiretime']]
+					['ws_userauthtoken_pk', ['userid', 'expiretime']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2055,7 +2055,7 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->text(),
 				],
 				'index' => [
-						['yetiforce_auth_idx', ['type', 'param'], true],
+					['yetiforce_auth_idx', ['type', 'param'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2070,8 +2070,8 @@ class Base4 extends \App\Db\Importers\Base
 					'bank_id' => $this->integer()->notNull(),
 				],
 				'index' => [
-						['yetiforce_currencyupdate_idx', ['currency_id', 'exchange_date', 'bank_id'], true],
-						['yetiforce_currencyupdate_cur_idx', 'currency_id'],
+					['yetiforce_currencyupdate_idx', ['currency_id', 'exchange_date', 'bank_id'], true],
+					['yetiforce_currencyupdate_cur_idx', 'currency_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2083,7 +2083,7 @@ class Base4 extends \App\Db\Importers\Base
 					'active' => $this->integer(1)->notNull(),
 				],
 				'index' => [
-						['currencyupdate_banks_idx', 'bank_name', true],
+					['currencyupdate_banks_idx', 'bank_name', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2095,8 +2095,8 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->text(),
 				],
 				'index' => [
-						['mail_config_idx', ['type', 'name'], true],
-						['mail_config_type_idx', 'type'],
+					['mail_config_idx', ['type', 'name'], true],
+					['mail_config_type_idx', 'type'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2108,7 +2108,7 @@ class Base4 extends \App\Db\Importers\Base
 					'status' => $this->smallInteger(1)->defaultValue(0),
 				],
 				'primaryKeys' => [
-						['mail_quantities_idx', 'userid']
+					['mail_quantities_idx', 'userid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2131,9 +2131,9 @@ class Base4 extends \App\Db\Importers\Base
 					'filters' => $this->stringType(),
 				],
 				'index' => [
-						['yetiforce_menu_idx', 'parentid'],
-						['yetiforce_menu_role_idx', 'role'],
-						['yetiforce_menu_mod_idx', 'module'],
+					['yetiforce_menu_idx', 'parentid'],
+					['yetiforce_menu_role_idx', 'role'],
+					['yetiforce_menu_mod_idx', 'module'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2145,7 +2145,7 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->stringType(200),
 				],
 				'index' => [
-						['proc_marketing_type', ['type', 'param']],
+					['proc_marketing_type', ['type', 'param']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2157,7 +2157,7 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->stringType(200),
 				],
 				'index' => [
-						['proc_sales_idx', ['type', 'param']],
+					['proc_sales_idx', ['type', 'param']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2188,290 +2188,290 @@ class Base4 extends \App\Db\Importers\Base
 
 		$this->foreignKey = [
 			//['dav_addressbooks_ibfk_1', 'dav_addressbooks', 'principaluri', 'dav_principals', 'uri', 'CASCADE', 'RESTRICT'],
-				['u_#__featured_filter_ibfk_1', 'u_#__featured_filter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-				['dav_calendarobjects_ibfk_1', 'dav_calendarobjects', 'calendarid', 'dav_calendars', 'id', 'CASCADE', 'RESTRICT'],
-				['dav_cards_ibfk_1', 'dav_cards', 'addressbookid', 'dav_addressbooks', 'id', 'CASCADE', 'RESTRICT'],
-				['roundcube_user_id_fk_cache', 'roundcube_cache', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_cache_index', 'roundcube_cache_index', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_cache_messages', 'roundcube_cache_messages', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_cache_thread', 'roundcube_cache_thread', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_contact_id_fk_contacts', 'roundcube_contactgroupmembers', 'contact_id', 'roundcube_contacts', 'contact_id', 'CASCADE', 'CASCADE'],
-				['roundcube_contactgroup_id_fk_contactgroups', 'roundcube_contactgroupmembers', 'contactgroup_id', 'roundcube_contactgroups', 'contactgroup_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_contactgroups', 'roundcube_contactgroups', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_contacts', 'roundcube_contacts', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_dictionary', 'roundcube_dictionary', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_identities', 'roundcube_identities', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_user_id_fk_searches', 'roundcube_searches', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
-				['roundcube_users_autologin_ibfk_1', 'roundcube_users_autologin', 'rcuser_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
-				['u_#__activity_invitation_ibfk_1', 'u_#__activity_invitation', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__announcement', 'u_#__announcement', 'announcementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__announcement_mark_ibfk_1', 'u_#__announcement_mark', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__announcementcf', 'u_#__announcementcf', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__competition', 'u_#__competition', 'competitionid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__competition_address_ibfk_1', 'u_#__competition_address', 'competitionaddressid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__competitioncf', 'u_#__competitioncf', 'competitionid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
-				['u_#__crmentity_last_changes_ibfk_1', 'u_#__crmentity_last_changes', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_u_#__crmentity_showners', 'u_#__crmentity_showners', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__favorites', 'u_#__favorites', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_u_#__favorites', 'u_#__favorites', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__emailtemplates_ibfk_1', 'u_#__emailtemplates', 'emailtemplatesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__fbookkeeping_ibfk_1', 'u_#__fbookkeeping', 'fbookkeepingid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__fbookkeepingcf_ibfk_1', 'u_#__fbookkeepingcf', 'fbookkeepingid', 'u_#__fbookkeeping', 'fbookkeepingid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_fcorectinginvoice', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__fcorectinginvoice_address_ibfk_1', 'u_#__fcorectinginvoice_address', 'fcorectinginvoiceaddressid', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__fcorectinginvoice_inventory', 'u_#__fcorectinginvoice_inventory', 'id', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__fcorectinginvoicecf', 'u_#__fcorectinginvoicecf', 'fcorectinginvoiceid', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_finvoice', 'u_#__finvoice', 'finvoiceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__finvoice_address_ibfk_1', 'u_#__finvoice_address', 'finvoiceaddressid', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__finvoice_inventory', 'u_#__finvoice_inventory', 'id', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__finvoicecf', 'u_#__finvoicecf', 'finvoiceid', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_finvoiceproforma', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__finvoiceproforma_inventory', 'u_#__finvoiceproforma_inventory', 'id', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_finvoiceproformacf', 'u_#__finvoiceproformacf', 'finvoiceproformaid', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'CASCADE', 'RESTRICT'],
-				['u_#__igdn_ibfk_1', 'u_#__igdn', 'igdnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__igdn_inventory', 'u_#__igdn_inventory', 'id', 'u_#__igdn', 'igdnid', 'CASCADE', 'RESTRICT'],
-				['u_#__igdnc_ibfk_1', 'u_#__igdnc', 'igdncid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__igdnc_inventory', 'u_#__igdnc_inventory', 'id', 'u_#__igdnc', 'igdncid', 'CASCADE', 'RESTRICT'],
-				['u_#__igdnccf_ibfk_1', 'u_#__igdnccf', 'igdncid', 'u_#__igdnc', 'igdncid', 'CASCADE', 'RESTRICT'],
-				['u_#__igdncf_ibfk_1', 'u_#__igdncf', 'igdnid', 'u_#__igdn', 'igdnid', 'CASCADE', 'RESTRICT'],
-				['u_#__igin_ibfk_1', 'u_#__igin', 'iginid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__igin_inventory', 'u_#__igin_inventory', 'id', 'u_#__igin', 'iginid', 'CASCADE', 'RESTRICT'],
-				['u_#__igincf_ibfk_1', 'u_#__igincf', 'iginid', 'u_#__igin', 'iginid', 'CASCADE', 'RESTRICT'],
-				['u_#__igrn_ibfk_1', 'u_#__igrn', 'igrnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__igrn_inventory', 'u_#__igrn_inventory', 'id', 'u_#__igrn', 'igrnid', 'CASCADE', 'RESTRICT'],
-				['u_#__igrnc_ibfk_1', 'u_#__igrnc', 'igrncid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__igrnc_inventory', 'u_#__igrnc_inventory', 'id', 'u_#__igrnc', 'igrncid', 'CASCADE', 'RESTRICT'],
-				['u_#__igrnccf_ibfk_1', 'u_#__igrnccf', 'igrncid', 'u_#__igrnc', 'igrncid', 'CASCADE', 'RESTRICT'],
-				['u_#__igrncf_ibfk_1', 'u_#__igrncf', 'igrnid', 'u_#__igrn', 'igrnid', 'CASCADE', 'RESTRICT'],
-				['u_#__iidn_ibfk_1', 'u_#__iidn', 'iidnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__iidn_inventory', 'u_#__iidn_inventory', 'id', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
-				['u_#__iidncf_ibfk_1', 'u_#__iidncf', 'iidnid', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
-				['u_#__ipreorder_ibfk_1', 'u_#__ipreorder', 'ipreorderid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__ipreorder_inventory', 'u_#__ipreorder_inventory', 'id', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
-				['u_#__ipreordercf_ibfk_1', 'u_#__ipreordercf', 'ipreorderid', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
-				['u_#__istdn_ibfk_1', 'u_#__istdn', 'istdnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__istdn_inventory', 'u_#__istdn_inventory', 'id', 'u_#__istdn', 'istdnid', 'CASCADE', 'RESTRICT'],
-				['u_#__istdncf_ibfk_1', 'u_#__istdncf', 'istdnid', 'u_#__istdn', 'istdnid', 'CASCADE', 'RESTRICT'],
-				['u_#__istn_ibfk_1', 'u_#__istn', 'istnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__istncf_ibfk_1', 'u_#__istncf', 'istnid', 'u_#__istn', 'istnid', 'CASCADE', 'RESTRICT'],
-				['u_#__istorages_ibfk_1', 'u_#__istorages', 'istorageid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__istorages_address_ibfk_1', 'u_#__istorages_address', 'istorageaddressid', 'u_#__istorages', 'istorageid', 'CASCADE', 'RESTRICT'],
-				['u_#__istorages_products_ibfk_1', 'u_#__istorages_products', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__istorages_products_ibfk_2', 'u_#__istorages_products', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__istoragescf_ibfk_1', 'u_#__istoragescf', 'istorageid', 'u_#__istorages', 'istorageid', 'CASCADE', 'RESTRICT'],
-				['u_#__istrn_ibfk_1', 'u_#__istrn', 'istrnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__istrn_inventory', 'u_#__istrn_inventory', 'id', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
-				['u_#__istrncf_ibfk_1', 'u_#__istrncf', 'istrnid', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_knowledgebase', 'u_#__knowledgebase', 'knowledgebaseid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_knowledgebasecf', 'u_#__knowledgebasecf', 'knowledgebaseid', 'u_#__knowledgebase', 'knowledgebaseid', 'CASCADE', 'RESTRICT'],
-				['u_#__mail_address_book_ibfk_1', 'u_#__mail_address_book', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__partners', 'u_#__partners', 'partnersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__partners_address_ibfk_1', 'u_#__partners_address', 'partneraddressid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__partnerscf', 'u_#__partnerscf', 'partnersid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__reviewed_queue', 'u_#__reviewed_queue', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__scalculations', 'u_#__scalculations', 'scalculationsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__scalculations_inventory', 'u_#__scalculations_inventory', 'id', 'u_#__scalculations', 'scalculationsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__scalculationscf', 'u_#__scalculationscf', 'scalculationsid', 'u_#__scalculations', 'scalculationsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__squoteenquiries', 'u_#__squoteenquiries', 'squoteenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__squoteenquiries_inventory', 'u_#__squoteenquiries_inventory', 'id', 'u_#__squoteenquiries', 'squoteenquiriesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__squoteenquiriescf', 'u_#__squoteenquiriescf', 'squoteenquiriesid', 'u_#__squoteenquiries', 'squoteenquiriesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__squotes', 'u_#__squotes', 'squotesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__squotes_address_ibfk_1', 'u_#__squotes_address', 'squotesaddressid', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__squotes_inventory', 'u_#__squotes_inventory', 'id', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__squotescf', 'u_#__squotescf', 'squotesid', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__srecurringorders', 'u_#__srecurringorders', 'srecurringordersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__srecurringorders_address_ibfk_1', 'u_#__srecurringorders_address', 'srecurringordersaddressid', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__srecurringorders_inventory', 'u_#__srecurringorders_inventory', 'id', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__srecurringorderscf', 'u_#__srecurringorderscf', 'srecurringordersid', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__srequirementscards', 'u_#__srequirementscards', 'srequirementscardsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__srequirementscards_inventory', 'u_#__srequirementscards_inventory', 'id', 'u_#__srequirementscards', 'srequirementscardsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__srequirementscardscf', 'u_#__srequirementscardscf', 'srequirementscardsid', 'u_#__srequirementscards', 'srequirementscardsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__ssalesprocesses', 'u_#__ssalesprocesses', 'ssalesprocessesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__ssalesprocessescf', 'u_#__ssalesprocessescf', 'ssalesprocessesid', 'u_#__ssalesprocesses', 'ssalesprocessesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__ssingleorders', 'u_#__ssingleorders', 'ssingleordersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__ssingleorders_address_ibfk_1', 'u_#__ssingleorders_address', 'ssingleordersaddressid', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__ssingleorders_inventory', 'u_#__ssingleorders_inventory', 'id', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__ssingleorderscf', 'u_#__ssingleorderscf', 'ssingleordersid', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_#__timeline', 'u_#__timeline', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__watchdog_record_ibfk_1', 'u_#__watchdog_record', 'record', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_#__watchdog_schedule_ibfk_1', 'u_#__watchdog_schedule', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_account', 'vtiger_account', 'accountid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_accountaddress_ibfk_1', 'vtiger_accountaddress', 'accountaddressid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_accountscf', 'vtiger_accountscf', 'accountid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_activity', 'vtiger_activity', 'activityid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_activity_reminder_ibfk_1', 'vtiger_activity_reminder', 'activity_id', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-				['vtiger_activity_reminder_popup_ibfk_1', 'vtiger_activity_reminder_popup', 'recordid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-				['vtiger_activity_update_dates_ibfk_1', 'vtiger_activity_update_dates', 'task_id', 'com_vtiger_workflowtasks', 'task_id', 'CASCADE', 'RESTRICT'],
-				['vtiger_activity_update_dates_ibfk_2', 'vtiger_activity_update_dates', 'parent', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_activity_update_dates_ibfk_3', 'vtiger_activity_update_dates', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-				['vtiger_activitycf_ibfk_1', 'vtiger_activitycf', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_activityproductrel', 'vtiger_activityproductrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_assets', 'vtiger_assets', 'assetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_assetscf_ibfk_1', 'vtiger_assetscf', 'assetsid', 'vtiger_assets', 'assetsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_attachments', 'vtiger_attachments', 'attachmentsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_blocks', 'vtiger_blocks', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['vtiger_callhistory_ibfk_1', 'vtiger_callhistory', 'callhistoryid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_callhistorycf_ibfk_1', 'vtiger_callhistorycf', 'callhistoryid', 'vtiger_callhistory', 'callhistoryid', 'CASCADE', 'RESTRICT'],
-				['fk_vtiger_crmentity', 'vtiger_campaign_records', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_campaignscf', 'vtiger_campaignscf', 'campaignid', 'vtiger_campaign', 'campaignid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_contactaddress', 'vtiger_contactaddress', 'contactaddressid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_contactdetails', 'vtiger_contactdetails', 'contactid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_contactscf', 'vtiger_contactscf', 'contactid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_contactsubdetails', 'vtiger_contactsubdetails', 'contactsubscriptionid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_customaction', 'vtiger_customaction', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_customerdetails', 'vtiger_customerdetails', 'customerid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_customview', 'vtiger_customview', 'entitytype', 'vtiger_tab', 'name', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cvadvfilter', 'vtiger_cvadvfilter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cvcolumnlist', 'vtiger_cvcolumnlist', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cvstdfilter', 'vtiger_cvstdfilter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_grp2grp', 'vtiger_datashare_grp2grp', 'to_groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_grp2role', 'vtiger_datashare_grp2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_grp2rs', 'vtiger_datashare_grp2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_datashare_module_rel', 'vtiger_datashare_module_rel', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_role2group', 'vtiger_datashare_role2group', 'share_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_role2role', 'vtiger_datashare_role2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_role2rs', 'vtiger_datashare_role2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_rs2grp', 'vtiger_datashare_rs2grp', 'share_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_rs2role', 'vtiger_datashare_rs2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_datashare_rs2rs', 'vtiger_datashare_rs2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_def_org_share', 'vtiger_def_org_share', 'permission', 'vtiger_org_share_action_mapping', 'share_action_id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_defaultcv', 'vtiger_defaultcv', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_entity_stats', 'vtiger_entity_stats', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_entityname', 'vtiger_entityname', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_faq', 'vtiger_faq', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_faqcf', 'vtiger_faqcf', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_faqcomments', 'vtiger_faqcomments', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_field', 'vtiger_field', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_group2grouprel', 'vtiger_group2grouprel', 'groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'CASCADE'],
-				['vtiger_group2modules_ibfk_1', 'vtiger_group2modules', 'groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'RESTRICT'],
-				['vtiger_group2modules_ibfk_2', 'vtiger_group2modules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_group2role', 'vtiger_group2role', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_group2rs', 'vtiger_group2rs', 'roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_holidaysentitlement', 'vtiger_holidaysentitlement', 'holidaysentitlementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_holidaysentitlementcf', 'vtiger_holidaysentitlementcf', 'holidaysentitlementid', 'vtiger_holidaysentitlement', 'holidaysentitlementid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ideas', 'vtiger_ideas', 'ideasid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ideascf', 'vtiger_ideascf', 'ideasid', 'vtiger_ideas', 'ideasid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_leadaddress', 'vtiger_leadaddress', 'leadaddressid', 'vtiger_leaddetails', 'leadid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_leaddetails', 'vtiger_leaddetails', 'leadid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_leadscf', 'vtiger_leadscf', 'leadid', 'vtiger_leaddetails', 'leadid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_leadsubdetails', 'vtiger_leadsubdetails', 'leadsubscriptionid', 'vtiger_leaddetails', 'leadid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_lettersin', 'vtiger_lettersin', 'lettersinid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_lettersincf', 'vtiger_lettersincf', 'lettersinid', 'vtiger_lettersin', 'lettersinid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_lettersout', 'vtiger_lettersout', 'lettersoutid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_lettersoutcf', 'vtiger_lettersoutcf', 'lettersoutid', 'vtiger_lettersout', 'lettersoutid', 'CASCADE', 'RESTRICT'],
-				['vtiger_modcomments_ibfk_1', 'vtiger_modcomments', 'related_to', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_modcommentscf_ibfk_1', 'vtiger_modcommentscf', 'modcommentsid', 'vtiger_modcomments', 'modcommentsid', 'CASCADE', 'RESTRICT'],
-				['vtiger_module_dashboard_widgets_ibfk_1', 'vtiger_module_dashboard_widgets', 'templateid', 'vtiger_module_dashboard', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_notes', 'vtiger_notes', 'notesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_notescf_ibfk_1', 'vtiger_notescf', 'notesid', 'vtiger_notes', 'notesid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_org_share_action2tab', 'vtiger_org_share_action2tab', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossemployees', 'vtiger_ossemployees', 'ossemployeesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossemployeescf', 'vtiger_ossemployeescf', 'ossemployeesid', 'vtiger_ossemployees', 'ossemployeesid', 'CASCADE', 'RESTRICT'],
-				['fk_ossmailscanner_folders_user_id', 'vtiger_ossmailscanner_folders_uid', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossmailview', 'vtiger_ossmailview', 'ossmailviewid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossmailview_files', 'vtiger_ossmailview_files', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
-				['vtiger_ossmailview_relation_ibfk_1', 'vtiger_ossmailview_relation', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossmailviewcf', 'vtiger_ossmailviewcf', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossoutsourcedservices', 'vtiger_ossoutsourcedservices', 'ossoutsourcedservicesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ossoutsourcedservicescf', 'vtiger_ossoutsourcedservicescf', 'ossoutsourcedservicesid', 'vtiger_ossoutsourcedservices', 'ossoutsourcedservicesid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_osspasswords', 'vtiger_osspasswords', 'osspasswordsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_osspasswordscf', 'vtiger_osspasswordscf', 'osspasswordsid', 'vtiger_osspasswords', 'osspasswordsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_osssoldservices', 'vtiger_osssoldservices', 'osssoldservicesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_osssoldservicescf', 'vtiger_osssoldservicescf', 'osssoldservicesid', 'vtiger_osssoldservices', 'osssoldservicesid', 'CASCADE', 'RESTRICT'],
-				['vtiger_osstimecontrol', 'vtiger_osstimecontrol', 'osstimecontrolid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_osstimecontrolcf', 'vtiger_osstimecontrolcf', 'osstimecontrolid', 'vtiger_osstimecontrol', 'osstimecontrolid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_outsourcedproducts', 'vtiger_outsourcedproducts', 'outsourcedproductsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_outsourcedproductscf', 'vtiger_outsourcedproductscf', 'outsourcedproductsid', 'vtiger_outsourcedproducts', 'outsourcedproductsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_paymentsin', 'vtiger_paymentsin', 'paymentsinid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_paymentsincf', 'vtiger_paymentsincf', 'paymentsinid', 'vtiger_paymentsin', 'paymentsinid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_paymentsout', 'vtiger_paymentsout', 'paymentsoutid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_paymentsoutcf', 'vtiger_paymentsoutcf', 'paymentsoutid', 'vtiger_paymentsout', 'paymentsoutid', 'CASCADE', 'RESTRICT'],
-				['vtiger_pbxmanager_ibfk_1', 'vtiger_pbxmanager', 'pbxmanagerid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_pbxmanager_phonelookup_ibfk_1', 'vtiger_pbxmanager_phonelookup', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_pbxmanagercf_ibfk_1', 'vtiger_pbxmanagercf', 'pbxmanagerid', 'vtiger_pbxmanager', 'pbxmanagerid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_pricebook', 'vtiger_pricebook', 'pricebookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_pricebookcf', 'vtiger_pricebookcf', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_pricebookproductrel', 'vtiger_pricebookproductrel', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_productcf', 'vtiger_productcf', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_products', 'vtiger_products', 'productid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_profile2field_ibfk_1', 'vtiger_profile2field', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_profile2globalpermissions', 'vtiger_profile2globalpermissions', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-				['vtiger_profile2tab_ibfk_1', 'vtiger_profile2tab', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-				['vtiger_profile2utility_ibfk_1', 'vtiger_profile2utility', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-				['vtiger_project_ibfk_1', 'vtiger_project', 'projectid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_projectcf_ibfk_1', 'vtiger_projectcf', 'projectid', 'vtiger_project', 'projectid', 'CASCADE', 'RESTRICT'],
-				['vtiger_projectmilestone_ibfk_1', 'vtiger_projectmilestone', 'projectmilestoneid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_projectmilestonecf_ibfk_1', 'vtiger_projectmilestonecf', 'projectmilestoneid', 'vtiger_projectmilestone', 'projectmilestoneid', 'CASCADE', 'RESTRICT'],
-				['vtiger_projecttask_ibfk_1', 'vtiger_projecttask', 'projecttaskid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_projecttaskcf_ibfk_1', 'vtiger_projecttaskcf', 'projecttaskid', 'vtiger_projecttask', 'projecttaskid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_relcriteria', 'vtiger_relcriteria', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
-				['vtiger_relcriteria_grouping_ibfk_1', 'vtiger_relcriteria_grouping', 'queryid', 'vtiger_relcriteria', 'queryid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_report', 'vtiger_report', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_reportdatefilter', 'vtiger_reportdatefilter', 'datefilterid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_reportgroupbycolumn', 'vtiger_reportgroupbycolumn', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_reportmodules', 'vtiger_reportmodules', 'reportmodulesid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_reportsortcol', 'vtiger_reportsortcol', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_reportsummary', 'vtiger_reportsummary', 'reportsummaryid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['vtiger_reservations', 'vtiger_reservations', 'reservationsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_reservationscf', 'vtiger_reservationscf', 'reservationsid', 'vtiger_reservations', 'reservationsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_role2picklist', 'vtiger_role2picklist', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_role2picklist', 'vtiger_role2picklist', 'picklistid', 'vtiger_picklist', 'picklistid', 'CASCADE', 'RESTRICT'],
-				['vtiger_role2profile_ibfk_1', 'vtiger_role2profile', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
-				['vtiger_role2profile_ibfk_2', 'vtiger_role2profile', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel', 'attachmentsid', 'vtiger_attachments', 'attachmentsid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_salesmanticketrel', 'vtiger_salesmanticketrel', 'smid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['vtiger_scheduled_reports_ibfk_1', 'vtiger_scheduled_reports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['vtiger_schedulereports_ibfk_1', 'vtiger_schedulereports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_selectcolumn', 'vtiger_selectcolumn', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_senotesrel', 'vtiger_senotesrel', 'notesid', 'vtiger_notes', 'notesid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_seproductsrel', 'vtiger_seproductsrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_service', 'vtiger_service', 'serviceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_servicecf_ibfk_1', 'vtiger_servicecf', 'serviceid', 'vtiger_service', 'serviceid', 'CASCADE', 'RESTRICT'],
-				['vtiger_servicecontracts_ibfk_1', 'vtiger_servicecontracts', 'servicecontractsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_servicecontractscf_ibfk_1', 'vtiger_servicecontractscf', 'servicecontractsid', 'vtiger_servicecontracts', 'servicecontractsid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_seticketsrel', 'vtiger_seticketsrel', 'ticketid', 'vtiger_troubletickets', 'ticketid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_settings_field', 'vtiger_settings_field', 'blockid', 'vtiger_settings_blocks', 'blockid', 'CASCADE', 'RESTRICT'],
-				['vtiger_smsnotifier_ibfk_1', 'vtiger_smsnotifier', 'smsnotifierid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_smsnotifiercf_ibfk_1', 'vtiger_smsnotifiercf', 'smsnotifierid', 'vtiger_smsnotifier', 'smsnotifierid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_tab_info', 'vtiger_tab_info', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'CASCADE'],
-				['fk_1_vtiger_ticketcf', 'vtiger_ticketcf', 'ticketid', 'vtiger_troubletickets', 'ticketid', 'CASCADE', 'RESTRICT'],
-				['fk_4_vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_4_vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_read_user_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_4_vtiger_tmp_write_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_4_vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_3_vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_troubletickets', 'vtiger_troubletickets', 'ticketid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_user2role', 'vtiger_user2role', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_user_module_preferences', 'vtiger_user_module_preferences', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'CASCADE'],
-				['fk_2_vtiger_users2group', 'vtiger_users2group', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['vtiger_userscf_ibfk_1', 'vtiger_userscf', 'usersid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_vendor', 'vtiger_vendor', 'vendorid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['vtiger_vendoraddress_ibfk_1', 'vtiger_vendoraddress', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_vendorcf', 'vtiger_vendorcf', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
-				['fk_2_vtiger_vendorcontactrel', 'vtiger_vendorcontactrel', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
-				['vtiger_widgets_ibfk_1', 'vtiger_widgets', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['vtiger_fk_1_actors_referencetype', 'vtiger_ws_entity_referencetype', 'fieldtypeid', 'vtiger_ws_entity_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_ws_actor_tables', 'vtiger_ws_entity_tables', 'webservice_entity_id', 'vtiger_ws_entity', 'id', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_referencetype', 'vtiger_ws_referencetype', 'fieldtypeid', 'vtiger_ws_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_osscurrencies', 'yetiforce_currencyupdate', 'currency_id', 'vtiger_currency_info', 'id', 'CASCADE', 'RESTRICT'],
-				['yetiforce_mail_quantities_ibfk_1', 'yetiforce_mail_quantities', 'userid', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
-				['yetiforce_menu_ibfk_1', 'yetiforce_menu', 'module', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-				['fk_1_notification', 'u_#__notification', 'notificationid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cfixedassetscfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cfixedassetscfcfixedassetsid', 'u_#__cfixedassetscf', 'cfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cinternalticketscinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cinternalticketscfcinternalticketsid', 'u_#__cinternalticketscf', 'cinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_finvoicecost', 'u_#__finvoicecost', 'finvoicecostid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['u_yf_finvoicecost_address_ibfk_1', 'u_#__finvoicecost_address', 'finvoicecostaddressid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_yf_finvoicecostcf', 'u_#__finvoicecostcf', 'finvoicecostid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cmileagelogbookcmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_vtiger_cmileagelogbookcfcmileagelogbookid', 'u_#__cmileagelogbookcf', 'cmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_yf_svendorenquiries', 'u_#__svendorenquiries', 'svendorenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
-				['fk_1_u_yf_svendorenquiriescf', 'u_#__svendorenquiriescf', 'svendorenquiriesid', 'u_#__svendorenquiries', 'svendorenquiriesid', 'CASCADE', 'RESTRICT'],
+			['u_#__featured_filter_ibfk_1', 'u_#__featured_filter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['dav_calendarobjects_ibfk_1', 'dav_calendarobjects', 'calendarid', 'dav_calendars', 'id', 'CASCADE', 'RESTRICT'],
+			['dav_cards_ibfk_1', 'dav_cards', 'addressbookid', 'dav_addressbooks', 'id', 'CASCADE', 'RESTRICT'],
+			['roundcube_user_id_fk_cache', 'roundcube_cache', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_cache_index', 'roundcube_cache_index', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_cache_messages', 'roundcube_cache_messages', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_cache_thread', 'roundcube_cache_thread', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_contact_id_fk_contacts', 'roundcube_contactgroupmembers', 'contact_id', 'roundcube_contacts', 'contact_id', 'CASCADE', 'CASCADE'],
+			['roundcube_contactgroup_id_fk_contactgroups', 'roundcube_contactgroupmembers', 'contactgroup_id', 'roundcube_contactgroups', 'contactgroup_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_contactgroups', 'roundcube_contactgroups', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_contacts', 'roundcube_contacts', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_dictionary', 'roundcube_dictionary', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_identities', 'roundcube_identities', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_searches', 'roundcube_searches', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_users_autologin_ibfk_1', 'roundcube_users_autologin', 'rcuser_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
+			['u_#__activity_invitation_ibfk_1', 'u_#__activity_invitation', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__announcement', 'u_#__announcement', 'announcementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__announcement_mark_ibfk_1', 'u_#__announcement_mark', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__announcementcf', 'u_#__announcementcf', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__competition', 'u_#__competition', 'competitionid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__competition_address_ibfk_1', 'u_#__competition_address', 'competitionaddressid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__competitioncf', 'u_#__competitioncf', 'competitionid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
+			['u_#__crmentity_last_changes_ibfk_1', 'u_#__crmentity_last_changes', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_u_#__crmentity_showners', 'u_#__crmentity_showners', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__favorites', 'u_#__favorites', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_u_#__favorites', 'u_#__favorites', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__emailtemplates_ibfk_1', 'u_#__emailtemplates', 'emailtemplatesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__fbookkeeping_ibfk_1', 'u_#__fbookkeeping', 'fbookkeepingid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__fbookkeepingcf_ibfk_1', 'u_#__fbookkeepingcf', 'fbookkeepingid', 'u_#__fbookkeeping', 'fbookkeepingid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_fcorectinginvoice', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__fcorectinginvoice_address_ibfk_1', 'u_#__fcorectinginvoice_address', 'fcorectinginvoiceaddressid', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__fcorectinginvoice_inventory', 'u_#__fcorectinginvoice_inventory', 'id', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__fcorectinginvoicecf', 'u_#__fcorectinginvoicecf', 'fcorectinginvoiceid', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoice', 'u_#__finvoice', 'finvoiceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__finvoice_address_ibfk_1', 'u_#__finvoice_address', 'finvoiceaddressid', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoice_inventory', 'u_#__finvoice_inventory', 'id', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoicecf', 'u_#__finvoicecf', 'finvoiceid', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoiceproforma', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoiceproforma_inventory', 'u_#__finvoiceproforma_inventory', 'id', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoiceproformacf', 'u_#__finvoiceproformacf', 'finvoiceproformaid', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdn_ibfk_1', 'u_#__igdn', 'igdnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igdn_inventory', 'u_#__igdn_inventory', 'id', 'u_#__igdn', 'igdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdnc_ibfk_1', 'u_#__igdnc', 'igdncid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igdnc_inventory', 'u_#__igdnc_inventory', 'id', 'u_#__igdnc', 'igdncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdnccf_ibfk_1', 'u_#__igdnccf', 'igdncid', 'u_#__igdnc', 'igdncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdncf_ibfk_1', 'u_#__igdncf', 'igdnid', 'u_#__igdn', 'igdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__igin_ibfk_1', 'u_#__igin', 'iginid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igin_inventory', 'u_#__igin_inventory', 'id', 'u_#__igin', 'iginid', 'CASCADE', 'RESTRICT'],
+			['u_#__igincf_ibfk_1', 'u_#__igincf', 'iginid', 'u_#__igin', 'iginid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrn_ibfk_1', 'u_#__igrn', 'igrnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igrn_inventory', 'u_#__igrn_inventory', 'id', 'u_#__igrn', 'igrnid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrnc_ibfk_1', 'u_#__igrnc', 'igrncid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igrnc_inventory', 'u_#__igrnc_inventory', 'id', 'u_#__igrnc', 'igrncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrnccf_ibfk_1', 'u_#__igrnccf', 'igrncid', 'u_#__igrnc', 'igrncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrncf_ibfk_1', 'u_#__igrncf', 'igrnid', 'u_#__igrn', 'igrnid', 'CASCADE', 'RESTRICT'],
+			['u_#__iidn_ibfk_1', 'u_#__iidn', 'iidnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__iidn_inventory', 'u_#__iidn_inventory', 'id', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
+			['u_#__iidncf_ibfk_1', 'u_#__iidncf', 'iidnid', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
+			['u_#__ipreorder_ibfk_1', 'u_#__ipreorder', 'ipreorderid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ipreorder_inventory', 'u_#__ipreorder_inventory', 'id', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
+			['u_#__ipreordercf_ibfk_1', 'u_#__ipreordercf', 'ipreorderid', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
+			['u_#__istdn_ibfk_1', 'u_#__istdn', 'istdnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__istdn_inventory', 'u_#__istdn_inventory', 'id', 'u_#__istdn', 'istdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istdncf_ibfk_1', 'u_#__istdncf', 'istdnid', 'u_#__istdn', 'istdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istn_ibfk_1', 'u_#__istn', 'istnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istncf_ibfk_1', 'u_#__istncf', 'istnid', 'u_#__istn', 'istnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_ibfk_1', 'u_#__istorages', 'istorageid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_address_ibfk_1', 'u_#__istorages_address', 'istorageaddressid', 'u_#__istorages', 'istorageid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_products_ibfk_1', 'u_#__istorages_products', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_products_ibfk_2', 'u_#__istorages_products', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istoragescf_ibfk_1', 'u_#__istoragescf', 'istorageid', 'u_#__istorages', 'istorageid', 'CASCADE', 'RESTRICT'],
+			['u_#__istrn_ibfk_1', 'u_#__istrn', 'istrnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__istrn_inventory', 'u_#__istrn_inventory', 'id', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istrncf_ibfk_1', 'u_#__istrncf', 'istrnid', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_knowledgebase', 'u_#__knowledgebase', 'knowledgebaseid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_knowledgebasecf', 'u_#__knowledgebasecf', 'knowledgebaseid', 'u_#__knowledgebase', 'knowledgebaseid', 'CASCADE', 'RESTRICT'],
+			['u_#__mail_address_book_ibfk_1', 'u_#__mail_address_book', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__partners', 'u_#__partners', 'partnersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__partners_address_ibfk_1', 'u_#__partners_address', 'partneraddressid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__partnerscf', 'u_#__partnerscf', 'partnersid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__reviewed_queue', 'u_#__reviewed_queue', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__scalculations', 'u_#__scalculations', 'scalculationsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__scalculations_inventory', 'u_#__scalculations_inventory', 'id', 'u_#__scalculations', 'scalculationsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__scalculationscf', 'u_#__scalculationscf', 'scalculationsid', 'u_#__scalculations', 'scalculationsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squoteenquiries', 'u_#__squoteenquiries', 'squoteenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squoteenquiries_inventory', 'u_#__squoteenquiries_inventory', 'id', 'u_#__squoteenquiries', 'squoteenquiriesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squoteenquiriescf', 'u_#__squoteenquiriescf', 'squoteenquiriesid', 'u_#__squoteenquiries', 'squoteenquiriesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squotes', 'u_#__squotes', 'squotesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__squotes_address_ibfk_1', 'u_#__squotes_address', 'squotesaddressid', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squotes_inventory', 'u_#__squotes_inventory', 'id', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squotescf', 'u_#__squotescf', 'squotesid', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srecurringorders', 'u_#__srecurringorders', 'srecurringordersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__srecurringorders_address_ibfk_1', 'u_#__srecurringorders_address', 'srecurringordersaddressid', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srecurringorders_inventory', 'u_#__srecurringorders_inventory', 'id', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srecurringorderscf', 'u_#__srecurringorderscf', 'srecurringordersid', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srequirementscards', 'u_#__srequirementscards', 'srequirementscardsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srequirementscards_inventory', 'u_#__srequirementscards_inventory', 'id', 'u_#__srequirementscards', 'srequirementscardsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srequirementscardscf', 'u_#__srequirementscardscf', 'srequirementscardsid', 'u_#__srequirementscards', 'srequirementscardsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssalesprocesses', 'u_#__ssalesprocesses', 'ssalesprocessesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssalesprocessescf', 'u_#__ssalesprocessescf', 'ssalesprocessesid', 'u_#__ssalesprocesses', 'ssalesprocessesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssingleorders', 'u_#__ssingleorders', 'ssingleordersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__ssingleorders_address_ibfk_1', 'u_#__ssingleorders_address', 'ssingleordersaddressid', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssingleorders_inventory', 'u_#__ssingleorders_inventory', 'id', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssingleorderscf', 'u_#__ssingleorderscf', 'ssingleordersid', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__timeline', 'u_#__timeline', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__watchdog_record_ibfk_1', 'u_#__watchdog_record', 'record', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__watchdog_schedule_ibfk_1', 'u_#__watchdog_schedule', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_account', 'vtiger_account', 'accountid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_accountaddress_ibfk_1', 'vtiger_accountaddress', 'accountaddressid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_accountscf', 'vtiger_accountscf', 'accountid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_activity', 'vtiger_activity', 'activityid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_reminder_ibfk_1', 'vtiger_activity_reminder', 'activity_id', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_reminder_popup_ibfk_1', 'vtiger_activity_reminder_popup', 'recordid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_update_dates_ibfk_1', 'vtiger_activity_update_dates', 'task_id', 'com_vtiger_workflowtasks', 'task_id', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_update_dates_ibfk_2', 'vtiger_activity_update_dates', 'parent', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_update_dates_ibfk_3', 'vtiger_activity_update_dates', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activitycf_ibfk_1', 'vtiger_activitycf', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_activityproductrel', 'vtiger_activityproductrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_assets', 'vtiger_assets', 'assetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_assetscf_ibfk_1', 'vtiger_assetscf', 'assetsid', 'vtiger_assets', 'assetsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_attachments', 'vtiger_attachments', 'attachmentsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_blocks', 'vtiger_blocks', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['vtiger_callhistory_ibfk_1', 'vtiger_callhistory', 'callhistoryid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_callhistorycf_ibfk_1', 'vtiger_callhistorycf', 'callhistoryid', 'vtiger_callhistory', 'callhistoryid', 'CASCADE', 'RESTRICT'],
+			['fk_vtiger_crmentity', 'vtiger_campaign_records', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_campaignscf', 'vtiger_campaignscf', 'campaignid', 'vtiger_campaign', 'campaignid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactaddress', 'vtiger_contactaddress', 'contactaddressid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactdetails', 'vtiger_contactdetails', 'contactid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactscf', 'vtiger_contactscf', 'contactid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactsubdetails', 'vtiger_contactsubdetails', 'contactsubscriptionid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_customaction', 'vtiger_customaction', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_customerdetails', 'vtiger_customerdetails', 'customerid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_customview', 'vtiger_customview', 'entitytype', 'vtiger_tab', 'name', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cvadvfilter', 'vtiger_cvadvfilter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cvcolumnlist', 'vtiger_cvcolumnlist', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cvstdfilter', 'vtiger_cvstdfilter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_grp2grp', 'vtiger_datashare_grp2grp', 'to_groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_grp2role', 'vtiger_datashare_grp2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_grp2rs', 'vtiger_datashare_grp2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_datashare_module_rel', 'vtiger_datashare_module_rel', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_role2group', 'vtiger_datashare_role2group', 'share_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_role2role', 'vtiger_datashare_role2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_role2rs', 'vtiger_datashare_role2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_rs2grp', 'vtiger_datashare_rs2grp', 'share_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_rs2role', 'vtiger_datashare_rs2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_rs2rs', 'vtiger_datashare_rs2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_def_org_share', 'vtiger_def_org_share', 'permission', 'vtiger_org_share_action_mapping', 'share_action_id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_defaultcv', 'vtiger_defaultcv', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_entity_stats', 'vtiger_entity_stats', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_entityname', 'vtiger_entityname', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_faq', 'vtiger_faq', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_faqcf', 'vtiger_faqcf', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_faqcomments', 'vtiger_faqcomments', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_field', 'vtiger_field', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_group2grouprel', 'vtiger_group2grouprel', 'groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'CASCADE'],
+			['vtiger_group2modules_ibfk_1', 'vtiger_group2modules', 'groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'RESTRICT'],
+			['vtiger_group2modules_ibfk_2', 'vtiger_group2modules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_group2role', 'vtiger_group2role', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_group2rs', 'vtiger_group2rs', 'roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_holidaysentitlement', 'vtiger_holidaysentitlement', 'holidaysentitlementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_holidaysentitlementcf', 'vtiger_holidaysentitlementcf', 'holidaysentitlementid', 'vtiger_holidaysentitlement', 'holidaysentitlementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ideas', 'vtiger_ideas', 'ideasid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ideascf', 'vtiger_ideascf', 'ideasid', 'vtiger_ideas', 'ideasid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_leadaddress', 'vtiger_leadaddress', 'leadaddressid', 'vtiger_leaddetails', 'leadid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_leaddetails', 'vtiger_leaddetails', 'leadid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_leadscf', 'vtiger_leadscf', 'leadid', 'vtiger_leaddetails', 'leadid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_leadsubdetails', 'vtiger_leadsubdetails', 'leadsubscriptionid', 'vtiger_leaddetails', 'leadid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_lettersin', 'vtiger_lettersin', 'lettersinid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_lettersincf', 'vtiger_lettersincf', 'lettersinid', 'vtiger_lettersin', 'lettersinid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_lettersout', 'vtiger_lettersout', 'lettersoutid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_lettersoutcf', 'vtiger_lettersoutcf', 'lettersoutid', 'vtiger_lettersout', 'lettersoutid', 'CASCADE', 'RESTRICT'],
+			['vtiger_modcomments_ibfk_1', 'vtiger_modcomments', 'related_to', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_modcommentscf_ibfk_1', 'vtiger_modcommentscf', 'modcommentsid', 'vtiger_modcomments', 'modcommentsid', 'CASCADE', 'RESTRICT'],
+			['vtiger_module_dashboard_widgets_ibfk_1', 'vtiger_module_dashboard_widgets', 'templateid', 'vtiger_module_dashboard', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_notes', 'vtiger_notes', 'notesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_notescf_ibfk_1', 'vtiger_notescf', 'notesid', 'vtiger_notes', 'notesid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_org_share_action2tab', 'vtiger_org_share_action2tab', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossemployees', 'vtiger_ossemployees', 'ossemployeesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossemployeescf', 'vtiger_ossemployeescf', 'ossemployeesid', 'vtiger_ossemployees', 'ossemployeesid', 'CASCADE', 'RESTRICT'],
+			['fk_ossmailscanner_folders_user_id', 'vtiger_ossmailscanner_folders_uid', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossmailview', 'vtiger_ossmailview', 'ossmailviewid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossmailview_files', 'vtiger_ossmailview_files', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
+			['vtiger_ossmailview_relation_ibfk_1', 'vtiger_ossmailview_relation', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossmailviewcf', 'vtiger_ossmailviewcf', 'ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossoutsourcedservices', 'vtiger_ossoutsourcedservices', 'ossoutsourcedservicesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ossoutsourcedservicescf', 'vtiger_ossoutsourcedservicescf', 'ossoutsourcedservicesid', 'vtiger_ossoutsourcedservices', 'ossoutsourcedservicesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_osspasswords', 'vtiger_osspasswords', 'osspasswordsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_osspasswordscf', 'vtiger_osspasswordscf', 'osspasswordsid', 'vtiger_osspasswords', 'osspasswordsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_osssoldservices', 'vtiger_osssoldservices', 'osssoldservicesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_osssoldservicescf', 'vtiger_osssoldservicescf', 'osssoldservicesid', 'vtiger_osssoldservices', 'osssoldservicesid', 'CASCADE', 'RESTRICT'],
+			['vtiger_osstimecontrol', 'vtiger_osstimecontrol', 'osstimecontrolid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_osstimecontrolcf', 'vtiger_osstimecontrolcf', 'osstimecontrolid', 'vtiger_osstimecontrol', 'osstimecontrolid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_outsourcedproducts', 'vtiger_outsourcedproducts', 'outsourcedproductsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_outsourcedproductscf', 'vtiger_outsourcedproductscf', 'outsourcedproductsid', 'vtiger_outsourcedproducts', 'outsourcedproductsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_paymentsin', 'vtiger_paymentsin', 'paymentsinid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_paymentsincf', 'vtiger_paymentsincf', 'paymentsinid', 'vtiger_paymentsin', 'paymentsinid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_paymentsout', 'vtiger_paymentsout', 'paymentsoutid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_paymentsoutcf', 'vtiger_paymentsoutcf', 'paymentsoutid', 'vtiger_paymentsout', 'paymentsoutid', 'CASCADE', 'RESTRICT'],
+			['vtiger_pbxmanager_ibfk_1', 'vtiger_pbxmanager', 'pbxmanagerid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_pbxmanager_phonelookup_ibfk_1', 'vtiger_pbxmanager_phonelookup', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_pbxmanagercf_ibfk_1', 'vtiger_pbxmanagercf', 'pbxmanagerid', 'vtiger_pbxmanager', 'pbxmanagerid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_pricebook', 'vtiger_pricebook', 'pricebookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_pricebookcf', 'vtiger_pricebookcf', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_pricebookproductrel', 'vtiger_pricebookproductrel', 'pricebookid', 'vtiger_pricebook', 'pricebookid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_productcf', 'vtiger_productcf', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_products', 'vtiger_products', 'productid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_profile2field_ibfk_1', 'vtiger_profile2field', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_profile2globalpermissions', 'vtiger_profile2globalpermissions', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
+			['vtiger_profile2tab_ibfk_1', 'vtiger_profile2tab', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
+			['vtiger_profile2utility_ibfk_1', 'vtiger_profile2utility', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
+			['vtiger_project_ibfk_1', 'vtiger_project', 'projectid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_projectcf_ibfk_1', 'vtiger_projectcf', 'projectid', 'vtiger_project', 'projectid', 'CASCADE', 'RESTRICT'],
+			['vtiger_projectmilestone_ibfk_1', 'vtiger_projectmilestone', 'projectmilestoneid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_projectmilestonecf_ibfk_1', 'vtiger_projectmilestonecf', 'projectmilestoneid', 'vtiger_projectmilestone', 'projectmilestoneid', 'CASCADE', 'RESTRICT'],
+			['vtiger_projecttask_ibfk_1', 'vtiger_projecttask', 'projecttaskid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_projecttaskcf_ibfk_1', 'vtiger_projecttaskcf', 'projecttaskid', 'vtiger_projecttask', 'projecttaskid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_relcriteria', 'vtiger_relcriteria', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
+			['vtiger_relcriteria_grouping_ibfk_1', 'vtiger_relcriteria_grouping', 'queryid', 'vtiger_relcriteria', 'queryid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_report', 'vtiger_report', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_reportdatefilter', 'vtiger_reportdatefilter', 'datefilterid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_reportgroupbycolumn', 'vtiger_reportgroupbycolumn', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_reportmodules', 'vtiger_reportmodules', 'reportmodulesid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_reportsortcol', 'vtiger_reportsortcol', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_reportsummary', 'vtiger_reportsummary', 'reportsummaryid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['vtiger_reservations', 'vtiger_reservations', 'reservationsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_reservationscf', 'vtiger_reservationscf', 'reservationsid', 'vtiger_reservations', 'reservationsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_role2picklist', 'vtiger_role2picklist', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_role2picklist', 'vtiger_role2picklist', 'picklistid', 'vtiger_picklist', 'picklistid', 'CASCADE', 'RESTRICT'],
+			['vtiger_role2profile_ibfk_1', 'vtiger_role2profile', 'roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['vtiger_role2profile_ibfk_2', 'vtiger_role2profile', 'profileid', 'vtiger_profile', 'profileid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel', 'attachmentsid', 'vtiger_attachments', 'attachmentsid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_salesmanticketrel', 'vtiger_salesmanticketrel', 'smid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['vtiger_scheduled_reports_ibfk_1', 'vtiger_scheduled_reports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['vtiger_schedulereports_ibfk_1', 'vtiger_schedulereports', 'reportid', 'vtiger_report', 'reportid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_selectcolumn', 'vtiger_selectcolumn', 'queryid', 'vtiger_selectquery', 'queryid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_senotesrel', 'vtiger_senotesrel', 'notesid', 'vtiger_notes', 'notesid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_seproductsrel', 'vtiger_seproductsrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_service', 'vtiger_service', 'serviceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_servicecf_ibfk_1', 'vtiger_servicecf', 'serviceid', 'vtiger_service', 'serviceid', 'CASCADE', 'RESTRICT'],
+			['vtiger_servicecontracts_ibfk_1', 'vtiger_servicecontracts', 'servicecontractsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_servicecontractscf_ibfk_1', 'vtiger_servicecontractscf', 'servicecontractsid', 'vtiger_servicecontracts', 'servicecontractsid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_seticketsrel', 'vtiger_seticketsrel', 'ticketid', 'vtiger_troubletickets', 'ticketid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_settings_field', 'vtiger_settings_field', 'blockid', 'vtiger_settings_blocks', 'blockid', 'CASCADE', 'RESTRICT'],
+			['vtiger_smsnotifier_ibfk_1', 'vtiger_smsnotifier', 'smsnotifierid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_smsnotifiercf_ibfk_1', 'vtiger_smsnotifiercf', 'smsnotifierid', 'vtiger_smsnotifier', 'smsnotifierid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_tab_info', 'vtiger_tab_info', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'CASCADE'],
+			['fk_1_vtiger_ticketcf', 'vtiger_ticketcf', 'ticketid', 'vtiger_troubletickets', 'ticketid', 'CASCADE', 'RESTRICT'],
+			['fk_4_vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_4_vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_read_user_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_4_vtiger_tmp_write_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_4_vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_troubletickets', 'vtiger_troubletickets', 'ticketid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_user2role', 'vtiger_user2role', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_user_module_preferences', 'vtiger_user_module_preferences', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'CASCADE'],
+			['fk_2_vtiger_users2group', 'vtiger_users2group', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['vtiger_userscf_ibfk_1', 'vtiger_userscf', 'usersid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_vendor', 'vtiger_vendor', 'vendorid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_vendoraddress_ibfk_1', 'vtiger_vendoraddress', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_vendorcf', 'vtiger_vendorcf', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_vendorcontactrel', 'vtiger_vendorcontactrel', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
+			['vtiger_widgets_ibfk_1', 'vtiger_widgets', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['vtiger_fk_1_actors_referencetype', 'vtiger_ws_entity_referencetype', 'fieldtypeid', 'vtiger_ws_entity_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_ws_actor_tables', 'vtiger_ws_entity_tables', 'webservice_entity_id', 'vtiger_ws_entity', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_referencetype', 'vtiger_ws_referencetype', 'fieldtypeid', 'vtiger_ws_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_osscurrencies', 'yetiforce_currencyupdate', 'currency_id', 'vtiger_currency_info', 'id', 'CASCADE', 'RESTRICT'],
+			['yetiforce_mail_quantities_ibfk_1', 'yetiforce_mail_quantities', 'userid', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
+			['yetiforce_menu_ibfk_1', 'yetiforce_menu', 'module', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_notification', 'u_#__notification', 'notificationid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cfixedassetscfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cfixedassetscfcfixedassetsid', 'u_#__cfixedassetscf', 'cfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cinternalticketscinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cinternalticketscfcinternalticketsid', 'u_#__cinternalticketscf', 'cinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoicecost', 'u_#__finvoicecost', 'finvoicecostid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_yf_finvoicecost_address_ibfk_1', 'u_#__finvoicecost_address', 'finvoicecostaddressid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_yf_finvoicecostcf', 'u_#__finvoicecostcf', 'finvoicecostid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cmileagelogbookcmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cmileagelogbookcfcmileagelogbookid', 'u_#__cmileagelogbookcf', 'cmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_yf_svendorenquiries', 'u_#__svendorenquiries', 'svendorenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_yf_svendorenquiriescf', 'u_#__svendorenquiriescf', 'svendorenquiriesid', 'u_#__svendorenquiries', 'svendorenquiriesid', 'CASCADE', 'RESTRICT'],
 		];
 	}
 
@@ -9455,7 +9455,7 @@ class Base4 extends \App\Db\Importers\Base
 				'values' => [
 					[1, 'PLL_WORKING_TIME', 1, 1, '#EDC240'],
 					[2, 'PLL_BREAK_TIME', 2, 1, '#AFD8F8'],
-					[3, 'PLL_HOLIDAY', 3, 1, '#CB4B4B'],
+					[3, 'PLL_HOLIDAY_TIME', 3, 1, '#CB4B4B'],
 				]
 			],
 			'vtiger_timecontrol_type_seq' => [

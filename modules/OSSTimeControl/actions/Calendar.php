@@ -29,12 +29,9 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 
 	public function getEvent(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$id = $request->get('id');
-
 		$record = OSSTimeControl_Calendar_Model::getInstance();
-		$record->set('user', $request->get('user'));
-		$record->set('types', $request->get('types'));
+		$record->set('user', $request->getArray('user'));
+		$record->set('types', $request->getArray('types'));
 		if ($request->get('start') && $request->get('end')) {
 			$record->set('start', $request->get('start'));
 			$record->set('end', $request->get('end'));

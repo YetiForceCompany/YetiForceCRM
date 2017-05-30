@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author YetiForce.com
  */
-class Calendar_Calendar_Model extends Vtiger_Base_Model
+class Calendar_Calendar_Model extends App\Base
 {
 
 	public $moduleName = 'Calendar';
