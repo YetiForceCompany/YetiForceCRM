@@ -515,7 +515,7 @@ hr {
 	list-style: none;
 	margin-left: 0 !important;
 	padding-left :0 !important;
-	margin-top: 5px !important;
+	margin-top: 0 !important;
 }
 .gridster > ul li.dashboardWidget {
 	background: #ffffff;
@@ -5946,4 +5946,7 @@ select.form-control {
 }
 .fc-basic-view .fc-body .fc-row {
     min-height: 9em  !important;
+}
+.Home_DashBoard .widget_header{
+	margin-bottom: 0px;
 }
