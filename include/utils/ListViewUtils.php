@@ -282,45 +282,12 @@ function getListQuery($module, $where = '')
 		// END
 	}
 
-	if ($module != 'Users') {
-		$query = listQueryNonAdminChange($query, $module);
+	if ($module !== 'Users') {
+		$instance = CRMEntity::getInstance($module);
+		$query = $instance->listQueryNonAdminChange($query, '');
 	}
 	\App\Log::trace("Exiting getListQuery method ...");
 	return $query;
-}
-/* Function to get the Entity Id of a given Entity Name */
-
-function getEntityId($module, $entityName)
-{
-	$adb = PearDatabase::getInstance();
-
-	\App\Log::trace("in getEntityId " . $entityName);
-
-	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
-	$result = $adb->pquery($query, array($module));
-	$fieldsname = $adb->query_result($result, 0, 'fieldname');
-	$tablename = $adb->query_result($result, 0, 'tablename');
-	$entityidfield = $adb->query_result($result, 0, 'entityidfield');
-	if (!(strpos($fieldsname, ',') === false)) {
-		$fieldlists = explode(',', $fieldsname);
-		$fieldsname = "trim(concat(";
-		$fieldsname = $fieldsname . implode(",' ',", $fieldlists);
-		$fieldsname = $fieldsname . "))";
-		$entityName = trim($entityName);
-	}
-
-	if ($entityName != '') {
-		$sql = "select $entityidfield from $tablename INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $tablename.$entityidfield " .
-			" WHERE vtiger_crmentity.deleted = 0 and $fieldsname=?";
-		$result = $adb->pquery($sql, array($entityName));
-		if ($adb->num_rows($result) > 0) {
-			$entityId = $adb->query_result($result, 0, $entityidfield);
-		}
-	}
-	if (!empty($entityId))
-		return $entityId;
-	else
-		return 0;
 }
 
 /**
@@ -367,10 +334,4 @@ function getFirstModule($module, $fieldname)
 		}
 	}
 	return $data;
-}
-
-function listQueryNonAdminChange($query, $module, $scope = '')
-{
-	$instance = CRMEntity::getInstance($module);
-	return $instance->listQueryNonAdminChange($query, $scope);
 }

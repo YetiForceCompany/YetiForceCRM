@@ -15,24 +15,6 @@ require_once 'include/events/include.php';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
-/** Function to get the lists of groupids releated with an user
- * This function accepts the user id as arguments and
- * returns the groupids related with the user id
- * as a comma seperated string
- */
-function fetchUserGroupids($userid)
-{
-
-	\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$focus = new GetUserGroups();
-	$focus->getAllUserGroups($userid);
-	//Asha: Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
-	$groupidlists = implode(",", $focus->user_groups);
-	\App\Log::trace("Exiting fetchUserGroupids method ...");
-	return $groupidlists;
-}
-
 /** Function to get all the vtiger_tab utility action permission for the specified vtiger_profile
  * @param $profileid -- Profile Id:: Type integer
  * @returns  Tab Utility Action Permission Array in the following format:

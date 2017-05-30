@@ -2286,9 +2286,8 @@ class ReportRun extends CRMEntity
 			}
 			$reportquery = sprintf('select DISTINCT %s %s %s ', $selectedcolumns, $reportquery, $wheresql);
 		}
-
-		$reportquery = listQueryNonAdminChange($reportquery, $this->primarymodule);
-
+		$instance = CRMEntity::getInstance($this->primarymodule);
+		$reportquery = $instance->listQueryNonAdminChange($reportquery, '');
 		if (trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL') {
 			if ($chartReport === true) {
 				$reportquery .= sprintf(' group by %s', $this->GetFirstSortByField($reportid));
