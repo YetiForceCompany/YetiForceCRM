@@ -1316,6 +1316,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var customParams = {};
 			customParams['sourceModule'] = module;
 			customParams['sourceRecord'] = recordId;
+			if (module != '' && referenceModuleName != '' && typeof thisInstance.referenceFieldNames[referenceModuleName] != 'undefined' && typeof thisInstance.referenceFieldNames[referenceModuleName][module] != 'undefined') {
+				var relField = thisInstance.referenceFieldNames[referenceModuleName][module];
+				customParams[relField] = recordId;
+			}
 			var fullFormUrl = element.data('url');
 			var preQuickCreateSave = function (data) {
 				thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);

@@ -27,7 +27,7 @@ abstract class Vtiger_Basic_File
 	public function getCheckPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$field = $request->get('field');
 		if ($record) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
@@ -68,7 +68,7 @@ abstract class Vtiger_Basic_File
 	 */
 	public function post(\App\Request $request)
 	{
-		$attachIds = [];
+		$attach = [];
 		$files = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		foreach ($files as $key => $file) {
 			foreach ($file as $key => $fileData) {
