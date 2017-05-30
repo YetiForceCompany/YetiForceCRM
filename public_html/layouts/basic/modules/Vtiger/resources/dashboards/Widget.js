@@ -139,6 +139,19 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	//Place holdet can be extended by child classes and can use this to handle the post load
 	postLoadWidget: function () {
+		var widget = this.getPlotContainer(true).closest('.dashboardWidget');
+		var content = widget.find('.dashboardWidgetContent');
+		var footer = widget.find('.dashboardWidgetFooter');
+		var header = widget.find('.dashboardWidgetHeader');
+		var headerHeight = header.outerHeight();
+		var adjustedHeight = widget.height() - headerHeight;
+		if (footer.length) {
+			adjustedHeight -= footer.outerHeight();
+		}
+		content.css('height', adjustedHeight + 'px');
+		content.css('overflow', 'auto');
+		content.perfectScrollbar();
+		
 		if (!this.isEmptyData()) {
 			this.loadChart();
 		} else {
@@ -328,7 +341,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 				}
 				searchParams.push(searchInfo);
 			});
-			if(searchParams.length){
+			if (searchParams.length) {
 				params.data.search_params = new Array(searchParams);
 			}
 		}
@@ -367,14 +380,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 						})
 					}
 					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-					var headerHeight = parent.find('.dashboardWidgetHeader').outerHeight();
-					var adjustedHeight = parent.height() - headerHeight;
-					if (refreshContainerFooter.length) {
-						adjustedHeight -= refreshContainerFooter.outerHeight();
-					}
-					refreshContainer.css('max-height', adjustedHeight + 'px');
-					refreshContainer.css('overflow', 'auto');
-					refreshContainer.perfectScrollbar();
 				},
 				function () {
 					refreshContainer.progressIndicator({'mode': 'hide'});

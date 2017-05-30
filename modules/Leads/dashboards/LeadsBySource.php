@@ -50,7 +50,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		}
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->groupBy(['vtiger_leaddetails.leadsource']);
-		
+
 		$dataReader = $query->createCommand()->query();
 		$response = [];
 		$i = 0;
@@ -63,10 +63,11 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$name[] = $row['leadsourcevalue'];
 			$i++;
 		}
-		$response['chart'] = $data;
-		$response['ticks'] = $ticks;
-		$response['name'] = $name;
-
+		if ($data) {
+			$response['chart'] = $data;
+			$response['ticks'] = $ticks;
+			$response['name'] = $name;
+		}
 		return $response;
 	}
 
@@ -96,7 +97,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time !== false){
+			if ($time !== false) {
 				$dates = $time;
 			}
 		}

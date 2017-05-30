@@ -58,7 +58,6 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 				'condition' => ['not in', 'vtiger_leaddetails.leadstatus', $leadsClosed['status']]
 			];
 		}
-
 		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$response = [];
@@ -73,10 +72,11 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$name[] = $row['leadstatusvalue'];
 			$i++;
 		}
-		$response['chart'] = $data;
-		$response['ticks'] = $ticks;
-		$response['name'] = $name;
-
+		if ($data) {
+			$response['chart'] = $data;
+			$response['ticks'] = $ticks;
+			$response['name'] = $name;
+		}
 		return $response;
 	}
 

@@ -62,9 +62,11 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$name[] = $row['industryvalue'];
 			$i++;
 		}
-		$response['chart'] = $data;
-		$response['ticks'] = $ticks;
-		$response['name'] = $name;
+		if ($data) {
+			$response['chart'] = $data;
+			$response['ticks'] = $ticks;
+			$response['name'] = $name;
+		}
 		return $response;
 	}
 
@@ -95,7 +97,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time !== false){
+			if ($time !== false) {
 				$dates = $time;
 			}
 		}
