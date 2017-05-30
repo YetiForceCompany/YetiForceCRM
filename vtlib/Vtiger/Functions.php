@@ -648,7 +648,7 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
-		$message = is_string($e) ? $e : $e->getMessage();
+		$message = is_object($e) ? $e->getMessage() : $e;
 		if (\App\Config::$requestMode === 'API') {
 			throw new \APIException($message, 401);
 		}
@@ -672,8 +672,10 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			if (is_object($e)) {
-				throw new $e;
+			if (is_object($message)) {
+				throw new $message;
+			} elseif (is_array($message)) {
+				throw new \Exception($message['message']);
 			} else {
 				throw new \Exception($message);
 			}

@@ -49,7 +49,7 @@ class ErrorHandler
 	{
 		$error = error_get_last();
 		if (isset($error['type']) && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING])) {
-			exception_error_handler($error['type'], $error['message'], $error['file'], $error['line']);
+			static::errorHandler($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}
 
