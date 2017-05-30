@@ -18,9 +18,6 @@
 <a class="btn btn-xs btn-default" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&content=data">
 	<span class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></span>
 </a>
-	<a class="btn btn-xs btn-default fullscreen" href="javascript:void(0);">
-	<span class="glyphicon glyphicon-fullscreen" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_FULLSCREEN')}" alt="{vtranslate('LBL_FULLSCREEN')}"></span>
-</a>
 {if !$WIDGET->isDefault()}
 	<a name="dclose" class="widget btn btn-xs btn-default" data-url="{$WIDGET->getDeleteUrl()}">
 		<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_CLOSE')}" alt="{vtranslate('LBL_CLOSE')}"></span>

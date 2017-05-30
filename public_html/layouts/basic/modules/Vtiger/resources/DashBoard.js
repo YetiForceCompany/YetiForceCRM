@@ -131,6 +131,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 	},
 	gridsterStop: function () {
 		var gridster = Vtiger_DashBoard_Js.gridster;
+
 	},
 	registerRefreshWidget: function () {
 		var thisInstance = this;
@@ -139,13 +140,6 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var parent = element.closest('li');
 			var widgetInstnace = thisInstance.getWidgetInstance(parent);
 			widgetInstnace.refreshWidget();
-			return;
-		});
-		this.getContainer().on('click', '.fullscreen', function (e) {
-			var element = $(e.currentTarget);
-			var parent = element.closest('li');
-			var widgetInstnace = thisInstance.getWidgetInstance(parent);
-			widgetInstnace.refreshWidget(true);
 			return;
 		});
 	},
