@@ -147,6 +147,7 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 		if (!$this->isNew) {
 			switch ($this->typeSaving) {
 				case self::UPDATE_ALL_EVENTS:
+					$dates = false;
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
 					$itemNumber = 0;
 					foreach ($recordsIds as $recordId => $data) {
@@ -166,7 +167,9 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 						}
 						$itemNumber++;
 					}
-					$this->createRecords($dates);
+					if ($dates) {
+						$this->createRecords($dates);
+					}
 					break;
 				case self::UPDATE_FUTURE_EVENTS:
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
@@ -200,13 +203,17 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 						}
 						$itemNumber++;
 					}
-					$this->createRecords($dates);
+					if ($dates) {
+						$this->createRecords($dates);
+					}
 					break;
 			}
 		} else {
 			$dates = $this->getDates($this->recordModel->get('date_start') . ' ' . $this->recordModel->get('time_start'), $this->recordModel->get('due_date') . ' ' . $this->recordModel->get('time_end'));
 			unset($dates[0]);
-			$this->createRecords($dates);
+			if ($dates) {
+				$this->createRecords($dates);
+			}
 		}
 	}
 
