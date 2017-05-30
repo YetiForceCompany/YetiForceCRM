@@ -85,14 +85,12 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$view = $request->get('view');
-
 		$jsFileNames = array(
 			'modules.Vtiger.resources.Vtiger',
 			'modules.Vtiger.resources.' . $view,
@@ -102,10 +100,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			'libraries.jquery.ckeditor.adapters.jquery',
 			'modules.Vtiger.resources.CkEditor',
 		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	public function validateRequest(\App\Request $request)

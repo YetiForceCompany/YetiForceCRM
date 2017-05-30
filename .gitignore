@@ -14,9 +14,9 @@ test/templates_c/basic/*.php
 nbproject/
 libraries/mPDF/
 public_html/modules/OSSMail/roundcube/
+public_html/libraries/gantt/
 libraries/PHPExcel/
 libraries/AJAXChat/
-libraries/gantt/
 vendor/rmccue/
 vendor/smarty/
 vendor/phpmailer/

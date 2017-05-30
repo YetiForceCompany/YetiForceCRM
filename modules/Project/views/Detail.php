@@ -26,8 +26,9 @@ class Project_Detail_View extends Vtiger_Detail_View
 
 		$viewer = $this->getViewer($request);
 		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
-		if ($moduleModel)
+		if ($moduleModel) {
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
+		}
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->view('charts/ShowTimeProjectUsers.tpl', $moduleName);
@@ -46,31 +47,32 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 
+	/**
+	 * Function to get the list of Css models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_CssScript_Model[]
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
 			'~libraries/gantt/skins/dhtmlxgantt_broadway.css',
 		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
 		$jsFileNames = array(
 			'~libraries/gantt/dhtmlxgantt.js',
 			'~libraries/jquery/flot/jquery.flot.min.js',
 			'~libraries/jquery/flot/jquery.flot.resize.js',
 			'~libraries/jquery/flot/jquery.flot.stack.min.js',
 		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }
-
-?>

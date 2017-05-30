@@ -229,25 +229,30 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
+	/**
+	 * Function to get the list of Css models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_CssScript_Model[]
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'~libraries/leaflet/leaflet.css',
 			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
 			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
 			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
 		];
-		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$cssInstances = array_merge($parentCssInstances, $modalInstances);
-		return $cssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
@@ -259,9 +264,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
 			"modules.OpenStreetMap.resources.Map",
 		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	public function showDetailViewByMode($request)
