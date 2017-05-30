@@ -54,6 +54,21 @@ class Base
 	}
 
 	/**
+	 * Function to get the array values for a given key
+	 * @param string $key
+	 * @param array $value
+	 * @return array
+	 */
+	public function getArray($key, $value = [])
+	{
+		if (!isset($this->value[$key])) {
+			return $value;
+		}
+		$value = settype($this->value[$key], 'array');
+		return $value;
+	}
+
+	/**
 	 * Function to set the value for a given key
 	 * @param string $key
 	 * @param mixed $value

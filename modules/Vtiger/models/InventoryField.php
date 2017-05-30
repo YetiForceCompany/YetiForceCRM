@@ -8,7 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_InventoryField_Model extends Vtiger_Base_Model
+class Vtiger_InventoryField_Model extends App\Base
 {
 
 	protected $fields = false;
