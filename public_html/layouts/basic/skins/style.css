@@ -562,6 +562,10 @@ hr {
 	opacity: 0.5;
 	padding-right: 6px;
 }
+.gridster > ul li.dashboardWidget .dashboardWidgetHeader .box {
+    position: relative;
+    top: -2px;
+}
 .gridster > ul li.dashboardWidget .filterContainer {
 	position: absolute;
 	border: 1px solid #dddddd;
