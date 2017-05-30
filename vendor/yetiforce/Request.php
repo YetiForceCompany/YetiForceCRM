@@ -67,9 +67,7 @@ class Request
 			$value = $this->rawValues[$key];
 		}
 		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
-			if ($decodeValue = Json::decode($value)) {
-				$value = $decodeValue;
-			}
+			$value = Json::decode($value);
 		}
 		if ($value) {
 			$value = Purifier::purify($value);
@@ -124,9 +122,7 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
-				if ($decodeValue = Json::decode($value)) {
-					$value = $decodeValue;
-				}
+				$value = Json::decode($value);
 			}
 			settype($value, 'array');
 			if ($value) {

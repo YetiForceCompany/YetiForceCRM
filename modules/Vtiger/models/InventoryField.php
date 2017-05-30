@@ -386,13 +386,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$value = '';
 		if ($request->has($field . $i)) {
-			$value = $request->get($field . $i);
+			$value = in_array($field, $this->jsonFields) ? \App\Json::encode($request->getArray($field . $i)) : $request->get($field . $i);
 		} else if ($request->has($field)) {
-			$value = $request->get($field);
-		}
-
-		if (in_array($field, $this->jsonFields) && $value != '') {
-			$value = json_encode($value);
+			$value = in_array($field, $this->jsonFields) ? \App\Json::encode($request->getArray($field)) : $request->get($field);
 		}
 		if (in_array($field, ['qty', 'price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
 			$value = CurrencyField::convertToDBFormat($value, null, true);
