@@ -5954,3 +5954,15 @@ select.form-control {
 .Home_DashBoard .widget_header{
 	margin-bottom: 0px;
 }
+.modal-fullWidget{
+	width: 80%;
+	height: 600px;
+}
+.modal-fullWidget .modal-content {
+    height: 100%;
+    overflow: auto;
+}
+.modal-fullWidget .modal-body {
+    height: 100%;
+    overflow: auto;
+}

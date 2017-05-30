@@ -265,13 +265,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getFilterData: function () {
 		return {};
 	},
-	refreshWidget: function () {
+	refreshWidget: function (showInModal) {
 		var thisInstance = this;
 		var parent = this.getContainer();
 		var element = parent.find('a[name="drefresh"]');
 		var url = element.data('url');
-
-		var contentContainer = parent.find('.dashboardWidgetContent');
 		var params = url;
 		var widgetFilters = parent.find('.widgetFilter');
 		if (widgetFilters.length > 0) {
@@ -359,35 +357,45 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}
 			params.data = jQuery.extend(params.data, this.getFilterData());
 		}
-		var refreshContainer = parent.find('.dashboardWidgetContent');
-		var refreshContainerFooter = parent.find('.dashboardWidgetFooter');
-		refreshContainer.html('');
-		refreshContainerFooter.html('');
-		refreshContainer.progressIndicator();
-
-		if (this.paramCache && widgetFilters.length > 0) {
-			thisInstance.setFilterToCache(params.url, params.data);
+		if (showInModal) {
+			var refreshContainer = jQuery.progressIndicator({blockInfo: {enabled: true}});
+		} else {
+			var refreshContainer = parent.find('.dashboardWidgetContent');
+			var refreshContainerFooter = parent.find('.dashboardWidgetFooter');
+			refreshContainer.html('');
+			refreshContainerFooter.html('');
+			refreshContainer.progressIndicator();
+			if (this.paramCache && widgetFilters.length > 0) {
+				thisInstance.setFilterToCache(params.url, params.data);
+			}
 		}
-		AppConnector.request(params).then(
-				function (data) {
-					var data = jQuery(data);
-					var footer = data.filter('.widgetFooterContent');
-					refreshContainer.progressIndicator({'mode': 'hide'});
-					if (footer.length) {
-						footer = footer.clone(true, true);
-						refreshContainerFooter.html(footer);
-						data.each(function (n, e) {
-							if (jQuery(this).hasClass('widgetFooterContent')) {
-								data.splice(n, 1);
-							}
-						})
-					}
-					contentContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-				},
-				function () {
-					refreshContainer.progressIndicator({'mode': 'hide'});
+		AppConnector.request(params).then(function (data) {
+			var data = jQuery(data);
+			refreshContainer.progressIndicator({'mode': 'hide'});
+			if (showInModal) {
+				var modal = $('<div class="modal fade" tabindex="-1" role="dialog"><div class="modal-dialog modal-fullWidget"><div class="modal-content"><div class="pull-right"><button style="margin: 10px;" type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body dashboardWidgetContent"></div></div></div></div>');
+				modal.find('.dashboardWidgetContent').append(data);
+				app.showModalWindow(modal, function (modal) {
+					thisInstance.setContainer(modal.find('.dashboardWidgetContent'));
+					thisInstance.postRefreshWidget();
+					thisInstance.setContainer(parent);
+				});
+			} else {
+				var footer = data.filter('.widgetFooterContent');
+				if (footer.length) {
+					footer = footer.clone(true, true);
+					refreshContainerFooter.html(footer);
+					data.each(function (n, e) {
+						if (jQuery(this).hasClass('widgetFooterContent')) {
+							data.splice(n, 1);
+						}
+					})
 				}
-		);
+				refreshContainer.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
+			}
+		}, function () {
+			refreshContainer.progressIndicator({'mode': 'hide'});
+		});
 	},
 	registerFilter: function () {
 		var thisInstance = this;
