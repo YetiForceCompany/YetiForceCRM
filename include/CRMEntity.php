@@ -841,8 +841,8 @@ class CRMEntity
 		if ($queryPlanner->requireTable('vtiger_createdby' . $module)) {
 			$query .= ' left join vtiger_users as vtiger_createdby' . $module . ' on vtiger_createdby' . $module . '.id = vtiger_crmentity.smcreatorid';
 		}
-		if ($queryPlanner->requireTable('vtiger_entity_stats')) {
-			$query .= ' inner join vtiger_entity_stats on $moduletable.$moduleindex = vtiger_entity_stats.crmid';
+		if ($queryPlanner->requireTable('vtiger_entity_stats') && strpos($query, 'vtiger_entity_stats.crmid') === false) {
+			$query .= " inner join vtiger_entity_stats on $moduletable.$moduleindex = vtiger_entity_stats.crmid";
 		}
 		if ($queryPlanner->requireTable('u_yf_crmentity_showners')) {
 			$query .= ' LEFT JOIN u_yf_crmentity_showners ON u_yf_crmentity_showners.crmid = vtiger_crmentity.crmid';
