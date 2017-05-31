@@ -1072,8 +1072,10 @@ class Vtiger_Field_Model extends vtlib\Field
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams')
 			], ['fieldid' => $this->get('id')])->execute();
-		if ($this->isMandatory())
+		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
+		}
+		App\Cache::clear();
 	}
 
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
