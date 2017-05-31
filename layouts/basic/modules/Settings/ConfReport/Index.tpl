@@ -7,10 +7,12 @@
 			{App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
 		</div>
 		<div class="col-xs-2">
+			{*<!-- 
 			<button class="btn btn-primary testSpeed pull-right">
-				<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
-				{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
+			<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
+			{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
 			</button>
+			--!>*}
 		</div>
 	</div>
     <ul class="nav nav-tabs">
