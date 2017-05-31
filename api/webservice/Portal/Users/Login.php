@@ -58,6 +58,7 @@ class Login extends \Api\Core\BaseAction
 		return [
 			'token' => $row['token'],
 			'name' => \App\Record::getLabel($row['crmid']),
+			'id' => $row['id'],
 			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
