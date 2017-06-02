@@ -404,9 +404,10 @@ var app = {
 	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
-			params = {trigger: 'hover', placement: 'bottom', html: true};
+			params = {trigger: 'manual', placement: 'bottom', html: true};
 		}
 		params.container = 'body';
+		params.delay = 800;
 		var sparams;
 		selectElement.each(function (index, domElement) {
 			sparams = params;
@@ -422,6 +423,20 @@ var app = {
 				sparams = jQuery.extend(sparams, data);
 			}
 			element.popover(sparams);
+			element.on("mouseenter", function () {
+				var _this = this;
+				$(this).popover("show");
+				$(".popover").on("mouseleave", function () {
+					$(_this).popover('hide');
+				});
+			}).on("mouseleave", function () {
+				var _this = this;
+				setTimeout(function () {
+					if (!$(".popover:hover").length) {
+						$(_this).popover("hide");
+					}
+				}, 100);
+			});
 		});
 		return selectElement;
 	},
@@ -1678,9 +1693,9 @@ var app = {
 	},
 	clearBrowsingHistory: function () {
 		AppConnector.request({
-			module : app.getModuleName(),
+			module: app.getModuleName(),
 			action: 'browsingHistory',
-		}).then(function(response) {
+		}).then(function (response) {
 			$('ul.historyList').remove();
 		});
 	},
