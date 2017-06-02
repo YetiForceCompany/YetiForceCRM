@@ -65,7 +65,7 @@ class Purifier
 			// Initialize the instance if it has not yet done
 			if (!static::$purifyInstanceCache) {
 				$config = \HTMLPurifier_Config::createDefault();
-				$config->set('Core.Encoding', (String)static::$defaultCharset);
+				$config->set('Core.Encoding', static::$defaultCharset);
 				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 				$config->set('HTML.Allowed', '');
 				static::$purifyInstanceCache = new \HTMLPurifier($config);
@@ -119,7 +119,7 @@ class Purifier
 			// Initialize the instance if it has not yet done
 			if (!static::$purifyHtmlInstanceCache) {
 				$config = \HTMLPurifier_Config::createDefault();
-				$config->set('Core.Encoding', (String)static::$defaultCharset);
+				$config->set('Core.Encoding', static::$defaultCharset);
 				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 				$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 				$config->set('CSS.AllowTricky', true);
@@ -279,6 +279,6 @@ class Purifier
 	}
 }
 
-Purifier::$defaultCharset = \AppConfig::main('default_charset', 'UTF-8');
+Purifier::$defaultCharset = (string) \AppConfig::main('default_charset', 'UTF-8');
 Purifier::$UTF8 = (strtoupper(Purifier::$defaultCharset) === 'UTF-8');
 
