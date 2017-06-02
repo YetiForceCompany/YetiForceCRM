@@ -88,16 +88,6 @@ class CRMEntity
 		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
-	// Function which returns the value based on result type (array / ADODB ResultSet)
-	private function resolve_query_result_value($result, $index, $columnname)
-	{
-		$adb = PearDatabase::getInstance();
-		if (is_array($result))
-			return $result[$index][$columnname];
-		else
-			return $adb->query_result($result, $index, $columnname);
-	}
-
 	/** Function to delete a record in the specifed table
 	 * @param $table_name -- table name:: Type varchar
 	 * The function will delete a record .The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]

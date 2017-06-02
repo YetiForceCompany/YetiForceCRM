@@ -20,7 +20,6 @@ class PearDatabase
 	protected $database = null;
 	protected $stmt = false;
 	public $dieOnError = false;
-	static private $dbConfig = false;
 	static private $dbCache = false;
 	protected $dbType = null;
 	protected $dbHostName = null;
