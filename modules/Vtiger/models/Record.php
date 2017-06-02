@@ -874,7 +874,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getInventoryData()
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		if (!$this->inventoryData) {
+		if (!isset($this->inventoryData)) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
 			if (empty($record)) {
@@ -927,14 +927,14 @@ class Vtiger_Record_Model extends \App\Base
 					continue;
 				}
 				$insertData = ['seq' => $request->get('seq' . $i)];
-				foreach ($fields as &$field) {
+				foreach ($fields as $field) {
 					$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
 				}
 				$inventoryData[] = $insertData;
 			}
 			$prefix = 'sum_';
 			$inventoryFields = $inventory->getFields();
-			foreach ($summaryFields as &$fieldName) {
+			foreach ($summaryFields as $fieldName) {
 				if ($this->has($prefix . $fieldName)) {
 					$value = $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData);
 					$this->set($prefix . $fieldName, $value);
@@ -1004,7 +1004,7 @@ class Vtiger_Record_Model extends \App\Base
 		$inventoryData = $this->getInventoryData();
 		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
 		if (is_array($inventoryData)) {
-			foreach ($inventoryData as &$insertData) {
+			foreach ($inventoryData as $insertData) {
 				$insertData['id'] = $this->getId();
 				$db->createCommand()->insert($table, $insertData)->execute();
 			}

@@ -15,7 +15,7 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultValue = 0;
 	protected $columnName = 'price';
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
-	protected $summationValue = true;
+	protected $summationValue = false;
 
 	/**
 	 * Getting value to display

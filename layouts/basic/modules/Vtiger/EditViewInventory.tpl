@@ -13,7 +13,7 @@
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-
+		{assign var="IS_OPTIONAL_ITEMS" value=AppConfig::module($MODULE, 'INVENTORY_IS_OPTIONAL')}
 		{if in_array("currency",$COLUMNS)}
 			{if count($INVENTORY_ROWS) > 0}
 				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}
@@ -55,12 +55,12 @@
 			</table>
 		</div>
 		<div class="table-responsive">
-			<table class="table blockContainer inventoryItems">
+			<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 						<tr>
 							<th style="width: 5%;">&nbsp;&nbsp;</th>
-							{foreach item=FIELD from=$FIELDS[1]}
+								{foreach item=FIELD from=$FIELDS[1]}
 								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
 									{vtranslate($FIELD->get('label'), $MODULE)}
 								</th>
@@ -73,8 +73,10 @@
 						{assign var="ROW_NO" value=$KEY+1}
 						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{foreachelse}
-						{assign var="ROW_NO" value=1}
-						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{if !$IS_OPTIONAL_ITEMS}
+							{assign var="ROW_NO" value=1}
+							{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{/if}
 					{/foreach}
 				</tbody>
 				<tfoot>

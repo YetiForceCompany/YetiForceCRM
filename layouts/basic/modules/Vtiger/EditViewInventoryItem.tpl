@@ -7,7 +7,7 @@
 	{/if}
 	<tr class="inventoryRow" numrow="{$ROW_NO}">
 		<td>
-			<span class="glyphicon glyphicon-trash deleteRow cursorPointer {if $KEY == 0 }hide{/if}" title="{vtranslate('LBL_DELETE',$MODULE)}"></span>
+			<span class="glyphicon glyphicon-trash deleteRow cursorPointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }hide{/if}" title="{vtranslate('LBL_DELETE',$MODULE)}"></span>
 			&nbsp;&nbsp;<a class="dragHandle"><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 			<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 			{if $COUNT_FIELDS2 > 0}

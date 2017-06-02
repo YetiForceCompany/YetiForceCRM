@@ -57,6 +57,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	},
 	checkDeleteIcon: function () {
 		var items = this.getInventoryItemsContainer();
+		if (items.data('isoptional') === 1) {
+			return;
+		}
 		if (items.find(this.rowClass).length > 1) {
 			this.showLineItemsDeleteIcon();
 		} else {
@@ -715,8 +718,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			var unitPriceValuesJson = JSON.stringify(unitPriceValues);
 			// Load taxses detail
 			if (isGroupTax) {
-				var parameters  = parentRow.closest('.inventoryItems').data('taxParam');
-				if(parameters){
+				var parameters = parentRow.closest('.inventoryItems').data('taxParam');
+				if (parameters) {
 					taxParam = JSON.parse(parameters);
 				}
 			} else if (recordData['taxes']) {
@@ -732,7 +735,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
 				}
 			}
-			
+
 			var currencyId = thisInstance.getCurrency();
 			if (typeof unitPriceValues[currencyId] !== 'undefined') {
 				unitPrice = unitPriceValues[currencyId];
@@ -815,7 +818,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				info[param] = modal.find('[name="' + param + '"]').val();
 			}
 		});
-		parentRow.data('taxParam',JSON.stringify(info));
+		parentRow.data('taxParam', JSON.stringify(info));
 		thisInstance.setTaxParam(parentRow, info);
 		thisInstance.setTaxParam($('#blackIthemTable'), info);
 	},
@@ -1159,8 +1162,8 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			row.find('.valueText').text('');
 			row.find('.qtyparamButton').addClass('hidden');
 			row.find('input.qtyparam').prop('checked', false);
-			if(!thisInstance.isGroupTaxMode()){
-				thisInstance.setTaxParam(row,[]);
+			if (!thisInstance.isGroupTaxMode()) {
+				thisInstance.setTaxParam(row, []);
 			}
 			thisInstance.quantityChangeActions(row);
 		});
@@ -1169,9 +1172,14 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		var thisInstance = this;
 		container.on('click', '.deleteRow', function (e) {
 			var element = $(e.currentTarget);
-			thisInstance.getClosestRow(element).remove();
+			var row = thisInstance.getClosestRow(element);
+			container.find('[numrowex="' + row.attr('numrow') + '"]').remove();
+			row.remove();
 			thisInstance.checkDeleteIcon();
 			thisInstance.rowsCalculations();
+			if (thisInstance.getInventoryItemsContainer().find('.inventoryRow').length === 0) {
+				$('#inventoryItemsNo').val(0);
+			}
 		});
 	},
 	registerChangeDiscount: function (container) {
