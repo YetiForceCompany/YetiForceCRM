@@ -823,7 +823,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 			}
 			while ($row = $dataReader->read()) {
-				$record = new Vtiger_Base_Model();
+				$record = new \App\Base();
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
@@ -918,7 +918,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
-		$inventoryModel = new Vtiger_Base_Model();
+		$inventoryModel = new \App\Base();
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {

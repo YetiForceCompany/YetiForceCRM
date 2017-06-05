@@ -115,7 +115,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObject = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
+				$fieldObject = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 				if (!$this->isSortByName($fieldName)) {
 					$fieldObject->set('sort', true);
 				}
