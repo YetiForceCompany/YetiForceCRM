@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_MappedFields_Model extends Vtiger_Base_Model
+class Vtiger_MappedFields_Model extends \App\Base
 {
 
 	public static $baseTable = 'a_yf_mapped_config';

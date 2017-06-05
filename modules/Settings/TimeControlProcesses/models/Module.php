@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class Settings_TimeControlProcesses_Module_Model extends Vtiger_Base_Model
+class Settings_TimeControlProcesses_Module_Model extends \App\Base
 {
 
 	public static function getCleanInstance()

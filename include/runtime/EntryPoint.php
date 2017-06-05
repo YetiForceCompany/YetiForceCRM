@@ -10,12 +10,10 @@
 vimport('include.http.Request');
 vimport('include.http.Response');
 vimport('include.http.Session');
-
 vimport('include.runtime.Globals');
 vimport('include.runtime.Controller');
 vimport('include.runtime.Viewer');
 vimport('include.runtime.Theme');
-vimport('include.runtime.BaseModel');
 vimport('include.runtime.JavaScript');
 vimport('include.runtime.LanguageHandler');
 vimport('include.runtime.Cache');

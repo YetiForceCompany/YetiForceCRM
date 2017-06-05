@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class Reservations_Calendar_Model extends Vtiger_Base_Model
+class Reservations_Calendar_Model extends \App\Base
 {
 
 	public function getEntity()

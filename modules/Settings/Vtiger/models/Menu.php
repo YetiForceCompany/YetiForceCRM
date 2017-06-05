@@ -12,7 +12,7 @@
  * Settings Menu Model Class
  */
 
-class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
+class Settings_Vtiger_Menu_Model extends \App\Base
 {
 
 	protected static $menusTable = 'vtiger_settings_blocks';

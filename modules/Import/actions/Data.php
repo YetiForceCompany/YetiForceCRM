@@ -914,7 +914,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/**
 	 * Function creates advanced block data object
 	 * @param array $inventoryData
-	 * @return \Vtiger_Base_Model
+	 * @return \App\Base
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{

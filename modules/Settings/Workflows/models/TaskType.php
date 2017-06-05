@@ -13,7 +13,7 @@
  */
 require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 
-class Settings_Workflows_TaskType_Model extends Vtiger_Base_Model
+class Settings_Workflows_TaskType_Model extends \App\Base
 {
 
 	public function getId()

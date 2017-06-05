@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
+class OpenStreetMap_Coordinate_Model extends \App\Base
 {
 
 	const earthRadius = 6378137;

@@ -12,7 +12,7 @@
 /**
  * CustomView Record Model Class
  */
-class CustomView_Record_Model extends Vtiger_Base_Model
+class CustomView_Record_Model extends \App\Base
 {
 
 	protected $isFeatured = false;

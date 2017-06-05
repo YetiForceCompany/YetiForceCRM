@@ -10,7 +10,7 @@
 /**
  * Files Model Class
  */
-class Vtiger_Files_Model extends Vtiger_Base_Model
+class Vtiger_Files_Model extends \App\Base
 {
 
 	const ATTACHMENT_ACTIVE = 1;

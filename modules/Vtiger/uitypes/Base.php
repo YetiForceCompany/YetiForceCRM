@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_Base_UIType extends Vtiger_Base_Model
+class Vtiger_Base_UIType extends \App\Base
 {
 
 	public function isAjaxEditable()

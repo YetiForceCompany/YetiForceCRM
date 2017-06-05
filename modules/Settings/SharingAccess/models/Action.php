@@ -9,7 +9,7 @@
 /**
  * Sharing Access Action Model Class
  */
-class Settings_SharingAccess_Action_Model extends Vtiger_Base_Model
+class Settings_SharingAccess_Action_Model extends \App\Base
 {
 
 	static $nonConfigurableActions = array('Hide Details', 'Hide Details and Add Events', 'Show Details', 'Show Details and Add Events');

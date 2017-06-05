@@ -9,7 +9,7 @@
 /**
  * Sharng Access Vtiger Module Model Class
  */
-class Settings_SharingAccess_RuleMember_Model extends Vtiger_Base_Model
+class Settings_SharingAccess_RuleMember_Model extends \App\Base
 {
 
 	const RULE_MEMBER_TYPE_GROUPS = 'Groups';

@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_DashBoard_Model extends Vtiger_Base_Model
+class Vtiger_DashBoard_Model extends \App\Base
 {
 
 	/**

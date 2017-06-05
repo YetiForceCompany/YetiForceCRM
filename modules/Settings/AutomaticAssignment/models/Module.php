@@ -107,7 +107,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 
 	/**
 	 * Function returns list of fields available in list view
-	 * @return Vtiger_Base_Model[]
+	 * @return \App\Base[]
 	 */
 	public function getListFields()
 	{

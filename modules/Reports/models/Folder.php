@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Folder_Model extends Vtiger_Base_Model
+class Reports_Folder_Model extends \App\Base
 {
 
 	/**

@@ -12,7 +12,7 @@
 /**
  * Vtiger Widget Model Class
  */
-class Vtiger_Widget_Model extends Vtiger_Base_Model
+class Vtiger_Widget_Model extends \App\Base
 {
 
 	public function getWidth()

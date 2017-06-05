@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_ScheduleReports_Model extends Vtiger_Base_Model
+class Reports_ScheduleReports_Model extends \App\Base
 {
 
 	public $scheduledFormat = 'CSV';

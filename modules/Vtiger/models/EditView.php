@@ -11,7 +11,7 @@
 /**
  * Vtiger EditView Model Class
  */
-class Vtiger_EditView_Model extends Vtiger_Base_Model
+class Vtiger_EditView_Model extends \App\Base
 {
 
 	/**

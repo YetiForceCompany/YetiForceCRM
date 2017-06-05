@@ -12,7 +12,7 @@
  * Vtiger Settings MenuItem Model Class
  */
 
-class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
+class Settings_Vtiger_MenuItem_Model extends \App\Base
 {
 
 	protected static $itemsTable = 'vtiger_settings_field';

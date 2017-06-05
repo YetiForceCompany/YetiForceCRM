@@ -12,7 +12,7 @@
 /**
  * Vtiger ListView Model Class
  */
-class Vtiger_ListView_Model extends Vtiger_Base_Model
+class Vtiger_ListView_Model extends \App\Base
 {
 
 	/**

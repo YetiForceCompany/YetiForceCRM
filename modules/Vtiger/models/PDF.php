@@ -9,7 +9,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_PDF_Model extends Vtiger_Base_Model
+class Vtiger_PDF_Model extends \App\Base
 {
 
 	public static $baseTable = 'a_yf_pdf';

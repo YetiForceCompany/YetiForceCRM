@@ -111,9 +111,9 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
+					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
 				} else {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel));
 				}
 			}
 			$this->listFieldModels = $fieldObjects;

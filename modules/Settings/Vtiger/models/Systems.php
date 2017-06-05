@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
+class Settings_Vtiger_Systems_Model extends \App\Base
 {
 
 	const tableName = 'vtiger_systems';

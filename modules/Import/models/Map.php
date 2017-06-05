@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Import_Map_Model extends Vtiger_Base_Model
+class Import_Map_Model extends \App\Base
 {
 
 	static $tableName = 'vtiger_import_maps';

@@ -8,7 +8,7 @@
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
+class Settings_CurrencyUpdate_Module_Model extends \App\Base
 {
 	/*
 	 * Returns objects instance

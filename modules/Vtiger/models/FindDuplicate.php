@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
+class Vtiger_FindDuplicate_Model extends \App\Base
 {
 
 	public function setModule($moduleModel)
@@ -26,7 +26,7 @@ class Vtiger_FindDuplicate_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$moduleModel = $this->getModule();
 		$listViewHeaders = [];
-		$listViewHeaders[] = new Vtiger_Base_Model(array('name' => 'recordid', 'label' => 'ID'));
+		$listViewHeaders[] = new \App\Base(array('name' => 'recordid', 'label' => 'ID'));
 		$headers = $db->getFieldsArray($this->result);
 		foreach ($headers as $header) {
 			$fieldModel = $moduleModel->getFieldByColumn($header);

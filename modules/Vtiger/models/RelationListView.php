@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_RelationListView_Model extends Vtiger_Base_Model
+class Vtiger_RelationListView_Model extends \App\Base
 {
 
 	protected $relationModel = false;

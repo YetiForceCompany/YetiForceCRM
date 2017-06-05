@@ -11,7 +11,7 @@
 /**
  * Roles Record Model Class
  */
-class Settings_Groups_Member_Model extends Vtiger_Base_Model
+class Settings_Groups_Member_Model extends \App\Base
 {
 
 	const MEMBER_TYPE_USERS = 'Users';

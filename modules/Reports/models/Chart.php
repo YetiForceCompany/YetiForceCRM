@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Chart_Model extends Vtiger_Base_Model
+class Reports_Chart_Model extends \App\Base
 {
 
 	public static function getInstanceById($reportModel)
@@ -72,7 +72,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 	}
 }
 
-abstract class Base_Chart extends Vtiger_Base_Model
+abstract class Base_Chart extends \App\Base
 {
 
 	public function __construct($parent)

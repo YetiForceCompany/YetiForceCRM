@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_TreeCategoryModal_Model extends Vtiger_Base_Model
+class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
 
 	static $_cached_instance;

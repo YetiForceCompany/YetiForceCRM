@@ -51,7 +51,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * List of fields available in listview
-	 * @return Vtiger_Base_Model[]
+	 * @return \App\Base[]
 	 */
 	public function getListFields()
 	{
@@ -60,7 +60,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 			if ($this->typeApi && isset($this->listFields[$this->typeApi])) {
 				$fields = $this->listFields[$this->typeApi];
 				foreach ($fields as $fieldName => $fieldLabel) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
+					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 				}
 			}
 			$this->listFieldModels = $fieldObjects;

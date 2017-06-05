@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
+class KnowledgeBase_Tree_Model extends \App\Base
 {
 
 	private $lastIdinTree;
