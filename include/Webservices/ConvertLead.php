@@ -120,7 +120,7 @@ function vtws_convertlead($entityvalues, $user)
 		$accountId = $entityIds['Accounts'];
 		$contactId = $entityIds['Contacts'];
 
-		$transfered = vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
+		vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
 		$relatedId = $entityIds[$entityvalues['transferRelatedRecordsTo']];
 		vtws_getRelatedActivities($leadIdComponents, $accountId, $contactId, $relatedId);
@@ -217,8 +217,6 @@ function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, 
 
 function vtws_getConvertLeadFieldInfo($module, $fieldname)
 {
-	$adb = PearDatabase::getInstance();
-
 	$describe = vtws_describe($module, vglobal('current_user'));
 	foreach ($describe['fields'] as $index => $fieldInfo) {
 		if ($fieldInfo['name'] == $fieldname) {

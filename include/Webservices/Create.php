@@ -16,7 +16,7 @@ function vtws_create($elementType, $element, $user)
 	}
 
 	$adb = PearDatabase::getInstance();
-	
+
 
 	// Cache the instance for re-use
 	if (!isset($vtws_create_cache[$elementType]['webserviceobject'])) {
@@ -43,7 +43,6 @@ function vtws_create($elementType, $element, $user)
 		if (isset($element[$fieldName]) && strlen($element[$fieldName]) > 0) {
 			$ids = vtws_getIdComponents($element[$fieldName]);
 			$elemTypeId = $ids[0];
-			$elemId = $ids[1];
 			$referenceObject = VtigerWebserviceObject::fromId($adb, $elemTypeId);
 			if (!in_array($referenceObject->getEntityName(), $details)) {
 				throw new WebServiceException(WebServiceErrorCode::$REFERENCEINVALID, "Invalid reference specified for $fieldName");

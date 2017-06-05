@@ -134,19 +134,6 @@ function vtws_getId($objId, $elemId)
 	return $objId . "x" . $elemId;
 }
 
-function getEmailFieldId($meta, $entityId)
-{
-	$adb = PearDatabase::getInstance();
-	//no email field accessible in the module. since its only association pick up the field any way.
-	$query = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=?
-		and uitype=13 and presence in (0,2)";
-	$result = $adb->pquery($query, array($meta->getTabId()));
-
-	//pick up the first field.
-	$fieldId = $adb->query_result($result, 0, 'fieldid');
-	return $fieldId;
-}
-
 function vtws_getParameter($parameterArray, $paramName, $default = null)
 {
 
@@ -490,7 +477,6 @@ function vtws_getActorEntityNameById($entityId, $idList)
 		return [];
 	}
 	$nameList = [];
-	$webserviceObject = VtigerWebserviceObject::fromId($db, $entityId);
 	$query = "select * from vtiger_ws_entity_name where entity_id = ?";
 	$result = $db->pquery($query, array($entityId));
 	if (is_object($result)) {

@@ -1143,8 +1143,6 @@ class CRMEntity
 		if ($this->__inactive_fields_filtered) {
 			return;
 		}
-
-		$adb = PearDatabase::getInstance();
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
 		if ($cachedModuleFields === false) {
@@ -1241,7 +1239,6 @@ class CRMEntity
 		$tabId = \App\Module::getModuleId($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
-		$sharedTabId = null;
 		$query = '';
 		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
 			count($sharingRuleInfo['GROUP']) > 0)) {

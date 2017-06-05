@@ -113,8 +113,6 @@ class Vtiger_Loader
 		// Fall Back Directory & Fall Back Class
 		$fallBackModuleDir = $fallBackModuleClassPath = 'Vtiger';
 		// Intermediate Fall Back Directories & Classes, before relying on final fall back
-		$firstFallBackModuleDir = $firstFallBackModuleClassPath = '';
-		$secondFallBackDir = $secondFallBackClassPath = '';
 		// Default module directory & class name
 		$moduleDir = $moduleClassPath = $moduleName;
 		// Change the Module directory & class, along with intermediate fall back directory and class, if module names has submodule as well

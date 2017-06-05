@@ -131,17 +131,4 @@ class Reservations extends Vtiger_CRMEntity
 		$end = DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
-
-	public function saveentity($module_name, $fileid = '')
-	{
-		$date_start = $this->column_fields['date_start'];
-		$due_date = $this->column_fields['due_date'];
-		$start = DateTimeField::convertToDBTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
-		$this->column_fields['date_start'] = $start->format(DateTimeField::getPHPDateFormat());
-		$end = DateTimeField::convertToDBTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
-		$this->column_fields['due_date'] = $end->format(DateTimeField::getPHPDateFormat());
-		parent::saveentity($module_name, $fileid = '');
-		$this->column_fields['date_start'] = $date_start;
-		$this->column_fields['due_date'] = $due_date;
-	}
 }
