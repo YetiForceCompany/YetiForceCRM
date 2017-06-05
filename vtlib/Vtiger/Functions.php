@@ -66,7 +66,7 @@ class Functions
 		}
 		if ($onlyActive) {
 			$currencies = [];
-			foreach ($currencyInfo as $currencyId => &$currency) {
+			foreach ($currencyInfo as $currencyId => $currency) {
 				if ($currency['currency_status'] === 'Active') {
 					$currencies[$currencyId] = $currency;
 				}
@@ -869,7 +869,7 @@ class Functions
 	{
 		$allCurrencies = self::getAllCurrency(true);
 		foreach ($allCurrencies as $currency) {
-			if ($currency['defaultid'] === '-11') {
+			if ((int) $currency['defaultid'] === -11) {
 				return $currency;
 			}
 		}

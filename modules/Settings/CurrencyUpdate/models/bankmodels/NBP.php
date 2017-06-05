@@ -115,11 +115,9 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 
 		$today = date('Y-m-d');
 		$mainCurrency = vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
-
 		$dateCur = $dateParam;
 		$chosenYear = date('Y', strtotime($dateCur));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
+		$date = substr(str_replace('-', '', $dateCur), 2);
 
 		if (date('Y') == $chosenYear) {
 			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
@@ -142,7 +140,6 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
 				}
 			}
-
 			if ($stateA === false) {
 				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
 				$newDate = date('Y-m-d', $newDate);
@@ -162,14 +159,13 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 
 		$exchangeRate = 1.0;
 		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
-		if ($mainCurrency != $this->getMainCurrencyCode()) {
+		if ($mainCurrency !== $this->getMainCurrencyCode()) {
 			for ($i = 0; $i <= $num; $i++) {
-				if ($xmlObj->pozycja[$i]->kod_waluty == $mainCurrency) {
-					$exchangeRate = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
+				if ((string) $xmlObj->pozycja[$i]->kod_waluty === $mainCurrency) {
+					$exchangeRate = (float) str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
 				}
 			}
 		}
-
 		for ($i = 0; $i <= $num; $i++) {
 			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
 				continue;
@@ -178,16 +174,14 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 			foreach ($otherCurrencyCode as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
 					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-					$exchange = $exchange / $xmlObj->pozycja[$i]->przelicznik;
+					$exchange = ((float) $exchange) / ((float) $xmlObj->pozycja[$i]->przelicznik);
 					$exchangeVtiger = $exchangeRate / $exchange;
-					$exchange = $exchange / $exchangeRate;
+					$exchange = $exchangeRate ? ($exchange / $exchangeRate) : 0;
 
 					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
 						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
 					}
-
 					$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
-
 					if ($existingId > 0) {
 						$moduleModel->updateCurrencyRate($existingId, $exchange);
 					} else {
@@ -199,7 +193,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 
 		// currency diffrent than PLN, we need to add manually PLN rates
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
-			$exchange = 1.00000 / $exchangeRate;
+			$exchange = $exchangeRate ? (1.00000 / $exchangeRate) : 0;
 			$mainCurrencyId = false;
 			foreach ($otherCurrencyCode as $code => $id) {
 				if ($code == $this->getMainCurrencyCode()) {
