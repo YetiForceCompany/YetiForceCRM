@@ -80,17 +80,8 @@ var Vtiger_CustomView_Js = {
 	},
 	saveFilter: function () {
 		var aDeferred = jQuery.Deferred();
-		var formElement = jQuery("#CustomView");
-		var formData = formElement.serializeFormData();
-
-		var progress = $.progressIndicator({
-			'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
-			'blockInfo': {
-				'enabled': true
-			}
-		});
-
-		AppConnector.request(formData).then(
+		var formData = jQuery("#CustomView").serializeFormData();
+		AppConnector.request(formData, true).then(
 				function (data) {
 					aDeferred.resolve(data);
 				},

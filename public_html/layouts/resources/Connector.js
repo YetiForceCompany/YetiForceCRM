@@ -31,22 +31,23 @@ var AppConnector = {
 	 *
 	 *  @return - deferred promise
 	 */
-	request: function (params) {
-		return AppConnector._request(params, false);
+	request: function (params, rawData) {
+		return AppConnector._request(params, false, rawData);
 	},
 
-	_request: function (params, pjaxMode) {
+	_request: function (params, pjaxMode, rawData) {
 		var aDeferred = jQuery.Deferred();
-
+		if (typeof rawData == 'undefined') {
+			rawData = false;
+		}
 		if (typeof pjaxMode == 'undefined') {
 			pjaxMode = false;
 		}
-
-		if (typeof params == 'undefined')
+		if (typeof params == 'undefined') {
 			params = {};
-
+		}
 		//caller has send only data
-		if (typeof params.data == 'undefined') {
+		if (typeof params.data == 'undefined' || rawData) {
 			if (typeof params == 'string') {
 				var callerParams = params;
 				var index = callerParams.indexOf('?');
@@ -61,13 +62,13 @@ var AppConnector = {
 			params.data = callerParams;
 		}
 		//Make the request as post by default
-		if (typeof params.type == 'undefined')
+		if (typeof params.type == 'undefined' || rawData)
 			params.type = 'POST';
-		if (typeof params.jsonp == 'undefined')
+		if (typeof params.jsonp == 'undefined' || rawData)
 			params.jsonp = false;
 
 		//By default we expect json from the server
-		if (typeof params.dataType == 'undefined') {
+		if (typeof params.dataType == 'undefined' || rawData) {
 			var data = params.data;
 			//view will return html
 			params.dataType = 'json';
