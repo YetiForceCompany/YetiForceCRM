@@ -17,6 +17,7 @@ class Vtiger_Record_Model extends \App\Base
 
 	protected $module = false;
 	protected $inventoryData;
+	protected $inventoryDataExist = false;
 	protected $inventoryRawData;
 	protected $privileges = [];
 	protected $fullForm = true;
@@ -850,6 +851,50 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Set inventory data
+	 * @param array $data
+	 */
+	public function setInventoryData($data)
+	{
+		$this->inventoryData = $data;
+	}
+
+	/**
+	 * Set inventory raw data
+	 * @param array $data
+	 */
+	public function setInventoryRawData($data)
+	{
+		$this->inventoryRawData = $data;
+	}
+
+	/**
+	 * Save the inventory data
+	 * @param string $moduleName
+	 * @return boolean
+	 */
+	public function saveInventoryData($moduleName)
+	{
+		if (!$this->inventoryDataExist) {
+			return false;
+		}
+		\App\Log::trace('Start ' . __METHOD__);
+		$db = App\Db::getInstance();
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$table = $inventory->getTableName('data');
+
+		$inventoryData = $this->getInventoryData();
+		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
+		if (is_array($inventoryData)) {
+			foreach ($inventoryData as $insertData) {
+				$insertData['id'] = $this->getId();
+				$db->createCommand()->insert($table, $insertData)->execute();
+			}
+		}
+		\App\Log::trace('End ' . __METHOD__);
+	}
+
+	/**
 	 * Function to gets inventory default data fields
 	 * @return string|int|null
 	 */
@@ -907,7 +952,6 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function initInventoryData()
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
@@ -940,8 +984,9 @@ class Vtiger_Record_Model extends \App\Base
 					$this->set($prefix . $fieldName, $value);
 				}
 			}
+			$this->inventoryData = $inventoryData;
+			$this->inventoryDataExist = true;
 		}
-		$this->inventoryData = $inventoryData;
 		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
@@ -971,45 +1016,6 @@ class Vtiger_Record_Model extends \App\Base
 			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
 		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
-	}
-
-	/**
-	 * Set inventory data
-	 * @param array $data
-	 */
-	public function setInventoryData($data)
-	{
-		$this->inventoryData = $data;
-	}
-
-	/**
-	 * Set inventory raw data
-	 * @param array $data
-	 */
-	public function setInventoryRawData($data)
-	{
-		$this->inventoryRawData = $data;
-	}
-
-	/**
-	 * Save the inventory data
-	 */
-	public function saveInventoryData($moduleName)
-	{
-		\App\Log::trace('Start ' . __METHOD__);
-		$db = App\Db::getInstance();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
-		$inventoryData = $this->getInventoryData();
-		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
-		if (is_array($inventoryData)) {
-			foreach ($inventoryData as $insertData) {
-				$insertData['id'] = $this->getId();
-				$db->createCommand()->insert($table, $insertData)->execute();
-			}
-		}
-		\App\Log::trace('End ' . __METHOD__);
 	}
 
 	public function clearPrivilegesCache($name = false)
