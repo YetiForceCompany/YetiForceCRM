@@ -20,7 +20,7 @@ class ServerHttps extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

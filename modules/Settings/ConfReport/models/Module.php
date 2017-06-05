@@ -81,6 +81,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return self::$library;
 	}
 
+	/**
+	 * Get configuration
+	 * @param bool $instalMode
+	 * @return array
+	 */
 	public static function getConfigurationValue($instalMode = false)
 	{
 		$errorReportingValue = 'E_ALL & ~E_NOTICE';
@@ -113,7 +118,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session_regenerate_id' => ['prefer' => 'On'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 			$directiveValues['HTTPS']['status'] = false;
 			$directiveValues['HTTPS']['current'] = self::getFlag(true);
 		} else {
