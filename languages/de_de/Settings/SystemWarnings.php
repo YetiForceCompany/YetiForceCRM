@@ -30,4 +30,7 @@ $languageStrings = [
 	'BTN_REMOVE_IGNORE' => 'Entfernen von Ignorieren',
 	'LBL_MISSING_LIBRARY' => 'Fehlende Bibliothek erkannt. Einige Funktionen wurden deaktiviert. Um sie zu aktivieren bitte die Bibliothek herunterladen. Wenn der CRM keine Internetverbindung hat, können Sie die Dateien herunterladen oder kopieren Sie sie in Ordner %s .',
 	'BTN_DOWNLOAD_LIBRARY' => 'Download Library',
+	'LBL_SERVER_HTTPS' => 'HTTPS encryption',
+	'BTN_CONFIGURE_HTTPS' => 'Recommended configuration',
+	'LBL_MISSING_HTTPS' => 'Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the "Web server requirements" article in the documentation.',
 ];
