@@ -5954,3 +5954,12 @@ select.form-control {
 .Home_DashBoard .widget_header{
 	margin-bottom: 0px;
 }
+.chatModal {
+	color: #000;
+}
+.pinToDown {
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

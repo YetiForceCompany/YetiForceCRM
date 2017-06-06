@@ -52,10 +52,27 @@
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
-					{if $CHAT_ACTIVE}
+					{if $CHAT_ENTRIES}
 						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
+						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel">
+							<div class="modal-dialog modalRightSiteBar" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="myModalLabel">{\App\Language::translate('Chat','Chat')}</h4>
+									</div>
+									<div class="modal-body">
+										
+									</div>
+									<div class="modal-footer pinToDown">
+										<textarea class="form-control" rows="1"></textarea><br>
+										<button type="button" class="btn btn-primary">{\App\Language::translate('LBL_ADD')}</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">

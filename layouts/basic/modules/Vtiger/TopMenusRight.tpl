@@ -84,7 +84,7 @@
 			</div>
 		</li>
 	</ul>
-	{if $CHAT_ACTIVE eq true}
+	{if $CHAT_ENTRIES}
 		<ul class="headerLinksContainer headerLinksAJAXChat nav navbar-nav navbar-right">
 			<li>
 				<a class="ChatIcon" href="#" title="{vtranslate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>

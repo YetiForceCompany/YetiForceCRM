@@ -402,6 +402,12 @@ var Vtiger_Index_Js = {
 			Vtiger_Index_Js.adjustTopMenuBarItems();
 		});
 	},
+	registerChat: function () {
+		jQuery('.headerLinkChat').on('click', function (e) {
+			e.stopPropagation();
+			$('.chatModal').modal({backdrop: false});
+		})
+	},
 	/**
 	 * Function to make top-bar menu responsive.
 	 */
@@ -638,6 +644,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.registerPostAjaxEvents();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
+		Vtiger_Index_Js.registerChat();
 	},
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();

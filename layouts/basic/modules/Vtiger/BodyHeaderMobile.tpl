@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		{/if}
-		{if $CHAT_ACTIVE}
+		{if $CHAT_ENTRIES}
 			<div class="row">
 				<div class="headerLinksAJAXChat quickAction">
 					<div class="pull-left">

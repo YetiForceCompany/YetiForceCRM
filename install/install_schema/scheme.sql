@@ -1116,6 +1116,17 @@ CREATE TABLE `u_yf_cfixedassetscf` (
   CONSTRAINT `fk_1_vtiger_cfixedassetscfcfixedassetsid` FOREIGN KEY (`cfixedassetsid`) REFERENCES `u_yf_cfixedassets` (`cfixedassetsid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_chat_messages` */
+
+CREATE TABLE `u_yf_chat_messages` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` smallint(6) unsigned NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `created` int(11) unsigned DEFAULT NULL,
+  `messages` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_cinternaltickets` */
 
 CREATE TABLE `u_yf_cinternaltickets` (
