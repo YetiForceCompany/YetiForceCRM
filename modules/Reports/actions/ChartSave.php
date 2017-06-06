@@ -13,10 +13,8 @@ class Reports_ChartSave_Action extends Reports_Save_Action
 
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-
 		$record = $request->get('record');
-		$reportModel = new Reports_Record_Model();
+		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');
 		if (!empty($record) && !$request->get('isDuplicate')) {
 			$reportModel->setId($record);
