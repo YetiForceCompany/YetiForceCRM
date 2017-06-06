@@ -428,11 +428,12 @@ class DateTimeField
 		$value = str_replace('T', ' ', $value);
 		list($date, $time) = array_pad(explode(' ', $value), 2, '');
 		if (!empty($date) && !in_array($time, ['AM', 'PM'])) {
-			$date = self::__convertToDBFormat($date, $user->date_format);
-			$value = $date;
-			if (!empty($time)) {
-				$value .= ' ' . rtrim($time);
+			if (empty($time)) {
+				$date = self::__convertToDBFormat($date, $user->date_format);
+			} else {
+				$date = self::__convertToDBFormat($date.' ' . rtrim($time), $user->date_format);
 			}
+			$value = $date;
 		}
 		return $value;
 	}
