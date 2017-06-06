@@ -555,7 +555,6 @@ class PackageImport extends PackageExport
 				// Call module import function
 				$this->import_Module();
 			}
-			unlink($zipfile);
 		}
 	}
 
