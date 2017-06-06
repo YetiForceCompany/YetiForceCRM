@@ -693,10 +693,12 @@ Vtiger_Base_Validator_Js('Vtiger_Currency_Validator_Js', {
 			strippedValue = strippedValue.replace(/ /g, '');
 		var errorInfo;
 
-		if (fieldData.groupSeparator == "$") {
+		if (fieldData.groupSeparator === "$") {
 			fieldData.groupSeparator = "\\$";
 		}
-
+		if (fieldData.groupSeparator === ".") {
+			fieldData.groupSeparator = "\\.";
+		}
 		var regex = new RegExp(fieldData.groupSeparator, 'g');
 		strippedValue = strippedValue.replace(regex, '');
 		//Note: Need to review if we should allow only positive values in currencies
