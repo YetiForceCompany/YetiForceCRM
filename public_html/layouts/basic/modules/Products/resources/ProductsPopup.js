@@ -137,6 +137,14 @@ Vtiger_Popup_Js("Products_PriceBookProductPopup_Js",{
 	},
 
 	/**
+	 * Function which will register event when user clicks on the row
+	 */
+	registerEventForListViewEntries : function() {
+		//To Make sure we will not close the window once he clicks on the row,
+		//which is default behaviour in normal popup
+		return true;
+	},
+	/**
 	 * Function to register events
 	 */
 	registerEvents : function(){
