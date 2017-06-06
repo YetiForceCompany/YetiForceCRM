@@ -2,7 +2,7 @@
 namespace App\SystemWarnings\SystemRequirements;
 
 /**
- * Privilege File basic class
+ * Chat library system warnings class
  * @package YetiForce.SystemWarning
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -11,7 +11,6 @@ namespace App\SystemWarnings\SystemRequirements;
 class LibraryChat extends \App\SystemWarnings\Template
 {
 
-	protected $status = 2;
 	protected $title = 'LBL_LIBRARY_CHAT';
 	protected $priority = 4;
 
