@@ -423,7 +423,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
 
 			$query = (new \App\Db\Query())
-				->select('recordid')
+				->select(['recordid', 'vtiger_activity_reminder_popup.datetime'])
 				->from('vtiger_activity_reminder_popup')
 				->innerJoin('vtiger_activity', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid')
