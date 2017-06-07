@@ -380,6 +380,7 @@ class TextParser
 		}
 		if ($this->recordModel->has($key)) {
 			$fieldModel = $this->recordModel->getModule()->getField($key);
+
 			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
 				return '';
 			}
@@ -458,6 +459,9 @@ class TextParser
 			return '';
 		}
 		$relatedId = $this->recordModel->get($fieldName);
+		if (empty($relatedId)) {
+			return '';
+		}
 		if ($relatedModule === 'Users') {
 			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
 			$instance = static::getInstanceByModel($userRecordModel);
@@ -491,6 +495,7 @@ class TextParser
 	 */
 	protected function sourceRecord($fieldName)
 	{
+
 		if (empty($this->sourceRecordModel) || !\Users_Privileges_Model::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
 			return '';
 		}
@@ -500,6 +505,7 @@ class TextParser
 				$instance->$key = $this->$key;
 			}
 		}
+
 		return $instance->record($fieldName);
 	}
 

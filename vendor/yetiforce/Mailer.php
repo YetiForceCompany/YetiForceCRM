@@ -104,6 +104,9 @@ class Mailer
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);
 		}
+		if (!empty($params['sourceRecord'])) {
+			$textParser->setSourceRecord($params['sourceRecord'], $params['sourceModule']);
+		}
 		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
 		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
@@ -113,6 +116,9 @@ class Mailer
 		}
 		if (isset($template['attachments'])) {
 			$params['attachments'] = array_merge(empty($params['attachments']) ? [] : $params['attachments'], $template['attachments']);
+		}
+		if (!empty($template['email_template_priority'])) {
+			$params['priority'] = $template['email_template_priority'];
 		}
 		return static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
 	}
