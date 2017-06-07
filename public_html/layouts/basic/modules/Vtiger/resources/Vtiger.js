@@ -403,10 +403,27 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerChat: function () {
-		jQuery('.headerLinkChat').on('click', function (e) {
+		var modal = $('.chatModal');
+		if (modal.length === 0) {
+			return;
+		}
+		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
 			$('.chatModal').modal({backdrop: false});
-		})
+		});
+		modal.find('.addMsg').on('click', function (e) {
+			var message = modal.find('.message').val();
+			AppConnector.request({
+				module: 'Chat',
+				action: 'Entries',
+				mode: 'add',
+				message: message,
+			}).then(function (data) {
+				
+				
+			});
+			modal.find('.message').val('');
+		});
 	},
 	/**
 	 * Function to make top-bar menu responsive.

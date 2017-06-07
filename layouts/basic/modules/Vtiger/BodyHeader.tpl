@@ -61,14 +61,16 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel">{\App\Language::translate('Chat','Chat')}</h4>
+										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('Chat','Chat')}</h4>
 									</div>
 									<div class="modal-body">
-										
+										{foreach item=ROW from=$CHAT_ENTRIES}
+											{include file="Item.tpl"|@vtemplate_path:'Chat'}
+										{/foreach}
 									</div>
 									<div class="modal-footer pinToDown">
-										<textarea class="form-control" rows="1"></textarea><br>
-										<button type="button" class="btn btn-primary">{\App\Language::translate('LBL_ADD')}</button>
+										<textarea class="form-control message" rows="1"></textarea><br>
+										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_ADD')}</button>
 									</div>
 								</div>
 							</div>

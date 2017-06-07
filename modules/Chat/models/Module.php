@@ -18,7 +18,7 @@ class Chat_Module_Model extends Vtiger_Module_Model
 	public function getEntries($time = false)
 	{
 
-		$query = (new \App\Db\Query())->select(['created', 'user_name', 'messages'])->from('u_#__chat_messages')->orderBy(['id' => SORT_DESC]);
+		$query = (new \App\Db\Query())->select(['userid', 'created', 'user_name', 'messages'])->from('u_#__chat_messages');
 		if ($time) {
 			$query->where(['>', 'created', $time]);
 		} else {
@@ -32,5 +32,21 @@ class Chat_Module_Model extends Vtiger_Module_Model
 			$rows[] = $row;
 		}
 		return $rows;
+	}
+
+	/**
+	 * 
+	 * @param string $message
+	 */
+	public static function add($message)
+	{
+		$currentUser = \App\User::getCurrentUserModel();
+		\App\Db::getInstance()->createCommand()
+			->insert('u_#__chat_messages', [
+				'userid' => $currentUser->getId(),
+				'created' => strtotime('now'),
+				'user_name' => $currentUser->getName(),
+				'messages' => $message
+			])->execute();
 	}
 }

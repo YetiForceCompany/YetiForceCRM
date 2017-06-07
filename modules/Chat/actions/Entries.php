@@ -39,6 +39,7 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
+		throw new \Exception\AppException('LBL_NOT_ACCESSIBLE');
 	}
 
 	/**
@@ -56,6 +57,7 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 	 */
 	public function add(\App\Request $request)
 	{
-		
+		Chat_Module_Model::add($request->getRaw('message'));
+		$this->get($request);
 	}
 }

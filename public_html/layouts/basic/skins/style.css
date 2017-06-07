@@ -5963,3 +5963,23 @@ select.form-control {
     left: 0;
     right: 0;
 }
+.chatModal .modal-body{
+	padding-top: 5px;
+}
+.chatModal .chatItem{
+	border-bottom: 1px solid #dddddd;
+	margin-bottom: 3px;
+    padding-bottom: 4px;
+}
+.chatModal .chatItem.active{
+	background: #f9f9f9;
+}
+.chatModal .chatItem .author{
+    padding-bottom: 3px;
+}
+.chatModal .chatItem .author span{
+    vertical-align: top;
+	margin-left: 6px;
+}
+
+
