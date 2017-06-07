@@ -105,9 +105,12 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			case 'default':
 			case 'authentication':
 			case 'individual_delivery':
+			case 'save_send_mail':
+			case 'smtp_validate_cert':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'password':
+			case 'smtp_password':
 				$passLength = strlen($value);
 				$value = '';
 				for ($i = 0; $i < $passLength; $i++) {

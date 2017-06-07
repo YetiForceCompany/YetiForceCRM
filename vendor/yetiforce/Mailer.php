@@ -310,8 +310,10 @@ class Mailer
 			$this->mailer->FromName = Company::getInstanceById()->get('name');
 		}
 		if ($this->mailer->send()) {
-			Log::trace('Mailer sent mail', 'Mailer');
-			return true;
+			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
+				Log::trace('Mailer sent mail', 'Mailer');
+				return true;
+			}
 		} else {
 			Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
 		}
@@ -439,5 +441,34 @@ class Mailer
 				$mailer->mailer->Ical = $param;
 				break;
 		}
+	}
+
+	/**
+	 * Save sent email
+	 * @return boolean
+	 */
+	public function saveMail()
+	{
+		if (empty($this->smtp['smtp_username']) && empty($this->smtp['smtp_password']) && empty($this->smtp['smtp_host'])) {
+			Log::error('Mailer Error: No smtp data entered', 'Mailer');
+			return false;
+		}
+		$params = [
+			'default_port' => $this->smtp['smtp_port'],
+			'validate_cert' => !empty($this->smtp['smtp_validate_cert']),
+			'imap_max_retries' => 0,
+			'imap_params' => [],
+			'imap_open_add_connection_type' => true
+		];
+		$folder = \OSSMail_Record_Model::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF7-IMAP', 'UTF-8');
+		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], $this->smtp['smtp_password'], $this->smtp['smtp_host'], $folder, false, $params);
+		if ($mbox === false && !imap_last_error()) {
+			$this->error[] = 'IMAP error - ' . imap_last_error();
+			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
+			return false;
+		}
+		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), "\\Seen");
+		imap_close($mbox);
+		return true;
 	}
 }

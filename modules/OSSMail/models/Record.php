@@ -52,68 +52,65 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	}
 
 	protected static $imapConnectCache = [];
+	public static $imapConnectMailbox = '';
 
-	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
+	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = false)
 	{
-
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
-		$rcConfig = self::load_roundcube_config();
+		if (!$config) {
+			$config = self::load_roundcube_config();
+		}
 		$cacheName = $user . $host . $folder;
 		if (isset(self::$imapConnectCache[$cacheName])) {
 			return self::$imapConnectCache[$cacheName];
 		}
-
 		if (!$host) {
-			$host = key($rcConfig['default_host']);
+			$host = key($config['default_host']);
 		}
 		$parseHost = parse_url($host);
 		$validatecert = '';
 		if (!empty($parseHost['host'])) {
 			$host = $parseHost['host'];
-			$sslMode = (isset($a_host['scheme']) && in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
+			$sslMode = (isset($parseHost['scheme']) && in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
 			if (!empty($parseHost['port'])) {
 				$port = $parseHost['port'];
-			} else if ($sslMode && $sslMode != 'tls' && (!$rcConfig['default_port'] || $rcConfig['default_port'] == 143)) {
+			} else if ($sslMode && $sslMode != 'tls' && (!$config['default_port'] || $config['default_port'] == 143)) {
 				$port = 993;
 			}
 		} else {
-			if ($rcConfig['default_port'] == 993) {
+			if ($config['default_port'] == 993) {
 				$sslMode = 'ssl';
 			} else {
 				$sslMode = 'tls';
 			}
 		}
 		if (empty($port)) {
-			$port = $rcConfig['default_port'];
+			$port = $config['default_port'];
 		}
-		if (!$rcConfig['validate_cert'] && $rcConfig['imap_open_add_connection_type']) {
+		if (!$config['validate_cert'] && $config['imap_open_add_connection_type']) {
 			$validatecert = '/novalidate-cert';
 		}
-		if ($rcConfig['imap_open_add_connection_type']) {
+		if ($config['imap_open_add_connection_type']) {
 			$sslMode = '/' . $sslMode;
 		} else {
 			$sslMode = '';
 		}
-
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
 		$options = 0;
-		$max_retries = $rcConfig['imap_max_retries'];
-		$params = $rcConfig['imap_params'];
-		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password. $options, $max_retries, " . var_export($params, true) . ") method ...");
-		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password, $options, $max_retries, $params);
-		if ($mbox === false && $dieOnError) {
-			self::imapThrowError(imap_last_error());
+		$maxRetries = $config['imap_max_retries'];
+		$params = $config['imap_params'];
+		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
+		\App\Log::trace("imap_open(({" . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ") method ...");
+		$mbox = @imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
+		if ($mbox === false) {
+			\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . imap_last_error());
+			if ($dieOnError) {
+				vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . imap_last_error());
+			}
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
 		\App\Log::trace('Exit OSSMail_Record_Model::imapConnect() method ...');
 		return $mbox;
-	}
-
-	public static function imapThrowError($error)
-	{
-
-		\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . $error);
-		vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
@@ -445,7 +442,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $folders;
 	}
 
-	public function convertCharacterEncoding($value, $toCharset, $fromCharset)
+	public static function convertCharacterEncoding($value, $toCharset, $fromCharset)
 	{
 		if (function_exists('mb_convert_encoding')) {
 			$value = mb_convert_encoding($value, $toCharset, $fromCharset);

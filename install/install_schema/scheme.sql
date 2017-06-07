@@ -969,6 +969,13 @@ CREATE TABLE `s_yf_mail_smtp` (
   `reply_to` varchar(255) DEFAULT NULL,
   `individual_delivery` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `params` text,
+  `save_send_mail` tinyint(1) DEFAULT '0',
+  `smtp_host` varchar(255) DEFAULT NULL,
+  `smtp_port` smallint(6) DEFAULT NULL,
+  `smtp_username` varchar(255) DEFAULT NULL,
+  `smtp_password` varchar(255) DEFAULT NULL,
+  `smtp_folder` varchar(50) DEFAULT NULL,
+  `smtp_validate_cert` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

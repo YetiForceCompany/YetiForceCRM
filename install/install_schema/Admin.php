@@ -28,7 +28,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->smallInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
-						['adv_permission_idx', 'tabid']
+					['adv_permission_idx', 'tabid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -53,7 +53,7 @@ class Admin extends \App\Db\Importers\Base
 					'userid' => $this->integer(),
 				],
 				'index' => [
-						['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
+					['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -63,7 +63,7 @@ class Admin extends \App\Db\Importers\Base
 					'id' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-						['bruteforce_users_pk', 'id']
+					['bruteforce_users_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -74,7 +74,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull()
 				],
 				'primaryKeys' => [
-						['discounts_config_pk', 'param']
+					['discounts_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -105,7 +105,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-						['inventory_limits_idx', 'status'],
+					['inventory_limits_idx', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -121,9 +121,9 @@ class Admin extends \App\Db\Importers\Base
 					'params' => $this->stringType(),
 				],
 				'index' => [
-						['mapped_config_tabid_idx', 'tabid'],
-						['mapped_config_reltabid_idx', 'reltabid'],
-						['mapped_config_status_idx', ['tabid', 'status']],
+					['mapped_config_tabid_idx', 'tabid'],
+					['mapped_config_reltabid_idx', 'reltabid'],
+					['mapped_config_status_idx', ['tabid', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -138,7 +138,7 @@ class Admin extends \App\Db\Importers\Base
 					'default' => $this->stringType(),
 				],
 				'index' => [
-						['mapped_fields_idx', 'mappedid'],
+					['mapped_fields_idx', 'mappedid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -182,8 +182,8 @@ class Admin extends \App\Db\Importers\Base
 					'one_pdf' => $this->smallInteger(1),
 				],
 				'index' => [
-						['pdf_module_status_idx', ['module_name', 'status']],
-						['pdf_module_idx', 'module_name'],
+					['pdf_module_status_idx', ['module_name', 'status']],
+					['pdf_module_idx', 'module_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -195,7 +195,7 @@ class Admin extends \App\Db\Importers\Base
 					'sequence' => $this->smallInteger(1),
 				],
 				'index' => [
-						['relatedlists_inv_fields_id_idx', 'relation_id'],
+					['relatedlists_inv_fields_id_idx', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -206,7 +206,7 @@ class Admin extends \App\Db\Importers\Base
 					'value' => $this->stringType()->notNull(),
 				],
 				'primaryKeys' => [
-						['taxes_config_pk', 'param']
+					['taxes_config_pk', 'param']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -236,7 +236,7 @@ class Admin extends \App\Db\Importers\Base
 					'roleid' => $this->stringType(200)
 				],
 				'index' => [
-						['automatic_assignment_idx', 'tabid'],
+					['automatic_assignment_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -298,7 +298,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => "tinyint(1) unsigned NOT NULL DEFAULT '1'",
 				],
 				'index' => [
-						['mail_queue_smtp_id_idx', 'smtp_id'],
+					['mail_queue_smtp_id_idx', 'smtp_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -309,7 +309,7 @@ class Admin extends \App\Db\Importers\Base
 					'crmid' => $this->integer()->unsigned()->notNull(),
 				],
 				'index' => [
-						['mail_updater_idx', 'tabid'],
+					['mail_updater_idx', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -331,11 +331,21 @@ class Admin extends \App\Db\Importers\Base
 					'from_name' => $this->stringType(),
 					'reply_to' => $this->stringType(),
 					'individual_delivery' => $this->smallInteger(1)->defaultValue(0),
+					'params' => $this->text(),
+					'save_send_mail' => $this->smallInteger(1)->defaultValue(1),
+					'smtp_host' => $this->stringType(),
+					'smtp_port' => $this->smallInteger(6)->unsigned(),
+					'smtp_username' => $this->stringType(),
+					'smtp_password' => $this->stringType(),
+					'smtp_folder' => $this->stringType(50),
+					'smtp_validate_cert' => $this->smallInteger(1)->defaultValue(1),
 				],
 				'columns_mysql' => [
 					'default' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
 					'authentication' => "tinyint(1) unsigned NOT NULL DEFAULT '1'",
 					'individual_delivery' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
+					'save_send_mail' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
+					'smtp_validate_cert' => "tinyint(1) unsigned NOT NULL DEFAULT '0'",
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -348,7 +358,7 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['multireference_idx', ['source_module', 'dest_module']],
+					['multireference_idx', ['source_module', 'dest_module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -361,8 +371,8 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-						['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
-						['privileges_updater_crmid_idx', 'crmid'],
+					['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
+					['privileges_updater_crmid_idx', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -393,7 +403,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
-				['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
+			['a_#__mapped_fields_ibfk_1', 'a_#__mapped_fields', 'mappedid', 'a_#__mapped_config', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
 

@@ -11,9 +11,9 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 				});
 				app.saveAjax('updateSmtp', paramsForm).then(function (respons) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if(true == respons.result.success){
-						window.location.href = 	respons.result.url
-					}else{
+					if (true == respons.result.success) {
+						window.location.href = respons.result.url
+					} else {
 						form.find('.alert').show()
 						form.find('.alert p').text(respons.result.message)
 					}
@@ -32,5 +32,13 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 		}
 		this.registerSubmitForm();
 		app.showPopoverElementView(form.find('.popoverTooltip'));
+
+		form.find(".saveSendMail").click(function () {
+			if (form.find(".saveMailContent").hasClass("hide")) {
+				form.find(".saveMailContent").removeClass("hide");
+			} else {
+				form.find(".saveMailContent").addClass("hide");
+			}
+		});
 	}
 })
