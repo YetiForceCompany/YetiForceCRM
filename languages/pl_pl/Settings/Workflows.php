@@ -171,7 +171,7 @@ $languageStrings = [
 	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Aktualizuj daty automatycznie utworzonych wydarzeń',
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatycznie aktualizuj czas pracy',
 	'LBL_UPDATE_WORK_TIME' => 'Aktualizacja czasu pracy',
-	'LBL_UPDATE_RELATED_FIELD' => 'Aktualizuj rekord powiązany',
+	'LBL_UPDATE_RELATED_FIELD' => 'Aktualizuj rekordy powiązane',
 	'LBL_AUTO_ASSIGN' => 'Automatyczny przydział rekordu',
 	//workflow add time
 	'Current Date' => 'Aktualna data',
