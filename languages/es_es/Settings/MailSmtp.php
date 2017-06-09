@@ -24,6 +24,11 @@ $languageStrings = [
 	'LBL_REPLY_TO' => 'Responder a',
 	'LBL_NAME' => 'Nombre',
 	'LBL_FROM_EMAIL' => 'Correo del remitente',
+	'LBL_SAVE_SEND_MAIL' => 'Do you want to save a sent email?',
+	'LBL_SAVE_SEND_MAIL_INFO' => 'All sent emails are not saved (Gmail saves them automatically, so there is no need to enable this option). In order to save emails, enter an additional configuration.',
+	'LBL_VALIDATE_CERT' => 'Do you want to validate the certificate?',
+	'LBL_IMAP_SAVE_MAIL' => 'IMAP configuration for saving emails',
+	'LBL_SEND_FOLDER' => 'Folder',
 	// Picklist
 	'LBL_SMTP' => 'SMTP',
 	'LBL_SENDMAIL' => 'Sendmail',
