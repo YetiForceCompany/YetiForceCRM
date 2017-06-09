@@ -26,4 +26,6 @@ $languageStrings = [
 	'LBL_SERVER_HTTPS' => 'HTTPS encryption',
 	'BTN_CONFIGURE_HTTPS' => 'Recommended configuration',
 	'LBL_MISSING_HTTPS' => 'Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the "Web server requirements" article in the documentation.',
+	'LBL_DISK_USAGE' => 'Disk space available',
+	'LBL_DISK_FULL' => 'There is not enough free space on your disk, so the system may stop working. Directory path: %s',
 ];
