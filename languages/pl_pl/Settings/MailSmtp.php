@@ -24,8 +24,8 @@ $languageStrings = [
 	'LBL_FROM_EMAIL' => 'Email nadawcy',
 	'LBL_NAME' => 'Nazwa',
 	'LBL_SAVE_SEND_MAIL' => 'Czy zapisać wysłanego maila?',
-	'LBL_SAVE_SEND_MAIL_INFO' => 'Wszystkie wysyłane maile nie są zapiswane (gmail zapisuje z automaty i nie nie ma potrzeby włączać tej opcji), aby mail był zapisany trzeba wprowadzić dodatkową konfigurację.',
-	'LBL_VALIDATE_CERT' => 'Czy walidować certyfikat',
+	'LBL_SAVE_SEND_MAIL_INFO' => 'Wszystkie wysyłane maile nie są zapisywane (Gmail zapisuje automatycznie i nie ma potrzeby włączać tej opcji), aby mail był zapisany trzeba wprowadzić dodatkową konfigurację.',
+	'LBL_VALIDATE_CERT' => 'Czy walidować certyfikat?',
 	'LBL_IMAP_SAVE_MAIL' => 'Konfiguracja imap do zapisywania maili',
 	'LBL_SEND_FOLDER' => 'Folder',
 	// Picklist
