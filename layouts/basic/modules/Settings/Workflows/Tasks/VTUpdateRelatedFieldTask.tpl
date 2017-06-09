@@ -14,10 +14,26 @@
 				<span class="col-md-4">
 					<select name="fieldname" class="chzn-select" style="min-width: 250px" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 						<option></option>
+						{foreach item=REFERENCE_FIELD from=$MODULE_MODEL->getFieldsByReference()}
+							{foreach from=$REFERENCE_FIELD->getReferenceList() item=RELATION_MODULE_NAME}
+								<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {vtranslate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
+									{assign var=RELATION_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATION_MODULE_NAME)}
+									{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
+										{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
+											{continue}
+										{/if}
+										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
+										<option value="{$REFERENCE_FIELD->get('name')}::{$RELATION_MODULE_NAME}::{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
+											{vtranslate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+										</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						{/foreach}
 						{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
 							{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 							{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
-							<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)}">
+							<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {vtranslate('LBL_RELATIONSHIPS_BASED_ON_MODULES')}">
 								{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
 									{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
 										{continue}
@@ -46,10 +62,26 @@
 		<span class="col-md-4">
 			<select name="fieldname" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" class="form-control">
 				<option></option>
+				{foreach item=REFERENCE_FIELD from=$MODULE_MODEL->getFieldsByReference()}
+					{foreach from=$REFERENCE_FIELD->getReferenceList() item=RELATION_MODULE_NAME}
+						<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {vtranslate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
+							{assign var=RELATION_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATION_MODULE_NAME)}
+							{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
+								{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
+									{continue}
+								{/if}
+								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
+								<option value="{$REFERENCE_FIELD->get('name')}::{$RELATION_MODULE_NAME}::{$FIELD_MODEL->get('name')}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->get('name')}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->get('name')}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
+									{vtranslate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+								</option>
+							{/foreach}
+						</optgroup>
+					{/foreach}
+				{/foreach}
 				{foreach item=RELATION_MODEL from=$MODULE_MODEL->getRelations()}
 					{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
 					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
-					<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)}">
+					<optgroup label="{vtranslate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {vtranslate('LBL_RELATIONSHIPS_BASED_ON_MODULES')}">
 						{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
 							{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->get('name'),$RESTRICTFIELDS))} 
 								{continue}
