@@ -1099,7 +1099,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function hasDefaultValue()
 	{
-		return $this->defaultvalue == '' ? false : true;
+		return $this->defaultvalue === '' ? false : true;
 	}
 
 	public function isActiveField()
@@ -1164,9 +1164,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$defaultValue = $this->getDefaultFieldValue();
 		$recordValue = $this->get('fieldvalue');
-
-		if (empty($recordValue) && !empty($defaultValue))
+		if (empty($recordValue) && !$defaultValue) {
 			$this->set('fieldvalue', $defaultValue);
+		}
 		return $this;
 	}
 

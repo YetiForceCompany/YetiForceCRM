@@ -38,23 +38,24 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 					if ($fieldModel->isEditable()) {
 						if ($recordExists) {
 							$fieldValue = $recordModel->get($fieldName);
-							if ($fieldName == 'date_start') {
+							if ($fieldName === 'date_start') {
 								$fieldValue = $fieldValue . ' ' . $recordModel->get('time_start');
 							} else if ($fieldName == 'due_date' && $moduleModel->get('name') != 'Calendar') {
 								//Do not concat duedate and endtime for Tasks as it contains only duedate
 								if ($moduleModel->getName() != 'Calendar') {
 									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
 								}
-							} else if ($fieldName == 'visibility' && empty($fieldValue)) {
+							} else if ($fieldName === 'visibility' && empty($fieldValue)) {
 								$currentUserModel = Users_Record_Model::getCurrentUserModel();
 								$sharedType = $currentUserModel->get('calendarsharedtype');
-								if ($sharedType == 'public' || $sharedType == 'selectedusers')
+								if ($sharedType === 'public' || $sharedType === 'selectedusers') {
 									$fieldValue = 'Public';
-							} else if ($fieldName == 'activitystatus' && empty($fieldValue)) {
+								}
+							} else if ($fieldName === 'activitystatus' && empty($fieldValue)) {
 								$currentUserModel = Users_Record_Model::getCurrentUserModel();
 								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 								$fieldValue = $defaulteventstatus;
-							} else if ($fieldName == 'activitytype' && empty($fieldValue)) {
+							} else if ($fieldName === 'activitytype' && empty($fieldValue)) {
 								$currentUserModel = Users_Record_Model::getCurrentUserModel();
 								$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 								$fieldValue = $defaultactivitytype;

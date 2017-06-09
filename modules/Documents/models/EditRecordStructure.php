@@ -34,16 +34,13 @@ class Documents_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mod
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isEditable()) {
 						$fieldValue = $recordModel->get($fieldName);
-
 						if (!$fieldValue && !$recordId) {
 							$fieldValue = $fieldModel->getDefaultFieldValue();
 						}
-
 						//By default the file status should be active while creating a Document record
 						if ($fieldName === 'filestatus' && !$recordId) {
 							$fieldValue = true;
 						}
-
 						if ($fieldValue) {
 							$fieldModel->set('fieldvalue', $fieldValue);
 						}

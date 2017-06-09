@@ -48,22 +48,22 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 						}
 						$recordModel->set($fieldName, $fieldValue);
 					}
-					if ($fieldName == 'is_owner') {
+					if ($fieldName === 'is_owner') {
 						$fieldModel->set('editable', false);
-					} else if ($fieldName == 'reports_to_id' && !$currentUserModel->isAdminUser()) {
+					} else if ($fieldName === 'reports_to_id' && !$currentUserModel->isAdminUser()) {
 						continue;
 					}
 					if ($fieldModel->isEditable() && $fieldName != 'is_owner') {
-						if ($recordModel->get($fieldName) != '') {
+						if ($recordModel->get($fieldName) !== '') {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
-							if ($fieldName == 'time_zone' && empty($defaultValue))
+							if ($fieldName === 'time_zone' && empty($defaultValue))
 								$defaultValue = vglobal('default_timezone');
-							if (!empty($defaultValue) && !$recordId)
+							if (!$defaultValue && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
+							}
 						}
-
 						if (!$recordId && $fieldModel->get('uitype') == 99) {
 							$fieldModel->set('editable', true);
 							$fieldModel->set('fieldvalue', '');
