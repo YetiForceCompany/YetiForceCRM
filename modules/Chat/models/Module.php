@@ -15,14 +15,12 @@ class Chat_Module_Model extends Vtiger_Module_Model
 	 * @param int|bool $time
 	 * @return array
 	 */
-	public function getEntries($time = false)
+	public function getEntries($id = false)
 	{
 
-		$query = (new \App\Db\Query())->select(['userid', 'created', 'user_name', 'messages'])->from('u_#__chat_messages');
-		if ($time) {
-			$query->where(['>', 'created', $time]);
-		} else {
-			$query->limit(AppConfig::module('Chat', 'ROWS_LIMIT'));
+		$query = (new \App\Db\Query())->from('u_#__chat_messages')->limit(AppConfig::module('Chat', 'ROWS_LIMIT'));
+		if ($mode && $id) {
+			$query->where(['>', 'id', $id]);
 		}
 		$rows = [];
 		$dataReader = $query->createCommand()->query();

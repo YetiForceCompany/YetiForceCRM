@@ -56,7 +56,7 @@
 						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
-						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel">
+						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
 							<div class="modal-dialog modalRightSiteBar" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -64,12 +64,10 @@
 										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('Chat','Chat')}</h4>
 									</div>
 									<div class="modal-body">
-										{foreach item=ROW from=$CHAT_ENTRIES}
-											{include file="Item.tpl"|@vtemplate_path:'Chat'}
-										{/foreach}
+										{include file="Items.tpl"|@vtemplate_path:'Chat'}
 									</div>
 									<div class="modal-footer pinToDown">
-										<textarea class="form-control message" rows="1"></textarea><br>
+										<input type="text" class="form-control message" /><br>
 										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_ADD')}</button>
 									</div>
 								</div>

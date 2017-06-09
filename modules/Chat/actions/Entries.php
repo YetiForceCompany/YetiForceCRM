@@ -28,7 +28,6 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('get');
 		$this->exposeMethod('add');
 	}
 
@@ -43,21 +42,13 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Get entries function
-	 * @param \App\Request $request
-	 */
-	public function get(\App\Request $request)
-	{
-		
-	}
-
-	/**
 	 * Add entries function
 	 * @param \App\Request $request
 	 */
 	public function add(\App\Request $request)
 	{
 		Chat_Module_Model::add($request->getRaw('message'));
-		$this->get($request);
+		$view = new Chat_Entries_View();
+		$view->get($request);
 	}
 }

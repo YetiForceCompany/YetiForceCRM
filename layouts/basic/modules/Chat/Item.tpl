@@ -1,5 +1,6 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
 {strip}
-	<div class="chatItem {if $USER_MODEL->getId() == $ROW['userid']}active{/if}">
+	<div class="chatItem {if \App\User::getCurrentUserId() == $ROW['userid']}active{/if}" data-cid="{$ROW['id']}">
 		<div class="pull-right">
 			<small title="{$ROW['created']}">
 				{Vtiger_Util_Helper::formatDateDiffInStrings($ROW['created'])}

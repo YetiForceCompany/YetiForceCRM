@@ -9,6 +9,6 @@
 return [
 	// Number of recent chat entries
 	'ROWS_LIMIT' => 20,
-	// What time to update the news
+	// What time to update the news, number of seconds
 	'REFRESH_TIME' => 4,
 ];

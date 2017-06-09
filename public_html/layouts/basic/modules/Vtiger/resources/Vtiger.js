@@ -407,22 +407,58 @@ var Vtiger_Index_Js = {
 		if (modal.length === 0) {
 			return;
 		}
+		modal.on('shown.bs.modal', function (e) {
+			var modalBody = modal.find('.modal-body');
+			var modalFooter = modal.find('.modal-footer');
+			var modalHeader = modal.find('.modal-header');
+			var height = app.getScreenHeight() - modalFooter.outerHeight(true)- modalHeader.outerHeight(true);
+			modalBody.css('max-height', height + 'px');
+			modalBody.css('overflow', 'auto');
+			modalBody.perfectScrollbar();
+		});
 		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
 			$('.chatModal').modal({backdrop: false});
 		});
+		this.registerChatLoadItems(modal.data('timer'));
 		modal.find('.addMsg').on('click', function (e) {
 			var message = modal.find('.message').val();
+			clearTimeout(Vtiger_Index_Js.chatTimer);
 			AppConnector.request({
-				module: 'Chat',
-				action: 'Entries',
-				mode: 'add',
-				message: message,
-			}).then(function (data) {
-				
-				
+				dataType: 'html',
+				data: {
+					module: 'Chat',
+					action: 'Entries',
+					mode: 'add',
+					message: message,
+					cid: $('.chatModal .chatItem').last().data('cid')
+				}
+			}).then(function (html) {
+				$('.chatModal .modal-body').append(html);
+				Vtiger_Index_Js.registerChatLoadItems(modal.data('timer'));
 			});
 			modal.find('.message').val('');
+		});
+	},
+	registerChatLoadItems: function (timer) {
+		var icon = $('.chatModal .modal-title .glyphicon-comment');
+		this.chatTimer = setTimeout(function () {
+			icon.css('color', '#00e413');
+			Vtiger_Index_Js.getChatItems();
+			Vtiger_Index_Js.registerChatLoadItems(timer);
+			icon.css('color', '#000');
+		}, timer);
+	},
+	getChatItems: function () {
+		AppConnector.request({
+			module: 'Chat',
+			view: 'Entries',
+			mode: 'get',
+			cid: $('.chatModal .chatItem').last().data('cid')
+		}).then(function (html) {
+			if (html) {
+				$('.chatModal .modal-body').append(html);
+			}
 		});
 	},
 	/**

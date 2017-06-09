@@ -5964,12 +5964,15 @@ select.form-control {
     right: 0;
 }
 .chatModal .modal-body{
-	padding-top: 5px;
+	padding: 5px 0px;
+}
+.chatModal .modal-footer{
+	background: #fff;
 }
 .chatModal .chatItem{
 	border-bottom: 1px solid #dddddd;
 	margin-bottom: 3px;
-    padding-bottom: 4px;
+	padding: 2px 8px 2px 8px;
 }
 .chatModal .chatItem.active{
 	background: #f9f9f9;
@@ -5980,6 +5983,7 @@ select.form-control {
 .chatModal .chatItem .author span{
     vertical-align: top;
 	margin-left: 6px;
+	font-weight: bold;
 }
 
 
