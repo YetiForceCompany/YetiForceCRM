@@ -2195,6 +2195,7 @@ class ReportRun extends CRMEntity
 
 		$columnlist = $this->getQueryColumnsList($reportid, $type);
 		$groupslist = $this->getGroupingList($reportid);
+		$groupTimeList = $this->getGroupByTimeList($reportid);
 		$stdfilterlist = $this->getStdFilterList($reportid);
 		$columnstotallist = $this->getColumnsTotal($reportid);
 		if (isset($filtersql) && $filtersql !== false && $filtersql != '') {

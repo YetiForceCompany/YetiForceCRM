@@ -856,8 +856,6 @@ class Reports extends CRMEntity
 	public function getAdvancedFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		$modules = parent::getModulesListValues();
-
 		$current_user = vglobal('current_user');
 
 		$advft_criteria = array();
