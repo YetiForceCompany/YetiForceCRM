@@ -193,7 +193,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 			}
 		}
 
-		$entity = vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $leadinfo, $entityName);
+		$entity = vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $entityName);
 	}
 	return $entity;
 }
