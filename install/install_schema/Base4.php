@@ -1995,58 +1995,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_wsapp' => [
-				'columns' => [
-					'appid' => $this->primaryKey(),
-					'name' => $this->stringType(200)->notNull(),
-					'appkey' => $this->stringType(),
-					'type' => $this->stringType(100),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_wsapp_handlerdetails' => [
-				'columns' => [
-					'type' => $this->stringType(200)->notNull(),
-					'handlerclass' => $this->stringType(100),
-					'handlerpath' => $this->stringType(300),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_wsapp_queuerecords' => [
-				'columns' => [
-					'syncserverid' => $this->integer(),
-					'details' => $this->stringType(300),
-					'flag' => $this->stringType(100),
-					'appid' => $this->integer(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_wsapp_recordmapping' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'serverid' => $this->stringType(10),
-					'clientid' => $this->stringType(),
-					'clientmodifiedtime' => $this->dateTime(),
-					'appid' => $this->integer(),
-					'servermodifiedtime' => $this->dateTime(),
-					'serverappid' => $this->integer(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_wsapp_sync_state' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'name' => $this->stringType(200),
-					'stateencodedvalues' => $this->stringType(300)->notNull(),
-					'userid' => $this->integer(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'yetiforce_auth' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
@@ -9124,7 +9072,6 @@ class Base4 extends \App\Db\Importers\Base
 					[33, 'PBXManager', 0, -1, 'PBXManager', NULL, NULL, 0, 0, 1, '2.1', 'Tools', NULL, 0, 0],
 					[34, 'ServiceContracts', 0, -1, 'Service Contracts', NULL, NULL, 0, 0, 1, '2.4', 'Support', NULL, 0, 0],
 					[35, 'Services', 0, -1, 'Services', NULL, NULL, 0, 0, 1, '2.6', 'Inventory', NULL, 0, 0],
-					[36, 'WSAPP', 0, -1, 'WSAPP', NULL, NULL, 1, 0, 0, '3.4.4', '', NULL, 0, 0],
 					[37, 'Assets', 0, -1, 'Assets', NULL, NULL, 0, 0, 1, '2.0', 'Inventory', NULL, 0, 0],
 					[40, 'ModComments', 0, -1, 'Comments', NULL, NULL, 0, 0, 1, '2.1', 'Tools', NULL, 0, 0],
 					[41, 'ProjectMilestone', 0, -1, 'ProjectMilestone', NULL, NULL, 0, 0, 1, '3.0', 'Support', NULL, 0, 0],
@@ -9199,7 +9146,6 @@ class Base4 extends \App\Db\Importers\Base
 					[34, 'vtiger_min_version', '6.0.0rc'],
 					[35, 'vtiger_min_version', '6.0.0rc'],
 					[35, 'vtiger_max_version', '6.*'],
-					[36, 'vtiger_min_version', '6.0.0rc'],
 					[37, 'vtiger_min_version', '6.0.0rc'],
 					[37, 'vtiger_max_version', '6.*'],
 					[40, 'vtiger_min_version', '6.0.0rc'],
@@ -9985,11 +9931,6 @@ class Base4 extends \App\Db\Importers\Base
 					[14, 'revise', 'include/Webservices/Revise.php', 'vtws_revise', 'POST', 0],
 					[15, 'changePassword', 'include/Webservices/ChangePassword.php', 'vtws_changePassword', 'POST', 0],
 					[16, 'deleteUser', 'include/Webservices/DeleteUser.php', 'vtws_deleteUser', 'POST', 0],
-					[28, 'wsapp_register', 'modules/WSAPP/api/ws/Register.php', 'wsapp_register', 'POST', 0],
-					[29, 'wsapp_deregister', 'modules/WSAPP/api/ws/DeRegister.php', 'wsapp_deregister', 'POST', 0],
-					[30, 'wsapp_get', 'modules/WSAPP/api/ws/Get.php', 'wsapp_get', 'POST', 0],
-					[31, 'wsapp_put', 'modules/WSAPP/api/ws/Put.php', 'wsapp_put', 'POST', 0],
-					[32, 'wsapp_map', 'modules/WSAPP/api/ws/Map.php', 'wsapp_map', 'POST', 0],
 				]
 			],
 			'vtiger_ws_operation_parameters' => [
@@ -10079,20 +10020,6 @@ class Base4 extends \App\Db\Importers\Base
 					[33, 'Products'],
 					[37, 'Currency'],
 					[38, 'DocumentFolders'],
-				]
-			],
-			'vtiger_wsapp' => [
-				'columns' => ['appid', 'name', 'appkey', 'type'],
-				'values' => [
-					[1, 'vtigerCRM', '53c651eaafa17', 'user'],
-				]
-			],
-			'vtiger_wsapp_handlerdetails' => [
-				'columns' => ['type', 'handlerclass', 'handlerpath'],
-				'values' => [
-					['Outlook', 'OutlookHandler', 'modules/WSAPP/Handlers/OutlookHandler.php'],
-					['vtigerCRM', 'vtigerCRMHandler', 'modules/WSAPP/Handlers/vtigerCRMHandler.php'],
-					['vtigerSyncLib', 'WSAPP_VtigerSyncEventHandler', 'modules/WSAPP/synclib/handlers/VtigerSyncEventHandler.php'],
 				]
 			],
 			'yetiforce_auth' => [

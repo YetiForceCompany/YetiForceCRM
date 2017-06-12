@@ -9309,56 +9309,6 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_wsapp` */
-
-CREATE TABLE `vtiger_wsapp` (
-  `appid` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  `appkey` varchar(255) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`appid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_handlerdetails` */
-
-CREATE TABLE `vtiger_wsapp_handlerdetails` (
-  `type` varchar(200) NOT NULL,
-  `handlerclass` varchar(100) DEFAULT NULL,
-  `handlerpath` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_queuerecords` */
-
-CREATE TABLE `vtiger_wsapp_queuerecords` (
-  `syncserverid` int(19) DEFAULT NULL,
-  `details` varchar(300) DEFAULT NULL,
-  `flag` varchar(100) DEFAULT NULL,
-  `appid` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_recordmapping` */
-
-CREATE TABLE `vtiger_wsapp_recordmapping` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `serverid` varchar(10) DEFAULT NULL,
-  `clientid` varchar(255) DEFAULT NULL,
-  `clientmodifiedtime` datetime DEFAULT NULL,
-  `appid` int(11) DEFAULT NULL,
-  `servermodifiedtime` datetime DEFAULT NULL,
-  `serverappid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_sync_state` */
-
-CREATE TABLE `vtiger_wsapp_sync_state` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
-  `stateencodedvalues` varchar(300) NOT NULL,
-  `userid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `w_yf_portal_session` */
 
 CREATE TABLE `w_yf_portal_session` (

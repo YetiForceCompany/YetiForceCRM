@@ -202,7 +202,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				if ($handler->loginRequired()) {
 					$this->checkLogin($request);
 				}
-				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'WSAPP'];
+				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker'];
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
 				}
