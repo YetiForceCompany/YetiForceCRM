@@ -693,8 +693,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			if (is_numeric($relatedModuleName))
+			if (is_numeric($relatedModuleName)){
 				$relatedModuleName = vtlib\Functions::getModuleName($relatedModuleName);
+			}
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
@@ -722,7 +723,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
-
+		$colorList = [];
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}

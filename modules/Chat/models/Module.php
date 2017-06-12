@@ -19,7 +19,7 @@ class Chat_Module_Model extends Vtiger_Module_Model
 	{
 
 		$query = (new \App\Db\Query())->from('u_#__chat_messages')->limit(AppConfig::module('Chat', 'ROWS_LIMIT'));
-		if ($mode && $id) {
+		if ($id) {
 			$query->where(['>', 'id', $id]);
 		}
 		$rows = [];
