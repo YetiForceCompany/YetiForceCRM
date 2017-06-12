@@ -1013,7 +1013,6 @@ function getCombinedUserActionPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
@@ -1053,7 +1052,6 @@ function getSubordinateRoleAndUsers($roleId)
 {
 
 	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
 	$subRoleAndUsers = [];
 	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {

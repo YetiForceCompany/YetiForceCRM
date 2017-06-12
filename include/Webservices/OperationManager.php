@@ -25,7 +25,6 @@ class OperationManager
 			'postCreate' => 'setBuiltIn'
 		)
 	);
-	private $operationMeta = null;
 	private $formatObjects;
 	private $inParamProcess;
 	private $sessionManager;

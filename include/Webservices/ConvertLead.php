@@ -198,7 +198,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 	return $entity;
 }
 
-function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $leadinfo, $module)
+function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $module)
 {
 
 	$mandatoryFields = $entityHandler->getMeta()->getMandatoryFields();

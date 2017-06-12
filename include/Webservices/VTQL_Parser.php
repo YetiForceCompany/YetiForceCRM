@@ -1396,7 +1396,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	{
 		$adb = PearDatabase::getInstance();
 		if (empty($this->out['meta'])) {
-		// / ProCRM
+			// / ProCRM
 			$module = $this->out['moduleName'];
 			$handler = vtws_getModuleHandlerFromName($module, $this->user);
 			$objectMeta = $handler->getMeta();
@@ -1488,7 +1488,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		//mixed $yygotominor;        /* The LHS of the rule reduced */
 		//VTQL_ParseryyStackEntry $yymsp;            /* The top of the parser's stack */
 		//int $yysize;                     /* Amount to pop the stack */
-		$yymsp = $this->yystack[$this->yyidx];
 		$countYyRuleName = count(self::$yyRuleName);
 		if (self::$yyTraceFILE && $yyruleno >= 0 && $yyruleno < $countYyRuleName) {
 			fprintf(self::$yyTraceFILE, "%sReduce (%d) [%s].\n", self::$yyTracePrompt, $yyruleno, self::$yyRuleName[$yyruleno]);

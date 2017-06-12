@@ -788,7 +788,6 @@ class ReportRun extends CRMEntity
 		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
-		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
 		if ($fieldtablename == "vtiger_crmentity" && $module != $this->primarymodule) {
 			$fieldtablename = $fieldtablename . $module;
 		}
@@ -2196,7 +2195,6 @@ class ReportRun extends CRMEntity
 
 		$columnlist = $this->getQueryColumnsList($reportid, $type);
 		$groupslist = $this->getGroupingList($reportid);
-		$groupTimeList = $this->getGroupByTimeList($reportid);
 		$stdfilterlist = $this->getStdFilterList($reportid);
 		$columnstotallist = $this->getColumnsTotal($reportid);
 		if (isset($filtersql) && $filtersql !== false && $filtersql != '') {
@@ -2437,8 +2435,6 @@ class ReportRun extends CRMEntity
 				$noofrows = $adb->num_rows($result);
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
-
-				$column_definitions = $adb->getFieldsDefinition($result);
 
 				do {
 					$arraylists = Array();

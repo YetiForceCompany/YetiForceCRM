@@ -38,7 +38,6 @@ function getListQuery($module, $where = '')
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$tab_id = \App\Module::getModuleId($module);
 	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 			'vtiger_users.last_name'), 'Users');
 	switch ($module) {

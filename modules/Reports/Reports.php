@@ -69,7 +69,9 @@ class Reports extends CRMEntity
 	 */
 	public function __construct($reportid = "")
 	{
-		global $adb, $current_user, $theme, $mod_strings;
+		global $current_user, $theme, $mod_strings;
+		$adb = PearDatabase::getInstance();
+
 		$this->initListOfModules();
 		if ($reportid != "") {
 			// Lookup information in cache first
@@ -839,7 +841,7 @@ class Reports extends CRMEntity
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
-				} else if (!\App\Field::getFieldPermission($mod,$fieldname)&& $colname !== "crmid") {
+				} else if (!\App\Field::getFieldPermission($mod, $fieldname) && $colname !== "crmid") {
 					$shtml .= "<option permission='no' value=\"" . $fieldcolname . "\" disabled = 'true'>" . $fieldlabel . "</option>";
 				} else {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
@@ -854,7 +856,7 @@ class Reports extends CRMEntity
 	public function getAdvancedFilterList($reportid)
 	{
 		$adb = PearDatabase::getInstance();
-		global $modules;
+		$modules = parent::getModulesListValues();
 
 		$current_user = vglobal('current_user');
 

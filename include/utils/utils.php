@@ -289,7 +289,7 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 }
 
 /** Function to get on clause criteria for duplicate check queries */
-function get_on_clause($field_list, $uitype_arr, $module)
+function get_on_clause($field_list)
 {
 	$field_array = explode(",", $field_list);
 	$ret_str = '';
@@ -298,7 +298,6 @@ function get_on_clause($field_list, $uitype_arr, $module)
 		$sub_arr = explode(".", $fld);
 		$tbl_name = $sub_arr[0];
 		$col_name = $sub_arr[1];
-		$fld_name = $sub_arr[2];
 
 		$ret_str .= " ifnull($tbl_name.$col_name,'null') = ifnull(temp.$col_name,'null')";
 
@@ -326,7 +325,6 @@ function getRelationTables($module, $secmodule)
 	if ($adb->num_rows($ui10_query) > 0) {
 		$ui10_tablename = $adb->query_result($ui10_query, 0, 'tablename');
 		$ui10_columnname = $adb->query_result($ui10_query, 0, 'columnname');
-		$ui10_tabid = $adb->query_result($ui10_query, 0, 'tabid');
 
 		if ($primary_obj->table_name == $ui10_tablename) {
 			$reltables = array($ui10_tablename => array("" . $primary_obj->table_index . "", "$ui10_columnname"));
