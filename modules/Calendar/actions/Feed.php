@@ -9,8 +9,6 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-vimport('~include/Webservices/Query.php');
-
 class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 {
 

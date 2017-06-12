@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once 'include/Webservices/GetUpdates.php';
 
 class ModTracker
 {
