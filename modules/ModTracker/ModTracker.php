@@ -269,7 +269,7 @@ class ModTracker
 		if (!$maxModifiedTime) {
 			$modifiedtime = $mtime;
 		} else {
-			$modifiedtime = vtws_getSeconds($maxModifiedTime);
+			$modifiedtime = strtotime($maxModifiedTime);
 		}
 		if (is_string($modifiedtime)) {
 			$modifiedtime = intval($modifiedtime);

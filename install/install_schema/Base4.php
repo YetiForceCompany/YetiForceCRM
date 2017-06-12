@@ -9915,18 +9915,12 @@ class Base4 extends \App\Db\Importers\Base
 			'vtiger_ws_operation' => [
 				'columns' => ['operationid', 'name', 'handler_path', 'handler_method', 'type', 'prelogin'],
 				'values' => [
-					[1, 'login', 'include/Webservices/Login.php', 'vtws_login', 'POST', 1],
 					[2, 'retrieve', 'include/Webservices/Retrieve.php', 'vtws_retrieve', 'GET', 0],
 					[3, 'create', 'include/Webservices/Create.php', 'vtws_create', 'POST', 0],
 					[4, 'update', 'include/Webservices/Update.php', 'vtws_update', 'POST', 0],
 					[5, 'delete', 'include/Webservices/Delete.php', 'vtws_delete', 'POST', 0],
-					[6, 'sync', 'include/Webservices/GetUpdates.php', 'vtws_sync', 'GET', 0],
-					[7, 'query', 'include/Webservices/Query.php', 'vtws_query', 'GET', 0],
-					[8, 'logout', 'include/Webservices/Logout.php', 'vtws_logout', 'POST', 0],
 					[9, 'listtypes', 'include/Webservices/ModuleTypes.php', 'vtws_listtypes', 'GET', 0],
-					[10, 'getchallenge', 'include/Webservices/AuthToken.php', 'vtws_getchallenge', 'GET', 1],
 					[11, 'describe', 'include/Webservices/DescribeObject.php', 'vtws_describe', 'GET', 0],
-					[12, 'extendsession', 'include/Webservices/ExtendSession.php', 'vtws_extendSession', 'POST', 1],
 					[13, 'convertlead', 'include/Webservices/ConvertLead.php', 'vtws_convertlead', 'POST', 0],
 					[14, 'revise', 'include/Webservices/Revise.php', 'vtws_revise', 'POST', 0],
 					[15, 'changePassword', 'include/Webservices/ChangePassword.php', 'vtws_changePassword', 'POST', 0],
