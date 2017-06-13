@@ -5871,15 +5871,6 @@ select.form-control {
 	position: relative;
 	z-index: 1;
 }
-.detailViewContainer .detailViewTable .multiImageListIcon{
-	width: 48px;
-	height: 48px;
-	margin: 0;
-	border: 1px solid #fff;
-	vertical-align: top;
-	position: relative;
-	z-index: 1;
-}
 .contentImage:hover .imageFullModal{
 	display: inline-block !important;
 }
@@ -5900,13 +5891,9 @@ select.form-control {
 	vertical-align: top;
 	display: inline-block !important;
 }
-.detailViewContainer .detailViewTable .contentImage{
-	width: 48px;
-	height: 48px;
-	display: inline-block !important;
-}
 .multiImageContenDiv{
 	z-index: 1000;
+	margin-right: 5px;
 }
 .textOverflowEllipsis:hover{
 	overflow: initial;
@@ -5990,4 +5977,7 @@ select.form-control {
 }
 .slimScrollBar{
 	right: -7px !important;
+}
+.multiImageResult{
+	float: right;
 }

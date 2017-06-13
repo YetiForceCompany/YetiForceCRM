@@ -28,7 +28,7 @@ jQuery.Class('Vtiger_FileUpload_Js', {}, {
 		return this.formElement;
 	},
 	updateForm: function (data) {
-		var input = $("#input" + data.result['field']);
+		var input = $('#' + app.getModuleName() + "_editView_fieldName_" + data.result['field']);
 		var ids = [];
 		$.each(data.result['attach'], function (index, value) {
 			ids.push(value.id);
