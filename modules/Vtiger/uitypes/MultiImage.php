@@ -86,7 +86,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	{
 		$field = $this->getFieldModel();
 		$moduleName = $field->getModuleName();
-		return "file.php?module=$moduleName&action=Image&record=$recordId&attachment=$value&field={$field->getId()}";
+		return "file.php?module=$moduleName&action=MultiImage&record=$recordId&attachment=$value&field={$field->getId()}";
 	}
 
 	/**

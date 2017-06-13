@@ -1,6 +1,6 @@
 <?php
 /**
- * Image class to handle files
+ * Multi image class to handle files
  * @package YetiForce.Files
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -10,7 +10,7 @@
 /**
  * Image class to handle files
  */
-class Vtiger_Image_File extends Vtiger_Basic_File
+class Vtiger_MultiImage_File extends Vtiger_Basic_File
 {
 
 	/**
