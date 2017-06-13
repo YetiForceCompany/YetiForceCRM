@@ -33,11 +33,11 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 	 */
 	public function get(\App\Request $request)
 	{
-		$record = $request->get('attachment');
-		if (empty($record)) {
+		$attachmentId = $request->getInteger('attachment');
+		if (empty($attachmentId)) {
 			throw new \Exception\NoPermitted('Not Acceptable', 406);
 		}
-		$data = (new App\Db\Query())->from('u_#__attachments')->where(['attachmentid' => $record])->one();
+		$data = (new App\Db\Query())->from('u_#__attachments')->where(['attachmentid' => $attachmentId, 'crmid' => $request->getInteger('record')])->one();
 		if ($data) {
 			$path = $data['path'] . $data['attachmentid'];
 			$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $path;
