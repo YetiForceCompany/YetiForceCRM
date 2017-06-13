@@ -123,13 +123,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getMultiImageQuery($value, $fields = [], $limit = true)
 	{
-		$field = $this->getFieldModel();
 		$query = (new App\Db\Query());
 		if ($fields) {
 			$query->select($fields);
 		}
-		$query->from('u_#__attachments')
-			->where(['attachmentid' => explode(',', $value)]);
+		$query->from('u_#__attachments')->where(['attachmentid' => explode(',', $value)]);
 		if ($limit) {
 			$query->limit(AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
 		}
