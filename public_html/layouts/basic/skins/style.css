@@ -5985,5 +5985,9 @@ select.form-control {
 	margin-left: 6px;
 	font-weight: bold;
 }
-
-
+.ps-scrollbar-y-rail{
+	display:none !important;
+}
+.slimScrollBar{
+	right: -7px !important;
+}
