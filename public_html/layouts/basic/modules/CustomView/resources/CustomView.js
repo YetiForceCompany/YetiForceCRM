@@ -97,7 +97,7 @@ var Vtiger_CustomView_Js = {
 					if (response.success) {
 						var url;
 						if (app.getParentModuleName() == 'Settings') {
-							url = 'index.php?module=CustomView&parent=Settings&view=Index';
+							url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
 						} else {
 							url = response['result']['listviewurl'];
 						}
