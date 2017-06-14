@@ -5981,3 +5981,6 @@ select.form-control {
 .multiImageResult{
 	float: right;
 }
+#jstree-marker{
+	z-index: 1100;
+}
