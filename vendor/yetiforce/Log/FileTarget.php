@@ -1,4 +1,5 @@
-<?php namespace App\Log;
+<?php
+namespace App\Log;
 
 use Yii;
 use yii\base\InvalidConfigException;
@@ -120,6 +121,9 @@ class FileTarget extends \yii\log\FileTarget
 	 */
 	protected function getContextMessage()
 	{
+		if (getcwd() !== ROOT_DIRECTORY) {
+			chdir(ROOT_DIRECTORY);
+		}
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
 		$library = \Settings_ConfReport_Module_Model::getConfigurationLibrary();
 		$directiveValues = \Settings_ConfReport_Module_Model::getConfigurationValue(true);

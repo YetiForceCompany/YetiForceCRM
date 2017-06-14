@@ -184,7 +184,7 @@ class AppConfig
 }
 
 if (!defined('ROOT_DIRECTORY')) {
-	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', dirname(__FILE__)));
+	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
 
 require_once 'config/api.php';

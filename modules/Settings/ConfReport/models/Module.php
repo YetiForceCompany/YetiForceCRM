@@ -138,7 +138,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('display_errors'));
 		}
-		if (App\Db::getInstance()->getDriverName() === 'mysql') {
+		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
 			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
 			$directiveValues['wait_timeout'] = ['prefer' => '600']; // MySQL
