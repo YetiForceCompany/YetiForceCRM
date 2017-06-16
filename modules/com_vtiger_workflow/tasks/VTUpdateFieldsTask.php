@@ -27,36 +27,35 @@ class VTUpdateFieldsTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$util = new VTWorkflowUtils();
-		$util->adminUser();
-
-
-		$moduleName = $recordModel->getModuleName();
 		$moduleModel = $recordModel->getModule();
-		$recordId = $recordModel->getId();
 		$moduleFields = $moduleModel->getFields();
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
-			$util->loggedInUser();
+			$isNew = $recordModel->isNew();
+			if ($isNew) {
+				$recordModel->isNew = false;
+			}
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
 				$fieldInstance = $moduleFields[$fieldName];
-				if ($fieldValueType == 'expression') {
+				if ($fieldValueType === 'expression') {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
 					$exprEvaluater = new VTFieldExpressionEvaluater($expression);
 					$fieldValue = $exprEvaluater->evaluate($recordModel);
 					//for Product Unit Price value converted with based product currency
-					if ($fieldInstance && $fieldInstance->getFieldDataType() == 'currency' && $fieldName == 'unit_price') {
+					if ($fieldInstance && $fieldInstance->getFieldDataType() === 'currency' && $fieldName === 'unit_price') {
 						$fieldValue = $this->calculateProductUnitPrice($fieldValue);
 					}
-				} elseif ($fieldValueType !== 'fieldname') {
+				} elseif ($fieldValueType === 'fieldname') {
+					$fieldValue = $recordModel->get($fieldValue);
+				} else {
 					if (preg_match('/([^:]+):boolean$/', $fieldValue, $match)) {
 						$fieldValue = $match[1];
 						if ($fieldValue == 'true') {
@@ -66,33 +65,18 @@ class VTUpdateFieldsTask extends VTTask
 						}
 					}
 					//for Product Unit Price value converted with based product currency
-					if ($fieldInstance && $fieldInstance->getFieldDataType() == 'currency' && $fieldName == 'unit_price') {
+					if ($fieldInstance && $fieldInstance->getFieldDataType() === 'currency' && $fieldName === 'unit_price') {
 						$fieldValue = $this->calculateProductUnitPrice($fieldValue);
 					}
 				}
-				$recordModel->set($fieldName, decode_html($fieldValue));
+				$recordModel->set($fieldName, App\Purifier::decodeHtml($fieldValue));
 			}
-			// Added as Mass Edit triggers workflow and date and currency fields are set to user format
-			// When saving the information in database saveentity API should convert to database format
-			// and save it. But it converts in database format only if that date & currency fields are
-			// changed(massedit) other wise they wont be converted thereby changing the values in user
-			// format, CRMEntity.php line 474 has the login to check wheather to convert to database format
-			//  For workflows update field tasks is deleted all the lineitems.
-			//	$focus->isLineItemUpdate = false;
-
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
-			$isNew = $recordModel->isNew();
-			if ($isNew) {
-				$recordModel->isNew = false;
-			}
 			$recordModel->save();
 			if ($isNew) {
 				$recordModel->isNew = true;
 			}
-			// Reverting back the action name as there can be some dependencies on this.
-			$util->revertUser();
 		}
-		$util->revertUser();
 	}
 
 	/**
