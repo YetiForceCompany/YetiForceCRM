@@ -56,14 +56,11 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
-		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
+		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
-
 		return parent::process($request);
 	}
 
@@ -73,16 +70,13 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 		$moduleName = $request->getModule();
 		$moduleDetailFile = 'modules.' . $moduleName . '.resources.PreferenceDetail';
 		unset($headerScriptInstances[$moduleDetailFile]);
-
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.Detail',
 			'modules.Users.resources.Detail',
 			'modules.' . $moduleName . '.resources.PreferenceDetail',
 			'modules.' . $moduleName . '.resources.PreferenceEdit'
-		);
-
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}
 }

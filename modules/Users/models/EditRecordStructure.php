@@ -42,7 +42,6 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
 						$fieldModel->set('editable', true);
 						$fieldValue = false;
-						$defaultValue = $fieldModel->getDefaultFieldValue();
 						if ($recordModel->get($fieldName) === 'on') {
 							$fieldValue = true;
 						}

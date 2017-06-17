@@ -60,16 +60,12 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-
 		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
-		$dayStartPicklistValues = Users_Record_Model::getDayStartsPicklistValues($recordStructureInstance->getStructure());
-
+		$dayStartPicklistValues = $recordModel->getDayStartsPicklistValues();
 		$viewer = $this->getViewer($request);
 		$viewer->assign("DAY_STARTS", \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
