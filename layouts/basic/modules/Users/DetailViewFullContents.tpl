@@ -9,6 +9,7 @@
 *
  ********************************************************************************/
 -->*}
+<input type="hidden" name="timeFormatOptions" data-value="{Vtiger_Util_Helper::toSafeHTML($DAY_STARTS)}" />
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}

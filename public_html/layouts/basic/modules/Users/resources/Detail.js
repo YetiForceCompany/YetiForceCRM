@@ -208,7 +208,9 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 		var form = this.getForm();
 		var startHourSelectElement = jQuery('select[name="start_hour"]', form);
 		var selectedElementValue = startHourSelectElement.find('option:selected').text();
-		startHourSelectElement.closest('td').find('span.value').text(selectedElementValue);
+		startHourSelectElement.closest('.fieldValue').find('span.value').text(selectedElementValue);
+		var endHourSelectElement = jQuery('select[name="end_hour"]', form);
+		endHourSelectElement.closest('.fieldValue').find('span.value').text(endHourSelectElement.find('option:selected').text());
 	},
 	startHourUpdateEvent: function (form) {
 		var thisInstance = this;
