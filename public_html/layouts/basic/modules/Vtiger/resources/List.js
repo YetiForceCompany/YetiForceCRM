@@ -1669,10 +1669,15 @@ jQuery.Class("Vtiger_List_Js", {
 			listViewFilterBlock.on('mouseup', 'li span.denyFilter', function (event) {
 				//to close the dropdown
 				thisInstance.getFilterSelectElement().data('select2').close();
-				var liElement = jQuery(event.currentTarget);
+				var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 				var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 				var denyUrl = currentOptionElement.data('denyurl');
-				window.location.href = denyUrl;
+				var form = '<form action=' + denyUrl + ' method="POST">';
+				if (typeof csrfMagicName !== 'undefined') {
+					form += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
+				}
+				form += '</form>';
+				jQuery(form).appendTo('body').submit();
 				event.stopPropagation();
 			});
 		}

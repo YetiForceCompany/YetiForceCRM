@@ -807,16 +807,21 @@ class CustomView_Record_Model extends \App\Base
 		return 'index.php?module=CustomView&action=Delete&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
+	/**
+	 * Function to approve filter
+	 */
 	public function approve()
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PUBLIC, $this->getId()));
+		App\Db::getInstance()->createCommand()
+				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
+				->execute();
 	}
 
 	public function deny()
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PRIVATE, $this->getId()));
+		App\Db::getInstance()->createCommand()
+				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
+				->execute();
 	}
 
 	/**

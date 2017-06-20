@@ -11,6 +11,21 @@
 class CustomView_Deny_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if (!CustomView_Record_Model::getInstanceById($request->get('record'))->isPublic()){
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+	
+	/**
+	 * Main function
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -19,11 +34,14 @@ class CustomView_Deny_Action extends Vtiger_Action_Controller
 		if ($currentUser->isAdminUser()) {
 			$customViewModel->deny();
 		}
-
 		$listViewUrl = $moduleModel->getListViewUrl();
 		header("Location: $listViewUrl");
 	}
 
+	/**
+	 * Validate request
+	 * @param \App\Request $request
+	 */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
