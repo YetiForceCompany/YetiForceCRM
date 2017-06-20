@@ -90,23 +90,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 
 		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
 		$instance->setParentRecordModel($parentRecordModel);
-		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
-
 		if (!$relationModel) {
-			throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification  1 <<<");
-			$relatedModuleName = $relatedModuleModel->getName();
-			$parentModuleModel = $instance->getParentRecordModel()->getModule();
-			$referenceFieldOfParentModule = $parentModuleModel->getFieldsByType('reference');
-			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
-				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
-				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
-					$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
-					$relationModel = new $relationModelClassName();
-					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
-				}
-			}
+			return false;
 		}
+		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 		$relationModel->set('query_generator', $queryGenerator);
 		$relationModel->set('parentRecord', $parentRecordModel);
 		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
