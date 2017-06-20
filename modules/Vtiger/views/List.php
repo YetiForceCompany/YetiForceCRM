@@ -54,6 +54,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 		return $title;
 	}
 
+	/**
+	 * Pre process
+	 * @param \App\Request $request
+	 * @param bool $display
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -69,6 +74,13 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
+		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
+			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
+			if ($customViewModel) {
+				App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+			}
+			App\CustomView::setCurrentView($moduleName, $this->viewName);
+		}
 		$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
