@@ -56,14 +56,14 @@
 						{foreach item=CHILDLINK from=$CHILDLINKS}
 							{if $CHILDLINK->getLabel() eq NULL}
 								<li class="divider"></li>
-							{else}
-								{assign var="HREF" value=$CHILDLINK->getUrl()}
-								{assign var="LABEL" value=$CHILDLINK->getLabel()}
-								{assign var="ONCLICK" value=""}
-								{if stripos($CHILDLINK->getUrl(), 'javascript:') === 0}
-									{assign var="ONCLICK" value="onclick="|cat:$HREF}
-									{assign var="HREF" value="javascript:;"}
-								{/if}
+								{else}
+									{assign var="HREF" value=$CHILDLINK->getUrl()}
+									{assign var="LABEL" value=$CHILDLINK->getLabel()}
+									{assign var="ONCLICK" value=""}
+									{if stripos($CHILDLINK->getUrl(), 'javascript:') === 0}
+										{assign var="ONCLICK" value="onclick="|cat:$HREF}
+										{assign var="HREF" value="javascript:;"}
+									{/if}
 								<li>
 									<a target="{$CHILDLINK->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LABEL)}" {if $LABEL=='Switch to old look'}switchLook{/if} href="{$HREF}" {$ONCLICK}>
 										{vtranslate($LABEL,$MODULE)}
@@ -85,7 +85,7 @@
 		</li>
 	</ul>
 	{if $CHAT_ENTRIES}
-		<ul class="headerLinksContainer headerLinksAJAXChat nav navbar-nav navbar-right">
+		<ul class="headerLinksContainer headerLinksChat nav navbar-nav navbar-right">
 			<li>
 				<a class="ChatIcon" href="#" title="{vtranslate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
 			</li>

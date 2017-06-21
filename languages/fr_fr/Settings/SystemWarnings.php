@@ -12,7 +12,6 @@ $languageStrings = [
 	'LBL_LIBRARY_PDF' => 'Librairie mPDF',
 	'LBL_LIBRARY_ROUNDCUBE' => 'Librairie Roundcube',
 	'LBL_LIBRARY_PHPEXCEL' => 'Librairie PHPExcel',
-	'LBL_LIBRARY_CHAT' => 'Librairie AJAXChat',
 	'LBL_CONFIG_REPORT' => 'Configuracion Serveur',
 	'LBL_CONFIG_REPORT_LINK' => 'Afficher les librairies manquantes',
 	'LBL_CONFIG_REPORT_DESC' => 'Le serveur est incorrectement configuré. Le système peut de mal fonctionner, ou les données saisies peuvent être corrompues ou supprimées. Plus d’informations dans l’article <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>sur la configuration requise du serveur (anglais)</u></a>',

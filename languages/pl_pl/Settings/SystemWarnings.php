@@ -12,7 +12,6 @@ $languageStrings = [
 	'LBL_LIBRARY_PDF' => 'Biblioteka mPDF',
 	'LBL_LIBRARY_ROUNDCUBE' => 'Biblioteka Roundcube',
 	'LBL_LIBRARY_PHPEXCEL' => 'Biblioteka PHPExcel',
-	'LBL_LIBRARY_CHAT' => 'Biblioteka AJAXChat',
 	'LBL_CONFIG_REPORT' => 'Konfiguracja serwera',
 	'LBL_CONFIG_REPORT_LINK' => 'Pokaż brakującą konfigurację',
 	'LBL_CONFIG_REPORT_DESC' => 'Konfiguracja serwera nie została poprawnie ustawiona. Mogą wystąpić problemy z działaniem systemu, lub wprowadzane dane mogą zostać uszkodzone, lub usunięte. Więcej informacji znajduje się w artykule <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>Wymagania dla serwera WWW na stronie yetiforce.com</u></a>',

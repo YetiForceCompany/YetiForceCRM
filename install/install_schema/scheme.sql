@@ -198,57 +198,6 @@ CREATE TABLE `a_yf_taxes_global` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `chat_bans` */
-
-CREATE TABLE `chat_bans` (
-  `userID` int(11) NOT NULL,
-  `userName` varchar(64) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  PRIMARY KEY (`userID`),
-  KEY `userName` (`userName`),
-  KEY `dateTime` (`dateTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_invitations` */
-
-CREATE TABLE `chat_invitations` (
-  `userID` int(11) NOT NULL,
-  `channel` int(11) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  PRIMARY KEY (`userID`,`channel`),
-  KEY `dateTime` (`dateTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_messages` */
-
-CREATE TABLE `chat_messages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userID` int(11) NOT NULL,
-  `userName` varchar(64) NOT NULL,
-  `userRole` int(1) NOT NULL,
-  `channel` int(11) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  `text` text,
-  PRIMARY KEY (`id`),
-  KEY `message_condition` (`id`,`channel`,`dateTime`),
-  KEY `dateTime` (`dateTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_online` */
-
-CREATE TABLE `chat_online` (
-  `userID` int(11) NOT NULL,
-  `userName` varchar(64) NOT NULL,
-  `userRole` int(1) NOT NULL,
-  `channel` int(11) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  PRIMARY KEY (`userID`),
-  KEY `userName` (`userName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `com_vtiger_workflow_activatedonce` */
 
 CREATE TABLE `com_vtiger_workflow_activatedonce` (

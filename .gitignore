@@ -16,7 +16,6 @@ libraries/mPDF/
 public_html/modules/OSSMail/roundcube/
 public_html/libraries/gantt/
 libraries/PHPExcel/
-libraries/AJAXChat/
 vendor/rmccue/
 vendor/smarty/
 vendor/phpmailer/

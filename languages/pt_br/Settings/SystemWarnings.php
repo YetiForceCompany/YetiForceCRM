@@ -7,7 +7,6 @@ $languageStrings = [
 	'LBL_LIBRARY_PDF' => 'Biblioteca mPDF',
 	'LBL_LIBRARY_ROUNDCUBE' => 'Biblioteca Roundcube',
 	'LBL_LIBRARY_PHPEXCEL' => 'Biblioteca PHPExcel',
-	'LBL_LIBRARY_CHAT' => 'Biblioteca AJAXChat',
 	'LBL_CONFIG_REPORT' => 'Configurações do Servidor',
 	'LBL_CONFIG_REPORT_LINK' => 'Mostrar bibliotecas faltantes',
 	'LBL_CONFIG_REPORT_DESC' => 'O servidor não foi configurado corretamente. O sistema talvez apresentou mal funcionamento ou os dados enviados foram corrompidos ou removidos. Mais informações no artigo <a href=\"https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html\"><u>sobre requisitos de sistema no yetiforce.com</u></a>',

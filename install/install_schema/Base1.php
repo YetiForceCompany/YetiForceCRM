@@ -16,74 +16,6 @@ class Base1 extends \App\Db\Importers\Base
 	public function scheme()
 	{
 		$this->tables = [
-			'chat_bans' => [
-				'columns' => [
-					'userID' => $this->integer()->notNull(),
-					'userName' => $this->stringType(64)->notNull(),
-					'dateTime' => $this->dateTime()->notNull(),
-					'ip' => $this->binary(16)->notNull(),
-				],
-				'index' => [
-					['chat_bans_user_idx', 'userName'],
-					['chat_bans_date_idx', 'dateTime'],
-				],
-				'primaryKeys' => [
-					['chat_bans_pk', 'userID']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'chat_invitations' => [
-				'columns' => [
-					'userID' => $this->integer()->notNull(),
-					'channel' => $this->integer()->notNull(),
-					'dateTime' => $this->dateTime()->notNull(),
-				],
-				'index' => [
-					['chat_invitations_time_idx', 'dateTime'],
-				],
-				'primaryKeys' => [
-					['chat_invitations_pk', ['userID', 'channel']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'chat_messages' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'userID' => $this->integer()->notNull(),
-					'userName' => $this->stringType(64)->notNull(),
-					'userRole' => $this->integer(1)->notNull(),
-					'channel' => $this->integer()->notNull(),
-					'dateTime' => $this->dateTime()->notNull(),
-					'ip' => $this->binary(16)->notNull(),
-					'text' => $this->text(),
-				],
-				'index' => [
-					['chat_messages_id_idx', ['id', 'channel', 'dateTime']],
-					['chat_messages_time_idx', 'dateTime'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'chat_online' => [
-				'columns' => [
-					'userID' => $this->integer()->notNull(),
-					'userName' => $this->stringType(64)->notNull(),
-					'userRole' => $this->integer(1)->notNull(),
-					'channel' => $this->integer()->notNull(),
-					'dateTime' => $this->dateTime()->notNull(),
-					'ip' => $this->binary(16)->notNull(),
-				],
-				'index' => [
-					['chat_online_idx', 'userName'],
-				],
-				'primaryKeys' => [
-					['chat_online_pk', 'userID']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'com_vtiger_workflow_activatedonce' => [
 				'columns' => [
 					'workflow_id' => $this->integer()->notNull(),
@@ -3927,9 +3859,9 @@ class Base1 extends \App\Db\Importers\Base
 <br>
 Created for your account in the customer portal, below sending data access<br>
 						Login: $(record : email)$<br>
-						Password: 
+						Password:
 						</td>
-			
+
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">

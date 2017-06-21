@@ -12467,13 +12467,9 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => ['profileid', 'tabid', 'permissions'],
 				'values' => [
 					[1, 48, 0],
-					[1, 72, 0],
 					[2, 48, 0],
-					[2, 72, 0],
 					[3, 48, 0],
-					[3, 72, 0],
 					[4, 48, 0],
-					[4, 72, 0],
 					[2, 1, 0],
 					[2, 4, 0],
 					[2, 6, 0],

@@ -17,7 +17,6 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'Librairie PHPExcel',
 	'LBL_LIBRARY_ROUNDCUBE' => 'Librairie RoundCube',
 	'LBL_LIBRARY_PDF' => 'Librairie PDF',
-	'LBL_LIBRARY_CHAT' => 'Librairie Chat',
 	'LBL_CONFIG_REPORT' => 'Configuration Système',
 	'LBL_WARNINGS_FOLDERS' => 'Dossiers',
 	'LBL_WARNINGS_FOLDER' => 'Dossier',
@@ -385,7 +384,7 @@ $languageStrings = [
 	'LBL_WARNINGS_CORRECT' => 'Correct',
 	'LBL_WARNINGS_OMITTED' => 'Omise',
 	'LBL_WARNINGS_SWITCH' => 'Filtre d\'alerte',
-	//Advanced Filter Expressions 
+	//Advanced Filter Expressions
 	'LBL_LABEL' => 'Label',
 	'LBL_FIELD' => 'Valeur',
 	'LBL_HEADER_DETAILS' => 'Éditer l\'en-tête',
