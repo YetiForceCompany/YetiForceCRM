@@ -155,7 +155,7 @@ class ModuleBasic
 		$moduleInstance = Module::getInstance($this->name);
 		$parentTab = $this->parent;
 		if (!empty($parentTab)) {
-			
+
 		}
 		self::log("Creating Module $this->name ... DONE");
 	}
@@ -571,6 +571,8 @@ class ModuleBasic
 		foreach (\App\Layout::getAllLayouts() as $name => $label) {
 			Functions::recurseDelete("layouts/$name/modules/{$moduleInstance->name}");
 			Functions::recurseDelete("layouts/$name/modules/Settings/{$moduleInstance->name}");
+			Functions::recurseDelete("public_html/layouts/$name/modules/{$moduleInstance->name}");
+			Functions::recurseDelete("public_html/layouts/$name/modules/Settings/{$moduleInstance->name}");
 		}
 		self::log(__METHOD__ . ' | END');
 	}
