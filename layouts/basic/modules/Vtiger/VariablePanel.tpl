@@ -39,7 +39,7 @@
 		{if $RELATED_VARIABLE}
 			<div class="col-md-6 fieldRow">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-					<label class="muted">{\App\Language::translate('LBL_RELATED_MODULE_FIELDS')}</label>
+					<label class="muted">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
