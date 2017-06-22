@@ -21,7 +21,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+[class^="userIcon-"]:before, [class*=" userIcon-"]:before {
+	content: "\e90b";
+}
 .userIcon-CInternalTickets:before {
   content: "\e95f";
 }

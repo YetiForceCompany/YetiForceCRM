@@ -118,11 +118,7 @@
 									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{vtranslate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 								</div>
 								<div class="col-md-1 col-xs-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
-									{if Settings_Vtiger_Icons_Model::isExists($MODULE_NAME, 'user')}
-										<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
-									{else}
-										<span class="fa-2x glyphicon glyphicon-th-large"></span>
-									{/if}
+									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 								</div>
 								<div class="col-xs-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
 									<h4 class="no-margin">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h4>
