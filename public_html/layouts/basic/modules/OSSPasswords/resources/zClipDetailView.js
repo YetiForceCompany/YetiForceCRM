@@ -5,6 +5,11 @@ new Clipboard('#copy-button', {
 			text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 			type: 'success'
 		});
-		return jQuery('#detailPassword').text();
+		var element = jQuery('#' + trigger.getAttribute('data-copy-target'));
+		var password = element.text();
+		if (password === '') {
+			password = element.val();
+		}
+		return password;
 	}
 });

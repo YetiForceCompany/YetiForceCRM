@@ -32,7 +32,7 @@ data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\A
 		</button>
 		&nbsp;
 		{* button for copying password to clipboard *}
-		<button class="btn btn-success btn-xs hide" data-clipboard-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}">
+		<button type="button" class="btn btn-success btn-xs hide" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}">
 			<span class="glyphicon glyphicon-download-alt"></span>
 		</button>
 	{/if}
