@@ -2135,27 +2135,6 @@ class ReportRun extends CRMEntity
 		} else if ($module == 'OSSTimeControl') {
 			$query = 'FROM vtiger_osstimecontrol
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid';
-			if ($this->queryPlanner->requireTable('vtiger_account')) {
-				$query .= ' LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_osstimecontrol.link';
-			}
-			if ($this->queryPlanner->requireTable('vtiger_contactdetails')) {
-				$query .= ' LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_osstimecontrol.link';
-			}
-			if ($this->queryPlanner->requireTable('vtiger_leaddetails')) {
-				$query .= ' LEFT JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_osstimecontrol.link';
-			}
-			if ($this->queryPlanner->requireTable('vtiger_vendor')) {
-				$query .= ' LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_osstimecontrol.link';
-			}
-			if ($this->queryPlanner->requireTable('u_yf_partners')) {
-				$query .= ' LEFT JOIN u_yf_partners ON u_yf_partners.partnersid = vtiger_osstimecontrol.link';
-			}
-			if ($this->queryPlanner->requireTable('u_yf_competition')) {
-				$query .= ' LEFT JOIN u_yf_competition ON u_yf_competition.competitionid = vtiger_osstimecontrol.link';
-			}
-			if ($this->queryPlanner->requireTable('vtiger_ossemployees')) {
-				$query .= ' LEFT JOIN vtiger_ossemployees ON vtiger_ossemployees.ossemployeesid = vtiger_osstimecontrol.link';
-			}
 			if ($this->queryPlanner->requireTable('vtiger_usersOSSTimeControl')) {
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_usersOSSTimeControl ON vtiger_usersOSSTimeControl.id = vtiger_crmentity.smownerid';
 			}
@@ -2168,6 +2147,10 @@ class ReportRun extends CRMEntity
 			if ($this->queryPlanner->requireTable("vtiger_shOwners$module")) {
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
+			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
+				$query .= ' left join ' . $customTable['refTable'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
+			}
+			
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);
@@ -2225,12 +2208,18 @@ class ReportRun extends CRMEntity
 		if (isset($columnstotallist)) {
 			$columnstotalsql = implode(', ', $columnstotallist);
 		}
-		if ($stdfiltersql != '') {
-			$wheresql = ' and ' . $stdfiltersql;
+		$wheresql = '';
+		if ($stdfiltersql != '' || $advfiltersql != '') {
+			$wheresql = ' where ';
 		}
-
+		if ($stdfiltersql != '') {
+			$wheresql .=  $stdfiltersql;
+		}
 		if ($advfiltersql != '') {
-			$wheresql .= ' and ' . $advfiltersql;
+			if ($stdfiltersql != '') {
+				$wheresql .= ' AND ';
+			}
+			$wheresql .=  $advfiltersql;
 		}
 
 		$reportquery = $this->getReportsQuery($this->primarymodule, $type);
@@ -3553,7 +3542,6 @@ class ReportRun extends CRMEntity
 
 				$referenceTableName = '';
 				$dependentTableName = '';
-
 				if ($moduleName == 'HelpDesk' && $referenceModule == 'Accounts') {
 					$referenceTableName = 'vtiger_accountRelHelpDesk';
 				} elseif ($moduleName == 'HelpDesk' && $referenceModule == 'Products') {
@@ -3590,28 +3578,18 @@ class ReportRun extends CRMEntity
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {
 					$referenceTableName = "{$entityTableName}Rel$moduleName";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Accounts') {
-					$referenceTableName = "vtiger_account";
-					$dependentTableName = "vtiger_account";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Contacts') {
-					$referenceTableName = "vtiger_contactdetails";
-					$dependentTableName = "vtiger_contactdetails";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Leads') {
-					$referenceTableName = "vtiger_leaddetails";
-					$dependentTableName = "vtiger_leaddetails";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Vendors') {
-					$referenceTableName = "vtiger_vendor";
-					$dependentTableName = "vtiger_vendor";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Partners') {
-					$referenceTableName = "u_yf_partners";
-					$dependentTableName = "u_yf_partners";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'Competition') {
-					$referenceTableName = "u_yf_competition";
-					$dependentTableName = "u_yf_competition";
-				} elseif ($moduleName == 'OSSTimeControl' && $referenceModule == 'OSSEmployees') {
-					$referenceTableName = "vtiger_ossemployees";
-					$dependentTableName = "vtiger_ossemployees";
-				} else {
+				} elseif ($fieldInstance->getUIType() === 66 ||$fieldInstance->getUIType() === 67 || $fieldInstance->getUIType() === 68){
+					$referenceTableName = $entityTableFieldNames['tablename'];
+					$this->queryPlanner->addCustomTable(
+						[
+							'reference' => $referenceTableName,
+							'field' => $fieldInstance->getColumnName(),
+							'table' => $fieldInfo['tablename'],
+							'refTable' => $referenceTableName,
+							'refIndex' => $entityTableFieldNames['entityidfield']
+						]
+					);
+				}  else {
 					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldInstance->getFieldId()}";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
 					$this->queryPlanner->addCustomTable(
