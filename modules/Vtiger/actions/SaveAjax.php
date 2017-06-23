@@ -62,9 +62,48 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
 			if ($fieldModel && $fieldModel->isEditable()) {
 				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));
+				if ($fieldModel->isReferenceField()) {
+					$recordModel = $this->setRelatedFieldsInHierarchy($recordModel, $fieldModel->getName());
+				}
 			}
 		} else {
 			$recordModel = parent::getRecordModelFromRequest($request);
+		}
+		return $recordModel;
+	}
+
+	/**
+	 * Replenishment of related fields
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string $fieldName
+	 * @return \Vtiger_Record_Model
+	 */
+	public function setRelatedFieldsInHierarchy($recordModel, $fieldName)
+	{
+		$fieldValue = $recordModel->get($fieldName);
+		$relatedModules = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($recordModel->getModuleName(), $fieldName);
+		if ($relatedModules && !empty($fieldValue) && $recordModel->getPreviousValue($fieldName) !== $fieldValue) {
+			$sourceModule = \App\Record::getType($fieldValue);
+			foreach ($relatedModules as $relatedModule => $relatedFields) {
+				if ($relatedModule === $sourceModule) {
+					$relRecordModel = \Vtiger_Record_Model::getInstanceById($fieldValue, $sourceModule);
+					foreach ($relatedFields as $to => $from) {
+						$toModel = $recordModel->getModule()->getFieldByName($to);
+						$relFieldModel = $relRecordModel->getModule()->getFieldByName($from[0]);
+						$relFieldValue = $relRecordModel->get($from[0]);
+						if ($relFieldValue && $relFieldModel && $toModel && $toModel->isWritable()) {
+							if ($toModel->isReferenceField() || $relFieldModel->isReferenceField()) {
+								$sourceType = \App\Record::getType($relFieldValue);
+								if (in_array($sourceType, $toModel->getReferenceList())) {
+									$recordModel->set($toModel->getName(), $relFieldValue);
+								}
+							} else {
+								$recordModel->set($toModel->getName(), $relFieldValue);
+							}
+						}
+					}
+				}
+			}
 		}
 		return $recordModel;
 	}
