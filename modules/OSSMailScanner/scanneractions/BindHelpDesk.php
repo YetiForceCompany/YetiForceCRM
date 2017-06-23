@@ -19,7 +19,7 @@ class OSSMailScanner_BindHelpDesk_ScannerAction extends OSSMailScanner_PrefixSca
 		$this->mail = $mail;
 		$ids = $this->findAndBind();
 		if ($ids) {
-			$id = array_shift($ids);
+			$id = current($ids);
 			if (!\App\Record::isExists($id, $this->moduleName)) {
 				return false;
 			}
