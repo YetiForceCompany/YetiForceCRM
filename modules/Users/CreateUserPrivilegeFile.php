@@ -323,6 +323,8 @@ function constructArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -348,6 +350,8 @@ function constructSingleStringValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -373,6 +377,8 @@ function constructSingleStringKeyAndValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -390,6 +396,8 @@ function constructSingleArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -407,6 +415,8 @@ function constructSingleCharArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -428,6 +438,8 @@ function constructTwoDimensionalArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -449,6 +461,8 @@ function constructTwoDimensionalValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -470,6 +484,8 @@ function constructTwoDimensionalCharIntSingleArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -491,6 +507,8 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
