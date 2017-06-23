@@ -5544,7 +5544,8 @@ select.form-control {
 .bodyHeader .rightHeaderBtn .glyphicon{
 	font-size: 18px;
 }
-.bodyHeader .rightHeaderBtn .fa{
+.bodyHeader .rightHeaderBtn .fa,
+.actionMenu .showHistoryBtn .fa{
 	font-size: 21px;
 }
 .bodyHeader .rightHeaderBtn a{

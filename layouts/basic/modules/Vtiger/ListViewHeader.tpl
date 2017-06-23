@@ -84,7 +84,7 @@
 									</ul>
 								</div>
 							{/if}
-							<img class="filterImage" alt="{vtranslate('LBL_FILTER')}" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+							<span class="glyphicon glyphicon-filter filterImage" style="display:none;margin-right:2px"></span>
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}

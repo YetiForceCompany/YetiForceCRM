@@ -8,8 +8,8 @@
 						{\App\Language::translate('LBL_PAGES_HISTORY')}
 					</div>
 					<div class="pull-right">
-						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-							<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{\App\Language::translate('LBL_PAGES_HISTORY')}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
+						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
+							<span class="fa fa-history" aria-hidden="true"></span>
 						</a>
 						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
 					</div>
