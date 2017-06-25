@@ -35,7 +35,7 @@
 				<script type="text/javascript">{$HEAD_LOCKS}</script>
 			{/if}
 			{if \App\Debuger::isDebugBar()}
-				{\App\Debuger::getDebugBar()->getJavascriptRenderer()->renderHead()}
+				{\App\Debuger::getDebugBar()->getJavascriptRenderer(\App\Debuger::getJavascriptPath())->renderHead()}
 			{/if}
 		</head>
 		<body data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}" {$USER_MODEL->getBodyLocks()}>
