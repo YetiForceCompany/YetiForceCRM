@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
 {strip}
 <ul class="dropdown-menu pull-right historyList" role="menu">
-	{foreach item=$HISTORY from=Vtiger_BrowsingHistory_Helper::getHistory()}
+	{foreach item=HISTORY from=$BROWSING_HISTORY}
 		{if isset($HISTORY['viewToday'])}
 			<li class="item selectorHistory">{\App\Language::translate('LBL_TODAY')}</li>
 		{elseif isset($HISTORY['viewYesterday'])}
