@@ -61,11 +61,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public static function getDashboardTypes()
 	{
-		if (App\Cache::has('dsahboardTypes', 'types')){
-			return App\Cache::get('dsahboardTypes', 'types');
+		if (App\Cache::has('WidgetsDashboard', 'AllTypes')){
+			return App\Cache::get('WidgetsDashboard', 'AllTypes');
 		}
 		$types = (new App\Db\Query())->from('u_#__dashboard_type')->all();
-		App\Cache::save('dsahboardTypes', 'types', $types);
+		App\Cache::save('WidgetsDashboard', 'AllTypes', $types);
 		return $types;
 	}
 
@@ -77,8 +77,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		$allTypes = self::getDashboardTypes();
 		$dashboardId = 0;
-		foreach ($allTypes as &$dashboard) {
-			if ($dashboard['system'] === 1) {
+		foreach ($allTypes as $dashboard) {
+			if ((int) $dashboard['system'] === 1) {
 				$dashboardId = $dashboard['dashboard_id'];
 				break;
 			}
@@ -97,7 +97,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				->update('u_#__dashboard_type', ['name' => $dashboardName], ['dashboard_id' => $dashboardId])
 				->execute();
 		}
-		App\Cache::delete('dsahboardTypes', 'types');
+		App\Cache::delete('WidgetsDashboard', 'AllTypes');
 	}
 
 	public static function deleteDashboard($dashboardId)
@@ -109,7 +109,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['dashboard_id' => $dashboardId])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $blocks])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['dashboardid' => $dashboardId])->execute();
-		App\Cache::delete('dsahboardTypes', 'types');
+		App\Cache::delete('WidgetsDashboard', 'AllTypes');
 	}
 
 	public static function getDashboardInfo($dashboardId)
