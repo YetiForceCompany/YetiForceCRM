@@ -760,16 +760,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 			$importStatusCount = $importDataController->getImportStatusCount();
 
-			$emailSubject = 'vtiger CRM - Scheduled Import Report for ' . $importDataController->module;
+			$emailSubject = 'Yetiforce- Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
-			$emailData = 'vtiger CRM has just completed your import process. <br/><br/>' .
-				$importResult . '<br/><br/>' .
-				'We recommend you to login to the CRM and check few records to confirm that the import has been successful.';
+			$emailData = 'Yetiforce has completed import. <br/><br/>' . $importResult . '<br/><br/>' .
+				'Navigate to respective module, to check import result and/or data integrity';
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
