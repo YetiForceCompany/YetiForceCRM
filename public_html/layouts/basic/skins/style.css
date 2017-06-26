@@ -91,7 +91,7 @@ hr {
 	background-color: #4a5364;
 	float: left;
 	-webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-	animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+	animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
 }
 .sk-cube-grid .sk-cube1 {
 	-webkit-animation-delay: 0.2s;
@@ -126,7 +126,7 @@ hr {
 }
 .sk-cube-grid .sk-cube9 {
 	-webkit-animation-delay: 0.2s;
-	animation-delay: 0.2s; 
+	animation-delay: 0.2s;
 }
 
 @-webkit-keyframes sk-cubeGridScaleDelay {
@@ -135,7 +135,7 @@ hr {
 		transform: scale3D(1, 1, 1);
 	} 35% {
 		-webkit-transform: scale3D(0, 0, 1);
-		transform: scale3D(0, 0, 1); 
+		transform: scale3D(0, 0, 1);
 	}
 }
 
@@ -146,7 +146,7 @@ hr {
 	} 35% {
 		-webkit-transform: scale3D(0, 0, 1);
 		transform: scale3D(0, 0, 1);
-	} 
+	}
 }
 
 .navbar.navbar-fixed-top .navbar-collapse {
@@ -326,10 +326,13 @@ hr {
 	border: none;
 }
 .commonActionsContainer .dropdown-menu.commonActionsButtonDropDown a span {
-	display: block;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	margin-right: 5px;
+}
+.bodyHeader .rightHeaderBtn a.quickCreateModule{
+	margin: 0;
 }
 .mainContainer .contentsDiv {
 	min-height: 500px;
@@ -1316,7 +1319,7 @@ th.htColHeader,
 	border-bottom: 1px solid #dddddd;
 	padding: 6px 2px;
 }
-.contentHeader {	
+.contentHeader {
 	padding-left: 5px;
 	line-height: 20px;
 }
@@ -1476,7 +1479,7 @@ th.htColHeader,
 .select2-results__option.Roles.select2-results__option--highlighted,
 .select2-results__option.RoleAndSubordinates.select2-results__option--highlighted
 {
-	background-color: #337ab7 !important; 
+	background-color: #337ab7 !important;
 }
 .collectiveGroupMembers {
 	border: 1px solid #dddddd;
@@ -2908,7 +2911,7 @@ table.listViewEntriesTable {
 }
 .companyLogo img{
 	max-height: 200px;
-	max-width: 250px; 
+	max-width: 250px;
 }
 .navbar-inverse .navbar-nav > li > a {
 	color: #ffffff;
@@ -2940,7 +2943,7 @@ table.listViewEntriesTable {
 	white-space: normal;
 }
 .valuesAssignedToRole {
-	border: 1px solid #adadad; 
+	border: 1px solid #adadad;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding: 6px;
@@ -2973,7 +2976,7 @@ table.dataTable .form-control {
 
 .calendarRightPanel ul li{
 	margin-bottom: 2px;
-	margin-left:5px; 
+	margin-left:5px;
 	margin-right:5px;
 }
 .square9 {
@@ -3013,7 +3016,7 @@ table.dataTable .form-control {
 .marginBottom5px {
 	margin-bottom: 5px;
 }
-.detailViewTable  .fieldValue:hover  .summaryViewEdit { 
+.detailViewTable  .fieldValue:hover  .summaryViewEdit {
 	display: inherit;
 }
 .icon-in-history-widget{
@@ -3559,12 +3562,12 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer .subMenu button .menuName{
 	top: 2px;
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
 	::i-block-chrome,.baseContainer .leftPanel .menuContainer .subMenu a .menuName,
 	::i-block-chrome,.baseContainer .leftPanel .menuContainer .subMenu button .menuName{
 		top: -4px;
 	}
-} 
+}
 .baseContainer .leftPanel .menuContainer a.hasIcon img{
 	height: 20px;
 }
@@ -3613,7 +3616,7 @@ span[name=existingImages] img{
 }
 .baseContainer .basePanel:after {
 	content: "";
-	display: block;	
+	display: block;
 	position: fixed;
 	top: 0;
 	z-index: -1;
@@ -3626,7 +3629,7 @@ span[name=existingImages] img{
 	-webkit-transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 	transition: left ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
 }
-.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel, 
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .bodyHeader + .basePanel,
 .baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .bodyHeader + .basePanel{
 	left: 180px;
 	z-index: 0;
@@ -3675,7 +3678,7 @@ span[name=existingImages] img{
 	bottom: 33px;
 	top: 50px;
 	z-index: -1;
-	width: 300px; 
+	width: 300px;
 	background: #f0f1f1;
 	border-right: 1px solid #dddddd;
 }
@@ -3844,7 +3847,7 @@ html,body,.baseContainer
 	padding: 6px;
 }
 .selectorHistory{
-	font-weight: 900 !important; 
+	font-weight: 900 !important;
 	text-align: center;
 	display: block;
 	padding: 3px 20px;
@@ -3856,7 +3859,7 @@ html,body,.baseContainer
 	cursor: default;
 }
 .historyHour{
-	font-weight: 600 !important; 
+	font-weight: 600 !important;
 }
 .logoFooter{
 	margin: 1px;
@@ -3899,7 +3902,7 @@ html,body,.baseContainer
 }
 .actionMenu .historyList{
 	position: fixed;
-	top: 50px;	
+	top: 50px;
 	width: 100%;
 	left: 0;
 	bottom: 33px;
@@ -3911,7 +3914,7 @@ html,body,.baseContainer
 .searchMenu{
 	position: fixed;
 	left: 100%;
-	top: 42px;	
+	top: 42px;
 	width: 300px;
 	color: #000;
 	background: #fff;
@@ -3954,26 +3957,26 @@ html,body,.baseContainer
 .mobileLeftPanel .mobileLeftPanelContainer li a span{
 	padding-left: 10px;
 }
-.mobileLeftPanel .mobileLeftPanelContainer .menuLabel{	
+.mobileLeftPanel .mobileLeftPanelContainer .menuLabel{
 	padding-top: 20px;
 	padding-bottom: 5px;
 	border-bottom: 2px solid #4f4f4f;
 	padding-left: 0px;
 	padding-top: 5px;
-	font-weight: 900;	
+	font-weight: 900;
 }
 .mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon{
-	padding-left: 10px;	
+	padding-left: 10px;
 	display: inline-flex;
 }
 .mobileLeftPanel .mobileLeftPanelContainer .menuLabel .hasIcon img{
-	padding-right: 10px;		
+	padding-right: 10px;
 }
-.mobileLeftPanel  .mobileLeftPanelContainer .menuLabel a{   
+.mobileLeftPanel  .mobileLeftPanelContainer .menuLabel a{
 	color: #eee;
 	font-size:14px;
 }
-.mobileLeftPanel  .mobileLeftPanelContainer .menuPanel button{   
+.mobileLeftPanel  .mobileLeftPanelContainer .menuPanel button{
 	color: #eee;
 	background: #3f3f3f;
 	text-align: left;
@@ -4135,7 +4138,7 @@ html,body,.baseContainer
 	background: #f2f2f2;
 }
 .div-bordered{
-	border: 1px solid #ddd; 
+	border: 1px solid #ddd;
 }
 .padding10{
 	padding:10px;
@@ -4165,7 +4168,7 @@ html,body,.baseContainer
 	background-color: #337AB7;
 	border-color: #337AB7;
 	color: #FFF;
-} 
+}
 #announcementBtn,
 .listViewEntriesCheckBox,
 #listViewEntriesMainCheckBox{
@@ -4312,7 +4315,7 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width:1240px){
-	.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel, 
+	.baseContainer:not(.leftPanelOpen) .leftPanel:hover + .basePanel,
 	.baseContainer:not(.leftPanelOpen) .leftPanel.stillOpen + .basePanel{
 		width: calc(100% - 180px);
 		-webkit-transition: all ease-in-out 0.3s 0.5s, z-index 0.3s 0.8s;
@@ -4368,15 +4371,15 @@ html,body,.baseContainer
 	#largeNav {
 		margin-left: 10px;
 		margin-right: 0;
-	}	
+	}
 }
-@media screen and (max-width: 1160px) and (min-width: 960px) {	
+@media screen and (max-width: 1160px) and (min-width: 960px) {
 	.companyLogo {
 		width: 100%;
 	}
 	.customFilterMainSpan .select2-container {
 		width: 300px !important;
-	}	
+	}
 	* {
 		zoom: 1 !important;
 	}
@@ -4434,7 +4437,7 @@ html,body,.baseContainer
 		text-align:right
 	}
 }
-@media screen and (max-width: 960px) { 
+@media screen and (max-width: 960px) {
 	.detailViewTable .fieldsLabelValue{
 		border-bottom: 1px solid #ddd;
 	}
@@ -4467,7 +4470,7 @@ html,body,.baseContainer
 		right: 0 !important;
 	}
 	.pull-right-sm{
-		float: right; 
+		float: right;
 	}
 	.pull-left-sm{
 		float: left;
@@ -4561,7 +4564,7 @@ html,body,.baseContainer
 	}
 	#centerPanel {
 		width: 100% !important;
-	}	
+	}
 	.col-md-3#headerLinks {
 		padding: 5px 5px 0;
 	}
@@ -4829,7 +4832,7 @@ html,body,.baseContainer
 		width: 390px;
 	}
 	.pull-right-xs{
-		float: right; 
+		float: right;
 	}
 	.pull-left-xs{
 		float: left !important;
@@ -5021,10 +5024,10 @@ html,body,.baseContainer
 .related .nav li{
 	position: relative !important;
 	margin-left: 2px !important;
-} 
+}
 .related .nav-pills{
 	border-bottom: 3px solid #404952;
-} 
+}
 .related ul .dropdown-menu{
 	min-width: 300px;
 	z-index:1025;
@@ -5109,7 +5112,7 @@ html,body,.baseContainer
 	position: relative;
 	top: 0px;
 	left: 0;
-	background: #eee; 
+	background: #eee;
 	padding-bottom: 8px;
 }
 .fieldLabel .HelpInfoPopover {
@@ -5158,14 +5161,14 @@ html,body,.baseContainer
 	color:#fff;
 	padding: 0px 12px;
 }
-.tagText::-webkit-input-placeholder { 
-	color:#b1e5f4; 
+.tagText::-webkit-input-placeholder {
+	color:#b1e5f4;
 }
-.tagText::-moz-placeholder { 
-	color:#b1e5f4; 
+.tagText::-moz-placeholder {
+	color:#b1e5f4;
 }
-.tagText::-ms-input-placeholder { 
-	color:#b1e5f4; 
+.tagText::-ms-input-placeholder {
+	color:#b1e5f4;
 }
 .tagInputs{
 	height:20px;
@@ -5297,7 +5300,7 @@ select.form-control {
 	background: #E1FFE5;
 }
 .quickCreateContent #Calendar_editView_fieldName_date_start{
-	background-color : #E1FFE5; 
+	background-color : #E1FFE5;
 }
 .eventsTable table th{
 	border-bottom: 3px solid #000;
@@ -5532,11 +5535,11 @@ select.form-control {
 }
 .bgAzure{
 	background: #3EB1F7 !important;
-	color: #fff !important; 
+	color: #fff !important;
 }
 .bgDarkBlue{
 	background: #001f3f !important;
-	color: #fff !important; 
+	color: #fff !important;
 }
 .bodyHeader .rightHeaderBtn{
 	margin-top: 7px;

@@ -22,14 +22,14 @@
 											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 											{if $singularLabel == 'SINGLE_Calendar'}
 												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}	
+											{/if}
 											{if $quickCreateModule == '1'}
 												{if $count % 3 == 0}
 													<div class="">
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-															<span>{vtranslate($singularLabel,$NAME)}</span>
+															<span class="userIcon-{$NAME}"></span><span>{vtranslate($singularLabel,$NAME)}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}
@@ -80,7 +80,7 @@
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
-					{if AppConfig::performance('BROWSING_HISTORY_WORKING')} 
+					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
@@ -100,7 +100,7 @@
 							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
 							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-									   data-{$DATA_NAME}="{$DATA_VALUE}" 
+									   data-{$DATA_NAME}="{$DATA_VALUE}"
 								   {/foreach}
 							   {/if}>
 								{if $GLYPHICON}
@@ -128,7 +128,7 @@
 												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
 												   {if $obj->linkdata && is_array($obj->linkdata)}
 													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-														   data-{$DATA_NAME}="{$DATA_VALUE}" 
+														   data-{$DATA_NAME}="{$DATA_VALUE}"
 													   {/foreach}
 												   {/if}>{vtranslate($label,$MODULE)}</a>
 											</li>
