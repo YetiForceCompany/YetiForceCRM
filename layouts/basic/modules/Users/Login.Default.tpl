@@ -20,13 +20,13 @@
 			<div class="" id="loginDiv">
 				<div class="fieldContainer col-xs-12">
 					<form class="login-form" action="index.php?module=Users&action=Login" method="POST" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
-						<div class='col-xs-12'>
+						<div id="inputGroup" class='col-xs-12'>
 							<div class="form-group first-group has-feedback login-user">
-								<label for="username" class="sr-only fontColor">{vtranslate('LBL_USER',$MODULE)}</label>
+								<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
 								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 							</div>
 							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback login-password">
-								<label for="password" class="sr-only fontColor">{vtranslate('Password',$MODULE)}</label>
+								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
 								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{vtranslate('Password',$MODULE)}">
 							</div>
 							{assign var=COUNTERFIELDS value=2}
@@ -53,7 +53,7 @@
 							{/if}
 						</div>
 						<div class='col-xs-12' >
-							<button class="btn btn-primary center-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
+							<button class="btn btn-defult center-block heightDiv_2 {$COUNTERFIELDS}" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
 								<strong>{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}</strong>
 							</button>
 						</div>
@@ -61,8 +61,8 @@
 				</div>
 				{if AppConfig::security('RESET_LOGIN_PASSWORD')}
 					<div class="form-group">
-						<div class="">
-							<a href="#" id="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
+						<div id="forgotpassword">
+							<a href="#" class="forgotpass" >{vtranslate('ForgotPassword',$MODULE)}?</a>
 						</div>
 					</div>
 				{/if}
