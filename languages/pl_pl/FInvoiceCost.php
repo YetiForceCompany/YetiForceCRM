@@ -7,7 +7,7 @@
  */
 $languageStrings = [
 	'FInvoiceCost' => 'Faktury Kosztowe',
-	'SINGLE_FInvoiceCost' => 'Faktura Kosztowe',
+	'SINGLE_FInvoiceCost' => 'Faktura Kosztowa',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Informacje systemowe',
 	'LBL_INVOICE_ADDRESS' => 'Adres do faktury',
