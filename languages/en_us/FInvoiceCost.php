@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'FInvoiceCost' => 'Invoices cost',
-	'SINGLE_FInvoiceCost' => 'Invoices cost',
+	'FInvoiceCost' => 'Cost invoices',
+	'SINGLE_FInvoiceCost' => 'Cost invoice',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'System information',
 	'LBL_INVOICE_ADDRESS' => 'Invoice address',
@@ -36,7 +36,7 @@ $languageStrings = [
 	'PLL_FOREIGN_INVOICE' => 'Foreign invoice',
 	'PLL_IC_INVOICE' => 'Intra-Community supply of goods invoice',
 	'PLL_UNASSIGNED' => 'Unassigned',
-	'PLL_AWAITING_REALIZATION' => 'Oczekuje na realizacje',
+	'PLL_AWAITING_REALIZATION' => 'Awaiting realization',
 	'PLL_FOR_PROCESSING' => 'For processing',
 	'PLL_IN_PROGRESSING' => 'In progressing',
 	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
