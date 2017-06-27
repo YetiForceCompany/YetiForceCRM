@@ -509,17 +509,17 @@ class ModuleBasic
 	public function deleteFromCRMEntity()
 	{
 		self::log(__METHOD__ . ' | Start');
-		$deleteRecords = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name, 'deleted' => 1])->column();
-		if ($deleteRecords) {
-			$this->removeRecordsFromTrash($deleteRecords);
-		}
+
 		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name, 'deleted' => 0]);
 		$dataReader = $query->createCommand()->query();
 		while ($id = $dataReader->readColumn(0)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
-		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentity', ['setype' => $this->name])->execute();
+		$deleteRecords = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name, 'deleted' => 1])->column();
+		if ($deleteRecords) {
+			$this->removeRecordsFromTrash($deleteRecords);
+		}
 		self::log(__METHOD__ . ' | END');
 	}
 
