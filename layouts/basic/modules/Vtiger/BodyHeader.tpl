@@ -4,10 +4,10 @@
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
 			<div class="rightHeader paddingRight10">
-				<div class="pull-right rightHeaderBtn hidden-xs">
+				<div class="pull-right rightHeaderBtn">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu hidden-xs" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -47,7 +47,7 @@
 						</ul>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip hidden-xs {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
@@ -75,13 +75,13 @@
 						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
-						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip hidden-xs {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
 						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
