@@ -4,7 +4,7 @@
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
 			<div class="rightHeader paddingRight10">
-				<div class="pull-right rightHeaderBtn">
+				<div class="pull-right rightHeaderBtn hidden-xs">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
