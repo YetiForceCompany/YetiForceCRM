@@ -52,7 +52,7 @@
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
-					{if $CHAT_ENTRIES}
+					{if isset($CHAT_ENTRIES)}
 						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>

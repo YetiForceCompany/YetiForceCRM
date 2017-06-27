@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		{/if}
-		{if $CHAT_ENTRIES}
+		{if isset($CHAT_ENTRIES)}
 			<div class="row">
 				<div class="headerLinksChat quickAction">
 					<div class="pull-left">

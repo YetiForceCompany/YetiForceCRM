@@ -84,7 +84,7 @@
 			</div>
 		</li>
 	</ul>
-	{if $CHAT_ENTRIES}
+	{if isset($CHAT_ENTRIES)}
 		<ul class="headerLinksContainer headerLinksChat nav navbar-nav navbar-right">
 			<li>
 				<a class="ChatIcon" href="#" title="{vtranslate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
