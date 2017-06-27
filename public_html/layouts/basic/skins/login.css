@@ -1,6 +1,6 @@
 @media only screen and (max-width: 480px) {
 	#loginDiv{
-		width: 100%;
+		margin: 0px auto;
 	}
 	.login-area {
 		max-width: 100%;
@@ -40,23 +40,69 @@
 	margin-top: 5px;
 }
 html,body{
-	background: #f0f0f0;
+	background-image: url("images/background.jpg");
+	background-size: 100%;	
+	background-repeat: round;
+}
+.formGroup{
+	
+}
+.container{
+	
 }
 .login-form .form-group.first-group{
 	margin-bottom: 0px;
 }
 .logo{
 	margin: auto;
-	margin-bottom: 0px;
+	margin-bottom: 30px;
 	max-width: 100%;
 	display: block;
+}
+.form-control{
+	border: 0px;
+	border-radius: 0px;
+}
+.login-user{
+	
+	border-bottom: 1px solid #969BA6;
+	font-family: candara;
+	color: #fff;
+	margin: 0px auto;   
+}
+.login-password{
+	
+	border-bottom: 1px solid #969BA6;
+	font-family: candara;
+	color: #fff;
+	margin: 0px auto;
+}
+input::-webkit-input-placeholder {
+	color: #fff !important;
+} 
+input:-moz-placeholder {
+	color: #fff !important;  
+}
+ 
+input::-moz-placeholder {
+	color: #fff !important;  
+}
+ 
+input:-ms-input-placeholder {  
+	color: #fff !important;  
+}
+.form-control .input-lg{
+	font-family: candara;
+	color: #fff;	
+    }
+.input-lg{
+	outline: none;
+    box-shadow: none;
+    padding: 2px;
 }
 .fieldContainer{
 	width:100%;
 	height: 100%;
-}
-.fieldContainer .form-group{
-	padding-bottom: 10px;
 }
 .noPadding{
 	padding: 0 !important;
@@ -69,21 +115,16 @@ html,body{
 	font-size:24px;
 }
 .fieldContainer input{
-	background-color: #fff !important;
+	background-color: transparent;
 	color: #4a5364 !important;
 }
 .fieldContainer button{
-	font-size: 35px;
+	
+	font-size: 20px;
 	color: #fff !important;
 	padding: 0 !important;
-}
-.marginLeft0{
-	margin-left: 0 !important;
-	padding-left: 0 !important;
-}
-.marginRight0{
-	margin-right: 0 !important;
-	padding-right: 0 !important;
+	background-color: #55CAD1;
+	font-family: Calibri;
 }
 @media (min-width: 768px) { 
 	.visible-phone{ 
@@ -96,7 +137,14 @@ html,body{
 	}
 }
 .heightDiv_2{
-	height: 102px;
+	height: 53px;
+	border-radius: 0px;
+	width: 230px;	
+	margin: 0px auto;
+	margin-top: 30px;
+}
+forgotPasswordDiv{
+	color: #55CAD1;
 }
 .heightDiv_3{
 	height: 158px;
