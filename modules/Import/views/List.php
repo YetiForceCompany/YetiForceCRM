@@ -20,6 +20,14 @@ class Import_List_View extends Vtiger_Popup_View
 		$this->exposeMethod('getImportDetails');
 	}
 
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('for_module'))) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	/**
 	 * Process
 	 * @param \App\Request $request
