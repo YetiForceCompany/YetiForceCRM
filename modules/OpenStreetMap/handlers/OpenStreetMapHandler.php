@@ -34,7 +34,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 			}
 		}
 		foreach (['a', 'b', 'c'] as &$typeAddress) {
-			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->getEntity()->mode !== 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
+			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->isNew() || in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')
 					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])

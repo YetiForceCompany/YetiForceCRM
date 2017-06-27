@@ -8,7 +8,6 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 vimport('~~modules/com_vtiger_workflow/include.php');
-vimport('~~modules/com_vtiger_workflow/VTEntityCache.php');
 vimport('~~include/Webservices/Utils.php');
 vimport('~~include/Webservices/Retrieve.php');
 
