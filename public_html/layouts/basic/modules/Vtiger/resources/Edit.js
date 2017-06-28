@@ -141,7 +141,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(params, function (response) {
 			var responseData = JSON.parse(response);
-			var dataList = new Array();
+			var dataList = [];
 			for (var id in responseData) {
 				var data = {
 					'name': responseData[id].name,
@@ -308,7 +308,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var parentElem = inputElement.closest('.fieldValue');
 				var sourceFieldElement = jQuery('input[class="sourceField"]', parentElem);
 				var allValues = sourceFieldElement.data('allvalues');
-				var reponseDataList = new Array();
+				var reponseDataList = [];
 				for (var id in allValues) {
 					var name = allValues[id][0];
 					if (name.toLowerCase().indexOf(searchValue) >= 0) {
@@ -427,7 +427,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				//params.parent_id = app.getRecordId();
 				//params.parent_module = app.getModuleName();
 				thisInstance.searchModuleNames(params).then(function (data) {
-					var reponseDataList = new Array();
+					var reponseDataList = [];
 					var serverDataFormat = data.result
 					if (serverDataFormat.length <= 0) {
 						jQuery(inputElement).val('');

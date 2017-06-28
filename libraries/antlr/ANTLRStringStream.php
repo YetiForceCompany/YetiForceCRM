@@ -77,7 +77,7 @@
 
 		public function mark() {
 	        if ( $this->markers === null) {
-	            $this->markers = array();
+	            $this->markers = [];
 	            $this->markers[] = null; // depth 0 means no backtracking, leave blank
 	        }
 	        $this->markDepth++;

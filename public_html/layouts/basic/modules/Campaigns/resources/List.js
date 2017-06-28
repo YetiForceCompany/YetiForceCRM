@@ -18,7 +18,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 		var selectedIdsElementDataAttributes = selectedIdsElement.data();
 		var selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
 		if (selectedIds == "") {
-			selectedIds = new Array();
+			selectedIds = [];
 			this.writeSelectedIds(selectedIds);
 		} else {
 			selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
@@ -40,7 +40,7 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 		var excludedIdsElementDataAttributes = exlcudedIdsElement.data();
 		var excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
 		if (excludedIds == "") {
-			excludedIds = new Array();
+			excludedIds = [];
 			this.writeExcludedIds(excludedIds);
 		}else{
 			excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];

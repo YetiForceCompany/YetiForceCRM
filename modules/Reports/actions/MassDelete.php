@@ -35,7 +35,7 @@ class Reports_MassDelete_Action extends Vtiger_Mass_Action
 		$parentModule = 'Reports';
 		$recordIds = Reports_Record_Model::getRecordsListFromRequest($request);
 
-		$reportsDeleteDenied = array();
+		$reportsDeleteDenied = [];
 		foreach ($recordIds as $recordId) {
 			$recordModel = Reports_Record_Model::getInstanceById($recordId);
 			if (!$recordModel->isDefault() && $recordModel->isEditable()) {

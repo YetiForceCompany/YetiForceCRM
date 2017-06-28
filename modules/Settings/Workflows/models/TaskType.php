@@ -54,7 +54,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	public static function getAllForModule($moduleModel)
 	{
 		$taskTypes = VTTaskType::getAll($moduleModel->getName());
-		$taskTypeModels = array();
+		$taskTypeModels = [];
 		foreach ($taskTypes as $taskTypeObject) {
 			$taskTypeModels[] = self::getInstanceFromTaskTypeObject($taskTypeObject);
 		}

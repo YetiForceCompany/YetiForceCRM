@@ -15,7 +15,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		$module = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$query = getListQuery($module);
-		$params = array();
+		$params = [];
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');

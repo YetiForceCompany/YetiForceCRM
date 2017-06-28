@@ -35,7 +35,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
-		$fields = array();
+		$fields = [];
 		while ($row = $adb->fetch_array($result)) {
 			$fields[$row['tabid']][] = $row;
 		}
@@ -105,7 +105,7 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	{
 
 		\App\Log::trace("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
-		$tabIdList = array();
+		$tabIdList = [];
 		$db = PearDatabase::getInstance();
 
 		$query = 'UPDATE vtiger_entityname SET ';

@@ -28,7 +28,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	public function getCommentsList()
 	{
 		$db = PearDatabase::getInstance();
-		$commentsList = array();
+		$commentsList = [];
 
 		$result = $db->pquery("SELECT commentcontent AS comments FROM vtiger_modcomments WHERE related_to = ?", array($this->getId()));
 		$numOfRows = $db->num_rows($result);

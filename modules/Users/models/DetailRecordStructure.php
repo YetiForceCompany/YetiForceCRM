@@ -21,7 +21,7 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 			return $this->structuredValues;
 		}
 
-		$values = array();
+		$values = [];
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
@@ -30,7 +30,7 @@ class Users_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_Mod
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = array();
+				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
 						$fieldModel->set('editable', true);

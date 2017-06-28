@@ -205,7 +205,7 @@ class ModTracker
 
 		$result = $adb->pquery($query, $params);
 
-		$modTime = array();
+		$modTime = [];
 		$rows = $adb->num_rows($result);
 
 		for ($i = 0; $i < $rows; $i++) {

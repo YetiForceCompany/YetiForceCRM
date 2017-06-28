@@ -27,8 +27,8 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getSearchParams($stage, $assignedto, $dates)
 	{
-		$listSearchParams = array();
-		$conditions = array();
+		$listSearchParams = [];
+		$conditions = [];
 		array_push($conditions, array("sales_stage", "e", $stage));
 		if ($assignedto == '') {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();

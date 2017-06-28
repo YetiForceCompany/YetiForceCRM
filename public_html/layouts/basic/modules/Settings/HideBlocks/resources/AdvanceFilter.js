@@ -425,7 +425,7 @@ Vtiger_Picklist_Field_Js('Workflows_Picklist_Field_Js',{},{
         getUi : function(){
                 var selectedOption = app.htmlDecode(this.getValue());
                 var pickListValues = this.getPickListValues();
-                var tagsArray = new Array();
+                var tagsArray = [];
                 jQuery.map( pickListValues, function(val, i) {
                         tagsArray.push(val);
                 });

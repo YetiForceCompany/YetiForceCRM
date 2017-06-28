@@ -18,7 +18,7 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 			return $returnIds;
 		}
 
-		$accountnumbers = array();
+		$accountnumbers = [];
 		$accounts = $mail->getActionResult('Accounts');
 		if (!empty($accounts)) {
 			$keys = array('BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk');

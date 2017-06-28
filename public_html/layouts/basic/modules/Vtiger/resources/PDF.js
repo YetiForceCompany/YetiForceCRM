@@ -1,7 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 jQuery.Class("Vtiger_PDF_Js", {
 	validateSubmit: function (container) {
-		var templateIds = new Array();
+		var templateIds = [];
 		var i = 0;
 		container.find('[name="pdf_template[]"]').each(function () {
 			if (jQuery(this).is(':checked')) {
@@ -34,7 +34,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 					enabled: true
 				}
 			});
-			var templateIds = new Array();
+			var templateIds = [];
 			var i = 0;
 			container.find('[name="pdf_template[]"]').each(function () {
 				if (jQuery(this).is(':checked')) {

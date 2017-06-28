@@ -41,7 +41,7 @@ Vtiger_Popup_Js("Products_PriceBookProductPopup_Js",{
 			}
 			var invalidFields = popupPageContentsContainer.data('jqv').InvalidFields;
 			if((invalidFields.length) == 0){
-				var selectedRecordDetails = new Array();
+				var selectedRecordDetails = [];
 				selectedRecords.each(function(index, checkBoxElement){
 					var checkBoxJqueryObject = jQuery(checkBoxElement);
 					var row = checkBoxJqueryObject.closest('tr');

@@ -786,7 +786,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public static function getScheduledImport()
 	{
 
-		$scheduledImports = array();
+		$scheduledImports = [];
 		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
 			$userId = $importInfo['user_id'];

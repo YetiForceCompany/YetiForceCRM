@@ -109,7 +109,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$relatedModules = $reportModel->getReportRelatedModules();
 
 		foreach ($relatedModules as $primaryModule => $relatedModuleList) {
-			$translatedRelatedModules = array();
+			$translatedRelatedModules = [];
 
 			foreach ($relatedModuleList as $relatedModuleName) {
 				$translatedRelatedModules[$relatedModuleName] = vtranslate($relatedModuleName, $relatedModuleName);
@@ -154,7 +154,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 
 			$secondaryModules = explode(':', $secondaryModules);
 		} else {
-			$secondaryModules = array();
+			$secondaryModules = [];
 		}
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('REPORT_MODEL', $reportModel);
@@ -211,7 +211,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 			$reportModel->setSecondaryModule($secondaryModules);
 			$secondaryModules = explode(':', $secondaryModules);
 		} else {
-			$secondaryModules = array();
+			$secondaryModules = [];
 		}
 
 		$chartModel = Reports_Chart_Model::getInstanceById($reportModel);

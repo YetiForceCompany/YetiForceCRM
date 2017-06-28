@@ -24,7 +24,7 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 
-		$detailViewLink = array();
+		$detailViewLink = [];
 
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.

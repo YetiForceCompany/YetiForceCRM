@@ -122,7 +122,7 @@ class ModCommentsCore extends CRMEntity
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
 		// Keep track of tables joined to avoid duplicates
-		$joinedTables = array();
+		$joinedTables = [];
 
 		// Select Custom Field Table Columns if present
 		if (!empty($this->customFieldTable))

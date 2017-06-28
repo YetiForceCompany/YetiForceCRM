@@ -365,7 +365,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getPermissionsFiles($onlyError = false)
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
-		$permissions = array();
+		$permissions = [];
 		require_once ROOT_DIRECTORY . '/include/utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = vtlib_isWriteable($value);

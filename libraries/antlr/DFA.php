@@ -185,7 +185,7 @@ class DFA {
 	 *  compile. :(
 	 */
 	public static function unpackEncodedString($encodedString) {
-		$data = array();
+		$data = [];
 		$di = 0;
 		for ($i=0,$len=strlen($encodedString); $i<$len; $i+=2) {
 			$n = charAt($encodedString, $i);

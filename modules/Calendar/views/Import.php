@@ -91,7 +91,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 				$todoModule => array('activitystatus')
 			);
 
-			$requiredFields = array();
+			$requiredFields = [];
 			$modules = array($eventModule, $todoModule);
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 

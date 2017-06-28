@@ -176,7 +176,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	} elseif ($fieldType == "multipicklist" && !empty($value)) {
 		if (is_array($picklistArray[1])) {
 			$valueList = explode(' |##| ', $value);
-			$translatedValueList = array();
+			$translatedValueList = [];
 			foreach ($valueList as $value) {
 				if (is_array($picklistArray[1][$dbField->name]) && !in_array(
 						$value, $picklistArray[1][$dbField->name])) {

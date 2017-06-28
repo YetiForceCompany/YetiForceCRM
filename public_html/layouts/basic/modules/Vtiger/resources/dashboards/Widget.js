@@ -306,9 +306,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		var widgetFilterByField = parent.find('.widgetFilterByField');
 		if (widgetFilterByField.length) {
-			var searchParams = new Array();
+			var searchParams = [];
 			widgetFilterByField.find('.listSearchContributor').each(function (index, domElement) {
-				var searchInfo = new Array();
+				var searchInfo = [];
 				var searchContributorElement = jQuery(domElement);
 				var fieldInfo = searchContributorElement.data('fieldinfo');
 				var fieldName = searchContributorElement.attr('name');
@@ -667,7 +667,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
-		var xLabels = new Array();
+		var xLabels = [];
 		var yMaxValue = 0;
 		for (var index in data) {
 			var row = data[index];
@@ -834,9 +834,9 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 	getCharRelatedData: function () {
 		var container = this.getContainer();
 		var data = container.find('.widgetData').val();
-		var users = new Array();
-		var stages = new Array();
-		var count = new Array();
+		var users = [];
+		var stages = [];
+		var count = [];
 		for (var i = 0; i < data.length; i++) {
 			if ($.inArray(data[i].last_name, users) == -1) {
 				users.push(data[i].last_name);
@@ -847,7 +847,7 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 		}
 
 		for (var j in stages) {
-			var salesStageCount = new Array();
+			var salesStageCount = [];
 			for (i in users) {
 				var salesCount = 0;
 				for (var k in data) {
@@ -995,7 +995,7 @@ Vtiger_Widget_Js('Vtiger_KpiBarchat_Widget_Js', {}, {
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
-		var xLabels = new Array();
+		var xLabels = [];
 		var yMaxValue = 0;
 		return {'chartData': [[[data['result'], data['all']]]], 'yMaxValue': data['maxValue'], 'labels': ''};
 	},
@@ -1616,7 +1616,7 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
-		var xLabels = new Array();
+		var xLabels = [];
 		var yMaxValue = 0;
 		var color = [];
 		for (var index in data) {

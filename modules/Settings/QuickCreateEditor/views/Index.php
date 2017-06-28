@@ -37,7 +37,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		} else
 			$sourceModule = array($sourceModule);
 
-		$quickCreateContents = array();
+		$quickCreateContents = [];
 
 		if (in_array('Calendar', $sourceModule))
 			$sourceModule = array('Calendar', 'Events');

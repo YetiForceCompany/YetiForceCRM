@@ -19,16 +19,16 @@ class Vtiger_DependencyPicklist
 		$adb = PearDatabase::getInstance();
 
 		if (empty($module)) {
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
+			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', []);
 		} else {
 			$tabId = \App\Module::getModuleId($module);
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		}
 		$noofrows = $adb->num_rows($result);
 
-		$dependentPicklists = array();
+		$dependentPicklists = [];
 		if ($noofrows > 0) {
-			$fieldlist = array();
+			$fieldlist = [];
 			for ($i = 0; $i < $noofrows; ++$i) {
 				$fieldTabId = $adb->query_result($result, $i, 'tabid');
 				$sourceField = $adb->query_result($result, $i, 'sourcefield');
@@ -70,7 +70,7 @@ class Vtiger_DependencyPicklist
 		$result = $adb->pquery($query, array($tabId));
 		$noofrows = $adb->num_rows($result);
 
-		$fieldlist = array();
+		$fieldlist = [];
 		if ($noofrows > 0) {
 			for ($i = 0; $i < $noofrows; ++$i) {
 				$fieldlist[$adb->query_result($result, $i, "fieldname")] = $adb->query_result($result, $i, "fieldlabel");
@@ -98,7 +98,7 @@ class Vtiger_DependencyPicklist
 			$optionalsourcevalues = $mapping['optionalsourcevalues'];
 
 			if (!empty($optionalsourcefield)) {
-				$criteria = array();
+				$criteria = [];
 				$criteria["fieldname"] = $optionalsourcefield;
 				$criteria["fieldvalues"] = $optionalsourcevalues;
 				$serializedCriteria = \App\Json::encode($criteria);
@@ -164,9 +164,9 @@ class Vtiger_DependencyPicklist
 		$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		$noofrows = $adb->num_rows($result);
 
-		$picklistDependencyDatasource = array();
+		$picklistDependencyDatasource = [];
 		for ($i = 0; $i < $noofrows; ++$i) {
-			$pickArray = array();
+			$pickArray = [];
 			$sourceField = $adb->query_result($result, $i, 'sourcefield');
 			$targetField = $adb->query_result($result, $i, 'targetfield');
 			$sourceValue = decode_html($adb->query_result($result, $i, 'sourcevalue'));
@@ -221,7 +221,7 @@ class Vtiger_DependencyPicklist
 						AND vtiger_field.presence in (0,2)
 					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
 		// END
-		$result = $adb->pquery($query, array());
+		$result = $adb->pquery($query, []);
 		while ($row = $adb->fetch_array($result)) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}

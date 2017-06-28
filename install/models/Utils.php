@@ -136,7 +136,7 @@ class Install_Utils_Model
 				}
 			}
 		}
-		$dbCheckResult = array();
+		$dbCheckResult = [];
 		$dbCheckResult['db_utf8_support'] = $db_utf8_support;
 
 		$error_msg = '';
@@ -169,7 +169,7 @@ class Install_Utils_Model
 	{
 		$dir = 'languages/';
 		$ffs = scandir($dir);
-		$langs = array();
+		$langs = [];
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..') {
 				if (file_exists($dir . $ff . '/Install.php')) {

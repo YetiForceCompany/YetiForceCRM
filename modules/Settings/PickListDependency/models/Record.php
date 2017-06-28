@@ -115,7 +115,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public function save($mapping)
 	{
-		$dependencyMap = array();
+		$dependencyMap = [];
 		$dependencyMap['sourcefield'] = $this->get('sourcefield');
 		$dependencyMap['targetfield'] = $this->get('targetfield');
 		$dependencyMap['valuemapping'] = $mapping;

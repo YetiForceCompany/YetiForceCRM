@@ -69,7 +69,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	public function getImageDetails()
 	{
 		$db = PearDatabase::getInstance();
-		$imageDetails = array();
+		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {

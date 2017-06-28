@@ -13,10 +13,10 @@
 	{assign var=ALL_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[1] }
 	{assign var=ANY_CONDITION_CRITERIA value=$ADVANCE_CRITERIA[2] }
 	{if empty($ALL_CONDITION_CRITERIA) }
-		{assign var=ALL_CONDITION_CRITERIA value=array()}
+		{assign var=ALL_CONDITION_CRITERIA value=[]}
 	{/if}
 	{if empty($ANY_CONDITION_CRITERIA) }
-		{assign var=ANY_CONDITION_CRITERIA value=array()}
+		{assign var=ANY_CONDITION_CRITERIA value=[]}
 	{/if}
 <div class="filterContainer">
 	<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
@@ -38,7 +38,7 @@
 			{/foreach}
 			</div>
 			<div class="hide basic">
-				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=array() MODULE=$MODULE NOCHOSEN=true}
+				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
 				<button type="button" class="btn btn-default pushDown"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
@@ -65,7 +65,7 @@
 			{/foreach}
 			</div>
 			<div class="hide basic">
-				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=array() CONDITION="or" NOCHOSEN=true}
+				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=[] CONDITION="or" NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
 				<button type="button" class="btn btn-default pushDown"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>

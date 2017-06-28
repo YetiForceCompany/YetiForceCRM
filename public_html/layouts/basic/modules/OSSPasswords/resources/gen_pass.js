@@ -5,7 +5,7 @@ function passwordStrength(password, translations)
     if ( password == '' )
         password = document.getElementById( 'OSSPasswords_editView_fieldName_password' ).value;
         
-    var desc = new Array();
+    var desc = [];
     if ( translations == '' ) {
         desc[0] = app.vtranslate('Very Weak');    
         desc[1] = app.vtranslate('Weak');

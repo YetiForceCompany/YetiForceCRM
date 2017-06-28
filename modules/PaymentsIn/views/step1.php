@@ -18,7 +18,7 @@ Class PaymentsIn_step1_View extends Vtiger_Index_View
 	{
 		$moduleSettingsName = $request->getModule(false);
 		$moduleName = $request->getModule();
-		$paymentsIn = array();
+		$paymentsIn = [];
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$type = $request->get('type');
 		$bank = $request->get('bank');
@@ -31,7 +31,7 @@ Class PaymentsIn_step1_View extends Vtiger_Index_View
 
 		// only incomming records (C)
 		$i = 0;
-		$j = array();
+		$j = [];
 		foreach ($recordParse->operations as $transfers) {
 			foreach ($transfers as $key => $value) {
 				if ($key == 'indicator' && $value == 'C')

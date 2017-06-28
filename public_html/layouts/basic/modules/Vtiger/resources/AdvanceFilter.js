@@ -108,7 +108,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	},
 	getDateConditions: function (fieldType) {
 		if (fieldType != 'D' && fieldType != 'DT') {
-			return new Array();
+			return [];
 		}
 		var filterContainer = this.getFilterContainer();
 		var dateFilters = this.getDateSpecificConditionInfo();
@@ -683,7 +683,7 @@ Vtiger_Owner_Field_Js('AdvanceFilter_Owner_Field_Js', {}, {
 		} else {
 			var selectedOption = this.getValue();
 			var pickListValues = this.getPickListValues();
-			var tagsArray = new Array();
+			var tagsArray = [];
 			jQuery.each(pickListValues, function (groups, blocks) {
 				jQuery.each(blocks, function (i, e) {
 					tagsArray.push(jQuery.trim(e));

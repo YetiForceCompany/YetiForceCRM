@@ -182,7 +182,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}
-		$result = array();
+		$result = [];
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
 		$response = new Vtiger_Response();
@@ -202,7 +202,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$count = $listViewModel->getListViewCount();
 
-		$result = array();
+		$result = [];
 		$result['module'] = $moduleName;
 		$result['count'] = $count;
 

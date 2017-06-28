@@ -43,7 +43,7 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 * @return list of validators for field
 	 */
 	getValidator: function (field) {
-		var listOfValidators = new Array();
+		var listOfValidators = [];
 		var fieldData = field.data();
 		var fieldInfo = fieldData.fieldinfo;
 		if (typeof fieldInfo == 'string') {
@@ -95,7 +95,7 @@ jQuery.Class("Vtiger_Base_Validator_Js", {
 	 */
 	getValidatorsFromFieldType: function (fieldInstance) {
 		var fieldType = fieldInstance.getType();
-		var validatorsOfType = new Array();
+		var validatorsOfType = [];
 		fieldType = fieldType.charAt(0).toUpperCase() + fieldType.slice(1).toLowerCase();
 		validatorsOfType.push(Vtiger_Base_Validator_Js.getValidatorClassName(fieldType));
 		return validatorsOfType;

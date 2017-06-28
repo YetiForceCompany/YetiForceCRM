@@ -36,7 +36,7 @@
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
 		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
         <input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
-		{assign var=RECORD_STRUCTURE value=array()}
+		{assign var=RECORD_STRUCTURE value=[]}
 		{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
 		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
 			{assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}

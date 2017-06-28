@@ -62,7 +62,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$result = $db->pquery($query, $params, true);
 		$num = $db->num_rows($result);
 
-		$attachments = array();
+		$attachments = [];
 		for ($i = 0; $i < $num; $i++) {
 			$attachments[$i]['name'] = $db->query_result($result, $i, 'title');
 			$attachments[$i]['file'] = $db->query_result($result, $i, 'filename');

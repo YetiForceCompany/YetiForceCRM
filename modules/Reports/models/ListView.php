@@ -22,7 +22,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$basicLinks = array();
+		$basicLinks = [];
 		if ($currentUserModel->isAdminUser() || $privileges->hasModulePermission($this->getModule()->getId())) {
 			$basicLinks = array(
 				array(
@@ -77,7 +77,7 @@ class Reports_ListView_Model extends Vtiger_ListView_Model
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		$massActionLinks = array();
+		$massActionLinks = [];
 		if ($currentUserModel->hasModulePermission($this->getModule()->getId())) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',

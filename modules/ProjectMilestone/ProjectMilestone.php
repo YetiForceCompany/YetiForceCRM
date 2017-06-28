@@ -13,7 +13,7 @@ class ProjectMilestone extends CRMEntity
 
 	public $table_name = 'vtiger_projectmilestone';
 	public $table_index = 'projectmilestoneid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
@@ -99,7 +99,7 @@ class ProjectMilestone extends CRMEntity
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
 		// Keep track of tables joined to avoid duplicates
-		$joinedTables = array();
+		$joinedTables = [];
 
 		// Select Custom Field Table Columns if present
 		if (!empty($this->customFieldTable))

@@ -102,7 +102,7 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		this.getSelectedFields().val(JSON.stringify(selectedFields));
 
 		//handled selected sort fields
-		var selectedSortOrderFields = new Array();
+		var selectedSortOrderFields = [];
 		var selectedSortFieldsRows = jQuery('.sortFieldRow',container);
 		jQuery.each(selectedSortFieldsRows,function(index,element){
 			var currentElement = jQuery(element);

@@ -23,8 +23,8 @@ class VTJsonCondition
 		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
 		if (is_array($expr)) {
-			$groupResults = array();
-			$expressionResults = array();
+			$groupResults = [];
+			$expressionResults = [];
 			$i = 0;
 			foreach ($expr as $cond) {
 				$conditionGroup = $cond['groupid'];

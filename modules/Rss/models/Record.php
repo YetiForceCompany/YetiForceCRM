@@ -114,7 +114,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 		$recordId = $this->getId();
 
 		$sql = 'UPDATE vtiger_rss set starred = 0';
-		$db->pquery($sql, array());
+		$db->pquery($sql, []);
 
 		$sql = 'UPDATE vtiger_rss set starred = 1 where rssid = ?';
 		$db->pquery($sql, array($recordId));
@@ -195,12 +195,12 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT rssid FROM vtiger_rss where starred = 1', array());
+		$result = $db->pquery('SELECT rssid FROM vtiger_rss where starred = 1', []);
 		$recordId = $db->query_result($result, '0', 'rssid');
 		if ($recordId) {
 			$this->setId($recordId);
 		} else {
-			$result = $db->pquery('SELECT rssid FROM vtiger_rss', array());
+			$result = $db->pquery('SELECT rssid FROM vtiger_rss', []);
 			$recordId = $db->query_result($result, '0', 'rssid');
 			$this->setId($recordId);
 		}

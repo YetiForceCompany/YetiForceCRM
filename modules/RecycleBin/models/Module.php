@@ -28,7 +28,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$basicLinks = array();
+		$basicLinks = [];
 		if ($currentUserModel->isAdminUser()) {
 			$basicLinks = array(
 				array(
@@ -56,7 +56,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		$massActionLinks = array();
+		$massActionLinks = [];
 		if ($currentUserModel->isAdminUser()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -179,7 +179,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 		if (!empty($attachmentsIds)) {
 			$deleteRelQuery = sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
 			$db->pquery($deleteRelQuery, array($recordIds));
-			$attachmentsLocation = array();
+			$attachmentsLocation = [];
 			$getPathQuery = sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
 			$pathResult = $db->pquery($getPathQuery, array($attachmentsIds));
 			if ($db->num_rows($pathResult)) {
@@ -215,7 +215,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function getDeletedRecordsTotalCount()
 	{
 		$db = PearDatabase::getInstance();
-		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', array());
+		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', []);
 		return $db->query_result($totalCount, 0, 'count');
 	}
 }

@@ -20,7 +20,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
 
-		$subOrdinates = array();
+		$subOrdinates = [];
 		foreach ($subOrdinateUsers as $id => $name) {
 			$subOrdinates[] = $id;
 		}
@@ -84,7 +84,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery('SELECT * FROM vtiger_report ORDER BY reportid DESC LIMIT ?', array($limit));
 		$rows = $db->num_rows($result);
 
-		$recentRecords = array();
+		$recentRecords = [];
 		for ($i = 0; $i < $rows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$recentRecords[$row['reportid']] = $this->getRecordFromArray($row);

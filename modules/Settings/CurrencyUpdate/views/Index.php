@@ -50,7 +50,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$selectBankId = $moduleModel->getActiveBankId();
 
 		$history = $moduleModel->getRatesHistory($selectBankId, $dateCur, $request);
-		$bankTab = array();
+		$bankTab = [];
 
 		$db = new \App\Db\Query();
 		$db->from('yetiforce_currencyupdate_banks');

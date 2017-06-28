@@ -71,7 +71,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 
 		$fieldModelList = $recordModel->getModule()->getFields();
-		$result = array();
+		$result = [];
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$recordFieldValue = $recordModel->get($fieldName);
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {

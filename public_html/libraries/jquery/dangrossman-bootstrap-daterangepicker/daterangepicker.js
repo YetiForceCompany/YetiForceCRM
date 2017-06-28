@@ -32,12 +32,12 @@
 
         this.leftCalendar = {
             month: Date.today().set({ day: 1, month: this.startDate.getMonth(), year: this.startDate.getFullYear() }),
-            calendar: Array()
+            calendar: []
         };
 
         this.rightCalendar = {
             month: Date.today().set({ day: 1, month: this.endDate.getMonth(), year: this.endDate.getFullYear() }),
-            calendar: Array()
+            calendar: []
         };
 
         //element that triggered the date range picker
@@ -366,9 +366,9 @@
             var dayOfWeek = firstDay.getDay();
 
             //initialize a 6 rows x 7 columns array for the calendar
-            var calendar = Array();
+            var calendar = [];
             for (var i = 0; i < 6; i++) {
-                calendar[i] = Array();
+                calendar[i] = [];
             }
 
             //populate the calendar with date objects

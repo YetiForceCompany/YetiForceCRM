@@ -30,7 +30,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$searchModuleModel = Users_Module_Model::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
 
-		$result = array();
+		$result = [];
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {

@@ -15,7 +15,7 @@ class PBXManager_PBXManager_Connector
 
 	private static $SETTINGS_REQUIRED_PARAMETERS = array('webappurl' => 'text', 'outboundcontext' => 'text', 'outboundtrunk' => 'text', 'vtigersecretkey' => 'text');
 	private static $RINGING_CALL_PARAMETERS = array('From' => 'callerIdNumber', 'SourceUUID' => 'callUUID', 'Direction' => 'Direction');
-	private static $NUMBERS = array();
+	private static $NUMBERS = [];
 	private $webappurl;
 	private $outboundcontext, $outboundtrunk;
 	private $vtigersecretkey;

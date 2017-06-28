@@ -18,7 +18,7 @@ class VTExpressionsManager
 	}
 
 	/** Caching logic * */
-	private static $cache = array();
+	private static $cache = [];
 
 	static function addToCache($key, $value)
 	{
@@ -34,7 +34,7 @@ class VTExpressionsManager
 
 	static function clearCache()
 	{
-		self::$cache = array();
+		self::$cache = [];
 	}
 
 	/** END * */
@@ -43,7 +43,7 @@ class VTExpressionsManager
 		$current_user = vglobal('current_user');
 		$result = vtws_describe($moduleName, $current_user);
 		$fields = $result['fields'];
-		$arr = array();
+		$arr = [];
 		foreach ($fields as $field) {
 			$arr[$field['name']] = $field['label'];
 		}

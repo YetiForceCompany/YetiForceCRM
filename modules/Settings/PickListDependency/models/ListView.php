@@ -49,7 +49,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		$noOfRecords = count($dependentPicklists);
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
 
-		$listViewRecordModels = array();
+		$listViewRecordModels = [];
 		for ($i = 0; $i < $noOfRecords; $i++) {
 			$record = new $recordModelClass();
 			$module = $dependentPicklists[$i]['module'];

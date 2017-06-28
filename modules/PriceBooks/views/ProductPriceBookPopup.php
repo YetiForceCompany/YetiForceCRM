@@ -104,7 +104,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		$productUnitPrice = vtlib\Functions::getUnitPrice($sourceRecord, $sourceModule);
 		$productPriceDetails = getPriceDetailsForProduct($sourceRecord, $productUnitPrice, 'available', $sourceModule);
 
-		$productCurrencyPrice = array();
+		$productCurrencyPrice = [];
 		foreach ($productPriceDetails as $priceDetails) {
 			$productCurrencyPrice[$priceDetails['curid']] = $priceDetails['curvalue'];
 		}

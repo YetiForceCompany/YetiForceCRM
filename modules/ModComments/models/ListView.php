@@ -48,6 +48,6 @@ class ModComments_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		return array();
+		return [];
 	}
 }

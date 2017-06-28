@@ -231,7 +231,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		$query = PBXManager_Record_Model::buildSearchQueryWithUIType(11, $number, 'Users');
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		if ($db->num_rows($result) > 0) {
 			$user['id'] = $db->query_result($result, 0, 'id');
 			$user['name'] = $db->query_result($result, 0, 'name');
@@ -255,8 +255,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
-		$lookuptables = array();
-		$lookupcolumns = array();
+		$lookuptables = [];
+		$lookupcolumns = [];
 		foreach ($cachedModuleFields as $fieldinfo) {
 			if (in_array($fieldinfo['uitype'], array($uitype))) {
 				$lookuptables[] = $fieldinfo['tablename'];
@@ -293,7 +293,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$numbers = null;
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT id, phone_crm_extension FROM vtiger_users';
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		$count = $db->num_rows($result);
 		for ($i = 0; $i < $count; $i++) {
 			$number = $db->query_result($result, $i, 'phone_crm_extension');

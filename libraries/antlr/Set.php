@@ -2,7 +2,7 @@
 	//Todo: find a decent set implementation for php
 	class Set{
 		public function __construct($arr){
-			$this->store = array();
+			$this->store = [];
 			foreach($arr as $el){
 				$this->store[$el] = $el;
 			}

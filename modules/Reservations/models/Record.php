@@ -185,7 +185,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		}
 		$db = PearDatabase::getInstance();
 		//////// sum_time
-		$projectIDS = array();
+		$projectIDS = [];
 		$sum_time_result = $db->pquery("SELECT reservationsid FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
 
 		$numRowsCount = $db->num_rows($sum_time_result);
@@ -193,7 +193,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 			$projectIDS[] = $db->query_result($sum_time_result, $i, 'reservationsid');
 		}
 		//////// sum_time_h
-		$ticketsIDS = array();
+		$ticketsIDS = [];
 		$sql_sum_time_h = 'SELECT reservationsid 
 						FROM vtiger_reservations 
 						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
@@ -208,7 +208,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 			$ticketsIDS[] = $db->query_result($sum_time_h_result, $i, 'reservationsid');
 		}
 		//////// sum_time_pt
-		$taskIDS = array();
+		$taskIDS = [];
 		$sql_sum_time_pt = 'SELECT reservationsid 
 						FROM vtiger_reservations 
 						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_reservations.projecttaskid

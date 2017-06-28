@@ -37,7 +37,7 @@ function getSharedCalendarId($sharedid)
  */
 function getaddEventPopupTime($starttime, $endtime, $format)
 {
-	$timearr = Array();
+	$timearr = [];
 	list($sthr, $stmin) = explode(":", $starttime);
 	list($edhr, $edmin) = explode(":", $endtime);
 	if ($format == 'am/pm' || $format == '12') {

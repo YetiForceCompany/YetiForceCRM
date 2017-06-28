@@ -50,7 +50,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 
 	public function write_php_ini($array, $file)
 	{
-		$res = array();
+		$res = [];
 		$res[] = ';<?php exit;';
 		foreach ($array as $key => $val) {
 			if (is_array($val)) {

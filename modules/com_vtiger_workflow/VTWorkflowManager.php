@@ -210,7 +210,7 @@ class VTWorkflowManager
 	 */
 	public function serializeWorkflow($workflow)
 	{
-		$exp = array();
+		$exp = [];
 		$exp['moduleName'] = $workflow->moduleName;
 		$exp['description'] = $workflow->description;
 		$exp['test'] = $workflow->test;
@@ -220,7 +220,7 @@ class VTWorkflowManager
 		$exp['schdayofmonth'] = $workflow->schdayofmonth;
 		$exp['schdayofweek'] = $workflow->schdayofweek;
 		$exp['schannualdates'] = $workflow->schannualdates;
-		$exp['tasks'] = array();
+		$exp['tasks'] = [];
 		$tm = new VTTaskManager($this->adb);
 		$tasks = $tm->getTasksForWorkflow($workflow->id);
 		foreach ($tasks as $task) {
@@ -285,7 +285,7 @@ class VTWorkflowManager
 			->andWhere(['like', 'test', '_VT_add_comment']);
 		$workflowModels = $this->getWorkflowsForResult($query->all());
 
-		$commentSupportedWorkflowModels = array();
+		$commentSupportedWorkflowModels = [];
 		foreach ($workflowModels as $workflowId => &$workflowModel) {
 			$conditions = \App\Json::decode($workflowModel->test);
 			if (is_array($conditions)) {

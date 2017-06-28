@@ -428,7 +428,7 @@ abstract class Base_Chart extends \App\Base
 		}
 
 		//Step 3. Convert advanced filter format to list view search format
-		$listSearchParams = array();
+		$listSearchParams = [];
 		$i = 0;
 		if ($filter) {
 			foreach ($filter as $index => $filterInfo) {
@@ -463,7 +463,7 @@ class PieChart extends Base_Chart
 		$db = PearDatabase::getInstance();
 		$values = [];
 		$chartSQL = $this->getQuery();
-		$result = $db->pquery($chartSQL, array());
+		$result = $db->pquery($chartSQL, []);
 		$rows = $db->num_rows($result);
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
@@ -548,9 +548,9 @@ class VerticalbarChart extends Base_Chart
 		$db = PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
 
-		$result = $db->pquery($chartSQL, array());
+		$result = $db->pquery($chartSQL, []);
 		$rows = $db->num_rows($result);
-		$values = array();
+		$values = [];
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 
@@ -563,7 +563,7 @@ class VerticalbarChart extends Base_Chart
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
-		$links = array();
+		$links = [];
 
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -625,7 +625,7 @@ class VerticalbarChart extends Base_Chart
 
 	public function getDataLabels()
 	{
-		$dataLabels = array();
+		$dataLabels = [];
 		if ($this->isRecordCount()) {
 			$dataLabels[] = vtranslate('LBL_RECORD_COUNT', 'Reports');
 		}

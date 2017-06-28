@@ -12,7 +12,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public $table_name = 'vtiger_ossemployees';
 	public $table_index = 'ossemployeesid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
@@ -108,8 +108,8 @@ class OSSEmployees extends Vtiger_CRMEntity
 		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
-		$listview_header = Array();
-		$listview_entries = array();
+		$listview_header = [];
+		$listview_entries = [];
 
 		foreach ($this->list_fields_name as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
@@ -117,12 +117,12 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 		}
 
-		$rows_list = Array();
+		$rows_list = [];
 		$encountered_accounts = array($id);
 		$rows_list = $this->__getParentEmployees($id, $rows_list, $encountered_accounts);
 		$rows_list = $this->__getChildEmployees($id, $rows_list, $rows_list[$id]['depth']);
 		foreach ($rows_list as $employees_id => $account_info) {
-			$account_info_data = array();
+			$account_info_data = [];
 
 			$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
 			foreach ($this->list_fields_name as $fieldname => $colname) {
@@ -187,7 +187,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
 		$params = array($id);
 		$res = $adb->pquery($query, $params);
-		$parent_account_info = array();
+		$parent_account_info = [];
 		$depth = 0;
 		$immediate_parentid = $adb->query_result($res, 0, 'parentid');
 		if (isset($parent_accounts[$immediate_parentid])) {
@@ -233,7 +233,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				if (array_key_exists($child_acc_id, $child_accounts)) {
 					continue;
 				}
-				$child_account_info = array();
+				$child_account_info = [];
 				$child_account_info['depth'] = $depth;
 				foreach ($this->list_fields_name as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {

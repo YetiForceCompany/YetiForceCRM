@@ -18,8 +18,8 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 {
 
 	protected $name;
-	protected $messages = array();
-	protected $aggregates = array();
+	protected $messages = [];
+	protected $aggregates = [];
 	protected $dataFormater;
 
 	/**
@@ -115,7 +115,7 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	 * @param $message
 	 * @param array $context
 	 */
-	public function log($level, $message, array $context = array())
+	public function log($level, $message, array $context = [])
 	{
 		$this->addMessage($message, $level);
 	}
@@ -125,7 +125,7 @@ class MessagesCollector implements DataCollectorInterface, MessagesAggregateInte
 	 */
 	public function clear()
 	{
-		$this->messages = array();
+		$this->messages = [];
 	}
 
 	/**

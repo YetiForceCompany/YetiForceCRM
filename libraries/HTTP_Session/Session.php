@@ -646,7 +646,7 @@ class HTTP_Session
 	{
 		$local = md5(self::localName());
 		if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
-			$_SESSION[$local] = array();
+			$_SESSION[$local] = [];
 		}
 		if (!isset($_SESSION[$local][$name]) && isset($default)) {
 			$_SESSION[$local][$name] = $default;
@@ -669,7 +669,7 @@ class HTTP_Session
 	{
 		$local = md5(self::localName());
 		if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
-			$_SESSION[$local] = array();
+			$_SESSION[$local] = [];
 		}
 		$return = (isset($_SESSION[$local][$name])) ? $_SESSION[$local][$name] : null;
 

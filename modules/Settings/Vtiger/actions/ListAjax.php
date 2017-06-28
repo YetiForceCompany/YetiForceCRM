@@ -27,7 +27,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 		$cvId = $request->get('viewname');
 		$count = $this->getListViewCount($request);
 
-		$result = array();
+		$result = [];
 		$result['module'] = $moduleName;
 		$result['viewname'] = $cvId;
 		$result['count'] = $count;
@@ -61,7 +61,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}
-		$result = array();
+		$result = [];
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $numOfRecords;
 		$response = new Vtiger_Response();

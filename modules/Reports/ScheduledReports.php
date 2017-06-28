@@ -48,8 +48,8 @@ class VTScheduledReport extends Reports
 				if ($adb->num_rows($result) > 0) {
 					$reportScheduleInfo = $adb->raw_query_result_rowdata($result, 0);
 
-					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : array();
-					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : array();
+					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : [];
+					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : [];
 
 					VTCacheUtils::updateReport_ScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'], $scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
 
@@ -72,7 +72,7 @@ class VTScheduledReport extends Reports
 	{
 		$recipientsInfo = $this->scheduledRecipients;
 
-		$recipientsList = array();
+		$recipientsList = [];
 		if (!empty($recipientsInfo)) {
 			if (!empty($recipientsInfo['users'])) {
 				$recipientsList = array_merge($recipientsList, $recipientsInfo['users']);
@@ -106,7 +106,7 @@ class VTScheduledReport extends Reports
 				}
 			}
 		}
-		$recipientsEmails = array();
+		$recipientsEmails = [];
 		if (!empty($recipientsList) && count($recipientsList) > 0) {
 			foreach ($recipientsList as $userId) {
 				$userName = \App\Fields\Owner::getUserLabel($userId);
@@ -340,13 +340,13 @@ class VTScheduledReport extends Reports
 		$result = $adb->pquery("SELECT * FROM vtiger_scheduled_reports
 									WHERE next_trigger_time = '' || next_trigger_time <= ?", array($currentTime));
 
-		$scheduledReports = array();
+		$scheduledReports = [];
 		$noOfScheduledReports = $adb->num_rows($result);
 		for ($i = 0; $i < $noOfScheduledReports; ++$i) {
 			$reportScheduleInfo = $adb->raw_query_result_rowdata($result, $i);
 
-			$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : array();
-			$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : array();
+			$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : [];
+			$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : [];
 
 			$vtScheduledReport = new VTScheduledReport($adb, $user, $reportScheduleInfo['reportid']);
 			$vtScheduledReport->isScheduled = true;

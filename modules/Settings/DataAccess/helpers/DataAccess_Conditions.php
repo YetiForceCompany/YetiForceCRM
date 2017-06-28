@@ -18,8 +18,8 @@ class DataAccess_Conditions
 		if (empty($form)) {
 			return array('test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]);
 		}
-		$responeListRequired = array();
-		$responeListOptional = array();
+		$responeListRequired = [];
+		$responeListOptional = [];
 		$responeListRequiredStatus = true;
 		$responeListOptionalStatus = false;
 		if ($recordModel) {

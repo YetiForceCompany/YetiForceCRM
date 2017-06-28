@@ -12,7 +12,7 @@ class Ideas extends Vtiger_CRMEntity
 
 	public $table_name = 'vtiger_ideas';
 	public $table_index = 'ideasid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.

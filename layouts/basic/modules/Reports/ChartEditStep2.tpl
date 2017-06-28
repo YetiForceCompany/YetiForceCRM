@@ -24,7 +24,7 @@
 		<input type="hidden" name="mode" value="step3" >
 		<input type="hidden" name="advanced_filter" id="advanced_filter" value="" >
 
-		{assign var=RECORD_STRUCTURE value=array()}
+		{assign var=RECORD_STRUCTURE value=[]}
 		{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
 		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
 			{assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}

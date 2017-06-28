@@ -41,7 +41,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 		$listViewEntries = [];
 		foreach ($dataReader as $row) {
-			$listViewEntries[$row['portalid']] = array();
+			$listViewEntries[$row['portalid']] = [];
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
 			$listViewEntries[$row['portalid']]['createdtime'] = Vtiger_Date_UIType::getDisplayDateValue($row['createdtime']);

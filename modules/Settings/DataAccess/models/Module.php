@@ -127,7 +127,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			return $baseModule;
 		$baseModuleModel = Vtiger_Module_Model::getInstance($baseModule);
 		$list = $baseModuleModel->getFields();
-		$output = array();
+		$output = [];
 		if (count($list)) {
 			$num = 0;
 			foreach ($list as $key => $value) {

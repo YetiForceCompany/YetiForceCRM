@@ -16,7 +16,7 @@ Class Settings_HideBlocks_Edit_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$mode = '';
 		$enabled = 0;
-		$views = array();
+		$views = [];
 		$viewer = $this->getViewer($request);
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		if ($recordId) {

@@ -21,7 +21,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getValidator()
 	{
-		$validator = array();
+		$validator = [];
 		$fieldName = $this->getName();
 
 		switch ($fieldName) {

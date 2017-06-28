@@ -44,7 +44,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			$owner = '';
 		}
 
-		$params = array();
+		$params = [];
 		if (!empty($owner)) {
 			$ownerSql = ' && smownerid = ? ';
 			$params[] = $owner;
@@ -59,7 +59,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 						INNER JOIN vtiger_crmentity ON vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid
 						AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
 
-		$response = array();
+		$response = [];
 
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {

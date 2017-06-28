@@ -12,7 +12,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 
 	public $table_name = 'vtiger_paymentsout';
 	public $table_index = 'paymentsoutid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;

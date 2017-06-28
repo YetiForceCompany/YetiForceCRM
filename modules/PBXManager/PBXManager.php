@@ -70,7 +70,7 @@ class PBXManager extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 //    public $mandatory_fields = Array('assigned_user_id');
-	public $column_fields = Array();
+	public $column_fields = [];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
@@ -153,7 +153,7 @@ class PBXManager extends CRMEntity
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'getDependentsList');
+			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", [], 'getDependentsList');
 		}
 		\App\Log::info('Successfully added Module Related lists');
 	}
@@ -212,7 +212,7 @@ class PBXManager extends CRMEntity
 			$blockid = $adb->query_result($integrationBlock, 0, 'blockid');
 		} else {
 			$blockid = $adb->getUniqueID('vtiger_settings_blocks');
-			$sequenceResult = $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_blocks", array());
+			$sequenceResult = $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_blocks", []);
 			if ($adb->num_rows($sequenceResult)) {
 				$sequence = $adb->query_result($sequenceResult, 0, 'sequence');
 			}
@@ -249,7 +249,7 @@ class PBXManager extends CRMEntity
 		$moduleInstance = $module->getInstance('PBXManager');
 
 		//To add actionname as ReceiveIncomingcalls
-		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
+		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', []);
 		if ($adb->num_rows($maxActionIdresult)) {
 			$actionId = $adb->query_result($maxActionIdresult, 0, 'actionid');
 		}
@@ -259,7 +259,7 @@ class PBXManager extends CRMEntity
 		\App\Log::info('ReceiveIncomingcalls ActionName Added');
 
 		//To add actionname as MakeOutgoingCalls
-		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
+		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', []);
 		if ($adb->num_rows($maxActionIdresult)) {
 			$actionId = $adb->query_result($maxActionIdresult, 0, 'actionid');
 		}

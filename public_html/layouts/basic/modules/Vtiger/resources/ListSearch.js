@@ -176,9 +176,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	getListSearchParams: function (urlSearchParams) {
 		var listViewPageDiv = this.getContainer();
 		var listViewTable = listViewPageDiv.find('.listViewEntriesTable');
-		var searchParams = new Array();
+		var searchParams = [];
 		listViewTable.find('.listSearchContributor').each(function (index, domElement) {
-			var searchInfo = new Array();
+			var searchInfo = [];
 			var searchContributorElement = jQuery(domElement);
 			var fieldInfo = searchContributorElement.data('fieldinfo');
 			var fieldName = searchContributorElement.attr('name');

@@ -121,7 +121,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		try {
 			$fieldIds = $request->get('fieldIdList');
 			Settings_LayoutEditor_Field_Model::makeFieldActive($fieldIds, $request->get('blockId'));
-			$responseData = array();
+			$responseData = [];
 			foreach ($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();

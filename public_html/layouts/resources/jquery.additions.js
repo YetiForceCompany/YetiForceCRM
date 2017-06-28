@@ -22,7 +22,7 @@
 					//Only for muti select element we need to send array of values
 					if(element.is('select') && element.attr('multiple')!=undefined) {
 						var prevValue = data[v.name];
-						data[v.name] = new Array();
+						data[v.name] = [];
 						data[v.name].push(prevValue)
 					}
 				}

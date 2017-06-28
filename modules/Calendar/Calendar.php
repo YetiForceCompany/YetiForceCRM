@@ -25,18 +25,18 @@ class Calendar
 	public $week_slice;
 	public $week_array;
 	public $month_array;
-	public $week_hour_slices = Array();
-	public $slices = Array();
+	public $week_hour_slices = [];
+	public $slices = [];
 	/* for dayview */
 	public $day_start_hour = 0;
 	public $day_end_hour = 23;
-	public $sharedusers = Array();
+	public $sharedusers = [];
 
 	/*
 	  constructor
 	 */
 
-	public function __construct($view = '', $data = Array())
+	public function __construct($view = '', $data = [])
 	{
 		$this->view = $view;
 		$this->date_time = new vt_DateTime($data, true);
@@ -109,7 +109,7 @@ class Calendar
 				$this->date_time = $arr["date_time"];
 				break;
 			case 'year':
-				$this->month_day_slices = Array();
+				$this->month_day_slices = [];
 				for ($i = 0; $i < 12; $i++) {
 					$currMonth = $this->date_time->getThisyearMonthsbyIndex($i);
 					$layout = new Layout('month', $this->date_time->getThisyearMonthsbyIndex($i));
@@ -161,7 +161,7 @@ class Layout
 	public $view = 'day';
 	public $start_time;
 	public $end_time;
-	public $activities = Array();
+	public $activities = [];
 
 	/**
 	 * Constructor for Layout class
@@ -198,8 +198,8 @@ class Layout
 function getCalendarDaysInMonth($date_time)
 {
 	$current_user = vglobal('current_user');
-	$month_array = array();
-	$slices = array();
+	$month_array = [];
+	$slices = [];
 	$monthview_days = $date_time->daysinmonth;
 
 	$firstday_of_month = $date_time->getThisMonthsDayByIndex(0);

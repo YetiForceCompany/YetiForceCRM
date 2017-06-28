@@ -32,12 +32,12 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		$fileContents = self::$fileContents;
 
 		$data = null;
-		$matches = array();
+		$matches = [];
 		preg_match_all($this->vCardPattern, $fileContents, $matches);
 
 		$row = $matches[0][0];
 		$fieldValueMappings = explode("\r\n", $row);
-		$data = array();
+		$data = [];
 		foreach ($fieldValueMappings as $fieldValueMapping) {
 			list($label, $value) = explode(':', $fieldValueMapping, 2);
 			$value = str_replace(';', ' ', $value);
@@ -65,13 +65,13 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 		}
 		$fileContents = self::$fileContents;
 
-		$matches = array();
+		$matches = [];
 		preg_match_all($this->vCardPattern, $fileContents, $matches);
 		$countMatches = count($matches[0]);
 		for ($i = 0; $i < $countMatches; ++$i) {
 			$row = $matches[0][$i];
 			$fieldValueMappings = explode("\r\n", $row);
-			$data = array();
+			$data = [];
 			$valueCounter = 0;
 			foreach ($fieldValueMappings as $fieldValueMapping) {
 				list($label, $value) = explode(':', $fieldValueMapping, 2);
@@ -80,7 +80,7 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 					$data[$valueCounter++] = $value;
 				}
 			}
-			$mappedData = array();
+			$mappedData = [];
 			$allValuesEmpty = true;
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];

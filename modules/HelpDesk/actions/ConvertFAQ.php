@@ -25,7 +25,7 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$result = array();
+		$result = [];
 		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 

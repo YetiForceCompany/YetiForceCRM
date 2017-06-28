@@ -14,7 +14,7 @@ class Products extends CRMEntity
 
 	public $table_name = 'vtiger_products';
 	public $table_index = 'productid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.
@@ -78,7 +78,7 @@ class Products extends CRMEntity
 				ON vtiger_crmentity.crmid = vtiger_products.productid
 			WHERE vtiger_crmentity.deleted = 0
 			AND vtiger_products.vendor_id is NULL";
-		$result = $this->db->pquery($query, array());
+		$result = $this->db->pquery($query, []);
 		\App\Log::trace("Exiting product_novendor method ...");
 		return $this->db->num_rows($result);
 	}
