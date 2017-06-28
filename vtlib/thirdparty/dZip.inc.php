@@ -41,7 +41,7 @@ class dZip
 			$details['uncsize'] = filesize($filename);
 			$data = file_get_contents($filename);
 		} elseif ($filename) {
-			echo "<b>Cannot add $filename. File not found</b><br>";
+			echo "<b>Cannot add $filename. File not found</b><br />";
 			return false;
 		} else {
 			$details['uncsize'] = strlen($data); // Prasad: Fixed instead of strlen($filename)

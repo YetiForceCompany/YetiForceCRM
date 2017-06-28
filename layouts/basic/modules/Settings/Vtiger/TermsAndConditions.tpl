@@ -16,10 +16,10 @@
 		</div>
 	</div>
     <div class="contents">
-		<br>
+		<br />
         <textarea class="input-xxlarge TCContent textarea-autosize form-control" rows="3" placeholder="{vtranslate('LBL_INV_TANDC_DESCRIPTION', $QUALIFIED_MODULE)}" style="width:100%;" >{$CONDITION_TEXT}</textarea>
         <div class="textAlignCenter">
-            <br>
+            <br />
 			<button class="btn btn-success saveTC hide pull-right"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
         </div>
     </div>

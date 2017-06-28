@@ -30,6 +30,6 @@
 				</optgroup>
 			</select>
 		</div>
-	</div><br>
+	</div><br />
     {/if}
 {/strip}	

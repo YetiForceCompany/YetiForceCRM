@@ -7,7 +7,7 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-	<br>
+	<br />
 	<div>
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>

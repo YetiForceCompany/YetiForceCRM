@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{assign var=MAX_ACTIVITES value=$SAVED_DATA['maxActivites']}
 	{assign var=LOCK_SAVE value=$SAVED_DATA['lockSave']}
@@ -36,7 +36,7 @@
 			{/foreach}
 		</select>
 	</div>		
-	<hr><br>
+	<hr><br />
 	<div class="row">
 		<div class="col-md-4 padding-bottom1per">
 			<label class="padding-bottom1per"><strong>{vtranslate('LBL_MAXIMUM_NUMBER_EVENTS_PER_DAY', 'DataAccess')}:</strong></label>

@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="contents">
-			<br>
+			<br />
 			<form id="pickListDependencyForm" class="form-horizontal" method="POST">
 				{if !empty($MAPPED_VALUES)}
 					<input type="hidden" class="editDependency" value="true"/>
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">

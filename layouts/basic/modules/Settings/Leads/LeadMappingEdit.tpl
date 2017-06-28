@@ -115,5 +115,5 @@
 			</div>
 		</form>
 	</div>
-	<br>
+	<br />
 {/strip}

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="editContainer" style="padding-left: 3%;padding-right: 3%">
 	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
@@ -12,13 +12,13 @@
 			<input type="hidden" name="save_actions" value='{$ACTIONS_JASON}' />
 			<div class="row padding1per contentsBackground" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 				<h4 class="padding-bottom1per"><strong>{vtranslate('LBL_CREATION_ACTION',$QUALIFIED_MODULE)}</strong></h4>
-				{vtranslate('LBL_CREATION_DESC',$QUALIFIED_MODULE)}<br>
+				{vtranslate('LBL_CREATION_DESC',$QUALIFIED_MODULE)}<br />
 				<select name="actions_list" class="chzn-select form-control col-md-12" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 					{foreach key=key item=item from=$ACTIONS_LIST}
 						<option value="{$item}">{Settings_DataAccess_Module_Model::getActionName($item,true)}</option>
 					{/foreach}
 				</select>
-				<br><br>
+				<br /><br />
 				<table class="table table-bordered table-condensed listViewEntriesTable">
 					<thead>
 						<tr class="listViewHeaders" >
@@ -39,7 +39,7 @@
 						{/foreach}	
 					</tbody>
 				</table>	
-				<br>
+				<br />
 				<div class="pull-right">
 					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step3&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{vtranslate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>

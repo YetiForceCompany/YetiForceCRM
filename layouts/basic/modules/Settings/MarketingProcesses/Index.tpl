@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
 	<div class="widget_header row">
@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="mappingTable{if $CONVERSION['create_always']!='true'} hide{/if}">
-					<br>
+					<br />
 					<input class="configField" type="hidden" data-type="conversion" name="mapping" value="">
 					<div class="paddingBottom10">
 						<button id="addMapping" class="btn btn-success addButton" type="button">

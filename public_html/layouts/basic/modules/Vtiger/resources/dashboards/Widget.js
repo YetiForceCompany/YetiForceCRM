@@ -1047,7 +1047,7 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 		});
 	},
 	getLabelFormat: function (label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";
+		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
 	registerSectionClick: function () {
 		var thisInstance = this;
@@ -1112,7 +1112,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
 	getLabelFormat: function (label, slice) {
-		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br/>" + slice.data[0][1] + "</div>";
+		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
 	},
 	registerSectionClick: function () {
 		var thisInstance = this;

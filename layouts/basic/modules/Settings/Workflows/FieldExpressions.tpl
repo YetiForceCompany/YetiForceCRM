@@ -64,10 +64,10 @@
 								</optgroup>
 							</select>
 						</span>
-					</div><br>
+					</div><br />
 					<div class="fieldValueContainer">
 						<textarea data-textarea="true" class="fieldValue form-control"></textarea>
-					</div><br>
+					</div><br />
 					<div id="rawtext_help" class="alert alert-info helpmessagebox hide">
 						<p><h5>{vtranslate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</h5></p>
 						<p>2000</p>

@@ -2353,7 +2353,7 @@ class ReportRun extends CRMEntity
 			if (!$result && $error_msg != '') {
 				// Performance Optimization: If direct output is requried
 				if ($directOutput) {
-					echo \App\Language::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
+					echo \App\Language::translate('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br />" . $error_msg;
 					$error_msg = false;
 				}
 				// END
@@ -2524,13 +2524,13 @@ class ReportRun extends CRMEntity
 				if ($noofrows > self::$HTMLVIEW_MAX_ROWS) {
 					// Performance Optimization: Output directly
 					if ($directOutput) {
-						echo '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
+						echo '</tr></table><br /><table width="100%" cellpading="0" cellspacing="0"><tr>';
 						echo sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \App\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
 							"+ " . \App\Language::translate('records found') . ". " . \App\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"
 						);
 					} else {
-						$valtemplate .= '</tr></table><br><table width="100%" cellpading="0" cellspacing="0"><tr>';
+						$valtemplate .= '</tr></table><br /><table width="100%" cellpading="0" cellspacing="0"><tr>';
 						$valtemplate .= sprintf('<td colspan="%s" align="right"><span class="genHeaderGray">%s</span></td>', $y, \App\Language::translate('Only') . " " . self::$HTMLVIEW_MAX_ROWS .
 							" " . \App\Language::translate('records found') . ". " . \App\Language::translate('Export to') . " <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('ReportsAjax&file=CreateCSV',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/csv-file.png'></a> /" .
 							" <a href=\"javascript:;\" onclick=\"goToURL(CrearEnlace('CreateXL',{$this->reportid}));\"><img style='vertical-align:text-top' src='themes/images/xls-file.jpg'></a>"

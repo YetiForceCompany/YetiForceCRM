@@ -603,10 +603,10 @@ class TextParser
 		$commentsList = '';
 		foreach ($query->column() as $comment) {
 			if ($comment != '') {
-				$commentsList .= '<br><br>' . nl2br($comment);
+				$commentsList .= '<br /><br />' . nl2br($comment);
 			}
 		}
-		return ltrim($commentsList, '<br><br>');
+		return ltrim($commentsList, '<br /><br />');
 	}
 
 	/**

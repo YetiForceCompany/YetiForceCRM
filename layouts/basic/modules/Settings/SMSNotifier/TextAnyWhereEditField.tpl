@@ -18,7 +18,7 @@
 			2. The mobile number to be sent with each SMS<br />
 			3. The email address to which any SMS replies will be sent<br />
 		</div>
-		<br>
+		<br />
 		<div class="row">
 			<div class="col-md-3">
 				<a href="http://www.textanywhere.net/static/Products/VTiger_Capabilities.aspx" target="_blank">Help</a>

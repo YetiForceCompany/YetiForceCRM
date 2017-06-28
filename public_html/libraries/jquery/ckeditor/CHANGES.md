@@ -408,7 +408,7 @@ New Features:
     * [#12851](http://dev.ckeditor.com/ticket/12851): [Blink/Webkit] Fixed: Formatting disappears when pasting content into cells.
     * [#12914](http://dev.ckeditor.com/ticket/12914): Fixed: Copy/Paste of table broken in `div`-based editor.
 
-  * Browser support.<br>Browser support for related features varies significantly (see http://caniuse.com/clipboard).
+  * Browser support.<br />Browser support for related features varies significantly (see http://caniuse.com/clipboard).
     * File APIs needed to operate and file upload is not supported in Internet Explorer 9 and below.
     * Only Chrome and Safari on Mac OS support setting custom data items in the clipboard, so currently it is possible to recognize the origin of the copied content in these browsers only. All drag and drop operations can be identified thanks to the new Data Transfer facade.
     * No Internet Explorer browser supports the standard clipboard API which results in small glitches like where only plain text can be dropped from outside the editor. Thanks to the new Data Transfer facade, internal and cross-editor drag and drop supports the full range of data.
@@ -917,7 +917,7 @@ Fixed Issues:
 * [#10877](http://dev.ckeditor.com/ticket/10877): Fixed: [SCAYT](http://ckeditor.com/addon/wsc) blocks typing in nested editables.
 * [#11079](http://dev.ckeditor.com/ticket/11079): Add button icons to the [Placeholder](http://ckeditor.com/addon/placeholder) sample.
 * [#10870](http://dev.ckeditor.com/ticket/10870): The `paste` command is no longer being disabled when the clipboard is empty.
-* [#10854](http://dev.ckeditor.com/ticket/10854): Fixed: Firefox prepends `<br>` to `<body>`, so it is stripped by the HTML data processor.
+* [#10854](http://dev.ckeditor.com/ticket/10854): Fixed: Firefox prepends `<br />` to `<body>`, so it is stripped by the HTML data processor.
 * [#10823](http://dev.ckeditor.com/ticket/10823): Fixed: [Link](http://ckeditor.com/addon/link) plugin does not work with non-editable content.
 * [#10828](http://dev.ckeditor.com/ticket/10828): [Magic Line](http://ckeditor.com/addon/magicline) integration with the Widget System.
 * [#10865](http://dev.ckeditor.com/ticket/10865): Improved hiding copybin, so copying widgets works smoothly.

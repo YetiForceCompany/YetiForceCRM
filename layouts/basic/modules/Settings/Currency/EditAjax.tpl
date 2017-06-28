@@ -64,7 +64,7 @@
 								<div class="col-md-6 controls">
 									<input type="text" name="conversion_rate" class="form-control" placeholder="{vtranslate('LBL_ENTER_CONVERSION_RATE', $QUALIFIED_MODULE)}" 
 										   value="{$RECORD_MODEL->get('conversion_rate')}" data-validation-engine='validate[required, funcCall[Vtiger_GreaterThanZero_Validator_Js.invokeValidation]]' />
-									<br><span class="muted">({vtranslate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)} - {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
+									<br /><span class="muted">({vtranslate('LBL_BASE_CURRENCY', $QUALIFIED_MODULE)} - {$BASE_CURRENCY_MODEL->get('currency_name')})</span>
 								</div>	
 							</div>
 							<div class="form-group">

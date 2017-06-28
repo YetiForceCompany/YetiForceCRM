@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
@@ -67,7 +67,7 @@
 										{include file="Items.tpl"|@vtemplate_path:'Chat'}
 									</div>
 									<div class="modal-footer pinToDown">
-										<input type="text" class="form-control message" /><br>
+										<input type="text" class="form-control message" /><br />
 										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_ADD')}</button>
 									</div>
 								</div>

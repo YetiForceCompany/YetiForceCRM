@@ -54,7 +54,7 @@
 				</div>
                         </fieldset>
                     </div>
-                    <br>
+                    <br />
                     <div class="textAlignCenter">
                         <button class="btn btn-success" type="submit"><strong>{vtranslate($MODULE, $MODULE)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
 						&nbsp;&nbsp;

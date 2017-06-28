@@ -105,7 +105,7 @@ class ProductsTable extends Base
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
 								if (isset($fields[2]['comment' . $rowNo])) {
 									$commentField = $fields[2]['comment' . $rowNo];
-									$html .= '<br/>' . $commentField->getDisplayValue($inventoryRow[$commentField->get('columnname')]);
+									$html .= '<br />' . $commentField->getDisplayValue($inventoryRow[$commentField->get('columnname')]);
 								}
 								break;
 

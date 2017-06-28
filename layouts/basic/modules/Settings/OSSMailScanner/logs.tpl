@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 <style>
     .table tbody tr.error > td {

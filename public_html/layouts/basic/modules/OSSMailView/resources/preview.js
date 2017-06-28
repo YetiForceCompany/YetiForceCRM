@@ -5,9 +5,9 @@ jQuery.Class("OSSMailView_preview_Js", {
 		$(".emailPreview > div").each(function (index) {
 			if ($(this).hasClass('content')) {
 				var inframe = $("#emailPreview_Content").contents();
-				content.document.write(inframe.find('body').html() + "<br>");
+				content.document.write(inframe.find('body').html() + "<br />");
 			} else {
-				content.document.write($.trim($(this).text()) + "<br>");
+				content.document.write($.trim($(this).text()) + "<br />");
 			}
 		});
 		content.print();

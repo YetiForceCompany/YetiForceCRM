@@ -26,7 +26,7 @@
 							{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 							{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 							{if $SHOWNERS != ''}
-								<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+								<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 							{/if}
 						</span>
 					</div>

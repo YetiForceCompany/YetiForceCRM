@@ -26,7 +26,7 @@
 			</select>
 		</span>
 	</div>
-	<br>
+	<br />
     <div class="summaryWidgetContainer">
 		<div class='row' style="padding-left: 15px;">
 			<div class='col-xs-12'>

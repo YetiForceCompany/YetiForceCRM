@@ -60,7 +60,7 @@
 									{/foreach}
 								</tbody>
 							</table>
-							<br>
+							<br />
 							<table class="config-table table">
 								<thead>
 									<tr>

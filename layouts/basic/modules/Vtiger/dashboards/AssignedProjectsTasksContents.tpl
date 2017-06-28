@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <style type="text/css">
 small.small-a{
@@ -17,7 +17,7 @@ font-size: 75%;
 				{assign var=ACCOUNT value=$TASKS->get('account')}
 				<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}</a>
 				{if $PROJECT_ID}
-				   <br/><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
+				   <br /><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
 				{/if}
 				{if $ACCOUNT}
 				   - <small class='small-a'><strong>{$ACCOUNT}</strong></small>

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <style>
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
 	.modIcon_{$MODULE->get('name')}{ background-image: url("{\App\Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}") !important; }

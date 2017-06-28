@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
@@ -61,7 +61,7 @@
 			</table>
 		</div>
 	</div>
-	<br>	
+	<br />	
 	<div class="">
 		<div class="pull-right">
 			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>

@@ -19,7 +19,7 @@
 		<li class="active"><a href="#general" data-toggle="tab">{vtranslate('LBL_GENERAL_SETTINGS', $QUALIFIED_MODULE)}</a></li>
 		<li><a href="#timeControlWidget" data-toggle="tab">{vtranslate('LBL_TIME_CONTROL_WIDGET', $QUALIFIED_MODULE)}</a></li>
 	</ul>
-	<br/>
+	<br />
 	<div class="tab-content">
 		<div class='editViewContainer tab-pane active' id="general" data-type="general">
 			{assign var=GENERAL_FIELDS value=$MODULE_MODEL->get('general')}

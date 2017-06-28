@@ -31,7 +31,7 @@
 					<label class="muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>&nbsp;
 					<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 				</div>
-			</div><br>
+			</div><br />
             {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
             {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
             <div class="summaryWidgetContainer">
@@ -207,6 +207,6 @@
 			</table>
 		</div>
 	</div>
-	<br>
+	<br />
 </div>
 {/strip}

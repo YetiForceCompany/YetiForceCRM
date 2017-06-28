@@ -42,9 +42,9 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 						$pattern, function ($matches) {
 						return \AppConfig::main('site_URL') . $matches[0];
 					}, $notification->getMessage());
-					$html .= "<li>$title<br>$massage</li>";
+					$html .= "<li>$title<br />$massage</li>";
 				}
-				$html .= '</ul><br>';
+				$html .= '</ul><br />';
 			}
 		}
 		if (empty($html)) {

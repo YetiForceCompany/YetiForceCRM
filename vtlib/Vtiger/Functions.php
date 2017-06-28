@@ -428,11 +428,11 @@ class Functions
 		for ($i = 0; $i < $countResult; $i++) {
 			$comment = $adb->query_result($result, $i, 'commentcontent');
 			if ($comment != '') {
-				$commentlist .= '<br><br>' . $comment;
+				$commentlist .= '<br /><br />' . $comment;
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br /><br />' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 

@@ -88,10 +88,10 @@ if (typeof (PhpDebugBar) == 'undefined') {
 					});
 
 			$('<form />')
-					.append('<br/><b>Filter results</b><br/>')
-					.append('Method: <select name="method"><option></option><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select><br/>')
-					.append('Uri: <input type="text" name="uri"><br/>')
-					.append('IP: <input type="text" name="ip"><br/>')
+					.append('<br /><b>Filter results</b><br />')
+					.append('Method: <select name="method"><option></option><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select><br />')
+					.append('Uri: <input type="text" name="uri"><br />')
+					.append('IP: <input type="text" name="ip"><br />')
 					.append(searchBtn)
 					.appendTo(this.$actions);
 		},

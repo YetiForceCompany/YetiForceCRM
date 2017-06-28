@@ -37,17 +37,17 @@
 						</div>
 						<div class="col-md-1"></div>
 						<div class="col-md-6">
-							<br><br>
-							<h5>{vtranslate('LBL_MIGRATION_COMPLETED_SUCCESSFULLY', $MODULE)}  </h5><br><br>
-								{vtranslate('LBL_RELEASE_NOTES', $MODULE)}<br>
-								{vtranslate('LBL_CRM_DOCUMENTATION', $MODULE)}<br>
-								{vtranslate('LBL_TALK_TO_US_AT_FORUMS', $MODULE)}<br>
-								{vtranslate('LBL_DISCUSS_WITH_US_AT_BLOGS', $MODULE)}<br><br>
+							<br /><br />
+							<h5>{vtranslate('LBL_MIGRATION_COMPLETED_SUCCESSFULLY', $MODULE)}  </h5><br /><br />
+								{vtranslate('LBL_RELEASE_NOTES', $MODULE)}<br />
+								{vtranslate('LBL_CRM_DOCUMENTATION', $MODULE)}<br />
+								{vtranslate('LBL_TALK_TO_US_AT_FORUMS', $MODULE)}<br />
+								{vtranslate('LBL_DISCUSS_WITH_US_AT_BLOGS', $MODULE)}<br /><br />
 								Connect with us &nbsp;&nbsp;
 								<a href="https://www.facebook.com/vtiger" target="_blank"><img src="{vimage_path('facebook.png')}"></a> 
 	                            &nbsp;&nbsp;<a href="https://twitter.com/vtigercrm" target="_blank"><img src="{vimage_path('twitter.png')}"></a> 
 	                            &nbsp;&nbsp;<a href="//www.vtiger.com/products/crm/privacy_policy.html" target="_blank"><img src="{vimage_path('linkedin.png')}"></a> 
-								<br><br>
+								<br /><br />
 							<div class="button-container">
 								<input type="button" onclick="window.location.href='index.php'" class="btn btn-lg btn-primary" value="Finish"/>
 							</div>

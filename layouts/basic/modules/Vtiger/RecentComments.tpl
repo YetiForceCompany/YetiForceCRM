@@ -30,7 +30,7 @@
 				</div>
 			{/if}
 		</div>
-		<hr><br>
+		<hr><br />
 		<div class="commentsBody">
 			{if !empty($COMMENTS)}
 				{foreach key=index item=COMMENT from=$COMMENTS}

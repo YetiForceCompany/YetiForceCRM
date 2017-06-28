@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <div class="" id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-12">
@@ -22,7 +22,7 @@
                     </select>
                 </div>
             </div>
-            <br>
+            <br />
             <div class="row" id="list_doc">
                 <table class="table table-bordered table-condensed listViewEntriesTable">
                     <thead>

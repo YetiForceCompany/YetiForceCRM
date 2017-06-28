@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 	<style>
@@ -17,14 +17,14 @@
 	<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
 		<div class="editViewContainer tab-pane active" id="tab_rc_config">
 			{if Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
-				<br>
+				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
 						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
 			{elseif !\App\Module::isModuleActive('OSSMail')}	
-				<br>
+				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
 						<h4>{vtranslate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
@@ -33,7 +33,7 @@
 			{else}
 				<form id="RCConfigEditorForm" class="form-horizontal">
 					{assign var=FIELD_DATA value=$RecordModel->getViewableData()}
-					<br>
+					<br />
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
 						<div class="row marginBottom10px">
 							<div class="row col-md-3">

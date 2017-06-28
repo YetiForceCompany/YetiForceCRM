@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}	
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
@@ -18,7 +18,7 @@
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 					{if $SHOWNERS != ''}
-						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 					{/if}
 				</span>
 			</div>

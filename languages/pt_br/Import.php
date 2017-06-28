@@ -80,7 +80,7 @@ $languageStrings = [
 	'LBL_IMPORT_FILE_COPY_FAILED' => 'Importação cópia Arquivo falhou',
 	'LBL_INVALID_FILE' => 'Arquivo Inválido',
 	'LBL_NO_ROWS_FOUND' => 'Nenhuma linha foi encontrada',
-	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Sua importação está sendo agendada e iniciará dentro de 15 minutos. Você receberá um email assim que a importação estiver concluída.<br> <br>
+	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Sua importação está sendo agendada e iniciará dentro de 15 minutos. Você receberá um email assim que a importação estiver concluída.<br /> <br />
 	 									Por gentileza, certifique-se de que o Servidor de Envio de Mensagens e seu endereço de e-mail estão devidamente configurados para receber a notificação.',
 	'LBL_DETAILS' => 'Detalhes',
 	'skipped' => 'Registros Ignorados',

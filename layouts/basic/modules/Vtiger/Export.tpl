@@ -51,7 +51,7 @@
 								{vtranslate('LBL_EXPORT_ALL_DATA',$MODULE)}
 							</label>
 						</div>
-						<br>
+						<br />
 						<hr>
 						<div class="row">
 							<div class="col-md-6">

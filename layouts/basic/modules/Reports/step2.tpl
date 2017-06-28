@@ -130,8 +130,8 @@
 			<button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>
-		<br>
+		<br />
 		</div>
-		<br><br>
+		<br /><br />
 	</form>
 {/strip}

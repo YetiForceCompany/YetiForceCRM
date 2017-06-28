@@ -109,7 +109,7 @@ Test.prototype = {
 		var running = id( "qunit-testresult" );
 
 		if ( running ) {
-			running.innerHTML = "Running: <br/>" + this.name;
+			running.innerHTML = "Running: <br />" + this.name;
 		}
 
 		if ( this.async ) {
@@ -606,7 +606,7 @@ extend( QUnit, {
 			result.id = "qunit-testresult";
 			result.className = "result";
 			tests.parentNode.insertBefore( result, tests );
-			result.innerHTML = "Running...<br/>&nbsp;";
+			result.innerHTML = "Running...<br />&nbsp;";
 		}
 	},
 
@@ -914,7 +914,7 @@ function done() {
 		html = [
 			"Tests completed in ",
 			runtime,
-			" milliseconds.<br/>",
+			" milliseconds.<br />",
 			"<span class='passed'>",
 			passed,
 			"</span> tests of <span class='total'>",

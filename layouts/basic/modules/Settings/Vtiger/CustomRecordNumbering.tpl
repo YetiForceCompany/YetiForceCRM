@@ -128,7 +128,7 @@
 				</table>
 			</div>
 		</div>
-		<br>
+		<br />
 		<div class="row">
 			<div class="col-md-12 pull-right">
 				<div class="pull-right">

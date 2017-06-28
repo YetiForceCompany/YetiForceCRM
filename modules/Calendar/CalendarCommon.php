@@ -107,21 +107,21 @@ function getActivityDetails($description, $user_id, $from = '')
 	$currentUsername = \App\Fields\Owner::getUserLabel($currentUser->id);
 	$status = \App\Language::translate($description['status'], 'Calendar');
 	$list = $name . ',';
-	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \App\Language::translate($description['taskpriority']);
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \App\Language::translate($description['relatedto']);
+	$list .= '<br /><br />' . $msg . ' ' . $reply . '.<br /> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br />';
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \App\Language::translate($description['taskpriority']);
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \App\Language::translate($description['relatedto']);
 	if (!empty($description['contact_name'])) {
-		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
+		$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
 	} else
-		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Location"] . ' : ' . $description['location'];
+		$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Location"] . ' : ' . $description['location'];
 
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_APP_DESCRIPTION"] . ': ' . $description['description'];
-	$list .= '<br><br>' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
-	$list .= '<br>' . $currentUsername . '.';
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_APP_DESCRIPTION"] . ': ' . $description['description'];
+	$list .= '<br /><br />' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
+	$list .= '<br />' . $currentUsername . '.';
 
 	\App\Log::trace("Exiting getActivityDetails method ...");
 	return $list;

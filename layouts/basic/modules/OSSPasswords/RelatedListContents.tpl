@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}

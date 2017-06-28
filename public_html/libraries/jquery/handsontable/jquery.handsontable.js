@@ -3358,7 +3358,7 @@ Handsontable.ColHeader.prototype.destroy = function () {
 Handsontable.TextRenderer = function (instance, td, row, col, prop, value, cellProperties) {
   var escaped = Handsontable.helper.stringify(value);
   escaped = escaped.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); //escape html special chars
-  td.innerHTML = escaped.replace(/\n/g, '<br/>');
+  td.innerHTML = escaped.replace(/\n/g, '<br />');
 };
 /**
  * Autocomplete renderer

@@ -58,7 +58,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h4><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4>
-				<br>
+				<br />
 				<div class="col-md-10">
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 				</div>
@@ -71,6 +71,6 @@
 				</div>
 			</div>
 		</div>
-		<br>
+		<br />
 	</form>
 {/strip}

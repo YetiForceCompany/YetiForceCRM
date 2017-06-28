@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="listViewContentDiv" id="listViewContents" style="padding: 1%;">
-			<br>
+			<br />
 			<div class="row">
 				<label class="fieldLabel col-md-3"><strong>{vtranslate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
 				<div class="col-md-4 fieldValue">
@@ -30,7 +30,7 @@
 						</optgroup>
 					</select>
 				</div>
-			</div><br>
+			</div><br />
 			<div id="modulePickListContainer">
 				{include file="ModulePickListDetail.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
 			</div>

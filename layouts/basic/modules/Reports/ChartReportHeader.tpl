@@ -88,7 +88,7 @@
 										</select></div>
 								</div>
 							</div>
-							<br>
+							<br />
 
 							<div class='hide'>
 								{include file="chartReportHiddenContents.tpl"|vtemplate_path:$MODULE}

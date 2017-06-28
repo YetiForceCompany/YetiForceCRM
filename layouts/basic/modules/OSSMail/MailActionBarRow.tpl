@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="rowRelatedRecord" data-id="{$RELATED['id']}" data-module="{$RELATED['module']}">
 		<a href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" title="{vtranslate('SINGLE_'|cat:$RELATED['module'],$RELATED['module'])}: {$RELATED['label']}" target="_blank">

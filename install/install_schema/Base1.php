@@ -3768,7 +3768,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			<br><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
+			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', 'NotifyContactOnTicketChange', 1],
 					[42, 'Notify Owner On Ticket Closed', 'N8', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_CLOSE)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -3846,7 +3846,7 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			<br><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
+			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 
 		</tr></table>', NULL, 1],
@@ -3856,9 +3856,9 @@ class Base1 extends \App\Db\Importers\Base
 		</tr><tr><td>
 			<div style="padding:2px;">
 			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : first_name)$ $(record : last_name)$,
-<br>
-Created for your account in the customer portal, below sending data access<br>
-						Login: $(record : email)$<br>
+<br />
+Created for your account in the customer portal, below sending data access<br />
+						Login: $(record : email)$<br />
 						Password:
 						</td>
 
@@ -3866,7 +3866,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			<br><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
+			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', NULL, 1],
 					[45, 'Send invitations', 'N11', 'PLL_RECORD', 'Events', '$(record : activitytype)$ $(record : subject)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -4046,13 +4046,13 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td>
 			<div style="padding:2px;">
-			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : first_name)$ $(record : last_name)$,<br>
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : first_name)$ $(record : last_name)$,<br />
 						This is a test mail sent to confirm if a mail is actually being sent through the smtp server that you have configured. Feel free to delete this mail. CRM address: $(general : SiteUrl)$</td>
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
-			<br><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
+			<br /><p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', 'TestMailAboutTheMailServerConfiguration', 1],
 					[103, 'ForgotPassword', 'N16', 'PLL_RECORD', 'Users', 'Request: ForgotPassword', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -4060,7 +4060,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td>
 			<div style="padding:2px;">
-			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear user,<br>
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear user,<br />
 						You recently requested a password reset for your YetiForce CRM. To create a new password, click on the link $(custom : UsersLinkToForgotPassword|Users)$ This request was made on $(general : CurrentDate)$ $(general : CurrentTime)$ and will expire in next 24 hours.</td>
 					</tr></table></div>
 			</td>
@@ -4076,10 +4076,10 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td>
 			<div style="padding:2px;">
-			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : first_name)$ $(record : last_name)$,<br>
-						You recently requested a reminder of your access data for the YetiForce Portal.<br>
-						You can login by entering the following data:<br><br>
-						Your username: $(record : email)$<br>
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear $(record : first_name)$ $(record : last_name)$,<br />
+						You recently requested a reminder of your access data for the YetiForce Portal.<br />
+						You can login by entering the following data:<br /><br />
+						Your username: $(record : email)$<br />
 						Your password: </td>
 					</tr></table></div>
 			</td>
@@ -4139,7 +4139,7 @@ Created for your account in the customer portal, below sending data access<br>
 			</td>
 		</tr><tr><td>
 			<div style="padding:2px;">
-			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear user,<br>
+			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">Dear user,<br />
 						Failed login attempts have been detected.</td>
 					</tr></table></div>
 			</td>

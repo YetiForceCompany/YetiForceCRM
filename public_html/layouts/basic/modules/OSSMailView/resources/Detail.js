@@ -8,14 +8,14 @@ Vtiger_Detail_Js("OSSMailView_Detail_Js", {
 		var date = jQuery('#createdtime').val();
 		var body = $('#content').html();
 		var content = window.open();
-		content.document.write("<b>" + app.vtranslate('Subject') + ": " + subject + "</b><br>");
-		content.document.write("<br>" + app.vtranslate('From') + ": " + from + "<br>");
-		content.document.write(app.vtranslate('To') + " :" + to + "<br>");
+		content.document.write("<b>" + app.vtranslate('Subject') + ": " + subject + "</b><br />");
+		content.document.write("<br />" + app.vtranslate('From') + ": " + from + "<br />");
+		content.document.write(app.vtranslate('To') + " :" + to + "<br />");
 		if (cc != null) {
-			content.document.write(app.vtranslate('CC') + ": " + cc + "<br>");
+			content.document.write(app.vtranslate('CC') + ": " + cc + "<br />");
 		}
-		content.document.write(app.vtranslate('Date') + ": " + date + "<br>");
-		content.document.write("<hr/>" + body + "<br>");
+		content.document.write(app.vtranslate('Date') + ": " + date + "<br />");
+		content.document.write("<hr/>" + body + "<br />");
 		content.print();
 	},
 }, {

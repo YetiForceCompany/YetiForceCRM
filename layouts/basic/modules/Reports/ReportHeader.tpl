@@ -65,7 +65,7 @@
 						</span>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div>
 					<input type="hidden" id="recordId" value="{$RECORD_ID}" />
 					{assign var=RECORD_STRUCTURE value=array()}
@@ -98,7 +98,7 @@
 							</button>
 						</div>
 					</div>
-					<br>
+					<br />
 				</div>
 			</form>
 		</div>

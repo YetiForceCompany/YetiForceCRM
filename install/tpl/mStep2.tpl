@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div id="progressIndicator" class="row main-container hide">
 		<div class="inner-container">
 			<div class="inner-container">
 				<div >
 					<div class="welcome-div alignCenter">
-						<h3>{vtranslate('LBL_MIGRATION_IN_PROGRESS','Install')}...</h3><br>
+						<h3>{vtranslate('LBL_MIGRATION_IN_PROGRESS','Install')}...</h3><br />
 						<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
 						<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
 					</div>
