@@ -12,6 +12,29 @@
 .clearfix:after {
 	clear: both;
 }
+@media only screen and (max-width: 320px){
+	.DivButtonListViewOne{
+		padding: 0px 10px 0px 16px;
+		
+		
+	}
+}
+@media only screen and (max-width: 320px){
+	.buttonListViewOne{
+		width: 298px;
+		margin-bottom: 5px;
+	}
+}
+@media only screen and (max-width: 320px){
+	.buttonActionOne{
+		width: 145px;
+	}
+}
+@media only screen and (max-width: 320px){
+		.buttonAdedd{
+		width: 148px;
+	}
+}
 .hide-text {
 	overflow: hidden;
 	text-indent: 100%;
@@ -2101,6 +2124,11 @@ th.htColHeader,
 #calendarview th {
 	color: #000000;
 }
+@media only screen and (max-width: 320px){
+	#calendarview{
+		width: 300px;
+	}
+}
 .fc-agenda-divider + div {
 	overflow-y: visible !important;
 }
@@ -2964,6 +2992,13 @@ table.dataTable .form-control {
 }
 .fc-toolbar {
 	margin-bottom: 0 !important;
+}
+@media only screen and (max-width: 320px) {
+	.fc-toolbar{
+		margin-bottom: 0 !important;
+		width: 300px;
+		padding-left: 11px;
+	}
 }
 .fc-center, .fc-left, .fc-right{
 	margin-bottom: 1em;
