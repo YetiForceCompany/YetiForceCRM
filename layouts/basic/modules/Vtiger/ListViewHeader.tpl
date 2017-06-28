@@ -13,11 +13,11 @@
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
-				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
+				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12 DivButtonListViewOne">				
 					{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+							<button class="btn btn-default dropdown-toggle buttonActionOne" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 							<ul class="dropdown-menu">
 								{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
 									<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
@@ -32,7 +32,7 @@
 													href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
 												{else} 
 													href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
-												{/if}
+									{/if}
 												{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
 													class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
 												{/if}
