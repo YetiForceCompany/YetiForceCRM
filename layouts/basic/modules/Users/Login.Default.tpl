@@ -18,16 +18,18 @@
 				<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" class="logo" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
 			</div>
 			<div class="" id="loginDiv">
-				<div class="fieldContainer col-xs-12">
+				<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
 					<form class="login-form" action="index.php?module=Users&action=Login" method="POST" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
-						<div class='col-xs-12'>
-							<div class="form-group first-group has-feedback login-user">
-								<label for="username" class="sr-only fontColor">{vtranslate('LBL_USER',$MODULE)}</label>
+						<div class='marginLeft0  marginRight0 row col-xs-10'>
+							<div class="form-group first-group has-feedback">
+								<label for="username" class="sr-only">{vtranslate('LBL_USER',$MODULE)}</label>
 								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{vtranslate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
+								<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 							</div>
-							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback login-password">
-								<label for="password" class="sr-only fontColor">{vtranslate('Password',$MODULE)}</label>
+							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
+								<label for="password" class="sr-only">{vtranslate('Password',$MODULE)}</label>
 								<input name="password" type="password" class="form-control input-lg" title="{vtranslate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{vtranslate('Password',$MODULE)}">
+								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}
@@ -52,9 +54,9 @@
 								</div>
 							{/if}
 						</div>
-						<div class='col-xs-12' >
-							<button class="btn btn-primary center-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
-								<strong>{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}</strong>
+						<div class='col-xs-2 marginRight0' >
+							<button class="btn btn-lg btn-primary btn-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{vtranslate('LBL_SIGN_IN', $MODULE_NAME)}">
+								<strong>></strong>
 							</button>
 						</div>
 					</form>
