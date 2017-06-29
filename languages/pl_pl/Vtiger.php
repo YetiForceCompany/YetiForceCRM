@@ -414,6 +414,8 @@ $languageStrings = [
 	'LBL_RESULT_FOR_THE_TAG' => 'Wynik dla etykiet',
 	'LBL_Sat' => 'Sob',
 	'LBL_SAVE' => 'Zapisz',
+	'BTN_SAVE' => 'Zapisz',
+	'BTN_CLOSE' => 'Zamknij',
 	'LBL_SAVE_AS_DRAFT' => 'Zapisz jako szablon',
 	'LBL_SAVE_AS_FILTER' => 'Zapisz to wyszukiwanie jako filtr',
 	'LBL_SAVE_FILTER' => 'Zapisz filtr',
@@ -1308,6 +1310,7 @@ $languageStrings = [
 	'LBL_ADD_FILES' => 'Dodaj pliki',
 	'BTN_ADD_FILE' => 'Dodaj plik',
 	'BTN_SUBMIT' => 'Prześlij',
+	'LBL_PHONE_CALL_SUCCESS' => 'Trwa wybieranie numeru',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
