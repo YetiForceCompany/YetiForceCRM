@@ -17,6 +17,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		parent::__construct();
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
+		$this->exposeMethod('performPhoneCall');
 	}
 
 	public function checkPermission(\App\Request $request)
@@ -158,7 +159,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		} else {
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
-				foreach ($modules as $recordID => &$recordModel) {
+				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
@@ -176,6 +177,24 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$response = new Vtiger_Response();
 			$response->setResult($recordsList);
 			$response->emit();
+		}
+	}
+
+	/**
+	 * Perform phone call
+	 * @param \App\Request $request
+	 */
+	public function performPhoneCall(\App\Request $request)
+	{
+		$pbx = App\Integrations\Pbx::getDefaultInstance();
+		$pbx->loadUserPhone();
+		try {
+			$pbx->performCall($request->get('phoneNumber'));
+			$response = new Vtiger_Response();
+			$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
+			$response->emit();
+		} catch (Exception $exc) {
+			\App\Log::error('Error while telephone connections: ' . $exc->getMessage(), 'PBX');
 		}
 	}
 }

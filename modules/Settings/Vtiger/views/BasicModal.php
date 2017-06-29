@@ -46,8 +46,8 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 		$viewName = $request->get('view');
 
 		$scripts = array(
+			"modules.Settings.Vtiger.resources.$viewName",
 			"modules.Settings.$moduleName.resources.$viewName",
-			"modules.Settings.Vtiger.resources.$viewName"
 		);
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
