@@ -363,6 +363,17 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			's_#__pbx' => [
+				'columns' => [
+					'pbxid' => $this->primaryKey(6)->unsigned()->notNull(),
+					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'name' => $this->stringType(50),
+					'type' => $this->stringType(50),
+					'param' => $this->text(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			's_#__privileges_updater' => [
 				'columns' => [
 					'module' => $this->stringType(30)->notNull()->defaultValue(''),
