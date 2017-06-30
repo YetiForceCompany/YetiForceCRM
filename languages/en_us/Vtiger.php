@@ -477,6 +477,8 @@ $languageStrings = [
 	'LBL_RESULT_FOR_THE_TAG' => 'Results for the tag',
 	'LBL_Sat' => 'Sat',
 	'LBL_SAVE' => 'Save',
+	'BTN_SAVE' => 'Save',
+  	'BTN_CLOSE' => 'Close',
 	'LBL_SAVE_AS_DRAFT' => 'Save as draft',
 	'LBL_SAVE_AS_FILTER' => 'Save as filter',
 	'LBL_SAVE_FILTER' => 'Save filter',
@@ -1298,6 +1300,7 @@ $languageStrings = [
 	'DW_TEAMS_ESTIMATED_SALES' => 'Team\'s estimated sales',
 	'LBL_COMPARE_TO_LAST_PERIOD' => 'Compare to previous period of the same length as the current date range.',
 	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
+	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',
