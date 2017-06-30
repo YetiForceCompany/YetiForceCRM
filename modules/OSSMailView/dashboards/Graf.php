@@ -25,8 +25,8 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getSearchParams($stage, $assignedto, $dates)
 	{
-		$listSearchParams = array();
-		$conditions = array();
+		$listSearchParams = [];
+		$conditions = [];
 		array_push($conditions, array("ossmailview_sendtype", "e", $stage));
 		if ($assignedto == '') {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();

@@ -124,8 +124,8 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 
 	public function arrayCombine($key, $value)
 	{
-		$combine = array();
-		$dup = array();
+		$combine = [];
+		$dup = [];
 		$countKey = count($key);
 		for ($i = 0; $i < $countKey; $i++) {
 			if (array_key_exists($key[$i], $combine)) {

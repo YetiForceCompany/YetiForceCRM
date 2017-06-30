@@ -28,7 +28,7 @@
 			{if $ASSIGNED_USER_ID neq 'modifiedby'}
 				{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 			{else}
-				{assign var=ALL_ACTIVEGROUP_LIST value=array()}
+				{assign var=ALL_ACTIVEGROUP_LIST value=[]}
 			{/if}
 		{/if}
 	{/if}

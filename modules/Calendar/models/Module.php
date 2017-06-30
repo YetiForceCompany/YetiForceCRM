@@ -262,7 +262,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($id, $id));
 		$rows = $db->num_rows($result);
 
-		$userIds = Array();
+		$userIds = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$id = $db->query_result($result, $i, 'userid');
 			$userName = $db->query_result($result, $i, 'first_name') . ' ' . $db->query_result($result, $i, 'last_name');
@@ -285,7 +285,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($id));
 		$rows = $db->num_rows($result);
 
-		$sharedUsers = Array();
+		$sharedUsers = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$sharedUserId = $db->query_result($result, $i, 'shareduserid');
 			$color = $db->query_result($result, $i, 'color');
@@ -311,7 +311,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($id, 1));
 		$rows = $db->num_rows($result);
 
-		$calendarViewTypes = Array();
+		$calendarViewTypes = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
 			$moduleInstance = vtlib\Module::getInstance($activityTypes['module']);

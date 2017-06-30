@@ -303,7 +303,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (!file_exists($dir)) {
 			return false;
 		}
-		$files = array();
+		$files = [];
 		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
 		foreach ($objects as $name => $object) {
 			if (strpos($object->getFilename(), '.php') !== false) {
@@ -321,7 +321,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function SettingsTranslate($langs)
 	{
-		$settings = array();
+		$settings = [];
 		foreach ($langs as $key => $lang) {
 			if (self::parse_data('|', $lang)) {
 				$langArray = explode("|", $lang);

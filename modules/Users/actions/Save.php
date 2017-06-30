@@ -78,7 +78,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
 			} else if ($sharedType == 'public') {
 				$allUsers = $currentUserModel->getAll(true);
-				$accessibleUsers = array();
+				$accessibleUsers = [];
 				foreach ($allUsers as $id => $userModel) {
 					$accessibleUsers[$id] = $id;
 				}

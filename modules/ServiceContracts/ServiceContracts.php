@@ -12,7 +12,7 @@ class ServiceContracts extends CRMEntity
 
 	public $table_name = 'vtiger_servicecontracts';
 	public $table_index = 'servicecontractsid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;

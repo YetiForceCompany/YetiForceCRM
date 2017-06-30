@@ -21,7 +21,7 @@ class PriceBooks extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_pricebookcf', 'pricebookid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	// This is the list of fields that are in the lists.
 	public $list_fields = Array(
 		'Price Book Name' => Array('pricebook' => 'bookname'),
@@ -60,7 +60,7 @@ class PriceBooks extends CRMEntity
 		\App\Log::trace('Entering get_pricebook_noproduct(' . $id . ') method ...');
 
 		$query = 'select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0';
-		$result = $this->db->pquery($query, array());
+		$result = $this->db->pquery($query, []);
 		$no_count = $this->db->num_rows($result);
 		if ($no_count != 0) {
 			$pb_query = 'select vtiger_crmentity.crmid, vtiger_pricebook.pricebookid,vtiger_pricebookproductrel.productid from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid inner join vtiger_pricebookproductrel on vtiger_pricebookproductrel.pricebookid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0 and vtiger_pricebookproductrel.productid=?';

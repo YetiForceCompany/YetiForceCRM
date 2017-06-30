@@ -12,7 +12,7 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 
 	public $table_name = 'vtiger_ossoutsourcedservices';
 	public $table_index = 'ossoutsourcedservicesid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;

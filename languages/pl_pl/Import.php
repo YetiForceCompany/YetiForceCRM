@@ -77,7 +77,7 @@ $languageStrings = [
 	'LBL_IMPORT_FILE_COPY_FAILED' => 'Błąd kopiowania pliku importu, zmień uprawnienia.',
 	'LBL_INVALID_FILE' => 'Niepoprawny plik',
 	'LBL_NO_ROWS_FOUND' => 'Nie odnaleziono w pliku danych do importu',
-	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Twój import został zaplanowany i uruchomi się w ciągu 15 minut. Otrzymasz wiadomość mail po zakończeniu importu.  <br> <br>
+	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Twój import został zaplanowany i uruchomi się w ciągu 15 minut. Otrzymasz wiadomość mail po zakończeniu importu.  <br /> <br />
 										Upewnij się, że serwer poczty wychodzącej i adres mail jest skonfigurowany do otrzymywania powiadomień mailowych',
 	'LBL_DETAILS' => 'Szczegóły',
 	'skipped' => 'Pominięte rekordy',

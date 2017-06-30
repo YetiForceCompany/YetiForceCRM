@@ -152,7 +152,7 @@ class VTWorkflowTemplateManager
 		$adb = $this->adb;
 		$result = $adb->query("select * from com_vtiger_workflowtemplates");
 		$it = new SqlResultIterator($adb, $result);
-		$arr = array();
+		$arr = [];
 		foreach ($it as $row) {
 			$el = array(
 				'moduleName' => $row->module_name,
@@ -186,7 +186,7 @@ class VTWorkflowTemplateManager
 	{
 		$adb = $this->adb;
 		$it = new SqlResultIterator($adb, $result);
-		$templates = array();
+		$templates = [];
 		foreach ($it as $row) {
 			$template = new VTWorkflowTemplate();
 			$template->id = $row->template_id;

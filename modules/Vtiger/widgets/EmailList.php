@@ -9,7 +9,7 @@
 class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 {
 
-	public $dbParams = array();
+	public $dbParams = [];
 
 	public function getUrl()
 	{

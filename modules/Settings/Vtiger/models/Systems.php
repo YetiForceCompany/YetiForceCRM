@@ -29,7 +29,7 @@ class Settings_Vtiger_Systems_Model extends \App\Base
 		$db = PearDatabase::getInstance();
 
 		$id = $this->getId();
-		$params = array();
+		$params = [];
 		array_push($params, $this->get('server'), $this->get('server_port'), $this->get('server_username'), $this->get('server_password'), $this->get('server_type'), $this->isSmtpAuthEnabled(), $this->get('server_path'), $this->get('from_email_field'));
 
 		if (empty($id)) {

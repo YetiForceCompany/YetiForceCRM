@@ -12,7 +12,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 
 	public $table_name = 'vtiger_holidaysentitlement';
 	public $table_index = 'holidaysentitlementid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.

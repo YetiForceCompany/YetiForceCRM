@@ -71,9 +71,9 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	public function getAllRecords()
 	{
 		$db = PearDatabase::getInstance();
-		$record = array();
+		$record = [];
 
-		$result = $db->pquery('SELECT portalid, portalname FROM vtiger_portal', array());
+		$result = $db->pquery('SELECT portalid, portalname FROM vtiger_portal', []);
 
 		while ($row = $db->fetchByAssoc($result)) {
 			$record[] = [
@@ -94,7 +94,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		$query = 'DELETE FROM vtiger_portal';
-		$params = array();
+		$params = [];
 
 		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
 			$query .= sprintf(' WHERE portalid IN (%s)', generateQuestionMarks($selectedIds));

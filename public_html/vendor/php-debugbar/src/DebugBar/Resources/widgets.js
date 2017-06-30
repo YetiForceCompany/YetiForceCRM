@@ -12,13 +12,13 @@ if (typeof (PhpDebugBar) == 'undefined') {
 	PhpDebugBar.Widgets = {};
 
 	/**
-	 * Replaces spaces with &nbsp; and line breaks with <br>
+	 * Replaces spaces with &nbsp; and line breaks with <br />
 	 *
 	 * @param {String} text
 	 * @return {String}
 	 */
 	var htmlize = PhpDebugBar.Widgets.htmlize = function (text) {
-		return text.replace(/\n/g, '<br>').replace(/\s/g, "&nbsp;")
+		return text.replace(/\n/g, '<br />').replace(/\s/g, "&nbsp;")
 	};
 
 	/**

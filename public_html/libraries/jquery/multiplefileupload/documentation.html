@@ -134,7 +134,7 @@
         Just add the <code><strong>multi</strong></code> class to your file input element.
        </p>
        <pre class="code"><code class="html">&lt;input type="file" class="multi"/&gt;</code></pre>
-       <br/><br/>
+       <br /><br />
        <input type="file" class="multi"/>
       </td>
       <td valign="top" width="20">&nbsp;</td>
@@ -144,7 +144,7 @@
         (<span style="font-weight:bold; color:red;">server-side validation is always required</span>)
        </p>
        <pre class="code"><code class="html">&lt;input type="file" class="multi" maxlength="2"/&gt;</code></pre>
-       <br/><br/>
+       <br /><br />
        <input type="file" class="multi" maxlength="2"/>
       </td>
       <td valign="top" width="20">&nbsp;</td>
@@ -155,7 +155,7 @@
         (<span style="font-weight:bold; color:red;">server-side validation is always required</span>)
        </p>
        <pre class="code"><code class="html">&lt;input type="file" class="multi" accept="gif|jpg"/&gt;</code></pre>
-       <br/><br/>
+       <br /><br />
        <input type="file" class="multi" accept="gif|jpg"/>
       </td>
      </tr>
@@ -175,7 +175,7 @@
         </code>
         <div class="P5 B">
          Limit: 2 files.
-         <br/>
+         <br />
          Allowed extensions: any.
         </div>
         <form action="" class="P10">
@@ -191,7 +191,7 @@
         </code>
         <div class="P5 B">
          Limit: no limit.
-         <br/>
+         <br />
          Allowed extensions: gif and jpg.
         </div>
         <form action="" class="P10">
@@ -207,7 +207,7 @@
         </code>
         <div class="P5 B">
          Limit: 3 files
-         <br/>
+         <br />
          Allowed extensions: gif, jpg.
         </div>
         <form action="" class="P10">
@@ -234,7 +234,7 @@
         </code>
         <div class="P5 B">
          Limit: 2 files.
-         <br/>
+         <br />
          Allowed extensions: any.
         </div>
         <form action="" class="P10">
@@ -250,7 +250,7 @@
         </code>
         <div class="P5 B">
          Limit: no limit.
-         <br/>
+         <br />
          Allowed extensions: gif, jpg.
         </div>
         <form action="" class="P10">
@@ -266,7 +266,7 @@
         </code>
         <div class="P5 B">
          Limit: 3 files
-         <br/>
+         <br />
          Allowed extensions: gif, jpg.
         </div>
         <form action="" class="P10">
@@ -309,7 +309,7 @@ $(function(){ // wait for document to load
         </form>
        <div id="T7-list" style="border:#999 solid 3px; padding:10px;">
         This is div#T7-list - selected files will be populated here...
-        <br/><br/>
+        <br /><br />
        </div>
       </td>
      </tr>
@@ -394,15 +394,15 @@ $(function(){ // wait for document to load
        <fieldset style="border:0">
         <legend><strong>Example 9</strong></legend>
         <p>
-         The events available are:<br/>
+         The events available are:<br />
          onFileAppend, afterFileAppend,
          onFileSelect, afterFileSelect,
          onFileRemove, afterFileRemove
         </p>
         <p>
-         The arguments passed on to each event handler are:<br/>
-         element: file element which triggered the event<br/>
-         value: the value of the element in question<br/>
+         The arguments passed on to each event handler are:<br />
+         element: file element which triggered the event<br />
+         value: the value of the element in question<br />
          master_element: the original element containing all relevant settings
         </p>
         <pre class="code"><code class="js">$(function(){ // wait for document to load 
@@ -459,7 +459,7 @@ $(function(){ // wait for document to load
         </form>
        <div style="border:#999 solid 3px; padding:10px;">
         This is div#F9-Log - selected files will be populated here...
-        <br/>
+        <br />
         <ul id="F9-Log">
         
         </ul>
@@ -538,7 +538,7 @@ $(function(){ // wait for document to load
  });</code></pre>
  
           <h3>Method 3: Programatically (<em>n</em> elements, does not require MetaData plugin)</h3>
-          <a target="_blank" href="http://plugins.jquery.com/node/1251">See this feature request for details</a><br/>
+          <a target="_blank" href="http://plugins.jquery.com/node/1251">See this feature request for details</a><br />
  <pre class="code"><code class="html">&lt;input type="file" class="<span style="color:#900">multi-pt</span>" /&gt;
 &lt;input type="file" class="<span style="color:#900">multi-pt</span>" /&gt;
 &lt;input type="file" class="<span style="color:#900">multi-pt</span>" /&gt;</code></pre>
@@ -575,9 +575,9 @@ $(function(){ // wait for document to load
     <h3>ASP users</h3>
     <p>
      <a target="_blank" href="http://www.freeaspupload.net/">FreeASPUpload</a> - Free, easy to use and no component required. This is my favourite.
-     <br/>
+     <br />
      <a href="http://www.asp101.com/articles/jacob/scriptupload.asp">Pure ASP File Upload</a> by Jacob Gilley
-     <br/>
+     <br />
      <a href="http://www.freevbcode.com/ShowCode.asp?ID=4596">File Upload via ASP (Pure ASP Solution, no .DLL)</a>
     </p>
     <h3>PHP users</h3>
@@ -590,12 +590,12 @@ $(function(){ // wait for document to load
     <p>
      <u class="Warning">NOTICE TO PHP USERS</u>:
      The plugin's default behaviour generates an array of elements (sharing the same name).
-     In order for this array to be properly identified and handled in PHP, you have to add "[]" to name of your element.<br/>
+     In order for this array to be properly identified and handled in PHP, you have to add "[]" to name of your element.<br />
      eg.:
      <pre class="code"><code class="html">&lt;input type="file" name="MyStuff[]"...</code></pre>
     </p>
     
-    <br/><br/>
+    <br /><br />
     
     <h2>Having problems?</h2>
     <p>
@@ -611,7 +611,7 @@ $(function(){ // wait for document to load
      4. Have you tried uploading a single file without using the plugin? Makes sure this works before submitting a bug report
     </p>
     
-    <br/><br/>
+    <br /><br />
     
     <h2>I promise I can upload my own files. What do I need to know?</h2>
     <p>
@@ -632,7 +632,7 @@ $(function(){ // wait for document to load
      <pre class="code"><code class="js">$.fn.MultiFile.reEnableEmpty(); // after submiting the form</code></pre>
     </p>
     
-    <br/><br/>
+    <br /><br />
     
     <h2>Ajax</h2>
     <p>
@@ -707,9 +707,9 @@ $(function(){ // wait for document to load
       <td valign="top" align="right">Related:</td>
       <td valign="top">
        <a target="_blank" href="http://plugins.jquery.com/project/metadata/">Metadata plugin</a> - Used to retrieve inline configuration from class variable
-       <br/>
+       <br />
        <a target="_blank" href="http://www.malsup.com/jquery/blockUI/">blockUI plugin</a> - Used to show pretty error messages
-       <br/>
+       <br />
        <a target="_blank" href="http://www.malsup.com/jquery/form/">Form plugin</a> - Used to submit forms via ajax
       </td>
      </tr>
@@ -723,19 +723,19 @@ $(function(){ // wait for document to load
     <h3>Optional Files</h3>
     <p>
      <a target="_blank" href="http://plugins.jquery.com/project/metadata/"><u>Metadata Plugin</u></a>
-     <br/>
-     This great plugin can be used to configure the plugin via the class parameter.<br/>
+     <br />
+     This great plugin can be used to configure the plugin via the class parameter.<br />
      <small>You can also <a href='jquery.MetaData.js'>download the version being used on this page</a></small>
     </p>
     <p>
      <a target="_blank" href="http://www.malsup.com/jquery/block/"><u>BlockUI Plugin</u></a>
-     <br/>
-     Used to show 'pretty' error messages, instead of the browser's alert() function.<br/>
+     <br />
+     Used to show 'pretty' error messages, instead of the browser's alert() function.<br />
      <small>You can also <a href='jquery.blockUI.js'>download the version being used on this page</a></small>
     </p>
     <p>
      <a target="_blank" href="http://www.malsup.com/jquery/form/"><u>Form Plugin</u></a>
-     <br/>
+     <br />
      Used to submit forms via Ajax.
     </p>
     
@@ -768,7 +768,7 @@ $(function(){ // wait for document to load
     <p>
      Just in case it's the end of the world and the Google Code site becomes unavailable,
      the project files can also be downloaded from this site.
-     <br/>
+     <br />
      However, please note that this site is updated periodically whereas the Google Code
      project is kept up-to-date almost instantaneously. If you'd like the very latest
      version of this plugin
@@ -832,7 +832,7 @@ $(function(){ // wait for document to load
     <p>
      Support for this plugin is available through the <a target="_blank" href="http://jquery.com/discuss/" class="external">jQuery Mailing List</a>.
      This is a very active list to which many jQuery developers and users subscribe.
-     <br/>
+     <br />
      Access to the jQuery Mailing List is also available through
      <a target="_blank" href="http://www.nabble.com/JQuery-f15494.html" class="external">Nabble Forums</a>
      and the
@@ -988,7 +988,7 @@ $(function(){ // wait for document to load
         <h2><a href="/jquery/FCKEditor/"><strong>FCKEditor Plugin</strong></a></h2>
         <p>
          jQuery plugin for non-obstrusive integration of textareas with <strong>FCKEditor</strong>.
-         <br/>
+         <br />
          <strong style="color:#f00;">OLD!</strong> It is recommended you upgrade to CKEditor (above).
         </p>
         
@@ -1034,7 +1034,7 @@ $(function(){ // wait for document to load
    <td valign="top" width="400">
     <strong>jQuery Plugins</strong>
     by <a href="http://www.fyneworks.com/">Fyneworks.com</a>
-    <br/>
+    <br />
     Licensed under the
     <a target="_blank" href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a> and the
     <a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/">GPL License</a>.
@@ -1044,7 +1044,7 @@ $(function(){ // wait for document to load
    </td>
    <td valign="top" width="280" align="right">
     <span style="color:#090;">
-     Tested with jQuery 1.7 on:<br/>IE6, IE7, IE8, FF, Chrome, Opera and Safari
+     Tested with jQuery 1.7 on:<br />IE6, IE7, IE8, FF, Chrome, Opera and Safari
     </span>
    </td>
    <td valign="top" width="120" align="right">

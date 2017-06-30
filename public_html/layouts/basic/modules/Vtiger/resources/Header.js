@@ -569,7 +569,7 @@ jQuery.Class("Vtiger_Header_Js", {
 					basicSearch.search(request.term).then(function (data) {
 						var data = jQuery.parseJSON(data);
 						var serverDataFormat = data.result;
-						var reponseDataList = new Array();
+						var reponseDataList = [];
 						for (var id in serverDataFormat) {
 							var responseData = serverDataFormat[id];
 							reponseDataList.push(responseData);

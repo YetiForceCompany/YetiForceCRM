@@ -139,7 +139,7 @@ class Feed
 			return (string) $xml;
 		}
 
-		$arr = array();
+		$arr = [];
 		foreach ($xml->children() as $tag => $child) {
 			if (count($xml->$tag) === 1) {
 				$arr[$tag] = $this->toArray($child);

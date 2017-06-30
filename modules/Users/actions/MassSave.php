@@ -56,13 +56,13 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 			$uNum = $db->num_rows($result);
 
 			if ($uNum > 0) {
-				$recordIds = array();
+				$recordIds = [];
 				for ($i = 0; $i < $uNum; $i++) {
 					$recordIds[] = $db->query_result($result, $i, 'id');
 				}
 			}
 		}
-		$recordModels = array();
+		$recordModels = [];
 
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {

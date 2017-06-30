@@ -48,7 +48,7 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getViews()
 	{
-		$views = array();
+		$views = [];
 		foreach ($this->views as $view) {
 			$views[$view] = 'LBL_VIEW_' . strtoupper($view);
 		}

@@ -87,7 +87,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams)) {
-			$searchParmams = array();
+			$searchParmams = [];
 		}
 		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);

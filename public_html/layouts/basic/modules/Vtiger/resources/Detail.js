@@ -31,7 +31,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 */
 	triggerDetailViewAction: function (detailActionUrl, callBackFunction) {
 		var detailInstance = Vtiger_Detail_Js.getInstance();
-		var selectedIds = new Array();
+		var selectedIds = [];
 		selectedIds.push(detailInstance.getRecordId());
 		var postData = {
 			"selected_ids": JSON.stringify(selectedIds)
@@ -1773,7 +1773,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
 		var recordId = this.getRecordId();
 		var module = app.getModuleName();
-		var idList = new Array();
+		var idList = [];
 		idList.push(data.result._recordId);
 		widgetDataContainer.progressIndicator({});
 		this.addRelationBetweenRecords(referenceModuleName, idList).then(

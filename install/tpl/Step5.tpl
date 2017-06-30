@@ -22,7 +22,7 @@
 					<div class="offset2 row" id="errorMessage">
 						<div class="col-md-12">
 							<div class="alert alert-danger">
-								{$DB_CONNECTION_INFO['error_msg']}<br/>
+								{$DB_CONNECTION_INFO['error_msg']}<br />
 								{$DB_CONNECTION_INFO['error_msg_info']}
 							</div>
 						</div>

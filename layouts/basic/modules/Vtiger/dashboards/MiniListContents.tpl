@@ -29,7 +29,7 @@
 				{/foreach}
 			</div>
 			{if $OWNER eq false}
-				{assign var="MINILIST_WIDGET_RECORDS" value=array()}
+				{assign var="MINILIST_WIDGET_RECORDS" value=[]}
 			{else}
 				{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($OWNER)}
 			{/if}

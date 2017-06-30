@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="row">
 		<div class="col-md-12">
@@ -34,7 +34,7 @@
 						<input type="file" name="imported_xml" accept="text/xml" class="form-control" data-validation-engine='validate[required]' id="imported_xml" />
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="pull-right">
 					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_UPLOAD_TRIGGER', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 					<a href="{Settings_Workflows_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>

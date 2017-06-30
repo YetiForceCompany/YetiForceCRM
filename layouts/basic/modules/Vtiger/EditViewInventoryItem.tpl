@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if !empty($ITEM_DATA['name'])}
 		{assign var="REFERENCE_MODULE" value=vtlib\Functions::getCRMRecordType($ITEM_DATA['name'])}
@@ -11,7 +11,7 @@
 			&nbsp;&nbsp;<a class="dragHandle"><img src="{vimage_path('drag.png')}" border="0" alt="{vtranslate('LBL_DRAG',$MODULE)}"/></a>
 			<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 			{if $COUNT_FIELDS2 > 0}
-				<br/><br/>
+				<br /><br />
 				<span class="btn btn-default btn-xs toggleVisibility" data-status="0" href="#">
 					<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>	
 				</span>

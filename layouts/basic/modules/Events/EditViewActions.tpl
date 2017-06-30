@@ -18,7 +18,7 @@
 			</div>
 			<div class="clearfix"></div>
         </div>
-		<br>
+		<br />
     </form>
 </div>
 {/strip}

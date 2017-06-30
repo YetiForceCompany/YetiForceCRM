@@ -413,7 +413,7 @@
         var h=0, adj=0;
         
         for (i=0; i<gd.length; i++) {
-            this._vertices[i] = new Array();
+            this._vertices[i] = [];
             var v = this._vertices[i];
             var sm = this.sectionMargin;
             if (i == 0) {

@@ -69,7 +69,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
 		$cont_res = $adb->pquery($cont_qry, array($return_id));
 		$noofrows = $adb->num_rows($cont_res);
-		$cont_id = array();
+		$cont_id = [];
 		if ($noofrows > 0) {
 			for ($i = 0; $i < $noofrows; $i++) {
 				$cont_id[] = $adb->query_result($cont_res, $i, "contactid");
@@ -90,7 +90,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		}
 
 		$cont_name = trim($cont_name, ', ');
-		$mail_data = Array();
+		$mail_data = [];
 		$mail_data['user_id'] = $this->get('assigned_user_id');
 		$mail_data['subject'] = $this->get('subject');
 		$moduleName = $this->getModuleName();

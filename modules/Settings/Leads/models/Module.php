@@ -19,7 +19,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	public function getFields($blockInstance = false)
 	{
 		if (!$this->fields) {
-			$fieldModelsList = array();
+			$fieldModelsList = [];
 			$fieldIds = $this->getMappingSupportedFieldIdsList();
 
 			foreach ($fieldIds as $fieldId) {

@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	<br>
+	<br />
 		<div class="editViewContainer tab-pane active" id="{$TYPE_API}" data-type="{$TYPE_API}">
 			<div class="listViewActionsDiv row">
 				<div class="col-md-8 tn-toolbar">

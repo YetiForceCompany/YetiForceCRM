@@ -99,7 +99,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 	public static function getAllForModule($moduleModel)
 	{
 		$blockObjects = parent::getAllForModule($moduleModel);
-		$blockModelList = array();
+		$blockModelList = [];
 
 		if ($blockObjects) {
 			foreach ($blockObjects as $blockObject) {
@@ -112,7 +112,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 	public function getLayoutBlockActiveFields()
 	{
 		$fields = $this->getFields();
-		$activeFields = array();
+		$activeFields = [];
 		foreach ($fields as $fieldName => $fieldModel) {
 			if ($fieldModel->isActiveField()) {
 				$activeFields[$fieldName] = $fieldModel;

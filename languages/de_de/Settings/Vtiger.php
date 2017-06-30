@@ -284,7 +284,7 @@ $languageStrings = [
 	'LBL_DEFAULT' => 'Standard',
 	'LBL_TIMECONTROL_PROCESSES' => 'Zeiterfassungsprozesse',
 	//config editor
-	'LBL_POPUP_TYPE' => 'Pop-up Fenstertyp für Datensatzliste.<br>1 - Normal, 2 - Erweiterte Suche',
+	'LBL_POPUP_TYPE' => 'Pop-up Fenstertyp für Datensatzliste.<br />1 - Normal, 2 - Erweiterte Suche',
 	'LBL_SHOWING_BREADCRUMBS' => 'Zeige Breadcrumbs Menü',
 	'LBL_SHOW_RESPONSE_TIME' => 'Ein-/Ausblenden der Seitenaufbauzeit',
 	'LBL_TITLE_MAX_LENGTH' => 'Maximale Länge von Zeichen für den Titel ',

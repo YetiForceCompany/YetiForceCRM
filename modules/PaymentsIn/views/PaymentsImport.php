@@ -12,8 +12,8 @@ class PaymentsIn_PaymentsImport_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 
-		$type = array();
-		$bank = array();
+		$type = [];
+		$bank = [];
 		foreach (new DirectoryIterator('modules/PaymentsIn/helpers') as $file) {
 			if (!$file->isDot()) {
 				if (strpos($file->getFilename(), '.php') !== false) {

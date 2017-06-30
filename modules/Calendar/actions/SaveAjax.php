@@ -33,7 +33,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
 				}
 			}
-			$result[$fieldName] = array();
+			$result[$fieldName] = [];
 			if ($fieldName === 'date_start') {
 				$timeStart = $recordModel->get('time_start');
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);

@@ -22,7 +22,7 @@ class Documents extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_notescf', 'notesid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('', '', '', '');
 	// This is the list of vtiger_fields that are in the lists.

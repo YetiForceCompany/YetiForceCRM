@@ -217,7 +217,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if ($sqlDump['where_condition']) {
 			// fixme - yy_11 seems not to be called
 			if (!isset($sqlDump['where_condition']['operators'])) {
-				$sqlDump['where_condition']['operators'] = array();
+				$sqlDump['where_condition']['operators'] = [];
 			}
 			if ((sizeof($sqlDump['where_condition']['column_names']) == sizeof($sqlDump['where_condition']['column_values'])) &&
 				(sizeof($sqlDump['where_condition']['column_operators']) == sizeof($sqlDump['where_condition']['operators']) + 1)) {

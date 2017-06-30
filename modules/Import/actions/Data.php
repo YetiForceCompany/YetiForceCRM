@@ -767,7 +767,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
-			$emailData = 'Yetiforce has completed import. <br/><br/>' . $importResult . '<br/><br/>' .
+			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
 				'Navigate to respective module, to check import result and/or data integrity';
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
@@ -786,7 +786,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public static function getScheduledImport()
 	{
 
-		$scheduledImports = array();
+		$scheduledImports = [];
 		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
 			$userId = $importInfo['user_id'];

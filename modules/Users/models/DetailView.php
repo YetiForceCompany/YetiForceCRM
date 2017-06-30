@@ -45,7 +45,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 			foreach ($detailViewLinks as $detailViewLink) {
 				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
-			$detailViewPreferenceLinks = array();
+			$detailViewPreferenceLinks = [];
 			if (vglobal('systemMode') != 'demo') {
 				$detailViewPreferenceLinks[] = array(
 					'linktype' => 'DETAILVIEWPREFERENCE',

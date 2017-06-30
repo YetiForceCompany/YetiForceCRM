@@ -14,7 +14,7 @@ class Services extends CRMEntity
 
 	public $table_name = 'vtiger_service';
 	public $table_index = 'serviceid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;

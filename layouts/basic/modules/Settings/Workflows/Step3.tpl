@@ -25,7 +25,7 @@
         <div id="taskListContainer">
             {include file='TasksList.tpl'|@vtemplate_path:$QUALIFIED_MODULE}	
         </div>
-        <br>
+        <br />
         <div class="pull-right">
             <button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
             <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>

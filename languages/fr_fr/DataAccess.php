@@ -87,7 +87,7 @@ $languageStrings = [
 	'Action_Desc_unique_account' => 'Veifier si l\'organisation est unique.',
 	'LBL_DUPLICATED_FOUND' => 'Doublons trouvés',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Doublons trouvés. Etes-vous sûr de vouloir sauvegarder?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Une tentative de modification a été faite en mode création rapide.<br>Sélectionner les champs ci-dessous et accepter pour appliquer les changements.<br>Attention!<br>Resaisir les modifications dans l\'enregistrement.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Une tentative de modification a été faite en mode création rapide.<br />Sélectionner les champs ci-dessous et accepter pour appliquer les changements.<br />Attention!<br />Resaisir les modifications dans l\'enregistrement.',
 	'LBL_DONT_ASK_AGAIN' => 'Ne plus me demander pour cet enregistrement.',
 	'LBL_SEARCH_TRASH' => 'Chercher dans la poubelle',
 ];

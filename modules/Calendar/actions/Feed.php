@@ -15,7 +15,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 	public function process(\App\Request $request)
 	{
 		try {
-			$result = array();
+			$result = [];
 
 			$start = $request->get('start');
 			$end = $request->get('end');

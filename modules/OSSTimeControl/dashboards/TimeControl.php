@@ -11,8 +11,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getSearchParams($assignedto = '', $date)
 	{
-		$conditions = array();
-		$listSearchParams = array();
+		$conditions = [];
+		$listSearchParams = [];
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
 		if (!empty($date)) {
@@ -83,7 +83,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 
 			$counter = 0;
-			$result = array();
+			$result = [];
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;

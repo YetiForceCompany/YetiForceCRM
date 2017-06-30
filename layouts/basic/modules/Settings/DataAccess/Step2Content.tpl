@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <form name="condition" action="index.php" method="post" id="workflow_step2" class="form-horizontal" >
 	<input type="hidden" name="view" value="Step3" />
 	<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -152,7 +152,7 @@
 				</div>
 				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_option" type="button"><strong>{vtranslate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
 			</div>
-			<br>
+			<br />
 			<div class="pull-right">
 				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>

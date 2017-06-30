@@ -14,7 +14,7 @@
 			<input type="checkbox" id="val2field"  name="val2field" class="" value="1"{if $VAL2FIELD eq 1}checked{/if}><strong>{vtranslate('LBL_VALIDATION_TWO_FIELDS', 'DataAccess')}</strong>
 		</label>
 	</div>
-	<br>
+	<br />
 	<div class="row">
 		<div class="col-md-6">
 				<div class="form-group marginLeftZero marginRightZero">

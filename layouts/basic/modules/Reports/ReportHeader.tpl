@@ -65,10 +65,10 @@
 						</span>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div>
 					<input type="hidden" id="recordId" value="{$RECORD_ID}" />
-					{assign var=RECORD_STRUCTURE value=array()}
+					{assign var=RECORD_STRUCTURE value=[]}
 					{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
 					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
 						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}
@@ -98,7 +98,7 @@
 							</button>
 						</div>
 					</div>
-					<br>
+					<br />
 				</div>
 			</form>
 		</div>

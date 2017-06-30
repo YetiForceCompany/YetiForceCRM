@@ -372,7 +372,7 @@ function rfc2445_is_valid_value($value, $type)
 			}
 
 			// Let's get that into a more easily comprehensible format
-			$vars = array();
+			$vars = [];
 			foreach ($parts as $part) {
 
 				$pieces = explode('=', $part);

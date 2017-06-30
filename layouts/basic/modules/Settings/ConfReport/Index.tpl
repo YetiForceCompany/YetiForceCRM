@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 
 <div class="">
 	<div class="widget_header row">
@@ -12,7 +12,7 @@
 			<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
 			{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
 			</button>
-			--!>*}
+			-->*}
 		</div>
 	</div>
     <ul class="nav nav-tabs">
@@ -57,7 +57,7 @@
 					{/foreach}
 				</tbody>
 			</table>
-			<br/>
+			<br />
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
@@ -85,7 +85,7 @@
 					{/foreach}
 				</tbody>
 			</table>
-			<br/>
+			<br />
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
@@ -111,7 +111,7 @@
 					{/foreach}
 				</tbody>
 			</table>
-			<br/>
+			<br />
         </div>
         <div id="Permissions" class="tab-pane fade">
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">

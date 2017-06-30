@@ -20,7 +20,7 @@
 	{if $RELATED_MODULE_MODEL_NAME neq ''}
 		<div>
 			<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
-		</div><br>
+		</div><br />
 		{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($TASK_OBJECT->entity_type)}
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
 		{foreach from=$FIELD_VALUE_MAPPING item=FIELD_MAP}
@@ -64,7 +64,7 @@
 		{if $RELATED_MODULE_MODEL}
 			<div>
 				<button type="button" class="btn btn-default" id="addFieldBtn">{vtranslate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
-			</div><br>
+			</div><br />
 			{if $MAPPING_PANEL}
 				{assign var=MANDATORY_FIELD_MODELS value=[]}
 			{else}
@@ -105,7 +105,7 @@
 			{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE RELATED_MODULE_MODEL=$RELATED_MODULE_MODEL MODULE_MODEL=$MODULE_MODEL FIELD_EXPRESSIONS=$FIELD_EXPRESSIONS}
 		{/if}
 	{/if}
-</div><br>
+</div><br />
 {if $RELATED_MODULE_MODEL}
 	<div class="row basicAddFieldContainer padding-bottom1per hide">
 		<div class="col-md-4">

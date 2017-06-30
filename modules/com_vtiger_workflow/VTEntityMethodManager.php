@@ -38,7 +38,7 @@ class VTEntityMethodManager
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("select method_name from com_vtiger_workflowtasks_entitymethod where module_name=?", array($moduleName));
 		$it = new SqlResultIterator($adb, $result);
-		$methodNames = array();
+		$methodNames = [];
 		foreach ($it as $row) {
 			$methodNames[] = $row->method_name;
 		}

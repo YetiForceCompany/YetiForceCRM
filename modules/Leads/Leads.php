@@ -27,7 +27,7 @@ class Leads extends CRMEntity
 	 */
 	public $customFieldTable = Array('vtiger_leadscf', 'leadid');
 	//construct this from database;
-	public $column_fields = Array();
+	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.
@@ -57,7 +57,7 @@ class Leads extends CRMEntity
 	public $search_fields_name = Array(
 		'Company' => 'company'
 	);
-	public $required_fields = array();
+	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime');

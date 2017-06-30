@@ -54,7 +54,7 @@ class HTTP_Session_Container_Memcache extends HTTP_Session_Container
     /**
      * Constructor method
      *
-     * $options is an array with the options.<br>
+     * $options is an array with the options.<br />
      * The options are:
      * <ul>
      * <li>'memcache' - Memcache object

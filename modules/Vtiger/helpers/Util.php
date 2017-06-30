@@ -122,7 +122,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function toVtiger6SafeHTML($input)
 	{
-		$allowableTags = '<a><br>';
+		$allowableTags = '<a><br />';
 		return strip_tags($input, $allowableTags);
 	}
 

@@ -272,7 +272,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 		popupPageContentsContainer.on('click', 'button.select', function (e) {
 			var tableEntriesElement = popupPageContentsContainer.find('table');
 			var selectedRecordDetails = {};
-			var recordIds = new Array();
+			var recordIds = [];
 			var dataUrl;
 			jQuery('input.entryCheckBox', tableEntriesElement).each(function (index, checkBoxElement) {
 				var checkBoxJqueryObject = jQuery(checkBoxElement)
@@ -872,9 +872,9 @@ jQuery.Class("Vtiger_Popup_Js", {
 	getListSearchParams: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		var listViewTable = popupPageContentsContainer.find('.listViewEntriesTable');
-		var searchParams = new Array();
+		var searchParams = [];
 		listViewTable.find('.listSearchContributor').each(function (index, domElement) {
-			var searchInfo = new Array();
+			var searchInfo = [];
 			var searchContributorElement = jQuery(domElement);
 			var fieldInfo = searchContributorElement.data('fieldinfo');
 			var fieldName = searchContributorElement.attr('name');

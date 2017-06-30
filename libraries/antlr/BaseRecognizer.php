@@ -647,7 +647,7 @@ abstract class BaseRecognizer{
 	/** Push a rule's follow set using our own hardcoded stack */
 	protected function pushFollow($fset) {
 		// if ( ($this->state->_fsp +1)>=sizeof($this->state->following) ) {
-		// 			$f = array();
+		// 			$f = [];
 		// 			System.arraycopy(state.following, 0, f, 0, state.following.length-1);
 		// 			$this->state->following = f;
 		// 		}
@@ -709,7 +709,7 @@ abstract class BaseRecognizer{
 	 */
 	public function toStrings($tokens) {
 		if ( $tokens==null ) return null;
-		$strings = array();
+		$strings = [];
 		for ($i=0; $i<$tokens->size(); $i++) {
 			$strings[] = $tokens[$i]->getText();
 		}
@@ -728,7 +728,7 @@ abstract class BaseRecognizer{
 	 */
 	public function getRuleMemoization($ruleIndex, $ruleStartIndex) {
 		if ( $this->state->ruleMemo[$ruleIndex]==null ) {
-			$this->state->ruleMemo[$ruleIndex] = array();
+			$this->state->ruleMemo[$ruleIndex] = [];
 		}
 		$stopIndexI =
 			$this->state->ruleMemo[$ruleIndex][$ruleStartIndex];

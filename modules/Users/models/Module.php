@@ -47,7 +47,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($query, $params);
 			$noOfRows = $db->num_rows($result);
 
-			$matchingRecords = array();
+			$matchingRecords = [];
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
@@ -200,7 +200,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 
 		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
-		$result = $adb->pquery($currency_query, array());
+		$result = $adb->pquery($currency_query, []);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$currencyname = decode_html($adb->query_result($result, $i, 'currency_name'));
@@ -219,7 +219,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 
 		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
-		$result = $adb->pquery($timezone_query, array());
+		$result = $adb->pquery($timezone_query, []);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$time_zone = decode_html($adb->query_result($result, $i, 'time_zone'));

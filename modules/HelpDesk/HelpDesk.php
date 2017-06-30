@@ -25,7 +25,7 @@ class HelpDesk extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	//Pavani: Assign value to entity_table
 	public $entity_table = "vtiger_crmentity";
 	public $list_fields = Array(
@@ -84,7 +84,7 @@ class HelpDesk extends CRMEntity
 		'Title' => 'ticket_title',
 	);
 	//Specify Required fields
-	public $required_fields = array();
+	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');

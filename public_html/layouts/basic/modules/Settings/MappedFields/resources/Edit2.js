@@ -266,7 +266,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit2_Js", {}, {
 				breakSave = moduleName + ': ' + targetField.text();
 			}
 			if (breakSave) {
-				var warningMessage = breakSave + ' <br>' + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
+				var warningMessage = breakSave + ' <br />' + app.vtranslate('JS_IS_ALREADY_BEEN_MAPPED');
 				var notificationParams = {
 					text: warningMessage,
 					'type': 'error'

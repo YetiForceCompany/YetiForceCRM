@@ -78,7 +78,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getRecordLinks()
 	{
-		$links = array();
+		$links = [];
 		$recordLinks = array(
 			array(
 				'linktype' => 'LISTVIEWRECORD',

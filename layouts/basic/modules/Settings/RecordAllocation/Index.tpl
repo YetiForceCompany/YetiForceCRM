@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="fieldType" value="{$TYPE}"/>
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
@@ -13,7 +13,7 @@
 	<div class="">
 		<button class="btn btn-success addPanel" type="button"></span> {vtranslate('LBL_ADD_PANEL_TO_MODULE',$QUALIFIED_MODULE)}</button>
 	</div>
-	<br>
+	<br />
 	<div class="panelsContainer">
 		{foreach from=$ALL_MODULE_LIST key=MODULE_ID item=MODULE_MODEL name=modules}
 			{assign 'INDEX' $smarty.foreach.modules.iteration}

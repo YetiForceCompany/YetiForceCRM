@@ -27,8 +27,8 @@
 		<div class="col-md-12 inner-container">
 			<div class="row">
 				<div id="running" class="alignCenter">
-					<br><br><br><br><br>
-					<h4> {vtranslate('LBL_WAIT',$MODULE)} </h4><br>
+					<br /><br /><br /><br /><br />
+					<h4> {vtranslate('LBL_WAIT',$MODULE)} </h4><br />
 						<img src="{vimage_path('migration_loading.gif')}"/>
 					<h5> {vtranslate('LBL_INPROGRESS',$MODULE)} </h5>
 				</div>
@@ -38,7 +38,7 @@
 			</div>
 			<div id="showDetails" style="max-height:350px; overflow: auto;">
 			</div>
-			<br>
+			<br />
 			<div id="nextButton" class="button-container hide">
 				<form action='index.php' method="POST">
 					<input type="hidden" id="module" name="module" value="Migration">

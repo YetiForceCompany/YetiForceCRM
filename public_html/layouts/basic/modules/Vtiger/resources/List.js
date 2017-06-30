@@ -989,7 +989,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var selectedIdsDataAttr = cvId + 'Selectedids';
 		var selectedIdsElementDataAttributes = selectedIdsElement.data();
 		if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
-			var selectedIds = new Array();
+			var selectedIds = [];
 			this.writeSelectedIds(selectedIds);
 		} else {
 			selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
@@ -1007,7 +1007,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var excludedIdsDataAttr = cvId + 'Excludedids';
 		var excludedIdsElementDataAttributes = exlcudedIdsElement.data();
 		if (!(excludedIdsDataAttr in excludedIdsElementDataAttributes)) {
-			var excludedIds = new Array();
+			var excludedIds = [];
 			this.writeExcludedIds(excludedIds);
 		} else {
 			excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
@@ -1527,8 +1527,8 @@ jQuery.Class("Vtiger_List_Js", {
 			jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 				jQuery(this).attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 			});
-			var excludedIds = new Array();
-			var selectedIds = new Array();
+			var excludedIds = [];
+			var selectedIds = [];
 			thisInstance.writeSelectedIds(selectedIds);
 			thisInstance.writeExcludedIds(excludedIds);
 		});

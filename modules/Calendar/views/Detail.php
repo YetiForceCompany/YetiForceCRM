@@ -29,7 +29,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$summaryInfo = array();
+		$summaryInfo = [];
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
 		foreach ($stucturedValues as $blockLabel => $fieldList) {

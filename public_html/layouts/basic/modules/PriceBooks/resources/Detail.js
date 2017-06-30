@@ -44,7 +44,7 @@ Vtiger_Detail_Js("PriceBooks_Detail_Js",{},{
 			e.preventDefault();
 			var invalidFields = container.data('jqv').InvalidFields;
 			if((invalidFields.length) == 0){
-				var idList = new Array();
+				var idList = [];
 				var relid = container.find('input[name="relid"]').val();
 				var listPriceVal = container.find('input[name="currentPrice"]').val();
 				idList.push({'id' : relid,'price' : listPriceVal});

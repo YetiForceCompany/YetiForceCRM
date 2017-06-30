@@ -42,7 +42,7 @@ class OverdueDeadlines extends Base
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<br><style>' .
+		$html = '<br /><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
 			'.table tbody tr {border-bottom: 1px solid grey}' .

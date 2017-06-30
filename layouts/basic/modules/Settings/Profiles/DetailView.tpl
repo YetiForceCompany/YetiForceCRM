@@ -31,7 +31,7 @@
 					<label class="muted">{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>&nbsp;
 					<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 				</div>
-			</div><br>
+			</div><br />
             {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
             {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
             <div class="summaryWidgetContainer">
@@ -178,7 +178,7 @@
 								<div class="col-md-12"><label class="themeTextColor font-x-large pull-left"><strong>{vtranslate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 								<table class="table table-bordered table-striped">
 								{assign var=UTILITY_ACTION_COUNT value=0}
-								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}
+								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
 								{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
 									{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
 										{assign var="testArray" array_push($ALL_UTILITY_ACTIONS_ARRAY,$ACTION_MODEL)}
@@ -207,6 +207,6 @@
 			</table>
 		</div>
 	</div>
-	<br>
+	<br />
 </div>
 {/strip}

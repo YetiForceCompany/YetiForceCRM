@@ -14,7 +14,7 @@ class VTUpdateCalendarDates extends VTTask
 
 	public function getFieldNames()
 	{
-		return array();
+		return [];
 	}
 
 	/**

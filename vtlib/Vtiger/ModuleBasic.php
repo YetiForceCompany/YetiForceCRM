@@ -250,9 +250,9 @@ class ModuleBasic
 	 * @param String Base table name (default modulename in lowercase)
 	 * @param String Base table column (default modulenameid in lowercase)
 	 *
-	 * Creates basetable, customtable, grouptable <br>
-	 * customtable name is basetable + 'cf'<br>
-	 * grouptable name is basetable + 'grouprel'<br>
+	 * Creates basetable, customtable, grouptable <br />
+	 * customtable name is basetable + 'cf'<br />
+	 * grouptable name is basetable + 'grouprel'<br />
 	 */
 	public function initTables($basetable = false, $basetableid = false)
 	{

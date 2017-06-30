@@ -104,7 +104,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
-			$searchParmams = array();
+			$searchParmams = [];
 		}
 		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
@@ -177,7 +177,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$cvId = $request->get('viewname');
 		$count = $this->getListViewCount($request);
 
-		$result = array();
+		$result = [];
 		$result['module'] = $moduleName;
 		$result['viewname'] = $cvId;
 		$result['count'] = $count;
@@ -236,7 +236,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}
-		$result = array();
+		$result = [];
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
 		$response = new Vtiger_Response();

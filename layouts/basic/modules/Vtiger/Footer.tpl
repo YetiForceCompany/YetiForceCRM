@@ -74,7 +74,7 @@
 				<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
 				<p>Copyright © YetiForce.com All rights reserved.</p>
 				<p>The Program is provided AS IS, without warranty. Licensed under <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 2.0</strong></a>.</p>
-				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br><br></p>
+				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>
 				<p><span class="label label-default">License:</span> <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 2.0</strong></a></p>
 				<p><span class="label label-primary">WWW:</span> <a href="https://yetiforce.com" target="_blank"><strong>https://yetiforce.com</strong></a></p>
 				<p><span class="label label-success">Code:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a></p>

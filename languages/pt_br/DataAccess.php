@@ -87,7 +87,7 @@ $languageStrings = [
 	'Action_Desc_unique_account' => 'Verificar se a Conta e unica no modulo.',
 	'LBL_DUPLICATED_FOUND' => 'Encontrada duplicidade',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Encontrada duplicidade. Tem certeza que deseja salvar?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Foi realizada uma tentativa de mudança dos valores do registro no modo de Ediçao Rapida.<br>Selecione o campo checkbox abaixo e aceite para aplicar as mudanças nesta visualizaçao.<br>Atençao!<br>Redigite as modificaçoes no registro.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Foi realizada uma tentativa de mudança dos valores do registro no modo de Ediçao Rapida.<br />Selecione o campo checkbox abaixo e aceite para aplicar as mudanças nesta visualizaçao.<br />Atençao!<br />Redigite as modificaçoes no registro.',
 	'LBL_DONT_ASK_AGAIN' => 'Nao perguntar novamente para este registro.',
 	'LBL_SEARCH_TRASH' => 'Pesquisar lixo',
 ];

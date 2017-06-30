@@ -277,7 +277,7 @@ var Settings_Picklist_Js = {
 		jQuery('#deleteItem').on('click',function(e){
 			var pickListValuesTable = jQuery('#pickListValuesTable');
 			var selectedListItem = jQuery('.selectedListItem',pickListValuesTable);
-			var selectedListItemsArray = new Array();
+			var selectedListItemsArray = [];
 
 			jQuery.each(selectedListItem,function(index,element){
 				selectedListItemsArray.push(jQuery(element).closest('tr').data('key'));
@@ -326,7 +326,7 @@ var Settings_Picklist_Js = {
 
 	duplicateItemNameCheck : function(container) {
 		var pickListValues = JSON.parse(jQuery('[name="pickListValues"]',container).val());
-		var pickListValuesArr = new Array();
+		var pickListValuesArr = [];
 		jQuery.each(pickListValues,function(i,e){
 			var decodedValue = app.getDecodedValue(e);
 			pickListValuesArr.push(jQuery.trim(decodedValue.toLowerCase()));

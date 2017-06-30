@@ -220,7 +220,7 @@ class Reports_List_View extends Vtiger_Index_View
 		$cvId = $request->get('viewname');
 		$count = $this->getListViewCount($request);
 
-		$result = array();
+		$result = [];
 		$result['module'] = $moduleName;
 		$result['viewname'] = $cvId;
 		$result['count'] = $count;
@@ -262,7 +262,7 @@ class Reports_List_View extends Vtiger_Index_View
 		if ($pageCount == 0) {
 			$pageCount = 1;
 		}
-		$result = array();
+		$result = [];
 		$result['page'] = $pageCount;
 		$result['numberOfRecords'] = $listViewCount;
 		$response = new Vtiger_Response();

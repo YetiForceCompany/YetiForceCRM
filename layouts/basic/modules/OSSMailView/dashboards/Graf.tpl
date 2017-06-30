@@ -34,8 +34,8 @@
 		loadChart: function () {
 			var container = this.getContainer();
 			var data = container.find('.widgetData').val();
-			var labels = new Array();
-			var value = new Array();
+			var labels = [];
+			var value = [];
 			var dataInfo = JSON.parse(data);
 			for (var i = 0; i < dataInfo.length; i++) {
 				labels[i] = dataInfo[i][2];

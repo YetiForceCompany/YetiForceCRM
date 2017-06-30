@@ -108,7 +108,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = \App\Db::getInstance();
 		$conditions = $this->get('conditions');
-		$wfCondition = array();
+		$wfCondition = [];
 
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {

@@ -54,7 +54,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	{
 		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;
-			$fieldObjects = array();
+			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
 				$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel));
 			}

@@ -26,7 +26,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 	public function getWidgetTimeControl($user, $time)
 	{
 		if (!$time) {
-			return array();
+			return [];
 		}
 		$timeDatabase['start'] = DateTimeField::convertToDBFormat($time['start']);
 		$timeDatabase['end'] = DateTimeField::convertToDBFormat($time['end']);

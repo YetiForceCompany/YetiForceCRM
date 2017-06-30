@@ -80,7 +80,7 @@ $languageStrings = [
 	'LBL_IMPORT_FILE_COPY_FAILED' => 'Import a échoué',
 	'LBL_INVALID_FILE' => 'Fichier invalide',
 	'LBL_NO_ROWS_FOUND' => 'Aucune ligne trouvée',
-	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Votre import est programmé pour tourner dans 15 minutes. Vous recevrez un email après la completion de l\'import.  <br> <br>
+	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Votre import est programmé pour tourner dans 15 minutes. Vous recevrez un email après la completion de l\'import.  <br /> <br />
 										Veuillez vous assurer que la configuratin de votre serveur SMTP est correcte ainsi que votre adresse email.',
 	'LBL_DETAILS' => 'Détails',
 	'skipped' => 'Enregistrements non pris en compte',

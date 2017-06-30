@@ -529,7 +529,7 @@ extend(QUnit, {
 			result.id = "qunit-testresult";
 			result.className = "result";
 			tests.parentNode.insertBefore( result, tests );
-			result.innerHTML = 'Running...<br/>&nbsp;';
+			result.innerHTML = 'Running...<br />&nbsp;';
 		}
 	},
 
@@ -774,7 +774,7 @@ function done() {
 		html = [
 			'Tests completed in ',
 			runtime,
-			' milliseconds.<br/>',
+			' milliseconds.<br />',
 			'<span class="passed">',
 			passed,
 			'</span> tests of <span class="total">',

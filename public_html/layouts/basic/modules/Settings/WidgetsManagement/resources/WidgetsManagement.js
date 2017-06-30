@@ -34,7 +34,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	 */
 	getAuthorization: function () {
 		var thisInstance = this;
-		var authorization = new Array();
+		var authorization = [];
 		continer = jQuery('#moduleBlocks');
 		continer.find('.editFieldsTable').each(function () {
 			authorization.push(jQuery(this).data('code'));
@@ -43,7 +43,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	},
 	getAllFieldsInBlock: function (continer) {
 		var thisInstance = this;
-		var fields = new Array();
+		var fields = [];
 		continer.find('.blockFieldsList .editFieldsWidget').each(function () {
 			fields.push(jQuery(this).data('linkid').toString());
 		});

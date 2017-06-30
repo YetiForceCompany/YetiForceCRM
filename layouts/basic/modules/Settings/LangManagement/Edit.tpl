@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <div class="">
 	<div class="form-horizontal">
 		<div class="form-group row">
@@ -34,7 +34,7 @@
 		</div>
 	</div>
 </div>
-<br>
+<br />
 {if $DATA}
 <div class="">
 	<table class="table table-bordered table-condensed listViewEntriesTable" >

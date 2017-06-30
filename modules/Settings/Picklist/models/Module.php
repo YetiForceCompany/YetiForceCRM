@@ -25,7 +25,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$presence = array('0', '2');
 
 		$fieldModels = parent::getFieldsByType($type);
-		$fields = array();
+		$fields = [];
 		foreach ($fieldModels as $fieldName => $fieldModel) {
 			if ((!in_array($fieldModel->get('displaytype'), [1, 10]) && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'), $presence)) {
 				continue;
@@ -122,7 +122,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		}
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 
-		$pickListValues = array();
+		$pickListValues = [];
 		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($valueToDeleteId) . ")";
 		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, array($valueToDeleteId));
 		$num_rows = $db->num_rows($pickListValuesResult);
@@ -139,7 +139,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $this);
 		//if role based then we need to delete all the values in role based picklist
 		if ($fieldModel->isRoleBased()) {
-			$picklistValueIdToDelete = array();
+			$picklistValueIdToDelete = [];
 			$query = sprintf('SELECT picklist_valueid FROM %s WHERE %s IN (%s)', $this->getPickListTableName($pickListFieldName), $primaryKey, generateQuestionMarks($valueToDeleteId));
 			$result = $db->pquery($query, $valueToDeleteId);
 			$num_rows = $db->num_rows($result);

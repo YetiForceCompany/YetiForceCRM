@@ -101,7 +101,7 @@
 					{/foreach}
 				</tbody>
 			</table>
-			<br/>
+			<br />
 			{assign var=COUNTER value=0}
 			<table class="table table-bordered">
 				<tr>

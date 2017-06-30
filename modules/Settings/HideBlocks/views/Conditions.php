@@ -35,9 +35,9 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$blockModelList = $moduleModel->getBlocks();
 		$blockModel = $blockModelList[$blockLabel];
 		$fieldModelList = $blockModel->getFields();
-		$mandatoryFields = array();
+		$mandatoryFields = [];
 		if (!empty($fieldModelList)) {
-			$values[$blockLabel] = array();
+			$values[$blockLabel] = [];
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				if ($fieldModel->isMandatory()) {
 					$mandatoryFields[$fieldName] = $fieldModel;
@@ -87,7 +87,7 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 	public function transformToAdvancedFilterCondition($conditions)
 	{
 		$conditions = \App\Json::decode($conditions);
-		$transformedConditions = array();
+		$transformedConditions = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {

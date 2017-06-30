@@ -33,7 +33,7 @@ class Install_InitSchema_Model
 		RecalculateSharingRules();
 	}
 
-	public function initializeDatabase($location, $filesName = array())
+	public function initializeDatabase($location, $filesName = [])
 	{
 		$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
 		if (!$filesName) {
@@ -98,8 +98,8 @@ class Install_InitSchema_Model
 
 	public function _splitQueries($query)
 	{
-		$buffer = array();
-		$queries = array();
+		$buffer = [];
+		$queries = [];
 		$in_string = false;
 
 		// Trim any whitespace.
@@ -145,7 +145,7 @@ class Install_InitSchema_Model
 	public function getMigrationSchemaList()
 	{
 		$dir = $this->migration_schema;
-		$schemaList = array();
+		$schemaList = [];
 		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
 		foreach ($objects as $name => $object) {
 			if (strpos($object->getFilename(), '.php') !== false) {
@@ -214,7 +214,7 @@ class Install_InitSchema_Model
 		$webRoot = str_replace("install/Install.php", "", $webRoot);
 		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://" : "http://") . $webRoot;
 
-		$configFileParameters = array();
+		$configFileParameters = [];
 		$configFileParameters['site_URL'] = $webRoot;
 		$configFileParameters['db_hostname'] = $dbconfig['db_server'] . ':' . $dbconfig['db_port'];
 		$configFileParameters['db_username'] = $dbconfig['db_username'];
@@ -245,7 +245,7 @@ class Install_InitSchema_Model
 		}
 	}
 
-	public function deleteFiles($files = array())
+	public function deleteFiles($files = [])
 	{
 		if (!is_array($files)) {
 			$files = array($files);

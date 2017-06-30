@@ -287,7 +287,7 @@ class CSRF
 	{
 		if (!is_array($data))
 			return array($key => $data);
-		$ret = array();
+		$ret = [];
 		foreach ($data as $n => $v) {
 			$nk = $level >= 1 ? $key . "[$n]" : "[$n]";
 			$ret = array_merge($ret, static::flattenpost2($level + 1, $nk, $v));

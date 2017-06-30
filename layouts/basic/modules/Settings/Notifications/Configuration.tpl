@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="widget_header row">
 		<div class="col-xs-12 col-sm-12 col-md-9">
@@ -41,7 +41,7 @@
 					</table>
 				</div>
 				<div class="col-xs-12 col-sm-2 col-md-2 groupMembersColors">
-					<br/>
+					<br />
 					<ul class="nav nav-pills nav-stacked">
 						<li class="Users padding5per textAlignCenter"><strong>{vtranslate('LBL_USERS', $QUALIFIED_MODULE)}</strong></li>
 						<li class="Groups padding5per textAlignCenter"><strong>{vtranslate('LBL_GROUPS', $QUALIFIED_MODULE)}</strong></li>

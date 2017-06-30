@@ -20,7 +20,7 @@ class mt940
 	public $closeBalance;
 	public $availableBalance;
 	public $info = '';
-	public $operations = array();
+	public $operations = [];
 
 	public function __construct($fileName)
 	{
@@ -180,7 +180,7 @@ class mt940
 	protected function prepareFile()
 	{
 		$tab = file($this->_fileName);
-		$tags = array();
+		$tags = [];
 		$tmp = '';
 		foreach ($tab as $line) {
 			if ($line{0} == ':' && $tmp != '') {

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <button class="btn btn-primary add_lang btn-sm pull-right marginBottom10px">{vtranslate('LBL_ADD_LANG', $QUALIFIED_MODULE)}</button>
 <table  class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 	<thead>

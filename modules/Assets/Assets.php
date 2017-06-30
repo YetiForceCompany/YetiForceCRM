@@ -13,7 +13,7 @@ class Assets extends CRMEntity
 
 	public $table_name = 'vtiger_assets';
 	public $table_index = 'assetsid';
-	public $column_fields = Array();
+	public $column_fields = [];
 	protected $lockFields = ['assetstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
 
 	/** Indicator if this is a custom module or standard module */

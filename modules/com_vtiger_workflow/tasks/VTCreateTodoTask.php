@@ -195,7 +195,7 @@ class VTCreateTodoTask extends VTTask
 
 	static function conv12to24hour($timeStr)
 	{
-		$arr = array();
+		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
 		if ($arr[3] == 'am') {
 			$hours = ((int) $arr[1]) % 12;

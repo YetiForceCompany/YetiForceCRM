@@ -51,7 +51,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
 
-		$subProductList = array();
+		$subProductList = [];
 
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
@@ -111,7 +111,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getImageDetails()
 	{
 		$db = PearDatabase::getInstance();
-		$imageDetails = array();
+		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
@@ -352,7 +352,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
-				$params = array();
+				$params = [];
 
 				$res = $adb->pquery($query, $params);
 				$rows_res = $adb->num_rows($res);

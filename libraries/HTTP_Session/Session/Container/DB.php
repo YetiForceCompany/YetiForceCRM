@@ -78,7 +78,7 @@ class HTTP_Session_Container_DB extends HTTP_Session_Container
     /**
      * Constrtuctor method
      *
-     * $options is an array with the options.<br>
+     * $options is an array with the options.<br />
      * The options are:
      * <ul>
      * <li>'dsn' - The DSN string</li>

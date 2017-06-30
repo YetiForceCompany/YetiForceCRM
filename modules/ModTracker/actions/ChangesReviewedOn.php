@@ -82,7 +82,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 			$cronInfo = \vtlib\Cron::getInstance('LBL_MARK_RECORDS_AS_REVIEWED');
 			$message = vtranslate('LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION', $moduleName);
 			if ($cronInfo && $cronInfo->getStatus()) {
-				$message .= '<br>' . vtranslate('LBL_ESTIMATED_TIME', $moduleName) . ': ' . ($cronInfo->getFrequency() / 60) . vtranslate('LBL_MINUTES');
+				$message .= '<br />' . vtranslate('LBL_ESTIMATED_TIME', $moduleName) . ': ' . ($cronInfo->getFrequency() / 60) . vtranslate('LBL_MINUTES');
 			}
 			$result = [$message];
 		} else {

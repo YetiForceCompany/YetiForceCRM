@@ -108,7 +108,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		$relatedModules = $reportModel->getReportRelatedModules();
 
 		foreach ($relatedModules as $primaryModule => $relatedModuleList) {
-			$translatedRelatedModules = array();
+			$translatedRelatedModules = [];
 
 			foreach ($relatedModuleList as $relatedModuleName) {
 				$translatedRelatedModules[$relatedModuleName] = vtranslate($relatedModuleName, $relatedModuleName);
@@ -248,7 +248,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 
 			$secondaryModules = explode(':', $secondaryModules);
 		} else {
-			$secondaryModules = array();
+			$secondaryModules = [];
 		}
 
 		$viewer->assign('RECORD_ID', $record);

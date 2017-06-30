@@ -73,7 +73,7 @@ class ProductsTableNew extends Base
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
 								foreach ($fields[2] as $commentKey => $value) {
 									$COMMENT_FIELD = $fields[2][$commentKey];
-									$html .= '<br/>' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
+									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
 								}
 								break;
 

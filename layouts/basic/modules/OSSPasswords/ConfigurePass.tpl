@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <div class="widget_header row">
 	<div class="col-md-12">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -24,7 +24,7 @@
 		<li class="active"><a href="#encoding" data-toggle="tab">{vtranslate('Encoding', $MODULENAME)}</a></li>
 		<li><a href="#confpass" data-toggle="tab">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</a></li>
 	</ul>
-	<br>
+	<br />
 	<div id="my-tab-content" class="tab-content">
 		{* encryption configuration *}
 		<div class="editViewContainer tab-pane active" id="encoding">

@@ -78,7 +78,7 @@ class ProductsTableRelatedModule extends Base
 								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
 								if (isset($fields[2]['comment' . $inventoryRow['seq']])) {
 									$COMMENT_FIELD = $fields[2]['comment' . $inventoryRow['seq']];
-									$html .= '<br/>' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
+									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
 								}
 								break;
 

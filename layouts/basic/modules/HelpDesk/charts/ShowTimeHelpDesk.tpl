@@ -45,7 +45,7 @@
 			});
 {/literal}
 	</script>
-	<div style="width: 80%; margin: auto; text-align: center;">{vtranslate('OSSTimeControl','OSSTimeControl')}: {vtranslate('LBL_USERS')}<br/>
+	<div style="width: 80%; margin: auto; text-align: center;">{vtranslate('OSSTimeControl','OSSTimeControl')}: {vtranslate('LBL_USERS')}<br />
 		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
 		<div id="timeHelpDesk" style="height:400px;width:100%;"></div>
 	</div>

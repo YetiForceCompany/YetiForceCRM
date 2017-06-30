@@ -88,7 +88,7 @@
 												{/if}
 											</td>
 											<td>
-												<textarea rows="10" readonly class='form-control'>{$MODULEIMPORT_LICENSE}</textarea><br>
+												<textarea rows="10" readonly class='form-control'>{$MODULEIMPORT_LICENSE}</textarea><br />
 												{if $MODULEIMPORT_EXISTS neq 'true'}
 													{literal}<input type="checkbox" id="license_agreement" onclick="if (this.form.saveButton) {
 															if (this.checked) {
@@ -117,7 +117,7 @@
 								</tbody>
 							</table>
 							{if $MODULEIMPORT_DIR_EXISTS eq 'true'}
-								<br/>
+								<br />
 								<div class="alert alert-danger" role="alert">{vtranslate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
 							{/if}
 							<div class="modal-footer">

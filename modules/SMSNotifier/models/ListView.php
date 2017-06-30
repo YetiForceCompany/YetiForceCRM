@@ -93,7 +93,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$linkTypes = array('LISTVIEWMASSACTION');
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
-		$massActionLink = array();
+		$massActionLink = [];
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',

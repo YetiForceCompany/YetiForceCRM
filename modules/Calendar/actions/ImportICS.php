@@ -48,7 +48,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$todoModule => array('activitystatus')
 			);
 
-			$requiredFields = array();
+			$requiredFields = [];
 			$modules = array($eventModule, $todoModule);
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 

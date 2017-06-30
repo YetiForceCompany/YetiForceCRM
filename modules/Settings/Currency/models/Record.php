@@ -31,7 +31,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if ($this->isBaseCurrency()) {
 			//NO Edit and delete link for base currency 
-			return array();
+			return [];
 		}
 		$editLink = array(
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
@@ -114,27 +114,27 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return $instance;
 	}
 
-	public static function getAllNonMapped($includedIds = array())
+	public static function getAllNonMapped($includedIds = [])
 	{
 		$db = PearDatabase::getInstance();
 		if (!is_array($includedIds)) {
 			if (!empty($includedIds)) {
 				$includedIds = array($includedIds);
 			} else {
-				$includedIds = array();
+				$includedIds = [];
 			}
 		}
 
 		$query = 'SELECT vtiger_currencies.* FROM vtiger_currencies 
                     LEFT JOIN vtiger_currency_info ON vtiger_currency_info.currency_name = vtiger_currencies.currency_name
                     WHERE vtiger_currency_info.currency_name IS NULL or vtiger_currency_info.deleted=1';
-		$params = array();
+		$params = [];
 		if (!empty($includedIds)) {
 			$params = $includedIds;
 			$query .= ' or vtiger_currency_info.id IN(' . generateQuestionMarks($includedIds) . ')';
 		}
 		$result = $db->pquery($query, $params);
-		$currencyModelList = array();
+		$currencyModelList = [];
 		$num_rows = $db->num_rows($result);
 
 		for ($i = 0; $i < $num_rows; $i++) {

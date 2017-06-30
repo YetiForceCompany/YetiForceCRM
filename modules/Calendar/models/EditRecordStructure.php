@@ -24,7 +24,7 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 			return $this->structuredValues;
 		}
 
-		$values = array();
+		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
 		$moduleModel = $this->getModule();
@@ -33,7 +33,7 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = array();
+				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isEditable()) {
 						if ($recordExists) {
