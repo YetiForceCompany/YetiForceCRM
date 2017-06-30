@@ -259,8 +259,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('SKIN_PATH', Vtiger_Theme::getCurrentUserThemePath());
 		$viewer->assign('LAYOUT_PATH', \App\Layout::getPublicUrl('layouts/' . \App\Layout::getActiveLayout()));
 		$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$viewer->assign('HTMLLANG', Vtiger_Language_Handler::getShortLanguageName());
-		$viewer->assign('LANGUAGE', Vtiger_Language_Handler::getLanguage());
+		$viewer->assign('LANGUAGE', \App\Language::getLanguage());
+		$viewer->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE', $moduleName);
@@ -382,7 +382,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 		];
-		$languageHandlerShortName = Vtiger_Language_Handler::getShortLanguageName();
+		$languageHandlerShortName = \App\Language::getShortLanguageName();
 		$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
 			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";

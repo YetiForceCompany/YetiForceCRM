@@ -53,7 +53,7 @@ class Newsletter extends \App\SystemWarnings\Template
 			$request = \Requests::POST('https://api.yetiforce.com/newsletter', [], array_merge($params, [
 					'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
 					'version' => \App\Version::get(),
-					'language' => \Vtiger_Language_Handler::getLanguage(),
+					'language' => \App\Language::getLanguage(),
 					'timezone' => date_default_timezone_get(),
 					]), ['useragent' => 'YetiForceCRM']);
 			if ($request->body === 'OK') {

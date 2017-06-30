@@ -133,7 +133,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
 
-		$currentLanguage = Vtiger_Language_Handler::getLanguage();
+		$currentLanguage = \App\Language::getLanguage();
 		vglobal('current_language', $currentLanguage);
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);

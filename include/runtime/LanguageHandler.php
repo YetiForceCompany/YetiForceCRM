@@ -25,8 +25,8 @@ class Vtiger_Language_Handler
 	 */
 	public static function getTranslatedString($key, $module = 'Vtiger', $currentLanguage = false)
 	{
-		if ($currentLanguage === false) {
-			$currentLanguage = self::getLanguage();
+		if (!$currentLanguage) {
+			$currentLanguage = \App\Language::getLanguage();
 		}
 		//decoding for Start Date & Time and End Date & Time 
 		if (!is_array($key)) {
@@ -166,39 +166,6 @@ class Vtiger_Language_Handler
 		return [];
 	}
 
-	public static $language = false;
-
-	/**
-	 * Function that returns current language
-	 * @return string -
-	 */
-	public static function getLanguage()
-	{
-		if (static::$language) {
-			return static::$language;
-		}
-		if (vglobal('translated_language')) {
-			$language = vglobal('translated_language');
-		} elseif (Vtiger_Session::get('language') != '') {
-			$language = Vtiger_Session::get('language');
-		} else {
-			$language = \App\User::getCurrentUserModel()->getDetail('language');
-		}
-		$language = empty($language) ? vglobal('default_language') : strtolower($language);
-		static::$language = $language;
-		return $language;
-	}
-
-	/**
-	 * Function that returns current language short name
-	 * @return string -
-	 */
-	public static function getShortLanguageName()
-	{
-		$language = self::getLanguage();
-		return substr($language, 0, 2);
-	}
-
 	/**
 	 * Function returns module strings
 	 * @param string $module - module Name
@@ -207,7 +174,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function export($module, $type = 'languageStrings')
 	{
-		$userSelectedLanguage = self::getLanguage();
+		$userSelectedLanguage = \App\Language::getLanguage();
 		$defaultLanguage = vglobal('default_language');
 		$languages = array($userSelectedLanguage);
 		//To merge base language and user selected language translations
@@ -280,9 +247,7 @@ class Vtiger_Language_Handler
 function vtranslate($key, $moduleName = 'Vtiger')
 {
 	$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
-	$args = func_get_args();
-	array_shift($args);
-	array_shift($args);
+	$args = array_slice(func_get_args(), 2);
 	if (is_array($args) && !empty($args)) {
 		$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
 	}

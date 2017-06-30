@@ -33,7 +33,7 @@ class Vtiger_Menu_Model
 
 	public static function vtranslateMenu($key, $module)
 	{
-		$language = Vtiger_Language_Handler::getLanguage();
+		$language = \App\Language::getLanguage();
 		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
 		if (isset($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);

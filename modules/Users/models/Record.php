@@ -241,7 +241,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				return vtws_generateRandomAccessKey(16);
 				break;
 			case 'language':
-				return Vtiger_Language_Handler::getLanguage();
+				return \App\Language::getLanguage();
 				break;
 			case 'time_zone':
 				return DateTimeField::getDBTimeZone();

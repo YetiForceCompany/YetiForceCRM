@@ -38,7 +38,7 @@ class OSSMail_index_View extends Vtiger_Index_View
 				$db = PearDatabase::getInstance();
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
-				$params = ['language' => Vtiger_Language_Handler::getLanguage()];
+				$params = ['language' => \App\Language::getLanguage()];
 				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
 				$db->insert('u_yf_mail_autologin', [
 					'key' => $key,
