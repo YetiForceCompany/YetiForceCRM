@@ -234,6 +234,8 @@ $languageStrings = [
 	'LBL_EXTENDED_MODULES' => 'Modules étendus',
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo société visible dans le système',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo société visible dans la mire de connexion',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Editeur creátion rapide',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module permettant de modifier la disposition des champs dans la fenêtre d\'édition rapide',
