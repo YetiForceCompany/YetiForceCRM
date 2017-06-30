@@ -427,7 +427,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkclass' => 'addButton moduleColor_' . $moduleModel->getName(),
+				'linkclass' => 'addButton buttonAdedd moduleColor_' . $moduleModel->getName(),
 				'linkicon' => 'glyphicon glyphicon-plus',
 				'showLabel' => 1,
 				'linkhref' => true
