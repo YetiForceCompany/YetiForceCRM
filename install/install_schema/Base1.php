@@ -144,7 +144,8 @@ class Base1 extends \App\Db\Importers\Base
 					'operation' => $this->smallInteger(1)->notNull(),
 				],
 				'columns_mysql' => [
-					'uri' => 'varbinary(200) NOT NULL'
+					'operation' => 'tinyint(1) NOT NULL',
+					'uri' => 'varbinary(200) NOT NULL',
 				],
 				'index' => [
 					['dav_addressbookchanges_idx', ['addressbookid', 'synctoken']],
@@ -157,13 +158,13 @@ class Base1 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'principaluri' => $this->stringType(),
 					'displayname' => $this->stringType(),
-					'uri' => $this->stringType(),
+					'uri' => $this->stringType(200),
 					'description' => $this->text(),
 					'synctoken' => $this->integer()->unsigned()->notNull()->defaultValue(1),
 				],
 				'columns_mysql' => [
 					'principaluri' => 'varbinary(255) DEFAULT NULL',
-					'uri' => 'varbinary(255) DEFAULT NULL'
+					'uri' => 'varbinary(255) DEFAULT NULL',
 				],
 				'index' => [
 					['dav_addressbooks_uri_idx', ['principaluri', 'uri'], true],
@@ -179,12 +180,13 @@ class Base1 extends \App\Db\Importers\Base
 			'dav_calendarchanges' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'uri' => $this->binary(200)->notNull(),
+					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer()->unsigned()->notNull(),
 					'calendarid' => $this->integer()->unsigned()->notNull(),
 					'operation' => $this->smallInteger(1)->notNull(),
 				],
 				'columns_mysql' => [
+					'operation' => 'tinyint(1) NOT NULL',
 					'uri' => 'varbinary(200) NOT NULL',
 				],
 				'index' => [
@@ -206,13 +208,13 @@ class Base1 extends \App\Db\Importers\Base
 					'firstoccurence' => $this->integer()->unsigned(),
 					'lastoccurence' => $this->integer()->unsigned(),
 					'uid' => $this->stringType(200),
-					'crmid' => $this->integer(19),
+					'crmid' => $this->integer(),
 				],
 				'columns_mysql' => [
 					'uri' => 'varbinary(200) DEFAULT NULL',
 					'etag' => 'varbinary(32) DEFAULT NULL',
 					'componenttype' => 'varbinary(8) DEFAULT NULL',
-					'uid' => 'varbinary(200) DEFAULT NULL'
+					'uid' => 'varbinary(200) DEFAULT NULL',
 				],
 				'index' => [
 					['dav_calendarobjects_cal_idx', ['calendarid', 'uri'], true],
@@ -235,6 +237,7 @@ class Base1 extends \App\Db\Importers\Base
 					'transparent' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
+					'transparent' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 					'principaluri' => 'varbinary(100) DEFAULT NULL',
 					'uri' => 'varbinary(200) DEFAULT NULL',
 					'calendarcolor' => 'varbinary(10) DEFAULT NULL',
@@ -262,6 +265,9 @@ class Base1 extends \App\Db\Importers\Base
 					'lastmodified' => $this->integer()->unsigned(),
 				],
 				'columns_mysql' => [
+					'striptodos' => 'tinyint(1) DEFAULT NULL',
+					'stripalarms' => 'tinyint(1) DEFAULT NULL',
+					'stripattachments' => 'tinyint(1) DEFAULT NULL',
 					'uri' => 'varbinary(200) NOT NULL',
 					'principaluri' => 'varbinary(100) NOT NULL',
 					'calendarcolor' => 'varbinary(10) DEFAULT NULL',
@@ -281,11 +287,11 @@ class Base1 extends \App\Db\Importers\Base
 					'lastmodified' => $this->integer()->unsigned(),
 					'etag' => $this->stringType(32),
 					'size' => $this->integer()->unsigned()->notNull(),
-					'crmid' => $this->integer(19)->defaultValue(0),
+					'crmid' => $this->integer()->defaultValue(0),
 				],
 				'columns_mysql' => [
 					'uri' => 'varbinary(255) DEFAULT NULL',
-					'etag' => 'varbinary(32) DEFAULT NULL'
+					'etag' => 'varbinary(32) DEFAULT NULL',
 				],
 				'index' => [
 					['dav_cards_address_idx', ['addressbookid', 'crmid']],
@@ -357,7 +363,7 @@ class Base1 extends \App\Db\Importers\Base
 				'columns_mysql' => [
 					'principaluri' => 'varbinary(255) DEFAULT NULL',
 					'uri' => 'varbinary(255) DEFAULT NULL',
-					'etag' => 'varbinary(32) DEFAULT NULL'
+					'etag' => 'varbinary(32) DEFAULT NULL',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
@@ -367,7 +373,7 @@ class Base1 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'username' => $this->stringType(50),
 					'digesta1' => $this->stringType(32),
-					'userid' => $this->integer(11)->unsigned(),
+					'userid' => $this->integer()->unsigned(),
 					'key' => $this->stringType(50),
 				],
 				'columns_mysql' => [
@@ -406,6 +412,9 @@ class Base1 extends \App\Db\Importers\Base
 					'expires' => $this->dateTime(),
 					'valid' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'data' => $this->text()->notNull(),
+				],
+				'columns_mysql' => [
+					'valid' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['roundcube_index_exp_idx', 'expires'],
@@ -474,7 +483,7 @@ class Base1 extends \App\Db\Importers\Base
 					['r_contactgroupmembers_idx', 'contact_id'],
 				],
 				'primaryKeys' => [
-					['r_contactgroupmembers_pk', ['contactgroup_id', 'contact_id']]
+					['roundcube_contactgroupmembers_pk', ['contactgroup_id', 'contact_id']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -486,6 +495,9 @@ class Base1 extends \App\Db\Importers\Base
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull()->defaultValue(''),
+				],
+				'columns_mysql' => [
+					'del' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['roundcube_contactgroups_idx', ['user_id', 'del']],
@@ -505,6 +517,9 @@ class Base1 extends \App\Db\Importers\Base
 					'vcard' => $this->text(),
 					'words' => $this->text(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
+				],
+				'columns_mysql' => [
+					'del' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['roundcube_user_contacts_idx', ['user_id', 'del']],
@@ -538,6 +553,11 @@ class Base1 extends \App\Db\Importers\Base
 					'bcc' => $this->stringType(128)->notNull()->defaultValue(''),
 					'signature' => $this->text(),
 					'html_signature' => $this->smallInteger(1)->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'del' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'standard' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'html_signature' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['roundcube_identities_user_idx', ['user_id', 'del']],
@@ -601,7 +621,7 @@ class Base1 extends \App\Db\Importers\Base
 					'preferences' => $this->text(),
 					'actions' => $this->text(),
 					'password' => $this->stringType(200),
-					'crm_user_id' => $this->integer(19)->defaultValue(0),
+					'crm_user_id' => $this->integer()->defaultValue(0),
 				],
 				'index' => [
 					['roundcube_users_idx', ['username', 'mail_host'], true],
@@ -613,7 +633,7 @@ class Base1 extends \App\Db\Importers\Base
 			'roundcube_users_autologin' => [
 				'columns' => [
 					'rcuser_id' => $this->integer(10)->unsigned()->notNull(),
-					'crmuser_id' => $this->integer(19)->notNull(),
+					'crmuser_id' => $this->integer()->notNull(),
 				],
 				'index' => [
 					['roundcube_users_autologin_idx', 'rcuser_id'],
@@ -630,6 +650,9 @@ class Base1 extends \App\Db\Importers\Base
 					'status' => $this->smallInteger(1)->defaultValue(0),
 					'time' => $this->dateTime(),
 				],
+				'columns_mysql' => [
+					'status' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['activity_invitation_idx', 'activityid'],
 				],
@@ -644,6 +667,7 @@ class Base1 extends \App\Db\Importers\Base
 					'subject' => $this->stringType(),
 					'announcementstatus' => $this->stringType()->notNull()->defaultValue(''),
 					'interval' => $this->smallInteger(5),
+					'is_mandatory' => $this->smallInteger(),
 				],
 				'index' => [
 					['announcement_idx', 'announcementstatus'],
@@ -660,6 +684,9 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'status' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['announcement_mark_user_idx', ['userid', 'status']],
@@ -683,31 +710,25 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__attachments' => [
 				'columns' => [
-					'announcementid' => $this->integer()->notNull(),
-					'name' => $this->stringType(255)->notNull(),
-					'type' => $this->stringType(100)->notNull(),
-					'path' => $this->text(),
+					'attachmentid' => $this->primaryKey(),
+					'name' => $this->stringType()->notNull(),
+					'type' => $this->stringType(100),
+					'path' => $this->text()->notNull(),
 					'status' => $this->smallInteger(1)->defaultValue(0),
-					'fieldid' => $this->integer(19),
-					'crmid' => $this->integer(19),
+					'fieldid' => $this->integer(),
+					'crmid' => $this->integer(),
 					'createdtime' => $this->dateTime(),
-				],
-				'primaryKeys' => [
-					['attachments_pk', 'announcementid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'u_#__browsinghistory' => [
 				'columns' => [
-					'id' => $this->integer(11)->notNull(),
-					'userid' => $this->integer(11)->notNull(),
+					'id' => $this->primaryKey(),
+					'userid' => $this->integer()->notNull(),
 					'date' => $this->dateTime(),
-					'title' => $this->stringType(255),
-					'url' => $this->text()
-				],
-				'primaryKeys' => [
-					['browsinghistory_pk', 'id']
+					'title' => $this->stringType(),
+					'url' => $this->text(),
 				],
 				'index' => [
 					['browsinghistory_user_idx', 'userid'],
@@ -717,7 +738,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__cfixedassets' => [
 				'columns' => [
-					'cfixedassetsid' => $this->integer()->notNull()->defaultValue(0),
+					'cfixedassetsid' => $this->integer()->notNull(),
 					'subject' => $this->stringType(),
 					'number' => $this->stringType(32),
 					'fixed_assets_type' => $this->stringType(),
@@ -747,7 +768,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__cfixedassetscf' => [
 				'columns' => [
-					'cfixedassetsid' => $this->integer()->notNull()->defaultValue(0),
+					'cfixedassetsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
 					['cfixedassetscf_pk', 'cfixedassetsid']
@@ -755,23 +776,34 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__chat_messages' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned(),
+					'userid' => $this->smallInteger()->unsigned()->notNull(),
+					'user_name' => $this->stringType(50)->notNull(),
+					'created' => $this->integer()->unsigned(),
+					'messages' => $this->text(),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__cinternaltickets' => [
 				'columns' => [
-					'cinternalticketsid' => $this->integer()->notNull()->defaultValue(0),
+					'cinternalticketsid' => $this->integer()->notNull(),
 					'subject' => $this->stringType(100),
 					'cinternaltickets_no' => $this->stringType(32),
 					'internal_tickets_status' => $this->stringType(150),
-					'resolution' => $this->text()
+					'resolution' => $this->text(),
 				],
 				'primaryKeys' => [
-					['cinternalticketsid_pk', 'cinternalticketsid']
+					['cinternaltickets_pk', 'cinternalticketsid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'u_#__cinternalticketscf' => [
 				'columns' => [
-					'cinternalticketsid' => $this->integer()->notNull()->defaultValue(0),
+					'cinternalticketsid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
 					['cinternalticketscf_pk', 'cinternalticketsid']
@@ -781,11 +813,11 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__cmileagelogbook' => [
 				'columns' => [
-					'cmileagelogbookid' => $this->integer()->notNull()->defaultValue(0),
-					'number' => $this->stringType()->defaultValue(''),
+					'cmileagelogbookid' => $this->integer()->notNull(),
 					'subject' => $this->stringType(),
+					'number' => $this->stringType(32),
 					'cmileage_logbook_status' => $this->stringType(150),
-					'number_kilometers' => $this->decimal('13,2')->defaultValue(0),
+					'number_kilometers' => $this->decimal('13,2'),
 				],
 				'primaryKeys' => [
 					['cmileagelogbook_pk', 'cmileagelogbookid']
@@ -812,6 +844,9 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'email' => $this->stringType(100)->defaultValue(''),
 					'active' => $this->smallInteger(1)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'active' => 'tinyint(1) DEFAULT \'0\'',
 				],
 				'primaryKeys' => [
 					['competition_pk', 'competitionid']
@@ -892,7 +927,7 @@ class Base1 extends \App\Db\Importers\Base
 					'crmid' => $this->integer()->unsigned()->notNull(),
 					'searchlabel' => $this->stringType()->notNull(),
 					'setype' => $this->stringType(30)->notNull(),
-					'userid' => $this->text()->null(),
+					'userid' => $this->text(),
 				],
 				'index' => [
 					['crmentity_label_idx', 'searchlabel'],
@@ -906,7 +941,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__crmentity_showners' => [
 				'columns' => [
-					'crmid' => $this->integer(19),
+					'crmid' => $this->integer(),
 					'userid' => $this->smallInteger(11)->unsigned()->notNull(),
 				],
 				'index' => [
@@ -919,9 +954,17 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__dashboard_type' => [
 				'columns' => [
-					'dashboard_id' => $this->primaryKey(),
+					'dashboard_id' => $this->primaryKey()->unsigned(),
 					'name' => $this->stringType()->notNull(),
-					'system' => $this->smallInteger(1)->defaultValue(0)
+					'system' => $this->smallInteger(1)->defaultValue(0),
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__documents_emailtemplates' => [
+				'columns' => [
+					'crmid' => $this->integer(),
+					'relcrmid' => $this->integer(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -937,7 +980,9 @@ class Base1 extends \App\Db\Importers\Base
 					'content' => $this->text(),
 					'sys_name' => $this->stringType(50),
 					'email_template_priority' => $this->smallInteger(1)->defaultValue(1),
-					'companyid' => $this->smallInteger(5)
+				],
+				'columns_mysql' => [
+					'email_template_priority' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'index' => [
 					['emailtemplates_sys_name_idx', 'sys_name'],
@@ -998,12 +1043,12 @@ class Base1 extends \App\Db\Importers\Base
 					'number' => $this->stringType(32),
 					'paymentdate' => $this->date(),
 					'saledate' => $this->date(),
-					'accountid' => $this->integer(19),
+					'accountid' => $this->integer(),
 					'fcorectinginvoice_formpayment' => $this->stringType()->defaultValue(''),
 					'sum_total' => $this->decimal('16,5'),
 					'sum_gross' => $this->decimal('16,5'),
 					'fcorectinginvoice_status' => $this->stringType()->defaultValue(''),
-					'finvoiceid' => $this->integer(19),
+					'finvoiceid' => $this->integer(),
 				],
 				'index' => [
 					['fcorectinginvoice_acc_idx', 'accountid'],
@@ -1070,6 +1115,11 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'discountmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'taxmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['fcorectinginvoice_inventory_idx', 'id'],
 				],
@@ -1090,6 +1140,12 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1107,7 +1163,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__fcorectinginvoicecf' => [
 				'columns' => [
-					'fcorectinginvoiceid' => $this->integer(19)->notNull(),
+					'fcorectinginvoiceid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
 					['fcorectinginvoicecf_pk', 'fcorectinginvoiceid']
@@ -1210,6 +1266,11 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'discountmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'taxmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['finvoice_inventory_idx', 'id'],
 				],
@@ -1229,6 +1290,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1262,15 +1329,12 @@ class Base1 extends \App\Db\Importers\Base
 					'number' => $this->stringType(32),
 					'paymentdate' => $this->date(),
 					'saledate' => $this->date(),
-					'accountid' => $this->integer(),
 					'finvoicecost_formpayment' => $this->stringType()->defaultValue(''),
 					'sum_total' => $this->decimal('16,5'),
 					'sum_gross' => $this->decimal('16,5'),
 					'finvoicecost_status' => $this->stringType()->defaultValue(''),
 					'finvoicecost_paymentstatus' => $this->stringType(),
 					'pscategory' => $this->stringType(50),
-				],
-				'index' => [
 				],
 				'primaryKeys' => [
 					['finvoicecost_pk', 'finvoicecostid']
@@ -1314,22 +1378,22 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer(),
 					'seq' => $this->integer(10),
-					'name' => $this->integer()->notNull()->defaultValue(0),
-					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
-					'discountmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'taxmode' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'price' => $this->decimal('27,8')->notNull()->defaultValue(0),
+					'name' => $this->integer()->defaultValue(0),
+					'qty' => $this->decimal('25,3')->defaultValue(0),
+					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'discount' => $this->decimal('27,8')->defaultValue(0),
-					'gross' => $this->decimal('27,8')->notNull()->defaultValue(0),
-					'net' => $this->decimal('27,8')->notNull()->defaultValue(0),
-					'tax' => $this->decimal('27,8')->notNull()->defaultValue(0),
-					'total' => $this->decimal('27,8')->notNull()->defaultValue(0),
-					'taxparam' => $this->stringType()->notNull(),
 					'discountparam' => $this->stringType(),
 					'comment1' => $this->text(),
-					'currency' => $this->integer(10),
+					'currency' => $this->integer(),
 					'currencyparam' => $this->stringType(1024),
-					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
+					'discountmode' => $this->smallInteger(1)->defaultValue(0),
+					'taxmode' => $this->smallInteger(1)->defaultValue(0),
+					'price' => $this->decimal('27,8')->defaultValue(0),
+					'gross' => $this->decimal('27,8')->defaultValue(0),
+					'net' => $this->decimal('27,8')->defaultValue(0),
+					'tax' => $this->decimal('27,8')->defaultValue(0),
+					'taxparam' => $this->stringType(),
+					'total' => $this->decimal('27,8')->defaultValue(0),
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
@@ -1455,6 +1519,11 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'discountmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'taxmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['finvoiceproforma_inventory_idx', 'id'],
 				],
@@ -1475,6 +1544,12 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1485,7 +1560,7 @@ class Base1 extends \App\Db\Importers\Base
 					'tofield' => $this->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-					['finvoiceproforma_invfield_pk', ['module', 'field', 'tofield']]
+					['finvoiceproforma_invmap_pk', ['module', 'field', 'tofield']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1502,7 +1577,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__github' => [
 				'columns' => [
-					'github_id' => $this->primaryKey()->notNull(),
+					'github_id' => $this->integer()->notNull(),
 					'client_id' => $this->stringType(20),
 					'token' => $this->stringType(100),
 					'username' => $this->stringType(32),
@@ -1527,7 +1602,7 @@ class Base1 extends \App\Db\Importers\Base
 					['igdn_ssingleordersid_idx', 'ssingleordersid'],
 				],
 				'primaryKeys' => [
-					['igdn_idx', 'igdnid']
+					['igdn_pk', 'igdnid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1545,6 +1620,9 @@ class Base1 extends \App\Db\Importers\Base
 					'ean' => $this->stringType(),
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
+				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
 				],
 				'index' => [
 					['igdn_inventory_idx', 'id'],
@@ -1565,6 +1643,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1617,6 +1701,9 @@ class Base1 extends \App\Db\Importers\Base
 					'ean' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['igdnc_inventory_idx', 'id'],
 				],
@@ -1637,6 +1724,12 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1647,7 +1740,7 @@ class Base1 extends \App\Db\Importers\Base
 					'tofield' => $this->stringType(50)->notNull(),
 				],
 				'primaryKeys' => [
-					['igdnc_invfield_pk', ['module', 'field', 'tofield']]
+					['igdnc_invmap_pk', ['module', 'field', 'tofield']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1704,6 +1797,9 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['igin_inventory_idx', 'id'],
 				],
@@ -1723,6 +1819,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1784,6 +1886,9 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['igrn_inventory_idx', 'id'],
 				],
@@ -1803,6 +1908,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1856,6 +1967,9 @@ class Base1 extends \App\Db\Importers\Base
 					'ean' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['igrnc_inventory_idx', 'id'],
 				],
@@ -1875,6 +1989,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1943,6 +2063,9 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['iidn_inventory_pk', 'id'],
 				],
@@ -1962,6 +2085,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2022,6 +2151,9 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['ipreorder_inventory_idx', 'id'],
 				],
@@ -2041,6 +2173,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2106,6 +2244,9 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['istdn_inventory_idx', 'id'],
 				],
@@ -2125,6 +2266,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2233,7 +2380,7 @@ class Base1 extends \App\Db\Importers\Base
 					'istorageid' => $this->integer()->notNull(),
 				],
 				'primaryKeys' => [
-					['istoragescf_idx', 'istorageid']
+					['istoragescf_pk', 'istorageid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2277,6 +2424,9 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['istrn_inventory_idx', 'id'],
 				],
@@ -2296,6 +2446,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2364,7 +2520,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__mail_autologin' => [
 				'columns' => [
-					'ruid' => $this->integer()->unsigned()->notNull(),
+					'ruid' => $this->smallInteger(11)->unsigned()->notNull(),
 					'key' => $this->stringType(50)->notNull(),
 					'cuid' => $this->smallInteger(11)->unsigned()->notNull(),
 					'params' => $this->text()->notNull(),
@@ -2379,7 +2535,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__mail_compose_data' => [
 				'columns' => [
-					'userid' => $this->integer()->unsigned()->notNull(),
+					'userid' => $this->smallInteger(11)->unsigned()->notNull(),
 					'key' => $this->stringType(32)->notNull(),
 					'data' => $this->text()->notNull(),
 				],
@@ -2466,6 +2622,9 @@ class Base1 extends \App\Db\Importers\Base
 					'email' => $this->stringType(100)->defaultValue(''),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'category' => $this->stringType()->defaultValue(''),
+				],
+				'columns_mysql' => [
+					'active' => 'tinyint(1) DEFAULT \'0\'',
 				],
 				'primaryKeys' => [
 					['partners_pk', 'partnersid']
@@ -2581,6 +2740,9 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['scalculations_inventory_idx', 'id'],
 				],
@@ -2600,6 +2762,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2659,6 +2827,9 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['squoteenquiries_inventory_idx', 'id'],
 				],
@@ -2678,6 +2849,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2793,6 +2970,11 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'discountmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'taxmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['squotes_inventory_idx', 'id'],
 				],
@@ -2812,6 +2994,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2915,6 +3103,9 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['srecurringorders_inventory_idx', 'id'],
 				],
@@ -2934,6 +3125,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2995,6 +3192,9 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['srequirementscards_inventory_idx', 'id'],
 				],
@@ -3014,6 +3214,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3057,7 +3263,7 @@ class Base1 extends \App\Db\Importers\Base
 					'ssalesprocesses_type' => $this->stringType(),
 					'ssalesprocesses_status' => $this->stringType(),
 					'campaignid' => $this->integer(),
-					'parentid' => $this->integer(),
+					'parentid' => $this->integer()->defaultValue(0),
 					'startdate' => $this->date(),
 				],
 				'index' => [
@@ -3174,6 +3380,11 @@ class Base1 extends \App\Db\Importers\Base
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
+				'columns_mysql' => [
+					'discountmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'taxmode' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'qtyparam' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['ssingleorders_inventory_idx', 'id'],
 				],
@@ -3193,6 +3404,12 @@ class Base1 extends \App\Db\Importers\Base
 					'displaytype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'params' => $this->text(),
 					'colspan' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'block' => 'tinyint(1) unsigned NOT NULL',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'colspan' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3232,6 +3449,7 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'sum_total' => $this->decimal('27,8'),
 					'sum_marginp' => $this->decimal('10,2'),
+					'sum_margin' => $this->decimal('27,8'),
 					'vendorid' => $this->integer(),
 					'scalculationsid' => $this->integer(),
 				],
@@ -3251,10 +3469,15 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->integer(),
 					'seq' => $this->integer(10),
-					'name' => $this->integer()->notNull()->defaultValue(0),
-					'qty' => $this->decimal('25,3')->notNull()->defaultValue(0),
-					'comment1' => $this->text(),
+					'name' => $this->integer()->defaultValue(0),
+					'qty' => $this->decimal('25,3')->defaultValue(0),
 					'qtyparam' => $this->smallInteger(1)->defaultValue(0),
+					'comment1' => $this->text(),
+					'price' => $this->decimal('27,8')->defaultValue(0),
+					'total' => $this->decimal('27,8')->defaultValue(0),
+					'purchase' => $this->decimal('27,8')->defaultValue(0),
+					'marginp' => $this->decimal('27,8')->defaultValue(0),
+					'margin' => $this->decimal('27,8')->defaultValue(0),
 					'unit' => $this->stringType(),
 					'subunit' => $this->stringType(),
 				],
@@ -3305,12 +3528,12 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__timeline' => [
 				'columns' => [
-					'crmid' => $this->integer(11)->notNull(),
+					'crmid' => $this->integer()->notNull(),
 					'type' => $this->stringType(50),
-					'type' => $this->integer(11)->notNull(),
+					'userid' => $this->integer()->notNull(),
 				],
 				'index' => [
-					['timeline_crmid_idx', 'crmid']
+					['timeline_crmid_idx', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3321,6 +3544,9 @@ class Base1 extends \App\Db\Importers\Base
 					'module' => $this->integer()->unsigned()->notNull(),
 					'lock' => $this->smallInteger(1)->defaultValue(0),
 					'exceptions' => $this->text(),
+				],
+				'columns_mysql' => [
+					'lock' => 'tinyint(1) DEFAULT \'0\'',
 				],
 				'index' => [
 					['watchdog_module_idx', 'member'],
@@ -3336,6 +3562,9 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->integer()->unsigned()->notNull(),
 					'record' => $this->integer()->notNull(),
 					'state' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'state' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['watchdog_record_userid_idx', 'userid'],
@@ -3364,6 +3593,128 @@ class Base1 extends \App\Db\Importers\Base
 		];
 
 		$this->foreignKey = [
+			['dav_addressbooks_ibfk_1', 'dav_addressbooks', 'principaluri', 'dav_principals', 'uri', 'CASCADE', 'RESTRICT'],
+			['dav_calendarobjects_ibfk_1', 'dav_calendarobjects', 'calendarid', 'dav_calendars', 'id', 'CASCADE', 'RESTRICT'],
+			['dav_cards_ibfk_1', 'dav_cards', 'addressbookid', 'dav_addressbooks', 'id', 'CASCADE', 'RESTRICT'],
+			['roundcube_user_id_fk_cache', 'roundcube_cache', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_cache_index', 'roundcube_cache_index', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_cache_messages', 'roundcube_cache_messages', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_cache_thread', 'roundcube_cache_thread', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_contact_id_fk_contacts', 'roundcube_contactgroupmembers', 'contact_id', 'roundcube_contacts', 'contact_id', 'CASCADE', 'CASCADE'],
+			['roundcube_contactgroup_id_fk_contactgroups', 'roundcube_contactgroupmembers', 'contactgroup_id', 'roundcube_contactgroups', 'contactgroup_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_contactgroups', 'roundcube_contactgroups', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_contacts', 'roundcube_contacts', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_dictionary', 'roundcube_dictionary', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_identities', 'roundcube_identities', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_user_id_fk_searches', 'roundcube_searches', 'user_id', 'roundcube_users', 'user_id', 'CASCADE', 'CASCADE'],
+			['roundcube_users_autologin_ibfk_1', 'roundcube_users_autologin', 'rcuser_id', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
+			['u_#__activity_invitation_ibfk_1', 'u_#__activity_invitation', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__announcement', 'u_#__announcement', 'announcementid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__announcement_mark_ibfk_1', 'u_#__announcement_mark', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__announcementcf', 'u_#__announcementcf', 'announcementid', 'u_#__announcement', 'announcementid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cfixedassetscfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cfixedassetscfcfixedassetsid', 'u_#__cfixedassetscf', 'cfixedassetsid', 'u_#__cfixedassets', 'cfixedassetsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cinternalticketscinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cinternalticketscfcinternalticketsid', 'u_#__cinternalticketscf', 'cinternalticketsid', 'u_#__cinternaltickets', 'cinternalticketsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cmileagelogbookcmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cmileagelogbookcfcmileagelogbookid', 'u_#__cmileagelogbookcf', 'cmileagelogbookid', 'u_#__cmileagelogbook', 'cmileagelogbookid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__competition', 'u_#__competition', 'competitionid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__competition_address_ibfk_1', 'u_#__competition_address', 'competitionaddressid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__competitioncf', 'u_#__competitioncf', 'competitionid', 'u_#__competition', 'competitionid', 'CASCADE', 'RESTRICT'],
+			['u_#__crmentity_last_changes_ibfk_1', 'u_#__crmentity_last_changes', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_u_#__crmentity_showners', 'u_#__crmentity_showners', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__documents_emailtemplates', 'u_#__documents_emailtemplates', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_2_u_#__documents_emailtemplates', 'u_#__documents_emailtemplates', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_emailtemplatesemailtemplatesid', 'u_#__emailtemplates', 'emailtemplatesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__favorites', 'u_#__favorites', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_u_#__favorites', 'u_#__favorites', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__fbookkeeping_ibfk_1', 'u_#__fbookkeeping', 'fbookkeepingid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__fbookkeepingcf_ibfk_1', 'u_#__fbookkeepingcf', 'fbookkeepingid', 'u_#__fbookkeeping', 'fbookkeepingid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_fcorectinginvoice', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__fcorectinginvoice_address_ibfk_1', 'u_#__fcorectinginvoice_address', 'fcorectinginvoiceaddressid', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__fcorectinginvoice_inventory', 'u_#__fcorectinginvoice_inventory', 'id', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__fcorectinginvoicecf', 'u_#__fcorectinginvoicecf', 'fcorectinginvoiceid', 'u_#__fcorectinginvoice', 'fcorectinginvoiceid', 'CASCADE', 'RESTRICT'],
+			['u_#__featured_filter_ibfk_1', 'u_#__featured_filter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoice', 'u_#__finvoice', 'finvoiceid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__finvoice_address_ibfk_1', 'u_#__finvoice_address', 'finvoiceaddressid', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoice_inventory', 'u_#__finvoice_inventory', 'id', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoicecf', 'u_#__finvoicecf', 'finvoiceid', 'u_#__finvoice', 'finvoiceid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoicecost', 'u_#__finvoicecost', 'finvoicecostid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__finvoicecost_address_ibfk_1', 'u_#__finvoicecost_address', 'finvoicecostaddressid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoicecostcf', 'u_#__finvoicecostcf', 'finvoicecostid', 'u_#__finvoicecost', 'finvoicecostid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoiceproforma', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__finvoiceproforma_inventory', 'u_#__finvoiceproforma_inventory', 'id', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_finvoiceproformacf', 'u_#__finvoiceproformacf', 'finvoiceproformaid', 'u_#__finvoiceproforma', 'finvoiceproformaid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdn_ibfk_1', 'u_#__igdn', 'igdnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igdn_inventory', 'u_#__igdn_inventory', 'id', 'u_#__igdn', 'igdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdnc_ibfk_1', 'u_#__igdnc', 'igdncid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igdnc_inventory', 'u_#__igdnc_inventory', 'id', 'u_#__igdnc', 'igdncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdnccf_ibfk_1', 'u_#__igdnccf', 'igdncid', 'u_#__igdnc', 'igdncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igdncf_ibfk_1', 'u_#__igdncf', 'igdnid', 'u_#__igdn', 'igdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__igin_ibfk_1', 'u_#__igin', 'iginid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igin_inventory', 'u_#__igin_inventory', 'id', 'u_#__igin', 'iginid', 'CASCADE', 'RESTRICT'],
+			['u_#__igincf_ibfk_1', 'u_#__igincf', 'iginid', 'u_#__igin', 'iginid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrn_ibfk_1', 'u_#__igrn', 'igrnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igrn_inventory', 'u_#__igrn_inventory', 'id', 'u_#__igrn', 'igrnid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrnc_ibfk_1', 'u_#__igrnc', 'igrncid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__igrnc_inventory', 'u_#__igrnc_inventory', 'id', 'u_#__igrnc', 'igrncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrnccf_ibfk_1', 'u_#__igrnccf', 'igrncid', 'u_#__igrnc', 'igrncid', 'CASCADE', 'RESTRICT'],
+			['u_#__igrncf_ibfk_1', 'u_#__igrncf', 'igrnid', 'u_#__igrn', 'igrnid', 'CASCADE', 'RESTRICT'],
+			['u_#__iidn_ibfk_1', 'u_#__iidn', 'iidnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__iidn_inventory', 'u_#__iidn_inventory', 'id', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
+			['u_#__iidncf_ibfk_1', 'u_#__iidncf', 'iidnid', 'u_#__iidn', 'iidnid', 'CASCADE', 'RESTRICT'],
+			['u_#__ipreorder_ibfk_1', 'u_#__ipreorder', 'ipreorderid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ipreorder_inventory', 'u_#__ipreorder_inventory', 'id', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
+			['u_#__ipreordercf_ibfk_1', 'u_#__ipreordercf', 'ipreorderid', 'u_#__ipreorder', 'ipreorderid', 'CASCADE', 'RESTRICT'],
+			['u_#__istdn_ibfk_1', 'u_#__istdn', 'istdnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__istdn_inventory', 'u_#__istdn_inventory', 'id', 'u_#__istdn', 'istdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istdncf_ibfk_1', 'u_#__istdncf', 'istdnid', 'u_#__istdn', 'istdnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istn_ibfk_1', 'u_#__istn', 'istnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istncf_ibfk_1', 'u_#__istncf', 'istnid', 'u_#__istn', 'istnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_ibfk_1', 'u_#__istorages', 'istorageid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_address_ibfk_1', 'u_#__istorages_address', 'istorageaddressid', 'u_#__istorages', 'istorageid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_products_ibfk_1', 'u_#__istorages_products', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istorages_products_ibfk_2', 'u_#__istorages_products', 'relcrmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__istoragescf_ibfk_1', 'u_#__istoragescf', 'istorageid', 'u_#__istorages', 'istorageid', 'CASCADE', 'RESTRICT'],
+			['u_#__istrn_ibfk_1', 'u_#__istrn', 'istrnid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__istrn_inventory', 'u_#__istrn_inventory', 'id', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
+			['u_#__istrncf_ibfk_1', 'u_#__istrncf', 'istrnid', 'u_#__istrn', 'istrnid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_knowledgebase', 'u_#__knowledgebase', 'knowledgebaseid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_knowledgebasecf', 'u_#__knowledgebasecf', 'knowledgebaseid', 'u_#__knowledgebase', 'knowledgebaseid', 'CASCADE', 'RESTRICT'],
+			['u_#__mail_address_book_ibfk_1', 'u_#__mail_address_book', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_notification', 'u_#__notification', 'notificationid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__partners', 'u_#__partners', 'partnersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__partners_address_ibfk_1', 'u_#__partners_address', 'partneraddressid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__partnerscf', 'u_#__partnerscf', 'partnersid', 'u_#__partners', 'partnersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__reviewed_queue', 'u_#__reviewed_queue', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__scalculations', 'u_#__scalculations', 'scalculationsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__scalculations_inventory', 'u_#__scalculations_inventory', 'id', 'u_#__scalculations', 'scalculationsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__scalculationscf', 'u_#__scalculationscf', 'scalculationsid', 'u_#__scalculations', 'scalculationsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squoteenquiries', 'u_#__squoteenquiries', 'squoteenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squoteenquiries_inventory', 'u_#__squoteenquiries_inventory', 'id', 'u_#__squoteenquiries', 'squoteenquiriesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squoteenquiriescf', 'u_#__squoteenquiriescf', 'squoteenquiriesid', 'u_#__squoteenquiries', 'squoteenquiriesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squotes', 'u_#__squotes', 'squotesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__squotes_address_ibfk_1', 'u_#__squotes_address', 'squotesaddressid', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squotes_inventory', 'u_#__squotes_inventory', 'id', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__squotescf', 'u_#__squotescf', 'squotesid', 'u_#__squotes', 'squotesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srecurringorders', 'u_#__srecurringorders', 'srecurringordersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__srecurringorders_address_ibfk_1', 'u_#__srecurringorders_address', 'srecurringordersaddressid', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srecurringorders_inventory', 'u_#__srecurringorders_inventory', 'id', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srecurringorderscf', 'u_#__srecurringorderscf', 'srecurringordersid', 'u_#__srecurringorders', 'srecurringordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srequirementscards', 'u_#__srequirementscards', 'srequirementscardsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srequirementscards_inventory', 'u_#__srequirementscards_inventory', 'id', 'u_#__srequirementscards', 'srequirementscardsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__srequirementscardscf', 'u_#__srequirementscardscf', 'srequirementscardsid', 'u_#__srequirementscards', 'srequirementscardsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssalesprocesses', 'u_#__ssalesprocesses', 'ssalesprocessesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssalesprocessescf', 'u_#__ssalesprocessescf', 'ssalesprocessesid', 'u_#__ssalesprocesses', 'ssalesprocessesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssingleorders', 'u_#__ssingleorders', 'ssingleordersid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__ssingleorders_address_ibfk_1', 'u_#__ssingleorders_address', 'ssingleordersaddressid', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssingleorders_inventory', 'u_#__ssingleorders_inventory', 'id', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__ssingleorderscf', 'u_#__ssingleorderscf', 'ssingleordersid', 'u_#__ssingleorders', 'ssingleordersid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__svendorenquiries', 'u_#__svendorenquiries', 'svendorenquiriesid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__svendorenquiriescf', 'u_#__svendorenquiriescf', 'svendorenquiriesid', 'u_#__svendorenquiries', 'svendorenquiriesid', 'CASCADE', 'RESTRICT'],
+			['fk_1_u_#__timeline', 'u_#__timeline', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__watchdog_record_ibfk_1', 'u_#__watchdog_record', 'record', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['u_#__watchdog_schedule_ibfk_1', 'u_#__watchdog_schedule', 'userid', 'vtiger_users', 'id', 'CASCADE', 'RESTRICT'],
 		];
 	}
 
