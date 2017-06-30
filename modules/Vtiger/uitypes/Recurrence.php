@@ -53,7 +53,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	public static function getRecurringInfo($value)
 	{
 		$result = [];
-		if (!$value) {
+		if ($value) {
 			$values = explode(';', $value);
 			foreach ($values as $val) {
 				$val = explode('=', $val, 2);
