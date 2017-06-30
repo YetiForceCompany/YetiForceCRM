@@ -35,7 +35,7 @@ $jsLanguageStrings = [
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Dépendance supprimée avec succès',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Etes-vous sur de vouloir supprimer cette dépendance de liste déroulante?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Dépendance liste déroulante sauvegardée',
-	'JS_SELECT_SOME_VALUE' => 'Sélect quelque valeur',
+	'JS_SELECT_SOME_VALUE' => 'Sélectionner une valeur',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Le champ source et destination ne peuvent être identiques',
 	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Aucune dépendance saisie. Aucune modification sauvegardée.',
 ];

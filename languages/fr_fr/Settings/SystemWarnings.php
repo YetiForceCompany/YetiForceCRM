@@ -1,37 +1,26 @@
 <?php
-/**
- * SystemWarnings french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	// Folders
-	'SystemRequirements' => 'Exigence systeme',
+	'SystemRequirements' => 'Configuration requise',
 	// Actions
-	'LBL_LIBRARY_PDF' => 'Librairie mPDF',
-	'LBL_LIBRARY_ROUNDCUBE' => 'Librairie Roundcube',
-	'LBL_LIBRARY_PHPEXCEL' => 'Librairie PHPExcel',
-	'LBL_CONFIG_REPORT' => 'Configuracion Serveur',
-	'LBL_CONFIG_REPORT_LINK' => 'Afficher les librairies manquantes',
-	'LBL_CONFIG_REPORT_DESC' => 'Le serveur est incorrectement configuré. Le système peut de mal fonctionner, ou les données saisies peuvent être corrompues ou supprimées. Plus d’informations dans l’article <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>sur la configuration requise du serveur (anglais)</u></a>',
-	'LBL_NEWSLETTER' => 'Infolettre',
-	'LBL_NEWSLETTER_DESC' => 'Inscrivez-vous l’infolettre gratuite YetiForce’s. Suivre les toutes dernières fonctionnalités du système et pour en savoir plus sur le secteur du CRM. Nous vous enverrons des informations sur les nouvelles versions, les mises à jour, les événements, les nouveaux ajouts au système et bien plus encore. <br />Rejoignez notre communauté et rester à jour. <br />Une connexion à Internet est nécessaire pour vous inscrire.',
-	'LBL_STATS' => 'Envoer les statistiques',
-	'LBL_STATS_DESC' => 'Aidez-nous à améliorer YetiForce et nos services en nous envoyant des informations anonymes sur votre version actuelle du CRM. <br />Les données que nous recueillons comporte : les questions <ul><li>Votre clé unique de l’instance générée uniquement dans le but de proposer l’infolettre</li> de <li>Votre langue</li> <li>La version du système</li> <li>Le fuseau horaire</li></ul>Nous prenons la sécurité très au sérieux et nous nous assurons que les données recueillies sont utilisées uniquement à des fins de statistiques. <br />Nous rejoindre et construire avec nous les communautés YetiForce.',
+	'LBL_LIBRARY_PDF' => 'Bibliothèque mPDF',
+	'LBL_LIBRARY_ROUNDCUBE' => 'Bibliothèque Roundcube',
+	'LBL_LIBRARY_PHPEXCEL' => 'Bibliothèque PHPExcel',
+	'LBL_LIBRARY_CHAT' => 'Bibliothèque AJAXChat',
+	'LBL_CONFIG_REPORT' => 'Configuration du serveur',
+	'LBL_CONFIG_REPORT_LINK' => 'Afficher la bibliothèque manquante',
+	'LBL_CONFIG_REPORT_DESC' => 'Le serveur n\'a pas été correctement configuré. Le système peut ne pas fonctionner correctement ou les données saisies peuvent être endommagées ou supprimées. Plus d\'informations dans l\'article <a href=\"https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html\"><u>Exigences du serveur pour yetiforce</u></a>',
+	'LBL_NEWSLETTER' => 'Newsletter',
+	'LBL_NEWSLETTER_DESC' => 'Inscrivez-vous à la newsletter gratuite de YetiForce. Suivez toutes les dernières fonctionnalités du système et découvrez davantage sur le secteur CRM. Nous vous enverrons des informations sur les nouvelles versions, les mises à jour, les événements, les nouveaux ajouts au système et bien plus encore. Joignez-vous à notre communauté et restez à jour.<br />Une connexion à Internet est nécessaire pour vous inscrire.',
+	'LBL_STATS' => 'Envoyer des informations statistiques',
+	'LBL_STATS_DESC' => 'Aidez-nous à améliorer YetiForce et nos services en nous envoyant des informations anonymes sur votre version CRM actuelle.<br />Les données que nous collectons incluent: <ul><li>la clé unique de votre instance générée uniquement à des fins de newsletter</li><li>version système</li><li>langue</li><li>Fuseau horaire</li></ul>Nous traitons les questions de sécurité extrêmement sérieusement et nous nous assurons que les données recueillies ne sont utilisées qu\'à des fins statistiques. Joignez-vous à nous et construisez la communauté de YetiForce avec nous.',
 	// Alerts
-	'LBL_SAVE_TO_NEWSLETTER' => 'Inscrivez-vous à l’infolettre',
-	'LBL_REMIND_LATER' => 'Se souvenir de moi',
-	'LBL_DATA_SAVE_OK' => 'Données enregistrées correctement',
-	'LBL_DATA_SAVE_FAIL' => 'Une erreur est survenue lors de l’enregistrement, SVP regarder vos journaux (logs)',
+	'LBL_SAVE_TO_NEWSLETTER' => 'S\'inscrire aux Newsletters',
+	'LBL_REMIND_LATER' => 'Rappelez-moi plus tard',
 	// Others
 	'BTN_SET_IGNORE' => 'Ignorer',
-	'BTN_REMOVE_IGNORE' => 'Ne plus ignorer',
-	'LBL_MISSING_LIBRARY' => 'A détecté que la bibliothèque n’est pas installée. Une partie des fonctionnalités sont verrouillées, cliquer ici pour lancer le téléchargement de la librairies. Si le CRM n’est pas connecté à Internet, vous pouvez télécharger les fichiers et les copier dans le dossier : %s',
-	'BTN_DOWNLOAD_LIBRARY' => 'Télécharger la librairie',
-	'LBL_SERVER_HTTPS' => 'HTTPS encryption',
-	'BTN_CONFIGURE_HTTPS' => 'Recommended configuration',
-	'LBL_MISSING_HTTPS' => 'Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the "Web server requirements" article in the documentation.',
-	'LBL_DISK_USAGE' => 'Disk space available',
-	'LBL_DISK_FULL' => 'There is not enough free space on your disk, so the system may stop working. Directory path: %s',
+	'BTN_REMOVE_IGNORE' => 'Ne pas ignorer',
+	'LBL_MISSING_LIBRARY' => 'Bibliothèque manquante détectée. Certaines fonctionnalités ont été désactivées. Pour les activer, veuillez télécharger la bibliothèque. Si le CRM n\'a pas de connexion Internet, vous pouvez télécharger les fichiers et les copier dans le dossier %s.',
+	'BTN_DOWNLOAD_LIBRARY' => 'Télécharger la bibliothèque',
 ];

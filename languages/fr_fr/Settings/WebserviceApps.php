@@ -1,11 +1,8 @@
 <?php
-/**
- * WebserviceApps french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_TITLE_EDIT' => 'Modifier',
+	'LBL_TITLE_ADDED' => 'Ajouter',
 	'LBL_APP_NAME' => 'Nom',
 	'LBL_ADDRESS_URL' => 'URL',
 	'LBL_TYPE_SERVER' => 'Type',
@@ -16,5 +13,5 @@ $languageStrings = [
 	'LBL_PASS' => 'Mot de passe',
 ];
 $jsLanguageStrings = [
-	'JS_DELETE_CONFIRMATION' => 'Etes-vous sûr de vouloir supprimer cette clé?',
+	'JS_DELETE_CONFIRMATION' => 'Etes-vous sûr de vouloir supprimer cette clé ?',
 ];

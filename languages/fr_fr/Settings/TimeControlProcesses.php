@@ -1,12 +1,15 @@
 <?php
-/**
- * TimeControlProcesses french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * *********************************************************************************************************************************** */
 $languageStrings = [
-	'LBL_TIMECONTROL_PROCESSES' => 'Flux de Travail (Workflow)',
+	'LBL_TIMECONTROL_PROCESSES' => 'Workflow',
 	'LBL_TIMECONTROL_PROCESSES_DESCRIPTION' => ' ',
 	'LBL_ONEDAY_VALID' => 'Temps de travail limité à 24 heures',
 	'LBL_TIMEOVERLAP_VALID' => 'Autoriser le chevauchement des temps',

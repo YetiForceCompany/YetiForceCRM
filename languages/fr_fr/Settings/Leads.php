@@ -1,11 +1,7 @@
 <?php
-/**
- * Leads french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'sharedOwner' => ' ',
 	'Leads' => 'Prospects',
 	'LBL_OPPURTUNITIES' => 'Opportunités',
 	'checkBox' => 'Case à cocher',
@@ -36,9 +32,11 @@ $languageStrings = [
 	'time' => 'Heure',
 	'url' => 'URL',
 	'LBL_CONVERSION_TO_ACCOUNT' => 'Convertir vers une organisation',
+
 ];
 
 $jsLanguageStrings = [
+	'JS_sharedOwner' => ' ',
 	'JS_CANT_MAP' => 'Mapping impossible',
 	'JS_checkBox' => 'Case à cocher',
 	'JS_currency' => 'Devise',
@@ -62,4 +60,5 @@ $jsLanguageStrings = [
 	'JS_url' => 'URL',
 	'JS_WITH' => 'avec',
 	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Mapping des champs sauvegardés',
+
 ];

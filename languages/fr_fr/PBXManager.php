@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Customer Type' => 'Type de client',
+
 	//Blocks
 	'LBL_PBXMANAGER_INFORMATION' => 'Détails des appels',
 	'LBL_CUSTOM_INFORMATION' => 'Information particulière',
@@ -25,7 +27,7 @@ $languageStrings = [
 	'Recording URL' => 'Enregistrement',
 	'Start Time' => 'Heure de début',
 	'Call Status' => 'Statut de l\'appel',
-	'Customer Number' => 'Numéro du client',
+	'Customer Number' => 'N° du client',
 	'Customer' => 'Client',
 	'User' => 'Utilisateur',
 	'SINGLE_PBXManager' => 'Liste des appels',
@@ -34,5 +36,5 @@ $languageStrings = [
 	'Customer type' => 'Type de client',
 	'Source UUID' => 'UUID source',
 	'End Time' => 'Heure de fin',
-	'Record Id' => 'ID de l\'appel',
+	'Record Id' => 'N° ID de l\'appel',
 ];

@@ -1,5 +1,5 @@
 <?php
-/* +***********************************************************************************
+/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,10 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- * ********************************************************************************** */
+ ************************************************************************************/
 $languageStrings = [
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Nombre de notifications par consommateurs',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Nombre de notifications par radiodiffuseurs',
+	'LBL_SEND_NOTIFICATION_MAIL' => 'Envoyer un e-mail',
 	'LBL_MARK_AS_READ' => 'Marquer comme lu',
-	'LBL_MESSAGES_FROM_USERS' => 'Messages des utilisateurs',
+	'LBL_MESSAGES_FROM_USERS' => 'Messages',
 	'LBL_WATCHDOG' => 'Suivi',
 	'ALVT' => 'Top Comptes',
 	'CVLVT' => 'Métriques clés',
@@ -26,7 +29,6 @@ $languageStrings = [
 	'QLTQ' => 'Top Devis',
 	'UA' => 'Activités à venir',
 	'LBL_WATCHING_MODULES' => 'Modules surveillés',
-	'LBL_SEND_NOTIFICATION_MAIL' => 'Envoyer via email',
 	'LBL_NO_NOTIFICATIONS' => 'Pas de notifications',
 	'Notifications' => 'Notifications',
 	'LBL_CREATING_NOTIFICATION' => 'Envoyer une notification',
@@ -37,6 +39,7 @@ $languageStrings = [
 	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Fréquence du lancement du CRON',
 	'LBL_SCHEDULE' => 'Planification',
 	'LBL_CRON' => 'Cron',
+	
 	'PLL_5_MIN' => '5 minutes',
 	'PLL_15_MIN' => '15 minutes',
 	'PLL_30_MIN' => '30 minutes',
@@ -48,7 +51,7 @@ $languageStrings = [
 	'LBL_TYPE_NOTIFICATIONS' => 'Types de notification',
 	'LBL_TITLE' => 'Titre',
 	'LBL_MESSAGE' => 'Message',
-	'LBL_TIME' => 'Chronomètre',
+	'LBL_TIME' => 'Timer',
 ];
 
 $jsLanguageStrings = [
