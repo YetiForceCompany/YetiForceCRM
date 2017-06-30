@@ -182,6 +182,8 @@ $languageStrings = [
 	'LBL_ADDED_COMPANY_FIELD' => 'Hinzugefügtes Feld',
 	'LBL_FIELD_NOT_VALID' => 'Feld darf nur Buchstaben beinhalten',
 	'LBL_EXTENDED_MODULES' => 'Erweiterte Module',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_BRUTEFORCE_DESCRIPTION' => 'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
 	'LBL_BRUTEFORCE' => 'Passwords - Brute force',
