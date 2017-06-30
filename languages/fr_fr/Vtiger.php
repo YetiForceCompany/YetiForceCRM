@@ -492,6 +492,8 @@ $languageStrings = [
 	'LBL_RESULT_FOR_THE_TAG' => 'Résultats pour le tag',
 	'LBL_Sat' => 'Sam',
 	'LBL_SAVE' => 'Sauvegarder',
+	'BTN_SAVE' => 'Save',
+  	'BTN_CLOSE' => 'Close',
 	'LBL_SAVE_AS_DRAFT' => 'Sauvegarder en tant que brouillon',
 	'LBL_SAVE_AS_FILTER' => 'Sauvegarder en tant que filtre',
 	'LBL_SAVE_FILTER' => 'Sauvegarder Filtre',
@@ -1266,6 +1268,7 @@ $languageStrings = [
 	'LBL_ADD_FILES' => 'Add files',
 	'BTN_ADD_FILE' => 'Add file',
 	'BTN_SUBMIT' => 'Submit',
+	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 ];
 $jsLanguageStrings = [
 	'JS_Haute' => 'Haute',
