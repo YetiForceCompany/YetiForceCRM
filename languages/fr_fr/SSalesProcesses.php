@@ -1,20 +1,20 @@
 <?php
-/**
- * SSalesProcesses french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_SHOW_HIERARCHY' => 'Hiérarchie',
+	'FL_START_DATE' => 'Date de début',
+	'FL_MEMBER_OF' => 'Opportunité maitre',
 	'FL_CAMPAIGN' => 'Campagne',
 	'SSalesProcesses' => 'Opportunités',
 	'SINGLE_SSalesProcesses' => 'Opportunité',
+	
 	//BLOCKS
-	'LBL_SSALESPROCESSES_INFORMATION' => 'Informations',
+	'LBL_SSALESPROCESSES_INFORMATION' => 'Détails opportunités',
 	'LBL_CUSTOM_INFORMATION' => 'Informations systèmes',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_ATTENTION' => 'Commentaires',
 	'LBL_FINANCES' => 'Finances',
+	
 	//FIELDS
 	'LBL_SUBJECT' => 'Identifiant [auto]',
 	'LBL_NUMBER' => 'Nombre',
@@ -27,6 +27,7 @@ $languageStrings = [
 	'FL_SOURCE' => 'Source',
 	'FL_TYPE' => 'Type',
 	'FL_STATUS' => 'Phase de vente',
+	
 	//Picklist
 	'PLL_WEBSITE' => 'Site web',
 	'PLL_PHONE' => 'Téléphone',
@@ -39,7 +40,7 @@ $languageStrings = [
 	'PLL_OTHER' => 'Autre',
 	'PLL_NEW_SALES' => 'Nouvelles ventes',
 	'PLL_RENEWAL' => 'Renouvellement',
-	'PLL_AFTERSALES' => 'Aftersales',
+	'PLL_AFTERSALES' => 'Après vente',
 	'PLL_TENDER' => 'Offre',
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_FOR_REALIZATION' => 'A réaliser',
@@ -57,6 +58,7 @@ $languageStrings = [
 	'PLL_SALE_COMPLETED' => 'Gagnée',
 	'PLL_SALE_FAILED' => 'Perdue',
 	'PLL_SALE_CANCELLED' => 'Abandonnée',
+	
 	'LBL_SWITCHHEADER_ON_0' => 'Ouverte',
 	'LBL_SWITCHHEADER_OFF_0' => 'Fermée',
 	'LBL_HEADERSWITCH_OPEN_CLOSED' => 'Ouverte/Fermée',

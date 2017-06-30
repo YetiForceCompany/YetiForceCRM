@@ -74,7 +74,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$sslMode = (isset($parseHost['scheme']) && in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
 			if (!empty($parseHost['port'])) {
 				$port = $parseHost['port'];
-			} else if ($sslMode && $sslMode != 'tls' && (!$config['default_port'] || $config['default_port'] == 143)) {
+			} else if ($sslMode && $sslMode !== 'tls' && (!$config['default_port'] || $config['default_port'] == 143)) {
 				$port = 993;
 			}
 		} else {
@@ -96,14 +96,19 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$sslMode = '';
 		}
 		imap_timeout(IMAP_OPENTIMEOUT, 5);
-		$options = 0;
-		$maxRetries = $config['imap_max_retries'];
-		$params = $config['imap_params'];
+		$maxRetries = $options = 0;
+		if (isset($config['imap_max_retries'])) {
+			$maxRetries = $config['imap_max_retries'];
+		}
+		$params = [];
+		if (isset($config['imap_params'])) {
+			$params = $config['imap_params'];
+		}
 		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
-		\App\Log::trace("imap_open(({" . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ") method ...");
+		\App\Log::trace("imap_open(({" . static::$imapConnectMailbox . ", $user , $password. $options, $maxRetries, " . var_export($params, true) . ') method ...');
 		$mbox = @imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);
 		if (!$mbox) {
-			\App\Log::error("Error OSSMail_Record_Model::imapConnect(): " . imap_last_error());
+			\App\Log::error('Error OSSMail_Record_Model::imapConnect(): ' . imap_last_error());
 			if ($dieOnError) {
 				vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . imap_last_error());
 			}

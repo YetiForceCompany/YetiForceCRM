@@ -1,17 +1,24 @@
 <?php
-/**
- * OSSSoldServices french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * Contributor(s): 
+ * *********************************************************************************************************************************** */
 $languageStrings = [
+	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Non applicable (vérification)',
+	'PLL_NOT_RENEWED_VERIFICATION' => 'Non renouvelé (vérification)',
+	'PLL_RENEWED_VERIFICATION' => 'Renouvelé (vérification)',
 	'OSSSoldServices' => 'Services vendus',
 	'SINGLE_OSSSoldServices' => 'Service vendu',
 	'LBL_RECORDS_LIST' => 'Liste des enregistrements',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	// Blocks
-	'LBL_INFORMATION' => 'Bloc Information',
+	'LBL_INFORMATION' => 'Détails du service vendu',
 	// Field Labels
 	'Number' => 'Nombre',
 	'Assigned To' => 'Assigné à',
@@ -25,7 +32,7 @@ $languageStrings = [
 	'Description' => 'Description',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_CUSTOM_INFORMATION' => 'Information système',
-	'Where bought' => 'lieu d\'achat',
+	'Where bought' => 'Lieu d\'achat',
 	'Services' => 'Services',
 	'LBL_GENERATE_EXTENSION' => 'Génerer une extension',
 	'LBL_ORDER_TIME' => 'Heure de commance',
@@ -43,9 +50,6 @@ $languageStrings = [
 	'PLL_NOT_RENEWED' => 'Non renouvelé',
 	'PLL_NOT_APPLICABLE' => 'Non applicable',
 	'LBL_SET_RENEWAL' => 'Configurer le renouvellement',
-	'PLL_RENEWED_VERIFICATION' => 'Renouvelé (vérification)',
-	'PLL_NOT_RENEWED_VERIFICATION' => 'Non renouvelé (vérification)',
-	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Non applicable (vérification)',
 ];
 
 ?>

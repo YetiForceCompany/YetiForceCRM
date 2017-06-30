@@ -183,6 +183,8 @@ $languageStrings = [
 	'LBL_EXTENDED_MODULES' => 'Módulos estendidos',
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo da empresa visível no Sistema',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo da empresa visível no Painel de Acesso',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor Criar Rápido',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'O módulo permite alterar o layout dos campos na janela criar rápido',

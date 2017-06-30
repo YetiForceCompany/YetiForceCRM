@@ -1,19 +1,16 @@
 <?php
-/**
- * SRecurringOrders french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'SRecurringOrders' => 'Commandes récurrentes (ventes)',
 	'SINGLE_SRecurringOrders' => 'Commande récurrente (ventes)',
+	
 	//BLOCKS
-	'LBL_SRECURRINGORDERS_INFORMATION' => 'Information',
+	'LBL_SRECURRINGORDERS_INFORMATION' => 'Détails commande récurrente (ventes)',
 	'LBL_CUSTOM_INFORMATION' => 'Information système',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_STATISTICS' => 'Statistiques',
 	'LBL_PERIODIC_GENERATION' => 'Génération périodique',
+	
 	//FIELDS
 	'LBL_SUBJECT' => 'Sujet',
 	'LBL_NUMBER' => 'Nombre',
@@ -25,10 +22,12 @@ $languageStrings = [
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Date de fin réelle',
 	'LBL_COMPANY_NAME' => 'Société',
 	'SINGLE_SSalesProcesses' => 'Opportunité',
+	
 	'LBL_END_PERIOD' => 'Fin de période',
 	'LBL_FREQUENCY' => 'Fréquence',
-	'LBL_START_PERIOD' => 'Début de périod',
+	'LBL_START_PERIOD' => 'Période de début',
 	'LBL_TARGET_MODULE' => 'Module destination',
+	
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_REQUIRES_TO_BE_COMPLEMENTED' => 'Requiert des informations complémentaires',
@@ -39,6 +38,7 @@ $languageStrings = [
 	'PLL_AUTOMATIC_GENERATION' => 'Génération automatique',
 	'PLL_UNREALIZED' => 'Non fait',
 	'PLL_REALIZED' => 'Fait',
+	
 	'+1 day' => 'Quotidien',
 	'+7 days' => 'Hebdomadaire',
 	'+14 days' => 'Toutes les 2 semaines',
@@ -58,5 +58,6 @@ $languageStrings = [
 	'last day of next month' => 'Dernier jour du mois suivant',
 	'first day of +3 months' => 'Premier jour du trimestre suivant',
 	'last day of +3 months' => 'Dernier jour du trimestre suivant',
+
 	'LBL_CHANGE_STATUS' => 'Changer le statut',
 ];

@@ -938,6 +938,17 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_pbx` */
+
+CREATE TABLE `s_yf_pbx` (
+  `pbxid` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `default` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(50) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `param` text,
+  PRIMARY KEY (`pbxid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_privileges_updater` */
 
 CREATE TABLE `s_yf_privileges_updater` (

@@ -1,21 +1,35 @@
 <?php
-/**
- * OSSMailView french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * Contributor(s): 
+ *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_SET_RELOAD_RELATIONS' => 'Recharger la relation',
+	'BTN_RESET_RELATED_MAILS' => 'Réinitialiser les emails liés',
+	'LBL_ORGINAL_MAIL_CONTENT' => 'Contenu du message d\'origine',
+	'LBL_COUNT_ALL_MAILS' => 'Nombre total d\'emails',
+	'LBL_COLLAPSE_ALL' => 'Réduire tout',
+	'LBL_EXPAND_ALL' => 'Agrandir tout',
+	'LBL_CHANGE_FILTER' => 'Modification filtre des messages',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Afficher un aperçu de tous les emails',
+	'LBL_SHOW_PREVIEW_EMAIL' => 'Afficher un aperçu de l\'email',
 	// Basic Strings
-	'OSSMailView' => 'Emails société',
+	'OSSMailView'        => 'Emails société',
 	'SINGLE_OSSMailView' => 'Email société',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_RECORDS_LIST' => 'Liste des emails',
+
 	// Blocks
-	'LBL_INFORMATION' => 'Information générale',
-	'LBL_ORIGN_MESSAGE' => 'Message originel',
+	'LBL_INFORMATION' => 'Détails emails société',
+	'LBL_ORIGN_MESSAGE' => 'Message d\'origine',
 	//Field Labels
-	'relatedid' => 'Relatif à',
+    'relatedid' => 'Relatif à',
 	'number' => 'Nombre',
 	'yes' => 'Oui',
 	'no' => 'Non',
@@ -23,33 +37,33 @@ $languageStrings = [
 	'To' => 'A',
 	'CC' => 'CC',
 	'BCC' => 'BCC',
-	'Date' => 'Date',
-	'Subject' => 'Sujet',
-	'Content' => 'Contenu',
-	'SendType' => 'Type',
-	'Sent' => 'Envoyé',
-	'Received' => 'Reçu',
-	'Internal' => 'Interne',
-	'Sent' => 'Envoyé',
-	'Spam' => 'Spam',
-	'Trash' => 'Poubelle',
-	'Fromaddress' => 'De l\ádresse',
-	'Toaddress' => 'A l\'adresse',
-	'messageid' => 'ID Message',
-	'Reply_to_email' => 'Répondre à',
-	'Reply_toaddress' => 'Répondre à l\'adresse',
-	'Attachments_Exist' => 'Attachements',
-	'Email_list' => 'Emails',
-	'Widget list limit' => 'Nombre de messages dans le résumé',
-	'_self' => 'Même fenêtre',
-	'_blank' => 'Nouvelle fenêtre',
-	'List open email' => 'En cliquant sur ouvrir le',
-	'emailPreviewHeader' => 'Prévisualiser votre email',
-	'Email_list' => 'Email',
-	'LBL_CREATEMAIL' => 'Envoyer un email',
-	'LBL_OUTCOMING' => 'Sortant',
-	'LBL_INCOMING' => 'Entrant',
-	'LBL_INTERNAL' => 'Interne',
+	'Date'=>'Date',
+	'Subject'=>'Sujet',
+	'Content'=>'Contenu',
+	'SendType'=>'Type',
+	'Sent'=>'Envoyé',
+	'Received'  => 'Reçu',
+	'Internal'  => 'Interne',
+	'Sent'  => 'Envoyé',
+	'Spam'  => 'Spam',
+	'Trash'  => 'Poubelle',
+	'Fromaddress'=>'De l\ádresse',
+	'Toaddress'=>'A l\'adresse',
+	'messageid'=>'ID Message',
+	'Reply_to_email'=>'Répondre à',
+	'Reply_toaddress'=>'Répondre à l\'adresse',
+	'Attachments_Exist'=>'Attachements',
+	'Email_list'=>'Emails',
+	'Widget list limit'=>'Nombre de messages dans le résumé',
+	'_self'=>'Même fenêtre',
+	'_blank'=>'Nouvelle fenêtre',
+	'List open email'=>'En cliquant sur ouvrir le',
+	'emailPreviewHeader'=>'Prévisualiser votre email',
+	'Email_list'=>'Email',
+    'LBL_CREATEMAIL' => 'Envoyer un email',
+    'LBL_OUTCOMING' => 'Sortant',
+    'LBL_INCOMING' => 'Entrant',
+    'LBL_INTERNAL' => 'Interne',
 	'LBL_REPLYALLL' => 'Répondre à tous',
 	'LBL_PRINT' => 'Imprimer',
 	'Date of receipt' => 'Date de réception',
@@ -57,8 +71,8 @@ $languageStrings = [
 	'RC user' => 'RC utilisateur',
 	'FromID' => 'Id expéditeur',
 	'ToID' => 'Id destinataire',
-	'LBL_FILTER_ALL' => 'Tous',
-	'LBL_FILTER_ACCOUNTS' => 'Tous dans le compte',
+    'LBL_FILTER_ALL' => 'Tous',
+	'LBL_FILTER_ACCOUNTS' =>  'Tous dans le compte',
 	'LBL_FILTER_CONTACTS' => 'Tous dans le contact',
 	'LBL_VERIFY' => 'Lier à la vérification',
 	'LBL_REL_MOD' => 'Modules liés',
@@ -71,25 +85,25 @@ $languageStrings = [
 	'LBL_ChangeTypeOK' => 'Type de message modifié',
 	'Configuration' => 'Configuration',
 	'LBL_MAIL_REPLY_INTRO' => 'Le %s, %s a écrit:',
-	'LBL_MAIL_FORWARD_INTRO' => '--------Message originel--------',
+	'LBL_MAIL_FORWARD_INTRO' => '--------Message original--------',
 	'LBL_NO_MAILS' => 'Pas d\'email',
+	
 	//dashboards
 	'Graf' => 'Email société par type',
 	'Today' => 'Aujourd\'hui',
 	'Yesterday' => 'Hier',
 	'Current week' => 'Cette semaine',
-	'Previous week' => 'Semaine dernière',
+	'Previous week' => 'Semaine dernière',	
 	'Current month' => 'Ce mois-ci',
 	'Previous month' => 'Le mois dernier',
-	'LBL_ORGINAL_MAIL_CONTENT' => 'Contenu orginal du courriel',
 ];
 $jsLanguageStrings = [
 	'From' => 'De',
-	'To' => 'À',
+	'To' => 'A',
 	'CC' => 'CC',
 	'BCC' => 'BCC',
-	'Date' => 'Date',
-	'Subject' => 'Sujet',
-	'Content' => 'Contenu',
-	'JS_BIND_CONFIRM' => 'Etes-vous sur de vouloir relier les messages sélectionnés?',
+	'Date'=>'Date',
+	'Subject'=>'Sujet',
+	'Content'=>'Contenu',
+	'JS_BIND_CONFIRM'=>'Etes-vous sur de vouloir relier les messages sélectionnés?',
 ];

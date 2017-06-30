@@ -1,11 +1,12 @@
 <?php
-/**
- * MappedFields french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+ 
 $languageStrings = [
+	'fileLocationType' => 'Type de fichier',
+	'documentsFileUpload' => 'Champ fichier',
+	'sharedOwner' => 'Champ utilisateur partagé',
+	'tree' => 'Champ catégorie',
+	'owner' => 'Champ propriétaire',
 	'LBL_ADD_TEMPLATE' => 'Ajouter mapping',
 	'LBL_IMPORT_TEMPLATE' => 'Importer modèle',
 	'LBL_MAPPEDFIELDS' => 'Mapping',
@@ -43,15 +44,11 @@ $languageStrings = [
 	'LBL_NO_PERMISSION_TO_IMPORT' => 'Une erreur ou  un conflit est survenu. Echec de l\'import.',
 	'LBL_IMPORT_OK' => 'Modèle importé avec succès.',
 	'LBL_MODULE_NOT_EXIST' => 'Module dans le modèle que vous essayez d\'importer n\'existe pas.',
+
 	'multipicklist' => 'Liste déroulante (multi sélection)',
 	'percent' => 'Pourcentage',
 	'phone' => 'Téléphone',
 	'picklist' => 'Liste déroulante',
-	'owner' => 'Propriétaire du champ',
-	'tree' => 'Catégorie du champ',
-	'sharedOwner' => 'Champs partagé par les utilisateur',
-	'documentsFileUpload' => 'Champ de fichier',
-	'fileLocationType' => 'Champ du type de fichier',
 	'skype' => 'Skype ',
 	'string' => 'Chaine de caractères',
 	'textArea' => 'Zone de texte',

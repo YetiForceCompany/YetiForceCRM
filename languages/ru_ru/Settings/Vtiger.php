@@ -215,6 +215,8 @@ $languageStrings = [
 	'LBL_ADDED_COMPANY_FIELD' => 'Поле добавлено',
 	'LBL_FIELD_NOT_VALID' => 'Поле должно содержать только буквы',
 	'LBL_EXTENDED_MODULES' => 'Пользовательские Модули',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Редактор быстрого создания',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'В этом модуле, вы сможете настроить отображение и расположение полей в окне быстрого создания.',

@@ -1,10 +1,14 @@
 <?php
-/**
- * OSSPasswords french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * Contributor(s): 
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	// Basic Strings
 	'OSSPasswords' => 'Mots de passe',
@@ -14,9 +18,9 @@ $languageStrings = [
 	'LBL_PASS_CONFIGURATION' => 'Configuration des mots de passe',
 	'LBL_HELP' => 'Aide',
 	// Blocks
-	'LBL_OSSPASSWORD_INFORMATION' => 'Information',
+	'LBL_OSSPASSWORD_INFORMATION' => 'Détails mot de passe',
 	//Field Labels
-	'OSSPassword No' => 'Mot de passe no.',
+	'OSSPassword No' => 'Mot de passe N°',
 	'Key name' => 'Nom clé',
 	'Username' => 'Uutilisateur',
 	'Password' => 'Mot de passe',
@@ -40,12 +44,12 @@ $languageStrings = [
 	'OSSPassword Configuration' => 'Configuration des mots de passse',
 	'Configure OSSPasswords' => 'Configurer les mots de passe',
 	'Return to Home Page' => 'Retourner à la page d\'accueil',
-	'Access denied!' => 'Accès refusé!',
+	'Access denied!' => 'Accès refusé !',
 	'Related to' => 'Lié à',
 	'Settings were successfuly saved.' => 'Paramètres sauveagrdés avec succès.',
 	'LBL_REGISTER_CHANGES' => 'Enregistrement des modifications dans modtracker',
 	'LBL_START_REGISTER' => 'Enregsiter les changements',
-	'LBL_REGISTER_WARN1' => 'ATTENTION!',
+	'LBL_REGISTER_WARN1' => 'ATTENTION !',
 	'LBL_REGISTER_WARN2' => 'En cochant l\'option ci-desous vous confirmer votre accord d\'enregistrer les changemenst liés aux mots de passe dans le modtracker. Seuls les anciens mots de passe seront affichés, les nouveaux resteront cachés.',
 	// configure password
 	'Encoding' => 'Chiffrage',
@@ -65,8 +69,8 @@ $languageStrings = [
 	'Encryption password has been successfully saved!' => 'Mot de passe chiffrement a été sauvegardé avec succès!',
 	'New encryption password is incorrect!' => 'Nouveau mot de passse de chiffrement est incorrect!',
 	'Your key has been changed correctly.' => 'Votre clé a été modifié.',
-	'Old password key is incorrect!' => 'Votre ancienne clé mot de passe est incorrect!',
-	'New password too short!' => 'Le nouveau mot de passe est trop court!',
+	'Old password key is incorrect!' => 'Votre ancienne clé mot de passe est incorrect !',
+	'New password too short!' => 'Le nouveau mot de passe est trop court !',
 	'Successfully changed encryption keys.' => 'Les clés de chiffrement ont été modifiées avec succès.',
 	'Changing encryption key!' => 'Modification de la clé de chiffrement!',
 	'Given password is incorrect!' => 'Mot de passe fourni est incorect!',

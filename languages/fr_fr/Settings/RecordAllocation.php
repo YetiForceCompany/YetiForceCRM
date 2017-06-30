@@ -1,10 +1,5 @@
 <?php
-/**
- * RecordAllocation french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'LBL_OWNER_ALLOCATION' => 'Assigner au propriétaire',
 	'LBL_OWNER_ALLOCATION_DESCRIPTION' => 'Affecter au propriétaire',
@@ -14,7 +9,7 @@ $languageStrings = [
 	'LBL_ADD_PANEL_TO_MODULE' => 'Ajouter une allocation au module',
 	'LBL_SELECT_MODULE' => 'Sélectionner le module',
 	'LBL_GO_TO_PANEL' => 'Aller au panel',
-	'LBL_USERS_AND_GROUPS' => 'Users and groups',
+	'LBL_USERS_AND_GROUPS' => 'Utilisateurs et groupes',
 ];
 $jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL' => 'Etes-vous sûr de vouloir supprimer toutes les allocations de ce module?',

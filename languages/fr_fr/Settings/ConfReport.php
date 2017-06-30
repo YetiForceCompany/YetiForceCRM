@@ -1,11 +1,27 @@
 <?php
-/**
- * ConfReport french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
 $languageStrings = [
+	'LBL_MYSQLND_LIBRARY' => 'Pilote Natif MySQL (mysqlnd)',
+	'LBL_CRON_PHP_SAPI' => 'Cron - serveur API',
+	'LBL_CRON_LOG_FILE' => 'Cron - Erreur logs',
+	'LBL_CRON_PHPINI' => 'Cron - PHP configuration',
+	'LBL_CRON_PHP' => 'Cron - PHP version',
+	'LBL_OPCACHE_LIBRARY' => 'OPcache',
+	'LBL_APCU_LIBRARY' => 'APCu',
+	'LBL_PHP_SAPI' => 'API serveur',
+	'LBL_SOAP_LIBRARY' => 'SOAP',
+	'LBL_CRM_DIR' => 'Répertoire local CRM',
+	'LBL_LOG_FILE' => 'Logs',
+	'LBL_PHPINI' => 'Configuration PHP',
+	'LBL_MBSTRING_LIBRARY' => 'php_mbstring (requis pour mPDF)',
 	'ConfReport' => 'Configuration serveur',
 	'LBL_CONFIGURATION' => 'Configuration serveur',
 	'LBL_CONFREPORT_DESCRIPTION' => 'Permets de vérifier que les paramètres actuels sont alignés avec ceux recommandés.',
@@ -15,21 +31,22 @@ $languageStrings = [
 	'LBL_FILES_PERMISSIONS' => 'Fichiers/Dossiers',
 	'LBL_FILE' => 'Nom',
 	'LBL_PATH' => 'Chemin',
-	'LBL_PERMISSION' => 'Permission',
+	'LBL_PERMISSION' => 'Permission',	
 	'LBL_TRUE_PERMISSION' => 'Autorisé',
-	'LBL_FAILED_PERMISSION' => 'Non autorisé',
+	'LBL_FAILED_PERMISSION' => 'Non autorisé',	
 	'On' => 'On',
 	'Off' => 'Off',
 	'NOT RECOMMENDED' => 'Non recommandé',
 	'LBL_YETIFORCE_ENGINE' => 'Moteur YetiForce',
 	'LBL_CHECK_CONFIG' => 'Moteur RoundCube',
+	
 	'LBL_MANDATORY' => 'Obligatoire',
-	'LBL_OPTIONAL' => 'Optionel',
+	'LBL_OPTIONAL' => 'Optionnel',
 	'LBL_LIBRARY' => 'Support des librairies',
 	'LBL_INSTALLED' => 'Installé',
-	'LBL_PDO_SUPPORT' => 'PDO',
-	'LBL_OPEN_SSL' => 'openssl',
-	'LBL_CURL' => 'cURL',
+	'LBL_PDO_SUPPORT'=>'PDO',
+	'LBL_OPEN_SSL'=>'openssl',
+	'LBL_CURL'=>'cURL',
 	'LBL_ZLIB_SUPPORT' => 'Zlib',
 	'LBL_IMAP_SUPPORT' => 'IMAP',
 	'LBL_GD_LIBRARY' => 'GD',
@@ -39,30 +56,9 @@ $languageStrings = [
 	'LBL_JSON_LIBRARY' => 'JSON',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
-	'LBL_MBSTRING_LIBRARY' => 'Mbstring (required for mPDF)',
-	'LBL_EXIF_LIBRARY' => 'Exif (improves security of uploaded files)',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
-	'LBL_SPACE' => 'Capacity',
-	'LBL_SPACE_TOTAL' => 'Total',
-	'LBL_SPACE_FREE' => 'Libre',
-	'LBL_SPACE_USED' => 'Utilisé',
-	'LBL_VALUE' => 'Value',
-	'LBL_PHPINI' => 'PHP configuraton',
-	'LBL_LOG_FILE' => 'Logs',
-	'LBL_CRM_DIR' => 'CRM Local directory',
-	'LBL_SOAP_LIBRARY' => 'SOAP',
-	'LBL_PHP_SAPI' => 'Server API',
-	'LBL_APCU_LIBRARY' => 'APCu',
-	'LBL_OPCACHE_LIBRARY' => 'OPcache',
-	'LBL_CRON_PHP' => 'Cron - PHP version',
-	'LBL_CRON_PHPINI' => 'Cron - PHP configuration',
-	'LBL_CRON_LOG_FILE' => 'Cron - Error logs',
-	'LBL_CRON_PHP_SAPI' => 'Cron - API server',
-	'LBL_ENVIRONMENTAL_INFORMATION' => 'Environment information',
-	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
-	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
-	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address'
-];
-$jsLanguageStrings = [
-	'JS_SPEED_TEST_START' => 'Checking speed...',
+	'LBL_SPACE' => 'Capacité',
+	'LBL_SPACE_TOTAL'=>'Total',
+	'LBL_SPACE_FREE'=>'Libre',
+	'LBL_SPACE_USED'=>'Utilisé',
 ];

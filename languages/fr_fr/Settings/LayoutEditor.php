@@ -1,21 +1,25 @@
 <?php
-/* +***********************************************************************************
+/*+***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * *********************************************************************************** */
+ *************************************************************************************/
 $languageStrings = [
+	'LBL_MAX_WIDTH_COLUMN' => 'Largeur de colonne [%]',
+	'LBL_MAX_LENGTH_TEXT' => 'Longueur maximale du texte',
+	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Champs obligatoires',
+	'PLL_ATTACHMENTS' => 'Pièces jointes',
 	'LBL_FIELD_MASK' => 'Masque de saisie',
 	'Calendar' => 'Tâche',
 	'Checkbox' => 'Case à cocher',
-	'Currency' => 'Devise',
-	'Date' => 'Date',
-	'Decimal' => 'Décimale',
-	'Email' => 'Email',
-	'Integer' => 'Entier',
+	'Currency'=>'Devise',
+	'Date'=>'Date',
+	'Decimal'=>'Décimale',
+	'Email'=>'Email',
+	'Integer'=>'Entier',
 	'LayoutEditor' => 'Editeur de la disposition',
 	'LBL_ACTIONS' => 'Actions',
 	'LBL_ACTIVE' => 'Actif',
@@ -54,18 +58,19 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Sélectionner module..',
 	'LBL_SUMMARY_FIELD' => 'Vue synthétique',
 	'LBL_WRONG_FIELD_TYPE' => 'Mauvais type de champs',
-	'MultiSelectCombo' => 'Liste déroulante multi-sélection',
-	'Percent' => 'Pourcentage',
-	'Phone' => 'Téléphone',
-	'Picklist' => 'Liste déroulante',
-	'Skype' => 'Skype',
+	'MultiSelectCombo'=>'Liste déroulante multi-sélection',
+	'Percent'=>'Pourcentage',
+	'Phone'=>'Téléphone',
+	'Picklist'=>'Liste déroulante',
+	'Skype'=>'Skype',
 	'TextArea' => 'Zone de texte',
-	'Text' => 'Texte',
-	'Time' => 'Heure',
+	'Text'=>'Texte',
+	'Time'=>'Heure',
 	'URL' => 'site web',
-	'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editer les modules liés',
+    'LBL_REL_MODULE_LAYOUT_EDITOR' => 'Editer les modules liés',
 	'LBL_VISIBLE' => 'Visible',
 	'LBL_HIDDEN' => 'Caché',
+	
 	//Yetiforce
 	'LBL_RELATION_VALUES' => 'Sélectionner les modules',
 	'LBL_FIELD_NAME' => 'Nom du champ',
@@ -81,16 +86,16 @@ $languageStrings = [
 	'LBL_HELP_INFO' => 'Icône aide',
 	'LBL_GENERATED_TYPE' => 'Champ basique',
 	'LBL_FIELD_TYPE0' => 'Basique (eg. vtiger_account)',
-	'LBL_FIELD_TYPE1' => 'Additionel (eg. vtiger_accountcf)',
+	'LBL_FIELD_TYPE1' => 'Supplémentaire (eg. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Arbre',
 	'Tree' => 'Champ d\'arbres',
-	'CategoryMultipicklist' => 'Tree field (multiple choice)',
 	'LBL_FIELD_MASK_INFO' => 'Dëfinitions des masques de saisie par défaut <br />9: Numérique<br />a: Alphabétique<br />*: Alphanumérique<br /><br />Exemple:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Valeur du module lié',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Module lié',
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'Champ lié',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD' => 'Filtre par champ',
 	'LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE' => 'Filtre par valeur',
+	
 	'LBL_ADD_RELATION' => 'Ajouter une relation',
 	'LBL_REMOVE_RELATION' => 'Supprimer une relation',
 	'LBL_RELATION_TYPE' => 'Type de relation',
@@ -100,10 +105,10 @@ $languageStrings = [
 	'LBL_RELATION_LABLE' => 'Label',
 	'PLL_RELATED_LIST' => 'Plusieurs à plusieurs',
 	'PLL_DEPENDENTS_LIST' => 'Une à plusieurs',
-	'PLL_ATTACHMENTS' => 'Pièces jointes',
 	'PLL_SPLITED_RELATED_LIST' => 'Plusieurs à plusieurs - avec séparation des données',
 	'PLL_ADD' => 'Ajouter',
 	'PLL_SELECT' => 'Sélectionner',
+	
 	// inventory tab
 	'LBL_MANAGING_AN_ADVANCED_BLOCK' => 'Gestion des blocs avancées',
 	'LBL_HEADLINE' => 'Gros Titre',
@@ -111,6 +116,7 @@ $languageStrings = [
 	'LBL_ADDITIONAL_VERSE' => 'Ligne additionelle',
 	'LBL_ADVANCED_MODULE' => 'Avancé',
 	'LBL_BASIC_MODULE' => 'Basic',
+	
 	'LBL_EDITING_INVENTORY_FIELD' => 'Editer',
 	'LBL_CREATING_INVENTORY_FIELD' => 'Ajouter',
 	'LBL_NAME_FIELD' => 'Nom',
@@ -136,15 +142,15 @@ $languageStrings = [
 	'LBL_ITEM_NAME_DESC' => 'Champ basique obligatoire, qui specifie le module source des enregistrements à sélectionner. En outre inclu des paramètres bloc pour limiter la sauvegarde de l\'enregistrement lorsque la limite de crédit est atteinte.',
 	'LBL_QUANTITY_DESC' => 'Champ numérique utilisé pour saisir la quantité pour chaque enregistrement, par exemple quantité produit. Sa valeur doit être supérieure à zéro.',
 	'LBL_UNIT_PRICE_DESC' => 'Champ numérique utilisé pour saisir le prix unitaire pour enregistrement donné, par exemple prix unitaire d\'un produit.',
-	'LBL_TOTAL_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix Net pour un élément donné. (Quantité * Prix unitaire).',
-	'LBL_DISCOUNT_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix Net après remise pour un élément donné. (Prix Net - Remise).',
+	'LBL_TOTAL_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix HT pour un élément donné. (Quantité * Prix unitaire).',
+	'LBL_DISCOUNT_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix HT après remise pour un élément donné. (Prix HT - Remise).',
 	'LBL_TAX_DESC' => 'Champ numérique utilisé pour saisir la valeur de la taxe pour un élément donné, la taxe peut être choisie parmi les taxes disponibles. Règles de calculs peuvent être personnalisées via l\'administration système.',
 	'LBL_VALUE_DESC' => 'Champ additionnel utilisé pour la saisie d\'une valeur par l\'utilisateur.',
 	'LBL_REFERENCE_DESC' => 'Champ additionnel utilisé pour lié un élément donné avec n\'importe quel autre enregistrement dans le système.',
 	'LBL_PURCHASE_DESC' => 'Champ numérique utilisé pour saisir la valeur d\'achat d\'un élément donné.',
 	'LBL_MARGIN_DESC' => 'Champ non éditable calculé automatiquement, qui contient le profit pour un élément donné (Prix après remise – Achat), ne comprend pas les taxes.',
 	'LBL_MARGIN_PERCENT_DESC' => 'Champ non éditable calculé automatiquement, qui contient le gain, exprimé en pourcentage.',
-	'LBL_ITEM_NUMBER' => 'No. de l\'item',
+	'LBL_ITEM_NUMBER' => 'N° de l\'item',
 	'LBL_ITEM_NUMBER_DESC' => 'Le champ contient le no. de l\'item',
 	'LBL_PICKLIST_FIELD' => 'Sélectionner depuis le champ',
 	'LBL_PICKLIST_FIELD_DESC' => 'Liste de sélection avec les valeurs prises depuis n\'inmporte quels champs du module sélectionné',
@@ -153,11 +159,8 @@ $languageStrings = [
 	'LBL_HEADER_FIELD' => 'Visible dans l\'en-tête de prévisualisation',
 	'LBL_COPY' => 'Copier',
 	'LBL_STANDARD_FIELDS' => 'Champs standard',
-	'LBL_ADVANCED_BLOCK_FIELDS' => 'Bloc avancé de champs',
-	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Ajouter un bloc avancé de champs',
-	'LBL_MAX_LENGTH_TEXT' => 'Longueur maximum du texte',
-	'LBL_MAX_WIDTH_COLUMN' => 'Largeur de la Colonne [%]',
-	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
+	'LBL_ADVANCED_BLOCK_FIELDS' => 'Champs de bloc avancés',
+	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Ajouter des champs de bloc avancés',
 ];
 
 $jsLanguageStrings = [

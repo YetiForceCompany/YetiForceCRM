@@ -411,7 +411,7 @@ var Vtiger_Index_Js = {
 			var modalBody = modal.find('.modal-body');
 			var modalFooter = modal.find('.modal-footer');
 			var modalHeader = modal.find('.modal-header');
-			var height = app.getScreenHeight() - modalFooter.outerHeight(true)- modalHeader.outerHeight(true);
+			var height = app.getScreenHeight() - modalFooter.outerHeight(true) - modalHeader.outerHeight(true);
 			modalBody.css('max-height', height + 'px');
 			modalBody.css('overflow', 'auto');
 			modalBody.perfectScrollbar();
@@ -688,6 +688,18 @@ var Vtiger_Index_Js = {
 	loadPreSaveRecord: function (form) {
 		SaveResult = new SaveResult()
 		return SaveResult.checkData(form);
+	},
+	performPhoneCall: function (phoneNumber, record) {
+		AppConnector.request({
+			module: app.getModuleName(),
+			view: 'BasicAjax',
+			mode: 'performPhoneCall',
+			phoneNumber: phoneNumber,
+			record: record
+		}).then(function (response) {
+			response = jQuery.parseJSON(response);
+			Vtiger_Helper_Js.showMessage({text: response.result});
+		});
 	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();

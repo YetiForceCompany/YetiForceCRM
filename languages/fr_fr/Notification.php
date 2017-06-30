@@ -1,20 +1,23 @@
 <?php
-/**
- * Notification french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
+	'LBL_SENT_NOTIFICATIONS' => 'Envoyer des notifications',
+	'LBL_MODULES' => 'Moudules',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Fréquence de lancement du CRON',
+	'LBL_NOTIFICATION_SETTINGS' => 'Paramètres de notification',
+	'LBL_NO_NOTIFICATIONS' => 'Aucune notification',
+	'LBL_NOTIFICATION_CONTENTS' => 'Contenu de la notification',
+	'SINGLE_Notification' => 'Notification',
 	'Notification' => 'Notifications',
-	'Notification ID' => 'Notification N°',
+	'Notification' => 'Notifications',
+	'Notification ID' => 'N° de notification',
 	'LBL_CUSTOM_INFORMATION' => 'Informations personnalisées',
 	'FL_TITLE' => 'Titre',
 	'LBL_NOTIFICATION_INFORMATION' => 'Détails de la notification',
 	'FL_RELATED_MODULE' => 'Module lié',
 	'FL_MESSAGE' => 'Contenu de la notification',
 	'LBL_SCHEDULE' => 'Planificateur',
-	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Recevoir les notifications par email',
+	'LBL_RECEIVING_MAIL_NOTIFICATIONS' => 'Recevoir les notifications par mail',
 	'PLL_5_MIN' => '5 minutes',
 	'PLL_15_MIN' => '15 minutes',
 	'PLL_30_MIN' => '30 minutes',

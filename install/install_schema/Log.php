@@ -43,6 +43,9 @@ class Log extends \App\Db\Importers\Base
 					'module_name' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 				],
+				'columns_mysql' => [
+					'type' => 'tinyint(1) NOT NULL',
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -168,7 +171,9 @@ class Log extends \App\Db\Importers\Base
 				'charset' => 'utf8'
 			],
 		];
-		$this->foreignKey = [];
+
+		$this->foreignKey = [
+		];
 	}
 
 	public function data()

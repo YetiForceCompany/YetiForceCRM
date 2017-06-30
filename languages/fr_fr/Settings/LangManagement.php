@@ -1,10 +1,5 @@
 <?php
-/**
- * LangManagement french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'No data available in table' => 'Aucune donnée disponible dans la table',
 	'Translations' => 'Traductions',
@@ -16,7 +11,7 @@ $languageStrings = [
 	'LBL_TAB_STATS' => 'Statistiques',
 	'LBL_Lang_label' => 'Langue',
 	'LBL_Lang_name' => 'Nom',
-	'LBL_Lang_prefix' => 'Code langue',
+	'LBL_Lang_prefix' => 'Code',
 	'LBL_Lang_active' => 'Langue disponible pour',
 	'LBL_Lang_ac_admin' => 'Administrateur',
 	'LBL_Lang_ac_user' => 'Utilisateurs',
@@ -40,7 +35,6 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Traduction mise à jour',
 	'LBL_AddTranslationOK' => 'Nouvelle traduction ajoutée',
 	'LBL_DeleteTranslationOK' => 'Traduction supprimée',
-	'LBL_DELETE_TRANSLATION_FAILED' => 'Removing translation unsuccessful',
 	'Modules' => 'Modules',
 	'Module' => 'Module',
 	'Language' => 'Langue',
@@ -60,8 +54,7 @@ $languageStrings = [
 	'LBL_LANGUAGE' => 'Langue',
 	'LBL_SHOW' => 'Afficher',
 	'LBL_STATS_INFO' => 'Les valeurs statistiques affichées représentent le nombre de labels non traduits sur l\'ensemble des labels qui existent dans la langue de base exprimées en pourcentage.',
-	'LBL_UNTRANSLATED_LABELS' => 'Labels non traduits',
-	'LBL_CUSTOM_TYPE_INFO' => 'Le mode de personnalisation est activé. Vous ne pouvez pas modifier les fichiers source de langue. Toutes les modifications se dérouleront dans le dossier custom/.',
+	'LBL_UNTRANSLATED_LABELS' => 'Untranslated labels',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Traductions',
@@ -70,10 +63,10 @@ $jsLanguageStrings = [
 	'JS_DEFAULT' => 'Défaut',
 	'Delete' => 'Supprimer',
 	'Cancel' => 'Annuler',
-	'LBL_Loader' => 'Télecharge',
+	'LBL_Loader' => 'Téléchargement',
 	'No matching records found' => 'Aucun enregitrement correspondant trouvé',
 	'Search' => 'Chercher :',
 	'No data available in table' => 'Aucune traduction',
 	'JS_EXPORT' => 'Exporter',
-	'JS_NOTRANSLATION' => '--No Translation--',
+	'JS_NOTRANSLATION' => '--Pas de traduction--',
 ];

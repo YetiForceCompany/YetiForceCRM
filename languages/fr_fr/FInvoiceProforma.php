@@ -1,10 +1,5 @@
 <?php
-/**
- * FInvoiceProforma french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
 	'FInvoiceProforma' => 'Factures Proforma',
 	'SINGLE_FInvoiceProforma' => 'Facture Proforma',
@@ -17,12 +12,12 @@ $languageStrings = [
 	'FL_SALE_DATE' => 'Date de vente',
 	'FL_FORM_PAYMENT' => 'Méthode de paiement',
 	'FL_STATUS' => 'Statut',
-	'FL_BANK_ACCOUNT' => 'Numéro de compte',
-	'FL_NUMBER' => 'Numéro de facture',
+	'FL_BANK_ACCOUNT' => 'N° de compte',
+	'FL_NUMBER' => 'N° de facture',
 	'FL_ACCOUNT' => 'Organisation',
-	'FL_TOTAL' => 'Net',
+	'FL_TOTAL' => 'HT',
 	'FL_GROSS' => 'TTC',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Virement',
-	'PLL_CASH' => 'Cash',
+	'PLL_CASH' => 'Espèces',
 ];

@@ -1,10 +1,13 @@
 <?php
-/**
- * Widgets french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* +***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ * *********************************************************************************************************************************** */
 $languageStrings = [
 	'Widgets' => 'Modules – Widgets',
 	'LBL_MODULE_DESC' => 'Module gérant les widgets dans le résumé',
@@ -56,7 +59,7 @@ $languageStrings = [
 	'LBL_SHOW_ALL_RECORDS_INFO' => 'Non - Les droits d\'accès sont pris en compte <br /> Oui - Recherche parmi tous les enregistrements',
 	'LBL_SHITCH_HEADER' => 'Basculer dans l\'en-tête',
 	'LBL_SHITCH_HEADER_INFO' => 'Basculer peut être trouvé dans l\'en-tête du widget.',
-	'HistoryRelation' => 'Ligne de temps',
+	'HistoryRelation' => 'Chronologie',
 	'CountRecords' => 'Nombre d\'enregistrements',
 ];
 $jsLanguageStrings = [

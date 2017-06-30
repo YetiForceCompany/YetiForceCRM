@@ -1,13 +1,11 @@
 <?php
-/**
- * FInvoiceCost french translation
- * @package YetiForce.Language
- * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- */
+/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 $languageStrings = [
-	'FInvoiceCost' => 'Invoices cost',
-	'SINGLE_FInvoiceCost' => 'Invoices cost',
+	'FL_CATEGORY' => 'Catégorie',
+	'LBL_ATTENTION_BLOCK' => 'Commentaires',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'FInvoiceCost' => 'Factures à payer',
+	'SINGLE_FInvoiceCost' => 'Factures à payer',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Information système',
 	'LBL_INVOICE_ADDRESS' => 'Adresse de facturation',
@@ -18,29 +16,29 @@ $languageStrings = [
 	'FL_SALE_DATE' => 'Date de vente',
 	'FL_FORM_PAYMENT' => 'Méthode de paiement',
 	'FL_BANK_ACCOUNT' => 'Compte bancaire',
-	'FL_NUMBER' => 'Identifiant de facture',
+	'FL_NUMBER' => 'Identifiant de la facture',
 	'FL_ACCOUNT' => 'Organisation',
-	'FL_TOTAL' => 'Net',
+	'FL_TOTAL' => 'HT',
 	'FL_GROSS' => 'TTC',
 	'FL_STATUS' => 'Statut',
-	'FL_PAYMENT_STATUS' => 'Payment status',
-	'FL_INVOICE_TYPE' => 'Invoice type',
+	'FL_PAYMENT_STATUS' => 'Statut du paiement',
+	'FL_INVOICE_TYPE' => 'Type de facture',
 	//PICKLIST VALUES
-	'PLL_TRANSFER' => 'Bank transfer',
-	'PLL_WIRE_TRANSFER' => 'Wire transfer',
-	'PLL_CASH' => 'Cash',
-	'PLL_AWAITING_PAYMENT' => 'Awaiting payment',
-	'PLL_PARTIALLY_PAID' => 'Partially paid',
-	'PLL_FULLY_PAID' => 'Fully paid',
-	'PLL_DOMESTIC_INVOICE' => 'Domestic invoice',
-	'PLL_FOREIGN_INVOICE' => 'Foreign invoice',
-	'PLL_IC_INVOICE' => 'Intra-Community supply of goods invoice',
-	'PLL_UNASSIGNED' => 'Unassigned',
-	'PLL_AWAITING_REALIZATION' => 'Oczekuje na realizacje',
-	'PLL_FOR_PROCESSING' => 'For processing',
-	'PLL_IN_PROGRESSING' => 'In progressing',
-	'PLL_SUBMITTED_COMMENTS' => 'Submitted comments',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_CANCELLED' => 'Cancelled',
-	'PLL_ACCEPTED' => 'Accepted',
+	'PLL_TRANSFER' => 'Virement',
+	'PLL_WIRE_TRANSFER' => 'Virement bancaire',
+	'PLL_CASH' => 'Espèces',
+	'PLL_AWAITING_PAYMENT' => 'En attente de paiement',
+	'PLL_PARTIALLY_PAID' => 'Partiellement payé',
+	'PLL_FULLY_PAID' => 'Entièrement payé',
+	'PLL_DOMESTIC_INVOICE' => 'Facture nationale',
+	'PLL_FOREIGN_INVOICE' => 'Facture internationale',
+	'PLL_IC_INVOICE' => 'Facture de marchandises intracommunautaire',
+	'PLL_UNASSIGNED' => 'Non attribué',
+	'PLL_AWAITING_REALIZATION' => 'Dans l\'attente de projets',
+	'PLL_FOR_PROCESSING' => 'Pour traitement',
+	'PLL_IN_PROGRESSING' => 'En cours',
+	'PLL_SUBMITTED_COMMENTS' => 'Commentaires envoyés',
+	'PLL_FOR_APPROVAL' => 'Pour approbation',
+	'PLL_CANCELLED' => 'Annulé',
+	'PLL_ACCEPTED' => 'Accepté',
 ];
