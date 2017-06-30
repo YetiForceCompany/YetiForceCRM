@@ -917,7 +917,7 @@ class Base3 extends \App\Db\Importers\Base
 					'user_name' => $this->stringType(32),
 					'user_ip' => $this->stringType(50)->notNull(),
 					'logout_time' => $this->timestamp(),
-					'login_time' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+					'login_time' => $this->timestamp()->notNull(),
 					'status' => $this->stringType(25),
 					'browser' => $this->stringType(25),
 				],
