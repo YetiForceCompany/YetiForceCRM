@@ -495,6 +495,8 @@ $languageStrings = [
 	'LBL_RESULT_FOR_THE_TAG' => 'Результаты для тега',
 	'LBL_Sat' => 'Суб',
 	'LBL_SAVE' => 'Сохранить',
+	'BTN_SAVE' => 'Save',
+  	'BTN_CLOSE' => 'Close',
 	'LBL_SAVE_AS_DRAFT' => 'Сохранить ка черновик',
 	'LBL_SAVE_AS_FILTER' => 'Сохранить как фильтр',
 	'LBL_SAVE_FILTER' => 'Сохранить фильтр',
@@ -1318,6 +1320,7 @@ $languageStrings = [
 	'LBL_ADD_FILES' => 'Add files',
 	'BTN_ADD_FILE' => 'Add file',
 	'BTN_SUBMIT' => 'Submit',
+	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
