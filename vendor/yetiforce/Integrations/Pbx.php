@@ -59,6 +59,19 @@ class Pbx extends \App\Base
 	}
 
 	/**
+	 * Whether a call is active with the PBX integration
+	 * @return boolean
+	 */
+	public static function isActive()
+	{
+		$phone = \App\User::getCurrentUserModel()->getDetail('phone_crm_extension');
+		if (empty($phone)) {
+			return false;
+		}
+		return (new \App\Db\Query())->from('s_#__pbx')->where(['default' => 1])->exists();
+	}
+
+	/**
 	 * Get default pbx instance
 	 * @return \self
 	 */

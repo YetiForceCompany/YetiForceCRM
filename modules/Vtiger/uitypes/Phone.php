@@ -44,9 +44,8 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $value;
 		}
-		$phone = \App\User::getCurrentUserModel()->getDetail('phone_crm_extension');
-		if (empty($phone)) {
-			\App\Purifier::encodeHtml($value);
+		if (!\App\Integrations\Pbx::isActive()) {
+			return \App\Purifier::encodeHtml($value);
 		}
 		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value) . '</a>';
 	}
