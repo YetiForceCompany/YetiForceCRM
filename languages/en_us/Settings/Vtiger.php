@@ -183,6 +183,8 @@ $languageStrings = [
 	'LBL_EXTENDED_MODULES' => 'Extended modules',
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Company logo visible in the system',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Company logo visible in the login panel',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Quick Create editor',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Module allowing to change the layout of fields within quickcreate window',
