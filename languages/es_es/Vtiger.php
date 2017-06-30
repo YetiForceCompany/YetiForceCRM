@@ -1319,7 +1319,7 @@ $languageStrings = [
 	'LBL_EMAIL_ADRESS' => 'Dirección de correo electrónico',
 	'LBL_EMAIL_TEMPLATE' => 'Plantilla de correo electrónico',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Todos los correos electrónicos se colocan en la cola y se envían en CRON.',
-	'ERR_NO_DEFAULT_SMTP' => 'No hay buzón predeterminado para enviar correos electrónicos'
+	'ERR_NO_DEFAULT_SMTP' => 'No hay buzón predeterminado para enviar correos electrónicos',
 	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 ];
 $jsLanguageStrings = [
