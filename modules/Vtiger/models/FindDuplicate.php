@@ -96,7 +96,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 			foreach ($fieldModels as $fieldName => $fieldModel) {
 				if (in_array($fieldName, $fields)) {
 					$selectedFieldModels [] = $fieldModel;
-					$diffColumns[] = $fieldModel->get('column');
+					$diffColumns[] = $fieldName;
 				}
 			}
 		}
@@ -120,6 +120,9 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 		}
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $entries[$i];
+			if (!$row) {
+				continue;
+			}
 			if ($i != 0) {
 				$slicedArray = [];
 				foreach ($diffColumns as $diffColumn) {
@@ -135,7 +138,6 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 				}
 				$group = 'group' . $groupCount;
 			}
-			$fieldValues[$group][$groupRecordCount]['recordid'] = $row['recordid'];
 			foreach ($row as $field => $value) {
 				if (in_array($field, $diffColumns)) {
 					$temp[$field] = $value;
