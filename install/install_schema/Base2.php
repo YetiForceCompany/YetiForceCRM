@@ -3142,6 +3142,7 @@ class Base2 extends \App\Db\Importers\Base
 					[109, 1, 1, 0, 1, 'EmailTemplates', NULL, NULL, '2015-10-23 08:16:58', '2017-01-11 13:25:18', '2015-10-23 08:34:54', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 					[110, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2016-05-24 12:40:24', '2017-01-11 13:35:37', '2016-05-24 12:40:24', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 					[111, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2017-01-23 13:49:51', '2017-01-23 14:25:51', NULL, NULL, NULL, 0, 1, 0, 0, 0, ',1,'],
+					[112, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2017-06-07 00:42:02', '2017-06-07 00:42:02', NULL, NULL, NULL, 0, 1, 0, 0, 0, ',1,'],
 				]
 			],
 			'vtiger_cron_task' => [
@@ -3159,7 +3160,7 @@ class Base2 extends \App\Db\Importers\Base
 					[10, 'LBL_MAIL_SCANNER_ACTION', 'modules/OSSMailScanner/cron/action.php', 200, NULL, NULL, 1, 'OSSMailScanner', 5, ''],
 					[11, 'LBL_MAIL_SCANNER_VERIFICATION', 'modules/OSSMailScanner/cron/verification.php', 100, NULL, NULL, 1, 'OSSMailScanner', 6, ''],
 					[12, 'LBL_MAIL_SCANNER_BIND', 'modules/OSSMailScanner/cron/bind.php', 600, NULL, NULL, 1, 'OSSMailScanner', 7, ''],
-					[13, 'LBL_BATCH_PROCESSES', 'cron/BatchProcesses.php', 600, NULL, NULL, 1, 'OSSMailScanner', 30, ''],
+					[13, 'LBL_BATCH_PROCESSES', 'cron/BatchProcesses.php', 600, NULL, NULL, 1, 'Vtiger', 30, NULL],
 					[14, 'LBL_CARD_DAV', 'modules/API/cron/CardDav.php', 300, NULL, NULL, 1, 'Contacts', 9, NULL],
 					[15, 'LBL_CAL_DAV', 'modules/API/cron/CalDav.php', 300, NULL, NULL, 1, 'Calendar', 10, NULL],
 					[16, 'LBL_ACTIVITY_STATE', 'modules/Calendar/cron/ActivityState.php', 1800, NULL, NULL, 1, 'Calendar', 11, ''],
@@ -3177,6 +3178,7 @@ class Base2 extends \App\Db\Importers\Base
 					[28, 'LBL_NEVER_ENDING_RECURRING_EVENTS', 'modules/Events/cron/RecurringEvents.php', 86400, NULL, NULL, 1, 'Events', 26, NULL],
 					[29, 'LBL_CLEAR_ATTACHMENTS_TABLE', 'cron/Attachments.php', 86400, NULL, NULL, 1, 'Vtiger', 27, NULL],
 					[30, 'LBL_SMSNOTIFIER', 'modules/SMSNotifier/cron/SMSNotifier.php', 300, NULL, NULL, 1, 'SMSNotifier', 28, NULL],
+					[31, 'LBK_SYSTEM_WARNINGS', 'cron/SystemWarnings.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 				]
 			],
 			'vtiger_currencies' => [
@@ -5754,13 +5756,6 @@ class Base2 extends \App\Db\Importers\Base
 					[4],
 				]
 			],
-			'vtiger_email_template_type' => [
-				'columns' => ['email_template_typeid', 'email_template_type', 'presence', 'sortorderid'],
-				'values' => [
-					[1, 'PLL_MAIL', 1, 1],
-					[2, 'PLL_RECORD', 1, 2],
-				]
-			],
 			'vtiger_email_template_priority' => [
 				'columns' => ['email_template_priorityid', 'email_template_priority', 'presence', 'sortorderid'],
 				'values' => [
@@ -5773,6 +5768,13 @@ class Base2 extends \App\Db\Importers\Base
 					[7, 7, 1, 7],
 					[8, 8, 1, 8],
 					[9, 9, 1, 9],
+				]
+			],
+			'vtiger_email_template_type' => [
+				'columns' => ['email_template_typeid', 'email_template_type', 'presence', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_MAIL', 1, 1],
+					[2, 'PLL_RECORD', 1, 2],
 				]
 			],
 			'vtiger_employee_education' => [
@@ -7981,6 +7983,12 @@ class Base2 extends \App\Db\Importers\Base
 					[1, 'None', 1, 670, 1],
 				]
 			],
+			'vtiger_fixed_assets_fuel_type' => [
+				'columns' => ['fixed_assets_fuel_typeid', 'fixed_assets_fuel_type', 'presence', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_DIESEL', 1, 1],
+				]
+			],
 			'vtiger_fixed_assets_status' => [
 				'columns' => ['fixed_assets_statusid', 'fixed_assets_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
@@ -8003,12 +8011,6 @@ class Base2 extends \App\Db\Importers\Base
 					[3, 'PLL_VEHICLE', 1, 725, 3],
 					[4, 'PLL_PROPERTY', 1, 726, 4],
 					[5, 'PLL_INVENTORY', 1, 727, 5],
-				]
-			],
-			'vtiger_fixed_assets_fuel_type' => [
-				'columns' => ['fixed_assets_fuel_typeid', 'fixed_assets_fuel_type', 'presence', 'sortorderid'],
-				'values' => [
-					[1, 'PLL_DIESEL', 1, 1],
 				]
 			],
 		];

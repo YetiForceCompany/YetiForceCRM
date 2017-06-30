@@ -3877,6 +3877,8 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
+			 
+
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', NULL, 1],
@@ -3921,6 +3923,8 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
+			 
+
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', NULL, 1],
@@ -3961,6 +3965,8 @@ class Base1 extends \App\Db\Importers\Base
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<div style="float:right;">$(organization : mailLogo)$</div>
+			 
+
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', 'NotifyContactOnTicketClosed', 1],
@@ -4210,9 +4216,9 @@ class Base1 extends \App\Db\Importers\Base
 <br>
 Created for your account in the customer portal, below sending data access<br>
 						Login: $(record : email)$<br>
-						Password:
+						Password: 
 						</td>
-
+			
 					</tr></table></div>
 			</td>
 		</tr><tr><td style="background-color:#f6f6f6;color:#888;border-top:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
@@ -4560,6 +4566,7 @@ Created for your account in the customer portal, below sending data access<br>
 			<p><span style="font-size:12px;">$(translate : LBL_EMAIL_TEMPLATE_FOOTER)$</span></p>
 			</td>
 		</tr></table>', 'ScheduleReprots', 1],
+					[112, 'System warnings', 'N24', 'PLL_RECORD', 'Users', 'System warnings', '$(params : warnings)$', 'SystemWarnings', 7],
 				]
 			],
 			'u_#__fcorectinginvoice_invfield' => [

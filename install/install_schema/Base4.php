@@ -8386,10 +8386,10 @@ class Base4 extends \App\Db\Importers\Base
 					['H2', 1],
 					['H22', 1],
 					['H26', 1],
+					['H3', 2],
 					['H30', 1],
 					['H34', 1],
 					['H6', 1],
-					['H3', 2],
 				]
 			],
 			'vtiger_role_seq' => [
@@ -8502,6 +8502,7 @@ class Base4 extends \App\Db\Importers\Base
 					[12, 3, 'NOTIFICATIONSCHEDULERS', '', 'LBL_NOTIF_SCHED_DESCRIPTION', 'index.php?module=Settings&view=listnotificationschedulers&parenttab=Settings', 4, 0, 0, NULL],
 					[13, 4, 'INVENTORYNOTIFICATION', '', 'LBL_INV_NOTIF_DESCRIPTION', 'index.php?module=Settings&view=listinventorynotifications&parenttab=Settings', 1, 0, 0, NULL],
 					[14, 3, 'LBL_COMPANY_DETAILS', 'adminIcon-company-detlis', 'LBL_COMPANY_DESCRIPTION', 'index.php?parent=Settings&module=Companies&view=List', 2, 0, 0, NULL],
+					[15, 5, 'LBL_PBX', 'adminIcon-pbx-manager', 'LBL_PBX_DESCRIPTION', 'index.php?module=PBX&parent=Settings&view=List', 3, 0, 0, NULL],
 					[16, 4, 'LBL_CURRENCY_SETTINGS', 'adminIcon-currencies', 'LBL_CURRENCY_DESCRIPTION', 'index.php?parent=Settings&module=Currency&view=List', 4, 0, 0, NULL],
 					[17, 4, 'LBL_SWITCH_USERS', 'adminIcon-users', 'LBL_SWITCH_USERS_DESCRIPTION', 'index.php?module=Users&view=SwitchUsers&parent=Settings', 11, 0, 0, NULL],
 					[18, 4, 'LBL_SYSTEM_INFO', 'adminIcon-server-configuration', 'LBL_SYSTEM_DESCRIPTION', 'index.php?module=Settings&submodule=Server&view=ProxyConfig', 6, 1, 0, NULL],
@@ -8952,6 +8953,7 @@ class Base4 extends \App\Db\Importers\Base
 					[115, 'FInvoiceCost', 0, 16, 'FInvoiceCost', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 1],
 					[116, 'CMileageLogbook', 0, 17, 'CMileageLogbook', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 0],
 					[117, 'SVendorEnquiries', 0, 18, 'SVendorEnquiries', NULL, NULL, 0, 0, 1, '0', '', NULL, 0, 1],
+					[118, 'Chat', 0, 19, 'Chat', NULL, NULL, 0, 0, 0, '0', '', NULL, 0, 0],
 				]
 			],
 			'vtiger_tab_info' => [
@@ -9039,6 +9041,7 @@ class Base4 extends \App\Db\Importers\Base
 					[115, 'vtiger_min_version', '3.5'],
 					[116, 'vtiger_min_version', '3.4.1517'],
 					[117, 'vtiger_min_version', '3.5'],
+					[118, 'vtiger_min_version', '4.0.999'],
 				]
 			],
 			'vtiger_taskpriority' => [
