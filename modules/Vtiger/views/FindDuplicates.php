@@ -57,11 +57,9 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$currentUser = vglobal('current_user');
 		$viewer = $this->getViewer($request);
 		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-
 		$massActionLink = array(
 			'linktype' => 'LISTVIEWBASIC',
 			'linklabel' => 'LBL_DELETE',
@@ -71,29 +69,24 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$massActionLinks[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		$viewer->assign('LISTVIEW_LINKS', $massActionLinks);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-
 		$pageNumber = $request->get('page');
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pageLimit = $pagingModel->getPageLimit();
-
 		$duplicateSearchFields = $request->get('fields');
 		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($module);
 		$dataModelInstance->set('fields', $duplicateSearchFields);
-
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1')
+		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
+		}			
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);
-
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $dataModelInstance->getListViewEntries($pagingModel);
 		}
-
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $dataModelInstance->getListViewHeaders();
 		}
@@ -101,23 +94,17 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 			$this->rows = $dataModelInstance->getRecordCount();
 			$viewer->assign('TOTAL_COUNT', $this->rows);
 		}
-
 		$rowCount = 0;
 		foreach ($this->listViewEntries as $group) {
 			foreach ($group as $row) {
 				$rowCount++;
 			}
 		}
-		//for calculating the page range
-		for ($i = 0; $i < $rowCount; $i++)
-			$dummyListEntries[] = $i;
 		$pagingModel->calculatePageRange($rowCount);
-
 		$totalCount = $this->rows;
 		$pagingModel->set('totalCount', (int) $totalCount);
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
@@ -129,7 +116,6 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('DUPLICATE_SEARCH_FIELDS', $duplicateSearchFields);
-
 		$customViewModel = CustomView_Record_Model::getAllFilterByModule($module);
 		$viewer->assign('VIEW_NAME', $customViewModel->getId());
 	}
@@ -143,20 +129,17 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$moduleName = $request->getModule();
 		$duplicateSearchFields = $request->get('fields');
 		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($moduleName);
-
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1')
+		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
+		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);
-
 		$dataModelInstance->set('fields', $duplicateSearchFields);
 		$count = $dataModelInstance->getRecordCount();
-
 		$result = [];
 		$result['module'] = $moduleName;
 		$result['count'] = $count;
-
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
