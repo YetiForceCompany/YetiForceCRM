@@ -171,6 +171,8 @@ $languageStrings = [
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'Search Setup' => 'Konfiguracja wyszukiwania',
 	'LBL_EXTENDED_MODULES' => 'Moduły rozszerzone',
+	'LBL_PBX' => 'PBX',
+	'LBL_PBX_DESCRIPTION' => 'Integracja z PBX umożliwia wywoływanie połaczeń telefonicznych prosto z systemu CRM.',
 	/* modules */
 	'CustomView' => 'Widoki',
 	'Widgets' => 'Widgety podsumowania rekordu',
