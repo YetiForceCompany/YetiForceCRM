@@ -54,8 +54,9 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 	public function getQuery()
 	{
 		$moduleModel = $this->getModule();
+		$orderby = [];
+		$duplicateCheckClause = [];
 		$fields = $this->get('fields');
-		$fieldsModels = $this->get('selectedFieldsModels');
 		$queryGenerator = new App\QueryGenerator($moduleModel->getName());
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setField('id');
@@ -63,8 +64,8 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 			$queryGenerator->setField($fieldModel->getFieldName());
 		}
 		if ($this->get('ignoreEmpty')) {
-			foreach ($fieldsModels as $fieldModel) {
-				$queryGenerator->addCondition($fieldModel->getFieldName(), '', 'ny');
+			foreach ($fields as $fieldName) {
+				$queryGenerator->addCondition($fieldName, '', 'ny');
 			}
 		}
 		$this->headers = $queryGenerator->getFields();
@@ -72,11 +73,12 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 		$queryGenerator->setFields($fields);
 		$subQuery = $queryGenerator->createQuery(true);
 		$subQuery->groupBy($fields)->andHaving((new yii\db\Expression('COUNT(*) > 1')));
-		foreach ($fieldsModels as $fieldModel) {
-			$orderby [$fieldModel->getFieldName()] = SORT_DESC;
-			$duplicateCheckClause .= $fieldModel->getTableName() . '.' . $fieldModel->getColumnName() . ' = duplicates.' . $fieldModel->getFieldName() . ' AND ';
+		foreach ($fields as $fieldName) {
+			$fieldModel = $moduleModel->getField($fieldName);
+			$orderby [$fieldName] = SORT_DESC;
+			$duplicateCheckClause []= $fieldModel->getTableName() . '.' . $fieldModel->getColumnName() . ' = duplicates.' . $fieldModel->getFieldName();
 		}
-		$query->innerJoin(['duplicates' => $subQuery], trim($duplicateCheckClause, ' AND '));
+		$query->innerJoin(['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause));
 		$query->orderBy($orderby);
 		return $query;
 	}
@@ -88,23 +90,10 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $paging)
 	{
-		$moduleModel = $this->getModule();
 		$fields = $this->get('fields');
-		$fieldModels = $moduleModel->getFields();
-		$selectedFieldModels = [];
-		if (is_array($fields)) {
-			foreach ($fieldModels as $fieldName => $fieldModel) {
-				if (in_array($fieldName, $fields)) {
-					$selectedFieldModels [] = $fieldModel;
-					$diffColumns[] = $fieldName;
-				}
-			}
-		}
-		$this->set('selectedFieldsModels', $selectedFieldModels);
-		$startIndex = $paging->getStartIndex();
 		$pageLimit = $paging->getPageLimit();
 		$query = $this->getQuery();
-		$query->limit($pageLimit + 1)->offset($startIndex);
+		$query->limit($pageLimit + 1)->offset($paging->getStartIndex());
 		$entries = $query->all();
 		$rows = count($entries);
 		$group = 'group0';
@@ -125,7 +114,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 			}
 			if ($i != 0) {
 				$slicedArray = [];
-				foreach ($diffColumns as $diffColumn) {
+				foreach ($fields as $diffColumn) {
 					$slicedArray[$diffColumn] = $row[$diffColumn];
 				}
 				array_walk($temp, 'lower_array');
@@ -139,10 +128,9 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 				$group = 'group' . $groupCount;
 			}
 			foreach ($row as $field => $value) {
-				if (in_array($field, $diffColumns)) {
+				if (in_array($field, $fields)) {
 					$temp[$field] = $value;
 				}
-				$fieldModel = $fieldModels[$field];
 				$resultRow[$field] = $value;
 			}
 			$fieldValues[$group][$groupRecordCount++] = $resultRow;
@@ -169,18 +157,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 	 */
 	public function getRecordCount()
 	{
-		$moduleModel = $this->getModule();
-		$fields = $this->get('fields');
-		$selectedFieldModels = [];
-		if (is_array($fields)) {
-			foreach ($fields as $fieldName ) {
-				$selectedFieldModels [] = $moduleModel->getField($fieldName);
-			}
-		}
-		$this->set('selectedFieldsModels', $selectedFieldModels);
-		$query = $this->getQuery();
-		$query->orderBy([]);
-		return $query->count();
+		return $this->getQuery()->orderBy([])->count();
 	}
 
 	/**
@@ -190,25 +167,14 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 	 */
 	public static function getMassDeleteRecords(\App\Request $request)
 	{
-		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$fields = $request->get('fields');
-		$selectedFieldModels = [];
-		if (is_array($fields)) {
-			foreach ($fields as $fieldName ) {
-				$selectedFieldModels [] = $moduleModel->getField($fieldName);
-			}
-		}
-		$findDuplicatesModel = self::getInstance($module);
+		$findDuplicatesModel = self::getInstance($request->getModule());
 		$findDuplicatesModel->set('ignoreEmpty', $request->get('ignoreEmpty') === 'on');
-		$findDuplicatesModel->set('fields', $fields);
-		$findDuplicatesModel->set('selectedFieldsModels', $selectedFieldModels);
+		$findDuplicatesModel->set('fields', $request->get('fields'));
 		$dataReader = $findDuplicatesModel->getQuery()->createCommand()->query();
 		$recordIds = [];
-		$excludedIds = $request->get('excluded_ids');
 		while ($record = $dataReader->read()) {
 			$recordIds []= $record['id'];
 		}
-		return array_diff($recordIds, $excludedIds);
+		return array_diff($recordIds, $request->get('excluded_ids'));
 	}
 }
