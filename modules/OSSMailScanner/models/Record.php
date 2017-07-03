@@ -307,7 +307,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$return[] = [
-				'key' => $row['tablename'] . '=' . $row['columnname'] . '=' . $row['name'],
+				'key' => $row['fieldname'] . '=' . $row['name'],
 				'fieldlabel' => $row['fieldlabel'],
 				'tablename' => $row['tablename'],
 				'columnname' => $row['columnname'],
@@ -375,7 +375,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
-	public static function get_cron()
+	public static function getCron()
 	{
 		$adb = PearDatabase::getInstance();
 		$return = false;

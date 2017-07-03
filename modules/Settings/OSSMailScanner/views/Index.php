@@ -25,11 +25,11 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 			}
 		}
 
-		$actionsList = $mailScannerRecordModel->getActionsList();
-		$ConfigFolderList = $mailScannerRecordModel->getConfigFolderList();
-		$emailSearch = $mailScannerRecordModel->getEmailSearch();
-		$emailSearchList = $mailScannerRecordModel->getEmailSearchList();
-		$widgetCfg = $mailScannerRecordModel->getConfig(false);
+		$actionsList = OSSMailScanner_Record_Model::getActionsList();
+		$ConfigFolderList = OSSMailScanner_Record_Model::getConfigFolderList();
+		$emailSearch = OSSMailScanner_Record_Model::getEmailSearch();
+		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
+		$widgetCfg = OSSMailScanner_Record_Model::getConfig(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 		foreach ($supportedModules as $supportedModule) {
 			if (in_array($supportedModule->name, $this->prefixesForModules)) {
@@ -37,7 +37,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 			}
 		}
 
-		$checkCron = $mailScannerRecordModel->get_cron();
+		$checkCron = OSSMailScanner_Record_Model::getCron();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
 		$viewer->assign('ACCOUNTS_LIST', $accountsList);
