@@ -1,8 +1,4 @@
 dist: trusty
-
-os:  
-  - linux
-  - osx
   
 language: php
 
