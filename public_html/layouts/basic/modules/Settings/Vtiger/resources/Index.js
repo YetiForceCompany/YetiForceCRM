@@ -563,7 +563,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 			parent: app.getParentModuleName(),
 			view: 'Index'
 		};
-		if (modeParams) {
+		if (page) {
 			params.page = page;
 		}
 		if (modeParams) {
