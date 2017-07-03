@@ -1050,7 +1050,7 @@ class Vtiger_Record_Model extends \App\Base
 		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
 		$params = [
 			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
-			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
+			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('assigned_user_id'),
 			'setype' => $moduleName . ' Image',
 			'createdtime' => $this->isEmpty('createdtime') ? $date : $this->get('createdtime'),
 			'modifiedtime' => $this->isEmpty('modifiedtime') ? $date : $this->get('modifiedtime'),
