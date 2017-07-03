@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Automatic assignment french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_ROLEID_INFO' => 'Situé dans l\'un des deux modes: SYSTEM - utilisé par des mécanismes tels que les tâches de workflow ou gestionnaires; La coutume - pour régler le dossier manuellement par l\'utilisateur.',
 	'LBL_CONDITIONS_INFO' => 'Définissez les conditions pour les enregistrements de recherche. Pour weselekcjonowania un utilisateur de la liste des utilisateurs est compté le nombre d\'enregistrements dans le module affecté aux données de l\'utilisateur. L\'utilisateur avec le plus petit nombre d\'enregistrements est affecté au dossier.',

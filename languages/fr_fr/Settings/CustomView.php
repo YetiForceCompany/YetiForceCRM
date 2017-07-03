@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Custom view french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'CustomView' => 'Filtres - Configuration',
 	'LBL_CUSTOMVIEW_DESCRIPTION' => 'Cet outil permet de paramétrer des vues personnalisées pour les modules. Ces modules doivent contenir des enregistrements et utiliser des filtres standards de YetiForce CRM.',
@@ -31,5 +35,5 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'Saving changes' => 'Sauvergarde des changements...',
-	'Update labels'	=> 'Mettre à jour',
+	'Update labels' => 'Mettre à jour',
 ];

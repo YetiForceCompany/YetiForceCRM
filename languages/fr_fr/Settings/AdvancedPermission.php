@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Advanced permission french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'ERR_INACTIVE_CACHING_PERM_ALERT_DESC' => 'Les autorisations spéciales ont été désactivées car elles nécessitent l\'activation de la mise en cache des autorisations d\'enregistrement. Pour que les autorisations commencent à fonctionner, vous devez activer cron et définir la variable CACHING_PERMISSION_TO_RECORD [config/security.php] sur true.',
 	'LBL_MODULES_LIST' => 'Liste des modules',
