@@ -202,8 +202,11 @@ class OSSMail_Mail_Model extends \App\Base
 							}
 						} else {
 							$ids = [];
-							$result = $db->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 && " . $row[1] . ' = ? ', [$email]);
-							while (($crmid = $db->getSingleValue($result)) !== false) {
+							$queryGenerator = new \App\QueryGenerator($moduleName);
+							$queryGenerator->setFields(['id']);
+							$query = $queryGenerator->createQuery();
+							$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+							while (($crmid = $dataReader->readColumn(0)) !== false) {
 								$ids[] = $crmid;
 							}
 							$return = array_merge($return, $ids);
