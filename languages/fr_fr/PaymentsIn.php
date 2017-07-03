@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Payments in french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'PaymentsIn' => 'Paiements reçus',
 	'SINGLE_PaymentsIn' => 'Paiement reçu',
@@ -18,8 +22,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_RECORDS_LIST' => 'Liste des enregistrements',
 	'LBL_PARENTID' => 'Paiement reçu parent ',
-	'Denied'=>'Refusé',
-	'Created'=>'Créé',
+	'Denied' => 'Refusé',
+	'Created' => 'Créé',
 	'Paid' => 'Payé',
 	'LBL_PAYMENTSCURRENCY' => 'Devise',
 	'Account' => 'N° de compte',
@@ -59,5 +63,4 @@ $languageStrings = [
 	'SGB' => 'Spółdzielcza Grupa Bankowa',
 	'Citi' => 'Citi Handlowy',
 	'idea' => 'Idea Bank S.A.',
-	
 ];

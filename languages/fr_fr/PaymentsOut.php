@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Payments out french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'PaymentsOut' => 'Paiements sortants',
 	'SINGLE_PaymentsOut' => 'Paiement sortant',
@@ -18,8 +22,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_RECORDS_LIST' => 'Liste des enregistrements',
 	'LBL_PARENTID' => 'Paiement sortant parent ',
-	'Denied'=>'Refusé',
-	'Created'=>'Créé',
+	'Denied' => 'Refusé',
+	'Created' => 'Créé',
 	'Paid' => 'Payé',
 	'LBL_PAYMENTSCURRENCY' => 'Devise',
 	'Account' => 'N° de compte',

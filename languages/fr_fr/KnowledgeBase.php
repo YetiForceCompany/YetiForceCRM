@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Knowledge base french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'ERR_UNABLE_TO_UPLOAD' => 'Impossible de télécharger le fichier',
 	'ERR_NOT_ALLOWED' => 'Le fichier n\'a pas le type d\'extension autorisé',
