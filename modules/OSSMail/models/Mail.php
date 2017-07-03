@@ -205,6 +205,7 @@ class OSSMail_Mail_Model extends \App\Base
 							$queryGenerator = new \App\QueryGenerator($moduleName);
 							$queryGenerator->setFields(['id']);
 							$query = $queryGenerator->createQuery();
+							$query->andWhere([$row[1] => $email]);
 							$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 							while (($crmid = $dataReader->readColumn(0)) !== false) {
 								$ids[] = $crmid;
