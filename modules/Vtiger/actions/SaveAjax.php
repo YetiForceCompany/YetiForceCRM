@@ -62,7 +62,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
 			if ($fieldModel && $fieldModel->isEditable()) {
 				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));
-				if ($fieldModel->isReferenceField()) {
+				if ($request->getBoolean('setRelatedFields') && $fieldModel->isReferenceField()) {
 					$recordModel = $this->setRelatedFieldsInHierarchy($recordModel, $fieldModel->getName());
 				}
 			}

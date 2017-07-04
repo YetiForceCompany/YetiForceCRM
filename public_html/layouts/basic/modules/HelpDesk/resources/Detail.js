@@ -22,6 +22,7 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 		$('.selectServiceContracts').on('click', 'ul li', function (e) {
 			var element = jQuery(e.currentTarget);
 			thisInstance.saveFieldValues({
+				setRelatedFields: true,
 				field: "servicecontractsid",
 				value: element.data('id')
 			}).then(function (response) {
