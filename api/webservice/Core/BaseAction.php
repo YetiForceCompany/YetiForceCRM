@@ -85,7 +85,7 @@ class BaseAction
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\Vtiger_Language_Handler::$language = $language;
+			\App\Language::setLanguage($language);
 		}
 	}
 

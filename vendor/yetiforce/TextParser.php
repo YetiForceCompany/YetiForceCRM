@@ -232,8 +232,8 @@ class TextParser
 			return $this;
 		}
 		if (isset($this->language)) {
-			$currentLanguage = \Vtiger_Language_Handler::$language;
-			\Vtiger_Language_Handler::$language = $this->language;
+			$currentLanguage = \App\Language::getLanguage();
+			\App\Language::setLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
@@ -243,7 +243,7 @@ class TextParser
 			return '';
 		}, $this->content);
 		if (!empty($currentLanguage)) {
-			\Vtiger_Language_Handler::$language = $currentLanguage;
+			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
 	}
@@ -255,15 +255,15 @@ class TextParser
 	public function parseTranslations()
 	{
 		if (isset($this->language)) {
-			$currentLanguage = \Vtiger_Language_Handler::$language;
-			\Vtiger_Language_Handler::$language = $this->language;
+			$currentLanguage = \App\Language::getLanguage();
+			\App\Language::setLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
 		if (!empty($currentLanguage)) {
-			\Vtiger_Language_Handler::$language = $currentLanguage;
+			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
 	}

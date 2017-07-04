@@ -50,6 +50,15 @@ class Language
 	}
 
 	/**
+	 * Set current language
+	 * @param string $language
+	 */
+	public static function setLanguage($language)
+	{
+		static::$language = $language;
+	}
+
+	/**
 	 * Function that returns current language short name
 	 * @return string
 	 */
