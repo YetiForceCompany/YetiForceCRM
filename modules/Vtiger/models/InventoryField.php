@@ -612,4 +612,22 @@ class Vtiger_InventoryField_Model extends App\Base
 		}
 		return $values;
 	}
+
+	/**
+	 * Get default inventory item module
+	 * @param array $mainParams
+	 * @return boolean
+	 */
+	public function getDefaultModule($mainParams)
+	{
+		if (empty($mainParams['modules'])) {
+			return false;
+		}
+		foreach ($mainParams['modules'] as $module) {
+			if (\App\Module::isModuleActive($module)) {
+				return $module;
+			}
+		}
+		return false;
+	}
 }
