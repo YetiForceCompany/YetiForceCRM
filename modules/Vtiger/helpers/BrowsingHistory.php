@@ -63,6 +63,9 @@ class Vtiger_BrowsingHistory_Helper
 	 */
 	public static function saveHistory($title)
 	{
+		if (empty(App\User::getCurrentUserId())) {
+			return false;
+		}
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
 		if (empty($url)) {
 			$url = '/';
