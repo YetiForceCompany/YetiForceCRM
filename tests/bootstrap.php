@@ -7,6 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(__DIR__ . '/../');
+set_include_path(getcwd());
 define('ROOT_DIRECTORY', getcwd());
 
 if (!class_exists('Vtiger_WebUI')) {
@@ -19,6 +20,11 @@ if (!getenv('ANSICON')) {
 	putenv('ANSICON=80');
 }
 
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+	define('IS_WINDOWS', true);
+} else {
+	define('IS_WINDOWS', false);
+}
 error_reporting(E_ALL & ~E_NOTICE);
 AppConfig::iniSet('display_startup_errors', 1);
 AppConfig::iniSet('display_errors', 'On');
@@ -32,3 +38,4 @@ AppConfig::iniSet('upload_max_filesize', '200M');
 AppConfig::iniSet('max_input_vars', 10000);
 AppConfig::iniSet('xdebug.enable', 'On');
 Vtiger_Session::init();
+

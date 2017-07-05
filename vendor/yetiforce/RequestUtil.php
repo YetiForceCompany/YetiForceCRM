@@ -25,7 +25,7 @@ class RequestUtil
 		if ($onlyIP === false && !empty($remoteIp)) {
 			$address .= '(' . implode(',', $remoteIp) . ')';
 		}
-		return $address;
+		return empty($address) ? '' : $address;
 	}
 
 	protected static $browerCache = false;

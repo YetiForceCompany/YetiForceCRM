@@ -17,7 +17,7 @@ if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
 		public function startTest(PHPUnit\Framework\Test $test)
 		{
 			//printf("Test %s started.\n", $test->getName());
-			echo "\n";
+			//echo "\n";
 		}
 
 		public function endTest(PHPUnit\Framework\Test $test, $time)

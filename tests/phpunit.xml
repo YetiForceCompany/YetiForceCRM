@@ -4,7 +4,7 @@
 		 colors="true"
 		 processIsolation="false"
 		 stopOnFailure="true"
-		 syntaxCheck="false"
+		 syntaxCheck="true"
 		 bootstrap="bootstrap.php">
 	<testsuites>
 		<testsuite name="AllTests">

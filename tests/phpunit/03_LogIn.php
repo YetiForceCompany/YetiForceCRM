@@ -16,10 +16,17 @@ class LogIn extends TestCase
 
 	public function testLoginPage()
 	{
-		ob_start();
-		(new Vtiger_WebUI())->process(App\Request::init());
-		file_put_contents('tests/LoginPage.txt', ob_get_contents());
-		ob_end_clean();
+		if (IS_WINDOWS) {
+			$this->assertTrue(true);
+		} else {
+			ob_start();
+			(new Vtiger_WebUI())->process(App\Request::init());
+			$content = ob_get_contents();
+			$this->assertTrue(strpos($content, 'input name="username"') !== false);
+			$this->assertTrue(strpos($content, 'input name="password"') !== false);
+			file_put_contents('tests/LoginPage.txt', $content);
+			ob_end_clean();
+		}
 	}
 
 	public function testLoginInToCrm()
@@ -36,5 +43,12 @@ class LogIn extends TestCase
 		} else {
 			$this->assertTrue(false);
 		}
+	}
+
+	public function testBruteForce()
+	{
+		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$this->assertFalse($bfInstance->isBlockedIp());
+		$bfInstance->updateBlockedIp();
 	}
 }
