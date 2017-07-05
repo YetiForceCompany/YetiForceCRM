@@ -22,7 +22,7 @@ class LanguageFiles extends TestCase
 					unset($jsLanguageStrings);
 				}
 				include $item->getPathname();
-				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings));
+				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings), 'File: ' . $item->getPathname() . ' | $languageStrings: ' . print_r(is_array($languageStrings), true) . ' | $jsLanguageStrings: ' . print_r(is_array($jsLanguageStrings), true));
 			}
 		}
 	}
