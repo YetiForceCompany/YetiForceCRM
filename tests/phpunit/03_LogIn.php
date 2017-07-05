@@ -32,6 +32,9 @@ class LogIn extends TestCase
 			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('user_name', $userName);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel(TESTS_USER_ID));
+			$this->assertInternalType('int', TESTS_USER_ID);
+		} else {
+			$this->assertTrue(false);
 		}
 	}
 }

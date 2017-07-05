@@ -30,11 +30,18 @@ mysql:
   encoding: utf8
   
 before_script:
-- composer install
-- sudo wget https://phar.phpunit.de/phpunit-5.7.phar
-- sudo chmod +x phpunit-5.7.phar
-- sudo mv phpunit-5.7.phar /usr/local/bin/phpunit
+- |
+    if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then
+        sudo wget https://phar.phpunit.de/phpunit-5.7.phar
+        sudo chmod +x phpunit-5.7.phar
+        sudo mv phpunit-5.7.phar /usr/local/bin/phpunit
+    else
+        sudo wget https://phar.phpunit.de/phpunit-6.2.phar
+        sudo chmod +x phpunit-6.2.phar
+        sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
+    fi
 - /usr/local/bin/phpunit --version
+- composer install
 - sudo wget https://scrutinizer-ci.com/ocular.phar
 - sudo chmod +x ocular.phar
 - sudo mv ocular.phar /usr/local/bin/ocular

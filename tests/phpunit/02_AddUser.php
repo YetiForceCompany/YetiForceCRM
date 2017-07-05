@@ -27,5 +27,6 @@ class AddUser extends TestCase
 		$currentUser = $userForus->retrieveCurrentUserInfoFromFile(TESTS_USER_ID);
 		vglobal('current_user', $currentUser);
 		App\User::setCurrentUserId(TESTS_USER_ID);
+		$this->assertInternalType('int', TESTS_USER_ID);
 	}
 }

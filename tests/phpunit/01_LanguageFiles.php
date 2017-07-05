@@ -13,12 +13,16 @@ class LanguageFiles extends TestCase
 
 	public function test()
 	{
-		$templatepath = 'languages/';
-		$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
-		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
-		foreach ($objects as $name => $object) {
-			if (!is_dir($name)) {
-				include_once $name;
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isFile()) {
+				if (isset($languageStrings)) {
+					unset($languageStrings);
+				}
+				if (isset($languageStrings)) {
+					unset($jsLanguageStrings);
+				}
+				include $item->getPathname();
+				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings));
 			}
 		}
 	}
