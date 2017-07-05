@@ -51,24 +51,12 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 		$urlToRoute = AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		foreach ($tracks as $track) {
 			$url = $urlToRoute . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . $language . '&instructions=1';
-			$curl = curl_init();
-			curl_setopt_array($curl, [
-				CURLOPT_URL => $url,
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => "",
-				CURLOPT_MAXREDIRS => 3,
-				CURLOPT_TIMEOUT => 10,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_CUSTOMREQUEST => "GET",
-				CURLOPT_SSL_VERIFYHOST => 1
-			]);
-			$json = curl_exec($curl);
-			$json = \App\Json::decode($json);
+			$response = Requests::get($url);
+			$json = \App\Json::decode($response->body);
 			$coordinates = array_merge($coordinates, $json['coordinates']);
 			$description .= $json['properties']['description'];
 			$travel = $travel + $json['properties']['traveltime'];
 			$distance = $distance + $json['properties']['distance'];
-			curl_close($curl);
 		}
 		$result = [
 			'type' => 'LineString',
