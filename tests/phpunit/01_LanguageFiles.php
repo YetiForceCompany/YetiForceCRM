@@ -18,7 +18,7 @@ class LanguageFiles extends TestCase
 				if (isset($languageStrings)) {
 					unset($languageStrings);
 				}
-				if (isset($languageStrings)) {
+				if (isset($jsLanguageStrings)) {
 					unset($jsLanguageStrings);
 				}
 				include $item->getPathname();
