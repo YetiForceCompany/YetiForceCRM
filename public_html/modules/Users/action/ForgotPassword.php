@@ -6,6 +6,6 @@
  * @copyright YetiForce Sp. z o.o.
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-chdir(dirname(__FILE__) . '/../../../../modules/Users/Actions/');
+chdir(__DIR__ . '/../../../../modules/Users/actions/');
 define('IS_PUBLIC_DIR', true);
 require 'ForgotPassword.php';
