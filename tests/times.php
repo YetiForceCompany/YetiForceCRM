@@ -23,7 +23,7 @@ if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
 		public function endTest(PHPUnit\Framework\Test $test, $time)
 		{
 			$time = round($time, 2);
-			echo "  Time: $time second(s)";
+			echo "  Time: $time second(s) | Assertions: " . $test->getNumAssertions();
 		}
 
 		public function addError(PHPUnit\Framework\Test $test, \Exception $e, $time)
@@ -96,7 +96,7 @@ if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
 		public function endTest(PHPUnit_Framework_Test $test, $time)
 		{
 			$time = round($time, 2);
-			echo "  Time: $time second(s)";
+			echo "  Time: $time second(s) | Assertions: " . $test->getNumAssertions();
 		}
 
 		public function addError(PHPUnit_Framework_Test $test, \Exception $e, $time)

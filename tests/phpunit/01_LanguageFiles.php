@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class LanguageFiles extends TestCase
 {
 
-	public function test()
+	public function testLoadFiles()
 	{
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile()) {
@@ -25,5 +25,15 @@ class LanguageFiles extends TestCase
 				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings), 'File: ' . $item->getPathname() . ' | $languageStrings: ' . print_r(is_array($languageStrings), true) . ' | $jsLanguageStrings: ' . print_r(is_array($jsLanguageStrings), true));
 			}
 		}
+	}
+
+	public function testTranslate()
+	{
+		\App\Language::setLanguage('pl_pl');
+		$this->assertTrue(\App\Language::translate('LBL_MONTH') === 'miesiąc');
+		$this->assertTrue(\App\Language::translateArgs('LBL_VALID_RECORDS', 'Vtiger', 'aaa', 'bbb') === 'aaa z bbb są poprawne dla wybranego szablonu.');
+		$this->assertTrue(\App\Language::translatePluralized('LBL_SYSTEM_WARNINGS', 'Settings::Vtiger', 1) === 'Ostrzeżenie systemowe');
+		$this->assertTrue(\App\Language::translatePluralized('LBL_SYSTEM_WARNINGS', 'Settings::Vtiger', 2) === 'Ostrzeżenia systemowe');
+		$this->assertTrue(\App\Language::translatePluralized('LBL_SYSTEM_WARNINGS', 'Settings::Vtiger', 9) === 'Ostrzeżeń systemowych');
 	}
 }
