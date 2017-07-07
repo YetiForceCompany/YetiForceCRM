@@ -39,3 +39,7 @@ AppConfig::iniSet('max_input_vars', 10000);
 AppConfig::iniSet('xdebug.enable', 'On');
 Vtiger_Session::init();
 
+$userForus = CRMEntity::getInstance('Users');
+$currentUser = $userForus->retrieveCurrentUserInfoFromFile(1);
+vglobal('current_user', $currentUser);
+App\User::setCurrentUserId(1);

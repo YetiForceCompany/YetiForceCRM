@@ -390,7 +390,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->isNew()) {
 				if ($tableName === 'vtiger_crmentity') {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
-					$this->setId($db->getLastInsertID('vtiger_crmentity_crmid_seq'));
+					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
 					$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
 				}

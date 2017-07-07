@@ -23,45 +23,46 @@ class RecordActions extends TestCase
 		$record->set('assigned_user_id', TESTS_USER_ID);
 		$record->set('legal_form', 'PLL_GENERAL_PARTNERSHIP');
 		$record->save();
-		self::$record = $record;
+		$this->assertInternalType('int', $record->getId());
+		static::$record = $record;
 		define('ACCOUNT_ID', $record->getId());
 	}
 
 	public function testIsEditable()
 	{
-		self::$record->isEditable();
+		$this->assertTrue(static::$record->isEditable());
 	}
 
 	public function testIsWatchingRecord()
 	{
-		self::$record->isWatchingRecord();
+		$this->assertFalse(static::$record->isWatchingRecord());
 	}
 
 	public function testIsViewable()
 	{
-		self::$record->isViewable();
+		$this->assertTrue(static::$record->isViewable());
 	}
 
 	public function testIsCreateable()
 	{
-		self::$record->isCreateable();
+		$this->assertTrue(static::$record->isCreateable());
 	}
 
 	public function testCheckLockFields()
 	{
-		self::$record->checkLockFields();
+		$this->assertTrue(static::$record->checkLockFields());
 	}
 
 	public function testQuickEdit()
 	{
-		$record = self::$record;
+		$record = static::$record;
 		$record->set('accounttype', 'Customer');
-		$record->set('mode', 'edit');
 		$record->save();
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_account')->where(['account_type' => 'Customer'])->exists());
 	}
 
 	public function testGetDisplayName()
 	{
-		self::$record->getDisplayName();
+		$this->assertTrue(static::$record->getDisplayName() === 'YetiForce Sp. z o.o.');
 	}
 }
