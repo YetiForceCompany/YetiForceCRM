@@ -24,5 +24,6 @@ class Cron extends TestCase
 			$c .= "{$value['modue']} = {$value['rows']}" . PHP_EOL;
 		}
 		file_put_contents('tests/records.log', $c, FILE_APPEND);
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
 	}
 }

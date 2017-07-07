@@ -18,6 +18,8 @@ class ModuleManager extends TestCase
 	{
 		$package = new \vtlib\LanguageExport();
 		$package->export('pl_pl', ROOT_DIRECTORY . '/PL.zip', 'PL.zip');
+		$this->assertTrue(file_exists(ROOT_DIRECTORY . '/PL.zip') && filesize(ROOT_DIRECTORY . '/PL.zip') > 0);
+		unlink(ROOT_DIRECTORY . '/PL.zip');
 	}
 
 	public function testCreateModule()
@@ -30,11 +32,15 @@ class ModuleManager extends TestCase
 			'entitytype' => 1,
 			'entityfieldlabel' => 'Test',
 		]);
+		$this->assertTrue(file_exists(ROOT_DIRECTORY . '/modules/Test/Test.php'));
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
 	}
 
 	public function testDeleteModule()
 	{
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
+		$this->assertFalse(file_exists(ROOT_DIRECTORY . '/modules/Test/Test.php'));
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
 	}
 }

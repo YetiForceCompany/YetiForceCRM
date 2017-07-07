@@ -34,5 +34,6 @@ class Mail extends TestCase
 				'folder' => 'INBOX',
 				'uid' => '0',
 			])->execute();
+		$this->assertTrue(true);
 	}
 }
