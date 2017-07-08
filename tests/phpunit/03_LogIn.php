@@ -16,9 +16,7 @@ class LogIn extends TestCase
 
 	public function testLoginPage()
 	{
-		if (IS_WINDOWS) {
-			$this->assertTrue(true);
-		} else {
+		if (!IS_WINDOWS) {
 			ob_start();
 			(new Vtiger_WebUI())->process(App\Request::init());
 			$content = ob_get_contents();
