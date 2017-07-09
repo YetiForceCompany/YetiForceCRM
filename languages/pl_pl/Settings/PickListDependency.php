@@ -26,7 +26,6 @@ $languageStrings = [
 	'Source Field' => 'Pole żródłowe',
 	'Target Field' => 'Pole docelowe',
 ];
-
 $jsLanguageStrings = [
 	'JS_DEPENDENCY_ATLEAST_ONE_VALUE' => 'Musisz zaznaczyć przynajmniej jedną wartość dla każdej z wartości słownika źródłowego',
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Zależność pomyślnie usunięto',
