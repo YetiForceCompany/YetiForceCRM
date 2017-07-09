@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Travis CI test script
  * @package YetiForce.Test
@@ -96,7 +97,7 @@ if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
 		public function endTest(PHPUnit_Framework_Test $test, $time)
 		{
 			$time = round($time, 2);
-			echo "  Time: $time second(s) | Assertions: " . $test->getNumAssertions();
+			echo " - $time second(s) | Assertions: " . $test->getNumAssertions();
 		}
 
 		public function addError(PHPUnit_Framework_Test $test, \Exception $e, $time)

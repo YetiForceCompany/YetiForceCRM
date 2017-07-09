@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Library test class
  * @package YetiForce.Test
@@ -34,7 +35,9 @@ class InstalNewDb extends TestCase
 		$importer->importScheme();
 		$importer->importData();
 		$importer->postProcess();
-
 		$importer->logs(false);
+		$this->assertNotNull($schema->getTableSchema('a_yf_adv_permission'));
+		$this->assertNotNull($schema->getTableSchema('yetiforce_updates'));
+		$this->assertTrue(((new \App\Db\Query())->from('vtiger_ws_fieldtype')->count()) > 0);
 	}
 }

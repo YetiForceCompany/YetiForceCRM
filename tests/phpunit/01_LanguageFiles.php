@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Language Files test class
  * @package YetiForce.Test
@@ -21,6 +22,7 @@ class LanguageFiles extends TestCase
 				if (isset($jsLanguageStrings)) {
 					unset($jsLanguageStrings);
 				}
+				echo $item->getPathname() . PHP_EOL;
 				include $item->getPathname();
 				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings), 'File: ' . $item->getPathname() . ' | $languageStrings: ' . print_r(is_array($languageStrings), true) . ' | $jsLanguageStrings: ' . print_r(is_array($jsLanguageStrings), true));
 			}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Permissions test class
  * @package YetiForce.Test
@@ -16,16 +17,18 @@ class Permissions extends TestCase
 
 	public function testIsPermitted()
 	{
-		\App\Privilege::isPermitted('Accounts', 'DetailView', ACCOUNT_ID);
+		$this->assertTrue(\App\Privilege::isPermitted('Accounts', 'DetailView', ACCOUNT_ID));
 	}
 
 	public function testRecalculateSharingRules()
 	{
 		RecalculateSharingRules();
+		$this->assertTrue(true);
 	}
 
 	public function testCreateModuleMetaFile()
 	{
 		\vtlib\Deprecated::createModuleMetaFile();
+		$this->assertTrue(true);
 	}
 }
