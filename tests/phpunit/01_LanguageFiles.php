@@ -27,7 +27,7 @@ class LanguageFiles extends TestCase
 				}
 				ob_start();
 				include $item->getPathname();
-				$this->assertTrue(empty(ob_get_contents()));
+				$this->assertTrue(empty(ob_get_contents()), $item->getPathname());
 				ob_end_clean();
 				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings), 'File: ' . $item->getPathname() . ' | $languageStrings: ' . print_r(is_array($languageStrings), true) . ' | $jsLanguageStrings: ' . print_r(is_array($jsLanguageStrings), true));
 			}
