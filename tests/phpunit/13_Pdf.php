@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Pdf test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class Pdf extends TestCase
 {
 
+	/**
+	 * Testing PDF generation
+	 */
 	public function testPdf()
 	{
 		/*

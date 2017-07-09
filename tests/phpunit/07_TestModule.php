@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -14,13 +15,16 @@ use PHPUnit\Framework\TestCase;
 class TestModule extends TestCase
 {
 
-	public function testInstall()
+	/**
+	 * Testing the installation of the sample data module
+	 */
+	public function testInstallSampleData()
 	{
 		$testModule = 'TestModule.zip';
 		try {
 			file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
 		} catch (Exception $exc) {
-			
+
 		}
 		if (file_exists($testModule)) {
 			$this->assertTrue(true);

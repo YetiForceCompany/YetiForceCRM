@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Install test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class Install extends TestCase
 {
 
+	/**
+	 * Testing database installation from SQL file
+	 */
 	public function testInstall()
 	{
 		require_once('install/models/InitSchema.php');
@@ -29,6 +33,9 @@ class Install extends TestCase
 		$this->assertTrue(((new \App\Db\Query())->from('vtiger_ws_fieldtype')->count()) > 0);
 	}
 
+	/**
+	 * Testing library downloads
+	 */
 	public function testDownloadLibrary()
 	{
 		Settings_ModuleManager_Library_Model::downloadAll();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Library test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class Library extends TestCase
 {
 
+	/**
+	 * Testing library versions
+	 */
 	public function testLibraryVersion()
 	{
 		Settings_ModuleManager_Library_Model::downloadAll();

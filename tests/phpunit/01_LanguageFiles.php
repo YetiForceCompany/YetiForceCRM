@@ -12,6 +12,9 @@ use PHPUnit\Framework\TestCase;
 class LanguageFiles extends TestCase
 {
 
+	/**
+	 * Testing language files
+	 */
 	public function testLoadFiles()
 	{
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
@@ -22,13 +25,15 @@ class LanguageFiles extends TestCase
 				if (isset($jsLanguageStrings)) {
 					unset($jsLanguageStrings);
 				}
-				echo $item->getPathname() . PHP_EOL;
 				include $item->getPathname();
 				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings), 'File: ' . $item->getPathname() . ' | $languageStrings: ' . print_r(is_array($languageStrings), true) . ' | $jsLanguageStrings: ' . print_r(is_array($jsLanguageStrings), true));
 			}
 		}
 	}
 
+	/**
+	 * Testing translation functions
+	 */
 	public function testTranslate()
 	{
 		\App\Language::setLanguage('pl_pl');

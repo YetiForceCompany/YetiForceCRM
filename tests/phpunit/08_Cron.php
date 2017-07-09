@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class Cron extends TestCase
 {
 
+	/**
+	 * Cron testing
+	 */
 	public function test()
 	{
 		echo PHP_EOL;

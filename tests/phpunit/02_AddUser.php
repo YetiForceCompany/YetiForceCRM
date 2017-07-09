@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AddUser test class
  * @package YetiForce.Test
@@ -11,6 +12,9 @@ use PHPUnit\Framework\TestCase;
 class AddUser extends TestCase
 {
 
+	/**
+	 * Testing user creation
+	 */
 	public function test()
 	{
 		$user = Vtiger_Record_Model::getCleanInstance('Users');

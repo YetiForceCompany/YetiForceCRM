@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Record Actions test class
  * @package YetiForce.Test
@@ -14,8 +15,15 @@ use PHPUnit\Framework\TestCase;
 class RecordActions extends TestCase
 {
 
+	/**
+	 * Temporary record object
+	 * @var Vtiger_Record_Model
+	 */
 	static protected $record;
 
+	/**
+	 * Testing the record creation
+	 */
 	public function testCreateRecord()
 	{
 		$record = Vtiger_Record_Model::getCleanInstance('Accounts');
@@ -28,32 +36,50 @@ class RecordActions extends TestCase
 		define('ACCOUNT_ID', $record->getId());
 	}
 
+	/**
+	 * Testing editing permissions
+	 */
 	public function testIsEditable()
 	{
 		$this->assertTrue(static::$record->isEditable());
 	}
 
+	/**
+	 * Testing watching record permissions
+	 */
 	public function testIsWatchingRecord()
 	{
 		$this->assertFalse(static::$record->isWatchingRecord());
 	}
 
+	/**
+	 * Testing permission to preview
+	 */
 	public function testIsViewable()
 	{
 		$this->assertTrue(static::$record->isViewable());
 	}
 
+	/**
+	 * Testing permissions for the creation view
+	 */
 	public function testIsCreateable()
 	{
 		$this->assertTrue(static::$record->isCreateable());
 	}
 
+	/**
+	 * Testing the edit block feature
+	 */
 	public function testCheckLockFields()
 	{
 		$this->assertTrue(static::$record->checkLockFields());
 	}
 
-	public function testQuickEdit()
+	/**
+	 * Testing record editing
+	 */
+	public function testEditRecord()
 	{
 		$record = static::$record;
 		$record->set('accounttype', 'Customer');
@@ -61,6 +87,9 @@ class RecordActions extends TestCase
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_account')->where(['account_type' => 'Customer'])->exists());
 	}
 
+	/**
+	 * Testing the record label
+	 */
 	public function testGetDisplayName()
 	{
 		$this->assertTrue(static::$record->getDisplayName() === 'YetiForce Sp. z o.o.');

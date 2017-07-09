@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WebUI test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class WebUI extends TestCase
 {
 
+	/**
+	 * Testing list view
+	 */
 	public function testListView()
 	{
 		\App\Cache::clear();
@@ -34,6 +38,9 @@ class WebUI extends TestCase
 		}
 	}
 
+	/**
+	 * Testing detail view
+	 */
 	public function testDetailView()
 	{
 		ob_start();
@@ -48,6 +55,9 @@ class WebUI extends TestCase
 		ob_end_clean();
 	}
 
+	/**
+	 * Testing edit view
+	 */
 	public function testEditView()
 	{
 		ob_start();
@@ -63,6 +73,9 @@ class WebUI extends TestCase
 		ob_end_clean();
 	}
 
+	/**
+	 * Search engine testing
+	 */
 	public function testGlobalSearch()
 	{
 		ob_start();
@@ -83,6 +96,9 @@ class WebUI extends TestCase
 		ob_end_clean();
 	}
 
+	/**
+	 * Testing reminds of calendars
+	 */
 	public function testReminders()
 	{
 		ob_start();

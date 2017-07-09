@@ -15,17 +15,26 @@ use PHPUnit\Framework\TestCase;
 class Permissions extends TestCase
 {
 
+	/**
+	 * Testing record permissions
+	 */
 	public function testIsPermitted()
 	{
 		$this->assertTrue(\App\Privilege::isPermitted('Accounts', 'DetailView', ACCOUNT_ID));
 	}
 
+	/**
+	 * Testing refreshing permission files
+	 */
 	public function testRecalculateSharingRules()
 	{
 		RecalculateSharingRules();
 		$this->assertTrue(true);
 	}
 
+	/**
+	 * Testing refreshing module meta files
+	 */
 	public function testCreateModuleMetaFile()
 	{
 		\vtlib\Deprecated::createModuleMetaFile();

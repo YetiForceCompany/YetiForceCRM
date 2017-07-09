@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class ModuleManager extends TestCase
 {
 
+	/**
+	 * Testing language exports
+	 */
 	public function testLanguageExport()
 	{
 		$package = new \vtlib\LanguageExport();
@@ -22,6 +26,9 @@ class ModuleManager extends TestCase
 		unlink(ROOT_DIRECTORY . '/PL.zip');
 	}
 
+	/**
+	 * Testing the module creation
+	 */
 	public function testCreateModule()
 	{
 		$moduleManagerModel = new \Settings_ModuleManager_Module_Model();
@@ -36,6 +43,9 @@ class ModuleManager extends TestCase
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
 	}
 
+	/**
+	 * Testing module removal
+	 */
 	public function testDeleteModule()
 	{
 		$moduleInstance = \vtlib\Module::getInstance('Test');

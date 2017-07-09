@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mail test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class Mail extends TestCase
 {
 
+	/**
+	 * Load configuration
+	 */
 	public function testLoadConfig()
 	{
 		$db = \App\Db::getInstance();

@@ -15,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class InstalNewDb extends TestCase
 {
 
+	/**
+	 * Testing database installation from PHP file
+	 */
 	public function testInstalDb()
 	{
 		$db = \App\Db::getInstance();

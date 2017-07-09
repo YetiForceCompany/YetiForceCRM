@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LogIn test class
  * @package YetiForce.Test
@@ -14,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class LogIn extends TestCase
 {
 
+	/**
+	 * Testing login page display
+	 */
 	public function testLoginPage()
 	{
 		if (!IS_WINDOWS) {
@@ -27,6 +31,9 @@ class LogIn extends TestCase
 		}
 	}
 
+	/**
+	 * Test logging into the system
+	 */
 	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
@@ -41,6 +48,9 @@ class LogIn extends TestCase
 		}
 	}
 
+	/**
+	 * Testing the Brute Force mechanism
+	 */
 	public function testBruteForce()
 	{
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
