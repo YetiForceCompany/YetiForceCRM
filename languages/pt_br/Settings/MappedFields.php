@@ -1,6 +1,5 @@
 <?php
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
 $languageStrings = [
 	'LBL_ADD_TEMPLATE' => 'Adicionar Mapeamento',
 	'LBL_IMPORT_TEMPLATE' => 'Modelo de Mapeamento',
@@ -62,6 +61,7 @@ $languageStrings = [
 	'email' => 'E-mail',
 	'integer' => 'Inteiro',
 	'inventory' => 'Campo Avançado',
+	'MappedFields' => 'Mapeamento',
 	'LBL_RAW_TEXT' => 'Texto Bruto',
 	'LBL_EXPRESSION' => 'Expressão',
 	'LBL_USE_FIELD' => 'Campo Uso',
@@ -70,7 +70,6 @@ $languageStrings = [
 	'LBL_EXAMPLE_EXPRESSION' => 'Expressão',
 	'LBL_ANNUAL_REVENUE' => 'annual_revenue',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
-	'MappedFields' => 'Mapeamento',
 ];
 $jsLanguageStrings = [
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'Este campo já foi mapeado.',
