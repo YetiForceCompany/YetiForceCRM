@@ -16,19 +16,19 @@ class Zip extends \ZipArchive
 
 	/**
 	 * Files extension for extract
-	 * @var array 
+	 * @var array
 	 */
 	protected $onlyExtensions;
 
 	/**
 	 * Illegal extensions for extract
-	 * @var array 
+	 * @var array
 	 */
 	protected $illegalExtensions;
 
 	/**
 	 * Check files before unpacking
-	 * @var boolean 
+	 * @var boolean
 	 */
 	protected $checkFiles = true;
 
@@ -40,6 +40,9 @@ class Zip extends \ZipArchive
 		if ($fileName) {
 			if (!file_exists($fileName) || !$this->open($fileName)) {
 				throw new Exceptions\AppException('Unable to open the zip file');
+			}
+			if (!$this->checkFreeSpace()) {
+				throw new Exceptions\AppException('The content of the zip file is too large');
 			}
 			foreach ($options as $key => $value) {
 				$this->$key = $value;
@@ -162,6 +165,7 @@ class Zip extends \ZipArchive
 	 */
 	public function unzipFile($compressedFileName, $targetFileName)
 	{
+
 		return copy($this->getLocalPath($compressedFileName), $targetFileName);
 	}
 
@@ -173,5 +177,20 @@ class Zip extends \ZipArchive
 	public function getLocalPath($compressedFileName)
 	{
 		return "zip://{$this->filename}#{$compressedFileName}";
+	}
+
+	/**
+	 * Check free disk space
+	 * @return boolean
+	 */
+	public function checkFreeSpace()
+	{
+		$df = disk_free_space(ROOT_DIRECTORY);
+		$size = 0;
+		for ($i = 0; $i < $this->numFiles; $i++) {
+			$stat = $this->statIndex($i);
+			$size += $stat['size'];
+		}
+		return $df > $size;
 	}
 }
