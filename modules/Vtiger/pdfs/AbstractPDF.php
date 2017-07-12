@@ -106,7 +106,7 @@ abstract class Vtiger_AbstractPDF_Pdf
 	/**
 	 * Parse and set options
 	 */
-	abstract public function parseParams(array &$params);
+	abstract public function parseParams(array $params);
 
 	// meta attributes
 	/**
