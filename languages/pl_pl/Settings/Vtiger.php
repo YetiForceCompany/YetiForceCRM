@@ -13,9 +13,6 @@ $languageStrings = [
 	'LBL_TERMS_AND_CONDITIONS' => 'Warunki i ustalenia',
 	'LBL_ACCESS_MANAGEMENT' => 'Zasady dostępu',
 	'LBL_ACTIVE' => 'Aktywne',
-	'LBL_USERS_0' => 'Użytkownik',
-	'LBL_USERS_1' => 'Użytkowników',
-	'LBL_USERS_2' => 'Użytkowników',
 	'LBL_ADD_MENU_ITEM' => 'Dodaj pozycje menu',
 	'LBL_ADD_MOVE_MENU_ITEMS' => 'Dodaj/Przesuń pozycje menu',
 	'LBL_ADD_NEW_TAX' => 'Dodaj nowy podatek',
@@ -147,7 +144,6 @@ $languageStrings = [
 	'LBL_USER_NAME' => 'Nazwa użytkownika', //Duplicated key-value pair
 	'LBL_USE_RTE' => 'Używaj RTE',
 	'LBL_WORKFLOW_LIST' => 'Lista obiegów informacji',
-	'LBL_WORKFLOWS_ACTIVE' => 'Obiegów informacji',
 	'LBL_WORLD_CLOCK_DISPLAY' => 'Zagar światowy',
 	'LoginHistory' => 'Historia logowania',
 	'ModTracker' => 'Śledzenie zmian w systemie',
@@ -317,9 +313,6 @@ $languageStrings = [
 	'ERR_NO_REQUIRED_LIBRARY' => 'Nie znaleziono wymaganej biblioteki %s. Część funkcjonalności została zablokowana. Aby pobrać należy przejść do <a href="index.php?module=ModuleManager&parent=Settings&view=List">Moduły - instalacja</a>',
 	// System warnings
 	'LBL_SYSTEM_WARNINGS' => 'Ostrzeżenia systemowe',
-	'LBL_SYSTEM_WARNINGS_0' => 'Ostrzeżenie systemowe',
-	'LBL_SYSTEM_WARNINGS_1' => 'Ostrzeżenia systemowe',
-	'LBL_SYSTEM_WARNINGS_2' => 'Ostrzeżeń systemowych',
 	'LBL_WARNINGS_FOLDERS' => 'Kategorie ostrzeżeń',
 	'LBL_WARNINGS_TITLE' => 'Tytuł',
 	'LBL_WARNINGS_FOLDER' => 'Kategoria',
@@ -351,6 +344,19 @@ $languageStrings = [
 	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
 	'LBL_FIELD_NAME' => 'Nazwa pola',
 	'LBL_HEIGHT_LOGO' => 'Wysokość loga',
+	//Pluralized
+	'PLU_USERS_0' => 'Użytkownik',
+	'PLU_USERS_1' => 'Użytkowników',
+	'PLU_USERS_2' => 'Użytkowników',
+	'PLU_SYSTEM_WARNINGS_0' => 'Ostrzeżenie systemowe',
+	'PLU_SYSTEM_WARNINGS_1' => 'Ostrzeżenia systemowe',
+	'PLU_SYSTEM_WARNINGS_2' => 'Ostrzeżeń systemowych',
+	'PLU_WORKFLOWS_ACTIVE_0' => 'Obieg informacji',
+	'PLU_WORKFLOWS_ACTIVE_1' => 'Obiegi informacji',
+	'PLU_WORKFLOWS_ACTIVE_2' => 'Obiegów informacji',
+	'PLU_MODULES_0' => 'Moduł',
+	'PLU_MODULES_1' => 'Moduły',
+	'PLU_MODULES_2' => 'Modułów',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
