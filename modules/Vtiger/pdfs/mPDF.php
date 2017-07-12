@@ -149,15 +149,15 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	/**
 	 * Parse and set options
-	 * @param <Array> $params - array of parameters
+	 * @param array $params - array of parameters
 	 */
-	public function parseParams(array &$params)
+	public function parseParams(array $params)
 	{
-		foreach ($params as $param => &$value) {
+		foreach ($params as $param => $value) {
 			switch ($param) {
 				case 'page_format':
 					$pageOrientation = '';
-					if (array_key_exists('page_orientation', $params)) {
+					if (isset($params['page_orientation'])) {
 						$pageOrientation = $params['page_orientation'];
 					}
 					$this->setPageSize($value, $pageOrientation);
