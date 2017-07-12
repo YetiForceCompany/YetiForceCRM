@@ -153,8 +153,8 @@ class Language
 	private static function getPluralized($count)
 	{
 		//Extract language code from locale with special cases
-		if (strcasecmp(static::getLanguage(), 'pt_BR') === 0) {
-			$lang = 'pt_BR';
+		if (strcasecmp(static::getLanguage(), 'pt_br') === 0) {
+			$lang = 'pt_br';
 		} else {
 			$lang = static::getShortLanguageName();
 		}
@@ -163,7 +163,7 @@ class Language
 			return '';
 		}
 		//Two plural forms
-		if (in_array($lang, array('ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_BR', 'tg', 'ti', 'tr', 'uz', 'wa'))) {
+		if (in_array($lang, array('ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'))) {
 			return ($count > 1) ? '_PLURAL' : '';
 		}
 		if (in_array($lang, array(
