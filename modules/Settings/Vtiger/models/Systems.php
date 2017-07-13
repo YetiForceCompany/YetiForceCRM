@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
+class Settings_Vtiger_Systems_Model extends \App\Base
 {
 
 	const tableName = 'vtiger_systems';
@@ -29,7 +29,7 @@ class Settings_Vtiger_Systems_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 
 		$id = $this->getId();
-		$params = array();
+		$params = [];
 		array_push($params, $this->get('server'), $this->get('server_port'), $this->get('server_username'), $this->get('server_password'), $this->get('server_type'), $this->isSmtpAuthEnabled(), $this->get('server_path'), $this->get('from_email_field'));
 
 		if (empty($id)) {

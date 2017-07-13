@@ -12,11 +12,11 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record = false;
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -34,7 +34,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		parent::preProcess($request);
 		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
@@ -46,7 +46,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function preProcessAjax(Vtiger_Request $request)
+	public function preProcessAjax(\App\Request $request)
 	{
 		parent::preProcessAjax($request);
 		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
@@ -58,7 +58,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
@@ -76,10 +76,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
-		define('_PROCESS_TYPE', 'View');
-		define('_PROCESS_NAME', 'Detail');
+		\App\Config::$processName = 'Detail';
+		\App\Config::$processType = 'View';
 		$request->set('view', 'Detail');
 		$request->delete('action');
 		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
@@ -103,10 +103,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \App\Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
@@ -133,10 +133,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -164,7 +164,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		return $recordModel;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

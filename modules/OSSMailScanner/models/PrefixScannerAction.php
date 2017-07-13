@@ -2,8 +2,9 @@
 
 /**
  * Base for action creating relations on the basis of prefix
- * @package YetiForce.MailScanner
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class OSSMailScanner_PrefixScannerAction_Model

@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * OSSMail module config
+ * @package YetiForce.Config
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $config['db_dsnw'] = 'mysql://' . $dbconfig['db_username'] . ':' . $dbconfig['db_password'] . '@' . $dbconfig['db_server'] . ':' . $dbconfig['db_port'] . '/' . $dbconfig['db_name'];
 $config['db_prefix'] = 'roundcube_';
 $config['default_host'] = ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com',];
@@ -53,8 +58,8 @@ $config['imap_debug'] = AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
 $config['ldap_debug'] = AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
 $config['smtp_debug'] = AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
 $config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
-$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
-$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/mail/';
+$config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/logs/';
+$config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/mail/';
 //Socket context options
 $config['imap_conn_options'] = [
 	'ssl' => [
@@ -77,7 +82,8 @@ $config['enable_authres_status_column'] = true;
 $config['show_statuses'] = 127;
 //CRM Additional configuration parameters
 $config['root_directory'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-$config['site_URL'] = $site_URL;
+$config['site_URL'] = $config['public_URL'] = $site_URL;
+$config['public_URL'] .= strpos($_SERVER['SCRIPT_NAME'], 'public_html/modules/OSSMail') === false ? '' : 'public_html/';
 $config['imap_open_add_connection_type'] = true;
 $config['enable_variables_in_signature'] = false;
 

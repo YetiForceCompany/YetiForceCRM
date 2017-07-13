@@ -296,7 +296,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					INNER JOIN vtiger_selectcolumn ON vtiger_selectcolumn.queryid = vtiger_selectquery.queryid
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex", array($this->getId()));
 
-		$selectedColumns = array();
+		$selectedColumns = [];
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
@@ -323,7 +323,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					INNER JOIN vtiger_report ON vtiger_report.reportid = vtiger_reportsummary.reportsummaryid
 					WHERE vtiger_report.reportid=?', array($this->getId()));
 
-		$columns = array();
+		$columns = [];
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$columns[] = $db->query_result($result, $i, 'columnname');
@@ -343,7 +343,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					INNER JOIN vtiger_reportsortcol ON vtiger_report.reportid = vtiger_reportsortcol.reportid
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_reportsortcol.sortcolid', array($this->getId()));
 
-		$sortColumns = array();
+		$sortColumns = [];
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
@@ -362,7 +362,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
-		$standardFieldInfo = array();
+		$standardFieldInfo = [];
 		if ($db->num_rows($result)) {
 			$standardFieldInfo['columnname'] = $db->query_result($result, 0, 'datecolumnname');
 			$standardFieldInfo['type'] = $db->query_result($result, 0, 'datefilter');
@@ -616,7 +616,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$tempVal = explode(",", $advFilterValue);
 					if (($columnInfo[4] == 'D' || ($columnInfo[4] == 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
 						($columnInfo[4] == 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' )) {
-						$val = Array();
+						$val = [];
 						$countTempVal = count($tempVal);
 						for ($i = 0; $i < $countTempVal; $i++) {
 							if (trim($tempVal[$i]) != '') {
@@ -733,7 +733,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$query = $this->get('recordCountQuery');
 		$adb = PearDatabase::getInstance();
 		$count = 0;
-		$result = $adb->query($query, array());
+		$result = $adb->query($query, []);
 		if ($adb->num_rows($result) > 0) {
 			$count = $adb->query_result($result, 0, 'count');
 		}
@@ -808,7 +808,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$data = array();
+		$data = [];
 		$data['data'] = $reportRun->GenerateReport('PRINT', $advanceFilterSql);
 		$data['total'] = $reportRun->GenerateReport('PRINT_TOTAL', $advanceFilterSql);
 		return $data;
@@ -845,7 +845,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$primaryModule = $this->getPrimaryModule();
 		$primaryModuleFields = $this->getPrimaryModuleFields();
-		$calculationFields = array();
+		$calculationFields = [];
 		foreach ($primaryModuleFields[$primaryModule] as $blocks) {
 			if (!empty($blocks)) {
 				foreach ($blocks as $fieldType => $fieldName) {
@@ -868,7 +868,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getSecondaryModuleCalculationFields()
 	{
-		$secondaryModuleCalculationFields = array();
+		$secondaryModuleCalculationFields = [];
 		$secondaryModules = $this->getSecondaryModules();
 		if (!empty($secondaryModules)) {
 			$secondaryModulesList = explode(':', $secondaryModules);
@@ -877,7 +877,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$secondaryModuleFields = $this->getSecondaryModuleFields();
 
 			for ($i = 0; $i < $count; $i++) {
-				$calculationFields = array();
+				$calculationFields = [];
 				$secondaryModule = $secondaryModulesList[$i];
 				foreach ($secondaryModuleFields[$secondaryModule] as $blocks) {
 					if (!empty($blocks)) {
@@ -921,7 +921,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$standardFilter = $this->transformStandardFilter();
 		$advancedFilter = $this->getSelectedAdvancedFilter();
-		$allGroupColumns = $anyGroupColumns = array();
+		$allGroupColumns = $anyGroupColumns = [];
 		foreach ($advancedFilter as $index => $group) {
 			$columns = $group['columns'];
 			$and = $or = 0;
@@ -948,7 +948,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		if ($standardFilter) {
 			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
 		}
-		$transformedAdvancedCondition = array();
+		$transformedAdvancedCondition = [];
 		$transformedAdvancedCondition[1] = array('columns' => $allGroupColumns, 'condition' => 'and');
 		$transformedAdvancedCondition[2] = array('columns' => $anyGroupColumns, 'condition' => '');
 
@@ -963,7 +963,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$standardFilter = $this->getSelectedStandardFilter();
 		if (!empty($standardFilter)) {
-			$tranformedStandardFilter = array();
+			$tranformedStandardFilter = [];
 			$tranformedStandardFilter['comparator'] = 'bw';
 
 			$fields = explode(':', $standardFilter['columnname']);
@@ -991,8 +991,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$advancedFilter = $this->get('advancedFilter');
 
-		$advancedFilterCriteria = array();
-		$advancedFilterCriteriaGroup = array();
+		$advancedFilterCriteria = [];
+		$advancedFilterCriteriaGroup = [];
 		if (is_array($advancedFilter)) {
 			foreach ($advancedFilter as $groupIndex => $groupInfo) {
 				$groupColumns = $groupInfo['columns'];
@@ -1094,7 +1094,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return Reports_ScheduleReports_Model::getInstanceById($this->getId());
 	}
 
-	public static function getRecordsListFromRequest(Vtiger_Request $request)
+	public static function getRecordsListFromRequest(\App\Request $request)
 	{
 		$folderId = $request->get('viewname');
 		$module = $request->get('module');
@@ -1117,12 +1117,12 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	public function getModuleCalculationFieldsForReport()
 	{
 		$aggregateFunctions = $this->getAggregateFunctions();
-		$moduleFields = array();
+		$moduleFields = [];
 		$primaryModuleFields = $this->getPrimaryModuleCalculationFields();
 		$secondaryModuleFields = $this->getSecondaryModuleCalculationFields();
 		$moduleFields = array_merge($primaryModuleFields, $secondaryModuleFields);
 		foreach ($moduleFields as $moduleName => $fieldList) {
-			$fields = array();
+			$fields = [];
 			if (!empty($fieldList)) {
 				foreach ($fieldList as $column => $label) {
 					foreach ($aggregateFunctions as $function) {
@@ -1211,7 +1211,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$secondaryModules = @explode(':', $secondaryModules);
 		if (is_array($secondaryModules)) {
-			$secondaryModuleFieldInstances = array();
+			$secondaryModuleFieldInstances = [];
 			foreach ($secondaryModules as $secondaryModule) {
 				if (!empty($secondaryModule)) {
 					$secondaryModuleModel = Vtiger_Module_Model::getInstance($secondaryModule);

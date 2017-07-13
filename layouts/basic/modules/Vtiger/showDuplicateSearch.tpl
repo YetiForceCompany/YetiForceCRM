@@ -20,7 +20,7 @@
 			<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
 				<input type='hidden' name='module' value='{$MODULE}' />
 				<input type='hidden' name='view' value='FindDuplicates' />
-				<br>
+				<br />
 				<div class="form-group">
 					<div class="col-sm-3 control-label">
 						{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}
@@ -39,7 +39,7 @@
 							<div class="col-md-10">
 								<label><input type="checkbox" name="ignoreEmpty" title="{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
 							</div>
-						<br>
+						<br />
 					</div>
 				</div>
 				<div class="modal-footer">

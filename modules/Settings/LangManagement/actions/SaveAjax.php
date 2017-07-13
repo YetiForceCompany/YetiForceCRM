@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings LangManagement SaveAjax action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
@@ -28,7 +25,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$this->exposeMethod('setAsDefault');
 	}
 
-	public function addTranslation(Vtiger_Request $request)
+	public function addTranslation(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$form_data = $params['form_data'];
@@ -53,9 +50,9 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 
 	/**
 	 * Save translations
-	 * @param \Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function saveTranslation(Vtiger_Request $request)
+	public function saveTranslation(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::saveTranslation($params);
@@ -67,7 +64,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function saveView(Vtiger_Request $request)
+	public function saveView(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::saveView($params);
@@ -81,9 +78,9 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 
 	/**
 	 * Remove translation
-	 * @param \Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function deleteTranslation(Vtiger_Request $request)
+	public function deleteTranslation(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::deleteTranslation($params);
@@ -95,7 +92,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function add(Vtiger_Request $request)
+	public function add(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::add($params);
@@ -107,7 +104,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::save($params);
@@ -120,7 +117,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::delete($params);
@@ -133,7 +130,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function setAsDefault(Vtiger_Request $request)
+	public function setAsDefault(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);

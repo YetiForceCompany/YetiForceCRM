@@ -57,7 +57,7 @@ class CommonTokenStream implements TokenStream {
 
 	public function __construct($tokenSource, $channel=null) {
 		$this->channel = TokenConst::$DEFAULT_CHANNEL;
-		$this->tokens = array();
+		$this->tokens = [];
 		$this->tokenSource = $tokenSource;
 		if($channel != null){
 			$this->channel = $channel;
@@ -67,7 +67,7 @@ class CommonTokenStream implements TokenStream {
 	/** Reset this token stream by setting its token source. */
 	public function setTokenSource($tokenSource) {
 		$this->tokenSource = $tokenSource;
-		$this->tokens = array();
+		$this->tokens = [];
 		$this->p = -1;
 		$this->channel = TokenConst::$DEFAULT_CHANNEL;
 	}
@@ -148,7 +148,7 @@ class CommonTokenStream implements TokenStream {
 	 */
 	public function setTokenTypeChannel($ttype, $channel) {
 		if ( $this->channelOverrideMap==null ) {
-			$this->channelOverrideMap = array();
+			$this->channelOverrideMap = [];
 		}
         $this->channelOverrideMap[$ttype] = $channel;
 	}
@@ -194,7 +194,7 @@ class CommonTokenStream implements TokenStream {
 		}
 
 		// list = tokens[start:stop]:{Token t, t.getType() in types}
-		$filteredTokens = array();
+		$filteredTokens = [];
 		for ($i=$start; $i<=$stop; $i++) {
 			$t = $this->tokens[$i];
 			if ( $types==null || $types->member($t->getType())) {

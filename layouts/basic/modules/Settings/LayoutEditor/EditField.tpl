@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -15,7 +15,7 @@
 				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}">
 				{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 				{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-				<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:&nbsp;</strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br>
+				<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:&nbsp;</strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br />
 				<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}:&nbsp;</strong>{$FIELD_MODEL->getFieldName()}
 				<hr class="marginTop10">
 				<div class="checkbox">

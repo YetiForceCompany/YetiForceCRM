@@ -68,7 +68,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			$pattern = '/\$([^=]+)=([^;]+);/';
 			$matches = null;
 			$matchesFound = preg_match_all($pattern, $fileContent, $matches);
-			$configContents = array();
+			$configContents = [];
 			if ($matchesFound) {
 				$configContents = $matches[0];
 			}
@@ -117,7 +117,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
-			return Yeti_Layout::getAllLayouts();
+			return \App\Layout::getAllLayouts();
 		}
 		return ['true', 'false'];
 	}

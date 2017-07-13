@@ -29,48 +29,48 @@
 		<div class="padding1per border1px">
 			<div class="">
 				<div>
-					<div><h4><strong>{vtranslate('LBL_SELECT_CHART_TYPE',$MODULE)}</strong></h4></div><br>
+					<div><h4><strong>{vtranslate('LBL_SELECT_CHART_TYPE',$MODULE)}</strong></h4></div><br />
 					<div>
 						<div>
 							<ul class="nav nav-tabs" name="charttab" style="text-align:center;font-size:14px;font-weight: bold;margin:0 3%;border:0px">
 								<li class="active marginRight5px" >
 									<a data-type="pieChart" data-toggle="tab">
-										<div><img src="{vimage_path('pie.png')}" alt="{vtranslate('LBL_PIE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('pie.png')}" alt="{vtranslate('LBL_PIE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{vtranslate('LBL_PIE_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px">
 									<a data-type="verticalbarChart" data-toggle="tab">
-										<div><img src="{vimage_path('vbar.png')}" alt="{vtranslate('LBL_VERTICAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('vbar.png')}" alt="{vtranslate('LBL_VERTICAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{vtranslate('LBL_VERTICAL_BAR_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px">
 									<a data-type="horizontalbarChart" data-toggle="tab">
-										<div><img src="{vimage_path('hbar.png')}" alt="{vtranslate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('hbar.png')}" alt="{vtranslate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{vtranslate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px" >
 									<a data-type="lineChart" data-toggle="tab">
-										<div><img src="{vimage_path('line.png')}" alt="{vtranslate('LBL_LINE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br>
+										<div><img src="{vimage_path('line.png')}" alt="{vtranslate('LBL_LINE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{vtranslate('LBL_LINE_CHART', $MODULE)}</div>
 									</a>
 								</li>
 							</ul>
 							<div class='tab-content contentsBackground' style="height:auto;padding:4%;border:1px solid #ccc;">
-								<br>
+								<br />
 								<div class="row tab-pane active">
 									<div>
 										<span class="col-md-4">
-											<div><span>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
+											<div><span>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br />
 											<div class="row">
 												<select id='groupbyfield' name='groupbyfield' class="col-md-10 validate[required] form-control" data-validation-engine="validate[required]" style='min-width:300px;'></select>
 											</div>
 										</span>
 										<span class="col-md-2">&nbsp;</span>
 										<span class="col-md-4">
-											<div><span>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br>
+											<div><span>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}</span><span class="redColor">*</span></div><br />
 											<div class="row">
 												<select id='datafields' name='datafields[]' class="col-md-10 validate[required] form-control" data-validation-engine="validate[required]" style='min-width:300px;'>
 												</select></div>
@@ -83,7 +83,7 @@
 											<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;
 											{vtranslate('LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD', $MODULE)}
 										</div>
-										<br>
+										<br />
 										<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{vtranslate('LBL_FOR_BAR_GRAPH_AND_LINE_GRAPH_SELECT_3_MAX_DATA_FIELDS', $MODULE)}</div>
 									</span>
 								</div>
@@ -96,12 +96,12 @@
 				</div>
 			</div>
 		</div>
-		<br>
+		<br />
 		<div class="pull-right block padding20px">
 			<button type="button" class="btn btn-danger backStep"><strong>{vtranslate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success" id="generateReport"><strong>{vtranslate('LBL_GENERATE_CHART',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{vtranslate('LBL_CANCEL',$MODULE)}</a>&nbsp;&nbsp;
-			<br>
+			<br />
 		</div>
 	</form>
 {/strip}

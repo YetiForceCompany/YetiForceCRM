@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="sumaryRelatedTimeControl">
 		<link rel="stylesheet" href="libraries/jquery/flot/jquery.flot.valuelabels.css">
 		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.min.js"></script>
 		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.stack.min.js"></script>
 		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.valuelabels.min.js"></script>
-		<script type="text/javascript" src="{Yeti_Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
 		<style type="text/css">
 		.legendContainer{
 			position: absolute;

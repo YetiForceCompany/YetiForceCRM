@@ -88,7 +88,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());
 			$result = $db->pquery($query, []);
 			$num_rows = $db->num_rows($result);
-			$fieldPickListValues = array();
+			$fieldPickListValues = [];
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
 				$fieldPickListValues[$picklistValue] = vtranslate($picklistValue, $this->getModuleName());
@@ -131,7 +131,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function getAllRoles()
 	{
 		$roleModels = Settings_Roles_Record_Model::getAll();
-		$roles = array();
+		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
 			$roleName = $roleModel->getName();
 			$roles[$roleName] = $roleId;

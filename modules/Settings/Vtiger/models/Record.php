@@ -11,7 +11,7 @@
 /**
  * Roles Record Model Class
  */
-abstract class Settings_Vtiger_Record_Model extends Vtiger_Base_Model
+abstract class Settings_Vtiger_Record_Model extends App\Base
 {
 
 	abstract function getId();
@@ -21,8 +21,8 @@ abstract class Settings_Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getRecordLinks()
 	{
 
-		$links = array();
-		$recordLinks = array();
+		$links = [];
+		$recordLinks = [];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}

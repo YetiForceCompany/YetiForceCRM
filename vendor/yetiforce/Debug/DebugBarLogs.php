@@ -14,8 +14,8 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 {
 
 	protected $name;
-	protected $messages = array();
-	protected $aggregates = array();
+	protected $messages = [];
+	protected $aggregates = [];
 	protected $dataFormater;
 
 	/**
@@ -92,7 +92,7 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	 */
 	public function clear()
 	{
-		$this->messages = array();
+		$this->messages = [];
 	}
 
 	/**

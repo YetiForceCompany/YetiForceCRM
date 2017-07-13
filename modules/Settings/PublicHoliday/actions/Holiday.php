@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings PublicHoliday holiday action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 {
 
@@ -23,7 +20,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 	 * @param <Object> $request
 	 * @return true if deleted, false otherwise
 	 */
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$moduleName = 'Settings:' . $request->getModule();
@@ -48,7 +45,7 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 	 * @param <Object> $request
 	 * @return true if saved, false otherwise
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$moduleName = 'Settings:' . $request->getModule();

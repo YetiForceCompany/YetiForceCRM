@@ -1,18 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSMailView sview view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSMailView_sview_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -24,29 +21,20 @@ class OSSMailView_sview_View extends Vtiger_Index_View
 		return true;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-
-		$from = $recordModel->get('from_email');
-		$to = $recordModel->get('to_email');
+		$to = $recordModel->getForHtml('to_email');
 		$to = explode(',', $to);
-		$cc = $recordModel->get('cc_email');
-		$bcc = $recordModel->get('bcc_email');
-		$subject = $recordModel->get('subject');
-		$owner = $recordModel->get('assigned_user_id');
-		$sent = $recordModel->get('createdtime');
-
-		// pobierz załączniki
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 				'Documents' ActivityType,vtiger_attachments.type  FileType,vtiger_crmentity.modifiedtime,
@@ -73,14 +61,14 @@ class OSSMailView_sview_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $load);
-		$viewer->assign('FROM', $from);
+		$viewer->assign('FROM', $recordModel->getForHtml('from_email'));
 		$viewer->assign('TO', $to);
-		$viewer->assign('CC', $cc);
-		$viewer->assign('BCC', $bcc);
-		$viewer->assign('SUBJECT', $subject);
+		$viewer->assign('CC', $recordModel->getForHtml('cc_email'));
+		$viewer->assign('BCC', $recordModel->getForHtml('bcc_email'));
+		$viewer->assign('SUBJECT', $recordModel->getForHtml('subject'));
 		$viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
-		$viewer->assign('OWNER', $owner);
-		$viewer->assign('SENT', $sent);
+		$viewer->assign('OWNER', $recordModel->get('assigned_user_id'));
+		$viewer->assign('SENT', $recordModel->get('createdtime'));
 		$viewer->assign('ATTACHMENTS', $attachments);
 		$viewer->assign('RECORD', $record);
 		$viewer->view('sview.tpl', 'OSSMailView');

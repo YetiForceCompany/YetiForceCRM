@@ -3,7 +3,8 @@
 /**
  * Returns special functions for PDF Settings
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -16,7 +17,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('Upload');
 	}
 
-	public function Delete(Vtiger_Request $request)
+	public function Delete(\App\Request $request)
 	{
 		$recordId = $request->get('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
@@ -27,7 +28,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function Upload(Vtiger_Request $request)
+	public function Upload(\App\Request $request)
 	{
 		$templateId = $request->get('template_id');
 		$newName = basename($_FILES['watermark']['name'][0]);

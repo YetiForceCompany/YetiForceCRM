@@ -92,7 +92,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'MultiImage', 'CategoryMultipicklist'
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'CategoryMultipicklist'//, 'MultiImage'
 		];
 	}
 
@@ -380,7 +380,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function checkFieldNameCharacters($name)
 	{
-		if (preg_match('#[^a-z0-9]#is', $name)) {
+		if (preg_match('#[^a-z0-9]#is', $name) || !preg_match('/[a-z]/i', $name)) {
 			return true;
 		}
 		if (strpos($name, ' ') !== false) {

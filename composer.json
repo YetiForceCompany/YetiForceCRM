@@ -2,7 +2,7 @@
 	"name": "yetiforce/yetiforce-crm",
 	"description": "An open and innovative CRM system.",
 	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm"],
-	"license": "YetiForce Public License 1.1",
+	"license": "YetiForce Public License 2.0",
 	"homepage": "https://yetiforce.com/",
 	"type": "project",
 	"support": {
@@ -34,13 +34,12 @@
 		"ext-soap": "*",
 		"ext-zip": "*",
 		"ext-xml": "*",
-		"rmccue/requests": ">=1.7",
-		"smarty/smarty": ">=3.1.31",
-		"phpmailer/phpmailer": ">=v5.2.22",
-		"ezyang/htmlpurifier": ">=v4.8.0",
+		"rmccue/requests": "1.7",
+		"smarty/smarty": "3.1.31",
+		"phpmailer/phpmailer": "v5.2.22",
+		"ezyang/htmlpurifier": "v4.8.0",
 		"symfony/var-dumper": "v3.2.2",
-		"simshaun/recurr": "v2.1",
-		"linfo/linfo": "v3.0.1"
+		"simshaun/recurr": "v2.1"
 	},
 	"archive": {
 		"exclude": [
@@ -56,6 +55,7 @@
 			"includes\\": "include/",
 			"App\\": "vendor/yetiforce/",
 			"Api\\": "api/webservice/",
+			"Cron\\": "cron/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
 		}

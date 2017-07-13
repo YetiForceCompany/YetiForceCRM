@@ -53,7 +53,7 @@ class VTTaskQueue
 		$time = time();
 		$result = $adb->pquery('SELECT task_id, entity_id, task_contents FROM com_vtiger_workflowtask_queue WHERE do_after<?', array($time));
 		$it = new SqlResultIterator($adb, $result);
-		$arr = array();
+		$arr = [];
 		foreach ($it as $row) {
 			$arr[] = array($row->task_id, $row->entity_id, $row->task_contents);
 		}

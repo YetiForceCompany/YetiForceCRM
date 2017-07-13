@@ -15,7 +15,7 @@ class TraceablePDO extends PDO
 	protected $pdo;
 
 	/** @var array */
-	static protected $executedStatements = array();
+	static protected $executedStatements = [];
 
 	public function __construct(PDO $pdo)
 	{
@@ -130,7 +130,7 @@ class TraceablePDO extends PDO
 	 * PDO::prepare returns a PDOStatement object. If the database server cannot successfully prepare
 	 * the statement, PDO::prepare returns FALSE or emits PDOException (depending on error handling).
 	 */
-	public function prepare($statement, $driver_options = array())
+	public function prepare($statement, $driver_options = [])
 	{
 		return $this->pdo->prepare($statement, $driver_options);
 	}

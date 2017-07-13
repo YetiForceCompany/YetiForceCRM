@@ -235,9 +235,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$recordModel->saveInventoryData($moduleName);
 		}
 		// vtlib customization: Hook provide to enable generic module relation.
-		if (AppRequest::get('createmode') === 'link') {
-			$forModule = AppRequest::get('return_module');
-			$forCrmid = AppRequest::get('return_id');
+		if (\App\Request::_get('createmode') === 'link') {
+			$forModule = \App\Request::_get('return_module');
+			$forCrmid = \App\Request::_get('return_id');
 			if ($forModule && $forCrmid) {
 				$focus = CRMEntity::getInstance($forModule);
 				relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
@@ -1458,18 +1458,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function returns all the related modules for workflows create entity task
-	 * @return <JSON>
-	 */
-	public function vtJsonDependentModules()
-	{
-		vimport('~modules/com_vtiger_workflow/WorkflowComponents.php');
-		$db = PearDatabase::getInstance();
-		$param = array('modulename' => $this->getName());
-		return vtJsonDependentModules($db, $param);
-	}
-
-	/**
 	 * Function returns mandatory field Models
 	 * @return Vtiger_Field_Model[]
 	 */
@@ -1554,7 +1542,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return true;
 	}
 
-	public function getValuesFromSource(Vtiger_Request $request, $moduleName = false)
+	public function getValuesFromSource(\App\Request $request, $moduleName = false)
 	{
 		$data = [];
 		if (!$moduleName) {
@@ -1620,7 +1608,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					}
 				}
 			}
-			if ($relationField && ($moduleName != $sourceModule || AppRequest::get('addRelation'))) {
+			if ($relationField && ($moduleName != $sourceModule || \App\Request::_get('addRelation'))) {
 				$data[$relationField] = $sourceRecord;
 			}
 		}

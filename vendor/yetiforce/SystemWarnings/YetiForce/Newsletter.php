@@ -3,8 +3,9 @@ namespace App\SystemWarnings\YetiForce;
 
 /**
  * Privilege File basic class
- * @package YetiForce.SystemWarnings
- * @license licenses/License.html
+ * @package YetiForce.SystemWarning
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Newsletter extends \App\SystemWarnings\Template
@@ -52,7 +53,7 @@ class Newsletter extends \App\SystemWarnings\Template
 			$request = \Requests::POST('https://api.yetiforce.com/newsletter', [], array_merge($params, [
 					'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
 					'version' => \App\Version::get(),
-					'language' => \Vtiger_Language_Handler::getLanguage(),
+					'language' => \App\Language::getLanguage(),
 					'timezone' => date_default_timezone_get(),
 					]), ['useragent' => 'YetiForceCRM']);
 			if ($request->body === 'OK') {

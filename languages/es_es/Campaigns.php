@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
+	'Expected Start date' => 'Fecha prevista de inicio',
 	'Campaign Name' => 'Nombre de la Campaña',
 	'Campaign No' => 'ID',
 	'Campaigns' => 'Campañas',
@@ -28,7 +29,7 @@ $languageStrings = [
 	'Actual ROI' => 'ROI real',
 	'Actual Sales Count' => 'Núm. de Oportunidades reales',
 	'Advertisement' => 'Publicidad',
-	'Partners' => 'Partners',
+	'Partners' => 'Socios',
 	'Average' => 'Media',
 	'Banner Ads' => 'Anuncios de banners',
 	'Cancelled' => 'Cancelada',
@@ -44,7 +45,7 @@ $languageStrings = [
 	'Expected Sales Count' => 'Núm. de Oportunidades previstas',
 	'Good' => 'Buena',
 	'Inactive' => 'Inactiva',
-	'Active' => 'Activa',
+	'Active' => 'Activo',
 	'--None--' => '--Ninguna--',
 	'Num Sent' => 'Número de envios',
 	'Others' => 'Otros',

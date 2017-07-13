@@ -21,7 +21,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$this->exposeMethod('updateUserModuleStep3');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
@@ -42,10 +42,10 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -59,7 +59,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		return $headerScriptInstances;
 	}
 
-	public function importUserModuleStep1(Vtiger_Request $request)
+	public function importUserModuleStep1(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -67,7 +67,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep2(Vtiger_Request $request)
+	public function importUserModuleStep2(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$uploadDir = Settings_ModuleManager_Module_Model::getUploadDirectory();
@@ -115,7 +115,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
 	}
 
-	public function importUserModuleStep3(Vtiger_Request $request)
+	public function importUserModuleStep3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -151,7 +151,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
 	}
 
-	public function updateUserModuleStep3(Vtiger_Request $request)
+	public function updateUserModuleStep3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -183,7 +183,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

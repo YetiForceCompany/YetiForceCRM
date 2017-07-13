@@ -1,23 +1,20 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSMailView graf dashboard class
+ * @package YetiForce.Dashboard
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 {
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = array(
 			//Place your widget specific css files here
@@ -28,8 +25,8 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getSearchParams($stage, $assignedto, $dates)
 	{
-		$listSearchParams = array();
-		$conditions = array();
+		$listSearchParams = [];
+		$conditions = [];
 		array_push($conditions, array("ossmailview_sendtype", "e", $stage));
 		if ($assignedto == '') {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
@@ -51,7 +48,7 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings OSSMailView index view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
 
@@ -58,17 +55,35 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		return ['start' => $timeStart, 'end' => date('Y-m-d')];
 	}
 
+	/**
+	 *Function to get all dashboard
+	 * @return array
+	 */
 	public static function getDashboardTypes()
 	{
-		return (new App\Db\Query())->from('u_#__dashboard_type')->all();
+		if (App\Cache::has('WidgetsDashboard', 'AllTypes')){
+			return App\Cache::get('WidgetsDashboard', 'AllTypes');
+		}
+		$types = (new App\Db\Query())->from('u_#__dashboard_type')->all();
+		App\Cache::save('WidgetsDashboard', 'AllTypes', $types);
+		return $types;
 	}
 
+	/**
+	 * Function to get id of default dashboard
+	 * @return int
+	 */
 	public static function getDefaultDashboard()
 	{
-		return (new App\Db\Query())->select('dashboard_id')
-				->from('u_#__dashboard_type')
-				->where(['system' => 1])
-				->scalar();
+		$allTypes = self::getDashboardTypes();
+		$dashboardId = 0;
+		foreach ($allTypes as $dashboard) {
+			if ((int) $dashboard['system'] === 1) {
+				$dashboardId = $dashboard['dashboard_id'];
+				break;
+			}
+		}
+		return $dashboardId;
 	}
 
 	public static function saveDashboard($dashboardId, $dashboardName)
@@ -82,6 +97,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				->update('u_#__dashboard_type', ['name' => $dashboardName], ['dashboard_id' => $dashboardId])
 				->execute();
 		}
+		App\Cache::delete('WidgetsDashboard', 'AllTypes');
 	}
 
 	public static function deleteDashboard($dashboardId)
@@ -93,6 +109,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['dashboard_id' => $dashboardId])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $blocks])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['dashboardid' => $dashboardId])->execute();
+		App\Cache::delete('WidgetsDashboard', 'AllTypes');
 	}
 
 	public static function getDashboardInfo($dashboardId)

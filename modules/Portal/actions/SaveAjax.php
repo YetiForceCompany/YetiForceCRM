@@ -12,7 +12,7 @@
 class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
@@ -20,7 +20,7 @@ class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('record');

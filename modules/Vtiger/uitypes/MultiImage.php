@@ -2,7 +2,8 @@
 /**
  * UIType MultiImage Field Class
  * @package YetiForce.UIType
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Michał Lorencik <m.lorencik@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -85,7 +86,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	{
 		$field = $this->getFieldModel();
 		$moduleName = $field->getModuleName();
-		return "file.php?module=$moduleName&action=Image&attachment=$value&record=$recordId&field={$field->getId()}";
+		return "file.php?module=$moduleName&action=MultiImage&record=$recordId&attachment=$value&field={$field->getId()}";
 	}
 
 	/**
@@ -122,13 +123,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 */
 	public function getMultiImageQuery($value, $fields = [], $limit = true)
 	{
-		$field = $this->getFieldModel();
 		$query = (new App\Db\Query());
 		if ($fields) {
 			$query->select($fields);
 		}
-		$query->from('u_#__attachments')
-			->where(['attachmentid' => explode(',', $value)]);
+		$query->from('u_#__attachments')->where(['attachmentid' => explode(',', $value)]);
 		if ($limit) {
 			$query->limit(AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
 		}

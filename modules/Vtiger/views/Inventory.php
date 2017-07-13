@@ -2,8 +2,9 @@
 
 /**
  * Basic Inventory View Class
- * @package YetiForce.Views
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
@@ -16,7 +17,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showTaxes');
 	}
 
-	public function showDiscounts(Vtiger_Request $request)
+	public function showDiscounts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$discountType = $request->get('discountType');
@@ -45,9 +46,9 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 
 	/**
 	 * Function to show taxes
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function showTaxes(Vtiger_Request $request)
+	public function showTaxes(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

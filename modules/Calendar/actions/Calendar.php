@@ -1,18 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Calendar action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -30,7 +27,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -38,11 +35,11 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function getEvents(Vtiger_Request $request)
+	public function getEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
 		$record->set('user', $request->get('user'));
-		$record->set('types', $request->get('types'));
+		$record->set('types', $request->getArray('types'));
 		$record->set('time', $request->get('time'));
 		if ($request->get('start') && $request->get('end')) {
 			$record->set('start', $request->get('start'));
@@ -63,7 +60,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function updateEvent(Vtiger_Request $request)
+	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');

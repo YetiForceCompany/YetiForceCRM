@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<br><br>
+	<br /><br />
 	<div class="row">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-4 well-md" style="overflow: hidden">
@@ -23,8 +23,8 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{vtranslate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{vtranslate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br>
-			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span>{vtranslate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br>
+			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{vtranslate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{vtranslate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
+			<div><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;<span>{vtranslate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
 			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{vtranslate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
 		</div>		
 	</div>				

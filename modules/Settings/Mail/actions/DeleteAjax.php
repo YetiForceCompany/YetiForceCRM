@@ -3,17 +3,18 @@
 /**
  * Mail delete action model class
  * @package YetiForce.Settings.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
@@ -23,9 +24,9 @@ class Settings_Mail_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -38,9 +39,9 @@ class Settings_Mail_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 	
 	/**
 	 * Validate Request
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

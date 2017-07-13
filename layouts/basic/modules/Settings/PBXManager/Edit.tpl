@@ -47,12 +47,12 @@
 				</table>
 			</div>
 		</form>
-	</div><br>
+	</div><br />
 	<div class="col-md-5 paddingLRZero">
 		<div class="alert alert-info">
-			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
-			{vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
-			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br>
+			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br />
+			{vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br />
+			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br />
 			{vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
 		</div>
 	</div>

@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Mail smtp german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'MailSmtp' => 'SMTP Konfiguration',
 	'LBL_MAIL_SMTP' => 'SMTP Konfiguration',
@@ -19,6 +24,11 @@ $languageStrings = [
 	'LBL_REPLY_TO' => 'Reply to',
 	'LBL_NAME' => 'Name',
 	'LBL_FROM_EMAIL' => 'Sender E-Mail',
+	'LBL_SAVE_SEND_MAIL' => 'Do you want to save a sent email?',
+	'LBL_SAVE_SEND_MAIL_INFO' => 'All sent emails are not saved (Gmail saves them automatically, so there is no need to enable this option). In order to save emails, enter an additional configuration.',
+	'LBL_VALIDATE_CERT' => 'Do you want to validate the certificate?',
+	'LBL_IMAP_SAVE_MAIL' => 'IMAP configuration for saving emails',
+	'LBL_SEND_FOLDER' => 'Folder',
 	// Picklist
 	'LBL_SMTP' => 'SMTP',
 	'LBL_SENDMAIL' => 'Sendmail',

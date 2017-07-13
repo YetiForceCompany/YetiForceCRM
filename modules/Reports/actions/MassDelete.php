@@ -12,7 +12,7 @@
 class Reports_MassDelete_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -20,22 +20,22 @@ class Reports_MassDelete_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$parentModule = 'Reports';
 		$recordIds = Reports_Record_Model::getRecordsListFromRequest($request);
 
-		$reportsDeleteDenied = array();
+		$reportsDeleteDenied = [];
 		foreach ($recordIds as $recordId) {
 			$recordModel = Reports_Record_Model::getInstanceById($recordId);
 			if (!$recordModel->isDefault() && $recordModel->isEditable()) {

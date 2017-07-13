@@ -12,7 +12,7 @@
 /**
  * CustomView Record Model Class
  */
-class CustomView_Record_Model extends Vtiger_Base_Model
+class CustomView_Record_Model extends \App\Base
 {
 
 	protected $isFeatured = false;
@@ -250,6 +250,19 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 	 */
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
+		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords);
+		return $queryGenerator->createQuery()->column();
+	}
+
+	/**
+	 * Create query
+	 * @param int[] $skipRecords
+	 * @param string $module
+	 * @param bool $lockRecords
+	 * @return \App\QueryGenerator
+	 */
+	public function getRecordsListQuery($skipRecords = false, $module = false, $lockRecords = false)
+	{
 		$cvId = $this->getId();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
@@ -279,7 +292,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 			$queryGenerator->deletedCondition = false;
 			$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted = 1']);
 		}
-		if (!empty($skipRecords) && count($skipRecords) > 0) {
+		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
@@ -290,7 +303,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		return $queryGenerator->createQuery()->column();
+		return $queryGenerator;
 	}
 
 	/**
@@ -438,7 +451,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 
 					$temp_val = explode(",", $advFitlerValue);
 					if (($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
-						$val = Array();
+						$val = [];
 						$countTempVal = count($temp_val);
 						for ($x = 0; $x < $countTempVal; $x++) {
 							//if date and time given then we have to convert the date and
@@ -671,7 +684,7 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 				$col = explode(":", $relcriteriarow["columnname"]);
 				$temp_val = explode(",", $relcriteriarow["value"]);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
-					$val = Array();
+					$val = [];
 					$countTempVal = count($temp_val);
 					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
@@ -794,16 +807,21 @@ class CustomView_Record_Model extends Vtiger_Base_Model
 		return 'index.php?module=CustomView&action=Delete&sourceModule=' . $this->getModule()->get('name') . '&record=' . $this->getId();
 	}
 
+	/**
+	 * Function to approve filter
+	 */
 	public function approve()
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PUBLIC, $this->getId()));
+		App\Db::getInstance()->createCommand()
+				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
+				->execute();
 	}
 
 	public function deny()
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(App\CustomView::CV_STATUS_PRIVATE, $this->getId()));
+		App\Db::getInstance()->createCommand()
+				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
+				->execute();
 	}
 
 	/**

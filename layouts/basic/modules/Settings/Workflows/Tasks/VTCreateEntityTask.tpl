@@ -29,7 +29,7 @@
 			</label>
 		</div>
 	</div>
-	<hr><br>
+	<hr><br />
 	<div class="createOwnMapp{if $MAPPING_PANEL} hide{/if}">
 		<div class="row">
 			<label class="col-md-4 control-label">
@@ -48,7 +48,7 @@
 					{/foreach}	
 				</select>
 			</div>
-		</div><br>
+		</div><br />
 	</div>
 	<div class="getFromPanelMapp{if !$MAPPING_PANEL} hide{/if}">
 		<div class="row">
@@ -66,7 +66,7 @@
 					{/foreach}	
 				</select>
 			</div>
-		</div><br>
+		</div><br />
 	</div>
 	<div id="addCreateEntityContainer">
 		{include file="CreateEntity.tpl"|@vtemplate_path:$QUALIFIED_MODULE}

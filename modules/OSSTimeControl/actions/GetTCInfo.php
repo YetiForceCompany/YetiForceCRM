@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * OSSTimeControl GetTCInfo action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -21,7 +26,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$moduleName = $request->getModule();
@@ -29,7 +34,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		$id = $request->get('id');
 		$sourceModule = $request->get('sourceModule');
 
-		$sourceData = array();
+		$sourceData = [];
 
 		if (isRecordExists($id)) {
 			$record = Vtiger_Record_Model::getInstanceById($id, $sourceModule);

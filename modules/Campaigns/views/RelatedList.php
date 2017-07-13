@@ -11,7 +11,7 @@
 class Campaigns_RelatedList_View extends Vtiger_RelatedList_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$relatedModuleName = $request->get('relatedModule');
 		$viewer = $this->getViewer($request);

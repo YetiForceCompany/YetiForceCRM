@@ -3,7 +3,8 @@
 /**
  * Mail scanner action creating HelpDesk
  * @package YetiForce.MailScanner
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailScanner_CreatedHelpDesk_ScannerAction
@@ -67,7 +68,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		}
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
-		$record->set('ticket_title', $mail->get('subject'));
+		$record->set('ticket_title', \App\Purifier::purify($mail->get('subject')));
 		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
 		$record->set('ticketstatus', 'Open');
 		$record->set('id', '');

@@ -1,8 +1,13 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * IGDNC spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'IGDNC' => 'Goods Dispatched Notes Corrections',
-	'SINGLE_IGDNC' => 'Goods Dispatched Note Correction',
+	'IGDNC' => 'Corrección de las notas de envío de mercancías',
+	'SINGLE_IGDNC' => 'Corrección de la nota de envío de mercancías',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',
@@ -11,7 +16,7 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Asunto',
 	'FL_STORAGE' => 'Almacenamiento',
 	'FL_STATUS' => 'Estado',
-	'FL_IGDN' => 'Goods Dispatched Note',
+	'FL_IGDN' => 'Nota de envío de mercancías',
 	'PLL_DRAFT' => 'Borrador',
 	'PLL_IN_REALIZATION' => 'En progreso',
 	'PLL_OBJECTIONS' => 'Objeciones',

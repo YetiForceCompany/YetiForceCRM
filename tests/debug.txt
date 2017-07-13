@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Debug config
+ * @package YetiForce.Config
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $DEBUG_CONFIG = [
 	/* +***************************************************************
 	 * 	Logger 
@@ -29,6 +33,10 @@ $DEBUG_CONFIG = [
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
 	'DISPLAY_DEBUG_VIEWER' => false,
+	// migoi
+	// Don't show Smarty Notice in phpError.log
+	'SMARTY_ERROR_REPORTING' => E_ALL & ~E_NOTICE,
+	// / mogoi
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
@@ -41,7 +49,7 @@ $DEBUG_CONFIG = [
 	// https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	// All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
 	// Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
-	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED,
+	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE,
 	/* +***************************************************************
 	 * 	API 
 	 * ************************************************************** */
@@ -50,9 +58,14 @@ $DEBUG_CONFIG = [
 	// Activate the plugin recording log in DAV
 	'DAV_DEBUG_PLUGIN' => false,
 	// Show errors messages in web service
-	'WEBSERVICE_SHOW_ERROR' => false,
+	'WEBSERVICE_SHOW_ERROR' => true,
 	// web service logs
-	'WEBSERVICE_DEBUG' => false,
+	'WEBSERVICE_DEBUG' => true,
+	/* +***************************************************************
+	 * 	Mailer
+	 * ************************************************************** */
+	// Mailer debug
+	'MAILER_DEBUG' => false,
 	/* +***************************************************************
 	 * 	ROUNDCUBE MAIL
 	 * ************************************************************** */

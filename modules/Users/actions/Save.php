@@ -11,7 +11,7 @@
 class Users_Save_Action extends Vtiger_Save_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -38,35 +38,26 @@ class Users_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		if ($recordModel->isNew()) {
 			$recordModel->set('user_name', $request->get('user_name', null));
-			$recordModel->set('user_password', $request->get('user_password', null));
-			$recordModel->set('confirm_password', $request->get('confirm_password', null));
-		}
-		$homePageComponents = $recordModel->getHomePageComponents();
-		$selectedHomePageComponents = $request->get('homepage_components', array());
-		foreach ($homePageComponents as $key => $value) {
-			if (in_array($key, $selectedHomePageComponents)) {
-				$request->setGlobal($key, $key);
-			} else {
-				$request->setGlobal($key, '');
-			}
+			$recordModel->set('user_password', $request->getRaw('user_password', null));
+			$recordModel->set('confirm_password', $request->getRaw('confirm_password', null));
 		}
 		return $recordModel;
 	}
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
@@ -87,7 +78,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
 			} else if ($sharedType == 'public') {
 				$allUsers = $currentUserModel->getAll(true);
-				$accessibleUsers = array();
+				$accessibleUsers = [];
 				foreach ($allUsers as $id => $userModel) {
 					$accessibleUsers[$id] = $id;
 				}

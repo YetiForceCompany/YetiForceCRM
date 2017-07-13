@@ -41,14 +41,11 @@ class PackageImport extends PackageExport
 
 	/**
 	 * Parse the manifest file
-	 * @access private
+	 * @param \App\Zip $zip
 	 */
-	public function __parseManifestFile($unzip)
+	public function __parseManifestFile(\App\Zip $zip)
 	{
-		$manifestfile = $this->__getManifestFilePath();
-		$unzip->unzip('manifest.xml', $manifestfile);
-		$this->_modulexml = simplexml_load_file($manifestfile);
-		unlink($manifestfile);
+		$this->_modulexml = simplexml_load_string($zip->getFromName('manifest.xml'));
 	}
 
 	/**
@@ -146,7 +143,7 @@ class PackageImport extends PackageExport
 
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'extension')
+			if ($lcasetype === 'extension')
 				return true;
 		}
 		return false;
@@ -163,7 +160,7 @@ class PackageImport extends PackageExport
 
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'update')
+			if ($lcasetype === 'update')
 				return true;
 		}
 		return false;
@@ -183,7 +180,7 @@ class PackageImport extends PackageExport
 
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'layout')
+			if ($lcasetype === 'layout')
 				return true;
 		}
 		return false;
@@ -235,7 +232,7 @@ class PackageImport extends PackageExport
 		return $parameters;
 	}
 
-	public function initParameters(\Vtiger_Request $request)
+	public function initParameters(\App\Request $request)
 	{
 		$data = [];
 		foreach ($request->getAll() as $name => $value) {
@@ -253,9 +250,6 @@ class PackageImport extends PackageExport
 	 */
 	public function checkZip($zipfile)
 	{
-		$unzip = new Unzip($zipfile);
-		$filelist = $unzip->getList();
-
 		$manifestxml_found = false;
 		$languagefile_found = false;
 		$layoutfile_found = false;
@@ -265,12 +259,13 @@ class PackageImport extends PackageExport
 		$modulename = null;
 		$language_modulename = null;
 
-		foreach ($filelist as $filename => $fileinfo) {
+		$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+		$this->__parseManifestFile($zip);
+		for ($i = 0; $i < $zip->numFiles; $i++) {
+			$fileName = $zip->getNameIndex($i);
 			$matches = [];
-			preg_match('/manifest.xml/', $filename, $matches);
-			if (count($matches)) {
+			if ($fileName === 'manifest.xml') {
 				$manifestxml_found = true;
-				$this->__parseManifestFile($unzip);
 				$modulename = (string) $this->_modulexml->name;
 				$isModuleBundle = (string) $this->_modulexml->modulebundle;
 
@@ -300,14 +295,14 @@ class PackageImport extends PackageExport
 			}
 			// Language file present in en_us folder
 			$pattern = '/languages\/' . vglobal('default_language') . '\/([^\/]+).php/';
-			preg_match($pattern, $filename, $matches);
+			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
 
 			// or Language file may be present in en_us/Settings folder
 			$settingsPattern = '/languages\/' . vglobal('default_language') . '\/Settings\/([^\/]+).php/';
-			preg_match($settingsPattern, $filename, $matches);
+			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
@@ -353,20 +348,20 @@ class PackageImport extends PackageExport
 		if ($validzip) {
 			if (!empty($this->_modulexml->license)) {
 				if (!empty($this->_modulexml->license->inline)) {
-					$this->_licensetext = $this->_modulexml->license->inline;
+					$this->_licensetext = (string) $this->_modulexml->license->inline;
 				} else if (!empty($this->_modulexml->license->file)) {
-					$licensefile = $this->_modulexml->license->file;
-					$licensefile = "$licensefile";
-					if (!empty($filelist[$licensefile])) {
-						$this->_licensetext = $unzip->unzip($licensefile);
+					$licensefile = (string) $this->_modulexml->license->file;
+					if ($licenseContent = $zip->getFromName($licensefile)) {
+						$this->_licensetext = $licenseContent;
 					} else {
 						$this->_licensetext = "Missing $licensefile!";
 					}
 				}
 			}
 		}
-		if ($unzip)
-			$unzip->close();
+		if ($zip) {
+			$zip->close();
+		}
 		return $validzip;
 	}
 
@@ -416,45 +411,30 @@ class PackageImport extends PackageExport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
-			$unzip = new Unzip($zipfile, $overwrite);
-			// Unzip selectively
-			$unzip->unzipAllEx(".", [
-				// Include only file/folders that need to be extracted
-				'include' => Array('templates', "modules/$module", 'cron', 'config', 'languages',
-					'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries',
-					"$module.png", 'updates', 'layouts'),
-				// NOTE: If excludes is not given then by those not mentioned in include are ignored.
-				],
-				// What files needs to be renamed?
-				[
+			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
+			if ($zip->statName("$module.png")) {
+				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+			}
+			$zip->unzip([
 				// Templates folder
 				'templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
 				'config' => 'config/modules',
+				// Modules folder
+				'modules' => 'modules',
 				// Settings folder
 				'settings/actions' => "modules/Settings/$module/actions",
 				'settings/views' => "modules/Settings/$module/views",
 				'settings/models' => "modules/Settings/$module/models",
-				'settings/connectors' => "modules/Settings/$module/connectors",
-				'settings/libraries' => "modules/Settings/$module/libraries",
 				// Settings templates folder
 				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
 				//module images
 				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
-				'settings' => 'modules/Settings',
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts'
-				]
-			);
-
-			if ($unzip->checkFileExistsInRootFolder("$module.png")) {
-				$unzip->unzip("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
-			}
-
-			if ($unzip)
-				$unzip->close();
+			]);
 		}
 		return $module;
 	}
@@ -544,11 +524,11 @@ class PackageImport extends PackageExport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module != null) {
+			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
-				$this->__parseManifestFile($unzip);
+				$this->__parseManifestFile($zip);
 			}
-
 			$buildModuleArray = [];
 			$installSequenceArray = [];
 			$moduleBundle = (boolean) $this->_modulexml->modulebundle;
@@ -562,8 +542,7 @@ class PackageImport extends PackageExport
 					}
 				}
 				sort($installSequenceArray);
-				$unzip = new Unzip($zipfile);
-				$unzip->unzipAllEx($this->getTemporaryFilePath());
+				$zip->unzip($this->getTemporaryFilePath());
 				foreach ($installSequenceArray as $sequence) {
 					foreach ($buildModuleArray as $moduleInfo) {
 						if ($moduleInfo['install_sequence'] == $sequence) {
@@ -572,7 +551,7 @@ class PackageImport extends PackageExport
 					}
 				}
 			} else {
-				$module = $this->initImport($zipfile, $overwrite);
+				$this->initImport($zipfile, $overwrite);
 				// Call module import function
 				$this->import_Module();
 			}
@@ -1042,6 +1021,7 @@ class PackageImport extends PackageExport
 			'from_version' => $modulenode->from_version,
 			'to_version' => $modulenode->to_version,
 			'result' => $result,
+			'time' => date('Y-m-d H:i:s')
 		]);
 		if ($result) {
 			$adb->update('vtiger_version', ['current_version' => $modulenode->to_version]);

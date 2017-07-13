@@ -37,15 +37,15 @@
 					<div class="col-md-6 ">
 						<input type="text" class="fieldValue form-control" name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"  />
 					</div>
-				</div><br>
+				</div><br />
 				<div class="row">
 					<label class="col-md-2"><strong>{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-8 ">
 						<textarea class="input-xxlarge fieldValue form-control" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
 					</div>
-				</div><br>
+				</div><br />
 				<div class="">
-					<label class=""><strong>{vtranslate('LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE',$QUALIFIED_MODULE)}:</strong></label><br>
+					<label class=""><strong>{vtranslate('LBL_EDIT_PRIVILIGES_FOR_THIS_PROFILE',$QUALIFIED_MODULE)}:</strong></label><br />
 						<table class="table customTableRWD table-bordered profilesEditView">
 							<thead>
 								<tr class="blockHeader">
@@ -184,7 +184,7 @@
 											
 										
 										{assign var=UTILITY_ACTION_COUNT value=0}
-										{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}
+										{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
 										{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
 											{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
 												{assign var="testArray" array_push($ALL_UTILITY_ACTIONS_ARRAY,$ACTION_MODEL)}
@@ -223,11 +223,11 @@
 							</table>
 						</div>
 					</div>
-					<br>
+					<br />
 					<div class="pull-right">
 						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE',$MODULE)}</strong></button>
 						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
-						<br><br>
+						<br /><br />
 					</div>
 				</form>
 			</div>

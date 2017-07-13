@@ -1,11 +1,16 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SVendorEnquiries spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'SVendorEnquiries' => 'Consultas de ventas',
-	'SQuoteEnquiries' => 'Consultas de ventas',
-	'SINGLE_SQuoteEnquiries' => 'Consulta de venta',
+	'SVendorEnquiries' => 'Solicitud de pedidos a Proveedores',
+	'SQuoteEnquiries' => 'Solicitud de pedido a Proveedor',
+	'SINGLE_SQuoteEnquiries' => 'Consulta de facturas',
 	//BLOCKS
-	'LBL_QUOTESENQUIRES_INFORMATION' => 'Información sobre la Consulta de venta',
+	'LBL_QUOTESENQUIRES_INFORMATION' => 'Información sobre la Solicitud de pedido a Proveedor',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
@@ -19,7 +24,7 @@ $languageStrings = [
 	'FL_TOTAL_PRICE' => 'Neto',
 	'FL_MARGINP' => 'Porcentaje de margen total',
 	'FL_MARGIN' => 'Margen total',
-	'FL_VENDOR' => 'Vendor',
+	'FL_VENDOR' => 'Proveedor',
 	'FL_SCALCULATIONS' => 'Cálculos',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Borrador',

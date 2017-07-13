@@ -3,7 +3,8 @@
 /**
  * Automatic assignment edit view
  * @package YetiForce.Settings.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
@@ -11,10 +12,10 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedForAdmin
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
@@ -24,9 +25,9 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->get('record'));
@@ -78,10 +79,10 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Scripts
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

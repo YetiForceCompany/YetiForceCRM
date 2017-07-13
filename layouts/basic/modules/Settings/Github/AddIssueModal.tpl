@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if $GITHUB_CLIENT_MODEL->isAuthorized()}
 		<div class="addIssuesModal validationEngineContainer" tabindex="-1">
@@ -36,26 +36,26 @@
 								<div class="col-xs-12 paddingLRZero marginBottom10px">
 									{vtranslate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 									<textarea id="bodyIssues" class="form-control ckEditorSource" type="text" name="title">
-									<br>
+									<br />
 									<hr>
 										{vtranslate('LBL_DEFAULT_DESCRIPTION', $QUALIFIED_MODULE)}
 										{\App\Version::get()}
-									<br>
+									<br />
 										{vtranslate('LBL_PHP_VERSION', $QUALIFIED_MODULE)}: {$PHP_VERSION}
-									<br>
+									<br />
 										{if $ERROR_CONFIGURATION}
-										<br>
+										<br />
 										<strong>{vtranslate('LBL_CONFIGURATION_ERROR', $QUALIFIED_MODULE)}:</strong>
 											{foreach from=$ERROR_CONFIGURATION key=NAME item=CONFIG}
-											<br>
+											<br />
 												{$NAME}: {$CONFIG['current']}
 											{/foreach}
 										{/if}
 										{if $ERROR_LIBRARIES}
-										<br>
+										<br />
 										<strong>{vtranslate('LBL_LIBRARIES_ERROR', $QUALIFIED_MODULE)}:</strong>
 											{foreach from=$ERROR_LIBRARIES key=NAME item=LIBRARY}
-											<br>
+											<br />
 												{$LIBRARY['name']}
 											{/foreach}
 										{/if}

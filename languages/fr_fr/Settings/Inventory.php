@@ -1,7 +1,12 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Inventory french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'LBL_LIBRARY_NO_DOWNLOAD' => 'Non Téléchargé',
+	'LBL_CREDITLIMITS_INFO' => 'Dans le système YetiForce, nous avons la capacité de gérer les limites marchandes pour les comptes. Cette fonctionnalité est utilisée pour limiter la dette excessive du Compte en coopération permanente. Les limites des marchands sont principalement accordées à ces Comptes qui collaborent avec nous pour une plus longue période et nous voulons prolonger leur délai de paiement, ce qui signifie que le Compte ne pourra pas passer une nouvelle commande à moins que son solde antérieur ait été réglementé [ Le solde actuel et le document émis dépassent la limite accordée].',
 	'LBL_CREDITLIMITS' => 'Limites de crédit',
 	'LBL_CREDITLIMITS_DESCRIPTION' => ' ',
 	'LBL_CREDITLIMITS_SINGLE' => 'Limite de crédit',
@@ -29,7 +34,7 @@ $languageStrings = [
 	'LBL_GROUP' => 'Groupe',
 	'LBL_INDIVIDUAL' => 'Individuelle',
 	'LBL_REGIONAL' => 'Régionale',
-	'LBL_ARE_ACTIVE' => 'Actif ?',
+	'LBL_ARE_ACTIVE' => 'Active ?',
 	'LBL_SUMMATION_TYPE' => 'Type de sommation',
 	'LBL_AVAILABLE_TAXS' => 'Taxes disponibles',
 	'LBL_AVAILABLE_DISCOUNTS' => 'Remises disponibles',
@@ -45,7 +50,7 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_CHANGES' => 'Changements sauvegardés avec succès.',
-	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Etes-vous sur de vouloir supprimer cette valeur?',
+	'JS_DELETE_INVENTORY_CONFIRMATION' => 'Etes-vous sur de vouloir supprimer cette valeur ?',
 	'JS_EDIT' => 'Editer',
 	'JS_DELETE' => 'Supprimer',
 	'JS_YES' => 'Oui',

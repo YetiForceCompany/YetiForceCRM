@@ -1,8 +1,13 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * IGIN spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'IGIN' => 'Goods Issued Note',
-	'SINGLE_IGIN' => 'Goods Issued Note',
+	'IGIN' => 'Nota de emisión de bienes',
+	'SINGLE_IGIN' => 'Nota de emisión de bienes',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',

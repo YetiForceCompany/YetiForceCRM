@@ -3,11 +3,12 @@
 /**
  * Basic Inventory Model Class
  * @package YetiForce.Inventory
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_InventoryField_Model extends Vtiger_Base_Model
+class Vtiger_InventoryField_Model extends App\Base
 {
 
 	protected $fields = false;
@@ -282,13 +283,13 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	public static function getTaxParam($taxParam, $net, $return = false)
 	{
 		$taxParam = json_decode($taxParam, true);
-		if (count($taxParam) == 0) {
+		if (count($taxParam) === 0) {
 			return [];
 		}
 		if (is_string($taxParam['aggregationType'])) {
 			$taxParam['aggregationType'] = [$taxParam['aggregationType']];
 		}
-		if (!$return) {
+		if (!$return || empty($taxParam['aggregationType'])) {
 			$return = [];
 		}
 		foreach ($taxParam['aggregationType'] as $aggregationType) {
@@ -376,7 +377,7 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 
 	/**
 	 * Get the value to save
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param string $field Field name
 	 * @param int $i Sequence number
 	 * @return string
@@ -385,13 +386,9 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 	{
 		$value = '';
 		if ($request->has($field . $i)) {
-			$value = $request->get($field . $i);
+			$value = in_array($field, $this->jsonFields) ? \App\Json::encode($request->getArray($field . $i)) : $request->get($field . $i);
 		} else if ($request->has($field)) {
-			$value = $request->get($field);
-		}
-
-		if (in_array($field, $this->jsonFields) && $value != '') {
-			$value = json_encode($value);
+			$value = in_array($field, $this->jsonFields) ? \App\Json::encode($request->getArray($field)) : $request->get($field);
 		}
 		if (in_array($field, ['qty', 'price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
 			$value = CurrencyField::convertToDBFormat($value, null, true);
@@ -614,5 +611,23 @@ class Vtiger_InventoryField_Model extends Vtiger_Base_Model
 			}
 		}
 		return $values;
+	}
+
+	/**
+	 * Get default inventory item module
+	 * @param array $mainParams
+	 * @return boolean
+	 */
+	public function getDefaultModule($mainParams)
+	{
+		if (empty($mainParams['modules'])) {
+			return false;
+		}
+		foreach ($mainParams['modules'] as $module) {
+			if (\App\Module::isModuleActive($module)) {
+				return $module;
+			}
+		}
+		return false;
 	}
 }

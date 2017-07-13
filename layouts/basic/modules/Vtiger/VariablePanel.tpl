@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if empty($TEXT_PARSER)}
 		{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
@@ -39,7 +39,7 @@
 		{if $RELATED_VARIABLE}
 			<div class="col-md-6 fieldRow">
 				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
-					<label class="muted">{\App\Language::translate('LBL_RELATED_MODULE_FIELDS')}</label>
+					<label class="muted">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS')}</label>
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">

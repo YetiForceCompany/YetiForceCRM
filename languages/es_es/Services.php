@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Services spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	// Basic Strings
 	'Services' => 'Servicios',
@@ -18,7 +22,7 @@ $languageStrings = [
 	'LBL_ADD_TO_PRICEBOOKS' => 'Añadir a Tarifas',
 	//Field Labels
 	'Service Name' => 'Nombre del servicio',
-	'Service Active' => 'Activa',
+	'Service Active' => 'Activo',
 	'Service Category' => 'Categoría',
 	'Service No' => 'ID',
 	'Owner' => 'Asignado a',
@@ -46,5 +50,5 @@ $languageStrings = [
 	'Migration' => 'Migración',
 	'Customization' => 'Personalización',
 	'Training' => 'Formación',
-	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'La lista de registros se limita a los productos y servicios asociados con la oportunidad de ventas',
+	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'La lista de registros se limita a los productos y servicios asociados en la pestaña de “Productos & Servicios” del Módulo relacionado',
 ];

@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * App config class
+ * @package YetiForce.Include
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class AppConfig
 {
 
@@ -15,11 +20,6 @@ class AppConfig
 	protected static $modules = [];
 	protected static $sounds = [];
 	protected static $search = [];
-
-	public static function load($key, $config)
-	{
-		self::$$key = $config;
-	}
 
 	public static function main($key, $value = false)
 	{
@@ -45,7 +45,7 @@ class AppConfig
 		$argsLength = func_num_args();
 		$args = func_get_args();
 		$module = $args[0];
-		if ($argsLength == 2) {
+		if ($argsLength === 2) {
 			$key = $args[1];
 		}
 		if (isset(self::$modules[$module])) {
@@ -60,23 +60,23 @@ class AppConfig
 					return null;
 			}
 		}
-		$fileName = 'config/modules/' . $module . '.php';
+		$fileName = "config/modules/$module.php";
 		if (!file_exists($fileName)) {
 			return false;
 		}
-		require_once $fileName;
-		if (empty($CONFIG)) {
+		$moduleConfig = require $fileName;
+		if (empty($moduleConfig)) {
 			return false;
 		}
-		self::$modules[$module] = $CONFIG;
+		self::$modules[$module] = $moduleConfig;
 		switch ($argsLength) {
 			case 2:
-				if (!isset($CONFIG[$key])) {
+				if (!isset($moduleConfig[$key])) {
 					return false;
 				}
-				return $CONFIG[$key];
+				return $moduleConfig[$key];
 			default:
-				return $CONFIG;
+				return $moduleConfig;
 		}
 	}
 
@@ -161,6 +161,22 @@ class AppConfig
 		return self::$search[$key];
 	}
 
+	public static function load($key, $config)
+	{
+		self::$$key = $config;
+	}
+
+	/**
+	 * Set config value
+	 * @param string $config
+	 * @param string $key
+	 * @param miexd $value
+	 */
+	public static function set($config, $key, $value)
+	{
+		self::$$config[$key] = $value;
+	}
+
 	public static function iniSet($key, $value)
 	{
 		@ini_set($key, $value);
@@ -168,7 +184,7 @@ class AppConfig
 }
 
 if (!defined('ROOT_DIRECTORY')) {
-	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', dirname(__FILE__)));
+	define('ROOT_DIRECTORY', str_replace(DIRECTORY_SEPARATOR . 'include', '', __DIR__));
 }
 
 require_once 'config/api.php';
@@ -180,3 +196,9 @@ AppConfig::load('api', $API_CONFIG);
 session_save_path(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'session');
 // Change of logs directory with PHP errors
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'phpError.log');
+if (!defined('IS_PUBLIC_DIR')) {
+	define('IS_PUBLIC_DIR', false);
+}
+if (\AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
+	\App\Exceptions\ErrorHandler::init();
+}

@@ -50,13 +50,13 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-									<a target="_blank" class="pull-right btn btn-default btn-xs" href="{$COMPOSE_URL}" title="{vtranslate('LBL_SEND_EMAIL')}">
+									<a target="_blank" class="pull-right btn btn-default btn-xs actionIcon" href="{$COMPOSE_URL}" title="{vtranslate('LBL_SEND_EMAIL')}">
 										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
-										<a class="pull-right btn btn-default btn-xs" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
+										<a class="pull-right btn btn-default btn-xs actionIcon" href="{$URLDATA}" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}">
 											<span class="glyphicon glyphicon-envelope" title="{vtranslate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>
 									{/if}
@@ -81,7 +81,7 @@
 								{$RECORD->get('location')}
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
-								<a class="pull-right btn btn-default btn-xs " onclick="Vtiger_Index_Js.showLocation('{$RECORD->get('location')}')">
+								<a class="pull-right btn btn-default btn-xs actionIcon" onclick="Vtiger_Index_Js.showLocation('{$RECORD->get('location')}')">
 									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
 								</a>
 							{/if}

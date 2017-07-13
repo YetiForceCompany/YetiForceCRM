@@ -5,10 +5,10 @@
  * Please note that this mapping takes precedence over the content-based mime-type detection
  * and should only contain mappings which cannot be detected properly from the file contents.
  */
-$mimeTypes = [
+return [
 	'txt' => 'text/plain',
-	'htm' => 'text/html',
 	'html' => 'text/html',
+	'htm' => 'text/html',
 	'php' => 'text/php',
 	'css' => 'text/css',
 	'js' => 'application/javascript',
@@ -18,9 +18,9 @@ $mimeTypes = [
 	'flv' => 'video/x-flv',
 	// images
 	'png' => 'image/png',
+	'jpg' => 'image/jpeg',
 	'jpe' => 'image/jpeg',
 	'jpeg' => 'image/jpeg',
-	'jpg' => 'image/jpeg',
 	'gif' => 'image/gif',
 	'bmp' => 'image/bmp',
 	'ico' => 'image/vnd.microsoft.icon',
@@ -36,8 +36,8 @@ $mimeTypes = [
 	'cab' => 'application/vnd.ms-cab-compressed',
 	// audio/video
 	'mp3' => 'audio/mpeg',
-	'qt' => 'video/quicktime',
 	'mov' => 'video/quicktime',
+	'qt' => 'video/quicktime',
 	// adobe
 	'pdf' => 'application/pdf',
 	'psd' => 'image/vnd.adobe.photoshop',
@@ -98,4 +98,5 @@ $mimeTypes = [
 	's7z' => 'application/x-7z-compressed',
 	'vcf' => 'text/vcard',
 	'ics' => 'text/calendar',
+	'dwg' => 'application/acad',
 ];

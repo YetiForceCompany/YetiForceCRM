@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Settings SharingAccess module model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 
 /**
  * Sharng Access Vtiger Module Model Class
@@ -123,8 +120,8 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$moduleModels = [];
 		$query = (new \App\Db\Query())->from('vtiger_def_org_share')
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_def_org_share.tabid')
-				->where(['vtiger_tab.presence' => [0, 2]]);
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_def_org_share.tabid')
+			->where(['vtiger_tab.presence' => [0, 2]]);
 		if ($editable) {
 			$query->andWhere(['editstatus' => self::EDITABLE]);
 		}

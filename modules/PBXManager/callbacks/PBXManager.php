@@ -36,4 +36,4 @@ class PBXManager_PBXManager_Callbacks
 }
 
 $pbxmanager = new PBXManager_PBXManager_Callbacks();
-$pbxmanager->process(AppRequest::init());
+$pbxmanager->process(App\Request::init());

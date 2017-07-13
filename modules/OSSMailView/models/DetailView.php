@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * OSSMailView DetailView model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 {
 
@@ -24,7 +29,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -32,7 +37,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -50,7 +55,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'reply'),
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
+					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
@@ -59,7 +64,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'replyAll'),
-					'linkimg' => Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
+					'linkimg' => \App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png'),
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [

@@ -3,7 +3,8 @@
 /**
  * Companies record model class
  * @package YetiForce.Settings.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
@@ -11,7 +12,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
 	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
-	public $logoPath = 'storage/Logo/';
+	public $logoPath = 'public_html/layouts/resources/Logo/';
 
 	/**
 	 * Function to get the Id
@@ -210,10 +211,10 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to check if company duplicated
-	 * @param Vtiger_Request $request	
+	 * @param \App\Request $request	
 	 * @return boolean
 	 */
-	public function isCompanyDuplicated(Vtiger_Request $request)
+	public function isCompanyDuplicated(\App\Request $request)
 	{
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();

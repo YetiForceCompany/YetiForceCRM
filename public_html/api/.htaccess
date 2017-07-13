@@ -1,0 +1,26 @@
+<Files dav.php>
+	<IfModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+		RewriteRule (.*) dav.php [L]
+	</IfModule>
+	<IfModule mod_expires.c>
+		ExpiresActive Off
+	</IfModule>
+	<IfModule mod_php5.c>
+		php_flag output_buffering On
+		php_flag always_populate_raw_post_data Off
+		php_flag mbstring.func_overload Off
+	</IfModule>
+</Files>
+<IfModule mod_php5.c>
+	#php_flag	display_errors	Off
+</IfModule>
+<Files webservice.php>
+	<IfModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+		RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L]
+		RewriteRule (.*) webservice.php [QSA,NC,L]
+	</IfModule>
+</Files>

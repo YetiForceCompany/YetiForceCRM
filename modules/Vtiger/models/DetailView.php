@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_DetailView_Model extends Vtiger_Base_Model
+class Vtiger_DetailView_Model extends \App\Base
 {
 
 	protected $module = false;

@@ -3,10 +3,11 @@
 /**
  * Basic RelatedCommentModal Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_RelatedCommentModal_Model extends Vtiger_Base_Model
+class Vtiger_RelatedCommentModal_Model extends \App\Base
 {
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)

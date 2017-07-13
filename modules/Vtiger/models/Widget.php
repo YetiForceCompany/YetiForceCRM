@@ -12,7 +12,7 @@
 /**
  * Vtiger Widget Model Class
  */
-class Vtiger_Widget_Model extends Vtiger_Base_Model
+class Vtiger_Widget_Model extends \App\Base
 {
 
 	public function getWidth()
@@ -137,6 +137,12 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 		\App\Db::getInstance()->createCommand()->update(('vtiger_module_dashboard_widgets'), ['position' => $position], $where)->execute();
 	}
 
+	/**
+	 * Get widget instance by id
+	 * @param int $widgetId
+	 * @param int $userId
+	 * @return \self
+	 */
 	public static function getInstanceWithWidgetId($widgetId, $userId)
 	{
 		$row = (new \App\Db\Query())->from('vtiger_module_dashboard_widgets')
@@ -145,7 +151,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 			->one();
 		$self = new self();
 		if ($row) {
-			if ($row['linklabel'] == 'Mini List') {
+			if ($row['linklabel'] === 'Mini List') {
 				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
 				}
@@ -153,7 +159,7 @@ class Vtiger_Widget_Model extends Vtiger_Base_Model
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$row['title'] = $minilistWidgetModel->getTitle();
-			} else if ($row['linklabel'] == 'ChartFilter') {
+			} else if ($row['linklabel'] === 'ChartFilter') {
 				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
 				}

@@ -23,7 +23,7 @@
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="col-xs-8 pull-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br> 
+						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br /> 
 								{if $HIERARCHY}
 									{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"  />

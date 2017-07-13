@@ -137,7 +137,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 
-		$links = array();
+		$links = [];
 
 		$recordLinks = array(
 			array(
@@ -154,7 +154,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
-			[
+				[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
@@ -233,7 +233,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$taskManager = new VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
 
-		$examinedIdList = array();
+		$examinedIdList = [];
 		foreach ($taskList as $taskDetails) {
 			$workFlowId = $taskDetails->workflowId;
 			if (in_array($workFlowId, $examinedIdList)) {
@@ -246,12 +246,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return count($examinedIdList);
 	}
 
-	public static function getActiveCountFromRecord($taskList = array())
+	public static function getActiveCountFromRecord($taskList = [])
 	{
 
-		$examinedIdList = array();
+		$examinedIdList = [];
 		if (!is_array($taskList))
-			$taskList = array();
+			$taskList = [];
 		foreach ($taskList as $taskDetails) {
 			$workFlowId = $taskDetails->getId();
 			if (in_array($workFlowId, $examinedIdList)) {
@@ -281,7 +281,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!$conditions)
 			$conditions = $this->get('conditions');
-		$transformedConditions = array();
+		$transformedConditions = [];
 
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
@@ -322,9 +322,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function transformAdvanceFilterToWorkFlowFilter()
 	{
 		$conditions = $this->get('conditions');
-		$wfCondition = array();
+		$wfCondition = [];
 
-		if (!empty($conditions)) {
+		if (is_array($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {

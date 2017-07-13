@@ -1,15 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): 
- * *********************************************************************************************************************************** */
+/**
+ * Data access french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'LBL_PAST_EVENTS' => 'Hstoriques des événements',
+	'LBL_CURRENT_EVENTS' => 'Actualité',
+	'LBL_SET_CUSTOM_CONDITIONS' => 'Définissez vos propres termes',
+	'LBL_SELECT_OPTION_TO_SEARCH' => 'Sélectionnez les événements de recherche',
 	'DataAccess' => 'Validation des accès',
 	'LBL_NONE' => '--Aucun--',
 	'Message' => 'Message',
@@ -83,11 +83,9 @@ $languageStrings = [
 	'Action_Desc_unique_account' => 'Veifier si l\'organisation est unique.',
 	'LBL_DUPLICATED_FOUND' => 'Doublons trouvés',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Doublons trouvés. Etes-vous sûr de vouloir sauvegarder?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Une tentative de modification a été faite en mode création rapide.<br>Sélectionner les champs ci-dessous et accepter pour appliquer les changements.<br>Attention!<br>Resaisir les modifications dans l\'enregistrement.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Une tentative de modification a été faite en mode création rapide.<br />Sélectionner les champs ci-dessous et accepter pour appliquer les changements.<br />Attention!<br />Resaisir les modifications dans l\'enregistrement.',
 	'LBL_DONT_ASK_AGAIN' => 'Ne plus me demander pour cet enregistrement.',
 	'LBL_SEARCH_TRASH' => 'Chercher dans la poubelle',
-	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
-	'LBL_CONTENT_MESSAGE' => 'Message contents',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Accès aux données',

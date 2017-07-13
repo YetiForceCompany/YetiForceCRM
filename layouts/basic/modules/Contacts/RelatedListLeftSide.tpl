@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if $IS_FAVORITES}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
@@ -33,9 +33,11 @@
 					<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
 				</a>&nbsp;
 			{/if}
-			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-				<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
-			</a>&nbsp;
+			{if $RELATED_RECORD->isViewable()}
+				<a href="{$RELATED_RECORD->getFullDetailViewUrl()}">
+					<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span>
+				</a>&nbsp;
+			{/if}
 			{if $IS_EDITABLE && $RELATED_RECORD->isEditable()}
 				{if $RELATED_MODULE_NAME eq 'PriceBooks'}
 					<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"

@@ -24,23 +24,23 @@ class Vtiger_List_View extends Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function getPageTitle(Vtiger_Request $request)
+	public function getPageTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
-		$title = vtranslate($moduleName, $moduleName);
-		$title = $title . ' - ' . vtranslate('LBL_VIEW_LIST', $moduleName);
+		$title = App\Language::translate($moduleName, $moduleName);
+		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
 		if ($request->has('viewname')) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= ' [' . vtranslate('LBL_FILTER', $moduleName) . ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']';
+				$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
 			}
 		}
 		return $title;
 	}
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$title = vtranslate('LBL_VIEW_LIST', $moduleName);
@@ -54,7 +54,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 		return $title;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	/**
+	 * Pre process
+	 * @param \App\Request $request
+	 * @param bool $display
+	 */
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -69,6 +74,13 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
+		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
+			$customViewModel = CustomView_Record_Model::getInstanceById($this->viewName);
+			if ($customViewModel) {
+				App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+			}
+			App\CustomView::setCurrentView($moduleName, $this->viewName);
+		}
 		$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
@@ -79,23 +91,23 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 	}
 
-	public function preProcessTplName(Vtiger_Request $request)
+	public function preProcessTplName(\App\Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
 	//Note : To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	protected function preProcessDisplay(Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Request $request)
 	{
 		parent::preProcessDisplay($request);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -125,7 +137,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -136,10 +148,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -162,10 +174,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = array(
@@ -179,10 +191,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');

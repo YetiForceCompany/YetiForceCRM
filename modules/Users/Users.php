@@ -61,7 +61,6 @@ class Users extends CRMEntity
 	public $module_name = "Users";
 	public $object_name = "User";
 	public $user_preferences;
-	public $homeorder_array = array('HDB', 'ALVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
 	public $encodeFields = Array("first_name", "last_name", "description");
 	// This is used to retrieve related fields from form posts.
 	public $additional_column_fields = Array('reports_to_name');
@@ -116,8 +115,8 @@ class Users extends CRMEntity
 	{
 
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (\App\Request::_has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder method ...");
@@ -138,8 +137,8 @@ class Users extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (\App\Request::_has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -209,21 +208,21 @@ class Users extends CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	public function encrypt_password($user_password, $crypt_type = '')
+	public function encrypt_password($user_password, $crypt_type = 'PHP5.3MD5')
 	{
 		// encrypt the password.
 		$salt = substr($this->column_fields["user_name"], 0, 2);
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
-		if ($crypt_type == '') {
+		if ($crypt_type === '') {
 			// Try to get the crypt_type which is in database for the user
 			$crypt_type = $this->getCryptType();
 		}
 		// For more details on salt format look at: http://in.php.net/crypt
-		if ($crypt_type == 'MD5') {
+		if ($crypt_type === 'MD5') {
 			$salt = '$1$' . $salt . '$';
-		} elseif ($crypt_type == 'BLOWFISH') {
+		} elseif ($crypt_type === 'BLOWFISH') {
 			$salt = '$2$' . $salt . '$';
-		} elseif ($crypt_type == 'PHP5.3MD5') {
+		} elseif ($crypt_type === 'PHP5.3MD5') {
 			//only change salt for php 5.3 or higher version for backward
 			//compactibility.
 			//crypt API is lot stricter in taking the value for salt.
@@ -274,6 +273,7 @@ class Users extends CRMEntity
 	{
 		$userName = $this->column_fields['user_name'];
 		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
+		$encryptedPassword = $this->encrypt_password($userPassword, empty($userInfo['crypt_type']) ? 'PHP5.3MD5' : $userInfo['crypt_type']);
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
 			return false;
@@ -322,10 +322,6 @@ class Users extends CRMEntity
 			}
 			\App\Log::trace('End LDAP authentication');
 		}
-
-		//Default authentication
-		\App\Log::trace('Using integrated/SQL authentication');
-		$encryptedPassword = $this->encrypt_password($userPassword, $userInfo['crypt_type']);
 		if ($encryptedPassword === $userInfo['user_password']) {
 			\App\Log::trace("Authentication OK. User: $userName");
 			return true;
@@ -442,39 +438,6 @@ class Users extends CRMEntity
 		return false;
 	}
 
-	/** Function to return the column name array
-	 *
-	 */
-	public function getColumnNames_User()
-	{
-
-		$mergeflds = array("FIRSTNAME", "LASTNAME", "USERNAME", "SECONDARYEMAIL", "TITLE", "OFFICEPHONE", "DEPARTMENT",
-			"MOBILE", "OTHERPHONE", "FAX", "EMAIL",
-			"HOMEPHONE", "OTHEREMAIL", "PRIMARYADDRESS",
-			"CITY", "STATE", "POSTALCODE", "COUNTRY");
-		return $mergeflds;
-	}
-
-	public function fill_in_additional_list_fields()
-	{
-		$this->fill_in_additional_detail_fields();
-	}
-
-	public function fill_in_additional_detail_fields()
-	{
-		$query = "SELECT u1.first_name, u1.last_name from vtiger_users u1, vtiger_users u2 where u1.id = u2.reports_to_id && u2.id = ? and u1.deleted=0";
-		$result = $this->db->pquery($query, array($this->id), true, "Error filling in additional detail vtiger_fields");
-
-		$row = $this->db->fetchByAssoc($result);
-		\App\Log::trace("additional detail query results: $row");
-
-		if ($row != null) {
-			$this->reports_to_name = stripslashes(\vtlib\Deprecated::getFullNameFromArray('Users', $row));
-		} else {
-			$this->reports_to_name = '';
-		}
-	}
-
 	/** Function to get the current user information from the user_privileges file
 	 * @param $userid -- user id:: Type integer
 	 * @returns user info in $this->column_fields array:: Type array
@@ -506,7 +469,7 @@ class Users extends CRMEntity
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+				$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -600,7 +563,7 @@ class Users extends CRMEntity
 		$fileName = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$fileType = $fileDetails['type'];
 		$fileTmpName = $fileDetails['tmp_name'];
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
+		$uploadFilePath = \App\Fields\File::initStorageFileDirectory($module);
 		$db->createCommand()->insert('vtiger_crmentity', [
 			'smcreatorid' => $currentUserId,
 			'smownerid' => $ownerid,
@@ -631,170 +594,6 @@ class Users extends CRMEntity
 		}
 		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
 		return false;
-	}
-
-	/**
-	 * gives the order in which the modules have to be displayed in the home page for the specified user id
-	 * @param $id -- user id:: Type integer
-	 * @returns the customized home page order in $return_array
-	 */
-	public function getHomeStuffOrder($id)
-	{
-		$adb = PearDatabase::getInstance();
-		if (!is_array($this->homeorder_array)) {
-			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'CVLVT', 'HLT',
-				'GRT', 'MNL', 'LTFAQ');
-		}
-		$return_array = [];
-		$homeorder = [];
-		if ($id != '') {
-			$qry = " select distinct(vtiger_homedefault.hometype) from vtiger_homedefault inner join vtiger_homestuff  on vtiger_homestuff.stuffid=vtiger_homedefault.stuffid where vtiger_homestuff.visible=0 and vtiger_homestuff.userid=?";
-			$res = $adb->pquery($qry, array($id));
-			$rows_res = $adb->num_rows($res);
-			for ($q = 0; $q < $rows_res; $q++) {
-				$homeorder[] = $adb->query_result($res, $q, "hometype");
-			}
-			$countHomeorderArray = count($this->homeorder_array);
-			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (in_array($this->homeorder_array[$i], $homeorder)) {
-					$return_array[$this->homeorder_array[$i]] = $this->homeorder_array[$i];
-				} else {
-					$return_array[$this->homeorder_array[$i]] = '';
-				}
-			}
-		} else {
-			$countHomeorderArray = count($this->homeorder_array);
-			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (in_array($this->homeorder_array[$i], $this->default_widgets)) {
-					$return_array[$this->homeorder_array[$i]] = $this->homeorder_array[$i];
-				} else {
-					$return_array[$this->homeorder_array[$i]] = '';
-				}
-			}
-		}
-		return $return_array;
-	}
-
-	public function getDefaultHomeModuleVisibility($home_string, $inVal)
-	{
-		$homeModComptVisibility = 1;
-		if ($inVal == 'postinstall') {
-			if (AppRequest::get($home_string) != '') {
-				$homeModComptVisibility = 0;
-			} else if (in_array($home_string, $this->default_widgets)) {
-				$homeModComptVisibility = 0;
-			}
-		}
-		return $homeModComptVisibility;
-	}
-
-	public function insertUserdetails($inVal)
-	{
-		$adb = PearDatabase::getInstance();
-		$uid = $this->id;
-		$s1 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('ALVT', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s1, 1, 'Default', $uid, $visibility, 'Top Accounts'));
-
-		$s2 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('HDB', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s2, 2, 'Default', $uid, $visibility, 'Home Page Dashboard'));
-
-		$s5 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('CVLVT', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s5, 5, 'Default', $uid, $visibility, 'Key Metrics'));
-
-		$s6 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('HLT', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s6, 6, 'Default', $uid, $visibility, 'Top Trouble Tickets'));
-
-		$s7 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('UA', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s7, 7, 'Default', $uid, $visibility, 'Upcoming Activities'));
-
-		$s8 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('GRT', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s8, 8, 'Default', $uid, $visibility, 'My Group Allocation'));
-
-		$s11 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('MNL', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s11, 11, 'Default', $uid, $visibility, 'My New Leads'));
-
-		$s13 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('PA', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s13, 13, 'Default', $uid, $visibility, 'Pending Activities'));
-		;
-
-		$s14 = $adb->getUniqueID("vtiger_homestuff");
-		$visibility = $this->getDefaultHomeModuleVisibility('LTFAQ', $inVal);
-		$sql = "insert into vtiger_homestuff values(?,?,?,?,?,?)";
-		$res = $adb->pquery($sql, array($s14, 14, 'Default', $uid, $visibility, 'My Recent FAQs'));
-
-		$sql = "insert into vtiger_homedefault values(" . $s1 . ",'ALVT',5,'Accounts')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s2 . ",'HDB',5,'Dashboard')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s5 . ",'CVLVT',5,'NULL')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s6 . ",'HLT',5,'HelpDesk')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s7 . ",'UA',5,'Calendar')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s8 . ",'GRT',5,'NULL')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s11 . ",'MNL',5,'Leads')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s13 . ",'PA',5,'Calendar')";
-		$adb->pquery($sql, []);
-
-		$sql = "insert into vtiger_homedefault values(" . $s14 . ",'LTFAQ',5,'Faq')";
-		$adb->pquery($sql, []);
-	}
-
-	/** function to save the order in which the modules have to be displayed in the home page for the specified user id
-	 * @param $id -- user id:: Type integer
-	 */
-	public function saveHomeStuffOrder($id)
-	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering in function saveHomeOrder($id)");
-
-		if ($this->mode == 'edit') {
-			$countHomeorderArray = count($this->homeorder_array);
-			for ($i = 0; $i < $countHomeorderArray; $i++) {
-				if (AppRequest::get($this->homeorder_array[$i]) != '') {
-					$save_array[] = $this->homeorder_array[$i];
-					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid = ? and vtiger_homedefault.hometype= ?"; //To show the default Homestuff on the the Home Page
-					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
-				} else {
-
-					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid= ? and vtiger_homedefault.hometype=?"; //To hide the default Homestuff on the the Home Page
-					$result = $adb->pquery($qry, [$id, $this->homeorder_array[$i]]);
-				}
-			}
-			if ($save_array != "")
-				$homeorder = implode(',', $save_array);
-		}
-		else {
-			$this->insertUserdetails('postinstall');
-		}
-		\App\Log::trace("Exiting from function saveHomeOrder($id)");
 	}
 
 	public function filterInactiveFields($module)

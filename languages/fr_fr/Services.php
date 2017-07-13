@@ -1,7 +1,12 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Services french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'FL_TAXES' => 'Taxes',
 	// Basic Strings
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',
@@ -20,7 +25,7 @@ $languageStrings = [
 	'Service Name' => 'Nom du service',
 	'Service Active' => 'Actif',
 	'Service Category' => 'Catégorie',
-	'Service No' => 'No. du service',
+	'Service No' => 'N° du service',
 	'Owner' => 'Assigné à',
 	'Share with users' => 'Partagé avec',
 	'No of Units' => 'Nombre d\'unités',
@@ -43,7 +48,7 @@ $languageStrings = [
 	'Support' => 'Support',
 	'Installation' => 'Installation',
 	'Migration' => 'Migration',
-	'Customization' => 'Customization',
+	'Customization' => 'Personnalisation',
 	'Training' => 'Formation',
 	'LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO' => 'Liste des produits et services limités à celle mentionnée dans l\'opportunité',
 ];

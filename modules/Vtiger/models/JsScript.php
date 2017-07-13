@@ -11,7 +11,7 @@
 /**
  * Vtiger JS Script Model Class
  */
-class Vtiger_JsScript_Model extends Vtiger_Base_Model
+class Vtiger_JsScript_Model extends \App\Base
 {
 
 	const DEFAULT_TYPE = 'text/javascript';
@@ -38,6 +38,9 @@ class Vtiger_JsScript_Model extends Vtiger_Base_Model
 		$src = $this->get('src');
 		if (empty($src)) {
 			$src = $this->get('linkurl');
+		}
+		if ($this->has('base') && $fs = @filemtime($this->get('base'))) {
+			$src = $src . '?s=' . $fs;
 		}
 		return $src;
 	}

@@ -35,7 +35,7 @@
 					<div class=" col-md-7 ">
 						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"/>
 					</div>
-				</div><br>
+				</div><br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_REPORTS_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
@@ -43,7 +43,7 @@
 						<input type="text" class="form-control" name="parent_roleid_display" {if $HAS_PARENT}value="{vtranslate($RECORD_MODEL->getParent()->getName(), $QUALIFIED_MODULE)}"{/if} readonly>
 					</div>
 				</div>
-				<br>
+				<br />
                 <div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_CAN_ASSIGN_OWNER_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
@@ -56,7 +56,7 @@
 						</select>
 					</div>
                 </div>
-				<br>
+				<br />
                 <div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_CAN_ASSIGN_MULTIOWNER_TO', $QUALIFIED_MODULE)}: </strong></label>
 					<div class="col-md-7 fieldValue">
@@ -69,7 +69,7 @@
 						</select>
 					</div>
                 </div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><span class="redColor">*</span><strong>{vtranslate('LBL_PROFILE',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -83,7 +83,7 @@
 						</select>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -103,7 +103,7 @@
 						</select>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -114,7 +114,7 @@
 						</select>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_PERMISSIONS_FIELD_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -123,10 +123,11 @@
 							<option value="0" {if in_array('0', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('Assigned To', $QUALIFIED_MODULE)}</option>
 							<option value="1" {if in_array('1', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('Share with users', $QUALIFIED_MODULE)}</option>
 							<option value="2" {if in_array('2', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('LBL_PERMITTED_BY_SHARING', $QUALIFIED_MODULE)}</option>
+							<option value="3" {if in_array('3', $PERMISSIONS_RELATED_FIELD)}selected="true"{/if}>{vtranslate('LBL_PERMITTED_BY_READ_ACCESS', $QUALIFIED_MODULE)}</option>
 						</select>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -147,7 +148,7 @@
 						</select>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_SHOW_GLOBAL_SEARCH_ADVANCED',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -156,7 +157,7 @@
 						</div>
 					</div>
 				</div>
-				<br>
+				<br />
 				<div class="row">
 					<label class="col-md-4"><strong>{vtranslate('LBL_BROWSING_OTHER_USERS_GRAPHICAL_CALENDAR',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
@@ -167,7 +168,7 @@
 						</select>
 					</div>
 				</div>
-				<br>
+				<br />
 				<hr>
 				<div class="form-group paddingTop10">
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_AUTO_ASSIGN_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
@@ -185,7 +186,7 @@
 			{if count($ROLE_USERS) > 0 }
 				<hr/>
 				<h4>{vtranslate('LBL_USERS_LIST',$QUALIFIED_MODULE)}</h4>
-				<br/>
+				<br />
 				<table class="table table-striped">
 					<thead>
 						<tr>

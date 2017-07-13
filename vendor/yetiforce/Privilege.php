@@ -4,7 +4,8 @@ namespace App;
 /**
  * Privilege basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -28,14 +29,14 @@ class Privilege
 		}
 		$userPrivileges = \App\User::getPrivilegesFile($userId);
 		$permission = false;
-		if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && \AppRequest::get('parenttab') != 'Settings') {
+		if (($moduleName == 'Users' || $moduleName == 'Home' || $moduleName == 'uploads') && Request::_get('parenttab') != 'Settings') {
 			//These modules dont have security right now
 			static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
 			\App\Log::trace('Exiting isPermitted method ... - yes');
 			return true;
 		}
 		//Checking the Access for the Settings Module
-		if ($moduleName == 'Settings' || $moduleName == 'Administration' || $moduleName == 'System' || \AppRequest::get('parenttab') == 'Settings') {
+		if ($moduleName == 'Settings' || $moduleName == 'Administration' || $moduleName == 'System' || Request::_get('parenttab') == 'Settings') {
 			if (!$userPrivileges['is_admin']) {
 				$permission = false;
 			} else {
@@ -57,7 +58,7 @@ class Privilege
 		if (Module::isModuleActive($checkModule)) {
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
-				if ($record) {
+				if ($record !== false) {
 					$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
 					if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
 						static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
@@ -234,7 +235,7 @@ class Privilege
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 						$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 						$relatedPermission = false;
-						foreach ($permissionsRelatedField as &$row) {
+						foreach ($permissionsRelatedField as $row) {
 							switch ($row) {
 								case 0:
 									$relatedPermission = $recordMetaData['smownerid'] == $userId || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
@@ -246,6 +247,10 @@ class Privilege
 									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
 										$relatedPermission = static::isPermittedBySharing($recordMetaData['setype'], Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
 									}
+									break;
+								case 3:
+									$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+									$relatedPermission = $permission == 'yes' ? true : false;
 									break;
 							}
 							if ($relatedPermission) {

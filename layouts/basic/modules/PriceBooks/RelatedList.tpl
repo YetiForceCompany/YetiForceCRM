@@ -71,7 +71,7 @@
 									{if $HEADER_FIELD->get('name') == 'listprice'}
 										{CurrencyField::convertToUserFormat($RELATED_RECORD->get($HEADER_FIELD->get('name')))}
 										{assign var="LISTPRICE" value=$RELATED_RECORD->get($HEADER_FIELD->get('name'))}
-									{else if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
+									{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
 										<a href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}</a>
 									{else}
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}

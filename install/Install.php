@@ -25,7 +25,7 @@ require_once('install/models/InitSchema.php');
 
 Vtiger_Session::init();
 
-$request = AppRequest::init();
+$request = App\Request::init();
 $install = new Install_Index_view();
 $install->preProcess($request);
 $install->process($request);

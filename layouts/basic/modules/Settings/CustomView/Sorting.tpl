@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{assign 'CUSTOM_VIEW' CustomView_Record_Model::getInstanceById($CVID)}
 	{assign 'SORT_ORDER_BY' ","|explode:$CUSTOM_VIEW->get('sort')}

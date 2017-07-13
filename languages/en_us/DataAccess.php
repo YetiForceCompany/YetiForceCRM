@@ -1,14 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): 
- * *********************************************************************************************************************************** */
+/**
+ * DataAccess english translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'DataAccess' => 'Validation of access',
 	'LBL_NONE' => '--None--',
@@ -87,7 +83,7 @@ $languageStrings = [
 	'Action_Desc_unique_account' => 'Check if account is unique in the module.',
 	'LBL_DUPLICATED_FOUND' => 'Duplicates found',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Duplicate found. Are you sure you want to save?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br>Select the checkbox field below and accept in order to apply changes in this view.<br>Attention!<br>Re-enter the modifications in the record.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'An attempt was made to change values in a record in Quick Edition mode.<br />Select the checkbox field below and accept in order to apply changes in this view.<br />Attention!<br />Re-enter the modifications in the record.',
 	'LBL_DONT_ASK_AGAIN' => 'Don\'t ask again for this record.',
 	'LBL_SEARCH_TRASH' => 'Search trash',
 	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',

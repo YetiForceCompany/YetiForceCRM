@@ -2,8 +2,9 @@
 
 /**
  *
- * @package YetiForce.models
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -59,7 +60,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public static function getComposeParam(Vtiger_Request $request)
+	public static function getComposeParam(\App\Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');
@@ -186,7 +187,15 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
+	/**
+	 * Get mail url for widget
+	 * @param int $record
+	 * @param string $type
+	 * @param int $srecord
+	 * @param string $smoduleName
+	 * @return string
+	 */
+	public static function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
 	{
 		if (is_object($record)) {
 			$body = $record->get('content');

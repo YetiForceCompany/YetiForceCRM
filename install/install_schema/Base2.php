@@ -4,7 +4,8 @@ namespace Importers;
 /**
  * Class that imports base database
  * @package YetiForce.Install
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base2 extends \App\Db\Importers\Base
@@ -34,7 +35,7 @@ class Base2 extends \App\Db\Importers\Base
 					'fax' => $this->stringType(30),
 					'employees' => $this->integer(10)->defaultValue(0),
 					'emailoptout' => $this->smallInteger(1)->defaultValue(0),
-					'isconvertedfromlead' => $this->smallInteger(1)->defaultValue(0),
+					'isconvertedfromlead' => $this->smallInteger(3)->defaultValue(0),
 					'vat_id' => $this->stringType(30),
 					'registration_number_1' => $this->stringType(30),
 					'registration_number_2' => $this->stringType(30),
@@ -52,6 +53,9 @@ class Base2 extends \App\Db\Importers\Base
 					'last_invoice_date' => $this->date(),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'accounts_status' => $this->stringType(),
+				],
+				'columns_mysql' => [
+					'active' => 'tinyint(1) DEFAULT \'0\'',
 				],
 				'index' => [
 					['account_account_type_idx', 'account_type'],
@@ -175,7 +179,7 @@ class Base2 extends \App\Db\Importers\Base
 					'time_start' => $this->time(),
 					'time_end' => $this->time(),
 					'sendnotification' => $this->smallInteger(1)->notNull()->defaultValue(0),
-					'duration_hours' => $this->smallInteger(6),
+					'duration_hours' => $this->smallInteger(),
 					'duration_minutes' => $this->smallInteger(3),
 					'status' => $this->stringType(200),
 					'priority' => $this->stringType(200),
@@ -192,7 +196,12 @@ class Base2 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(),
 					'followup' => $this->integer(),
 					'reapeat' => $this->smallInteger(1),
-					'recurrence' => $this->text()
+					'recurrence' => $this->text(),
+				],
+				'columns_mysql' => [
+					'deleted' => 'tinyint(1) DEFAULT \'0\'',
+					'allday' => 'tinyint(1) DEFAULT NULL',
+					'dav_status' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'index' => [
 					['activity_subject_idx', ['activityid', 'subject']],
@@ -221,7 +230,7 @@ class Base2 extends \App\Db\Importers\Base
 					'reminder_sent' => $this->integer(2)->notNull(),
 				],
 				'primaryKeys' => [
-					['activity_reminder_pk', ['activity_id']]
+					['activity_reminder_pk', 'activity_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -301,9 +310,9 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'activitystatusid' => $this->primaryKey(),
 					'activitystatus' => $this->stringType(200),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
-					'sortorderid' => $this->smallInteger(2),
+					'sortorderid' => $this->integer(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -470,9 +479,9 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'uid' => $this->stringType()->notNull(),
 					'channel' => $this->stringType(100),
-					'from_number' => $this->bigInteger(),
+					'from_number' => $this->integer(),
 					'from_name' => $this->stringType(100),
-					'to_number' => $this->bigInteger(),
+					'to_number' => $this->integer(),
 					'callertype' => $this->stringType(100),
 					'timer' => $this->integer(),
 					'flag' => $this->stringType(3),
@@ -517,7 +526,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_blocks' => [
 				'columns' => [
-					'blockid' => $this->primaryKey()->unsigned(),
+					'blockid' => $this->primaryKey(),
 					'tabid' => $this->integer()->notNull(),
 					'blocklabel' => $this->stringType(100)->notNull(),
 					'sequence' => $this->integer(10),
@@ -542,6 +551,9 @@ class Base2 extends \App\Db\Importers\Base
 					'conditions' => $this->text(),
 					'enabled' => $this->smallInteger(1)->unsigned(),
 					'view' => $this->stringType(100),
+				],
+				'columns_mysql' => [
+					'enabled' => 'tinyint(1) unsigned DEFAULT NULL',
 				],
 				'index' => [
 					['blocks_hide_blockid_idx', ['blockid', 'enabled']],
@@ -569,6 +581,9 @@ class Base2 extends \App\Db\Importers\Base
 					'defaultcolor' => $this->stringType(50),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 				],
+				'columns_mysql' => [
+					'active' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'primaryKeys' => [
 					['calendar_default_activitytypes_pk', 'id']
 				],
@@ -584,7 +599,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_calendar_user_activitytypes' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'defaultid' => $this->integer(),
 					'userid' => $this->integer(),
 					'color' => $this->stringType(50),
@@ -772,9 +787,9 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'campaigntypeid' => $this->primaryKey(),
 					'campaigntype' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
-					'sortorderid' => $this->smallInteger(2),
+					'sortorderid' => $this->integer(),
 				],
 				'index' => [
 					['campaigntype_idx', 'campaigntype', true],
@@ -792,10 +807,13 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_cmileage_logbook_status' => [
 				'columns' => [
 					'cmileage_logbook_statusid' => $this->primaryKey(),
-					'cmileage_logbook_status' => $this->stringType()->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'cmileage_logbook_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -827,7 +845,7 @@ class Base2 extends \App\Db\Importers\Base
 					'poboxb' => $this->stringType(50),
 				],
 				'primaryKeys' => [
-					['contactaddress', 'contactaddressid']
+					['contactaddress_pk', 'contactaddressid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -861,6 +879,11 @@ class Base2 extends \App\Db\Importers\Base
 					'decision_maker' => $this->smallInteger(1)->defaultValue(0),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'active' => $this->smallInteger(1)->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'dav_status' => 'tinyint(1) DEFAULT \'1\'',
+					'decision_maker' => 'tinyint(1) DEFAULT \'0\'',
+					'active' => 'tinyint(1) DEFAULT \'0\'',
 				],
 				'index' => [
 					['contactdetails_parentid_idx', 'parentid'],
@@ -1001,6 +1024,13 @@ class Base2 extends \App\Db\Importers\Base
 					'private' => $this->smallInteger(1)->defaultValue(0),
 					'users' => $this->text(),
 				],
+				'columns_mysql' => [
+					'shownerid' => 'tinyint(1) DEFAULT NULL',
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'deleted' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'was_read' => 'tinyint(1) DEFAULT \'0\'',
+					'private' => 'tinyint(1) DEFAULT \'0\'',
+				],
 				'index' => [
 					['crmentity_smcreatorid_idx', 'smcreatorid'],
 					['crmentity_modifiedby_idx', 'modifiedby'],
@@ -1072,8 +1102,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'currencyid' => $this->primaryKey(),
 					'currency' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->smallInteger(3)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'index' => [
 					['currency_idx', 'currency', true],
@@ -1085,8 +1115,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'currency_decimal_separatorid' => $this->primaryKey(),
 					'currency_decimal_separator' => $this->stringType(2)->notNull(),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1102,8 +1132,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'currency_grouping_patternid' => $this->primaryKey(),
 					'currency_grouping_pattern' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1119,8 +1149,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'currency_grouping_separatorid' => $this->primaryKey(),
 					'currency_grouping_separator' => $this->stringType(2)->notNull(),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(0),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1163,8 +1193,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'currency_symbol_placementid' => $this->primaryKey(),
 					'currency_symbol_placement' => $this->stringType(30)->notNull(),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1204,7 +1234,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_customview' => [
 				'columns' => [
-					'cvid' => $this->primaryKey()->notNull(),
+					'cvid' => $this->primaryKey(),
 					'viewname' => $this->stringType(100)->notNull(),
 					'setdefault' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'setmetrics' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -1218,6 +1248,14 @@ class Base2 extends \App\Db\Importers\Base
 					'description' => $this->text(),
 					'sort' => $this->stringType(30)->defaultValue(''),
 					'color' => $this->stringType(10)->defaultValue(''),
+				],
+				'columns_mysql' => [
+					'setdefault' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'setmetrics' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'status' => 'tinyint(1) NOT NULL DEFAULT \'1\'',
+					'privileges' => 'tinyint(2) DEFAULT \'1\'',
+					'featured' => 'tinyint(1) DEFAULT \'0\'',
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'index' => [
 					['customview_entitytype_idx', 'entitytype'],
@@ -1302,6 +1340,9 @@ class Base2 extends \App\Db\Importers\Base
 					'data' => $this->text(),
 					'presence' => $this->smallInteger(1)->defaultValue(1),
 				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
+				],
 				'index' => [
 					['dataaccess_idx', 'module_name'],
 				],
@@ -1315,8 +1356,11 @@ class Base2 extends \App\Db\Importers\Base
 					'fieldname' => $this->stringType()->notNull(),
 					'comparator' => $this->stringType()->notNull(),
 					'val' => $this->stringType(),
-					'required' => $this->smallInteger(2)->notNull(),
+					'required' => $this->smallInteger(19)->notNull(),
 					'field_type' => $this->stringType(100)->notNull(),
+				],
+				'columns_mysql' => [
+					'required' => 'tinyint(19) NOT NULL',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1485,7 +1529,7 @@ class Base2 extends \App\Db\Importers\Base
 					['datashare_role2s_role_idx', 'to_roleandsubid'],
 				],
 				'primaryKeys' => [
-					['datashare_role2s_idx', 'shareid']
+					['datashare_role2rs_pk', 'shareid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1647,8 +1691,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'date_formatid' => $this->primaryKey(),
 					'date_format' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->smallInteger(3)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1777,8 +1821,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'minutesid' => $this->primaryKey(),
 					'duration_minutes' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1794,8 +1838,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'hrsid' => $this->primaryKey(),
 					'hrs' => $this->stringType(50),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1804,18 +1848,8 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'minsid' => $this->primaryKey(),
 					'mins' => $this->stringType(50),
-					'sortorderid' => $this->smallInteger(2)->notNull()->defaultValue(0),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_email_template_type' => [
-				'columns' => [
-					'email_template_typeid' => $this->primaryKey(),
-					'email_template_type' => $this->stringType(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
-					'sortorderid' => $this->smallInteger()->defaultValue(0)
+					'sortorderid' => $this->integer()->notNull()->defaultValue(0),
+					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1825,7 +1859,24 @@ class Base2 extends \App\Db\Importers\Base
 					'email_template_priorityid' => $this->primaryKey(),
 					'email_template_priority' => $this->smallInteger(1),
 					'presence' => $this->smallInteger(1)->defaultValue(1),
-					'sortorderid' => $this->smallInteger()->defaultValue(0)
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'email_template_priority' => 'tinyint(1) DEFAULT NULL',
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'vtiger_email_template_type' => [
+				'columns' => [
+					'email_template_typeid' => $this->primaryKey(),
+					'email_template_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1904,7 +1955,10 @@ class Base2 extends \App\Db\Importers\Base
 					'entityidcolumn' => $this->stringType(30)->notNull(),
 					'searchcolumn' => $this->stringType(150)->notNull(),
 					'turn_off' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
-					'sequence' => $this->smallInteger(3)->unsigned()->notNull()->defaultValue(0)
+					'sequence' => $this->smallInteger(3)->unsigned()->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'turn_off' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'index' => [
 					['entityname_idx', 'turn_off'],
@@ -1924,7 +1978,11 @@ class Base2 extends \App\Db\Importers\Base
 					'include_modules' => $this->stringType()->notNull()->defaultValue(''),
 					'exclude_modules' => $this->stringType()->notNull()->defaultValue(''),
 					'priority' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(5),
-					'owner_id' => $this->smallInteger(5)->unsigned()->notNull()->defaultValue(0)
+					'owner_id' => $this->smallInteger(5)->unsigned()->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'is_active' => 'tinyint(1) unsigned NOT NULL DEFAULT \'0\'',
+					'priority' => 'tinyint(1) unsigned NOT NULL DEFAULT \'5\'',
 				],
 				'index' => [
 					['eventhandler_idx', 'eventhandler_id', true],
@@ -2082,7 +2140,7 @@ class Base2 extends \App\Db\Importers\Base
 					'fieldid' => $this->primaryKey(),
 					'columnname' => $this->stringType(30)->notNull(),
 					'tablename' => $this->stringType(50)->notNull(),
-					'generatedtype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'generatedtype' => $this->smallInteger(19)->unsigned()->notNull()->defaultValue(0),
 					'uitype' => $this->smallInteger(5)->unsigned()->notNull(),
 					'fieldname' => $this->stringType(50)->notNull(),
 					'fieldlabel' => $this->stringType(50)->notNull(),
@@ -2104,6 +2162,13 @@ class Base2 extends \App\Db\Importers\Base
 					'header_field' => $this->stringType(15),
 					'maxlengthtext' => $this->smallInteger(3)->unsigned()->defaultValue(0),
 					'maxwidthcolumn' => $this->smallInteger(3)->unsigned()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'generatedtype' => 'tinyint(19) unsigned NOT NULL DEFAULT \'0\'',
+					'readonly' => 'tinyint(1) unsigned NOT NULL',
+					'presence' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
+					'displaytype' => 'tinyint(1) unsigned NOT NULL',
+					'quickcreate' => 'tinyint(1) unsigned NOT NULL DEFAULT \'1\'',
 				],
 				'index' => [
 					['field_tabid_idx', 'tabid'],
@@ -2133,6 +2198,9 @@ class Base2 extends \App\Db\Importers\Base
 					'relmodule' => $this->stringType(25)->notNull(),
 					'status' => $this->stringType(10),
 					'sequence' => $this->smallInteger(1)->unsigned()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'sequence' => 'tinyint(1) unsigned DEFAULT \'0\'',
 				],
 				'index' => [
 					['fieldmodulerel_idx', 'fieldid'],
@@ -2187,10 +2255,13 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_finvoicecost_formpayment' => [
 				'columns' => [
 					'finvoicecost_formpaymentid' => $this->primaryKey(),
-					'finvoicecost_formpayment' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'finvoicecost_formpayment' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2198,10 +2269,13 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_finvoicecost_paymentstatus' => [
 				'columns' => [
 					'finvoicecost_paymentstatusid' => $this->primaryKey(),
-					'finvoicecost_paymentstatus' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'finvoicecost_paymentstatus' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2209,10 +2283,13 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_finvoicecost_status' => [
 				'columns' => [
 					'finvoicecost_statusid' => $this->primaryKey(),
-					'finvoicecost_status' => $this->stringType(200)->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'finvoicecost_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2239,13 +2316,29 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'vtiger_fixed_assets_fuel_type' => [
+				'columns' => [
+					'fixed_assets_fuel_typeid' => $this->primaryKey(),
+					'fixed_assets_fuel_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'vtiger_fixed_assets_status' => [
 				'columns' => [
 					'fixed_assets_statusid' => $this->primaryKey(),
-					'fixed_assets_status' => $this->stringType()->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
-					'sortorderid' => $this->integer()->defaultValue(0),
+					'fixed_assets_status' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
+					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2253,21 +2346,13 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_fixed_assets_type' => [
 				'columns' => [
 					'fixed_assets_typeid' => $this->primaryKey(),
-					'fixed_assets_type' => $this->stringType()->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
+					'fixed_assets_type' => $this->stringType(),
+					'presence' => $this->smallInteger(1)->defaultValue(1),
+					'picklist_valueid' => $this->smallInteger()->defaultValue(0),
 					'sortorderid' => $this->smallInteger()->defaultValue(0),
 				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_fixed_assets_fuel_type' => [
-				'columns' => [
-					'fixed_assets_fuel_typeid' => $this->primaryKey(),
-					'fixed_assets_fuel_type' => $this->stringType()->notNull(),
-					'presence' => $this->smallInteger(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->smallInteger()->notNull()->defaultValue(0),
-					'sortorderid' => $this->smallInteger()->defaultValue(0),
+				'columns_mysql' => [
+					'presence' => 'tinyint(1) DEFAULT \'1\'',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2275,6 +2360,54 @@ class Base2 extends \App\Db\Importers\Base
 		];
 
 		$this->foreignKey = [
+			['fk_1_vtiger_account', 'vtiger_account', 'accountid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_accountaddress_ibfk_1', 'vtiger_accountaddress', 'accountaddressid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_accountscf', 'vtiger_accountscf', 'accountid', 'vtiger_account', 'accountid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_activity', 'vtiger_activity', 'activityid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_reminder_ibfk_1', 'vtiger_activity_reminder', 'activity_id', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_reminder_popup_ibfk_1', 'vtiger_activity_reminder_popup', 'recordid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_update_dates_ibfk_1', 'vtiger_activity_update_dates', 'task_id', 'com_vtiger_workflowtasks', 'task_id', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_update_dates_ibfk_2', 'vtiger_activity_update_dates', 'parent', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activity_update_dates_ibfk_3', 'vtiger_activity_update_dates', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['vtiger_activitycf_ibfk_1', 'vtiger_activitycf', 'activityid', 'vtiger_activity', 'activityid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_activityproductrel', 'vtiger_activityproductrel', 'productid', 'vtiger_products', 'productid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_assets', 'vtiger_assets', 'assetsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_assetscf_ibfk_1', 'vtiger_assetscf', 'assetsid', 'vtiger_assets', 'assetsid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_attachments', 'vtiger_attachments', 'attachmentsid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_blocks', 'vtiger_blocks', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['vtiger_callhistory_ibfk_1', 'vtiger_callhistory', 'callhistoryid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['vtiger_callhistorycf_ibfk_1', 'vtiger_callhistorycf', 'callhistoryid', 'vtiger_callhistory', 'callhistoryid', 'CASCADE', 'RESTRICT'],
+			['fk_vtiger_crmentity', 'vtiger_campaign_records', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_campaignscf', 'vtiger_campaignscf', 'campaignid', 'vtiger_campaign', 'campaignid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactaddress', 'vtiger_contactaddress', 'contactaddressid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactdetails', 'vtiger_contactdetails', 'contactid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactscf', 'vtiger_contactscf', 'contactid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_contactsubdetails', 'vtiger_contactsubdetails', 'contactsubscriptionid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_customaction', 'vtiger_customaction', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_customerdetails', 'vtiger_customerdetails', 'customerid', 'vtiger_contactdetails', 'contactid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_customview', 'vtiger_customview', 'entitytype', 'vtiger_tab', 'name', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cvadvfilter', 'vtiger_cvadvfilter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cvcolumnlist', 'vtiger_cvcolumnlist', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_cvstdfilter', 'vtiger_cvstdfilter', 'cvid', 'vtiger_customview', 'cvid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_grp2grp', 'vtiger_datashare_grp2grp', 'to_groupid', 'vtiger_groups', 'groupid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_grp2role', 'vtiger_datashare_grp2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_grp2rs', 'vtiger_datashare_grp2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_datashare_module_rel', 'vtiger_datashare_module_rel', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_2_vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_role2group', 'vtiger_datashare_role2group', 'share_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_role2role', 'vtiger_datashare_role2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_role2rs', 'vtiger_datashare_role2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_rs2grp', 'vtiger_datashare_rs2grp', 'share_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_rs2role', 'vtiger_datashare_rs2role', 'to_roleid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_3_vtiger_datashare_rs2rs', 'vtiger_datashare_rs2rs', 'to_roleandsubid', 'vtiger_role', 'roleid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_def_org_share', 'vtiger_def_org_share', 'permission', 'vtiger_org_share_action_mapping', 'share_action_id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_defaultcv', 'vtiger_defaultcv', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_entity_stats', 'vtiger_entity_stats', 'crmid', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_entityname', 'vtiger_entityname', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_faq', 'vtiger_faq', 'id', 'vtiger_crmentity', 'crmid', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_faqcf', 'vtiger_faqcf', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_faqcomments', 'vtiger_faqcomments', 'faqid', 'vtiger_faq', 'id', 'CASCADE', 'RESTRICT'],
+			['fk_1_vtiger_field', 'vtiger_field', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
 		];
 	}
 
@@ -3009,6 +3142,7 @@ class Base2 extends \App\Db\Importers\Base
 					[109, 1, 1, 0, 1, 'EmailTemplates', NULL, NULL, '2015-10-23 08:16:58', '2017-01-11 13:25:18', '2015-10-23 08:34:54', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 					[110, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2016-05-24 12:40:24', '2017-01-11 13:35:37', '2016-05-24 12:40:24', NULL, NULL, 0, 1, 0, 0, 0, NULL],
 					[111, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2017-01-23 13:49:51', '2017-01-23 14:25:51', NULL, NULL, NULL, 0, 1, 0, 0, 0, ',1,'],
+					[112, 1, 1, NULL, 1, 'EmailTemplates', NULL, NULL, '2017-06-07 00:42:02', '2017-06-07 00:42:02', NULL, NULL, NULL, 0, 1, 0, 0, 0, ',1,'],
 				]
 			],
 			'vtiger_cron_task' => [
@@ -3020,11 +3154,13 @@ class Base2 extends \App\Db\Importers\Base
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
 					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],
 					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 1, 'Vtiger', 2, NULL],
+					[7, 'LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 					[8, 'LBL_SCHEDULED_IMPORT', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 4, 'Recommended frequency for MailScanner is 15 mins'],
 					[9, 'LBL_SCHEDULE_REPORTS', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 24, 'Recommended frequency for ScheduleReports is 15 mins'],
 					[10, 'LBL_MAIL_SCANNER_ACTION', 'modules/OSSMailScanner/cron/action.php', 200, NULL, NULL, 1, 'OSSMailScanner', 5, ''],
 					[11, 'LBL_MAIL_SCANNER_VERIFICATION', 'modules/OSSMailScanner/cron/verification.php', 100, NULL, NULL, 1, 'OSSMailScanner', 6, ''],
 					[12, 'LBL_MAIL_SCANNER_BIND', 'modules/OSSMailScanner/cron/bind.php', 600, NULL, NULL, 1, 'OSSMailScanner', 7, ''],
+					[13, 'LBL_BATCH_PROCESSES', 'cron/BatchProcesses.php', 600, NULL, NULL, 1, 'Vtiger', 30, NULL],
 					[14, 'LBL_CARD_DAV', 'modules/API/cron/CardDav.php', 300, NULL, NULL, 1, 'Contacts', 9, NULL],
 					[15, 'LBL_CAL_DAV', 'modules/API/cron/CalDav.php', 300, NULL, NULL, 1, 'Calendar', 10, NULL],
 					[16, 'LBL_ACTIVITY_STATE', 'modules/Calendar/cron/ActivityState.php', 1800, NULL, NULL, 1, 'Calendar', 11, ''],
@@ -3041,6 +3177,8 @@ class Base2 extends \App\Db\Importers\Base
 					[27, 'LBL_CACHE', 'cron/Cache.php', 86400, NULL, NULL, 1, 'Vtiger', 25, NULL],
 					[28, 'LBL_NEVER_ENDING_RECURRING_EVENTS', 'modules/Events/cron/RecurringEvents.php', 86400, NULL, NULL, 1, 'Events', 26, NULL],
 					[29, 'LBL_CLEAR_ATTACHMENTS_TABLE', 'cron/Attachments.php', 86400, NULL, NULL, 1, 'Vtiger', 27, NULL],
+					[30, 'LBL_SMSNOTIFIER', 'modules/SMSNotifier/cron/SMSNotifier.php', 300, NULL, NULL, 1, 'SMSNotifier', 28, NULL],
+					[31, 'LBK_SYSTEM_WARNINGS', 'cron/SystemWarnings.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 				]
 			],
 			'vtiger_currencies' => [
@@ -3242,7 +3380,7 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_currency_info' => [
 				'columns' => ['id', 'currency_name', 'currency_code', 'currency_symbol', 'conversion_rate', 'currency_status', 'defaultid', 'deleted'],
 				'values' => [
-					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', '-11', 0],
+					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', -11, 0],
 				]
 			],
 			'vtiger_currency_info_seq' => [
@@ -4019,12 +4157,32 @@ class Base2 extends \App\Db\Importers\Base
 					[19, 312, 0, 0],
 					[29, 474, 0, 0],
 					[29, 475, 0, 0],
+					[29, 476, 0, 0],
+					[29, 477, 0, 0],
 					[29, 478, 0, 0],
 					[29, 479, 0, 0],
 					[29, 480, 0, 0],
 					[29, 481, 0, 0],
 					[29, 482, 0, 0],
+					[29, 483, 0, 0],
+					[29, 484, 0, 0],
+					[29, 485, 0, 0],
+					[29, 487, 0, 0],
+					[29, 492, 0, 0],
+					[29, 498, 0, 0],
+					[29, 500, 0, 0],
+					[29, 506, 0, 0],
+					[29, 507, 0, 0],
+					[29, 508, 0, 0],
+					[29, 509, 0, 0],
+					[29, 510, 0, 0],
+					[29, 511, 0, 0],
+					[29, 512, 0, 0],
 					[29, 513, 0, 0],
+					[29, 514, 0, 0],
+					[29, 515, 0, 0],
+					[29, 516, 0, 0],
+					[29, 517, 0, 0],
 					[33, 524, 0, 0],
 					[33, 525, 0, 0],
 					[33, 526, 0, 0],
@@ -5466,6 +5624,8 @@ class Base2 extends \App\Db\Importers\Base
 					[9, 2602, 0, 0],
 					[9, 2603, 0, 0],
 					[43, 2604, 0, 0],
+					[83, 2605, 0, 0],
+					[45, 2606, 0, 0],
 				]
 			],
 			'vtiger_def_org_share' => [
@@ -5596,13 +5756,6 @@ class Base2 extends \App\Db\Importers\Base
 					[4],
 				]
 			],
-			'vtiger_email_template_type' => [
-				'columns' => ['email_template_typeid', 'email_template_type', 'presence', 'sortorderid'],
-				'values' => [
-					[1, 'PLL_MAIL', 1, 1],
-					[2, 'PLL_RECORD', 1, 2],
-				]
-			],
 			'vtiger_email_template_priority' => [
 				'columns' => ['email_template_priorityid', 'email_template_priority', 'presence', 'sortorderid'],
 				'values' => [
@@ -5615,6 +5768,13 @@ class Base2 extends \App\Db\Importers\Base
 					[7, 7, 1, 7],
 					[8, 8, 1, 8],
 					[9, 9, 1, 9],
+				]
+			],
+			'vtiger_email_template_type' => [
+				'columns' => ['email_template_typeid', 'email_template_type', 'presence', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_MAIL', 1, 1],
+					[2, 'PLL_RECORD', 1, 2],
 				]
 			],
 			'vtiger_employee_education' => [
@@ -6100,25 +6260,25 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 480, 'roleid', 'vtiger_user2role', 1, 98, 'roleid', 'Role', 1, 0, '', 200, 8, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 481, 'email1', 'vtiger_users', 1, 104, 'email1', 'Email', 1, 0, '', 100, 2, 77, 1, 'E~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 482, 'status', 'vtiger_users', 1, 115, 'status', 'Status', 1, 0, 'Active', 100, 10, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 483, 'activity_view', 'vtiger_users', 1, 16, 'activity_view', 'Default Activity View', 1, 0, '', 100, 6, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 483, 'activity_view', 'vtiger_users', 1, 16, 'activity_view', 'Default Activity View', 1, 0, 'This Month', 100, 6, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 484, 'lead_view', 'vtiger_users', 1, 16, 'lead_view', 'Default Lead View', 1, 0, '', 100, 9, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 485, 'hour_format', 'vtiger_users', 1, 16, 'hour_format', 'Calendar Hour Format', 1, 0, '24', 100, 3, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 487, 'start_hour', 'vtiger_users', 1, 16, 'start_hour', 'Day starts at', 1, 0, '08:00', 100, 2, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 492, 'reports_to_id', 'vtiger_users', 1, 101, 'reports_to_id', 'Reports To', 1, 0, '', 50, 8, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 498, 'date_format', 'vtiger_users', 1, 16, 'date_format', 'Date Format', 1, 0, '', 30, 1, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 498, 'date_format', 'vtiger_users', 1, 16, 'date_format', 'Date Format', 1, 0, 'yyyy-mm-dd', 30, 1, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 500, 'description', 'vtiger_users', 1, 21, 'description', 'Documents', 1, 0, '', 250, 14, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 506, 'accesskey', 'vtiger_users', 1, 3, 'accesskey', 'Webservice Access Key', 1, 0, '', 100, 2, 83, 2, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 507, 'time_zone', 'vtiger_users', 1, 16, 'time_zone', 'Time Zone', 1, 0, '', 200, 5, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 508, 'currency_id', 'vtiger_users', 1, 117, 'currency_id', 'Currency', 1, 0, '', 100, 1, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 509, 'currency_grouping_pattern', 'vtiger_users', 1, 16, 'currency_grouping_pattern', 'Digit Grouping Pattern', 1, 0, '', 100, 2, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 510, 'currency_decimal_separator', 'vtiger_users', 1, 16, 'currency_decimal_separator', 'Decimal Separator', 1, 0, '', 2, 3, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 511, 'currency_grouping_separator', 'vtiger_users', 1, 16, 'currency_grouping_separator', 'Digit Grouping Separator', 1, 0, '', 2, 4, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 512, 'currency_symbol_placement', 'vtiger_users', 1, 16, 'currency_symbol_placement', 'Symbol Placement', 1, 0, '', 20, 5, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 509, 'currency_grouping_pattern', 'vtiger_users', 1, 16, 'currency_grouping_pattern', 'Digit Grouping Pattern', 1, 0, '123,456,789', 100, 2, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 510, 'currency_decimal_separator', 'vtiger_users', 1, 16, 'currency_decimal_separator', 'Decimal Separator', 1, 0, '.', 2, 3, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 511, 'currency_grouping_separator', 'vtiger_users', 1, 16, 'currency_grouping_separator', 'Digit Grouping Separator', 1, 0, ' ', 2, 4, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 512, 'currency_symbol_placement', 'vtiger_users', 1, 16, 'currency_symbol_placement', 'Symbol Placement', 1, 0, '1.0$', 20, 5, 78, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 513, 'imagename', 'vtiger_users', 1, 105, 'imagename', 'User Image', 1, 0, '', 250, 10, 82, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 514, 'internal_mailer', 'vtiger_users', 1, 56, 'internal_mailer', 'INTERNAL_MAIL_COMPOSER', 1, 0, '', 50, 15, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 515, 'theme', 'vtiger_users', 1, 31, 'theme', 'Theme', 1, 0, 'softed', 100, 16, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 516, 'language', 'vtiger_users', 1, 32, 'language', 'Language', 1, 0, '', 100, 17, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 517, 'reminder_interval', 'vtiger_users', 1, 16, 'reminder_interval', 'Reminder Interval', 1, 0, '', 100, 9, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 517, 'reminder_interval', 'vtiger_users', 1, 16, 'reminder_interval', 'Reminder Interval', 1, 0, '15 Minutes', 100, 9, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[33, 524, 'direction', 'vtiger_pbxmanager', 1, 1, 'direction', 'Direction', 1, 2, '', 100, 1, 88, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[33, 525, 'callstatus', 'vtiger_pbxmanager', 1, 1, 'callstatus', 'Call Status', 1, 2, '', 100, 2, 88, 1, 'V~O', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[33, 526, 'starttime', 'vtiger_pbxmanager', 1, 70, 'starttime', 'Start Time', 1, 2, '', 100, 7, 88, 1, 'DT~O', 1, NULL, 'BAS', 1, '', 1, '', NULL, 0, 0],
@@ -6242,8 +6402,8 @@ class Base2 extends \App\Db\Importers\Base
 					[42, 690, 'projecttaskstatus', 'vtiger_projecttask', 1, 15, 'projecttaskstatus', 'Status', 1, 2, 'Open', 100, 8, 104, 1, 'V~M', 2, 4, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[40, 691, 'customer', 'vtiger_modcomments', 1, 10, 'customer', 'Customer', 1, 2, '', 100, 5, 98, 3, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 692, 'dayoftheweek', 'vtiger_users', 1, 16, 'dayoftheweek', 'Starting Day of the week', 1, 2, 'Monday', 100, 7, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 693, 'callduration', 'vtiger_users', 1, 16, 'callduration', 'Default Call Duration', 1, 2, '5', 100, 10, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 694, 'othereventduration', 'vtiger_users', 1, 16, 'othereventduration', 'Other Event Duration', 1, 2, '5', 100, 8, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 693, 'callduration', 'vtiger_users', 1, 16, 'callduration', 'Default Call Duration', 1, 2, '30', 100, 10, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 694, 'othereventduration', 'vtiger_users', 1, 16, 'othereventduration', 'Other Event Duration', 1, 2, '30', 100, 8, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 699, 'calendarsharedtype', 'vtiger_users', 1, 16, 'calendarsharedtype', 'Calendar Shared Type', 1, 2, 'Public', 100, 13, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[6, 700, 'isconvertedfromlead', 'vtiger_account', 1, 56, 'isconvertedfromlead', 'Is Converted From Lead', 1, 2, 'no', 100, 1, 196, 2, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[4, 701, 'isconvertedfromlead', 'vtiger_contactdetails', 1, 56, 'isconvertedfromlead', 'Is Converted From Lead', 1, 2, 'no', 100, 5, 5, 2, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
@@ -6254,8 +6414,8 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 716, 'leftpanelhide', 'vtiger_users', 1, 56, 'leftpanelhide', 'LBL_MENU_EXPANDED_BY_DEFAULT', 1, 2, '0', 100, 20, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 719, 'rowheight', 'vtiger_users', 1, 16, 'rowheight', 'Row Height', 1, 2, 'medium', 100, 21, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[13, 720, 'from_portal', 'vtiger_troubletickets', 1, 56, 'from_portal', 'From Portal', 1, 0, '', 100, 19, 25, 3, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 721, 'defaulteventstatus', 'vtiger_users', 1, 15, 'defaulteventstatus', 'Default Event Status', 1, 2, '', 100, 14, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 722, 'defaultactivitytype', 'vtiger_users', 1, 15, 'defaultactivitytype', 'Default Activity Type', 1, 2, '', 100, 12, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 721, 'defaulteventstatus', 'vtiger_users', 1, 15, 'defaulteventstatus', 'Default Event Status', 1, 2, 'PLL_PLANNED', 100, 14, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 722, 'defaultactivitytype', 'vtiger_users', 1, 15, 'defaultactivitytype', 'Default Activity Type', 1, 2, 'Meeting', 100, 12, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[4, 725, 'smcreatorid', 'vtiger_crmentity', 1, 52, 'created_user_id', 'Created By', 1, 2, '', 100, 4, 5, 2, 'V~O', 3, 7, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[6, 726, 'smcreatorid', 'vtiger_crmentity', 1, 52, 'created_user_id', 'Created By', 1, 2, '', 100, 3, 196, 2, 'V~O', 3, 5, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[7, 727, 'smcreatorid', 'vtiger_crmentity', 1, 52, 'created_user_id', 'Created By', 1, 2, '', 100, 7, 14, 2, 'V~O', 3, 7, 'BAS', 0, '', 0, '', NULL, 0, 0],
@@ -6494,7 +6654,7 @@ class Base2 extends \App\Db\Importers\Base
 					[42, 1319, 'projectmilestoneid', 'vtiger_projecttask', 1, 10, 'projectmilestoneid', 'ProjectMilestone', 1, 2, '', 100, 12, 104, 1, 'V~M', 2, 2, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[42, 1320, 'targetenddate', 'vtiger_projecttask', 1, 5, 'targetenddate', 'Target End Date', 1, 2, '', 100, 6, 105, 1, 'D~M', 2, 6, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[7, 1321, 'subindustry', 'vtiger_leaddetails', 1, 16, 'subindustry', 'Sub industry', 1, 2, '', 100, 7, 13, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 1322, 'end_hour', 'vtiger_users', 1, 16, 'end_hour', 'Day ends at', 1, 2, '', 100, 4, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 1322, 'end_hour', 'vtiger_users', 1, 16, 'end_hour', 'Day ends at', 1, 2, '16:00', 100, 4, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[37, 1323, 'description', 'vtiger_crmentity', 1, 300, 'description', 'description', 1, 2, '', 100, 1, 97, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[37, 1324, 'attention', 'vtiger_crmentity', 1, 300, 'attention', 'Attention', 1, 2, '', 100, 2, 97, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[51, 1326, 'description', 'vtiger_crmentity', 1, 300, 'description', 'Description', 1, 2, '', 100, 1, 130, 1, 'V~O', 2, 9, 'BAS', 1, '', 0, '', NULL, 0, 0],
@@ -7560,12 +7720,14 @@ class Base2 extends \App\Db\Importers\Base
 					[9, 2602, 'reapeat', 'vtiger_activity', 1, 56, 'reapeat', 'FL_REAPEAT', 1, 2, '', 100, 0, 19, 3, 'I~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[9, 2603, 'recurrence', 'vtiger_activity', 1, 342, 'recurrence', 'FL_RECURRENCE', 1, 2, '', 100, 0, 19, 3, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[43, 2604, 'parentid', 'vtiger_project', 1, 10, 'parentid', 'FL_MEMBER_OF', 1, 2, '', 100, 10, 108, 1, 'I~O', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[83, 2605, 'is_mandatory', 'u_yf_announcement', 1, 56, 'is_mandatory', 'FL_IS_MANDATORY', 1, 2, '', 100, 5, 258, 1, 'C~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[45, 2606, 'smsnotifier_status', 'vtiger_smsnotifier', 1, 16, 'smsnotifier_status', 'FL_STATUS', 1, 2, '', 100, 9, 110, 10, 'V~O', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 				]
 			],
 			'vtiger_field_seq' => [
 				'columns' => ['id'],
 				'values' => [
-					[2604],
+					[2606],
 				]
 			],
 			'vtiger_fieldmodulerel' => [
@@ -7821,6 +7983,12 @@ class Base2 extends \App\Db\Importers\Base
 					[1, 'None', 1, 670, 1],
 				]
 			],
+			'vtiger_fixed_assets_fuel_type' => [
+				'columns' => ['fixed_assets_fuel_typeid', 'fixed_assets_fuel_type', 'presence', 'sortorderid'],
+				'values' => [
+					[1, 'PLL_DIESEL', 1, 1],
+				]
+			],
 			'vtiger_fixed_assets_status' => [
 				'columns' => ['fixed_assets_statusid', 'fixed_assets_status', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
@@ -7843,12 +8011,6 @@ class Base2 extends \App\Db\Importers\Base
 					[3, 'PLL_VEHICLE', 1, 725, 3],
 					[4, 'PLL_PROPERTY', 1, 726, 4],
 					[5, 'PLL_INVENTORY', 1, 727, 5],
-				]
-			],
-			'vtiger_fixed_assets_fuel_type' => [
-				'columns' => ['fixed_assets_fuel_typeid', 'fixed_assets_fuel_type', 'presence', 'sortorderid'],
-				'values' => [
-					[1, 'PLL_DIESEL', 1, 1],
 				]
 			],
 		];

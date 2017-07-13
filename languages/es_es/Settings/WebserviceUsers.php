@@ -1,30 +1,36 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * WebserviceUsers spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'WebserviceUsers' => 'Web service - users',
-	'LBL_WEBSERVICE_USERS' => 'Web service - users',
+	'WebserviceUsers' => 'Servicio Web - Usuarios',
+	'LBL_WEBSERVICE_USERS' => 'Servicio Web - Usuarios',
 	'LBL_WEBSERVICE_USERS_DESCRIPTION' => ' ',
-	'FL_SERVER' => 'Server',
+	'FL_SERVER' => 'Servidor API',
 	'FL_STATUS' => 'Estado',
-	'FL_LOGIN' => 'Login',
+	'FL_LOGIN' => 'Usuario',
 	'FL_PASSWORD' => 'Contraseña',
 	'FL_TYPE' => 'Tipo',
-	'FL_LOGIN_TIME' => 'Login time',
-	'FL_LOGOUT_TIME' => 'Logout time',
+	'FL_LOGIN_TIME' => 'Fecha inicio de sesión',
+	'FL_LOGOUT_TIME' => 'Fecha cierre de sesión',
 	'FL_LANGUAGE' => 'Idioma',
-	'FL_RECORD_NAME' => 'Record',
+	'FL_RECORD_NAME' => 'Registro',
 	'FL_USER' => 'Usuario',
-	'BTN_SAVE' => 'Save',
-	'BTN_CLOSE' => 'Cancel',
-	'PLL_USER_PERMISSIONS' => 'Permissions based on user',
-	'PLL_ACCOUNTS_RELATED_RECORDS' => 'All records of account assigned directly to contact',
-	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'All related records of account assigned directly to contact and accounts lower in hierarchy',
-	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'All related records of account assigned directly to contact and accounts from hierarchy',
+	'BTN_SAVE' => 'Guardar',
+	'BTN_CLOSE' => 'Cancelar',
+	'PLL_USER_PERMISSIONS' => 'Permisos basados en el usuario',
+	'PLL_ACCOUNTS_RELATED_RECORDS' => 'Todos los registros de la cuenta asignados directamente al contacto',
+	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'Todos los registros de la cuenta asignados directamente al contacto y cuentas a nivel inferior en jerarquía',
+	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'Todos los registros de la cuenta asignados directamente al contacto y cuentas en jerarquía',
 	'PLL_ACTIVE' => 'Activo',
 	'PLL_INACTIVE' => 'Inactivo',
-	'LBL_CREATE_RECORD' => 'Create',
+	'LBL_CREATE_RECORD' => 'Crear un nuevo usuario',
+	'LBL_ADD_RECORD' => 'Crear un nuevo usuario',
 ];
 $jsLanguageStrings = [
-	'JS_DELETE_CONFIRMATION' => 'Are you sure you want to remove the key?',
-	'JS_SAVE_SUCCESS' => 'Changes saved',
+	'JS_DELETE_CONFIRMATION' => '¿Seguro que desea eliminar el Usuario de la API?',
+	'JS_SAVE_SUCCESS' => 'Cambios guardados',
 ];

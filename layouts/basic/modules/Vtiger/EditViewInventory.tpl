@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
@@ -13,7 +13,7 @@
 		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
 		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
 		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-
+		{assign var="IS_OPTIONAL_ITEMS" value=AppConfig::module($MODULE, 'INVENTORY_IS_OPTIONAL')}
 		{if in_array("currency",$COLUMNS)}
 			{if count($INVENTORY_ROWS) > 0}
 				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}
@@ -34,13 +34,15 @@
 					<tr data-rownumber="0">
 						<th class="btn-toolbar">
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
-								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
-								<span class="btn-group">
-									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
-										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
-									</button>
-								</span>
+								{if \App\Module::isModuleActive($MAIN_MODULE)}
+									{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
+									<span class="btn-group">
+										<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
+												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
+											<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD',$MODULE)} {vtranslate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
+										</button>
+									</span>
+								{/if}	
 							{/foreach}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
@@ -55,12 +57,12 @@
 			</table>
 		</div>
 		<div class="table-responsive">
-			<table class="table blockContainer inventoryItems">
+			<table class="table blockContainer inventoryItems" data-isoptional="{$IS_OPTIONAL_ITEMS}">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 						<tr>
 							<th style="width: 5%;">&nbsp;&nbsp;</th>
-							{foreach item=FIELD from=$FIELDS[1]}
+								{foreach item=FIELD from=$FIELDS[1]}
 								<th {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan') * 0.95}%"{/if} class="col{$FIELD->getName()} {if !$FIELD->isEditable()} hide{/if} textAlignCenter">
 									{vtranslate($FIELD->get('label'), $MODULE)}
 								</th>
@@ -73,8 +75,10 @@
 						{assign var="ROW_NO" value=$KEY+1}
 						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 					{foreachelse}
-						{assign var="ROW_NO" value=1}
-						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{if !$IS_OPTIONAL_ITEMS}
+							{assign var="ROW_NO" value=1}
+							{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{/if}
 					{/foreach}
 				</tbody>
 				<tfoot>
@@ -107,6 +111,6 @@
 				{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
 			</tbody>
 		</table>
-		<br/>
+		<br />
 	{/if}
 {/strip}

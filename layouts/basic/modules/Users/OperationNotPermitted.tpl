@@ -22,7 +22,7 @@
 		</tr>
 		<tr>
 			<td class='small' align='right' nowrap='nowrap'>
-				<a {if $REQUEST->isAjax()} href="#" onclick='closeWindow()' {else} href='javascript:window.history.back();' {/if}>{vtranslate('LBL_GO_BACK')}</a><br>
+				<a {if $REQUEST->isAjax()} href="#" onclick='closeWindow()' {else} href='javascript:window.history.back();' {/if}>{vtranslate('LBL_GO_BACK')}</a><br />
 			</td>
 		</tr>
 		</table>

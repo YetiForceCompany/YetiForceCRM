@@ -18,7 +18,7 @@
 						{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path)}
-								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
+								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br />
 							{else}
 								<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 							{/if}
@@ -42,7 +42,7 @@
 						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 						{if $SHOWNERS != ''}
-							<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+							<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>

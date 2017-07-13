@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal fade">
 		<div class="modal-dialog">
@@ -30,7 +30,7 @@
 						<div class="col-md-6">{vtranslate('LBL_TOTALS_LIMIT', $MODULE)}:</div>
 						<div class="col-md-6"><strong>{$TOTALS}</strong> {$SYMBOL}</div>
 					</div>
-					<br/>
+					<br />
 					<div class="alert alert-danger marginbottomZero">{vtranslate('LBL_LIMIT_ALERT', $MODULE)}</div>
 				</div>
 			</div>

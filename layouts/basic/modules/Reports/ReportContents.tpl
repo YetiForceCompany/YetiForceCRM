@@ -61,7 +61,7 @@
                 {assign var=GROUPBYFIELDS value=array_keys($REPORTRUN->getGroupingList($RECORD_ID))}
                 {assign var=GROUPBYFIELDSCOUNT value=count($GROUPBYFIELDS)}
                 {if $GROUPBYFIELDSCOUNT > 0}
-                    {assign var=FIELDNAMES value=array()}
+                    {assign var=FIELDNAMES value=[]}
                     {for $i=0 to $GROUPBYFIELDSCOUNT-1}
                         {assign var=FIELD value=explode(':',$GROUPBYFIELDS[$i])}
                         {assign var=FIELD_EXPLODE value=explode('__',$FIELD[2])}
@@ -145,7 +145,7 @@
 		{/if}
 		</div>
 	</div>
-	<br>	
+	<br />	
    </div>
 </div>
 {/strip}

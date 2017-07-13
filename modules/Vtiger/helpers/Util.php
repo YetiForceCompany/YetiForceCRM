@@ -57,11 +57,8 @@ class Vtiger_Util_Helper
 	public static function formatDateDiffInStrings($dateTime)
 	{
 		// http://www.php.net/manual/en/datetime.diff.php#101029
-		$currentDateTime = date('Y-m-d H:i:s');
-
-		$seconds = strtotime($currentDateTime) - strtotime($dateTime);
-
-		if ($seconds == 0)
+		$seconds = strtotime('now') - strtotime($dateTime);
+		if ($seconds === 0)
 			return vtranslate('LBL_JUSTNOW');
 		if ($seconds > 0) {
 			$prefix = '';
@@ -125,7 +122,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function toVtiger6SafeHTML($input)
 	{
-		$allowableTags = '<a><br>';
+		$allowableTags = '<a><br />';
 		return strip_tags($input, $allowableTags);
 	}
 

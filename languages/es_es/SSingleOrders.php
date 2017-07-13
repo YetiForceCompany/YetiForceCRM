@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SSingleOrders spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'SSingleOrders' => 'Órdenes de venta',
 	'SINGLE_SSingleOrders' => 'Orden de venta',
@@ -24,9 +29,9 @@ $languageStrings = [
 	'FL_MARGIN' => 'Margen total',
 	'FL_SUM_GROSS' => 'Importe bruto',
 	'FL_SUM_DISCOUNT' => 'Importe de descuento',
-	'FL_POS' => 'POS',
-	'FL_NUMBER_TABLE' => 'Table number',
-	'FL_NUMBER_SEAT' => 'Seat number',
+	'FL_POS' => 'TPV',
+	'FL_NUMBER_TABLE' => 'Número de mesa',
+	'FL_NUMBER_SEAT' => 'Número de asiento',
 	'FL_STORAGE' => 'Almacenamiento',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Borrador',
@@ -36,9 +41,9 @@ $languageStrings = [
 	'PLL_CANCELLED' => 'Cancelado',
 	'PLL_ACCEPTED' => 'Aceptado',
 	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
-	'LBL_SYNCHRONIZE_POS' => 'Synchronize POS',
+	'LBL_SYNCHRONIZE_POS' => 'Sincronizar POS',
 	'FL_SOURCE' => 'Origen',
 	'PLL_MANUAL' => 'Manual',
-	'PLL_POS' => 'POS',
-	'PLL_SHOP' => 'Shop',
+	'PLL_POS' => 'TPV',
+	'PLL_SHOP' => 'Tienda',
 ];

@@ -40,14 +40,14 @@ class JavascriptRenderer
 	protected $includeVendors = true;
 	protected $cssFiles = array('debugbar.css', 'widgets.css', 'openhandler.css');
 	protected $jsFiles = array('debugbar.js', 'widgets.js', 'openhandler.js');
-	protected $additionalAssets = array();
+	protected $additionalAssets = [];
 	protected $javascriptClass = 'PhpDebugBar.DebugBar';
 	protected $variableName = 'phpdebugbar';
 	protected $enableJqueryNoConflict = true;
 	protected $useRequireJs = false;
 	protected $initialization;
-	protected $controls = array();
-	protected $ignoredCollectors = array();
+	protected $controls = [];
+	protected $ignoredCollectors = [];
 	protected $ajaxHandlerClass = 'PhpDebugBar.AjaxHandler';
 	protected $ajaxHandlerBindToJquery = true;
 	protected $ajaxHandlerBindToXHR = false;
@@ -629,7 +629,7 @@ class JavascriptRenderer
 		}
 
 		if (is_array($uri)) {
-			$uris = array();
+			$uris = [];
 			foreach ($uri as $u) {
 				$uris[] = $this->makeUriRelativeTo($u, $root);
 			}
@@ -687,7 +687,7 @@ class JavascriptRenderer
 	 */
 	protected function createAsseticCollection($files)
 	{
-		$assets = array();
+		$assets = [];
 		foreach ($files as $file) {
 			$assets[] = new \Assetic\Asset\FileAsset($file);
 		}
@@ -896,11 +896,11 @@ class JavascriptRenderer
 	protected function getJsControlsDefinitionCode($varname)
 	{
 		$js = '';
-		$dataMap = array();
+		$dataMap = [];
 		$excludedOptions = array('indicator', 'tab', 'map', 'default', 'widget', 'position');
 
 		// finds controls provided by collectors
-		$widgets = array();
+		$widgets = [];
 		foreach ($this->debugBar->getCollectors() as $collector) {
 			if (($collector instanceof Renderable) && !in_array($collector->getName(), $this->ignoredCollectors)) {
 				if ($w = $collector->getWidgets()) {
@@ -930,7 +930,7 @@ class JavascriptRenderer
 		}
 
 		// creates the data mapping object
-		$mapJson = array();
+		$mapJson = [];
 		foreach ($dataMap as $name => $values) {
 			$mapJson[] = sprintf('"%s": ["%s", %s]', $name, $values[0], $values[1]);
 		}

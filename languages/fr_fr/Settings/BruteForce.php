@@ -1,14 +1,21 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Brute force french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'LBL_SENT_NOTIFICATIONS' => 'Envoyer des notifications',
+	'LBL_UNBLOCK' => 'Débloquer',
+	'LBL_BROWSERS' => 'Navigateur',
+	'LBL_USERS' => 'Utilisateurs',
+	'LBL_DATE' => 'Date',
+	'LBL_IP' => 'Adresse IP',
+	'LBL_BLOCKED_IP' => 'Adresse IP bloquée',
+	'LBL_SETTINGS' => 'Réglages',
+	'LBL_TIME_LOCK' => 'Temps bloqué (minutes)',
+	'LBL_NUMBER_OF_ATTEMPTS' => 'Nombre de tentatives',
 	'BruteForce' => 'Brute Force',
 	'Number of attempts' => 'Nombre de tentatives',
 	'Time lock' => 'Temps de bannissement (minutes)',
@@ -33,6 +40,7 @@ $languageStrings = [
 	'LBL_VIEW_SHOW' => 'Brute Force',
 ];
 $jsLanguageStrings = [
+	'JS_COULD_NOT_FINNISH_REACTION' => 'Erreur. Échec de la sauvegarde.',
 	'Could not finnish reaction.' => 'Action n\'a pu être terminée.',
 	'Complete the fields' => 'Compléter les champs',
 	'LBL_SAVE_SUCCESS' => 'Les modifications ont été sauvegardées ',

@@ -38,7 +38,7 @@
 							<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
 						</div>
 				
-						<br>
+						<br />
 						<div class="control-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{vtranslate('LBL_BOOKMARK_URL',$MODULE)}

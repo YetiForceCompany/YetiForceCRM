@@ -182,6 +182,8 @@ $languageStrings = [
 	'LBL_ADDED_COMPANY_FIELD' => 'Hinzugefügtes Feld',
 	'LBL_FIELD_NOT_VALID' => 'Feld darf nur Buchstaben beinhalten',
 	'LBL_EXTENDED_MODULES' => 'Erweiterte Module',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_BRUTEFORCE_DESCRIPTION' => 'Stellen Sie die Anzahl der ungültigen Anmeldeversuche und die Dauer der IP-Blockade ein.',
 	'LBL_BRUTEFORCE' => 'Passwords - Brute force',
@@ -282,7 +284,7 @@ $languageStrings = [
 	'LBL_DEFAULT' => 'Standard',
 	'LBL_TIMECONTROL_PROCESSES' => 'Zeiterfassungsprozesse',
 	//config editor
-	'LBL_POPUP_TYPE' => 'Pop-up Fenstertyp für Datensatzliste.<br>1 - Normal, 2 - Erweiterte Suche',
+	'LBL_POPUP_TYPE' => 'Pop-up Fenstertyp für Datensatzliste.<br />1 - Normal, 2 - Erweiterte Suche',
 	'LBL_SHOWING_BREADCRUMBS' => 'Zeige Breadcrumbs Menü',
 	'LBL_SHOW_RESPONSE_TIME' => 'Ein-/Ausblenden der Seitenaufbauzeit',
 	'LBL_TITLE_MAX_LENGTH' => 'Maximale Länge von Zeichen für den Titel ',

@@ -3,31 +3,31 @@
 /**
  * Mail cction bar class
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMail_MailActionBar_View extends Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$uid = $request->get('uid');
 		$folder = $request->get('folder');
-		$rcId = $request->get('rcId');
 		$params = null; // fixme - non existent
 
-		$account = OSSMail_Record_Model::getAccountByHash($rcId);
+		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
 		if (!$account) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}

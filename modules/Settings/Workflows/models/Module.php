@@ -81,7 +81,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getSupportedModules()
 	{
 		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
-		$supportedModuleModels = array();
+		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {
 				$supportedModuleModels[$tabId] = $moduleModel;
@@ -107,13 +107,13 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
-			$fieldObjects = array();
+			$fieldObjects = [];
 			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
+					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
 				} else {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel));
 				}
 			}
 			$this->listFieldModels = $fieldObjects;

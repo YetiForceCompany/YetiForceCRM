@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
-* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
-* in compliance with the License.
-* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
-* See the License for the specific language governing rights and limitations under the License.
-* The Original Code is YetiForce.
-* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
-* All Rights Reserved.
-*************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <form name="condition" action="index.php" method="post" id="workflow_step2" class="form-horizontal" >
 	<input type="hidden" name="view" value="Step3" />
 	<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -27,7 +17,6 @@
 				<div class="header"><span><strong>{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_ALL_DSC', $QUALIFIED_MODULE)}</span></div>
 				<div id="condition_all">
 					{if $TPL_ID}
-						{*                        <pre>*}
 						{foreach from=$REQUIRED_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<div class="col-md-4">
@@ -64,6 +53,15 @@
 										<select multiple="multiple" name="val" data-value="value" class="form-control select2">
 											{foreach from=$cnd_item['info']['picklistvalues'] key=pick_key item=pick_item}
 												<option value="{$pick_key}"  {if in_array($pick_key, $cnd_item['val'])} selected {/if}>{$pick_item}</option>
+											{/foreach}
+										</select>
+									{else if $cnd_item['field_type'] eq 'owner'}
+										<select multiple="multiple" name="val" data-value="value" class="form-control select2">
+											{foreach from=$cnd_item['info']['picklistvalues'] key=TYPE item=ITEMS}
+												<optgroup label="{$TYPE}"></optgroup>
+												{foreach from=$ITEMS key=VALUE item=USER}
+													<option value="{$VALUE}"  {if in_array($VALUE, $cnd_item['val'])} selected {/if}>{$USER}</option>
+												{/foreach}
 											{/foreach}
 										</select>
 									{else if $cnd_item['field_type'] eq 'time'}
@@ -154,7 +152,7 @@
 				</div>
 				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_option" type="button"><strong>{vtranslate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
 			</div>
-			<br>
+			<br />
 			<div class="pull-right">
 				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>

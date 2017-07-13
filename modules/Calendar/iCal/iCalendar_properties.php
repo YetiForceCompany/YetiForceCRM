@@ -22,7 +22,7 @@ class iCalendar_property
 
 	public function construct()
 	{
-		$this->parameters = array();
+		$this->parameters = [];
 	}
 
 	// If some property needs extra care with its parameters, override this
@@ -1219,7 +1219,7 @@ class iCalendar_property_request_status extends iCalendar_property
 		}
 
 		$len = strlen($value);
-		$parts = array();
+		$parts = [];
 		$from = 0;
 		$escch = false;
 

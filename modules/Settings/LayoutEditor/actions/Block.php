@@ -18,7 +18,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('delete');
 	}
 
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$blockId = $request->get('blockid');
 		$sourceModule = $request->get('sourceModule');
@@ -66,7 +66,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function updateSequenceNumber(Vtiger_Request $request)
+	public function updateSequenceNumber(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		try {
@@ -79,7 +79,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$blockId = $request->get('blockid');
@@ -104,7 +104,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

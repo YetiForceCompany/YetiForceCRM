@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * ConfReport polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'ConfReport' => 'Konfiguracja serwera',
 	'LBL_CONFIGURATION' => 'Konfiguracja serwera',
@@ -44,7 +41,8 @@ $languageStrings = [
 	'LBL_MYSQLND_LIBRARY' => 'MySQL Native Driver (mysqlnd)',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
-	'LBL_MBSTRING_LIBRARY' => 'php_mbstring (wymagane dla mPDF)',
+	'LBL_MBSTRING_LIBRARY' => 'Mbstring (wymagane dla mPDF)',
+	'LBL_EXIF_LIBRARY' => 'Exif (poprawia bezpieczeństwo wgrywanych plików)',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
 	'LBL_SPACE' => 'Pojemność',
 	'LBL_SPACE_TOTAL' => 'Całkowita',
@@ -62,15 +60,12 @@ $languageStrings = [
 	'LBL_CRON_PHPINI' => 'Cron - Konfiguracja PHP',
 	'LBL_CRON_LOG_FILE' => 'Cron - Logi błedów',
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Informacje o środowisku',
-	'LBL_HARDWARE_INFORMATION' => 'Informacje o sprzęcie',
-	'LBL_CPU_USAGE' => 'Obciążenie',
-	'LBL_CPU' => 'Procesor',
-	'LBL_HDD' => 'Dysk',
-	'LBL_RAM' => 'Pamięć',
-	'BTN_SERVER_SPEED_TEST' => 'Sprawdź szybkość serwera',
-	'LBL_SERVER_SPEED_TEST' => 'Test szybkości serwera',
-	'LBL_READ_TEST' => 'Odczyt (ilość załadowanych plików na sekundę)',
-	'LBL_WRITE_TEST' => 'Zapis (ilość utworzonych plików na sekundę)',
+	'LBL_CRON_PHP_SAPI' => 'Cron - Server API',
+	'LBL_OPERATING_SYSTEM' => 'System operacyjny',
+	'BTN_SERVER_SPEED_TEST' => 'Testuj szybkość serwera',
+	'HTTPS_HELP_TEXT' => 'SSL to technologia zabezpieczeń służąca do tworzenia zaszyfrowanego połaczenia między serwerem internetowym a przeglądarką. Zalecamy właczenie aby nikt nie kopiował Twojich danych.',
+	'HTACCESS_HELP_TEXT' => 'Pliki .htaccess jest nie aktywny, jest on potrzeby do prawidłowej obsługi wszystkich integracji oraz do zabezpieczenia dostępu do katalogów z danymi użytkownika.',
+	'PUBLIC_HTML_HELP_TEXT' => 'Zalecamy aby domena kierowała do katalogu public_html, dzięki temu pliki systemu oraz twoje dane nie będą publiczne i nikt nie będzie mógł ich pobrać.'
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',

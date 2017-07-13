@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 {assign var=ACCESS_OPTIONS value=\App\Json::decode(html_entity_decode($WIDGET->get('owners')))}
 {if !is_array($ACCESS_OPTIONS.available)}
@@ -30,13 +30,13 @@
 		{/if}>
 	
 		{if in_array('mine', $ACCESS_OPTIONS.available)}
-			<option value="{$CURRENTUSER->getId()}" data-name="{$CURRENTUSER->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq $CURRENTUSER->getId()} selected {/if}>{vtranslate('LBL_MINE')}</option>
+			<option value="{$USER_MODEL->getId()}" data-name="{$USER_MODEL->getName()}" title="{vtranslate('LBL_MINE')}" {if $OWNER eq $USER_MODEL->getId()} selected {/if}>{vtranslate('LBL_MINE')}</option>
 		{/if}
 		{if in_array('all', $ACCESS_OPTIONS.available)}
 			<option value="all" {if $OWNER eq 'all' || $ACCESS_OPTIONS['default'] eq 'all'} data-name="" title="{vtranslate('LBL_ALL')}" selected {/if}>{vtranslate('LBL_ALL')}</option>
 		{/if}
 		{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-			{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$CURRENTUSER->getId()]))}
+			{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$USER_MODEL->getId()]))}
 			{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS['available'])}
 				<optgroup label="{vtranslate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}

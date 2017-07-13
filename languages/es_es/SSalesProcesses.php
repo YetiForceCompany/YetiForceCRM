@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SSalesProcesses spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'SSalesProcesses' => 'Oportunidades',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
@@ -34,10 +39,10 @@ $languageStrings = [
 	'PLL_ADVERTISING' => 'Publicidad',
 	'PLL_COMMUNITY' => 'Comunidad',
 	'PLL_OTHER' => 'Otro',
-	'PLL_NEW_SALES' => 'Nuevas ventas',
+	'PLL_NEW_SALES' => 'Nueva venta',
 	'PLL_RENEWAL' => 'Renovación',
-	'PLL_AFTERSALES' => 'Después de las ventas',
-	'PLL_TENDER' => 'Oferta',
+	'PLL_AFTERSALES' => 'Postventa',
+	'PLL_TENDER' => 'Concurso',
 	'PLL_DRAFT' => 'Borrador',
 	'PLL_FOR_REALIZATION' => 'Para la realización',
 	'PLL_QUOTE_ENQUIRY' => 'Solicitud de presupuesto',
@@ -50,7 +55,7 @@ $languageStrings = [
 	'PLL_ORDER' => 'Pedido',
 	'PLL_REALIZATION' => 'Realización',
 	'PLL_AWAITING_PAYMENT' => 'En espera de pago',
-	'PLL_INVOICING' => 'Invoicing',
+	'PLL_INVOICING' => 'Facturación',
 	'PLL_SALE_COMPLETED' => 'Venta terminada',
 	'PLL_SALE_FAILED' => 'Venta fallida',
 	'PLL_SALE_CANCELLED' => 'Venta cancelada',

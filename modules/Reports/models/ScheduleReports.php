@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_ScheduleReports_Model extends Vtiger_Base_Model
+class Reports_ScheduleReports_Model extends \App\Base
 {
 
 	public $scheduledFormat = 'CSV';
@@ -339,7 +339,8 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	{
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');
-		$logo = $site_URL . '/storage/Logo/' . Vtiger_CompanyDetails_Model::getInstanceById()->get('logoname');
+
+		$logo = \App\Company::getInstanceById()->getLogo()->get('imageUrl', true);
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

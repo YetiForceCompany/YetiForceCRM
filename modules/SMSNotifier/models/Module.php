@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class SMSNotifier_Module_Model extends Vtiger_Module_Model
@@ -52,7 +53,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
-		$settingsLinks = array();
+		$settingsLinks = [];
 
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
@@ -71,5 +72,93 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 			'linkicon' => ''
 		);
 		return $settingsLinks;
+	}
+
+	/**
+	 * Function to get instance of provider model
+	 * @param string $providerName
+	 * @return boolean|\SMSNotifier_Basic_Provider
+	 */
+	public static function getProviderInstance($providerName)
+	{
+		if (!empty($providerName)) {
+			$providerName = trim($providerName);
+			$className = Vtiger_Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
+			if ($className && class_exists($className)) {
+				return new $className();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Function to get All providers
+	 * @return \SMSNotifier_Basic_Provider[]
+	 */
+	public static function getProviders()
+	{
+		$iterator = new \DirectoryIterator(dirname(__FILE__) . '/../providers');
+		foreach ($iterator as $item) {
+			if ($item->isFile() && $item->getFilename() !== 'Basic.php' && $item->getExtension() === 'php') {
+				$providers[] = self::getProviderInstance($item->getBasename('.php'));
+			}
+		}
+		return $providers;
+	}
+
+	/**
+	 * Function to get active provider
+	 * @return \SMSNotifier_Basic_Provider[]
+	 */
+	public static function getActiveProviderInstance()
+	{
+		$cacheName = 'activeProviderInstance';
+		if (\App\Cache::has('SMSNotifierConfig', $cacheName)) {
+			return clone \App\Cache::get('SMSNotifierConfig', $cacheName);
+		}
+		$provider = false;
+		$data = (new App\Db\Query())
+			->from('a_#__smsnotifier_servers')
+			->where(['isactive' => 1])
+			->one();
+		if ($data) {
+			$provider = self::getProviderInstance($data['providertype']);
+			if (!empty($data['parameters'])) {
+				$parameters = \App\Json::decode(decode_html($data['parameters']));
+				foreach ($parameters as $k => $v) {
+					$provider->set($k, $v);
+				}
+			}
+			$provider->set('api_key', $data['api_key']);
+		}
+		\App\Cache::save('SMSNotifierConfig', $cacheName, $provider, \App\Cache::LONG);
+		return $provider;
+	}
+
+	/**
+	 * Check server
+	 * @return bool
+	 */
+	public static function checkServer()
+	{
+		$provider = self::getActiveProviderInstance();
+		return ($provider !== false);
+	}
+
+	/**
+	 * Adds sms notifications to cron
+	 * @param string $message
+	 * @param string[] $toNumbers
+	 * @param int[] $recordIds
+	 * @param string $ralModuleName
+	 * @return int
+	 */
+	public static function addSmsToCron($message, $toNumbers, $recordIds, $ralModuleName)
+	{
+		return \App\Db::getInstance('admin')->createCommand()->insert('s_#__smsnotifier_queue', [
+				'message' => $message,
+				'tonumbers' => is_array($toNumbers) ? implode(',', $toNumbers) : $toNumbers,
+				'records' => is_array($recordIds) ? implode(',', $recordIds) : $recordIds,
+				'module' => $ralModuleName])->execute();
 	}
 }

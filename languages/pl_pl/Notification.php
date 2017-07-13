@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Notification polish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'Notification' => 'Powiadomienia',
 	'SINGLE_Notification' => 'Powiadomienie',
@@ -38,6 +43,7 @@ $languageStrings = [
 	'LBL_SENT_NOTIFICATIONS' => 'Wysyłaj powiadomienia',
 	'LBL_NOTIFICATION_SETTINGS' => 'Konfiguracja powiadomień',
 	'LBL_UNREAD' => 'Nieprzeczytane',
+	'LBL_NO_UNREAD_NOTIFICATIONS' => 'Brak nowych powiadomień',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',

@@ -24,7 +24,7 @@ class Calendar_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_
 			return $this->structuredValues;
 		}
 
-		$values = array();
+		$values = [];
 		$recordModel = $this->getRecord();
 		$recordExists = !empty($recordModel);
 		$moduleModel = $this->getModule();
@@ -32,7 +32,7 @@ class Calendar_DetailRecordStructure_Model extends Vtiger_DetailRecordStructure_
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = array();
+				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
 					if ($fieldModel->isViewableInDetailView()) {
 						if ($recordExists) {

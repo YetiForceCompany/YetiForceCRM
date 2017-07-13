@@ -19,7 +19,7 @@ include_once 'modules/Vtiger/helpers/ShortURL.php';
 class Users_ForgotPassword_Action
 {
 
-	public function changePassword(Vtiger_Request $request)
+	public function changePassword(\App\Request $request)
 	{
 		$viewer = Vtiger_Viewer::getInstance();
 		$userName = $request->get('username');
@@ -49,7 +49,7 @@ class Users_ForgotPassword_Action
 		$viewer->view('FPLogin.tpl', 'Users');
 	}
 
-	public function requestForgotPassword(Vtiger_Request $request)
+	public function requestForgotPassword(\App\Request $request)
 	{
 		$adb = PearDatabase::getInstance();
 		$username = App\Purifier::purify($request->get('user_name'));
@@ -92,7 +92,7 @@ class Users_ForgotPassword_Action
 		}
 	}
 
-	public static function run(Vtiger_Request $request)
+	public static function run(\App\Request $request)
 	{
 		$instance = new self();
 		if ($request->has('user_name') && $request->has('emailId')) {
@@ -107,4 +107,4 @@ class Users_ForgotPassword_Action
 	}
 }
 
-Users_ForgotPassword_Action::run(AppRequest::init());
+Users_ForgotPassword_Action::run(App\Request::init());

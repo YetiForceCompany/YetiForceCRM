@@ -12,7 +12,7 @@
 class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -26,7 +26,7 @@ class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -37,10 +37,10 @@ class Reports_DetailAjax_Action extends Vtiger_BasicAjax_Action
 
 	/**
 	 * Function to get related Records count from this relation
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getInstanceById($record);

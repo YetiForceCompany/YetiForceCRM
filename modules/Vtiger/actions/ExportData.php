@@ -14,10 +14,10 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Function to check permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		if (!Vtiger_Module_Model::getInstance($request->get('source_module'))->isPermitted('Export')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
@@ -26,9 +26,9 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Function is called by the controller
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$exportModel = Vtiger_Export_Model::getInstanceFromRequest($request);
 		if ($request->getMode() === 'ExportSelectedRecords') {

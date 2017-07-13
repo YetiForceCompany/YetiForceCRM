@@ -36,5 +36,5 @@
 			</div>
 		</div>
 	</div>
-	<br>
+	<br />
 {/strip}

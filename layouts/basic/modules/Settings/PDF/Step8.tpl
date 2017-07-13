@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step8" class="form-horizontal" enctype="multipart/form-data">
@@ -13,7 +13,7 @@
 				<label>
 					<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 8)}: {vtranslate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}</strong>
 				</label>
-				<br>
+				<br />
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
 						{vtranslate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 			</div>
-			<br>
+			<br />
 			<div class="pull-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>

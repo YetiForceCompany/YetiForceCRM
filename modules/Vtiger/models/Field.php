@@ -699,9 +699,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getFieldInfo()
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$fieldDataType = $this->getFieldDataType();
-
 		$this->fieldInfo['mandatory'] = $this->isMandatory();
 		$this->fieldInfo['presence'] = $this->isActiveField();
 		$this->fieldInfo['quickcreate'] = $this->isQuickCreateEnabled();
@@ -709,11 +707,12 @@ class Vtiger_Field_Model extends vtlib\Field
 		$this->fieldInfo['header_field'] = $this->isHeaderField();
 		$this->fieldInfo['maxlengthtext'] = $this->get('maxlengthtext');
 		$this->fieldInfo['maxwidthcolumn'] = $this->get('maxwidthcolumn');
-		$this->fieldInfo['defaultvalue'] = $this->hasDefaultValue();
+		$this->fieldInfo['defaultvalue'] = $this->getDefaultFieldValue();
 		$this->fieldInfo['type'] = $fieldDataType;
 		$this->fieldInfo['name'] = $this->get('name');
-		$this->fieldInfo['label'] = vtranslate($this->get('label'), $this->getModuleName());
+		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName());
 
+		$currentUser = \App\User::getCurrentUserModel();
 		switch ($fieldDataType) {
 			case 'picklist' :
 			case 'multipicklist':
@@ -733,20 +732,20 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 			case 'date':
 			case 'datetime':
-				$this->fieldInfo['date-format'] = $currentUser->get('date_format');
+				$this->fieldInfo['date-format'] = $currentUser->getDetail('date_format');
 				break;
 			case 'time':
-				$this->fieldInfo['time-format'] = $currentUser->get('hour_format');
+				$this->fieldInfo['time-format'] = $currentUser->getDetail('hour_format');
 				break;
 			case 'currency':
-				$this->fieldInfo['currency_symbol'] = $currentUser->get('currency_symbol');
-				$this->fieldInfo['decimal_separator'] = $currentUser->get('currency_decimal_separator');
-				$this->fieldInfo['group_separator'] = $currentUser->get('currency_grouping_separator');
+				$this->fieldInfo['currency_symbol'] = $currentUser->getDetail('currency_symbol');
+				$this->fieldInfo['decimal_separator'] = $currentUser->getDetail('currency_decimal_separator');
+				$this->fieldInfo['group_separator'] = $currentUser->getDetail('currency_grouping_separator');
 				break;
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(AppRequest::get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || AppRequest::get('mode') === 'showAdvancedSearch') {
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
@@ -1073,8 +1072,10 @@ class Vtiger_Field_Model extends vtlib\Field
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams')
 			], ['fieldid' => $this->get('id')])->execute();
-		if ($this->isMandatory())
+		if ($this->isMandatory()) {
 			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
+		}
+		App\Cache::clear();
 	}
 
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
@@ -1098,7 +1099,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function hasDefaultValue()
 	{
-		return $this->defaultvalue == '' ? false : true;
+		return $this->defaultvalue === '' ? false : true;
 	}
 
 	public function isActiveField()
@@ -1163,15 +1164,19 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$defaultValue = $this->getDefaultFieldValue();
 		$recordValue = $this->get('fieldvalue');
-
-		if (empty($recordValue) && !empty($defaultValue))
+		if (empty($recordValue) && !$defaultValue) {
 			$this->set('fieldvalue', $defaultValue);
+		}
 		return $this;
 	}
 
 	public function getFieldParams()
 	{
-		return \App\Json::decode($this->get('fieldparams'));
+		$data = \App\Json::decode($this->get('fieldparams'));
+		if (!is_array($data)) {
+			$data = $this->get('fieldparams');
+		}
+		return $data;
 	}
 
 	public function isActiveSearchView()

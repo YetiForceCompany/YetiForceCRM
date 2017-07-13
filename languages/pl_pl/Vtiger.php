@@ -1,14 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************************************************************** */
+/**
+ * Vtiger polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'LBL_SEND_EMAIL' => 'Wyślij maila',
@@ -418,6 +414,8 @@ $languageStrings = [
 	'LBL_RESULT_FOR_THE_TAG' => 'Wynik dla etykiet',
 	'LBL_Sat' => 'Sob',
 	'LBL_SAVE' => 'Zapisz',
+	'BTN_SAVE' => 'Zapisz',
+	'BTN_CLOSE' => 'Zamknij',
 	'LBL_SAVE_AS_DRAFT' => 'Zapisz jako szablon',
 	'LBL_SAVE_AS_FILTER' => 'Zapisz to wyszukiwanie jako filtr',
 	'LBL_SAVE_FILTER' => 'Zapisz filtr',
@@ -502,6 +500,8 @@ $languageStrings = [
 	'LBL_YEARS' => 'lata',
 	'LBL_YES' => 'Tak',
 	'LBL_YESTERDAY' => 'Wczoraj',
+	'LBL_OLDER' => 'Starsze',
+	'LBL_CLEAR_HISTORY' => 'Wyczyść historię przeglądania',
 	'LBL_ZERO_DISCOUNT' => 'Rabat zerowy',
 	'Lead Source' => 'Źródło pozyskania',
 	'Leads by Industry' => 'Leady według branży',
@@ -644,7 +644,7 @@ $languageStrings = [
 	'Project Milestone Name' => 'Nazwa etapu projektu',
 	'Milestone Date' => 'Data etapu',
 	'WEBLOADTIME' => 'Czas ładowania strony', //OpenSaaS VTE
-	'LBL_FOOTER_CONTENT' => 'Copyright &copy; YetiForce.com All rights reserved. %s<br/>Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
+	'LBL_FOOTER_CONTENT' => 'Copyright &copy; YetiForce.com All rights reserved. %s<br />Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
 	'LBL_RELATED_ASSETS' => 'Produkty sprzedane',
 	'LBL_RELATED_OSSOS' => 'Usługi obce',
 	'LBL_RELATED_OSSSS' => 'Usługi sprzedane',
@@ -690,7 +690,7 @@ $languageStrings = [
 	'Address details' => 'Dane adresowe',
 	'Contact details' => 'Dane kontaktowe',
 	'Registration details' => 'Dane rejestrowe',
-	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 1.1',
+	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 2.0',
 	'LBL_REGISTERING_INFORMATION' => 'Informacje rejestrowe',
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',
@@ -1023,7 +1023,7 @@ $languageStrings = [
 	'LBL_TAX_SUMMARY' => 'Podsumowanie podatku',
 	'LBL_CURRENCIES_SUMMARY' => 'Podsumowanie walut',
 	'LBL_CHANGE_CURRENCY' => 'Zmiana waluty',
-	'LBL_CHANGE_CURRENCY_INFO' => 'Zmiana waluty spowoduje przeliczenie wszystkich wartości.<br/>Czy jesteś pewien czy chcesz to zrobić?',
+	'LBL_CHANGE_CURRENCY_INFO' => 'Zmiana waluty spowoduje przeliczenie wszystkich wartości.<br />Czy jesteś pewien czy chcesz to zrobić?',
 	'LBL_SUMMARY' => 'Podsumowanie',
 	'LBL_AMOUNT' => 'Suma',
 	'LBL_SET_GLOBAL_TAX' => 'Ustaw',
@@ -1292,7 +1292,7 @@ $languageStrings = [
 	'LBL_RELATED_RECORD_LABEL' => 'Powiązana etykieta',
 	'LBL_OWNER_EMAIL' => 'Email właściciela',
 	'LBL_MODULE_FIELDS' => 'Pola z modułu',
-	'LBL_RELATED_MODULE_FIELDS' => 'Pola z modułów powiązanych',
+	'LBL_DEPENDENT_MODULE_FIELDS' => 'Pola z modułów zależnych',
 	'LBL_ADDITIONAL_VARIABLES' => 'Zmienne dodatkowe',
 	'LBL_SOURCE_MODULE_FIELDS' => 'Pola z modułu źródłowego',
 	'LBL_ENTITY_VARIABLES' => 'Zmienne ogólne',
@@ -1310,6 +1310,7 @@ $languageStrings = [
 	'LBL_ADD_FILES' => 'Dodaj pliki',
 	'BTN_ADD_FILE' => 'Dodaj plik',
 	'BTN_SUBMIT' => 'Prześlij',
+	'LBL_PHONE_CALL_SUCCESS' => 'Trwa wybieranie numeru',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

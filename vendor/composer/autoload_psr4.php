@@ -9,9 +9,9 @@ return array(
 	'includes\\' => array($baseDir . '/include'),
 	'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
 	'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
-	'Linfo\\' => array($vendorDir . '/linfo/linfo/src/Linfo'),
 	'Exception\\' => array($baseDir . '/include/exceptions'),
 	'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+	'Cron\\' => array($baseDir . '/cron'),
 	'App\\' => array($vendorDir . '/yetiforce'),
 	'Api\\' => array($baseDir . '/api/webservice'),
 );

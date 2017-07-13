@@ -1,5 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
+/**
+ * DataAccess unique value class
+ * @package YetiForce.DataAccess
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 /*
   Return Description
   ------------------------
@@ -175,10 +181,10 @@ Class DataAccess_unique_value
 				'save_record' => $save_record,
 				'type' => $type,
 				'info' => is_array($info) ? $info : [
-					'text' => vtranslate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
-					'ntype' => $typeInfo,
-					'hide' => false,
-					]
+				'text' => vtranslate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
+				'ntype' => $typeInfo,
+				'hide' => false,
+				]
 			);
 		else
 			return Array('save_record' => true);

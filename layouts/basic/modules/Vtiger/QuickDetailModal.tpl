@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-body col-md-12">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -18,7 +18,7 @@
 									{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 									{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 									{if $SHOWNERS != ''}
-										<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+										<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 									{/if}
 								</span>
 							</div>

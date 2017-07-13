@@ -3,7 +3,8 @@
 /**
  * Action to clipboard
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
@@ -18,7 +19,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('addRecord');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -27,7 +28,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function addAllRecords(Vtiger_Request $request)
+	public function addAllRecords(\App\Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
@@ -37,7 +38,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $request->get('srcModule'));
@@ -47,7 +48,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$records = $request->get('recordIds');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
@@ -59,7 +60,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function addRecord(Vtiger_Request $request)
+	public function addRecord(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$srcModuleName = $request->get('srcModuleName');

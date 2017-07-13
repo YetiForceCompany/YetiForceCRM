@@ -16,7 +16,14 @@ class Import_Main_View extends Vtiger_View_Controller
 	public $user;
 	public $numberOfRecords;
 
-	public function process(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('module'))) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+	
+	public function process(\App\Request $request)
 	{
 		return;
 	}

@@ -40,9 +40,9 @@
 			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
-		<br>
+		<br />
 		{if substr($URL, 0, 8) neq 'https://'}<div id="portalDetailViewHttpError" class="row"><div class="col-md-12">{vtranslate('HTTP_ERROR', $MODULE)}</div></div>{/if}
-		<br>
+		<br />
 		<iframe src="{if substr($URL, 0, 4) neq 'http'}//{/if}{$URL}" frameborder="1" height="600" scrolling="auto" width="100%" style="border: solid 2px; border-color: #dddddd;"></iframe>
 	</div>
 {/strip}

@@ -12,7 +12,7 @@
 class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->get('record');
 		//Do not allow ajax edit of existing comments
@@ -24,7 +24,7 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$request->set('assigned_user_id', App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);

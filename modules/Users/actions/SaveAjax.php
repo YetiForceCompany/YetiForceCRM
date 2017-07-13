@@ -29,7 +29,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('changeAccessKey');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $request->get('userid');
@@ -45,9 +45,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 
 		$mode = $request->get('mode');
@@ -89,10 +89,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		$fieldName = $request->get('field');
@@ -107,7 +107,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		return $recordModel;
 	}
 
-	public function userExists(Vtiger_Request $request)
+	public function userExists(\App\Request $request)
 	{
 		$module = $request->getModule();
 		$userName = $request->get('user_name');
@@ -118,7 +118,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function savePassword(Vtiger_Request $request)
+	public function savePassword(\App\Request $request)
 	{
 		$module = $request->getModule();
 		$userModel = vglobal('current_user');
@@ -142,10 +142,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 	/**
 	 * Mass edit users passwords
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws WebServiceException
 	 */
-	public function editPasswords(Vtiger_Request $request)
+	public function editPasswords(\App\Request $request)
 	{
 		$module = $request->getModule();
 		$userModel = vglobal('current_user');
@@ -175,10 +175,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 	/*
 	 * To restore a user
-	 * @param Vtiger_Request Object
+	 * @param \App\Request Object
 	 */
 
-	public function restoreUser(Vtiger_Request $request)
+	public function restoreUser(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('userid');
@@ -198,7 +198,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updateUserColor(Vtiger_Request $request)
+	public function updateUserColor(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Users_Colors_Model::updateUserColor($params);
@@ -210,7 +210,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updateGroupColor(Vtiger_Request $request)
+	public function updateGroupColor(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Users_Colors_Model::updateGroupColor($params);
@@ -222,7 +222,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updateModuleColor(Vtiger_Request $request)
+	public function updateModuleColor(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Users_Colors_Model::updateModuleColor($params);
@@ -234,7 +234,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function generateColor(Vtiger_Request $request)
+	public function generateColor(\App\Request $request)
 	{
 		$params = $request->get('params');
 
@@ -247,7 +247,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updateColorForProcesses(Vtiger_Request $request)
+	public function updateColorForProcesses(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Users_Colors_Model::updateColor($params);
@@ -259,7 +259,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function activeColor(Vtiger_Request $request)
+	public function activeColor(\App\Request $request)
 	{
 		$params = $request->get('params');
 		$color = Users_Colors_Model::activeColor($params);
@@ -272,7 +272,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function changeAccessKey(Vtiger_Request $request)
+	public function changeAccessKey(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

@@ -3,7 +3,8 @@
 /**
  * Model widget chart with a filter
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
@@ -212,7 +213,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $title;
 	}
 
-	public function getGetTotalCountURL()
+	public function getTotalCountURL()
 	{
 		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 	}

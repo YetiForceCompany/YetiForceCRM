@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Vtiger TreePopup view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Vtiger_TreePopup_View extends Vtiger_Footer_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -14,10 +19,10 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 
 	/**
 	 * Function returns the module name for which the popup should be initialized
-	 * @param Vtiger_request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getModule(Vtiger_request $request)
+	public function getModule(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return $moduleName;
@@ -25,9 +30,9 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 
 	/**
 	 * Tree in popup
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -58,7 +63,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -68,10 +73,10 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -92,7 +97,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

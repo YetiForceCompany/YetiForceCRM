@@ -1,20 +1,25 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * KnowledgeBase spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'KnowledgeBase' => 'KnowledgeBase',
-	'SINGLE_KnowledgeBase' => 'KnowledgeBase',
+	'KnowledgeBase' => 'Base de conocimientos',
+	'SINGLE_KnowledgeBase' => 'Base de conocimiento',
 	'KnowledgeBase ID' => 'ID',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'FL_SUBJECT' => 'Asunto',
-	'LBL_KNOWLEDGEBASE_INFORMATION' => 'Información sobre el registro',/////////////////////////////
-	'FL_CONTENT' => 'Content',
+	'LBL_KNOWLEDGEBASE_INFORMATION' => 'Información sobre el registro', /////////////////////////////
+	'FL_CONTENT' => 'Contenido',
 	'FL_CATEGORY' => 'Categoría',
-	'FL_VIEWS' => 'View',
-	'PLL_PAGE' => 'Page',
-	'PLL_PRESENTATION' => 'Presentation',
-	'LBL_VIEW_TREE' => 'Records tree',
-	'LBL_PREVIOUS' => 'Previous',
-	'LBL_NEXT' => 'Next',
+	'FL_VIEWS' => 'Ver',
+	'PLL_PAGE' => 'Página',
+	'PLL_PRESENTATION' => 'Presentación',
+	'LBL_VIEW_TREE' => 'Registros del árbol',
+	'LBL_PREVIOUS' => 'Anterior',
+	'LBL_NEXT' => 'Siguiente',
 	'LBL_LIST_RECORDS' => 'Lista',
 	'LBL_RECORD_PREVIEW' => 'Resumen',
 	'FL_STATUS' => 'Estado',

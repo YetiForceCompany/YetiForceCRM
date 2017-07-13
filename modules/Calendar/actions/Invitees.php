@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Calendar invitees action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Calendar_Invitees_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -19,7 +24,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('find');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -28,7 +33,7 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function find(Vtiger_Request $request)
+	public function find(\App\Request $request)
 	{
 		$value = $request->get('value');
 		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));

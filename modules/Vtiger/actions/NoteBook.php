@@ -12,12 +12,24 @@
 class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermittedForAdmin
+	 */
+	public function checkPermission(\App\Request $request) {
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$currentUserModel->isAdminUser()) {
+			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
+	
 	public function __construct()
 	{
 		$this->exposeMethod('noteBookCreate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -26,12 +38,10 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function noteBookCreate(Vtiger_Request $request)
+	public function noteBookCreate(\App\Request $request)
 	{
-		$userModel = Users_Record_Model::getCurrentUserModel();
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
-
 		$data = \App\Json::encode((object) $dataValue);
 		$size = \App\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
 		$db = \App\Db::getInstance();
@@ -42,10 +52,9 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 				'filterid' => 0,
 				'title' => $request->get('notePadName'),
 				'data' => $data,
-				'isdefault' => $isDefault = $request->get('isdefault'),
+				'isdefault' => $request->get('isdefault'),
 				'size' => $size
 			])->execute();
-
 		$result = [];
 		$result['success'] = true;
 		$result['widgetId'] = $db->getLastInsertID('vtiger_module_dashboard_id_seq');
@@ -54,7 +63,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

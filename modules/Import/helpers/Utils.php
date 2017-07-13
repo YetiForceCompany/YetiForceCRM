@@ -172,9 +172,7 @@ class Import_Utils_Helper
 			$request->set('error_message', vtranslate('LBL_INVALID_FILE', 'Import'));
 			return false;
 		}
-
-		$hasHeader = $fileReader->hasHeader();
-		$firstRow = $fileReader->getFirstRowData($hasHeader);
+		$firstRow = $fileReader->getFirstRowData($fileReader->hasHeader());
 		if ($firstRow === false) {
 			$request->set('error_message', vtranslate('LBL_NO_ROWS_FOUND', 'Import'));
 			return false;

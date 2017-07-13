@@ -33,6 +33,7 @@ $languageStrings = [
 	'LBL_TASKS_OTHER' => 'Otras prioridades',
 	'LBL_SELECT_PROGRESS' => 'Seleccione el progreso',
 	'Description' => 'Descripción',
+	'description' => 'Descripción',
 	'Related to' => 'Relacionado con',
 	'FL_MEMBER_OF' => 'Proyecto padre',
 	//Summary Information
@@ -67,6 +68,6 @@ $languageStrings = [
 	'waiting for feedback' => 'Esperando comentarios',
 	'on hold' => 'En espera',
 	'completed' => 'Terminado',
-	'delivered' => 'Liberado',
+	'delivered' => 'Entregado',
 	'archived' => 'Archivado',
 ];

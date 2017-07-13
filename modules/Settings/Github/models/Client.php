@@ -3,36 +3,84 @@
 /**
  * Client Model
  * @package YetiForce.Github
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ */
+
+/**
+ * Class Settings_Github_Client_Model
  */
 class Settings_Github_Client_Model
 {
 
+	/**
+	 * Repository name
+	 */
 	const repository = 'YetiForceCRM';
+	
+	/**
+	 * Owner repository
+	 */
 	const ownerRepository = 'YetiForceCompany';
+	
+	/**
+	 * Address url to api
+	 */
 	const url = 'https://api.github.com';
-	const timeout = 240;
 
+	/**
+	 * Id client
+	 * @var string 
+	 */
 	private $clientId;
+	
+	/**
+	 *
+	 * @var type 
+	 */
 	private $clientToken;
+	
+	/**
+	 * Username
+	 * @var string 
+	 */
 	private $username;
 
+	/**
+	 * Function to set username
+	 * @param string $name
+	 */
 	public function setUsername($name)
 	{
 		$this->username = $name;
 	}
 
+	/**
+	 * Function to set client id
+	 * @param string $id
+	 */
 	public function setClientId($id)
 	{
 		$this->clientId = $id;
 	}
 
+	/**
+	 * Function to set token
+	 * @param string $token
+	 */
 	public function setToken($token)
 	{
 		$this->clientToken = $token;
 	}
 
+	/**
+	 * Function to get all issues
+	 * @param int $numPage
+	 * @param string $state
+	 * @param string $author
+	 * @return Settings_Github_Issues_Model[]
+	 */
 	public function getAllIssues($numPage, $state, $author = false)
 	{
 		$data['page'] = $numPage;
@@ -40,7 +88,7 @@ class Settings_Github_Client_Model
 		$path = '/search/issues';
 		$data['q'] = 'user:' . self::ownerRepository . ' repo:' . self::repository . " is:issue is:$state";
 		if ($author) {
-			$data['q'].=" author:$this->username";
+			$data['q'] .= " author:$this->username";
 		}
 		$issues = $this->doRequest($path, 'GET', $data, '200');
 		if ($issues === false) {
@@ -54,6 +102,12 @@ class Settings_Github_Client_Model
 		return $issuesModel;
 	}
 
+	/**
+	 * Function to create issue
+	 * @param string $body
+	 * @param string $title
+	 * @return boolean|array
+	 */
 	public function createIssue($body, $title)
 	{
 		$path = '/repos/' . self::ownerRepository . '/' . self::repository . '/issues';
@@ -63,6 +117,10 @@ class Settings_Github_Client_Model
 		return $this->doRequest($path, 'POST', $data, '201 OK');
 	}
 
+	/**
+	 * Function to check autorization
+	 * @return boolean
+	 */
 	public function isAuthorized()
 	{
 		if ((empty($this->clientId) || empty($this->clientToken))) {
@@ -71,13 +129,17 @@ class Settings_Github_Client_Model
 		return true;
 	}
 
-	static function getInstance()
+	/**
+	 * Function to get object
+	 * @return \self
+	 */
+	public static function getInstance()
 	{
 		$instance = new self();
 		$row = (new App\Db\Query())
-			->select(['client_id', 'token', 'username'])
-			->from('u_#__github')
-			->createCommand()->queryOne();
+				->select(['client_id', 'token', 'username'])
+				->from('u_#__github')
+				->createCommand()->queryOne();
 		if (!empty($row)) {
 			$instance->setClientId($row['client_id']);
 			$instance->setToken(base64_decode($row['token']));
@@ -86,6 +148,10 @@ class Settings_Github_Client_Model
 		return $instance;
 	}
 
+	/**
+	 * Function to save key
+	 * @return int
+	 */
 	public function saveKeys()
 	{
 		$clientToken = base64_encode($this->clientToken);
@@ -95,6 +161,10 @@ class Settings_Github_Client_Model
 		return App\Db::getInstance()->createCommand()->update('u_#__github', $params)->execute();
 	}
 
+	/**
+	 * Function to check token
+	 * @return boolean
+	 */
 	public function checkToken()
 	{
 		$data['access_token'] = $this->clientToken;
@@ -107,43 +177,35 @@ class Settings_Github_Client_Model
 		return false;
 	}
 
-	private function doRequest($url, $method, $data, $status)
+	/**
+	 * Function to get data from github.com
+	 * @param string $url
+	 * @param string $method
+	 * @param array $data
+	 * @param string $status
+	 * @return boolean|array
+	 */
+	private function doRequest($url, $method, $data = [], $status)
 	{
 		$url = self::url . $url;
-		$curl = curl_init();
+		$options = [];
 		if ($this->isAuthorized()) {
-			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($curl, CURLOPT_USERPWD, "$this->clientId:$this->clientToken");
+			$options['auth'] =  [$this->clientId, $this->clientToken];
 		}
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_USERAGENT, "YetiforceCRM");
-		curl_setopt($curl, CURLOPT_TIMEOUT, self::timeout);
-		curl_setopt($curl, CURLOPT_HEADER, false);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 		switch ($method) {
 			case 'GET':
-				curl_setopt($curl, CURLOPT_HTTPGET, true);
-				if (count($data))
-					$url .= '?' . http_build_query($data);
+				$url .= '?' . http_build_query($data);
+				$content = \Requests::get($url, [], $options);	
 				break;
 
 			case 'POST':
-				curl_setopt($curl, CURLOPT_POST, true);
-				if (count($data))
-					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+				$content = \Requests::post($url, [], $data, $options);
 				break;
 		}
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		$content = curl_exec($curl);
-		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
-
+		$code = $content->status_code;
 		if ($code != $status) {
 			return false;
 		}
-		$response = json_decode($content);
-		return $response;
+		return  App\Json::decode($content->body, App\Json::TYPE_OBJECT);
 	}
 }

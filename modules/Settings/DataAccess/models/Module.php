@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings DataAccess module model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 {
 
@@ -102,7 +99,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					$requiredConditions[$requiredNum]['fieldname'] = $row['fieldname'];
 					$requiredConditions[$requiredNum]['comparator'] = $row['comparator'];
 					$requiredConditions[$requiredNum]['field_type'] = $row['field_type'];
-					if ($requiredConditions[$requiredNum]['field_type'] == 'multipicklist') {
+					if (in_array($requiredConditions[$requiredNum]['field_type'], ['multipicklist', 'owner', 'sharedOwner'])) {
 						$requiredConditions[$requiredNum]['val'] = explode('::', $row['val']);
 					} else {
 						$requiredConditions[$requiredNum]['val'] = $row['val'];
@@ -112,7 +109,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 					$optionalConditions[$optionalNum]['fieldname'] = $row['fieldname'];
 					$optionalConditions[$optionalNum]['comparator'] = $row['comparator'];
 					$optionalConditions[$optionalNum]['field_type'] = $row['field_type'];
-					if ($optionalConditions[$optionalNum]['field_type'] == 'multipicklist') {
+					if (in_array($optionalConditions[$optionalNum]['field_type'], ['multipicklist', 'owner', 'sharedOwner'])) {
 						$optionalConditions[$optionalNum]['val'] = explode('::', $row['val']);
 					} else {
 						$optionalConditions[$optionalNum]['val'] = $row['val'];
@@ -130,7 +127,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			return $baseModule;
 		$baseModuleModel = Vtiger_Module_Model::getInstance($baseModule);
 		$list = $baseModuleModel->getFields();
-		$output = array();
+		$output = [];
 		if (count($list)) {
 			$num = 0;
 			foreach ($list as $key => $value) {
@@ -166,13 +163,15 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			'date' => array('is', 'is not', 'between', 'before', 'after', 'is today', 'in less than', 'in more than', 'days ago', 'days later', 'has changed'),
 			'boolean' => array('is enabled', 'is disabled', 'has changed'),
 			'reference' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'owner' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'sharedOwner' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
+			'owner' => array('is', 'is not', 'has changed'),
+			'sharedOwner' => array('is empty', 'is not empty', 'has changed'),
 			'recurrence' => array('is', 'is not'),
 			'comment' => array('is added'),
 			'rangeTime' => ['is empty', 'is not empty'],
 			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'multiImage' => ['is empty', 'is not empty'],
+			'multiReferenceValue' => ['is empty', 'is not empty'],
 		);
 		if (NULL != $type) {
 			return $list[$type];
@@ -314,7 +313,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		foreach ($ffs as $ff) {
 			if ($ff != '.' && $ff != '..') {
 				if (is_dir($dir . '/' . $ff)) {
-					$Files["$ff"] = self::listFolderFiles($dir . '/' . $ff);
+					$Files["$ff"] = self::listFolderFiles($dir . '/' . $ff, $prefix);
 				} else {
 					$Files[] = $prefix . self::$separator . str_replace('.php', "", $ff);
 				}

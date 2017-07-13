@@ -46,9 +46,9 @@
 				</tbody>
 			</table>
 		</div>
-		<br>
+		<br />
 		<div class="col-md-8 alert alert-danger container">
-			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br>
+			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br />
 			{vtranslate('LBL_PBXMANAGER_INFO', $QUALIFIED_MODULE)}
 		</div>	
 	</div>

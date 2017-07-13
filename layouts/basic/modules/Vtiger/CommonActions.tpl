@@ -13,11 +13,6 @@
     {assign var='count' value=0}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	<div class="navbar-form navbar-right">
-		<div class="dropdown quickActions historyBtn">
-			<a data-placement="left" data-toggle="dropdown" class="showHistoryBtn" aria-expanded="false" href="#"><img class='alignMiddle popoverTooltip' src="{vimage_path('history.png')}" alt="{vtranslate('LBL_PAGES_HISTORY',$MODULE)}" class="dropdown-toggle" data-content="{vtranslate('LBL_PAGES_HISTORY')}" /></a>
-		</div>	
-	</div>
-	<div class="navbar-form navbar-right">
 		<div class="dropdown quickActions">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="menubar_quickCreate" src="{vimage_path('plus.png')}" class="alignMiddle" alt="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" title="{vtranslate('LBL_QUICK_CREATE',$MODULE)}" /></a>
 			<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">

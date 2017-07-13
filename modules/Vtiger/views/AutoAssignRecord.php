@@ -3,7 +3,8 @@
 /**
  * Auto assign record View Class
  * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
@@ -11,11 +12,11 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Checking permission 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
@@ -29,19 +30,19 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function get modal size
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
 	}
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -62,10 +63,10 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to get the list of Css models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_JsScript_Model[] - List of Vtiger_CssScript_Model instances
 	 */
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [

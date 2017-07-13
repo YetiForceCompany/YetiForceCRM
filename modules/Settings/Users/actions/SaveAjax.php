@@ -3,7 +3,8 @@
 /**
  * Basic Users Action Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
@@ -17,7 +18,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$this->exposeMethod('saveLocks');
 	}
 
-	public function updateConfig(Vtiger_Request $request)
+	public function updateConfig(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$recordModel = Settings_Users_Module_Model::getInstance();
@@ -29,7 +30,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response->emit();
 	}
 
-	public function saveSwitchUsers(Vtiger_Request $request)
+	public function saveSwitchUsers(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
@@ -41,7 +42,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response->emit();
 	}
 
-	public function saveLocks(Vtiger_Request $request)
+	public function saveLocks(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();

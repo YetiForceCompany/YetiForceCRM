@@ -12,7 +12,7 @@
 class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$record = $request->get('record');
@@ -23,7 +23,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$this->preProcessSettings($request);
@@ -31,9 +31,9 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 
 	/**
 	 * Pre process settings
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function preProcessSettings(Vtiger_Request $request)
+	public function preProcessSettings(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -49,20 +49,20 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcessSettings(Vtiger_Request $request)
+	public function postProcessSettings(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 
@@ -71,7 +71,7 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		parent::process($request);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

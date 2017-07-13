@@ -12,7 +12,7 @@
 class Reports_MoveReports_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -20,7 +20,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$parentModule = 'Reports';
 		$reportIdsList = Reports_Record_Model::getRecordsListFromRequest($request);

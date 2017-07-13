@@ -128,7 +128,7 @@ class VTTaskManager
 	{
 		$adb = $this->adb;
 		$it = new SqlResultIterator($adb, $result);
-		$tasks = array();
+		$tasks = [];
 		foreach ($it as $row) {
 			$text = $row->task;
 
@@ -180,7 +180,7 @@ abstract class VTTask
 
 	public function getTimeFieldList()
 	{
-		return array();
+		return [];
 	}
 
 	public function getContents($recordModel)
@@ -254,7 +254,7 @@ class VTTaskType
 	{
 		$adb = PearDatabase::getInstance();
 
-		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_tasktypes", array());
+		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_tasktypes", []);
 		$numrows = $adb->num_rows($result);
 		for ($i = 0; $i < $numrows; $i++) {
 			$rawData = $adb->raw_query_result_rowdata($result, $i);

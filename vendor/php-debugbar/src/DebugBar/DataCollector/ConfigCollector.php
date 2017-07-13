@@ -22,7 +22,7 @@ class ConfigCollector extends DataCollector implements Renderable
 	 * @param array  $data
 	 * @param string $name
 	 */
-	public function __construct(array $data = array(), $name = 'config')
+	public function __construct(array $data = [], $name = 'config')
 	{
 		$this->name = $name;
 		$this->data = $data;
@@ -43,7 +43,7 @@ class ConfigCollector extends DataCollector implements Renderable
 	 */
 	public function collect()
 	{
-		$data = array();
+		$data = [];
 		foreach ($this->data as $k => $v) {
 			if (!is_string($v)) {
 				$v = $this->getDataFormatter()->formatVar($v);

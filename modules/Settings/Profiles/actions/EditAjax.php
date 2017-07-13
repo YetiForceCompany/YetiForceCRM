@@ -17,7 +17,7 @@ Class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('checkDuplicate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -26,7 +26,7 @@ Class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function checkDuplicate(Vtiger_Request $request)
+	public function checkDuplicate(\App\Request $request)
 	{
 		$profileName = $request->get('profilename');
 		$recordId = $request->get('record');

@@ -104,7 +104,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		}
 	}
 
-	public static function makeFieldActive($fieldIdsList = array(), $blockId)
+	public static function makeFieldActive($fieldIdsList = [], $blockId)
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
 
@@ -133,7 +133,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
-		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes) || ($this->get('displaytype') == 2 && $this->get('uitype') != 306)) {
+		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
 			return true;
 		}
 		return false;

@@ -11,7 +11,7 @@
 class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$sourceModule = $request->get('source_module');
 		$recordId = $request->get('record');
@@ -23,7 +23,7 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('source_module');

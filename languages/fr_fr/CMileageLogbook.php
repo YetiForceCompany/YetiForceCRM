@@ -1,20 +1,25 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * CMileage logbook french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'CMileageLogbook' => 'Mileage log book',
-	'SINGLE_CMileageLogbook' => 'Mileage log book',
+	'CMileageLogbook' => 'Carnet de kilométrage',
+	'SINGLE_CMileageLogbook' => 'Carnet de kilométrage',
 	//BLOCKS
-	'LBL_ADDITIONAL_INFORMATION' => 'Additional information',
-	'LBL_BASIC_INFORMATION' => 'Basic information',
+	'LBL_ADDITIONAL_INFORMATION' => 'Information additionnelle',
+	'LBL_BASIC_INFORMATION' => 'Informations du carnet de kilométrage',
 	'LBL_DESCRIPTION_BLOCK' => 'Description',
 	'LBL_ATTENTION_BLOCK' => 'Notes',
 	//FIELDS
-	'FL_SUBJECT' => 'Subject',
+	'FL_SUBJECT' => 'Sujet',
 	'FL_STATUS' => 'Status',
-	'FL_NUMBER_KILOMETERS' => 'Number of kilometers',
+	'FL_NUMBER_KILOMETERS' => 'Nombre de kilomètres',
 	//PickList
-	'PLL_DRAFT' => 'Draft',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_DRAFT' => 'Brouillon',
+	'PLL_FOR_APPROVAL' => 'Pour approbation',
+	'PLL_ACCEPTED' => 'Accepté',
+	'PLL_CANCELLED' => 'Annulé',
 ];

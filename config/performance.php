@@ -32,7 +32,7 @@ $PERFORMANCE_CONFIG = [
 	// Show in search engine/filters only users and groups available in records list. It might result in a longer search time.
 	'SEARCH_SHOW_OWNER_ONLY_IN_LIST' => true,
 	// Time to update number of notifications in seconds
-	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 10,
+	'INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK' => 100,
 	// Search owners by AJAX. We recommend selecting the "true" value if there are numerous users in the system.
 	'SEARCH_OWNERS_BY_AJAX' => false,
 	// Search roles by AJAX
@@ -55,11 +55,15 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMBERS_RECORD_LABELS_UPDATER' => 1000,
 	// In how many mails should the send in cron (Mailer).
 	'CRON_MAX_NUMBERS_SENDING_MAILS' => 1000,
+	// In how many sms should the send in cron.
+	'CRON_MAX_NUMBERS_SENDING_SMS' => 10,
 	// In how many atachments should the delete in cron.
 	'CRON_MAX_ATACHMENTS_DELETE' => 1000,
-	// Parameter that allows to disable file overwriting. After enabling it the system will additionally check whether the file exists in the custom directory.
+	// Parameter that allows to disable file overwriting. After 
+	// enabling it the system will additionally check whether the file exists in the custom directory.
 	// Ex. custom/modules/Assets/Assets.php 
-	'LOAD_CUSTOM_FILES' => true,
+	'LOAD_CUSTOM_FILES' => false,
+	'LOAD_CUSTOM_LANGUAGE' => true,
 	//Parameter that determines whether admin panel should be available to admin by default
 	'SHOW_ADMIN_PANEL' => false,
 	// Display administrators in the list of users (Assigned To)
@@ -70,4 +74,10 @@ $PERFORMANCE_CONFIG = [
 	'MAX_MULTIIMAGE_VIEW' => 5,
 	//View MultiImage as icon or names
 	'ICON_MULTIIMAGE_VIEW' => true,
+	//Browsing history working if true
+	'BROWSING_HISTORY_WORKING' => true,
+	//Number of browsing history steps
+	'BROWSING_HISTORY_VIEW_LIMIT' => 20,
+	//Days after browsing history has deleted
+	'BROWSING_HISTORY_DELETE_AFTER' => 7,
 ];

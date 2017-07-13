@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_ModuleMeta_Model extends Vtiger_Base_Model
+class Vtiger_ModuleMeta_Model extends \App\Base
 {
 
 	public $moduleName = false;

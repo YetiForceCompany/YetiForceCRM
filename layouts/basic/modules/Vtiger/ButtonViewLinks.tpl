@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if count($LINKS) gt 0}
 		{assign var=TEXT_HOLDER value=''}
 		{foreach item=LINK from=$LINKS}
 			{assign var=LINK_PARAMS value=vtlib\Functions::getQueryParams($LINK->getUrl())}
-			{if AppRequest::init()->getModule() == $LINK_PARAMS['module'] && AppRequest::get('view') == $LINK_PARAMS['view']}
+			{if \App\Request::_getModule() == $LINK_PARAMS['module'] && \App\Request::_get('view') == $LINK_PARAMS['view']}
 				{assign var=TEXT_HOLDER value=$LINK->getLabel()}
 			{/if} 
 		{/foreach}

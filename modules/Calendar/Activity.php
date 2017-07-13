@@ -123,8 +123,8 @@ class Activity extends CRMEntity
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (\App\Request::_has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder method ...');
@@ -145,8 +145,8 @@ class Activity extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (\App\Request::_has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -186,7 +186,7 @@ class Activity extends CRMEntity
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
 			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
-			if (AppRequest::get('set_reminder') == 'Yes') {
+			if (\App\Request::_get('set_reminder') == 'Yes') {
 				$this->db->insert($this->reminder_table, [
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,

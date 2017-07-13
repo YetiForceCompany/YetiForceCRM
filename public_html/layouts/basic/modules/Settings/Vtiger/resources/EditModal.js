@@ -1,0 +1,50 @@
+/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+Vtiger_Edit_Js('Settings_Vtiger_EditModal_Js', {}, {
+	getForm: function () {
+		if (this.formElement == false) {
+			this.setForm(jQuery('#modalEditModal'));
+		}
+		return this.formElement;
+	},
+	registerEvents: function () {
+		var container = this.getForm();
+		this.registerBasicEvents(container);
+		this.registerSubmit();
+	},
+	registerSubmit: function () {
+		var container = this.getForm();
+		var form = container.find('form');
+		form.on('submit', function (e) {
+			e.preventDefault();
+			if (form.validationEngine('validate')) {
+				var formData = form.serializeFormData();
+				app.saveAjax('', formData, {record: container.find('[name="record"]').val()}).then(function (data) {
+					if (data.result) {
+						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
+						var moduleClassName = "Settings_" + app.getModuleName() + "_List_Js";
+						if (typeof window[moduleClassName] == 'undefined') {
+							moduleClassName = "Settings_Vtiger_List_Js";
+						}
+						var instance = new window[moduleClassName]();
+						instance.getListViewRecords().then(function () {
+							instance.updatePagination();
+						});
+					} else {
+						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));
+					}
+					app.hideModalWindow();
+				});
+			}
+		});
+	}
+});
+jQuery(document).ready(function (e) {
+	setTimeout(function () {
+		var moduleClassName = "Settings_" + app.getModuleName() + "_EditModal_Js";
+		if (typeof window[moduleClassName] == 'undefined') {
+			moduleClassName = "Settings_Vtiger_EditModal_Js";
+		}
+		var instance = new window[moduleClassName]();
+		instance.registerEvents();
+	}, 200);
+});

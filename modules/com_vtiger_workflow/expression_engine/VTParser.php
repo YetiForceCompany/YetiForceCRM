@@ -48,7 +48,7 @@ class VTExpressionParser
 	function __construct($tokens)
 	{
 		$this->tokens = $tokens;
-		$this->tokenQueue = array();
+		$this->tokenQueue = [];
 	}
 
 	function nextToken()

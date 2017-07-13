@@ -6,10 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 {
+
+	/**
+	 * Edit fields 
+	 * @var string[] 
+	 */
+	private $editFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS', 'api_key' => 'FL_API_KEY'];
 
 	/**
 	 * Function to get Id of this record instance
@@ -56,17 +63,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function getEditViewUrl()
 	{
 		$moduleModel = $this->getModule();
-		return 'index.php?module=' . $moduleModel->getName() . '&parent=' . $moduleModel->getParentName() . '&view=Edit&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get Delete url
-	 * @return string Url
-	 */
-	public function getDeleteUrl()
-	{
-		$moduleModel = $this->getModule();
-		return 'index.php?module=' . $moduleModel->getName() . '&parent=' . $moduleModel->getParentName() . '&action=Delete&record=' . $this->getId();
+		return $moduleModel->getCreateRecordUrl() . '&record=' . $this->getId();
 	}
 
 	/**
@@ -75,21 +72,24 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getRecordLinks()
 	{
-		$links = array();
-		$recordLinks = array(
-			array(
+		$links = [];
+		$recordLinks = [
+				[
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT',
-				'linkurl' => "javascript:Settings_SMSNotifier_List_Js.triggerEdit(event, '" . $this->getEditViewUrl() . "');",
-				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+				'linklabel' => 'LBL_EDIT_RECORD',
+				'linkurl' => $this->getEditViewUrl() . '&record=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn btn-sm btn-primary',
+				'modalView' => true
+			],
+				[
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE',
-				'linkurl' => "javascript:Settings_SMSNotifier_List_Js.triggerDelete(event, '" . $this->getDeleteUrl() . "');",
-				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+				'linklabel' => 'LBL_DELETE_RECORD',
+				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn btn-sm btn-danger'
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -99,88 +99,168 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to getDisplay value of every field
-	 * @param string field name
-	 * @return string field value
+	 * @param string $name field name
+	 * @return mixed
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue($name)
 	{
-		$value = $this->get($key);
-		if ($key === 'isactive') {
-			if ($value) {
-				$value = 'Yes';
-			} else {
-				$value = 'No';
-			}
+		switch ($name) {
+			case 'isactive':
+				return empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
+			default:
+				break;
 		}
-		return $value;
-	}
-
-	/**
-	 * Function to get Editable fields for this instance
-	 * @return <Array> field models list <Settings_SMSNotifier_Field_Model>
-	 */
-	public function getEditableFields()
-	{
-		$editableFieldsList = $this->getModule()->getEditableFields();
-		return $editableFieldsList;
+		return $this->get($name);
 	}
 
 	/**
 	 * Function to save the record
+	 * @return boolean
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-
-		$params = array($this->get('providertype'), $this->get('isactive'), $this->get('username'), $this->get('password'), $this->get('parameters'));
-		$id = $this->getId();
-
-		if ($id) {
-			$query = 'UPDATE vtiger_smsnotifier_servers SET providertype = ?, isactive = ?, username = ?, password = ?, parameters = ? WHERE id = ?';
-			array_push($params, $id);
-		} else {
-			$query = 'INSERT INTO vtiger_smsnotifier_servers(providertype, isactive, username, password, parameters) VALUES(?, ?, ?, ?, ?)';
+		$db = \App\Db::getInstance();
+		$success = false;
+		if (!$this->changes) {
+			return $success;
 		}
-		$db->pquery($query, $params);
+		$table = $this->getModule()->getBaseTable();
+		$index = $this->getModule()->getBaseIndex();
+		if (empty($this->getId())) {
+			$success = $db->createCommand()->insert($table, $this->changes)->execute();
+			if ($success) {
+				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
+			}
+		} else {
+			$success = $db->createCommand()->update($table, $this->changes, [$index => (int) $this->getId()])->execute();
+		}
+		$this->clearCache($this->getId());
+		return $success;
 	}
 
 	/**
-	 * Function to get record instance by using id and moduleName
-	 * @param int $recordId
-	 * @param string $qualifiedModuleName
-	 * @return Settings_SMSNotifier_Record_Model RecordModel
+	 * Clear cache
+	 * @param int $id
 	 */
-	static public function getInstanceById($recordId, $qualifiedModuleName)
+	public function clearCache($id)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_smsnotifier_servers WHERE id = ?', array($recordId));
-
-		if ($db->num_rows($result)) {
-			$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
-			$rowData = $db->query_result_rowdata($result, 0);
-
-			$recordModel = new self();
-			$recordModel->setData($rowData)->setModule($moduleModel);
-
-			$parameters = \App\Json::decode(decode_html($recordModel->get('parameters')));
-			foreach ($parameters as $fieldName => $fieldValue) {
-				$recordModel->set($fieldName, $fieldValue);
-			}
-
-			return $recordModel;
+		if ($id) {
+			\App\Cache::staticDelete(get_class(), $id);
 		}
-		return false;
+		\App\Cache::delete('SMSNotifierConfig', 'activeProviderInstance');
+	}
+
+	/**
+	 * Function to set the value for a given key
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public function set($key, $value)
+	{
+		if ($key !== $this->getModule()->getBaseIndex() && $this->value[$key] !== $value) {
+			$this->changes[$key] = $value;
+		}
+		$this->value[$key] = $value;
+		return $this;
+	}
+
+	/**
+	 * Function to get the instance, given id
+	 * @param int $id
+	 * @param string $moduleName
+	 * @return \self
+	 */
+	public static function getInstanceById($id, $moduleName)
+	{
+		$cacheName = get_class();
+		if (\App\Cache::staticHas($cacheName, $id)) {
+			return \App\Cache::staticGet($cacheName, $id);
+		}
+		$instance = self::getCleanInstance($moduleName);
+		$data = (new App\Db\Query())
+			->from($instance->getModule()->getBaseTable())
+			->where([$instance->getModule()->getBaseIndex() => $id])
+			->one(App\Db::getInstance('admin'));
+		$instance->setData($data);
+		$instance->isNew = false;
+		\App\Cache::staticSave($cacheName, $id, $instance);
+		return $instance;
 	}
 
 	/**
 	 * Function to get clean record instance by using moduleName
 	 * @param string $qualifiedModuleName
-	 * @return <Settings_SMSNotifier_Record_Model>
+	 * @return \self
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
 	{
 		$recordModel = new self();
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$recordModel->isNew = true;
 		return $recordModel->setModule($moduleModel);
+	}
+
+	/**
+	 * Function determines fields available in edition view
+	 * @param string $name
+	 * @return \Settings_Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName($name)
+	{
+		$moduleName = $this->getModule()->getName(true);
+		$fieldsLabel = $this->getEditFields();
+		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fields[$name], 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
+		switch ($name) {
+			case 'providertype':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [];
+				foreach ($this->getModule()->getAllProviders() as $provider) {
+					$params['picklistValues'][$provider->getName()] = \App\Language::translate($provider->getName(), $moduleName);
+				}
+				break;
+			case 'isactive':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [1 => \App\Language::translate('PLL_ACTIVE', $moduleName), 0 => \App\Language::translate('PLL_INACTIVE', $moduleName)];
+				break;
+			default:
+				break;
+		}
+		return Settings_Vtiger_Field_Model::init($moduleName, $params);
+	}
+
+	/**
+	 * Function determines fields available in edition view
+	 * @return string[]
+	 */
+	public function getEditFields()
+	{
+		return $this->editFields;
+	}
+
+	/**
+	 * Function removes record
+	 * @return boolean
+	 */
+	public function delete()
+	{
+		$db = App\Db::getInstance('admin');
+		$recordId = $this->getId();
+		if ($recordId) {
+			$table = $this->getModule()->getBaseTable();
+			$index = $this->getModule()->getBaseIndex();
+			$result = $db->createCommand()->delete($table, [$index => $recordId])->execute();
+			$this->clearCache($recordId);
+		}
+		return !empty($result);
+	}
+
+	/**
+	 * Function to get instance of provider model
+	 * @param string $providerName
+	 * @return boolean|\SMSNotifier_Basic_Provider
+	 */
+	public function getProviderInstance()
+	{
+		return SMSNotifier_Module_Model::getProviderInstance($this->get('providertype'));
 	}
 }

@@ -42,8 +42,8 @@
 					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					{if $LISTVIEW_HEADER->get('name') neq 'recordid'}
-						<th class="text-center" nowrap {*if $LISTVIEW_HEADER@last} colspan="2" {/if*}>
+					{if $LISTVIEW_HEADER->get('name') neq 'id'}
+						<th class="text-center" nowrap >
 							<a class="listViewHeaderValues">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}</a>
 						</th>
 					{/if}
@@ -58,25 +58,25 @@
 			{assign var=groupCount value=$LISTVIEW_ENTRY|@sizeof}
 			{assign var=recordCount value=0}
 			{foreach item=RECORD key=KEY from=$LISTVIEW_ENTRY name=listview}
-				<tr class="listViewEntries" data-id='{$RECORD.recordid}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
+				<tr class="listViewEntries" data-id='{$RECORD.id}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 					<td width="5%" style='border-bottom:1px solid #DDD;'>
-						<input type="checkbox" value="{$RECORD.recordid}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+						<input type="checkbox" value="{$RECORD.id}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 					</td>
 					{assign var=sameRowValues value=true}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						{if $LISTVIEW_HEADER->get('name') neq 'recordid'}
+						{if $LISTVIEW_HEADER->get('name') neq 'id'}
 							<td nowrap style='border-bottom:1px solid #DDD;'>
-								{$LISTVIEW_HEADER->getDisplayValue($RECORD[$LISTVIEW_HEADER->get('column')], $RECORD.recordid,false,true)}
+								{$LISTVIEW_HEADER->getDisplayValue($RECORD[$LISTVIEW_HEADER->getFieldName()], $RECORD.id,false,true)}
 							</td>
 						{/if}
 					{/foreach}
 					<td style='border-bottom:1px solid #DDD;'>
-						<a class="btn btn-default" TARGET="_blank" href="{$MODULE_MODEL->getDetailViewUrl($RECORD.recordid)}" title="{vtranslate('LBL_GO_TO_PREVIEW', $MODULE)}">
+						<a class="btn btn-default" TARGET="_blank" href="{$MODULE_MODEL->getDetailViewUrl($RECORD.id)}" title="{vtranslate('LBL_GO_TO_PREVIEW', $MODULE)}">
 							<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						</a>
 					</td>
 					<td style='border-bottom:1px solid #DDD;'>
-						<input type="checkbox" data-id='{$RECORD.recordid}' name="mergeRecord" data-group="{$GROUP_NAME}"/>
+						<input type="checkbox" data-id='{$RECORD.id}' name="mergeRecord" data-group="{$GROUP_NAME}"/>
 					</td>
 					{if $recordCount eq 0}
 						<td align='center' rowspan="{$groupCount}" style="border-left:1px solid #DDD;border-bottom:1px solid #DDD;vertical-align: middle;text-align: center">

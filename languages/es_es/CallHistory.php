@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * CallHistory spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'CallHistory' => 'Histórico de llamadas',
 	'SINGLE_CallHistory' => 'Histórico de llamadas',
@@ -20,7 +17,7 @@ $languageStrings = [
 	'LBL_RELATED_INFORMATION' => 'Información relacionada',
 	//Fields
 	'LBL_TYPE' => 'Tipo',
-	'LBL_FROM_NUMBER' => 'DESDE número',
+	'LBL_FROM_NUMBER' => 'Desde número',
 	'LBL_TO_NUMBER' => 'A número',
 	'LBL_LOCATION' => 'Localización',
 	'LBL_PHONE_CALL_ID' => 'ID',

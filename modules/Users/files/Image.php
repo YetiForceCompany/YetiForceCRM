@@ -2,7 +2,8 @@
 /*
  * Basic class to handle files
  * @package YetiForce.Files
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -12,12 +13,12 @@
 class Users_Image_File
 {
 
-	public function getCheckPermission(Vtiger_Request $request)
+	public function getCheckPermission(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function get(Vtiger_Request $request)
+	public function get(\App\Request $request)
 	{
 		$record = $request->get('record');
 		if (empty($record)) {
@@ -32,7 +33,7 @@ class Users_Image_File
 		readfile($path);
 	}
 
-	public function postCheckPermission(Vtiger_Request $request)
+	public function postCheckPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -55,7 +56,7 @@ class Users_Image_File
 		}
 	}
 
-	public function post(Vtiger_Request $request)
+	public function post(\App\Request $request)
 	{
 
 	}

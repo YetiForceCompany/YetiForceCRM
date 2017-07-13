@@ -74,7 +74,7 @@
 	<body>
 		<div id="container">
 			<div class="logo">
-				<img  src="{$LOGOURL}" alt="{$TITLE}" style="height: 4em;width: 12em;"><br><br><br>
+				<img  src="{$LOGOURL}" alt="{$TITLE}" style="height: 4em;width: 12em;"><br /><br /><br />
 			</div>
 			<div>
 				{if $LINK_EXPIRED neq 'true'}   

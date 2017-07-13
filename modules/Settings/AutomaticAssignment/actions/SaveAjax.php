@@ -3,7 +3,8 @@
 /**
  * Automatic assignment save action model class
  * @package YetiForce.Settings.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_Action
@@ -23,9 +24,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 
 	/**
 	 * Save
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$data = $request->get('param');
 		$recordId = $request->get('record');
@@ -47,9 +48,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 
 	/**
 	 * Function changes the type of a given role
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function changeRoleType(Vtiger_Request $request)
+	public function changeRoleType(\App\Request $request)
 	{
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);
@@ -68,9 +69,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 
 	/**
 	 * Function removes given value from record
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function deleteElement(Vtiger_Request $request)
+	public function deleteElement(\App\Request $request)
 	{
 		$member = $request->get('param');
 		$qualifiedModuleName = $request->getModule(false);

@@ -1,6 +1,4 @@
-{*<!--
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 <table class="summary-table" style="width:100%;">
@@ -47,8 +45,7 @@
 		{assign var="CURRENT_MODE_LABEL" value="{vtranslate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
 		<button type="button" class="btn btn-default changeDetailViewMode cursorPointer"><strong>{vtranslate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
 		{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
-		<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}"
-			data-full-url="{$FULL_MODE_URL}"  />
+		<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"  />
 	</div>
 	<div class="col-md-8">
 		<div class="pull-right">

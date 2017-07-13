@@ -1,7 +1,12 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
-class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
+/**
+ * Vtiger TransferOwnership model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
+class Vtiger_TransferOwnership_Model extends \App\Base
 {
 
 	protected $skipModules = [];
@@ -11,7 +16,7 @@ class Vtiger_TransferOwnership_Model extends Vtiger_Base_Model
 		return $this->skipModules;
 	}
 
-	public function getRelatedModuleRecordIds(Vtiger_Request $request, $recordIds = [], $relModData)
+	public function getRelatedModuleRecordIds(\App\Request $request, $recordIds = [], $relModData)
 	{
 		$db = PearDatabase::getInstance();
 		$basicModule = $request->getModule();

@@ -17,7 +17,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('checkDuplicateName');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -54,7 +54,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function checkDuplicateName(Vtiger_Request $request)
+	public function checkDuplicateName(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -75,7 +75,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

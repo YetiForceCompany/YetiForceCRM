@@ -42,7 +42,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 
-		$detailViewLinks = array();
+		$detailViewLinks = [];
 		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
@@ -69,7 +69,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			}
 		}
 
-		$linkModelList = array();
+		$linkModelList = [];
 		foreach ($detailViewLinks as $detailViewLinkEntry) {
 			$linkModelList[] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinkEntry);
 		}
@@ -84,7 +84,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 	public function getWidgets()
 	{
 		$moduleModel = $this->getModule();
-		$widgets = array();
+		$widgets = [];
 
 		if ($moduleModel->isTrackingEnabled()) {
 			$widgets[] = array(
@@ -95,7 +95,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			);
 		}
 
-		$widgetLinks = array();
+		$widgetLinks = [];
 		foreach ($widgets as $widgetDetails) {
 			$widgetLinks[] = Vtiger_Link_Model::getInstanceFromValues($widgetDetails);
 		}

@@ -69,6 +69,8 @@ class Login extends \Api\Core\BaseAction
 				'hour_format' => $userModel->getDetail('hour_format'),
 				'start_hour' => $userModel->getDetail('start_hour'),
 				'date_format' => $userModel->getDetail('date_format'),
+				'date_format_js' => \App\Fields\DateTime::currentUserJSDateFormat($userModel->getDetail('date_format')),
+				'dayoftheweek' => $userModel->getDetail('dayoftheweek'),
 				'time_zone' => $userModel->getDetail('time_zone'),
 				'currency_id' => $userModel->getDetail('currency_id'),
 				'currency_grouping_pattern' => $userModel->getDetail('currency_grouping_pattern'),
@@ -95,7 +97,7 @@ class Login extends \Api\Core\BaseAction
 	{
 		$db = \App\Db::getInstance('webservice');
 		$token = md5(time() . rand());
-		$params = $this->controller->request->get('params');
+		$params = $this->controller->request->getArray('params');
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
 		$db->createCommand()->insert("w_#__portal_session", [
 			'id' => $token,
@@ -103,7 +105,7 @@ class Login extends \Api\Core\BaseAction
 			'created' => date('Y-m-d H:i:s'),
 			'changed' => date('Y-m-d H:i:s'),
 			'language' => $language,
-			'params' => $this->controller->request->get('params')
+			'params' => \App\Json::encode($params)
 		])->execute();
 		$row['token'] = $token;
 		$row['language'] = $language;

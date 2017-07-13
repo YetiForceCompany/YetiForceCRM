@@ -56,10 +56,10 @@ function writeOutput($operationManager, $data)
 	$output = $operationManager->encode($state);
 	echo $output;
 }
-$operation = AppRequest::get('operation');
+$operation = \App\Request::_get('operation');
 $operation = strtolower($operation);
-$format = AppRequest::get('format', 'json');
-$sessionId = AppRequest::get('sessionName');
+$format = \App\Request::_get('format', 'json');
+$sessionId = \App\Request::_get('sessionName');
 
 try {
 	$sessionManager = new SessionManager();
@@ -78,8 +78,8 @@ try {
 	if (strcasecmp($operation, "extendsession") === 0) {
 		if (isset($input['operation'])) {
 			// Workaround fix for PHP 5.3.x: $_REQUEST doesn't have PHPSESSID
-			if (AppRequest::has('PHPSESSID')) {
-				$sessionId = AppRequest::get('PHPSESSID');
+			if (\App\Request::_has('PHPSESSID')) {
+				$sessionId = \App\Request::_get('PHPSESSID');
 			} else {
 				// NOTE: Need to evaluate for possible security issues
 				$sessionId = vtws_getParameter($_COOKIE, 'PHPSESSID');

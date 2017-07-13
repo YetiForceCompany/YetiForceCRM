@@ -66,7 +66,7 @@ class Functions
 		}
 		if ($onlyActive) {
 			$currencies = [];
-			foreach ($currencyInfo as $currencyId => &$currency) {
+			foreach ($currencyInfo as $currencyId => $currency) {
 				if ($currency['currency_status'] === 'Active') {
 					$currencies[$currencyId] = $currency;
 				}
@@ -389,51 +389,6 @@ class Functions
 		return $tandc;
 	}
 
-	public static function initStorageFileDirectory($module = false)
-	{
-		$filepath = 'storage/';
-
-		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'))) {
-			$filepath .= $module . '/';
-		}
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-		$year = date('Y');
-		$month = date('F');
-		$day = date('j');
-		$week = '';
-		$filepath .= $year;
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-		$filepath .= '/' . $month;
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-
-		if ($day > 0 && $day <= 7)
-			$week = 'week1';
-		elseif ($day > 7 && $day <= 14)
-			$week = 'week2';
-		elseif ($day > 14 && $day <= 21)
-			$week = 'week3';
-		elseif ($day > 21 && $day <= 28)
-			$week = 'week4';
-		else
-			$week = 'week5';
-
-		$filepath .= '/' . $week;
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-		return $filepath . '/';
-	}
-
 	public static function getMergedDescriptionCustomVars($fields, $description)
 	{
 		foreach ($fields['custom'] as $columnname) {
@@ -473,11 +428,11 @@ class Functions
 		for ($i = 0; $i < $countResult; $i++) {
 			$comment = $adb->query_result($result, $i, 'commentcontent');
 			if ($comment != '') {
-				$commentlist .= '<br><br>' . $comment;
+				$commentlist .= '<br /><br />' . $comment;
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br /><br />' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 
@@ -655,14 +610,14 @@ class Functions
 	}
 
 	/**
-	 * myBcmod - get modulus (substitute for bcmod) 
-	 * string my_bcmod ( string left_operand, int modulus ) 
-	 * left_operand can be really big, but be carefull with modulus :( 
-	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania 
+	 * myBcmod - get modulus (substitute for bcmod)
+	 * string my_bcmod ( string left_operand, int modulus )
+	 * left_operand can be really big, but be carefull with modulus :(
+	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania
 	 * */
 	public static function myBcmod($x, $y)
 	{
-		// how many numbers to take at once? carefull not to exceed (int) 
+		// how many numbers to take at once? carefull not to exceed (int)
 		$take = 5;
 		$mod = '';
 
@@ -693,12 +648,11 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
-		$message = is_string($e) ? $e : $e->getMessage();
-		if (REQUEST_MODE === 'API') {
+		$message = is_object($e) ? $e->getMessage() : $e;
+		if (\App\Config::$requestMode === 'API') {
 			throw new \APIException($message, 401);
 		}
-		$request = \AppRequest::init();
-		if ($request->isAjax()) {
+		if (\App\Request::_isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
@@ -718,55 +672,19 @@ class Functions
 		}
 		if ($die) {
 			trigger_error(print_r($message, true), E_USER_ERROR);
-			if (is_object($e)) {
-				throw new $e;
+			if (is_object($message)) {
+				throw new $message;
+			} elseif (is_array($message)) {
+				throw new \Exception($message['message']);
 			} else {
 				throw new \Exception($message);
 			}
 		}
 	}
 
-	public static function removeHtmlTags(array $tags, $html)
-	{
-		$crmUrl = \AppConfig::main('site_URL');
-
-		$doc = new \DOMDocument('1.0', 'UTF-8');
-		$previousValue = libxml_use_internal_errors(true);
-		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
-		libxml_clear_errors();
-		libxml_use_internal_errors($previousValue);
-
-		foreach ($tags as $tag) {
-			$xPath = new \DOMXPath($doc);
-			$nodes = $xPath->query('//' . $tag);
-			for ($i = 0; $i < $nodes->length; $i++) {
-				if ('img' === $tag) {
-					$htmlNode = $nodes->item($i)->ownerDocument->saveHTML($nodes->item($i));
-					$imgDom = new \DOMDocument();
-					$imgDom->loadHTML($htmlNode);
-					$xpath = new \DOMXPath($imgDom);
-					$src = $xpath->evaluate("string(//img/@src)");
-					if ($src == '' || 0 !== strpos('index.php', $src) || false === strpos($crmUrl, $src)) {
-						$nodes->item($i)->parentNode->removeChild($nodes->item($i));
-					}
-				} else {
-					$nodes->item($i)->parentNode->removeChild($nodes->item($i));
-				}
-			}
-		}
-		$savedHTML = $doc->saveHTML();
-		$savedHTML = preg_replace('/<!DOCTYPE[^>]+\>/', '', $savedHTML);
-		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
-		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
-		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
-		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
-		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
-		return trim($savedHTML);
-	}
-
 	public static function getHtmlOrPlainText($content)
 	{
-		if ($content != strip_tags($content)) {
+		if ($content !== strip_tags($content)) {
 			$content = decode_html($content);
 		} else {
 			$content = nl2br($content);
@@ -789,11 +707,12 @@ class Functions
 
 	public static function recurseDelete($src)
 	{
-		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if (!file_exists($rootDir . $src))
+		$rootDir = strpos($src, ROOT_DIRECTORY) === 0 ? '' : ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		if (!file_exists($rootDir . $src)) {
 			return;
+		}
 		$dirs = [];
-		@chmod($root_dir . $src, 0777);
+		@chmod($rootDir . $src, 0777);
 		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
@@ -950,7 +869,7 @@ class Functions
 	{
 		$allCurrencies = self::getAllCurrency(true);
 		foreach ($allCurrencies as $currency) {
-			if ($currency['defaultid'] === '-11') {
+			if ((int) $currency['defaultid'] === -11) {
 				return $currency;
 			}
 		}

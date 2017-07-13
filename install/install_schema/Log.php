@@ -4,7 +4,8 @@ namespace Importers;
 /**
  * Class that imports log database
  * @package YetiForce.Install
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Log extends \App\Db\Importers\Base
@@ -41,6 +42,9 @@ class Log extends \App\Db\Importers\Base
 					'record_id' => $this->integer(),
 					'module_name' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
+				],
+				'columns_mysql' => [
+					'type' => 'tinyint(1) NOT NULL',
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -167,7 +171,9 @@ class Log extends \App\Db\Importers\Base
 				'charset' => 'utf8'
 			],
 		];
-		$this->foreignKey = [];
+
+		$this->foreignKey = [
+		];
 	}
 
 	public function data()

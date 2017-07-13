@@ -14,8 +14,8 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
 vimport('include.runtime.EntryPoint');
-\App\Debuger::init();
-\App\Cache::init();
+App\Debuger::init();
+App\Cache::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
 App\Log::$logToProfile = Yii::$logToProfile = AppConfig::debug('LOG_TO_PROFILE');
 App\Log::$logToConsole = AppConfig::debug('LOG_TO_CONSOLE');
@@ -26,10 +26,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 
 	/**
 	 * Function to check if the User has logged in
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\AppException
 	 */
-	protected function checkLogin(Vtiger_Request $request)
+	protected function checkLogin(\App\Request $request)
 	{
 		if (!$this->hasLogin()) {
 			$return_params = $_SERVER['QUERY_STRING'];
@@ -107,7 +107,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
@@ -133,7 +133,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
 
-		$currentLanguage = Vtiger_Language_Handler::getLanguage();
+		$currentLanguage = \App\Language::getLanguage();
 		vglobal('current_language', $currentLanguage);
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -186,8 +186,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 				$componentName = $view;
 			}
-			define('_PROCESS_TYPE', $componentType);
-			define('_PROCESS_NAME', $componentName);
+			\App\Config::$processName = $componentName;
+			\App\Config::$processType = $componentType;
 			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($currentUser)) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
@@ -202,7 +202,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				if ($handler->loginRequired()) {
 					$this->checkLogin($request);
 				}
-				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker', 'WSAPP'];
+				$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Inventory', 'Vtiger', 'Migration', 'Install', 'ModTracker'];
 				if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 					$this->triggerCheckPermission($handler, $request);
 				}
@@ -240,22 +240,4 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$response->emit();
 		}
 	}
-}
-
-if (AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
-
-	function exception_error_handler($errno, $errstr, $errfile, $errline)
-	{
-		$msg = $errno . ': ' . $errstr . ' in ' . $errfile . ', line ' . $errline;
-		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
-			$file = 'cache/logs/errors.log';
-			$content = print_r($msg, true);
-			$content .= PHP_EOL . \App\Debuger::getBacktrace();
-			file_put_contents($file, $content . PHP_EOL, FILE_APPEND);
-		}
-		if (AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-			\vtlib\Functions::throwNewException($msg, false);
-		}
-	}
-	set_error_handler('exception_error_handler', \AppConfig::debug('EXCEPTION_ERROR_LEVEL'));
 }

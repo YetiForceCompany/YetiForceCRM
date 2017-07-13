@@ -1,25 +1,30 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * BruteForce spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'BruteForce' => 'Brute Force',
-	'LBL_NUMBER_OF_ATTEMPTS' => 'Number of attemps',
-	'LBL_TIME_LOCK' => 'Time lock (minutes)',
-	'LBL_SETTINGS' => 'Settings',
-	'LBL_BLOCKED_IP' => 'Blocked IP address',
-	'LBL_SAVE_SUCCESS' => 'Changes have been saved',
-	'LBL_UNBLOCK_FAIL' => 'IP adress has not been unblocked',
-	'LBL_UNBLOCK_SUCCESS' => 'IP adress has been unblocked',
-	'LBL_BRUTEFORCE_DESCRIPTION' => 'Set the maximum number of failed login attempts and time limit for IP blocking.',
-	'LBL_IP' => 'IP address',
-	'LBL_DATE' => 'Date',
+	'BruteForce' => 'Fuerza bruta',
+	'LBL_NUMBER_OF_ATTEMPTS' => 'Número de intentos',
+	'LBL_TIME_LOCK' => 'Bloqueo del tiempo (minutos)',
+	'LBL_SETTINGS' => 'Ajustes',
+	'LBL_BLOCKED_IP' => 'Dirección IP bloqueada',
+	'LBL_SAVE_SUCCESS' => 'Los cambios han sido guardados',
+	'LBL_UNBLOCK_FAIL' => 'La dirección IP no se ha desbloqueado',
+	'LBL_UNBLOCK_SUCCESS' => 'Se ha desbloqueado la dirección IP',
+	'LBL_BRUTEFORCE_DESCRIPTION' => 'Establezca el número máximo de intentos fallidos de inicio de sesión y el límite de tiempo para bloquear la IP.',
+	'LBL_IP' => 'Dirección IP',
+	'LBL_DATE' => 'Fecha',
 	'LBL_USERS' => 'Usuarios',
-	'LBL_BROWSERS' => 'Browsers',
-	'LBL_UNBLOCK' => 'Unblock',
-	'LBL_USERS_FOR_NOTIFICATIONS' => 'Users for notifications',
-	'LBL_BRUTEFORCE_ACTIVE' => 'Activa',
-	'LBL_VIEW_SHOW' => 'Brute Force',
-	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
+	'LBL_BROWSERS' => 'Navegadores',
+	'LBL_UNBLOCK' => 'Desbloquear',
+	'LBL_USERS_FOR_NOTIFICATIONS' => 'Usuarios para notificaciones',
+	'LBL_BRUTEFORCE_ACTIVE' => 'Activo',
+	'LBL_VIEW_SHOW' => 'Fuerza bruta',
+	'LBL_SENT_NOTIFICATIONS' => 'Enviar notificaciones',
 ];
 $jsLanguageStrings = [
-	'JS_COULD_NOT_FINNISH_REACTION' => 'Error. Save failed.',
+	'JS_COULD_NOT_FINNISH_REACTION' => 'Error al guardar.',
 ];

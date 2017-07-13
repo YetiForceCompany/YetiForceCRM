@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="lcount" value="{count($LOCKS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
@@ -27,12 +27,12 @@
 				</tbody>
 			</table>
 		</div>
-		<br>
+		<br />
 		<div>
 			<button class="btn btn-info addItem"><strong>{vtranslate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="btn btn-success saveItems"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
-		<br>
+		<br />
 		<table class="table table-bordered cloneItem hide">
 			{assign var="LOCK" value=[]}
 			{include file='LocksItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}

@@ -74,7 +74,7 @@
 					<div class="form-group">
 						<label class="paddingLeftMd control-label"><span class="redColor">*</span> {vtranslate('LBL_CHOOSE_COLUMNS',$MODULE)} ({vtranslate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
 						<div class="columnsSelectDiv col-md-12">
-							{assign var=MANDATORY_FIELDS value=array()}
+							{assign var=MANDATORY_FIELDS value=[]}
 							<div class="">
 								<select data-placeholder="{vtranslate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="columnsSelect form-control" id="viewColumnsSelect">
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}

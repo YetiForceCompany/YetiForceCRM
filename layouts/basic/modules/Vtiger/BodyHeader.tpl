@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
@@ -22,14 +22,14 @@
 											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 											{if $singularLabel == 'SINGLE_Calendar'}
 												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}	
+											{/if}
 											{if $quickCreateModule == '1'}
 												{if $count % 3 == 0}
 													<div class="">
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-															<span>{vtranslate($singularLabel,$NAME)}</span>
+															<span class="userIcon-{$NAME}"></span><span>{vtranslate($singularLabel,$NAME)}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}
@@ -46,16 +46,33 @@
 							</li>
 						</ul>
 					{/if}
-					{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
+					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
+						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
-					{if $CHAT_ACTIVE}
+					{if isset($CHAT_ENTRIES)}
 						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
+						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
+							<div class="modal-dialog modalRightSiteBar" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('Chat','Chat')}</h4>
+									</div>
+									<div class="modal-body">
+										{include file="Items.tpl"|@vtemplate_path:'Chat'}
+									</div>
+									<div class="modal-footer pinToDown">
+										<input type="text" class="form-control message" /><br />
+										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_ADD')}</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
@@ -63,9 +80,12 @@
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
-					<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
-						<i class="fa fa-history" aria-hidden="true"></i>
-					</a>
+					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
+						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+							<i class="fa fa-history" aria-hidden="true"></i>
+						</a>
+						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+					{/if}
 					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
 						{if $obj->linktype == 'HEADERLINK'}
 							{assign var="HREF" value='#'}
@@ -80,7 +100,7 @@
 							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
 							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-									   data-{$DATA_NAME}="{$DATA_VALUE}" 
+									   data-{$DATA_NAME}="{$DATA_VALUE}"
 								   {/foreach}
 							   {/if}>
 								{if $GLYPHICON}
@@ -108,7 +128,7 @@
 												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
 												   {if $obj->linkdata && is_array($obj->linkdata)}
 													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-														   data-{$DATA_NAME}="{$DATA_VALUE}" 
+														   data-{$DATA_NAME}="{$DATA_VALUE}"
 													   {/foreach}
 												   {/if}>{vtranslate($label,$MODULE)}</a>
 											</li>

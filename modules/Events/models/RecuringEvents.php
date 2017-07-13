@@ -3,10 +3,11 @@
 /**
  * Recurring Events Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Events_RecuringEvents_Model extends Vtiger_Base_Model
+class Events_RecuringEvents_Model extends \App\Base
 {
 
 	public $recordModel;
@@ -51,10 +52,10 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function to get instance of class
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Events_RecuringEvents_Model
 	 */
-	public static function getInstanceFromRequest(Vtiger_Request $request)
+	public static function getInstanceFromRequest(\App\Request $request)
 	{
 		$instance = new self();
 		$moduleName = $request->getModule();
@@ -146,6 +147,7 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 		if (!$this->isNew) {
 			switch ($this->typeSaving) {
 				case self::UPDATE_ALL_EVENTS:
+					$dates = false;
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
 					$itemNumber = 0;
 					foreach ($recordsIds as $recordId => $data) {
@@ -165,7 +167,9 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 						}
 						$itemNumber++;
 					}
-					$this->createRecords($dates);
+					if ($dates) {
+						$this->createRecords($dates);
+					}
 					break;
 				case self::UPDATE_FUTURE_EVENTS:
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
@@ -199,13 +203,17 @@ class Events_RecuringEvents_Model extends Vtiger_Base_Model
 						}
 						$itemNumber++;
 					}
-					$this->createRecords($dates);
+					if ($dates) {
+						$this->createRecords($dates);
+					}
 					break;
 			}
 		} else {
 			$dates = $this->getDates($this->recordModel->get('date_start') . ' ' . $this->recordModel->get('time_start'), $this->recordModel->get('due_date') . ' ' . $this->recordModel->get('time_end'));
 			unset($dates[0]);
-			$this->createRecords($dates);
+			if ($dates) {
+				$this->createRecords($dates);
+			}
 		}
 	}
 

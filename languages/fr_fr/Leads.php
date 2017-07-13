@@ -1,14 +1,18 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ********************************************************************************** */
+/**
+ * Leads french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'PLL_INCORRECT' => 'Incorrect',
+	'PLL_IN_REALIZATION' => 'En réalisation',
+	'PLL_PENDING' => 'En attente',
+	'PLL_LEAD_ACQUIRED' => 'Convertir',
+	'PLL_LEAD_UNTAPPED' => 'Inexploité',
+	'PLL_CONTACTS_IN_THE_FUTURE' => 'A contacter à l\'avenir',
+	'PLL_TO_REALIZE' => 'Pour traitement',
 	'LBL_MAP' => 'Carte',
 	'LBL_SETUP_WEBFORMS' => 'Paramètrer les formulaires web',
 	'Verification data' => 'Données de vérification',
@@ -31,12 +35,12 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_CONVERT_LEAD' => 'Convertir le prospect ',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Modules désactivés',
-	'LBL_CONVERT_LEAD_ERROR' => 'Vous devez activer soit les Comptes ou les Contacts pour convertir le prospect',
+	'LBL_CONVERT_LEAD_ERROR' => 'Vous devez activer soit les Organisations ou les Contacts pour convertir le prospect ',
 	'LBL_CUSTOM_FIELD_MAPPING' => 'Editer le mapping des champs',
 	'LBL_FOLLOWING_ARE_POSSIBLE_REASONS' => 'Les raisons possibles sont:',
-	'LBL_LEAD_INFORMATION' => 'Détails du prospect',
-	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Le mapping des champs Prospect est incomplet (Paramètres &gt; Management Module &gt; Prospects &gt; Mapping champs prospects)',
-	'LBL_LEADS_FIELD_MAPPING' => 'Mapping des champs prospect',
+	'LBL_LEAD_INFORMATION' => 'Détails du prospect ',
+	'LBL_LEADS_FIELD_MAPPING_INCOMPLETE' => 'Le mapping des champs Prospect  est incomplet (Paramètres &gt; Management Module &gt; Prospects &gt; Mapping champs prospects)',
+	'LBL_LEADS_FIELD_MAPPING' => 'Mapping des champs prospect ',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Les champs obligatoires sont vides',
 	'LBL_LEAD_ALREADY_CONVERTED' => 'Prospect déjà converti',
 	'LBL_RECORDS_LIST' => 'Liste des Prospects',
@@ -69,7 +73,7 @@ $languageStrings = [
 	'LBL_LEAD_UNTAPPED' => 'Abandonné',
 	'LBL_LEAD_ACQUIRED' => 'A convertir',
 	/* YetiForce */
-	'Contact Information' => 'Information du Contact',
+	'Contact Information' => 'Information de contact',
 	'LBL_REGISTRATION_INFO' => 'Détails d\'enregistrement',
 	'LBL_REQUIRES_VERIFICATION' => 'Vérification de données',
 	'Approval for phone calls' => 'Permission d\'appeler',
@@ -107,11 +111,11 @@ $languageStrings = [
 	'LBL_RELATION' => 'Relation',
 	'LBL_LEGAL_FORM' => 'Forme légale',
 	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Au moins deux Comptes remplissent les critères de liaisons : (Administration &gt; Processus &gt; Processus Marketing &gt; Conversion) %s',
-	'Campaign status' => 'État de la campagne',
+	'Campaign status' => 'Statut Campagne',
 ];
 
 $jsLanguageStrings = [
 	'JS_SELECT_CONTACTS' => 'Sélectionner des contacts pour poursuivre',
 	'JS_SELECT_ORGANIZATION_OR_CONTACT_TO_CONVERT_LEAD' => 'La conversion requiert la sélection d\'un contact ou d\'une Organisation',
-	'JS_SELECT_ORGANIZATION' => 'Sélectionner un Compte pour poursuivre',
+	'JS_SELECT_ORGANIZATION' => 'Sélectionner un compte pour poursuivre',
 ];

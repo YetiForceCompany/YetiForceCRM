@@ -1,8 +1,13 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * ISTN spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'ISTN' => 'Storage Turnover Notes',
-	'SINGLE_ISTN' => 'Storage Turnover Notes',
+	'ISTN' => 'Nota de volumen de almacenamiento',
+	'SINGLE_ISTN' => 'Nota de volumen de almacenamiento',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ESTIMATED_DATE' => 'Fecha estimada',

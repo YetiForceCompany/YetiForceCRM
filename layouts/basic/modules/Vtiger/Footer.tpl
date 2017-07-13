@@ -15,13 +15,16 @@
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
 <div class="clearfix"></div>
 <input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
 {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 	<div class="infoUser">
 		{$USER_MODEL->getName()}&nbsp;(
 		{$USER_MODEL->get('email1')}&nbsp;
-		{if !empty({$USER_MODEL->get('phone_crm_extension')})} 
+		{if !empty({$USER_MODEL->get('phone_crm_extension')})}
 			,&nbsp; {$USER_MODEL->get('phone_crm_extension')}
 		{/if}
 		)
@@ -45,10 +48,10 @@
 		</div>
 		<div class="pull-right">
 			<button type="button" class="btn-link" data-toggle="modal" data-target="#yetiforceDetails">
-				<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" alt="YetiForceCRM"/>
+				<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM"/>
 			</button>
 		</div>
-		{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
+		{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
 		{if $USER_MODEL->is_admin == 'on'}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
@@ -65,14 +68,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">YetiForceCRM v{$YETIFORCE_VERSION} - The best open system in the world</h4>
+				<h4 class="modal-title" id="myModalLabel">YetiForceCRM {if $USER_MODEL->is_admin == 'on'}v{$YETIFORCE_VERSION}{/if} - The best open system in the world</h4>
 			</div>
 			<div class="modal-body">
-				<p class="text-center"><img  src="storage/Logo/blue_yetiforce_logo.png" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
+				<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
 				<p>Copyright © YetiForce.com All rights reserved.</p>
-				<p>The Program is provided AS IS, without warranty. Licensed under <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 1.1</strong></a>.</p>
-				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br><br></p>
-				<p><span class="label label-default">License:</span> <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 1.1</strong></a></p>
+				<p>The Program is provided AS IS, without warranty. Licensed under <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 2.0</strong></a>.</p>
+				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>
+				<p><span class="label label-default">License:</span> <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 2.0</strong></a></p>
 				<p><span class="label label-primary">WWW:</span> <a href="https://yetiforce.com" target="_blank"><strong>https://yetiforce.com</strong></a></p>
 				<p><span class="label label-success">Code:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a></p>
 				<p><span class="label label-info">Documentation:</span> <a href="https://yetiforce.com/en/documentation.html" target="_blank"><strong>https://yetiforce.com/en/documentation.html</strong></a></p>
@@ -100,7 +103,6 @@
 </div>
 {* javascript files *}
 {include file='JSResources.tpl'|@vtemplate_path}
-</div>
 {if \App\Debuger::isDebugBar()}
 	{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
 {/if}

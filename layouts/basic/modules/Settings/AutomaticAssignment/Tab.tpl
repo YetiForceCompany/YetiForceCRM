@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="row padding20">
 		{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
@@ -127,7 +127,7 @@
 					</table>
 				</div>
 				<div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 groupMembersColors">
-					<br/>
+					<br />
 					<ul class="nav nav-pills nav-stacked">
 						{if $FIELD_NAME eq 'roles'}
 							<li class="Roles padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>

@@ -23,10 +23,6 @@ class ComposerStaticInitYT
 			'Symfony\\Polyfill\\Mbstring\\' => 26,
 			'Symfony\\Component\\VarDumper\\' => 28,
 		),
-		'L' =>
-		array(
-			'Linfo\\' => 6,
-		),
 		'E' =>
 		array(
 			'Exception\\' => 10,
@@ -34,6 +30,10 @@ class ComposerStaticInitYT
 		'D' =>
 		array(
 			'DebugBar\\' => 9,
+		),
+		'C' =>
+		array(
+			'Cron\\' => 5,
 		),
 		'A' =>
 		array(
@@ -58,10 +58,6 @@ class ComposerStaticInitYT
 		array(
 			0 => __DIR__ . '/..' . '/symfony/var-dumper',
 		),
-		'Linfo\\' =>
-		array(
-			0 => __DIR__ . '/..' . '/linfo/linfo/src/Linfo',
-		),
 		'Exception\\' =>
 		array(
 			0 => __DIR__ . '/../..' . '/include/exceptions',
@@ -69,6 +65,10 @@ class ComposerStaticInitYT
 		'DebugBar\\' =>
 		array(
 			0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
+		),
+		'Cron\\' =>
+		array(
+			0 => __DIR__ . '/../..' . '/cron',
 		),
 		'App\\' =>
 		array(

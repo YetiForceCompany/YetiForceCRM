@@ -12,7 +12,7 @@
 class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -29,7 +29,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('getRecordsCount');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -40,10 +40,10 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 
 	/**
 	 * Function to get related Records count from this relation
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Number> Number of record from this relation
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
@@ -53,7 +53,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$count = $relationListView->getRelatedEntriesCount();
-		$result = array();
+		$result = [];
 		$result['module'] = $moduleName;
 		$result['viewname'] = $request->get('viewname');
 		$result['count'] = $count;

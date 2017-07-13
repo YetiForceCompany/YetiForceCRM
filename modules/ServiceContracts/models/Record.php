@@ -3,7 +3,8 @@
 /**
  * Service contracts record model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class ServiceContracts_Record_Model extends Vtiger_Record_Model
@@ -15,10 +16,10 @@ class ServiceContracts_Record_Model extends Vtiger_Record_Model
 	public function saveToDb()
 	{
 		parent::saveToDb();
-		$forModule = AppRequest::get('return_module');
-		$forCrmid = AppRequest::get('return_id');
-		if (AppRequest::get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {
-			CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, AppRequest::get('module'), $this->getId());
+		$forModule = \App\Request::_get('return_module');
+		$forCrmid = \App\Request::_get('return_id');
+		if (\App\Request::_get('return_action') && $forModule && $forCrmid && $forModule === 'HelpDesk') {
+			CRMEntity::getInstance($forModule)->save_related_module($forModule, $forCrmid, \App\Request::_get('module'), $this->getId());
 		}
 	}
 }

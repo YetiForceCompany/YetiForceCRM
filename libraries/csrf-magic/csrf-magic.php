@@ -180,6 +180,9 @@ class CSRF
 			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
+			if (!IS_PUBLIC_DIR) {
+				$js = 'public_html/' . $js;
+			}
 			$buffer = preg_replace(
 				'/<\/head>/', '<script type="text/javascript">' .
 				'var csrfMagicToken = "' . $tokens . '";' .
@@ -202,24 +205,28 @@ class CSRF
 	 */
 	public static function check($fatal = true)
 	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			return true;
+		}
 		static::start();
 		$ok = false;
 		$tokens = '';
 		do {
-			if (!isset($_POST[static::$inputName]))
+			if (!isset($_POST[static::$inputName])) {
 				break;
+			}
 			// we don't regenerate a token and check it because some token creation
 			// schemes are volatile.
 			$tokens = $_POST[static::$inputName];
-			if (!static::checkTokens($tokens))
+			if (!static::checkTokens($tokens)) {
 				break;
+			}
 			$ok = true;
 		} while (false);
 		if ($fatal && !$ok) {
-			if (trim($tokens, 'A..Za..z0..9:;,') !== '')
+			if (trim($tokens, 'A..Za..z0..9:;,') !== '') {
 				$tokens = 'hidden';
+			}
 			call_user_func(static::$callback, $tokens);
 			exit;
 		}
@@ -280,7 +287,7 @@ class CSRF
 	{
 		if (!is_array($data))
 			return array($key => $data);
-		$ret = array();
+		$ret = [];
 		foreach ($data as $n => $v) {
 			$nk = $level >= 1 ? $key . "[$n]" : "[$n]";
 			$ret = array_merge($ret, static::flattenpost2($level + 1, $nk, $v));

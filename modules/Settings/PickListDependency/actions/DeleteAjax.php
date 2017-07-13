@@ -11,7 +11,7 @@
 class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$sourceField = $request->get('sourcefield');
@@ -28,7 +28,7 @@ class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Inde
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

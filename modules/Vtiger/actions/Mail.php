@@ -3,7 +3,8 @@
 /**
  * Mail action class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Mail_Action extends Vtiger_Action_Controller
@@ -11,10 +12,10 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName)) {
@@ -38,9 +39,9 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Process function
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -50,9 +51,9 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Check if smtps are active
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function checkSmtp(Vtiger_Request $request)
+	public function checkSmtp(\App\Request $request)
 	{
 		$result = false;
 		if (AppConfig::main('isActiveSendingMails')) {
@@ -65,9 +66,9 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Send mails
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function sendMails(Vtiger_Request $request)
+	public function sendMails(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$field = $request->get('field');
@@ -78,14 +79,25 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		if (!empty($template) && !empty($field)) {
 			$dataReader = $this->getQuery($request)->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$result = \App\Mailer::sendFromTemplate([
-						'template' => $template,
-						'moduleName' => $moduleName,
-						'recordId' => $row['id'],
-						'to' => $row[$field],
-						'sourceModule' => $sourceModule,
-						'sourceRecord' => $sourceRecord,
-				]);
+				if ($sourceModule === 'Campaigns') {
+					$result = \App\Mailer::sendFromTemplate([
+							'template' => $template,
+							'moduleName' => $sourceModule,
+							'recordId' => $sourceRecord,
+							'to' => $row[$field],
+							'sourceModule' => $moduleName,
+							'sourceRecord' => $row['id'],
+					]);
+				} else {
+					$result = \App\Mailer::sendFromTemplate([
+							'template' => $template,
+							'moduleName' => $moduleName,
+							'recordId' => $row['id'],
+							'to' => $row[$field],
+							'sourceModule' => $sourceModule,
+							'sourceRecord' => $sourceRecord,
+					]);
+				}
 				if (!$result) {
 					break;
 				}
@@ -98,10 +110,10 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Get query instance
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(Vtiger_Request $request)
+	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');

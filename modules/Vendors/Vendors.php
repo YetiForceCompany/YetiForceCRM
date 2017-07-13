@@ -21,7 +21,7 @@ class Vendors extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_vendorcf', 'vendorid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	public $related_tables = Array(
 		'vtiger_vendorcf' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
 		'vtiger_vendoraddress' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
@@ -56,7 +56,7 @@ class Vendors extends CRMEntity
 		'Phone' => 'phone'
 	);
 	//Specifying required fields for vendors
-	public $required_fields = array();
+	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');

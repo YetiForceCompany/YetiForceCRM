@@ -15,7 +15,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
@@ -25,16 +25,16 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 
 	/**
 	 * Function returns the module name for which the popup should be initialized
-	 * @param Vtiger_request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getModule(Vtiger_request $request)
+	public function getModule(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		return $moduleName;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -44,7 +44,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
@@ -54,37 +54,35 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . Vtiger_Language_Handler::getShortLanguageName() . '.js',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \App\Language::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.min.js',
+			'libraries.jquery.jquery_windowmsg',
+			'~layouts/resources/BaseList.js',
 			'modules.Vtiger.resources.Popup',
 			"modules.$moduleName.resources.Popup",
-			'modules.Vtiger.resources.BaseList',
-			"modules.$moduleName.resources.BaseList",
-			'libraries.jquery.jquery_windowmsg',
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
+			'~layouts/resources/BaseValidator.js',
+			'~layouts/resources/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator"
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
@@ -267,9 +265,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 
 	/**
 	 * Function to get listView count
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getListViewCount(Vtiger_Request $request)
+	public function getListViewCount(\App\Request $request)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
@@ -320,7 +318,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(Vtiger_Request $request)
+	public function getPageCount(\App\Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();

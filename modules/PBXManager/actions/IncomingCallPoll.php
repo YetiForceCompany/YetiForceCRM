@@ -23,7 +23,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('checkPermissionForPolling');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -32,7 +32,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -42,7 +42,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function checkModuleViewPermission(Vtiger_Request $request)
+	public function checkModuleViewPermission(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$modules = array('Contacts', 'Leads');
@@ -59,7 +59,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function searchIncomingCalls(Vtiger_Request $request)
+	public function searchIncomingCalls(\App\Request $request)
 	{
 		$recordModel = PBXManager_Record_Model::getCleanInstance($request->getModule());
 		$response = new Vtiger_Response();
@@ -102,7 +102,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function createRecord(Vtiger_Request $request)
+	public function createRecord(\App\Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->get('modulename');
@@ -154,7 +154,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function checkPermissionForPolling(Vtiger_Request $request)
+	public function checkPermissionForPolling(\App\Request $request)
 	{
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');

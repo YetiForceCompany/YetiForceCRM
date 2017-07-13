@@ -246,7 +246,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$saveFull = true;
 
 		$db = \App\Db::getInstance();
-		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
+		if (\App\Request::_get('action') == 'SaveAjax' && \App\Request::_has('field') && \App\Request::_get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
@@ -370,7 +370,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
-				foreach ($permissionsRelatedField as &$row) {
+				foreach ($permissionsRelatedField as $row) {
 					if (!$relatedPermission) {
 						switch ($row) {
 							case 0:
@@ -381,6 +381,10 @@ class Users_Privileges_Model extends Users_Record_Model
 								break;
 							case 2:
 								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
+								break;
+							case 3:
+								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -407,7 +411,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
-				foreach ($permissionsRelatedField as &$row) {
+				foreach ($permissionsRelatedField as $row) {
 					if (!$relatedPermission) {
 						switch ($row) {
 							case 0:
@@ -418,6 +422,10 @@ class Users_Privileges_Model extends Users_Record_Model
 								break;
 							case 2:
 								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
+								break;
+							case 3:
+								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}

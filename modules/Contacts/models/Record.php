@@ -69,7 +69,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	public function getImageDetails()
 	{
 		$db = PearDatabase::getInstance();
-		$imageDetails = array();
+		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
@@ -122,7 +122,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertAttachment()
 	{
-		$module = AppRequest::get('module');
+		$module = \App\Request::_get('module');
 		$id = $this->getId();
 		$db = App\Db::getInstance();
 		$fileSaved = false;
@@ -137,7 +137,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				}
 				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
-					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
 					$fileSaved = $this->uploadAndSaveFile($files);
 				}
 			}

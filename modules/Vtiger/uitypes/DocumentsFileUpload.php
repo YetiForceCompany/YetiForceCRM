@@ -45,13 +45,13 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			$fileLocationType = $recordInstance->get('filelocationtype');
 			$fileStatus = $recordInstance->get('filestatus');
 			if (!empty($value) && $fileStatus) {
-				if ($fileLocationType == 'I') {
+				if ($fileLocationType === 'I') {
 					$fileId = (new App\Db\Query())->select(['attachmentsid'])
 						->from('vtiger_seattachmentsrel')
 						->where(['crmid' => $record])
 						->scalar();
 					if ($fileId) {
-						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+						$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {

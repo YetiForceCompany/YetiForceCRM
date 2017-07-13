@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class=" editViewContainer">
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -34,7 +24,7 @@
 			<input type="text" class="fieldValue form-control" name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]'  />
 		</div>
 	</div>
-	<br>
+	<br />
 	{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
 	<div class="row">
 		<div class="col-md-3">
@@ -57,7 +47,7 @@
 			{/if}
 		</div>
 	</div>
-	<br>
+	<br />
 	<div class="row">
 		<div class="col-md-3">
 			<label class=""><strong>{vtranslate('LBL_SHARE_WITH', $QUALIFIED_MODULE)}: </strong></label>
@@ -76,7 +66,7 @@
 			</select>
 		</div>
 	</div>
-	<br>
+	<br />
 	<hr>
 	<div class="row">
 		<div class="col-md-3">
@@ -95,7 +85,7 @@
 	<div class="modal-header contentsBackground" tabindex="-1">
 		<div id="treeContents"></div>
 	</div>
-	<br>
+	<br />
 	<div class="pull-right">
 		<button class="btn btn-success saveTree"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

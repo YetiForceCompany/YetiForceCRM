@@ -49,7 +49,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$this->user = $user;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	public function process(\App\Request $request)
 	{
 		return;
 	}
@@ -752,16 +760,15 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 			$importStatusCount = $importDataController->getImportStatusCount();
 
-			$emailSubject = 'vtiger CRM - Scheduled Import Report for ' . $importDataController->module;
+			$emailSubject = 'Yetiforce- Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
 			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
-			$emailData = 'vtiger CRM has just completed your import process. <br/><br/>' .
-				$importResult . '<br/><br/>' .
-				'We recommend you to login to the CRM and check few records to confirm that the import has been successful.';
+			$emailData = 'Yetiforce has completed import. <br /><br />' . $importResult . '<br /><br />' .
+				'Navigate to respective module, to check import result and/or data integrity';
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
@@ -779,7 +786,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public static function getScheduledImport()
 	{
 
-		$scheduledImports = array();
+		$scheduledImports = [];
 		$importQueue = Import_Queue_Action::getAll(Import_Queue_Action::$IMPORT_STATUS_SCHEDULED);
 		foreach ($importQueue as $importId => $importInfo) {
 			$userId = $importInfo['user_id'];
@@ -815,7 +822,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				}
 			}
 			while ($row = $dataReader->read()) {
-				$record = new Vtiger_Base_Model();
+				$record = new \App\Base();
 				foreach ($importRecords['headers'] as $columnName => $header) {
 					$record->set($columnName, $row[$columnName]);
 				}
@@ -906,11 +913,11 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	/**
 	 * Function creates advanced block data object
 	 * @param array $inventoryData
-	 * @return \Vtiger_Base_Model
+	 * @return \App\Base
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
-		$inventoryModel = new Vtiger_Base_Model();
+		$inventoryModel = new \App\Base();
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {

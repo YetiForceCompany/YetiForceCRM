@@ -2,9 +2,10 @@
 namespace App\SystemWarnings\SystemRequirements;
 
 /**
- * Privilege File basic class
- * @package YetiForce.SystemWarnings
- * @license licenses/License.html
+ * PHPExcel library system warnings class
+ * @package YetiForce.SystemWarning
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class LibraryPHPExcel extends \App\SystemWarnings\Template

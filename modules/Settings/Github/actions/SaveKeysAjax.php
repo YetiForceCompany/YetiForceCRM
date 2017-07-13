@@ -3,13 +3,14 @@
 /**
  * Save keys
  * @package YetiForce.Github
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$clientId = $request->get('client_id');
 		$token = $request->get('token');
@@ -29,7 +30,7 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 		$responce->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

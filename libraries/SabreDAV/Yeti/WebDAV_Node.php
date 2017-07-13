@@ -64,7 +64,7 @@ abstract class WebDAV_Node implements DAV\INode {
 	public function getCurrentUser() {
 		$digest = $_SERVER['PHP_AUTH_DIGEST'];
 		$needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
-		$data = array();
+		$data = [];
 
 		preg_match_all('@(\w+)=(?:(?:")([^"]+)"|([^\s,$]+))@', $digest, $matches, PREG_SET_ORDER);
 

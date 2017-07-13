@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SCalculations french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'SCalculations' => 'Calculs',
 	'SINGLE_SCalculations' => 'Calcul',
 	//BLOCKS
-	'LBL_SCALCULATIONS_INFORMATION' => 'Information',
+	'LBL_SCALCULATIONS_INFORMATION' => 'Détails calcul',
 	'LBL_CUSTOM_INFORMATION' => 'Information systèmes',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_STATISTICS' => 'Statistiques',
@@ -15,8 +20,8 @@ $languageStrings = [
 	'LBL_CLOSED_TIME' => 'Heure de fin',
 	'LBL_RESPONSE_TIME' => 'Temps de réponse',
 	'SINGLE_SSalesProcesses' => 'Opportunités',
-	'FL_TOTAL_PRICE' => 'Total net',
-	'FL_MARGINP' => 'Pourcentage de marge nette',
+	'FL_TOTAL_PRICE' => 'Total HT',
+	'FL_MARGINP' => 'Total pourcentage de marge nette',
 	'FL_MARGIN' => 'Marge totale',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Brouillon',

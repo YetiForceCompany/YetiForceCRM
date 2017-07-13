@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_SEREVER_CONFIG' => 'Nueva configuración',
 	'username' => 'Nombre de usuario',
 	'password' => 'Contraseña',
-	'isactive' => 'Activa',
+	'isactive' => 'Activo',
 	'SINGLE_SMSNotifier' => 'Notificador de SMS',
 	'Server configuration' => 'Configuración del servidor',
 	// Basic Strings

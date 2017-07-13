@@ -11,7 +11,7 @@
 class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {
@@ -20,9 +20,9 @@ class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 	}
 	/**
 	 * Function to get listView count
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	/* function getListViewCount(Vtiger_Request $request){
+	/* function getListViewCount(\App\Request $request){
 	  $moduleName = $request->getModule();
 	  $cvId = $request->get('viewname');
 	  if(empty($cvId)) {
@@ -48,7 +48,7 @@ class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	/* function getPageCount(Vtiger_Request $request){
+	/* function getPageCount(\App\Request $request){
 	  $listViewCount = $this->getListViewCount($request);
 	  $pagingModel = new Vtiger_Paging_Model();
 	  $pageLimit = $pagingModel->getPageLimit();

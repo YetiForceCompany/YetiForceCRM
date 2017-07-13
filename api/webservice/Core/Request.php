@@ -4,21 +4,29 @@ namespace Api\Core;
 /**
  * Web service request class 
  * @package YetiForce.Webservice
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Request extends \Vtiger_Request
+class Request extends \App\Request
 {
 
-	public static function init()
+	/**
+	 * Static instance initialization
+	 * @param boolean|array $request
+	 * @return Request
+	 */
+	public static function init($request = false)
 	{
-		return new self($_REQUEST);
+		if (!static::$request) {
+			static::$request = new self($request ? $request : $_REQUEST);
+		}
+		return static::$request;
 	}
 
 	public function getData()
 	{
 		if ($this->getRequestMethod() === 'GET') {
-			$this->rawValueMap = $_REQUEST;
 			return $this;
 		} else {
 			$encrypted = $this->getHeader('Encrypted');
@@ -30,7 +38,7 @@ class Request extends \Vtiger_Request
 		if (empty($content)) {
 			return false;
 		}
-		$this->rawValueMap = array_merge($this->contentParse($content), $_REQUEST);
+		$this->rawValues = array_merge($this->contentParse($content), $this->rawValues);
 		return $this;
 	}
 

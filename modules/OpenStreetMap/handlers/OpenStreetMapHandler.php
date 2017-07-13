@@ -3,7 +3,8 @@
 /**
  * Save geographical coordinates Handler Class
  * @package YetiForce.Handler
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_OpenStreetMapHandler_Handler
@@ -33,7 +34,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 			}
 		}
 		foreach (['a', 'b', 'c'] as &$typeAddress) {
-			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->getEntity()->mode !== 'edit' || in_array($typeAddress, $typeAddressToUpdate))) {
+			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->isNew() || in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')
 					->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])

@@ -2,8 +2,9 @@
 
 /**
  * Send mail modal class
- * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
@@ -13,11 +14,11 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -31,9 +32,9 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Pocess function
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -53,10 +54,10 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Get records list from request
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return int[]
 	 */
-	public function getRecordsListFromRequest(Vtiger_Request $request)
+	public function getRecordsListFromRequest(\App\Request $request)
 	{
 		$dataReader = $this->getQuery($request)->createCommand()->query();
 		$count = ['all' => 0, 'emails' => 0];
@@ -77,10 +78,10 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Get query instance
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return \App\Db\Query
 	 */
-	public function getQuery(Vtiger_Request $request)
+	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');

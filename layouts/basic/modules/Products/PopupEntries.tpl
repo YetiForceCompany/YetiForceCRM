@@ -45,7 +45,7 @@
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 				<td class="listViewEntryValue {$WIDTHTYPE}">
-					{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
+					{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
 						<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
 					{else}
 						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}

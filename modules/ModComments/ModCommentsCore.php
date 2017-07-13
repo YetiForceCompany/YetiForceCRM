@@ -89,8 +89,8 @@ class ModCommentsCore extends CRMEntity
 		$currentModule = vglobal('currentModule');
 
 		$sortorder = $this->default_sort_order;
-		if (!AppRequest::isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (!\App\Request::_isEmpty('sorder'))
+			$sortorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -107,8 +107,8 @@ class ModCommentsCore extends CRMEntity
 		}
 
 		$orderby = $use_default_order_by;
-		if (!AppRequest::isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (!\App\Request::_isEmpty('order_by'))
+			$orderby = $this->db->sql_escape_string(\App\Request::_get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -122,7 +122,7 @@ class ModCommentsCore extends CRMEntity
 		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
 		// Keep track of tables joined to avoid duplicates
-		$joinedTables = array();
+		$joinedTables = [];
 
 		// Select Custom Field Table Columns if present
 		if (!empty($this->customFieldTable))
@@ -327,7 +327,7 @@ class ModCommentsCore extends CRMEntity
 
 		$query = $select_clause . $from_clause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
 

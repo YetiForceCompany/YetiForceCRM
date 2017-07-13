@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <div class="statsContainer">
 	<div class="form-horizontal">
 		<div class="form-group">
@@ -38,7 +38,7 @@
 			<div class="col-md-2"></div>
 			<input class="widgetData" type="hidden" value=''>
 		</div>
-		<br>
+		<br />
 		<div class="row">
 			<div class="col-md-2"></div>
 			<div class="statsData"></div>

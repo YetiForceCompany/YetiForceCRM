@@ -1,11 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * OSSMail spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'OSSMail' => 'My mailbox',
-	'ERR_NO_MODULE_IS_INACTIVE' => '"My mailbox" module is inactive, it should be enabled before configuration.'
+	'OSSMail' => 'Mi buzón',
+	'ERR_NO_MODULE_IS_INACTIVE' => 'El módulo "Mi buzón" está inactivo, debe estar habilitado antes de la configuración.'
 ];
 
 $jsLanguageStrings = [
-	'JS_ERROR_EMPTY' => 'All fields must be completed',
+	'JS_ERROR_EMPTY' => 'Todos los campos deben ser completados',
 ];

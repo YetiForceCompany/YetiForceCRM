@@ -2,15 +2,16 @@
 
 /**
  *
- * @package YetiForce.views
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
@@ -28,10 +29,10 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getScripts(Vtiger_Request $request)
+	public function getScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = array(

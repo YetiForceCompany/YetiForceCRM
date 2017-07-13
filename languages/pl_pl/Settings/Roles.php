@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Roles polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj role',
 	'LBL_ALL_USERS' => 'Wszyscy użytkownicy',
@@ -43,7 +40,8 @@ $languageStrings = [
 	'LBL_PERMISSIONS_TO_LIST_RELATED_RECORDS' => 'Czy udostępnić listę do rekordów powiązanych z rekordem do którego mamy dostęp?',
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Czy udostępnić podgląd do rekordów powiązanych z rekordem do którego mamy dostęp?',
 	'LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS' => 'Czy włączyć edycję do rekordów powiązanych - z naszym rekordem - których nie jesteśmy właścicielem?',
-	'LBL_PERMISSIONS_FIELD_RELATED_RECORDS' => 'Uprawnienia do rekordów powiązanych bazują na polu',
+	'LBL_PERMISSIONS_FIELD_RELATED_RECORDS' => 'Uprawnienia do rekordów powiązanych bazują na',
+	'LBL_PERMITTED_BY_READ_ACCESS' => 'Dostępu do rekordu',
 	'LBL_PERMITTED_BY_SHARING' => 'Wyjątki zasad dostępu',
 	'LBL_INACTIVE' => 'Nieaktywne',
 	'LBL_ONLY_PARENT' => 'Tylko nadrzędny',

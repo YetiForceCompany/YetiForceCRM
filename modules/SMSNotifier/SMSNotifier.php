@@ -6,328 +6,371 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once dirname(__FILE__) . '/SMSNotifierBase.php';
 
-class SMSNotifier extends SMSNotifierBase
+class SMSNotifier extends Vtiger_CRMEntity
 {
 
+	public $table_name = 'vtiger_smsnotifier';
+	public $table_index = 'smsnotifierid';
+
+	/** Indicator if this is a custom module or standard module */
+	public $IsCustomModule = true;
+
 	/**
-	 * Check if there is active server configured.
-	 *
-	 * @return true if activer server is found, false otherwise.
+	 * Mandatory table for supporting custom fields.
 	 */
-	static function checkServer()
+	public $customFieldTable = Array('vtiger_smsnotifiercf', 'smsnotifierid');
+
+	/**
+	 * Mandatory for Saving, Include tables related to this module.
+	 */
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_smsnotifier', 'vtiger_smsnotifiercf');
+
+	/**
+	 * Mandatory for Saving, Include tablename and tablekey columnname here.
+	 */
+	public $tab_name_index = Array(
+		'vtiger_crmentity' => 'crmid',
+		'vtiger_smsnotifier' => 'smsnotifierid',
+		'vtiger_smsnotifiercf' => 'smsnotifierid');
+
+	/**
+	 * Mandatory for Listing (Related listview)
+	 */
+	public $list_fields = Array(
+		/* Format: Field Label => Array(tablename, columnname) */
+		// tablename should not have prefix 'vtiger_'
+		'Message' => Array('smsnotifier', 'message'),
+		'Assigned To' => Array('crmentity', 'smownerid')
+	);
+	public $list_fields_name = Array(
+		/* Format: Field Label => fieldname */
+		'Message' => 'message',
+		'Assigned To' => 'assigned_user_id'
+	);
+	// Make the field link to detail view
+	public $list_link_field = 'message';
+	// For Popup listview and UI type support
+	public $search_fields = Array(
+		/* Format: Field Label => Array(tablename, columnname) */
+		// tablename should not have prefix 'vtiger_'
+		'Message' => Array('smsnotifier', 'message')
+	);
+	public $search_fields_name = Array(
+		/* Format: Field Label => fieldname */
+		'Message' => 'message'
+	);
+	// For Popup window record selection
+	public $popup_fields = Array('message');
+	// Should contain field labels
+	//var $detailview_links = Array ('Message');
+	// For Alphabetical search
+	public $def_basicsearch_col = 'message';
+	// Column value to use on detail view record text display
+	public $def_detailview_recname = 'message';
+	// Required Information for enabling Import feature
+	public $required_fields = Array('assigned_user_id' => 1);
+	// Callback function list during Importing
+	public $special_functions = Array('set_import_assigned_user');
+	public $default_order_by = '';
+	public $default_sort_order = 'DESC';
+	// Used when enabling/disabling the mandatory fields for the module.
+	// Refers to vtiger_field.fieldname values.
+	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'message', 'assigned_user_id');
+
+	public function __construct()
 	{
-		$provider = SMSNotifierManager::getActiveProviderInstance();
-		return ($provider !== false);
+		$this->column_fields = getColumnFields(vglobal('currentModule'));
+		$this->db = PearDatabase::getInstance();
+	}
+
+	public function getSortOrder()
+	{
+		$currentModule = vglobal('currentModule');
+
+		$sortorder = $this->default_sort_order;
+		if (!\App\Request::_isEmpty('sorder'))
+			$sortorder = \App\Request::_get('sorder');
+		else if ($_SESSION[$currentModule . '_Sort_Order'])
+			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
+
+		return $sortorder;
+	}
+
+	public function getOrderBy()
+	{
+		$orderby = $this->default_order_by;
+		if (!\App\Request::_isEmpty('order_by'))
+			$sortorder = \App\Request::_get('order_by');
+		else if ($_SESSION[$currentModule . '_Order_By'])
+			$orderby = $_SESSION[$currentModule . '_Order_By'];
+		return $orderby;
 	}
 
 	/**
-	 * Send SMS (Creates SMS Entity record, links it with related CRM record and triggers provider to send sms)
-	 *
-	 * @param String $message
-	 * @param Array $tonumbers
-	 * @param Integer $ownerid User id to assign the SMS record
-	 * @param mixed $linktoids List of CRM record id to link SMS record
-	 * @param String $linktoModule Modulename of CRM record to link with (if not provided lookup it will be calculated)
+	 * Get list view query (send more WHERE clause condition if required)
 	 */
-	static function sendsms($message, $tonumbers, $ownerid = false, $linktoids = false, $linktoModule = false)
+	public function getListQuery($module, $usewhere = false)
 	{
-		global $current_user, $adb;
+		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
 
-		if ($ownerid === false) {
-			if (isset($current_user) && !empty($current_user)) {
-				$ownerid = $current_user->id;
-			} else {
-				$ownerid = 1;
-			}
+		// Select Custom Field Table Columns if present
+		if (!empty($this->customFieldTable))
+			$query .= ", " . $this->customFieldTable[0] . ".* ";
+
+		$query .= " FROM $this->table_name";
+
+		$query .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
+
+		// Consider custom table join as well.
+		if (!empty($this->customFieldTable)) {
+			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+				" = $this->table_name.$this->table_index";
+		}
+		$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
+		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+
+		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
+			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+
+		for ($i = 0; $i < $linkedFieldsCount; $i++) {
+			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+
+			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
+			require_once("modules/$related_module/$related_module.php");
+			$other = new $related_module();
+			vtlib_setup_modulevars($related_module, $other);
+
+			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
 
-		$moduleName = 'SMSNotifier';
-		$focus = CRMEntity::getInstance($moduleName);
-
-		$focus->column_fields['message'] = $message;
-		$focus->column_fields['assigned_user_id'] = $ownerid;
-		$focus->save($moduleName);
-
-		if ($linktoids !== false) {
-
-			if ($linktoModule !== false) {
-				relateEntities($focus, $moduleName, $focus->id, $linktoModule, $linktoids);
-			} else {
-				// Link modulename not provided (linktoids can belong to mix of module so determine proper modulename)
-				$query = "SELECT setype,crmid FROM vtiger_crmentity WHERE crmid IN (%s)";
-				$query = sprintf($query, generateQuestionMarks($linktoids));
-				$linkidsetypes = $adb->pquery($query, [$linktoids]);
-				if ($linkidsetypes && $adb->num_rows($linkidsetypes)) {
-					while ($linkidsetypesrow = $adb->fetch_array($linkidsetypes)) {
-						relateEntities($focus, $moduleName, $focus->id, $linkidsetypesrow['setype'], $linkidsetypesrow['crmid']);
-					}
-				}
-			}
+		$query .= "	WHERE vtiger_crmentity.deleted = 0 ";
+		if ($usewhere) {
+			$query .= $usewhere;
 		}
-		$responses = self::fireSendSMS($message, $tonumbers);
-		$focus->processFireSendSMSResponse($responses);
+		$query .= $this->getListViewSecurityParameter($module);
+		return $query;
 	}
 
 	/**
-	 * Detect the related modules based on the entity relation information for this instance.
+	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
-	public function detectRelatedModules()
+	public function getListViewSecurityParameter($module)
 	{
-
-		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
+		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
 
-		// Pick the distinct modulenames based on related records.
-		$result = $adb->pquery("SELECT distinct setype FROM vtiger_crmentity WHERE crmid in (
-			SELECT relcrmid FROM vtiger_crmentityrel INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_crmentityrel.crmid
-			WHERE vtiger_crmentity.crmid = ? && vtiger_crmentity.deleted=0)", array($this->id));
+		$sec_query = '';
+		$tabid = \App\Module::getModuleId($module);
 
-		$relatedModules = array();
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
-		// Calculate the related module access (similar to getRelatedList API in DetailViewUtils.php)
-		if ($result && $adb->num_rows($result)) {
-			require('user_privileges/user_privileges_' . $current_user->id . '.php');
-			while ($resultrow = $adb->fetch_array($result)) {
-				$accessCheck = false;
-				$relatedTabId = \App\Module::getModuleId($resultrow['setype']);
-				if ($relatedTabId == 0) {
-					$accessCheck = true;
-				} else {
-					if ($profileTabsPermission[$relatedTabId] == 0) {
-						if ($profileActionPermission[$relatedTabId][3] == 0) {
-							$accessCheck = true;
-						}
-					}
-				}
+			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
+					(
+						SELECT vtiger_user2role.userid FROM vtiger_user2role
+						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
+						INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid
+						WHERE vtiger_role.parentrole LIKE '" . $current_user_parent_role_seq . "::%'
+					)
+					OR vtiger_crmentity.smownerid IN
+					(
+						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
+						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
+					)
+					OR
+						(";
 
-				if ($accessCheck) {
-					$relatedModules[$relatedTabId] = $resultrow['setype'];
-				}
+			// Build the query based on the group association of current user.
+			if (sizeof($current_user_groups) > 0) {
+				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
 			}
+			$sec_query .= " vtiger_groups.groupid IN
+						(
+							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
+							FROM vtiger_tmp_read_group_sharing_per
+							WHERE userid=" . $current_user->id . " and tabid=" . $tabid . "
+						)";
+			$sec_query .= ")
+				)";
 		}
-
-		return $relatedModules;
+		return $sec_query;
 	}
 
-	protected function isUserOrGroup($id)
+	/**
+	 * Create query to export the records.
+	 */
+	public function create_export_query($where)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT 1 FROM vtiger_users WHERE id=?", array($id));
-		if ($result && $adb->num_rows($result)) {
-			return 'U';
+		$current_user = vglobal('current_user');
+		$thismodule = \App\Request::_get('module');
+
+		include('include/utils/ExportUtils.php');
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = getPermittedFieldsQuery($thismodule, 'detail_view');
+
+		$fields_list = getFieldsListFromQuery($sql);
+
+		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
+					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
+
+		if (!empty($this->customFieldTable)) {
+			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+				" = $this->table_name.$this->table_index";
+		}
+
+		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'";
+
+		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
+			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
+		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+
+		for ($i = 0; $i < $linkedFieldsCount; $i++) {
+			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+
+			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
+			require_once("modules/$related_module/$related_module.php");
+			$other = new $related_module();
+			vtlib_setup_modulevars($related_module, $other);
+
+			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
+		}
+
+		$where_auto = " vtiger_crmentity.deleted=0";
+
+		if ($where != '')
+			$query .= " WHERE ($where) && $where_auto";
+		else
+			$query .= " WHERE $where_auto";
+
+		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+
+		// Security Check for Field Access
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3) {
+			//Added security check to get the permitted records only
+			$query = $query . " " . getListViewSecurityParameter($thismodule);
+		}
+		return $query;
+	}
+
+	/**
+	 * Transform the value while exporting (if required)
+	 */
+	public function transform_export_value($key, $value)
+	{
+		return parent::transform_export_value($key, $value);
+	}
+
+	/**
+	 * Function which will give the basic query to find duplicates
+	 */
+	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
+	{
+		$select_clause = "SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s";
+		$select_clause = sprintf($select_clause, $this->table_name, $this->table_index, $table_cols);
+		// Select Custom Field Table Columns if present
+		if (isset($this->customFieldTable))
+			$query .= ", " . $this->customFieldTable[0] . ".* ";
+
+		$from_clause = " FROM $this->table_name";
+
+		$from_clause .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
+
+		// Consider custom table join as well.
+		if (isset($this->customFieldTable)) {
+			$from_clause .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
+				" = $this->table_name.$this->table_index";
+		}
+		$from_clause .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
+						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
+
+		$where_clause = "	WHERE vtiger_crmentity.deleted = 0";
+		$where_clause .= $this->getListViewSecurityParameter($module);
+
+		if (isset($select_cols) && trim($select_cols) != '') {
+			$sub_query = "SELECT $select_cols FROM  $this->table_name AS t " .
+				" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t." . $this->table_index;
+			// Consider custom table join as well.
+			if (isset($this->customFieldTable)) {
+				$sub_query .= " LEFT JOIN " . $this->customFieldTable[0] . " tcf ON tcf." . $this->customFieldTable[1] . " = t.$this->table_index";
+			}
+			$sub_query .= " WHERE crm.deleted=0 GROUP BY $select_cols HAVING COUNT(*)>1";
 		} else {
-			return 'T';
+			$sub_query = "SELECT $table_cols $from_clause $where_clause GROUP BY $table_cols HAVING COUNT(*)>1";
 		}
+
+
+		$query = $select_clause . $from_clause .
+			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values) .
+			$where_clause .
+			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
+
+		return $query;
 	}
 
-	protected function smsAssignedTo()
-	{
-		$adb = PearDatabase::getInstance();
-
-		// Determine the number based on Assign To
-		$assignedtoid = $this->column_fields['assigned_user_id'];
-		$type = $this->isUserOrGroup($assignedtoid);
-
-		if ($type == 'U') {
-			$userIds = array($assignedtoid);
-		} else {
-			require_once('include/utils/GetGroupUsers.php');
-			$getGroupObj = new GetGroupUsers();
-			$getGroupObj->getAllUsersInGroup($assignedtoid);
-			$userIds = $getGroupObj->group_users;
-		}
-
-		$tonumbers = array();
-
-		if (count($userIds) > 0) {
-			$phoneSqlQuery = "select phone_mobile, id from vtiger_users WHERE status='Active' && id in(%s)";
-			$phoneSqlQuery = sprintf($phoneSqlQuery, generateQuestionMarks($userIds));
-			$phoneSqlResult = $adb->pquery($phoneSqlQuery, [$userIds]);
-			while ($phoneSqlResultRow = $adb->fetch_array($phoneSqlResult)) {
-				$number = $phoneSqlResultRow['phone_mobile'];
-				if (!empty($number)) {
-					$tonumbers[] = $number;
-				}
-			}
-		}
-
-		if (!empty($tonumbers)) {
-			$responses = self::fireSendSMS($this->column_fields['message'], $tonumbers);
-			$this->processFireSendSMSResponse($responses);
-		}
-	}
-
-	private function processFireSendSMSResponse($responses)
+	/**
+	 * Invoked when special actions are performed on the module.
+	 * @param String Module name
+	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 */
+	public function vtlib_handler($modulename, $event_type)
 	{
 
-		if (empty($responses))
-			return;
+		//adds sharing accsess
+		$SMSNotifierModule = vtlib\Module::getInstance('SMSNotifier');
+		vtlib\Access::setDefaultSharing($SMSNotifierModule);
 
-		$adb = PearDatabase::getInstance();
+		$registerLinks = false;
+		$unregisterLinks = false;
 
-		foreach ($responses as $response) {
-			$responseID = '';
-			$responseStatus = '';
-			$responseStatusMessage = '';
+		if ($event_type == 'module.postinstall') {
+			$adb = PearDatabase::getInstance();
+			$unregisterLinks = true;
+			$registerLinks = true;
 
-			$needlookup = 1;
-			if ($response['error']) {
-				$responseStatus = ISMSProvider::MSG_STATUS_FAILED;
-				$needlookup = 0;
-			} else {
-				$responseID = $response['id'];
-				$responseStatus = $response['status'];
-			}
-
-			if (isset($response['statusmessage'])) {
-				$responseStatusMessage = $response['statusmessage'];
-			}
-			$adb->pquery("INSERT INTO vtiger_smsnotifier_status(smsnotifierid,tonumber,status,statusmessage,smsmessageid,needlookup) VALUES(?,?,?,?,?,?)", array($this->id, $response['to'], $responseStatus, $responseStatusMessage, $responseID, $needlookup)
-			);
-		}
-	}
-
-	static function smsquery($record)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_status WHERE smsnotifierid = ? && needlookup = 1", array($record));
-		if ($result && $adb->num_rows($result)) {
-			$provider = SMSNotifierManager::getActiveProviderInstance();
-
-			while ($resultrow = $adb->fetch_array($result)) {
-				$messageid = $resultrow['smsmessageid'];
-
-				$response = $provider->query($messageid);
-
-				if ($response['error']) {
-					$responseStatus = ISMSProvider::MSG_STATUS_FAILED;
-					$needlookup = $response['needlookup'];
-				} else {
-					$responseStatus = $response['status'];
-					$needlookup = $response['needlookup'];
-				}
-
-				$responseStatusMessage = '';
-				if (isset($response['statusmessage'])) {
-					$responseStatusMessage = $response['statusmessage'];
-				}
-
-				$adb->pquery("UPDATE vtiger_smsnotifier_status SET status=?, statusmessage=?, needlookup=? WHERE smsmessageid = ?", array($responseStatus, $responseStatusMessage, $needlookup, $messageid));
-			}
-		}
-	}
-
-	static function fireSendSMS($message, $tonumbers)
-	{
-		
-		$provider = SMSNotifierManager::getActiveProviderInstance();
-		if ($provider) {
-			return $provider->send($message, $tonumbers);
-		}
-	}
-
-	static function getSMSStatusInfo($record)
-	{
-		$adb = PearDatabase::getInstance();
-		$results = array();
-		$qresult = $adb->pquery("SELECT * FROM vtiger_smsnotifier_status WHERE smsnotifierid=?", array($record));
-		if ($qresult && $adb->num_rows($qresult)) {
-			while ($resultrow = $adb->fetch_array($qresult)) {
-				$results[] = $resultrow;
-			}
-		}
-		return $results;
-	}
-}
-
-class SMSNotifierManager
-{
-
-	/** Server configuration management */
-	static function listAvailableProviders()
-	{
-		return SMSNotifier_Provider_Model::listAll();
-	}
-
-	static function getActiveProviderInstance()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers WHERE isactive = 1 LIMIT 1", array());
-		if ($result && $adb->num_rows($result)) {
-			$resultrow = $adb->fetch_array($result);
-			$provider = SMSNotifier_Provider_Model::getInstance($resultrow['providertype']);
-			$parameters = array();
-			if (!empty($resultrow['parameters']))
-				$parameters = \App\Json::decode(decode_html($resultrow['parameters']));
-			foreach ($parameters as $k => $v) {
-				$provider->setParameter($k, $v);
-			}
-			$provider->setAuthParameters($resultrow['username'], $resultrow['password']);
-
-			return $provider;
-		}
-		return false;
-	}
-
-	static function listConfiguredServer($id)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers WHERE id=?", array($id));
-		if ($result) {
-			return $adb->fetchByAssoc($result);
-		}
-		return false;
-	}
-
-	static function listConfiguredServers()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_smsnotifier_servers", array());
-		$servers = array();
-		if ($result) {
-			while ($row = $adb->fetchByAssoc($result)) {
-				$servers[] = $row;
-			}
-		}
-		return $servers;
-	}
-
-	static function updateConfiguredServer($id, $frmvalues)
-	{
-		$adb = PearDatabase::getInstance();
-		$providertype = App\Purifier::purify($frmvalues['smsserver_provider']);
-		$username = App\Purifier::purify($frmvalues['smsserver_username']);
-		$password = App\Purifier::purify($frmvalues['smsserver_password']);
-		$isactive = App\Purifier::purify($frmvalues['smsserver_isactive']);
-
-		$provider = SMSNotifier_Provider_Model::getInstance($providertype);
-
-		$parameters = '';
-		if ($provider) {
-			$providerParameters = $provider->getRequiredParams();
-			$inputServerParams = array();
-			foreach ($providerParameters as $k => $v) {
-				$lookupkey = "smsserverparam_{$providertype}_{$v}";
-				if (isset($frmvalues[$lookupkey])) {
-					$inputServerParams[$v] = App\Purifier::purify($frmvalues[$lookupkey]);
-				}
-			}
-			$parameters = \App\Json::encode($inputServerParams);
+			// Mark the module as Standard module
+			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
+		} else if ($event_type == 'module.disabled') {
+			$unregisterLinks = true;
+		} else if ($event_type == 'module.enabled') {
+			$registerLinks = true;
+		} else if ($event_type == 'module.preuninstall') {
+			
+		} else if ($event_type == 'module.preupdate') {
+			
+		} else if ($event_type == 'module.postupdate') {
+			
 		}
 
-		if (empty($id)) {
-			$adb->pquery("INSERT INTO vtiger_smsnotifier_servers (providertype,username,password,isactive,parameters) VALUES(?,?,?,?,?)", array($providertype, $username, $password, $isactive, $parameters));
-		} else {
-			$adb->pquery("UPDATE vtiger_smsnotifier_servers SET username=?, password=?, isactive=?, providertype=?, parameters=? WHERE id=?", array($username, $password, $isactive, $providertype, $parameters, $id));
-		}
-	}
+		if ($unregisterLinks) {
 
-	static function deleteConfiguredServer($id)
-	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_smsnotifier_servers WHERE id=?", array($id));
+			$smsnotifierModuleInstance = vtlib\Module::getInstance('SMSNotifier');
+			$smsnotifierModuleInstance->deleteLink("HEADERSCRIPT", "SMSNotifierCommonJS", "modules/SMSNotifier/SMSNotifierCommon.js");
+
+			$leadsModuleInstance = vtlib\Module::getInstance('Leads');
+			$leadsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
+			$leadsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
+
+			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
+			$contactsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
+			$contactsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
+
+			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
+			$accountsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
+			$accountsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
+		}
 	}
 }

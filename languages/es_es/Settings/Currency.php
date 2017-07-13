@@ -8,21 +8,21 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'Conversion Rate' => 'Conversion rate',
-	'Currency' => 'Currency',
-	'Symbol' => 'Symbol',
-	'Currency Code' => 'Currency code',
-	'Currency Name' => 'Currency name',
-	'LBL_ADD_NEW_CURRENCY' => 'Add new currency',
+	'Conversion Rate' => 'Tasa de conversión',
+	'Currency' => 'Moneda',
+	'Symbol' => 'Símbolo',
+	'Currency Code' => 'Código de la moneda',
+	'Currency Name' => 'Nombre de la moneda',
+	'LBL_ADD_NEW_CURRENCY' => 'Añadir nueva moneda',
 	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_CURRENCY_CODE' => 'Currency code',
-	'LBL_CURRENCY_NAME' => 'Currency name',
-	'LBL_CURRENCY_STATUS_DESC' => 'Enable checkbox to make currency active',
-	'LBL_CURRENCY_SYMBOL' => 'Symbol',
-	'LBL_CURRENT_CURRENCY' => 'Current currency',
-	'LBL_EDIT_CURRENCY' => 'Edit currency',
-	'LBL_ENTER_CONVERSION_RATE' => 'Enter conversion rate',
-	'LBL_TRANSFER_CURRENCY' => 'Transfer currency',
+	'LBL_CURRENCY_CODE' => 'Código de la moneda',
+	'LBL_CURRENCY_NAME' => 'Nombre de la moneda',
+	'LBL_CURRENCY_STATUS_DESC' => 'Activar casilla de verificación para activar la moneda',
+	'LBL_CURRENCY_SYMBOL' => 'Símbolo',
+	'LBL_CURRENT_CURRENCY' => 'Moneda actual',
+	'LBL_EDIT_CURRENCY' => 'Editar moneda',
+	'LBL_ENTER_CONVERSION_RATE' => 'Introduzca el tipo de conversión',
+	'LBL_TRANSFER_CURRENCY' => 'Moneda de transferencia',
 	//currency names
 	'Afghanistan, Afghanis' => 'Afghanistan, Afghanis',
 	'Albania, Leke' => 'Albania, Leke',
@@ -154,11 +154,11 @@ $languageStrings = [
 	'Yemen, Rials' => 'Yemen, Rials',
 	'Zambia, Kwacha' => 'Zambia, Kwacha',
 	'Zimbabwe Dollars' => 'Zimbabwe Dollars',
-	'Active' => 'Activa',
+	'Active' => 'Activo',
 	'Inactive' => 'Inactiva',
 ];
 
 $jsLanguageStrings = [
-	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Currency deleted successfully.',
-	'JS_CURRENCY_DETAILS_SAVED' => 'Currency details saved.',
+	'JS_CURRENCY_DELETED_SUCCESSFULLY' => 'Moneda eliminada correctamente.',
+	'JS_CURRENCY_DETAILS_SAVED' => 'Se han guardado los detalles de la moneda.',
 ];

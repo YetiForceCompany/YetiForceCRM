@@ -35,7 +35,7 @@ CREATE TABLE `a_yf_bruteforce` (
 CREATE TABLE `a_yf_bruteforce_blocked` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
   `ip` varchar(50) NOT NULL,
-  `time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `time` timestamp NULL DEFAULT NULL,
   `attempts` tinyint(2) DEFAULT '0',
   `blocked` tinyint(1) DEFAULT '0',
   `userid` int(11) DEFAULT NULL,
@@ -169,6 +169,17 @@ CREATE TABLE `a_yf_relatedlists_inv_fields` (
   KEY `relation_id` (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_smsnotifier_servers` */
+
+CREATE TABLE `a_yf_smsnotifier_servers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `providertype` varchar(50) NOT NULL,
+  `isactive` tinyint(1) DEFAULT '0',
+  `api_key` varchar(255) NOT NULL,
+  `parameters` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_taxes_config` */
 
 CREATE TABLE `a_yf_taxes_config` (
@@ -186,57 +197,6 @@ CREATE TABLE `a_yf_taxes_global` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_bans` */
-
-CREATE TABLE `chat_bans` (
-  `userID` int(11) NOT NULL,
-  `userName` varchar(64) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  PRIMARY KEY (`userID`),
-  KEY `userName` (`userName`),
-  KEY `dateTime` (`dateTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_invitations` */
-
-CREATE TABLE `chat_invitations` (
-  `userID` int(11) NOT NULL,
-  `channel` int(11) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  PRIMARY KEY (`userID`,`channel`),
-  KEY `dateTime` (`dateTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_messages` */
-
-CREATE TABLE `chat_messages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userID` int(11) NOT NULL,
-  `userName` varchar(64) NOT NULL,
-  `userRole` int(1) NOT NULL,
-  `channel` int(11) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  `text` text,
-  PRIMARY KEY (`id`),
-  KEY `message_condition` (`id`,`channel`,`dateTime`),
-  KEY `dateTime` (`dateTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `chat_online` */
-
-CREATE TABLE `chat_online` (
-  `userID` int(11) NOT NULL,
-  `userName` varchar(64) NOT NULL,
-  `userRole` int(1) NOT NULL,
-  `channel` int(11) NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  PRIMARY KEY (`userID`),
-  KEY `userName` (`userName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflow_activatedonce` */
 
@@ -958,6 +918,13 @@ CREATE TABLE `s_yf_mail_smtp` (
   `reply_to` varchar(255) DEFAULT NULL,
   `individual_delivery` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `params` text,
+  `save_send_mail` tinyint(1) DEFAULT '0',
+  `smtp_host` varchar(255) DEFAULT NULL,
+  `smtp_port` smallint(6) DEFAULT NULL,
+  `smtp_username` varchar(255) DEFAULT NULL,
+  `smtp_password` varchar(255) DEFAULT NULL,
+  `smtp_folder` varchar(50) DEFAULT NULL,
+  `smtp_validate_cert` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -971,6 +938,17 @@ CREATE TABLE `s_yf_multireference` (
   KEY `source_module` (`source_module`,`dest_module`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_pbx` */
+
+CREATE TABLE `s_yf_pbx` (
+  `pbxid` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `default` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(50) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `param` text,
+  PRIMARY KEY (`pbxid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_privileges_updater` */
 
 CREATE TABLE `s_yf_privileges_updater` (
@@ -980,6 +958,17 @@ CREATE TABLE `s_yf_privileges_updater` (
   `type` tinyint(1) NOT NULL DEFAULT '0',
   UNIQUE KEY `module` (`module`,`crmid`,`type`),
   KEY `crmid` (`crmid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_smsnotifier_queue` */
+
+CREATE TABLE `s_yf_smsnotifier_queue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `message` varchar(255) NOT NULL,
+  `tonumbers` text NOT NULL,
+  `records` text NOT NULL,
+  `module` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_activity_invitation` */
@@ -1046,6 +1035,18 @@ CREATE TABLE `u_yf_attachments` (
   PRIMARY KEY (`attachmentid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_browsinghistory` */
+
+CREATE TABLE `u_yf_browsinghistory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` text,
+  PRIMARY KEY (`id`),
+  KEY `browsinghistory_user_idx` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_cfixedassets` */
 
 CREATE TABLE `u_yf_cfixedassets` (
@@ -1080,6 +1081,17 @@ CREATE TABLE `u_yf_cfixedassetscf` (
   `cfixedassetsid` int(11) NOT NULL,
   PRIMARY KEY (`cfixedassetsid`),
   CONSTRAINT `fk_1_vtiger_cfixedassetscfcfixedassetsid` FOREIGN KEY (`cfixedassetsid`) REFERENCES `u_yf_cfixedassets` (`cfixedassetsid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_chat_messages` */
+
+CREATE TABLE `u_yf_chat_messages` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` smallint(6) unsigned NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `created` int(11) unsigned DEFAULT NULL,
+  `messages` text,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_cinternaltickets` */
@@ -1262,7 +1274,7 @@ CREATE TABLE `u_yf_favorites` (
   `relcrmid` int(19) DEFAULT NULL,
   `relmodule` varchar(30) DEFAULT NULL,
   `userid` int(19) DEFAULT NULL,
-  `data` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `data` timestamp NULL DEFAULT NULL,
   KEY `crmid` (`crmid`),
   KEY `relcrmid` (`relcrmid`),
   KEY `mix` (`crmid`,`module`,`relcrmid`,`relmodule`,`userid`),
@@ -4239,7 +4251,7 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
   KEY `setype` (`setype`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */
 
@@ -4271,7 +4283,7 @@ CREATE TABLE `vtiger_cron_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `handler_file` (`handler_file`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -5183,7 +5195,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2606 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2607 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5443,100 +5455,6 @@ CREATE TABLE `vtiger_holidaysentitlementcf` (
   CONSTRAINT `fk_1_vtiger_holidaysentitlementcf` FOREIGN KEY (`holidaysentitlementid`) REFERENCES `vtiger_holidaysentitlement` (`holidaysentitlementid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_home_layout` */
-
-CREATE TABLE `vtiger_home_layout` (
-  `userid` int(19) NOT NULL,
-  `layout` int(19) NOT NULL DEFAULT '4',
-  PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homedashbd` */
-
-CREATE TABLE `vtiger_homedashbd` (
-  `stuffid` int(19) NOT NULL DEFAULT '0',
-  `dashbdname` varchar(100) DEFAULT NULL,
-  `dashbdtype` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`stuffid`),
-  KEY `stuff_stuffid_idx` (`stuffid`),
-  CONSTRAINT `fk_1_vtiger_homedashbd` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homedefault` */
-
-CREATE TABLE `vtiger_homedefault` (
-  `stuffid` int(19) NOT NULL DEFAULT '0',
-  `hometype` varchar(30) NOT NULL,
-  `maxentries` int(19) DEFAULT NULL,
-  `setype` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`stuffid`),
-  KEY `stuff_stuffid_idx` (`stuffid`),
-  CONSTRAINT `fk_1_vtiger_homedefault` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homemodule` */
-
-CREATE TABLE `vtiger_homemodule` (
-  `stuffid` int(19) NOT NULL,
-  `modulename` varchar(100) DEFAULT NULL,
-  `maxentries` int(19) NOT NULL,
-  `customviewid` int(19) NOT NULL,
-  `setype` varchar(30) NOT NULL,
-  PRIMARY KEY (`stuffid`),
-  KEY `stuff_stuffid_idx` (`stuffid`),
-  CONSTRAINT `fk_1_vtiger_homemodule` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homemoduleflds` */
-
-CREATE TABLE `vtiger_homemoduleflds` (
-  `stuffid` int(19) DEFAULT NULL,
-  `fieldname` varchar(100) DEFAULT NULL,
-  KEY `stuff_stuffid_idx` (`stuffid`),
-  CONSTRAINT `fk_1_vtiger_homemoduleflds` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homemodule` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homereportchart` */
-
-CREATE TABLE `vtiger_homereportchart` (
-  `stuffid` int(11) NOT NULL,
-  `reportid` int(19) DEFAULT NULL,
-  `reportcharttype` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`stuffid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homerss` */
-
-CREATE TABLE `vtiger_homerss` (
-  `stuffid` int(19) NOT NULL DEFAULT '0',
-  `url` varchar(100) DEFAULT NULL,
-  `maxentries` int(19) NOT NULL,
-  PRIMARY KEY (`stuffid`),
-  KEY `stuff_stuffid_idx` (`stuffid`),
-  CONSTRAINT `fk_1_vtiger_homerss` FOREIGN KEY (`stuffid`) REFERENCES `vtiger_homestuff` (`stuffid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homestuff` */
-
-CREATE TABLE `vtiger_homestuff` (
-  `stuffid` int(19) NOT NULL DEFAULT '0',
-  `stuffsequence` int(19) NOT NULL DEFAULT '0',
-  `stufftype` varchar(100) DEFAULT NULL,
-  `userid` int(19) NOT NULL,
-  `visible` int(10) NOT NULL DEFAULT '0',
-  `stufftitle` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`stuffid`),
-  KEY `stuff_stuffid_idx` (`stuffid`),
-  KEY `fk_1_vtiger_homestuff` (`userid`),
-  CONSTRAINT `fk_1_vtiger_homestuff` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_homestuff_seq` */
-
-CREATE TABLE `vtiger_homestuff_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_hour_format` */
 
 CREATE TABLE `vtiger_hour_format` (
@@ -5677,8 +5595,8 @@ CREATE TABLE `vtiger_import_maps` (
   `content` longblob,
   `has_header` int(1) NOT NULL DEFAULT '1',
   `deleted` int(1) NOT NULL DEFAULT '0',
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_entered` timestamp NULL DEFAULT NULL,
+  `date_modified` timestamp NULL DEFAULT NULL,
   `assigned_user_id` varchar(36) DEFAULT NULL,
   `is_published` varchar(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
@@ -6693,7 +6611,7 @@ CREATE TABLE `vtiger_osservicesstatus_seq` (
 
 CREATE TABLE `vtiger_ossmails_logs` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `start_time` timestamp NULL DEFAULT NULL,
   `end_time` timestamp NULL DEFAULT NULL,
   `action` varchar(100) DEFAULT NULL,
   `status` tinyint(3) DEFAULT NULL,
@@ -6718,7 +6636,7 @@ CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
   `user_id` int(10) unsigned DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `folder` varchar(100) DEFAULT NULL,
-  `uid` int(19) DEFAULT '1',
+  `uid` int(19) DEFAULT '0',
   KEY `user_id` (`user_id`),
   KEY `folder` (`folder`),
   CONSTRAINT `vtiger_ossmailscanner_folders_uid_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
@@ -6728,7 +6646,7 @@ CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
 
 CREATE TABLE `vtiger_ossmailscanner_log_cron` (
   `id` int(19) NOT NULL AUTO_INCREMENT,
-  `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_time` timestamp NULL DEFAULT NULL,
   `laststart` int(11) unsigned DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -6748,10 +6666,11 @@ CREATE TABLE `vtiger_ossmailview` (
   `id` int(19) DEFAULT NULL,
   `mbox` varchar(100) DEFAULT NULL,
   `uid` varchar(150) DEFAULT NULL,
+  `cid` char(40) DEFAULT NULL,
+  `rc_user` varchar(3) DEFAULT NULL,
   `reply_to_email` text,
   `ossmailview_sendtype` varchar(30) DEFAULT NULL,
   `attachments_exist` smallint(1) DEFAULT '0',
-  `rc_user` varchar(3) DEFAULT NULL,
   `type` tinyint(1) DEFAULT NULL,
   `from_id` varchar(50) NOT NULL,
   `to_id` varchar(100) NOT NULL,
@@ -6764,6 +6683,7 @@ CREATE TABLE `vtiger_ossmailview` (
   KEY `verify` (`verify`),
   KEY `message_id` (`uid`,`rc_user`),
   KEY `mbox` (`mbox`),
+  KEY `ossmailview_cid_idx` (`cid`),
   CONSTRAINT `fk_1_vtiger_ossmailview` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8068,7 +7988,7 @@ CREATE TABLE `vtiger_scheduled_reports` (
   `recipients` text,
   `schedule` text,
   `format` varchar(10) DEFAULT NULL,
-  `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `next_trigger_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`reportid`),
   CONSTRAINT `vtiger_scheduled_reports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8085,7 +8005,7 @@ CREATE TABLE `vtiger_schedulereports` (
   `schdayofthemonth` varchar(100) DEFAULT NULL,
   `schannualdates` varchar(500) DEFAULT NULL,
   `specificemails` varchar(500) DEFAULT NULL,
-  `next_trigger_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `next_trigger_time` timestamp NULL DEFAULT NULL,
   `filetype` varchar(20) DEFAULT NULL,
   KEY `reportid` (`reportid`),
   CONSTRAINT `vtiger_schedulereports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
@@ -8283,7 +8203,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -8321,35 +8241,20 @@ CREATE TABLE `vtiger_shorturls` (
 CREATE TABLE `vtiger_smsnotifier` (
   `smsnotifierid` int(19) NOT NULL,
   `message` text,
-  `status` varchar(100) DEFAULT NULL,
+  `smsnotifier_status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`smsnotifierid`),
   CONSTRAINT `vtiger_smsnotifier_ibfk_1` FOREIGN KEY (`smsnotifierid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_smsnotifier_servers` */
-
-CREATE TABLE `vtiger_smsnotifier_servers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(255) DEFAULT NULL,
-  `isactive` int(1) DEFAULT NULL,
-  `providertype` varchar(50) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `parameters` text,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifier_status` */
 
 CREATE TABLE `vtiger_smsnotifier_status` (
-  `smsnotifierid` int(11) DEFAULT NULL,
-  `tonumber` varchar(20) DEFAULT NULL,
-  `status` varchar(10) DEFAULT NULL,
-  `smsmessageid` varchar(50) DEFAULT NULL,
-  `needlookup` int(1) DEFAULT '1',
-  `statusid` int(11) NOT NULL AUTO_INCREMENT,
-  `statusmessage` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `smsnotifier_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `smsnotifier_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT '1',
+  `sortorderid` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`smsnotifier_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifiercf` */
 
@@ -8987,7 +8892,6 @@ CREATE TABLE `vtiger_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(32) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
-  `user_hash` varchar(32) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT '#E6FAD8',
   `first_name` varchar(30) DEFAULT NULL,
   `last_name` varchar(30) DEFAULT NULL,
@@ -8995,8 +8899,8 @@ CREATE TABLE `vtiger_users` (
   `is_admin` varchar(3) DEFAULT '0',
   `currency_id` mediumint(19) NOT NULL DEFAULT '1',
   `description` text,
-  `date_entered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `date_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_entered` timestamp NULL DEFAULT NULL,
+  `date_modified` timestamp NULL DEFAULT NULL,
   `modified_user_id` varchar(36) DEFAULT NULL,
   `email1` varchar(100) DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
@@ -9365,56 +9269,6 @@ CREATE TABLE `vtiger_ws_userauthtoken` (
   UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_wsapp` */
-
-CREATE TABLE `vtiger_wsapp` (
-  `appid` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  `appkey` varchar(255) DEFAULT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`appid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_handlerdetails` */
-
-CREATE TABLE `vtiger_wsapp_handlerdetails` (
-  `type` varchar(200) NOT NULL,
-  `handlerclass` varchar(100) DEFAULT NULL,
-  `handlerpath` varchar(300) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_queuerecords` */
-
-CREATE TABLE `vtiger_wsapp_queuerecords` (
-  `syncserverid` int(19) DEFAULT NULL,
-  `details` varchar(300) DEFAULT NULL,
-  `flag` varchar(100) DEFAULT NULL,
-  `appid` int(19) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_recordmapping` */
-
-CREATE TABLE `vtiger_wsapp_recordmapping` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `serverid` varchar(10) DEFAULT NULL,
-  `clientid` varchar(255) DEFAULT NULL,
-  `clientmodifiedtime` datetime DEFAULT NULL,
-  `appid` int(11) DEFAULT NULL,
-  `servermodifiedtime` datetime DEFAULT NULL,
-  `serverappid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_wsapp_sync_state` */
-
-CREATE TABLE `vtiger_wsapp_sync_state` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
-  `stateencodedvalues` varchar(300) NOT NULL,
-  `userid` int(19) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `w_yf_portal_session` */
 
 CREATE TABLE `w_yf_portal_session` (
@@ -9572,7 +9426,7 @@ CREATE TABLE `yetiforce_proc_tc` (
 
 CREATE TABLE `yetiforce_updates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time` timestamp NULL DEFAULT NULL,
   `user` varchar(50) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `from_version` varchar(10) DEFAULT NULL,

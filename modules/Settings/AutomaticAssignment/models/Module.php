@@ -3,7 +3,8 @@
 /**
  * Automatic assignment module model class
  * @package YetiForce.Settings.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_Model
@@ -106,7 +107,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 
 	/**
 	 * Function returns list of fields available in list view
-	 * @return Vtiger_Base_Model[]
+	 * @return \App\Base[]
 	 */
 	public function getListFields()
 	{
@@ -114,7 +115,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObject = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
+				$fieldObject = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 				if (!$this->isSortByName($fieldName)) {
 					$fieldObject->set('sort', true);
 				}

@@ -1,15 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************************************************************** */
 
+/**
+ * Vtiger menu model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Vtiger_Menu_Model
 {
 
@@ -37,7 +33,7 @@ class Vtiger_Menu_Model
 
 	public static function vtranslateMenu($key, $module)
 	{
-		$language = Vtiger_Language_Handler::getLanguage();
+		$language = \App\Language::getLanguage();
 		$moduleStrings = Vtiger_Language_Handler::getModuleStringsFromFile($language, 'Menu');
 		if (isset($moduleStrings['languageStrings'][$key])) {
 			return stripslashes($moduleStrings['languageStrings'][$key]);
@@ -48,7 +44,7 @@ class Vtiger_Menu_Model
 	public static function getBreadcrumbs($pageTitle = false)
 	{
 		$breadcrumbs = false;
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
 		if (file_exists($roleMenu)) {
@@ -88,13 +84,13 @@ class Vtiger_Menu_Model
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $moduleName)];
 			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $moduleName)];
+				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $moduleName)];
+				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
 			} elseif ($view == '') {
-				$breadcrumbs[] = ['name' => vtranslate('LBL_HOME', $moduleName)];
+				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
 				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
@@ -115,8 +111,8 @@ class Vtiger_Menu_Model
 					if (empty($fieldId)) {
 						if ($menuModel->getModule() == $moduleName) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
@@ -124,26 +120,25 @@ class Vtiger_Menu_Model
 					} else {
 						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
-							$breadcrumbs[] = ['name' => vtranslate($parent->get('label'), $qualifiedModuleName)];
-							$breadcrumbs[] = ['name' => vtranslate($menuModel->get('name'), $qualifiedModuleName),
+							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
+							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
 								'url' => $menuModel->getUrl()
 							];
 							break;
 						}
 					}
 				}
-
 				if (is_array($pageTitle)) {
 					foreach ($pageTitle as $title) {
 						$breadcrumbs[] = $title;
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => vtranslate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
-						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_CREATE', $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
-						$breadcrumbs[] = ['name' => vtranslate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
+						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));

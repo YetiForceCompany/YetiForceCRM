@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * DataAccess ConditionsTest class
+ * @package YetiForce.Helper
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class DataAccess_ConditionsTest
 {
 
@@ -25,7 +22,6 @@ class DataAccess_ConditionsTest
 	{
 
 		$val = self::getValue($form, $cndArray['fieldname']);
-
 		if ('date' == $cndArray['field_type']) {
 			$format = \App\Fields\DateTime::currentUserJSDateFormat();
 			$cndDate = DateTime::createFromFormat('Y-m-d', ($cndArray['val']));
@@ -37,20 +33,14 @@ class DataAccess_ConditionsTest
 				return false;
 			}
 		} else if ('multipicklist' == $cndArray['field_type']) {
-
 			$cndTab = explode('::', $cndArray['val']);
 			$recordTab = explode(" |##| ", $val);
-
 			sort($cndTab);
 			sort($recordTab);
-
 			return $cndTab == $recordTab;
 		} else if ('time' == $cndArray['field_type']) {
-
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
-
-
 			if ($dateTime != false) {
 				if ($dateTime->diff($recordTime)->format('%R') == '+') {
 					return true;
@@ -58,6 +48,9 @@ class DataAccess_ConditionsTest
 					return false;
 				}
 			}
+		} else if ('owner' === $cndArray['field_type']) {
+			$conditionValues = explode('::', $cndArray['val']);
+			return in_array($val, $conditionValues);
 		} else {
 			if ($cndArray['val'] == $val) {
 				return true;
@@ -103,6 +96,9 @@ class DataAccess_ConditionsTest
 					return false;
 				}
 			}
+		} else if ('owner' === $cndArray['field_type']) {
+			$conditionValues = explode('::', $cndArray['val']);
+			return !in_array($val, $conditionValues);
 		} else {
 			if ($cndArray['val'] != $val) {
 				return true;
@@ -156,6 +152,9 @@ class DataAccess_ConditionsTest
 	public static function isEmpty($form, $cndArray)
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
+		if ('multiImage' === $cndArray['field_type']) {
+			return $val === ',,';
+		}
 		if (empty($val)) {
 			return true;
 		} else {
@@ -166,7 +165,9 @@ class DataAccess_ConditionsTest
 	public static function isNotEmpty($form, $cndArray)
 	{
 		$val = self::getValue($form, $cndArray['fieldname']);
-
+		if ('multiImage' === $cndArray['field_type']) {
+			return $val !== ',,';
+		}
 		if (!empty($val)) {
 			return true;
 		} else {
@@ -415,12 +416,13 @@ class DataAccess_ConditionsTest
 	 * @param array $cndArray
 	 * @return boolean
 	 */
-	public static function lessThanHoursLater($form, $cndArray) {
+	public static function lessThanHoursLater($form, $cndArray)
+	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$cndDate = new DateTime();
 		$val = new DateTime($val);
 		$interval = $cndDate->diff($val);
-		if($interval->invert === 0) {
+		if ($interval->invert === 0) {
 			$maxInterval = (int) $cndArray['val'];
 			$diffHours = $interval->h + $interval->d * 24;
 			return $diffHours < $maxInterval;
@@ -428,14 +430,15 @@ class DataAccess_ConditionsTest
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Function to test, how many hours after current datetime
 	 * @param array $form
 	 * @param array $cndArray
 	 * @return boolean
 	 */
-	public static function moreThanHoursLater($form, $cndArray) {
+	public static function moreThanHoursLater($form, $cndArray)
+	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$cndDate = new DateTime();
 		$val = new DateTime($val);
@@ -455,12 +458,13 @@ class DataAccess_ConditionsTest
 	 * @param array $cndArray
 	 * @return boolean
 	 */
-	public static function lessThanHoursBefore($form, $cndArray) {
+	public static function lessThanHoursBefore($form, $cndArray)
+	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$cndDate = new DateTime();
 		$val = new DateTime($val);
 		$interval = $cndDate->diff($val);
-		if($interval->invert === 1) {
+		if ($interval->invert === 1) {
 			$maxInterval = (int) $cndArray['val'];
 			$diffHours = $interval->h + $interval->d * 24;
 			return $diffHours < $maxInterval;
@@ -475,12 +479,13 @@ class DataAccess_ConditionsTest
 	 * @param array $cndArray
 	 * @return boolean
 	 */
-	public static function moreThanHoursBefore($form, $cndArray) {
+	public static function moreThanHoursBefore($form, $cndArray)
+	{
 		$val = self::getValue($form, $cndArray['fieldname']);
 		$cndDate = new DateTime();
 		$val = new DateTime($val);
 		$interval = $cndDate->diff($val);
-		if($interval->invert === 1) {
+		if ($interval->invert === 1) {
 			$maxInterval = (int) $cndArray['val'];
 			$diffHours = $interval->h + $interval->d * 24;
 			return $diffHours > $maxInterval;

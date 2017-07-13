@@ -84,7 +84,7 @@
 									</ul>
 								</div>
 							{/if}
-							<img class="filterImage" alt="{vtranslate('LBL_FILTER')}" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+							<span class="glyphicon glyphicon-filter filterImage" style="display:none;margin-right:2px"></span>
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
@@ -94,7 +94,7 @@
 					{include file='ListViewActions.tpl'|@vtemplate_path}
 				</div>
 				<span class="hide filterActionImages pull-right">
-					<span title="{vtranslate('LBL_DENY', $MODULE)}" data-value="deny" class="icon-ban-circle alignMiddle denyFilter filterActionImage pull-right"></span>
+					<span title="{vtranslate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage pull-right"></span>
 					<span title="{vtranslate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
 					<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
 					<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>

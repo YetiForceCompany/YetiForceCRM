@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Folder_Model extends Vtiger_Base_Model
+class Reports_Folder_Model extends \App\Base
 {
 
 	/**
@@ -58,7 +58,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		if (!empty($folderId)) {
 			$db->pquery('UPDATE vtiger_reportfolder SET foldername = ?, description = ? WHERE folderid = ?', array($this->getName(), $this->getDescription(), $folderId));
 		} else {
-			$result = $db->pquery('SELECT MAX(folderid) AS folderid FROM vtiger_reportfolder', array());
+			$result = $db->pquery('SELECT MAX(folderid) AS folderid FROM vtiger_reportfolder', []);
 			$folderId = (int) ($db->query_result($result, 0, 'folderid')) + 1;
 
 			$db->pquery('INSERT INTO vtiger_reportfolder(folderid, foldername, description, state) VALUES(?, ?, ?, ?)', array($folderId, $this->getName(), $this->getDescription(), 'CUSTOMIZED'));
@@ -127,7 +127,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		if ($fldrId === false) {
 			return $this->getAllReportModels($reportsList, $reportModuleModel);
 		} else {
-			$reportModels = array();
+			$reportModels = [];
 			$countReportsList = count($reportsList);
 			for ($i = 0; $i < $countReportsList; $i++) {
 				$reportModel = new Reports_Record_Model();
@@ -199,8 +199,8 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$folders = Vtiger_Cache::get('reports', 'folders');
 		if (!$folders) {
-			$folders = array();
-			$result = $db->pquery("SELECT * FROM vtiger_reportfolder ORDER BY foldername ASC", array());
+			$folders = [];
+			$result = $db->pquery("SELECT * FROM vtiger_reportfolder ORDER BY foldername ASC", []);
 			$noOfFolders = $db->num_rows($result);
 			if ($noOfFolders > 0) {
 				for ($i = 0; $i < $noOfFolders; $i++) {
@@ -313,13 +313,13 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	public function getReportsCount()
 	{
 		$db = PearDatabase::getInstance();
-		$params = array();
+		$params = [];
 
 		// To get the report ids which are permitted for the user
 		$query = "SELECT reportmodulesid, primarymodule from vtiger_reportmodules";
-		$result = $db->pquery($query, array());
+		$result = $db->pquery($query, []);
 		$noOfRows = $db->num_rows($result);
-		$allowedReportIds = array();
+		$allowedReportIds = [];
 		for ($i = 0; $i < $noOfRows; $i++) {
 			$primaryModule = $db->query_result($result, $i, 'primarymodule');
 			$reportid = $db->query_result($result, $i, 'reportmodulesid');
@@ -376,7 +376,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 	 */
 	public function getAllReportModels($allReportsList, $reportModuleModel)
 	{
-		$allReportModels = array();
+		$allReportModels = [];
 		$folders = self::getAll();
 		foreach ($allReportsList as $key => $reportsList) {
 			$countReportsList = count($reportsList);
@@ -409,7 +409,7 @@ class Reports_Folder_Model extends Vtiger_Base_Model
 		}
 		$result = $db->query($listQuery);
 		$noOfRecords = $db->num_rows($result);
-		$recordIds = array();
+		$recordIds = [];
 		for ($i = 0; $i < $noOfRecords; ++$i) {
 			$recordIds[] = $db->query_result($result, $i, $baseTableId);
 		}

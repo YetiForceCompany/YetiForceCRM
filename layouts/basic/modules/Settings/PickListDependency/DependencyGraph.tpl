@@ -14,8 +14,8 @@
         <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
         <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
-            <ul><br><li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br>
-                <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br>
+            <ul><br /><li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br />
+                <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br />
                 <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_3', $QUALIFIED_MODULE)}&nbsp;
                     <span class="selectedCell" style="padding: 4px;">{vtranslate('Selected Values', $QUALIFIED_MODULE)}</span></li>
             </ul>
@@ -27,10 +27,10 @@
 			<button class="btn unmarkAll btn-default" type="button"><strong>{vtranslate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
         </span>
     </div>
-	<br>
+	<br />
     {assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}
     {assign var=SOURCE_FIELD value=$RECORD_MODEL->get('sourcefield')}
-    {assign var=MAPPED_SOURCE_PICKLIST_VALUES value=array()}
+    {assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
     {assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
     {foreach item=MAPPING from=$MAPPED_VALUES}
         {assign var=value value=array_push($MAPPED_SOURCE_PICKLIST_VALUES, $MAPPING['sourcevalue'])}
@@ -132,6 +132,6 @@
 			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 		</div>
-		<br><br>
+		<br /><br />
 	</div>
 {/strip}

@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings ConfReport module model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 {
 
@@ -23,6 +20,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Tabdata file' => 'user_privileges/tabdata.php',
 		'Menu file' => 'user_privileges/menu_0.php',
 		'User privileges file' => 'user_privileges/user_privileges_1.php',
+		'Logo directory' => 'public_html/layouts/resources/Logo/',
 		'Cache directory' => 'cache/',
 		'Address book directory' => 'cache/addressBook/',
 		'Image cache directory' => 'cache/images/',
@@ -31,18 +29,23 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Session directory' => 'cache/session/',
 		'Cache templates directory' => 'cache/templates_c/',
 		'Cache upload directory' => 'cache/upload/',
-		'Cron modules directory' => 'cron/modules/',
 		'Vtlib test directory' => 'cache/vtlib/',
 		'Vtlib test HTML directory' => 'cache/vtlib/HTML',
+		'Cron modules directory' => 'cron/modules/',
 		'Modules directory' => 'modules/',
 		'Libraries directory' => 'libraries/',
 		'Storage directory' => 'storage/',
 		'Product image directory' => 'storage/Products/',
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
-		'Logo directory' => 'storage/Logo/',
-		'MailView attachments directory' => 'storage/OSSMailView/'
+		'MailView attachments directory' => 'storage/OSSMailView/',
+		'Roundcube directory' => 'public_html/modules/OSSMail/',
 	);
+
+	/**
+	 * List of libraries
+	 * @var array
+	 */
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
 		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
@@ -58,6 +61,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 		'LBL_ZIP_ARCHIVE' => ['type' => 'e', 'name' => 'zip', 'mandatory' => true],
 		'LBL_MBSTRING_LIBRARY' => ['type' => 'e', 'name' => 'mbstring', 'mandatory' => true],
+		'LBL_EXIF_LIBRARY' => ['type' => 'f', 'name' => 'exif_read_data', 'mandatory' => false],
 		'LBL_SOAP_LIBRARY' => ['type' => 'e', 'name' => 'soap', 'mandatory' => true],
 		'LBL_MYSQLND_LIBRARY' => ['type' => 'e', 'name' => 'mysqlnd', 'mandatory' => true],
 		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
@@ -77,11 +81,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		return self::$library;
 	}
 
+	/**
+	 * Get configuration
+	 * @param bool $instalMode
+	 * @return array
+	 */
 	public static function getConfigurationValue($instalMode = false)
 	{
 		$errorReportingValue = 'E_ALL & ~E_NOTICE';
 		$directiveValues = [
+			'HTTPS' => ['prefer' => 'On', 'help' => 'HTTPS_HELP_TEXT'],
 			'PHP' => ['prefer' => '5.5.0'],
+			'.htaccess' => ['prefer' => 'On', 'help' => 'HTACCESS_HELP_TEXT'],
+			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -98,12 +110,27 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'zlib.output_compression' => ['prefer' => 'Off'],
 			'expose_php' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
+			'session.use_strict_mode' => ['prefer' => 'On'],
 			'session.cookie_httponly' => ['prefer' => 'On'],
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
+			'session_regenerate_id' => ['prefer' => 'On'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
+		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+			$directiveValues['HTTPS']['status'] = false;
+			$directiveValues['HTTPS']['current'] = self::getFlag(true);
+		} else {
+			$directiveValues['HTTPS']['status'] = true;
+			$directiveValues['HTTPS']['current'] = self::getFlag(false);
+		}
+		if (IS_PUBLIC_DIR === true) {
+			$directiveValues['public_html']['current'] = self::getFlag(true);
+		} else {
+			$directiveValues['public_html']['status'] = true;
+			$directiveValues['public_html']['current'] = self::getFlag(false);
+		}
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
 			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
@@ -111,7 +138,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('display_errors'));
 		}
-		if (App\Db::getInstance()->getDriverName() === 'mysql') {
+		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
 			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
 			$directiveValues['wait_timeout'] = ['prefer' => '600']; // MySQL
@@ -130,7 +157,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['display_errors']['status'] = true;
 		$directiveValues['display_errors']['current'] = self::getFlag(ini_get('display_errors'));
 
-		if (ini_get('file_uploads') != '1' || stripos(ini_get('file_uploads'), 'Off') !== false)
+		if (ini_get('file_uploads') != '1' && stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
 
@@ -138,7 +165,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['output_buffering']['status'] = true;
 		}
 		$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
-
 
 		if (ini_get('max_execution_time') != 0 && ini_get('max_execution_time') < 600)
 			$directiveValues['max_execution_time']['status'] = true;
@@ -156,24 +182,34 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = vtlib\Functions::showBytes(ini_get('memory_limit'));
 
-		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800)
+		if (vtlib\Functions::parseBytes(ini_get('post_max_size')) < 52428800) {
 			$directiveValues['post_max_size']['status'] = true;
+		}
 		$directiveValues['post_max_size']['current'] = vtlib\Functions::showBytes(ini_get('post_max_size'));
 
-		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600)
+		if (vtlib\Functions::parseBytes(ini_get('upload_max_filesize')) < 104857600) {
 			$directiveValues['upload_max_filesize']['status'] = true;
+		}
 		$directiveValues['upload_max_filesize']['current'] = vtlib\Functions::showBytes(ini_get('upload_max_filesize'));
 
-		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false)
+		if (ini_get('zlib.output_compression') == '1' || stripos(ini_get('zlib.output_compression'), 'On') !== false) {
 			$directiveValues['zlib.output_compression']['status'] = true;
+		}
 		$directiveValues['zlib.output_compression']['current'] = self::getFlag((ini_get('zlib.output_compression')));
 
-		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false)
+		if (ini_get('session.auto_start') == '1' || stripos(ini_get('session.auto_start'), 'On') !== false) {
 			$directiveValues['session.auto_start']['status'] = true;
+		}
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
 
-		if (ini_get('session.cookie_httponly') != '1' || stripos(ini_get('session.cookie_httponly'), 'On') !== false)
+		if (ini_get('session.use_strict_mode') != '1' && stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
+			$directiveValues['session.use_strict_mode']['status'] = true;
+		}
+		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
+
+		if (ini_get('session.cookie_httponly') != '1' && stripos(ini_get('session.cookie_httponly'), 'Off') !== false) {
 			$directiveValues['session.cookie_httponly']['status'] = true;
+		}
 		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
 
 		/*
@@ -187,11 +223,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['mbstring.func_overload']['current'] = self::getFlag(ini_get('mbstring.func_overload'));
 
-		if (ini_get('log_errors') != '1' || stripos(ini_get('log_errors'), 'Off') !== false)
+		if (ini_get('log_errors') != '1' && stripos(ini_get('log_errors'), 'Off') !== false)
 			$directiveValues['log_errors']['status'] = true;
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
-		if (ini_get('short_open_tag') != '1' || stripos(ini_get('short_open_tag'), 'Off') !== false)
+		if (ini_get('short_open_tag') != '1' && stripos(ini_get('short_open_tag'), 'Off') !== false)
 			$directiveValues['short_open_tag']['status'] = true;
 		$directiveValues['short_open_tag']['current'] = self::getFlag(ini_get('short_open_tag'));
 
@@ -216,11 +252,21 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
 
-		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+		if (version_compare(PHP_VERSION, '5.5.0', '<')) {
 			$directiveValues['PHP']['status'] = true;
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
+		if (!isset($_SERVER['HTACCESS_TEST'])) {
+			$directiveValues['.htaccess']['status'] = true;
+			$directiveValues['.htaccess']['current'] = 'Off';
+		} else {
+			$directiveValues['.htaccess']['current'] = 'On';
+		}
+		if (AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')) {
+			$directiveValues['session_regenerate_id']['status'] = true;
+		}
+		$directiveValues['session_regenerate_id']['current'] = self::getFlag(AppConfig::main('session_regenerate_id'));
 
 		if (extension_loaded('suhosin')) {
 			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
@@ -280,11 +326,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
 
-		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
-		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting))
+		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\Exceptions\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
+		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting)) {
 			$directiveValues['error_reporting']['status'] = true;
+		}
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
-
 		return $directiveValues;
 	}
 
@@ -294,12 +340,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getSystemInfo()
 	{
+
 		$params = [
+			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
 			'LBL_PHPINI' => php_ini_loaded_file(),
 			'LBL_LOG_FILE' => ini_get('error_log'),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
-			'LBL_PHP_SAPI' => PHP_SAPI,
-			'LBL_PHP_SAPI' => php_uname()
+			'LBL_PHP_SAPI' => PHP_SAPI
 		];
 		if (file_exists('user_privileges/cron.php')) {
 			include 'user_privileges/cron.php';
@@ -312,47 +359,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get hardware details
-	 * @return type
-	 */
-	public static function getHardwareInfo()
-	{
-		if (!class_exists('\Linfo\Linfo')) {
-			return [];
-		}
-		try {
-			$linfo = new \Linfo\Linfo;
-			$parser = $linfo->getParser();
-		} catch (Exception $exc) {
-			return [];
-		}
-		$params = [];
-		$core = 0;
-		foreach ($parser->getCPU() as $key => $value) {
-			$core++;
-			$cpu = "{$value['Model']} , {$value['MHz']} MHz";
-			if (isset($value['usage_percentage'])) {
-				$cpu .= ', ' . App\Language::translate('LBL_CPU_USAGE', 'Settings::ConfReport') . ": {$value['usage_percentage']} %";
-			}
-			$params['LBL_CPU'][] = $cpu;
-		}
-		$ram = $parser->getRam();
-		$precent = number_format(($ram['free'] / $ram['total']) * 100);
-		$params['LBL_RAM'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['total'] - $ram['free']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($ram['free']) . " ($precent%)";
-		$disk = \vtlib\Functions::getDiskSpace();
-		$precent = number_format(($disk['free'] / $disk['total']) * 100);
-		$params['LBL_HDD'] = App\Language::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['total']) . ', ' . App\Language::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['used']) . ", " . App\Language::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . vtlib\Functions::showBytes($disk['free']) . " ($precent%)";
-		return $params;
-	}
-
-	/**
 	 * Function returns permissions to the core files and folder
 	 * @return <Array>
 	 */
 	public static function getPermissionsFiles($onlyError = false)
 	{
 		$writableFilesAndFolders = self::$writableFilesAndFolders;
-		$permissions = array();
+		$permissions = [];
 		require_once ROOT_DIRECTORY . '/include/utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
 			$isWriteable = vtlib_isWriteable($value);
@@ -373,28 +386,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			return 'On';
 		}
 		return 'Off';
-	}
-
-	public static function error2string($value)
-	{
-		$level_names = array(
-			E_ERROR => 'E_ERROR', E_WARNING => 'E_WARNING',
-			E_PARSE => 'E_PARSE', E_NOTICE => 'E_NOTICE',
-			E_CORE_ERROR => 'E_CORE_ERROR', E_CORE_WARNING => 'E_CORE_WARNING',
-			E_COMPILE_ERROR => 'E_COMPILE_ERROR', E_COMPILE_WARNING => 'E_COMPILE_WARNING',
-			E_USER_ERROR => 'E_USER_ERROR', E_USER_WARNING => 'E_USER_WARNING',
-			E_USER_NOTICE => 'E_USER_NOTICE');
-		if (defined('E_STRICT'))
-			$level_names[E_STRICT] = 'E_STRICT';
-		$levels = array();
-		if (($value & E_ALL) == E_ALL) {
-			$levels[] = 'E_ALL';
-			$value &= ~E_ALL;
-		}
-		foreach ($level_names as $level => $name)
-			if (($value & $level) == $level)
-				$levels[] = $name;
-		return $levels;
 	}
 
 	/**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "921d8940568d0603a13570d794bea72f",
+    "content-hash": "5da1709db699ac4c4395a71ac0fcbbf8",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -116,56 +116,6 @@
                 "html"
             ],
             "time": "2016-07-16T12:58:58+00:00"
-        },
-        {
-            "name": "linfo/linfo",
-            "version": "v3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jrgp/linfo.git",
-                "reference": "c6b3af3e103235ad00976ef3532c43ac32df71ff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jrgp/linfo/zipball/c6b3af3e103235ad00976ef3532c43ac32df71ff",
-                "reference": "c6b3af3e103235ad00976ef3532c43ac32df71ff",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=5.3.0"
-            },
-            "suggest": {
-                "ext-com": "On Windows"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Linfo\\": "src/Linfo"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL"
-            ],
-            "authors": [
-                {
-                    "name": "Joe Gillotti",
-                    "email": "joe@joegillotti.com",
-                    "homepage": "http://joegillotti.com",
-                    "role": "Author"
-                }
-            ],
-            "description": "App and library for easily parsing and displaying system information of the host, like network/torrents/cpu/memory/usb/pci/sound cards/filesystems/raid array/ipmi/etc.",
-            "homepage": "http://github.com/jrgp/linfo",
-            "keywords": [
-                "CPU",
-                "health",
-                "linux",
-                "specs",
-                "system"
-            ],
-            "time": "2016-08-25T03:19:33+00:00"
         },
         {
             "name": "phpmailer/phpmailer",

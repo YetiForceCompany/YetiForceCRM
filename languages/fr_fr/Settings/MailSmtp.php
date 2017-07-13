@@ -1,24 +1,29 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Mail smtp french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'MailSmtp' => 'SMTP configuration',
 	'LBL_MAIL_SMTP' => 'SMTP configuration ',
-	'LBL_MAILSMTP_EDIT' => 'Record edit',
-	'LBL_MAILSMTP_TO_SEND_DESCRIPTION' => 'Configure outgoing mail servers',
+	'LBL_MAILSMTP_EDIT' => 'Editer',
+	'LBL_MAILSMTP_TO_SEND_DESCRIPTION' => 'Configurer les serveurs de messagerie sortants',
 	// Fields
-	'LBL_HOST' => 'Host',
+	'LBL_HOST' => 'Hôte',
 	'LBL_PORT' => 'Port',
-	'LBL_USERNAME' => 'User name',
-	'LBL_MAILER_TYPE' => 'Mailer type',
-	'LBL_SECURE' => 'Safety protocol',
-	'LBL_OPTIONS' => 'Additional parameters',
-	'LBL_FROM_NAME' => 'Sender name',
-	'LBL_AUTHENTICATION' => 'Authentication',
-	'LBL_REPLY_TO' => 'Reply to',
-	'LBL_INDIVIDUAL_DELIVERY' => 'Individual delivery',
-	'LBL_REPLY_TO' => 'Reply to',
-	'LBL_NAME' => 'Name',
-	'LBL_FROM_EMAIL' => 'Sender email',
+	'LBL_USERNAME' => 'Nom d\'utilisateur',
+	'LBL_MAILER_TYPE' => 'Type d\'expéditeur',
+	'LBL_SECURE' => 'Protocole de sécurité',
+	'LBL_OPTIONS' => 'Paramètres supplémentaires',
+	'LBL_FROM_NAME' => 'Nom de l\'expéditeur',
+	'LBL_AUTHENTICATION' => 'Authentification',
+	'LBL_REPLY_TO' => 'Répondre à',
+	'LBL_INDIVIDUAL_DELIVERY' => 'Livraison individuelle',
+	'LBL_REPLAY_TO' => 'Répondre à',
+	'LBL_NAME' => 'Prénom',
+	'LBL_FROM_EMAIL' => 'Adresse e-mail de l\'expéditeur',
 	// Picklist
 	'LBL_SMTP' => 'SMTP',
 	'LBL_SENDMAIL' => 'Sendmail',
@@ -27,8 +32,8 @@ $languageStrings = [
 	'LBL_TLS' => 'tls',
 	'LBL_SSL' => 'ssl',
 	// Others
-	'LBL_CREATE_SMTP' => 'Create SMTP',
-	'LBL_SMTP_DETAIL' => 'SMTP detail',
-	'LBL_INDIVIDUAL_DELIVERY_INFO' => 'Emails will be sent individually for each recipient',
-	'LBL_OPTIONS_INFO' => "Exemplary additional parameters(Json):<br /> {<br />  &quot;ssl&quot;: {<br />    &quot;verify_peer&quot;:false,<br />    &quot;verify_peer_name&quot;:false,<br />    &quot;allow_self_signed&quot;:true<br />  }<br />}",
+	'LBL_CREATE_SMTP' => 'Créer SMTP',
+	'LBL_SMTP_DETAIL' => 'Détails SMTP',
+	'LBL_INDIVIDUAL_DELIVERY_INFO' => 'Les emails seront envoyés individuellement pour chaque destinataire',
+	'LBL_OPTIONS_INFO' => 'Exemple de paramètres supplémentaires:<br /> \'ssl\' =&gt; [<br />\'verify_peer\'  =&gt; true,<br />\'verify_depth\' =&gt; 3,<br />\'allow_self_signed\' =&gt; true,<br />\'peer_name\' =&gt; \'smtp.example.com\',<br />\'cafile\' =&gt; \'/etc/ssl/ca_cert.pem\',<br />]',
 ];

@@ -24,7 +24,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	{
 		$displayValue = \App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
 		$currentUserModel = \App\User::getCurrentUserModel();
-		if ($currentUserModel->isAdmin() && $rawText === false) {
+		if ($currentUserModel->isAdmin() && $rawText !== false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
 			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';

@@ -5,16 +5,17 @@ namespace App\Main;
  * Basic class to handle files
  *
  * @package YetiForce.Files
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class File
 {
 
-	public function process(\Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		if (\AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
-			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
+			header("Location: https://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", true, 301);
 		}
 		if (\AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -29,6 +30,8 @@ class File
 		if (!$moduleName || !$action) {
 			throw new \Exception\NoPermitted('Method Not Allowed', 405);
 		}
+		\App\Config::$processName = $action;
+		\App\Config::$processType = 'File';
 		$handlerClass = \Vtiger_Loader::getComponentClassName('File', $action, $moduleName);
 		$handler = new $handlerClass();
 		if ($handler) {

@@ -59,7 +59,6 @@ class WorkFlowScheduler
 
 		$vtWorflowManager = new VTWorkflowManager($adb);
 		$taskQueue = new VTTaskQueue($adb);
-		$entityCache = new VTEntityCache($this->user);
 
 		// set the time zone to the admin's time zone, this is needed so that the scheduled workflow will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled workflows

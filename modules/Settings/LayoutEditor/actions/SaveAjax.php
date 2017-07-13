@@ -2,8 +2,9 @@
 
 /**
  * Save Inventory Action Class
- * @package YetiForce.Actions
- * @license licenses/License.html
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
@@ -18,7 +19,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$this->exposeMethod('delete');
 	}
 
-	public function setInventory(Vtiger_Request $request)
+	public function setInventory(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -37,9 +38,9 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 
 	/**
 	 * Function is used to create and edit fields in advanced block
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function saveInventoryField(Vtiger_Request $request)
+	public function saveInventoryField(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -64,7 +65,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response->emit();
 	}
 
-	public function saveSequence(Vtiger_Request $request)
+	public function saveSequence(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];
@@ -78,7 +79,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response->emit();
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleName = $param['module'];

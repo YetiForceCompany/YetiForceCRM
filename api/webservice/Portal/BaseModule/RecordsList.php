@@ -4,7 +4,8 @@ namespace Api\Portal\BaseModule;
 /**
  * Get record list class
  * @package YetiForce.WebserviceAction
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordsList extends \Api\Core\BaseAction
@@ -71,6 +72,16 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($requestFields = $this->controller->request->getHeader('X-FIELDS')) {
 			$queryGenerator->setFields(\App\Json::decode($requestFields));
 			$queryGenerator->setField('id');
+		}
+		if ($conditions = $this->controller->request->getHeader('X-CONDITION')) {
+			$conditions = \App\Json::decode($conditions);
+			if (isset($conditions['fieldName'])) {
+				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);
+			} else {
+				foreach ($conditions as $condition) {
+					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator']);
+				}
+			}
 		}
 		return $queryGenerator;
 	}

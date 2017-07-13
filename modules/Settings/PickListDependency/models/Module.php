@@ -62,7 +62,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 		}
 		ksort($modules);
 
-		$modulesModelsList = array();
+		$modulesModelsList = [];
 		foreach ($modules as $moduleLabel => $moduleName) {
 			$instance = new Vtiger_Module_Model();
 			$instance->name = $moduleName;

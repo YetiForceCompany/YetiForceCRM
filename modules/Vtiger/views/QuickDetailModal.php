@@ -2,8 +2,9 @@
 
 /**
  * Quick detail modal view class
- * @package YetiForce.Modal
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
@@ -11,11 +12,11 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Checking permissions
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
@@ -27,12 +28,12 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modalRightSiteBar';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
@@ -48,7 +49,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 				if (!empty($widget['url'])) {
 					parse_str($widget['url'], $output);
 					$method = $output['mode'];
-					$widgetRequest = new Vtiger_Request($output);
+					$widgetRequest = new \App\Request($output);
 					$widgetRequest->set('isReadOnly', 'true');
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';

@@ -22,8 +22,3 @@ $languageStrings = [
 	'outboundcontext' => 'Contexte appel sortant',
 	'outboundtrunk' => 'Tronc sortant',
 ];
-
-$jsLanguageStrings = [
-];
-
-?>  

@@ -25,7 +25,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		parent::__construct();
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
@@ -35,18 +35,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
-		$currentDate = Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j'));
-		$viewer->assign('CURRENTDATE', $currentDate);
-		$viewer->assign('MODULE', $selectedModule);
-		$viewer->assign('MODULE_NAME', $selectedModule);
+		$viewer->assign('CURRENTDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j')));
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		$viewer->assign('MENUS', $this->getMenu());
-		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
-
+		$viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Helper::getHistory());
 		$homeModuleModel = Vtiger_Module_Model::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
@@ -56,7 +48,9 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		if (AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
-		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
+		if (\App\Module::isModuleActive('Chat')) {
+			$viewer->assign('CHAT_ENTRIES', (new Chat_Module_Model())->getEntries());
+		}
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		if ($display) {
 			$this->preProcessDisplay($request);
@@ -68,18 +62,18 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return Vtiger_Menu_Model::getAll(true);
 	}
 
-	protected function preProcessTplName(Vtiger_Request $request)
+	protected function preProcessTplName(\App\Request $request)
 	{
 		return 'BasicHeader.tpl';
 	}
 
 	//Note: To get the right hook for immediate parent in PHP,
 	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(Vtiger_Request $request) {
+	/* function preProcessParentTplName(\App\Request $request) {
 	  return parent::preProcessTplName($request);
 	  } */
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		parent::postProcess($request);
@@ -87,17 +81,17 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . Vtiger_Language_Handler::getShortLanguageName() . '.js',
+			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \App\Language::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
@@ -108,10 +102,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			"modules.$moduleName.resources.Edit",
 			'modules.Vtiger.resources.Popup',
 			"modules.$moduleName.resources.Popup",
-			'modules.Vtiger.resources.Field',
+			'~layouts/resources/Field.js',
 			"modules.$moduleName.resources.Field",
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator",
 			'libraries.jquery.jquery_windowmsg',
 			'modules.Vtiger.resources.BasicSearch',
@@ -130,7 +124,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return $headerScriptInstances;
 	}
 
-	public function getGuiderModels(Vtiger_Request $request)
+	public function getGuiderModels(\App\Request $request)
 	{
 		return [];
 	}

@@ -27,8 +27,11 @@ class Vtiger_DocumentsFolder_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return (new App\Db\Query())->select(['foldername'])->from('vtiger_attachmentsfolder')
-				->where(['folderid' => $value])->scalar();
+		$value = (new App\Db\Query())->select(['foldername'])->from('vtiger_attachmentsfolder')->where(['folderid' => $value])->scalar();
+		if ($rawText) {
+			return $value;
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**

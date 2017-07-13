@@ -1,24 +1,27 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="actionMenu" aria-hidden="true">
-		<div class="row">
-			<div class="dropdown quickAction historyBtn">
-				<div class="pull-left">
-					{\App\Language::translate('LBL_PAGES_HISTORY')}
-				</div>						
-				<div class="pull-right">
-					<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" aria-expanded="false" href="#">
-						<img class='alignMiddle popoverTooltip dropdown-toggle' src="{vimage_path('history.png')}" alt="{\App\Language::translate('LBL_PAGES_HISTORY')}" data-content="{vtranslate('LBL_PAGES_HISTORY')}" />
-					</a>
+		{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
+			<div class="row">
+				<div class="dropdown quickAction historyBtn">
+					<div class="pull-left">
+						{\App\Language::translate('LBL_PAGES_HISTORY')}
+					</div>
+					<div class="pull-right">
+						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
+							<span class="fa fa-history" aria-hidden="true"></span>
+						</a>
+						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 		{if $REMINDER_ACTIVE}
 			<div class="row">
 				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_REMINDER')}
-					</div>	
+					</div>
 					<div class="pull-right">
 						<a class="btn btn-default" title="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
@@ -28,9 +31,9 @@
 				</div>
 			</div>
 		{/if}
-		{if $CHAT_ACTIVE}
+		{if isset($CHAT_ENTRIES)}
 			<div class="row">
-				<div class="headerLinksAJAXChat quickAction">
+				<div class="headerLinksChat quickAction">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_CHAT')}
 					</div>
@@ -42,14 +45,14 @@
 				</div>
 			</div>
 		{/if}
-			{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
+		{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
 			<div class="row">
 				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
- 					<div class="pull-right">
- 						<a class="btn btn-default isBadge" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
+					<div class="pull-right">
+						<a class="btn btn-default isBadge" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
@@ -79,7 +82,7 @@
 										{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 										{if $singularLabel == 'SINGLE_Calendar'}
 											{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-										{/if}	
+										{/if}
 										{if $quickCreateModule == '1'}
 											{if $count % 3 == 0}
 												<div class="rows">
@@ -102,7 +105,7 @@
 							</div>
 						</li>
 					</ul>
-				</div>						
+				</div>
 			</div>
 		</div>
 	</div>

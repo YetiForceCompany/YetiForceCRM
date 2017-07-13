@@ -2,8 +2,9 @@
 
 /**
  * WebserviceUsers Module Model Class
- * @package YetiForce.Settings.Model
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
@@ -50,7 +51,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * List of fields available in listview
-	 * @return Vtiger_Base_Model[]
+	 * @return \App\Base[]
 	 */
 	public function getListFields()
 	{
@@ -59,7 +60,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 			if ($this->typeApi && isset($this->listFields[$this->typeApi])) {
 				$fields = $this->listFields[$this->typeApi];
 				foreach ($fields as $fieldName => $fieldLabel) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(['name' => $fieldName, 'label' => $fieldLabel]);
+					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 				}
 			}
 			$this->listFieldModels = $fieldObjects;

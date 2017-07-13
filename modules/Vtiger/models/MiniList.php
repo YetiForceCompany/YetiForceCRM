@@ -19,6 +19,12 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	protected $listviewRecords;
 	protected $targetModuleModel;
 
+	/**
+	 * Search condition
+	 * @var array 
+	 */
+	protected $searchParams = [];
+
 	public function setWidgetModel($widgetModel)
 	{
 		$this->widgetModel = $widgetModel;
@@ -31,6 +37,15 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if ($this->extraData === null) {
 			throw new Exception("Invalid data");
 		}
+	}
+
+	/**
+	 * Set search condition
+	 * @param array $searchParams
+	 */
+	public function setSearchParams($searchParams)
+	{
+		$this->searchParams = $searchParams;
 	}
 
 	public function getTargetModule()
@@ -102,7 +117,6 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	public function getRecordLimit()
 	{
 		return $this->widgetModel->get('limit');
-		;
 	}
 
 	public function getRecords($user)
@@ -113,9 +127,14 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		} else if ($user === 'all') {
 			$user = '';
 		}
+
 		if (!$this->listviewRecords) {
 			if (!empty($user)) {
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
+			}
+			if (!empty($this->searchParams)) {
+				$searchParams = $this->queryGenerator->parseBaseSearchParamsToCondition($this->searchParams);
+				$this->queryGenerator->parseAdvFilter($searchParams);
 			}
 			$targetModuleName = $this->getTargetModule();
 			$targetModuleFocus = CRMEntity::getInstance($targetModuleName);
@@ -138,21 +157,55 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		return $this->listviewRecords;
 	}
 
-	public function getGetTotalCountURL($user = false)
+	/**
+	 * Get total count URL
+	 * @param mixed $user
+	 * @return string
+	 */
+	public function getTotalCountURL($user = false)
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
 			$user = App\User::getCurrentUserId();
 		}
-		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
+		$searcParams = [];
+		if (!empty($this->searchParams)) {
+			foreach (reset($this->searchParams) as $value) {
+				$searcParams[] = $value;
+			}
+		}
+		if ($user !== 'all') {
+			$searcParams[] = ['assigned_user_id', 'e', $user];
+		}
+		if ($searcParams) {
+			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
+		}
+		return $url;
 	}
 
+	/**
+	 * Get list view URL
+	 * @param mixed $user
+	 * @return string
+	 */
 	public function getListViewURL($user = false)
 	{
 		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
 			$user = App\User::getCurrentUserId();
 		}
-		return $user === 'all' ? $url : $url .= '&search_params=[[["assigned_user_id","e","' . $user . '"]]]';
+		$searcParams = [];
+		if (!empty($this->searchParams)) {
+			foreach (reset($this->searchParams) as $value) {
+				$searcParams[] = $value;
+			}
+		}
+		if ($user !== 'all') {
+			$searcParams[] = ['assigned_user_id', 'e', $user];
+		}
+		if ($searcParams) {
+			return $url .= '&search_params=[' . json_encode($searcParams) . ']';
+		}
+		return $url;
 	}
 }

@@ -27,7 +27,7 @@ class Leads extends CRMEntity
 	 */
 	public $customFieldTable = Array('vtiger_leadscf', 'leadid');
 	//construct this from database;
-	public $column_fields = Array();
+	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('smcreatorid', 'smownerid', 'contactid', 'crmid');
 	// This is the list of vtiger_fields that are in the lists.
@@ -57,7 +57,7 @@ class Leads extends CRMEntity
 	public $search_fields_name = Array(
 		'Company' => 'company'
 	);
-	public $required_fields = array();
+	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime');
@@ -257,76 +257,5 @@ class Leads extends CRMEntity
 				parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
 			}
 		}
-	}
-
-	public function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
-	{
-		if (is_array($tableColumns)) {
-			$tableColumnsString = implode(',', $tableColumns);
-		}
-		if (is_array($additionalColumns)) {
-			$additionalColumns = implode(',', $additionalColumns);
-		}
-		if (!empty($additionalColumns)) {
-			$additionalColumns = ',' . $additionalColumns;
-		}
-		$selectClause = sprintf('SELECT %s.%s AS recordid, %s %s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
-
-		// Select Custom Field Table Columns if present
-		if (isset($this->customFieldTable))
-			$query .= ", " . $this->customFieldTable[0] . ".* ";
-
-		$fromClause = " FROM $this->table_name";
-
-		$fromClause .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
-
-		if ($this->tab_name) {
-			foreach ($this->tab_name as $tableName) {
-				if ($tableName != 'vtiger_crmentity' && $tableName != $this->table_name) {
-					if ($this->tab_name_index[$tableName]) {
-						$fromClause .= " INNER JOIN " . $tableName . " ON " . $tableName . '.' . $this->tab_name_index[$tableName] .
-							" = $this->table_name.$this->table_index";
-					}
-				}
-			}
-		}
-		$fromClause .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
-						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-
-		$whereClause = " WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted=0 ";
-		$whereClause .= $this->getListViewSecurityParameter($module);
-
-		if ($ignoreEmpty) {
-			foreach ($tableColumns as $tableColumn) {
-				$whereClause .= " && ($tableColumn IS NOT NULL && $tableColumn != '') ";
-			}
-		}
-
-		if (isset($selectedColumns) && trim($selectedColumns) != '') {
-			$sub_query = "SELECT $selectedColumns FROM $this->table_name AS t " .
-				" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t." . $this->table_index;
-			// Consider custom table join as well.
-			if (isset($this->customFieldTable)) {
-				$sub_query .= " LEFT JOIN " . $this->customFieldTable[0] . " tcf ON tcf." . $this->customFieldTable[1] . " = t.$this->table_index";
-			}
-			$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
-		} else {
-			$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
-		}
-
-		$i = 1;
-		foreach ($tableColumns as $tableColumn) {
-			$tableInfo = explode('.', $tableColumn);
-			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
-			if (count($tableColumns) != $i++)
-				$duplicateCheckClause .= " && ";
-		}
-
-		$query = $selectClause . $fromClause .
-			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . $duplicateCheckClause .
-			$whereClause .
-			" ORDER BY $tableColumnsString," . $this->table_name . "." . $this->table_index . " ASC";
-		return $query;
 	}
 }

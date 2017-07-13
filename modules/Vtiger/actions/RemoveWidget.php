@@ -12,7 +12,7 @@
 class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$linkId = $request->get('linkid');
@@ -39,7 +39,7 @@ class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

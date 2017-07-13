@@ -2,7 +2,8 @@
 /**
  * FileUpload View Class
  * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -14,10 +15,10 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Checking permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -36,9 +37,9 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -52,10 +53,10 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Get scripts for modal window
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getModalScripts($request);
 		$scripts = [

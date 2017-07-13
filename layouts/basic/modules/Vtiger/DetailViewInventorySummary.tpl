@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 		{assign var="DISCOUNT" value=$DISCOUNT + $INVENTORY_ROW['discount']}

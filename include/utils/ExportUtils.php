@@ -21,7 +21,6 @@ function getPermittedBlocks($module, $disp_view)
 	\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
 	$tabid = \App\Module::getModuleId($module);
-	$block_detail = [];
 	$query = "select blockid,blocklabel,show_title from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 	$result = $adb->pquery($query, array($tabid));
 	$noofrows = $adb->num_rows($result);
@@ -31,7 +30,6 @@ function getPermittedBlocks($module, $disp_view)
 		if ($i != 0)
 			$blockid_list .= ', ';
 		$blockid_list .= $blockid;
-		$block_label[$blockid] = $adb->query_result($result, $i, "blocklabel");
 	}
 	$blockid_list .= ')';
 

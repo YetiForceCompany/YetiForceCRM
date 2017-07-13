@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * FInvoice spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'FInvoice' => 'Facturas',
 	'SINGLE_FInvoice' => 'Factura',
@@ -24,7 +29,7 @@ $languageStrings = [
 	'FL_INVOICE_TYPE' => 'Tipo de Factura',
 	'FL_CATEGORY' => 'Categoría',
 	//PICKLIST VALUES
-	'PLL_TRANSFER' => 'Banco de transferencia',
+	'PLL_TRANSFER' => 'Transferencia',
 	'PLL_WIRE_TRANSFER' => 'Transferencia bancaria',
 	'PLL_CASH' => 'Efectivo',
 	'PLL_AWAITING_PAYMENT' => 'En espera de pago',

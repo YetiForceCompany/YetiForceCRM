@@ -3,10 +3,11 @@
 /**
  * Calendar CalendarWidget Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
+class Calendar_CalendarFilters_Model extends \App\Base
 {
 
 	protected $filterPath = 'modules/Calendar/calendarfilters';

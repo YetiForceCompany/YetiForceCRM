@@ -26,7 +26,7 @@
 			</select>
 		</span>
 	</div>
-	<br>
+	<br />
     <div class="summaryWidgetContainer">
 		<div class='row' style="padding-left: 15px;">
 			<div class='col-xs-12'>
@@ -195,7 +195,7 @@
 				<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 					<div class="row" data-togglecontent="{$TABID}-fields">
 						{assign var=UTILITY_ACTION_COUNT value=0}
-						{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}
+						{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
 						{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
 							{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
 								{assign var="testArray" array_push($ALL_UTILITY_ACTIONS_ARRAY,$ACTION_MODEL)}

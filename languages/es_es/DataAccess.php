@@ -1,14 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com, Itop.es
- * *********************************************************************************************************************************** */
+/**
+ * DataAccess spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'DataAccess' => 'Acceso a los datos',
 	'LBL_NONE' => '--Nada--',
@@ -90,8 +86,8 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Ha habido un intento de modificación de valores en un registro en el modo edición rápida.<br />Seleccinar el campo checkbox y aceptar para poder aplicar los cambios en esta vista.<br />¡Atención!<br />Reintroducir las modificaciones en el registro. ',
 	'LBL_DONT_ASK_AGAIN' => 'No preguntar de nuevo para este registro.',
 	'LBL_SEARCH_TRASH' => 'Buscar en la papelera',
-	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
-	'LBL_CONTENT_MESSAGE' => 'Message contents',
+	'LBL_BLOCK_EDITVIEW' => 'La opción de edición del registro ha sido bloqueada',
+	'LBL_CONTENT_MESSAGE' => 'Contenido del mensaje',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Acceso a los datos',

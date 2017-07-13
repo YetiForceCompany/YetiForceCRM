@@ -51,7 +51,7 @@ $languageStrings = [
 	'LBL_IMPORT_RECORDS' => 'Importar registros',
 	'LBL_LAST_IMPORT_UNDONE' => 'Tu última importación no se completó',
 	'LBL_MINUTES' => 'Minutos',
-	'LBL_ON' => 'el',
+	'LBL_ON' => 'on',
 	'LBL_OTHER_EVENTS' => 'Otros eventos',
 	'LBL_RECORDS_LIST' => 'Lista', //Duplicated key-value pair
 	'LBL_RESULT' => 'Resultado',
@@ -148,7 +148,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'No se puede seleccionar el contacto de "Contactos Potenciales"',
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'No se puede seleccionar el contacto de "Potenciales"',
 	'JS_SATATUS' => 'Estado',
 	'JS_End Date' => 'Fecha fin',
 	'JS_Start Date' => 'Fecha inicio',

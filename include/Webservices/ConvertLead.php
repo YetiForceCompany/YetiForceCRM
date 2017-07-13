@@ -16,7 +16,6 @@ require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
 require_once('include/ConfigUtils.php');
 vimport('include.runtime.Globals');
-vimport('include.runtime.BaseModel');
 
 function vtws_convertlead($entityvalues, $user)
 {
@@ -121,7 +120,7 @@ function vtws_convertlead($entityvalues, $user)
 		$accountId = $entityIds['Accounts'];
 		$contactId = $entityIds['Contacts'];
 
-		$transfered = vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
+		vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
 		$relatedId = $entityIds[$entityvalues['transferRelatedRecordsTo']];
 		vtws_getRelatedActivities($leadIdComponents, $accountId, $contactId, $relatedId);
@@ -194,12 +193,12 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $entityHandler,
 			}
 		}
 
-		$entity = vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $leadinfo, $entityName);
+		$entity = vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $entityName);
 	}
 	return $entity;
 }
 
-function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $leadinfo, $module)
+function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, $module)
 {
 
 	$mandatoryFields = $entityHandler->getMeta()->getMandatoryFields();
@@ -218,8 +217,6 @@ function vtws_validateConvertLeadEntityMandatoryValues($entity, $entityHandler, 
 
 function vtws_getConvertLeadFieldInfo($module, $fieldname)
 {
-	$adb = PearDatabase::getInstance();
-
 	$describe = vtws_describe($module, vglobal('current_user'));
 	foreach ($describe['fields'] as $index => $fieldInfo) {
 		if ($fieldInfo['name'] == $fieldname) {

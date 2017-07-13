@@ -3,7 +3,8 @@
 /**
  * Time control user group parser class
  * @package YetiForce.TextParser
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
@@ -21,7 +22,7 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$html = '<br><style>' .
+		$html = '<br /><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
 			'.table tbody tr {border-bottom: 1px solid grey}' .

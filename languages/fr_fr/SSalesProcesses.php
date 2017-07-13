@@ -1,11 +1,19 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SSales processes french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'LBL_SHOW_HIERARCHY' => 'Hiérarchie',
+	'FL_START_DATE' => 'Date de début',
+	'FL_MEMBER_OF' => 'Opportunité maitre',
 	'FL_CAMPAIGN' => 'Campagne',
 	'SSalesProcesses' => 'Opportunités',
 	'SINGLE_SSalesProcesses' => 'Opportunité',
 	//BLOCKS
-	'LBL_SSALESPROCESSES_INFORMATION' => 'Informations',
+	'LBL_SSALESPROCESSES_INFORMATION' => 'Détails opportunités',
 	'LBL_CUSTOM_INFORMATION' => 'Informations systèmes',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 	'LBL_ATTENTION' => 'Commentaires',
@@ -34,7 +42,7 @@ $languageStrings = [
 	'PLL_OTHER' => 'Autre',
 	'PLL_NEW_SALES' => 'Nouvelles ventes',
 	'PLL_RENEWAL' => 'Renouvellement',
-	'PLL_AFTERSALES' => 'Aftersales',
+	'PLL_AFTERSALES' => 'Après vente',
 	'PLL_TENDER' => 'Offre',
 	'PLL_DRAFT' => 'Brouillon',
 	'PLL_FOR_REALIZATION' => 'A réaliser',

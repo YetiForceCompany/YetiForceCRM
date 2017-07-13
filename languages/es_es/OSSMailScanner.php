@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * OSSMailScanner spanish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'OSSMailScanner' => 'Escáner de correo',
 	'OSSMailScanner_manual' => 'Escáner de correo',
@@ -15,7 +20,7 @@ $languageStrings = [
 	'CreatedEmail' => 'Crear mensaje de correo',
 	'BindContacts' => 'Enlazar con el Contacto',
 	'BindAccounts' => 'Enlazar con la Cuenta',
-	'BindLeads' => 'Enlazar con el Contacto Potencial',
+	'BindLeads' => 'Enlazar con el Potencial',
 	'BindSSalesProcesses' => 'Enlazar con la Oportunidad',
 	'BindHelpDesk' => 'Enlazar con Incidenca',
 	'BindProject' => 'Enlazar con Proyecto',
@@ -38,7 +43,7 @@ $languageStrings = [
 	'desc_BindVendors' => 'Crear relación del mensaje de correo electrónico con el registro del Proveedor que contiene la dirección de correo electrónico.',
 	'desc_BindContacts' => 'Crear relación de mensaje de correo electrónico con el registro de Contacto que contiene la dirección de correo electrónico.',
 	'desc_BindAccounts' => 'Crear relación de mensaje de correo electrónico con registro de Cuenta que tiene esta dirección de correo electrónico.',
-	'desc_BindLeads' => 'Crear relación de mensaje de correo electrónico con el registro de Contacto Potencial que tiene esta dirección de correo electrónico.',
+	'desc_BindLeads' => 'Crear relación de mensaje de correo electrónico con el registro de Potencial que tiene esta dirección de correo electrónico.',
 	'desc_BindSSalesProcesses' => 'Crear la relación del mensaje de correo electrónico con el registro Oportunidad basado en el prefijo con el número en el asunto.',
 	'desc_BindHelpDesk' => 'Crear relación de mensaje de correo electrónico con el registro de Incidencia basado en el prefijo con el número en el asunto.',
 	'desc_BindProject' => 'Crear la relación del mensaje de correo electrónico con el registro del Proyecto basado en el prefijo con el número en el asunto.',
@@ -143,7 +148,7 @@ $languageStrings = [
 	'No' => 'No',
 	'LBL_MAIL_LOGS' => 'Registros de correo',
 	'Group list' => 'Lista de grupos',
-	'LBL_ACTIVE_MAIL' => 'Activa',
+	'LBL_ACTIVE_MAIL' => 'Activo',
 	'LBL_INACTIVE_MAIL' => 'Inactiva',
 	'LBL_EXCEPTIONS' => 'Excepciones',
 	'LBL_EXCEPTIONS_CREATING_EMAIL' => 'Direcciones omitidas durante la ejecución de una acción de creación de mensajes de correo',

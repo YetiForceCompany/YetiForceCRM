@@ -4,7 +4,8 @@ namespace App;
 /**
  * Text parser class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class TextParser
@@ -231,8 +232,8 @@ class TextParser
 			return $this;
 		}
 		if (isset($this->language)) {
-			$currentLanguage = \Vtiger_Language_Handler::$language;
-			\Vtiger_Language_Handler::$language = $this->language;
+			$currentLanguage = \App\Language::getLanguage();
+			\App\Language::setLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\((\w+) : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = $matches;
@@ -242,7 +243,7 @@ class TextParser
 			return '';
 		}, $this->content);
 		if (!empty($currentLanguage)) {
-			\Vtiger_Language_Handler::$language = $currentLanguage;
+			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
 	}
@@ -254,15 +255,15 @@ class TextParser
 	public function parseTranslations()
 	{
 		if (isset($this->language)) {
-			$currentLanguage = \Vtiger_Language_Handler::$language;
-			\Vtiger_Language_Handler::$language = $this->language;
+			$currentLanguage = \App\Language::getLanguage();
+			\App\Language::setLanguage($this->language);
 		}
 		$this->content = preg_replace_callback('/\$\(translate : ([\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $params) = $matches;
 			return $this->translate($params);
 		}, $this->content);
 		if (!empty($currentLanguage)) {
-			\Vtiger_Language_Handler::$language = $currentLanguage;
+			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
 	}
@@ -302,7 +303,7 @@ class TextParser
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName);
+			$logo = $company->getLogo($fieldName, true);
 			if (!$logo) {
 				return '';
 			}
@@ -379,6 +380,7 @@ class TextParser
 		}
 		if ($this->recordModel->has($key)) {
 			$fieldModel = $this->recordModel->getModule()->getField($key);
+
 			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
 				return '';
 			}
@@ -457,6 +459,9 @@ class TextParser
 			return '';
 		}
 		$relatedId = $this->recordModel->get($fieldName);
+		if (empty($relatedId)) {
+			return '';
+		}
 		if ($relatedModule === 'Users') {
 			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
 			$instance = static::getInstanceByModel($userRecordModel);
@@ -490,6 +495,7 @@ class TextParser
 	 */
 	protected function sourceRecord($fieldName)
 	{
+
 		if (empty($this->sourceRecordModel) || !\Users_Privileges_Model::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
 			return '';
 		}
@@ -499,6 +505,7 @@ class TextParser
 				$instance->$key = $this->$key;
 			}
 		}
+
 		return $instance->record($fieldName);
 	}
 
@@ -596,10 +603,10 @@ class TextParser
 		$commentsList = '';
 		foreach ($query->column() as $comment) {
 			if ($comment != '') {
-				$commentsList .= '<br><br>' . nl2br($comment);
+				$commentsList .= '<br /><br />' . nl2br($comment);
 			}
 		}
-		return ltrim($commentsList, '<br><br>');
+		return ltrim($commentsList, '<br /><br />');
 	}
 
 	/**

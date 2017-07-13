@@ -3,10 +3,11 @@
 /**
  * Export Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_Export_Model extends Vtiger_Base_Model
+class Vtiger_Export_Model extends \App\Base
 {
 
 	protected $moduleInstance;
@@ -17,7 +18,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 	protected $moduleName;
 	protected $recordsListFromRequest = [];
 
-	public static function getInstanceFromRequest(Vtiger_Request $request)
+	public static function getInstanceFromRequest(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		if (empty($moduleName)) {
@@ -33,7 +34,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 		return $exportModel;
 	}
 
-	public function initialize(Vtiger_Request $request)
+	public function initialize(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		if (!empty($moduleName)) {
@@ -46,9 +47,9 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function exports the data based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function exportData(Vtiger_Request $request)
+	public function exportData(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
@@ -121,10 +122,10 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function that generates Export Query based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string export query
 	 */
-	public function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		$cvId = $request->get('viewname');
@@ -183,10 +184,10 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getExportContentType(Vtiger_Request $request)
+	public function getExportContentType(\App\Request $request)
 	{
 		$type = $request->get('export_type');
 		if (empty($type)) {
@@ -196,7 +197,7 @@ class Vtiger_Export_Model extends Vtiger_Base_Model
 
 	/**
 	 * Function that create the exported file
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param array $headers - output file header
 	 * @param array $entries - outfput file data
 	 */

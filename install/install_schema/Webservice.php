@@ -4,7 +4,8 @@ namespace Importers;
 /**
  * Class that imports admin database
  * @package YetiForce.Install
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Webservice extends \App\Db\Importers\Base
@@ -25,7 +26,7 @@ class Webservice extends \App\Db\Importers\Base
 					'params' => $this->text(),
 				],
 				'primaryKeys' => [
-					['sessions_pk', 'id']
+					['portal_session_pk', 'id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -38,7 +39,7 @@ class Webservice extends \App\Db\Importers\Base
 					'user_name' => $this->stringType(50)->notNull(),
 					'password_h' => $this->stringType(200),
 					'password_t' => $this->stringType(200),
-					'type' => $this->smallInteger(1),
+					'type' => $this->smallInteger(1)->unsigned()->defaultValue(1),
 					'login_time' => $this->dateTime(),
 					'logout_time' => $this->dateTime(),
 					'language' => $this->stringType(10),
@@ -46,8 +47,8 @@ class Webservice extends \App\Db\Importers\Base
 					'user_id' => $this->integer(),
 				],
 				'columns_mysql' => [
-					'status' => "tinyint(1) DEFAULT '0'",
-					'type' => "tinyint(1) DEFAULT '1'"
+					'status' => 'tinyint(1) DEFAULT \'0\'',
+					'type' => 'tinyint(1) unsigned DEFAULT \'1\'',
 				],
 				'index' => [
 					['portal_users_idx', 'user_name', true],
@@ -67,12 +68,18 @@ class Webservice extends \App\Db\Importers\Base
 					'type' => $this->stringType(40)->notNull(),
 					'accounts_id' => $this->integer(),
 				],
+				'columns_mysql' => [
+					'status' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+				],
 				'index' => [
 					['servers_idx', ['name', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+		];
+
+		$this->foreignKey = [
 		];
 	}
 

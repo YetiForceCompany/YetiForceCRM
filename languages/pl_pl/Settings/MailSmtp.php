@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * MailSmtp polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'MailSmtp' => 'Konfiguracja - SMTP',
 	'LBL_MAIL_SMTP' => 'Konfiguracja - SMTP',
@@ -18,6 +23,11 @@ $languageStrings = [
 	'LBL_INDIVIDUAL_DELIVERY' => 'Dostawa indywidualna',
 	'LBL_FROM_EMAIL' => 'Email nadawcy',
 	'LBL_NAME' => 'Nazwa',
+	'LBL_SAVE_SEND_MAIL' => 'Czy zapisać wysłanego maila?',
+	'LBL_SAVE_SEND_MAIL_INFO' => 'Wszystkie wysyłane maile nie są zapisywane (Gmail zapisuje automatycznie i nie ma potrzeby włączać tej opcji), aby mail był zapisany trzeba wprowadzić dodatkową konfigurację.',
+	'LBL_VALIDATE_CERT' => 'Czy walidować certyfikat?',
+	'LBL_IMAP_SAVE_MAIL' => 'Konfiguracja imap do zapisywania maili',
+	'LBL_SEND_FOLDER' => 'Folder',
 	// Picklist
 	'LBL_SMTP' => 'SMTP',
 	'LBL_SENDMAIL' => 'Sendmail',

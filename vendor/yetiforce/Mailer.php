@@ -4,7 +4,8 @@ namespace App;
 /**
  * Mailer basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Mailer
@@ -80,7 +81,9 @@ class Mailer
 	 */
 	public static function sendFromTemplate($params)
 	{
+		Log::trace('Send mail from template', 'Mailer');
 		if (empty($params['template'])) {
+			Log::warning('No templete', 'Mailer');
 			return false;
 		}
 		$recordModel = false;
@@ -94,12 +97,15 @@ class Mailer
 		}
 		$template = Mail::getTemplete($params['template']);
 		if (!$template) {
+			Log::warning('No mail templete', 'Mailer');
 			return false;
 		}
-
 		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);
+		}
+		if (!empty($params['sourceRecord'])) {
+			$textParser->setSourceRecord($params['sourceRecord'], $params['sourceModule']);
 		}
 		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
@@ -111,8 +117,10 @@ class Mailer
 		if (isset($template['attachments'])) {
 			$params['attachments'] = array_merge(empty($params['attachments']) ? [] : $params['attachments'], $template['attachments']);
 		}
-		static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
-		return true;
+		if (!empty($template['email_template_priority'])) {
+			$params['priority'] = $template['email_template_priority'];
+		}
+		return static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
 	}
 
 	/**
@@ -124,6 +132,10 @@ class Mailer
 		$params['status'] = \AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = Mail::getDefaultSmtp();
+		}
+		if (!$params['smtp_id']) {
+			Log::warning('No SMTP configuration', 'Mailer');
+			return false;
 		}
 		if (empty($params['owner'])) {
 			$owner = User::getCurrentUserRealId();
@@ -139,6 +151,7 @@ class Mailer
 			}
 		}
 		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
+		return true;
 	}
 
 	/**
@@ -303,8 +316,10 @@ class Mailer
 			$this->mailer->FromName = Company::getInstanceById()->get('name');
 		}
 		if ($this->mailer->send()) {
-			Log::trace('Mailer sent mail', 'Mailer');
-			return true;
+			if (empty($this->smtp['save_send_mail']) || (!empty($this->smtp['save_send_mail']) && $this->saveMail())) {
+				Log::trace('Mailer sent mail', 'Mailer');
+				return true;
+			}
 		} else {
 			Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
 		}
@@ -432,5 +447,34 @@ class Mailer
 				$mailer->mailer->Ical = $param;
 				break;
 		}
+	}
+
+	/**
+	 * Save sent email
+	 * @return boolean
+	 */
+	public function saveMail()
+	{
+		if (empty($this->smtp['smtp_username']) && empty($this->smtp['smtp_password']) && empty($this->smtp['smtp_host'])) {
+			Log::error('Mailer Error: No smtp data entered', 'Mailer');
+			return false;
+		}
+		$params = [
+			'default_port' => $this->smtp['smtp_port'],
+			'validate_cert' => !empty($this->smtp['smtp_validate_cert']),
+			'imap_max_retries' => 0,
+			'imap_params' => [],
+			'imap_open_add_connection_type' => true
+		];
+		$folder = \OSSMail_Record_Model::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF7-IMAP', 'UTF-8');
+		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], $this->smtp['smtp_password'], $this->smtp['smtp_host'], $folder, false, $params);
+		if ($mbox === false && !imap_last_error()) {
+			$this->error[] = 'IMAP error - ' . imap_last_error();
+			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
+			return false;
+		}
+		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), "\\Seen");
+		imap_close($mbox);
+		return true;
 	}
 }

@@ -12,7 +12,7 @@
 class Home_DashBoard_View extends Vtiger_DashBoard_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
@@ -26,7 +26,7 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 		$this->preProcessDisplay($request);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

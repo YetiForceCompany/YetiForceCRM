@@ -115,7 +115,7 @@
 			</div>
 		</div>
 	</div>
-	<br>
+	<br />
 	{/if}
 {/foreach}
 {/strip}

@@ -11,7 +11,7 @@
 /**
  * Vtiger Action Model Class
  */
-class Vtiger_Action_Model extends Vtiger_Base_Model
+class Vtiger_Action_Model extends \App\Base
 {
 
 	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');

@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * CustomView english translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'CustomView' => 'Filters - Configuration',
 	'LBL_CUSTOMVIEW_DESCRIPTION' => 'This tool allows setting custom views for modules. These modules must contain records and use standard filters in YetiForce CRM.',
@@ -21,10 +25,10 @@ $languageStrings = [
 	'LBL_ADD_PERMISSIONS' => 'Add permissions',
 	'LBL_RECEIVE_PERMISSION' => 'Receive permissions',
 	'LBL_SAVE_SEQUENCES' => 'Sequences saved successfully',
-	'LBL_EXISTS_PERMISSION_IN_CONFIG' => 'Conflict with %s <br> Selected permission cannot be used in more than one filter.',
+	'LBL_EXISTS_PERMISSION_IN_CONFIG' => 'Conflict with %s <br /> Selected permission cannot be used in more than one filter.',
 	'LBL_SORTING' => 'Sorting',
 	'LBL_SORTING_SETTINGS' => 'Sorting settings',
-	'LBL_SORTING_SETTINGS_WORNING' => '<strong>Warning!<strong><br>Record sorting might significantly increase the page loading time.',
+	'LBL_SORTING_SETTINGS_WORNING' => '<strong>Warning!<strong><br />Record sorting might significantly increase the page loading time.',
 	'LBL_SELECT_FIELD_TO_SORT_RECORDS' => 'Select a field to sort records',
 	'LBL_SORT_ASCENDING_ORDER' => 'Sort in ascending order',
 	'LBL_SORT_DESCENDING_ORDER' => 'Sort in descending order',

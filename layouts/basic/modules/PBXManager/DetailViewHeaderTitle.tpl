@@ -67,11 +67,11 @@
 							{if $RECORD->get('direction') eq 'inbound'}
 								&nbsp;<strong><span class="{$NAME_FIELD}">
 									{vtranslate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
-								</span><br/></strong>
+								</span><br /></strong>
 							{else}
 							&nbsp;<strong><span class="{$NAME_FIELD}">
 									{vtranslate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
-								</span><br/></strong>
+								</span><br /></strong>
 							{/if}    
 							{if $FIELD_NAME}
 							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->get('customernumber')}
@@ -86,7 +86,7 @@
 					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 					{if $SHOWNERS != ''}
-						<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 					{/if}
 				</span>
 			</span>

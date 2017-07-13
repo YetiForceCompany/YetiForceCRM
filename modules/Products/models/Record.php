@@ -51,7 +51,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
 
-		$subProductList = array();
+		$subProductList = [];
 
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
@@ -111,7 +111,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getImageDetails()
 	{
 		$db = PearDatabase::getInstance();
-		$imageDetails = array();
+		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
@@ -352,7 +352,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
-				$params = array();
+				$params = [];
 
 				$res = $adb->pquery($query, $params);
 				$rows_res = $adb->num_rows($res);
@@ -443,13 +443,13 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (AppRequest::get('ajxaction') != 'DETAILVIEW' && AppRequest::get('action') != 'MassSave' && AppRequest::get('action') != 'ProcessDuplicates') {
+		if (\App\Request::_get('ajxaction') != 'DETAILVIEW' && \App\Request::_get('action') != 'MassSave' && \App\Request::_get('action') != 'ProcessDuplicates') {
 			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
 		//Inserting into attachments
-		if (AppRequest::get('module') === 'Products') {
+		if (\App\Request::_get('module') === 'Products') {
 			$this->insertAttachment();
 		}
 	}
@@ -483,9 +483,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$curName = $currency['currency_name'];
 			$curCheckName = 'cur_' . $curid . '_check';
 			$curValue = 'curname' . $curid;
-			if (AppRequest::get($curCheckName) === 'on' || AppRequest::get($curCheckName) === 1) {
-				$requestPrice = CurrencyField::convertToDBFormat(AppRequest::get('unit_price'), null, true);
-				$actualPrice = CurrencyField::convertToDBFormat(AppRequest::get($curValue), null, true);
+			if (\App\Request::_get($curCheckName) === 'on' || \App\Request::_get($curCheckName) === 1) {
+				$requestPrice = CurrencyField::convertToDBFormat(\App\Request::_get('unit_price'), null, true);
+				$actualPrice = CurrencyField::convertToDBFormat(\App\Request::_get($curValue), null, true);
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
 				$convertedPrice = $actualConversionRate * $requestPrice;
 				\App\Log::trace("Going to save the Product - $curName currency relationship");
@@ -495,7 +495,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					'converted_price' => $convertedPrice,
 					'actual_price' => $actualPrice
 				])->execute();
-				if (AppRequest::get('base_currency') === $curValue) {
+				if (\App\Request::_get('base_currency') === $curValue) {
 					$currencySet = true;
 					$db->createCommand()
 						->update($this->getEntity()->table_name, ['currency_id' => $curid, 'unit_price' => $actualPrice], [$this->getEntity()->table_index => $this->getId()])
@@ -520,7 +520,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$id = $this->getId();
-		$module = AppRequest::get('module');
+		$module = \App\Request::_get('module');
 		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 		foreach ($_FILES as $fileindex => $files) {
 			if (empty($files['tmp_name'])) {
@@ -528,8 +528,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 			$fileInstance = \App\Fields\File::loadFromRequest($files);
 			if ($fileInstance->validate('image')) {
-				if (AppRequest::get($fileindex . '_hidden') != '')
-					$files['original_name'] = AppRequest::get($fileindex . '_hidden');
+				if (\App\Request::_get($fileindex . '_hidden') != '')
+					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
 				else
 					$files['original_name'] = stripslashes($files['name']);
 				$files['original_name'] = str_replace('"', '', $files['original_name']);
@@ -549,8 +549,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();
 		//Remove the deleted vtiger_attachments from db - Products
-		if ($module === 'Products' && AppRequest::get('del_file_list') != '') {
-			$deleteFileList = explode("###", trim(AppRequest::get('del_file_list'), "###"));
+		if ($module === 'Products' && \App\Request::_get('del_file_list') != '') {
+			$deleteFileList = explode("###", trim(\App\Request::_get('del_file_list'), "###"));
 			foreach ($deleteFileList as $fileName) {
 				$attachmentId = (new App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
 					->from('vtiger_attachments')

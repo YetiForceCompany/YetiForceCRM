@@ -2,7 +2,8 @@
 /**
  * Basic class to handle files
  * @package YetiForce.Files
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -20,13 +21,13 @@ abstract class Vtiger_Basic_File
 
 	/**
 	 * Checking permission in get method
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	public function getCheckPermission(Vtiger_Request $request)
+	public function getCheckPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$field = $request->get('field');
 		if ($record) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
@@ -40,10 +41,10 @@ abstract class Vtiger_Basic_File
 
 	/**
 	 * Checking permission in post method
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean
 	 */
-	public function postCheckPermission(Vtiger_Request $request)
+	public function postCheckPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -63,11 +64,11 @@ abstract class Vtiger_Basic_File
 
 	/**
 	 * Get and save files
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function post(Vtiger_Request $request)
+	public function post(\App\Request $request)
 	{
-		$attachIds = [];
+		$attach = [];
 		$files = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		foreach ($files as $key => $file) {
 			foreach ($file as $key => $fileData) {
