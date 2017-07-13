@@ -20,6 +20,45 @@
 .noWrap{
 	white-space:nowrap;
 }
+.textTransform{
+	text-transform: uppercase;
+	float: right;	
+}
+.quickCreateTitle{	
+	font-size: 15px !important;	
+}
+.goToFullFormPassword{		
+		margin-right: 7px;
+	}
+.generatePass{
+	width: 125px;
+	margin-right: 5px;		
+}
+@media only screen and (min-width: 320px) and (max-width: 640px){
+	.textTransform{		
+		margin-top: 2px;		
+		float: none !important;
+	}
+}
+@media only screen and (min-width: 320px) and (max-width: 640px){
+	.goToFullFormOne{
+		width: 165px !important;
+	}
+	.pullRight{
+		width: 100%;
+	}
+}
+@media only screen and (min-width: 320px) and (max-width: 480px){
+	.goToFullFormPassword{
+		width: 269px;
+		margin-bottom: 7px;
+		margin-right: 5px;
+	}
+	.generatePass{
+		width: 174px !important;
+		margin-right: 7px;
+	}
+}
 .input-block-level {
 	display: block;
 	width: 100%;
@@ -3136,7 +3175,6 @@ span[name=existingImages] img{
 	margin-right: 1%;
 }
 .cancelLink.btn[type='reset'],.cancel.btn[type='reset'],.cancelLink.btn[type='button']  {
-	float: right;
 	margin-left: 5px;
 	margin-bottom: 0;
 }
