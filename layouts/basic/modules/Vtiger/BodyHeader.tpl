@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} --!>*}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
@@ -7,7 +7,7 @@
 				<div class="pull-right rightHeaderBtn">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu hidden-xs" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -28,8 +28,8 @@
 													<div class="">
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-															<span class="userIcon-{$NAME}"></span><span>{vtranslate($singularLabel,$NAME)}</span>
+														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
+															<span class="userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}
@@ -47,13 +47,13 @@
 						</ul>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip hidden-xs {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
-						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip hidden-xs" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
@@ -75,13 +75,13 @@
 						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
-						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip hidden-xs {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
 						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
@@ -107,7 +107,7 @@
 									<span class="{$GLYPHICON}" aria-hidden="true"></span>
 								{/if}
 								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 								{/if}
 							</a>
 							{if !empty($CHILD_LINKS)}
@@ -130,7 +130,7 @@
 													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 														   data-{$DATA_NAME}="{$DATA_VALUE}"
 													   {/foreach}
-												   {/if}>{vtranslate($label,$MODULE)}</a>
+												   {/if}>{\App\Language::translate($label,$MODULE)}</a>
 											</li>
 										{/if}
 									{/foreach}
@@ -186,7 +186,7 @@
 					</div>
 				</div>
 				<div class="pull-right actionMenuBtn">
-					<div class="quickAction">
+					<div class="quickAction hidden-sm">
 						<a class="btn btn-default btn-sm" href="#">
 							<span aria-hidden="true" class="glyphicon glyphicon-tasks"></span>
 						</a>
@@ -222,7 +222,7 @@
 												</div>
 											</a>
 										{elseif $CONFIG['showMailAccounts']=='true'}
-											<select class="form-control" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+											<select class="form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 												{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 													<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
 														{$ITEM.username}
