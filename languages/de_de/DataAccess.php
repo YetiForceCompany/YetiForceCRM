@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL3' => 'Ja - Zwei Bedingungen erfüllt',
 	'LBL_LOCKS_SAVE_LABEL4' => 'Ja - Modales Fenster',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Zwei Felder bestätigen',
-	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist',
+	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schreiben nicht gesperrt ist',
 	'LBL_MESSAGE_LOCK1' => 'Nachricht für eine erfüllte Bedingung',
 	'LBL_MESSAGE_LOCK2' => 'Nachricht für zwei erfüllte Bedingungen',
 	//

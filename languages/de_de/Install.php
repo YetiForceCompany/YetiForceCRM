@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 $languageStrings = [
-	'LBL_MIGRATION_SYSTEM_FINISH' => ' Abgeschlossene Migration YetiForce CRM-System',
+	'LBL_MIGRATION_SYSTEM_FINISH' => 'Migration abgeschlossen - YetiForce CRM-System',
 	'LBL_EXAMPLE_DIRECTORY' => 'Beispiel',
 	'LANGNAME' => 'Deutsch',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Keine Verbindung zum Datenbankserver hergestellt',
