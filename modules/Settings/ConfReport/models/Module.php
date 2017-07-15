@@ -88,10 +88,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getStabilityConf($instalMode = false)
 	{
-		$errorReportingValue = 'E_ALL & ~E_NOTICE';
 		$directiveValues = [
 			'PHP' => ['prefer' => '5.5.0'],
-			'error_reporting' => ['prefer' => $errorReportingValue],
+			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE'],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
 			'max_input_time' => ['prefer' => '600'],
@@ -173,6 +172,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['mbstring.func_overload']['current'] = self::getFlag(ini_get('mbstring.func_overload'));
 
+		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\Exceptions\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
+		if (in_array('E_NOTICE', $errorReporting)) {
+			$directiveValues['error_reporting']['status'] = true;
+		}
+		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
 		if (ini_get('log_errors') != '1' && stripos(ini_get('log_errors'), 'Off') !== false) {
 			$directiveValues['log_errors']['status'] = true;
 		}
@@ -261,12 +265,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$result = $db->query('SELECT @@sql_mode');
 			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
-
-		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\Exceptions\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
-		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting)) {
-			$directiveValues['error_reporting']['status'] = true;
-		}
-		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
 		return $directiveValues;
 	}
 
@@ -299,7 +297,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['.htaccess']['current'] = 'On';
 		}
-		if (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false) {
+		if (\AppConfig::main('systemMode') !== 'demo' && (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false)) {
 			$directiveValues['display_errors']['status'] = true;
 		}
 		$directiveValues['display_errors']['current'] = self::getFlag(ini_get('display_errors'));
