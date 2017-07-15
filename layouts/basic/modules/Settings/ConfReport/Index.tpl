@@ -7,7 +7,7 @@
 			{App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
 		</div>
 		<div class="col-xs-2">
-			{*<!-- 
+			{*<!--
 			<button class="btn btn-primary testSpeed pull-right">
 			<span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>&nbsp;&nbsp;
 			{App\Language::translate('BTN_SERVER_SPEED_TEST',$QUALIFIED_MODULE)}
@@ -61,6 +61,11 @@
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
+						<th colspan="3" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_SYSTEM_STABILITY', $MODULE)}</span>
+						</th>
+					</tr>
+					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">
 							<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
 						</th>
@@ -73,7 +78,40 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue() key=key item=item}
+					{foreach from=Settings_ConfReport_Module_Model::getStabilityConf() key=key item=item}
+						<tr {if $item.status}class="danger"{/if}>
+							<td>
+								<label>{$key}</label>
+								{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+							</td>
+							<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
+							<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<br />
+			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="3" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_SYSTEM_SECURITY', $MODULE)}</span>
+						</th>
+					</tr>
+					<tr class="blockHeader">
+						<th colspan="1" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
 						<tr {if $item.status}class="danger"{/if}>
 							<td>
 								<label>{$key}</label>
@@ -90,7 +128,7 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="mediumWidthType">
-							<h4>{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}</h4>
+							{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
 						</th>
 					</tr>
 					<tr class="blockHeader">
@@ -122,14 +160,14 @@
 						</th>
 						<th colspan="1" class="mediumWidthType">
 							<span>{App\Language::translate('LBL_PATH', $MODULE)}</span>
-						</th> 							
+						</th>
 						<th colspan="1" class="mediumWidthType">
 							<span>{App\Language::translate('LBL_PERMISSION', $MODULE)}</span>
-						</th>  				
+						</th>
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}			
+					{foreach from=Settings_ConfReport_Module_Model::getPermissionsFiles() key=key item=item}
 						<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
 							<td width="23%"><label class="marginRight5px">{App\Language::translate($key, $MODULE)}</label></td>
 							<td width="23%"><label class="marginRight5px">{App\Language::translate($item.path, $MODULE)}</label></td>
@@ -139,7 +177,7 @@
 									{else}
 										{App\Language::translate('LBL_TRUE_PERMISSION', $MODULE)}
 									{/if}
-								</label></td>			
+								</label></td>
 						</tr>
 					{/foreach}
 				</tbody>
@@ -149,7 +187,7 @@
 		{* check config module *}
 		{if \App\Module::isModuleActive('OSSMail')}
 			<div class='editViewContainer tab-pane' id="check_config">
-				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>		
+				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>
 			</div>
 		{/if}
     </div>

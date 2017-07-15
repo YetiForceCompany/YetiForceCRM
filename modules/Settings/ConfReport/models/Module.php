@@ -53,7 +53,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl', 'mandatory' => true],
 		'LBL_CURL' => ['type' => 'e', 'name' => 'curl', 'mandatory' => true],
 		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd', 'mandatory' => true],
-		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect', 'mandatory' => false],
 		'LBL_PCRE_LIBRARY' => ['type' => 'e', 'name' => 'pcre', 'mandatory' => true],
 		'LBL_XML_LIBRARY' => ['type' => 'e', 'name' => 'xml', 'mandatory' => true],
 		'LBL_JSON_LIBRARY' => ['type' => 'e', 'name' => 'json', 'mandatory' => true],
@@ -61,11 +60,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_DOM_LIBRARY' => ['type' => 'e', 'name' => 'dom', 'mandatory' => true],
 		'LBL_ZIP_ARCHIVE' => ['type' => 'e', 'name' => 'zip', 'mandatory' => true],
 		'LBL_MBSTRING_LIBRARY' => ['type' => 'e', 'name' => 'mbstring', 'mandatory' => true],
-		'LBL_EXIF_LIBRARY' => ['type' => 'f', 'name' => 'exif_read_data', 'mandatory' => false],
 		'LBL_SOAP_LIBRARY' => ['type' => 'e', 'name' => 'soap', 'mandatory' => true],
 		'LBL_MYSQLND_LIBRARY' => ['type' => 'e', 'name' => 'mysqlnd', 'mandatory' => true],
-		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
+		'LBL_EXIF_LIBRARY' => ['type' => 'f', 'name' => 'exif_read_data', 'mandatory' => false],
+		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect', 'mandatory' => false],
 		'LBL_OPCACHE_LIBRARY' => ['type' => 'f', 'name' => 'opcache_get_configuration', 'mandatory' => false],
+		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
 	);
 
 	public static function getConfigurationLibrary()
@@ -82,25 +82,21 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Get configuration
+	 * Get system stability configuration
 	 * @param bool $instalMode
 	 * @return array
 	 */
-	public static function getConfigurationValue($instalMode = false)
+	public static function getStabilityConf($instalMode = false)
 	{
 		$errorReportingValue = 'E_ALL & ~E_NOTICE';
 		$directiveValues = [
-			'HTTPS' => ['prefer' => 'On', 'help' => 'HTTPS_HELP_TEXT'],
 			'PHP' => ['prefer' => '5.5.0'],
-			'.htaccess' => ['prefer' => 'On', 'help' => 'HTACCESS_HELP_TEXT'],
-			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
 			'error_reporting' => ['prefer' => $errorReportingValue],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
 			'max_input_time' => ['prefer' => '600'],
 			'default_socket_timeout' => ['prefer' => '600'],
 			'memory_limit' => ['prefer' => '512 MB'],
-			'display_errors' => ['prefer' => 'Off'],
 			'log_errors' => ['prefer' => 'On'],
 			'file_uploads' => ['prefer' => 'On'],
 			'short_open_tag' => ['prefer' => 'On'],
@@ -108,36 +104,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'upload_max_filesize' => ['prefer' => '100 MB'],
 			'max_input_vars' => ['prefer' => '10000'],
 			'zlib.output_compression' => ['prefer' => 'Off'],
-			'expose_php' => ['prefer' => 'Off'],
 			'session.auto_start' => ['prefer' => 'Off'],
-			'session.use_strict_mode' => ['prefer' => 'On'],
-			'session.cookie_httponly' => ['prefer' => 'On'],
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
-			'session_regenerate_id' => ['prefer' => 'On'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
-		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-			$directiveValues['HTTPS']['status'] = false;
-			$directiveValues['HTTPS']['current'] = self::getFlag(true);
-		} else {
-			$directiveValues['HTTPS']['status'] = true;
-			$directiveValues['HTTPS']['current'] = self::getFlag(false);
-		}
-		if (IS_PUBLIC_DIR === true) {
-			$directiveValues['public_html']['current'] = self::getFlag(true);
-		} else {
-			$directiveValues['public_html']['status'] = true;
-			$directiveValues['public_html']['current'] = self::getFlag(false);
-		}
-		if (App\RequestUtil::getBrowserInfo()->https) {
-			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
-			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
-				$directiveValues['session.cookie_secure']['status'] = true;
-			}
-			$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('display_errors'));
-		}
 		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
 			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
@@ -152,11 +124,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['suhosin.post.max_vars'] = array('prefer' => '5000');
 			$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
 		}
-
-		if (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false)
-			$directiveValues['display_errors']['status'] = true;
-		$directiveValues['display_errors']['current'] = self::getFlag(ini_get('display_errors'));
-
 		if (ini_get('file_uploads') != '1' && stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
@@ -201,34 +168,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['session.auto_start']['status'] = true;
 		}
 		$directiveValues['session.auto_start']['current'] = self::getFlag(ini_get('session.auto_start'));
-
-		if (ini_get('session.use_strict_mode') != '1' && stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
-			$directiveValues['session.use_strict_mode']['status'] = true;
-		}
-		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
-
-		if (ini_get('session.cookie_httponly') != '1' && stripos(ini_get('session.cookie_httponly'), 'Off') !== false) {
-			$directiveValues['session.cookie_httponly']['status'] = true;
-		}
-		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
-
-		/*
-		  if (ini_get('session.cookie_secure') != '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {
-		  $directiveValues['session.cookie_secure']['status'] = true;
-		  }
-		  $directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('session.cookie_secure'));
-		 */
 		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false) {
 			$directiveValues['mbstring.func_overload']['status'] = true;
 		}
 		$directiveValues['mbstring.func_overload']['current'] = self::getFlag(ini_get('mbstring.func_overload'));
 
-		if (ini_get('log_errors') != '1' && stripos(ini_get('log_errors'), 'Off') !== false)
+		if (ini_get('log_errors') != '1' && stripos(ini_get('log_errors'), 'Off') !== false) {
 			$directiveValues['log_errors']['status'] = true;
+		}
 		$directiveValues['log_errors']['current'] = self::getFlag(ini_get('log_errors'));
 
-		if (ini_get('short_open_tag') != '1' && stripos(ini_get('short_open_tag'), 'Off') !== false)
+		if (ini_get('short_open_tag') != '1' && stripos(ini_get('short_open_tag'), 'Off') !== false) {
 			$directiveValues['short_open_tag']['status'] = true;
+		}
 		$directiveValues['short_open_tag']['current'] = self::getFlag(ini_get('short_open_tag'));
 
 		if (ini_get('session.gc_maxlifetime') < 21600)
@@ -247,27 +199,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['max_input_vars']['status'] = true;
 		}
 		$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
-		if (ini_get('expose_php') == '1' || stripos(ini_get('expose_php'), 'On') !== false) {
-			$directiveValues['expose_php']['status'] = true;
-		}
-		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
 
 		if (version_compare(PHP_VERSION, '5.5.0', '<')) {
 			$directiveValues['PHP']['status'] = true;
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
-
-		if (!isset($_SERVER['HTACCESS_TEST'])) {
-			$directiveValues['.htaccess']['status'] = true;
-			$directiveValues['.htaccess']['current'] = 'Off';
-		} else {
-			$directiveValues['.htaccess']['current'] = 'On';
-		}
-		if (AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')) {
-			$directiveValues['session_regenerate_id']['status'] = true;
-		}
-		$directiveValues['session_regenerate_id']['current'] = self::getFlag(AppConfig::main('session_regenerate_id'));
-
 		if (extension_loaded('suhosin')) {
 			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
 				$directiveValues['suhosin.session.encrypt']['status'] = true;
@@ -331,6 +267,73 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['error_reporting']['status'] = true;
 		}
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
+		return $directiveValues;
+	}
+
+	/**
+	 * Get system security configuration
+	 * @param bool $instalMode
+	 * @return array
+	 */
+	public static function getSecurityConf($instalMode = false)
+	{
+		$directiveValues = [
+			'display_errors' => ['prefer' => 'Off'],
+			'HTTPS' => ['prefer' => 'On', 'help' => 'HTTPS_HELP_TEXT'],
+			'.htaccess' => ['prefer' => 'On', 'help' => 'HTACCESS_HELP_TEXT'],
+			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
+			'expose_php' => ['prefer' => 'Off'],
+			'session_regenerate_id' => ['prefer' => 'On'],
+			'session.use_strict_mode' => ['prefer' => 'On'],
+			'session.cookie_httponly' => ['prefer' => 'On'],
+		];
+		if (IS_PUBLIC_DIR === true) {
+			$directiveValues['public_html']['current'] = self::getFlag(true);
+		} else {
+			$directiveValues['public_html']['status'] = true;
+			$directiveValues['public_html']['current'] = self::getFlag(false);
+		}
+		if (!isset($_SERVER['HTACCESS_TEST'])) {
+			$directiveValues['.htaccess']['status'] = true;
+			$directiveValues['.htaccess']['current'] = 'Off';
+		} else {
+			$directiveValues['.htaccess']['current'] = 'On';
+		}
+		if (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false) {
+			$directiveValues['display_errors']['status'] = true;
+		}
+		$directiveValues['display_errors']['current'] = self::getFlag(ini_get('display_errors'));
+		if (App\RequestUtil::getBrowserInfo()->https) {
+			$directiveValues['HTTPS']['status'] = false;
+			$directiveValues['HTTPS']['current'] = self::getFlag(true);
+			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
+			if (ini_get('session.cookie_secure') != '1' && stripos(ini_get('session.cookie_secure'), 'On') !== false) {
+				$directiveValues['session.cookie_secure']['status'] = true;
+				$directiveValues['session.cookie_secure']['current'] = self::getFlag(false);
+			} else {
+				$directiveValues['session.cookie_secure']['current'] = self::getFlag(true);
+			}
+		} else {
+			$directiveValues['HTTPS']['status'] = true;
+			$directiveValues['HTTPS']['current'] = self::getFlag(false);
+		}
+		if (ini_get('session.use_strict_mode') != '1' && stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
+			$directiveValues['session.use_strict_mode']['status'] = true;
+		}
+		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
+
+		if (ini_get('session.cookie_httponly') != '1' && stripos(ini_get('session.cookie_httponly'), 'Off') !== false) {
+			$directiveValues['session.cookie_httponly']['status'] = true;
+		}
+		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
+		if (ini_get('expose_php') == '1' || stripos(ini_get('expose_php'), 'On') !== false) {
+			$directiveValues['expose_php']['status'] = true;
+		}
+		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
+		if (AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')) {
+			$directiveValues['session_regenerate_id']['status'] = true;
+		}
+		$directiveValues['session_regenerate_id']['current'] = self::getFlag(AppConfig::main('session_regenerate_id'));
 		return $directiveValues;
 	}
 

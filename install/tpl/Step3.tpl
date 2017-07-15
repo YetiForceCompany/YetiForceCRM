@@ -70,7 +70,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
+									{foreach from=Settings_ConfReport_Module_Model::getStabilityConf(true) key=key item=item}
 										{if $item.status}
 											<tr class="danger">
 												<td>
@@ -93,14 +93,14 @@
 											</th>
 											<th colspan="1" class="mediumWidthType">
 												<span>{App\Language::translate('LBL_PATH', 'Settings::ConfReport')}</span>
-											</th> 							
+											</th>
 											<th colspan="1" class="mediumWidthType">
 												<span>{App\Language::translate('LBL_PERMISSION', 'Settings::ConfReport')}</span>
-											</th>  				
+											</th>
 										</tr>
 									</thead>
 									<tbody>
-										{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}			
+										{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}
 											<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
 												<td width="23%"><label class="marginRight5px">{App\Language::translate($key, 'Settings::ConfReport')}</label></td>
 												<td width="23%"><label class="marginRight5px">{App\Language::translate($item.path, 'Settings::ConfReport')}</label></td>
@@ -110,7 +110,7 @@
 														{else}
 															{App\Language::translate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
 														{/if}
-													</label></td>			
+													</label></td>
 											</tr>
 										{/foreach}
 									</tbody>
