@@ -92,7 +92,6 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
 			foreach ($ratesXml->ValuteData[0] as $currencyRate) {
 				if ($currencyRate->VchCode == $mainCurrency) {
-					echo $currencyRate->VchCode . ' == ' . $mainCurrency . ' = ' . $currencyRate->Vcurs;
 					$exchangeRate = $currencyRate->Vcurs;
 				}
 			}
