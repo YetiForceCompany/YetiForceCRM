@@ -26,7 +26,7 @@
 					<option value="fa {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 				{foreach from=Settings_Vtiger_Icons_Model::getImageIcon() key=NAME item=URL}
-					<option value="{vimage_path($URL)}" data-type="image" title="{$NAME}">{$NAME}</option>
+					<option value="{\Vtiger_Theme::getImagePath($URL)}" data-type="image" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 			</select>
 		</div>

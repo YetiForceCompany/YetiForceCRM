@@ -186,7 +186,7 @@ class Vtiger_Menu_Model
 			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
 		}
 		if (is_string($menu)) {
-			$iconName = vimage_path($menu);
+			$iconName = \Vtiger_Theme::getImagePath($menu);
 			if (file_exists($iconName)) {
 				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
@@ -201,7 +201,7 @@ class Vtiger_Menu_Model
 				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
 
-			$icon = vimage_path($menu['icon']);
+			$icon = \Vtiger_Theme::getImagePath($menu['icon']);
 			if (file_exists($icon)) {
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
