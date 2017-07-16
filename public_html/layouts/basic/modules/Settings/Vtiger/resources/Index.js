@@ -36,6 +36,8 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 						if (type === 'icon') {
 							container.find('.iconExample').html('<span class="' + data.element.value + '" aria-hidden="true"></span>');
 						} else if (type === 'image') {
+							container.find('.iconName').text(data.text);
+							container.find('#iconName').val(data.text);
 							container.find('.iconExample').html('<img width="24px" src="' + data.element.value + '"/>')
 						}
 						return data.text;
@@ -403,10 +405,10 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 								id: btn.closest('.warning').data('id'),
 								params: params,
 							}).then(function (data) {
-								if(data.result.result){
-									Vtiger_Helper_Js.showMessage({text : data.result.message, type: 'success', animation: 'show'});
-								}else{
-									Vtiger_Helper_Js.showMessage({text : data.result.message, type: 'error', animation: 'show'});
+								if (data.result.result) {
+									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'success', animation: 'show'});
+								} else {
+									Vtiger_Helper_Js.showMessage({text: data.result.message, type: 'error', animation: 'show'});
 								}
 							})
 						}
