@@ -26,8 +26,8 @@ class ServerHttps extends \App\SystemWarnings\Template
 		}
 		if ($this->status === 0) {
 			$this->link = 'https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html';
-			$this->linkTitle = vtranslate('BTN_CONFIGURE_HTTPS', 'Settings:SystemWarnings');
-			$this->description = vtranslate('LBL_MISSING_HTTPS', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
+			$this->linkTitle = \App\Language::translate('BTN_CONFIGURE_HTTPS', 'Settings:SystemWarnings');
+			$this->description = \App\Language::translate('LBL_MISSING_HTTPS', 'Settings:SystemWarnings', \Settings_ModuleManager_Library_Model::TEMP_DIR);
 		}
 	}
 }
