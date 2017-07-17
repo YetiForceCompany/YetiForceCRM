@@ -325,14 +325,14 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
-		return vtranslate('Add relationship', 'OSSMail');
+		return \App\Language::translate('Add relationship', 'OSSMail');
 	}
 
 	public static function removeRelated($params)
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_ossmailview_relation', 'ossmailviewid = ? && crmid = ?', [$params['mailId'], $params['crmid']]);
-		return vtranslate('Removed relationship', 'OSSMail');
+		return \App\Language::translate('Removed relationship', 'OSSMail');
 	}
 
 	public function isEditable()

@@ -29,7 +29,7 @@ class OSSMailView_Relation_Action extends Vtiger_Action_Controller
 		$recordModel->setReloadRelationRecord($request->get('moduleName'), $request->get('record'));
 
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate('LBL_SET_RELOAD_RELATIONS', $moduleName));
+		$response->setResult(\App\Language::translate('LBL_SET_RELOAD_RELATIONS', $moduleName));
 		$response->emit();
 	}
 }
