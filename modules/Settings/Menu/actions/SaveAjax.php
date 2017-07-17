@@ -28,7 +28,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -43,7 +43,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVED_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -56,7 +56,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -69,7 +69,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -87,7 +87,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 
 		$response->emit();

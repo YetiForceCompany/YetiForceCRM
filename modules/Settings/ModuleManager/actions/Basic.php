@@ -59,9 +59,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
+		if (strtolower($importType) === 'language') {
 			$package = new vtlib\Language();
-		} else if (strtolower($importType) == 'layout') {
+		} else if (strtolower($importType) === 'layout') {
 			$package = new vtlib\Layout();
 		} else {
 			$package = new vtlib\Package();
@@ -87,15 +87,15 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		vtlib\Deprecated::checkFileAccess($uploadFileName);
 
 		$importType = strtolower($request->get('module_import_type'));
-		if ($importType == 'language') {
+		if ($importType === 'language') {
 			$package = new vtlib\Language();
-		} else if ($importType == 'layout') {
+		} else if ($importType === 'layout') {
 			$package = new vtlib\Layout();
 		} else {
 			$package = new vtlib\Package();
 		}
 
-		if ($importType == 'language' || $importType == 'layout') {
+		if ($importType === 'language' || $importType === 'layout') {
 			$package->import($uploadFileName);
 		} else {
 			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
@@ -121,9 +121,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->get('moduleName');
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
-			$result = array('success' => false, 'text' => vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
-			$result = array('success' => false, 'text' => vtranslate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
 		} else {
 			$result = array('success' => true);
 		}

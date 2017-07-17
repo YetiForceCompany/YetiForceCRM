@@ -31,10 +31,10 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 
 	public static function validation($type, $vale)
 	{
-		if ($type == 'min_length' || $type == 'max_length') {
+		if ($type === 'min_length' || $type === 'max_length') {
 			return is_numeric($vale);
 		}
-		if ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
+		if ($type === 'big_letters' || $type === 'small_letters' || $type === 'numbers' || $type === 'special') {
 			if ($vale === 'false' || $vale === 'true') {
 				return true;
 			} else {
@@ -48,22 +48,22 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		$conf = self::getPassDetail();
 		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
-			return vtranslate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . vtranslate("characters", $moduleName);
+			return \App\Language::translate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate("characters", $moduleName);
 		}
 		if (strlen($pass) < $conf['min_length']) {
-			return vtranslate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . vtranslate("characters", $moduleName);
+			return \App\Language::translate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate("characters", $moduleName);
 		}
-		if ($conf['numbers'] == 'true' && !preg_match("#[0-9]+#", $pass)) {
-			return vtranslate("Password should contain numbers", $moduleName);
+		if ($conf['numbers'] === 'true' && !preg_match("#[0-9]+#", $pass)) {
+			return \App\Language::translate("Password should contain numbers", $moduleName);
 		}
-		if ($conf['big_letters'] == 'true' && !preg_match("#[A-Z]+#", $pass)) {
-			return vtranslate("Uppercase letters from A to Z", $moduleName);
+		if ($conf['big_letters'] === 'true' && !preg_match("#[A-Z]+#", $pass)) {
+			return \App\Language::translate("Uppercase letters from A to Z", $moduleName);
 		}
-		if ($conf['small_letters'] == 'true' && !preg_match("#[a-z]+#", $pass)) {
-			return vtranslate("Lowercase letters a to z", $moduleName);
+		if ($conf['small_letters'] === 'true' && !preg_match("#[a-z]+#", $pass)) {
+			return \App\Language::translate("Lowercase letters a to z", $moduleName);
 		}
-		if ($conf['special'] == 'true' && !preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $pass)) {
-			return vtranslate("Password should contain special characters", $moduleName);
+		if ($conf['special'] === 'true' && !preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $pass)) {
+			return \App\Language::translate("Password should contain special characters", $moduleName);
 		}
 		return false;
 	}
