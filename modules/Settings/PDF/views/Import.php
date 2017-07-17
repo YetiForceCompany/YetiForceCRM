@@ -13,12 +13,12 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 
 	public function process(\App\Request $request)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		if ($request->has('upload') && $request->get('upload') == 'true') {
+		if ($request->has('upload') && $request->get('upload') === 'true') {
 			$xmlName = $_FILES['imported_xml']['name'];
 			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
 			$xmlError = $_FILES['imported_xml']['error'];
@@ -27,7 +27,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 			$base64Image = false;
 
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
-			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
+			if ($xmlError === UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
 
 				foreach ($xml as $fieldsKey => $fieldsValue) {
@@ -65,7 +65,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 				$viewer->assign('RECORDID', $pdfModel->getId());
 				$viewer->assign('UPLOAD', true);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', vtranslate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \App\Language::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}

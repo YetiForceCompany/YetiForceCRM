@@ -13,7 +13,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException(\App\Language::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 	}
 
@@ -88,10 +88,10 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 			$post_min = intval($pass_length_min) > 0 ? intval($pass_length_min) : 0;
 			$post_max = intval($pass_length_max) > 0 ? intval($pass_length_max) : 0;
 			$aChars = strlen($pass_allow_chars) > 0 ? urldecode($pass_allow_chars) : '';
-			$rChanges = $registerChanges == '' ? 0 : 1;
+			$rChanges = $registerChanges === '' ? 0 : 1;
 
 			// update the configuration data
-			if (strlen($error) == 0 && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
+			if (strlen($error) === 0 && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
 				App\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
 					'pass_length_min' => $post_min,
 					'pass_length_max' => $post_max,
@@ -108,7 +108,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 			}
 		} else if (!empty($encryption_pass)) {
 			// save new password key
-			if (!empty($encrypt) && !empty($pass_key) && $encrypt == "start") {
+			if (!empty($encrypt) && !empty($pass_key) && $encrypt === "start") {
 				// save key pass
 				$newPassword = strlen($pass_key) > 0 ? hash('sha256', $pass_key) : false;
 
@@ -139,7 +139,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				}
 			}
 			// change password key
-			else if ($config_exists && $encrypt == "edit") {
+			else if ($config_exists && $encrypt === "edit") {
 				$configKey = isset($config['key']) ? $config['key'] : false;
 
 				// check if given password is correct
@@ -147,7 +147,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				if (strcmp($config['key'], hash('sha256', $oldKey)) != 0) { // not equal
 					$pass_ok = false;
 					$error = 'Old password key is incorrect!';
-				} else if (strlen($newKey) == 0) {
+				} else if (strlen($newKey) === 0) {
 					$pass_ok = false;
 					$error = 'New password too short!';
 				}
@@ -167,7 +167,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$result = $adb->pquery($sql, array($newKey), true);
 					$encrypt_aff_rows = $adb->getAffectedRowCount($result);
 
-					if ($decrypt_aff_rows == $encrypt_aff_rows) {
+					if ($decrypt_aff_rows === $encrypt_aff_rows) {
 						// at end we are saving new password key
 						$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 						$config = array("encode" => array('key' => "$newKey"));
@@ -183,7 +183,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				}
 			}
 			// stop encrypting passwords
-			else if ($encrypt == "stop") {
+			else if ($encrypt === "stop") {
 				// check if the given password is correct
 				$passKey = hash('sha256', $passKey);
 				$configKey = $config['key'];
@@ -224,7 +224,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 			}
 		}
 
-		$registerTxt = $register == 0 ? '' : 'checked="checked"';
+		$registerTxt = $register === 0 ? '' : 'checked="checked"';
 
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

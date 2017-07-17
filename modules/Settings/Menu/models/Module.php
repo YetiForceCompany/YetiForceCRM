@@ -55,7 +55,7 @@ class Settings_Menu_Module_Model
 				if ($row['label'] != '') {
 					$name = $row['label'];
 				} elseif ($settings) {
-					$name = vtranslate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
+					$name = \App\Language::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
 				}
 				break;
 			case 6: $name = 'LBL_HOME';
@@ -64,7 +64,7 @@ class Settings_Menu_Module_Model
 				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data = $query->one();
 				if ($settings) {
-					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . vtranslate($data['viewname'], $data['entitytype']);
+					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']);
 				} else {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['viewname'], $data['entitytype']);
 				}

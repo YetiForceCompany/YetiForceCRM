@@ -49,7 +49,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
-			if ($key == 'mandatory') {
+			if ($key === 'mandatory') {
 				$fieldInstance->updateTypeofDataFromMandatory($value);
 			}
 			if (in_array($key, $fields)) {
@@ -57,7 +57,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 		}
 		$defaultValue = $request->get('fieldDefaultValue');
-		if ($fieldInstance->getFieldDataType() == 'date') {
+		if ($fieldInstance->getFieldDataType() === 'date') {
 			$dateInstance = new Vtiger_Date_UIType();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
 		}
@@ -75,7 +75,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => vtranslate($fieldInstance->get('label'), $request->get('sourceModule'))]);
+				'label' => \App\Language::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

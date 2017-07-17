@@ -45,8 +45,8 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$recordModel = new $recordModelClass();
 			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
 			$relModuleName = vtlib\Functions::getModuleName($row['reltabid']);
-			$row['tabid'] = vtranslate($moduleName, $moduleName);
-			$row['reltabid'] = vtranslate($relModuleName, $relModuleName);
+			$row['tabid'] = \App\Language::translate($moduleName, $moduleName);
+			$row['reltabid'] = \App\Language::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}
