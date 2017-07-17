@@ -70,7 +70,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function saveTranslation($params)
 	{
-		if ($params['is_new'] == 'true') {
+		if ($params['is_new'] === 'true') {
 			$result = self::addTranslation($params);
 		} else {
 			$result = self::updateTranslation($params);
@@ -109,7 +109,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				return ['success' => false, 'data' => 'LBL_KeyExists'];
 			}
 			$fileContent = file_get_contents($fileName);
-			if ($params['type'] == 'php') {
+			if ($params['type'] === 'php') {
 				$to_replase = '$languageStrings = [';
 			} else {
 				$to_replase = '$jsLanguageStrings = [';
@@ -280,7 +280,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'], $mod);
+			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \App\Language::translate($row['fieldlabel'], $mod);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);
 			foreach ($langs AS $lang) {
 				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
@@ -291,7 +291,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getModFromLang($lang)
 	{
-		if ($lang == '' || $lang === null) {
+		if ($lang === '' || $lang === null) {
 			$lang = 'en_us';
 		} else {
 			if (self::parse_data(',', $lang)) {
@@ -326,9 +326,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (self::parse_data('|', $lang)) {
 				$langArray = explode("|", $lang);
 				unset($langs[$key]);
-				$settings[$key] = vtranslate($langArray[1], 'Settings:' . $langArray[1]);
+				$settings[$key] = \App\Language::translate($langArray[1], 'Settings:' . $langArray[1]);
 			} else {
-				$langs[$key] = vtranslate($key, $key);
+				$langs[$key] = \App\Language::translate($key, $key);
 			}
 		}
 		return array('mods' => $langs, 'settings' => $settings);
@@ -352,8 +352,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function save($params)
 	{
-		if ($params['type'] == 'Checkbox') {
-			$val = $params['val'] == 'true' ? 1 : 0;
+		if ($params['type'] === 'Checkbox') {
+			$val = $params['val'] === 'true' ? 1 : 0;
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
 				->execute();
@@ -407,7 +407,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$fd)
 			return false;
 		while (($file = readdir($fd)) !== false) {
-			if ($file == "." || $file == "..")
+			if ($file === "." || $file === "..")
 				continue;
 			if (is_dir($dir . "/" . $file)) {
 				self::DeleteDir($dir . "/" . $file);
@@ -455,7 +455,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				->from('vtiger_language')
 				->where(['isdefault' => 1])
 				->createCommand()->query();
-		if ($dataReader->count() == 1) {
+		if ($dataReader->count() === 1) {
 			$prefixOld = $dataReader->readColumn(0);
 			$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();
 		}
@@ -494,11 +494,11 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				continue;
 			foreach ($dataLang as $key => $langs) {
 				foreach ($langs as $lang => $value) {
-					if ($lang == $langBase) {
+					if ($lang === $langBase) {
 						++$i;
 						continue;
 					}
-					if (!empty($langs[$langBase]) && ($value == $langs[$langBase] || empty($value))) {
+					if (!empty($langs[$langBase]) && ($value === $langs[$langBase] || empty($value))) {
 						if ($byModule !== false) {
 							$differences[$id][$key][$langBase] = $langs[$langBase];
 							$differences[$id][$key][$lang] = $value;

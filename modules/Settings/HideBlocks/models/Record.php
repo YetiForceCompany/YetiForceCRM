@@ -113,7 +113,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index == '1' && empty($columns)) {
+				if ($index === '1' && empty($columns)) {
 					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0');
 				}
@@ -132,7 +132,7 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		$params = [
 			'blockid' => $this->get('blockid'),
 			'conditions' => $conditions,
-			'enabled' => ($this->get('enabled') == 'true') ? 1 : 0,
+			'enabled' => ($this->get('enabled') === 'true') ? 1 : 0,
 			'view' => $views
 		];
 		if ($this->getId()) {
@@ -184,20 +184,20 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 
 		switch ($fieldName) {
 			case 'name' :
-				$fieldValue = vtranslate($fieldValue, $fieldValue);
+				$fieldValue = \App\Language::translate($fieldValue, $fieldValue);
 				break;
 			case 'blocklabel' :
-				$fieldValue = vtranslate($fieldValue, $this->get('name'));
+				$fieldValue = \App\Language::translate($fieldValue, $this->get('name'));
 				break;
 			case 'enabled' :
-				$fieldValue = vtranslate($this->get('enabled') == 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
+				$fieldValue = \App\Language::translate($this->get('enabled') === 1 ? 'LBL_YES' : 'LBL_NO', $this->get('name'));
 				break;
 			case 'view' :
 				$fieldValue = '';
 				if ($this->get('view') != '') {
 					$selectedViews = explode(',', $this->get('view'));
 					foreach ($selectedViews as $view) {
-						$views[] = vtranslate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
+						$views[] = \App\Language::translate('LBL_VIEW_' . strtoupper($view), $this->get('name'));
 					}
 					$fieldValue = implode($views, ',');
 				}

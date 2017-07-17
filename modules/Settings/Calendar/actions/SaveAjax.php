@@ -33,7 +33,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response->setResult(array(
 			'success' => true,
 			'color' => $color,
-			'message' => vtranslate('LBL_GENERATED_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_GENERATED_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -45,7 +45,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -57,7 +57,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -69,7 +69,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_CHANGES', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_CHANGES', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -81,7 +81,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
 		));
 		$response->emit();
 	}

@@ -280,9 +280,9 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$actionsName = explode(self::$separator, $name);
 		if ($typ)
-			return vtranslate('Action_' . $actionsName[1], 'DataAccess');
+			return \App\Language::translate('Action_' . $actionsName[1], 'DataAccess');
 		else
-			return vtranslate('Action_Desc_' . $actionsName[1], 'DataAccess');
+			return \App\Language::translate('Action_Desc_' . $actionsName[1], 'DataAccess');
 	}
 
 	public static function listAccesDataDirector($module = false)
@@ -297,7 +297,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				foreach ($moduleFolderFiles as $module) {
 					$a_main = explode(self::$separator, $main);
 					$a_module = explode(self::$separator, $module);
-					if ($a_main[1] == $a_module[1]) {
+					if ($a_main[1] === $a_module[1]) {
 						unset($mainFolderFiles[$key]);
 					}
 				}
@@ -376,7 +376,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				$return = false;
 			}
 		} else {
-			$return = $actions == $item ? true : false;
+			$return = $actions === $item ? true : false;
 		}
 		return $return;
 	}
