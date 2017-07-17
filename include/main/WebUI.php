@@ -68,7 +68,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -78,7 +78,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new \Exception\NoPermitted(vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new \Exception\NoPermitted(\App\Language::translate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	protected function triggerPreProcess($handler, $request)
@@ -224,7 +224,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
-				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+				throw new \Exception\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 			}
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
