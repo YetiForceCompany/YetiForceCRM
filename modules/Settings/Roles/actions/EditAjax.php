@@ -35,7 +35,7 @@ Class Settings_Roles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 		$response = new Vtiger_Response();
 		if (!empty($recordModel)) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}

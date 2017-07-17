@@ -27,9 +27,9 @@ class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_I
 		$moduleName = $request->getModule(false);
 		try {
 			if (Settings_RealizationProcesses_Module_Model::updateStatusNotModify($moduleId, $status)) {
-				$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_CONFIG_OK', $moduleName)));
+				$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SAVE_CONFIG_OK', $moduleName)));
 			} else {
-				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
 			}
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
