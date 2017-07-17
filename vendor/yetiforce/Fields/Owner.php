@@ -60,7 +60,7 @@ class Owner
 		$accessibleGroups = \Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
 		if ($accessibleGroups === false) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
+			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') === '5' && $private != 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
@@ -69,7 +69,7 @@ class Owner
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
-				$name = vtranslate($name);
+				$name = \App\Language::translate($name);
 			}
 		}
 		if (!empty($this->searchValue)) {
@@ -93,19 +93,19 @@ class Owner
 		$accessibleUser = \Vtiger_Cache::get('getAccessibleUsers', $cacheKey);
 		if ($accessibleUser === false) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
+			if ($currentUserRoleModel->get('allowassignedrecordsto') === '1' || $private === 'Public') {
 				$accessibleUser = $this->getUsers(false, 'Active', '', $private, true);
-			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
+			} else if ($currentUserRoleModel->get('allowassignedrecordsto') === '2') {
 				$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$roles = array_merge($sameLevelRoles, $sameLevelRoles);
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($roles));
-			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
+			} else if ($currentUserRoleModel->get('allowassignedrecordsto') === '3') {
 				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
-			} else if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5') {
+			} else if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') === '5') {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
 			} else {
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
@@ -132,7 +132,7 @@ class Owner
 		$result = [];
 		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
 		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
-		if ($mode == 'users') {
+		if ($mode === 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];
 			if (!empty($users)) {
 				$result = $this->getUsers(false, 'Active', $users);
@@ -267,7 +267,7 @@ class Owner
 		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdmin();
 		foreach ($tempResult as $key => $row) {
-			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
+			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] === 'on')) {
 				$users[$key] = $row['fullName'];
 			}
 		}
@@ -298,7 +298,7 @@ class Owner
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
 		}
-		if ($private == 'private') {
+		if ($private === 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			if (strpos($query, 'WHERE') === false)
 				$query .= ' WHERE';

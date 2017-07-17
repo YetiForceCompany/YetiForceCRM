@@ -18,86 +18,86 @@ class NumberToWords
 
 	public static function initialize()
 	{
-		$minus = vtranslate('LBL_MINUS');
-		$zero = vtranslate('LBL_ZERO');
-		$one = vtranslate('LBL_ONE');
-		$two = vtranslate('LBL_TWO');
-		$three = vtranslate('LBL_THREE');
-		$four = vtranslate('LBL_FOUR');
-		$five = vtranslate('LBL_FIVE');
-		$six = vtranslate('LBL_SIX');
-		$seven = vtranslate('LBL_SEVEN');
-		$eight = vtranslate('LBL_EIGHT');
-		$nine = vtranslate('LBL_NINE');
-		$ten = vtranslate('LBL_TEN');
-		$eleven = vtranslate('LBL_ELEVEN');
-		$twelve = vtranslate('LBL_TWELVE');
-		$thirteen = vtranslate('LBL_THIRTEEN');
-		$fourteen = vtranslate('LBL_FOURTEEN');
-		$fifteen = vtranslate('LBL_FIFTEEN');
-		$sixteen = vtranslate('LBL_SIXTEEN');
-		$seventeen = vtranslate('LBL_SEVENTEEN');
-		$eighteen = vtranslate('LBL_EIGHTEEN');
-		$nineteen = vtranslate('LBL_NINETEEN');
-		$twenty = vtranslate('LBL_TWENTY');
-		$thirty = vtranslate('LBL_THIRTY');
-		$forty = vtranslate('LBL_FORTY');
-		$fifty = vtranslate('LBL_FIFTY');
-		$sixty = vtranslate('LBL_SIXTY');
-		$seventy = vtranslate('LBL_SEVENTY');
-		$eighty = vtranslate('LBL_EIGHTY');
-		$ninety = vtranslate('LBL_NINETY');
-		$hundred = vtranslate('LBL_HUNDRED');
-		$twoHundred = vtranslate('LBL_TWO_HUNDRED');
-		$threeHundred = vtranslate('LBL_THREE_HUNDRED');
-		$fourHundred = vtranslate('LBL_FOUR_HUNDRED');
-		$fiveHundred = vtranslate('LBL_FIVE_HUNDRED');
-		$sixHundred = vtranslate('LBL_SIX_HUNDRED');
-		$sevenHundred = vtranslate('LBL_SEVEN_HUNDRED');
-		$eightHundred = vtranslate('LBL_EIGHT_HUNDRED');
-		$nineHundred = vtranslate('LBL_NINE_HUNDRED');
-		$thousand = vtranslate('LBL_THOUSAND');
-		$thousands = vtranslate('LBL_THOUSANDS');
-		$thousandss = vtranslate('LBL_THOUSANDSS');
-		$million = vtranslate('LBL_MILLION');
-		$millions = vtranslate('LBL_MILLIONS');
-		$millionss = vtranslate('LBL_MILLIONSS');
-		$billion = vtranslate('LBL_BILLION');
-		$billions = vtranslate('LBL_BILLIONS');
-		$billionss = vtranslate('LBL_BILLIONSS');
-		$trillion = vtranslate('LBL_TRILLION');
-		$trillions = vtranslate('LBL_TRILLIONS');
-		$trillionss = vtranslate('LBL_TRILLIONSS');
-		$quadrillion = vtranslate('LBL_QUADRILLION');
-		$quadrillions = vtranslate('LBL_QUADRILLIONS');
-		$quadrillionss = vtranslate('LBL_QUADRILLIONSS');
-		$quinrillion = vtranslate('LBL_QUINTILLION');
-		$quinrillions = vtranslate('LBL_QUINTILLIONS');
-		$quinrillionss = vtranslate('LBL_QUINTILLIONSS');
-		$sextillion = vtranslate('LBL_SEXTILLION');
-		$sextillions = vtranslate('LBL_SEXTILLIONS');
-		$sextillionss = vtranslate('LBL_SEXTILLIONSS');
-		$septillion = vtranslate('LBL_SEPTILLION');
-		$septillions = vtranslate('LBL_SEPTILLIONS');
-		$septillionss = vtranslate('LBL_SEPTILLIONSS');
-		$nonillion = vtranslate('LBL_NONILLION');
-		$nonillions = vtranslate('LBL_NONILLIONS');
-		$nonillionss = vtranslate('LBL_NONILLIONSS');
-		$undecillion = vtranslate('LBL_UNDECILLION');
-		$undecillions = vtranslate('LBL_UNDECILLIONS');
-		$undecillionss = vtranslate('LBL_UNDECILLIONSS');
-		$tredecillion = vtranslate('LBL_TREDECILLION');
-		$tredecillions = vtranslate('LBL_TREDECILLIONS');
-		$tredecillionss = vtranslate('LBL_TREDECILLIONSS');
-		$quindecillion = vtranslate('LBL_QUINDECILLION');
-		$quindecillions = vtranslate('LBL_QUINDECILLIONS');
-		$quindecillionss = vtranslate('LBL_QUINDECILLIONSS');
-		$septendecillion = vtranslate('LBL_SEPTENDECILLION');
-		$septendecillions = vtranslate('LBL_SEPTENDECILLIONS');
-		$septendecillionss = vtranslate('LBL_SEPTENDECILLIONSS');
-		$novemdecillion = vtranslate('LBL_NOVEMDECILLION');
-		$novemdecillions = vtranslate('LBL_NOVEMDECILLIONS');
-		$novemdecillionss = vtranslate('LBL_NOVEMDECILLIONSS');
+		$minus = \App\Language::translate('LBL_MINUS');
+		$zero = \App\Language::translate('LBL_ZERO');
+		$one = \App\Language::translate('LBL_ONE');
+		$two = \App\Language::translate('LBL_TWO');
+		$three = \App\Language::translate('LBL_THREE');
+		$four = \App\Language::translate('LBL_FOUR');
+		$five = \App\Language::translate('LBL_FIVE');
+		$six = \App\Language::translate('LBL_SIX');
+		$seven = \App\Language::translate('LBL_SEVEN');
+		$eight = \App\Language::translate('LBL_EIGHT');
+		$nine = \App\Language::translate('LBL_NINE');
+		$ten = \App\Language::translate('LBL_TEN');
+		$eleven = \App\Language::translate('LBL_ELEVEN');
+		$twelve = \App\Language::translate('LBL_TWELVE');
+		$thirteen = \App\Language::translate('LBL_THIRTEEN');
+		$fourteen = \App\Language::translate('LBL_FOURTEEN');
+		$fifteen = \App\Language::translate('LBL_FIFTEEN');
+		$sixteen = \App\Language::translate('LBL_SIXTEEN');
+		$seventeen = \App\Language::translate('LBL_SEVENTEEN');
+		$eighteen = \App\Language::translate('LBL_EIGHTEEN');
+		$nineteen = \App\Language::translate('LBL_NINETEEN');
+		$twenty = \App\Language::translate('LBL_TWENTY');
+		$thirty = \App\Language::translate('LBL_THIRTY');
+		$forty = \App\Language::translate('LBL_FORTY');
+		$fifty = \App\Language::translate('LBL_FIFTY');
+		$sixty = \App\Language::translate('LBL_SIXTY');
+		$seventy = \App\Language::translate('LBL_SEVENTY');
+		$eighty = \App\Language::translate('LBL_EIGHTY');
+		$ninety = \App\Language::translate('LBL_NINETY');
+		$hundred = \App\Language::translate('LBL_HUNDRED');
+		$twoHundred = \App\Language::translate('LBL_TWO_HUNDRED');
+		$threeHundred = \App\Language::translate('LBL_THREE_HUNDRED');
+		$fourHundred = \App\Language::translate('LBL_FOUR_HUNDRED');
+		$fiveHundred = \App\Language::translate('LBL_FIVE_HUNDRED');
+		$sixHundred = \App\Language::translate('LBL_SIX_HUNDRED');
+		$sevenHundred = \App\Language::translate('LBL_SEVEN_HUNDRED');
+		$eightHundred = \App\Language::translate('LBL_EIGHT_HUNDRED');
+		$nineHundred = \App\Language::translate('LBL_NINE_HUNDRED');
+		$thousand = \App\Language::translate('LBL_THOUSAND');
+		$thousands = \App\Language::translate('LBL_THOUSANDS');
+		$thousandss = \App\Language::translate('LBL_THOUSANDSS');
+		$million = \App\Language::translate('LBL_MILLION');
+		$millions = \App\Language::translate('LBL_MILLIONS');
+		$millionss = \App\Language::translate('LBL_MILLIONSS');
+		$billion = \App\Language::translate('LBL_BILLION');
+		$billions = \App\Language::translate('LBL_BILLIONS');
+		$billionss = \App\Language::translate('LBL_BILLIONSS');
+		$trillion = \App\Language::translate('LBL_TRILLION');
+		$trillions = \App\Language::translate('LBL_TRILLIONS');
+		$trillionss = \App\Language::translate('LBL_TRILLIONSS');
+		$quadrillion = \App\Language::translate('LBL_QUADRILLION');
+		$quadrillions = \App\Language::translate('LBL_QUADRILLIONS');
+		$quadrillionss = \App\Language::translate('LBL_QUADRILLIONSS');
+		$quinrillion = \App\Language::translate('LBL_QUINTILLION');
+		$quinrillions = \App\Language::translate('LBL_QUINTILLIONS');
+		$quinrillionss = \App\Language::translate('LBL_QUINTILLIONSS');
+		$sextillion = \App\Language::translate('LBL_SEXTILLION');
+		$sextillions = \App\Language::translate('LBL_SEXTILLIONS');
+		$sextillionss = \App\Language::translate('LBL_SEXTILLIONSS');
+		$septillion = \App\Language::translate('LBL_SEPTILLION');
+		$septillions = \App\Language::translate('LBL_SEPTILLIONS');
+		$septillionss = \App\Language::translate('LBL_SEPTILLIONSS');
+		$nonillion = \App\Language::translate('LBL_NONILLION');
+		$nonillions = \App\Language::translate('LBL_NONILLIONS');
+		$nonillionss = \App\Language::translate('LBL_NONILLIONSS');
+		$undecillion = \App\Language::translate('LBL_UNDECILLION');
+		$undecillions = \App\Language::translate('LBL_UNDECILLIONS');
+		$undecillionss = \App\Language::translate('LBL_UNDECILLIONSS');
+		$tredecillion = \App\Language::translate('LBL_TREDECILLION');
+		$tredecillions = \App\Language::translate('LBL_TREDECILLIONS');
+		$tredecillionss = \App\Language::translate('LBL_TREDECILLIONSS');
+		$quindecillion = \App\Language::translate('LBL_QUINDECILLION');
+		$quindecillions = \App\Language::translate('LBL_QUINDECILLIONS');
+		$quindecillionss = \App\Language::translate('LBL_QUINDECILLIONSS');
+		$septendecillion = \App\Language::translate('LBL_SEPTENDECILLION');
+		$septendecillions = \App\Language::translate('LBL_SEPTENDECILLIONS');
+		$septendecillionss = \App\Language::translate('LBL_SEPTENDECILLIONSS');
+		$novemdecillion = \App\Language::translate('LBL_NOVEMDECILLION');
+		$novemdecillions = \App\Language::translate('LBL_NOVEMDECILLIONS');
+		$novemdecillionss = \App\Language::translate('LBL_NOVEMDECILLIONSS');
 
 		$words = [
 			$minus,
@@ -138,14 +138,14 @@ class NumberToWords
 
 		$return = '';
 
-		if ($in{0} == '-') {
+		if ($in{0} === '-') {
 			$in = substr($in, 1);
 			$return = self::$words[0] . ' ';
 		}
 
 		$txt = str_split(strrev($in), 3);
 
-		if ($in == 0) {
+		if ($in === 0) {
 			$return = self::$words[1][0] . ' ';
 		}
 
@@ -153,7 +153,7 @@ class NumberToWords
 			$number = (int) strrev($txt[$i]);
 
 			if ($number > 0) {
-				if ($i == 0) {
+				if ($i === 0) {
 					$return .= self::number($number) . ' ';
 				} else {
 					$return .= ($number > 1 ? self::number($number) . ' ' : '')
@@ -214,7 +214,7 @@ class NumberToWords
 	{
 		$txt = $inflections[2];
 
-		if ($int == 1) {
+		if ($int === 1) {
 			$txt = $inflections[0];
 		}
 
@@ -241,7 +241,7 @@ class NumberToWords
 
 		$j = abs(intval($int));
 
-		if ($j == 0) {
+		if ($j === 0) {
 			return self::$words[1][0];
 		}
 
@@ -254,7 +254,7 @@ class NumberToWords
 		}
 
 		if ($dozens > 0) {
-			if ($dozens == 1) {
+			if ($dozens === 1) {
 				$return .= self::$words[2][$units] . ' ';
 			} else {
 				$return .= self::$words[3][$dozens - 1] . ' ';

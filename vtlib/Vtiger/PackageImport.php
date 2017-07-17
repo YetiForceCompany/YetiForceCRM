@@ -98,7 +98,7 @@ class PackageImport extends PackageExport
 	{
 		$xpathres = $this->xpath($path);
 		foreach ($xpathres as $pathkey => $pathvalue) {
-			if ($pathkey == $path)
+			if ($pathkey === $path)
 				return $pathvalue;
 		}
 		return false;
@@ -118,12 +118,12 @@ class PackageImport extends PackageExport
 
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'language')
+			if ($lcasetype === 'language')
 				return true;
 		}
 		if ($packagetype) {
 			$lcasetype = strtolower($packagetype);
-			if ($lcasetype == 'layout')
+			if ($lcasetype === 'layout')
 				return true;
 		}
 		return false;
@@ -309,10 +309,10 @@ class PackageImport extends PackageExport
 		}
 
 		// Verify module language file.
-		if (!empty($language_modulename) && $language_modulename == $modulename) {
+		if (!empty($language_modulename) && $language_modulename === $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$_errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
 			$this->_errorText = $_errorText;
 		}
@@ -325,7 +325,7 @@ class PackageImport extends PackageExport
 			if (\App\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorText = vtranslate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$_errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
 				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
 				$this->_errorText = $_errorText;
@@ -545,7 +545,7 @@ class PackageImport extends PackageExport
 				$zip->unzip($this->getTemporaryFilePath());
 				foreach ($installSequenceArray as $sequence) {
 					foreach ($buildModuleArray as $moduleInfo) {
-						if ($moduleInfo['install_sequence'] == $sequence) {
+						if ($moduleInfo['install_sequence'] === $sequence) {
 							$this->import($this->getTemporaryFilePath($moduleInfo['filepath']), $overwrite);
 						}
 					}
@@ -572,10 +572,10 @@ class PackageImport extends PackageExport
 		$moduleType = 0;
 		if (!empty($this->_modulexml->type)) {
 			$this->packageType = strtolower($this->_modulexml->type);
-			if ($this->packageType == 'extension' || $this->packageType == 'language') {
+			if ($this->packageType === 'extension' || $this->packageType === 'language') {
 				$isextension = true;
 			}
-			if ($this->packageType == 'inventory') {
+			if ($this->packageType === 'inventory') {
 				$moduleType = 1;
 			}
 		}
