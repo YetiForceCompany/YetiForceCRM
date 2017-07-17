@@ -35,7 +35,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		if ($request->get('selected_ids') == 'all' && $request->get('mode') == 'FindDuplicates') {
+		if ($request->get('selected_ids') === 'all' && $request->get('mode') === 'FindDuplicates') {
 			$recordIds = Vtiger_FindDuplicate_Model::getMassDeleteRecords($request);
 		} else {
 			$recordIds = $this->getRecordsListFromRequest($request);
@@ -52,7 +52,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		}
 
 		if ($permission === 'No') {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
 		}
 
 		$cvId = $request->get('viewname');

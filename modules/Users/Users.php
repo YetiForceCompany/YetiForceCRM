@@ -239,7 +239,7 @@ class Users extends CRMEntity
 		$validate = base64_decode($validate);
 		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
 			$buffer = fread($handle, filesize($validate));
-			if (md5($buffer) == $md5 || (!empty($alt) && md5($buffer) == $alt)) {
+			if (md5($buffer) === $md5 || (!empty($alt) && md5($buffer) === $alt)) {
 				return 1;
 			}
 			return -1;
@@ -294,12 +294,12 @@ class Users extends CRMEntity
 			}
 			\App\Cache::save('Authorization', 'config', $auth);
 		}
-		if ($auth['ldap']['active'] == 'true') {
+		if ($auth['ldap']['active'] === 'true') {
 			\App\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
 			if (in_array($userInfo['id'], $users)) {
 				$bind = false;
-				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
+				$port = $auth['ldap']['port'] === '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
 				if (!$ds) {
 					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
@@ -370,13 +370,13 @@ class Users extends CRMEntity
 		\App\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {
-			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
+			$this->error_string = \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
 		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
-				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
+				$this->error_string = \App\Language::translate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
 		}
@@ -425,14 +425,14 @@ class Users extends CRMEntity
 	{
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('userName');
-			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
+			if (isset($users[$userName]) && $users[$userName]['deleted'] === '0') {
 				return $users[$userName]['id'];
 			}
 		}
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
-		if ($row && $row['deleted'] == '0') {
+		if ($row && $row['deleted'] === '0') {
 			return $row['id'];
 		}
 		return false;
@@ -487,7 +487,7 @@ class Users extends CRMEntity
 
 		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
-		if ($record == '') {
+		if ($record === '') {
 			\App\Log::error('record is empty. returning null');
 			return null;
 		}
@@ -527,7 +527,7 @@ class Users extends CRMEntity
 		if ($this->column_fields['no_of_currency_decimals'] === '') {
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
 		}
-		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
+		if ($this->column_fields['currency_grouping_pattern'] === '' && $this->column_fields['currency_symbol_placement'] === '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
 			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ' ';
@@ -552,7 +552,7 @@ class Users extends CRMEntity
 		$db = App\Db::getInstance();
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
-		if (!isset($ownerid) || $ownerid == '')
+		if (!isset($ownerid) || $ownerid === '')
 			$ownerid = $currentUserId;
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate('image')) {
@@ -681,7 +681,7 @@ class Users extends CRMEntity
 			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
-					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
+					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
 						$adminId = $id;
 						continue;
 					}
