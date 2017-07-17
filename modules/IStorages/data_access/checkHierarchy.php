@@ -33,8 +33,8 @@ class DataAccess_checkHierarchy
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_PARENT_IS_CHILD', $moduleName),
+					'title' => \App\Language::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Language::translate('LBL_PARENT_IS_CHILD', $moduleName),
 					'type' => 'error'
 				]
 			];

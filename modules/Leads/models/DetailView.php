@@ -46,7 +46,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => '',
 				'linkclass' => 'btn-info btn-convertLead ' . $convert,
-				'linkhint' => vtranslate('LBL_CONVERT_LEAD', $moduleName),
+				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
 			);
