@@ -101,7 +101,7 @@ class Vtiger_Report_Model extends Reports
 				$this->reportname = decode_html($cachedInfo["reportname"]);
 				$this->reportdescription = decode_html($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
-				if ($currentUser->isAdminUser() === true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] == $userId) {
+				if ($currentUser->isAdminUser() === true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] === $userId) {
 					$this->is_editable = true;
 				} else {
 					$this->is_editable = false;
@@ -119,8 +119,8 @@ class Vtiger_Report_Model extends Reports
 	public function getModulesList()
 	{
 		foreach ($this->module_list as $key => $value) {
-			if (isPermitted($key, 'index') == "yes") {
-				$modules [$key] = vtranslate($key, $key);
+			if (isPermitted($key, 'index') === "yes") {
+				$modules [$key] = \App\Language::translate($key, $key);
 			}
 		}
 		asort($modules);

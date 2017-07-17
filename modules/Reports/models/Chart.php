@@ -148,7 +148,7 @@ abstract class Base_Chart extends \App\Base
 
 		if (is_array($columns)) {
 			foreach ($columns as $column) {
-				if ($column == 'count(*)') {
+				if ($column === 'count(*)') {
 					$this->setRecordCount();
 				} else {
 
@@ -162,7 +162,7 @@ abstract class Base_Chart extends \App\Base
 						$reportColumnSQL = $this->getReportTotalColumnSQL($columnInfo);
 						$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 
-						if ($aggregateFunction == 'AVG') { // added as mysql will ignore null values
+						if ($aggregateFunction === 'AVG') { // added as mysql will ignore null values
 							$label = $this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]) . '__AVG';
 							$reportColumn = '(SUM(' . $reportColumnSQLInfo[0] . ')/COUNT(*)) AS ' . $label;
 						} else {
@@ -208,7 +208,7 @@ abstract class Base_Chart extends \App\Base
 						$reportColumnSQL = $this->getReportColumnSQL($columnInfo);
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($reportColumnSQL));
 						// Added support for date and date time fields with Year and Month support
-						if ($columnInfo[4] == 'D' || $columnInfo[4] == 'DT') {
+						if ($columnInfo[4] === 'D' || $columnInfo[4] === 'DT') {
 							$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 							$fieldModel->set('reportlabel', trim($this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]), '\'')); // trim added as single quote on labels was not grouping properly
 						} else {
@@ -295,7 +295,7 @@ abstract class Base_Chart extends \App\Base
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
-		return vtranslate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
+		return \App\Language::translate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
 	}
 
 	/**
@@ -392,7 +392,7 @@ abstract class Base_Chart extends \App\Base
 		// Special handling for date fields
 		$comparator = 'e';
 		$dataFieldInfo = @explode(':', $field);
-		if (($dataFieldInfo[4] == 'D' || $dataFieldInfo[4] == 'DT') && !empty($dataFieldInfo[5])) {
+		if (($dataFieldInfo[4] === 'D' || $dataFieldInfo[4] === 'DT') && !empty($dataFieldInfo[5])) {
 			$dataValue = explode(' ', $value);
 			if (count($dataValue) > 1) {
 				$comparator = 'bw';
@@ -401,7 +401,7 @@ abstract class Base_Chart extends \App\Base
 				$comparator = 'bw';
 				$value = date('Y-m-d H:i:s', strtotime('first day of JANUARY ' . $value)) . ',' . date('Y-m-d', strtotime('last day of DECEMBER ' . $value)) . ' 23:59:59';
 			}
-		} elseif ($dataFieldInfo[4] == 'DT') {
+		} elseif ($dataFieldInfo[4] === 'DT') {
 			$value = Vtiger_Date_UIType::getDisplayDateTimeValue($value);
 		}
 
@@ -496,7 +496,7 @@ class PieChart extends Base_Chart
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
 					if ($sectorField->get('uitype') != '7') {
-						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
+						if ($sectorField->get('uitype') === '71' || $sectorField->get('uitype') === '72') { //convert currency fields
 							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 						} else {
 							$value = (int) $sectorField->getDisplayValue($row[$sector]);
@@ -508,18 +508,18 @@ class PieChart extends Base_Chart
 			//translate picklist and multiselect picklist values
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
-				if ($fieldDataType == 'picklist') {
-					$label = vtranslate($row[$legend], $legendField->getModuleName());
-				} else if ($fieldDataType == 'multipicklist') {
+				if ($fieldDataType === 'picklist') {
+					$label = \App\Language::translate($row[$legend], $legendField->getModuleName());
+				} else if ($fieldDataType === 'multipicklist') {
 					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
-						$labelList[] = vtranslate($multiPicklistValue, $legendField->getModuleName());
+						$labelList[] = \App\Language::translate($multiPicklistValue, $legendField->getModuleName());
 					}
 					$label = implode(',', $labelList);
-				} else if ($fieldDataType == 'date') {
+				} else if ($fieldDataType === 'date') {
 					$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
-				} else if ($fieldDataType == 'datetime') {
+				} else if ($fieldDataType === 'datetime') {
 					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
@@ -574,7 +574,7 @@ class VerticalbarChart extends Base_Chart
 
 			if ($queryColumnsByFieldModel) {
 				foreach ($queryColumnsByFieldModel as $fieldModel) {
-					if ($fieldModel->get('uitype') == '71' || $fieldModel->get('uitype') == '72') {
+					if ($fieldModel->get('uitype') === '71' || $fieldModel->get('uitype') === '72') {
 						$value = (float) ($row[$fieldModel->get('reportlabel')]);
 						$values[$i][] = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 					} else {
@@ -586,18 +586,18 @@ class VerticalbarChart extends Base_Chart
 			if ($groupByColumnsByFieldModel) {
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
-					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
-					} else if ($fieldDataType == 'multipicklist') {
+					if ($fieldDataType === 'picklist') {
+						$label = \App\Language::translate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
+					} else if ($fieldDataType === 'multipicklist') {
 						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
-							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
+							$labelList[] = \App\Language::translate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
-					} else if ($fieldDataType == 'date') {
+					} else if ($fieldDataType === 'date') {
 						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
-					} else if ($fieldDataType == 'datetime') {
+					} else if ($fieldDataType === 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
 						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
@@ -616,7 +616,7 @@ class VerticalbarChart extends Base_Chart
 		$data = array('labels' => $labels,
 			'values' => $values,
 			'links' => $links,
-			'type' => (count($values[0]) == 1) ? 'singleBar' : 'multiBar',
+			'type' => (count($values[0]) === 1) ? 'singleBar' : 'multiBar',
 			'data_labels' => $this->getDataLabels(),
 			'graph_label' => $this->getGraphLabel()
 		);
@@ -627,7 +627,7 @@ class VerticalbarChart extends Base_Chart
 	{
 		$dataLabels = [];
 		if ($this->isRecordCount()) {
-			$dataLabels[] = vtranslate('LBL_RECORD_COUNT', 'Reports');
+			$dataLabels[] = \App\Language::translate('LBL_RECORD_COUNT', 'Reports');
 		}
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if ($queryColumnsByFieldModel) {
@@ -639,7 +639,7 @@ class VerticalbarChart extends Base_Chart
 				$aggregateFunction = $reportColumnInfo[5];
 				$aggregateFunctionLabel = $this->getAggregateFunctionLabel($aggregateFunction);
 
-				$dataLabels[] = vtranslate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
+				$dataLabels[] = \App\Language::translate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
 			}
 		}
 		return $dataLabels;

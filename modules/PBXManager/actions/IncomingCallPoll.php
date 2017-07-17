@@ -76,7 +76,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				if ($callerid) {
 					$moduleName = $recordModel->get('customertype');
 					if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $callerid)) {
-						$name = $recordModel->get('customernumber') . vtranslate('LBL_HIDDEN', 'PBXManager');
+						$name = $recordModel->get('customernumber') . \App\Language::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
 						$entityNames = getEntityName($moduleName, array($callerid));
@@ -86,7 +86,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				}
 				// End
 				$direction = $recordModel->get('direction');
-				if ($direction == 'inbound') {
+				if ($direction === 'inbound') {
 					$userid = $recordModel->get('user');
 					if ($userid) {
 						$entityNames = getEntityName('Users', array($userid));

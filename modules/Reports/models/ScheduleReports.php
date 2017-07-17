@@ -70,7 +70,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$schdayoftheweek = null;
 		$schdayofthemonth = null;
 		$schannualdates = null;
-		if ($scheduleid == self::$SCHEDULED_ON_SPECIFIC_DATE) {
+		if ($scheduleid === self::$SCHEDULED_ON_SPECIFIC_DATE) {
 			$date = $this->get('schdate');
 			$dateDBFormat = DateTimeField::convertToDBFormat($date);
 			$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
@@ -81,13 +81,13 @@ class Reports_ScheduleReports_Model extends \App\Base
 				$this->set('next_trigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 			}
 			$schdate = \App\Json::encode(array($dateDBFormat));
-		} else if ($scheduleid == self::$SCHEDULED_WEEKLY) {
+		} else if ($scheduleid === self::$SCHEDULED_WEEKLY) {
 			$schdayoftheweek = \App\Json::encode($this->get('schdayoftheweek'));
 			$this->set('schdayoftheweek', $schdayoftheweek);
-		} else if ($scheduleid == self::$SCHEDULED_MONTHLY_BY_DATE) {
+		} else if ($scheduleid === self::$SCHEDULED_MONTHLY_BY_DATE) {
 			$schdayofthemonth = \App\Json::encode($this->get('schdayofthemonth'));
 			$this->set('schdayofthemonth', $schdayofthemonth);
-		} else if ($scheduleid == self::$SCHEDULED_ANNUALLY) {
+		} else if ($scheduleid === self::$SCHEDULED_ANNUALLY) {
 			$schannualdates = \App\Json::encode($this->get('schannualdates'));
 			$this->set('schannualdates', $schannualdates);
 		}
@@ -99,7 +99,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		if ($scheduleid != self::$SCHEDULED_ON_SPECIFIC_DATE) {
 			$nextTriggerTime = $this->getNextTriggerTime();
 		}
-		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled === false) {
+		if ($isReportScheduled === '0' || $isReportScheduled === '' || $isReportScheduled === false) {
 			$deleteScheduledReportSql = "DELETE FROM vtiger_schedulereports WHERE reportid=?";
 			$adb->pquery($deleteScheduledReportSql, array($reportid));
 		} else {
@@ -258,22 +258,22 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$nextTime = null;
 
 		$workflow = new Workflow();
-		if ($scheduleType == self::$SCHEDULED_DAILY) {
+		if ($scheduleType === self::$SCHEDULED_DAILY) {
 			$nextTime = $workflow->getNextTriggerTimeForDaily($this->get('schtime'));
 		}
-		if ($scheduleType == self::$SCHEDULED_WEEKLY) {
+		if ($scheduleType === self::$SCHEDULED_WEEKLY) {
 			$nextTime = $workflow->getNextTriggerTimeForWeekly($this->get('schdayoftheweek'), $this->get('schtime'));
 		}
 
-		if ($scheduleType == self::$SCHEDULED_ON_SPECIFIC_DATE) {
+		if ($scheduleType === self::$SCHEDULED_ON_SPECIFIC_DATE) {
 			$nextTime = date('Y-m-d H:i:s', strtotime('+10 year'));
 		}
 
-		if ($scheduleType == self::$SCHEDULED_MONTHLY_BY_DATE) {
+		if ($scheduleType === self::$SCHEDULED_MONTHLY_BY_DATE) {
 			$nextTime = $workflow->getNextTriggerTimeForMonthlyByDate($this->get('schdayofthemonth'), $this->get('schtime'));
 		}
 
-		if ($scheduleType == self::$SCHEDULED_ANNUALLY) {
+		if ($scheduleType === self::$SCHEDULED_ANNUALLY) {
 			$nextTime = $workflow->getNextTriggerTimeForAnnualDates($this->get('schannualdates'), $this->get('schtime'));
 		}
 		@date_default_timezone_set($default_timezone);
@@ -371,16 +371,16 @@ class Reports_ScheduleReports_Model extends \App\Base
 													<td> </td>
 												</tr>
 												<tr>
-													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . vtranslate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
+													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
 												</tr>
 												<tr>
 													<td align="center">
 													<table width="75%" cellspacing="0" cellpadding="10" border="0" style="border: 2px solid rgb(180, 180, 179); background-color: rgb(226, 226, 225); font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal;">
 															<tr>
-																<td><b>' . vtranslate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
+																<td><b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
 															</tr>
 															<tr>
-																<td><b>' . vtranslate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
+																<td><b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
 															</tr>
 													</table>
 													</td>
