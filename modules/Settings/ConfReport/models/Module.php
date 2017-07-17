@@ -276,15 +276,55 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getSecurityConf($instalMode = false)
 	{
 		$directiveValues = [
-			'display_errors' => ['prefer' => 'Off'],
+			'display_errors' => [
+				'prefer' => 'Off',
+				'current' => self::getFlag(ini_get('display_errors')),
+				'status' => \AppConfig::main('systemMode') !== 'demo' && (ini_get('display_errors') == 1 || stripos(ini_get('display_errors'), 'On') !== false)
+			],
 			'HTTPS' => ['prefer' => 'On', 'help' => 'HTTPS_HELP_TEXT'],
 			'.htaccess' => ['prefer' => 'On', 'help' => 'HTACCESS_HELP_TEXT'],
 			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
-			'expose_php' => ['prefer' => 'Off'],
-			'session_regenerate_id' => ['prefer' => 'On'],
-			'session.use_strict_mode' => ['prefer' => 'On'],
-			'session.cookie_httponly' => ['prefer' => 'On'],
+			'session.use_strict_mode' => [
+				'prefer' => 'On',
+				'current' => self::getFlag(ini_get('session.use_strict_mode')),
+				'status' => ini_get('session.use_strict_mode') != 1 && stripos(ini_get('session.use_strict_mode'), 'Off') !== false
+			],
+			'session.cookie_httponly' => [
+				'prefer' => 'On',
+				'current' => self::getFlag(ini_get('session.cookie_httponly')),
+				'status' => ini_get('session.cookie_httponly') != 1 && stripos(ini_get('session.cookie_httponly'), 'Off') !== false
+			],
+			'session.use_only_cookies' => [
+				'prefer' => 'On',
+				'current' => self::getFlag(ini_get('session.use_only_cookies')),
+				'status' => ini_get('session.use_only_cookies') != 1 && stripos(ini_get('session.use_only_cookies'), 'Off') !== false
+			],
+			'expose_php' => [
+				'prefer' => 'Off',
+				'current' => self::getFlag(ini_get('expose_php')),
+				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false
+			],
+			'session_regenerate_id' => [
+				'prefer' => 'On',
+				'current' => self::getFlag(AppConfig::main('session_regenerate_id')),
+				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
+			],
+			'Header: X-Powered-By' => ['prefer' => ''],
+			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN'],
+			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block'],
+			'Header: X-Content-Type-Options' => ['prefer' => 'On'],
 		];
+		if (function_exists('apache_response_headers')) {
+			$headers = array_change_key_case(apache_response_headers(), CASE_UPPER);
+			$directiveValues['Header: X-Frame-Options']['status'] = strtolower($headers['X-FRAME-OPTIONS']) !== 'sameorigin';
+			$directiveValues['Header: X-Frame-Options']['current'] = $headers['X-FRAME-OPTIONS'];
+			$directiveValues['Header: X-XSS-Protection']['status'] = strtolower($headers['X-XSS-PROTECTION']) !== '1; mode=block';
+			$directiveValues['Header: X-XSS-Protection']['current'] = $headers['X-XSS-PROTECTION'];
+			$directiveValues['Header: X-Content-Type-Options']['status'] = strtolower($headers['X-CONTENT-TYPE-OPTIONS']) !== 'nosniff';
+			$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['X-CONTENT-TYPE-OPTIONS'];
+			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['X-POWERED-BY']);
+			$directiveValues['Header: X-Powered-By']['current'] = $headers['X-POWERED-BY'];
+		}
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = self::getFlag(true);
 		} else {
@@ -297,10 +337,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$directiveValues['.htaccess']['current'] = 'On';
 		}
-		if (\AppConfig::main('systemMode') !== 'demo' && (ini_get('display_errors') == '1' || stripos(ini_get('display_errors'), 'On') !== false)) {
-			$directiveValues['display_errors']['status'] = true;
-		}
-		$directiveValues['display_errors']['current'] = self::getFlag(ini_get('display_errors'));
 		if (App\RequestUtil::getBrowserInfo()->https) {
 			$directiveValues['HTTPS']['status'] = false;
 			$directiveValues['HTTPS']['current'] = self::getFlag(true);
@@ -315,23 +351,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = self::getFlag(false);
 		}
-		if (ini_get('session.use_strict_mode') != '1' && stripos(ini_get('session.use_strict_mode'), 'Off') !== false) {
-			$directiveValues['session.use_strict_mode']['status'] = true;
-		}
-		$directiveValues['session.use_strict_mode']['current'] = self::getFlag(ini_get('session.use_strict_mode'));
-
-		if (ini_get('session.cookie_httponly') != '1' && stripos(ini_get('session.cookie_httponly'), 'Off') !== false) {
-			$directiveValues['session.cookie_httponly']['status'] = true;
-		}
-		$directiveValues['session.cookie_httponly']['current'] = self::getFlag(ini_get('session.cookie_httponly'));
-		if (ini_get('expose_php') == '1' || stripos(ini_get('expose_php'), 'On') !== false) {
-			$directiveValues['expose_php']['status'] = true;
-		}
-		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
-		if (AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')) {
-			$directiveValues['session_regenerate_id']['status'] = true;
-		}
-		$directiveValues['session_regenerate_id']['current'] = self::getFlag(AppConfig::main('session_regenerate_id'));
 		return $directiveValues;
 	}
 

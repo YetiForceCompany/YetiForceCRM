@@ -122,7 +122,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 		}
 		Vtiger_Session::init();
-
+		if (\App\RequestUtil::getBrowserInfo()->https) {
+			$params = session_get_cookie_params();
+			if (empty($params['secure'])) {
+				setcookie('PHPSESSID', session_id(), 0, $params['path'], $params['domain'], true, true);
+			}
+		}
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
