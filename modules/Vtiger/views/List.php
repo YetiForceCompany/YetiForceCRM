@@ -27,7 +27,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getPageTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleName = $moduleName == 'Vtiger' ? 'YetiForce' : $moduleName;
+		$moduleName = $moduleName === 'Vtiger' ? 'YetiForce' : $moduleName;
 		$title = App\Language::translate($moduleName, $moduleName);
 		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
@@ -43,12 +43,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$title = vtranslate('LBL_VIEW_LIST', $moduleName);
+		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname')) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
 			if (!empty($customView)) {
-				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . vtranslate('LBL_FILTER', $moduleName)
-					. ': ' . vtranslate($customView->get('viewname'), $moduleName) . ']</div>';
+				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
+					. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
 			}
 		}
 		return $title;

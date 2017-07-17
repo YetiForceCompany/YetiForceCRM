@@ -41,18 +41,18 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		if ($time) {
 			list($hours, $minutes, $seconds) = explode(':', $time);
-			$format = vtranslate('PM');
+			$format = \App\Language::translate('PM');
 
 			if ($hours > 12) {
 				$hours = (int) $hours - 12;
 			} else if ($hours < 12) {
-				$format = vtranslate('AM');
+				$format = \App\Language::translate('AM');
 			}
 
 			//If hours zero then we need to make it as 12 AM
-			if ($hours == '00') {
+			if ($hours === '00') {
 				$hours = '12';
-				$format = vtranslate('AM');
+				$format = \App\Language::translate('AM');
 			}
 
 			return "$hours:$minutes $format";
@@ -77,7 +77,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 				$hours = $hours + 12;
 			}
 
-			if ($timeDetails[1] === 'AM' && $hours == '12') {
+			if ($timeDetails[1] === 'AM' && $hours === '12') {
 				$hours = '00';
 			}
 
@@ -101,7 +101,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
-		if ($userModel->get('hour_format') == '12') {
+		if ($userModel->get('hour_format') === '12') {
 			return self::getTimeValueInAMorPM($value);
 		}
 		return $value;

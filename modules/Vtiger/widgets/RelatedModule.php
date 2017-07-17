@@ -26,7 +26,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$whereCondition = [];
 			$this->Config['url'] = $this->getUrl();
 			$this->Config['tpl'] = 'Basic.tpl';
-			if ($this->Data['action'] == 1) {
+			if ($this->Data['action'] === 1) {
 				$createPermission = $model->isPermitted('CreateView');
 				$this->Config['action'] = ($createPermission === true) ? 1 : 0;
 				$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
@@ -82,15 +82,15 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getCheckboxLables($model, $type, $prefix)
 	{
 		$on = $prefix . 'ON_' . strtoupper($this->Data[$type]);
-		$translateOn = vtranslate($on, $model->getName());
-		if ($on == $translateOn) {
-			$translateOn = vtranslate('LBL_YES', $model->getName());
+		$translateOn = \App\Language::translate($on, $model->getName());
+		if ($on === $translateOn) {
+			$translateOn = \App\Language::translate('LBL_YES', $model->getName());
 		}
 		$off = $prefix . 'OFF_' . strtoupper($this->Data[$type]);
-		$translateOff = vtranslate($off, $model->getName());
+		$translateOff = \App\Language::translate($off, $model->getName());
 
-		if ($off == $translateOff) {
-			$translateOff = vtranslate('LBL_NO', $model->getName());
+		if ($off === $translateOff) {
+			$translateOff = \App\Language::translate('LBL_NO', $model->getName());
 		}
 		$this->Config[$type . 'Lables'] = ['on' => $translateOn, 'off' => $translateOff];
 	}

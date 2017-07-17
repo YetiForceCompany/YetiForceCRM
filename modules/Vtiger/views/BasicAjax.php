@@ -138,7 +138,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			if (AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 				$matchingRecordsList = [];
 				foreach (\App\Module::getAllEntityModuleInfo(true) as &$module) {
-					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
+					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] === 1) {
 						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
 					}
 				}
@@ -168,7 +168,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 					$recordsList[] = [
 						'id' => $recordID,
 						'module' => $module,
-						'category' => vtranslate($module, $module),
+						'category' => \App\Language::translate($module, $module),
 						'label' => $label,
 						'permitted' => $recordModel->get('permitted'),
 					];

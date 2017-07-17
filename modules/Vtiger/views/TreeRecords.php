@@ -15,7 +15,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-		$pageTitle = vtranslate($treeViewModel->getName(), $moduleName);
+		$pageTitle = \App\Language::translate($treeViewModel->getName(), $moduleName);
 		return $pageTitle;
 	}
 
