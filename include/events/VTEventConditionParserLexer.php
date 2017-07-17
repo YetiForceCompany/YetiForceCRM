@@ -61,8 +61,7 @@ class VTEventConditionParserLexer_DFA9 extends DFA
 
 	public function __construct($recognizer)
 	{
-		global $VTEventConditionParserLexer_DFA9;
-		$DFA = $VTEventConditionParserLexer_DFA9;
+		$DFA = vglobal('VTEventConditionParserLexer_DFA9');
 		$this->recognizer = $recognizer;
 		$this->decisionNumber = 9;
 		$this->eot = $DFA['eot'];
@@ -100,7 +99,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 
 	public function reportError($e)
 	{
-		
+
 		\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 		throw new Exception('The condition you provided is invalid');
 	}
@@ -128,7 +127,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 			$_type = VTEventConditionParserLexer::$T__13;
 			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
 			{
-				$this->matchString("==");
+				$this->matchString('===');
 			}
 
 			$this->state->type = $_type;
@@ -200,7 +199,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 			$_type = VTEventConditionParserLexer::$IN;
 			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
 			{
-				if ($this->input->LA(1) == 73 || $this->input->LA(1) == 105) {
+				if ($this->input->LA(1) === 73 || $this->input->LA(1) === 105) {
 					$this->input->consume();
 				} else {
 					$mse = new MismatchedSetException(null, $this->input);
@@ -208,7 +207,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 					throw $mse;
 				}
 
-				if ($this->input->LA(1) == 78 || $this->input->LA(1) == 110) {
+				if ($this->input->LA(1) === 78 || $this->input->LA(1) === 110) {
 					$this->input->consume();
 				} else {
 					$mse = new MismatchedSetException(null, $this->input);
@@ -281,10 +280,10 @@ class VTEventConditionParserLexer extends AntlrLexer
 					$alt2 = 3;
 					$LA2_0 = $this->input->LA(1);
 
-					if (($LA2_0 == $this->getToken('39'))) {
+					if (($LA2_0 === $this->getToken('39'))) {
 						$LA2_1 = $this->input->LA(2);
 
-						if (($LA2_1 == $this->getToken('39'))) {
+						if (($LA2_1 === $this->getToken('39'))) {
 							$alt2 = 2;
 						}
 					} else if ((($LA2_0 >= $this->getToken('0') && $LA2_0 <= $this->getToken('38')) || ($LA2_0 >= $this->getToken('40') && $LA2_0 <= $this->getToken('65534')))) {
@@ -339,7 +338,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 
 			if ((($LA5_0 >= $this->getToken('65') && $LA5_0 <= $this->getToken('90')) || ($LA5_0 >= $this->getToken('97') && $LA5_0 <= $this->getToken('122')))) {
 				$alt5 = 1;
-			} else if (($LA5_0 == $this->getToken('96'))) {
+			} else if (($LA5_0 === $this->getToken('96'))) {
 				$alt5 = 2;
 			} else {
 				$nvae = new NoViableAltException("", 5, 0, $this->input);
@@ -355,14 +354,14 @@ class VTEventConditionParserLexer extends AntlrLexer
 								$alt3 = 2;
 								$LA3_0 = $this->input->LA(1);
 
-								if ((($LA3_0 >= $this->getToken('48') && $LA3_0 <= $this->getToken('57')) || ($LA3_0 >= $this->getToken('65') && $LA3_0 <= $this->getToken('90')) || $LA3_0 == $this->getToken('95') || ($LA3_0 >= $this->getToken('97') && $LA3_0 <= $this->getToken('122')))) {
+								if ((($LA3_0 >= $this->getToken('48') && $LA3_0 <= $this->getToken('57')) || ($LA3_0 >= $this->getToken('65') && $LA3_0 <= $this->getToken('90')) || $LA3_0 === $this->getToken('95') || ($LA3_0 >= $this->getToken('97') && $LA3_0 <= $this->getToken('122')))) {
 									$alt3 = 1;
 								}
 
 
 								switch ($alt3) {
 									case 1 : {
-											if (($this->input->LA(1) >= $this->getToken('48') && $this->input->LA(1) <= $this->getToken('57')) || ($this->input->LA(1) >= $this->getToken('65') && $this->input->LA(1) <= $this->getToken('90')) || $this->input->LA(1) == 95 || ($this->input->LA(1) >= $this->getToken('97') && $this->input->LA(1) <= $this->getToken('122'))) {
+											if (($this->input->LA(1) >= $this->getToken('48') && $this->input->LA(1) <= $this->getToken('57')) || ($this->input->LA(1) >= $this->getToken('65') && $this->input->LA(1) <= $this->getToken('90')) || $this->input->LA(1) === 95 || ($this->input->LA(1) >= $this->getToken('97') && $this->input->LA(1) <= $this->getToken('122'))) {
 												$this->input->consume();
 											} else {
 												$mse = new MismatchedSetException(null, $this->input);
@@ -555,14 +554,14 @@ class VTEventConditionParserLexer extends AntlrLexer
 					$alt8 = 2;
 					$LA8_0 = $this->input->LA(1);
 
-					if ((($LA8_0 >= $this->getToken('9') && $LA8_0 <= $this->getToken('10')) || $LA8_0 == $this->getToken('13') || $LA8_0 == $this->getToken('32'))) {
+					if ((($LA8_0 >= $this->getToken('9') && $LA8_0 <= $this->getToken('10')) || $LA8_0 === $this->getToken('13') || $LA8_0 === $this->getToken('32'))) {
 						$alt8 = 1;
 					}
 
 
 					switch ($alt8) {
 						case 1 : {
-								if (($this->input->LA(1) >= $this->getToken('9') && $this->input->LA(1) <= $this->getToken('10')) || $this->input->LA(1) == 13 || $this->input->LA(1) == 32) {
+								if (($this->input->LA(1) >= $this->getToken('9') && $this->input->LA(1) <= $this->getToken('10')) || $this->input->LA(1) === 13 || $this->input->LA(1) === 32) {
 									$this->input->consume();
 								} else {
 									$mse = new MismatchedSetException(null, $this->input);
