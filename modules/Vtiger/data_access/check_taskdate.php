@@ -17,12 +17,12 @@ Class DataAccess_check_taskdate
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
 		$projectmilestoneid = $record_form['projectmilestoneid'];
-		if (!isset($projectmilestoneid) || $projectmilestoneid == 0 || $projectmilestoneid == '')
+		if (!isset($projectmilestoneid) || $projectmilestoneid === 0 || $projectmilestoneid === '')
 			return Array('save_record' => true);
 
 		$moduleModel = Vtiger_Record_Model::getInstanceById($projectmilestoneid, 'ProjectMilestone');
 		$projectMilestoneDate = $moduleModel->get('projectmilestonedate');
-		if (!isset($projectMilestoneDate) || $projectMilestoneDate == 0 || $projectMilestoneDate == '')
+		if (!isset($projectMilestoneDate) || $projectMilestoneDate === 0 || $projectMilestoneDate === '')
 			return Array('save_record' => true);
 
 		$dateField = new DateTimeField($projectMilestoneDate);
@@ -35,7 +35,7 @@ Class DataAccess_check_taskdate
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => vtranslate('Date can not be greater', 'DataAccess') . ' ( ' . $record_form['targetenddate'] . ' < ' . $projectMilestoneDateUserFormat . ')',
+					'text' => \App\Language::translate('Date can not be greater', 'DataAccess') . ' ( ' . $record_form['targetenddate'] . ' < ' . $projectMilestoneDateUserFormat . ')',
 					'type' => 'error'
 				)
 			);

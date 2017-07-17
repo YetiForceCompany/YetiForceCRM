@@ -38,7 +38,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$groupData = $this->getDataFromFilter();
 		uasort($groupData, function($first, $second) {
-			if ($first['count'] == $second['count']) {
+			if ($first['count'] === $second['count']) {
 				return 0;
 			}
 			return ($first['count'] < $second['count']) ? 1 : -1;
@@ -54,7 +54,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$groupData = $this->getDataFromFilter();
 		uasort($groupData, function($first, $second) {
-			if ($first['count'] == $second['count']) {
+			if ($first['count'] === $second['count']) {
 				return 0;
 			}
 			return ($first['count'] < $second['count']) ? 1 : -1;
@@ -134,7 +134,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
 				$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
 				$groupData[$displayValue]['count'] = (int) $sectorValue;
-				if ($sectorId == 0) {
+				if ($sectorId === 0) {
 					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue]]]);
 				} else {
 					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue], [$fieldName, 'g', $sectors[$sectorId - 1]]]]);
@@ -204,11 +204,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {
 				$customview = $db->fetch_array($customviewrs);
-				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
 				$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-				$suffix .= ' - ' . vtranslate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
+				$suffix .= ' - ' . \App\Language::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());
 			}
-			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
 		return $title;
 	}

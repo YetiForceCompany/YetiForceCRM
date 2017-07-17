@@ -16,7 +16,7 @@ Class DataAccess_check_alltask
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		if (!isset($ID) || $ID == 0 || $ID == '')
+		if (!isset($ID) || $ID === 0 || $ID === '')
 			return ['save_record' => true];
 		$count = (new \App\Db\Query())->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
@@ -31,7 +31,7 @@ Class DataAccess_check_alltask
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'text' => vtranslate($config['message'], 'DataAccess'),
+					'text' => \App\Language::translate($config['message'], 'DataAccess'),
 					'type' => 'error'
 				]
 			];

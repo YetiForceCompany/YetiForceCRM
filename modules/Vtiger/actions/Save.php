@@ -96,7 +96,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			$handler->process($request);
 			$handler->postProcess($request);
 		} else {
-			throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 		return true;
 	}

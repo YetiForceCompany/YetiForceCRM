@@ -25,7 +25,7 @@ class Vtiger_Menu_Model
 		} else {
 			require('user_privileges/menu_0.php');
 		}
-		if (count($menus) == 0) {
+		if (count($menus) === 0) {
 			require('user_privileges/menu_0.php');
 		}
 		return $menus;
@@ -52,7 +52,7 @@ class Vtiger_Menu_Model
 		} else {
 			require('user_privileges/menu_0.php');
 		}
-		if (count($menus) == 0) {
+		if (count($menus) === 0) {
 			require('user_privileges/menu_0.php');
 		}
 		$moduleName = $request->getModule();
@@ -61,7 +61,7 @@ class Vtiger_Menu_Model
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
-					if ($moduleName == $parentItem['mod']) {
+					if ($moduleName === $parentItem['mod']) {
 						$parent = $parentItem['parent'];
 						break;
 					}
@@ -74,22 +74,22 @@ class Vtiger_Menu_Model
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
-					'name' => vtranslate($moduleName, $moduleName),
+					'name' => \App\Language::translate($moduleName, $moduleName),
 					'url' => $moduleModel->getDefaultUrl()
 				];
 			} else {
 				$breadcrumbs[] = [
-					'name' => vtranslate($moduleName, $moduleName)
+					'name' => \App\Language::translate($moduleName, $moduleName)
 				];
 			}
 
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $moduleName)];
-			} elseif ($view == 'Edit' && $request->get('record') == '') {
+			} elseif ($view === 'Edit' && $request->get('record') === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
-			} elseif ($view == '') {
+			} elseif ($view === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
@@ -101,7 +101,7 @@ class Vtiger_Menu_Model
 		} elseif ($parent === 'Settings') {
 			$qualifiedModuleName = $request->getModule(false);
 			$breadcrumbs[] = [
-				'name' => vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+				'name' => \App\Language::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
@@ -109,7 +109,7 @@ class Vtiger_Menu_Model
 				$menu = Settings_Vtiger_MenuItem_Model::getAll();
 				foreach ($menu as &$menuModel) {
 					if (empty($fieldId)) {
-						if ($menuModel->getModule() == $moduleName) {
+						if ($menuModel->getModule() === $moduleName) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
@@ -118,7 +118,7 @@ class Vtiger_Menu_Model
 							break;
 						}
 					} else {
-						if ($fieldId == $menuModel->getId()) {
+						if ($fieldId === $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
@@ -135,12 +135,12 @@ class Vtiger_Menu_Model
 				} else {
 					if ($pageTitle) {
 						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
-					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
+					} elseif ($view === 'Edit' && $request->get('record') === '' && $request->get('parent_roleid') === '') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
-					if ($request->get('record') != '' && $moduleName == 'Users') {
+					if ($request->get('record') != '' && $moduleName === 'Users') {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
 						if ($recordLabel != '') {
 							$breadcrumbs[] = ['name' => $recordLabel];
@@ -182,7 +182,7 @@ class Vtiger_Menu_Model
 
 	public static function getMenuIcon($menu, $title = '')
 	{
-		if ($title == '') {
+		if ($title === '') {
 			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
 		}
 		if (is_string($menu)) {
@@ -206,7 +206,7 @@ class Vtiger_Menu_Model
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-		if (isset($menu['type']) && $menu['type'] == 'Module') {
+		if (isset($menu['type']) && $menu['type'] === 'Module') {
 			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';

@@ -23,7 +23,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			$this->tplName = $request->get('xmlExportType');
 		}
 		$query = $this->getExportQuery($request);
-		$fileName = str_replace(' ', '_', decode_html(vtranslate($this->moduleName, $this->moduleName)));
+		$fileName = str_replace(' ', '_', decode_html(\App\Language::translate($this->moduleName, $this->moduleName)));
 		$entries = $query->all();
 		$entriesInventory = [];
 		if ($this->moduleInstance->isInventory()) {
@@ -159,7 +159,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 				continue;
 			}
 			$xml->startElement($fieldName);
-			$xml->writeAttribute('label', vtranslate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
+			$xml->writeAttribute('label', \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
 			if ($this->isCData($fieldName)) {
 				$xml->writeCData($entries[$fieldName]);
 			} else {
@@ -177,7 +177,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 					$xml->startElement($columnName);
 					$fieldModel = $this->inventoryFields[$columnName];
 					if ($fieldModel) {
-						$xml->writeAttribute('label', vtranslate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
+						$xml->writeAttribute('label', \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
 						if (!in_array($columnName, $customColumns)) {
 							foreach ($fieldModel->getCustomColumn() as $key => $dataType) {
 								$customColumns[$key] = $columnName;
@@ -205,7 +205,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			return array_key_exists($name, $customColumns);
 		}
 		$fieldModel = $this->moduleFieldInstances[$name];
-		if ($fieldModel && $fieldModel->getFieldDataType() == 'text') {
+		if ($fieldModel && $fieldModel->getFieldDataType() === 'text') {
 			return true;
 		}
 		return false;

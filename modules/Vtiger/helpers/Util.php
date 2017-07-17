@@ -59,12 +59,12 @@ class Vtiger_Util_Helper
 		// http://www.php.net/manual/en/datetime.diff.php#101029
 		$seconds = strtotime('now') - strtotime($dateTime);
 		if ($seconds === 0)
-			return vtranslate('LBL_JUSTNOW');
+			return \App\Language::translate('LBL_JUSTNOW');
 		if ($seconds > 0) {
 			$prefix = '';
-			$suffix = ' ' . vtranslate('LBL_AGO');
+			$suffix = ' ' . \App\Language::translate('LBL_AGO');
 		} else if ($seconds < 0) {
-			$prefix = vtranslate('LBL_DUE') . ' ';
+			$prefix = \App\Language::translate('LBL_DUE') . ' ';
 			$suffix = '';
 			$seconds = -($seconds);
 		}
@@ -103,7 +103,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . " " . (($count == 1) ? vtranslate("$text") : vtranslate("${text}S"));
+		return $count . " " . (($count === 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
 	}
 
 	/**
@@ -149,16 +149,16 @@ class Vtiger_Util_Helper
 		$tomorrow = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
 		$userDate = DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
-		if ($dateInUserFormat == $today) {
-			$todayInfo = vtranslate('LBL_TODAY');
+		if ($dateInUserFormat === $today) {
+			$todayInfo = \App\Language::translate('LBL_TODAY');
 			if ($time) {
-				$todayInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$todayInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($todayInfo)";
-		} elseif ($dateInUserFormat == $tomorrow) {
-			$tomorrowInfo = vtranslate('LBL_TOMORROW');
+		} elseif ($dateInUserFormat === $tomorrow) {
+			$tomorrowInfo = \App\Language::translate('LBL_TOMORROW');
 			if ($time) {
-				$tomorrowInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$tomorrowInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
@@ -166,9 +166,9 @@ class Vtiger_Util_Helper
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
 			$date = strtotime($dateInUserFormat);
-			$dayInfo = vtranslate('LBL_' . date('D', $date));
+			$dayInfo = \App\Language::translate('LBL_' . date('D', $date));
 			if ($time) {
-				$dayInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$dayInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($dayInfo)";
 		}
@@ -195,25 +195,25 @@ class Vtiger_Util_Helper
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
-		if (count($dateTimeInUserFormat) == 3) {
+		if (count($dateTimeInUserFormat) === 3) {
 			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
 		} else {
 			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
 			$meridiem = '';
 		}
 		$timeInUserFormat = explode(':', $timeInUserFormat);
-		if (count($timeInUserFormat) == 3) {
+		if (count($timeInUserFormat) === 3) {
 			list($hours, $minutes, $seconds) = $timeInUserFormat;
 		} else {
 			list($hours, $minutes) = $timeInUserFormat;
 			$seconds = '';
 		}
 
-		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		$dateDay = \App\Language::translate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;
 		if (!$allday) {
 			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
-			$formatedDate .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+			$formatedDate .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 		}
 		$formatedDate .= " ($dateDay)";
 		return $formatedDate;
@@ -328,7 +328,7 @@ class Vtiger_Util_Helper
 			$userModel = Users_Privileges_Model::getCurrentUserModel();
 		}
 
-		if ($userModel->get('hour_format') == '12') {
+		if ($userModel->get('hour_format') === '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
 

@@ -25,7 +25,7 @@ Class DataAccess_check_assigneduser
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$allowedUsers[] = $currentUser->get('id');
 			foreach ($allowedUsers as $key => $value) {
-				if ($value == "currentUser") {
+				if ($value === "currentUser") {
 					unset($allowedUsers[$key]);
 				}
 			}
@@ -35,7 +35,7 @@ Class DataAccess_check_assigneduser
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => vtranslate($config['info'], 'DataAccess'),
+					'text' => \App\Language::translate($config['info'], 'DataAccess'),
 					'type' => 'error'
 				)
 			);
