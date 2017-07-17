@@ -118,7 +118,7 @@ class Language
 		if ($translatedString === null) {
 			$defaultLanguage = vglobal('default_language');
 			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
-				$translatedString = self::getLanguageTranslatedString($defaultLanguage, $key . $postfix, $moduleName);
+				$translatedString = \Vtiger_Language_Handler::getLanguageTranslatedString($defaultLanguage, $key . $postfix, $moduleName);
 			}
 		}
 		// If translation is not found then return label
