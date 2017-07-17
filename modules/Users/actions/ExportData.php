@@ -28,7 +28,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 
 		$headers = ['User Name', 'Title', 'First Name', 'Last Name', 'Email', 'Other Email', 'Secondary Email', 'Office Phone', 'Mobile', 'Fax', 'Street', 'City', 'State', 'Country', 'Postal Code'];
 		foreach ($headers as &$header) {
-			$translatedHeaders[] = vtranslate(html_entity_decode($header, ENT_QUOTES), $moduleName);
+			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 		}
 		$this->output($request, $translatedHeaders, $entries);
 	}
