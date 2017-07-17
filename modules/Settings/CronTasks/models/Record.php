@@ -56,7 +56,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isDisabled()
 	{
-		if ($this->get('status') == self::$STATUS_DISABLED) {
+		if ($this->get('status') === self::$STATUS_DISABLED) {
 			return true;
 		}
 		return false;
@@ -64,7 +64,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isRunning()
 	{
-		if ($this->get('status') == self::$STATUS_RUNNING) {
+		if ($this->get('status') === self::$STATUS_RUNNING) {
 			return true;
 		}
 		return false;
@@ -72,7 +72,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isCompleted()
 	{
-		if ($this->get('status') == self::$STATUS_COMPLETED) {
+		if ($this->get('status') === self::$STATUS_COMPLETED) {
 			return true;
 		}
 		return false;
@@ -80,7 +80,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isEnabled()
 	{
-		if ($this->get('status') == self::$STATUS_ENABLED) {
+		if ($this->get('status') === self::$STATUS_ENABLED) {
 			return true;
 		}
 		return false;
@@ -104,7 +104,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 			$lastScannedTime = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
 			$userModel = Users_Record_Model::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
-			if ($hourFormat == '24') {
+			if ($hourFormat === '24') {
 				return $lastScannedTime;
 			} else {
 				$dateTimeList = explode(" ", $lastScannedTime);
@@ -151,7 +151,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
 				}
-				$fieldValue = vtranslate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
+				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
 				break;
 			case 'laststart' :
 			case 'lastend' : $fieldValue = intval($fieldValue);

@@ -28,12 +28,12 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		$profileID = $request->get('profileID');
 		$checked = $request->get('checked');
 		$globalactionid = $request->get('globalactionid');
-		if ($globalactionid == 1) {
+		if ($globalactionid === 1) {
 			$globalActionName = 'LBL_VIEW_ALL';
 		} else {
 			$globalActionName = 'LBL_EDIT_ALL';
 		}
-		if ($checked == 'true') {
+		if ($checked === 'true') {
 			$checked = 1;
 			$prev[$globalActionName] = 0;
 		} else {
@@ -44,7 +44,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
 		Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_OK', $request->getModule(false))));
+		$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SAVE_OK', $request->getModule(false))));
 		$response->emit();
 	}
 }

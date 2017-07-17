@@ -23,13 +23,13 @@ class Settings_Dav_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$moduleModel = Settings_Dav_Module_Model::getInstance($qualifiedModuleName);
 		$result = $moduleModel->addKey($params);
 		$success = true;
-		$message = vtranslate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
+		$message = \App\Language::translate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
 		if ($result === 0) {
 			$success = false;
-			$message = vtranslate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
+			$message = \App\Language::translate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
 		} elseif ($result === 1) {
 			$success = false;
-			$message = vtranslate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
+			$message = \App\Language::translate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(array(
@@ -49,7 +49,7 @@ class Settings_Dav_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_KEY_HAS_BEEN_REMOVED', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_KEY_HAS_BEEN_REMOVED', $request->getModule(false))
 		));
 		$response->emit();
 	}
