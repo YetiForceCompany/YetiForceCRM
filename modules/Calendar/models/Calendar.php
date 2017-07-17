@@ -153,9 +153,9 @@ class Calendar_Calendar_Model extends App\Base
 			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
-			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
-			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());
-			$item['labels']['state'] = vtranslate($record['state'], $this->getModuleName());
+			$item['labels']['sta'] = \App\Language::translate($record['status'], $this->getModuleName());
+			$item['labels']['pri'] = \App\Language::translate($record['priority'], $this->getModuleName());
+			$item['labels']['state'] = \App\Language::translate($record['state'], $this->getModuleName());
 
 			//Relation
 			$item['link'] = $record['link'];
@@ -273,7 +273,7 @@ class Calendar_Calendar_Model extends App\Base
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
 					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
-					$return[$date]['event'][$activitytype]['label'] = vtranslate($activitytype, $this->getModuleName());
+					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}
 			}

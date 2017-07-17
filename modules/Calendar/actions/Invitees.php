@@ -58,8 +58,8 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
 					'module' => $row['setype'],
-					'category' => vtranslate($row['setype'], $row['setype']),
-					'fullLabel' => vtranslate($row['setype'], $row['setype']) . ': ' . $label,
+					'category' => \App\Language::translate($row['setype'], $row['setype']),
+					'fullLabel' => \App\Language::translate($row['setype'], $row['setype']) . ': ' . $label,
 					'label' => $label
 				];
 			}

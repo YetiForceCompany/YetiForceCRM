@@ -19,7 +19,7 @@ class Accounts_ServiceContracts_HeaderField
 		if (!empty($row['date']) || !empty($row['total'])) {
 			return [
 				'class' => 'btn-success',
-				'title' => vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
+				'title' => \App\Language::translate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
 				'badge' => DateTimeField::convertToUserFormat($row['date']),
 				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");'
 			];

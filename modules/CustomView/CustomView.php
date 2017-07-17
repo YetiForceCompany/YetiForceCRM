@@ -227,7 +227,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			\App\Log::trace("Error !!!: " . \App\Language::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
@@ -238,7 +238,7 @@ class CustomView extends CRMEntity
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				\App\Log::trace("Error !!!: " . \App\Language::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
 				throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {

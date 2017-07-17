@@ -109,7 +109,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 			$return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate($return, $moduleName));
+		$response->setResult(\App\Language::translate($return, $moduleName));
 		$response->emit();
 	}
 }
