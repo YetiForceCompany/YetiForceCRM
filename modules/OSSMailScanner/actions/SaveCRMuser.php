@@ -25,7 +25,7 @@ class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
 			$adb = PearDatabase::getInstance();
 			$adb->pquery('update roundcube_users set crm_user_id = ? WHERE user_id = ?', [$value, $userid]);
 			$success = true;
-			$data = vtranslate('JS_saveuser_info', 'OSSMailScanner');
+			$data = \App\Language::translate('JS_saveuser_info', 'OSSMailScanner');
 		} else {
 			$success = false;
 			$data = 'Error: Brak userid';
