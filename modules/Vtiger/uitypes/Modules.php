@@ -26,7 +26,7 @@ class Vtiger_Modules_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return vtranslate($value, $value);
+		return \App\Language::translate($value, $value);
 	}
 
 	public function getListSearchTemplateName()

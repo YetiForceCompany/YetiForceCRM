@@ -89,9 +89,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
 			if ($db->num_rows($customviewrs)) {
 				$customview = $db->fetch_array($customviewrs);
-				$suffix = ' - ' . vtranslate($customview['viewname'], $this->getTargetModule());
+				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
 			}
-			return $prefix . vtranslate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
 		}
 		return $title;
 	}

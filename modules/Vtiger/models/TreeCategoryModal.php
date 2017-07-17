@@ -108,8 +108,8 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'id' => $treeID,
 				'type' => 'category',
 				'record_id' => $row['tree'],
-				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->getModuleName())
+				'parent' => $parent === 0 ? '#' : $parent,
+				'text' => \App\Language::translate($row['name'], $this->getModuleName())
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];
@@ -175,7 +175,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$selectedRecords = $this->getSelectedRecords();
 		$isDeletable = $this->isDeletable();
-		if ($this->getRelationType() == 2) {
+		if ($this->getRelationType() === 2) {
 			$listEntries = $this->getAllRecords();
 		} else {
 			$listEntries = $this->getSelectedRecords(false);
@@ -195,7 +195,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'id' => $this->lastIdinTree,
 				'type' => 'record',
 				'record_id' => $item->getId(),
-				'parent' => $parent == 0 ? '#' : $parent,
+				'parent' => $parent === 0 ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
 				'icon' => 'glyphicon glyphicon-file'

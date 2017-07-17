@@ -16,7 +16,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
-			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted(\App\Language::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 
