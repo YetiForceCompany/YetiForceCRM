@@ -125,6 +125,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		if (\App\RequestUtil::getBrowserInfo()->https) {
 			$params = session_get_cookie_params();
 			if (empty($params['secure'])) {
+				unset($_COOKIE['PHPSESSID']);
 				setcookie('PHPSESSID', session_id(), 0, $params['path'], $params['domain'], true, true);
 			}
 		}
