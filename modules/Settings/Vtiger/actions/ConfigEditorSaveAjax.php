@@ -25,10 +25,10 @@ class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_
 			if ($status === true) {
 				$response->setResult(array($status));
 			} else {
-				$response->setError(vtranslate($status, $qualifiedModuleName));
+				$response->setError(\App\Language::translate($status, $qualifiedModuleName));
 			}
 		} else {
-			$response->setError(vtranslate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
+			$response->setError(\App\Language::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
 		}
 		$response->emit();
 	}
