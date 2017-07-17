@@ -36,12 +36,12 @@ class Faq_Record_Model extends Vtiger_Record_Model
 		//Updating the answer of Faq
 		$answer = $recordModel->get('faq_answer');
 		if ($answer) {
-			$answer = vtranslate('LBL_SOLUTION', 'Faq') . ":\r\n" . $answer;
+			$answer = \App\Language::translate('LBL_SOLUTION', 'Faq') . ":\r\n" . $answer;
 		}
 
 		$commentsList = $parentRecordModel->getCommentsList();
 		if ($commentsList) {
-			$answer .= "\r\n\r\n" . vtranslate('LBL_COMMENTS', 'Faq') . ":";
+			$answer .= "\r\n\r\n" . \App\Language::translate('LBL_COMMENTS', 'Faq') . ":";
 			foreach ($commentsList as $comment) {
 				$answer .= "\r\n$comment";
 			}

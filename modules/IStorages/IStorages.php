@@ -119,7 +119,7 @@ class IStorages extends Vtiger_CRMEntity
 		}
 		foreach ($listColumns as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
-				$listviewHeader[] = vtranslate($fieldname);
+				$listviewHeader[] = \App\Language::translate($fieldname);
 			}
 		}
 		$iStoragesList = [];

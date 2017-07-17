@@ -18,7 +18,7 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 		$relatedLinkEntries = [
 			[
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_RECORD_PREVIEW', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_RECORD_PREVIEW', $moduleName),
 				'linkKey' => 'LBL_RECORD_PREVIEW',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showPreview',
 				'linkicon' => '',
@@ -28,8 +28,8 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAILVIEWBASIC',
 				'linkurl' => 'javascript:KnowledgeBase_Popup_Js.getInstance().showPresentationContent(' . $recordId . ');',
 				'linkicon' => 'glyphicon glyphicon-resize-full',
-				'title' => vtranslate('LBL_FULL_SCREEN', $moduleName),
-				'linkhint' => vtranslate('LBL_FULL_SCREEN', $moduleName)
+				'title' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),
+				'linkhint' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName)
 			]
 		];
 		$relatedLinks = [];

@@ -250,11 +250,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
-			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
-			$content .= vtranslate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
-			$content .= vtranslate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
-			$content .= vtranslate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
-			$content .= vtranslate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
+			$content .= \App\Language::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
+			$content .= \App\Language::translate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
+			$content .= \App\Language::translate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
+			$content .= \App\Language::translate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
+			$content .= \App\Language::translate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {

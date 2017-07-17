@@ -94,7 +94,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$data[] = [
 				'data' => $values,
 				'bars' => ['order' => (array_search($y, $years) + 1)],
-				'label' => vtranslate('LBL_YEAR', $moduleName) . ' ' . $y,
+				'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 			];
 		}
 		$response['chart'] = $data;
