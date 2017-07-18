@@ -34,7 +34,7 @@ $languageStrings = [
 	'LBL_SELECT_PROGRESS' => 'Fortschritt wählen',
 	'description' => 'Beschreibung',
 	'Related to' => 'Bezogen auf',
-	'FL_MEMBER_OF' => 'Parent Project',
+	'FL_MEMBER_OF' => 'Übergeordnetes Projekt',
 	//Summary Information
 	'LBL_TASKS_OPEN' => 'Offene Aufgaben',
 	'LBL_TASKS_DUE' => 'Fällige Aufgaben',

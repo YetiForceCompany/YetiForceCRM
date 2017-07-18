@@ -10,12 +10,10 @@
  * ********************************************************************************** */
 $languageStrings = [
 	'providertype' => 'Provider',
-	'LBL_SEREVER_CONFIG' => 'Neue Konfiguration',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 Zeichen erlaubt',
 	'username' => 'Benutzername',
 	'password' => 'Passwort',
 	'isactive' => 'Aktiv',
-	'SINGLE_SMSNotifier' => 'SMS Notifier',
 	'Server configuration' => 'Server Konfiguration',
 	// Basic Strings
 	'LBL_SEND_SMS_TO_SELECTED_NUMBERS' => 'SMS senden an die ausgewählten Nummern',
