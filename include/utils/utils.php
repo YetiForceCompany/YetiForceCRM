@@ -111,7 +111,7 @@ function getUserId_Ol($username)
 	\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
 	\App\Log::trace("in getUserId_Ol " . $username);
 	$cache = Vtiger_Cache::getInstance();
-	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
+	if ($cache->getUserId($username) || $cache->getUserId($username) == 0) {
 		return $cache->getUserId($username);
 	} else {
 		$adb = PearDatabase::getInstance();
@@ -381,7 +381,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	} else {
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new \Exception\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}
