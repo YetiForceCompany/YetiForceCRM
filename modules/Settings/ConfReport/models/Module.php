@@ -309,10 +309,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
 				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
 			],
-			'Header: X-Powered-By' => ['prefer' => ''],
-			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN'],
-			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block'],
-			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff'],
+			'Header: X-Powered-By' => ['prefer' => '', 'status' => '?'],
+			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'status' => '?'],
+			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'status' => '?'],
+			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'status' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
