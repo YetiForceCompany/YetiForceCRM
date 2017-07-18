@@ -39,9 +39,9 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 			}
 		}
 		if (empty($documentsMoveDenied)) {
-			$result = array('success' => true, 'message' => vtranslate('LBL_DOCUMENTS_MOVED_SUCCESSFULLY', $moduleName));
+			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DOCUMENTS_MOVED_SUCCESSFULLY', $moduleName));
 		} else {
-			$result = array('success' => false, 'message' => vtranslate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST' => $documentsMoveDenied);
+			$result = array('success' => false, 'message' => \App\Language::translate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST' => $documentsMoveDenied);
 		}
 
 		$response = new Vtiger_Response();

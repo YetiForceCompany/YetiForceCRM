@@ -26,7 +26,7 @@ class OSSMailScanner_saveEmailSearchList_Action extends Vtiger_Action_Controller
 		$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$OSSMailScannerModel->setEmailSearchList($vale);
 		$success = true;
-		$data = vtranslate('JS_save_fields_info', 'OSSMailScanner');
+		$data = \App\Language::translate('JS_save_fields_info', 'OSSMailScanner');
 		$result = array('success' => $success, 'data' => $data);
 		$response = new Vtiger_Response();
 		$response->setResult($result);

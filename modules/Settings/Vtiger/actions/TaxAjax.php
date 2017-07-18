@@ -67,7 +67,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$exists) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \App\Language::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
 		}
 
 		$response = new Vtiger_Response();

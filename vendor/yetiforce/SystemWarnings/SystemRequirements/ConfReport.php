@@ -33,7 +33,7 @@ class ConfReport extends \App\SystemWarnings\Template
 			}
 		}
 		if ($this->status) {
-			$directiveValues = \Settings_ConfReport_Module_Model::getConfigurationValue();
+			$directiveValues = \Settings_ConfReport_Module_Model::getStabilityConf();
 			foreach ($directiveValues as $key => $value) {
 				if (isset($value['status']) && $value['status']) {
 					$this->status = 0;

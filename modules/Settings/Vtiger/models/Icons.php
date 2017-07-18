@@ -72,10 +72,14 @@ class Settings_Vtiger_Icons_Model
 		return $icons;
 	}
 
+	/**
+	 * Function get images
+	 * @return string
+	 */
 	public static function getImageIcon()
 	{
 		$images = [];
-		$path = Vtiger_Theme::getBaseThemePath() . '/images/';
+		$path = 'public_html' . DIRECTORY_SEPARATOR . Vtiger_Theme::getBaseThemePath() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR;
 		$dir = new DirectoryIterator($path);
 		foreach ($dir as $fileinfo) {
 			$file = $fileinfo->getFilename();
@@ -83,7 +87,7 @@ class Settings_Vtiger_Icons_Model
 				$mimeType = \App\Fields\File::getMimeContentType($path . $file);
 				$mimeTypeContents = explode('/', $mimeType);
 				if ($mimeTypeContents[0] == 'image') {
-					$images[$file] = $path . $file;
+					$images[$file] = $file;
 				}
 			}
 		}

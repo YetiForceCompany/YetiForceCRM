@@ -110,7 +110,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = $tree['icon'] == 1 ? '' : $tree['icon'];
+		$icon = $tree['icon'] === 1 ? '' : $tree['icon'];
 		if ($parenttrre != '')
 			$parenttrre = $parenttrre . '::';
 		$parenttrre = $parenttrre . $treeID;
@@ -163,8 +163,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parent = (int) str_replace('T', '', end($pieces));
 			$parameters = [
 				'id' => $treeID,
-				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $module),
+				'parent' => $parent === 0 ? '#' : $parent,
+				'text' => \App\Language::translate($row['name'], $module),
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
 				'icon' => $row['icon']
 			];

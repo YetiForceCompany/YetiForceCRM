@@ -111,6 +111,9 @@ abstract class Vtiger_Controller
 			header('Pragma: no-cache');
 		}
 		header('X-Frame-Options: SAMEORIGIN');
+		header('X-XSS-Protection: 1; mode=block');
+		header('X-Content-Type-Options: nosniff');
+		header('Referrer-Policy: same-origin');
 		header_remove('X-Powered-By');
 	}
 }
