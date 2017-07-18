@@ -156,7 +156,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$query->groupBy('holidaytype');
 		$dataReader = $query->createCommand()->query();
 
-		if (0 === $dataReader->count())
+		if (0 == $dataReader->count())
 			$return = false;
 		else {
 			while ($row = $dataReader->read()) {

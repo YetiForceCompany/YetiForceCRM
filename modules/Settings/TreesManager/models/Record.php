@@ -110,7 +110,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = $tree['icon'] === 1 ? '' : $tree['icon'];
+		$icon = $tree['icon'] == 1 ? '' : $tree['icon'];
 		if ($parenttrre != '')
 			$parenttrre = $parenttrre . '::';
 		$parenttrre = $parenttrre . $treeID;
