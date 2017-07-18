@@ -320,6 +320,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'status' => '?'],
 			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'status' => '?'],
 			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'status' => '?'],
+			'Header: Referrer-Header' => ['prefer' => 'same-origin', 'status' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
@@ -362,6 +363,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['X-CONTENT-TYPE-OPTIONS'];
 			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['X-POWERED-BY']);
 			$directiveValues['Header: X-Powered-By']['current'] = $headers['X-POWERED-BY'];
+			$directiveValues['Header: Referrer-Header']['status'] = strtolower($headers['REFERRER-HEADER']) !== 'same-origin';
+			$directiveValues['Header: Referrer-Header']['current'] = $headers['REFERRER-HEADER'];
 		}
 		if ($onlyError) {
 			foreach ($directiveValues as $key => $value) {
