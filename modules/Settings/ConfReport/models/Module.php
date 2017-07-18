@@ -86,7 +86,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param bool $instalMode
 	 * @return array
 	 */
-	public static function getStabilityConf($instalMode = false)
+	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
 			'PHP' => ['prefer' => '5.5.0'],
@@ -265,6 +265,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$result = $db->query('SELECT @@sql_mode');
 			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
+		if ($onlyError) {
+			foreach ($directiveValues as $key => $value) {
+				if (empty($value['status'])) {
+					unset($directiveValues[$key]);
+				}
+			}
+		}
 		return $directiveValues;
 	}
 
@@ -273,7 +280,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param bool $instalMode
 	 * @return array
 	 */
-	public static function getSecurityConf($instalMode = false)
+	public static function getSecurityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
 			'display_errors' => [
@@ -355,6 +362,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: X-Content-Type-Options']['current'] = $headers['X-CONTENT-TYPE-OPTIONS'];
 			$directiveValues['Header: X-Powered-By']['status'] = !empty($headers['X-POWERED-BY']);
 			$directiveValues['Header: X-Powered-By']['current'] = $headers['X-POWERED-BY'];
+		}
+		if ($onlyError) {
+			foreach ($directiveValues as $key => $value) {
+				if (empty($value['status'])) {
+					unset($directiveValues[$key]);
+				}
+			}
 		}
 		return $directiveValues;
 	}

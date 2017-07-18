@@ -36,6 +36,7 @@
 					<div class="clearfix"></div>
 					<div class="offset2">
 						<div>
+							{assign var="LIBRARY" value=Settings_ConfReport_Module_Model::getConfigurationLibrary()}
 							<table class="config-table table">
 								<thead>
 									<tr>
@@ -45,7 +46,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+									{foreach from=$LIBRARY key=key item=item}
 										<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
 											<td>{App\Language::translate($key, 'Settings::ConfReport')}</td>
 											<td>{App\Language::translate($item.status, 'Settings::ConfReport')}</td>
@@ -60,6 +61,30 @@
 									{/foreach}
 								</tbody>
 							</table>
+							{assign var="STABILITY_CONF" value=Settings_ConfReport_Module_Model::getSecurityConf(true)}
+							<br />
+							<table class="config-table table">
+								<thead>
+									<tr>
+										<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{foreach from=$STABILITY_CONF key=key item=item}
+										<tr {if $item.status}class="danger"{/if}>
+											<td>
+												<label>{$key}</label>
+												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+											</td>
+											<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
+										</tr>
+									{/foreach}
+								</tbody>
+							</table>
+							{assign var="STABILITY_CONF" value=Settings_ConfReport_Module_Model::getStabilityConf(true)}
 							<br />
 							<table class="config-table table">
 								<thead>
@@ -70,17 +95,15 @@
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getStabilityConf(true) key=key item=item}
-										{if $item.status}
-											<tr class="danger">
-												<td>
-													<label>{$key}</label>
-													{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
-												</td>
-												<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
-												<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
-											</tr>
-										{/if}
+									{foreach from=$STABILITY_CONF key=key item=item}
+										<tr {if $item.status}class="danger"{/if}>
+											<td>
+												<label>{$key}</label>
+												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+											</td>
+											<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
+										</tr>
 									{/foreach}
 								</tbody>
 							</table>

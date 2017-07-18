@@ -210,10 +210,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	protected function getSecurityCount()
 	{
 		$count = 0;
-		foreach (Settings_ConfReport_Module_Model::getSecurityConf() as $value) {
-			if (isset($value['status']) && $value['status']) {
-				$count++;
-			}
+		foreach (Settings_ConfReport_Module_Model::getSecurityConf(false, true) as $value) {
+			$count++;
 		}
 		$count += App\Log::getLogs('access_for_admin', 'oneDay', true);
 		$count += App\Log::getLogs('access_to_record', 'oneDay', true);
