@@ -113,7 +113,7 @@ abstract class Vtiger_Controller
 		header('X-Frame-Options: SAMEORIGIN');
 		header('X-XSS-Protection: 1; mode=block');
 		header('X-Content-Type-Options: nosniff');
-		header('Referrer-Header: same-origin');
+		header('Referrer-Policy: same-origin');
 		header_remove('X-Powered-By');
 	}
 }
