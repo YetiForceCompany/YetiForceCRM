@@ -21,9 +21,9 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL3' => 'Ja - Zwei Bedingungen erfüllt',
 	'LBL_LOCKS_SAVE_LABEL4' => 'Ja - Modales Fenster',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Zwei Felder bestätigen',
-	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist',
+	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schreiben nicht gesperrt ist',
 	'LBL_MESSAGE_LOCK1' => 'Nachricht für eine erfüllte Bedingung',
-	'LBL_MESSAGE_LOCK2' => 'Nachricht für zwei erfüllte Bedingung',
+	'LBL_MESSAGE_LOCK2' => 'Nachricht für zwei erfüllte Bedingungen',
 	//
 	'Action_check_task' => 'Aufgabe prüfen',
 	'Action_Desc_check_task' => 'Diese Aktion überprüft, ob die Aufgabe in Beziehung mit dem entsprechenden Thema und Status steht. Wenn sie es nicht ist, wird der Eintritt blockiert.',
@@ -86,8 +86,8 @@ $languageStrings = [
 	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Es wurde versucht im Schnellerfassungsmodus etwas zu ändern. <br />Wählen Sie die Änderungen aus, welche Sie übernehmen möchten.<br />Achtung!<br />Nimmt Änderungen in diesem Datensatz zurück.',
 	'LBL_DONT_ASK_AGAIN' => 'Nicht nochmal für diesen Datensatz nachfragen.',
 	'LBL_SEARCH_TRASH' => 'Papierkorb durchsuchen',
-	'LBL_BLOCK_EDITVIEW' => 'Record’s edit option has been blocked',
-	'LBL_CONTENT_MESSAGE' => 'Message contents',
+	'LBL_BLOCK_EDITVIEW' => 'Bearbeitungsmodus wurde gesperrt',
+	'LBL_CONTENT_MESSAGE' => 'Nachrichteninhalt',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',
