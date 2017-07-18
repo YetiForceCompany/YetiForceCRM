@@ -170,11 +170,11 @@ class Language
 		}
 		//No plural form
 		if (in_array($lang, array('ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'))) {
-			return '';
+			return '_0';
 		}
 		//Two plural forms
 		if (in_array($lang, array('ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'))) {
-			return ($count > 1) ? '_PLURAL' : '';
+			return ($count > 1) ? '_1' : '_0';
 		}
 		if (in_array($lang, array(
 				'af', 'an', 'anp', 'as', 'ast', 'az', 'bg', 'bn', 'brx', 'ca', 'da', 'de', 'doi', 'dz', 'el', 'en', 'eo', 'es', 'et', 'eu', 'ff', 'fi', 'fo', 'fur', 'fy',
@@ -182,11 +182,11 @@ class Language
 				'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
 				'ta', 'te', 'tk', 'ur', 'yo'
 			))) {
-			return ($count !== 1) ? '_PLURAL' : '';
+			return ($count !== 1) ? '_1' : '_0';
 		}
 		switch ($lang) {
 			case 'is':
-				return ($count % 10 !== 1 || $count % 100 === 11) ? '_PLURAL' : '';
+				return ($count % 10 !== 1 || $count % 100 === 11) ? '_1' : '_0';
 			case 'be':
 			case 'bs':
 			case 'hr':
