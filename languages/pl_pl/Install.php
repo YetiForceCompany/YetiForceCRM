@@ -39,6 +39,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Proszę wprowadzić ponownie hasła. Hasła do siebie nie pasują.',
 	'LBL_PHP_CONFIGURATION' => 'PHP konfiguracja',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Zalecane parametry PHP',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Zalecane parametry bezpieczeństwa',
 	'LBL_PHP_VERSION' => 'Wersja PHP',
 	'LBL_PLEASE_WAIT' => 'Proszę czekać...',
 	'LBL_PRESENT_VALUE' => 'Aktualne wartości',

@@ -7,7 +7,7 @@
  */
 $languageStrings = [
 	'SQuoteEnquiries' => 'Angebotsanfrage',
-	'SINGLE_SQuoteEnquiries' => 'Angebotsangfrage',
+	'SINGLE_SQuoteEnquiries' => 'Angebotsanfrage',
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Informationen',
 	'LBL_CUSTOM_INFORMATION' => 'System Information',

@@ -25,7 +25,7 @@ class OSSMailView_BindMails_Action extends Vtiger_Mass_Action
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModel->bindSelectedRecords($recordsList);
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate('LBL_BindMailsOK', $moduleName));
+		$response->setResult(\App\Language::translate('LBL_BindMailsOK', $moduleName));
 		$response->emit();
 	}
 }

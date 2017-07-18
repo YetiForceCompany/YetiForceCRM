@@ -71,34 +71,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
 		}
-		if ($request->get('mode') !== 'edit') {
-			$request->set('record', $recordModel->getId());
-		}
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		\App\Config::$processName = 'Detail';
-		\App\Config::$processType = 'View';
-		$request->set('view', 'Detail');
-		$request->delete('action');
-		if (Vtiger_Session::has('baseUserId') && !empty(Vtiger_Session::get('baseUserId'))) {
-			$userId = Vtiger_Session::get('authenticated_user_id');
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-			vglobal('current_user', $currentUser);
-			App\User::setCurrentUserId($userId);
-		}
-		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $request->getModule());
-		$handler = new $handlerClass();
-		if ($handler) {
-			$handler->preProcess($request);
-			$handler->process($request);
-			$handler->postProcess($request);
-		} else {
-			throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
-		}
-		return true;
+		header("Location: $loadUrl");
 	}
 
 	/**

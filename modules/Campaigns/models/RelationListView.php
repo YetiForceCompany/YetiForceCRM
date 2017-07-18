@@ -25,7 +25,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 			if ($relatedModuleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
 				$emailLink = Vtiger_Link_Model::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
-						'linklabel' => vtranslate('LBL_SEND_EMAIL', $relatedModuleName),
+						'linklabel' => \App\Language::translate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",
 						'linkicon' => ''
 				));

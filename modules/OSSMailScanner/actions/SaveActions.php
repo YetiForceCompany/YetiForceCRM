@@ -28,7 +28,7 @@ class OSSMailScanner_SaveActions_Action extends Vtiger_Action_Controller
 			$OSSMailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 			$OSSMailScannerModel->setActions($userid, $vale);
 			$success = true;
-			$data = vtranslate('JS_save_info', 'OSSMailScanner');
+			$data = \App\Language::translate('JS_save_info', 'OSSMailScanner');
 		} else {
 			$success = false;
 			$data = 'Error: Brak userid';

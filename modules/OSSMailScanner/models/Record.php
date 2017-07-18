@@ -393,8 +393,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		\App\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			\App\Log::info(vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
-			return vtranslate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
+			\App\Log::info(\App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			return \App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 		$scannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
