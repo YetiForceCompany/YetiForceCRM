@@ -139,6 +139,16 @@ class Language
 	}
 
 	/**
+	 * Translate singular module name
+	 * @param string $moduleName
+	 * @return string
+	 */
+	public static function translateSingularModuleName($moduleName)
+	{
+		return static::translate("SINGLE_$moduleName", $moduleName);
+	}
+
+	/**
 	 * This function returns the modified keycode to match the plural form(s) of a given language and a given count with the same pattern used by i18next JS library
 	 * Global patterns for keycode are as below :
 	 * - No plural form : only one non modified key is needed :)
