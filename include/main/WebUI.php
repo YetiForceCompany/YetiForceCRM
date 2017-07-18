@@ -52,7 +52,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$user = parent::getLogin();
 		if (!$user && Vtiger_Session::has('authenticated_user_id')) {
 			$userid = Vtiger_Session::get('authenticated_user_id');
-			if ($userid && AppConfig::main('application_unique_key') == Vtiger_Session::get('app_unique_key')) {
+			if ($userid && AppConfig::main('application_unique_key') === Vtiger_Session::get('app_unique_key')) {
 				\App\User::getCurrentUserModel();
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
@@ -191,7 +191,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
-			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') == 0 && empty($currentUser)) {
+			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($currentUser)) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
@@ -210,7 +210,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					$this->triggerCheckPermission($handler, $request);
 				}
 				// Every settings page handler should implement this method
-				if (stripos($qualifiedModuleName, 'Settings') == 0 || ($module === 'Users')) {
+				if (stripos($qualifiedModuleName, 'Settings') === 0 || ($module === 'Users')) {
 					$handler->checkPermission($request);
 				}
 				$notPermittedModules = ['ModComments', 'Integration', 'DashBoard'];
