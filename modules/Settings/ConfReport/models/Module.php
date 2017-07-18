@@ -342,6 +342,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if (function_exists('apache_response_headers')) {
 			$headers = array_change_key_case(apache_response_headers(), CASE_UPPER);
+		} else {
+			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$headers = array_change_key_case(get_headers($requestUrl, 1), CASE_UPPER);
+		}
+		if ($headers) {
 			$directiveValues['Header: X-Frame-Options']['status'] = strtolower($headers['X-FRAME-OPTIONS']) !== 'sameorigin';
 			$directiveValues['Header: X-Frame-Options']['current'] = $headers['X-FRAME-OPTIONS'];
 			$directiveValues['Header: X-XSS-Protection']['status'] = strtolower($headers['X-XSS-PROTECTION']) !== '1; mode=block';
