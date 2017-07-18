@@ -61,8 +61,7 @@ class VTEventConditionParserLexer_DFA9 extends DFA
 
 	public function __construct($recognizer)
 	{
-		global $VTEventConditionParserLexer_DFA9;
-		$DFA = $VTEventConditionParserLexer_DFA9;
+		$DFA = vglobal('VTEventConditionParserLexer_DFA9');
 		$this->recognizer = $recognizer;
 		$this->decisionNumber = 9;
 		$this->eot = $DFA['eot'];
@@ -100,7 +99,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 
 	public function reportError($e)
 	{
-		
+
 		\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 		throw new Exception('The condition you provided is invalid');
 	}
@@ -128,7 +127,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 			$_type = VTEventConditionParserLexer::$T__13;
 			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
 			{
-				$this->matchString("==");
+				$this->matchString('==');
 			}
 
 			$this->state->type = $_type;
@@ -272,8 +271,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$STRING;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$this->matchChar(39);
 				$cnt2 = 0;
 				//loop2:
@@ -348,8 +346,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 			}
 			switch ($alt5) {
 				case 1 : {
-						$this->mLETTER();
-						{
+						$this->mLETTER(); {
 							//loop3:
 							do {
 								$alt3 = 2;
@@ -430,8 +427,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$DOT;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$this->matchChar(46);
 			}
 
@@ -448,8 +444,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$ELEMENT_ID;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$cnt6 = 0;
 				//loop6:
 				do {
@@ -547,8 +542,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$WHITESPACE;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$cnt8 = 0;
 				//loop8:
 				do {
