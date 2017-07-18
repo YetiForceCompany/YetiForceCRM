@@ -71,6 +71,9 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 	showWarnings: function () {
 		jQuery('li[data-mode="systemWarnings"] a').click();
 	},
+	showSecurity: function () {
+		jQuery('li[data-mode="security"] a').click();
+	},
 }, {
 	registerDeleteShortCutEvent: function (shortCutBlock) {
 		var thisInstance = this;
@@ -598,6 +601,8 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 				thisInstance.registerGithubEvents(container);
 			} else if (mode == 'systemWarnings') {
 				thisInstance.registerSystemWarningsEvents(container);
+			} else if (mode == 'security') {
+				app.showPopoverElementView(container.find('.popoverTooltip'));
 			}
 		});
 	},

@@ -27,6 +27,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->exposeMethod('github');
 		$this->exposeMethod('systemWarnings');
 		$this->exposeMethod('getWarningsList');
+		$this->exposeMethod('security');
 	}
 
 	public function checkPermission(\App\Request $request)
@@ -102,6 +103,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
 		$viewer->assign('WARNINGS', !Vtiger_Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
+		$viewer->assign('SECURITY_COUNT', $this->getSecurityCount());
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
@@ -168,6 +170,22 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
+	 * Displays security information
+	 * 
+	 * @param \App\Request $request
+	 */
+	public function security(\App\Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
+
+		$folders = array_values(\App\SystemWarnings::getFolders());
+		$viewer->assign('MODULE', $qualifiedModuleName);
+		$viewer->assign('FOLDERS', \App\Json::encode($folders));
+		$viewer->view('Security.tpl', $qualifiedModuleName);
+	}
+
+	/**
 	 * Displays a list of system warnings
 	 * 
 	 * @param \App\Request $request
@@ -183,6 +201,25 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('WARNINGS_LIST', $list);
 		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);
+	}
+
+	/**
+	 * Get security alerts count
+	 * @return int
+	 */
+	protected function getSecurityCount()
+	{
+		$count = 0;
+		foreach (Settings_ConfReport_Module_Model::getSecurityConf() as $value) {
+			if (isset($value['status']) && $value['status']) {
+				$count++;
+			}
+		}
+		$count += App\Log::getLogs('access_for_admin', 'oneDay', true);
+		$count += App\Log::getLogs('access_to_record', 'oneDay', true);
+		$count += App\Log::getLogs('access_for_api', 'oneDay', true);
+		$count += App\Log::getLogs('access_for_user', 'oneDay', true);
+		return $count;
 	}
 
 	protected function getMenu()
