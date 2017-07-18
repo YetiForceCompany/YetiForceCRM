@@ -29,7 +29,7 @@ class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexA
 	{
 		$dashboardId = $request->get('dashboardId');
 		if ($dashboardId === Settings_WidgetsManagement_Module_Model::getDefaultDashboard()) {
-			throw new \Exception\AppException(\App\Language::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 		Settings_WidgetsManagement_Module_Model::deleteDashboard($dashboardId);
 		$response = new Vtiger_Response();
