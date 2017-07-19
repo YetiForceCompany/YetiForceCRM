@@ -167,7 +167,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$result = $adb->pquery($sql, array($newKey), true);
 					$encrypt_aff_rows = $adb->getAffectedRowCount($result);
 
-					if ($decrypt_aff_rows === $encrypt_aff_rows) {
+					if ($decrypt_aff_rows == $encrypt_aff_rows) {
 						// at end we are saving new password key
 						$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 						$config = array("encode" => array('key' => "$newKey"));
@@ -183,7 +183,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				}
 			}
 			// stop encrypting passwords
-			else if ($encrypt === "stop") {
+			else if ($encrypt == "stop") {
 				// check if the given password is correct
 				$passKey = hash('sha256', $passKey);
 				$configKey = $config['key'];
