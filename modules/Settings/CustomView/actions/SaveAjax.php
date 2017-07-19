@@ -59,9 +59,9 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		$params = $request->get('param');
 		$type = $request->get('type');
-		if ($type === 'default') {
+		if ($type == 'default') {
 			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($params['tabid'], $params['cvid'], $params['user'], $params['action']);
-		} elseif ($type === 'featured') {
+		} elseif ($type == 'featured') {
 			$result = Settings_CustomView_Module_Model::setFeaturedFilterView($params['cvid'], $params['user'], $params['action']);
 		}
 
