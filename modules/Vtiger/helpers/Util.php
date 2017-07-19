@@ -149,13 +149,13 @@ class Vtiger_Util_Helper
 		$tomorrow = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
 		$userDate = DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
-		if ($dateInUserFormat === $today) {
+		if ($dateInUserFormat == $today) {
 			$todayInfo = \App\Language::translate('LBL_TODAY');
 			if ($time) {
 				$todayInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($todayInfo)";
-		} elseif ($dateInUserFormat === $tomorrow) {
+		} elseif ($dateInUserFormat == $tomorrow) {
 			$tomorrowInfo = \App\Language::translate('LBL_TOMORROW');
 			if ($time) {
 				$tomorrowInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
