@@ -7,11 +7,11 @@
  */
 $languageStrings = [
 	'CallHistory' => 'Histórico de llamadas',
-	'SINGLE_CallHistory' => 'Histórico de llamadas',
+	'SINGLE_CallHistory' => 'Histórico de la llamada',
 	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Lista',
 	//Bloks
-	'LBL_CALLHISTORY_INFORMATION' => 'Información sobre el históricos de llamadas',
+	'LBL_CALLHISTORY_INFORMATION' => 'Información sobre el históricos de la llamada',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_PHONE_INFORMATION' => 'Información del teléfono',
 	'LBL_RELATED_INFORMATION' => 'Información relacionada',

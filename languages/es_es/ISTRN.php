@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'ISTRN' => 'Notas de transferencia de almacenamiento recibidas',
-	'SINGLE_ISTRN' => 'Notas de transferencia de almacenamiento recibidas',
+	'ISTRN' => 'Entradas de Mercancía',
+	'SINGLE_ISTRN' => 'Entrada de Mercancía',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',

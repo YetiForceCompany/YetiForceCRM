@@ -16,9 +16,9 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	},
 	registerMap: function (startCoordinate, startZoom) {
 		var myMap = L.map('mapid').setView(startCoordinate, startZoom);
-		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
-			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 
 		}).addTo(myMap);
 		this.mapInstance = myMap;

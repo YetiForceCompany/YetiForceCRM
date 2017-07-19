@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'ISTN' => 'Nota de volumen de almacenamiento',
-	'SINGLE_ISTN' => 'Nota de volumen de almacenamiento',
+	'ISTN' => 'Rotación de Inventario',
+	'SINGLE_ISTN' => 'Rotaciones de Inventario',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ESTIMATED_DATE' => 'Fecha estimada',

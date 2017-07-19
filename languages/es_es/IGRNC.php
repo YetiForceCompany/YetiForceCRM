@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'IGRNC' => 'Correción de las Notas de Bienes Recibidos',
-	'SINGLE_IGRNC' => 'Correción de la Nota de Bienes Recibidos',
+	'IGRNC' => 'Albaranes de Compra - Corrección',
+	'SINGLE_IGRNC' => 'Albarán de Compra - Corrección',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',
@@ -16,7 +16,7 @@ $languageStrings = [
 	'FL_SUBJECT' => 'Asunto',
 	'FL_STORAGE' => 'Almacenamiento',
 	'FL_STATUS' => 'Estado',
-	'FL_IGRN' => 'Documento de Bienes Recibidos',
+	'FL_IGRN' => 'Albaranes de Compra',
 	'PLL_DRAFT' => 'Borrador',
 	'PLL_IN_REALIZATION' => 'En progreso',
 	'PLL_OBJECTIONS' => 'Objeciones',
