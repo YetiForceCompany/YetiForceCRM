@@ -166,7 +166,7 @@ class Vtiger_AdvancedFilter_Helper
 		foreach (\App\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $moduleName);
+			$comparatorInfo['label'] = \App\Language::translate($comparatorInfo['label'], $moduleName);
 			$dateFilters[$comparatorKey] = $comparatorInfo;
 		}
 		return $dateFilters;
@@ -227,7 +227,7 @@ class Vtiger_AdvancedFilter_Helper
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
 								$name = "$(relatedRecord : $parentFieldName|$fieldName|$refModule)$";
-								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
+								$label = \App\Language::translate($field->get('label'), $baseModuleModel->getName()) . ' : (' . \App\Language::translate($refModule, $refModule) . ') ' . \App\Language::translate($fieldModel->get('label'), $refModule);
 								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {
 									$fieldValueType = $recordModel->getFieldFilterValueType($name);

@@ -46,7 +46,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 			if ($currentUserModel->hasModulePermission('OSSMail') && AppConfig::main('isActiveSendingMails')) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
-					'linklabel' => vtranslate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
+					'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
 					'linkhref' => true,
 					'linktarget' => '_blank',
 					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
@@ -72,7 +72,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RELATIONS', $moduleName),
+			'linklabel' => \App\Language::translate('LBL_RELATIONS', $moduleName),
 			'linkKey' => 'LBL_RECORD_SUMMARY',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',

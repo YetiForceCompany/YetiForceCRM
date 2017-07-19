@@ -91,7 +91,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			$fieldPickListValues = [];
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
-				$fieldPickListValues[$picklistValue] = vtranslate($picklistValue, $this->getModuleName());
+				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		}
@@ -118,8 +118,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 			return Vtiger_Language_Handler::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
-		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {
-			return vtranslate('LBL_SPACE', 'Users');
+		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
+			return \App\Language::translate('LBL_SPACE', 'Users');
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
@@ -157,7 +157,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEmptyPicklistOptionAllowed()
 	{
-		if ($this->getFieldName() == 'reminder_interval') {
+		if ($this->getFieldName() === 'reminder_interval') {
 			return true;
 		}
 		return false;

@@ -6,11 +6,11 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'CFixedAssets' => 'Gestión de flota',
-	'SINGLE_CFixedAssets' => 'Gestión de flota',
+	'CFixedAssets' => 'Gestión de Flota',
+	'SINGLE_CFixedAssets' => 'Gestión de Flota',
 	//BLOCKS
 	'LBL_VEHICLE' => 'Vehículo',
-	'LBL_BASIC_INFORMATION' => 'Información sobre la gestión de flota',
+	'LBL_BASIC_INFORMATION' => 'Información sobre la Gestión de Flota',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	//FIELDS

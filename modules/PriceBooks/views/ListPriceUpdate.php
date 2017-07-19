@@ -17,7 +17,7 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 

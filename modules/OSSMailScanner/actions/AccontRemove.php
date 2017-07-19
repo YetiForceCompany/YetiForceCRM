@@ -23,7 +23,7 @@ class OSSMailScanner_AccontRemove_Action extends Vtiger_Action_Controller
 		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$recordModel_OSSMailScanner->AccontDelete($id);
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => true, 'data' => vtranslate('AccontDeleteOK', 'OSSMailScanner')));
+		$response->setResult(array('success' => true, 'data' => \App\Language::translate('AccontDeleteOK', 'OSSMailScanner')));
 		$response->emit();
 	}
 }

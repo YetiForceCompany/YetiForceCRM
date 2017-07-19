@@ -27,7 +27,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate('Delete CustomView', $request->getModule(false))
+			'message' => \App\Language::translate('Delete CustomView', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -39,7 +39,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		Settings_CustomView_Module_Model::updateOrderAndSort($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message' => vtranslate('Saving CustomView', $request->getModule(false))
+			'message' => \App\Language::translate('Saving CustomView', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -50,7 +50,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$result = Settings_CustomView_Module_Model::upadteSequences($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
-			'message' => vtranslate('LBL_SAVE_SEQUENCES', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_SEQUENCES', $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -67,12 +67,12 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 		if (!empty($result)) {
 			$data = [
-				'message' => vtranslate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), vtranslate($result, $params['tabid'])),
+				'message' => \App\Language::translate('LBL_EXISTS_PERMISSION_IN_CONFIG', $request->getModule(false), \App\Language::translate($result, $params['tabid'])),
 				'success' => false
 			];
 		} else {
 			$data = [
-				'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false)),
+				'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false)),
 				'success' => true
 			];
 		}

@@ -165,7 +165,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
 					if ($fileInstance->validate()) {
 						$fileName = App\Purifier::purify($file['name']);
-						$fileType = $file['type'];
+						$fileType = $fileInstance->getMimeType();
 						$fileSize = $file['size'];
 						$fileLocationType = 'I';
 					}

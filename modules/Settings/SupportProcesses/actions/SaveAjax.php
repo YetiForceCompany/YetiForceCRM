@@ -22,7 +22,7 @@ class Settings_SupportProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAja
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->updateTicketStatusNotModify($param),
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}

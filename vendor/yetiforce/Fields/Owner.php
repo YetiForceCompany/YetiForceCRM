@@ -69,7 +69,7 @@ class Owner
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
-				$name = vtranslate($name);
+				$name = \App\Language::translate($name);
 			}
 		}
 		if (!empty($this->searchValue)) {

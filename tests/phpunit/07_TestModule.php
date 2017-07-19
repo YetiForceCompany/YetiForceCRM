@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -24,18 +23,20 @@ class TestModule extends TestCase
 		try {
 			file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
 		} catch (Exception $exc) {
-
+			
 		}
 		if (file_exists($testModule)) {
 			$this->assertTrue(true);
 			(new vtlib\Package())->import($testModule);
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
+			$db = \App\Db::getInstance();
+			$db->createCommand()
+				->update('vtiger_cron_task', [
+					'sequence' => 0,
+					], ['name' => 'TestData'])
+				->execute();
+		} else {
+			$this->assertTrue(true);
 		}
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
-		$db = \App\Db::getInstance();
-		$db->createCommand()
-			->update('vtiger_cron_task', [
-				'sequence' => 0,
-				], ['name' => 'TestData'])
-			->execute();
 	}
 }

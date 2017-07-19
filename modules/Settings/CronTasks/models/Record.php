@@ -151,7 +151,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
 				}
-				$fieldValue = vtranslate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
+				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
 				break;
 			case 'laststart' :
 			case 'lastend' : $fieldValue = intval($fieldValue);

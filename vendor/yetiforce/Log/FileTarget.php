@@ -126,7 +126,7 @@ class FileTarget extends \yii\log\FileTarget
 		}
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
 		$library = \Settings_ConfReport_Module_Model::getConfigurationLibrary();
-		$directiveValues = \Settings_ConfReport_Module_Model::getConfigurationValue(true);
+		$directiveValues = \Settings_ConfReport_Module_Model::getStabilityConf(true);
 		$permissionsFiles = \Settings_ConfReport_Module_Model::getPermissionsFiles(true);
 		foreach ($library as $key => $value) {
 			if ($value['status'] === 'LBL_NO') {

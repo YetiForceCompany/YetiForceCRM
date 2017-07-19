@@ -96,7 +96,7 @@ function getColumnFields($module)
 		}
 	}
 
-	\App\Log::trace("Exiting getColumnFields method ...");
+	\App\Log::trace('Exiting getColumnFields method ...');
 	return $column_fld;
 }
 
@@ -108,22 +108,22 @@ function getColumnFields($module)
 function getUserId_Ol($username)
 {
 
-	\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
-	\App\Log::trace("in getUserId_Ol " . $username);
+	\App\Log::trace('Entering getUserId_Ol(' . $username . ') method ...');
+	\App\Log::trace('in getUserId_Ol ' . $username);
 	$cache = Vtiger_Cache::getInstance();
 	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 		return $cache->getUserId($username);
 	} else {
 		$adb = PearDatabase::getInstance();
-		$sql = "select id from vtiger_users where user_name=?";
+		$sql = 'select id from vtiger_users where user_name=?';
 		$result = $adb->pquery($sql, array($username));
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows > 0) {
-			$user_id = $adb->query_result($result, 0, "id");
+			$user_id = $adb->query_result($result, 0, 'id');
 		} else {
 			$user_id = 0;
 		}
-		\App\Log::trace("Exiting getUserId_Ol method ...");
+		\App\Log::trace('Exiting getUserId_Ol method ...');
 		$cache->setUserId($username, $user_id);
 		return $user_id;
 	}
@@ -214,7 +214,7 @@ function getRecordOwnerId($record)
 // Return Question mark
 function _questionify($v)
 {
-	return "?";
+	return '?';
 }
 
 /**
@@ -224,9 +224,9 @@ function generateQuestionMarks($items_list)
 {
 	// array_map will call the function specified in the first parameter for every element of the list in second parameter
 	if (is_array($items_list)) {
-		return implode(",", array_map("_questionify", $items_list));
+		return implode(',', array_map('_questionify', $items_list));
 	} else {
-		return implode(",", array_map("_questionify", explode(",", $items_list)));
+		return implode(',', array_map('_questionify', explode(',', $items_list)));
 	}
 }
 
@@ -291,11 +291,11 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 /** Function to get on clause criteria for duplicate check queries */
 function get_on_clause($field_list)
 {
-	$field_array = explode(",", $field_list);
+	$field_array = explode(',', $field_list);
 	$ret_str = '';
 	$i = 1;
 	foreach ($field_array as $fld) {
-		$sub_arr = explode(".", $fld);
+		$sub_arr = explode('.', $fld);
 		$tbl_name = $sub_arr[0];
 		$col_name = $sub_arr[1];
 
@@ -381,7 +381,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	} else {
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}

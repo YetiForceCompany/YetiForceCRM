@@ -446,7 +446,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$selectLinkList = array(
 			array(
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => vtranslate('LBL_SELECT_RELATION', $relatedModel->getName()),
+				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => '',
 			)
@@ -471,7 +471,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			return $addLinkModel;
 		}
 
-		if ($relatedModel->get('label') == 'Calendar') {
+		if ($relatedModel->get('label') === 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
@@ -490,7 +490,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$addLinkList = [[
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
 				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
@@ -519,11 +519,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$tableName = $fieldModel->get('table');
 		$columnName = $fieldModel->get('column');
 
-		if (($fieldName == 'currency_id') && ($moduleName == 'Products' || $moduleName == 'Services')) {
+		if (($fieldName === 'currency_id') && ($moduleName === 'Products' || $moduleName === 'Services')) {
 			$query = "SELECT currency_symbol FROM vtiger_currency_info WHERE id = (";
-			if ($moduleName == 'Products')
+			if ($moduleName === 'Products')
 				$query .= "SELECT currency_id FROM vtiger_products WHERE productid = ?)";
-			else if ($moduleName == 'Services')
+			else if ($moduleName === 'Services')
 				$query .= "SELECT currency_id FROM vtiger_service WHERE serviceid = ?)";
 
 			$result = $db->pquery($query, array($recordId));

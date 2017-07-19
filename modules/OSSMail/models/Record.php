@@ -110,7 +110,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (!$mbox) {
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(): ' . imap_last_error());
 			if ($dieOnError) {
-				vtlib\Functions::throwNewException(vtranslate('IMAP_ERROR', 'OSSMailScanner') . ': ' . imap_last_error());
+				vtlib\Functions::throwNewException(\App\Language::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . imap_last_error());
 			}
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
@@ -507,7 +507,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$adb = PearDatabase::getInstance();
 			$adb->pquery("update roundcube_users set language=?", array($param['language']));
 		}
-		return vtranslate('JS_save_config_info', 'OSSMailScanner');
+		return \App\Language::translate('JS_save_config_info', 'OSSMailScanner');
 	}
 
 	public function getEditableFields()

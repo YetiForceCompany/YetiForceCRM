@@ -6,12 +6,12 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'OSSSoldServices' => 'Servicios vendidos',
-	'SINGLE_OSSSoldServices' => 'Servicio vendido',
+	'OSSSoldServices' => 'Servicios Contratados',
+	'SINGLE_OSSSoldServices' => 'Servicio Contratado',
 	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
-	'LBL_INFORMATION' => 'Información sobre el Servicio vendido',
+	'LBL_INFORMATION' => 'Información sobre el Servicio Contratado',
 	// Field Labels
 	'Number' => 'ID',
 	'Assigned To' => 'Asignado a',

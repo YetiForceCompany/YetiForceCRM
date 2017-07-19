@@ -33,7 +33,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				'type' => 'folder',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->getModuleName())
+				'text' => \App\Language::translate($row['name'], $this->getModuleName())
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];

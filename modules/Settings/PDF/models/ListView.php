@@ -47,13 +47,13 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 			$module_name = $row['module_name'];
 
 			//To handle translation of calendar to To Do
-			if ($module_name == 'Calendar') {
-				$module_name = vtranslate('LBL_TASK', $module_name);
+			if ($module_name === 'Calendar') {
+				$module_name = \App\Language::translate('LBL_TASK', $module_name);
 			} else {
-				$module_name = vtranslate($module_name, $module_name);
+				$module_name = \App\Language::translate($module_name, $module_name);
 			}
 			$row['module_name'] = $module_name;
-			$row['summary'] = isset($row['summary']) ? vtranslate($row['summary'], $qualifiedModuleName) : '';
+			$row['summary'] = isset($row['summary']) ? \App\Language::translate($row['summary'], $qualifiedModuleName) : '';
 
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;

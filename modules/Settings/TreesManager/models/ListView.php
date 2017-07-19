@@ -32,7 +32,7 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() == 'owner') {
+			if ($fieldModel->getFieldDataType() === 'owner') {
 				$orderBy = 'COALESCE(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users') . ',vtiger_groups.groupname)';
 			}
 		}
@@ -60,7 +60,7 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$record->setData($row);
 
 			$recordModule = vtlib\Functions::getModuleName($row['module']);
-			$record->set('module', vtranslate($recordModule, $recordModule));
+			$record->set('module', \App\Language::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
 				$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);

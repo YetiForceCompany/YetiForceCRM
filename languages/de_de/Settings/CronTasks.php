@@ -58,7 +58,9 @@ $languageStrings = [
 	'LBL_MAILER' => 'E-Mails Sender',
 	'LBL_CARD_DAV' => 'CardDav Integration',
 	'LBL_CAL_DAV' => 'CalDav Integration',
-	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Clear attachments table',
+	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Löschen der Tabelle für Anhänge',
+	'LBL_CACHE' => 'Cache',
+	'LBL_NEVER_ENDING_RECURRING_EVENTS' => 'Niemals endende wiederkehrende Ereignisse',	
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',

@@ -25,8 +25,8 @@ class Vtiger_Updates_Widget extends Vtiger_Basic_Widget
 		$this->Config['switchHeader'] = [];
 		$this->Config['switchHeader']['on'] = 'changes';
 		$this->Config['switchHeader']['off'] = 'review';
-		$this->Config['switchHeaderLables']['on'] = vtranslate('LBL_UPDATES', $moduelName);
-		$this->Config['switchHeaderLables']['off'] = vtranslate('LBL_REVIEW_HISTORY', $moduelName);
+		$this->Config['switchHeaderLables']['on'] = \App\Language::translate('LBL_UPDATES', $moduelName);
+		$this->Config['switchHeaderLables']['off'] = \App\Language::translate('LBL_REVIEW_HISTORY', $moduelName);
 		return $this->Config;
 	}
 }

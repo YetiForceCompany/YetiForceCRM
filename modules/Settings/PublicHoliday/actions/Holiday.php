@@ -29,9 +29,9 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 			$id = $request->get('id');
 
 			if (Settings_PublicHoliday_Module_Model::delete($id)) {
-				$response->setResult(array('success' => true, 'message' => vtranslate('JS_HOLIDAY_DELETE_OK', $moduleName)));
+				$response->setResult(array('success' => true, 'message' => \App\Language::translate('JS_HOLIDAY_DELETE_OK', $moduleName)));
 			} else {
-				$response->setResult(array('success' => false, 'message' => vtranslate('JS_HOLIDAY_DELETE_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \App\Language::translate('JS_HOLIDAY_DELETE_ERROR', $moduleName)));
 			}
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
@@ -57,18 +57,18 @@ class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 			$type = $request->get('holidayType');
 
 			if (empty($name) || empty($date)) {
-				$response->setResult(array('success' => false, 'message' => vtranslate('LBL_FILL_FORM_ERROR', $moduleName)));
+				$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_FILL_FORM_ERROR', $moduleName)));
 			} else if (!empty($id)) {
 				if (Settings_PublicHoliday_Module_Model::edit($id, $date, $name, $type)) {
-					$response->setResult(array('success' => true, 'message' => vtranslate('LBL_EDIT_DATE_OK', $moduleName)));
+					$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_EDIT_DATE_OK', $moduleName)));
 				} else {
-					$response->setResult(array('success' => false, 'message' => vtranslate('LBL_EDIT_DATE_ERROR', $moduleName)));
+					$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_EDIT_DATE_ERROR', $moduleName)));
 				}
 			} else {
 				if (Settings_PublicHoliday_Module_Model::save($date, $name, $type)) {
-					$response->setResult(array('success' => true, 'message' => vtranslate('LBL_NEW_DATE_OK', $moduleName)));
+					$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_NEW_DATE_OK', $moduleName)));
 				} else {
-					$response->setResult(array('success' => false, 'message' => vtranslate('LBL_NEW_DATE_ERROR', $moduleName)));
+					$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_NEW_DATE_ERROR', $moduleName)));
 				}
 			}
 		} catch (Exception $e) {

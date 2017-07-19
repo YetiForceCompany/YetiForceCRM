@@ -56,7 +56,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 			unset($dependentPicklists[$i]['module']);
 			$record->setData($dependentPicklists[$i]);
 			$record->set('sourceModule', $module);
-			$record->set('sourceLabel', vtranslate($module, $module));
+			$record->set('sourceLabel', \App\Language::translate($module, $module));
 			$listViewRecordModels[] = $record;
 		}
 		$pagingModel->calculatePageRange($noOfRecords);

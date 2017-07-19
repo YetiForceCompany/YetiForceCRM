@@ -120,7 +120,7 @@ class Vtiger_Report_Model extends Reports
 	{
 		foreach ($this->module_list as $key => $value) {
 			if (isPermitted($key, 'index') == "yes") {
-				$modules [$key] = vtranslate($key, $key);
+				$modules [$key] = \App\Language::translate($key, $key);
 			}
 		}
 		asort($modules);

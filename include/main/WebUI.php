@@ -68,7 +68,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_HANDLER_NOT_FOUND'));
+			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -78,7 +78,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new \Exception\NoPermitted(vtranslate('LBL_NOT_ACCESSIBLE'));
+		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, $request)
@@ -121,8 +121,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('Location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
+		if (\App\RequestUtil::getBrowserInfo()->https) {
+			$params = session_get_cookie_params();
+			session_set_cookie_params($params['lifetime'], $params['path'], $params['domain'], true, true);
+		}
 		Vtiger_Session::init();
-
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
@@ -218,7 +221,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
-				throw new \Exception\AppException(vtranslate('LBL_HANDLER_NOT_FOUND'));
+				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
