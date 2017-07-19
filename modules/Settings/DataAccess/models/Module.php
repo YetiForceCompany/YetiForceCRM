@@ -297,7 +297,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				foreach ($moduleFolderFiles as $module) {
 					$a_main = explode(self::$separator, $main);
 					$a_module = explode(self::$separator, $module);
-					if ($a_main[1] === $a_module[1]) {
+					if ($a_main[1] == $a_module[1]) {
 						unset($mainFolderFiles[$key]);
 					}
 				}
@@ -376,7 +376,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				$return = false;
 			}
 		} else {
-			$return = $actions === $item ? true : false;
+			$return = $actions == $item ? true : false;
 		}
 		return $return;
 	}
