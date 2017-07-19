@@ -70,7 +70,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function saveTranslation($params)
 	{
-		if ($params['is_new'] === 'true') {
+		if ($params['is_new'] == 'true') {
 			$result = self::addTranslation($params);
 		} else {
 			$result = self::updateTranslation($params);
@@ -109,7 +109,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				return ['success' => false, 'data' => 'LBL_KeyExists'];
 			}
 			$fileContent = file_get_contents($fileName);
-			if ($params['type'] === 'php') {
+			if ($params['type'] == 'php') {
 				$to_replase = '$languageStrings = [';
 			} else {
 				$to_replase = '$jsLanguageStrings = [';
