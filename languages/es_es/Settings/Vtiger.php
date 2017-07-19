@@ -356,16 +356,14 @@ $languageStrings = [
 	//Pluralized
 	'PLU_USERS_0' => 'Usuario',
 	'PLU_USERS_1' => 'Usuarios',
-	'PLU_USERS_2' => 'Usuarios',
 	'PLU_SYSTEM_WARNINGS_0' => 'Advertencia del sistema',
 	'PLU_SYSTEM_WARNINGS_1' => 'Advertencias del sistema',
-	'PLU_SYSTEM_WARNINGS_2' => 'Advertencias del sistema',
 	'PLU_WORKFLOWS_ACTIVE_0' => 'WF activo',
 	'PLU_WORKFLOWS_ACTIVE_1' => 'WF activos',
-	'PLU_WORKFLOWS_ACTIVE_2' => 'WF activos',
 	'PLU_MODULES_0' => 'Módulo',
 	'PLU_MODULES_1' => 'Módulos',
-	'PLU_MODULES_2' => 'Módulos',
+	'PLU_SECURITY_0' => 'Problema de seguridad',
+	'PLU_SECURITY_1' => 'Problemas de seguridad',
 ];
 
 $jsLanguageStrings = [
