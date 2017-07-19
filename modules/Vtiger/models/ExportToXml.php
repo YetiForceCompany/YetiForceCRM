@@ -23,7 +23,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			$this->tplName = $request->get('xmlExportType');
 		}
 		$query = $this->getExportQuery($request);
-		$fileName = str_replace(' ', '_', decode_html(\App\Language::translate($this->moduleName, $this->moduleName)));
+		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));
 		$entries = $query->all();
 		$entriesInventory = [];
 		if ($this->moduleInstance->isInventory()) {

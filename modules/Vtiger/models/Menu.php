@@ -25,7 +25,7 @@ class Vtiger_Menu_Model
 		} else {
 			require('user_privileges/menu_0.php');
 		}
-		if (count($menus) === 0) {
+		if (count($menus) == 0) {
 			require('user_privileges/menu_0.php');
 		}
 		return $menus;
@@ -52,7 +52,7 @@ class Vtiger_Menu_Model
 		} else {
 			require('user_privileges/menu_0.php');
 		}
-		if (count($menus) === 0) {
+		if (count($menus) == 0) {
 			require('user_privileges/menu_0.php');
 		}
 		$moduleName = $request->getModule();

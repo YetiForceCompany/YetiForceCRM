@@ -140,7 +140,7 @@ Class DataAccess_unique_value
 				}
 			}
 		}
-		if ($config['locksave'] === 0) {
+		if ($config['locksave'] == 0) {
 			$info = $config['info0'];
 			$type = 2;
 			$save_record = (!$save_record1 || !$save_record2) ? false : true;
@@ -153,7 +153,7 @@ Class DataAccess_unique_value
 			$save_record = false;
 			$info = $config['info1'];
 		}
-		if ($config['locksave'] === 3 && !$save_record) {
+		if ($config['locksave'] == 3 && !$save_record) {
 			$type = $config['locksave'];
 			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
 			$text = '<div class="marginLeft10">' . \App\Language::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';

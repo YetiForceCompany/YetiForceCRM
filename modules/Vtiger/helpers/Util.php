@@ -103,7 +103,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . " " . (($count === 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
+		return $count . " " . (($count == 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
 	}
 
 	/**
@@ -195,14 +195,14 @@ class Vtiger_Util_Helper
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
-		if (count($dateTimeInUserFormat) === 3) {
+		if (count($dateTimeInUserFormat) == 3) {
 			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
 		} else {
 			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
 			$meridiem = '';
 		}
 		$timeInUserFormat = explode(':', $timeInUserFormat);
-		if (count($timeInUserFormat) === 3) {
+		if (count($timeInUserFormat) == 3) {
 			list($hours, $minutes, $seconds) = $timeInUserFormat;
 		} else {
 			list($hours, $minutes) = $timeInUserFormat;

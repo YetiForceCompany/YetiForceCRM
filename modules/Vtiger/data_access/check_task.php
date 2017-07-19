@@ -16,7 +16,7 @@ Class DataAccess_check_task
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		if (!isset($ID) || $ID === 0 || $ID === '')
+		if (!isset($ID) || $ID == 0 || $ID == '')
 			return ['save_record' => true];
 		$activitiesExists = (new \App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where(['and',

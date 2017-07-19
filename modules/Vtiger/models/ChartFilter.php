@@ -134,7 +134,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
 				$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
 				$groupData[$displayValue]['count'] = (int) $sectorValue;
-				if ($sectorId === 0) {
+				if ($sectorId == 0) {
 					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue]]]);
 				} else {
 					$groupData[$displayValue]['link'] = $moduleModel->getListViewUrl() . "&viewname=$filterId" . '&search_params=' . json_encode([[[$fieldName, 'm', $sectorValue], [$fieldName, 'g', $sectors[$sectorId - 1]]]]);

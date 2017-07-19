@@ -552,7 +552,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$moduleModel = $this->getModule();
 		$quickCreate = $this->get('quickcreate');
-		if (($quickCreate === self::QUICKCREATE_MANDATORY || $quickCreate === self::QUICKCREATE_ENABLED || $this->isMandatory()) && $this->get('uitype') != 69 && $this->get('uitype') != 311) {
+		if (($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate === self::QUICKCREATE_ENABLED || $this->isMandatory()) && $this->get('uitype') != 69 && $this->get('uitype') != 311) {
 			//isQuickCreateSupported will not be there for settings
 			if (method_exists($moduleModel, 'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
 				return true;
@@ -1094,12 +1094,12 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isCustomField()
 	{
-		return ($this->generatedtype === 2) ? true : false;
+		return ($this->generatedtype == 2) ? true : false;
 	}
 
 	public function hasDefaultValue()
 	{
-		return $this->defaultvalue === '' ? false : true;
+		return $this->defaultvalue == '' ? false : true;
 	}
 
 	public function isActiveField()
@@ -1110,7 +1110,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isMassEditable()
 	{
-		return $this->masseditable === 1 ? true : false;
+		return $this->masseditable == 1 ? true : false;
 	}
 
 	public function isHeaderField()
