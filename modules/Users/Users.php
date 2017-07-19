@@ -425,7 +425,7 @@ class Users extends CRMEntity
 	{
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('userName');
-			if (isset($users[$userName]) && $users[$userName]['deleted'] === '0') {
+			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
 				return $users[$userName]['id'];
 			}
 		}
