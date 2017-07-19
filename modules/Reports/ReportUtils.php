@@ -208,7 +208,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		}
 	}
 
-	if ($fieldvalue === "") {
+	if ($fieldvalue == "") {
 		return "-";
 	}
 	$fieldvalue = str_replace("<", "&lt;", $fieldvalue);
