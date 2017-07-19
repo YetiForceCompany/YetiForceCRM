@@ -294,7 +294,7 @@ class Users extends CRMEntity
 			}
 			\App\Cache::save('Authorization', 'config', $auth);
 		}
-		if ($auth['ldap']['active'] === 'true') {
+		if ($auth['ldap']['active'] == 'true') {
 			\App\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
 			if (in_array($userInfo['id'], $users)) {
@@ -432,7 +432,7 @@ class Users extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
 		$row = $adb->getRow($result);
-		if ($row && $row['deleted'] === '0') {
+		if ($row && $row['deleted'] == '0') {
 			return $row['id'];
 		}
 		return false;
@@ -552,7 +552,7 @@ class Users extends CRMEntity
 		$db = App\Db::getInstance();
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
-		if (!isset($ownerid) || $ownerid === '')
+		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $currentUserId;
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate('image')) {
@@ -681,7 +681,7 @@ class Users extends CRMEntity
 			if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
-					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
+					if ($user['status'] == 'Active' && $user['is_admin'] == 'on') {
 						$adminId = $id;
 						continue;
 					}
