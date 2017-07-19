@@ -50,7 +50,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			}
 
 			//If hours zero then we need to make it as 12 AM
-			if ($hours === '00') {
+			if ($hours == '00') {
 				$hours = '12';
 				$format = \App\Language::translate('AM');
 			}
@@ -77,7 +77,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 				$hours = $hours + 12;
 			}
 
-			if ($timeDetails[1] === 'AM' && $hours === '12') {
+			if ($timeDetails[1] === 'AM' && $hours == '12') {
 				$hours = '00';
 			}
 
