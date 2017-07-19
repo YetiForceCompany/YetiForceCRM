@@ -50,8 +50,8 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('VALIDATE_STRINGS', vtranslate('Very Weak', $relatedModule) . ',' . vtranslate('Weak', $relatedModule) . ',' . vtranslate('Better', $relatedModule) . ',' .
-			vtranslate('Medium', $relatedModule) . ',' . vtranslate('Strong', $relatedModule) . ',' . vtranslate('Very Strong', $relatedModule));
+		$viewer->assign('VALIDATE_STRINGS', \App\Language::translate('Very Weak', $relatedModule) . ',' . \App\Language::translate('Weak', $relatedModule) . ',' . \App\Language::translate('Better', $relatedModule) . ',' .
+			\App\Language::translate('Medium', $relatedModule) . ',' . \App\Language::translate('Strong', $relatedModule) . ',' . \App\Language::translate('Very Strong', $relatedModule));
 		$viewer->assign('Very Weak', 'Very Weak');
 		$viewer->assign('Weak', 'Weak');
 		$viewer->assign('Better', 'Better');

@@ -105,15 +105,14 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		$field = WebserviceField::fromArray($db, $fieldInfo);
 		$fieldType = $field->getFieldDataType();
 	}
-
-	if ($fieldType === 'currency' && $value != '') {
+	if ($fieldType === 'currency' && $value !== '') {
 		// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 		if ($field->getUIType() == '72') {
-			$curid_value = explode("::", $value);
+			$curid_value = explode('::', $value);
 			$currency_id = $curid_value[0];
 			$currency_value = $curid_value[1];
 			$cur_sym_rate = \vtlib\Functions::getCurrencySymbolandRate($currency_id);
-			if ($value != '') {
+			if ($value !== '') {
 				if (($dbField->name === 'Products_Unit_Price')) { // need to do this only for Products Unit Price
 					if ($currency_id != 1) {
 						$currency_value = (float) $cur_sym_rate['rate'] * (float) $currency_value;
@@ -226,12 +225,6 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	// Added to render html tag for description fields
 	if (!($fieldInfo['uitype'] == '19' && ($module === 'Documents'))) {
 		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
-	}
-	if ($fieldvalue !== '-' && $fieldvalue !== null && $fieldvalue !== '') {
-		switch ($fieldType) {
-			case 'double':
-				return (double) $fieldvalue;
-		}
 	}
 	return $fieldvalue;
 }

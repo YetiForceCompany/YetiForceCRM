@@ -6,9 +6,6 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	//Innovaris
-	'LBL_MORE_DETAILS' => 'Más detalles',
-	//
 	'OSSEmployees' => 'Empleados',
 	'SINGLE_OSSEmployees' => 'Empleado',
 	'LBL_INFORMATION' => 'Información sobre el Empleado',

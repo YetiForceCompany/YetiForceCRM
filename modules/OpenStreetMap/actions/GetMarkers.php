@@ -44,7 +44,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 			$legend = [];
 			foreach (OpenStreetMap_Coordinate_Model::$colors as $key => $value) {
 				$legend [] = [
-					'value' => vtranslate($key, $sourceModule),
+					'value' => \App\Language::translate($key, $sourceModule),
 					'color' => $value
 				];
 			}

@@ -111,7 +111,19 @@ abstract class Vtiger_Controller
 			header('Pragma: no-cache');
 		}
 		header('X-Frame-Options: SAMEORIGIN');
+		header('X-XSS-Protection: 1; mode=block');
+		header('X-Content-Type-Options: nosniff');
+		header('Referrer-Policy: no-referrer');
+		header('Strict-Transport-Security: max-age=15768000; includeSubDomains');
+		header('Expect-CT: enforce; max-age=3600');
+		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+		header('X-Robots-Tag: none');
+		header('X-Permitted-Cross-Domain-Policies: none');
+		if ($keys = AppConfig::security('HPKP_KEYS')) {
+			header('Public-Key-Pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
+		}
 		header_remove('X-Powered-By');
+		header_remove('Server');
 	}
 }
 

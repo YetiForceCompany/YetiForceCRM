@@ -16,7 +16,7 @@ class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_Inde
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->setConfig($params),
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}

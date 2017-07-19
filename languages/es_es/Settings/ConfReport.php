@@ -62,7 +62,11 @@ $languageStrings = [
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Información del entorno',
 	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
 	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
-	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address'
+	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address',
+	'LBL_OPERATING_SYSTEM' => 'S.O.',
+	'LBL_SECURITY' => 'Seguridad',
+	'LBL_SYSTEM_SECURITY' => 'Seguridad del sistema',
+	'LBL_SYSTEM_STABILITY' => 'Estabilidad del sistema',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Comprobando la velocidad...',

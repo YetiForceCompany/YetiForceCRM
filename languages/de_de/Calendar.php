@@ -146,7 +146,7 @@ $languageStrings = [
 	'FL_REAPEAT' => 'Wiederholen',
 ];
 $jsLanguageStrings = [
-	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Kann nicht den Kontakt aus Lead nehmen',
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Kontakt aus Lead nicht verwendbar',
 	'JS Activity Type' => 'Aktivitätstyp',
 	'JS_SATATUS' => 'Status',
 	'JS_END_DATE' => 'Enddatum',

@@ -22,7 +22,7 @@ class Settings_SalesProcesses_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $moduleModel->setConfig($param),
-			'message' => vtranslate('LBL_SAVE_CONFIG', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		));
 		$response->emit();
 	}
