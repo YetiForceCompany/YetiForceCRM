@@ -138,14 +138,14 @@ class NumberToWords
 
 		$return = '';
 
-		if ($in{0} === '-') {
+		if ($in{0} == '-') {
 			$in = substr($in, 1);
 			$return = self::$words[0] . ' ';
 		}
 
 		$txt = str_split(strrev($in), 3);
 
-		if ($in === 0) {
+		if ($in == 0) {
 			$return = self::$words[1][0] . ' ';
 		}
 
@@ -153,7 +153,7 @@ class NumberToWords
 			$number = (int) strrev($txt[$i]);
 
 			if ($number > 0) {
-				if ($i === 0) {
+				if ($i == 0) {
 					$return .= self::number($number) . ' ';
 				} else {
 					$return .= ($number > 1 ? self::number($number) . ' ' : '')
@@ -214,7 +214,7 @@ class NumberToWords
 	{
 		$txt = $inflections[2];
 
-		if ($int === 1) {
+		if ($int == 1) {
 			$txt = $inflections[0];
 		}
 
@@ -241,7 +241,7 @@ class NumberToWords
 
 		$j = abs(intval($int));
 
-		if ($j === 0) {
+		if ($j == 0) {
 			return self::$words[1][0];
 		}
 
@@ -254,7 +254,7 @@ class NumberToWords
 		}
 
 		if ($dozens > 0) {
-			if ($dozens === 1) {
+			if ($dozens == 1) {
 				$return .= self::$words[2][$units] . ' ';
 			} else {
 				$return .= self::$words[3][$dozens - 1] . ' ';
