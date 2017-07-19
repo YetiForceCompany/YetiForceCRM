@@ -146,7 +146,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		  $query = $queryGenerator->getQuery();
 		  $queryComponents = preg_split('/FROM/i', $query);
 		  foreach ($queryComponents as $key => $val) {
-		  if ($key === 0) {
+		  if ($key == 0) {
 		  $query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
 		  } else {
 		  $query .= sprintf('FROM %s', $val);
@@ -155,7 +155,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		  $whereSplitQueryComponents = preg_split('/WHERE/i', $query);
 		  $query = $whereSplitQueryComponents[0] . $joinQuery;
 		  foreach ($whereSplitQueryComponents as $key => $val) {
-		  if ($key === 0) {
+		  if ($key == 0) {
 		  $query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
 		  } else {
 		  $query .= $val . ' WHERE ';
@@ -326,7 +326,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$tree = [
 				'id' => $row['tree'],
 				'name' => $parentName . App\Language::translate($row['name'], $relModuleName),
-				'parent' => $parent === 0 ? '#' : $parent
+				'parent' => $parent == 0 ? '#' : $parent
 			];
 			if ($showCreatorDetail) {
 				$tree['rel_created_user'] = \App\Fields\Owner::getLabel($row['rel_created_user']);
@@ -490,7 +490,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$addLinkList = [[
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-				//'linklabel' => \App\Language::translate('LBL_ADD')." ".\App\Language::translate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
 				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),

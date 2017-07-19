@@ -70,7 +70,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
 			$scripts[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}
-		if ($this->relationType === 1) {
+		if ($this->relationType == 1) {
 			$scripts[] = '~libraries/jquery/jstree/jstree.edit.js';
 		}
 		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
