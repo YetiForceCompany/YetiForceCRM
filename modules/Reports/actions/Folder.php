@@ -54,11 +54,11 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		$folderModel->set('description', $request->get('description'));
 
 		if ($folderModel->checkDuplicate()) {
-			throw new \Exception\AppException(vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
+			throw new \Exception\AppException(\App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
 
 		$folderModel->save();
-		$result = array('success' => true, 'message' => vtranslate('LBL_FOLDER_SAVED', $moduleName), 'info' => $folderModel->getInfoArray());
+		$result = array('success' => true, 'message' => \App\Language::translate('LBL_FOLDER_SAVED', $moduleName), 'info' => $folderModel->getInfoArray());
 
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -78,17 +78,17 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 			$folderModel = Reports_Folder_Model::getInstanceById($folderId);
 
 			if ($folderModel->isDefault()) {
-				$message = vtranslate('LBL_FOLDER_CAN_NOT_BE_DELETED', $moduleName);
+				$message = \App\Language::translate('LBL_FOLDER_CAN_NOT_BE_DELETED', $moduleName);
 			} else {
 				if ($folderModel->hasReports()) {
-					$message = vtranslate('LBL_FOLDER_NOT_EMPTY', $moduleName);
+					$message = \App\Language::translate('LBL_FOLDER_NOT_EMPTY', $moduleName);
 				}
 			}
 			if ($message) {
 				$result = array('success' => false, 'message' => $message);
 			} else {
 				$folderModel->delete();
-				$result = array('success' => true, 'message' => vtranslate('LBL_FOLDER_DELETED', $moduleName));
+				$result = array('success' => true, 'message' => \App\Language::translate('LBL_FOLDER_DELETED', $moduleName));
 			}
 
 			$response = new Vtiger_Response();
