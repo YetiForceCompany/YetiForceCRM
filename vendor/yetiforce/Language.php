@@ -103,6 +103,8 @@ class Language
 	 * @param string $key String which need to be translated
 	 * @param string $moduleName Module scope in which the translation need to be check
 	 * @param int $count Quantityu for plural determination
+	 * @link https://www.i18next.com/plurals.html
+	 * @link http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms#pluralforms-list
 	 * @return string
 	 */
 	public static function translatePluralized($key, $moduleName = 'Vtiger', $count)
