@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'IGDN' => 'Nota de envío de mercancías',
-	'SINGLE_IGDN' => 'Nota de envío de mercancías',
+	'IGDN' => 'Albaranes de Venta',
+	'SINGLE_IGDN' => 'Albarán de Venta',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	// Fields

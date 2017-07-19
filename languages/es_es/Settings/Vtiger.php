@@ -66,7 +66,7 @@ $languageStrings = [
 	'LBL_INVALID_MODULE' => 'Módulo inválido',
 	'LBL_INVALID_NUMBER' => 'Número inválido',
 	'LBL_INVALID_SUPPORT_NAME' => 'Nombre inválido',
-	'LBL_INV_TANDC_DESCRIPTION' => 'Especifique términos y condiciones para las Cotizaciones, Facturas y Órdenes de venta',
+	'LBL_INV_TANDC_DESCRIPTION' => 'Especifique términos y condiciones para las Cotizaciones, Facturas y Órdenes de Venta',
 	'LBL_LAST_SCAN_AT' => 'Último análisis en ',
 	'LBL_LAST_SCAN_TIMED_OUT' => 'El último análisis ha caducado',
 	'LBL_LAYOUT_EDITOR_DESCRIPTION' => 'Diseñar y modificar el diseño en cada uno de los módulos',
@@ -184,7 +184,7 @@ $languageStrings = [
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logotipo de la empresa visible en el sistema',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logotipo de la empresa visible en el panel de inicio de sesión',
 	'LBL_PBX' => 'PBX',
- 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
+	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Editor de creación rápida',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'Módulo que permite cambiar el diseño de los campos dentro de la ventana de creación rápida',
@@ -253,7 +253,7 @@ $languageStrings = [
 	'LBL_AUTOMATION' => 'Automatización',
 	'LBL_MENU_SUMMARRY' => 'Resumen',
 	/* Role */
-	'Board of Management' => 'Consejo de Administración',
+	'Board of Management' => 'Administradores',
 	'Sales Department' => 'Departamento de Ventas',
 	'Logistics Department' => 'Departamento de Logística',
 	'Project Management Department' => 'Departamento de Gestión de Proyectos',
@@ -353,6 +353,19 @@ $languageStrings = [
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logotipo de la empresa visible en el sistema',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logotipo de la empresa visible en el panel de inicio de sesión',
 	'LBL_HEIGHT_LOGO' => 'Altura del logotipo',
+	//Pluralized
+	'PLU_USERS_0' => 'Usuario',
+	'PLU_USERS_1' => 'Usuarios',
+	'PLU_USERS_2' => 'Usuarios',
+	'PLU_SYSTEM_WARNINGS_0' => 'Advertencia del sistema',
+	'PLU_SYSTEM_WARNINGS_1' => 'Advertencias del sistema',
+	'PLU_SYSTEM_WARNINGS_2' => 'Advertencias del sistema',
+	'PLU_WORKFLOWS_ACTIVE_0' => 'WF activo',
+	'PLU_WORKFLOWS_ACTIVE_1' => 'WF activos',
+	'PLU_WORKFLOWS_ACTIVE_2' => 'WF activos',
+	'PLU_MODULES_0' => 'Módulo',
+	'PLU_MODULES_1' => 'Módulos',
+	'PLU_MODULES_2' => 'Módulos',
 ];
 
 $jsLanguageStrings = [

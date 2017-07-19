@@ -6,17 +6,19 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_NAME' => 'Name',
-	'LBL_TYPE' => 'Type',
-	'LBL_DEFAULT' => 'Default',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_CREATE_RECORD' => 'Add telephone exchange',
-	'LBL_EDIT_RECORD' => 'Edit telephone exchange',
+	'LBL_NAME' => 'Nombre',
+	'LBL_TYPE' => 'Tipo',
+	'LBL_DEFAULT' => 'Por defecto',
+	'LBL_ADD_RECORD' => 'Añadir registro',
+	'LBL_CREATE_RECORD' => 'Crear registro',
+	'LBL_EDIT_RECORD' => 'Editar registro',
 	//Mixpbx
-	'LBL_URL' => 'Server address',
-	'LBL_USERNAME' => 'Login',
-	'LBL_PASSWORD' => 'Password',
+	'LBL_URL' => 'URL',
+	'LBL_USERNAME' => 'Usuario',
+	'LBL_PASSWORD' => 'Contraseña',
+	'LBL_SECRET_KEY' => 'Secret Key',
+	'LBL_OUTBOUND_CONTEXT' => 'Contexto de salida',
 ];
 $jsLanguageStrings = [
-	'JS_SAVE_SUCCESS' => 'Changes saved',
+	'JS_SAVE_SUCCESS' => 'Cambios guardados',
 ];

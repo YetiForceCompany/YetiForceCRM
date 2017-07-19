@@ -8,36 +8,17 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-	'Enter new data' => 'Introducir nuevos datos',
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Número de cuenta',
-	'LBL_SMS_SENDER' => 'Remitente',
-	'LBL_SMSPM_AUTH_HASH' => 'Hash de autenticación',
-	'LBL_SMS_TIME' => 'Tiempo (min)',
-	'No' => 'No',
-	'Yes' => 'Sí',
-	'User Name' => 'Nombre de usuario',
-	'Provider' => 'Proveedor',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'SMSNotifier' => 'Configuración del proveedor SMS',
-	'LBL_ADD_CONFIGURATION' => 'Nueva configuración',
-	'LBL_EDIT_CONFIGURATION' => 'Editar configuración',
-	'LBL_SELECT_ONE' => 'Seleccione uno',
+	'LBL_SMSNOTIFIER' => 'SMS Notifier',
 	//Fields
-	'providertype' => 'Proveedor',
-	'isactive' => 'Activo',
-	'username' => 'Nombre de usuario',
-	'password' => 'Contraseña',
-	'api_id' => 'ID de la API',
-	'from' => 'De',
-	'mo' => ''
+	'LBL_ADD_RECORD' => 'Añadir',
+	'FL_PROVIDER' => 'Proveedor',
+	'FL_STATUS' => 'Status',
+	'FL_API_KEY' => 'API Key',
+	'FL_SMSAPI_FROM' => 'SMSAPI',
+	'PLL_ACTIVE' => 'Activo',
+	'PLL_INACTIVE' => 'Inactivo',
 ];
 
 $jsLanguageStrings = [
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Número de cuenta',
-	'LBL_SMSPM_AUTH_HASH' => 'Hash de autenticación',
-	'LBL_SMS_TIME' => 'Tiempo (min)',
-	'LBL_SMS_SENDER' => 'Remitente',
-	'LBL_DELETE_CONFIRMATION' => '¿Seguro que quiere eliminar esta configuración del Notificador SMS?',
-	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Se eliminó correctamente el proveedor de SMS',
-	'JS_CONFIGURATION_SAVED' => 'Configuraciones del proveedor SMS guardadas',
+	'JS_SAVE_SUCCESS' => 'Configuración del SMS Notifier creada satisfactoriamente',
 ];
