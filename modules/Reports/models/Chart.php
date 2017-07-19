@@ -148,7 +148,7 @@ abstract class Base_Chart extends \App\Base
 
 		if (is_array($columns)) {
 			foreach ($columns as $column) {
-				if ($column === 'count(*)') {
+				if ($column == 'count(*)') {
 					$this->setRecordCount();
 				} else {
 
@@ -162,7 +162,7 @@ abstract class Base_Chart extends \App\Base
 						$reportColumnSQL = $this->getReportTotalColumnSQL($columnInfo);
 						$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 
-						if ($aggregateFunction === 'AVG') { // added as mysql will ignore null values
+						if ($aggregateFunction == 'AVG') { // added as mysql will ignore null values
 							$label = $this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]) . '__AVG';
 							$reportColumn = '(SUM(' . $reportColumnSQLInfo[0] . ')/COUNT(*)) AS ' . $label;
 						} else {
@@ -208,7 +208,7 @@ abstract class Base_Chart extends \App\Base
 						$reportColumnSQL = $this->getReportColumnSQL($columnInfo);
 						$fieldModel->set('reportcolumn', $this->reportRun->replaceSpecialChar($reportColumnSQL));
 						// Added support for date and date time fields with Year and Month support
-						if ($columnInfo[4] === 'D' || $columnInfo[4] === 'DT') {
+						if ($columnInfo[4] == 'D' || $columnInfo[4] == 'DT') {
 							$reportColumnSQLInfo = preg_split('/ AS /i', $reportColumnSQL);
 							$fieldModel->set('reportlabel', trim($this->reportRun->replaceSpecialChar($reportColumnSQLInfo[1]), '\'')); // trim added as single quote on labels was not grouping properly
 						} else {
@@ -392,7 +392,7 @@ abstract class Base_Chart extends \App\Base
 		// Special handling for date fields
 		$comparator = 'e';
 		$dataFieldInfo = @explode(':', $field);
-		if (($dataFieldInfo[4] === 'D' || $dataFieldInfo[4] === 'DT') && !empty($dataFieldInfo[5])) {
+		if (($dataFieldInfo[4] == 'D' || $dataFieldInfo[4] == 'DT') && !empty($dataFieldInfo[5])) {
 			$dataValue = explode(' ', $value);
 			if (count($dataValue) > 1) {
 				$comparator = 'bw';
@@ -401,7 +401,7 @@ abstract class Base_Chart extends \App\Base
 				$comparator = 'bw';
 				$value = date('Y-m-d H:i:s', strtotime('first day of JANUARY ' . $value)) . ',' . date('Y-m-d', strtotime('last day of DECEMBER ' . $value)) . ' 23:59:59';
 			}
-		} elseif ($dataFieldInfo[4] === 'DT') {
+		} elseif ($dataFieldInfo[4] == 'DT') {
 			$value = Vtiger_Date_UIType::getDisplayDateTimeValue($value);
 		}
 
@@ -496,7 +496,7 @@ class PieChart extends Base_Chart
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
 					if ($sectorField->get('uitype') != '7') {
-						if ($sectorField->get('uitype') === '71' || $sectorField->get('uitype') === '72') { //convert currency fields
+						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
 							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 						} else {
 							$value = (int) $sectorField->getDisplayValue($row[$sector]);
@@ -574,7 +574,7 @@ class VerticalbarChart extends Base_Chart
 
 			if ($queryColumnsByFieldModel) {
 				foreach ($queryColumnsByFieldModel as $fieldModel) {
-					if ($fieldModel->get('uitype') === '71' || $fieldModel->get('uitype') === '72') {
+					if ($fieldModel->get('uitype') == '71' || $fieldModel->get('uitype') == '72') {
 						$value = (float) ($row[$fieldModel->get('reportlabel')]);
 						$values[$i][] = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 					} else {
@@ -616,7 +616,7 @@ class VerticalbarChart extends Base_Chart
 		$data = array('labels' => $labels,
 			'values' => $values,
 			'links' => $links,
-			'type' => (count($values[0]) === 1) ? 'singleBar' : 'multiBar',
+			'type' => (count($values[0]) == 1) ? 'singleBar' : 'multiBar',
 			'data_labels' => $this->getDataLabels(),
 			'graph_label' => $this->getGraphLabel()
 		);

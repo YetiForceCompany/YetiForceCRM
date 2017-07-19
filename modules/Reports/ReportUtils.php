@@ -22,7 +22,7 @@ function getFieldByReportLabel($module, $label)
 	getColumnFields($module);
 	//lookup all the accessible fields
 	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
-	$label = decode_html($label);
+	$label = \App\Purifier::decodeHtml($label);
 
 	if ($module === 'Calendar') {
 		$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
@@ -71,8 +71,8 @@ function IsDateField($reportColDetails)
 		return false;
 	}
 
-	list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(":", $reportColDetails);
-	if ($typeOfData === "D") {
+	list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(':', $reportColDetails);
+	if ($typeOfData === 'D') {
 		return true;
 	} else {
 		return false;
@@ -143,7 +143,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			}
 			$date = new DateTimeField($value . ' ' . $endTime);
 			$fieldvalue = $date->getDisplayDate();
-		} else if (!($field->getUIType() === '5' || $field->getUiType() === '23')) {
+		} else if (!($field->getUIType() == '5' || $field->getUiType() == '23')) {
 			$date = new DateTimeField($fieldvalue);
 			$fieldvalue = $date->getDisplayDateTimeValue();
 		}
@@ -199,7 +199,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		} else {
 			$fieldvalue = \App\Language::translate('LBL_NO');
 		}
-	} elseif ($field && $field->getUIType() === 117 && $value != '') {
+	} elseif ($field && $field->getUIType() == 117 && $value != '') {
 		if ($value != '0') {
 			$currencyList = Settings_Currency_Record_Model::getAll();
 			$fieldvalue = $currencyList[$value]->getName() . ' (' . $currencyList[$value]->get('currency_symbol') . ')';
@@ -224,7 +224,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	}
 	// Added to render html tag for description fields
-	if (!($fieldInfo['uitype'] === '19' && ($module === 'Documents'))) {
+	if (!($fieldInfo['uitype'] == '19' && ($module === 'Documents'))) {
 		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
 	}
 	if ($fieldvalue !== '-' && $fieldvalue !== null && $fieldvalue !== '') {

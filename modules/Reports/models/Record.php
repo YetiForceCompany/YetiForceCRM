@@ -369,7 +369,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$standardFieldInfo['startdate'] = $db->query_result($result, 0, 'startdate');
 			$standardFieldInfo['enddate'] = $db->query_result($result, 0, 'enddate');
 
-			if ($standardFieldInfo['type'] === "custom" || $standardFieldInfo['type'] === "") {
+			if ($standardFieldInfo['type'] == "custom" || $standardFieldInfo['type'] == "") {
 				if ($standardFieldInfo["startdate"] != "0000-00-00" && $standardFieldInfo["startdate"] != "") {
 					$startDateTime = new DateTimeField($standardFieldInfo["startdate"] . ' ' . date('H:i:s'));
 					$standardFieldInfo["startdate"] = $startDateTime->getDisplayDate();
@@ -593,7 +593,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$advFilterValue = $columnCondition["value"];
 					$advFilterColumnCondition = $columnCondition["column_condition"];
 
-					$columnInfo = explode(":", $advFilterColumn);
+					$columnInfo = explode(':', $advFilterColumn);
 					$moduleFieldLabel = $columnInfo[2];
 
 					list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
@@ -934,12 +934,12 @@ class Reports_Record_Model extends Vtiger_Record_Model
 						++$or;
 					}
 				}
-				if ($and === count($columns) - 1 && count($columns) != 1) {
+				if ($and == count($columns) - 1 && count($columns) != 1) {
 					$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
 				} else {
 					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
 				}
-			} else if ($block === 'and' || $index === 1) {
+			} else if ($block === 'and' || $index == 1) {
 				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
 			} else {
 				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
