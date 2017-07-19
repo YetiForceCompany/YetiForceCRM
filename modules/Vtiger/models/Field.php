@@ -1137,7 +1137,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isOwnerField()
 	{
-		return ($this->getFieldDataType() === self::OWNER_TYPE) ? true : false;
+		return ($this->getFieldDataType() == self::OWNER_TYPE) ? true : false;
 	}
 
 	/**
