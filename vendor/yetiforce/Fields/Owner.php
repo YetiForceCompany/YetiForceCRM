@@ -132,7 +132,7 @@ class Owner
 		$result = [];
 		$usersGroups = \Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($fieldType, $moduleName);
 		$usersGroups = ($usersGroups && $usersGroups[$this->currentUser->getId()]) ? $usersGroups[$this->currentUser->getId()] : [];
-		if ($mode === 'users') {
+		if ($mode == 'users') {
 			$users = $usersGroups ? $usersGroups['users'] : [];
 			if (!empty($users)) {
 				$result = $this->getUsers(false, 'Active', $users);
@@ -267,7 +267,7 @@ class Owner
 		$adminInList = \AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdmin();
 		foreach ($tempResult as $key => $row) {
-			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] === 'on')) {
+			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
 				$users[$key] = $row['fullName'];
 			}
 		}
