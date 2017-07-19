@@ -91,7 +91,7 @@ Class DataAccess_unique_value
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
-					if ($metadata['setype'] === $DestModuleName) {
+					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Language::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
