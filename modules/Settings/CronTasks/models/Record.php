@@ -146,7 +146,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 					$fieldLabel = 'LBL_COMPLETED';
 				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_RUNNING) {
 					$fieldLabel = 'LBL_RUNNING';
-				} else if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_ENABLED) {
+				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_ENABLED) {
 					$fieldLabel = 'LBL_ACTIVE';
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
