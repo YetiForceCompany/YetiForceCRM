@@ -69,7 +69,7 @@ Class DataAccess_unique_value
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
-				if ($moduleNameID === $where[2] && $ID != 0 && $ID != '') {
+				if ($moduleNameID == $where[2] && $ID != 0 && $ID != '') {
 					$sql_param[] = $ID;
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
