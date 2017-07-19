@@ -112,7 +112,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 			$translatedRelatedModules = [];
 
 			foreach ($relatedModuleList as $relatedModuleName) {
-				$translatedRelatedModules[$relatedModuleName] = vtranslate($relatedModuleName, $relatedModuleName);
+				$translatedRelatedModules[$relatedModuleName] = \App\Language::translate($relatedModuleName, $relatedModuleName);
 			}
 			$relatedModules[$primaryModule] = $translatedRelatedModules;
 		}
@@ -168,7 +168,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->assign('PRIMARY_MODULE_RECORD_STRUCTURE', $primaryModuleRecordStructure);
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
 		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($moduleName));
-		if (($primaryModule == 'Calendar') || (in_array('Calendar', $secondaryModules))) {
+		if (($primaryModule === 'Calendar') || (in_array('Calendar', $secondaryModules))) {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();

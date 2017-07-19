@@ -12,7 +12,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 
 	public function process(\App\Request $request)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
@@ -63,7 +63,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 				$viewer->assign('UPLOAD', true);
 				$viewer->assign('MESSAGES', $messages);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', vtranslate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \App\Language::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}

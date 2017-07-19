@@ -168,7 +168,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 					$recordsList[] = [
 						'id' => $recordID,
 						'module' => $module,
-						'category' => vtranslate($module, $module),
+						'category' => \App\Language::translate($module, $module),
 						'label' => $label,
 						'permitted' => $recordModel->get('permitted'),
 					];

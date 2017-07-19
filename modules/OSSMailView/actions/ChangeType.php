@@ -30,7 +30,7 @@ class OSSMailView_ChangeType_Action extends Vtiger_Mass_Action
 			$recordModel->ChangeTypeSelectedRecords($selectedIds, $mail_type);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate('LBL_ChangeTypeOK', $moduleName));
+		$response->setResult(\App\Language::translate('LBL_ChangeTypeOK', $moduleName));
 		$response->emit();
 	}
 }

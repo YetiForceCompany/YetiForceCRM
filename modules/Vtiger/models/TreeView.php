@@ -58,11 +58,11 @@ class Vtiger_TreeView_Model extends \App\Base
 			return $this->get('fieldTemp');
 		}
 		$fieldTemp = (new App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldparams'])
-				->from('vtiger_field')
-				->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
-				->one();
+			->from('vtiger_field')
+			->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
+			->one();
 		if (!$fieldTemp) {
-			vtlib\Functions::throwNewException(vtranslate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+			vtlib\Functions::throwNewException(\App\Language::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
@@ -133,7 +133,7 @@ class Vtiger_TreeView_Model extends \App\Base
 				'type' => 'category',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->getModuleName()),
+				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 				'state' => ($row['state']) ? $row['state'] : '',
 				'icon' => $row['icon']
 			];

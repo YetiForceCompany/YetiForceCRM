@@ -22,12 +22,12 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('params');
 		Settings_Search_Module_Model::save($params);
 		$message = 'LBL_SAVE_CHANGES_LABLE';
-		if ($params['name'] == 'turn_off')
+		if ($params['name'] === 'turn_off')
 			$message = 'LBL_SAVE_CHANGES_SEARCHING';
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($message, $request->getModule(false))
+			'message' => \App\Language::translate($message, $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -39,7 +39,7 @@ class Settings_Search_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate('Update has been completed', $request->getModule(false))
+			'message' => \App\Language::translate('Update has been completed', $request->getModule(false))
 		));
 		$response->emit();
 	}

@@ -55,7 +55,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 		if ($moduleModel->isCommentEnabled()) {
 			$commentFieldModel = Settings_Workflows_Field_Model::getCommentFieldForFilterConditions($moduleModel);
 			$commentFieldModelsList = array($commentFieldModel->getName() => $commentFieldModel);
-			$labelName = vtranslate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . vtranslate('LBL_COMMENTS', $moduleModel->getName());
+			$labelName = \App\Language::translate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . \App\Language::translate('LBL_COMMENTS', $moduleModel->getName());
 			foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
 				$commentFieldModel->set('workflow_columnname', $commentFieldName);
 				$values[$labelName][$commentFieldName] = $commentFieldModel;

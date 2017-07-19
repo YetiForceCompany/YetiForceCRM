@@ -64,7 +64,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$exists) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_NAME_EXIST', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \App\Language::translate('LBL_NAME_EXIST', $qualifiedModuleName));
 		}
 
 		$response = new Vtiger_Response();
@@ -86,7 +86,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$status) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_DELETE_OK', $qualifiedModuleName));
+			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DELETE_OK', $qualifiedModuleName));
 		}
 
 		$response = new Vtiger_Response();

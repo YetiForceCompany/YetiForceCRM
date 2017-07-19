@@ -13,7 +13,7 @@ class PaymentsIn_GenerateRecords_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'Save')) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_NOT_ACCESSIBLE'));
 		}
 	}
 
@@ -36,9 +36,9 @@ class PaymentsIn_GenerateRecords_Action extends Vtiger_Action_Controller
 		}
 
 		if ($bag) {
-			$result = ['success' => true, 'return' => vtranslate('MSG_SAVE_OK', $moduleName)];
+			$result = ['success' => true, 'return' => \App\Language::translate('MSG_SAVE_OK', $moduleName)];
 		} else {
-			$result = ['success' => false, 'return' => vtranslate('MSG_SAVE_ERROR', $moduleName)];
+			$result = ['success' => false, 'return' => \App\Language::translate('MSG_SAVE_ERROR', $moduleName)];
 		}
 
 		$response = new Vtiger_Response();

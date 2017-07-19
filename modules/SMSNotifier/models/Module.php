@@ -67,7 +67,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
-			'linklabel' => vtranslate('LBL_SERVER_CONFIG', $this->getName()),
+			'linklabel' => \App\Language::translate('LBL_SERVER_CONFIG', $this->getName()),
 			'linkurl' => 'index.php?module=SMSNotifier&parent=Settings&view=List',
 			'linkicon' => ''
 		);

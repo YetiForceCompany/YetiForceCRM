@@ -43,7 +43,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$records = $request->get('records');
 		$templates = $request->get('templates');
 		$allRecords = count($records);
-		$output = ['valid_records' => [], 'message' => vtranslate('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
+		$output = ['valid_records' => [], 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
 
 		if (!empty($templates) && count($templates) > 0) {
 			foreach ($templates as $templateId) {
@@ -58,7 +58,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			}
 			$selectedRecords = count($records);
 
-			$output = ['valid_records' => $records, 'message' => vtranslate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
+			$output = ['valid_records' => $records, 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($output);
@@ -91,7 +91,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
-					throw new \Exception\AppException(vtranslate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \Exception\AppException(\App\Language::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
 				}
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
@@ -165,7 +165,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				vglobal('default_language', $origLanguage);
 				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
 				$pdf->loadHTML($html);
-				$pdf->setFileName(vtranslate('LBL_PDF_MANY_IN_ONE'));
+				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 				$pdf->output();
 			} else {
 				mt_srand(time());

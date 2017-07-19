@@ -295,7 +295,7 @@ abstract class Base_Chart extends \App\Base
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
-		return vtranslate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
+		return \App\Language::translate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
 	}
 
 	/**
@@ -508,18 +508,18 @@ class PieChart extends Base_Chart
 			//translate picklist and multiselect picklist values
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
-				if ($fieldDataType == 'picklist') {
-					$label = vtranslate($row[$legend], $legendField->getModuleName());
-				} else if ($fieldDataType == 'multipicklist') {
+				if ($fieldDataType === 'picklist') {
+					$label = \App\Language::translate($row[$legend], $legendField->getModuleName());
+				} else if ($fieldDataType === 'multipicklist') {
 					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
-						$labelList[] = vtranslate($multiPicklistValue, $legendField->getModuleName());
+						$labelList[] = \App\Language::translate($multiPicklistValue, $legendField->getModuleName());
 					}
 					$label = implode(',', $labelList);
-				} else if ($fieldDataType == 'date') {
+				} else if ($fieldDataType === 'date') {
 					$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
-				} else if ($fieldDataType == 'datetime') {
+				} else if ($fieldDataType === 'datetime') {
 					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
@@ -586,18 +586,18 @@ class VerticalbarChart extends Base_Chart
 			if ($groupByColumnsByFieldModel) {
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
-					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
-					} else if ($fieldDataType == 'multipicklist') {
+					if ($fieldDataType === 'picklist') {
+						$label = \App\Language::translate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
+					} else if ($fieldDataType === 'multipicklist') {
 						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
-							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
+							$labelList[] = \App\Language::translate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
-					} else if ($fieldDataType == 'date') {
+					} else if ($fieldDataType === 'date') {
 						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
-					} else if ($fieldDataType == 'datetime') {
+					} else if ($fieldDataType === 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
 						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
@@ -627,7 +627,7 @@ class VerticalbarChart extends Base_Chart
 	{
 		$dataLabels = [];
 		if ($this->isRecordCount()) {
-			$dataLabels[] = vtranslate('LBL_RECORD_COUNT', 'Reports');
+			$dataLabels[] = \App\Language::translate('LBL_RECORD_COUNT', 'Reports');
 		}
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if ($queryColumnsByFieldModel) {
@@ -639,7 +639,7 @@ class VerticalbarChart extends Base_Chart
 				$aggregateFunction = $reportColumnInfo[5];
 				$aggregateFunctionLabel = $this->getAggregateFunctionLabel($aggregateFunction);
 
-				$dataLabels[] = vtranslate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
+				$dataLabels[] = \App\Language::translate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
 			}
 		}
 		return $dataLabels;

@@ -312,7 +312,7 @@ class PackageImport extends PackageExport
 		if (!empty($language_modulename) && $language_modulename == $modulename) {
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
-			$_errorText = vtranslate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
+			$_errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
 			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
 			$this->_errorText = $_errorText;
 		}
@@ -325,7 +325,7 @@ class PackageImport extends PackageExport
 			if (\App\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
-				$_errorText = vtranslate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
+				$_errorText = \App\Language::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
 				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
 				$this->_errorText = $_errorText;

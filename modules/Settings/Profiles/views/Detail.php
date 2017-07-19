@@ -19,7 +19,7 @@ class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
-			$title = vtranslate('LBL_VIEW_DETAIL', $moduleName);
+			$title = \App\Language::translate('LBL_VIEW_DETAIL', $moduleName);
 		}
 		return $title;
 	}

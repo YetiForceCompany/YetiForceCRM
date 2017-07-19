@@ -344,6 +344,11 @@ $languageStrings = [
 	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
 	'LBL_FIELD_NAME' => 'Nazwa pola',
 	'LBL_HEIGHT_LOGO' => 'Wysokość loga',
+	'LBL_SECURITY' => 'Bezpieczeństwo',
+	'LBL_LOG_ACCESS_TO_RECORD' => 'Braku dostepu do rekordów',
+	'LBL_LOG_ACCESS_FOR_ADMIN' => 'Braku dostepu do administracji',
+	'LBL_LOG_ACCESS_FOR_API' => 'Braku dostepu do api',
+	'LBL_LOG_ACCESS_FOR_USER' => 'Ogólny brak dostepu do systemu',
 	//Pluralized
 	'PLU_USERS_0' => 'Użytkownik',
 	'PLU_USERS_1' => 'Użytkowników',
@@ -357,6 +362,9 @@ $languageStrings = [
 	'PLU_MODULES_0' => 'Moduł',
 	'PLU_MODULES_1' => 'Moduły',
 	'PLU_MODULES_2' => 'Modułów',
+	'PLU_SECURITY_0' => 'Błąd bezpieczeństwa',
+	'PLU_SECURITY_1' => 'Błędy bezpieczeństwa',
+	'PLU_SECURITY_2' => 'Błędów bezpieczeństwa',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',

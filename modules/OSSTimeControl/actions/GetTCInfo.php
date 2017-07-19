@@ -57,7 +57,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		}
 
 		if ($sourceData === false) {
-			$result = array('success' => false, 'message' => vtranslate('LBL_FAILED_TO_IMPORT_INFO', $moduleName));
+			$result = array('success' => false, 'message' => \App\Language::translate('LBL_FAILED_TO_IMPORT_INFO', $moduleName));
 		} else {
 			$result = array('success' => true, 'sourceData' => $sourceData);
 		}

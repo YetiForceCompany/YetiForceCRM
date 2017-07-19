@@ -49,7 +49,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = Vtiger_Field_Model::getInstance('assigned_user_id', $moduleModel);
-			if ($fieldModel->getFieldDataType() == 'owner') {
+			if ($fieldModel->getFieldDataType() === 'owner') {
 				$orderBy = 'COALESCE(' . App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
@@ -65,16 +65,16 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 			$module_name = $row['module_name'];
 
 			//To handle translation of calendar to To Do
-			if ($module_name == 'Calendar') {
-				$module_name = vtranslate('LBL_TASK', $module_name);
+			if ($module_name === 'Calendar') {
+				$module_name = \App\Language::translate('LBL_TASK', $module_name);
 			} else {
-				$module_name = vtranslate($module_name, $module_name);
+				$module_name = \App\Language::translate($module_name, $module_name);
 			}
 			$workflowModel = $record->getInstance($row['workflow_id']);
 			$taskList = $workflowModel->getTasks();
 			$row['module_name'] = $module_name;
-			$row['execution_condition'] = vtranslate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
-			$row['summary'] = vtranslate($row['summary'], 'Settings:Workflows');
+			$row['execution_condition'] = \App\Language::translate($record->executionConditionAsLabel($row['execution_condition']), 'Settings:Workflows');
+			$row['summary'] = \App\Language::translate($row['summary'], 'Settings:Workflows');
 			$row['all_tasks'] = count($taskList);
 			$row['active_tasks'] = $workflowModel->getActiveCountFromRecord($taskList);
 

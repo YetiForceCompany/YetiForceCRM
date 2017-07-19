@@ -350,7 +350,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 				$message = 'LBL_UPLOAD_ERROR';
 			}
 		}
-		return ['id' => $id, 'message' => vtranslate($message, $qualifiedModuleName)];
+		return ['id' => $id, 'message' => \App\Language::translate($message, $qualifiedModuleName)];
 	}
 
 	public function importDataFromXML($uploadedXml)
@@ -367,7 +367,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 					break;
 				}
 				$instances[$combine[$fieldsKey]] = Vtiger_Module_Model::getInstance((string) $fieldsValue);
-			} elseif ($fieldsKey == 'fields') {
+			} elseif ($fieldsKey === 'fields') {
 				foreach ($fieldsValue as $fieldKey => $fieldValue) {
 					foreach ($fieldValue as $columnKey => $columnValue) {
 						settype($columnKey, 'string');

@@ -46,7 +46,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => vtranslate('LBL_REPORT_PRINT', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
 				'linkicon' => 'fa fa-print'
 			);
@@ -55,14 +55,14 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => vtranslate('LBL_REPORT_CSV', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
 				'linkicon' => 'fa fa-file-text-o'
 			);
 
 			if (!Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 				$detailViewLinks[] = array(
-					'linklabel' => vtranslate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
+					'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),
 					'linkicon' => 'fa fa-file-excel-o'
 				);

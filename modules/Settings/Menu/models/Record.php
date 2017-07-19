@@ -89,6 +89,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			if (!isset($data['newwindow'])) {
 				$params['newwindow'] = 0;
 			}
+			if (!isset($data['filters'])) {
+				$params['filters'] = '';
+			}
 			$db->createCommand()->update('yetiforce_menu', $params, ['id' => $this->getId()])->execute();
 		} else {
 			foreach ($this->getData() as $key => $item) {

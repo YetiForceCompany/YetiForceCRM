@@ -61,7 +61,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$module = $this->getModule();
 		$reporttype = $this->get('reporttype');
-		if ($reporttype == 'chart') {
+		if ($reporttype === 'chart') {
 			$view = 'ChartDetail';
 		} else {
 			$view = $module->getDetailViewName();
@@ -77,7 +77,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$module = $this->getModule();
 		$reporttype = $this->get('reporttype');
-		if ($reporttype == 'chart') {
+		if ($reporttype === 'chart') {
 			$view = 'ChartEdit';
 		} else {
 			$view = $module->getEditViewName();
@@ -93,7 +93,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$module = $this->getModule();
 		$reporttype = $this->get('reporttype');
-		if ($reporttype == 'chart') {
+		if ($reporttype === 'chart') {
 			$view = 'ChartEdit';
 		} else {
 			$view = $module->getEditViewName();
@@ -593,7 +593,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$advFilterValue = $columnCondition["value"];
 					$advFilterColumnCondition = $columnCondition["column_condition"];
 
-					$columnInfo = explode(":", $advFilterColumn);
+					$columnInfo = explode(':', $advFilterColumn);
 					$moduleFieldLabel = $columnInfo[2];
 
 					list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
@@ -604,7 +604,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 						$fieldType = $field->getFieldDataType();
 					}
 
-					if ($fieldType == 'currency') {
+					if ($fieldType === 'currency') {
 						if ($field->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
@@ -614,16 +614,16 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					}
 
 					$tempVal = explode(",", $advFilterValue);
-					if (($columnInfo[4] == 'D' || ($columnInfo[4] == 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
-						($columnInfo[4] == 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' )) {
+					if (($columnInfo[4] === 'D' || ($columnInfo[4] === 'T' && $columnInfo[1] != 'time_start' && $columnInfo[1] != 'time_end') ||
+						($columnInfo[4] === 'DT')) && ($columnInfo[4] != '' && $advFilterValue != '' )) {
 						$val = [];
 						$countTempVal = count($tempVal);
 						for ($i = 0; $i < $countTempVal; $i++) {
 							if (trim($tempVal[$i]) != '') {
 								$date = new DateTimeField(trim($tempVal[$i]));
-								if ($columnInfo[4] == 'D') {
+								if ($columnInfo[4] === 'D') {
 									$val[$i] = DateTimeField::convertToDBFormat(trim($tempVal[$i]));
-								} elseif ($columnInfo[4] == 'DT') {
+								} elseif ($columnInfo[4] === 'DT') {
 									/**
 									 * While generating query to retrieve report, for date time fields we are only taking
 									 * date field and appending '00:00:00' for correct results depending on time zone.
@@ -820,7 +820,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function isDefault()
 	{
-		if ($this->get('state') == 'SAVED') {
+		if ($this->get('state') === 'SAVED') {
 			return true;
 		}
 		return false;
@@ -850,7 +850,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			if (!empty($blocks)) {
 				foreach ($blocks as $fieldType => $fieldName) {
 					$fieldDetails = explode(':', $fieldType);
-					if ($fieldName == 'Send Reminder' && $primaryModule == 'Calendar')
+					if ($fieldName === 'Send Reminder' && $primaryModule === 'Calendar')
 						continue;
 					if ($fieldDetails[4] === "I" || $fieldDetails[4] === "N" || $fieldDetails[4] === "NN") {
 						$calculationFields[$fieldType] = $fieldName;
@@ -883,7 +883,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					if (!empty($blocks)) {
 						foreach ($blocks as $fieldType => $fieldName) {
 							$fieldDetails = explode(':', $fieldType);
-							if ($fieldName == 'Send Reminder' && $secondaryModule == 'Calendar')
+							if ($fieldName === 'Send Reminder' && $secondaryModule === 'Calendar')
 								continue;
 							if ($fieldDetails[4] === "I" || $fieldDetails[4] === "N" || $fieldDetails[4] === "NN") {
 								$calculationFields[$fieldType] = $fieldName;
@@ -928,7 +928,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$block = $group['condition'];
 			if (count($columns) != 1) {
 				foreach ($columns as $column) {
-					if ($column['column_condition'] == 'and') {
+					if ($column['column_condition'] === 'and') {
 						++$and;
 					} else {
 						++$or;
@@ -939,7 +939,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 				} else {
 					$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
 				}
-			} else if ($block == 'and' || $index == 1) {
+			} else if ($block === 'and' || $index == 1) {
 				$allGroupColumns = array_merge($allGroupColumns, $group['columns']);
 			} else {
 				$anyGroupColumns = array_merge($anyGroupColumns, $group['columns']);
@@ -968,7 +968,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 			$fields = explode(':', $standardFilter['columnname']);
 
-			if ($fields[1] == 'createdtime' || $fields[1] == 'modifiedtime' || ($fields[0] == 'vtiger_activity' && $fields[1] == 'date_start')) {
+			if ($fields[1] === 'createdtime' || $fields[1] === 'modifiedtime' || ($fields[0] === 'vtiger_activity' && $fields[1] === 'date_start')) {
 				$tranformedStandardFilter['columnname'] = "$fields[0]:$fields[1]:$fields[3]:$fields[2]:DT";
 				$date[] = $standardFilter['startdate'] . ' 00:00:00';
 				$date[] = $standardFilter['enddate'] . ' 00:00:00';
@@ -1126,7 +1126,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			if (!empty($fieldList)) {
 				foreach ($fieldList as $column => $label) {
 					foreach ($aggregateFunctions as $function) {
-						$fLabel = vtranslate($label, $moduleName) . ' (' . vtranslate('LBL_' . $function, 'Reports') . ')';
+						$fLabel = \App\Language::translate($label, $moduleName) . ' (' . \App\Language::translate('LBL_' . $function, 'Reports') . ')';
 						$fColumn = $column . ':' . $function;
 						$fields[$fColumn] = $fLabel;
 					}
@@ -1190,7 +1190,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 								$fieldInfo = explode(':', $reportFieldInfo);
 
 								$fieldInstance = $primaryModuleFieldInstances[$fieldInfo[3]];
-								if (empty($fieldInstance) || $fieldInfo[0] == 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() == 'email' || $fieldInstance->getFieldDataType() == 'phone' || $fieldInstance->getFieldDataType() == 'image' || $fieldInstance->get('uitype') == '4') {
+								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
 									unset($fields[$module][$blockLabel][$reportFieldInfo]);
 								}
 							}
@@ -1227,7 +1227,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 							foreach ($blockFields as $reportFieldInfo => $fieldLabel) {
 								$fieldInfo = explode(':', $reportFieldInfo);
 								$fieldInstance = $secondaryModuleFieldInstances[$module][$fieldInfo[3]];
-								if (empty($fieldInstance) || $fieldInfo[0] == 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() == 'email' || $fieldInstance->getFieldDataType() == 'phone' || $fieldInstance->getFieldDataType() == 'image' || $fieldInstance->get('uitype') == '4') {
+								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
 									unset($fields[$module][$blockLabel][$reportFieldInfo]);
 								}
 							}

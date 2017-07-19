@@ -44,7 +44,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
 		Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SAVE_OK', $request->getModule(false))));
+		$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SAVE_OK', $request->getModule(false))));
 		$response->emit();
 	}
 }

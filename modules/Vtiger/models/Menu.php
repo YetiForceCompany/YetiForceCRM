@@ -61,7 +61,7 @@ class Vtiger_Menu_Model
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
-					if ($moduleName == $parentItem['mod']) {
+					if ($moduleName === $parentItem['mod']) {
 						$parent = $parentItem['parent'];
 						break;
 					}
@@ -74,18 +74,18 @@ class Vtiger_Menu_Model
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			if ($moduleModel && $moduleModel->getDefaultUrl()) {
 				$breadcrumbs[] = [
-					'name' => vtranslate($moduleName, $moduleName),
+					'name' => \App\Language::translate($moduleName, $moduleName),
 					'url' => $moduleModel->getDefaultUrl()
 				];
 			} else {
 				$breadcrumbs[] = [
-					'name' => vtranslate($moduleName, $moduleName)
+					'name' => \App\Language::translate($moduleName, $moduleName)
 				];
 			}
 
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $moduleName)];
-			} elseif ($view == 'Edit' && $request->get('record') == '') {
+			} elseif ($view == 'Edit' && $request->get('record') === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
@@ -101,7 +101,7 @@ class Vtiger_Menu_Model
 		} elseif ($parent === 'Settings') {
 			$qualifiedModuleName = $request->getModule(false);
 			$breadcrumbs[] = [
-				'name' => vtranslate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+				'name' => \App\Language::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
 			];
 			if ($moduleName !== 'Vtiger' || $view !== 'Index') {
@@ -109,7 +109,7 @@ class Vtiger_Menu_Model
 				$menu = Settings_Vtiger_MenuItem_Model::getAll();
 				foreach ($menu as &$menuModel) {
 					if (empty($fieldId)) {
-						if ($menuModel->getModule() == $moduleName) {
+						if ($menuModel->getModule() === $moduleName) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
@@ -140,7 +140,7 @@ class Vtiger_Menu_Model
 					} elseif ($view != '' && $view != 'List') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
-					if ($request->get('record') != '' && $moduleName == 'Users') {
+					if ($request->get('record') != '' && $moduleName === 'Users') {
 						$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
 						if ($recordLabel != '') {
 							$breadcrumbs[] = ['name' => $recordLabel];
@@ -180,18 +180,23 @@ class Vtiger_Menu_Model
 		return $params['module'];
 	}
 
+	/**
+	 * Function to get icon of element in menu
+	 * @param string|array $menu
+	 * @param string $title
+	 * @return string|boolean
+	 */
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
 			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
 		}
 		if (is_string($menu)) {
-			$iconName = vimage_path($menu);
+			$iconName = \Vtiger_Theme::getImagePath($menu);
 			if (file_exists($iconName)) {
 				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-
 		if (!empty($menu['icon'])) {
 			if (strpos($menu['icon'], 'glyphicon-') !== false) {
 				return '<span class="glyphicon ' . $menu['icon'] . '" aria-hidden="true"></span>';
@@ -200,9 +205,8 @@ class Vtiger_Menu_Model
 			} elseif (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false || strpos($menu['icon'], 'AdditionalIcon-') !== false) {
 				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
-
-			$icon = vimage_path($menu['icon']);
-			if (file_exists($icon)) {
+			$icon = \Vtiger_Theme::getImagePath($menu['icon']);
+			if ($icon) {
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}

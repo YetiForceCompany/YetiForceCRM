@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'FInvoiceProforma' => 'Facturas proforma ',
-	'SINGLE_FInvoiceProforma' => 'Factura proforma',
+	'FInvoiceProforma' => 'Facturas Proforma ',
+	'SINGLE_FInvoiceProforma' => 'Factura Proforma',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Información sobre la Dirección de Entrega',

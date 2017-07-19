@@ -280,7 +280,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = vtranslate($row['fieldlabel'], $mod);
+			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \App\Language::translate($row['fieldlabel'], $mod);
 			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);
 			foreach ($langs AS $lang) {
 				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
@@ -326,9 +326,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (self::parse_data('|', $lang)) {
 				$langArray = explode("|", $lang);
 				unset($langs[$key]);
-				$settings[$key] = vtranslate($langArray[1], 'Settings:' . $langArray[1]);
+				$settings[$key] = \App\Language::translate($langArray[1], 'Settings:' . $langArray[1]);
 			} else {
-				$langs[$key] = vtranslate($key, $key);
+				$langs[$key] = \App\Language::translate($key, $key);
 			}
 		}
 		return array('mods' => $langs, 'settings' => $settings);

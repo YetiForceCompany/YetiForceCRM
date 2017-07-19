@@ -70,8 +70,8 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 		$moduleModel = Vtiger_Module_Model::getInstance($srcModuleName);
 		$coordinatesModel->set('srcModuleModel', $moduleModel);
 		$coordinates = $coordinatesModel->readCoordinatesByRecords([$record]);
-		if(empty($coordinates)) {
-			$coordinates = vtranslate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
+		if (empty($coordinates)) {
+			$coordinates = \App\Language::translate('ERR_ADDRESS_NOT_FOUND', 'OpenStreetMap');
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($coordinates);

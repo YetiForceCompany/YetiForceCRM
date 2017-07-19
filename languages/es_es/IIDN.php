@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'IIDN' => 'Notas de Entrega Interna',
-	'SINGLE_IIDN' => 'Notas de Entrega Interna',
+	'IIDN' => 'Albaranes de Compra Interna',
+	'SINGLE_IIDN' => 'Albarán de Compra Interna',
 	'LBL_DESCRIPTION_BLOCK' => 'Descripción',
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',

@@ -27,7 +27,7 @@ class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
 		Portal_Module_Model::deleteRecords($request);
 
 		$response = new Vtiger_Response();
-		$result = array('message' => vtranslate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
+		$result = array('message' => \App\Language::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();
 	}

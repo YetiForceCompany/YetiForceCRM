@@ -29,10 +29,10 @@ class Mixpbx extends Base
 	public function performCall(\App\Integrations\Pbx $pbx)
 	{
 		$url = $pbx->getConfig('url');
-		$url .= '?username=' . $pbx->getConfig('username');
-		$url .= '&password=' . $pbx->getConfig('password');
-		$url .= '&number=' . $pbx->get('targetPhone');
-		$url .= '&extension=' . $pbx->get('sourcePhone');
+		$url .= '?username=' . urlencode($pbx->getConfig('username'));
+		$url .= '&password=' . urlencode($pbx->getConfig('password'));
+		$url .= '&number=' . urlencode($pbx->get('targetPhone'));
+		$url .= '&extension=' . urlencode($pbx->get('sourcePhone'));
 		$responsse = \Requests::get($url);
 		if (trim($responsse->body) !== 'OK') {
 			\App\Log::warning($responsse->body, 'PBX[Mixpbx]');

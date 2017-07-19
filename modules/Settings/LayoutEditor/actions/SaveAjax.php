@@ -58,7 +58,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$data = [];
 		if (current($arrayInstane)) {
 			$data = current($arrayInstane)->getData();
-			$data['translate'] = vtranslate($data['label'], $moduleName);
+			$data['translate'] = \App\Language::translate($data['label'], $moduleName);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(['data' => $data, 'edit' => $edit]);
