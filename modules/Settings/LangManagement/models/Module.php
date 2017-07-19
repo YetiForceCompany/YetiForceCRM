@@ -407,7 +407,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$fd)
 			return false;
 		while (($file = readdir($fd)) !== false) {
-			if ($file === "." || $file === "..")
+			if ($file == "." || $file == "..")
 				continue;
 			if (is_dir($dir . "/" . $file)) {
 				self::DeleteDir($dir . "/" . $file);
@@ -455,7 +455,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				->from('vtiger_language')
 				->where(['isdefault' => 1])
 				->createCommand()->query();
-		if ($dataReader->count() === 1) {
+		if ($dataReader->count() == 1) {
 			$prefixOld = $dataReader->readColumn(0);
 			$db->createCommand()->update('vtiger_language', ['isdefault' => 0], ['isdefault' => 1])->execute();
 		}
@@ -471,13 +471,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
-		if (strpos($langs, $langBase) === false) {
+		if (strpos($langs, $langBase) == false) {
 			$langs .= ',' . $langBase;
 		}
 		$data = [];
 		foreach ($filesName as $gropu) {
 			foreach ($gropu as $mode => $name) {
-				if ($byModule === false || $byModule === $mode) {
+				if ($byModule == false || $byModule === $mode) {
 					$data[$mode] = $this->getStats($this->loadLangTranslation($langs, $mode), $langBase, $byModule);
 				}
 			}
@@ -494,11 +494,11 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				continue;
 			foreach ($dataLang as $key => $langs) {
 				foreach ($langs as $lang => $value) {
-					if ($lang === $langBase) {
+					if ($lang == $langBase) {
 						++$i;
 						continue;
 					}
-					if (!empty($langs[$langBase]) && ($value === $langs[$langBase] || empty($value))) {
+					if (!empty($langs[$langBase]) && ($value == $langs[$langBase] || empty($value))) {
 						if ($byModule !== false) {
 							$differences[$id][$key][$langBase] = $langs[$langBase];
 							$differences[$id][$key][$lang] = $value;
@@ -509,7 +509,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-		if ($byModule === false) {
+		if ($byModule == false) {
 			array_unshift($differences, $i);
 		}
 		return $differences;
