@@ -101,7 +101,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
 		$value = $value->format('H:i:s');
-		if ($userModel->get('hour_format') === '12') {
+		if ($userModel->get('hour_format') == '12') {
 			return self::getTimeValueInAMorPM($value);
 		}
 		return $value;
