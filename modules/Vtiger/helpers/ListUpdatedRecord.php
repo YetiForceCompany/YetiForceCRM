@@ -25,7 +25,7 @@ class ListUpdatedRecord
 		if (!in_array('smownerid', $columnList)) {
 			$columnList[] = 'smownerid';
 		}
-		if ($limit === 'all') {
+		if ($limit == 'all') {
 			$limit = 200;
 		}
 		$select = array_values($columnList);
