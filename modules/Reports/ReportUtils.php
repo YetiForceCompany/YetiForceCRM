@@ -194,7 +194,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	} elseif ($fieldType === 'double') {
 		$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
 	} elseif ($fieldType === 'boolean') {
-		if (strtolower($value) === 'yes' || strtolower($value) === 'on' || $value === 1) {
+		if (strtolower($value) == 'yes' || strtolower($value) == 'on' || $value == 1) {
 			$fieldvalue = \App\Language::translate('LBL_YES');
 		} else {
 			$fieldvalue = \App\Language::translate('LBL_NO');
