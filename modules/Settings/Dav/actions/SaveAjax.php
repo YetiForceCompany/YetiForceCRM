@@ -24,10 +24,10 @@ class Settings_Dav_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$result = $moduleModel->addKey($params);
 		$success = true;
 		$message = \App\Language::translate('LBL_SUCCESS_SAVE_KEY', $request->getModule(false));
-		if ($result === 0) {
+		if ($result == 0) {
 			$success = false;
 			$message = \App\Language::translate('LBL_ERROR_SAVE_KEY', $request->getModule(false));
-		} elseif ($result === 1) {
+		} elseif ($result == 1) {
 			$success = false;
 			$message = \App\Language::translate('LBL_DUPLICATE_USER_SERVICES', $request->getModule(false));
 		}
