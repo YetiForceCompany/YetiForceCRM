@@ -96,9 +96,9 @@ class Vtiger_ModuleMeta_Model extends \App\Base
 		if ($blocks) {
 			foreach ($accessibleFields as $block => $fields) {
 				foreach ($fields as $fieldName => $fieldInstance) {
-					if ($fieldInstance->getFieldDataType() === 'reference') {
+					if ($fieldInstance->getFieldDataType() == 'reference') {
 						$referencedModules = $fieldInstance->getReferenceList();
-						if ($referencedModules[0] === 'Users') {
+						if ($referencedModules[0] == 'Users') {
 							continue;
 						}
 					}
