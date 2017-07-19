@@ -93,14 +93,6 @@ SetEnv HTACCESS_TEST on
 	Header unset X-Powered-By
     SetEnv modHeadersAvailable true
   </IfModule>
-  # Let browsers cache CSS, JS files for half a year
-  <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "max-age=15778463"
-  </FilesMatch>
-  # Let browsers cache WOFF files for a week
-  <FilesMatch "\.woff$">
-    Header set Cache-Control "max-age=604800"
-  </FilesMatch>
 </IfModule>
 <ifModule ModSecurity.c>
   SecServerSignature ''
