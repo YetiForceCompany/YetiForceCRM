@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'FInvoiceCost' => 'Costo de facturas',
-	'SINGLE_FInvoiceCost' => 'Costo de facturas',
+	'FInvoiceCost' => 'Costo de Facturas',
+	'SINGLE_FInvoiceCost' => 'Costo de Factura',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_INVOICE_ADDRESS' => 'Dirección de facturación',

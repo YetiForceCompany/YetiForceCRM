@@ -6,9 +6,9 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'OSSOutsourcedServices' => 'Servicios externalizados',
-	'SINGLE_OSSOutsourcedServices' => 'Servicio externalizado',
-	'LBL_INFORMATION' => 'Información sobre el Servicio externalizado',
+	'OSSOutsourcedServices' => 'Servicios Extranjeros',
+	'SINGLE_OSSOutsourcedServices' => 'Servicio Extranjero',
+	'LBL_INFORMATION' => 'Información sobre el Servicio Extranjero',
 	//fields
 	'Assigned To' => 'Asignado a',
 	'LBL_osservicesstatus' => 'Estado',
