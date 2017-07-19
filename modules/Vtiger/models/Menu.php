@@ -85,11 +85,11 @@ class Vtiger_Menu_Model
 
 			if ($pageTitle) {
 				$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $moduleName)];
-			} elseif ($view === 'Edit' && $request->get('record') === '') {
+			} elseif ($view == 'Edit' && $request->get('record') === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $moduleName)];
-			} elseif ($view === '') {
+			} elseif ($view == '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
