@@ -114,6 +114,9 @@ abstract class Vtiger_Controller
 		header('X-XSS-Protection: 1; mode=block');
 		header('X-Content-Type-Options: nosniff');
 		header('Referrer-Policy: same-origin');
+		header('Strict-Transport-Security: max-age=15768000; includeSubDomains');
+		header('Expect-CT: enforce; max-age=3600');
+		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 		header_remove('X-Powered-By');
 	}
 }
