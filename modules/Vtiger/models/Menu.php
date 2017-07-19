@@ -135,7 +135,7 @@ class Vtiger_Menu_Model
 				} else {
 					if ($pageTitle) {
 						$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $qualifiedModuleName)];
-					} elseif ($view === 'Edit' && $request->get('record') === '' && $request->get('parent_roleid') === '') {
+					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {
 						$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
@@ -182,7 +182,7 @@ class Vtiger_Menu_Model
 
 	public static function getMenuIcon($menu, $title = '')
 	{
-		if ($title === '') {
+		if ($title == '') {
 			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
 		}
 		if (is_string($menu)) {
@@ -206,7 +206,7 @@ class Vtiger_Menu_Model
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-		if (isset($menu['type']) && $menu['type'] === 'Module') {
+		if (isset($menu['type']) && $menu['type'] == 'Module') {
 			return '<span class="menuIcon userIcon-' . $menu['mod'] . '" aria-hidden="true"></span>';
 		}
 		return '';
