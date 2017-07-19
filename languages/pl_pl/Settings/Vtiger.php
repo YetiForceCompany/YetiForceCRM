@@ -352,14 +352,19 @@ $languageStrings = [
 	//Pluralized
 	'PLU_USERS_0' => 'Użytkownik',
 	'PLU_USERS_1' => 'Użytkowników',
+	'PLU_USERS_2' => 'Użytkowników',
 	'PLU_SYSTEM_WARNINGS_0' => 'Ostrzeżenie systemowe',
 	'PLU_SYSTEM_WARNINGS_1' => 'Ostrzeżenia systemowe',
+	'PLU_SYSTEM_WARNINGS_2' => 'Ostrzeżeń systemowych',
 	'PLU_WORKFLOWS_ACTIVE_0' => 'Obieg informacji',
 	'PLU_WORKFLOWS_ACTIVE_1' => 'Obiegi informacji',
+	'PLU_WORKFLOWS_ACTIVE_2' => 'Obiegów informacji',
 	'PLU_MODULES_0' => 'Moduł',
 	'PLU_MODULES_1' => 'Moduły',
+	'PLU_MODULES_2' => 'Modułów',
 	'PLU_SECURITY_0' => 'Błąd bezpieczeństwa',
 	'PLU_SECURITY_1' => 'Błędy bezpieczeństwa',
+	'PLU_SECURITY_2' => 'Błędów bezpieczeństwa',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',
