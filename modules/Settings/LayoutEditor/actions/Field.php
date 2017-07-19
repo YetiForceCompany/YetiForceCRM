@@ -49,7 +49,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
-			if ($key === 'mandatory') {
+			if ($key == 'mandatory') {
 				$fieldInstance->updateTypeofDataFromMandatory($value);
 			}
 			if (in_array($key, $fields)) {

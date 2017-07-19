@@ -24,7 +24,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$blockId = [];
 			foreach ($blocks as $block) {
 				//to skip events hardcoded block id
-				if ($block->get('id') === 'EVENT_INVITE_USER_BLOCK_ID') {
+				if ($block->get('id') == 'EVENT_INVITE_USER_BLOCK_ID') {
 					continue;
 				}
 				$blockId[] = $block->get('id');
@@ -166,10 +166,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
-		if ($type === 0) {
+		if ($type == 0) {
 			$columnName = $name;
 			$tableName = $focus->table_name;
-		} elseif ($type === 1) {
+		} elseif ($type == 1) {
 			$columnName = 'cf_' . App\Db::getInstance()->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
@@ -266,7 +266,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
 				$uitype = 71;
-				if (1 === $fieldLength) {
+				if (1 == $fieldLength) {
 					$dbfldlength = $fieldLength + $decimal + 2;
 				} else {
 					$dbfldlength = $fieldLength + $decimal + 1;
