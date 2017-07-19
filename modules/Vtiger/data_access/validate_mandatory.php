@@ -38,8 +38,8 @@ Class DataAccess_validate_mandatory
 				'fne' => $fieldName2,
 				'type' => 0,
 				'info' => Array(
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . vtranslate($invalidField, $moduleName),
+					'title' => \App\Language::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Language::translate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . \App\Language::translate($invalidField, $moduleName),
 					'type' => 'info'
 				)
 			);

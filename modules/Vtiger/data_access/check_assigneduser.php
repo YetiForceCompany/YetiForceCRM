@@ -35,7 +35,7 @@ Class DataAccess_check_assigneduser
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => vtranslate($config['info'], 'DataAccess'),
+					'text' => \App\Language::translate($config['info'], 'DataAccess'),
 					'type' => 'error'
 				)
 			);

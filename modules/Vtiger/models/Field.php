@@ -368,10 +368,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		$fieldDataType = $this->getFieldDataType();
-		if ($this->getName() == 'hdnTaxType')
+		if ($this->getName() === 'hdnTaxType')
 			return null;
 
-		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
+		if ($fieldDataType === 'picklist' || $fieldDataType === 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
 				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
@@ -380,7 +380,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			}
 
 			// Protection against deleting a value that does not exist on the list
-			if ($fieldDataType == 'picklist') {
+			if ($fieldDataType === 'picklist') {
 				$fieldValue = $this->get('fieldvalue');
 				if (!empty($fieldValue) && !in_array($this->get('fieldvalue'), $picklistValues)) {
 					$picklistValues[] = $this->get('fieldvalue');
@@ -390,7 +390,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
-				$fieldPickListValues[$value] = vtranslate($value, $this->getModuleName());
+				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
@@ -436,7 +436,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isMandatory()
 	{
 		$typeOfData = explode('~', $this->get('typeofdata'));
-		return (isset($typeOfData[1]) && $typeOfData[1] == 'M') ? true : false;
+		return (isset($typeOfData[1]) && $typeOfData[1] === 'M') ? true : false;
 	}
 
 	/**
@@ -664,7 +664,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 		$fieldTypeOfData = explode('~', $typeOfData);
 		$fieldType = $fieldTypeOfData[0];
-		if ($this->getFieldDataType() == 'reference') {
+		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
 		} else {
 			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
@@ -672,9 +672,9 @@ class Vtiger_Field_Model extends vtlib\Field
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
 
-		if ($tableName == 'vtiger_crmentity' && $columnName != 'smownerid') {
+		if ($tableName === 'vtiger_crmentity' && $columnName != 'smownerid') {
 			$tableName = 'vtiger_crmentity' . $moduleName;
-		} elseif ($columnName == 'smownerid') {
+		} elseif ($columnName === 'smownerid') {
 			$tableName = 'vtiger_users' . $moduleName;
 			$columnName = 'user_name';
 		}
@@ -749,14 +749,14 @@ class Vtiger_Field_Model extends vtlib\Field
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];
-					$pickListValues[vtranslate('LBL_USERS', $this->getModuleName())] = $userList;
-					$pickListValues[vtranslate('LBL_GROUPS', $this->getModuleName())] = $groupList;
+					$pickListValues[\App\Language::translate('LBL_USERS', $this->getModuleName())] = $userList;
+					$pickListValues[\App\Language::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 					$this->fieldInfo['picklistvalues'] = $pickListValues;
 					if (AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				} else {
-					if ($fieldDataType == 'owner') {
+					if ($fieldDataType === 'owner') {
 						$this->fieldInfo['searchOperator'] = 'e';
 					}
 				}
@@ -937,7 +937,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				array_push($validator, $funcName);
 				break;
 			case 'startdate':
-				if ($this->getModule()->get('name') == 'Project') {
+				if ($this->getModule()->get('name') === 'Project') {
 					$params = array('targetenddate');
 				} else {
 					//for project task
@@ -1099,7 +1099,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function hasDefaultValue()
 	{
-		return $this->defaultvalue === '' ? false : true;
+		return $this->defaultvalue == '' ? false : true;
 	}
 
 	public function isActiveField()
