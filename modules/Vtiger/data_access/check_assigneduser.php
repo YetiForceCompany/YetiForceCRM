@@ -25,7 +25,7 @@ Class DataAccess_check_assigneduser
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$allowedUsers[] = $currentUser->get('id');
 			foreach ($allowedUsers as $key => $value) {
-				if ($value === "currentUser") {
+				if ($value == "currentUser") {
 					unset($allowedUsers[$key]);
 				}
 			}
