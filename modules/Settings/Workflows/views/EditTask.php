@@ -70,7 +70,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			}
 		}
 		if ($taskType === 'VTUpdateFieldsTask') {
-			if ($sourceModule === "Documents") {
+			if ($sourceModule === 'Documents') {
 				$restrictFields = array('folderid', 'filename', 'filelocationtype');
 				$viewer->assign('RESTRICTFIELDS', $restrictFields);
 			}
@@ -85,11 +85,11 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TASK_MODEL', $taskModel);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		// Adding option Line Item block for Individual tax mode
-		$individualTaxBlockLabel = \App\Language::translate("LBL_LINEITEM_BLOCK_GROUP", $qualifiedModuleName);
+		$individualTaxBlockLabel = \App\Language::translate('LBL_LINEITEM_BLOCK_GROUP', $qualifiedModuleName);
 		$individualTaxBlockValue = $viewer->view('LineItemsGroupTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
 		// Adding option Line Item block for group tax mode
-		$groupTaxBlockLabel = \App\Language::translate("LBL_LINEITEM_BLOCK_INDIVIDUAL", $qualifiedModuleName);
+		$groupTaxBlockLabel = \App\Language::translate('LBL_LINEITEM_BLOCK_INDIVIDUAL', $qualifiedModuleName);
 		$groupTaxBlockValue = $viewer->view('LineItemsIndividualTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
 		$templateVariables = array(

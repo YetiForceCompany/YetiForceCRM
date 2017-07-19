@@ -21,7 +21,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') === 98) || in_array($this->get('uitype'), array(115, 156))) {
+		if (($currentUserModel->isAdminUser() == false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}
 	}
@@ -44,17 +44,17 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		if ($this->get('uitype') === 99) {
+		if ($this->get('uitype') == 99) {
 			return 'password';
 		} else if (in_array($this->get('uitype'), array(32, 115))) {
 			return 'picklist';
-		} else if ($this->get('uitype') === 101) {
+		} else if ($this->get('uitype') == 101) {
 			return 'userReference';
-		} else if ($this->get('uitype') === 98) {
+		} else if ($this->get('uitype') == 98) {
 			return 'userRole';
-		} elseif ($this->get('uitype') === 105) {
+		} elseif ($this->get('uitype') == 105) {
 			return 'image';
-		} else if ($this->get('uitype') === 31) {
+		} else if ($this->get('uitype') == 31) {
 			return 'theme';
 		}
 		return parent::getFieldDataType();
@@ -66,8 +66,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isAjaxEditable()
 	{
-		if (!$this->isEditable() || $this->get('uitype') === 115 || $this->get('uitype') === 105 ||
-			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName()) {
+		if (!$this->isEditable() || $this->get('uitype') == 115 || $this->get('uitype') == 105 ||
+			$this->get('uitype') == 106 || $this->get('uitype') == 98 || $this->get('uitype') == 101 || 'date_format' === $this->getFieldName()) {
 			return false;
 		}
 		return true;
@@ -79,7 +79,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
-		if ($this->get('uitype') === 32) {
+		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') === '115') {
 			$db = PearDatabase::getInstance();
@@ -114,7 +114,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($this->get('uitype') === 32) {
+		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
