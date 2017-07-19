@@ -145,7 +145,7 @@ class Vtiger_AdvancedFilter_Helper
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
-				if ($index === '1' && empty($columns)) {
+				if ($index == '1' && empty($columns)) {
 					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
 						'joincondition' => '', 'groupid' => '0');
 				}
