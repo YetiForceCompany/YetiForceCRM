@@ -61,7 +61,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public static function getDashboardTypes()
 	{
-		if (App\Cache::has('WidgetsDashboard', 'AllTypes')) {
+		if (App\Cache::has('WidgetsDashboard', 'AllTypes')){
 			return App\Cache::get('WidgetsDashboard', 'AllTypes');
 		}
 		$types = (new App\Db\Query())->from('u_#__dashboard_type')->all();
@@ -286,10 +286,10 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
 				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
-			if ($data['type'] === 'DW_SUMMATION_BY_MONTHS') {
+			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
 				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
-			if ($data['type'] === 'DW_SUMMATION_BY_USER') {
+			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
 				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
@@ -457,13 +457,13 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		$userId = '';
 		$blockId = '';
 		while ($row = $dataReader->read()) {
-			if ($row['linklabel'] === 'Mini List') {
+			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$data[$row['blockid']][] = $minilistWidget;
-			} else if ($row['linklabel'] === 'ChartFilter') {
+			} else if ($row['linklabel'] == 'ChartFilter') {
 				$chartFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
 				$chartFilterWidgetModel->setWidgetModel($chartFilterWidget);
