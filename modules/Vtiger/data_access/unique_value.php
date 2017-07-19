@@ -110,13 +110,13 @@ Class DataAccess_unique_value
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
-				if ($moduleNameID === $where[2] && $ID != 0 && $ID != '') {
+				if ($moduleNameID == $where[2] && $ID != 0 && $ID != '') {
 					$sql_param[] = $ID;
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
 				if ($DestModuleName === 'Leads') {
 					$spacialCondition = ' && `converted` = 0';
-					if ('vtiger_crmentity' === $where[0]) {
+					if ('vtiger_crmentity' == $where[0]) {
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
 					}
 				}
@@ -167,7 +167,7 @@ Class DataAccess_unique_value
 							</label>
 						</div></form>';
 				}
-				if ($record_form['view'] === 'quick_edit') {
+				if ($record_form['view'] == 'quick_edit') {
 					$text = '<div class="alert alert-warning" role="alert">' . \App\Language::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
 				}
 			}
