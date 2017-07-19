@@ -21,7 +21,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() == false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
+		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}
 	}
@@ -32,7 +32,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isViewEnabled()
 	{
-		if ($this->getDisplayType() === '4' || in_array($this->get('presence'), array(1, 3))) {
+		if ($this->getDisplayType() == '4' || in_array($this->get('presence'), array(1, 3))) {
 			return false;
 		}
 		return true;
@@ -81,7 +81,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	{
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
-		} else if ($this->get('uitype') === '115') {
+		} else if ($this->get('uitype') == '115') {
 			$db = PearDatabase::getInstance();
 
 			$query = 'SELECT %s FROM vtiger_%s';
@@ -118,7 +118,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			return Vtiger_Language_Handler::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
-		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value === '&nbsp;')) {
+		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
 			return \App\Language::translate('LBL_SPACE', 'Users');
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
