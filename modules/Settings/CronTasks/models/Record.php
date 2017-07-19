@@ -56,7 +56,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isDisabled()
 	{
-		if ($this->get('status') === self::$STATUS_DISABLED) {
+		if ($this->get('status') == self::$STATUS_DISABLED) {
 			return true;
 		}
 		return false;
@@ -64,7 +64,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isRunning()
 	{
-		if ($this->get('status') === self::$STATUS_RUNNING) {
+		if ($this->get('status') == self::$STATUS_RUNNING) {
 			return true;
 		}
 		return false;
@@ -72,7 +72,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isCompleted()
 	{
-		if ($this->get('status') === self::$STATUS_COMPLETED) {
+		if ($this->get('status') == self::$STATUS_COMPLETED) {
 			return true;
 		}
 		return false;
@@ -80,7 +80,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function isEnabled()
 	{
-		if ($this->get('status') === self::$STATUS_ENABLED) {
+		if ($this->get('status') == self::$STATUS_ENABLED) {
 			return true;
 		}
 		return false;
@@ -142,11 +142,11 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'status' : $fieldValue = intval($fieldValue);
 				$moduleModel = $this->getModule();
-				if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
+				if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
 					$fieldLabel = 'LBL_COMPLETED';
-				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_RUNNING) {
+				} else if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_RUNNING) {
 					$fieldLabel = 'LBL_RUNNING';
-				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_ENABLED) {
+				} else if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_ENABLED) {
 					$fieldLabel = 'LBL_ACTIVE';
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
