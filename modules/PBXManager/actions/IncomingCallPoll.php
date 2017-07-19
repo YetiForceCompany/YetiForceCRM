@@ -86,7 +86,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				}
 				// End
 				$direction = $recordModel->get('direction');
-				if ($direction === 'inbound') {
+				if ($direction == 'inbound') {
 					$userid = $recordModel->get('user');
 					if ($userid) {
 						$entityNames = getEntityName('Users', array($userid));
