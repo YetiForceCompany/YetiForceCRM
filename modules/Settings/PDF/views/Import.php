@@ -27,7 +27,7 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 			$base64Image = false;
 
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
-			if ($xmlError === UPLOAD_ERR_OK && $extension === 'xml') {
+			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
 
 				foreach ($xml as $fieldsKey => $fieldsValue) {
