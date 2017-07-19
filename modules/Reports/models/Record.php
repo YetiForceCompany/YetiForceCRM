@@ -605,7 +605,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					}
 
 					if ($fieldType === 'currency') {
-						if ($field->getUIType() === '72') {
+						if ($field->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
 						} else {
@@ -1190,7 +1190,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 								$fieldInfo = explode(':', $reportFieldInfo);
 
 								$fieldInstance = $primaryModuleFieldInstances[$fieldInfo[3]];
-								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') === '4') {
+								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
 									unset($fields[$module][$blockLabel][$reportFieldInfo]);
 								}
 							}
@@ -1227,7 +1227,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 							foreach ($blockFields as $reportFieldInfo => $fieldLabel) {
 								$fieldInfo = explode(':', $reportFieldInfo);
 								$fieldInstance = $secondaryModuleFieldInstances[$module][$fieldInfo[3]];
-								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') === '4') {
+								if (empty($fieldInstance) || $fieldInfo[0] === 'vtiger_inventoryproductrel' || $fieldInstance->getFieldDataType() === 'email' || $fieldInstance->getFieldDataType() === 'phone' || $fieldInstance->getFieldDataType() === 'image' || $fieldInstance->get('uitype') == '4') {
 									unset($fields[$module][$blockLabel][$reportFieldInfo]);
 								}
 							}
