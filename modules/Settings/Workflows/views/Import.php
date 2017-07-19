@@ -33,7 +33,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 						foreach ($fieldValue as $columnKey => $columnValue) {
 							if ($columnKey === 'conditions') {
 								$columnKey = 'test';
-							} else if ($columnKey === 'type' && empty($columnValue)) {
+							} else if ($columnKey == 'type' && empty($columnValue)) {
 								$columnValue = 'basic';
 							}
 							switch ($fieldKey) {
