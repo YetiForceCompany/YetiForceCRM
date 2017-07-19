@@ -9,7 +9,7 @@ return [
 	// Address URL to route API
 	'ADDRESS_TO_ROUTE' => 'http://www.yournavigation.org/api/1.0/gosmore.php',
 	// Address URL to seaching API
-	'ADDRESS_TO_SEARCH' => 'http://nominatim.openstreetmap.org',
+	'ADDRESS_TO_SEARCH' => 'https://nominatim.openstreetmap.org',
 	// Max number to update addresses
 	'CRON_MAX_UPDATED_ADDRESSES' => 1000,
 	// Allow modules
