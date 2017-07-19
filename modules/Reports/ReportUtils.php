@@ -108,7 +108,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 
 	if ($fieldType === 'currency' && $value != '') {
 		// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-		if ($field->getUIType() === '72') {
+		if ($field->getUIType() == '72') {
 			$curid_value = explode("::", $value);
 			$currency_id = $curid_value[0];
 			$currency_value = $curid_value[1];
