@@ -471,13 +471,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
-		if (strpos($langs, $langBase) == false) {
+		if (strpos($langs, $langBase) === false) {
 			$langs .= ',' . $langBase;
 		}
 		$data = [];
 		foreach ($filesName as $gropu) {
 			foreach ($gropu as $mode => $name) {
-				if ($byModule == false || $byModule === $mode) {
+				if ($byModule === false || $byModule === $mode) {
 					$data[$mode] = $this->getStats($this->loadLangTranslation($langs, $mode), $langBase, $byModule);
 				}
 			}
@@ -509,7 +509,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-		if ($byModule == false) {
+		if ($byModule === false) {
 			array_unshift($differences, $i);
 		}
 		return $differences;
