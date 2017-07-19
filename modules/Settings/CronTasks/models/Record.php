@@ -142,9 +142,9 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'status' : $fieldValue = intval($fieldValue);
 				$moduleModel = $this->getModule();
-				if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
+				if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
 					$fieldLabel = 'LBL_COMPLETED';
-				} else if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_RUNNING) {
+				} else if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_RUNNING) {
 					$fieldLabel = 'LBL_RUNNING';
 				} else if ($fieldValue == Settings_CronTasks_Record_Model::$STATUS_ENABLED) {
 					$fieldLabel = 'LBL_ACTIVE';
