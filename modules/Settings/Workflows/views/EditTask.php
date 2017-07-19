@@ -52,7 +52,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
-						if ($mappingInfo['value'] === 'assigned_user_id') {
+						if ($mappingInfo['value'] == 'assigned_user_id') {
 							$fieldMapping[$key]['valuetype'] = 'fieldname';
 						} else {
 							$userRecordModel = Users_Record_Model::getInstanceByName($mappingInfo['value']);
