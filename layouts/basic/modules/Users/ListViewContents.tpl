@@ -90,7 +90,7 @@
 						{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 								<div class="col-md-6">
-									<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
+									<img class="list-user-img" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}">
 								</div>
 							{/if}
 						{/foreach}

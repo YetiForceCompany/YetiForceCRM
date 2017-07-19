@@ -19,7 +19,7 @@
 					{if $IMAGE_DETAILS}
 						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path)}
-								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
+								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}"alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
 							{else}
 								<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
 							{/if}
