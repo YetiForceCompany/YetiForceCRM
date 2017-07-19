@@ -38,7 +38,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$groupData = $this->getDataFromFilter();
 		uasort($groupData, function($first, $second) {
-			if ($first['count'] === $second['count']) {
+			if ($first['count'] == $second['count']) {
 				return 0;
 			}
 			return ($first['count'] < $second['count']) ? 1 : -1;
@@ -54,7 +54,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$groupData = $this->getDataFromFilter();
 		uasort($groupData, function($first, $second) {
-			if ($first['count'] === $second['count']) {
+			if ($first['count'] == $second['count']) {
 				return 0;
 			}
 			return ($first['count'] < $second['count']) ? 1 : -1;
