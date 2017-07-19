@@ -217,9 +217,9 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 
 	if (stristr($fieldvalue, "|##|") && empty($fieldType)) {
 		$fieldvalue = str_ireplace(' |##| ', ', ', $fieldvalue);
-	} elseif ($fld_type === "date" && empty($fieldType)) {
+	} elseif ($fld_type == "date" && empty($fieldType)) {
 		$fieldvalue = DateTimeField::convertToUserFormat($fieldvalue);
-	} elseif ($fld_type === "datetime" && empty($fieldType)) {
+	} elseif ($fld_type == "datetime" && empty($fieldType)) {
 		$date = new DateTimeField($fieldvalue);
 		$fieldvalue = $date->getDisplayDateTimeValue();
 	}
