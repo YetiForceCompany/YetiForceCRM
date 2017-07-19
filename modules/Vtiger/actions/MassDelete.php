@@ -52,7 +52,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		}
 
 		if ($permission === 'No') {
-			throw new \Exception\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 
 		$cvId = $request->get('viewname');

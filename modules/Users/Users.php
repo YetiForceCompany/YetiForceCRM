@@ -239,7 +239,7 @@ class Users extends CRMEntity
 		$validate = base64_decode($validate);
 		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
 			$buffer = fread($handle, filesize($validate));
-			if (md5($buffer) === $md5 || (!empty($alt) && md5($buffer) === $alt)) {
+			if (md5($buffer) == $md5 || (!empty($alt) && md5($buffer) == $alt)) {
 				return 1;
 			}
 			return -1;
@@ -299,7 +299,7 @@ class Users extends CRMEntity
 			$users = explode(',', $auth['ldap']['users']);
 			if (in_array($userInfo['id'], $users)) {
 				$bind = false;
-				$port = $auth['ldap']['port'] === '' ? 389 : $auth['ldap']['port'];
+				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
 				if (!$ds) {
 					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
@@ -487,7 +487,7 @@ class Users extends CRMEntity
 
 		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
-		if ($record === '') {
+		if ($record == '') {
 			\App\Log::error('record is empty. returning null');
 			return null;
 		}
@@ -527,7 +527,7 @@ class Users extends CRMEntity
 		if ($this->column_fields['no_of_currency_decimals'] === '') {
 			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = getCurrencyDecimalPlaces();
 		}
-		if ($this->column_fields['currency_grouping_pattern'] === '' && $this->column_fields['currency_symbol_placement'] === '') {
+		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
 			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
 			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ' ';

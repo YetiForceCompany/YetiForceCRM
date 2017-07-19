@@ -17,13 +17,13 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
-		if ($request->has('upload') && $request->get('upload') === 'true') {
+		if ($request->has('upload') && $request->get('upload') == 'true') {
 			$xmlName = $_FILES['imported_xml']['name'];
 			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
 			$xmlError = $_FILES['imported_xml']['error'];
 			$extension = end(explode('.', $xmlName));
 
-			if ($xmlError === UPLOAD_ERR_OK && $extension === 'xml') {
+			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
 
 				$params = [];

@@ -70,21 +70,21 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$templateIds = explode(',', $request->get('template'));
-		$singlePdf = $request->get('single_pdf') === 1 ? true : false;
-		$emailPdf = $request->get('email_pdf') === 1 ? true : false;
+		$singlePdf = $request->get('single_pdf') == 1 ? true : false;
+		$emailPdf = $request->get('email_pdf') == 1 ? true : false;
 
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
 		$templateAmount = count($templateIds);
 		$recordsAmount = count($recordId);
-		$selectedOneTemplate = $templateAmount === 1 ? true : false;
+		$selectedOneTemplate = $templateAmount == 1 ? true : false;
 		if ($selectedOneTemplate) {
 			$template = Vtiger_PDF_Model::getInstanceById($templateIds[0]);
 			$generateOnePdf = $template->get('one_pdf');
 		}
 
-		if ($selectedOneTemplate && $recordsAmount === 1) {
+		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
 				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
