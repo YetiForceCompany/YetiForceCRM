@@ -20,10 +20,10 @@ class Settings_ModTracker_Save_Action extends Settings_Vtiger_Index_Action
 		$id = $request->get('id');
 		$status = $request->get('status');
 		$moduleModel = new Settings_ModTracker_Module_Model();
-		$moduleModel->changeActiveStatus($id, $status === 'true' ? 1 : 0 );
+		$moduleModel->changeActiveStatus($id, $status == 'true' ? 1 : 0 );
 
 		$response = new Vtiger_Response();
-		if ($status === 'true') {
+		if ($status == 'true') {
 			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
