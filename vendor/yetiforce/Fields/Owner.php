@@ -298,7 +298,7 @@ class Owner
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
 			$params[] = $tabid;
 		}
-		if ($private === 'private') {
+		if ($private == 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			if (strpos($query, 'WHERE') === false)
 				$query .= ' WHERE';
