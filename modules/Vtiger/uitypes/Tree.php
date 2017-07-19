@@ -112,7 +112,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT fieldparams FROM vtiger_field WHERE tabid = ? && fieldname = ?', array(vtlib\Functions::getModuleId($module), $field));
-		if ($adb->num_rows($result) === 0) {
+		if ($adb->num_rows($result) == 0) {
 			return false;
 		}
 		$template = $adb->query_result_raw($result, 0, 'fieldparams');

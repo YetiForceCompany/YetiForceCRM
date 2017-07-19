@@ -132,7 +132,7 @@ class Vtiger_TreeView_Model extends \App\Base
 				'id' => $treeID,
 				'type' => 'category',
 				'record_id' => $row['tree'],
-				'parent' => $parent === 0 ? '#' : $parent,
+				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $this->getModuleName()),
 				'state' => ($row['state']) ? $row['state'] : '',
 				'icon' => $row['icon']
