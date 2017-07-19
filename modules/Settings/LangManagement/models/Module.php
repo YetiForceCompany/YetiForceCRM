@@ -352,8 +352,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function save($params)
 	{
-		if ($params['type'] === 'Checkbox') {
-			$val = $params['val'] === 'true' ? 1 : 0;
+		if ($params['type'] == 'Checkbox') {
+			$val = $params['val'] == 'true' ? 1 : 0;
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
 				->execute();
