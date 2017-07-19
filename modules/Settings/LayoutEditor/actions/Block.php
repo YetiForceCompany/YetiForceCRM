@@ -61,7 +61,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 				$response->setError($e->getCode(), $e->getMessage());
 			}
 		} else {
-			$response->setError('502', vtranslate('LBL_DUPLICATES_EXIST', $request->getModule(false)));
+			$response->setError('502', \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false)));
 		}
 		$response->emit();
 	}
@@ -85,13 +85,13 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		$blockId = $request->get('blockid');
 		$checkIfFieldsExists = Vtiger_Block_Model::checkFieldsExists($blockId);
 		if ($checkIfFieldsExists) {
-			$response->setError('502', vtranslate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
+			$response->setError('502', \App\Language::translate('LBL_FIELDS_EXISTS_IN_BLOCK', $request->getModule(false)));
 			$response->emit();
 			return;
 		}
 		$blockInstance = Vtiger_Block_Model::getInstance($blockId);
 		if (!$blockInstance->isCustomized()) {
-			$response->setError('502', vtranslate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
+			$response->setError('502', \App\Language::translate('LBL_DELETE_CUSTOM_BLOCKS', $request->getModule(false)));
 			$response->emit();
 			return;
 		}

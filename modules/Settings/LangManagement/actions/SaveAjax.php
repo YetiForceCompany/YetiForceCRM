@@ -43,7 +43,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -59,7 +59,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -71,7 +71,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -87,7 +87,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
 		]);
 		$response->emit();
 	}
@@ -99,7 +99,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => $saveResp['success'],
-			'message' => vtranslate($saveResp['data'], $request->getModule(false))
+			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -110,7 +110,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$saveResp = Settings_LangManagement_Module_Model::save($params);
 		$response = new Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SaveDataOK', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SaveDataOK', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}
@@ -123,7 +123,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$saveResp = Settings_LangManagement_Module_Model::delete($params);
 		$response = new Vtiger_Response();
 		if ($saveResp) {
-			$response->setResult(['success' => true, 'message' => vtranslate('LBL_DeleteDataOK', $request->getModule(false))]);
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DeleteDataOK', $request->getModule(false))]);
 		} else {
 			$response->setResult(['success' => false]);
 		}
@@ -136,7 +136,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);
 		$response = new Vtiger_Response();
 		if ($saveResp['success']) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
+			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
 		} else {
 			$response->setResult(array('success' => false));
 		}

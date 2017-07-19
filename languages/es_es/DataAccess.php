@@ -6,7 +6,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'DataAccess' => 'Acceso a los datos',
+	'DataAccess' => 'Acceso a Datos',
 	'LBL_NONE' => '--Nada--',
 	'Message' => 'Mensaje',
 	'Action_unique_value' => 'El valor del campo es único.',

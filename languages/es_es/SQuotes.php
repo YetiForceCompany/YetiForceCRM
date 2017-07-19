@@ -6,10 +6,10 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'SQuotes' => 'Presupuestos',
-	'SINGLE_SQuotes' => 'Presupuesto',
+	'SQuotes' => 'Ofertas / Presupuestos',
+	'SINGLE_SQuotes' => 'Oferta / Presupuesto',
 	//BLOCKS
-	'LBL_SQUOTES_INFORMATION' => 'Información sobre el Presupuesto',
+	'LBL_SQUOTES_INFORMATION' => 'Información sobre el Oferta / Presupuesto',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',

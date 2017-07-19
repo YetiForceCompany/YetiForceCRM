@@ -33,7 +33,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
 			}
 			//To handle special case for invite users
-			if ($this->getName() == 'Events') {
+			if ($this->getName() === 'Events') {
 				$blockModel = new Settings_LayoutEditor_Block_Model();
 				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
 				$blockModel->set('label', 'LBL_INVITE_RECORDS');
@@ -64,7 +64,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				if (!$block->get('label')) {
 					continue;
 				}
-				if ($this->getName() == 'HelpDesk' && $block->get('label') == 'LBL_COMMENTS') {
+				if ($this->getName() === 'HelpDesk' && $block->get('label') === 'LBL_COMMENTS') {
 					continue;
 				}
 
@@ -73,7 +73,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				}
 			}
 			//To handle special case for invite users block
-			if ($this->getName() == 'Events') {
+			if ($this->getName() === 'Events') {
 				$blockModel = new Settings_LayoutEditor_Block_Model();
 				$blockModel->set('id', 'EVENT_INVITE_USER_BLOCK_ID');
 				$blockModel->set('label', 'LBL_INVITE_RECORDS');
@@ -110,23 +110,23 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
 				$details['lengthsupported'] = true;
 			}
-			if ($fieldType == 'Decimal' || $fieldType == 'Currency') {
+			if ($fieldType === 'Decimal' || $fieldType === 'Currency') {
 				$details['decimalSupported'] = true;
 				$details['maxFloatingDigits'] = 5;
-				if ($fieldType == 'Currency') {
+				if ($fieldType === 'Currency') {
 					$details['decimalReadonly'] = true;
 				}
 				//including mantisaa and integer part
 				$details['maxLength'] = 64;
 			}
-			if ($fieldType == 'Picklist' || $fieldType == 'MultiSelectCombo') {
+			if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
 				$details['preDefinedValueExists'] = true;
 				//text area value type , can give multiple values
 				$details['preDefinedValueType'] = 'text';
-				if ($fieldType == 'Picklist')
+				if ($fieldType === 'Picklist')
 					$details['picklistoption'] = true;
 			}
-			if ($fieldType == 'Related1M') {
+			if ($fieldType === 'Related1M') {
 				$details['ModuleListMultiple'] = true;
 			}
 			$fieldTypesInfo[$fieldType] = $details;
@@ -149,20 +149,20 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$name = strtolower($params['fieldName']);
 		$fieldParams = '';
 		if ($this->checkFieldLableExists($label)) {
-			throw new Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
+			throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
 		if ($this->checkFieldNameCharacters($name)) {
-			throw new Exception(vtranslate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
+			throw new Exception(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 		}
 		if ($this->checkFieldNameExists($name)) {
-			throw new Exception(vtranslate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
+			throw new Exception(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 		}
 		if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
-			throw new Exception(vtranslate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
+			throw new Exception(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
-			throw new Exception(vtranslate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
+			throw new Exception(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		$moduleName = $this->getName();
 		$focus = CRMEntity::getInstance($moduleName);
@@ -179,7 +179,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		if ($fieldType === 'Tree' || $fieldType === 'CategoryMultipicklist') {
 			$fieldParams = (int) $params['tree'];
-		} elseif ($fieldType == 'MultiReferenceValue') {
+		} elseif ($fieldType === 'MultiReferenceValue') {
 			$fieldParams = [];
 			$fieldParams['module'] = $params['MRVModule'];
 			$fieldParams['field'] = $params['MRVField'];
@@ -211,13 +211,13 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
 
-		if ($fieldType == 'Picklist' || $fieldType == 'MultiSelectCombo') {
+		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
 			$pickListValues = $params['pickListValues'];
 			if (is_string($pickListValues))
 				$pickListValues = [$pickListValues];
 			$fieldModel->setPicklistValues($pickListValues);
 		}
-		if ($fieldType == 'Related1M') {
+		if ($fieldType === 'Related1M') {
 			if (!is_array($params['referenceModule']))
 				$moduleList[] = $params['referenceModule'];
 			else
@@ -392,7 +392,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkFieldLableExists($fieldLabel)
 	{
 		$tabId = [$this->getId()];
-		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
+		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
 			//Check for fiel exists in both calendar and events module
 			$tabId = ['9', '16'];
 		}
@@ -403,7 +403,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function checkFieldNameExists($fieldName)
 	{
 		$tabId = [$this->getId()];
-		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
+		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
 			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
 		}
 		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
@@ -529,10 +529,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 
 		// Contacts relation-tab is turned into custom block on DetailView.
-		if ($this->getName() == 'Calendar') {
+		if ($this->getName() === 'Calendar') {
 			$contactsIndex = false;
 			foreach ($this->relations as $index => $model) {
-				if ($model->getRelationModuleName() == 'Contacts') {
+				if ($model->getRelationModuleName() === 'Contacts') {
 					$contactsIndex = $index;
 					break;
 				}

@@ -25,7 +25,7 @@ class Settings_OSSMailScanner_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_FOLDER_INFO', $request->getModule())
+			'message' => \App\Language::translate('LBL_SAVE_FOLDER_INFO', $request->getModule())
 		]);
 		$response->emit();
 	}

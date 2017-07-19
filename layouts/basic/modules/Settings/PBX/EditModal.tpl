@@ -51,12 +51,10 @@
 							</div>
 						{/foreach}
 					{/if}
+					<div class="editModalContent"></div>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn-success">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
-				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('BTN_CLOSE', $QUALIFIED_MODULE)}</button>
-			</div>
+			{include file=vtemplate_path('ModalFooter.tpl', $QUALIFIED_MODULE)}
 		</form>
 	{/if}
 {/strip}

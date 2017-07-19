@@ -39,7 +39,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 			$holidays[$id]['date'] = $date;
 			$holidays[$id]['name'] = $name;
 			$holidays[$id]['type'] = $type;
-			$holidays[$id]['day'] = vtranslate(date('l', strtotime($date)), 'PublicHoliday');
+			$holidays[$id]['day'] = \App\Language::translate(date('l', strtotime($date)), 'PublicHoliday');
 		}
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::getHolidays() method ...");
 		return $holidays;
@@ -156,7 +156,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$query->groupBy('holidaytype');
 		$dataReader = $query->createCommand()->query();
 
-		if (0 == $dataReader->count())
+		if (0 === $dataReader->count())
 			$return = false;
 		else {
 			while ($row = $dataReader->read()) {

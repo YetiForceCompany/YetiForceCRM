@@ -33,7 +33,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			$moduleInstance->getRecord()->set($field, $params[$field]);
-			if ($field == 'conditions') {
+			if ($field === 'conditions') {
 				$moduleInstance->transformAdvanceFilterToWorkFlowFilter();
 			}
 		}
@@ -44,7 +44,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => vtranslate($message, $qualifiedModuleName)]);
+		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message, $qualifiedModuleName)]);
 		$response->emit();
 	}
 

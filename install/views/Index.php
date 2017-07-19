@@ -17,7 +17,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function checkPermission(\App\Request $request)
 	{
-
+		
 	}
 
 	public function loginRequired()
@@ -44,6 +44,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function __construct()
 	{
+		parent::__construct();
 		//Install
 		$this->exposeMethod('Step1');
 		$this->exposeMethod('Step2');
@@ -328,7 +329,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-
+		
 	}
 
 	public function validateRequest(\App\Request $request)

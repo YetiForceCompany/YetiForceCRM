@@ -180,18 +180,23 @@ class Vtiger_Menu_Model
 		return $params['module'];
 	}
 
+	/**
+	 * Function to get icon of element in menu
+	 * @param string|array $menu
+	 * @param string $title
+	 * @return string|boolean
+	 */
 	public static function getMenuIcon($menu, $title = '')
 	{
 		if ($title == '') {
 			$title = Vtiger_Menu_Model::vtranslateMenu($menu['label']);
 		}
 		if (is_string($menu)) {
-			$iconName = vimage_path($menu);
+			$iconName = \Vtiger_Theme::getImagePath($menu);
 			if (file_exists($iconName)) {
 				return '<img src="' . $iconName . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}
-
 		if (!empty($menu['icon'])) {
 			if (strpos($menu['icon'], 'glyphicon-') !== false) {
 				return '<span class="glyphicon ' . $menu['icon'] . '" aria-hidden="true"></span>';
@@ -200,9 +205,8 @@ class Vtiger_Menu_Model
 			} elseif (strpos($menu['icon'], 'adminIcon-') !== false || strpos($menu['icon'], 'userIcon-') !== false || strpos($menu['icon'], 'AdditionalIcon-') !== false) {
 				return '<span class="menuIcon ' . $menu['icon'] . '" aria-hidden="true"></span>';
 			}
-
-			$icon = vimage_path($menu['icon']);
-			if (file_exists($icon)) {
+			$icon = \Vtiger_Theme::getImagePath($menu['icon']);
+			if ($icon) {
 				return '<img src="' . $icon . '" alt="' . $title . '" title="' . $title . '" class="menuIcon" />';
 			}
 		}

@@ -121,9 +121,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->get('moduleName');
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
-			$result = array('success' => false, 'text' => vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
-			$result = array('success' => false, 'text' => vtranslate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
 		} else {
 			$result = array('success' => true);
 		}

@@ -49,9 +49,9 @@ class DataAccess_check_day_tasks
 
 		$count = $db->getSingleValue($result);
 		if ($count >= $config['maxActivites']) {
-			$title = '<strong>' . vtranslate('Message', 'DataAccess') . '</strong>';
+			$title = '<strong>' . \App\Language::translate('Message', 'DataAccess') . '</strong>';
 
-			$info = ['text' => vtranslate($config['message'], 'DataAccess'),
+			$info = ['text' => \App\Language::translate($config['message'], 'DataAccess'),
 				'title' => $title,
 				'type' => 1
 			];
@@ -59,7 +59,7 @@ class DataAccess_check_day_tasks
 				'save_record' => false,
 				'type' => 3,
 				'info' => is_array($info) ? $info : [
-				'text' => vtranslate($config['message'], 'DataAccess'),
+				'text' => \App\Language::translate($config['message'], 'DataAccess'),
 				'ntype' => $typeInfo
 				]
 			];

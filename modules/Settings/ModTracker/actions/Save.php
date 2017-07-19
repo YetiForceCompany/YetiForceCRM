@@ -24,9 +24,9 @@ class Settings_ModTracker_Save_Action extends Settings_Vtiger_Index_Action
 
 		$response = new Vtiger_Response();
 		if ($status == 'true') {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
 		} else {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
 		}
 		$response->emit();
 	}

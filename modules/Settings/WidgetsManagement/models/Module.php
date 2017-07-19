@@ -56,7 +56,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	}
 
 	/**
-	 *Function to get all dashboard
+	 * Function to get all dashboard
 	 * @return array
 	 */
 	public static function getDashboardTypes()
@@ -377,7 +377,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::addWidget() method ...");
-		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => vtranslate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
+		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \App\Language::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
 	}
 
 	public function getBlocksId($dashboard)

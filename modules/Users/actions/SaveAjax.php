@@ -35,7 +35,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$userId = $request->get('userid');
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
-			if ($mode == 'savePassword' && (isset($userId) && $currentUserModel->getId() != $userId)) {
+			if ($mode === 'savePassword' && (isset($userId) && $currentUserModel->getId() != $userId)) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			} else if ($mode != 'savePassword' && ($currentUserModel->getId() != $request->get('record'))) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
@@ -73,7 +73,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$displayValue = Vtiger_Language_Handler::getLanguageLabel($fieldValue);
 			}
 			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
-				$displayValue = vtranslate('LBL_SPACE', 'Users');
+				$displayValue = \App\Language::translate('LBL_SPACE', 'Users');
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
@@ -194,7 +194,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$listViewUrl = $userModuleModel->getListViewUrl();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => vtranslate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
+		$response->setResult(array('message' => \App\Language::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
 		$response->emit();
 	}
 
@@ -205,7 +205,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -217,7 +217,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -229,7 +229,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -254,7 +254,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -267,7 +267,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->setResult(array(
 			'success' => true,
 			'color' => $color,
-			'message' => vtranslate('LBL_SAVE_COLOR', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -291,9 +291,9 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];
 			if ($newAccessKey != $oldAccessKey) {
-				$response->setResult(array('message' => vtranslate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+				$response->setResult(array('message' => \App\Language::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
 			} else {
-				$response->setError(vtranslate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
+				$response->setError(\App\Language::translate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
 			}
 		} catch (Exception $ex) {
 			$response->setError($ex->getMessage());

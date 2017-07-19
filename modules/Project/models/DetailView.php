@@ -55,7 +55,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 		if ($parentModel->isActive()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_CHARTS', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_CHARTS', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
@@ -65,7 +65,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('Gantt') && \App\Module::isModuleActive('ProjectTask') && \App\Module::isModuleActive('ProjectMilestone')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => vtranslate('LBL_GANTT', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_GANTT', $moduleName),
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showGantt',
 				'linkicon' => '',
 				'linkKey' => 'LBL_GANTT',

@@ -74,9 +74,9 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
 			}
 			if (!$results) {
-				$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
+				$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
 				if ($currentUser->isAdminUser()) {
-					$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
+					$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
 				throw new \Exception\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
@@ -112,7 +112,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		if ($exception != false) {
-			$viewer->assign('EXCEPTION', vtranslate($exception->getMessage(), $moduleName));
+			$viewer->assign('EXCEPTION', \App\Language::translate($exception->getMessage(), $moduleName));
 		} elseif ($message) {
 			$viewer->assign('EXCEPTION', $message);
 		}

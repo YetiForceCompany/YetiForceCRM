@@ -38,8 +38,8 @@ class DataAccess_checkType
 				'save_record' => $saveRecord,
 				'type' => 0,
 				'info' => [
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_NOT_PARENT_STORAGE', $moduleName),
+					'title' => \App\Language::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Language::translate('LBL_NOT_PARENT_STORAGE', $moduleName),
 					'type' => 'error'
 				]
 			];

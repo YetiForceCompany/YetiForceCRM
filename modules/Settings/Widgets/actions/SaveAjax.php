@@ -24,7 +24,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => vtranslate('Saved changes', $request->getModule(false))
+			'message' => \App\Language::translate('Saved changes', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -36,7 +36,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => vtranslate('Removed widget', $request->getModule(false))
+			'message' => \App\Language::translate('Removed widget', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -48,7 +48,7 @@ class Settings_Widgets_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => 1,
-			'message' => vtranslate('Update has been completed', $request->getModule(false))
+			'message' => \App\Language::translate('Update has been completed', $request->getModule(false))
 		));
 		$response->emit();
 	}

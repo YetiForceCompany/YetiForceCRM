@@ -370,13 +370,13 @@ class Users extends CRMEntity
 		\App\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {
-			$this->error_string = vtranslate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . vtranslate('ERR_PASSWORD_CHANGE_FAILED_2');
+			$this->error_string = \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
 		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
-				$this->error_string = vtranslate('ERR_PASSWORD_INCORRECT_OLD');
+				$this->error_string = \App\Language::translate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
 		}

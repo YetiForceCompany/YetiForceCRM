@@ -263,7 +263,8 @@ class File
 	{
 		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
-			if (preg_match('/(<\?php?(.*?))/i', $this->getContents()) === 1) {
+			$content = $this->getContents();
+			if (preg_match('/(<\?php?(.*?))/i', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
 				throw new \Exception('Error php code injection');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
@@ -272,7 +273,7 @@ class File
 					throw new \Exception('Error php code injection');
 				}
 			}
-			if (stripos('<?xpacket', $this->getContents()) !== false) {
+			if (stripos('<?xpacket', $content) !== false) {
 				throw new \Exception('Error xpacket code injection');
 			}
 		}
@@ -286,14 +287,13 @@ class File
 	private function validateImageMetadata($data)
 	{
 		if (is_array($data)) {
-			foreach ($data as $key => $value) {
-				$ok = $this->validateImageMetadata($value);
-				if (!$ok) {
+			foreach ($data as $value) {
+				if (!$this->validateImageMetadata($value)) {
 					return false;
 				}
 			}
 		} else {
-			if (preg_match('/(<\?php?(.*?))/i', $data) === 1) {
+			if (preg_match('/(<\?php?(.*?))/i', $data) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $data) === 1 || stripos($data, '<?=') !== false || stripos($data, '<? ') !== false || stripos($data, '<% ') !== false) {
 				return false;
 			}
 		}

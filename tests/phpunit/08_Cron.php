@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -20,6 +19,11 @@ class Cron extends TestCase
 	 */
 	public function test()
 	{
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_cron_task', [
+				'status' => 0,
+				], ['module' => 'OpenStreetMap'])
+			->execute();
 		echo PHP_EOL;
 		require 'cron/vtigercron.php';
 		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();

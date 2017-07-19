@@ -6,10 +6,10 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'SRecurringOrders' => 'Pedidos de ventas periódicos',
-	'SINGLE_SRecurringOrders' => 'Pedido de venta periódico',
+	'SRecurringOrders' => 'Órdenes de Venta Recurrentes',
+	'SINGLE_SRecurringOrders' => 'Órden de Venta Recurrente',
 	//BLOCKS
-	'LBL_SRECURRINGORDERS_INFORMATION' => 'Información sobre el Pedido de venta periódico',
+	'LBL_SRECURRINGORDERS_INFORMATION' => 'Información sobre la Órden de Venta Recurrente',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 	'LBL_STATISTICS' => 'Estadísticas',
