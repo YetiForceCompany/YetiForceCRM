@@ -328,7 +328,7 @@ class Vtiger_Util_Helper
 			$userModel = Users_Privileges_Model::getCurrentUserModel();
 		}
 
-		if ($userModel->get('hour_format') === '12') {
+		if ($userModel->get('hour_format') == '12') {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
 
