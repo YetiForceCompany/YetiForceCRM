@@ -60,7 +60,7 @@ class Owner
 		$accessibleGroups = \Vtiger_Cache::get('getAccessibleGroups', $cacheKey);
 		if ($accessibleGroups === false) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') === '5' && $private != 'Public') {
+			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
