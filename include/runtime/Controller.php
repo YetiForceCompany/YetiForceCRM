@@ -117,7 +117,10 @@ abstract class Vtiger_Controller
 		header('Strict-Transport-Security: max-age=15768000; includeSubDomains');
 		header('Expect-CT: enforce; max-age=3600');
 		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+		header('X-Robots-Tag: none');
+		header('X-Permitted-Cross-Domain-Policies: none');
 		header_remove('X-Powered-By');
+		header_remove('Server');
 	}
 }
 
