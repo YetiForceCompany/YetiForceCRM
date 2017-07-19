@@ -41,4 +41,10 @@ $SECURITY_CONFIG = [
 	'LOGIN_PAGE_REMEMBER_CREDENTIALS' => false,
 	// Interdependent reference fields
 	'FIELDS_REFERENCES_DEPENDENT' => false,
+	/**
+	 * HTTP Public-Key-Pins (HPKP) pin-sha256
+	 * For HPKP to work properly at least 2 keys are needed.
+	 * https://scotthelme.co.uk/hpkp-http-public-key-pinning/
+	 */
+	'HPKP_KEYS' => [],
 ];
