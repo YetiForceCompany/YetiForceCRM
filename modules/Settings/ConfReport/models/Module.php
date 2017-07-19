@@ -323,7 +323,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'status' => '?'],
 			'Header: X-Powered-By' => ['prefer' => '', 'status' => '?'],
 			'Header: Server' => ['prefer' => '', 'status' => '?'],
-			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'status' => '?'],
+			'Header: Referrer-Policy' => ['prefer' => 'no-referrer', 'status' => '?'],
 			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'status' => '?'],
 			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'status' => '?'],
 			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=15768000; includeSubDomains', 'status' => '?'],
@@ -377,7 +377,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: X-Powered-By']['current'] = $headers['X-POWERED-BY'];
 			$directiveValues['Header: Server']['status'] = !empty($headers['SERVER']);
 			$directiveValues['Header: Server']['current'] = $headers['SERVER'];
-			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'same-origin';
+			$directiveValues['Header: Referrer-Policy']['status'] = strtolower($headers['REFERRER-POLICY']) !== 'no-referrer';
 			$directiveValues['Header: Referrer-Policy']['current'] = $headers['REFERRER-POLICY'];
 			$directiveValues['Header: Expect-CT']['status'] = strtolower($headers['EXPECT-CT']) !== 'enforce; max-age=3600';
 			$directiveValues['Header: Expect-CT']['current'] = $headers['EXPECT-CT'];

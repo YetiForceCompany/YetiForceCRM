@@ -121,14 +121,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('Location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
-		Vtiger_Session::init();
 		if (\App\RequestUtil::getBrowserInfo()->https) {
 			$params = session_get_cookie_params();
-			if (empty($params['secure'])) {
-				unset($_COOKIE['PHPSESSID']);
-				setcookie('PHPSESSID', session_id(), 0, $params['path'], $params['domain'], true, true);
-			}
+			session_set_cookie_params($params['lifetime'], $params['path'], $params['domain'], true, true);
 		}
+		Vtiger_Session::init();
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {

@@ -85,7 +85,7 @@ SetEnv HTACCESS_TEST on
 	Header set X-Frame-Options "SAMEORIGIN"
 	Header set X-XSS-Protection "1; mode=block"
     Header set X-Content-Type-Options "nosniff"
-	Header set Referrer-Policy "same-origin"
+	Header set Referrer-Policy "no-referrer"
 	Header set Strict-Transport-Security "max-age=15768000; includeSubDomains"
     Header set X-Robots-Tag "none"
     Header set X-Permitted-Cross-Domain-Policies "none"
