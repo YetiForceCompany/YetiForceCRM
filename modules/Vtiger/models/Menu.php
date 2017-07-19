@@ -118,7 +118,7 @@ class Vtiger_Menu_Model
 							break;
 						}
 					} else {
-						if ($fieldId === $menuModel->getId()) {
+						if ($fieldId == $menuModel->getId()) {
 							$parent = $menuModel->getMenu();
 							$breadcrumbs[] = ['name' => App\Language::translate($parent->get('label'), $qualifiedModuleName)];
 							$breadcrumbs[] = ['name' => App\Language::translate($menuModel->get('name'), $qualifiedModuleName),
