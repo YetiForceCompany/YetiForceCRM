@@ -1586,4 +1586,9 @@ $jsLanguageStrings = [
 	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'Waluta bazowa musi być zmieniona na wyłączony',
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
 	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'Co najmniej jeden z załączonych plików jest za duży',
+	'JS_LAST_7_DAYS' => 'Poprzednie 7 dni',
+	'JS_LAST_30_DAYS' => 'Poprzednie 30 dni',
+	'JS_CURRENT_MONTH' => 'Obecny miesiąc',
+	'JS_LAST_MONTH' => 'Poprzedni miesiąc',
+	'JS_CUSTOM' => 'Własny zakres dat',
 ];
