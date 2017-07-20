@@ -241,7 +241,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			if (data.length <= 0) {
 				return;
 			}
-			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
+			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
 			var timeFormat = data.find('[name="time_start"]').data('format');
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
@@ -249,11 +249,10 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 				defaultTimeFormat = 'hh:mm tt';
 			}
 			var startDateInstance = Date.parse(date);
-			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
-			var startTimeString = startDateInstance.toString(defaultTimeFormat);
+			var startDateString = moment(date).format(dateFormat);
+			var startTimeString = moment(date).format(defaultTimeFormat);
 			var endDateInstance = Date.parse(date);
-			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
-
+			var endDateString = moment(date).format(dateFormat);
 
 			var view = thisInstance.getCalendarView().fullCalendar('getView');
 			if ('month' == view.name) {
@@ -269,15 +268,12 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 					endTimeString = explodedTime['0'];
 				} else {
 					var now = new Date();
-					startTimeString = now.toString(defaultTimeFormat);
-					now.setMinutes(now.getMinutes() + 15);
-					endTimeString = now.toString(defaultTimeFormat);
+					startTimeString = moment(now).format(defaultTimeFormat);
+					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
 				}
 			} else {
-				endDateInstance.setMinutes(endDateInstance.getMinutes() + 30);
-				endTimeString = endDateInstance.toString(defaultTimeFormat);
+				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
 			}
-
 			data.find('[name="date_start"]').val(startDateString);
 			data.find('[name="due_date"]').val(endDateString);
 			data.find('[name="time_start"]').val(startTimeString);
