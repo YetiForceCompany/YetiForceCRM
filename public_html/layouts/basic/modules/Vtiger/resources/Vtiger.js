@@ -497,8 +497,8 @@ var Vtiger_Index_Js = {
 			}
 		} while (!stopLoop);
 		// Required to get the functionality of All drop-down working.
-		jQuery(window).load(function () {
-			jQuery("#topMenus").css({'overflow': 'visible'});
+		$(window).on("load", function (e) {
+			$("#topMenus").css({'overflow': 'visible'});
 		});
 	},
 	/**

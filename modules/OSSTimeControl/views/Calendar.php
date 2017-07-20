@@ -34,7 +34,6 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			'~libraries/fullcalendar/moment.min.js',
 			'~libraries/fullcalendar/fullcalendar.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		);

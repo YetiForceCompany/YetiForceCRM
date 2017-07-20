@@ -153,7 +153,6 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/fullcalendar/moment.min.js',
 			'~libraries/fullcalendar/fullcalendar.js'
 		);
 

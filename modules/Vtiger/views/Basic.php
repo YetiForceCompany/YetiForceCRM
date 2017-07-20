@@ -90,8 +90,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
-			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \App\Language::getShortLanguageName() . '.js',
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
