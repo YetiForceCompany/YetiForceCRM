@@ -119,7 +119,7 @@ abstract class Vtiger_Controller
 		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 		header('X-Robots-Tag: none');
 		header('X-Permitted-Cross-Domain-Policies: none');
-		header("Content-Security-Policy: default-src 'self'; img-src 'self' data: ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; form-action");
+		header("Content-Security-Policy: default-src 'self' blob:; img-src 'self' data: ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; form-action 'self'");
 
 		if ($keys = AppConfig::security('HPKP_KEYS')) {
 			header('Public-Key-Pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
