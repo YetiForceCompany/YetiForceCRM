@@ -91,7 +91,8 @@ function IsDateField($reportColDetails)
  */
 function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fieldName)
 {
-	global $current_user, $default_charset;
+	$currentUser = vglobal('current_user');
+	$defaultCharset = vglobal('default_charset');
 
 	$db = PearDatabase::getInstance();
 	$value = $valueArray[$fieldName];
@@ -224,7 +225,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	}
 	// Added to render html tag for description fields
 	if (!($fieldInfo['uitype'] == '19' && ($module === 'Documents'))) {
-		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $default_charset);
+		$fieldvalue = htmlentities($fieldvalue, ENT_QUOTES, $defaultCharset);
 	}
 	return $fieldvalue;
 }

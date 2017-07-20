@@ -415,7 +415,7 @@ class Project extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		if ($relatedName == 'getManyToMany') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {

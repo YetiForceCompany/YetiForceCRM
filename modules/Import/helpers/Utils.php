@@ -47,14 +47,14 @@ class Import_Utils_Helper
 
 	public static function getMaxUploadSize()
 	{
-		global $upload_maxsize;
-		return $upload_maxsize;
+		$uploadMaxsize = vglobal('upload_maxsize');
+		return $uploadMaxsize;
 	}
 
 	public static function getImportDirectory()
 	{
-		global $import_dir;
-		$importDir = dirname(__FILE__) . '/../../../' . $import_dir;
+		$dirImport = vglobal('import_dir');
+		$importDir = dirname(__FILE__) . '/../../../' . $dirImport;
 		return $importDir;
 	}
 

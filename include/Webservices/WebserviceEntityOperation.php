@@ -72,7 +72,7 @@ abstract class WebserviceEntityOperation
 
 	public function getFieldTypeDetails($webserviceField)
 	{
-		global $upload_maxsize;
+		$uploadMaxsize = vglobal('upload_maxsize');
 		$typeDetails = [];
 		switch ($webserviceField->getFieldDataType()) {
 			case 'reference': $typeDetails['refersTo'] = $webserviceField->getReferenceList();
@@ -90,8 +90,8 @@ abstract class WebserviceEntityOperation
 					$maxUploadSize = 0;
 				}
 				$maxUploadSize = $maxUploadSize * 1000000;
-				if ($upload_maxsize > $maxUploadSize) {
-					$maxUploadSize = $upload_maxsize;
+				if ($uploadMaxsize > $maxUploadSize) {
+					$maxUploadSize = $uploadMaxsize;
 				}
 				$typeDetails['maxUploadFileSize'] = $maxUploadSize;
 				break;
