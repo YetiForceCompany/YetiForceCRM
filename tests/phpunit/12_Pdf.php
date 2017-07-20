@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Pdf test class
  * @package YetiForce.Test
@@ -20,22 +19,23 @@ class Pdf extends TestCase
 	 * Module name
 	 */
 	const MODULE_NAME = 'Accounts';
-	
+
 	/**
 	 * File name
 	 */
 	const FILE_NAME = 'test.pdf';
-	
+
 	/**
 	 * Temporary model 
 	 * @var Settings_PDF_Record_Model
 	 */
 	private static $pdfModel;
-	
+
 	/**
 	 * Testing creating template 
 	 */
-	public function testCreateTemplate() {
+	public function testCreateTemplate()
+	{
 		$pdfModel = Settings_PDF_Record_Model::getCleanInstance(self::MODULE_NAME);
 		$pdfModel->set('module_name', self::MODULE_NAME);
 		$pdfModel->set('status', 1);
@@ -82,18 +82,13 @@ class Pdf extends TestCase
 	/**
 	 * Testing removing template
 	 */
-	public function testRemoveTemplate() {
+	public function testRemoveTemplate()
+	{
 		Settings_PDF_Record_Model::delete(self::$pdfModel);
 		$this->assertFalse((new \App\Db\Query())->select(['pdfid'])
 				->from('a_#__pdf')
 				->where(['module_name' => self::MODULE_NAME, 'filename' => self::FILE_NAME, 'primary_name' => 'test'])
 				->exists(App\Db::getInstance('admin')), 'Not removed template');
-	}
-
-	/**
-	 * Function invoke after the end test
-	 */
-	public static function tearDownAfterClass(){
 		$pathToFile = 'cache/pdf/' . self::FILE_NAME;
 		if (file_exists($pathToFile)) {
 			unlink($pathToFile);

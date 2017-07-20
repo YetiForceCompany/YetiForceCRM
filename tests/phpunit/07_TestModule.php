@@ -26,17 +26,16 @@ class TestModule extends TestCase
 			
 		}
 		if (file_exists($testModule)) {
-			$this->assertTrue(true);
 			(new vtlib\Package())->import($testModule);
 			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
-			$db = \App\Db::getInstance();
-			$db->createCommand()
-				->update('vtiger_cron_task', [
-					'sequence' => 0,
-					], ['name' => 'TestData'])
-				->execute();
 		} else {
 			$this->assertTrue(true);
 		}
+		$db = \App\Db::getInstance();
+		$db->createCommand()
+			->update('vtiger_cron_task', [
+				'sequence' => 0,
+				], ['name' => 'TestData'])
+			->execute();
 	}
 }
