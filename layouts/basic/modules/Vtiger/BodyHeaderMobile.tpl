@@ -18,14 +18,14 @@
 		{/if}
 		{if $REMINDER_ACTIVE}
 			<div class="row">
-				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="remindersNotice popoverTooltip quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_REMINDER')}
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-default" title="{\App\Language::translate('LBL_REMINDER')}" href="#">
+						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-							<span class="badge hide bgDanger">0</span>
+							<span class="badge bgDanger hide">0</span>
 						</a>
 					</div>
 				</div>
@@ -33,12 +33,12 @@
 		{/if}
 		{if isset($CHAT_ENTRIES)}
 			<div class="row">
-				<div class="headerLinksChat quickAction">
+				<div class="headerLinkChat quickAction">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_CHAT')}
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-default ChatIcon" title="{\App\Language::translate('LBL_CHAT')}" href="#">
+						<a class="btn btn-default ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
 					</div>
@@ -47,12 +47,12 @@
 		{/if}
 		{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
 			<div class="row">
-				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="isBadge notificationsNotice popoverTooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
-					<div class="pull-right">
-						<a class="btn btn-default isBadge" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" href="index.php?module=Notification&view=List">
+ 					<div class="pull-right">
+ 						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
@@ -108,6 +108,67 @@
 				</div>
 			</div>
 		</div>
+		{foreach key=index item=obj from=$MENU_HEADER_LINKS}
+			{if $obj->linktype == 'HEADERLINK'}
+				{assign var="HREF" value='#'}
+				{assign var="ICON_PATH" value=$obj->getIconPath()}
+				{assign var="LINK" value=$obj->convertToNativeLink()}
+				{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
+				{assign var="TITLE" value=$obj->getLabel()}
+				{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
+				{if !empty($LINK)}
+					{assign var="HREF" value=$LINK}
+				{/if}
+				<div class="row">
+					<div class="quickAction">
+						<div class="pull-left">
+							{vtranslate($TITLE,$MODULE)}
+						</div>
+						<div class="pull-right">
+							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
+								{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+										data-{$DATA_NAME}="{$DATA_VALUE}"
+									{/foreach}
+								{/if}>
+								{if $GLYPHICON}
+									<span class="{$GLYPHICON}" aria-hidden="true" style="width:18px;height:20px;font-size:18px"></span>
+								{/if}
+								{if $ICON_PATH}
+									<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+								{/if}
+							</a>
+						</div>
+					</div>
+				</div>
+				{if !empty($CHILD_LINKS)}
+					<ul class="dropdown-menu">
+						{foreach key=index item=obj from=$CHILD_LINKS}
+							{if $obj->getLabel() eq NULL}
+								<li class="divider"></li>
+							{else}
+								{assign var="id" value=$obj->getId()}
+								{assign var="href" value=$obj->getUrl()}
+								{assign var="label" value=$obj->getLabel()}
+								{assign var="onclick" value=""}
+								{if stripos($obj->getUrl(), 'javascript:') === 0}
+									{assign var="onclick" value="onclick="|cat:$href}
+									{assign var="href" value="javascript:;"}
+								{/if}
+								<li>
+									<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
+									{if $obj->linkdata && is_array($obj->linkdata)}
+										{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+											data-{$DATA_NAME}="{$DATA_VALUE}"
+										{/foreach}
+									{/if}>{vtranslate($label,$MODULE)}</a>
+								</li>
+							{/if}
+						{/foreach}
+					</ul>
+				{/if}
+			{/if}
+		{/foreach}
 	</div>
 	{if AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="searchMenu globalSearchInput">
