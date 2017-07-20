@@ -456,7 +456,7 @@
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
               }
-            }, 10000);
+            }, 5000);
           }
         }
 
