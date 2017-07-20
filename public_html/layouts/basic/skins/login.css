@@ -16,17 +16,17 @@
 
 @media only screen and (max-height: 340px) {
 	.login-space{
-	    margin-top: 0;
+		margin-top: 0;
 	}
 }
 @media only screen and (min-height: 340px) and (max-height: 480px){
 	.login-space{
-	    margin-top: 10px;
+		margin-top: 10px;
 	}
 }
 @media only screen and (min-height:480px){
     .login-space{
-	margin-top: 70px;
+		margin-top: 70px;
     }
 }
 .forgotpass{
@@ -108,4 +108,4 @@ select.form-control {
 	padding-right: 0;
 	padding-top: 0;
 	padding-bottom: 0;
- }
+}

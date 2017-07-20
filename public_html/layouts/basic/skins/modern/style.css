@@ -395,7 +395,7 @@ div.datepicker th {
 }
 .baseContainer .leftPanel:after {
 	background: #fff;
-bottom: 18px;
+	bottom: 18px;
 }
 .detailViewTable .panel {
     border: 0;
@@ -661,7 +661,7 @@ button.selectAllBtn.btn.btn-default {
     width: 85%!important;
 }
 .mainBody {
-bottom: 18px;
+	bottom: 18px;
 }
 .globalSearchInput .chosen-single {
 	border-radius:4px 0 0 4px;
@@ -776,7 +776,7 @@ input[type=checkbox] {
     border-radius: 2px;
 }
 input[type=checkbox]:checked::after, .checkbox input[type=checkbox]:checked::after, .checkbox-inline input[type=checkbox]:checked::after {
-   box-sizing: border-box;
+	box-sizing: border-box;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
     position: absolute;
@@ -809,86 +809,86 @@ input[type=checkbox]:checked {
     border-right: 1px solid #ddd;
 }
 @media (min-width: 768px){
-.modal-dialog {
-    margin: 5% auto;
-}
+	.modal-dialog {
+		margin: 5% auto;
+	}
 }
 @media only screen and (min-width: 767px){
-.mainBody {
-    border-left: 2px solid #1e88e5;
-}
-.basePanel.menuOpen {
-    left: 150px;
-    width: calc(100% - 150px);
-}
-.bodyHeader.menuOpen {
-    left: 200px;
-}
-.breadcrumbsLinks {
-    font-size: 16px;
-}
+	.mainBody {
+		border-left: 2px solid #1e88e5;
+	}
+	.basePanel.menuOpen {
+		left: 150px;
+		width: calc(100% - 150px);
+	}
+	.bodyHeader.menuOpen {
+		left: 200px;
+	}
+	.breadcrumbsLinks {
+		font-size: 16px;
+	}
 }
 @media only screen and (max-width: 768px){
-.leftPanelOpen.siteBarRight {
-    width: calc(110% - 50px);
-}
-.modal-full {
-    width: 95%!important;
-}
-.quickCreateContainer .modal-dialog {
-    padding-right: 5px;
-}
+	.leftPanelOpen.siteBarRight {
+		width: calc(110% - 50px);
+	}
+	.modal-full {
+		width: 95%!important;
+	}
+	.quickCreateContainer .modal-dialog {
+		padding-right: 5px;
+	}
 }
 @media screen and (min-width: 960px){
-.siteBarRight {
-    padding: 0 8px;
-	bottom: 18px;
-    -webkit-transition: all .2s ease;
-    -moz-transition: all .2s ease;
-    -o-transition: all .2s ease;
-    transition: all .2s ease;
-}
-input.form-control.globalSearchValue.ui-autocomplete-input {
-    border-left: 1px solid #bbdefb;
-}
+	.siteBarRight {
+		padding: 0 8px;
+		bottom: 18px;
+		-webkit-transition: all .2s ease;
+		-moz-transition: all .2s ease;
+		-o-transition: all .2s ease;
+		transition: all .2s ease;
+	}
+	input.form-control.globalSearchValue.ui-autocomplete-input {
+		border-left: 1px solid #bbdefb;
+	}
 }
 @media screen and (max-width: 960px){
-.detailViewHeaderFields {
-    display: none;
-}
-.toogleSearchMenu {
-    left: calc(100% - 564px);
-}
+	.detailViewHeaderFields {
+		display: none;
+	}
+	.toogleSearchMenu {
+		left: calc(100% - 564px);
+	}
 }
 @media screen and (max-width: 1160px) and (min-width: 960px){
-.toogleSearchMenu { 
-	left: calc(100% - 650px);
-}
-input.form-control.globalSearchValue.ui-autocomplete-input {
-    border: 1px solid #CFD8DC;
-}
+	.toogleSearchMenu { 
+		left: calc(100% - 650px);
+	}
+	input.form-control.globalSearchValue.ui-autocomplete-input {
+		border: 1px solid #CFD8DC;
+	}
 }
 @media only screen and (min-width: 1240px){
-.selectSearch {
-    display: block;
-    margin-left: 285px;
-}
+	.selectSearch {
+		display: block;
+		margin-left: 285px;
+	}
 	::-webkit-scrollbar {
-	    width: 8px;
+		width: 8px;
 	}
 	::-webkit-scrollbar-track {
-	    background-color: #fff;
-	    border-left: 1px solid #ccc;
+		background-color: #fff;
+		border-left: 1px solid #ccc;
 	}
 	::-webkit-scrollbar-thumb {
-	    background-color: rgba(3, 169, 244, 0.5);
+		background-color: rgba(3, 169, 244, 0.5);
 	}
 	::-webkit-scrollbar-thumb:hover {
-	    background-color: #aaa;
+		background-color: #aaa;
 	}
 }
 @media only screen and (min-width: 1650px){
-.leftPanelOpen.siteBarRight.hideSiteBar {
-    width: calc(25% - 72px);
-}
+	.leftPanelOpen.siteBarRight.hideSiteBar {
+		width: calc(25% - 72px);
+	}
 }

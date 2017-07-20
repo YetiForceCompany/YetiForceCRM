@@ -6,9 +6,9 @@
     font-weight: 400;
     src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot');
     src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'),
-         url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
-         url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+		url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'),
+		url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+		url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 }
 
 body {
@@ -29,31 +29,31 @@ body {
 
 [class^="icon-"]:last-child,
 [class*=" icon-"]:last-child {
-  *margin-left: 0;
+	*margin-left: 0;
 }
 
 .vtGlyph {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-  vertical-align: text-top;
-  background-image: url("../images/vtGlyph.png");
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  *margin-right: .3em;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("../images/vtGlyph.png");
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	*margin-right: .3em;
 }
 
 .vticon-pageJump{
-      background-position: 0 0;
+	background-position: 0 0;
 }
 
 .vticon-call-inbound{
-      background-position: -14px 0;
+	background-position: -14px 0;
 }
 
 .vticon-call-outbound{
-      background-position: -28px 0;
+	background-position: -28px 0;
 }
 
 .themeLinkColor{
@@ -76,8 +76,8 @@ a{
 	color: transparent !important;
 }
 th, th a, th:hover, th a:hover{
-        color:@headerTextColor;
-        text-decoration: none;
+	color:@headerTextColor;
+	text-decoration: none;
 }
 
 .backgroundImageNone {
@@ -256,31 +256,31 @@ hr{
 .quickWidgetContainer {
     border-top: 2px solid @grayDark;
     li{
-            margin-left: -6%;
-            a{
-                    color : @generalLinkColor;
-                    white-space : nowrap;
-                    padding-left: 16%;
-                    width : 125%;
-                    &:hover{
-                            .gradientBar(@gradient2StrtColor,@gradient2EndColor);
-                    }
-            }
+		margin-left: -6%;
+		a{
+			color : @generalLinkColor;
+			white-space : nowrap;
+			padding-left: 16%;
+			width : 125%;
+			&:hover{
+				.gradientBar(@gradient2StrtColor,@gradient2EndColor);
+			}
+		}
     }
     .quickWidgetHeader {
-            .gradientBar(@gradient16StrtColor,@gradient16EndColor);
-            .cursorPointer;
-            padding: 8px;
-            h5 {
-                    color : @white;
-            }
+		.gradientBar(@gradient16StrtColor,@gradient16EndColor);
+		.cursorPointer;
+		padding: 8px;
+		h5 {
+			color : @white;
+		}
     }
     .widgetContainer {
-            .gradientBar(@gradient9StrtColor,@gradient9EndColor);
-             border-bottom: 1px solid @lightColorBorder;
-             div{
-                .boxModelBorderBox;
-             }
+		.gradientBar(@gradient9StrtColor,@gradient9EndColor);
+		border-bottom: 1px solid @lightColorBorder;
+		div{
+			.boxModelBorderBox;
+		}
     }
 }
 
@@ -355,7 +355,7 @@ hr{
 }
 
 .modelContainer{
-     .modal-header {
+	.modal-header {
         .contentsBackground() !important;
         border-radius: 2px 2px 0 0;
     }
@@ -366,7 +366,7 @@ hr{
 
 .table tbody tr:hover td,
 .table tbody tr:hover th{
-        background: none;
+	background: none;
 }
 
 tr.collapseRow{
@@ -396,10 +396,10 @@ tr.collapseRow{
 }
 
 .boxSizingBorderBox{
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing : border-box;
-        box-sizing : border-box;
-        word-wrap : break-word;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing : border-box;
+	box-sizing : border-box;
+	word-wrap : break-word;
 }
 
 .secondaryColor{
@@ -422,8 +422,8 @@ tr.collapseRow{
 
 //Mixin for text-shadow
 .textShadow(@color : @textColor,@horizontal : 1px,@vertical : 1px,@spread : 1px,@shadowColor : @textShadowColor){
-       color : @color;
-       text-shadow : @horizontal @vertical @spread @shadowColor;
+	color : @color;
+	text-shadow : @horizontal @vertical @spread @shadowColor;
 }
 
 .boxModelBorderBox(){
@@ -475,8 +475,8 @@ tr.collapseRow{
 	&:after,&:before{
 		right : 3px;
 		left : auto;
-                top: -5px;
-                border-bottom-width: 6px;
+		top: -5px;
+		border-bottom-width: 6px;
 	}
 }
 
@@ -523,41 +523,41 @@ tr.collapseRow{
     margin-bottom: 0px;
     height: 30px;
     .menu-inner{
-         background: @menubarColor;
-			.menuBar .col-md-9 {
-				height: 30px;
-				ul.nav{
-					margin-right: 0;
-				}
-				#commonMoreMenu li > a{
-					max-width: 100px;
-					overflow: hidden;
-					text-overflow : ellipsis;
-				}
+		background: @menubarColor;
+		.menuBar .col-md-9 {
+			height: 30px;
+			ul.nav{
+				margin-right: 0;
 			}
+			#commonMoreMenu li > a{
+				max-width: 100px;
+				overflow: hidden;
+				text-overflow : ellipsis;
+			}
+		}
 	}
 
     .nav{
-            li.tabs, li.dropdown{
-                a{
-                    padding: 5px 14px;
-                    height: 20px;
-                    color: @menubarTextColor;
-                    &:hover{
-                        color: @menubarTextHoverColor;
-                    }
-                    &.selected{
-                        padding: 3px 15px;
-                        background-color: @menubarSelectedLinkbgColor;
-                        color: @menubarTextHoverColor;
-                        .fontBold;
-                        border-bottom: 4px solid @menuUnderlineColor;
-                    }
+		li.tabs, li.dropdown{
+			a{
+				padding: 5px 14px;
+				height: 20px;
+				color: @menubarTextColor;
+				&:hover{
+					color: @menubarTextHoverColor;
+				}
+				&.selected{
+					padding: 3px 15px;
+					background-color: @menubarSelectedLinkbgColor;
+					color: @menubarTextHoverColor;
+					.fontBold;
+					border-bottom: 4px solid @menuUnderlineColor;
+				}
             }
 
         }
-     }
-     .headerLinksContainer{
+	}
+	.headerLinksContainer{
         margin-right: 20px;
         height: 30px;
         .dropdown {
@@ -583,16 +583,16 @@ tr.collapseRow{
             margin-left: 0px;
             text-align: right;
             .caret{
-                   border-top: 4px solid @menubarTextColor;
-                   margin: 8px 6px 10px 0;
+				border-top: 4px solid @menubarTextColor;
+				margin: 8px 6px 10px 0;
             }
         }
-     }
+	}
 }
 
 .nav-collapse.collapse {
-  height: auto;
-  overflow: visible;
+	height: auto;
+	overflow: visible;
 }
 @media screen and (min-width: 1161px) {
 	#mediumNav, #shortNav, #headerLinksCompact{
@@ -645,32 +645,32 @@ tr.collapseRow{
 		padding: 0 !important;
 	}
 	.CompactQC{
-			max-height: 300px;
-			overflow-y: scroll;
-			overflow-x: hidden;
+		max-height: 300px;
+		overflow-y: scroll;
+		overflow-x: hidden;
 
-		}
+	}
 	#headerLinksCompact{
-			 display: inline-block;
-			 float: right;
-			.navbar-btn{
-				display: inline-block;
-				margin-right: 3px;
-				margin-top: 2px;
-				float: none;
+		display: inline-block;
+		float: right;
+		.navbar-btn{
+			display: inline-block;
+			margin-right: 3px;
+			margin-top: 2px;
+			float: none;
+		}
+		.dropdown-menu{
+			margin-right: 12px;
+		}
+		#compactquickCreate{
+			&:hover{
+				background: none;
 			}
-			.dropdown-menu{
-				margin-right: 12px;
-			}
-			#compactquickCreate{
-				&:hover{
-					background: none;
-				}
-				.quickCreateModule :hover{
-					text-decoration: none;
-				}
+			.quickCreateModule :hover{
+				text-decoration: none;
 			}
 		}
+	}
 }
 #collapsedMenu{
 	display: block;
@@ -714,7 +714,7 @@ tr.collapseRow{
         font-size: 1.1em;
     }
     &:after,&:before{
-            left : 292px !important;
+		left : 292px !important;
     }
     width: 50em;
     padding: 24%;
@@ -741,15 +741,15 @@ tr.collapseRow{
 }
 
 .announcement{
-        .marStyle{
-            width:100%;
-         }
+	.marStyle{
+		width:100%;
+	}
 	.hide;
 	background: @notificationBackground;
 	padding: 2px 0;
 	border-bottom: 1px solid @lightColorBorder;
 	max-height: 24px;
-        width:100%;
+	width:100%;
 }
 
 .fixedLayout {
@@ -802,9 +802,9 @@ tr.collapseRow{
                 height: 29px;
                 box-shadow: none !important;
                 div{
-                background: @gradient12StrtColor;
-                border-radius: 0px !important;
-                border-left: 0px !important;
+					background: @gradient12StrtColor;
+					border-radius: 0px !important;
+					border-left: 0px !important;
                 }
             }
         }
@@ -820,45 +820,45 @@ tr.collapseRow{
         margin-left: -1px;
 
         #globalSearchValue{
-                border: 1px solid @lightColorBorder;
-                border-radius:0 !important;
-                min-width: 200px;
-                height: 21px;
-                margin-bottom: 0;
+			border: 1px solid @lightColorBorder;
+			border-radius:0 !important;
+			min-width: 200px;
+			height: 21px;
+			margin-bottom: 0;
         }
         .search-icon{
-                i{
-                    .icon-inverted;
-                }
-                border: 1px solid @headerColor;
-                border-radius: 2px !important;
-                margin-left: 4px;
-                padding: 5px 20px;
-                background: @headerColor;
-                .dullOpacity;
-                cursor: pointer;
-                &:hover{
-                    .fullOpacity;
-                }
+			i{
+				.icon-inverted;
+			}
+			border: 1px solid @headerColor;
+			border-radius: 2px !important;
+			margin-left: 4px;
+			padding: 5px 20px;
+			background: @headerColor;
+			.dullOpacity;
+			cursor: pointer;
+			&:hover{
+				.fullOpacity;
+			}
         }
     }
 }
 
 #popupSearchButton{
-                i{
-                    .icon-inverted;
-                }
-                border: 1px solid @headerColor;
-                border-radius: 2px !important;
-                margin-left: 8px;
-                padding: 4px 11px;
-                background: @headerColor;
-                .dullOpacity;
-                cursor: pointer;
-                &:hover{
-                    .fullOpacity;
-                }
-    }
+	i{
+		.icon-inverted;
+	}
+	border: 1px solid @headerColor;
+	border-radius: 2px !important;
+	margin-left: 8px;
+	padding: 4px 11px;
+	background: @headerColor;
+	.dullOpacity;
+	cursor: pointer;
+	&:hover{
+		.fullOpacity;
+	}
+}
 
 .notificationMessageHolder{
     line-height: 14px;
@@ -876,23 +876,23 @@ tr.collapseRow{
 }
 
 .adv-search a {
-		 display: inline-block;
-         line-height: 26px;
-         margin-left: 7px;
-         cursor: pointer;
-		 .textOverflowEllipsisMixin(135px,ellipsis);
-         .themeLinkColor;
+	display: inline-block;
+	line-height: 26px;
+	margin-left: 7px;
+	cursor: pointer;
+	.textOverflowEllipsisMixin(135px,ellipsis);
+	.themeLinkColor;
 }
 
 /** Global Search **/
 
 .globalSearchResults{
     .highlightedHeader{
-            .gradientBar(@gradient5StrtColor,@gradient5EndColor);
-            .textShadow(@headerTextColor,0px,0px,1px,@headerTextShadowColor);
+		.gradientBar(@gradient5StrtColor,@gradient5EndColor);
+		.textShadow(@headerTextColor,0px,0px,1px,@headerTextShadowColor);
     }
     #showFilter{
-            color : @headerTextColor;
+		color : @headerTextColor;
     }
     .dropdownStylings;
     .contents{
@@ -902,7 +902,7 @@ tr.collapseRow{
             li {
                 a{
                     &:hover{
-                            .gradientBar(@gradient2StrtColor,@gradient2EndColor);
+						.gradientBar(@gradient2StrtColor,@gradient2EndColor);
                     }
                     padding : 1%;
                 }
@@ -987,7 +987,7 @@ tr.collapseRow{
 }
 
 .searchTitle > .paddingHeader {
-        padding-left : 10px;
+	padding-left : 10px;
 	padding-top : 5px;
 }
 
@@ -1033,13 +1033,13 @@ tr.collapseRow{
 //Table list view column responsiveness//
 
 table tbody tr td a,table thead tr th a, .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td{
-       white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-       white-space: -pre-wrap;      /* Opera 4-6 */
-       white-space: -o-pre-wrap;    /* Opera 7 */
-       white-space: pre-wrap;       /* css-3 */
-       word-wrap: break-word;       /* Internet Explorer 5.5+ */
-       white-space: normal;
-       vertical-align: middle;
+	white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	white-space: pre-wrap;       /* css-3 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+	white-space: normal;
+	vertical-align: middle;
 }
 
 .table{
@@ -1049,7 +1049,7 @@ table tbody tr td a,table thead tr th a, .table thead > tr > th, .table tbody > 
     td a{
 		color: @generalLinkColor;
 		&:hover{
-		    color: @themeLinkColor;
+			color: @themeLinkColor;
 		}
 	}
 	th, td{
@@ -1076,27 +1076,27 @@ table tbody tr td a,table thead tr th a, .table thead > tr > th, .table tbody > 
         vertical-align: middle;
     }
     th+td{
-            border-left: 0;
-            padding:6px 5px !important;
-        }
+		border-left: 0;
+		padding:6px 5px !important;
+	}
     th+th{
-            border-left: 0;
-            padding:6px 5px !important;
-        }
+		border-left: 0;
+		padding:6px 5px !important;
+	}
     td+th{
         border-left: 0;
         padding:10px 5px;
     }
     td+td{
-          border-left: 0;
-          padding:10px 5px;
+		border-left: 0;
+		padding:10px 5px;
     }
 
     tbody tr:hover td{
         .gradientBar(@gradient2StrtColor,@gradient2EndColor);
         .action{
             display: inline;
-         }
+		}
     }
     tr.listViewEntries{
         td .actions{
@@ -1122,17 +1122,17 @@ table tbody tr td a,table thead tr th a, .table thead > tr > th, .table tbody > 
 	height : 19px;
 	td {
 		line-height : 18px;
-                border : 1px solid transparent;
+		border : 1px solid transparent;
 		&:hover {
 			.gradientBar(@gradient2StrtColor,@gradient2EndColor);
 			//IE 8 Fix
 			border : 1px solid @grayLight;
 			border-width: 1px 1px 1px 0;
 		}
-                a{
-                    color: @themeLinkColor;
-                    text-decoration: none;
-                }
+		a{
+			color: @themeLinkColor;
+			text-decoration: none;
+		}
 	}
 	td.highlightBackgroundColor {
 		.gradientBar(@gradient2StrtColor,@gradient2EndColor);
@@ -1208,7 +1208,7 @@ div.blockPage {
 
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child{
-    	border-radius: 2px !important;
+	border-radius: 2px !important;
 }
 
 .table-bordered thead:first-child tr:first-child th:last-child,
@@ -1219,16 +1219,16 @@ div.blockPage {
 .listViewHeaders{
 	margin-top: 2px;
 	.gradientBar(@gradient5StrtColor,@gradient5EndColor);
-        border-radius: 2px;
-        th, th:hover{
-            color: @headerTextColor;
-        }
+	border-radius: 2px;
+	th, th:hover{
+		color: @headerTextColor;
+	}
 }
 
 #customFilter_chzn, .select2-results{
     .filterActionImgs {
-            padding: 2px 0;
-            i.filterActionImage{
+		padding: 2px 0;
+		i.filterActionImage{
             //padding: 2px;
             .icon-inverted;
         }
@@ -1325,11 +1325,11 @@ form#EditView,.profileDetailView {
 	td.fieldLabel {
 		width: 20%;
 		label{
-			 font-size: @baseFontSize;
-			 margin-top:5px;
+			font-size: @baseFontSize;
+			margin-top:5px;
 		}
 	}
-// Fix for Edit view document Description (Document Editor)
+	// Fix for Edit view document Description (Document Editor)
 	td.fieldValue[colspan="3"]{
 		width:80%;
 	}
@@ -1460,10 +1460,10 @@ form#EditView table td.chznDropDown{
         width: 98%;
         margin-bottom: 0.7em;
         .detailViewPagingButton{
-                margin-top: 0.7em;
+			margin-top: 0.7em;
         }
         .recordLabel {
-                width: 100%;
+			width: 100%;
         }
     }
 }
@@ -1475,10 +1475,10 @@ form#EditView table td.chznDropDown{
     min-height:650px;
     .boxSizingBorderBox;
     .contents{
-            padding : 1.5%;
-            .gradientBar(@containerColor1,@containerColor2);
-            .fieldLabel label {
-                    font-size:@baseFontSize;
+		padding : 1.5%;
+		.gradientBar(@containerColor1,@containerColor2);
+		.fieldLabel label {
+			font-size:@baseFontSize;
         }
     }
 }
@@ -1491,7 +1491,7 @@ form#EditView table td.chznDropDown{
         }
     }
     .table tbody tr:hover,
-    .table tbody tr:hover{
+		.table tbody tr:hover{
         &:hover{
             .gradientBar(@gradient2StrtColor,@gradient2EndColor);
             .cursorPointer;
@@ -1506,7 +1506,7 @@ form#EditView table td.chznDropDown{
 
 //To remove border-right for related list of campaigns and line items heading
 .relatedContents table.listViewEntriesTable tr.listViewEntries td:nth-child(2), #lineItemTab.table tr td:nth-child(2){
-   border-right: 0 !important;
+	border-right: 0 !important;
 }
 //
 
@@ -1515,8 +1515,8 @@ form#EditView table td.chznDropDown{
 	min-width: 16.5%; /*before element is a col-md-10 element */
 	float:left;
     &:focus{
-                    outline: none;
-                }
+		outline: none;
+	}
 	.nav{
         li{
             margin-left: -1px;
@@ -1532,18 +1532,18 @@ form#EditView table td.chznDropDown{
                 border-radius : 0 2px 2px 0;
                 color: @relatedListText !important;
                 &:hover{
-                        background-color: @gradient8StrtColor;
+					background-color: @gradient8StrtColor;
                 }
-              }
-            }
-            li.active {
-                opacity:1;
-                a{
-                    border-color: @lightColorBorder !important;
-                    .gradientBar(@containerColor1,@containerColor2);
-                    color: @generalLinkColor;
-                }
-            }
+			}
+		}
+		li.active {
+			opacity:1;
+			a{
+				border-color: @lightColorBorder !important;
+				.gradientBar(@containerColor1,@containerColor2);
+				color: @generalLinkColor;
+			}
+		}
 	}
 }
 
@@ -1622,12 +1622,12 @@ form#EditView table td.chznDropDown{
     margin-left: 0 !important;
     margin-bottom: 0 !important;
     th {
-            .gradientBar(@gradient5StrtColor,@gradient5EndColor);
-            .textShadow(@headerTextColor,0,0,1px,@headerTextShadowColor);
+		.gradientBar(@gradient5StrtColor,@gradient5EndColor);
+		.textShadow(@headerTextColor,0,0,1px,@headerTextShadowColor);
     }
     td{
-            padding-left: 4%;
-            padding-right: 4%;
+		padding-left: 4%;
+		padding-right: 4%;
     }
 }
 
@@ -1645,8 +1645,8 @@ form#EditView table td.chznDropDown{
 .summaryListView {
     background: transparent;
     .item {
-            border-bottom: 1px solid @lightColorBorder;
-            padding: 5px;
+		border-bottom: 1px solid @lightColorBorder;
+		padding: 5px;
     }
 }
 
@@ -1722,8 +1722,8 @@ form#EditView table td.chznDropDown{
 	td.fieldLabel{
 		text-align: right;
 		label{
-			 font-size: @baseFontSize;
-			 margin-top:5px;
+			font-size: @baseFontSize;
+			margin-top:5px;
 		}
 	}
 }
@@ -1799,22 +1799,22 @@ form#EditView table td.chznDropDown{
 // Settings > Groups //
 
 #s2id_memberList, .groupMembersColors{
-  .Users{
+	.Users{
 		background-color : @users !important;
 		.backgroundImageNone;
-   }
-   .Groups {
+	}
+	.Groups {
 		background-color : @groups !important;
 		.backgroundImageNone;
-   }
+	}
 	.Roles{
 		background-color : @roles !important;
 		.backgroundImageNone;
-   }
-   .RoleAndSubordinates{
+	}
+	.RoleAndSubordinates{
 		background-color : @rolesAndSubordinates !important;
 		.backgroundImageNone;
-   }
+	}
 }
 
 //Spacing between Summary widgets
@@ -2052,12 +2052,12 @@ form[name="advanceFilterForm"]{
 .searchUIBasic{
 	border-collapse: separate !important;
 	border-spacing: 10px !important;
-        margin: 0 10%;
+	margin: 0 10%;
 	.importContents{
 		border-radius : 2px !important;
 		.border(1px);
 		background-color: @white;
-                padding: 15px;
+		padding: 15px;
 	}
 	.listRow{
 		.listViewHeaders > td{
@@ -2078,14 +2078,14 @@ form[name="advanceFilterForm"]{
 // fix for line item taxmode, currency background header block
 #lineItemTab.table{
 	tr:first-child{
-	    &:hover th~td{
-		.gradientBar(@gradient5StrtColor,@gradient5EndColor);
-	    }
+		&:hover th~td{
+			.gradientBar(@gradient5StrtColor,@gradient5EndColor);
+		}
 	}
 	tr:nth-child(2){
-	    &:hover td{
-		background : none;
-	    }
+		&:hover td{
+			background : none;
+		}
 	}
 
 }
@@ -2093,19 +2093,19 @@ form[name="advanceFilterForm"]{
 .lineItemTable tr:hover td {
     width: 0%;
     div.finalDiscountUI table tr td {
-	background: none !important;
+		background: none !important;
     }
     div.discountUI table tr td{
-	background: none !important;
+		background: none !important;
     }
     div#shipping_handling_div table tr td{
-	background: none !important;
+		background: none !important;
     }
     span.taxDivContainer div table tr td{
-	background: none !important;
+		background: none !important;
     }
 	div.finalTaxUI table tr td{
-	background: none !important;
+		background: none !important;
     }
 }
 
@@ -2208,7 +2208,7 @@ form[name="advanceFilterForm"]{
         border-top-color: @textShadowColor;
     }
     i{
-      .icon-inverted;
+		.icon-inverted;
     }
 	i.caret{
 		background-size:0;
@@ -2220,29 +2220,29 @@ form[name="advanceFilterForm"]{
 	.textShadow(@textShadowColor,0px,0px,2px,@textColor);
 	.marginRight5px;
 	&:hover{
-	    box-shadow: 0 0 1px @boxShadowColor !important;
-	    border: solid 0 0 0px @basicButtonBorderColorOnHover;
+		box-shadow: 0 0 1px @boxShadowColor !important;
+		border: solid 0 0 0px @basicButtonBorderColorOnHover;
 	}
 }
 
 .cancelLink{
 	.cursorPointer;
-        color:	@deleteButton;
-        margin: 6px 0 6px 8px;
-        font-size : @baseFontSize !important;
+	color:	@deleteButton;
+	margin: 6px 0 6px 8px;
+	font-size : @baseFontSize !important;
 
 	&:hover{
         color: @deleteButton !important;
-	 }
+	}
 }
 
 .importMore{
 	.gradientBar(@addButton,@addButton);
 	.textShadow(@textColor,1px,1px,1px,@textShadowColor);
 	&:hover{
-	    box-shadow: 1px 1px 3px @boxShadowColor !important;
-	    border-style: solid;
-	    border-color: @darkColorBorder !important;
+		box-shadow: 1px 1px 3px @boxShadowColor !important;
+		border-style: solid;
+		border-color: @darkColorBorder !important;
 	}
 }
 
@@ -2401,8 +2401,8 @@ form[name="advanceFilterForm"]{
             color: @headerTextColor;
         }
         select#historyType{
-                width:100px;
-                margin-bottom:0px;
+			width:100px;
+			margin-bottom:0px;
         }
         td.refresh{
             span{
@@ -2427,24 +2427,24 @@ form[name="advanceFilterForm"]{
         float: left;
     }
     .filterContainer{
-            background-color : @gradient4StrtColor;
-            position : absolute;
-            .border(2px,@lightColorBorder);
-            margin-left: -7px;
-            margin-right : 3px;
-            margin-top : 4px;
-            padding: 8px 0;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 5px 8px -5px @boxShadowColor;
-            div{
-                span{
-                    margin-top: 6px;
+		background-color : @gradient4StrtColor;
+		position : absolute;
+		.border(2px,@lightColorBorder);
+		margin-left: -7px;
+		margin-right : 3px;
+		margin-top : 4px;
+		padding: 8px 0;
+		border-radius: 0 0 10px 10px;
+		box-shadow: 0 5px 8px -5px @boxShadowColor;
+		div{
+			span{
+				margin-top: 6px;
 
-                }
-            }
+			}
+		}
     }
     .widgetChartContainer{
-            margin-left:10px;
+		margin-left:10px;
     }
 }
 
@@ -2525,9 +2525,9 @@ div#chart2{
 .mainContainer{
     margin-top: 69px;
     & > .col-md-2.row{// side Bar stylings.
-        min-height:635px;
-        background: @containerColor1;
-        padding-top: 15px;
+					  min-height:635px;
+					  background: @containerColor1;
+					  padding-top: 15px;
     }
 	.jumbotron{
 		height:500px;
@@ -2573,7 +2573,7 @@ div#chart2{
 	}
 }
 .fc-event{
-min-height: 14px !important;
+	min-height: 14px !important;
 }
 .fc-event-style1,.fc-event-style1 .fc-event-skin { background: @fc-style1; border-color: @fc-style1; font-weight: normal; text-shadow: none; }
 .fc-event-style2,.fc-event-style2 .fc-event-skin { background: @fc-style2; border-color: @fc-style2; font-weight: normal; text-shadow: none; }
@@ -2730,7 +2730,7 @@ min-height: 14px !important;
 	position: fixed;
 	bottom: 50px;
 	left: -30px;
-        bottom: 100px\9;
+	bottom: 100px\9;
 	background: #2C2C2C;
 	color: white;
 	padding: 7px 15px;
@@ -2743,10 +2743,10 @@ min-height: 14px !important;
 	-o-transform: rotate(270deg);
 	-ms-transform: rotate(270deg);
 	transform: rotate(270deg);
-        // IE8 Rotate
-        // http://www.boogdesign.com/examples/transforms/matrix-calculator.html
-        -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.00000000, M12=1.00000000, M21=-1.00000000, M22=0.00000000,sizingMethod='auto expand')";
-        filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.00000000, M12=1.00000000, M21=-1.00000000, M22=0.00000000,sizingMethod='auto expand');
+	// IE8 Rotate
+	// http://www.boogdesign.com/examples/transforms/matrix-calculator.html
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.00000000, M12=1.00000000, M21=-1.00000000, M22=0.00000000,sizingMethod='auto expand')";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.00000000, M12=1.00000000, M21=-1.00000000, M22=0.00000000,sizingMethod='auto expand');
 }
 
 .feedback .handle:hover {
@@ -2775,8 +2775,8 @@ min-height: 14px !important;
 
 .companyLogo {
 	img {
-            height: 3em;
-            width: 12em !important;
+		height: 3em;
+		width: 12em !important;
     }
 }
 
@@ -2829,7 +2829,7 @@ min-height: 14px !important;
 }
 
 .recordDetails hr{
-        margin : 5px 0 10px 0 !important;
+	margin : 5px 0 10px 0 !important;
 }
 
 .activityEntries{
@@ -2843,10 +2843,10 @@ min-height: 14px !important;
     .widget_header{
         padding-bottom: 10px;
         border-bottom: 1px solid @lightColorBorder;
-         h3{
+		h3{
             color: @themeLinkColor;
             font-weight: normal;
-         }
+		}
     }
 }
 
@@ -2864,7 +2864,7 @@ min-height: 14px !important;
 input[type="text"], input, textarea{
 	color: #444444 !important;
     font-family: 'Open Sans',@baseFontFamily !important;
-    }
+}
 
 #listViewPageJumpDropDown, #relatedListPageJumpDropDown{
 	.padding5per;
@@ -2966,7 +2966,7 @@ input[type="text"], input, textarea{
 		}
 	}
 	.widgetContainer{
-                .gradientBar(@gradient9StrtColor,@gradient9EndColor);
+		.gradientBar(@gradient9StrtColor,@gradient9EndColor);
 		.selectedMenuItem {
 			background-color : @gradient2StrtColor;
 			border-bottom : 1px solid @lightColorBorder !important;
@@ -3465,7 +3465,7 @@ input[type="text"], input, textarea{
 }
 
 input.listSearchContributor{
-  margin-bottom : 0px !important;
+	margin-bottom : 0px !important;
 }
 
 .listSearchContributor {
