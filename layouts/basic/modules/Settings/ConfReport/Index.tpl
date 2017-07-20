@@ -187,7 +187,7 @@
 		{* check config module *}
 		{if \App\Module::isModuleActive('OSSMail')}
 			<div class='editViewContainer tab-pane' id="check_config">
-				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0"> </iframe>
+				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="index.php?module=OSSMail&view=CheckConfig" frameborder="0"> </iframe>
 			</div>
 		{/if}
     </div>
