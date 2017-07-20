@@ -331,6 +331,7 @@ $languageStrings = [
 	'LBL_WARNINGS_CORRECT' => 'Ok',
 	'LBL_WARNINGS_OMITTED' => 'Omitido',
 	'LBL_WARNINGS_SWITCH' => 'Filtrar advertencias',
+	'LBL_SECURITY' => 'Información de seguridad',
 	//Advanced Filter Expressions
 	'LBL_LABEL' => 'Etiqueta',
 	'LBL_FIELD' => 'Valor',
