@@ -246,7 +246,6 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 			"modules.Reports.resources.Edit",
 			"modules.Reports.resources.Edit1",
 			"modules.Reports.resources.Edit2",

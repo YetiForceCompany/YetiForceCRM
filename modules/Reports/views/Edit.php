@@ -315,28 +315,13 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			"modules.$moduleName.resources.Edit1",
 			"modules.$moduleName.resources.Edit2",
 			"modules.$moduleName.resources.Edit3",
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 		);
-
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function getHeaderCss(\App\Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-		$cssFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-		return $headerCssInstances;
 	}
 }
