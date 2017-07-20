@@ -257,10 +257,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var start_date = view.start.format();
-		var end_date = view.end.format();
 		var types = [];
-		var formatDate = app.getMainParams('userDateFormat');
+		var formatDate = app.getMainParams('userDateFormat').toUpperCase();
 		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
 		if (types.length == 0) {
 			allEvents = true;
@@ -285,12 +283,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			filters.push({name: name, value: value});
 		});
 		if (allEvents == true || types.length > 0) {
+			console.log(formatDate, view.start.format(formatDate));
 			var params = {
 				module: 'Calendar',
 				action: 'Calendar',
 				mode: 'getEvents',
-				start: app.getDateInVtigerFormat(formatDate, Date.parse(start_date)),
-				end: app.getDateInVtigerFormat(formatDate, Date.parse(end_date)),
+				start: view.start.format(formatDate),
+				end: view.end.format(formatDate),
 				user: user,
 				time: app.getMainParams('showType'),
 				types: types,
@@ -358,27 +357,22 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					} else {
 						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
 					}
-					var startDateObject = Date.parse(start_hour);
-					var endDateObject = startDateObject.addMinutes(defaulDuration);
-					end_hour = endDateObject.toString('HH:mm');
+					end_hour = moment(start_hour).add(defaulDuration, 'minutes').format('HH:mm');
 				}
 				startDate = startDate + 'T' + start_hour + ':00';
 				endDate = endDate + 'T' + end_hour + ':00';
 			}
-			var dateFormat = data.find('[name="date_start"]').data('dateFormat');
+			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
 			var timeFormat = data.find('[name="time_start"]').data('format');
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
 			} else {
 				defaultTimeFormat = 'hh:mm tt';
 			}
-
-			var startDateInstance = Date.parse(startDate);
-			var startDateString = app.getDateInVtigerFormat(dateFormat, startDateInstance);
-			var startTimeString = startDateInstance.toString(defaultTimeFormat);
-			var endDateInstance = Date.parse(endDate);
-			var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
-			var endTimeString = endDateInstance.toString(defaultTimeFormat);
+			var startDateString = moment(startDate).format(dateFormat);
+			var startTimeString = moment(startDate).format(defaultTimeFormat);
+			var endDateString = moment(endDate).format(dateFormat);
+			var endTimeString = moment(endDate).format(defaultTimeFormat);
 
 			data.find('[name="date_start"]').val(startDateString);
 			data.find('[name="due_date"]').val(endDateString);

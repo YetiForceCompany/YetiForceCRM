@@ -776,11 +776,6 @@ var app = {
 		var joinedDateFormat = splitDateFormat.join(dotMode);
 		return joinedDateFormat;
 	},
-	getDateInVtigerFormat: function (dateFormat, dateObject) {
-		var finalFormat = app.convertTojQueryDatePickerFormat(dateFormat);
-		var date = jQuery.datepicker.formatDate(finalFormat, dateObject);
-		return date;
-	},
 	/*
 	 * Converts user formated date to database format yyyy-mm-dd
 	 */
@@ -912,6 +907,7 @@ var app = {
 			autoUpdateInput: false,
 			autoApply: true,
 			ranges: ranges,
+			opens: "left",
 			locale: {
 				separator: ',',
 				format: format,
@@ -944,9 +940,8 @@ var app = {
 		}
 		element.datepicker({'autoclose': true}).on('changeDate', function (ev) {
 			var currentElement = jQuery(ev.currentTarget);
-			var dateFormat = currentElement.data('dateFormat');
-			var finalFormat = app.getDateInVtigerFormat(dateFormat, ev.date);
-			var date = jQuery.datepicker.formatDate(finalFormat, ev.date);
+			var dateFormat = currentElement.data('dateFormat').toUpperCase();
+			var date = jQuery.datepicker.formatDate(moment(ev.date).format(dateFormat), ev.date);
 			currentElement.val(date);
 		});
 	},

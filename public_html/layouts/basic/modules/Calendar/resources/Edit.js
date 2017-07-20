@@ -118,27 +118,19 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var startDateTime = startDate + ' ' + startTime;
 		var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 		var timeFormat = endTimeElement.data('format');
-		startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
-		var startDateInstance = Date.parse(startDate);
-		var endDateInstance = false;
-
+		var endDateString = '';
 		if (container.find('[name="activitytype"]').val() == 'Call') {
-			var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
-			endDateInstance = startDateInstance.addMinutes(defaulCallDuration);
+			endDateString = moment(startDateTime).add(container.find('[name="defaultCallDuration"]').val(), 'minutes').format(dateFormat.toUpperCase());
 		} else {
-			var defaultOtherEventDuration = container.find('[name="defaultOtherEventDuration"]').val();
-			endDateInstance = startDateInstance.addMinutes(defaultOtherEventDuration);
+			endDateString = moment(startDateTime).add(container.find('[name="defaultOtherEventDuration"]').val(), 'minutes').format(dateFormat.toUpperCase());
 		}
-		var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 		if (timeFormat == 24) {
 			var defaultTimeFormat = 'HH:mm';
 		} else {
 			defaultTimeFormat = 'hh:mm tt';
 		}
-		var endTimeString = startDateInstance.toString(defaultTimeFormat);
-
 		endDateElement.val(endDateString);
-		endTimeElement.val(endTimeString);
+		endTimeElement.val(moment(startDateTime).format(defaultTimeFormat));
 	},
 	/**
 	 * Function to change the end time based on default call duration
@@ -164,13 +156,11 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 
 			var start = thisInstance.getDateInstance(container, 'start');
 			var end = thisInstance.getDateInstance(container, 'end');
-			var dateFormat = $('#userDateFormat').val();
-			var timeFormat = $('#userTimeFormat').val();
+			var dateFormat = $('#userDateFormat').val().toUpperCase();
 			container.find('.autofill:visible').trigger('change');
 			if (start > end) {
 				end = start;
-				var endDateString = app.getDateInVtigerFormat(dateFormat, end);
-				endDateElement.val(endDateString);
+				endDateElement.val(moment(end).format(dateFormat));
 				app.registerEventForDatePickerFields(container);
 				thisInstance.setVisibilityBtnSaveAndClose(container);
 			}

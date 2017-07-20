@@ -23,8 +23,8 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktiv',
 	'LBL_VIEW_SHOW' => 'Brute Force',
-	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
+	'LBL_SENT_NOTIFICATIONS' => 'Benachrichtigung senden',
 ];
 $jsLanguageStrings = [
-	'JS_COULD_NOT_FINNISH_REACTION' => 'Error. Save failed.',
+	'JS_COULD_NOT_FINNISH_REACTION' => 'Fehler. Sichern fehlgeschlagen.',
 ];

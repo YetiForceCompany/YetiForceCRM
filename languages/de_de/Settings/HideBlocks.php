@@ -7,7 +7,7 @@
  */
 $languageStrings = [
 	'HideBlocks' => 'Block ausblenden',
-	'LBL_HIDEBLOCKS' => 'Fields – Hide Blocks',
+	'LBL_HIDEBLOCKS' => 'Felder – Blocks ausblenden',
 	'LBL_HIDEBLOCKS_DESCRIPTION' => 'Verwalte Blocks mit auszublendenden Felder',
 	'LBL_BLOCK_LABEL' => 'Block',
 	'LBL_MODULE' => 'Modul',

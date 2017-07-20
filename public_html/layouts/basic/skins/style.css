@@ -5987,3 +5987,15 @@ select.form-control {
 #jstree-marker{
 	z-index: 1100;
 }
+.daterangepicker .table-condensed > tbody > tr > td{
+	padding: 0;
+}
+.daterangepicker .calendar-table{
+	padding: 0;
+}
+.daterangepicker .table-condensed > thead > tr > th{
+	padding: 2px;
+}
+.daterangepicker .calendar th,.daterangepicker .calendar td{
+	min-width: 30px;
+}
