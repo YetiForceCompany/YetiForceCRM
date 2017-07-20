@@ -912,6 +912,7 @@ var app = {
 			autoUpdateInput: false,
 			autoApply: true,
 			ranges: ranges,
+			opens: "left",
 			locale: {
 				separator: ',',
 				format: format,
