@@ -41,7 +41,7 @@ class Vtiger_Tools_Console_Controller
 
 	protected function handle()
 	{
-		global $argv;
+		$argv = vglobal('argv');
 		$this->arguments = $argv;
 
 		// Discard the script name.
@@ -401,7 +401,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 					if (!file_exists($tplpath . $tplname)) {
 						$initialContent = "{* License Text *}\n";
 						// Enable debug to make it easy to implement.
-						$initialContent.= "{debug}{* REMOVE THIS LINE AFTER IMPLEMENTATION *}\n\n";
+						$initialContent .= "{debug}{* REMOVE THIS LINE AFTER IMPLEMENTATION *}\n\n";
 						file_put_contents($tplpath . $tplname, $initialContent);
 					}
 					file_put_contents($tplpath . $tplname, "{* $file *}\n", FILE_APPEND);
