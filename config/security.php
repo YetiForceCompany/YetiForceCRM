@@ -45,6 +45,7 @@ $SECURITY_CONFIG = [
 	 * HTTP Public-Key-Pins (HPKP) pin-sha256
 	 * For HPKP to work properly at least 2 keys are needed.
 	 * https://scotthelme.co.uk/hpkp-http-public-key-pinning/
+	 * https://sekurak.pl/mechanizm-http-public-key-pinning/
 	 */
 	'HPKP_KEYS' => [],
 ];
