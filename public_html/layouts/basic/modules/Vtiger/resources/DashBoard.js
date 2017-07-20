@@ -157,37 +157,51 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 
 			var message = app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET') + " [" + widgetTitle + "]. " + app.vtranslate('JS_ARE_YOU_SURE_TO_DELETE_WIDGET_INFO');
 			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-						AppConnector.request(url).then(
-								function (response) {
-									if (response.success) {
-										var nonReversableWidgets = [];
-
-										parent.fadeOut('slow', function () {
-											parent.remove();
-										});
-										if (jQuery.inArray(widgetName, nonReversableWidgets) == -1) {
-											Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
-											jQuery('.widgetsList').prev('button').css('visibility', 'visible');
-											var data = '<li><a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" href="javascript:void(0);"';
-											data += 'data-width=' + width + ' data-height=' + height + ' data-linkid=' + response.result.linkid + ' data-name=' + response.result.name + '>' + response.result.title + '</a>';
-											if (response.result.deleteFromList) {
-												data += "<button data-widget-id='" + response.result.id + "' class='removeWidgetFromList btn btn-xs btn-danger pull-right'><span class='glyphicon glyphicon-trash'></span></button>";
-											}
-											data += '</li>';
-											var divider = jQuery('.widgetsList .divider');
-											if (divider.length) {
-												jQuery(data).insertBefore(divider);
-											} else {
-												jQuery('.widgetsList').append(data);
-											}
-										}
+				function (e) {
+					AppConnector.request(url).then(
+						function (response) {
+							if (response.success) {
+								var nonReversableWidgets = [];
+								parent.fadeOut('slow', function () {
+									parent.remove();
+								});
+								if (jQuery.inArray(widgetName, nonReversableWidgets) == -1) {
+									Vtiger_DashBoard_Js.gridster.remove_widget(element.closest('li'));
+									jQuery('.widgetsList').prev('button').css('visibility', 'visible');
+									var data = '<li>';
+									if (response.result.deleteFromList) {
+										data += '<button ';
+										data += 'data-widget-id="' + response.result.id + '" ';
+										data += 'class="removeWidgetFromList btn btn-xs btn-danger pull-left" '
+										data += 'style="width:25px;height:25px;margin:2px;" '
+										data += '>'
+										data += '<span class="glyphicon glyphicon-trash"></span>';
+										data += '</button>';
+									}
+									data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';
+									data += 'href="javascript:void(0);" ';
+									data += 'class="pull-left" ';
+									data += 'data-linkid="' + response.result.linkid + '" ';
+									data += 'data-name="' + response.result.name + '" ';
+									data += 'data-width="' + width + '" ';
+									data += 'data-height="' + height + '" ';
+									data += 'style="height:30px;width:100%;margin:0;padding:5px;" ';
+									data += '>';
+									data += response.result.title + '</a>';
+									data += '</li>';
+									var divider = jQuery('.widgetsList .divider');
+									if (divider.length) {
+										jQuery(data).insertBefore(divider);
+									} else {
+										jQuery('.widgetsList').append(data);
 									}
 								}
-						);
-					},
-					function (error, err) {
-					}
+							}
+						}
+					);
+				},
+				function (error, err) {
+				}
 			);
 		});
 	},

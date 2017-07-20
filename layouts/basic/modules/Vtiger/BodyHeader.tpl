@@ -7,7 +7,7 @@
 				<div class="pull-right rightHeaderBtn">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -42,18 +42,17 @@
 										</div>
 									{/if}
 								</div>
-								</div>
 							</li>
 						</ul>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
-						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
@@ -67,21 +66,21 @@
 										{include file="Items.tpl"|@vtemplate_path:'Chat'}
 									</div>
 									<div class="modal-footer pinToDown">
-										<input type="text" class="form-control message" /><br />
-										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_ADD')}</button>
+                                        <input type="text" class="form-control message" /><br />
+										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
-						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
 						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
@@ -97,12 +96,12 @@
 							{if !empty($LINK)}
 								{assign var="HREF" value=$LINK}
 							{/if}
-							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
-							   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-									   data-{$DATA_NAME}="{$DATA_VALUE}"
-								   {/foreach}
-							   {/if}>
+							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							    {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+								    {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+									    data-{$DATA_NAME}="{$DATA_VALUE}"
+								    {/foreach}
+							    {/if}>
 								{if $GLYPHICON}
 									<span class="{$GLYPHICON}" aria-hidden="true"></span>
 								{/if}
@@ -115,22 +114,22 @@
 									{foreach key=index item=obj from=$CHILD_LINKS}
 										{if $obj->getLabel() eq NULL}
 											<li class="divider"></li>
-											{else}
-												{assign var="id" value=$obj->getId()}
-												{assign var="href" value=$obj->getUrl()}
-												{assign var="label" value=$obj->getLabel()}
-												{assign var="onclick" value=""}
-												{if stripos($obj->getUrl(), 'javascript:') === 0}
-													{assign var="onclick" value="onclick="|cat:$href}
-													{assign var="href" value="javascript:;"}
-												{/if}
+										{else}
+											{assign var="id" value=$obj->getId()}
+											{assign var="href" value=$obj->getUrl()}
+											{assign var="label" value=$obj->getLabel()}
+											{assign var="onclick" value=""}
+											{if stripos($obj->getUrl(), 'javascript:') === 0}
+												{assign var="onclick" value="onclick="|cat:$href}
+												{assign var="href" value="javascript:;"}
+											{/if}
 											<li>
 												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
-												   {if $obj->linkdata && is_array($obj->linkdata)}
-													   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-														   data-{$DATA_NAME}="{$DATA_VALUE}"
-													   {/foreach}
-												   {/if}>{vtranslate($label,$MODULE)}</a>
+												{if $obj->linkdata && is_array($obj->linkdata)}
+													{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+														data-{$DATA_NAME}="{$DATA_VALUE}"
+													{/foreach}
+												{/if}>{vtranslate($label,$MODULE)}</a>
 											</li>
 										{/if}
 									{/foreach}
@@ -188,7 +187,7 @@
 				<div class="pull-right actionMenuBtn">
 					<div class="quickAction">
 						<a class="btn btn-default btn-sm" href="#">
-							<span aria-hidden="true" class="glyphicon glyphicon-tasks"></span>
+							<span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
 						</a>
 					</div>
 				</div>
