@@ -132,6 +132,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			require_once('config/csrf_config.php');
 			require_once('libraries/csrf-magic/csrf-magic.php');
 		}
+		//$this->cspInitToken();
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -241,6 +242,17 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		}
 		if ($response) {
 			$response->emit();
+		}
+	}
+
+	/**
+	 * Content Security Policy token
+	 */
+	public function cspInitToken()
+	{
+		if (!Vtiger_Session::has('CSP_TOKEN') || Vtiger_Session::get('CSP_TOKEN_TIME') < time()) {
+			Vtiger_Session::set('CSP_TOKEN', sha1(AppConfig::main('application_unique_key') . time()));
+			Vtiger_Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
 		}
 	}
 }

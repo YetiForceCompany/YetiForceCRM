@@ -48,4 +48,8 @@ $SECURITY_CONFIG = [
 	 * https://sekurak.pl/mechanizm-http-public-key-pinning/
 	 */
 	'HPKP_KEYS' => [],
+	/**
+	 * Content Security Policy
+	 */
+	'CSP_ACTIVE' => true,
 ];

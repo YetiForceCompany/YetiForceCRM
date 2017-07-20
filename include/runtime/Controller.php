@@ -119,8 +119,10 @@ abstract class Vtiger_Controller
 		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 		header('X-Robots-Tag: none');
 		header('X-Permitted-Cross-Domain-Policies: none');
-		header("Content-Security-Policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; form-action 'self'");
-
+		if (AppConfig::security('CSP_ACTIVE')) {
+			// 'nonce-" . Vtiger_Session::get('CSP_TOKEN') . "'
+			header("Content-Security-Policy: default-src 'self'; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;");
+		}
 		if ($keys = AppConfig::security('HPKP_KEYS')) {
 			header('Public-Key-Pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
 		}
@@ -340,7 +342,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/select2/select2-bootstrap.css',
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/jquery/pnotify/pnotify.custom.css',
-			'~libraries/jquery/datepicker/css/datepicker.css',
+			'~libraries/jquery/datepicker/css/bootstrap-datepicker3.css',
+			'~libraries/jquery/daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
@@ -374,7 +377,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/jquery.class.js',
 			'~libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
 			'~libraries/jquery/jstorage.js',
-			'~libraries/jquery/autosize/jquery.autosize-min.js',
 			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
 			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
 			'~libraries/jquery/pnotify/pnotify.custom.js',
@@ -384,8 +386,10 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/bootstrap3/js/bootbox.js',
 			'~libraries/jquery/selectize/js/selectize.js',
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
-			'~libraries/jquery/datepicker/js/datepicker.js',
-			'~libraries/jquery/dangrossman-bootstrap-daterangepicker/date.js',
+			'~libraries/jquery/moment.js',
+			'~libraries/jquery/datepicker/js/bootstrap-datepicker.js',
+			'~libraries/jquery/datepicker/locales/' . \App\Language::getLanguage() . '.min.js',
+			'~libraries/jquery/daterangepicker/daterangepicker.js',
 			'~libraries/jquery/jquery.ba-outside-events.js',
 			'~libraries/jquery/jquery.placeholder.js',
 			'~libraries/jquery/dompurify/purify.js',

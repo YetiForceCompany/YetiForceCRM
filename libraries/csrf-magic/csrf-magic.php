@@ -177,19 +177,19 @@ class CSRF
 		$input = "<input type='hidden' name='" . static::$inputName . "' value=\"$tokens\"$endSlash>";
 		$buffer = preg_replace('#(<form[^>]*method\s*=\s*["\']post["\'][^>]*>)#i', '$1' . $input, $buffer);
 		if (static::$frameBreaker && !static::$isPartial) {
-			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
+			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
 			if (!IS_PUBLIC_DIR) {
 				$js = 'public_html/' . $js;
 			}
 			$buffer = preg_replace(
-				'/<\/head>/', '<script type="text/javascript">' .
+				'/<\/head>/', '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">' .
 				'var csrfMagicToken = "' . $tokens . '";' .
 				'var csrfMagicName = "' . static::$inputName . '";</script>' .
 				'<script src="' . $js . '" type="text/javascript"></script></head>', $buffer, $count
 			);
-			$script = '<script type="text/javascript">CsrfMagic.end();</script>';
+			$script = '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">CsrfMagic.end();</script>';
 			$buffer = preg_replace('/<\/body>/', $script . '</body>', $buffer, $count);
 			if (!$count) {
 				$buffer .= $script;
