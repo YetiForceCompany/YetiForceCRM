@@ -10,12 +10,12 @@
  * ****************************************************************************** */
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
-global $calpath;
-global $app_list_strings;
-global $modules;
-global $blocks;
-global $related_modules;
-global $old_related_modules;
+vglobal('calpath');
+vglobal('app_list_strings');
+$modules = vglobal('modules');
+vglobal('blocks');
+$related_modules = vglobal('related_modules');
+$old_related_modules = vglobal('old_related_modules');
 
 $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 	'Contacts' => Array('Accounts'),
@@ -67,9 +67,11 @@ class Reports extends CRMEntity
 	 *  This function accepts the vtiger_reportid as argument
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
-	public function __construct($reportid = "")
+	public function __construct($reportid = '')
 	{
-		global $current_user, $theme, $mod_strings;
+		$current_user = vglobal('current_user');
+		vglobal('theme');
+		$mod_strings = vglobal('mod_strings');
 		$adb = PearDatabase::getInstance();
 
 		$this->initListOfModules();
@@ -78,9 +80,9 @@ class Reports extends CRMEntity
 			$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
 			$subordinate_users = VTCacheUtils::lookupReport_SubordinateUsers($reportid);
 
-			if ($cachedInfo === false) {
-				$ssql = "select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid";
-				$ssql .= " where vtiger_report.reportid = ?";
+			if ($cachedInfo == false) {
+				$ssql = 'select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid';
+				$ssql .= ' where vtiger_report.reportid = ?';
 				$params = array($reportid);
 
 				require_once('include/utils/GetUserGroups.php');
@@ -288,7 +290,7 @@ class Reports extends CRMEntity
 	public function sgetRptFldr($mode = '')
 	{
 
-		global $mod_strings;
+		$mod_strings = vglobal('mod_strings');
 		$adb = PearDatabase::getInstance();
 
 		$returndata = [];
@@ -682,7 +684,7 @@ class Reports extends CRMEntity
 	 */
 	public function getSelectedStdFilterCriteria($selecteddatefilter = "")
 	{
-		global $mod_strings;
+		$mod_strings = vglobal('mod_strings');
 
 		$datefiltervalue = Array("custom", "prevfy", "thisfy", "nextfy", "prevfq", "thisfq", "nextfq",
 			"yesterday", "today", "tomorrow", "lastweek", "thisweek", "nextweek", "lastmonth", "thismonth",

@@ -1,5 +1,4 @@
 <?php
-global $where_col, $orderby, $in_started, $count;
 $where_col = false;
 $orderby = false;
 $in_started = false;
@@ -24,7 +23,7 @@ function incState($lexer)
 function handleselect($lexer, $val)
 {
 	if ($lexer->mandatory) {
-		if (strcasecmp($val, $lexer->mandatory_states[$lexer->current_state]) === 0) {
+		if (strcasecmp($val, $lexer->mandatory_states[$lexer->current_state]) == 0) {
 			incState($lexer);
 			return VTQL_Parser::SELECT;
 		}
@@ -33,22 +32,22 @@ function handleselect($lexer, $val)
 
 function handlecolumn_list($lexer, $val)
 {
-	global $count;
+	$charge = vglobal('count');
 	if ($lexer->mandatory) {
-		if (!(strcasecmp($val, $lexer->mandatory_states[2]) === 0)) {
-			if (strcmp($val, "*") === 0) {
-				if (!$count) {
+		if (!(strcasecmp($val, $lexer->mandatory_states[2]) == 0)) {
+			if (strcmp($val, '*') == 0) {
+				if (!$charge) {
 					incrementN($lexer, 1);
 				}
 				return VTQL_Parser::ASTERISK;
-			} else if ((strcmp($val, "(") === 0)) {
+			} else if ((strcmp($val, '(') == 0)) {
 				return VTQL_Parser::PARENOPEN;
-			} else if (strcmp($val, ")") === 0) {
+			} else if (strcmp($val, ')') == 0) {
 				return VTQL_Parser::PARENCLOSE;
-			} else if ((strcasecmp($val, "count") === 0)) {
-				$count = true;
+			} else if ((strcasecmp($val, 'count') == 0)) {
+				$charge = true;
 				return VTQL_Parser::COUNT;
-			} else if (strcmp($val, ",") === 0) {
+			} else if (strcmp($val, ',') == 0) {
 				return VTQL_Parser::COMMA;
 			} else {
 				return VTQL_Parser::COLUMNNAME;
@@ -62,7 +61,7 @@ function handlecolumn_list($lexer, $val)
 
 function handlefrom($lexer, $val)
 {
-	if ((strcasecmp($val, $lexer->mandatory_states[$lexer->current_state]) === 0)) {
+	if ((strcasecmp($val, $lexer->mandatory_states[$lexer->current_state]) == 0)) {
 		incState($lexer);
 		return VTQL_Parser::FRM;
 	}
@@ -73,7 +72,7 @@ function handletable($lexer, $val)
 	if ($lexer->mandatory) {
 		$lexer->current_state = 0;
 		$lexer->mandatory = false;
-		if (!(strcasecmp($val, $lexer->optional_states[$lexer->current_state]) === 0)) {
+		if (!(strcasecmp($val, $lexer->optional_states[$lexer->current_state]) == 0)) {
 			return VTQL_Parser::TABLENAME;
 		}
 	}
@@ -81,47 +80,48 @@ function handletable($lexer, $val)
 
 function handlewhere($lexer, $val)
 {
-	global $where_col, $in_started;
+	$whereCol = vglobal('where_col');
+	$inStarted = vglobal('in_started');
 	$val = trim($val);
-	if ((strcmp($val, "=") === 0)) {
+	if ((strcmp($val, '=') == 0)) {
 		return VTQL_Parser::EQ;
-	} else if ((strcasecmp($val, $lexer->optional_states[$lexer->current_state]) === 0)) {
+	} else if ((strcasecmp($val, $lexer->optional_states[$lexer->current_state]) == 0)) {
 		return VTQL_Parser::WHERE;
-	} else if ((strcmp($val, "<") === 0)) {
+	} else if ((strcmp($val, '<') == 0)) {
 		return VTQL_Parser::LT;
-	} else if ((strcmp($val, "<=") === 0)) {
+	} else if ((strcmp($val, '<=') == 0)) {
 		return VTQL_Parser::LTE;
-	} else if ((strcmp($val, ">=") === 0)) {
+	} else if ((strcmp($val, '>=') == 0)) {
 		return VTQL_Parser::GTE;
-	} else if ((strcmp($val, "!=") === 0)) {
+	} else if ((strcmp($val, '!=') == 0)) {
 		return VTQL_Parser::NE;
-	} else if ((strcmp($val, ">") === 0)) {
+	} else if ((strcmp($val, '>') == 0)) {
 		return VTQL_Parser::GT;
-	} else if ((strcmp($val, "(") === 0)) {
+	} else if ((strcmp($val, '(') == 0)) {
 		return VTQL_Parser::PARENOPEN;
-	} else if ((strcmp($val, ")") === 0)) {
-		if ($in_started) {
-			$in_started = false;
-			$where_col = false;
+	} else if ((strcmp($val, ')') == 0)) {
+		if (false) {
+			$inStarted = false;
+			$whereCol = false;
 		}
 		return VTQL_Parser::PARENCLOSE;
-	} else if ((strcasecmp($val, "and") === 0)) {
+	} else if ((strcasecmp($val, 'and') == 0)) {
 		return VTQL_Parser::LOGICAL_AND;
-	} else if ((strcasecmp($val, "or") === 0)) {
+	} else if ((strcasecmp($val, 'or') == 0)) {
 		return VTQL_Parser::LOGICAL_OR;
-	} else if (!$where_col) {
-		$where_col = true;
+	} else if (!$whereCol) {
+		$whereCol = true;
 		return VTQL_Parser::COLUMNNAME;
-	} else if ((strcasecmp($val, "in") === 0)) {
-		$in_started = true;
+	} else if ((strcasecmp($val, 'in') == 0)) {
+		$inStarted = true;
 		return VTQL_Parser::IN;
-	} else if (strcmp($val, ",") === 0) {
+	} else if (strcmp($val, ',') == 0) {
 		return VTQL_Parser::COMMA;
-	} else if (strcasecmp($val, "like") === 0) {
+	} else if (strcasecmp($val, 'like') == 0) {
 		return VTQL_Parser::LIKE;
-	} else if ($where_col) {
-		if (!$in_started) {
-			$where_col = false;
+	} else if ($whereCol) {
+		if (!$inStarted) {
+			$whereCol = false;
 		}
 		return VTQL_Parser::VALUE;
 	}
@@ -129,16 +129,16 @@ function handlewhere($lexer, $val)
 
 function handleorderby($lexer, $val)
 {
-	global $orderby;
-	if (!$orderby) {
-		$orderby = true;
+	$order = vglobal('orderby');
+	if (!$order) {
+		$order = true;
 		return VTQL_Parser::ORDERBY;
 	}
-	if (strcmp($val, ",") === 0) {
+	if (strcmp($val, ',') == 0) {
 		return VTQL_Parser::COMMA;
-	} else if (strcasecmp($val, "asc") === 0) {
+	} else if (strcasecmp($val, 'asc') == 0) {
 		return VTQL_Parser::ASC;
-	} else if (strcasecmp($val, "desc") === 0) {
+	} else if (strcasecmp($val, 'desc') == 0) {
 		return VTQL_Parser::DESC;
 	} else {
 		return VTQL_Parser::COLUMNNAME;
@@ -147,13 +147,13 @@ function handleorderby($lexer, $val)
 
 function handlelimit($lexer, $val)
 {
-	if ((strcasecmp($val, "limit") === 0)) {
+	if ((strcasecmp($val, 'limit') == 0)) {
 		return VTQL_Parser::LIMIT;
-	} else if ((strcmp($val, "(") === 0)) {
+	} else if ((strcmp($val, '(') == 0)) {
 		return VTQL_Parser::PARENOPEN;
-	} else if ((strcmp($val, ")") === 0)) {
+	} else if ((strcmp($val, ')') == 0)) {
 		return VTQL_Parser::PARENCLOSE;
-	} else if (strcmp($val, ",") === 0) {
+	} else if (strcmp($val, ',') == 0) {
 		return VTQL_Parser::COMMA;
 	} else {
 		return VTQL_Parser::VALUE;
@@ -302,21 +302,21 @@ class VTQL_Lexer
 	public function yy_r1_1($yy_subpatterns)
 	{
 
-		global $orderby;
+		$order = vglobal('orderby');
 		if ($this->mandatory) {
 			$handler = 'handle' . $this->mandatory_states[$this->current_state];
 			$this->token = $handler($this, $this->value);
 		} else {
 			$str = $this->value;
-			if (strcmp($this->value, ";") === 0) {
+			if (strcmp($this->value, ';') == 0) {
 				$this->token = handleend($this, $this->value);
 				return;
 			}
-			if (strcasecmp($this->value, "order") === 0) {
-				$orderby = true;
+			if (strcasecmp($this->value, 'order') == 0) {
+				$order = true;
 				return false;
-			} else if (strcasecmp($this->value, "by") === 0 && $orderby === true) {
-				$orderby = false;
+			} else if (strcasecmp($this->value, 'by') == 0 && $order == true) {
+				$order = false;
 				$this->current_state = 1;
 			}
 			$index = array_search(strtolower($str), $this->optional_states, true);

@@ -47,13 +47,13 @@ class Import_Utils_Helper
 
 	public static function getMaxUploadSize()
 	{
-		global $upload_maxsize;
+		$upload_maxsize = vglobal('upload_maxsize');
 		return $upload_maxsize;
 	}
 
 	public static function getImportDirectory()
 	{
-		global $import_dir;
+		$import_dir = vglobal('import_dir');
 		$importDir = dirname(__FILE__) . '/../../../' . $import_dir;
 		return $importDir;
 	}
@@ -61,7 +61,7 @@ class Import_Utils_Helper
 	public static function getImportFilePath($user)
 	{
 		$importDirectory = self::getImportDirectory();
-		return $importDirectory . "IMPORT_" . $user->id;
+		return $importDirectory . 'IMPORT_' . $user->id;
 	}
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)

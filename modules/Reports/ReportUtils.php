@@ -91,7 +91,8 @@ function IsDateField($reportColDetails)
  */
 function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fieldName)
 {
-	global $current_user, $default_charset;
+	$current_user = vglobal('current_user');
+	$default_charset = vglobal('default_charset');
 
 	$db = PearDatabase::getInstance();
 	$value = $valueArray[$fieldName];

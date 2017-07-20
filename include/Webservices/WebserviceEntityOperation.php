@@ -72,7 +72,7 @@ abstract class WebserviceEntityOperation
 
 	public function getFieldTypeDetails($webserviceField)
 	{
-		global $upload_maxsize;
+		$upload_maxsize = vglobal('upload_maxsize');
 		$typeDetails = [];
 		switch ($webserviceField->getFieldDataType()) {
 			case 'reference': $typeDetails['refersTo'] = $webserviceField->getReferenceList();

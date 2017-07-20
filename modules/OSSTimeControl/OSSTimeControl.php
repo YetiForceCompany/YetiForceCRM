@@ -132,23 +132,23 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $currentModule;
+		$current_module = vglobal('currentModule');
 		$results = [];
-		parent::deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+		parent::deleteRelatedFromDB($current_module, $id, $returnModule, $returnId);
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $current_module, 'relmodule' => $returnModule])])
 				->createCommand()->query();
 		if ($dataReader->count()) {
 			$results = $dataReader->readAll();
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($currentModule)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => App\Module::getModuleId($current_module)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$className = Vtiger_Loader::getComponentClassName('Model', 'Field', $current_module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
