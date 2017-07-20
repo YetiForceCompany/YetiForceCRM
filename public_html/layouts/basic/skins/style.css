@@ -5980,7 +5980,7 @@ select.form-control {
 	display:none !important;
 }
 .slimScrollBar{
-	right: -7px !important;
+	right: -300px !important;
 }
 .multiImageResult{
 	float: right;
