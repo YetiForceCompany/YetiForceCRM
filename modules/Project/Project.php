@@ -415,14 +415,14 @@ class Project extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $currentModule;
+		$current_module = vglobal('currentModule');
 		if ($relatedName == 'getManyToMany') {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		} else {
 			parent::deleteRelatedFromDB(vglobal('currentModule'), $id, $return_module, $return_id);
 			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
 					->from('vtiger_field')
-					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $return_module])])
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $current_module, 'relmodule' => $return_module])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()
