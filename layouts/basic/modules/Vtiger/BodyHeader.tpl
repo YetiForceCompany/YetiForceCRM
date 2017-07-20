@@ -187,7 +187,7 @@
 				<div class="pull-right actionMenuBtn">
 					<div class="quickAction">
 						<a class="btn btn-default btn-sm" href="#">
-							<span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
+							<span aria-hidden="true" class="glyphicon glyphicon-certificate"></span>
 						</a>
 					</div>
 				</div>
@@ -217,7 +217,7 @@
 													<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 												</div>
 												<div class="visible-xs-block">
-													<span class="glyphicon glyphicon-list-alt"></span>
+													<span class="glyphicon glyphicon-inbox"></span>
 												</div>
 											</a>
 										{elseif $CONFIG['showMailAccounts']=='true'}
