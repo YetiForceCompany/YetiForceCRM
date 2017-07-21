@@ -14,8 +14,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)} {$MODULE}</h3>
+					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)} {$MODULE}</h3>
 				</div>
 				<form class="form-horizontal" id="deleteUser" name="deleteUser" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -25,11 +25,11 @@
 							<div class="tab-content massEditContent">
 								<table class="massEditTable table table-bordered">
 									<tr>
-										<td class="fieldLabel alignMiddle">{vtranslate('LBL_USER_TO_BE_DELETED', $MODULE)}</td>
+										<td class="fieldLabel alignMiddle">{\App\Language::translate('LBL_USER_TO_BE_DELETED', $MODULE)}</td>
 										<td class="fieldValue">{$DELETE_USER_NAME}</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle">{vtranslate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)}</td>
+										<td class="fieldLabel alignMiddle">{\App\Language::translate('LBL_TRANSFER_RECORDS_TO_USER', $MODULE)}</td>
 										<td class="fieldValue">
 											<select class="chzn-select form-control" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
 												{foreach item=USER_MODEL key=USER_ID from=$USER_LIST}
@@ -42,7 +42,7 @@
 										<tr>
 											<td colspan="2" style="padding-left: 20px;">
 												<div class='checkbox'>
-													<input type="checkbox" class="checkbox" name="deleteUserPermanent" value="1" >&nbsp;{vtranslate('LBL_DELETE_USER_PERMANENTLY',$MODULE)} 
+													<input type="checkbox" class="checkbox" name="deleteUserPermanent" value="1" >&nbsp;{\App\Language::translate('LBL_DELETE_USER_PERMANENTLY',$MODULE)} 
 												</div>
 											</td>
 										</tr>

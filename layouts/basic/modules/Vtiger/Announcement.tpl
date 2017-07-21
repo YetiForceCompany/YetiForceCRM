@@ -17,12 +17,12 @@
 								{if !$ANNOUNCEMENT->get('is_mandatory')}
 									<button type="button" class="btn btn-danger" data-type="0">
 										<span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
-										{vtranslate('LBL_REMIND_ME_LATER',$AMODULE)}
+										{\App\Language::translate('LBL_REMIND_ME_LATER',$AMODULE)}
 									</button>
 								{/if}
 								<button type="button" class="btn btn-success" data-type="1">
 									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
-									{vtranslate('LBL_MARK_AS_READ',$AMODULE)}
+									{\App\Language::translate('LBL_MARK_AS_READ',$AMODULE)}
 								</button>
 							</div>
 						</div>

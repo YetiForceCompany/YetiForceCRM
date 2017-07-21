@@ -16,23 +16,23 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<form id="transformCurrency" class="form-horizontal" method="POST">
 					<input type="hidden" name="record" value="{$CURRENCY_ID}" />
 					<div class="modal-body">
 						<div class="form-group">
-							<label class="muted control-label col-md-4">{vtranslate('LBL_CURRENT_CURRENCY', $QUALIFIED_MODULE)}</label>
+							<label class="muted control-label col-md-4">{\App\Language::translate('LBL_CURRENT_CURRENCY', $QUALIFIED_MODULE)}</label>
 							<div class="controls col-md-7 form-control-static">
-								<span>{vtranslate($RECORD_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</span>
+								<span>{\App\Language::translate($RECORD_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</span>
 							</div>	
 						</div>
 						<div class="form-group">
-							<label class="muted control-label col-md-4">{vtranslate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{vtranslate('LBL_TO', $QUALIFIED_MODULE)}</label>
+							<label class="muted control-label col-md-4">{\App\Language::translate('LBL_TRANSFER_CURRENCY', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate('LBL_TO', $QUALIFIED_MODULE)}</label>
 							<div class="controls col-md-7">
 								<select class="select2 form-control" name="transform_to_id">
 									{foreach key=CURRENCY_ID item=CURRENCY_MODEL from=$CURRENCY_LIST}
-										<option value="{$CURRENCY_ID}">{vtranslate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
+										<option value="{$CURRENCY_ID}">{\App\Language::translate($CURRENCY_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>	

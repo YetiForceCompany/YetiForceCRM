@@ -36,8 +36,8 @@
 				</div>
 				<div class="col-md-4">
 					<div class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $MODULE)}</a>
+						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
 					</div>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 						<div class="iconCollapse">
 							<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 							<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h4>{vtranslate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
+							<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 						</div>
 					</div>
 					<div class="col-xs-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
@@ -81,12 +81,12 @@
 									<div class="col-xs-12 col-sm-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										<label class="muted pull-right-md pull-right-lg pull-left-sm pull-left-xs marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
-											{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+											{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}
 										</label>
 									</div>
 									<div class="col-xs-12 col-sm-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{if $FIELD_MODEL->get('uitype') eq "300"}
-											<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{vtranslate($FIELD_MODEL->get('label'), $MODULE)}</label>
+											<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}</label>
 										{/if}
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 									</div>

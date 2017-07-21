@@ -14,15 +14,15 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-					<h3 class="modal-title">{vtranslate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}</h3>
+					<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+					<h3 class="modal-title">{\App\Language::translate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}</h3>
 				</div>
 				<div class="modal-body maxHeightModal">
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
 									{foreach item=HEADERNAME from=$ACCOUNT_HIERARCHY['header']}
-										<th>{vtranslate($HEADERNAME, $MODULE)}</th>
+										<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
 									{/foreach}
 								</tr>
 							</thead>
@@ -35,7 +35,7 @@
 													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} popoverTooltip {/if}{/if}btn-xs toChangeBtn" data-record-id="{$RECORD_ID}"
 															data-fieldname="{$LISTFIELDS['fieldname']}"
 															{if empty($LISTFIELDS['rawData']) && isset($LAST_MODIFIED[$RECORD_ID])}
-																data-content="{vtranslate('LBL_DEACTIVATED_BY', $MODULE)}<b>{$LAST_MODIFIED[$RECORD_ID]['active']['userModel']->getName()}</b> - {$LAST_MODIFIED[$RECORD_ID]['active']['changedon']} "
+																data-content="{\App\Language::translate('LBL_DEACTIVATED_BY', $MODULE)}<b>{$LAST_MODIFIED[$RECORD_ID]['active']['userModel']->getName()}</b> - {$LAST_MODIFIED[$RECORD_ID]['active']['changedon']} "
 															{/if}
 															>
 														{$LISTFIELDS['data']}
@@ -52,7 +52,7 @@
 				</div>
 				<div class="modal-footer">
 					<div class=" pull-right cancelLinkContainer">
-						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CLOSE', $MODULE)}</strong></button>
+						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong></button>
 					</div>
 				</div>
 			</div>

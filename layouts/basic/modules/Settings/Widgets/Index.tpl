@@ -8,22 +8,22 @@
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
 		</div>
 		<div class="pull-right col-md-4 h3">
 			<select class="select2 col-md-3 form-control" name="ModulesList">
 				{foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
-					<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{vtranslate($item['tablabel'], $item['name'])}</option>
+					<option value="{$key}" {if $SOURCE eq $key}selected{/if}>{\App\Language::translate($item['tablabel'], $item['name'])}</option>
 				{/foreach}
 			</select>
 		</div>
 	</div>
 	<div>
 		<div class="col-md-8 paddingLRZero">
-			<h4>{vtranslate('List of widgets for the module', $QUALIFIED_MODULE)}: {vtranslate($SOURCEMODULE, $SOURCEMODULE)}</h4>
+			<h4>{\App\Language::translate('List of widgets for the module', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCEMODULE, $SOURCEMODULE)}</h4>
 		</div>
 		<div class="col-md-4 paddingLRZero">
-			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -36,19 +36,19 @@
 						<div class="padding1per border1px">
 							<div class="row">
 								<div class="col-md-5">
-									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{vtranslate($WIDGET['type'], $QUALIFIED_MODULE)}
+									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{\App\Language::translate($WIDGET['type'], $QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-5">
 									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-										{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+										{\App\Language::translate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 									{else}	
-										{vtranslate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
+										{\App\Language::translate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
 									{/if}									
 								</div>
 								<div class="col-md-2">
 									<span class="pull-right">
-										<i class="cursorPointer glyphicon glyphicon-pencil editWidget" title="{vtranslate('Edit', $QUALIFIED_MODULE)}"></i>
-										&nbsp;&nbsp;<i class="cursorPointer glyphicon glyphicon-remove removeWidget" title="{vtranslate('Remove', $QUALIFIED_MODULE)}"></i>
+										<i class="cursorPointer glyphicon glyphicon-pencil editWidget" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
+										&nbsp;&nbsp;<i class="cursorPointer glyphicon glyphicon-remove removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
 									</span>
 								</div>
 							</div>

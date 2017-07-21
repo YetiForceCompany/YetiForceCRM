@@ -55,7 +55,7 @@
 						<tr class="listViewHeaders">
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 								<th nowrap {if $HEADER_FIELD@last} colspan="2" {/if}>
-									<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('name')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+									<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('name')}">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 										&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}<span class="{$SORT_IMAGE}"></span>{/if}
 									</a>
 								</th>
@@ -80,12 +80,12 @@
 									</td><td nowrap class="{$WIDTHTYPE}">
 										<div class="pull-right actions">
 											<span class="actionImages">
-												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+												<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 												<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
 												   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
-													<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
+													<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 												</a>
-												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+												<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 											</span>
 										</div>
 									</td>

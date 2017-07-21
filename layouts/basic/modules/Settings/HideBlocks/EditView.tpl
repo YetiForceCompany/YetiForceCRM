@@ -4,7 +4,7 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
@@ -15,21 +15,21 @@
 				<tr class="blockHeader">
 					<th class="blockHeader" colspan="2">
 						{if $MODE}
-							{vtranslate('LBL_EDIT_BLOCK', $QUALIFIED_MODULE)}
+							{\App\Language::translate('LBL_EDIT_BLOCK', $QUALIFIED_MODULE)}
 						{else}
-							{vtranslate('LBL_NEW_BLOCK', $QUALIFIED_MODULE)}
+							{\App\Language::translate('LBL_NEW_BLOCK', $QUALIFIED_MODULE)}
 						{/if}
 					</th>
 				</tr>
 				<tr name="fieldHeaders">
-					<td><b>{vtranslate('LBL_BLOCK', $QUALIFIED_MODULE)}</b></td>
+					<td><b>{\App\Language::translate('LBL_BLOCK', $QUALIFIED_MODULE)}</b></td>
 					<td>
 						<div class="col-md-5">
 							<select class="chzn-select form-control" name="blockid">
 								{foreach from=$BLOCKS item=MODULES key=key}
-									<optgroup label="{vtranslate($key, $key)}">
+									<optgroup label="{\App\Language::translate($key, $key)}">
 									{foreach from=$MODULES item=item key=key}
-										<option value="{$key}" {if $BLOCK_ID == $key}selected=""{/if}>{vtranslate($item['blocklabel'],$item['module'])}</option>
+										<option value="{$key}" {if $BLOCK_ID == $key}selected=""{/if}>{\App\Language::translate($item['blocklabel'],$item['module'])}</option>
 									{/foreach}
 									</optgroup>
 								{/foreach}
@@ -38,7 +38,7 @@
 					</td>
 				</tr>
 				<tr name="fieldHeaders">
-					<td><b>{vtranslate('LBL_ENABLED', $QUALIFIED_MODULE)}</b></td>
+					<td><b>{\App\Language::translate('LBL_ENABLED', $QUALIFIED_MODULE)}</b></td>
 					<td>
 						<div class="col-md-5">
 							<input type="checkbox" name="enabled" value="true" {if $ENABLED}checked{/if} />
@@ -46,12 +46,12 @@
 					</td>
 				</tr>
 				<tr name="fieldHeaders">
-					<td><b>{vtranslate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
+					<td><b>{\App\Language::translate('LBL_VIEW', $QUALIFIED_MODULE)}</b></td>
 					<td class="col-md-10">
 						<div class="col-md-5">
 							<select multiple class="chzn-select form-control" name="views[]">
 								{foreach from=$VIEWS item=LABEL key=VIEW_NAME}
-									<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{vtranslate($LABEL,$QUALIFIED_MODULE)}</option>
+									<option value="{$VIEW_NAME}" {if in_array($VIEW_NAME,$SELECTED_VIEWS)}selected=""{/if}>{\App\Language::translate($LABEL,$QUALIFIED_MODULE)}</option>
 								{/foreach}
 							</select>
 						</div>
@@ -64,8 +64,8 @@
 	<br />	
 	<div class="">
 		<div class="pull-right">
-			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
-			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
+			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 		</div>
 		<div class="clearfix"></div>
 	</div>

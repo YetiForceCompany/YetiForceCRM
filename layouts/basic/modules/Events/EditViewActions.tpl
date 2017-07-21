@@ -12,9 +12,9 @@
 {strip}
        <div>
             <div class="pull-right">
-				<button class="btn btn-primary saveAndComplete" type="button">{vtranslate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
-				<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+				<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
+				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
+				<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 			</div>
 			<div class="clearfix"></div>
         </div>

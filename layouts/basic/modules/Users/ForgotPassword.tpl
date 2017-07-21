@@ -79,7 +79,7 @@
 			<div>
 				{if $LINK_EXPIRED neq 'true'}   
 				<div id="content">
-					<span><b>{vtranslate('LBL_CHANGE_PASSWORD',$MODULE)}</b></span>
+					<span><b>{\App\Language::translate('LBL_CHANGE_PASSWORD',$MODULE)}</b></span>
 					<hr>
 					<div id="changePasswordBlock" align='left'>
 						<form name="changePassword" id="changePassword" action="{$TRACKURL}" method="post" accept-charset="utf-8">
@@ -88,24 +88,24 @@
 							<input type="hidden" name="secret_hash" value="{$SECRET_HASH}"> 
 							<table align='center'>
 								<tr>
-									<td><label class="control-label" for="password">{vtranslate('LBL_NEW_PASSWORD',$MODULE)}</label></td>
-									<td><input type="password" id="password" title="{vtranslate('LBL_NEW_PASSWORD',$MODULE)}" name="password" placeholder="{vtranslate('LBL_NEW_PASSWORD',$MODULE)}"></td>
+									<td><label class="control-label" for="password">{\App\Language::translate('LBL_NEW_PASSWORD',$MODULE)}</label></td>
+									<td><input type="password" id="password" title="{\App\Language::translate('LBL_NEW_PASSWORD',$MODULE)}" name="password" placeholder="{\App\Language::translate('LBL_NEW_PASSWORD',$MODULE)}"></td>
 								</tr>
 								<tr><td></td></tr>
 								<tr>
-									<td><label class="control-label" for="confirm_password">{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}</label></td>
-									<td><input type="password" id="confirmPassword" name="confirmPassword" title="{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}"  placeholder="{vtranslate('LBL_CONFIRM_PASSWORD',$MODULE)}"></td>
+									<td><label class="control-label" for="confirm_password">{\App\Language::translate('LBL_CONFIRM_PASSWORD',$MODULE)}</label></td>
+									<td><input type="password" id="confirmPassword" name="confirmPassword" title="{\App\Language::translate('LBL_CONFIRM_PASSWORD',$MODULE)}"  placeholder="{\App\Language::translate('LBL_CONFIRM_PASSWORD',$MODULE)}"></td>
 								</tr>
 								<tr><td></td></tr>
 								<tr>
 									<td></td>
-									<td><input type="submit" id="btn btn-default" value="{vtranslate('LBL_SEND', $MODULE)}" onclick="return checkPassword();"/></td>
+									<td><input type="submit" id="btn btn-default" value="{\App\Language::translate('LBL_SEND', $MODULE)}" onclick="return checkPassword();"/></td>
 								</tr>
 							</table>
 						</form>
 					</div>
 					{else} 
-						<div id="content">{vtranslate('LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD', $MODULE)}</div>
+						<div id="content">{\App\Language::translate('LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD', $MODULE)}</div>
 					{/if}
 				</div>
 			</div>

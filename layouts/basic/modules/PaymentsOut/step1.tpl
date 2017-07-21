@@ -4,12 +4,12 @@
 	<div class="contentsDiv" >
 		<div id="paymentsOut" style="display:none">{$JSON}</div>
 		<div>	  
-        <h4>{vtranslate('Summary', $MODULENAME)}</h4>
+        <h4>{\App\Language::translate('Summary', $MODULENAME)}</h4>
 		</div>
 		<div class="">
 				<div class="row" >
 					<div class="col-md-5" style="text-align:right">
-						<b>{vtranslate('Liczba transakcji:', $MODULENAME)}</b>
+						<b>{\App\Language::translate('Liczba transakcji:', $MODULENAME)}</b>
 					</div>
 					<div class="col-md-5" >
 						<span class="badge">{$COUNT}</span>
@@ -19,11 +19,11 @@
 			{if $FREQUENCY lt $COUNT}
 				<div class="row" >
 					<div class="col-md-12">
-								{vtranslate('Import', $MODULENAME)} {$FREQUENCY+1}
+								{\App\Language::translate('Import', $MODULENAME)} {$FREQUENCY+1}
 							{if $PAYMENTSOUT[$FREQUENCY].details.contName neq ''}	
 								<div class="row" >
 									<div class="col-md-2 " >
-										<div>{vtranslate('Kontrahent', $MODULENAME)}</div>
+										<div>{\App\Language::translate('Kontrahent', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].details.contName}
@@ -33,7 +33,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].amount neq ''}	
 								<div class="row" >
 									<div class="col-md-2 " >
-										<div>{vtranslate('Amount', $MODULENAME)}</div>
+										<div>{\App\Language::translate('Amount', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].amount}
@@ -44,7 +44,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].third_letter_currency_code neq ''}	
 								<div class="row" >	
 									<div class="col-md-2 " >
-										<div style="margin-left:20px ">{vtranslate('Currency', $MODULENAME)}</div>
+										<div style="margin-left:20px ">{\App\Language::translate('Currency', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].third_letter_currency_code}
@@ -55,7 +55,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].details.contAccount neq ''}	
 								<div class="row" >	
 									<div class="col-md-2 " >
-										<div>{vtranslate('Account', $MODULENAME)}</div>
+										<div>{\App\Language::translate('Account', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].details.contAccount}
@@ -65,7 +65,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].date neq ''}		
 								<div class="row" >	
 									<div class="col-md-2 " >
-										<div>{vtranslate('Date', $MODULENAME)}</div>
+										<div>{\App\Language::translate('Date', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].date}
@@ -75,7 +75,7 @@
 							{if $PAYMENTSOUT[$FREQUENCY].details.title neq ''}	
 								<div class="row" >
 									<div class="col-md-2 " >
-										<div>{vtranslate('Title', $MODULENAME)}</div>
+										<div>{\App\Language::translate('Title', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-10">
 										{$PAYMENTSOUT[$FREQUENCY].details.title}
@@ -97,9 +97,9 @@
 			{/if}
 		*}
 		<div class="pull-right">
-						<button class="btn btn-default addButton" id="createRecordButton" onclick="generateRecords();" data-dismiss="modal" aria-hidden="true" >{vtranslate('Create records', $MODULENAME)}</button>
-						<a href="index.php?module=PaymentsOut&view=List" id="go" class="btn btn-default addButton hide">{vtranslate('Go to Payments', $MODULENAME)}</a>&nbsp
-                        <a href="index.php?module=PaymentsOut&view=PaymentsImport#" class="btn btn-default">{vtranslate('Back', $MODULENAME)}</a>
+						<button class="btn btn-default addButton" id="createRecordButton" onclick="generateRecords();" data-dismiss="modal" aria-hidden="true" >{\App\Language::translate('Create records', $MODULENAME)}</button>
+						<a href="index.php?module=PaymentsOut&view=List" id="go" class="btn btn-default addButton hide">{\App\Language::translate('Go to Payments', $MODULENAME)}</a>&nbsp
+                        <a href="index.php?module=PaymentsOut&view=PaymentsImport#" class="btn btn-default">{\App\Language::translate('Back', $MODULENAME)}</a>
         </div>
     </div>
 </div>
@@ -111,7 +111,7 @@ function generateRecords() {
 	var area = jQuery('.contentsDiv').html();
  var paymentsOut= jQuery('#paymentsOut').text();
 
-/* var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
+/* var deleteMessage = app.\App\Language::translate('JS_RECORDS_ARE_GETTING_DELETED');
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'message' : deleteMessage,
 						'position' : 'html',
@@ -172,7 +172,7 @@ function generateRecords() {
         },
         function(data,err){
             var parametry = {
-                text: app.vtranslate('JS_ERROR_CONNECTING'),
+                text: app.\App\Language::translate('JS_ERROR_CONNECTING'),
                 type: 'error'
             };
             Vtiger_Helper_Js.showPnotify(parametry);

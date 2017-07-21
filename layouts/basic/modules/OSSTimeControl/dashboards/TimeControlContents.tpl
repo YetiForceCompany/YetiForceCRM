@@ -5,17 +5,17 @@
 	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
 		{*if $SHOWING_ICON.workingDays eq 'true'}
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('all_days.png')}" alt="All days" title="{vtranslate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{vimage_path('all_days.png')}" alt="All days" title="{\App\Language::translate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">{$ALLDAYS}</span>
 			</span>
 			<span class="summary-detail">
 				<span>
-					<span style="margin-top:6px; vertical-align:top;" class="glyphicon glyphicon-calendar " title="{vtranslate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
+					<span style="margin-top:6px; vertical-align:top;" class="glyphicon glyphicon-calendar " title="{\App\Language::translate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
 				</span>
 				<span class="summary-text">{$WORKDAYS}</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('weekend_days.png')}" alt="Weekend days" title="{vtranslate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
+				<img class=" summary-img" src="{vimage_path('weekend_days.png')}" alt="Weekend days" title="{\App\Language::translate('LBL_WEEKENDDAYS_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 				{$WEEKENDDAYS}
 				</span>
@@ -23,7 +23,7 @@
 		{/if}
 		{if $SHOWING_ICON.holidays eq 'true'}
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('ecclesiastical.png')}" alt="Ecclesiastical" title="{vtranslate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{vimage_path('ecclesiastical.png')}" alt="Ecclesiastical" title="{\App\Language::translate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">
 					{if $ECCLESIASTICAL}
 						{$ECCLESIASTICAL}
@@ -33,7 +33,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img"  src="{vimage_path('national.png')}" alt="National" title="{vtranslate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img"  src="{vimage_path('national.png')}" alt="National" title="{\App\Language::translate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">
 					{if $NATIONAL}
 						{$NATIONAL}
@@ -48,7 +48,7 @@
 	{*if $SHOWING_ICON.workingTime eq 'true'}
 		<div class="summary-right pull-right" style="text-align:center;">
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('worked_days.png')}" alt="Worked days" title="{vtranslate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{vimage_path('worked_days.png')}" alt="Worked days" title="{\App\Language::translate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">
 					{if $WORKEDDAYS}
 						{$WORKEDDAYS}
@@ -58,7 +58,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('holiday_days.png')}" alt="Holiday days" title="{vtranslate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{vimage_path('holiday_days.png')}" alt="Holiday days" title="{\App\Language::translate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">
 					{if $HOLIDAYDAYS}
 						{$HOLIDAYDAYS}
@@ -68,7 +68,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('average_working_time.png')}" alt="Average working time" title="{vtranslate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{vimage_path('average_working_time.png')}" alt="Average working time" title="{\App\Language::translate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">
 					{if $AVERAGEWORKTIME}
 						{$AVERAGEWORKTIME}
@@ -78,7 +78,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{vimage_path('average_break_time.png')}" alt="Average breaking time" title="{vtranslate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{vimage_path('average_break_time.png')}" alt="Average breaking time" title="{\App\Language::translate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
 				<span class="summary-text">
 					{$AVERAGEBREAKTIME}
 				</span>
@@ -89,7 +89,7 @@
 	<div class="widgetChartContainer" style="height:100%;width:98%"></div>
 {else}
 	<span class="noDataMsg">
-		{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+		{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 	</span>
 {/if}
 <input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />

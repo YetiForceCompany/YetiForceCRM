@@ -20,7 +20,7 @@
     <table class="searchUIBasic well col-xs-12 paddingLRZero no-margin">
         <tr>
             <td class="font-x-large" align="left" colspan="2">
-                <strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} - {'LBL_RESULT'|@vtranslate:$MODULE}</strong>
+                <strong>{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_RESULT', $MODULE)}</strong>
             </td>
         </tr>
         {if $ERROR_MESSAGE neq ''}

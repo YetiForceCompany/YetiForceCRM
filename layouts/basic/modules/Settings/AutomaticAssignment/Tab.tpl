@@ -72,7 +72,7 @@
 				<div class="fieldContainer row col-md-10 col-lg-8" data-dbname="{$FIELD_NAME}">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h5 class="no-margin">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
+							<h5 class="no-margin">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
 						</div>
 						<div class="panel-body paddingBottomZero">
 							<div class="filterConditionsDiv">

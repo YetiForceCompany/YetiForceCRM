@@ -6,14 +6,14 @@
 		<div class="widget_header row">
 			<div class="col-md-12">
 			    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			    {vtranslate('LBL_Module_desc', $QUALIFIED_MODULE)}
+			    {\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
 			</div>
 			
 		</div>
 		<div class="btn-toolbar">
 			<span class="pull-right group-desc ">
 				<button class="btn btn-success saveModuleSequence hide" type="button">
-					<strong>{vtranslate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
+					<strong>{\App\Language::translate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</span>
 			<div class="clearfix"></div>
@@ -22,10 +22,10 @@
 			<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
-						<th><strong>{vtranslate('Module',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='phone'><strong>{vtranslate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='phone'><strong>{vtranslate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='tablet' colspan="2"><strong>{vtranslate('Tools',$QUALIFIED_MODULE)}</strong></th>
+						<th><strong>{\App\Language::translate('Module',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='phone'><strong>{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='phone'><strong>{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='tablet' colspan="2"><strong>{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</strong></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,17 +34,17 @@
 						<tr data-tabid="{$key}">
 							<td><span>&nbsp;
 									<a>
-										<img src="{vimage_path('drag.png')}" border="0" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+										<img src="{vimage_path('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 									</a>&nbsp;
 								</span>
-								{vtranslate($item['modulename'],$item['modulename'])}
+								{\App\Language::translate($item['modulename'],$item['modulename'])}
 							</td>
 							<td>
 								<select multiple class="chzn-select form-control col-md-4 fieldname" name="fieldname">
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
-												{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
+												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
 											</option>
 										{/foreach}
 									</optgroup>
@@ -55,17 +55,17 @@
 									<optgroup>
 										{foreach from=$Field item=fieldTab }
 											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>
-												{vtranslate($fieldTab['fieldlabel'],$item['modulename'])}
+												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
 											</option>
 										{/foreach}
 									</optgroup>
 								</select>
 							</td>
 							<td>
-								<button class="btn marginLeftZero updateLabels btn-info" data-tabid="{$key}">{vtranslate('Update labels',$QUALIFIED_MODULE)}</button>
+								<button class="btn marginLeftZero updateLabels btn-info" data-tabid="{$key}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>
 							</td>
 							<td>
-								<button name="turn_off" class="btn marginLeftZero turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" style="min-width:40px" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{vtranslate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{vtranslate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
+								<button name="turn_off" class="btn marginLeftZero turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" style="min-width:40px" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{\App\Language::translate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{\App\Language::translate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
 							</td>
 						</tr>
 					{/foreach}

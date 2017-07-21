@@ -4,7 +4,7 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 		<div class="pull-left btn-toolbar">
@@ -12,7 +12,7 @@
 			<button class="btn addButton btn-success" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 					{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
 				<i class="glyphicon glyphicon-plus"></i>&nbsp;
-				<strong>{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
+				<strong>{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}</strong>
 			</button>
 			{/foreach}
 		</div>

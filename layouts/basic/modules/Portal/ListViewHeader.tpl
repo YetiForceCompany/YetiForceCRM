@@ -20,13 +20,13 @@
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-6">
 					<span class="btn-group listViewMassActions">
-                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li id="massDelete"><a href="javascript:void(0);" onclick="Portal_List_Js.massDeleteRecords();">{vtranslate('LBL_DELETE', $MODULE)}</a></li>
+                            <li id="massDelete"><a href="javascript:void(0);" onclick="Portal_List_Js.massDeleteRecords();">{\App\Language::translate('LBL_DELETE', $MODULE)}</a></li>
                         </ul>
 					</span>
                     <span class="btn-group">
-                        <button class="btn btn-default addButton addBookmark"><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
+                        <button class="btn btn-default addButton addBookmark"><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
                     </span>
 				</div>
 				<div class="col-md-6 btn-toolbar row">

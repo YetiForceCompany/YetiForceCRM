@@ -28,16 +28,16 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">
-							<label class="col-md-4 muted control-label">{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted control-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
-								<select name="sourceModule" title="{vtranslate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
+								<select name="sourceModule" title="{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
 									{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
 										{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
 										<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
 											{if $MODULE_MODEL->get('label') eq 'Calendar'}
-												{vtranslate('LBL_TASK', $MODULE_MODEL->get('label'))}
+												{\App\Language::translate('LBL_TASK', $MODULE_MODEL->get('label'))}
 											{else}
-												{vtranslate($MODULE_MODEL->get('label'), $MODULE_NAME)}
+												{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_NAME)}
 											{/if}
 										</option>
 									{/foreach}
@@ -52,23 +52,23 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">
-							<label class="col-md-4 muted control-label">{vtranslate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted control-label">{\App\Language::translate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
-								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>
 						</div>
 						<div class="row col-md-6">
-							<label class="col-md-4 muted control-label">{vtranslate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted control-label">{\App\Language::translate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
-								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{vtranslate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
+								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 									<option value=''></option>
 									{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{vtranslate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+										<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -77,7 +77,7 @@
 				</div>
 				<div class=" hide errorMessage">
 					<div class="alert alert-warning">
-						<strong>{vtranslate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>  
+						<strong>{\App\Language::translate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>  
 					</div>
 				</div>
 				<div id="dependencyGraph">

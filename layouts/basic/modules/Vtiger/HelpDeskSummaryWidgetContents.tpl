@@ -20,12 +20,12 @@
 								{$RELATED_RECORD->getDisplayValue('ticket_title')}
 							</a>
 						</div>
-						<div>{vtranslate('LBL_TICKET_PRIORITY',$MODULE)} : <strong>{$RELATED_RECORD->getDisplayValue('ticketpriorities')}</strong></div>
+						<div>{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE)} : <strong>{$RELATED_RECORD->getDisplayValue('ticketpriorities')}</strong></div>
 						{assign var=DESCRIPTION value="{$RELATED_RECORD->getDescriptionValue()}"}
 						{if !empty($DESCRIPTION)}
 							<div class="row">
 								<span class="col-md-8 textOverflowEllipsis width27em">{$DESCRIPTION}</span>
-								<span class="col-md-3"><a href="{$RELATED_RECORD->getDetailViewUrl()}">{vtranslate('LBL_MORE',$MODULE)}</a></span>
+								<span class="col-md-3"><a href="{$RELATED_RECORD->getDetailViewUrl()}">{\App\Language::translate('LBL_MORE',$MODULE)}</a></span>
 							</div>
 						{/if}
 					</div>
@@ -37,7 +37,7 @@
 	{if $NUMBER_OF_RECORDS eq 5}
 		<div class="row">
 			<div class="pull-right">
-				<a class="moreRecentTickets cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}</a>
+				<a class="moreRecentTickets cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>
 		</div>
 	{/if}

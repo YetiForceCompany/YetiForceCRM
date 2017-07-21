@@ -21,14 +21,14 @@
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
 								<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
 							</button>
 						</div>
 					{/if}
 					<div class="btn-group">
 						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-primary">
 							<span class="fa fa-files-o"></span>&nbsp;&nbsp;
-							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_DUPLICATE',$MODULE)}</strong>
 						</button>
 					</div>
 				</div>
@@ -41,11 +41,11 @@
 				<div class="reportHeader row">
 					<div class="col-md-8">
 						<h3 class="noSpaces" >{$REPORT_MODEL->getName()}</h3>
-						<div id="noOfRecords" class="marginTop10">{vtranslate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
+						<div id="noOfRecords" class="marginTop10">{\App\Language::translate('LBL_NO_OF_RECORDS',$MODULE)} <span id="countValue">{$COUNT}</span>
 							{if $COUNT > 1000}
-								<span class="redColor" id="moreRecordsText"> ({vtranslate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
+								<span class="redColor" id="moreRecordsText"> ({\App\Language::translate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
 							{else}
-								<span class="redColor hide" id="moreRecordsText"> ({vtranslate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
+								<span class="redColor hide" id="moreRecordsText"> ({\App\Language::translate('LBL_MORE_RECORDS_TXT',$MODULE)})</span>
 							{/if}
 						</div>
 					</div>
@@ -69,9 +69,9 @@
 				<div>
 					<input type="hidden" id="recordId" value="{$RECORD_ID}" />
 					{assign var=RECORD_STRUCTURE value=[]}
-					{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
+					{assign var=PRIMARY_MODULE_LABEL value=\App\Language::translate($PRIMARY_MODULE, $PRIMARY_MODULE)}
 					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
-						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}
+						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=\App\Language::translate($BLOCK_LABEL, $PRIMARY_MODULE)}
 						{assign var=key value="$PRIMARY_MODULE_LABEL $PRIMARY_MODULE_BLOCK_LABEL"}
 						{if $LINEITEM_FIELD_IN_CALCULATION eq false && $BLOCK_LABEL eq 'LBL_ITEM_DETAILS'}
 							{* dont show the line item fields block when Inventory fields are selected for calculations *}
@@ -80,9 +80,9 @@
 						{/if}
 					{/foreach}
 					{foreach key=MODULE_LABEL item=SECONDARY_MODULE_RECORD_STRUCTURE from=$SECONDARY_MODULE_RECORD_STRUCTURES}
-						{assign var=SECONDARY_MODULE_LABEL value=vtranslate($MODULE_LABEL, $MODULE_LABEL)}
+						{assign var=SECONDARY_MODULE_LABEL value=\App\Language::translate($MODULE_LABEL, $MODULE_LABEL)}
 						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$SECONDARY_MODULE_RECORD_STRUCTURE}
-							{assign var=SECONDARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $MODULE_LABEL)}
+							{assign var=SECONDARY_MODULE_BLOCK_LABEL value=\App\Language::translate($BLOCK_LABEL, $MODULE_LABEL)}
 							{assign var=key value="$SECONDARY_MODULE_LABEL $SECONDARY_MODULE_BLOCK_LABEL"}
 							{$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
 						{/foreach}
@@ -90,11 +90,11 @@
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 					<div class="row">
 						<div class="textAlignCenter">
-							<button class="btn generateReport btn-primary" data-mode="generate" value="{vtranslate('LBL_GENERATE_NOW',$MODULE)}"/>
-							<strong>{vtranslate('LBL_GENERATE_NOW',$MODULE)}</strong>
+							<button class="btn generateReport btn-primary" data-mode="generate" value="{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}"/>
+							<strong>{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}</strong>
 							</button>&nbsp;
-							<button class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
-							<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
+							<button class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}"/>
+							<strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong>
 							</button>
 						</div>
 					</div>

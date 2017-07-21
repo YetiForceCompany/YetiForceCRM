@@ -15,10 +15,10 @@
 	{/if}
 	<div class="conditionRow">
 		<div class="col-md-4 conditionField">
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{vtranslate('LBL_CHOOSE_FIELD')}">
-				<option value="none">{vtranslate('LBL_SELECT_FIELD',$MODULE)}</option>
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{\App\Language::translate('LBL_CHOOSE_FIELD')}">
+				<option value="none">{\App\Language::translate('LBL_SELECT_FIELD',$MODULE)}</option>
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-					<optgroup label='{vtranslate($BLOCK_LABEL, $SOURCE_MODULE)}'>
+					<optgroup label='{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -39,7 +39,7 @@
 										selected="selected"
 									{/if}
 									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
-										{$FIELD_INFO['picklistvalues']['Task'] = vtranslate('Task', 'Calendar')}
+										{$FIELD_INFO['picklistvalues']['Task'] = \App\Language::translate('Task', 'Calendar')}
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
 										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
@@ -56,9 +56,9 @@
 									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
-									{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
 								{/if}
 							</option>
 						{/foreach}
@@ -66,7 +66,7 @@
 				{/foreach}
 				{* Required to display event fields also while adding conditions *}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
-					<optgroup label='{vtranslate($BLOCK_LABEL, 'Events')}'>
+					<optgroup label='{\App\Language::translate($BLOCK_LABEL, 'Events')}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
@@ -99,9 +99,9 @@
 									{/if}
 									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' >
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({vtranslate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {vtranslate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
 								{else}
-									{vtranslate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
 								{/if}
 							</option>
 						{/foreach}
@@ -121,15 +121,15 @@
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
 			{/if}
-			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{vtranslate('LBL_COMAPARATOR_TYPE')}">
-				<option value="none">{vtranslate('LBL_NONE',$MODULE)}</option>
+			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{\App\Language::translate('LBL_COMAPARATOR_TYPE')}">
+				<option value="none">{\App\Language::translate('LBL_NONE',$MODULE)}</option>
 				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{vtranslate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
+					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{\App\Language::translate($ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION])}</option>
 				{/foreach}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{vtranslate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
+			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{\App\Language::translate('LBL_COMPARISON_VALUE')}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
 		</div>
 		<span class="hide">
 			{if empty($CONDITION)}
@@ -138,7 +138,7 @@
 			<input type="hidden" name="column_condition" value="{$CONDITION}" />
 		</span>
 		<div  class="col-md-1 btn">
-			<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $MODULE)}"></span>
+			<span class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></span>
 		</div>
 	</div>
 {/strip}

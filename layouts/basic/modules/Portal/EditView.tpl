@@ -17,9 +17,9 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h3 class="modal-title">
 						{if $RECORD}
-							{vtranslate('LBL_EDIT_BOOKMARK', $MODULE)}
+							{\App\Language::translate('LBL_EDIT_BOOKMARK', $MODULE)}
 						{else}
-							{vtranslate('LBL_ADD_NEW_BOOKMARK', $MODULE)}
+							{\App\Language::translate('LBL_ADD_NEW_BOOKMARK', $MODULE)}
 						{/if}
 					</h3>
 				</div>
@@ -31,21 +31,21 @@
 						
 						<div class="control-label col-md-4">
 							<label>
-								<span class="redColor">*</span>&nbsp;{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}
+								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}
 							</label>
 						</div>
 						<div class="controls col-md-8">
-							<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{vtranslate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{vtranslate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
+							<input type="text" name="bookmarkName" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}" id="bookmarkName"{if $RECORD} value="{$BOOKMARK_NAME}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_BOOKMARK_NAME', $MODULE)}" />
 						</div>
 				
 						<br />
 						<div class="control-label col-md-4">
 							<label>
-								<span class="redColor">*</span>&nbsp;{vtranslate('LBL_BOOKMARK_URL',$MODULE)}
+								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}
 							</label>
 						</div>
 						<div class="controls col-md-8">
-							<input type="text" name="bookmarkUrl" class="form-control marginBottom5" title="{vtranslate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{vtranslate('LBL_ENTER_URL', $MODULE)}" />
+							<input type="text" name="bookmarkUrl" class="form-control marginBottom5" title="{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}" id="bookmarkUrl"{if $RECORD} value="{$BOOKMARK_URL}" {/if} placeholder="{\App\Language::translate('LBL_ENTER_URL', $MODULE)}" />
 						</div>
 					</div>
 						<div class="clearfix pushDown"></div>

@@ -22,16 +22,16 @@
 				{assign var=RELATED_TO value=$RECORD->get('linktoaccountscontacts')}
 				{if !empty($RELATED_TO)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Related to',$MODULE_NAME)} - </span>
+						<span class="muted">{\App\Language::translate('Related to',$MODULE_NAME)} - </span>
 						{$RECORD->getDisplayValue('linktoaccountscontacts')}
 					</div>
 				{/if}
 				<div class="paddingLeft5px">
 					<span class="muted">
-						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 						{if $SHOWNERS != ''}
-							<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+							<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>

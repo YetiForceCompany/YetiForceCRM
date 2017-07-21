@@ -28,8 +28,8 @@
 													<div class="">
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
-															<span class="userIcon-{$NAME}"></span><span>{vtranslate($singularLabel,$NAME)}</span>
+														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
+															<span class="userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}
@@ -80,7 +80,7 @@
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{vtranslate('LBL_PAGES_HISTORY')}" href="#">
+						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
 						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
@@ -106,7 +106,7 @@
 									<span class="{$GLYPHICON}" aria-hidden="true"></span>
 								{/if}
 								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 								{/if}
 							</a>
 							{if !empty($CHILD_LINKS)}
@@ -129,7 +129,7 @@
 													{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 														data-{$DATA_NAME}="{$DATA_VALUE}"
 													{/foreach}
-												{/if}>{vtranslate($label,$MODULE)}</a>
+												{/if}>{\App\Language::translate($label,$MODULE)}</a>
 											</li>
 										{/if}
 									{/foreach}
@@ -221,7 +221,7 @@
 												</div>
 											</a>
 										{elseif $CONFIG['showMailAccounts']=='true'}
-											<select class="form-control" title="{vtranslate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+											<select class="form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 												{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 													<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
 														{$ITEM.username}

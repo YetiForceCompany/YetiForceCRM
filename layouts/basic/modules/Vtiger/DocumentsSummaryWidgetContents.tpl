@@ -12,11 +12,11 @@
 {strip}
 	<div class="row">
 		<span class="col-md-7">
-			<strong>{vtranslate('Title','Documents')}</strong>
+			<strong>{\App\Language::translate('Title','Documents')}</strong>
 		</span>
 		<span class="col-md-4 horizontalLeftSpacingForSummaryWidgetHeader">
 			<span class="pull-right">
-				<strong>{vtranslate('File Name', 'Documents')}</strong>
+				<strong>{\App\Language::translate('File Name', 'Documents')}</strong>
 			</span>
 		</span>
 	</div>
@@ -49,7 +49,7 @@
 	{if $NUMBER_OF_RECORDS eq 5}
 		<div class="row">
 			<div class="pull-right">
-				<a class="moreRecentDocuments cursorPointer">{vtranslate('LBL_MORE',$MODULE_NAME)}</a>
+				<a class="moreRecentDocuments cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>
 		</div>
 	{/if}

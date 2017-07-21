@@ -3,13 +3,13 @@
 	{if count($NEW_ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('Account Name' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{\App\Language::translate('Account Name' ,$MODULE_NAME)}</b></h6>
 			</div>
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{\App\Language::translate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
 			</div>
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('Created Time' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{\App\Language::translate('Created Time' ,$MODULE_NAME)}</b></h6>
 			</div>
 			<div class="col-xs-12"><hr></div>
 			{/if}
@@ -36,13 +36,13 @@
 			{/foreach}
 		{if count($NEW_ACCOUNTS) eq $PAGING_MODEL->getPageLimit()}
 			<div class="pull-right padding5">
-				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}&time[start]={$DTIME['start']}&time[end]={$DTIME['end']}">{vtranslate('LBL_MORE', $MODULE_NAME)}</button>
+				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}&time[start]={$DTIME['start']}&time[end]={$DTIME['end']}">{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</button>
 			</div>
 		{/if}
 	{else}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<span class="noDataMsg">
-				{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+				{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 			</span>
 		{/if}
 	{/if}

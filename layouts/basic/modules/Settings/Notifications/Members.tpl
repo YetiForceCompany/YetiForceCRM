@@ -6,21 +6,21 @@
 		<input type="hidden" id="mode" name="mode" value="addOrRemoveMembers" />
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 class="modal-title">{vtranslate('LBL_ADD_MEMBERS', $QUALIFIED_MODULE)}</h3>
+			<h3 class="modal-title">{\App\Language::translate('LBL_ADD_MEMBERS', $QUALIFIED_MODULE)}</h3>
 			<div class="clearfix"></div>
 		</div>
 		<div class="modal-body">
 			<div class="form-group">
 				<div class="col-xs-12">
 					<label class="control-label">
-						{vtranslate('LBL_SELECT_MEMBERS', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_SELECT_MEMBERS', $QUALIFIED_MODULE)}
 					</label>
 					<select id="members" class="select2 form-control"  multiple="true" name="members[]">
 						{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-							<optgroup label="{vtranslate($GROUP_LABEL)}">
+							<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
 								{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
 									{if !in_array($MEMBER_ID, $RESTRICT_MEMBERS)}
-										<option class="{$MEMBER['type']}" value="{$MEMBER_ID}">{vtranslate($MEMBER['name'])}</option>
+										<option class="{$MEMBER['type']}" value="{$MEMBER_ID}">{\App\Language::translate($MEMBER['name'])}</option>
 									{/if}
 								{/foreach}
 							</optgroup>

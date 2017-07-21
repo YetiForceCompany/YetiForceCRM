@@ -13,10 +13,10 @@
 <table width="100%" cellspacing="0" cellpadding="10" class="table importContents">
 	<tr>
 		<td>
-			<strong>{'LBL_IMPORT_STEP_4'|@vtranslate:$MODULE}:</strong>
+			<strong>{\App\Language::translate('LBL_IMPORT_STEP_4', $MODULE)}:</strong>
 		</td>
 		<td>
-			<span>{'LBL_IMPORT_STEP_4_DESCRIPTION'|@vtranslate:$MODULE}</span>
+			<span>{\App\Language::translate('LBL_IMPORT_STEP_4_DESCRIPTION', $MODULE)}</span>
 		</td>
 		<td>
             <div id="savedMapsContainer" class="textAlignRight pull-right">
@@ -33,18 +33,18 @@
 				<thead>
 					<tr class="listViewHeaders">
 						{if $HAS_HEADER eq true}
-							<th width="25%"><a>{'LBL_FILE_COLUMN_HEADER'|@vtranslate:$MODULE}</a></th>
+							<th width="25%"><a>{\App\Language::translate('LBL_FILE_COLUMN_HEADER', $MODULE)}</a></th>
 								{/if}
-						<th width="25%"><a>{'LBL_ROW_1'|@vtranslate:$MODULE}</a></th>
-						<th width="23%"><a>{'LBL_CRM_FIELDS'|@vtranslate:$MODULE}</a></th>
-						<th width="27%"><a>{'LBL_DEFAULT_VALUE'|@vtranslate:$MODULE}</a></th>
+						<th width="25%"><a>{\App\Language::translate('LBL_ROW_1', $MODULE)}</a></th>
+						<th width="23%"><a>{\App\Language::translate('LBL_CRM_FIELDS', $MODULE)}</a></th>
+						<th width="27%"><a>{\App\Language::translate('LBL_DEFAULT_VALUE', $MODULE)}</a></th>
 					</tr>
 				</thead>
 				<tbody>
 					{assign var="_COUNTER" value=0}
 					{foreach key=TYPE_NAME item=FIELDS_DATA from=$ROW_1_DATA name="rowData"}
 						{if in_array($USER_INPUT->get('type'), ['xml', 'zip'])}{assign var="_COUNTER" value=0}{/if}
-						<tr class=""><td class="textAlignCenter bg-primary" colspan="4">{$TYPE_NAME|@vtranslate:$MODULE}</td></tr>
+						<tr class=""><td class="textAlignCenter bg-primary" colspan="4">{\App\Language::translate($TYPE_NAME, $MODULE)}</td></tr>
 							{if $smarty.foreach.rowData.iteration gt 1}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 								{assign var="PREFIX" value='inventory_'}
@@ -73,9 +73,9 @@
 								<td class="cellLabel">
 									<input type="hidden" name="row_counter" value="{$_COUNTER}" />
 									<select name="{$PREFIX}mapped_fields" class="txtBox chzn-select form-control {if $PREFIX}inventory{/if}" onchange="ImportJs.loadDefaultValueWidget('fieldIdentifier{$_COUNTER}')">
-										<option value="">{'LBL_NONE'|@vtranslate:$FOR_MODULE}</option>
+										<option value="">{\App\Language::translate('LBL_NONE', $FOR_MODULE)}</option>
 										{foreach key=BLOCK_NAME item=_FIELDS from=$TYPE_AVAILABLE_BLOCKS}
-											{assign var="TRANSLATED_BLOCK" value=\App\Language::translate($BLOCK_NAME,$FOR_MODULE)}
+											{assign var="TRANSLATED_BLOCK" value=\App\Language::translate($BLOCK_NAME, $FOR_MODULE)}
 											<optgroup label="{$TRANSLATED_BLOCK}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
 													{assign var="_TRANSLATED_FIELD_LABEL" value=\App\Language::translate($_FIELD_INFO->get('label'),$FOR_MODULE)}
@@ -101,7 +101,7 @@
 		<td align="right" colspan="2">
 			<div class="row">
 				<div class="col-xs-8">
-					<input type="checkbox" title="{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}" name="save_map" id="save_map"/>&nbsp;{'LBL_SAVE_AS_CUSTOM_MAPPING'|@vtranslate:$MODULE}&nbsp;&nbsp;
+					<input type="checkbox" title="{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}" name="save_map" id="save_map"/>&nbsp;{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}&nbsp;&nbsp;
 				</div>
 				<div class="col-xs-4">
 					<input class="form-control" type="text" name="save_map_as" id="save_map_as"/>

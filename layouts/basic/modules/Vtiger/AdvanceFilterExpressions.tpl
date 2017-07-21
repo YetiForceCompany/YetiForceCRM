@@ -21,7 +21,7 @@
 	{assign var=COLUMNNAME_API value='getName'}
 	<div class="padding1per stepBorder">
 		<div id="advanceFilterContainer" class="row conditionsContainer padding1per">
-			<h5 class="padding-bottom1per col-md-10"><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
+			<h5 class="padding-bottom1per col-md-10"><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
 			<div class="col-md-10" >
 				{include file='AdvanceFilter.tpl'|@vtemplate_path}
 			</div>

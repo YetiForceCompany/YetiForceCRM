@@ -2,7 +2,7 @@
 {strip}
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<strong>{vtranslate('LBL_INDIVIDUAL_TAX', $MODULE)}</strong>
+			<strong>{\App\Language::translate('LBL_INDIVIDUAL_TAX', $MODULE)}</strong>
 			<div class="pull-right">
 				<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="individual" class="activeCheckbox">
 			</div>

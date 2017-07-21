@@ -21,14 +21,14 @@
 							{if !empty($IMAGE_INFO.path)}
 								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}"alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
 							{else}
-								<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+								<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
 							{/if}
 						{/foreach}
 					{else}
-						<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+						<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
 					{/if}
 				{else}
-					<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+					<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
 				{/if}
 				{if $RECORD->get('direction') eq 'inbound'}
 					<img src="modules/PBXManager/resources/images/Incoming.png" style="position:absolute;bottom:4px;right:0;">
@@ -66,11 +66,11 @@
 
 							{if $RECORD->get('direction') eq 'inbound'}
 								&nbsp;<strong><span class="{$NAME_FIELD}">
-									{vtranslate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
+									{\App\Language::translate('LBL_CALL_FROM', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
 								</span><br /></strong>
 							{else}
 							&nbsp;<strong><span class="{$NAME_FIELD}">
-									{vtranslate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
+									{\App\Language::translate('LBL_CALL_TO', $MODULE_MODEL->get('name'))}&nbsp;{$CALLERNAME}
 								</span><br /></strong>
 							{/if}    
 							{if $FIELD_NAME}
@@ -83,10 +83,10 @@
 			</span>
 			<span class="row">
 				<span class="muted">
-					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 					{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 					{if $SHOWNERS != ''}
-						<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+						<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 					{/if}
 				</span>
 			</span>

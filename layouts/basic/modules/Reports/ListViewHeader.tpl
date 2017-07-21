@@ -15,15 +15,15 @@
 		<div class="listViewActionsDiv row">
 			<span class="btn-toolbar col-md-4">
 				<span class="btn-group listViewMassActions">
-					<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+					<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 					<ul class="dropdown-menu">
 						{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS}
-							<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
+							<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
 						{/foreach}
 						{if $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
 							<li class="divider"></li>
 							{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
-								<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}"><a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'{else} href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}>{vtranslate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a></li>
+								<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}"><a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'{else} href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}>{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a></li>
 							{/foreach}
 						{/if}
 					</ul>
@@ -34,19 +34,19 @@
 						<span class="btn-group">
 							<button class="btn btn-default dropdown-toggle addButton" data-toggle="dropdown" id="{$MODULE}_listView_basicAction_Add">
 								<span class="glyphicon glyphicon-plus"></span>&nbsp;
-								<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>&nbsp;
+								<strong>{\App\Language::translate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong>&nbsp;
 								<span class="caret icon-white"></span></button>
 							<ul class="dropdown-menu">
 								{foreach item="childLink" from=$childLinks}
 									<li id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($childLink->getLabel())}">
-										<a href="javascript:void(0);" onclick='{$childLink->getUrl()|substr:strlen("javascript:")};'>{vtranslate($childLink->getLabel(), $MODULE)}</a>
+										<a href="javascript:void(0);" onclick='{$childLink->getUrl()|substr:strlen("javascript:")};'>{\App\Language::translate($childLink->getLabel(), $MODULE)}</a>
 									</li>
 								{/foreach}
 							</ul>
 						</span>
 					{else}
 						<span class="btn-group">
-							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
+							<button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn addButton btn-default" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if}><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button>
 						</span>
 					{/if}
 				{/foreach}

@@ -19,8 +19,8 @@
 				</div>
 				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right">
-						<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>
@@ -29,14 +29,14 @@
 					<thead>
 						<tr class="blockHeader">
 							<th colspan="2" class="mediumWidthType">
-								<span class="alignMiddle">{vtranslate('LBL_PBXMANAGER_CONFIG', $QUALIFIED_MODULE)}</span>
+								<span class="alignMiddle">{\App\Language::translate('LBL_PBXMANAGER_CONFIG', $QUALIFIED_MODULE)}</span>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						{assign var=FIELDS value=PBXManager_PBXManager_Connector::getSettingsParameters()}
 						{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
-							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{vtranslate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
+							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
 								<td style="border-left: none;"><input type="{$FIELD_TYPE}" class="form-control" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>
 								{/foreach}
 					<input type="hidden" name="module" value="PBXManager"/>
@@ -50,10 +50,10 @@
 	</div><br />
 	<div class="col-md-5 paddingLRZero">
 		<div class="alert alert-info">
-			{vtranslate('LBL_NOTE', $QUALIFIED_MODULE)}<br />
-			{vtranslate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br />
-			{vtranslate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br />
-			{vtranslate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_NOTE', $QUALIFIED_MODULE)}<br />
+			{\App\Language::translate('LBL_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}<br />
+			{\App\Language::translate('LBL_FORMAT_WEBAPP_URL', $QUALIFIED_MODULE)}<br />
+			{\App\Language::translate('LBL_FORMAT_INFO_WEBAPP_URL', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 {/strip}

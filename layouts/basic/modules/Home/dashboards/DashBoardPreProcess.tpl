@@ -14,13 +14,13 @@
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv col-md-12 marginLeftZero dashboardContainer">
-				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=vtranslate($MODULE, $MODULE)}
+				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
 						<ul class="nav nav-tabs massEditTabs selectDashboard">
 							{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
 								<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-									<a data-toggle="tab"><strong>{vtranslate($DASHBOARD['name'])}</strong></a>
+									<a data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
 								</li>
 							{/foreach}
 						</ul>
@@ -29,7 +29,7 @@
 						{if count($MODULES_WITH_WIDGET) > 1}
 							<ul class="nav nav-tabs massEditTabs selectDashboradView">
 								{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
-									<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{vtranslate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
+									<li class="{if $MODULE_NAME eq $MODULE_WIDGET} active {/if}" data-module="{$MODULE_WIDGET}"><a>{\App\Language::translate($MODULE_WIDGET, $MODULE_WIDGET)}</a></li>
 								{/foreach}
 							</ul>
 						{/if}

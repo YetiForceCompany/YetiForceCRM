@@ -14,8 +14,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-					<h3 id="exportCalendarHeader" class="modal-title">{vtranslate('LBL_EXPORT_RECORDS', $MODULE)}</h3>
+					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+					<h3 id="exportCalendarHeader" class="modal-title">{\App\Language::translate('LBL_EXPORT_RECORDS', $MODULE)}</h3>
 				</div>
 				<form id="exportForm" class="form-horizontal row" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -32,7 +32,7 @@
 								<table class="massEditTable table table-bordered">
 									<tr>
 										<td class="fieldLabel alignMiddle">
-											<input type="radio" name="exportCalendar" value = "iCal" checked> {vtranslate('ICAL_FORMAT', $MODULE)}
+											<input type="radio" name="exportCalendar" value = "iCal" checked> {\App\Language::translate('ICAL_FORMAT', $MODULE)}
 										</td>
 										<td class="fieldValue">
 											<input type="text" name="filename" class="form-control" id="filename" value='yetiforce.calendar'>
@@ -43,9 +43,9 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{vtranslate('LBL_EXPORT', $MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit" name="saveButton" onclick="app.hideModalWindow();" ><strong>{\App\Language::translate('LBL_EXPORT', $MODULE)}</strong></button>
 						&nbsp;&nbsp;
-						<button class="btn btn-warning" type="reset" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+						<button class="btn btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 					</div>
 				</form>
 			</div>

@@ -21,11 +21,11 @@
 			<input type="hidden" id="relatedModules" data-value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" >
 			<div class="well contentsBackground">
 				<div class="row padding1per">
-					<div class="col-md-3">{vtranslate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></div>
-					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{vtranslate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
+					<div class="col-md-3">{\App\Language::translate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></div>
+					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
 				</div>
 				<div class="row padding1per">
-					<div class="col-md-3">{vtranslate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></div>
+					<div class="col-md-3">{\App\Language::translate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></div>
 					<div class="col-md-7 row">
 						<select class="chzn-select col-md-6" name="folderid">
 							<optgroup>
@@ -35,20 +35,20 @@
 											{if $REPORT_FOLDER->getId() eq $REPORT_MODEL->get('folderid')}
 												selected=""
 											{/if}
-											>{vtranslate($REPORT_FOLDER->getName(), $MODULE)}</option>
+											>{\App\Language::translate($REPORT_FOLDER->getName(), $MODULE)}</option>
 								{/foreach}
 							</optgroup>
 						</select>
 					</div>
 				</div>
 				<div class="row padding1per">
-					<div class="col-md-3">{vtranslate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></div>
+					<div class="col-md-3">{\App\Language::translate('PRIMARY_MODULE',$MODULE)}<span class="redColor">*</span></div>
 					<div class="col-md-7 row">
-						<select class="col-md-6 chzn-select" id="primary_module" name="primary_module" title="{vtranslate('PRIMARY_MODULE',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
+						<select class="col-md-6 chzn-select" id="primary_module" name="primary_module" title="{\App\Language::translate('PRIMARY_MODULE',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getPrimaryModule() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
 							<optgroup>
 								{foreach key=RELATED_MODULE_KEY item=RELATED_MODULE from=$MODULELIST}
 									<option value="{$RELATED_MODULE_KEY}" {if $REPORT_MODEL->getPrimaryModule() eq $RELATED_MODULE_KEY } selected="selected"{/if}>
-										{vtranslate($RELATED_MODULE_KEY,$RELATED_MODULE_KEY)}
+										{\App\Language::translate($RELATED_MODULE_KEY,$RELATED_MODULE_KEY)}
 									</option>
 								{/foreach}
 							</optgroup>
@@ -60,8 +60,8 @@
 				</div>
 				<div class="row padding1per">
 					<div class="col-md-3">
-						<div>{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
-						<div>({vtranslate('LBL_MAX',$MODULE)}&nbsp;2)</div>
+						<div>{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}</div>
+						<div>({\App\Language::translate('LBL_MAX',$MODULE)}&nbsp;2)</div>
 					</div>
 					<div class="col-md-7 row">
 						{assign var=SECONDARY_MODULES_ARR value=explode(':',$REPORT_MODEL->getSecondaryModules())}
@@ -75,8 +75,8 @@
 							{/foreach}
 						{/if}
 						{assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]}
-						<select class="col-md-6 select2-container" title="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" id="secondary_module" multiple name="secondary_modules[]"
-							data-placeholder="{vtranslate('LBL_SELECT_RELATED_MODULES',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
+						<select class="col-md-6 select2-container" title="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" id="secondary_module" multiple name="secondary_modules[]"
+							data-placeholder="{\App\Language::translate('LBL_SELECT_RELATED_MODULES',$MODULE)}" {if $RECORD_ID and $REPORT_MODEL->getSecondaryModules() and $IS_DUPLICATE neq true} disabled="disabled"{/if}>
 							{foreach key=PRIMARY_RELATED_MODULE  item=PRIMARY_RELATED_MODULE_LABEL from=$PRIMARY_RELATED_MODULES}
 								<option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
 							{/foreach}
@@ -87,13 +87,13 @@
 					</div>
 				</div>
 				<div class="row padding1per">
-					<div class="col-md-3">{vtranslate('LBL_DESCRIPTION',$MODULE)}</div>
-					<div class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" name="description" title="{vtranslate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></div>
+					<div class="col-md-3">{\App\Language::translate('LBL_DESCRIPTION',$MODULE)}</div>
+					<div class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" name="description" title="{\App\Language::translate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
 			</div>
 			<div class="pull-right">
-				<button type="submit" class="btn btn-success nextStep"><strong>{vtranslate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
-				<button onclick='window.history.back()' class="cancelLink cursorPointer btn btn-warning">{vtranslate('LBL_CANCEL',$MODULE)}</button>
+				<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
+				<button onclick='window.history.back()' class="cancelLink cursorPointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>
 		</form>
 	</div>

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div class="popupEntriesDiv textAlignCenter">
-	<h3>{vtranslate($TYPE, $MODULE)}</h3>
+	<h3>{\App\Language::translate($TYPE, $MODULE)}</h3>
 </div>
 <table class="table table-bordered listViewEntriesTable">
 	<thead>
@@ -19,7 +19,7 @@
 			{assign var=LISTVIEW_HEADERS value=$IMPORT_RECORDS['headers']}
 			{assign var=IMPORT_RESULT_DATA value=$IMPORT_RECORDS[$TYPE]}
 			{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
-				<th>{vtranslate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
+				<th>{\App\Language::translate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
 			{/foreach}
 		</tr>
 	</thead>

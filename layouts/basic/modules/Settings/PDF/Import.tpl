@@ -2,7 +2,7 @@
 {strip}
 	<div class="row">
 		<div class="col-md-12">
-			<h3>{vtranslate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h3>
+			<h3>{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)}</h3>
 		</div>
 	</div>
 	<hr>
@@ -10,11 +10,11 @@
 		{if isset($UPLOAD)}
 			{if $UPLOAD eq true}
 				<p class="bgMessage bgOK">
-					{vtranslate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a class="tdUnderline" href="index.php?module=PDF&parent=Settings&view=Edit&record={$RECORDID}"> {vtranslate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
+					{\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a class="tdUnderline" href="index.php?module=PDF&parent=Settings&view=Edit&record={$RECORDID}"> {\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
-					{vtranslate('LBL_UPLOAD_ERROR', $QUALIFIED_MODULE)} <a class="tdUnderline" href="{Settings_PDF_Module_Model::getDefaultUrl()}"> {vtranslate('LBL_RETURN', $QUALIFIED_MODULE)}</a>
+					{\App\Language::translate('LBL_UPLOAD_ERROR', $QUALIFIED_MODULE)} <a class="tdUnderline" href="{Settings_PDF_Module_Model::getDefaultUrl()}"> {\App\Language::translate('LBL_RETURN', $QUALIFIED_MODULE)}</a>
 				</p>
 			{/if}
 		{else}
@@ -25,7 +25,7 @@
 				<input type="hidden" name="upload" value="true" />
 				<div class="form-group">
 					<label class="col-sm-3 control-label">
-						{vtranslate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="file" name="imported_xml" accept="text/xml" class="form-control" data-validation-engine='validate[required]' id="imported_xml" />
@@ -33,8 +33,8 @@
 				</div>
 				<br />
 				<div class="pull-right">
-					<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-					<a href="{Settings_PDF_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+					<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+					<a href="{Settings_PDF_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 				</div>
 			</form>
 		{/if}

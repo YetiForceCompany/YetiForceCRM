@@ -24,10 +24,10 @@
 	<input type="hidden" id="pageLimit" value="{$PAGING_INFO['pageLimit']}" />
 	<input type="hidden" id="noOfEntries" value="{$PAGING_INFO['recordCount']}" />
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+		<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="contents-topscroll noprint stick" data-position="top">
 		<div class="topscroll-div"></div>
@@ -46,21 +46,21 @@
 					<thead>
 						<tr class="listViewHeaders">
 							<th width="5%">
-								<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
+								<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 							</th>
 							<th nowrap>
 								<a href="javascript:void(0);" id="portalname" class="portalListViewHeader" 
-								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalname'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{vtranslate('LBL_BOOKMARK_NAME', $MODULE)}
+								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalname'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_NAME', $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalname'}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 							</th>
 							<th nowrap>
 								<a href="javascript:void(0);" id="portalurl" class="portalListViewHeader"
-								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalurl'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{vtranslate('LBL_BOOKMARK_URL', $MODULE)}
+								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalurl'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_URL', $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalurl'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
 							</th>
 							<th nowrap>
 								<a href="javascript:void(0);" id="createdtime" class="portalListViewHeader"
-								   data-nextsortorderval="{if $COLUMN_NAME eq 'createdtime'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{vtranslate('LBL_CREATED_ON', $MODULE)}
+								   data-nextsortorderval="{if $COLUMN_NAME eq 'createdtime'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq 'createdtime'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
 							</th>
 							<th nowrap class="{$WIDTHTYPE}"></th>
@@ -70,7 +70,7 @@
 						{foreach item=LISTVIEW_ENTRY key=RECORD_ID from=$LISTVIEW_ENTRIES}
 							<tr class="listViewEntries" data-id="{$RECORD_ID}" data-recordurl="index.php?module=Portal&view=Detail&record={$RECORD_ID}">
 								<td width="5%" class="{$WIDTHTYPE}">
-									<input type="checkbox" value="{$RECORD_ID}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
+									<input type="checkbox" value="{$RECORD_ID}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
 								</td>
 								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
 									<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
@@ -82,8 +82,8 @@
 								<td nowrap class="{$WIDTHTYPE}">
 									<div class="actions pull-right">
 										<span class="actionImages">
-											<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle editRecord"></span>&nbsp;
-											<span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></span>
+											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle editRecord"></span>&nbsp;
+											<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></span>
 										</span>
 									</div>
 								</td>
@@ -96,7 +96,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<button class="addBookmark btn btn-link tdUnderline"> {vtranslate('LBL_NO')} {vtranslate('LBL_FOUND')} {vtranslate('LBL_BOOKMARKS', $MODULE)}. {vtranslate('LBL_BOOKMARK', $MODULE)}</button>
+									<button class="addBookmark btn btn-link tdUnderline"> {\App\Language::translate('LBL_NO')} {\App\Language::translate('LBL_FOUND')} {\App\Language::translate('LBL_BOOKMARKS', $MODULE)}. {\App\Language::translate('LBL_BOOKMARK', $MODULE)}</button>
 								</td>
 							</tr>
 						</tbody>

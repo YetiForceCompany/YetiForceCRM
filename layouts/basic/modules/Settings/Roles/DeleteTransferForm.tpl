@@ -15,7 +15,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal">×</button>
-					<h3 class="modal-title">{vtranslate('LBL_DELETE_ROLE', $QUALIFIED_MODULE)} - {vtranslate($RECORD_MODEL->getName(), $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_ROLE', $QUALIFIED_MODULE)} - {\App\Language::translate($RECORD_MODEL->getName(), $QUALIFIED_MODULE)}</h3>
 				</div>
 				<form class="form-horizontal" id="roleDeleteForm" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -23,9 +23,9 @@
 					<input type="hidden" name="action" value="Delete" />
 					<input type="hidden" name="record" id="record" value="{$RECORD_MODEL->getId()}" />
 					<div class="modal-body">
-						<h5>{vtranslate('LBL_TRANSFER_OWNERSHIP',$QUALIFIED_MODULE)}</h5>
+						<h5>{\App\Language::translate('LBL_TRANSFER_OWNERSHIP',$QUALIFIED_MODULE)}</h5>
 						<div class="form-group">
-							<div class="col-md-3"><span class="redColor">*</span>{vtranslate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-3"><span class="redColor">*</span>{\App\Language::translate('LBL_TO_OTHER_ROLE',$QUALIFIED_MODULE)}</div>
 							<div class="controls col-md-9">
 								<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
 								<div class="input-group">
@@ -42,9 +42,9 @@
 					</div>
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+							<a class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
-						<button class="btn btn-success pull-right" type="submit">{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</button>
 					</div>
 				</form>
 			</div>

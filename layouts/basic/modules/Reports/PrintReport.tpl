@@ -13,7 +13,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>{'LBL_PRINT_REPORT'|@vtranslate:$MODULE}</title>
+		<title>{\App\Language::translate('LBL_PRINT_REPORT', $MODULE)}</title>
         <style>
             {literal}
             .printReport{
@@ -42,7 +42,7 @@
 					<font  color="#666666"><div id="report_info"></div></font>
 				</td>
 				<td align="right" style="border:0px solid #000000;" valign="top">
-					<h3 style="color:#CCCCCC">{$ROW} {'LBL_RECORDS'|@vtranslate:$MODULE}</h3>
+					<h3 style="color:#CCCCCC">{$ROW} {\App\Language::translate('LBL_RECORDS', $MODULE)}</h3>
 				</td>
 			</tr>
 			<tr>

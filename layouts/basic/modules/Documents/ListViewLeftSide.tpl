@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div>
-		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" />
+		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
 	</div>&nbsp;
 	{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($LISTVIEW_ENTRY->get('filetype'))}
 	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'userIcon-Documents'}back4RightMargin{/if}"></span>
@@ -29,8 +29,8 @@
 		{/if}
 		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
 			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
-				<span class="badge bgDanger all" title="{vtranslate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
-				<span class="badge bgBlue mail noLeftRadius noRightRadius" title="{vtranslate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
+				<span class="badge bgDanger all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
+				<span class="badge bgBlue mail noLeftRadius noRightRadius" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
 			</a>
 		{/if}
 	</div>

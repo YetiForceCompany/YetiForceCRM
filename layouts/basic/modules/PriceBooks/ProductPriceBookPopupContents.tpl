@@ -28,23 +28,23 @@
 			<thead>
 				<tr class="listViewHeaders">
 					<th class="{$WIDTHTYPE}">
-						<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL_CURRENTPAGE')}"  class="selectAllInCurrentPage" />
+						<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}"  class="selectAllInCurrentPage" />
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th class="{$WIDTHTYPE}">
-						<a class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
+						<a class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
 							{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 					</th>
 					{/foreach}
-					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{vtranslate('LBL_UNIT_PRICE',$MODULE_NAME)}</th>
-					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{vtranslate('LBL_LIST_PRICE',$MODULE_NAME)}</th>
+					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{\App\Language::translate('LBL_UNIT_PRICE',$MODULE_NAME)}</th>
+					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{\App\Language::translate('LBL_LIST_PRICE',$MODULE_NAME)}</th>
 				</tr>
 			</thead>
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
 			<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-currency='{$LISTVIEW_ENTRY->get('currency_id')}'
 				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if} id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 				<td class="{$WIDTHTYPE}">
-					<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
+					<input class="entryCheckBox" title="{\App\Language::translate('LBL_SELECT_RECORD')}" type="checkbox" />
 				</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -72,12 +72,12 @@
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 		<div class="row">
-			<div class="emptyRecordsDiv">{vtranslate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate('LBL_CREATE_SINGLE_RECORD')}</a>.{/if}</div>
+			<div class="emptyRecordsDiv">{\App\Language::translate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{\App\Language::translate('LBL_CREATE_SINGLE_RECORD')}</a>.{/if}</div>
 		</div>
 	{/if}
 </div>
 <div class="clearfix form-actions pushDown">
-	<button class="cancelLink pull-right btn btn-warning" type="button">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</button>
-	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{vtranslate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
+	<button class="cancelLink pull-right btn btn-warning" type="button">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</button>
+	<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
 </div>
 {/strip}

@@ -12,21 +12,21 @@
 	{/if}
 	<div class="row padding1per contentsBackground no-margin" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 		<div id="advanceFilterContainer" class="">
-			<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
+			<h5 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
 			<div class="allConditionContainer conditionGroup contentsBackground well">
-				<div class="header"><span><strong>{vtranslate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_ALL_DSC', $QUALIFIED_MODULE)}</span></div>
+				<div class="header"><span><strong>{\App\Language::translate('LBL_CONDITION_ALL', $QUALIFIED_MODULE)}</strong></span> - <span>{\App\Language::translate('LBL_CONDITION_ALL_DSC', $QUALIFIED_MODULE)}</span></div>
 				<div id="condition_all">
 					{if $TPL_ID}
 						{foreach from=$REQUIRED_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<div class="col-md-4">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
-											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
+											<optgroup label='{\App\Language::translate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
 															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
-															>{vtranslate($item['label'], $BASE_MODULE)}</option>
+															>{\App\Language::translate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -37,7 +37,7 @@
 										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
-												{vtranslate($item,$QUALIFIED_MODULE)}
+												{\App\Language::translate($item,$QUALIFIED_MODULE)}
 											</option>
 										{/foreach}
 									</select>
@@ -79,28 +79,28 @@
 									{/if}
 								</div>
 								<div class="col-md-1 form-control-static">
-									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
+									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
 								</div>
 							</div>
 						{/foreach}
 					{/if}
 				</div>
-				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_all" type="button"><strong>{vtranslate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
+				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_all" type="button"><strong>{\App\Language::translate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
 			</div>
 			<div class="allConditionContainer conditionGroup contentsBackground well">
-				<div class="header"><span><strong>{vtranslate('LBL_CONDITION_OPTION', $QUALIFIED_MODULE)}</strong></span> - <span>{vtranslate('LBL_CONDITION_OPTION_DSC', $QUALIFIED_MODULE)}</span></div>
+				<div class="header"><span><strong>{\App\Language::translate('LBL_CONDITION_OPTION', $QUALIFIED_MODULE)}</strong></span> - <span>{\App\Language::translate('LBL_CONDITION_OPTION_DSC', $QUALIFIED_MODULE)}</span></div>
 				<div id="condition_option">
 					{if $TPL_ID}
 						{foreach from=$OPTIONAL_CONDITIONS key=cnd_key item=cnd_item name=field_select}
 							<div class="row conditionRow marginBottom10px" id="cnd_num_{$smarty.foreach.field_select.index}">
 								<span class="col-md-4">
-									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{vtranslate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select comparator-select form-control field-name-select" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 										{foreach key=FIELD_MODULE_NAME item=FIELD from=$FIELD_LIST}
-											<optgroup label='{vtranslate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
+											<optgroup label='{\App\Language::translate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
 															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
-															>{vtranslate($item['label'], $BASE_MODULE)}</option>
+															>{\App\Language::translate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -111,7 +111,7 @@
 										{assign var=CONDITION_LIST value=Settings_DataAccess_Module_Model::getConditionByType($cnd_item['field_type'])}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
-												{vtranslate($item,$QUALIFIED_MODULE)}
+												{\App\Language::translate($item,$QUALIFIED_MODULE)}
 											</option>
 										{/foreach}
 									</select>
@@ -144,19 +144,19 @@
 									{/if}
 								</span>
 								<div class="col-md-1 form-control-static">
-									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
+									<i class="deleteCondition glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" onclick="jQuery(this).parents('div#cnd_num_{$smarty.foreach.field_select.index}').remove()"></i>
 								</div>
 							</div>
 						{/foreach}
 					{/if}
 				</div>
-				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_option" type="button"><strong>{vtranslate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
+				<div class="addCondition"><button class="add_condition btn btn-default" data-type="condition_option" type="button"><strong>{\App\Language::translate('ADD_CONDITIONS', $QUALIFIED_MODULE)}</strong></button></div>
 			</div>
 			<br />
 			<div class="pull-right">
-				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('BACK', $QUALIFIED_MODULE)}</strong></button>
-				<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>
-				<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
+				<button class="btn btn-danger backStep" type="button" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</strong></button>
+				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('NEXT', $QUALIFIED_MODULE)}</strong></button>
+				<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{\App\Language::translate('CANCEL', $QUALIFIED_MODULE)}</a>
 			</div>
 		</div>
 	</div>

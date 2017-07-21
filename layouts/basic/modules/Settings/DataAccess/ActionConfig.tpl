@@ -14,14 +14,14 @@
 			<input type="hidden" name="data" value='' />
 			<div class="contentsBackground col-md-12" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 				{assign var="TPL" value="data_access/$ACTION.tpl"}
-				<h4 class="padding-bottom1per"><strong>{vtranslate('LBL_CONFIG_ACTION',$QUALIFIED_MODULE)}: {Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,true)}</strong></h4>
+				<h4 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_CONFIG_ACTION',$QUALIFIED_MODULE)}: {Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,true)}</strong></h4>
 				<div class="alert alert-info">{Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,false)}</div>
 				{include file=$TPL|@vtemplate_path:$ACTIONMOD}
 				<br /><br />
 				<div class="pull-right paddingTop20 paddingBottom20">
-					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step3&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{vtranslate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
-					<button class="btn btn-success" type="submit"><strong>{vtranslate('NEXT', $QUALIFIED_MODULE)}</strong></button>
-					<a class="cancelLink btn btn-warning" type="reset" href="index.php?module=DataAccess&parent=Settings&view=Index">{vtranslate('CANCEL', $QUALIFIED_MODULE)}</a>
+					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step3&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+					<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('NEXT', $QUALIFIED_MODULE)}</strong></button>
+					<a class="cancelLink btn btn-warning" type="reset" href="index.php?module=DataAccess&parent=Settings&view=Index">{\App\Language::translate('CANCEL', $QUALIFIED_MODULE)}</a>
 				</div>
 			</div>
 		</form>

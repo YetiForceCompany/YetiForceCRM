@@ -14,11 +14,11 @@
 		<div class="widget_header row">
 			<div class="col-md-8">
 			    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
+				{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4">
 				<div class="pull-right">
-					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>
@@ -28,22 +28,22 @@
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="2" class="{$WIDTHTYPE}">
-							<span class="alignMiddle">{vtranslate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</span>
+							<span class="alignMiddle">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</span>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+						<tr><td width="30%" class="{$WIDTHTYPE} textAlignRight"><label class="muted marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;" class="{$WIDTHTYPE}">
 								<span>{if $FIELD_NAME == 'default_module'}
-										{vtranslate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
+										{\App\Language::translate($FIELD_DATA[$FIELD_NAME], $FIELD_DATA[$FIELD_NAME])}
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
-										{if vtranslate($FIELD_DATA[$FIELD_NAME]) == 'true'}
-											{vtranslate(LBL_YES)}
+										{if \App\Language::translate($FIELD_DATA[$FIELD_NAME]) == 'true'}
+											{\App\Language::translate(LBL_YES)}
 										{else}
-											{vtranslate(LBL_NO)}
+											{\App\Language::translate(LBL_NO)}
 										{/if}
 									{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
 										{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}
@@ -51,7 +51,7 @@
 									{else}
 										{$FIELD_DATA[$FIELD_NAME]}
 									{/if}
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
+									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}{/if}</span>
 							</td>
 						</tr>
 					{/foreach}
