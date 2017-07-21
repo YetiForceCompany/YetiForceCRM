@@ -81,7 +81,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	public function setRelatedFieldsInHierarchy($recordModel, $fieldName)
 	{
 		$fieldValue = $recordModel->get($fieldName);
-		$relatedModules = Vtiger_ModulesHierarchy_Model::getRelationFieldByHierarchy($recordModel->getModuleName(), $fieldName);
+		$relatedModules = \App\ModuleHierarchy::getRelationFieldByHierarchy($recordModel->getModuleName(), $fieldName);
 		if ($relatedModules && !empty($fieldValue) && $recordModel->getPreviousValue($fieldName) !== $fieldValue) {
 			$sourceModule = \App\Record::getType($fieldValue);
 			foreach ($relatedModules as $relatedModule => $relatedFields) {

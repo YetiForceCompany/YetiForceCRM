@@ -1530,7 +1530,7 @@ var app = {
 		if (error) {
 			console.error(error);
 		}
-		if (err) {
+		if (err && err !== 'error') {
 			console.error(err);
 		}
 		if (errorThrown) {

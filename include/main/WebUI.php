@@ -62,7 +62,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		return $user;
 	}
 
-	protected function triggerCheckPermission($handler, $request)
+	protected function triggerCheckPermission($handler, \App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -81,7 +81,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
-	protected function triggerPreProcess($handler, $request)
+	protected function triggerPreProcess($handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			$handler->preProcessAjax($request);
@@ -90,7 +90,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$handler->preProcess($request);
 	}
 
-	protected function triggerPostProcess($handler, $request)
+	protected function triggerPostProcess($handler, \App\Request $request)
 	{
 		if ($request->isAjax()) {
 			return true;

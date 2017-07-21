@@ -23,11 +23,14 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			"modules.Settings.$moduleName.resources.LangManagement",
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
@@ -37,11 +40,14 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			'~libraries/jquery/flot/jquery.flot.stack.min.js',
 			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',
 		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
+	/**
+	 * Function to get the list of Css models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_CssScript_Model[]
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);

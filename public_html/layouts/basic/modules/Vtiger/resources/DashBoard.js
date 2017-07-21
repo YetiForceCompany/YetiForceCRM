@@ -18,7 +18,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 		var name = element.data('name');
 		var widgetId = element.data('id');
 		jQuery(element).parent().remove();
-		if (jQuery('ul.widgetsList li').size() < 1) {
+		if (jQuery('ul.widgetsList li').length < 1) {
 			jQuery('ul.widgetsList').prev('button').css('visibility', 'hidden');
 		}
 		var widgetContainer = jQuery('<li class="new dashboardWidget" id="' + linkId + '-' + widgetId + '" data-name="' + name + '" data-mode="open"></li>');
