@@ -99,7 +99,7 @@ function handlewhere($lexer, $val)
 		return VTQL_Parser::GT;
 	} else if ((strcmp($val, "(") === 0)) {
 		return VTQL_Parser::PARENOPEN;
-	} else if ((strcmp($val, ')') == 0)) {
+	} else if ((strcmp($val, ')') === 0)) {
 		if (false) {
 			$inStarted = false;
 			$whereCol = false;
