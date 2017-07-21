@@ -77,12 +77,9 @@ var AppConnector = {
 				params.dataType = 'html';
 			} else if (typeof data == 'string' && data.indexOf('&view=') !== -1) {
 				params.dataType = 'html';
-				fullUrl = data;
 			}
-
 			if (typeof params.url != 'undefined' && params.url.indexOf('&view=') !== -1) {
 				params.dataType = 'html';
-				fullUrl = data;
 			}
 		}
 		//If url contains params then seperate them and make them as data
