@@ -36,7 +36,7 @@
 						{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+							<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
@@ -49,7 +49,7 @@
 						>
 						<td width="1%" nowrap class="{$WIDTHTYPE}">
 							{if $MODULE eq 'CronTasks'}
-								<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+								<img src="{vimage_path('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							{/if}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -58,9 +58,9 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
 								{if $LISTVIEW_HEADERNAME  eq 'currency_status' }
 									{if {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}  eq 'Active' } 
-										&nbsp;{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}  
+										&nbsp;{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}  
 									{else} 
-										&nbsp;{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}
+										&nbsp;{\App\Language::translate('LBL_INACTIVE',$QUALIFIED_MODULE)}
 									{/if}
 								{else}
 									&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
@@ -75,7 +75,7 @@
 														if (event.stopPropagation){ldelim}
 																	event.stopPropagation();{rdelim} else{ldelim}
 																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<i class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></i>
+													<i class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></i>
 												</a>
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;
@@ -97,7 +97,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_EQ_ZERO')} {vtranslate($MODULE, $QUALIFIED_MODULE)} {vtranslate('LBL_FOUND')}
+							{\App\Language::translate('LBL_EQ_ZERO')} {\App\Language::translate($MODULE, $QUALIFIED_MODULE)} {\App\Language::translate('LBL_FOUND')}
 						</td>
 					</tr>
 				</tbody>

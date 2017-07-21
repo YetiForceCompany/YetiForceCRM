@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
-		<li class="active"><a href="#general_configuration" data-toggle="tab">{vtranslate('LBL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
+		<li class="active"><a href="#general_configuration" data-toggle="tab">{\App\Language::translate('LBL_GENERAL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<br />
 	<div class="tab-content">
@@ -16,16 +16,16 @@
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">
-							<span>{vtranslate('LBL_INFO', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_INFO', $QUALIFIED_MODULE)}</span>
 						</th>
 						<th class="mediumWidthType">
-							<span>{vtranslate('LBL_TYPE', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</span>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr data-id="{$ITEM['user_id']}">
-						<td><label>{vtranslate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
+						<td><label>{\App\Language::translate('LBL_TICKET_STATUS_INFO', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-xs-6">
 							<select class="chzn-select configField form-control status" multiple name="status">
 								{foreach  item=STATUS from=$TICKETSTATUS}

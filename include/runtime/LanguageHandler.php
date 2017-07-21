@@ -244,7 +244,7 @@ class Vtiger_Language_Handler
 	}
 }
 
-function vtranslate($key, $moduleName = 'Vtiger')
+function \App\Language::translate($key, $moduleName = 'Vtiger')
 {
 	$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
 	$args = array_slice(func_get_args(), 2);

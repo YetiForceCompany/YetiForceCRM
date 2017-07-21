@@ -4,7 +4,7 @@
 		<thead>
 			<tr>
 				<th>
-					{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 				</th>
 
 			</tr>
@@ -13,7 +13,7 @@
 			{foreach from=$LIST_CONTENT item=RECORD}
 				<tr class="opacity" data-id="{$RECORD->getId()}">
 					<td>
-						{vtranslate($RECORD->getName(), $QUALIFIED_MODULE)}
+						{\App\Language::translate($RECORD->getName(), $QUALIFIED_MODULE)}
 						{if $RECORD->get('presence') == 1}
 							<div class="pull-right actions">
 								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">

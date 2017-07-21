@@ -9,7 +9,7 @@
 		<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
 			{foreach item=VALUE from=Settings_WebserviceApps_Module_Model::getTypes() name=typeLoop}
 				<li class="tabApi{if $smarty.foreach.typeLoop.first} active{/if}" data-typeapi="{$VALUE}">
-					<a data-toggle="tab"><strong>{vtranslate($VALUE, $QUALIFIED_MODULE)}</strong></a>
+					<a data-toggle="tab"><strong>{\App\Language::translate($VALUE, $QUALIFIED_MODULE)}</strong></a>
 				</li>
 			{/foreach}
 		</ul>

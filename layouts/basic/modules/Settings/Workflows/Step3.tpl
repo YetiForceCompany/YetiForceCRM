@@ -13,12 +13,12 @@
         <input type="hidden" class="step" value="3" />
         <div class="btn-group">
             <a class="btn dropdown-toggle btn-default addButton" data-toggle="dropdown" href="#">
-                <strong>{vtranslate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
+                <strong>{\App\Language::translate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
                 <span><img class="imageElement" src="{vimage_path('downArrowWhite.png')}" /></span>
             </a>
             <ul class="dropdown-menu">
                 {foreach from=$TASK_TYPES item=TASK_TYPE}
-                    <li><a class="cursorPointer" data-url="{$TASK_TYPE->getEditViewUrl()}&for_workflow={$RECORD}">{vtranslate($TASK_TYPE->get('label'),$QUALIFIED_MODULE)}</a></li>
+                    <li><a class="cursorPointer" data-url="{$TASK_TYPE->getEditViewUrl()}&for_workflow={$RECORD}">{\App\Language::translate($TASK_TYPE->get('label'),$QUALIFIED_MODULE)}</a></li>
                 {/foreach}
             </ul>
         </div>
@@ -27,8 +27,8 @@
         </div>
         <br />
         <div class="pull-right">
-            <button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-            <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+            <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
         </div>
         <div class="clearfix"></div>
     </form>

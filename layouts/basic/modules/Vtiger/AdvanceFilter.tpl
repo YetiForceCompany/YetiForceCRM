@@ -22,14 +22,14 @@
 	<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
 	<input type="hidden" name="advanceFilterOpsByFieldType" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}' />
 	{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}
-		{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {vtranslate($ADVANCE_FILTER_OPTION, $MODULE)}|escape}
+		{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {\App\Language::translate($ADVANCE_FILTER_OPTION, $MODULE)}|escape}
 	{/foreach}
 	<input type="hidden" name="advanceFilterOptions" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS)}' />
 	<div class="allConditionContainer conditionGroup contentsBackground well">
 		<div class="header">
-			<span><strong>{vtranslate('LBL_ALL_CONDITIONS',$MODULE)}</strong></span>
+			<span><strong>{\App\Language::translate('LBL_ALL_CONDITIONS',$MODULE)}</strong></span>
 			&nbsp;
-			<span>({vtranslate('LBL_ALL_CONDITIONS_DESC',$MODULE)})</span>
+			<span>({\App\Language::translate('LBL_ALL_CONDITIONS_DESC',$MODULE)})</span>
 		</div>
 		<div class="contents">
 			<div class="conditionList">
@@ -41,7 +41,7 @@
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
-				<button type="button" class="btn btn-default pushDown"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
+				<button type="button" class="btn btn-default pushDown"><strong>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
 			</div>
 			<div class="groupCondition">
 				{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
@@ -54,9 +54,9 @@
 	</div>
 	<div class="anyConditionContainer conditionGroup contentsBackground well">
 		<div class="header">
-			<span><strong>{vtranslate('LBL_ANY_CONDITIONS',$MODULE)}</strong></span>
+			<span><strong>{\App\Language::translate('LBL_ANY_CONDITIONS',$MODULE)}</strong></span>
 			&nbsp;
-			<span>({vtranslate('LBL_ANY_CONDITIONS_DESC',$MODULE)})</span>
+			<span>({\App\Language::translate('LBL_ANY_CONDITIONS_DESC',$MODULE)})</span>
 		</div>
 		<div class="contents">
 			<div class="conditionList">
@@ -68,7 +68,7 @@
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=[] CONDITION="or" NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
-				<button type="button" class="btn btn-default pushDown"><strong>{vtranslate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
+				<button type="button" class="btn btn-default pushDown"><strong>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
 			</div>
 		</div>
 	</div>

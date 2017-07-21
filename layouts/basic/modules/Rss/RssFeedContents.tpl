@@ -16,7 +16,7 @@
         <tr class="listViewHeaders">
             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
             <th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if} class="{$WIDTHTYPE}">
-                {vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+                {\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
             </th>
             {/foreach}
         </tr>
@@ -32,7 +32,7 @@
                 <td nowrap class="{$WIDTHTYPE}">
                     <span class="actions">
                         <span class="actionImages pull-right">
-                            <a href="{$LISTVIEW_ENTRY->link}" target="_BLANK"><i title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
+                            <a href="{$LISTVIEW_ENTRY->link}" target="_BLANK"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
                         </span>
                     </span>
                 </td>
@@ -43,7 +43,7 @@
     {/foreach}
     <tr class="listViewEntrie {$WIDTHTYPE}" nowrap>
         <td class="listViewEntryValue">
-            <a href="{$RECORD->get('url')}" target="_BLANK" name="history_more">{vtranslate('LBL_MORE')}...</a>
+            <a href="{$RECORD->get('url')}" target="_BLANK" name="history_more">{\App\Language::translate('LBL_MORE')}...</a>
         </td>
         <td nowrap class="{$WIDTHTYPE}">
         </td>

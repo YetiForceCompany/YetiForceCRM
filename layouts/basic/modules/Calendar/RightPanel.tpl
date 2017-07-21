@@ -5,7 +5,7 @@
 			<ul  class="nav" >
 				<li >
 					<div class="marginRightZero ">
-						<select class="select2 form-control" multiple="multiple" id="calendarUserList" title="{vtranslate('LBL_USERS',$MODULE)}">
+						<select class="select2 form-control" multiple="multiple" id="calendarUserList" title="{\App\Language::translate('LBL_USERS',$MODULE)}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 								<option {if $USER_MODEL->getId() eq $OWNER_ID}selected {/if}value="{$OWNER_ID}">{$OWNER_NAME}</option>
 							{/foreach}
@@ -20,7 +20,7 @@
 			<ul  class="nav">
 				<li>
 					<div class="marginRightZero">
-						<select class="select2 form-control" multiple="multiple" id="calendarGroupList" title="{vtranslate('LBL_GROUPS',$MODULE)}">
+						<select class="select2 form-control" multiple="multiple" id="calendarGroupList" title="{\App\Language::translate('LBL_GROUPS',$MODULE)}">
 							{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 								<option class="" value="{$OWNER_ID}">{$OWNER_NAME}</option>
 							{/foreach}
@@ -34,9 +34,9 @@
 		<div>
 			<ul  class="nav" >
 				<li class="">
-					<select class="select2 form-control" multiple="multiple" id="calendarActivityTypeList" title="{vtranslate('Activity Type',$MODULE)}">
+					<select class="select2 form-control" multiple="multiple" id="calendarActivityTypeList" title="{\App\Language::translate('Activity Type',$MODULE)}">
 						{foreach item=ITEM from=$ACTIVITY_TYPE}
-							<option selected value="{$ITEM}">{vtranslate($ITEM,$MODULE)}</option>
+							<option selected value="{$ITEM}">{\App\Language::translate($ITEM,$MODULE)}</option>
 						{/foreach}
 					</select>
 				</li>

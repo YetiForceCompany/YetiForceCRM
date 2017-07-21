@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button class="close" data-dismiss="modal" title="{vtranslate('LBL_CLOSE')}">x</button>
-		<h4 class="modal-title">{vtranslate('LBL_SWITCH_USER', $MODULE_NAME)}</h4>
+		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+		<h4 class="modal-title">{\App\Language::translate('LBL_SWITCH_USER', $MODULE_NAME)}</h4>
 	</div>
 	<form name="switchUsersForm" action="index.php" method="post">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -17,18 +17,18 @@
 						{/foreach}
 					</select>
 				</div>
-				<button type="button" class="btn btn-success">{vtranslate('LBL_SWITCH', $MODULE_NAME)}</button>	
+				<button type="button" class="btn btn-success">{\App\Language::translate('LBL_SWITCH', $MODULE_NAME)}</button>	
 			</div>
 		{/if}
 		<div class="modal-footer">
 			{if $BASE_USER_ID neq $USER_MODEL->getId()}
 				<div class="pull-left">
 					<div class="btn-toolbar">
-						<button class="btn btn-primary getYourself" type="submit"><strong>{vtranslate('LBL_SWITCH_TO_YOURSELF', $MODULE_NAME)}</strong></button>
+						<button class="btn btn-primary getYourself" type="submit"><strong>{\App\Language::translate('LBL_SWITCH_TO_YOURSELF', $MODULE_NAME)}</strong></button>
 					</div>
 				</div>
 			{/if}
-			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</form>		
 {/strip}

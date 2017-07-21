@@ -10,21 +10,21 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_ADD_CUSTOM_RULE_TO', $QUALIFIED_MODULE)}&nbsp;{vtranslate($MODULE_MODEL->get('name'), $MODULE)}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_ADD_CUSTOM_RULE_TO', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}</h3>
 				</div>
 				<form id="editCustomRule" class="form-horizontal" method="POST">
 					<input type="hidden" name="for_module" value="{$MODULE_MODEL->get('name')}" />
 					<input type="hidden" name="record" value="{$RULE_ID}" />
 					<div class="modal-body">
 						<div class="row form-group">
-							<label class="col-md-5 control-label">{vtranslate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{vtranslate('LBL_OF', $MODULE)}</label>
+							<label class="col-md-5 control-label">{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
 							<div class="col-md-6 controls">
 								<select class="chzn-select form-control" name="source_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 												<option value="{$MEMBER->getId()}" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->getSourceMember()->getId() == $MEMBER->getId()}selected{/if}{/if}>
-													{vtranslate($MEMBER->getName(),$QUALIFIED_MODULE)}
+													{\App\Language::translate($MEMBER->getName(),$QUALIFIED_MODULE)}
 												</option>
 											{/foreach}
 										</optgroup>
@@ -33,14 +33,14 @@
 							</div>
 						</div>
 						<div class="row form-group">
-							<label class="col-md-5 control-label">{vtranslate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-5 control-label">{\App\Language::translate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls">
 								<select class="chzn-select form-control" name="target_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 												<option value="{$MEMBER->getId()}" {if $RULE_MODEL_EXISTS}{if $RULE_MODEL->getTargetMember()->getId() == $MEMBER->getId()}selected{/if}{/if}>
-													{vtranslate($MEMBER->getName(),$QUALIFIED_MODULE)}
+													{\App\Language::translate($MEMBER->getName(),$QUALIFIED_MODULE)}
 												</option>
 											{/foreach}
 										</optgroup>
@@ -49,13 +49,13 @@
 							</div>	
 						</div>
 						<div class="row form-group">
-							<label class="col-md-5 control-label">{vtranslate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-5 control-label">{\App\Language::translate('LBL_WITH_PERMISSIONS', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6 controls">
 								<label class="checkbox">
-									<input type="radio" value="0" name="permission" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->isReadOnly()} checked {/if} {else} checked {/if}/>&nbsp;{vtranslate('LBL_READ', $QUALIFIED_MODULE)}&nbsp;
+									<input type="radio" value="0" name="permission" {if $RULE_MODEL_EXISTS} {if $RULE_MODEL->isReadOnly()} checked {/if} {else} checked {/if}/>&nbsp;{\App\Language::translate('LBL_READ', $QUALIFIED_MODULE)}&nbsp;
 								</label>
 								<label class="checkbox">
-									<input type="radio" value="1" name="permission" {if $RULE_MODEL->isReadWrite()} checked {/if} />&nbsp;{vtranslate('LBL_READ_WRITE', $QUALIFIED_MODULE)}&nbsp;
+									<input type="radio" value="1" name="permission" {if $RULE_MODEL->isReadWrite()} checked {/if} />&nbsp;{\App\Language::translate('LBL_READ_WRITE', $QUALIFIED_MODULE)}&nbsp;
 								</label>
 							</div>
 						</div>

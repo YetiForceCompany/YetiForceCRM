@@ -15,12 +15,12 @@
 				<div class="row widget_header">
 					<div class="col-md-8">
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-						{vtranslate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
+						{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
 					<div class="col-md-4 btn-toolbar no-margin">
 						<div class="pull-right">
-							<button class="btn btn-success saveButton" type="submit" title="{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-							<button type="reset" class="cancelLink btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+							<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
 					</div>
 				</div>
@@ -37,21 +37,21 @@
 												'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
 				<table class="table table-bordered table-condensed themeTableColor">
 					<thead>
-						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{vtranslate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</th></tr>
+						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{\App\Language::translate('LBL_CONFIG_FILE', $QUALIFIED_MODULE)}</th></tr>
 					</thead>
 					<tbody>
 						{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 						{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{vtranslate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 								<td style="border-left: none;" class="row {$WIDTHTYPE}">
 									{if $FIELD_DETAILS['fieldType'] == 'picklist'}
 										<div class="col-md-4">
 											<select class="select2 form-control" name="{$FIELD_NAME}">
 												{foreach key=optionName item=optionLabel from=$MODEL->getPicklistValues($FIELD_NAME)}
 													{if $FIELD_NAME != 'default_module' && $FIELD_NAME != 'defaultLayout' }
-														<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $QUALIFIED_MODULE)}</option>
+														<option {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{\App\Language::translate($optionLabel, $QUALIFIED_MODULE)}</option>
 													{else}
-														<option value="{$optionName}" {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{vtranslate($optionLabel, $optionLabel)}</option>
+														<option value="{$optionName}" {if $optionLabel == $FIELD_DATA[$FIELD_NAME]} selected {/if}>{\App\Language::translate($optionLabel, $optionLabel)}</option>
 													{/if}
 												{/foreach}
 											</select>
@@ -64,8 +64,8 @@
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 										<div class="col-md-4">
 											<select class="select2 form-control" name="{$FIELD_NAME}">
-												<option value="false"  {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{vtranslate(LBL_NO)}</option>
-												<option value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{vtranslate(LBL_YES)}</option>
+												<option value="false"  {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{\App\Language::translate(LBL_NO)}</option>
+												<option value="true" {if $FIELD_DATA[$FIELD_NAME] == 'true'} selected {/if}>{\App\Language::translate(LBL_YES)}</option>
 											</select>
 										</div>
 									{else}
@@ -75,7 +75,7 @@
 											<div class="col-md-4">
 												<div class="input-group">
 													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
-													<div class="input-group-addon">{vtranslate('LBL_MB', $QUALIFIED_MODULE)}</div>
+													<div class="input-group-addon">{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}</div>
 												</div>
 											</div>
 											<label class="control-label">

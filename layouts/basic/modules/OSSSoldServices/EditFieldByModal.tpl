@@ -18,27 +18,27 @@
 			<h3 class="modal-title">
 				{if $RECORD->get('serviceid')}
 					{\App\Record::getLabel($RECORD->get('serviceid'))}
-					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{vtranslate($RECORD->get('osssoldservices_renew'), $MODULE_NAME)}</span>{/if}
+					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{\App\Language::translate($RECORD->get('osssoldservices_renew'), $MODULE_NAME)}</span>{/if}
 				{else}
-					{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}
+					{\App\Language::translate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}
 				{/if}</h3>
 		</div>
 		<div class="btn-toolbar">
 			<div class="pull-right btn-group">
 				{if $RECORD->isEditable()}
-					<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
+					<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 					{/if}
 					{if $RECORD->isViewable()}
-					<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+					<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
 					{/if}
-				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 			</div>
 			{if $RECORD->isViewable()}
 				{assign var=IS_EDITABLE_READONLY value=$BASIC_FIELD_MODEL->set('isEditableReadOnly', false)}
 				{assign var=PICKLIST value=$BASIC_FIELD_MODEL->getPicklistValues()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 					<button type="button" class="btn btn-danger dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
+						{\App\Language::translate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						{foreach  key=KEY item=ITEM from=$PICKLIST}
@@ -53,7 +53,7 @@
 					{assign var=PICKLIST value=$RENEW_FIELD_MODEL->getPicklistValues()}
 					<div class="btn-group fieldButton" data-name="osssoldservices_renew">
 						<button type="button" class="btn btn-primary dropdown-toggle{if $RENEW_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{vtranslate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
+							{\App\Language::translate($RENEW_FIELD_MODEL->get('label'), $MODULE_NAME)} <span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
 							{foreach  key=KEY item=ITEM from=$PICKLIST}
@@ -78,9 +78,9 @@
 					{assign var=CONVERT value=false}
 					{assign var=VALUE value={include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 					<div class="form-group">
-						<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
+						<label class="col-sm-4 control-label">{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
 							{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}
-								<a href="#" class="helpInfoPopover" title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
+								<a href="#" class="helpInfoPopover" title="{\App\Language::translate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{\App\Language::translate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
 								{assign var=CONVERT value=true}
 							{/if}
 							:</label>
@@ -98,7 +98,7 @@
 					<ul class="nav nav-tabs" id="myTab">
 						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}
-							<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$REL_MODULE_NAME_LOWER}">{vtranslate($REL_MODULE_NAME, $REL_MODULE_NAME)}</a></li>
+							<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$REL_MODULE_NAME_LOWER}">{\App\Language::translate($REL_MODULE_NAME, $REL_MODULE_NAME)}</a></li>
 							{/foreach}
 					</ul>
 					<div class="tab-content">
@@ -109,7 +109,7 @@
 						{/foreach}
 					</div>
 					<div class="message text-center padding10 hide">
-						{vtranslate('LBL_NO_RECORDS', $RECORD->getModuleName())}
+						{\App\Language::translate('LBL_NO_RECORDS', $RECORD->getModuleName())}
 					</div>
 				</div>
 			{/if}

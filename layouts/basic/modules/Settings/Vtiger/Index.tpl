@@ -98,7 +98,7 @@
 			</span>
 		</div>
 		<br /><br />
-		<h3>{vtranslate('LBL_SETTINGS_SHORTCUTS',$QUALIFIED_MODULE)}</h3>
+		<h3>{\App\Language::translate('LBL_SETTINGS_SHORTCUTS',$QUALIFIED_MODULE)}</h3>
 		<hr>
 		{assign var=SPAN_COUNT value=1}
 		<div class="row">

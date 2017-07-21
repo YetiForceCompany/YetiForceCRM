@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <div class="form-group">
-	<label class="col-md-4 control-label">{vtranslate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 control-label">{\App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		{assign var='LABEL' value=$FIELD_INSTANCE->getDefaultLabel()}
 		{if $FIELD_INSTANCE->get('label') }
@@ -10,17 +10,17 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-md-4 control-label">{vtranslate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 control-label">{\App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
 			{foreach from=$FIELD_INSTANCE->displayTypeBase() item=ITEM key=KEY}
-				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{vtranslate($KEY, $QUALIFIED_MODULE)}</option>
+				<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displaytype')} selected {/if}>{\App\Language::translate($KEY, $QUALIFIED_MODULE)}</option>
 			{/foreach}
 		</select>
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-md-4 control-label">{vtranslate('LBL_COLSPAN', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 control-label">{\App\Language::translate('LBL_COLSPAN', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<input name="colSpan" class="form-control" type="text" value="{$FIELD_INSTANCE->getColSpan()}" data-validation-engine="validate[required]" />
 	</div>
@@ -31,10 +31,10 @@
 		{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
-				<label class="col-md-4 control-label">{vtranslate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}
+				<label class="col-md-4 control-label">{\App\Language::translate('LBL_PARAMS_'|cat:strtoupper($ITEM), $QUALIFIED_MODULE)}
 					{if $ITEM eq 'limit'}
 						{assign var="GROSS_PRICE" value=Vtiger_InventoryField_Model::getFieldInstance($MODULE, 'GrossPrice')}
-						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{vtranslate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {vtranslate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
+						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{\App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $QUALIFIED_MODULE)}: {\App\Language::translate($GROSS_PRICE->getDefaultLabel(), $QUALIFIED_MODULE)}">
 							<span class="glyphicon glyphicon-info-sign"></span>
 						</a>
 					{/if}:</label>
@@ -48,7 +48,7 @@
 							{elseif !($PARAMS[$ITEM]|is_array) && $ITEMS.id eq $PARAMS[$ITEM]}
 								{assign var='CONDITION' value=1}
 							{/if}
-							<option value="{$ITEMS['id']}" {if $CONDITION}selected{/if}>{vtranslate($ITEMS['name'], $ITEMS['module'])}</option>
+							<option value="{$ITEMS['id']}" {if $CONDITION}selected{/if}>{\App\Language::translate($ITEMS['name'], $ITEMS['module'])}</option>
 						{/foreach}
 					</select>
 				</div>

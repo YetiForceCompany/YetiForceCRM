@@ -15,7 +15,7 @@
 			<div class="col-xs-12">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
 			</div>
 		</div>
@@ -28,51 +28,51 @@
 						{if $MODULEIMPORT_ERROR neq ''}
 							<div class="alert alert-warning">
 								<div class="modal-header">
-									<h3>{vtranslate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
+									<h3>{\App\Language::translate('LBL_FAILED', $QUALIFIED_MODULE)}</h3>
 								</div>
 								<div class="modal-body">
-									<p><b>{vtranslate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
+									<p><b>{\App\Language::translate($MODULEIMPORT_ERROR, $QUALIFIED_MODULE)}</b></p>
 								</div>
 								<div class="">
 									<input type="hidden" name="view" value="List">
-									<button  class="btn btn-success" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+									<button  class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 								</div>
 							</div>
 						{else}
 							<table class="table table-bordered">
 								<thead>
 									<tr class="blockHeader">
-										<th colspan="2"><strong>{vtranslate('LBL_VERIFY_IMPORT_DETAILS',$QUALIFIED_MODULE)}</strong></th>
+										<th colspan="2"><strong>{\App\Language::translate('LBL_VERIFY_IMPORT_DETAILS',$QUALIFIED_MODULE)}</strong></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td style="min-width: 100px;"><b>{vtranslate('LBL_MODULE_NAME', $QUALIFIED_MODULE)}</b></td>
+										<td style="min-width: 100px;"><b>{\App\Language::translate('LBL_MODULE_NAME', $QUALIFIED_MODULE)}</b></td>
 										<td>
-											{vtranslate($MODULEIMPORT_NAME, $QUALIFIED_MODULE)}
-											{if $MODULEIMPORT_EXISTS eq 'true'} <font color=red><b>{vtranslate('LBL_EXISTS', $QUALIFIED_MODULE)}</b></font> {/if}
+											{\App\Language::translate($MODULEIMPORT_NAME, $QUALIFIED_MODULE)}
+											{if $MODULEIMPORT_EXISTS eq 'true'} <font color=red><b>{\App\Language::translate('LBL_EXISTS', $QUALIFIED_MODULE)}</b></font> {/if}
 										</td>
 									</tr>
 									<tr>
-										<td><b>{vtranslate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</b></td>
-										<td>{vtranslate($MODULEIMPORT_PACKAGE->getTypeName(), $QUALIFIED_MODULE)}</td>
+										<td><b>{\App\Language::translate('LBL_MODULE_TYPE', $QUALIFIED_MODULE)}</b></td>
+										<td>{\App\Language::translate($MODULEIMPORT_PACKAGE->getTypeName(), $QUALIFIED_MODULE)}</td>
 									</tr>
 									<tr>
-										<td><b>{vtranslate('LBL_REQ_YETIFORCE_VERSION', $QUALIFIED_MODULE)}</b></td>
+										<td><b>{\App\Language::translate('LBL_REQ_YETIFORCE_VERSION', $QUALIFIED_MODULE)}</b></td>
 										<td>{$MODULEIMPORT_DEP_VTVERSION}</td>
 									</tr>
 									<tr>
-										<td><b>{vtranslate('LBL_MODULE_VERSION', $QUALIFIED_MODULE)}</b></td>
+										<td><b>{\App\Language::translate('LBL_MODULE_VERSION', $QUALIFIED_MODULE)}</b></td>
 										<td>{$MODULEIMPORT_PACKAGE->getVersion()}</td>
 									</tr>
 									{if $MODULEIMPORT_PACKAGE->isUpdateType()}
 										{assign var="INFO" value=$MODULEIMPORT_PACKAGE->getUpdateInfo()}
 										<tr>
-											<td><b>{vtranslate('LBL_UPDATE_FROM_VERSION', $QUALIFIED_MODULE)}</b></td>
+											<td><b>{\App\Language::translate('LBL_UPDATE_FROM_VERSION', $QUALIFIED_MODULE)}</b></td>
 											<td>{$INFO['from']}</td>
 										</tr>
 										<tr>
-											<td><b>{vtranslate('LBL_UPDATE_TO_VERSION', $QUALIFIED_MODULE)}</b></td>
+											<td><b>{\App\Language::translate('LBL_UPDATE_TO_VERSION', $QUALIFIED_MODULE)}</b></td>
 											<td>{$INFO['to']}</td>
 										</tr>
 									{/if}
@@ -82,9 +82,9 @@
 										<tr>
 											<td width=20%>
 												{if $MODULEIMPORT_PACKAGE->isUpdateType()}
-													<b>{vtranslate('Attention')}</b>
+													<b>{\App\Language::translate('Attention')}</b>
 												{else}
-													<b>{vtranslate('LBL_LICENSE', $QUALIFIED_MODULE)}</b>
+													<b>{\App\Language::translate('LBL_LICENSE', $QUALIFIED_MODULE)}</b>
 												{/if}
 											</td>
 											<td>
@@ -97,7 +97,7 @@
 																this.form.saveButton.disabled = true;
 															}
 														}">{/literal}
-													<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {vtranslate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
+													<label for="license_agreement" style="display: inline-block;margin-left: 10px;"> {\App\Language::translate('LBL_LICENSE_ACCEPT_AGREEMENT', $QUALIFIED_MODULE)}</label>
 												{/if}
 											</td>
 										</tr>
@@ -108,7 +108,7 @@
 												{if $PARAMETER->type == 'checkbox'}
 													<label>
 														<input value="1" autocomplete="off" type="checkbox" name="param_{$PARAMETER->name}" {if $PARAMETER->checked == '1'}checked{/if}>&nbsp;&nbsp;
-														{vtranslate($PARAMETER->lable, $QUALIFIED_MODULE)}
+														{\App\Language::translate($PARAMETER->lable, $QUALIFIED_MODULE)}
 													</label>
 												{/if}
 											</td>
@@ -118,14 +118,14 @@
 							</table>
 							{if $MODULEIMPORT_DIR_EXISTS eq 'true'}
 								<br />
-								<div class="alert alert-danger" role="alert">{vtranslate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
+								<div class="alert alert-danger" role="alert">{\App\Language::translate('LBL_DELETE_EXIST_DIRECTORY', $QUALIFIED_MODULE)}</div>
 							{/if}
 							<div class="modal-footer">
 								{if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
 									<input type="hidden" name="view" value="List">
 									<button class="btn btn-success" class="crmbutton small delete" 
 											onclick="this.form.mode.value = '';">
-										<strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong>
+										<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 									</button>
 									{if $MODULEIMPORT_EXISTS eq 'true'}
 										<input type="hidden" name="view" value="ModuleImport">
@@ -145,12 +145,12 @@
 									<input type="hidden" name="module_import_name" value="{$MODULEIMPORT_NAME}">
 									<input type="hidden" name="mode" value="importUserModuleStep3">
 									<span class="col-md-6 pull-right">
-										{vtranslate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{\App\Language::translate('LBL_PROCEED_WITH_IMPORT', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<div class=" pull-right cancelLinkContainer">
-											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{vtranslate('LBL_NO', $MODULE)}</a>
+											<a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_NO', $MODULE)}</a>
 										</div>
 										<button  class="btn btn-success" type="submit" name="saveButton"
-												 {if $need_license_agreement eq 'true'} disabled {/if}><strong>{vtranslate('LBL_YES')}</strong></button>
+												 {if $need_license_agreement eq 'true'} disabled {/if}><strong>{\App\Language::translate('LBL_YES')}</strong></button>
 									</span>
 								{/if}
 							</div>

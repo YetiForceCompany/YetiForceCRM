@@ -15,7 +15,7 @@
 		<div class="modal-content">
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal">×</button>
-					<h3 class="modal-title">{vtranslate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
 				</div>
 				<form class="form-horizontal" id="DeleteModal" name="AddComment" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
@@ -25,14 +25,14 @@
 
 					<div class="modal-body">
 						<div class="form-group">
-							<div class="col-md-6 col-sm-6">{vtranslate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-6 col-sm-6">{\App\Language::translate('LBL_TRANSFER_ROLES_TO_PROFILE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-6 col-sm-6">
 								<select id="transfer_record form-control" name="transfer_record" class="chzn-select form-control">
-									<optgroup label="{vtranslate('LBL_PROFILES', $QUALIFIED_MODULE)}">
+									<optgroup label="{\App\Language::translate('LBL_PROFILES', $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_RECORDS item=PROFILE_MODEL}
 											{assign var=PROFILE_ID value=$PROFILE_MODEL->get('profileid')}
 											{if $PROFILE_ID neq $RECORD_MODEL->getId()}
-												<option value="{$PROFILE_ID}">{vtranslate($PROFILE_MODEL->get('profilename'), $QUALIFIED_MODULE)}</option>
+												<option value="{$PROFILE_ID}">{\App\Language::translate($PROFILE_MODEL->get('profilename'), $QUALIFIED_MODULE)}</option>
 											{/if}
 										{/foreach}
 									</optgroup>
@@ -42,9 +42,9 @@
 					</div>
 					<div class="modal-footer">
 						<div class=" pull-right cancelLinkContainer">
-							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+							<button class="cancelLink btn btn-warning" data-dismiss="modal" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
-						<button class="btn btn-success pull-right" type="submit">{vtranslate('LBL_SAVE', $MODULE)}</button>
+						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
 					</div>
 				</form>
 		</div>				

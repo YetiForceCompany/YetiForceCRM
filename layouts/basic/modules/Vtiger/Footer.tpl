@@ -53,13 +53,13 @@
 		</div>
 		{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
 		{if $USER_MODEL->is_admin == 'on'}
-			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
+			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
-			<p class="hidden-xs">{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
-			<p class="visible-xs-block">{sprintf( vtranslate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
+			<p class="hidden-xs">{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , $FOOTVR ,$FOOTOSP)}</p>
+			<p class="visible-xs-block">{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , $FOOTVRM ,$FOOTOSP)}</p>
 		{else}
-			<p>{sprintf( vtranslate('LBL_FOOTER_CONTENT') , '['|cat:vtranslate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
+			<p>{sprintf( \App\Language::translate('LBL_FOOTER_CONTENT') , '['|cat:\App\Language::translate('WEBLOADTIME')|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
 		{/if}
 	</div>
 </footer>
@@ -96,7 +96,7 @@
 				</p>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+				<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 			</div>
 		</div>
 	</div>

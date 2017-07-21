@@ -11,20 +11,20 @@
 -->*}
 {strip}
     <div class="accordion paddingTop20">
-        <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{vtranslate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
-        <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{vtranslate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
+        <span><i class="glyphicon glyphicon-info-sign alignMiddle"></i>&nbsp;{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_INFO', $QUALIFIED_MODULE)}&nbsp;&nbsp;</span>
+        <a class="cursorPointer accordion-heading accordion-toggle" data-toggle="collapse" data-target="#dependencyHelp">{\App\Language::translate('LBL_MORE', $QUALIFIED_MODULE)}..</a>
         <div id="dependencyHelp" class="accordion-body collapse">
-            <ul><br /><li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br />
-                <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br />
-                <li>{vtranslate('LBL_CONFIGURE_DEPENDENCY_HELP_3', $QUALIFIED_MODULE)}&nbsp;
-                    <span class="selectedCell" style="padding: 4px;">{vtranslate('Selected Values', $QUALIFIED_MODULE)}</span></li>
+            <ul><br /><li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_1', $QUALIFIED_MODULE)}</li><br />
+                <li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_2', $QUALIFIED_MODULE)}</li><br />
+                <li>{\App\Language::translate('LBL_CONFIGURE_DEPENDENCY_HELP_3', $QUALIFIED_MODULE)}&nbsp;
+                    <span class="selectedCell" style="padding: 4px;">{\App\Language::translate('Selected Values', $QUALIFIED_MODULE)}</span></li>
             </ul>
         </div>
     </div>
     <div class="">
         <span class="btn-toolbar">
-            <button class="btn sourceValues btn-default" type="button"><strong>{vtranslate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn unmarkAll btn-default" type="button"><strong>{vtranslate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn sourceValues btn-default" type="button"><strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn unmarkAll btn-default" type="button"><strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
         </span>
     </div>
 	<br />
@@ -63,7 +63,7 @@
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
                             <th data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}" style="
 								{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
-								{vtranslate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
+								{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
 						{/foreach}</tr>
 				</thead>
 				<tbody>
@@ -84,7 +84,7 @@
 									{if $IS_SELECTED}
 										<i class="glyphicon glyphicon-ok pull-left"></i>
 									{/if}
-									{vtranslate($TARGET_VALUE, $SELECTED_MODULE)}
+									{\App\Language::translate($TARGET_VALUE, $SELECTED_MODULE)}
 								</td>
 							{/foreach}
 						</tr>
@@ -98,7 +98,7 @@
 			<div class="modal-content">
 				<div class="modal-header contentsBackground">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_SELECT_SOURCE_PICKLIST_VALUES', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="row no-margin">
@@ -114,7 +114,7 @@
 												<label class=""><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
 																	   data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
 																	   {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
-													&nbsp;{vtranslate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
+													&nbsp;{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
 											</div>
 										</div>
 									</td>
@@ -129,8 +129,8 @@
 	</div>
 	<div class="padding1per">
 		<div class="btn-toolbar  pull-right">
-			<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}">{vtranslate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
+			<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 		</div>
 		<br /><br />
 	</div>

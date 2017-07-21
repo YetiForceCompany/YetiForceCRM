@@ -20,7 +20,7 @@
 				 <div class="modal-content">
 					<div class="modal-header contentsBackground">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h3 class="modal-title">{vtranslate('LBL_ADD_CALENDAR_VIEW', $MODULE)}</h3>
+						<h3 class="modal-title">{\App\Language::translate('LBL_ADD_CALENDAR_VIEW', $MODULE)}</h3>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal">
@@ -28,7 +28,7 @@
 							<input type="hidden" class="selectedUserColor" value="" />
 							<input type="hidden" class="userCalendarMode" value="" />
 							<div class="form-group addCalendarViewsList">
-								<label class="control-label">{vtranslate('LBL_SELECT_USER_CALENDAR', $MODULE)}</label>
+								<label class="control-label">{\App\Language::translate('LBL_SELECT_USER_CALENDAR', $MODULE)}</label>
 								<div class="controls">
 									<select class="select2 form-control" name="usersCalendarList" style="min-width: 250px;">
 										{foreach key=USER_ID item=USER_NAME from=$SHAREDUSERS}
@@ -40,10 +40,10 @@
 								</div>
 							</div>
 							<div class="form-group editCalendarViewsList">
-								<label class="control-label">{vtranslate('LBL_EDITING_CALENDAR_VIEW', $MODULE)}</label>
+								<label class="control-label">{\App\Language::translate('LBL_EDITING_CALENDAR_VIEW', $MODULE)}</label>
 								<div class="controls">
 									<select class="select2 form-control" name="editingUsersList" style="min-width: 250px;">
-										<option value="{$CURRENT_USER_ID}" data-user-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}">{vtranslate('LBL_MINE',$MODULE)}</option>
+										<option value="{$CURRENT_USER_ID}" data-user-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}">{\App\Language::translate('LBL_MINE',$MODULE)}</option>
 										{foreach key=USER_ID item=USER_NAME from=$SHAREDUSERS}
 											{if $SHAREDUSERS_INFO[$USER_ID]['visible'] != '0'}
 												<option value="{$USER_ID}">{$USER_NAME}</option>
@@ -53,7 +53,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label">{vtranslate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
+								<label class="control-label">{\App\Language::translate('LBL_SELECT_CALENDAR_COLOR', $MODULE)}</label>
 								<div class="controls">
 									<p class="calendarColorPicker"></p>
 								</div>
@@ -70,8 +70,8 @@
 			<label class="checkbox addedCalendars" style="text-shadow: none">
 				<input type="checkbox" />
 				&nbsp;<span class="label" style="text-shadow: none"></span>
-				&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
-				&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{vtranslate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
+				&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{\App\Language::translate('LBL_EDIT_COLOR',$MODULE)}"></i>
+				&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{\App\Language::translate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
 			</label>
 		</div>
 		
@@ -79,8 +79,8 @@
 		<label class="addedCalendars" style="text-shadow: none">
 			<input type="checkbox" data-calendar-sourcekey="Events33_{$CURRENT_USER_ID}" data-calendar-feed="Events" 
 				   data-calendar-userid="{$CURRENT_USER_ID}" data-calendar-feed-color="{$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']}" >
-			&nbsp;<span class="label" style="text-shadow: none; background-color: {$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']};">{vtranslate('LBL_MINE',$MODULE)}</span>
-			&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
+			&nbsp;<span class="label" style="text-shadow: none; background-color: {$SHAREDUSERS_INFO[$CURRENT_USER_ID]['color']};">{\App\Language::translate('LBL_MINE',$MODULE)}</span>
+			&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{\App\Language::translate('LBL_EDIT_COLOR',$MODULE)}"></i>
 		</label>
 		{assign var=INVISIBLE_CALENDAR_VIEWS_EXISTS value='false'}
 		{foreach key=ID item=USER from=$SHAREDUSERS}
@@ -88,8 +88,8 @@
 				<label class="checkbox addedCalendars">
 					<input type="checkbox" data-calendar-sourcekey="Events33_{$ID}" data-calendar-feed="Events" data-calendar-userid="{$ID}" data-calendar-feed-color="{$SHAREDUSERS_INFO[$ID]['color']}"> 
 					&nbsp;<span class="label" style="text-shadow: none; background-color: {$SHAREDUSERS_INFO[$ID]['color']};">{$USER}</span>
-					&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{vtranslate('LBL_EDIT_COLOR',$MODULE)}"></i>
-					&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{vtranslate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
+					&nbsp;<i class="glyphicon glyphicon-pencil editCalendarColor cursorPointer actionImage" title="{\App\Language::translate('LBL_EDIT_COLOR',$MODULE)}"></i>
+					&nbsp;<i class="glyphicon glyphicon-trash cursorPointer actionImage deleteCalendarView" title="{\App\Language::translate('LBL_DELETE_CALENDAR',$MODULE)}"></i>
 				</label>
 			{else}
 				{assign var=INVISIBLE_CALENDAR_VIEWS_EXISTS value='true'}

@@ -15,7 +15,7 @@
 			<div class="col-md-7">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
 			</div>
 			<div class="col-md-5">
@@ -23,14 +23,14 @@
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
 							<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>&nbsp;&nbsp;
-							<strong>{vtranslate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
 					{if vglobal('systemMode') != 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="glyphicon glyphicon-import" aria-hidden="true"></span>&nbsp;&nbsp;
-								<strong>{vtranslate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
+								<strong>{\App\Language::translate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</span>
 					{/if}
@@ -42,19 +42,19 @@
 				<thead>
 					<tr class="blockHeader">
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_LIBRARY_NAME', $QUALIFIED_MODULE)}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_LIBRARY_DIR', $QUALIFIED_MODULE)}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_LIBRARY_URL', $QUALIFIED_MODULE)}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_LIBRARY_STATUS', $QUALIFIED_MODULE)}</span>
 						</th>
 						<th>
-							<span>{vtranslate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_LIBRARY_ACTION', $QUALIFIED_MODULE)}</span>
 						</th>
 					</tr>
 				</thead>
@@ -67,17 +67,17 @@
 							<td>
 								{if $LIBRARY['status'] == 1}
 									<span class="label label-success bigLabel">
-										{vtranslate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
-										{vtranslate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 									</span>
 								{else}
 									<span class="label label-danger bigLabel">
-										{vtranslate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
+										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
 									</span>
 								{/if}
@@ -87,12 +87,12 @@
 									{if $LIBRARY['status'] === 0}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
 											<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp;&nbsp;
-											<strong>{vtranslate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
+											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{else}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
 											<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
-											<strong>{vtranslate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
+											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{/if}
 								</span>
@@ -115,17 +115,17 @@
 						<td class="opacity col-md-6">
 							<div class="moduleManagerBlock">
 								<div class="col-md-1 col-xs-2">
-									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{vtranslate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
+									<input type="checkbox" value="" name="moduleStatus" data-module="{$MODULE_NAME}" data-module-translation="{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 								</div>
 								<div class="col-md-1 col-xs-2 moduleImage {if !$MODULE_ACTIVE}dull {/if}">
 									<span class="fa-2x userIcon-{$MODULE_NAME}"></span>
 								</div>
 								<div class="col-xs-8 col-md-4 moduleName {if !$MODULE_ACTIVE}dull {/if}">
-									<h4 class="no-margin">{vtranslate($MODULE_NAME, $MODULE_NAME)}</h4>
+									<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 								</div>
 								<div class="col-md-6 col-xs-12">
 									{if $MODULE_MODEL->get('customized')}
-										<button class="deleteModule btn btn-danger btn-xs pull-right marginLeft10" name="{$MODULE_NAME}">{vtranslate('LBL_DELETE')}</button>
+										<button class="deleteModule btn btn-danger btn-xs pull-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
 										<a class="btn btn-primary btn-xs pull-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="glyphicon glyphicon-download"></i></a>
@@ -134,12 +134,12 @@
 									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 										<div class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
 											<button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
-												<strong>{vtranslate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
+												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 											</button>
 											<ul class="dropdown-menu pull-right">
 												{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
 													<li>
-														<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{vtranslate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>
+														<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>
 													</li>
 												{/foreach}
 											</ul>

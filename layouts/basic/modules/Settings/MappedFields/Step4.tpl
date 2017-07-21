@@ -12,21 +12,21 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<label>
-							<strong>{vtranslate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {vtranslate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_STEP_N',$QUALIFIED_MODULE, 4)}: {\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}</strong>
 						</label>
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
 								<label class="col-md-3 control-label">
-									{vtranslate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
+									{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
 								</label>
 							<div class="col-md-8">
-								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{vtranslate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
+								<select class="selectize form-control" multiple="true" id="permissions" name="permissions[]" data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', 'Settings:Groups')}">
 									{assign 'TEMPLATE_MEMBERS' explode(',',$MAPPEDFIELDS_MODULE_MODEL->get('permissions'))}
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
-										<optgroup label="{vtranslate($GROUP_LABEL, $QUALIFIED_MODULE)}">
+										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
-												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{vtranslate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{\App\Language::translate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}
@@ -36,8 +36,8 @@
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar pull-right">
-							<button class="btn btn-danger backStep" type="button"><strong>{vtranslate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
-							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
+							<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
+							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 						</div>
 					</div>
 				</div>

@@ -34,7 +34,7 @@
 									<span class="fullContent hide">
 										{$FULL_TEXT}
 									</span>
-									<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+									<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 								{/if}
 							</div>
 						</div>
@@ -53,7 +53,7 @@
 			</div>
 		{foreachelse}
 			<div class="alert alert-info">
-				{vtranslate('LBL_NO_UNREAD_NOTIFICATIONS',$MODULE_NAME)}
+				{\App\Language::translate('LBL_NO_UNREAD_NOTIFICATIONS',$MODULE_NAME)}
 			</div>
 		{/foreach}
 	</div>

@@ -40,7 +40,7 @@
 					var x = item.datapoint[0].toFixed(0),
                         y = item.datapoint[1];
 					var html = '<div id="tooltip">';
-					html += item.series.label + "<br />" + app.vtranslate(months[x-1]) + "<br />" + y;
+					html += item.series.label + "<br />" + app.\App\Language::translate(months[x-1]) + "<br />" + y;
 
 					html += '</div>';
 					$(html).css( {
@@ -63,8 +63,8 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}">
-				<strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
+			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}">
+				<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
 			</div>
 		</div>
 		<div class="col-md-4">

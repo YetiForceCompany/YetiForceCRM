@@ -16,21 +16,21 @@
 	</div>
         <table class="">
             <tr>
-                <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{vtranslate('RunCron', 'OSSMailScanner')}</button></td>
+                <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
             </tr>
             </table><br />   
 		<div class="row col-xs-12">
 			<div  class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px" >
-				<div class="row col-sm-4">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-7"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
+				<div class="row col-sm-4">{\App\Language::translate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" class="form-control" title="{\App\Language::translate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
 			</div>
 			<div class='row col-sm-10 col-md-8 col-lg-7 marginBottom10px'>
-				<div class="row col-sm-4">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
+				<div class="row col-sm-4">{\App\Language::translate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{\App\Language::translate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 			</div>
 		</div>
 		<div class="pull-right">
-		<select class="col-md-1 form-control" name="page_num" title="{vtranslate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
+		<select class="col-md-1 form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}
 			<option vlaue="{$i}">{$i}</option>
@@ -40,15 +40,15 @@
 			<table class="table tableRWD table-bordered log-list">
 				<thead>
 					<tr class="listViewHeaders">
-						<th>{vtranslate('No', 'OSSMailScanner')}.</th>
-						<th>{vtranslate('startTime', 'OSSMailScanner')}</th>
-						<th>{vtranslate('endTime', 'OSSMailScanner')}</th>
-						<th>{vtranslate('status', 'OSSMailScanner')}</th>
-						<th>{vtranslate('who', 'OSSMailScanner')}</th>
-						<th>{vtranslate('count', 'OSSMailScanner')}</th>
-						<th>{vtranslate('stop_user', 'OSSMailScanner')}</th>
-						<th>{vtranslate('Action', 'OSSMailScanner')}</th>
-						<th>{vtranslate('Desc', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('No', 'OSSMailScanner')}.</th>
+						<th>{\App\Language::translate('startTime', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('endTime', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('status', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('who', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('count', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('stop_user', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('Action', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('Desc', 'OSSMailScanner')}</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -57,15 +57,15 @@
 						<td>{$item['id']}</td>
 						<td>{$item['start_time']}</td>
 						<td>{$item['end_time']}</td>
-						<td>{vtranslate($item['status'], 'OSSMailScanner')}</td>
+						<td>{\App\Language::translate($item['status'], 'OSSMailScanner')}</td>
 						<td>{$item['user']}</td>
 						<td>{$item['count']}</td>
 						<td>{$item['stop_user']}</td>
-						<td>{vtranslate($item['action'], 'OSSMailScanner')}</td>
+						<td>{\App\Language::translate($item['action'], 'OSSMailScanner')}</td>
 						<td>{$item['info']}</td>
 						<td>
 							{if $item['status'] eq 'In progress'}
-							<button type="button" class="btn btn-danger" id="manula_stop_cron" {if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{vtranslate('StopCron', 'OSSMailScanner')}</button>
+							<button type="button" class="btn btn-danger" id="manula_stop_cron" {if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{\App\Language::translate('StopCron', 'OSSMailScanner')}</button>
 							{/if}
 						</td>
 					</tr>
@@ -87,7 +87,7 @@
                 saveWidgetConfig('time', jQuery(this).val(), 'cron');
             } else {
                 var params = {
-                    text: app.vtranslate('JS_time_error'),
+                    text: app.\App\Language::translate('JS_time_error'),
                     type: 'error',
                     animation: 'show'
                 };
@@ -102,7 +102,7 @@
             }
             else {
                 var params = {
-                    text: app.vtranslate('JS_mail_error'),
+                    text: app.\App\Language::translate('JS_mail_error'),
                     type: 'error',
                     animation: 'show'
                 };
@@ -112,7 +112,7 @@
         });
 		jQuery('#run_cron').on('click', function(){
 			var paramsInfo = {
-				text: app.vtranslate('start_cron'),
+				text: app.\App\Language::translate('start_cron'),
 				type: 'info',
 				animation: 'show'
 			};
@@ -126,13 +126,13 @@
 					var params = {};
 					if(data.success && data.result == 'ok'){
 						params = {
-							text: app.vtranslate('end_cron_ok'),
+							text: app.\App\Language::translate('end_cron_ok'),
 							type: 'info',
 							animation: 'show'
 						};
 					} else{
 						params = {
-							title : app.vtranslate('end_cron_error'),
+							title : app.\App\Language::translate('end_cron_error'),
 							text: data.result,
 							type: 'error',
 							animation: 'show'
@@ -199,7 +199,7 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
                                             + '<td>' + isEmpty(data.result[i]['id']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['start_time']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['end_time']) + '</td>' 
-                                            + '<td>' + isEmpty(app.vtranslate(data.result[i]['status'])) + '</td>' 
+                                            + '<td>' + isEmpty(app.\App\Language::translate(data.result[i]['status'])) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['user']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['count']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['stop_user']) + '</td>' 
@@ -214,7 +214,7 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
                                             html += 'disabled';
                                         }
                                         
-                                        html += '>' + app.vtranslate('JS_StopCron') + '</button></td>';
+                                        html += '>' + app.\App\Language::translate('JS_StopCron') + '</button></td>';
                                     }
                                     
                                     html += '</tr>';

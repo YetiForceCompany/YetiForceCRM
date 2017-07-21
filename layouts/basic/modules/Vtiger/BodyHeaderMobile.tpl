@@ -88,7 +88,7 @@
 												<div class="rows">
 												{/if}
 												<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-													<a class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{vtranslate($singularLabel,$NAME)}">
+													<a class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
 														<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 													</a>
 												</div>
@@ -122,7 +122,7 @@
 				<div class="row">
 					<div class="quickAction">
 						<div class="pull-left">
-							{vtranslate($TITLE,$MODULE)}
+							{\App\Language::translate($TITLE,$MODULE)}
 						</div>
 						<div class="pull-right">
 							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
@@ -135,7 +135,7 @@
 									<span class="{$GLYPHICON}" aria-hidden="true" style="width:18px;height:20px;font-size:18px"></span>
 								{/if}
 								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 								{/if}
 							</a>
 						</div>
@@ -161,7 +161,7 @@
 										{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 											data-{$DATA_NAME}="{$DATA_VALUE}"
 										{/foreach}
-									{/if}>{vtranslate($label,$MODULE)}</a>
+									{/if}>{\App\Language::translate($label,$MODULE)}</a>
 								</li>
 							{/if}
 						{/foreach}
@@ -177,22 +177,22 @@
 					<option value="" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 					{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
-							<option value="{$MODULE_NAME}" selected>{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+							<option value="{$MODULE_NAME}" selected>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
 						{else}
-							<option value="{$MODULE_NAME}" >{vtranslate($MODULE_NAME,$MODULE_NAME)}</option>
+							<option value="{$MODULE_NAME}" >{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}</option>
 						{/if}
 					{/foreach}
 				</select>
 				<div class="input-group-btn">
 					<div class="pull-right">
-						<button class="btn btn-default globalSearch " title="{vtranslate('LBL_ADVANCE_SEARCH')}" type="button">
+						<button class="btn btn-default globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 							<span class="glyphicon glyphicon-th-large"></span>
 						</button>
 					</div>
 				</div>
 			</div>
 			<div class="input-group">
-				<input type="text" class="form-control globalSearchValue" title="{vtranslate('LBL_GLOBAL_SEARCH')}" placeholder="{vtranslate('LBL_GLOBAL_SEARCH')}" results="10" />
+				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<div class="input-group-btn">
 					<div class="pull-right">
 						<button class="btn btn-default searchIcon" type="button">

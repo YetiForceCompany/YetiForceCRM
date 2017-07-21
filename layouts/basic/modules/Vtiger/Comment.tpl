@@ -30,7 +30,7 @@
 							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($RELATED_TO)}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 								<strong>
-									{vtranslate($RELATED_MODULE,$RELATED_MODULE)}: 
+									{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}: 
 								</strong>
 								<strong class="commentRelatedTitle">
 									{vtlib\Functions::getCRMRecordLabel($RELATED_TO)}
@@ -54,12 +54,12 @@
 				<div class="editedStatus visible-lg-block"  name="editStatus">
 					<div class="col-xs-6">
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-xs-6 editReason">
-							<p><small>[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
+							<p><small>[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
 						</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
 								<span class="pull-right">
-									<p class="muted"><small><em>{vtranslate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
+									<p class="muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small></p>
 								</span>
 							</span>
 						{/if}
@@ -74,43 +74,43 @@
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-xs btn-success replyComment">
 								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-								&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}
+								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
 							<button type="button" class="btn btn-xs btn-danger deleteComment marginLeft5">
-								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<span class="glyphicon glyphicon-share-alt"></span>
 								</button>
 							</span>
 							<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="cursorPointer hideThread">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
 								</a>
 							</span>
 						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<span class="glyphicon glyphicon-share-alt"></span>
 								</button>
 							</span>
 							<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="cursorPointer hideThread">
-									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{vtranslate('LBL_REPLY',$MODULE_NAME)}{else}{vtranslate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
+									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
 								</a>
 							</span>

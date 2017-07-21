@@ -12,7 +12,7 @@
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 0px;">
-		<li class="active"><a href="#tab_rc_config" data-toggle="tab">{vtranslate('Roundcube config', 'OSSMail')}</a></li>
+		<li class="active"><a href="#tab_rc_config" data-toggle="tab">{\App\Language::translate('Roundcube config', 'OSSMail')}</a></li>
 	</ul>
 	<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
 		<div class="editViewContainer tab-pane active" id="tab_rc_config">
@@ -20,14 +20,14 @@
 				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
+						<h4>{\App\Language::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
 			{elseif !\App\Module::isModuleActive('OSSMail')}	
 				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
+						<h4>{\App\Language::translate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
 					</div>
 				</div>
 			{else}
@@ -37,7 +37,7 @@
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
 						<div class="row marginBottom10px">
 							<div class="row col-md-3">
-								<label class="muted ">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
+								<label class="muted ">{\App\Language::translate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
 							</div>
 							<div class="col-md-9">
 								{if $FIELD_DETAILS['fieldType'] == 'picklist'}
@@ -46,7 +46,7 @@
 											{foreach item=row from=$FIELD_DETAILS['value']}
 												<option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
 													{if $FIELD_NAME != 'language'}
-														{vtranslate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
+														{\App\Language::translate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
 													{else}
 														{$row}
 													{/if}
@@ -71,13 +71,13 @@
 									<div class="row col-sm-8">
 										<input class="form-control" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 									</div>
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', 'OSSMail')}{/if}
+									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', 'OSSMail')}{/if}
 								{/if}
 							</div>
 						</div>
 					{/foreach}
 					<div class="pull-right">
-						<button class="btn btn-success saveButton" style="margin-top:10px;" type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
+						<button class="btn btn-success saveButton" style="margin-top:10px;" type="submit" title=""><strong>{\App\Language::translate('LBL_SAVE', 'OSSMail')}</strong></button>
 					</div>
 				</form>
 			{/if}
@@ -126,8 +126,8 @@
 		jQuery.each(data, function (key, value) {
 			if ($("#RCConfigEditorForm [name='" + key + "']").attr('required') != undefined && value == '') {
 				var params = {
-					title: app.vtranslate('JS_ERROR'),
-					text: app.vtranslate('JS_ERROR_EMPTY'),
+					title: app.\App\Language::translate('JS_ERROR'),
+					text: app.\App\Language::translate('JS_ERROR_EMPTY'),
 					type: 'error',
 					animation: 'show'
 				};

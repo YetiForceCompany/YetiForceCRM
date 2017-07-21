@@ -5,11 +5,11 @@
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th><strong>{vtranslate('LBL_APP_NAME',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_ADDRESS_URL',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('Status',$QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</strong></th>
-						<th><strong>{vtranslate('LBL_API_KEY',$QUALIFIED_MODULE)}</strong></th>
+						<th><strong>{\App\Language::translate('LBL_APP_NAME',$QUALIFIED_MODULE)}</strong></th>
+						<th><strong>{\App\Language::translate('LBL_ADDRESS_URL',$QUALIFIED_MODULE)}</strong></th>
+						<th><strong>{\App\Language::translate('Status',$QUALIFIED_MODULE)}</strong></th>
+						<th><strong>{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</strong></th>
+						<th><strong>{\App\Language::translate('LBL_API_KEY',$QUALIFIED_MODULE)}</strong></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -19,9 +19,9 @@
 							<td>{$SERVER['acceptable_url']}</td>
 							<td>
 								{if $SERVER['status'] eq 1}
-									{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}
 								{else}
-									{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}
+									{\App\Language::translate('LBL_INACTIVE',$QUALIFIED_MODULE)}
 								{/if}
 							</td>
 							<td>

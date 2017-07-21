@@ -22,21 +22,21 @@
 				{assign var=LINK value=$RECORD->get('link')}
 				{if !empty($LINK)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('LBL_RELATION',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
+						<span class="muted">{\App\Language::translate('LBL_RELATION',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
 					</div>
 				{/if}
 				{assign var=PROCESS value=$RECORD->get('process')}
 				{if !empty($PROCESS)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('LBL_PROCESS',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
+						<span class="muted">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
 					</div>
 				{/if}
 				<div class="paddingLeft5px">
 					<span class="muted">
-						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 						{if $SHOWNERS != ''}
-							<br />{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+							<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>

@@ -4,13 +4,13 @@
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			&nbsp;{vtranslate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
+			&nbsp;{\App\Language::translate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-		<li class="active"><a href="#user_list" data-toggle="tab">{vtranslate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#configuration" data-toggle="tab">{vtranslate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
+		<li class="active"><a href="#user_list" data-toggle="tab">{\App\Language::translate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
+		<li><a href="#configuration" data-toggle="tab">{\App\Language::translate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<br />
 	<div class="tab-content">
@@ -19,10 +19,10 @@
 				<thead>
 					<tr class="blockHeader" >
 						<th class="mediumWidthType">
-							<span>{vtranslate('LBL_RC_USER', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_RC_USER', $QUALIFIED_MODULE)}</span>
 						</th>
 						<th class="mediumWidthType">
-							<span>{vtranslate('LBL_CRM_USER', $QUALIFIED_MODULE)}</span>
+							<span>{\App\Language::translate('LBL_CRM_USER', $QUALIFIED_MODULE)}</span>
 						</th>
 					</tr>
 				</thead>
@@ -49,7 +49,7 @@
 				<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
 			</div>
 			<div class="col-xs-10 pull-left">
-				<label for="autologinActive">{vtranslate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
+				<label for="autologinActive">{\App\Language::translate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
 			</div>
 		</div>
 	</div>

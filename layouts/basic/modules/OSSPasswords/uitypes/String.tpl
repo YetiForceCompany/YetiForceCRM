@@ -28,19 +28,19 @@ data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\A
 	{if $RECORD->getId() neq ''}
 		<button class="btn btn-warning btn-xs" 
 				onclick="showPassword('{$RECORD->getId()}');return false;" id="show-btn">
-			{vtranslate('LBL_ShowPassword', $MODULE)}
+			{\App\Language::translate('LBL_ShowPassword', $MODULE)}
 		</button>
 		&nbsp;
 		{* button for copying password to clipboard *}
-		<button type="button" class="btn btn-success btn-xs hide" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE)}">
+		<button type="button" class="btn btn-success btn-xs hide" data-copy-target="{$MODULE}_editView_fieldName_{$FIELD_NAME}" id="copy-button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE)}">
 			<span class="glyphicon glyphicon-download-alt"></span>
 		</button>
 	{/if}
 	<p>
 		{if $FIELD_MODEL->get('fieldvalue') eq ''}
-		<div id="passwordDescription">{vtranslate('Enter the password', $MODULE)}</div>
+		<div id="passwordDescription">{\App\Language::translate('Enter the password', $MODULE)}</div>
 		{else}
-		<div id="passwordDescription">{vtranslate('Password is hidden', $MODULE)}</div>
+		<div id="passwordDescription">{\App\Language::translate('Password is hidden', $MODULE)}</div>
 		{/if}
 		<div id="passwordStrength" class="strength0"></div>
 	</p>

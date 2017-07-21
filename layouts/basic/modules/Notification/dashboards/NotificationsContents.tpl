@@ -9,7 +9,7 @@
 			</div>
 		{else}
 			<span class="noDataMsg">
-				{vtranslate('LBL_NO_NOTIFICATIONS', $MODULE_NAME)}
+				{\App\Language::translate('LBL_NO_NOTIFICATIONS', $MODULE_NAME)}
 			</span>
 		{/if}
 	</div>

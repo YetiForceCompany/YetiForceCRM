@@ -14,8 +14,8 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-				<h3 class="modal-title">{vtranslate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+				<h3 class="modal-title">{\App\Language::translate($RECORD_MODEL->get('name'), $QUALIFIED_MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="cronJobSaveAjax" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
@@ -27,19 +27,19 @@
 
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">{vtranslate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
+						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
 						<div class="col-sm-8 controls">
 							<select class="chzn-select form-control" name="status">
 								<optgroup>
-									<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
-									<option {if $RECORD_MODEL->get('status') eq 0} selected="" {/if} value="0">{vtranslate('LBL_INACTIVE',$QUALIFIED_MODULE)}</option>
+									<option {if $RECORD_MODEL->get('status') eq 1} selected="" {/if} value="1">{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}</option>
+									<option {if $RECORD_MODEL->get('status') eq 0} selected="" {/if} value="0">{\App\Language::translate('LBL_INACTIVE',$QUALIFIED_MODULE)}</option>
 								</optgroup>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">
-							{vtranslate('Frequency',$QUALIFIED_MODULE)}
+							{\App\Language::translate('Frequency',$QUALIFIED_MODULE)}
 						</label>
 						<div class="controls col-sm-8">
 							{assign var=VALUES value=':'|explode:$RECORD_MODEL->getDisplayValue('frequency')}
@@ -61,15 +61,15 @@
 							<div class="col-xs-6 col-sm-8 paddingLRZero">
 								<select class="chzn-select form-control" id="time_format">
 									<optgroup>
-										<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{vtranslate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
-										<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{vtranslate(LBL_HOURS,$QUALIFIED_MODULE)}</option>
+										<option value="mins" {if $MINUTES eq 'true'} selected="" {/if}>{\App\Language::translate(LBL_MINUTES,$QUALIFIED_MODULE)}</option>
+										<option value="hours" {if $MINUTES eq 'false'}selected="" {/if}>{\App\Language::translate(LBL_HOURS,$QUALIFIED_MODULE)}</option>
 									</optgroup>
 								</select>
 							</div>
 						</div>	
 					</div>
 					{if $RECORD_MODEL->get('description') neq ''}
-						<div class="alert alert-info">{vtranslate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
+						<div class="alert alert-info">{\App\Language::translate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
 					{/if}
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}

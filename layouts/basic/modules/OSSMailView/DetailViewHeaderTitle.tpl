@@ -10,11 +10,11 @@
 					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				<span class="muted">
-					<small><em>{vtranslate('Sent','OSSMailView')}</em></small>
+					<small><em>{\App\Language::translate('Sent','OSSMailView')}</em></small>
 					<span><small><em>&nbsp;{$RECORD->get('createdtime')}</em></small></span>
 				</span>
 				<div>
-					<strong>{vtranslate('LBL_OWNER')} : {\App\Fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong>
+					<strong>{\App\Language::translate('LBL_OWNER')} : {\App\Fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong>
 				</div>
 			</div>
 		</div>
