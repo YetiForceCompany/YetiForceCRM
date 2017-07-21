@@ -243,3 +243,13 @@ class Vtiger_Language_Handler
 		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);
 	}
 }
+
+function vtranslate($key, $moduleName = 'Vtiger')
+{
+	$formattedString = Vtiger_Language_Handler::getTranslatedString($key, $moduleName);
+	$args = array_slice(func_get_args(), 2);
+	if (is_array($args) && !empty($args)) {
+		$formattedString = call_user_func_array('vsprintf', [$formattedString, $args]);
+	}
+	return $formattedString;
+}
