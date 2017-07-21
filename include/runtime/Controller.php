@@ -375,7 +375,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/select2/select2.full.js',
 			'~libraries/jquery/jquery-ui/jquery-ui.js',
 			'~libraries/jquery/jquery.class.js',
-			'~libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
 			'~libraries/jquery/jstorage.js',
 			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
 			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',

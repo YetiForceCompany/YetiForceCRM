@@ -63,8 +63,6 @@
 				<input type="hidden" id="fieldsReferencesDependent" value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
 			</div>
 			<div id="page">
-				<!-- container which holds data temporarly for pjax calls -->
-				<div id="pjaxContainer" class="hide noprint"></div>
 				{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}
 				{if $ANNOUNCEMENTS->checkActive()}
 					{include file='Announcement.tpl'|@vtemplate_path:$MODULE}

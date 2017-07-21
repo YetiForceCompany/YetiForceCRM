@@ -41,6 +41,4 @@
 			<input type="hidden" id="row_type" value="" />
 			<input type="hidden" id="current_user_id" value="" />
 			<div id="page">
-				<!-- container which holds data temporarly for pjax calls -->
-				<div id="pjaxContainer" class="hide noprint"></div>
 			{/strip}
