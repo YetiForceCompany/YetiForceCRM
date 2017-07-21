@@ -132,7 +132,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		$results = [];
 		parent::deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
