@@ -1536,7 +1536,6 @@ var app = {
 		if (errorThrown) {
 			console.error(errorThrown);
 		}
-		console.log('-----------------');
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {
