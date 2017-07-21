@@ -42,7 +42,7 @@ SetEnv HTACCESS_TEST on
 	#php_flag	session.cookie_secure		On
 	php_flag	session.auto_start			Off
 	# 86400 = 3600*24
-	php_value	session.gc_maxlifetime		86400
+	php_value	session.gc_maxlifetime		86400 
 	# 1440 = 60*24
 	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
@@ -73,7 +73,7 @@ SetEnv HTACCESS_TEST on
 	#php_flag	session.cookie_secure		On
 	php_flag	session.auto_start			Off
 	# 86400 = 3600*24
-	php_value	session.gc_maxlifetime		86400
+	php_value	session.gc_maxlifetime		86400 
 	# 1440 = 60*24
 	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
@@ -86,7 +86,7 @@ SetEnv HTACCESS_TEST on
 	Header set X-XSS-Protection "1; mode=block"
     Header set X-Content-Type-Options "nosniff"
 	Header set Referrer-Policy "no-referrer"
-	Header set Strict-Transport-Security "max-age=15768000; includeSubDomains"
+	Header set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
     Header set X-Robots-Tag "none"
     Header set X-Permitted-Cross-Domain-Policies "none"
 	Header unset Server
