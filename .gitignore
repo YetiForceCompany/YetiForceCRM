@@ -27,3 +27,6 @@ vendor/sabre/
 vendor/ircmaxell/
 vendor/bin/
 vendor/paragonie/
+vendor/psr/
+vendor/sensiolabs/
+vendor/composer/ca-bundle/

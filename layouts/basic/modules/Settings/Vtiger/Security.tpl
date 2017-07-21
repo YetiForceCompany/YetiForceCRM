@@ -33,6 +33,44 @@
 				{/foreach}
 			</tbody>
 		</table>
+		{if $SENSIOLABS}
+			<br />
+			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="4" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_SECURITY_ADVISORIES_CHECKER', 'Settings::ConfReport')}</span>
+						</th>
+					</tr>
+					<tr class="blockHeader">
+						<th colspan="1" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_LIB_NAME', 'Settings::ConfReport')}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_VULNERABILITY_NAME', 'Settings::ConfReport')}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>{App\Language::translate('LBL_VULNERABILITY_URL', 'Settings::ConfReport')}</span>
+						</th>
+						<th colspan="1" class="mediumWidthType">
+							<span>CVE</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$SENSIOLABS key=LIB_NAME item=LIB}
+						{foreach from=$LIB['advisories'] item=ADVISORIE}
+							<tr>
+								<td><label>{$LIB_NAME} ({$LIB['version']})</label></td>
+								<td><label>{$ADVISORIE['title']}</label></td>
+								<td><label><a title="{$ADVISORIE['cve']}" target="_blank" rel="noreferrer" href="{$ADVISORIE['link']}">{$ADVISORIE['link']}</a></label></td>
+								<td><label>{$ADVISORIE['cve']}</label></td>
+							</tr>
+						{/foreach}
+					{/foreach}
+				</tbody>
+			</table>
+		{/if}
 		{assign var="ACCESS_FOR_ADMIN" value=App\Log::getLogs('access_for_admin', 'oneDay')}
 		{if $ACCESS_FOR_ADMIN}
 			<br />

@@ -29,6 +29,8 @@ class ComposerStaticInitYT
 		array(
 			'Symfony\\Polyfill\\Mbstring\\' => 26,
 			'Symfony\\Component\\VarDumper\\' => 28,
+			'Symfony\\Component\\Debug\\' => 24,
+			'Symfony\\Component\\Console\\' => 26,
 			'Sabre\\Xml\\' => 10,
 			'Sabre\\VObject\\' => 14,
 			'Sabre\\Uri\\' => 10,
@@ -38,6 +40,10 @@ class ComposerStaticInitYT
 			'Sabre\\DAVACL\\' => 13,
 			'Sabre\\CardDAV\\' => 14,
 			'Sabre\\CalDAV\\' => 13,
+		),
+		'P' =>
+		array(
+			'Psr\\Log\\' => 8,
 		),
 		'E' =>
 		array(
@@ -50,6 +56,7 @@ class ComposerStaticInitYT
 		'C' =>
 		array(
 			'Cron\\' => 5,
+			'Composer\\CaBundle\\' => 18,
 		),
 		'A' =>
 		array(
@@ -73,6 +80,14 @@ class ComposerStaticInitYT
 		'Symfony\\Component\\VarDumper\\' =>
 		array(
 			0 => __DIR__ . '/..' . '/symfony/var-dumper',
+		),
+		'Symfony\\Component\\Debug\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/symfony/debug',
+		),
+		'Symfony\\Component\\Console\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/symfony/console',
 		),
 		'Sabre\\Xml\\' =>
 		array(
@@ -110,6 +125,10 @@ class ComposerStaticInitYT
 		array(
 			0 => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV',
 		),
+		'Psr\\Log\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+		),
 		'Exception\\' =>
 		array(
 			0 => __DIR__ . '/../..' . '/include/exceptions',
@@ -122,6 +141,10 @@ class ComposerStaticInitYT
 		array(
 			0 => __DIR__ . '/../..' . '/cron',
 		),
+		'Composer\\CaBundle\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+		),
 		'App\\' =>
 		array(
 			0 => __DIR__ . '/..' . '/yetiforce',
@@ -132,6 +155,13 @@ class ComposerStaticInitYT
 		),
 	);
 	public static $prefixesPsr0 = array(
+		'S' =>
+		array(
+			'SensioLabs\\Security' =>
+			array(
+				0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
+			),
+		),
 		'R' =>
 		array(
 			'Requests' =>

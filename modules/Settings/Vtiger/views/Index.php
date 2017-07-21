@@ -180,8 +180,14 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$qualifiedModuleName = $request->getModule(false);
 
 		$folders = array_values(\App\SystemWarnings::getFolders());
+		$checker = new SensioLabs\Security\SecurityChecker();
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		$viewer->assign('FOLDERS', \App\Json::encode($folders));
+		try {
+			$viewer->assign('SENSIOLABS', $checker->check(ROOT_DIRECTORY));
+		} catch (RuntimeException $exc) {
+			
+		}
 		$viewer->view('Security.tpl', $qualifiedModuleName);
 	}
 

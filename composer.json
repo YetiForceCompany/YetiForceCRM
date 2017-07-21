@@ -40,7 +40,8 @@
 		"phpmailer/phpmailer": "v5.2.23",
 		"ezyang/htmlpurifier": "v4.9.3",
 		"symfony/var-dumper": "v3.3.5",
-		"simshaun/recurr": "v3.0.1"
+		"simshaun/recurr": "v3.0.1",
+		"sensiolabs/security-checker": "v4.0.4"
 	},
 	"archive": {
 		"exclude": [
