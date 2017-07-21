@@ -8,12 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
-global $calpath;
-global $theme;
-
-
-$theme_path = "themes/" . $theme . "/";
-$image_path = $theme_path . "images/";
 require_once('modules/Reports/Reports.php');
 require_once 'modules/Reports/ReportUtils.php';
 require_once('modules/Vtiger/helpers/Util.php');
@@ -2150,7 +2144,6 @@ class ReportRun extends CRMEntity
 			foreach ($this->queryPlanner->getCustomTables() as $customTable) {
 				$query .= ' left join ' . $customTable['refTable'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
-			
 		} else {
 			if ($module != '') {
 				$focus = CRMEntity::getInstance($module);
@@ -2211,20 +2204,20 @@ class ReportRun extends CRMEntity
 		$reportquery = $this->getReportsQuery($this->primarymodule, $type);
 		$wheresql = '';
 		if ($stdfiltersql != '' || $advfiltersql != '') {
-			if(strpos($reportquery, 'WHERE') !== false) {
+			if (strpos($reportquery, 'WHERE') !== false) {
 				$wheresql = ' AND ';
 			} else {
 				$wheresql = ' WHERE ';
 			}
 		}
 		if ($stdfiltersql != '') {
-			$wheresql .=  $stdfiltersql;
+			$wheresql .= $stdfiltersql;
 		}
 		if ($advfiltersql != '') {
 			if ($stdfiltersql != '') {
 				$wheresql .= ' AND ';
 			}
-			$wheresql .=  $advfiltersql;
+			$wheresql .= $advfiltersql;
 		}
 		// If we don't have access to any columns, let us select one column and limit result to shown we have not results
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4758 - Prasad
@@ -2317,8 +2310,8 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		global $modules;
-		global $mod_strings;
+		$modules = vglobal('modules');
+		$mod_strings = vglobal('mod_strings');
 		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 		$modules_selected = [];
 		$modules_selected[] = $this->primarymodule;
@@ -2331,7 +2324,7 @@ class ReportRun extends CRMEntity
 		}
 
 		// Update Reference fields list list
-		$referencefieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (10,101)", []);
+		$referencefieldres = $adb->pquery('SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (10,101)', []);
 		if ($referencefieldres) {
 			foreach ($referencefieldres as $referencefieldrow) {
 				$uiType = $referencefieldrow['uitype'];
@@ -3580,7 +3573,7 @@ class ReportRun extends CRMEntity
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {
 					$referenceTableName = "{$entityTableName}Rel$moduleName";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
-				} elseif ($fieldInstance->getUIType() === 66 ||$fieldInstance->getUIType() === 67 || $fieldInstance->getUIType() === 68){
+				} elseif ($fieldInstance->getUIType() === 66 || $fieldInstance->getUIType() === 67 || $fieldInstance->getUIType() === 68) {
 					$referenceTableName = $entityTableFieldNames['tablename'];
 					$this->queryPlanner->addCustomTable(
 						[
@@ -3591,7 +3584,7 @@ class ReportRun extends CRMEntity
 							'refIndex' => $entityTableFieldNames['entityidfield']
 						]
 					);
-				}  else {
+				} else {
 					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldInstance->getFieldId()}";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
 					$this->queryPlanner->addCustomTable(

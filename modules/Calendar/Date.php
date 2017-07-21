@@ -299,7 +299,7 @@ class vt_DateTime
 	 */
 	public function setDateTime($ts)
 	{
-		global $mod_strings;
+		$modStrings = vglobal('mod_strings');
 		if (empty($ts)) {
 			$ts = time();
 		}
@@ -310,10 +310,10 @@ class vt_DateTime
 
 		list($this->minute, $this->hour, $this->z_hour, $this->day, $this->z_day, $this->daysinmonth, $this->dayofweek, $this->dayofyear, $is_leap, $this->week, $this->month, $this->z_month, $this->year, $this->offset, $this->tz, $this->second) = explode('::', $date_string);
 
-		$this->dayofweek_inshort = $mod_strings['cal_weekdays_short'][$this->dayofweek - 1];
-		$this->dayofweek_inlong = $mod_strings['cal_weekdays_long'][$this->dayofweek - 1];
-		$this->month_inshort = $mod_strings['cal_month_short'][$this->month];
-		$this->month_inlong = $mod_strings['cal_month_long'][$this->month];
+		$this->dayofweek_inshort = $modStrings['cal_weekdays_short'][$this->dayofweek - 1];
+		$this->dayofweek_inlong = $modStrings['cal_weekdays_long'][$this->dayofweek - 1];
+		$this->month_inshort = $modStrings['cal_month_short'][$this->month];
+		$this->month_inlong = $modStrings['cal_month_long'][$this->month];
 
 		$this->daysinyear = 365;
 
@@ -327,7 +327,7 @@ class vt_DateTime
 	 */
 	public function getDateTime()
 	{
-		global $mod_strings;
+		$modStrings = vglobal('mod_strings');
 		$hour = 0;
 		$minute = 0;
 		$second = 0;
