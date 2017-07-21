@@ -1,51 +1,5 @@
 [
 	{
-		"name": "ezyang/htmlpurifier",
-		"version": "v4.8.0",
-		"version_normalized": "4.8.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/ezyang/htmlpurifier.git",
-			"reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
-			"reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.2"
-		},
-		"time": "2016-07-16T12:58:58+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"HTMLPurifier": "library/"
-			},
-			"files": [
-				"library/HTMLPurifier.composer.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL"
-		],
-		"authors": [
-			{
-				"name": "Edward Z. Yang",
-				"email": "admin@htmlpurifier.org",
-				"homepage": "http://ezyang.com"
-			}
-		],
-		"description": "Standards compliant HTML filter written in PHP",
-		"homepage": "http://htmlpurifier.org/",
-		"keywords": [
-			"html"
-		]
-	},
-	{
 		"name": "doctrine/collections",
 		"version": "v1.4.0",
 		"version_normalized": "1.4.0.0",
@@ -222,30 +176,46 @@
 	},
 	{
 		"name": "phpmailer/phpmailer",
-		"version": "v5.2.22",
-		"version_normalized": "5.2.22.0",
+		"version": "v5.2.23",
+		"version_normalized": "5.2.23.0",
 		"source": {
 			"type": "git",
 			"url": "https://github.com/PHPMailer/PHPMailer.git",
-			"reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
+			"reference": "7115df4a6f76281109ebe352900c42403b728bb4"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b18cb98131bd83103ccb26a888fdfe3177b8a663",
-			"reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
+			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/7115df4a6f76281109ebe352900c42403b728bb4",
+			"reference": "7115df4a6f76281109ebe352900c42403b728bb4",
 			"shasum": ""
 		},
 		"require": {
 			"php": ">=5.0.0"
 		},
 		"require-dev": {
-			"phpdocumentor/phpdocumentor": "*",
-			"phpunit/phpunit": "4.7.*"
+			"doctrine/annotations": "1.2.*",
+			"jms/serializer": "0.16.*",
+			"phpdocumentor/phpdocumentor": "2.*",
+			"phpunit/phpunit": "4.8.*",
+			"symfony/debug": "2.8.*",
+			"symfony/filesystem": "2.8.*",
+			"symfony/translation": "2.8.*",
+			"symfony/yaml": "2.8.*",
+			"zendframework/zend-cache": "2.5.1",
+			"zendframework/zend-config": "2.5.1",
+			"zendframework/zend-eventmanager": "2.5.1",
+			"zendframework/zend-filter": "2.5.1",
+			"zendframework/zend-i18n": "2.5.1",
+			"zendframework/zend-json": "2.5.1",
+			"zendframework/zend-math": "2.5.1",
+			"zendframework/zend-serializer": "2.5.*",
+			"zendframework/zend-servicemanager": "2.5.*",
+			"zendframework/zend-stdlib": "2.5.1"
 		},
 		"suggest": {
 			"league/oauth2-google": "Needed for Google XOAUTH2 authentication"
 		},
-		"time": "2017-01-09T09:33:47+00:00",
+		"time": "2017-03-15T19:32:56+00:00",
 		"type": "library",
 		"installation-source": "dist",
 		"autoload": {
@@ -283,35 +253,150 @@
 		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
 	},
 	{
-		"name": "symfony/var-dumper",
-		"version": "v3.2.2",
-		"version_normalized": "3.2.2.0",
+		"name": "ezyang/htmlpurifier",
+		"version": "v4.9.3",
+		"version_normalized": "4.9.3.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/symfony/var-dumper.git",
-			"reference": "b54b23f9a19b465e76fdaac0f6732410467c83b2"
+			"url": "https://github.com/ezyang/htmlpurifier.git",
+			"reference": "95e1bae3182efc0f3422896a3236e991049dac69"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/b54b23f9a19b465e76fdaac0f6732410467c83b2",
-			"reference": "b54b23f9a19b465e76fdaac0f6732410467c83b2",
+			"url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
+			"reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.2"
+		},
+		"require-dev": {
+			"simpletest/simpletest": "^1.1"
+		},
+		"time": "2017-06-03T02:28:16+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"HTMLPurifier": "library/"
+			},
+			"files": [
+				"library/HTMLPurifier.composer.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL"
+		],
+		"authors": [
+			{
+				"name": "Edward Z. Yang",
+				"email": "admin@htmlpurifier.org",
+				"homepage": "http://ezyang.com"
+			}
+		],
+		"description": "Standards compliant HTML filter written in PHP",
+		"homepage": "http://htmlpurifier.org/",
+		"keywords": [
+			"html"
+		]
+	},
+	{
+		"name": "symfony/polyfill-mbstring",
+		"version": "v1.4.0",
+		"version_normalized": "1.4.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/polyfill-mbstring.git",
+			"reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
+			"reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.3"
+		},
+		"suggest": {
+			"ext-mbstring": "For best performance"
+		},
+		"time": "2017-06-09T14:24:12+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.4-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Polyfill\\Mbstring\\": ""
+			},
+			"files": [
+				"bootstrap.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony polyfill for the Mbstring extension",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"compatibility",
+			"mbstring",
+			"polyfill",
+			"portable",
+			"shim"
+		]
+	},
+	{
+		"name": "symfony/var-dumper",
+		"version": "v3.3.5",
+		"version_normalized": "3.3.5.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/var-dumper.git",
+			"reference": "0f32b62d21991700250fed5109b092949007c5b3"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/0f32b62d21991700250fed5109b092949007c5b3",
+			"reference": "0f32b62d21991700250fed5109b092949007c5b3",
 			"shasum": ""
 		},
 		"require": {
 			"php": ">=5.5.9",
 			"symfony/polyfill-mbstring": "~1.0"
 		},
+		"conflict": {
+			"phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
+		},
 		"require-dev": {
-			"twig/twig": "~1.20|~2.0"
+			"ext-iconv": "*",
+			"twig/twig": "~1.34|~2.4"
 		},
 		"suggest": {
+			"ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
 			"ext-symfony_debug": ""
 		},
-		"time": "2017-01-03T08:53:57+00:00",
+		"time": "2017-07-10T14:18:27+00:00",
 		"type": "library",
 		"extra": {
 			"branch-alias": {
-				"dev-master": "3.2-dev"
+				"dev-master": "3.3-dev"
 			}
 		},
 		"installation-source": "dist",
@@ -349,27 +434,27 @@
 	},
 	{
 		"name": "simshaun/recurr",
-		"version": "v2.1",
-		"version_normalized": "2.1.0.0",
+		"version": "v3.0.1",
+		"version_normalized": "3.0.1.0",
 		"source": {
 			"type": "git",
 			"url": "https://github.com/simshaun/recurr.git",
-			"reference": "699a55524db1a086ba2c607bd891ecf03dbd572a"
+			"reference": "5c57048a613d119127be31b162b3bbf510f0e308"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/simshaun/recurr/zipball/699a55524db1a086ba2c607bd891ecf03dbd572a",
-			"reference": "699a55524db1a086ba2c607bd891ecf03dbd572a",
+			"url": "https://api.github.com/repos/simshaun/recurr/zipball/5c57048a613d119127be31b162b3bbf510f0e308",
+			"reference": "5c57048a613d119127be31b162b3bbf510f0e308",
 			"shasum": ""
 		},
 		"require": {
 			"doctrine/collections": "~1.3",
-			"php": ">=5.3.0"
+			"php": ">=5.5.0"
 		},
 		"require-dev": {
 			"phpunit/phpunit": "~4.5"
 		},
-		"time": "2016-12-19T21:12:08+00:00",
+		"time": "2017-07-18T22:11:04+00:00",
 		"type": "library",
 		"extra": {
 			"branch-alias": {
@@ -401,67 +486,6 @@
 			"recurrence",
 			"recurring",
 			"rrule"
-		]
-	},
-	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.3.0",
-		"version_normalized": "1.3.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
-			"reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
-		},
-		"suggest": {
-			"ext-mbstring": "For best performance"
-		},
-		"time": "2016-11-14T01:06:16+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
 		]
 	}
 ]
