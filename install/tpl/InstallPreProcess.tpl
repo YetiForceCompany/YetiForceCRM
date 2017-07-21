@@ -20,7 +20,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="head pull-right">
-					<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
+					<h3>{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
 				</div>
 			</div>
 		</div>
@@ -30,9 +30,9 @@
 					<div class="inner-container">
 						<div class="row">
 							<div class="span12 welcome-div alignCenter">
-								<h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br />
+								<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br />
 								<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
-								<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
+								<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
 							</div>
 						</div>
 					</div>

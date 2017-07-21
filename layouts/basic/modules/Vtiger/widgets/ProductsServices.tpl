@@ -2,32 +2,32 @@
 {strip}
 	<div class="addRelatedRecordBtn">
 		{if $RELATED_MODULE eq 'Products' && Users_Privileges_Model::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'OutsourcedProducts' && Users_Privileges_Model::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'Assets' && Users_Privileges_Model::isPermitted('Assets', 'CreateView')}
-			<button class="btn btn-xs btn-default" type="button" title="{vtranslate('LBL_ADD',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
+			<button class="btn btn-xs btn-default" type="button" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
 				<span class="glyphicon glyphicon-plus-sign" ></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'Services' && Users_Privileges_Model::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && Users_Privileges_Model::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'OSSSoldServices' && Users_Privileges_Model::isPermitted('OSSSoldServices', 'CreateView')}
-			<button class="btn btn-xs btn-default" type="button" title="{vtranslate('LBL_SELECT',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
+			<button class="btn btn-xs btn-default" type="button" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
 				<span class="glyphicon glyphicon-plus-sign" ></span>
 			</button>
 		{/if}
@@ -39,7 +39,7 @@
 					<tr class="">
 						{foreach item=HEADER_FIELD key=KEY from=$RELATED_HEADERS}
 							<th class="{$KEY}" nowrap>
-								{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE)}
+								{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE)}
 							</th>
 						{/foreach}
 					</tr>
@@ -76,7 +76,7 @@
 					<tr class="">
 						{foreach item=HEADER from=$RELATED_HEADERS_TREE}
 							<th nowrap>
-								{vtranslate($HEADER, $RELATED_MODULE)}
+								{\App\Language::translate($HEADER, $RELATED_MODULE)}
 							</th>
 						{/foreach}
 					</tr>
@@ -96,7 +96,7 @@
 	{if $RECORD_PAGING_MODEL->isNextPageExists()}
 		<div class="row">
 			<div class="pull-right">
-				<button type="button" class="btn btn-primary btn-xs marginRight10 marginTop10 moreProductsService">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
+				<button type="button" class="btn btn-primary btn-xs marginRight10 marginTop10 moreProductsService">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 			</div>
 		</div>
 	{/if}

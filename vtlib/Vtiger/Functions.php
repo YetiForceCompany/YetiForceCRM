@@ -579,28 +579,28 @@ class Functions
 		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
-			$short[] = $years == 1 ? $years . vtranslate('LBL_Y') : $years . vtranslate('LBL_YRS');
-			$full[] = $years == 1 ? $years . vtranslate('LBL_YEAR') : $years . vtranslate('LBL_YEARS');
+			$short[] = $years == 1 ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
+			$full[] = $years == 1 ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
 		}
 		$days = self::myBcmod(($timeMinutesRange), (60 * 24 * 365));
 		$days = ($days) / (24 * 60);
 		$days = floor($days);
 		if (!empty($days)) {
-			$short[] = $days . vtranslate('LBL_D');
-			$full[] = $days == 1 ? $days . vtranslate('LBL_DAY') : $days . vtranslate('LBL_DAYS');
+			$short[] = $days . \App\Language::translate('LBL_D');
+			$full[] = $days == 1 ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
 		}
 		$hours = self::myBcmod(($timeMinutesRange), (24 * 60));
 		$hours = ($hours) / (60);
 		$hours = floor($hours);
 		if (!empty($hours)) {
-			$short[] = $hours . vtranslate('LBL_H');
-			$full[] = $hours == 1 ? $hours . vtranslate('LBL_HOUR') : $hours . vtranslate('LBL_HOURS');
+			$short[] = $hours . \App\Language::translate('LBL_H');
+			$full[] = $hours == 1 ? $hours . \App\Language::translate('LBL_HOUR') : $hours . \App\Language::translate('LBL_HOURS');
 		}
 		$minutes = self::myBcmod(($timeMinutesRange), (60));
 		$minutes = floor($minutes);
 		if (!empty($timeMinutesRange) || $showEmptyValue) {
-			$short[] = $minutes . vtranslate('LBL_M');
-			$full[] = $minutes == 1 ? $minutes . vtranslate('LBL_MINUTE') : $minutes . vtranslate('LBL_MINUTES');
+			$short[] = $minutes . \App\Language::translate('LBL_M');
+			$full[] = $minutes == 1 ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
 		}
 
 		return [

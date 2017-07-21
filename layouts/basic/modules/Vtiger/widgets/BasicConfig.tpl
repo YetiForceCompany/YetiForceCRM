@@ -7,22 +7,22 @@
 				<input type="hidden" name="wid" value="{$WID}">
 				<input type="hidden" name="type" value="{$TYPE}">
 				<div class="modal-header">
-					<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
-					<h3 id="massEditHeader" class="modal-title">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
+					<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
+					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="modal-Fields">
 						<div class="row">
-							<div class="col-md-3 marginLeftZero"><strong>{vtranslate('Type widget', $QUALIFIED_MODULE)}</strong>:</div>
+							<div class="col-md-3 marginLeftZero"><strong>{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}</strong>:</div>
 							<div class="col-md-7">
-								{vtranslate($TYPE, $QUALIFIED_MODULE)}
+								{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 							</div>
-							<div class="col-md-3 marginLeftZero"><label class="">{vtranslate('Label', $QUALIFIED_MODULE)}:</label></div>
+							<div class="col-md-3 marginLeftZero"><label class="">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label></div>
 							<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
-							<div class="col-md-3 marginLeftZero"><label class="">{vtranslate('No left margin', $QUALIFIED_MODULE)}:</label></div>
+							<div class="col-md-3 marginLeftZero"><label class="">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}:</label></div>
 							<div class="col-md-7">
 								<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-								<a href="#" class="HelpInfoPopover " title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
+								<a href="#" class="HelpInfoPopover " title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
 							</div>
 						</div>
 					</div>

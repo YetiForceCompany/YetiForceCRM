@@ -10,7 +10,7 @@
 	{assign var="PARAMS" value=$FIELD_MODEL->getUITypeModel()->get('field')->getFieldParams()}
 	{assign var="RELATED_FIELD_MODEL" value=Vtiger_Field_Model::getInstanceFromFieldId($PARAMS['field'])}
 	<div class="picklistSearchField">
-		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" multiple data-fieldinfo="{$FIELD_INFO|escape}">
+		<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}" multiple data-fieldinfo="{$FIELD_INFO|escape}">
 			{foreach item=VALUE from=$PICKLIST_VALUES}
 				<option value="{$VALUE}" {if in_array($VALUE,$SEARCH_VALUES) && ($VALUE neq "")}selected{/if}>
 					{$RELATED_FIELD_MODEL->getUITypeModel()->getDisplayValue($VALUE)}

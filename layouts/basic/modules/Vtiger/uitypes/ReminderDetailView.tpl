@@ -12,8 +12,8 @@
 {strip}
 {assign var=REMINDER_VALUES value=$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId())}
 {if $REMINDER_VALUES eq ''}
-    {vtranslate('LBL_NO', $MODULE)}
+    {\App\Language::translate('LBL_NO', $MODULE)}
 {else}
-    {$REMINDER_VALUES}{vtranslate('LBL_BEFORE_EVENT', $MODULE)}
+    {$REMINDER_VALUES}{\App\Language::translate('LBL_BEFORE_EVENT', $MODULE)}
 {/if}
 {/strip}

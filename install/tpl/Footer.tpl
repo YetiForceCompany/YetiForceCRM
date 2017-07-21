@@ -15,7 +15,7 @@
 		<footer class="noprint">
 			<div class="vtFooter">
 				<p>
-					{vtranslate('LBL_FOOTER_CONTENT')}
+					{\App\Language::translate('LBL_FOOTER_CONTENT')}
 				</p>
 			</div>
 		</footer>

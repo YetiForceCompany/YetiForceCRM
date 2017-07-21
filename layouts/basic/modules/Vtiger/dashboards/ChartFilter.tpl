@@ -5,8 +5,8 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
-						<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title" id="massEditHeader">{vtranslate('LBL_MINI_LIST', $MODULE)} {vtranslate($MODULE, $MODULE)}</h3>
+						<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST', $MODULE)} {\App\Language::translate($MODULE, $MODULE)}</h3>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
@@ -27,11 +27,11 @@
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
 													{foreach from=$CHART_TYPES item=TYPE key=VALUE}
-														<option value="{$VALUE}">{vtranslate($TYPE, $MODULE)}</option>
+														<option value="{$VALUE}">{\App\Language::translate($TYPE, $MODULE)}</option>
 													{/foreach}
 												</select>
 												<span class="input-group-addon hide isColorContainer">
-													<input type="checkbox" class="isColor popoverTooltip" data-content="{vtranslate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
+													<input type="checkbox" class="isColor popoverTooltip" data-content="{\App\Language::translate('LBL_CHART_COLOR_DESCRIPTION',$MODULE)}">
 												</span>
 											</div>
 										</td>
@@ -42,7 +42,7 @@
 											<select class="form-control" name="module">
 												<option></option>
 												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_NAME}
-													<option value="{$MODULE_MODEL['name']}">{vtranslate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+													<option value="{$MODULE_MODEL['name']}">{\App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
 												{/foreach}
 											</select>
 										</td>
@@ -81,10 +81,10 @@
 	{elseif $WIZARD_STEP eq 'step2'}
 		<option></option>
 		{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
-			<optgroup label="{vtranslate($FILTERGROUP,$SELECTED_MODULE)}">
+			<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
 				{foreach from=$FILTERS item=FILTER key=FILTERNAME}
 					{if $FILTER->get('setmetrics') eq 1}
-						<option value="{$FILTER->getId()}">{vtranslate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+						<option value="{$FILTER->getId()}">{\App\Language::translate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
 					{/if}
 				{/foreach}
 			</optgroup>
@@ -92,7 +92,7 @@
 	{elseif $WIZARD_STEP eq 'step3'}
 		<option></option>
 		{foreach from=$MODULE_FIELDS item=FIELD key=FIELD_NAME}
-			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{vtranslate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 		{/foreach}
 	{/if}
 {/strip}

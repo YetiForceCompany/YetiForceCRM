@@ -20,7 +20,7 @@
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
 						<div class="pull-left">
-							<h3 class="modal-title">{vtranslate('LBL_QUICK_CREATE', $MODULE)} {vtranslate($SINGLE_MODULE, $MODULE)}</h3>
+							<h3 class="modal-title">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</h3>
 						</div>
 						<div class="pull-right quickCreateActions">
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
@@ -28,9 +28,9 @@
 								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
 								&nbsp;&nbsp;
 							{/foreach}
-							<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{vtranslate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success" type="submit"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-							<button class="cancelLink  btn btn-warning" aria-hidden="true" data-dismiss="modal" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
+							<button class="btn btn-default" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+							<button class="cancelLink  btn btn-warning" aria-hidden="true" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -62,9 +62,9 @@
 
 												<label class="muted pull-left-xs pull-right-sm pull-right-lg">
 													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
-													{if in_array($VIEW,$HELPINFO) && vtranslate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-														<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(vtranslate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{vtranslate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>{/if}
-															{vtranslate($FIELD_MODEL->get('label'), $MODULE)}
+													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
+														<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>{/if}
+															{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}
 													</label>
 												</div>
 												<div class="fieldValue col-xs-12 col-sm-7" >

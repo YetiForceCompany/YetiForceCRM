@@ -5,7 +5,7 @@
 		<a class="{if $ICON}hasIcon{/if} {if isset($MENU['hotkey'])}hotKey{/if}" {if isset($MENU['hotkey'])}data-hotkeys="{$MENU['hotkey']}"{/if} href="{$MENU['dataurl']}">
 			{$ICON}
 			<span class="menuName">
-				{vtranslate($MENU['name'],'Menu')}
+				{\App\Language::translate($MENU['name'],'Menu')}
 			</span>
 		</a>
 		{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}

@@ -9,7 +9,7 @@
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
 			<span class="input-group-addon priceBookPopup cursorPointer">
-				<span class="userIcon-PriceBooks"  data-popup="Popup" data-module-name="PriceBooks" alt="{vtranslate('PriceBooks',$MODULE)}" title="{vtranslate('PriceBooks',$MODULE)}"/></span>
+				<span class="userIcon-PriceBooks"  data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}" title="{\App\Language::translate('PriceBooks',$MODULE)}"/></span>
 			</span>
 		{/if}
 	</div>

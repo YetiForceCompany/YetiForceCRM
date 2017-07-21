@@ -10,7 +10,7 @@
 
 	<div class="row">
 		{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
-			<div class="col-sm-{$SPANSIZE}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+			<div class="col-sm-{$SPANSIZE}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
 		{/foreach}
 	</div>
 	{assign var="WIDGET_RECORDS" value=$WIDGET_MODEL->getRecords($OWNER)}
@@ -19,7 +19,7 @@
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{strip_tags($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}
-						<span class="pull-left">{vtranslate($RECORD->getListViewDisplayValue($FIELD->get('name')), $BASE_MODULE)}</span>
+						<span class="pull-left">{\App\Language::translate($RECORD->getListViewDisplayValue($FIELD->get('name')), $BASE_MODULE)}</span>
 					{else}
 						&nbsp;
 					{/if}
@@ -30,7 +30,7 @@
 
 	{if count($WIDGET_RECORDS) >= $WIDGET_MODEL->getRecordLimit()}
 		<div class="">
-			<a class="pull-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{vtranslate('LBL_MORE')}</a>
+			<a class="pull-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{\App\Language::translate('LBL_MORE')}</a>
 		</div>
 	{/if}
 

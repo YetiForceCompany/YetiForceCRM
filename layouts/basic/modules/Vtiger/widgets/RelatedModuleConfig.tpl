@@ -7,39 +7,39 @@
 					<input type="hidden" name="wid" value="{$WID}">
 					<input type="hidden" name="type" value="{$TYPE}">
 					<div class="modal-header">
-						<button type="button" data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
-						<h3 id="massEditHeader" class="modal-title">{vtranslate('Add widget', $QUALIFIED_MODULE)}</h3>
+						<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
+						<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>
 					</div>
 					<div class="modal-body">
 						<div class="form-container-sm">
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Type widget', $QUALIFIED_MODULE)}:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}:</label>
 								<div class="col-md-7 form-control-static">
-									{vtranslate($TYPE, $QUALIFIED_MODULE)}
+									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Label', $QUALIFIED_MODULE)}:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label>
 								<div class="col-md-7 controls"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Related module', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Related module', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Related module', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Related module info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Related module', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<select name="relatedmodule" class="select2 form-control marginLeftZero" data-validation-engine="validate[required]">
 										{foreach from=$RELATEDMODULES item=item key=key}
-											<option value="{$item['related_tabid']}" {if $WIDGETINFO['data']['relatedmodule'] == $item['related_tabid']}selected{/if} >{vtranslate($item['label'], $item['name'])}</option>
+											<option value="{$item['related_tabid']}" {if $WIDGETINFO['data']['relatedmodule'] == $item['related_tabid']}selected{/if} >{\App\Language::translate($item['label'], $item['name'])}</option>
 										{/foreach}
 									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Limit entries', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}"/>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Columns', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Columns', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Columns', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Columns', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<select name="columns" class="select2 form-control marginLeftZero">
 										{foreach from=$MODULE_MODEL->getColumns() item=item key=key}
@@ -49,59 +49,59 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="nomargin" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['nomargin'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('Add button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Add button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Add button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Add button info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Add button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7">
-									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="action" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['action']) && $WIDGETINFO['data']['action'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('Select button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SELECT_BUTTON_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Select button', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('LBL_SELECT_BUTTON_INFO', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Select button', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls form-switch-mini">
-									<input name="actionSelect" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['actionSelect']) && $WIDGETINFO['data']['actionSelect'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="actionSelect" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['actionSelect']) && $WIDGETINFO['data']['actionSelect'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
-								<label class="col-md-4 control-label">{vtranslate('No message', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('No message info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('No message', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('No message', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No message info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No message', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<input name="no_result_text" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['no_result_text']) && $WIDGETINFO['data']['no_result_text'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+									<input name="no_result_text" class="switchBtn switchBtnReload" type="checkbox" {if isset($WIDGETINFO['data']['no_result_text']) && $WIDGETINFO['data']['no_result_text'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 								</div>
 							</div>
 							{*<div class="form-group form-group-sm form-switch-mini">
-							<label class="col-md-4 control-label">{vtranslate('LBL_SHOW_ALL_RECORDS', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SHOW_ALL_RECORDS_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('LBL_SHOW_ALL_RECORDS', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+							<label class="col-md-4 control-label">{\App\Language::translate('LBL_SHOW_ALL_RECORDS', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('LBL_SHOW_ALL_RECORDS_INFO', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('LBL_SHOW_ALL_RECORDS', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 							<div class="col-md-7 controls">
-							<input name="showAll" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['showAll'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{vtranslate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{vtranslate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
+							<input name="showAll" class="switchBtn switchBtnReload" type="checkbox" {if $WIDGETINFO['data']['showAll'] == 1}checked{/if} data-size="mini" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" value="1">
 							</div>
 							</div>*}
 							<div class="form-group form-group-sm hide">
-								<label class="col-md-4 control-label">{vtranslate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('LBL_SHITCH_HEADER_INFO', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('LBL_SHITCH_HEADER_INFO', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('LBL_SHITCH_HEADER', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7">
 									<input type="hidden" id="switchHeader_selected" value="{$WIDGETINFO['data']['switchHeader']}">
 									<select name="switchHeader" class="select2 form-control marginLeftZero">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+										<option value="-">{\App\Language::translate('None', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Filter', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Filter', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Filter', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Filter info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Filter', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input type="hidden" id="filter_selected" value="{$WIDGETINFO['data']['filter']}">
 									<select name="filter" class="select2 form-control marginLeftZero">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+										<option value="-">{\App\Language::translate('None', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{vtranslate('Switch', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{vtranslate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{vtranslate('Switch', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('Switch', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Switch info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Switch', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
 									<input type="hidden" id="checkbox_selected" value="{$WIDGETINFO['data']['checkbox']}">
 									<select name="checkbox" class="select2 form-control marginLeftZero">
-										<option value="-">{vtranslate('None', $QUALIFIED_MODULE)}</option>
+										<option value="-">{\App\Language::translate('None', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>

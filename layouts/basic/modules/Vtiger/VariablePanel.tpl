@@ -24,10 +24,10 @@
 							{/foreach}
 						</select>
 						<div class="input-group-btn">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')} - {vtranslate('LBL_COPY_VALUE')}">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
 								<span class="glyphicon glyphicon-copy"></span>
 							</button>
-							<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable" data-copy-type="label" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')}  - {vtranslate('LBL_COPY_LABEL')}">
+							<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL')}">
 								<span class="glyphicon glyphicon-copy"></span>
 							</button>
 						</div>
@@ -56,10 +56,10 @@
 								{/foreach}
 							</select>
 							<div class="input-group-btn">
-								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')} - {vtranslate('LBL_COPY_VALUE')}">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
 									<span class="glyphicon glyphicon-copy"></span>
 								</button>
-								<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable" data-copy-type="label" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')}  - {vtranslate('LBL_COPY_LABEL')}">
+								<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL')}">
 									<span class="glyphicon glyphicon-copy"></span>
 								</button>
 							</div>
@@ -98,10 +98,10 @@
 								{/foreach}
 							</select>
 							<div class="input-group-btn">
-								<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')} - {vtranslate('LBL_COPY_VALUE')}">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
 									<span class="glyphicon glyphicon-copy"></span>
 								</button>
-								<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable" data-copy-type="label" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')}  - {vtranslate('LBL_COPY_LABEL')}">
+								<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL')}">
 									<span class="glyphicon glyphicon-copy"></span>
 								</button>
 							</div>
@@ -128,7 +128,7 @@
 						{/foreach}
 					</select>
 					<div class="input-group-btn">
-						<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable" title="{vtranslate('LBL_COPY_TO_CLIPBOARD')}">
+						<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}">
 							<span class="glyphicon glyphicon-copy"></span>
 						</button>
 					</div>

@@ -7,7 +7,7 @@
 					<div class="col-xs-9 col-md-5 col-sm-6">
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="moduleColor_{$WIDGET['label']}">
-								{vtranslate($WIDGET['label'],$MODULE_NAME)}
+								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							</h4>
 						</div>
 					</div>
@@ -21,7 +21,7 @@
 							<div class="btn-group">
 								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
 									<div class="pull-right btn-group">
-										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{vtranslate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
 											<span class="glyphicon glyphicon-ok-circle"></span>
 										</button>
 									</div>
