@@ -315,7 +315,7 @@ class VTQL_Lexer
 			if (strcasecmp($this->value, 'order') === 0) {
 				$order = true;
 				return false;
-			} else if (strcasecmp($this->value, 'by') === 0 && $order == true) {
+			} else if (strcasecmp($this->value, 'by') === 0 && $order === true) {
 				$order = false;
 				$this->current_state = 1;
 			}
