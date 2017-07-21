@@ -148,7 +148,6 @@ class OperationManager
 
 	public function runOperation($params, $user)
 	{
-		global $API_VERSION;
 		try {
 			$operation = strtolower($this->operationName);
 			if (!$this->preLogin) {
@@ -159,12 +158,12 @@ class OperationManager
 				if (is_array($userDetails)) {
 					return $userDetails;
 				} else {
-					$this->sessionManager->set("authenticatedUserId", $userDetails->id);
+					$this->sessionManager->set('authenticatedUserId', $userDetails->id);
 					$adb = PearDatabase::getInstance();
-					$webserviceObject = VtigerWebserviceObject::fromName($adb, "Users");
+					$webserviceObject = VtigerWebserviceObject::fromName($adb, 'Users');
 					$userId = vtws_getId($webserviceObject->getEntityId(), $userDetails->id);
 					$vtigerVersion = vtws_getVtigerVersion();
-					$resp = array("sessionName" => $this->sessionManager->getSessionId(), "userId" => $userId, "version" => $API_VERSION, "vtigerVersion" => $vtigerVersion);
+					$resp = array('sessionName' => $this->sessionManager->getSessionId(), 'userId' => $userId, 'version' => vglobal('API_VERSION'), 'vtigerVersion' => $vtigerVersion);
 					return $resp;
 				}
 			}
