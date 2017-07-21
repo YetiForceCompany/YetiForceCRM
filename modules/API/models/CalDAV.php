@@ -22,12 +22,6 @@ class API_CalDAV_Model
 
 	const MAX_DATE = '2038-01-01';
 
-	public function __construct()
-	{
-// Autoloader
-		require_once 'libraries/SabreDAV/autoload.php';
-	}
-
 	public function calDavCrm2Dav()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
