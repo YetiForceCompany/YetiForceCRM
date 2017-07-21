@@ -40,7 +40,7 @@
 					var x = item.datapoint[0].toFixed(0),
                         y = item.datapoint[1];
 					var html = '<div id="tooltip">';
-					html += item.series.label + "<br />" + app.\App\Language::translate(months[x-1]) + "<br />" + y;
+					html += item.series.label + "<br />" + app.vtranslate(months[x-1]) + "<br />" + y;
 
 					html += '</div>';
 					$(html).css( {

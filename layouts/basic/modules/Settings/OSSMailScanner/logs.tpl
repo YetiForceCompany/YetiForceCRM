@@ -87,7 +87,7 @@
                 saveWidgetConfig('time', jQuery(this).val(), 'cron');
             } else {
                 var params = {
-                    text: app.\App\Language::translate('JS_time_error'),
+                    text: app.vtranslate('JS_time_error'),
                     type: 'error',
                     animation: 'show'
                 };
@@ -102,7 +102,7 @@
             }
             else {
                 var params = {
-                    text: app.\App\Language::translate('JS_mail_error'),
+                    text: app.vtranslate('JS_mail_error'),
                     type: 'error',
                     animation: 'show'
                 };
@@ -112,7 +112,7 @@
         });
 		jQuery('#run_cron').on('click', function(){
 			var paramsInfo = {
-				text: app.\App\Language::translate('start_cron'),
+				text: app.vtranslate('start_cron'),
 				type: 'info',
 				animation: 'show'
 			};
@@ -126,13 +126,13 @@
 					var params = {};
 					if(data.success && data.result == 'ok'){
 						params = {
-							text: app.\App\Language::translate('end_cron_ok'),
+							text: app.vtranslate('end_cron_ok'),
 							type: 'info',
 							animation: 'show'
 						};
 					} else{
 						params = {
-							title : app.\App\Language::translate('end_cron_error'),
+							title : app.vtranslate('end_cron_error'),
 							text: data.result,
 							type: 'error',
 							animation: 'show'
@@ -199,7 +199,7 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
                                             + '<td>' + isEmpty(data.result[i]['id']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['start_time']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['end_time']) + '</td>' 
-                                            + '<td>' + isEmpty(app.\App\Language::translate(data.result[i]['status'])) + '</td>' 
+                                            + '<td>' + isEmpty(app.vtranslate(data.result[i]['status'])) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['user']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['count']) + '</td>' 
                                             + '<td>' + isEmpty(data.result[i]['stop_user']) + '</td>' 
@@ -214,7 +214,7 @@ reloadLogTable(jQuery('[name="page_num"]').val() - 1);
                                             html += 'disabled';
                                         }
                                         
-                                        html += '>' + app.\App\Language::translate('JS_StopCron') + '</button></td>';
+                                        html += '>' + app.vtranslate('JS_StopCron') + '</button></td>';
                                     }
                                     
                                     html += '</tr>';

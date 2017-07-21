@@ -89,20 +89,20 @@ $(document).ready(function(){
 	};
 
 	gantt.locale.date = {
-		month_full:[app.\App\Language::translate('JS_JANUARY'), app.\App\Language::translate('JS_FEBRUARY'), app.\App\Language::translate('JS_MARCH'),
-		app.\App\Language::translate('JS_APRIL'), app.\App\Language::translate('JS_MAY'), app.\App\Language::translate('JS_JUNE'), app.\App\Language::translate('JS_JULY'),
-		app.\App\Language::translate('JS_AUGUST'), app.\App\Language::translate('JS_SEPTEMBER'), app.\App\Language::translate('JS_OCTOBER'),
-		app.\App\Language::translate('JS_NOVEMBER'), app.\App\Language::translate('JS_DECEMBER')],
-		month_short:[app.\App\Language::translate('JS_JAN'), app.\App\Language::translate('JS_FEB'), app.\App\Language::translate('JS_MAR'),
-		app.\App\Language::translate('JS_APR'), app.\App\Language::translate('JS_MAY'), app.\App\Language::translate('JS_JUN'), app.\App\Language::translate('JS_JUL'),
-		app.\App\Language::translate('JS_AUG'), app.\App\Language::translate('JS_SEP'), app.\App\Language::translate('JS_OCT'), app.\App\Language::translate('JS_NOV'),
-		app.\App\Language::translate('JS_DEC')],
-		day_full:[app.\App\Language::translate('JS_SUNDAY'), app.\App\Language::translate('JS_MONDAY'), app.\App\Language::translate('JS_TUESDAY'),
-		app.\App\Language::translate('JS_WEDNESDAY'), app.\App\Language::translate('JS_THURSDAY'), app.\App\Language::translate('JS_FRIDAY'),
-		app.\App\Language::translate('JS_SATURDAY')],
-		day_short:[app.\App\Language::translate('JS_SUN'), app.\App\Language::translate('JS_MON'), app.\App\Language::translate('JS_TUE'),
-		app.\App\Language::translate('JS_WED'), app.\App\Language::translate('JS_THU'), app.\App\Language::translate('JS_FRI'),
-		app.\App\Language::translate('JS_SAT')]
+		month_full:[app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
+		app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
+		app.vtranslate('JS_AUGUST'), app.vtranslate('JS_SEPTEMBER'), app.vtranslate('JS_OCTOBER'),
+		app.vtranslate('JS_NOVEMBER'), app.vtranslate('JS_DECEMBER')],
+		month_short:[app.vtranslate('JS_JAN'), app.vtranslate('JS_FEB'), app.vtranslate('JS_MAR'),
+		app.vtranslate('JS_APR'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUN'), app.vtranslate('JS_JUL'),
+		app.vtranslate('JS_AUG'), app.vtranslate('JS_SEP'), app.vtranslate('JS_OCT'), app.vtranslate('JS_NOV'),
+		app.vtranslate('JS_DEC')],
+		day_full:[app.vtranslate('JS_SUNDAY'), app.vtranslate('JS_MONDAY'), app.vtranslate('JS_TUESDAY'),
+		app.vtranslate('JS_WEDNESDAY'), app.vtranslate('JS_THURSDAY'), app.vtranslate('JS_FRIDAY'),
+		app.vtranslate('JS_SATURDAY')],
+		day_short:[app.vtranslate('JS_SUN'), app.vtranslate('JS_MON'), app.vtranslate('JS_TUE'),
+		app.vtranslate('JS_WED'), app.vtranslate('JS_THU'), app.vtranslate('JS_FRI'),
+		app.vtranslate('JS_SAT')]
 	};
 
 	gantt.templates.grid_file = function(item) {
@@ -120,12 +120,12 @@ $(document).ready(function(){
 
 	gantt.config.columns = [{
 			name:"text",
-			label:app.\App\Language::translate('JS_NAME'),
+			label:app.vtranslate('JS_NAME'),
 			width:"*", 
 			tree:true 
 		},{
 			name:"progress", 
-			label:app.\App\Language::translate('JS_PROGRESS'),
+			label:app.vtranslate('JS_PROGRESS'),
 			template:function(obj){
 				if(typeof obj.progress != 'undefined'){
 					return Math.round(obj.progress*100)+"%";
@@ -135,7 +135,7 @@ $(document).ready(function(){
 			align: "center", 
 		},{
 			name:"priority",  
-			label:app.\App\Language::translate('JS_PRIORITY'), 
+			label:app.vtranslate('JS_PRIORITY'), 
 			template:function(obj){
 				if(typeof obj.priority != 'undefined'){
 					return obj.priority_label;

@@ -182,7 +182,7 @@ function generateRecords() {
 	var area = jQuery('.contentsDiv').html();
  var paymentsIn= jQuery('#paymentsIn').text();
 
-/* var deleteMessage = app.\App\Language::translate('JS_RECORDS_ARE_GETTING_DELETED');
+/* var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
 					var progressIndicatorElement = jQuery.progressIndicator({
 						'message' : deleteMessage,
 						'position' : 'html',
@@ -243,7 +243,7 @@ function generateRecords() {
         },
         function(data,err){
             var parametry = {
-                text: app.\App\Language::translate('JS_ERROR_CONNECTING'),
+                text: app.vtranslate('JS_ERROR_CONNECTING'),
                 type: 'error'
             };
             Vtiger_Helper_Js.showPnotify(parametry);

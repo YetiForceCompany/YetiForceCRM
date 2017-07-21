@@ -126,8 +126,8 @@
 		jQuery.each(data, function (key, value) {
 			if ($("#RCConfigEditorForm [name='" + key + "']").attr('required') != undefined && value == '') {
 				var params = {
-					title: app.\App\Language::translate('JS_ERROR'),
-					text: app.\App\Language::translate('JS_ERROR_EMPTY'),
+					title: app.vtranslate('JS_ERROR'),
+					text: app.vtranslate('JS_ERROR_EMPTY'),
 					type: 'error',
 					animation: 'show'
 				};
