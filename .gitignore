@@ -23,4 +23,7 @@ vendor/ezyang/
 vendor/symfony/
 vendor/doctrine/
 vendor/simshaun/
-vendor/linfo/
+vendor/sabre/
+vendor/ircmaxell/
+vendor/bin/
+vendor/paragonie/

@@ -12,7 +12,6 @@ if (!in_array('dav', $enabledServices)) {
 	$apiLog->stop('Dav - Service is not active');
 }
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/davPhpError.log');
-
 /* Database */
 $pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -24,23 +23,19 @@ function exception_error_handler($errno, $errstr, $errfile, $errline)
 }
 set_error_handler('exception_error_handler');
 $enableWebDAV = false;
-
-// Autoloader
-require('libraries/SabreDAV/autoload.php');
-
 // Backends 
-$authBackend = new Yeti\DAV_Auth_Backend_PDO($pdo);
-$principalBackend = new Yeti\DAVACL_PrincipalBackend_PDO($pdo);
+$authBackend = new App\Dav\DAV_Auth_Backend_PDO($pdo);
+$principalBackend = new App\Dav\DAVACL_PrincipalBackend_PDO($pdo);
 $nodes = [
 	new Sabre\DAVACL\PrincipalCollection($principalBackend)
 ];
 if ($enableCalDAV) {
-	$calendarBackend = new Yeti\CalDAV_Backend_PDO($pdo);
+	$calendarBackend = new App\Dav\CalDAV_Backend_PDO($pdo);
 	$nodes[] = new Sabre\CalDAV\Principal\Collection($principalBackend);
 	$nodes[] = new Sabre\CalDAV\CalendarRoot($principalBackend, $calendarBackend);
 }
 if ($enableCardDAV) {
-	$carddavBackend = new Yeti\CardDAV_Backend_PDO($pdo);
+	$carddavBackend = new App\Dav\CardDAV_Backend_PDO($pdo);
 	$nodes[] = new Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
 }
 if ($enableWebDAV) {
@@ -50,15 +45,14 @@ if ($enableWebDAV) {
 	$exData->historyDir = $davHistoryDir;
 	$exData->localStorageDir = ROOT_DIRECTORY . $exData->storageDir;
 	$exData->localHistoryDir = ROOT_DIRECTORY . $exData->historyDir;
-	$directory = new Yeti\WebDAV_Directory('files', $exData);
+	$directory = new App\Dav\WebDAV_Directory('files', $exData);
 	$directory->getRootChild();
 	$nodes[] = $directory;
 }
 // The object tree needs in turn to be passed to the server class
-$server = new Yeti\DAV_Server($nodes);
+$server = new App\Dav\DAV_Server($nodes);
 $server->setBaseUri($_SERVER['SCRIPT_NAME']);
 $server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
-
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new Sabre\DAVACL\Plugin());
@@ -76,9 +70,8 @@ if ($enableCalDAV) {//CalDAV integration
 if ($enableWebDAV) {//WebDAV integration
 	$server->addPlugin(new Sabre\DAV\Sync\Plugin());
 }
-
 if (AppConfig::debug('DAV_DEBUG_PLUGIN')) {
-	$server->addPlugin(new Yeti\Debug());
+	$server->addPlugin(new App\Dav\Debug());
 }
 // And off we go!
 $server->exec();
