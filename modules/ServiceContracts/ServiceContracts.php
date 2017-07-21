@@ -579,7 +579,7 @@ class ServiceContracts extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		if ($relatedName == 'getManyToMany') {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {

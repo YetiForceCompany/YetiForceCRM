@@ -481,7 +481,7 @@ class Services extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 
 		\App\Log::error('id:--' . $id);
 		\App\Log::error('return_module:--' . $return_module);

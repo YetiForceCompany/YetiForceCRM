@@ -24,7 +24,7 @@ $adb = & PearDatabase::getInstance();
 
 function getRequestParamsArrayForOperation($operation)
 {
-	global $operationInput;
+	$operationInput = vglobal('operationInput');
 	return $operationInput[$operation];
 }
 
