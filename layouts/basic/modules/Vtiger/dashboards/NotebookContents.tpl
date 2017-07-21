@@ -12,12 +12,12 @@
 		<div class="dashboard_notebookWidget_view row">
 			<div class="">
 				<span class="col-md-10 muted">
-					<i>{vtranslate('LBL_LAST_SAVED_ON', $MODULE)}</i> {Vtiger_Util_Helper::formatDateTimeIntoDayString($WIDGET->getLastSavedDate())}
+					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {Vtiger_Util_Helper::formatDateTimeIntoDayString($WIDGET->getLastSavedDate())}
 				</span>
 				<span class="col-md-2">
 					<span class="pull-right">
 						<button class="btn btn-xs btn-default pull-right dashboard_notebookWidget_edit">
-							<strong>{vtranslate('LBL_EDIT', $MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_EDIT', $MODULE)}</strong>
 						</button>
 					</span>
 				</span>
@@ -31,12 +31,12 @@
 		<div class="dashboard_notebookWidget_text" style="display:none;">
 			<div class="row">
 				<span class="col-md-10 muted">
-					<i>{vtranslate('LBL_LAST_SAVED_ON', $MODULE)}</i> {Vtiger_Util_Helper::formatDateTimeIntoDayString($WIDGET->getLastSavedDate())}
+					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {Vtiger_Util_Helper::formatDateTimeIntoDayString($WIDGET->getLastSavedDate())}
 				</span>
 				<span class="col-md-2">
 					<span class="pull-right">
 						<button class="btn btn-xs btn-success pull-right dashboard_notebookWidget_save">
-							<strong>{vtranslate('LBL_SAVE', $MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 						</button>
 					</span>
 				</span>

@@ -41,7 +41,7 @@
 				{/if}
 				<a class="{if !empty($CHILDLINKS)}dropdown-toggle{/if}" {if !empty($CHILDLINKS)}data-toggle="dropdown"{/if} href="{$HREF}" title="{$TITLE}">
 					{if !empty($SRC)}
-						<img src="{$SRC}" alt="{vtranslate($TITLE,$MODULE)}" title="{vtranslate($TITLE,$MODULE)}" />
+						<img src="{$SRC}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 					{elseif !empty($ICON)}
 						<span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
 					{else}
@@ -66,7 +66,7 @@
 									{/if}
 								<li>
 									<a target="{$CHILDLINK->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LABEL)}" {if $LABEL=='Switch to old look'}switchLook{/if} href="{$HREF}" {$ONCLICK}>
-										{vtranslate($LABEL,$MODULE)}
+										{\App\Language::translate($LABEL,$MODULE)}
 									</a>
 								</li>
 							{/if}
@@ -87,7 +87,7 @@
 	{if isset($CHAT_ENTRIES)}
 		<ul class="headerLinksContainer headerLinksChat nav navbar-nav navbar-right">
 			<li>
-				<a class="ChatIcon" href="#" title="{vtranslate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
+				<a class="ChatIcon" href="#" title="{\App\Language::translate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
 			</li>
 		</ul>
 	{/if}
@@ -148,7 +148,7 @@
 								{assign var="href" value="javascript:;"}
 							{/if}
 						<li>
-							<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{vtranslate($label,$MODULE)}</a>
+							<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}>{\App\Language::translate($label,$MODULE)}</a>
 						</li>
 					{/foreach}
 				{/foreach}

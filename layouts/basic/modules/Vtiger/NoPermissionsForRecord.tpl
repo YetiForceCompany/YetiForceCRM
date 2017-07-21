@@ -3,7 +3,7 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-			<title>Yetiforce: {vtranslate('LBL_PERMISSION_DENIED')}</title>
+			<title>Yetiforce: {\App\Language::translate('LBL_PERMISSION_DENIED')}</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="SHORTCUT ICON" href="{vimage_path('favicon.ico')}">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,10 +16,10 @@
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2 class="alert-heading">{vtranslate('LBL_PERMISSION_DENIED')}</h2>
-					<p>{vtranslate($MESSAGE)}</p>
+					<h2 class="alert-heading">{\App\Language::translate('LBL_PERMISSION_DENIED')}</h2>
+					<p>{\App\Language::translate($MESSAGE)}</p>
 					<p class="Buttons">
-						<a class="btn btn-info" href="index.php">{vtranslate('LBL_MAIN_PAGE')}</a>
+						<a class="btn btn-info" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>
 					</p>
 				</div>
 			</div>

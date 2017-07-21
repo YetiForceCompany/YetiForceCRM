@@ -1,7 +1,7 @@
 {strip}
 	<div class="summaryWidgetContainer">
 		<div class="widget_header row">
-			<span class="col-md-5 margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+			<span class="col-md-5 margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 		</div>
 		<div class="defaultMarginP">
 			{assign var=FULL_TEXT value=\App\Purifier::decodeHtml($RECORD->get($WIDGET['data']['field_name']))}
@@ -13,7 +13,7 @@
 					<span class="fullContent hide">
 						{$FULL_TEXT}
 					</span>
-					<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{vtranslate('LBL_MORE_BTN')}" data-off="{vtranslate('LBL_HIDE_BTN')}">{vtranslate('LBL_MORE_BTN')}</button>
+					<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 				{/if}
 			</div>
 		</div>

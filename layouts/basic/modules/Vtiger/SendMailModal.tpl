@@ -5,7 +5,7 @@
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">{vtranslate('LBL_MASS_SEND_EMAIL', $MODULE)}</h4>
+		<h4 class="modal-title">{\App\Language::translate('LBL_MASS_SEND_EMAIL', $MODULE)}</h4>
 	</div>
 	<div class="modal-body">
 		<div class="alert alert-info" role="alert">

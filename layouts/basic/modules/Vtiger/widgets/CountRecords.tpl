@@ -5,9 +5,9 @@
 			<div class="col-xs-5">
 				<h4 class="widgetTitle textOverflowEllipsis">
 					{if $WIDGET['label'] eq ''}
-						{vtranslate('LBL_COUNT_RECORDS_WIDGET',$MODULE_NAME)}
+						{\App\Language::translate('LBL_COUNT_RECORDS_WIDGET',$MODULE_NAME)}
 					{else}	
-						{vtranslate($WIDGET['label'],$MODULE_NAME)}
+						{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 					{/if}
 				</h4>
 			</div>

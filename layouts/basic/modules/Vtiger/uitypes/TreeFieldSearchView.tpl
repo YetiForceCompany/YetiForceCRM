@@ -8,7 +8,7 @@
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
     <div class="picklistSearchField">
-        <select id="{$FIELD_MODEL->get('name')}" class="select2noactive listSearchContributor tree form-control" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" multiple name="{$FIELD_MODEL->get('name')}"  data-fieldinfo='{$FIELD_INFO|escape}'>
+        <select id="{$FIELD_MODEL->get('name')}" class="select2noactive listSearchContributor tree form-control" title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}" multiple name="{$FIELD_MODEL->get('name')}"  data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=LABEL key=KEY from=$ALL_VALUES}
                 <option value="{$KEY}"  data-parent="{$LABEL[1]}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{$LABEL[0]}</option>
         {/foreach}

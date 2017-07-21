@@ -3,9 +3,9 @@
 	<table class="table table-condensed table-bordered">
 		<thead>
 			<tr>
-				<th>{vtranslate('LBL_SUBJECT', $MODULE_NAME)}</th>
-				<th>{vtranslate('LBL_SOURCE', $MODULE_NAME)}</th>
-				<th>{vtranslate('LBL_DATE', $MODULE_NAME)}</th>
+				<th>{\App\Language::translate('LBL_SUBJECT', $MODULE_NAME)}</th>
+				<th>{\App\Language::translate('LBL_SOURCE', $MODULE_NAME)}</th>
+				<th>{\App\Language::translate('LBL_DATE', $MODULE_NAME)}</th>
 			</tr>
 		</thead>
 		<tbody>

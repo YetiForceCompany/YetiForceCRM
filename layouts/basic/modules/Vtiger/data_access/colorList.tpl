@@ -2,12 +2,12 @@
 {assign var=TEXT value=$SAVED_DATA['text']}
 <div class="row">
 	<div class="col-md-6">
-		<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_BACKGROUND_COLOR', 'DataAccess')}:</strong></h5>
+		<h5 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_BACKGROUND_COLOR', 'DataAccess')}:</strong></h5>
 		<p class="calendarColorPickerBG"></p>
 		<input name="bg" type="hidden" id="calendarColorPickerBG" value="{$BG}">
 	</div>
 	<div class="col-md-6">
-		<h5 class="padding-bottom1per"><strong>{vtranslate('LBL_TEXT_COLOR', 'DataAccess')}:</strong></h5>
+		<h5 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_TEXT_COLOR', 'DataAccess')}:</strong></h5>
 		<p class="calendarColorPickerTX"></p>
 		<input name="text" type="hidden" id="calendarColorPickerTX" value="{$TEXT}">
 	</div>

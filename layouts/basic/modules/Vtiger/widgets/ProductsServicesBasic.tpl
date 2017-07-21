@@ -6,7 +6,7 @@
 				<span class="col-md-12 margin0px">
 					<div class="row">
 						<div class="col-md-4">
-							<span class="{$span} margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+							<span class="{$span} margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 						</div>
 						<div class="col-md-8" align="center" style="padding-right: 40px;">
 							<div class="btn-group" data-toggle="buttons">

@@ -25,7 +25,7 @@
 					{if $HEADER_COUNT eq 5 && in_array($ITERATION, [4,5])}
 						{$SPANSIZE_ARRAY[$ITERATION] = 3}
 					{/if}
-					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{vtranslate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+					<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]}"><strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
 				{/foreach}
 			</div>
 			{if $OWNER eq false}
@@ -40,7 +40,7 @@
 						{assign var="LAST_RECORD" value=$smarty.foreach.minilistWidgetModelRowHeaders.last}
 						<div class="col-sm-{$SPANSIZE_ARRAY[$ITERATION]} textOverflowEllipsis">
 							{if $LAST_RECORD}
-								<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
+								<a href="{$RECORD->getDetailViewUrl()}" class="pull-right"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>
 								{/if}
 								{if $RECORD->get($FIELD->get('name'))}
 									{$RECORD->getDisplayValue($FIELD->get('name'))}

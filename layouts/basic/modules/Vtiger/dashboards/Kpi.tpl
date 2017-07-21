@@ -14,7 +14,7 @@
 		<tbody>
 			<tr>
 				<td class="col-md-5">
-					<div class="dashboardTitle textOverflowEllipsis" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}" style="width: 15em;"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+					<div class="dashboardTitle textOverflowEllipsis" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}" style="width: 15em;"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 				</td>
 				<td class="refresh col-md-2" align="right">
 					<span style="position:relative;">&nbsp;</span>
@@ -22,19 +22,19 @@
 				<td class="widgeticons col-md-5" align="right">
 					<div class="box pull-right">
 						<a name="dfilter">
-							<i class='icon-cog' border='0' align="absmiddle" title="{vtranslate('LBL_FILTER')}" alt="{vtranslate('LBL_FILTER')}"/>
+							<i class='icon-cog' border='0' align="absmiddle" title="{\App\Language::translate('LBL_FILTER')}" alt="{\App\Language::translate('LBL_FILTER')}"/>
 						</a>
 						<!--
 						<a class="dprint" name="dprint">
-							<i class='icon-print' border='0' align="absmiddle" title="{vtranslate('LBL_PRINT')}" alt="{vtranslate('LBL_PRINT')}"/>
+							<i class='icon-print' border='0' align="absmiddle" title="{\App\Language::translate('LBL_PRINT')}" alt="{\App\Language::translate('LBL_PRINT')}"/>
 						</a>
 						-->
 						<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-							<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REFRESH')}" alt="{vtranslate('LBL_REFRESH')}"></i>
+							<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></i>
 						</a>
 						{if !$WIDGET->isDefault()}
 							<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-								<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_REMOVE')}" alt="{vtranslate('LBL_REMOVE')}"></i>
+								<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REMOVE')}" alt="{\App\Language::translate('LBL_REMOVE')}"></i>
 							</a>
 						{/if}
 					</div>
@@ -49,22 +49,22 @@
 		<div class="row">
 			<span class="col-md-4">
 				<span class="pull-right">
-					{vtranslate('LBL_TIME', $MODULE_NAME)}
+					{\App\Language::translate('LBL_TIME', $MODULE_NAME)}
 				</span>
 			</span>
 			<span class="col-md-8">
-				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
 			</span>
 		</div>
 		<div class="row">
 			<span class="col-md-4">
 				<span class="pull-right">
-					{vtranslate('Services', $MODULE_NAME)}
+					{\App\Language::translate('Services', $MODULE_NAME)}
 				</span>
 			</span>
 			<span class="col-md-8">
 				<select class="widgetFilter" name="service">
-					<option value="">{vtranslate('--None--', $MODULE_NAME)}</option>
+					<option value="">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 					{foreach key=KEY item=ITEM from=$KPILIST}
 						<option value="{$KEY}">{$ITEM}</option>
 					{/foreach}
@@ -74,12 +74,12 @@
 		<div class="row">
 			<span class="col-md-4">
 				<span class="pull-right">
-					{vtranslate('Types', $MODULE_NAME)}
+					{\App\Language::translate('Types', $MODULE_NAME)}
 				</span>
 			</span>
 			<span class="col-md-8">
 				<select class="widgetFilter" name="type">
-					<option value="">{vtranslate('--None--', $MODULE_NAME)}</option>
+					<option value="">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 					{foreach key=KEY item=ITEM from=$KPITYPES}
 						<option value="{$KEY}">{$ITEM}</option>
 					{/foreach}

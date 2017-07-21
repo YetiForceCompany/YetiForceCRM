@@ -7,7 +7,7 @@
 		<div class="widgetChartContainer chartcontent"></div>
 	{else}
 		<span class="noDataMsg">
-			{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 		</span>
 	{/if}
 {/strip}

@@ -9,15 +9,15 @@
 					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<th nowrap>
-							{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+							{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 						{/if}
 						{if $SHOW_COMMENT}
-						<th>{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 						{/if}
 				</tr>
 			</thead>
@@ -61,7 +61,7 @@
 							{/if}&nbsp;&nbsp;
 							<span class="actionImages">
 								<a class="showModal" data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
+									<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 								</a>
 							</span>
 						</td>

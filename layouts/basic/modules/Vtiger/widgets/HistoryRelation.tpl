@@ -5,17 +5,17 @@
 			<div class="widget_header">
 				<div class="widgetTitle row">
 					<div class="col-xs-4">
-						<h4 class="moduleColor_{$WIDGET['label']}">{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h4 class="moduleColor_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
 					<div class="col-xs-7">
 						<select class="select2 relatedHistoryTypes" multiple>
 							{foreach from=Vtiger_HistoryRelation_Widget::getActions() item=ACTIONS}
-								<option selected value="{$ACTIONS}">{vtranslate($ACTIONS, $ACTIONS)}</option>	
+								<option selected value="{$ACTIONS}">{\App\Language::translate($ACTIONS, $ACTIONS)}</option>	
 							{/foreach}
 						</select>
 					</div>
 					<div class="col-xs-1 text-right">
-						<button type="button" title="{\App\Language::translate('LBL_FULLSCREEN')}" data-title="{vtranslate($WIDGET['label'],$MODULE_NAME)}" class="widgetFullscreen btn btn-sm btn-default">
+						<button type="button" title="{\App\Language::translate('LBL_FULLSCREEN')}" data-title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}" class="widgetFullscreen btn btn-sm btn-default">
 							<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
 						</button>
 					</div>	

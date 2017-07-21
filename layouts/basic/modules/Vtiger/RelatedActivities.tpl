@@ -44,8 +44,8 @@
 				<div class="summaryViewEntries">
 					{assign var=ACTIVITY_TYPE value=$RECORD->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{vtranslate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
-					{vtranslate($ACTIVITY_TYPE,$MODULE_NAME)}&nbsp;-&nbsp; 
+					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
+					{\App\Language::translate($ACTIVITY_TYPE,$MODULE_NAME)}&nbsp;-&nbsp; 
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
 							{$RECORD->get('subject')}</a>
@@ -54,12 +54,12 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="glyphicon glyphicon-pencil summaryViewEdit" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="glyphicon glyphicon-pencil summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span>
 						</a>
 					{/if}
 				</div>
@@ -72,10 +72,10 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span>
+										<span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{\App\Language::translate($RECORD->get('status'),$MODULE_NAME)}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
+										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-ok"></span>
 										</span>
 									{/if}
@@ -87,9 +87,9 @@
 							<input type="hidden" class="activityType" value="{$RECORD->get('activitytype')}"/>
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{vtranslate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp;&nbsp;
+									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{\App\Language::translate($RECORD->get('status'),$MODULE_NAME)}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{vtranslate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+										<span class="editDefaultStatus pull-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
 										{/if}
 								</div>
 							{/if}
@@ -100,20 +100,20 @@
 					<div>
 						<span class="value"><span class="glyphicon glyphicon-align-justify"></span>&nbsp;&nbsp;
 							{if $RECORD->get('description') neq ''}
-								{vtranslate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
+								{\App\Language::translate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
 							{else}
-								<span class="muted">{vtranslate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
+								<span class="muted">{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
 							{/if}
 						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
 							<span class="editDescription cursorPointer">
-								<span class="glyphicon glyphicon-pencil" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"></span>
+								<span class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
-						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{vtranslate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-							  data-content="{vtranslate('Status',$MODULE_NAME)}: {vtranslate($STATUS,$MODULE_NAME)}<br />{vtranslate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{vtranslate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{vtranslate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{vtranslate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{\App\Language::translate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
+							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Language::translate($STATUS,$MODULE_NAME)}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
 							  {if $SHAREDOWNER}<div> 
-								  {vtranslate('Share with users',$MODULE_NAME)}:&nbsp;
+								  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
 								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
 									  {if $smarty.foreach.sowner.last}
 										  ,&nbsp;
@@ -124,7 +124,7 @@
 							  {/if}
 							  {if $MODULE_NAME eq 'Events'}
 								  {if count($RECORD->get('selectedusers')) > 0}
-									  <br />{vtranslate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
+									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
 									  {if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
 								  {/foreach}
@@ -146,7 +146,7 @@
 						</span>
 					{/if}
 					{if $RECORD->get('location') neq '' }
-						<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{vtranslate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
+						<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
 							<span class="icon-map-marker"></span>&nbsp
 						</a>
 					{/if}
@@ -159,13 +159,13 @@
 	{/foreach}
 {else}
 	<div class="summaryWidgetContainer">
-		<p class="textAlignCenter">{vtranslate('LBL_NO_PENDING_ACTIVITIES',$MODULE_NAME)}</p>
+		<p class="textAlignCenter">{\App\Language::translate('LBL_NO_PENDING_ACTIVITIES',$MODULE_NAME)}</p>
 	</div>
 {/if}
 {if $PAGING_MODEL->isNextPageExists()}
 	<div class="row">
 		<div class="pull-right">
-			<button type="button" class="btn btn-primary btn-xs moreRecentActivities marginTop10 marginRight10">{vtranslate('LBL_MORE',$MODULE_NAME)}..</button>
+			<button type="button" class="btn btn-primary btn-xs moreRecentActivities marginTop10 marginRight10">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 		</div>
 	</div>
 {/if}

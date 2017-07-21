@@ -26,7 +26,7 @@ font-size: 75%;
 				<div class="pull-left marginLeft5 marginTop5">
 					{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
-					<image src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" alt="{vtranslate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
+					<image src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" alt="{\App\Language::translate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;
 				</div>
 				{assign var=START_DATE value=$ACTIVITY->get('date_start')}
 				{assign var=START_TIME value=$ACTIVITY->get('time_start')}
@@ -34,7 +34,7 @@ font-size: 75%;
 				{assign var=DUE_DATE value=$ACTIVITY->get('due_date')}
 				{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
 				<p class="pull-right muted paddingLR10 marginTop5">
-					<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {vtranslate('LBL_ACTIVITY_TO')} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
+					<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")} {\App\Language::translate('LBL_ACTIVITY_TO')} {Vtiger_Util_Helper::formatDateTimeIntoDayString("$DUE_DATE $DUE_TIME")}">
 						{Vtiger_Util_Helper::formatDateDiffInStrings("$DUE_DATE $DUE_TIME")}
 					</small>
 				</p>
@@ -45,21 +45,21 @@ font-size: 75%;
 				<div class="activityContainer">
 					{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}				
 					{if $CONTRACTOR}
-						<br /><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
+						<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
 					{/if}
 					{if $LINK}
-						<br /><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
+						<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
 					{/if}
 					{if $PROCESS}
-						<br /><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
+						<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('process')}</strong></small>
 					{/if}
 					{if $SUBPROCESS}
-						<br /><small class="small-a">{vtranslate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
+						<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
 					{/if}
 				</div>
 			</div>
 			{if $ACTIVITY->get('location') neq '' }
-				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{vtranslate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">
+				<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">
 					<span class="icon-map-marker"></span>&nbsp
 				</a>
 			{/if}
@@ -69,13 +69,13 @@ font-size: 75%;
 	</div>
 	{foreachelse}
 		<span class="noDataMsg">
-			{vtranslate($NODATAMSGLABLE, $MODULE_NAME)}
+			{\App\Language::translate($NODATAMSGLABLE, $MODULE_NAME)}
 		</span>
 	{/foreach}
 	{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 		<div class="pull-right padding5">
 			<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
-				{vtranslate('LBL_MORE')}
+				{\App\Language::translate('LBL_MORE')}
 			</button>
 		</div>
 	{/if}

@@ -18,6 +18,6 @@
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
     <div class="picklistSearchField">
-        <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateRangeField form-control" data-date-format="{$dateFormat}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" data-calendar-type="range" value="{$SEARCH_VALUES}" data-fieldinfo='{$FIELD_INFO|escape}'/>
+        <input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor dateRangeField form-control" data-date-format="{$dateFormat}" title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}" data-calendar-type="range" value="{$SEARCH_VALUES}" data-fieldinfo='{$FIELD_INFO|escape}'/>
     </div>
 {/strip}

@@ -5,7 +5,7 @@
 			<tr>
 				{foreach item=HEADER from=$HEADERS}
 					<th>
-						{vtranslate($HEADER->get('label'), $MODULE)}
+						{\App\Language::translate($HEADER->get('label'), $MODULE)}
 					</th>
 				{/foreach}
 			</tr>
