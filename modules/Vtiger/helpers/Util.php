@@ -111,8 +111,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function toSafeHTML($input)
 	{
-		global $default_charset;
-		return htmlspecialchars($input, ENT_QUOTES, $default_charset);
+		return htmlspecialchars($input, ENT_QUOTES, vglobal('default_charset'));
 	}
 
 	/**

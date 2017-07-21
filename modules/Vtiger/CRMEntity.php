@@ -122,12 +122,12 @@ class Vtiger_CRMEntity extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		global $current_user, $currentModule;
+		$currentUser = vglobal('current_user');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('ServiceContracts', "detail_view");
+		$sql = getPermittedFieldsQuery('ServiceContracts', 'detail_view');
 
 		$fields_list = getFieldsListFromQuery($sql);
 
@@ -160,8 +160,8 @@ class Vtiger_CRMEntity extends CRMEntity
 				"$this->table_name.$columnname";
 		}
 
-		$query .= $this->getNonAdminAccessControlQuery($thismodule, $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
+		$query .= $this->getNonAdminAccessControlQuery($thismodule, $currentUser);
+		$where_auto = ' vtiger_crmentity.deleted=0';
 
 		if ($where != '')
 			$query .= " WHERE ($where) && $where_auto";
