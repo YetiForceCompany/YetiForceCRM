@@ -11,9 +11,9 @@
 require_once('include/CRMEntity.php');
 require_once('include/utils/utils.php');
 require_once 'include/Webservices/Utils.php';
-global $adv_filter_options;
+$advFilterOoptions = vglobal('adv_filter_options');
 
-$adv_filter_options = array(
+$advFilterOoptions = array(
 	'e' => 'equals',
 	'n' => 'not equal to',
 	's' => 'starts with',
@@ -54,14 +54,14 @@ class CustomView extends CRMEntity
 	 */
 	public function __construct($module = '')
 	{
-		global $current_user;
+		$userCurrent = vglobal('current_user');
 		$this->customviewmodule = $module;
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
-		$this->smownerid = $current_user->id;
+		$this->smownerid = $userCurrent->id;
 		$this->moduleMetaInfo = [];
 		if ($module != '' && $module != 'Calendar') {
-			$this->meta = $this->getMeta($module, $current_user);
+			$this->meta = $this->getMeta($module, $userCurrent);
 		}
 	}
 

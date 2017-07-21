@@ -10,14 +10,14 @@
  * ****************************************************************************** */
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
-global $calpath;
-global $app_list_strings;
-global $modules;
-global $blocks;
-global $related_modules;
-global $old_related_modules;
+$calpath = vglobal('calpath');
+$appListStrings = vglobal('app_list_strings');
+$modules = vglobal('modules');
+$blocks = vglobal('blocks');
+$relatedModules = vglobal('related_modules');
+$oldRelatedModules = vglobal('old_related_modules');
 
-$old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
+$oldRelatedModules = Array('Accounts' => Array('Contacts', 'Products'),
 	'Contacts' => Array('Accounts'),
 	'Calendar' => Array('Leads', 'Accounts', 'Contacts'),
 	'Products' => Array('Accounts', 'Contacts'),
@@ -25,7 +25,7 @@ $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 	'Campaigns' => Array('Products')
 );
 
-$related_modules = [];
+$relatedModules = [];
 
 class Reports extends CRMEntity
 {
@@ -67,15 +67,17 @@ class Reports extends CRMEntity
 	 *  This function accepts the vtiger_reportid as argument
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
-	public function __construct($reportid = "")
+	public function __construct($reportid = '')
 	{
-		global $current_user, $theme, $mod_strings;
+		$currentUser = vglobal('current_user');
+		$theme = vglobal('theme');
+		$modStrings = vglobal('mod_strings');
 		$adb = PearDatabase::getInstance();
 
 		$this->initListOfModules();
 		if ($reportid != "") {
 			// Lookup information in cache first
-			$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
+			$cachedInfo = VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
 			$subordinate_users = VTCacheUtils::lookupReport_SubordinateUsers($reportid);
 
 			if ($cachedInfo === false) {
@@ -84,9 +86,9 @@ class Reports extends CRMEntity
 				$params = array($reportid);
 
 				require_once('include/utils/GetUserGroups.php');
-				require('user_privileges/user_privileges_' . $current_user->id . '.php');
+				require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 				$userGroups = new GetUserGroups();
-				$userGroups->getAllUserGroups($current_user->id);
+				$userGroups->getAllUserGroups($currentUser->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin === false) {
 					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
@@ -96,8 +98,8 @@ class Reports extends CRMEntity
 				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
 				if ($is_admin === false) {
 					$ssql .= " and ( (" . $non_admin_query . ") or vtiger_report.sharingtype='Public' or vtiger_report.owner = ? or vtiger_report.owner in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-					array_push($params, $current_user->id);
-					array_push($params, $current_user->id);
+					array_push($params, $currentUser->id);
+					array_push($params, $currentUser->id);
 				}
 				$query = $adb->pquery('select userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?', ["$current_user_parent_role_seq::%"]);
 				$subordinate_users = [];
@@ -288,7 +290,7 @@ class Reports extends CRMEntity
 	public function sgetRptFldr($mode = '')
 	{
 
-		global $mod_strings;
+		$mod_strings = vglobal('mod_strings');
 		$adb = PearDatabase::getInstance();
 
 		$returndata = [];
@@ -682,7 +684,7 @@ class Reports extends CRMEntity
 	 */
 	public function getSelectedStdFilterCriteria($selecteddatefilter = "")
 	{
-		global $mod_strings;
+		$modStrings = vglobal('mod_strings');
 
 		$datefiltervalue = Array("custom", "prevfy", "thisfy", "nextfy", "prevfq", "thisfq", "nextfq",
 			"yesterday", "today", "tomorrow", "lastweek", "thisweek", "nextweek", "lastmonth", "thismonth",
@@ -699,9 +701,9 @@ class Reports extends CRMEntity
 		$countDateFilterValue = count($datefiltervalue);
 		for ($i = 0; $i < $countDateFilterValue; $i++) {
 			if ($selecteddatefilter == $datefiltervalue[$i]) {
-				$sshtml .= "<option selected value='" . $datefiltervalue[$i] . "'>" . $mod_strings[$datefilterdisplay[$i]] . "</option>";
+				$sshtml .= "<option selected value='" . $datefiltervalue[$i] . "'>" . $modStrings[$datefilterdisplay[$i]] . "</option>";
 			} else {
-				$sshtml .= "<option value='" . $datefiltervalue[$i] . "'>" . $mod_strings[$datefilterdisplay[$i]] . "</option>";
+				$sshtml .= "<option value='" . $datefiltervalue[$i] . "'>" . $modStrings[$datefilterdisplay[$i]] . "</option>";
 			}
 		}
 

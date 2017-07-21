@@ -8,14 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once("libraries/HTTP_Session/Session.php");
-// Later may we can move this to config file.
-
-global $maxWebServiceSessionLifeSpan, $maxWebServiceSessionIdleTime;
-
-$maxWebServiceSessionLifeSpan = 86400; //Max life span of a session is a day.
-$maxWebServiceSessionIdleTime = 1800; //Max life span session should be kept alive after the last transaction.
-// Till Here.
+require_once('libraries/HTTP_Session/Session.php');
 
 class SessionManager
 {
@@ -24,17 +17,14 @@ class SessionManager
 	private $idleLife;
 	//Note: the url lookup part of http_session will have String null or this be used as id instead of ignoring it.
 	//private $sessionName = "sessionName";
-	private $sessionVar = "__SessionExists";
+	private $sessionVar = '__SessionExists';
 	private $error;
 
 	public function __construct()
 	{
-
-		global $maxWebServiceSessionLifeSpan, $maxWebServiceSessionIdleTime;
-
 		$now = time();
-		$this->maxLife = $now + $maxWebServiceSessionLifeSpan;
-		$this->idleLife = $now + $maxWebServiceSessionIdleTime;
+		$this->maxLife = $now + 86400; //Max life span of a session is a day.
+		$this->idleLife = $now + 1800; //Max life span session should be kept alive after the last transaction.
 
 		HTTP_Session::useCookies(false); //disable cookie usage. may this could be moved out constructor?
 		// only first invocation of following method, which is setExpire 
