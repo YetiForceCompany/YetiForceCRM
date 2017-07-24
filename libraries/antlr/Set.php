@@ -1,6 +1,6 @@
 <?php
 
-// YTTodo: find a decent set implementation for php
+// YTTODO: find a decent set implementation for php
 class Set
 {
 
