@@ -410,7 +410,7 @@ class PackageImport extends PackageExport
 	public function initImport($zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module != null) {
+		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
@@ -523,7 +523,7 @@ class PackageImport extends PackageExport
 	public function import($zipfile, $overwrite = false)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module != null) {
+		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
@@ -586,7 +586,7 @@ class PackageImport extends PackageExport
 		$moduleInstance = new Module();
 		$moduleInstance->name = $tabname;
 		$moduleInstance->label = $tabLabel;
-		$moduleInstance->isentitytype = ($isextension != true);
+		$moduleInstance->isentitytype = ($isextension !== true);
 		$moduleInstance->version = (!$tabVersion) ? 0 : $tabVersion;
 		$moduleInstance->minversion = (!$vtigerMinVersion) ? false : $vtigerMinVersion;
 		$moduleInstance->maxversion = (!$vtigerMaxVersion) ? false : $vtigerMaxVersion;
@@ -998,7 +998,7 @@ class PackageImport extends PackageExport
 			$result = $updateInstance->preupdate();
 			file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
 			ob_start();
-			if ($result != false) {
+			if ($result !== false) {
 				$updateInstance->update();
 				if ($updateInstance->filesToDelete) {
 					foreach ($updateInstance->filesToDelete as $path) {

@@ -328,7 +328,7 @@ class Reports_Folder_Model extends \App\Base
 			}
 		}
 		//End
-		if (null != $allowedReportIds) {
+		if (null !== $allowedReportIds) {
 			$sql = sprintf('SELECT count(*) AS count FROM vtiger_report
 					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid && 
 					vtiger_report.reportid in (%s)', implode(',', $allowedReportIds));
