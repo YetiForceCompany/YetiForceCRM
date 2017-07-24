@@ -14,7 +14,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_TAX';
 	protected $defaultValue = 0;
 	protected $columnName = 'tax';
-	protected $dbType = 'decimal(27,8) DEFAULT 0';
+	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $customColumn = [
 		'taxparam' => 'string'
 	];

@@ -14,7 +14,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_DISCOUNT';
 	protected $defaultValue = 0;
 	protected $columnName = 'discount';
-	protected $dbType = 'decimal(27,8) DEFAULT 0';
+	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $customColumn = [
 		'discountparam' => 'string'
 	];
