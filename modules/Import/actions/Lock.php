@@ -51,7 +51,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
 			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
 			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
-			if ($module != false) {
+			if ($module !== false) {
 				$query .= ' && tabid=?';
 				array_push($params, \App\Module::getModuleId($module));
 			}

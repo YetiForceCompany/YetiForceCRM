@@ -95,7 +95,6 @@ class VtigerCRMObject
 		return CRMEntity::getInstance($moduleName);
 	}
 
-
 	private function getTabName()
 	{
 		if ($this->moduleName == 'Events') {
@@ -186,9 +185,9 @@ class VtigerCRMObject
 		$adb = PearDatabase::getInstance();
 
 		$exists = false;
-		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";
+		$sql = 'select * from vtiger_crmentity where crmid=? and deleted=0';
 		$result = $adb->pquery($sql, array($id));
-		if ($result != null && isset($result)) {
+		if ($result !== null && isset($result)) {
 			if ($adb->num_rows($result) > 0) {
 				$exists = true;
 			}
@@ -201,11 +200,11 @@ class VtigerCRMObject
 		$adb = PearDatabase::getInstance();
 
 		$seType = null;
-		$sql = "select * from vtiger_crmentity where crmid=? and deleted=0";
+		$sql = 'select * from vtiger_crmentity where crmid=? and deleted=0';
 		$result = $adb->pquery($sql, array($id));
-		if ($result != null && isset($result)) {
+		if ($result !== null && isset($result)) {
 			if ($adb->num_rows($result) > 0) {
-				$seType = $adb->query_result($result, 0, "setype");
+				$seType = $adb->query_result($result, 0, 'setype');
 			}
 		}
 		return $seType;

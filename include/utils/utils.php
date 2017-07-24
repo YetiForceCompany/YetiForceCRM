@@ -241,7 +241,7 @@ function is_uitype($uitype, $reqtype)
 		'_users_list_' => array(52),
 	);
 
-	if ($ui_type_arr[$reqtype] != null) {
+	if ($ui_type_arr[$reqtype] !== null) {
 		if (in_array($uitype, $ui_type_arr[$reqtype])) {
 			return true;
 		}

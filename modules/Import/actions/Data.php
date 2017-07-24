@@ -127,7 +127,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function initializeImport()
 	{
 		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
-		if ($lockInfo != null) {
+		if ($lockInfo !== null) {
 			if ($lockInfo['userid'] != $this->user->id) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				return false;
@@ -660,7 +660,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			}
 		}
 
-		if ($fieldData != null && $checkMandatoryFieldValues) {
+		if ($fieldData !== null && $checkMandatoryFieldValues) {
 			foreach ($moduleModel->getMandatoryFieldModels() as $fieldName => $fieldInstance) {
 				if (empty($fieldData[$fieldName])) {
 					return null;

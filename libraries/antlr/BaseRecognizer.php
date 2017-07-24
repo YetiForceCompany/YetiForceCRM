@@ -1,28 +1,29 @@
 <?php
 
-abstract class BaseRecognizer{
-	
+abstract class BaseRecognizer
+{
+
 	public static $MEMO_RULE_FAILED = -2;
 	public static $MEMO_RULE_UNKNOWN = -1;
 	public static $INITIAL_FOLLOW_STACK_SIZE = 100;
-
 	// copies from Token object for convenience in actions
 	public static $DEFAULT_TOKEN_CHANNEL; //= TokenConst::$DEFAULT_CHANNEL;
 	public static $HIDDEN; //= TokenConst::$HIDDEN_CHANNEL;
-
 	public static $NEXT_TOKEN_RULE_NAME = "nextToken";
-	
-	public function __construct($state = null) {
-		if ( $state==null ) {
+
+	public function __construct($state = null)
+	{
+		if ($state === null) {
 			$state = new RecognizerSharedState();
 		}
 		$this->state = $state;
 	}
-	
+
 	/** reset the parser's state; subclasses must rewinds the input stream */
-	public function reset() {
+	public function reset()
+	{
 		// wack everything related to error recovery
-		if ( $this->state==null ) {
+		if ($this->state === null) {
 			return; // no shared state work to do
 		}
 		$this->state->_fsp = -1;
@@ -32,11 +33,10 @@ abstract class BaseRecognizer{
 		$this->state->syntaxErrors = 0;
 		// wack everything related to backtracking and memoization
 		$this->state->backtracking = 0;
-		for ($i = 0; $this->state->ruleMemo!=null && $i < $this->state->ruleMemo->length; $i++) { // wipe cache
+		for ($i = 0; $this->state->ruleMemo !== null && $i < $this->state->ruleMemo->length; $i++) { // wipe cache
 			$this->state->ruleMemo[$i] = null;
 		}
 	}
-
 
 	/** Match current input symbol against ttype.  Attempt
 	 *  single token insertion or deletion error recovery.  If
@@ -53,13 +53,13 @@ abstract class BaseRecognizer{
 	{
 		//System.out.println("match "+((TokenStream)input).LT(1));
 		$matchedSymbol = $this->getCurrentInputSymbol($input);
-		if ( $input->LA(1)==$ttype ) {
+		if ($input->LA(1) == $ttype) {
 			$input->consume();
 			$this->state->errorRecovery = false;
 			$this->state->failed = false;
 			return $matchedSymbol;
 		}
-		if ( $this->state->backtracking>0 ) {
+		if ($this->state->backtracking > 0) {
 			$this->state->failed = true;
 			return $matchedSymbol;
 		}
@@ -68,41 +68,42 @@ abstract class BaseRecognizer{
 	}
 
 	/** Match the wildcard: in a symbol */
-	public function matchAny($input) {
+	public function matchAny($input)
+	{
 		$this->state->errorRecovery = false;
 		$this->state->failed = false;
 		$input->consume();
 	}
 
-	public function mismatchIsUnwantedToken($input, $ttype) {
-		return $input->LA(2)==$ttype;
+	public function mismatchIsUnwantedToken($input, $ttype)
+	{
+		return $input->LA(2) == $ttype;
 	}
 
-	public function mismatchIsMissingToken($input, $follow) {
-		if ( $follow==null ) {
+	public function mismatchIsMissingToken($input, $follow)
+	{
+		if ($follow === null) {
 			// we have no information about the follow; we can only consume
 			// a single token and hope for the best
 			return $false;
 		}
 		// compute what can follow this grammar element reference
-		if ( $follow->member(TokenConst::$EOR_TOKEN_TYPE) ) {
+		if ($follow->member(TokenConst::$EOR_TOKEN_TYPE)) {
 			$viableTokensFollowingThisRule = $this->computeContextSensitiveRuleFOLLOW();
 			$follow = $follow->union($viableTokensFollowingThisRule);
-            if ( $this->state->_fsp>=0 ) { // remove EOR if we're not the start symbol
-                $follow->remove(TokenConst::$EOR_TOKEN_TYPE);
-            }
+			if ($this->state->_fsp >= 0) { // remove EOR if we're not the start symbol
+				$follow->remove(TokenConst::$EOR_TOKEN_TYPE);
+			}
 		}
 		// if current token is consistent with what could come after set
 		// then we know we're missing a token; error recovery is free to
 		// "insert" the missing token
-
 		//System.out.println("viable tokens="+follow.toString(getTokenNames()));
 		//System.out.println("LT(1)="+((TokenStream)input).LT(1));
-
 		// BitSet cannot handle negative numbers like -1 (EOF) so I leave EOR
 		// in follow set to indicate that the fall of the start symbol is
 		// in the set (EOF can follow).
-		if ( $follow->member($input->LA(1)) || $follow->member(TokenConst::$EOR_TOKEN_TYPE) ) {
+		if ($follow->member($input->LA(1)) || $follow->member(TokenConst::$EOR_TOKEN_TYPE)) {
 			//System.out.println("LT(1)=="+((TokenStream)input).LT(1)+" is consistent with what follows; inserting...");
 			return true;
 		}
@@ -117,10 +118,9 @@ abstract class BaseRecognizer{
 	 */
 	protected function mismatch($input, $ttype, $follow)
 	{
-		if ( $this->mismatchIsUnwantedToken($input, $ttype) ) {
+		if ($this->mismatchIsUnwantedToken($input, $ttype)) {
 			throw new UnwantedTokenException($ttype, $input);
-		}
-		else if ( $this->mismatchIsMissingToken($input, $follow) ) {
+		} else if ($this->mismatchIsMissingToken($input, $follow)) {
 			throw new MissingTokenException($ttype, $input, null);
 		}
 		throw new MismatchedTokenException($ttype, $input);
@@ -141,10 +141,11 @@ abstract class BaseRecognizer{
 	 *
 	 *  If you override, make sure to update syntaxErrors if you care about that.
 	 */
-	public function reportError($e) {
+	public function reportError($e)
+	{
 		// if we've already reported an error and have not matched a token
 		// yet successfully, don't report any errors.
-		if ( $this->state->errorRecovery ) {
+		if ($this->state->errorRecovery) {
 			//System.err.print("[SPURIOUS] ");
 			return;
 		}
@@ -153,14 +154,14 @@ abstract class BaseRecognizer{
 
 		$this->displayRecognitionError($this->getTokenNames(), $e);
 	}
-	
-	
-	public function displayRecognitionError($tokenNames, $e){
+
+	public function displayRecognitionError($tokenNames, $e)
+	{
 		$hdr = $this->getErrorHeader($e);
 		$msg = $this->getErrorMessage($e, $tokenNames);
-		$this->emitErrorMessage($hdr." ".$msg);
+		$this->emitErrorMessage($hdr . " " . $msg);
 	}
-	
+
 	/** What error message should be generated for the various
 	 *  exception types?
 	 *
@@ -183,82 +184,71 @@ abstract class BaseRecognizer{
 	 *  Override this to change the message generated for one or more
 	 *  exception types.
 	 */
-	public function getErrorMessage($e, $tokenNames) {
+	public function getErrorMessage($e, $tokenNames)
+	{
 		$msg = $e->getMessage();
-		if ( $e instanceof UnwantedTokenException ) {
+		if ($e instanceof UnwantedTokenException) {
 			$ute = $e;
-			$tokenName="<unknown>";
-			if ( $ute->expecting== TokenConst::$EOF ) {
+			$tokenName = "<unknown>";
+			if ($ute->expecting == TokenConst::$EOF) {
 				$tokenName = "EOF";
-			}
-			else {
+			} else {
 				$tokenName = $tokenNames[$ute->expecting];
 			}
-			$msg = "extraneous input ".$this->getTokenErrorDisplay($ute->getUnexpectedToken()).
-				" expecting ".$tokenName;
-		}
-		else if ( $e instanceof MissingTokenException ) {
+			$msg = "extraneous input " . $this->getTokenErrorDisplay($ute->getUnexpectedToken()) .
+				" expecting " . $tokenName;
+		} else if ($e instanceof MissingTokenException) {
 			$mte = $e;
-			$tokenName="<unknown>";
-			if ( $mte->expecting== TokenConst::$EOF ) {
+			$tokenName = "<unknown>";
+			if ($mte->expecting == TokenConst::$EOF) {
 				$tokenName = "EOF";
-			}
-			else {
+			} else {
 				$tokenName = $tokenNames[$mte->expecting];
 			}
-			$msg = "missing ".$tokenName." at ".$this->getTokenErrorDisplay($e->token);
-		}
-		else if ( $e instanceof MismatchedTokenException ) {
+			$msg = "missing " . $tokenName . " at " . $this->getTokenErrorDisplay($e->token);
+		} else if ($e instanceof MismatchedTokenException) {
 			$mte = $e;
-			$tokenName="<unknown>";
-			if ( $mte->expecting== TokenConst::$EOF ) {
+			$tokenName = "<unknown>";
+			if ($mte->expecting == TokenConst::$EOF) {
 				$tokenName = "EOF";
-			}
-			else {
+			} else {
 				$tokenName = $tokenNames[$mte->expecting];
 			}
-			$msg = "mismatched input ".$this->getTokenErrorDisplay($e->token).
-				" expecting ".$tokenName;
-		}
-		else if ( $e instanceof MismatchedTreeNodeException ) {
+			$msg = "mismatched input " . $this->getTokenErrorDisplay($e->token) .
+				" expecting " . $tokenName;
+		} else if ($e instanceof MismatchedTreeNodeException) {
 			$mtne = $e;
-			$tokenName="<unknown>";
-			if ( $mtne->expecting==TokenConst::$EOF ) {
+			$tokenName = "<unknown>";
+			if ($mtne->expecting == TokenConst::$EOF) {
 				$tokenName = "EOF";
-			}
-			else {
+			} else {
 				$tokenName = $tokenNames[$mtne->expecting];
 			}
-			$msg = "mismatched tree node: ".$mtne->node.
-				" expecting ".$tokenName;
-		}
-		else if ( $e instanceof NoViableAltException ) {
+			$msg = "mismatched tree node: " . $mtne->node .
+				" expecting " . $tokenName;
+		} else if ($e instanceof NoViableAltException) {
 			$nvae = $e;
 			// for development, can add "decision=<<"+nvae.grammarDecisionDescription+">>"
 			// and "(decision="+nvae.decisionNumber+") and
 			// "state "+nvae.stateNumber
-			$msg = "no viable alternative at input ".$this->getTokenErrorDisplay($e->token);
-		}
-		else if ( $e instanceof EarlyExitException ) {
+			$msg = "no viable alternative at input " . $this->getTokenErrorDisplay($e->token);
+		} else if ($e instanceof EarlyExitException) {
 			$eee = $e;
 			// for development, can add "(decision="+eee.decisionNumber+")"
-			$msg = "required (...)+ loop did not match anything at input ".
+			$msg = "required (...)+ loop did not match anything at input " .
 				getTokenErrorDisplay($e->token);
-		}
-		else if ( $e instanceof MismatchedSetException ) {
+		} else if ($e instanceof MismatchedSetException) {
 			$mse = $e;
-			$msg = "mismatched input ".$this->getTokenErrorDisplay($e->token).
-				" expecting set ".$mse->expecting;
-		}
-		else if ( $e instanceof MismatchedNotSetException ) {
+			$msg = "mismatched input " . $this->getTokenErrorDisplay($e->token) .
+				" expecting set " . $mse->expecting;
+		} else if ($e instanceof MismatchedNotSetException) {
 			$mse = $e;
-			$msg = "mismatched input ".$this->getTokenErrorDisplay($e->token).
-				" expecting set ".$mse->expecting;
-		}
-		else if ( $e instanceof FailedPredicateException ) {
+			$msg = "mismatched input " . $this->getTokenErrorDisplay($e->token) .
+				" expecting set " . $mse->expecting;
+		} else if ($e instanceof FailedPredicateException) {
 			$fpe = $e;
-			$msg = "rule ".$fpe->ruleName." failed predicate: {".
-				$fpe->predicateText."}?";
+			$msg = "rule " . $fpe->ruleName . " failed predicate: {" .
+				$fpe->predicateText . "}?";
 		}
 		return $msg;
 	}
@@ -270,16 +260,17 @@ abstract class BaseRecognizer{
 	 *
 	 *  See also reportError()
 	 */
-	public function getNumberOfSyntaxErrors() {
+	public function getNumberOfSyntaxErrors()
+	{
 		return $state->syntaxErrors;
 	}
 
 	/** What is the error header, normally line/character position information? */
-	public function getErrorHeader($e) {
-		return "line ".$e->line.":".$e->charPositionInLine;
+	public function getErrorHeader($e)
+	{
+		return "line " . $e->line . ":" . $e->charPositionInLine;
 	}
-	
-	
+
 	/** How should a token be displayed in an error message? The default
 	 *  is to display just the text, but during development you might
 	 *  want to have a lot of information spit out.  Override in that case
@@ -288,24 +279,25 @@ abstract class BaseRecognizer{
 	 *  your token objects because you don't have to go modify your lexer
 	 *  so that it creates a new Java type.
 	 */
-	public function getTokenErrorDisplay($t) {
+	public function getTokenErrorDisplay($t)
+	{
 		$s = $t->getText();
-		if ( $s==null ) {
-			if ( $t->getType()==TokenConst::$EOF ) {
+		if ($s === null) {
+			if ($t->getType() == TokenConst::$EOF) {
 				$s = "<EOF>";
-			}
-			else {
-				$s = "<".$t->getType().">";
+			} else {
+				$s = "<" . $t->getType() . ">";
 			}
 		}
 		$s = str_replace("\n", '\n', $s);
-		$s = str_replace("\r",'\r', $s);
-		$s = str_replace("\t",'\t', $s);
-		return "'".$s."'";
+		$s = str_replace("\r", '\r', $s);
+		$s = str_replace("\t", '\t', $s);
+		return "'" . $s . "'";
 	}
 
 	/** Override this method to change where error messages go */
-	public function emitErrorMessage($msg) {
+	public function emitErrorMessage($msg)
+	{
 		echo $msg;
 	}
 
@@ -315,8 +307,9 @@ abstract class BaseRecognizer{
 	 *  handle mismatched symbol exceptions but there could be a mismatched
 	 *  token that the match() routine could not recover from.
 	 */
-	public function recover($input, $re = null) {
-		if ( $this->state->lastErrorIndex==$input->index() ) {
+	public function recover($input, $re = null)
+	{
+		if ($this->state->lastErrorIndex == $input->index()) {
 			// uh oh, another error at same token index; must be a case
 			// where LT(1) is in the recovery token set so nothing is
 			// consumed; consume a single token so at least to prevent
@@ -333,12 +326,15 @@ abstract class BaseRecognizer{
 	/** A hook to listen in on the token consumption during error recovery.
 	 *  The DebugParser subclasses this to fire events to the listenter.
 	 */
-	public function beginResync() {
+	public function beginResync()
+	{
+		
 	}
 
-	public function endResync() {
+	public function endResync()
+	{
+		
 	}
-
 	/*  Compute the error recovery set for the current rule.  During
 	 *  rule invocation, the parser pushes the set of tokens that can
 	 *  follow that rule reference on the stack; this amounts to
@@ -430,7 +426,9 @@ abstract class BaseRecognizer{
 	 *  Like Grosch I implemented local FOLLOW sets that are combined
 	 *  at run-time upon error to avoid overhead during parsing.
 	 */
-	protected function computeErrorRecoverySet() {
+
+	protected function computeErrorRecoverySet()
+	{
 		return $this->combineFollows(false);
 	}
 
@@ -486,30 +484,31 @@ abstract class BaseRecognizer{
 	 *  a missing token in the input stream.  "Insert" one by just not
 	 *  throwing an exception.
 	 */
-	protected function computeContextSensitiveRuleFOLLOW() {
+	protected function computeContextSensitiveRuleFOLLOW()
+	{
 		return $this->combineFollows(true);
 	}
 
-	protected function combineFollows($exact) {
+	protected function combineFollows($exact)
+	{
 		$top = $this->state->_fsp;
 		$followSet = new Set(array());
-		for ($i=$top; $i>=0; $i--) {
+		for ($i = $top; $i >= 0; $i--) {
 			$localFollowSet = $this->state->following[$i];
 			/*
-			System.out.println("local follow depth "+i+"="+
-							   localFollowSet.toString(getTokenNames())+")");
+			  System.out.println("local follow depth "+i+"="+
+			  localFollowSet.toString(getTokenNames())+")");
 			 */
 			$followSet->unionInPlace($localFollowSet);
-			if ( $this->exact ) {
+			if ($this->exact) {
 				// can we see end of rule?
-				if ( $localFollowSet->member(TokenConst::$EOR_TOKEN_TYPE) ) {
+				if ($localFollowSet->member(TokenConst::$EOR_TOKEN_TYPE)) {
 					// Only leave EOR in set if at top (start rule); this lets
 					// us know if have to include follow(start rule); i.e., EOF
-					if ( $i>0 ) {
+					if ($i > 0) {
 						$followSet->remove(TokenConst::$EOR_TOKEN_TYPE);
 					}
-				}
-				else { // can't see end of rule, quit
+				} else { // can't see end of rule, quit
 					break;
 				}
 			}
@@ -551,12 +550,12 @@ abstract class BaseRecognizer{
 		$e = null;
 		// if next token is what we are looking for then "delete" this token
 
-		if ( $this->mismatchIsUnwantedToken($input, $ttype) ) {
+		if ($this->mismatchIsUnwantedToken($input, $ttype)) {
 			$e = new UnwantedTokenException($ttype, $input);
 			/*
-			System.err.println("recoverFromMismatchedToken deleting "+
-							   ((TokenStream)input).LT(1)+
-							   " since "+((TokenStream)input).LT(2)+" is what we want");
+			  System.err.println("recoverFromMismatchedToken deleting "+
+			  ((TokenStream)input).LT(1)+
+			  " since "+((TokenStream)input).LT(2)+" is what we want");
 			 */
 			$this->beginResync();
 			$input->consume(); // simply delete extra token
@@ -568,7 +567,7 @@ abstract class BaseRecognizer{
 			return $matchedSymbol;
 		}
 		// can't recover with single token deletion, try insertion
-		if ( $this->mismatchIsMissingToken($input, $follow) ) {
+		if ($this->mismatchIsMissingToken($input, $follow)) {
 			$inserted = $this->getMissingSymbol($input, $e, $ttype, $follow);
 			$e = new MissingTokenException($ttype, $input, $inserted);
 			$this->reportError($e);  // report after inserting so AW sees the token in the exception
@@ -580,8 +579,9 @@ abstract class BaseRecognizer{
 	}
 
 	/** Not currently used */
-	public function recoverFromMismatchedSet($input, $e, $follow) {
-		if ( $this->mismatchIsMissingToken($input, $follow) ) {
+	public function recoverFromMismatchedSet($input, $e, $follow)
+	{
+		if ($this->mismatchIsMissingToken($input, $follow)) {
 			// System.out.println("missing token");
 			reportError($e);
 			// we don't know how to conjure up a token for sets yet
@@ -599,7 +599,10 @@ abstract class BaseRecognizer{
 	 * 
 	 *  This is ignored for lexers.
 	 */
-	protected function getCurrentInputSymbol($input) { return null; }
+	protected function getCurrentInputSymbol($input)
+	{
+		return null;
+	}
 
 	/** Conjure up a missing token during error recovery.
 	 *
@@ -620,11 +623,13 @@ abstract class BaseRecognizer{
 	 *  If you change what tokens must be created by the lexer,
 	 *  override this method to create the appropriate tokens.
 	 */
-	protected function getMissingSymbol($input, $e, $expectedTokenType, $follow) {
+	protected function getMissingSymbol($input, $e, $expectedTokenType, $follow)
+	{
 		return null;
 	}
 
-	public function consumeUntilMatchesType($input, $tokenType) {
+	public function consumeUntilMatchesType($input, $tokenType)
+	{
 		//System.out.println("consumeUntil "+tokenType);
 		$ttype = $input->LA(1);
 		while ($ttype != TokenConst::$EOF && $ttype != $tokenType) {
@@ -634,10 +639,11 @@ abstract class BaseRecognizer{
 	}
 
 	/** Consume tokens until one matches the given token set */
-	public function consumeUntilInSet($input, $set) {
+	public function consumeUntilInSet($input, $set)
+	{
 		//System.out.println("consumeUntil("+set.toString(getTokenNames())+")");
 		$ttype = $input->LA(1);
-		while ($ttype != TokenConst::$EOF && !$set->member($ttype) ) {
+		while ($ttype != TokenConst::$EOF && !$set->member($ttype)) {
 			//System.out.println("consume during recover LA(1)="+getTokenNames()[input.LA(1)]);
 			$input->consume();
 			$ttype = $input->LA(1);
@@ -645,22 +651,22 @@ abstract class BaseRecognizer{
 	}
 
 	/** Push a rule's follow set using our own hardcoded stack */
-	protected function pushFollow($fset) {
+	protected function pushFollow($fset)
+	{
 		// if ( ($this->state->_fsp +1)>=sizeof($this->state->following) ) {
 		// 			$f = [];
 		// 			System.arraycopy(state.following, 0, f, 0, state.following.length-1);
 		// 			$this->state->following = f;
 		// 		}
- 		$this->state->following[++$this->state->_fsp] = $fset;
+		$this->state->following[++$this->state->_fsp] = $fset;
 	}
 
-	public static function getRuleInvocationStack($e=null,
-											  $recognizerClassName=null)
+	public static function getRuleInvocationStack($e = null, $recognizerClassName = null)
 	{
-		if($e==null){
+		if ($e === null) {
 			$e = new Exception();
 		}
-		if($recognizerClassName==null){
+		if ($recognizerClassName === null) {
 			$recognizerClassName = get_class($this);
 		}
 		throw new Exception("Not implemented yet");
@@ -683,7 +689,8 @@ abstract class BaseRecognizer{
 		// 		return rules;
 	}
 
-	public function getBacktrackingLevel() {
+	public function getBacktrackingLevel()
+	{
 		return $this->state->backtracking;
 	}
 
@@ -691,14 +698,16 @@ abstract class BaseRecognizer{
 	 *  error reporting.  The generated parsers implement a method
 	 *  that overrides this to point to their String[] tokenNames.
 	 */
-	public function getTokenNames() {
+	public function getTokenNames()
+	{
 		return null;
 	}
 
 	/** For debugging and other purposes, might want the grammar name.
 	 *  Have ANTLR generate an implementation for this method.
 	 */
-	public function getGrammarFileName() {
+	public function getGrammarFileName()
+	{
 		return null;
 	}
 
@@ -707,10 +716,12 @@ abstract class BaseRecognizer{
 	/** A convenience method for use most often with template rewrites.
 	 *  Convert a List<Token> to List<String>
 	 */
-	public function toStrings($tokens) {
-		if ( $tokens==null ) return null;
+	public function toStrings($tokens)
+	{
+		if ($tokens === null)
+			return null;
 		$strings = [];
-		for ($i=0; $i<$tokens->size(); $i++) {
+		for ($i = 0; $i < $tokens->size(); $i++) {
 			$strings[] = $tokens[$i]->getText();
 		}
 		return $strings;
@@ -726,13 +737,13 @@ abstract class BaseRecognizer{
 	 *  Later, we can make a special one for ints and also one that
 	 *  tosses out data after we commit past input position i.
 	 */
-	public function getRuleMemoization($ruleIndex, $ruleStartIndex) {
-		if ( $this->state->ruleMemo[$ruleIndex]==null ) {
+	public function getRuleMemoization($ruleIndex, $ruleStartIndex)
+	{
+		if ($this->state->ruleMemo[$ruleIndex] === null) {
 			$this->state->ruleMemo[$ruleIndex] = [];
 		}
-		$stopIndexI =
-			$this->state->ruleMemo[$ruleIndex][$ruleStartIndex];
-		if ( $stopIndexI==null ) {
+		$stopIndexI = $this->state->ruleMemo[$ruleIndex][$ruleStartIndex];
+		if ($stopIndexI === null) {
 			return self::$MEMO_RULE_UNKNOWN;
 		}
 		return $stopIndexI;
@@ -747,18 +758,18 @@ abstract class BaseRecognizer{
 	 *  this rule and successfully parsed before, then seek ahead to
 	 *  1 past the stop token matched for this rule last time.
 	 */
-	public function alreadyParsedRule($input, $ruleIndex) {
+	public function alreadyParsedRule($input, $ruleIndex)
+	{
 		$stopIndex = $this->getRuleMemoization($ruleIndex, $input->index());
-		if ( $stopIndex==self::$MEMO_RULE_UNKNOWN ) {
+		if ($stopIndex == self::$MEMO_RULE_UNKNOWN) {
 			return false;
 		}
-		if ( $stopIndex==self::$MEMO_RULE_FAILED ) {
+		if ($stopIndex == self::$MEMO_RULE_FAILED) {
 			//System.out.println("rule "+ruleIndex+" will never succeed");
-			$this->state->failed=true;
-		}
-		else {
+			$this->state->failed = true;
+		} else {
 			//System.out.println("seen rule "+ruleIndex+" before; skipping ahead to @"+(stopIndex+1)+" failed="+state.failed);
-			$input->seek($stopIndex+1); // jump to one past stop token
+			$input->seek($stopIndex + 1); // jump to one past stop token
 		}
 		return true;
 	}
@@ -766,66 +777,72 @@ abstract class BaseRecognizer{
 	/** Record whether or not this rule parsed the input at this position
 	 *  successfully.  Use a standard java hashtable for now.
 	 */
-	public function memoize($input, $ruleIndex, $ruleStartIndex){
-		$stopTokenIndex = $this->state->failed?self::$MEMO_RULE_FAILED:$input->index()-1;
-		if ( $this->state->ruleMemo==null ) {
-			echo("!!!!!!!!! memo array is null for ". getGrammarFileName());
+	public function memoize($input, $ruleIndex, $ruleStartIndex)
+	{
+		$stopTokenIndex = $this->state->failed ? self::$MEMO_RULE_FAILED : $input->index() - 1;
+		if ($this->state->ruleMemo === null) {
+			echo("!!!!!!!!! memo array is null for " . getGrammarFileName());
 		}
-		if ( $ruleIndex >= sizeof($this->state->ruleMemo) ) {
-			echo("!!!!!!!!! memo size is ".sizeof($this->state->ruleMemo).", but rule index is ".$ruleIndex);
+		if ($ruleIndex >= sizeof($this->state->ruleMemo)) {
+			echo("!!!!!!!!! memo size is " . sizeof($this->state->ruleMemo) . ", but rule index is " . $ruleIndex);
 		}
-		if ( $this->state->ruleMemo[$ruleIndex]!=null ) {
+		if ($this->state->ruleMemo[$ruleIndex] !== null) {
 			$this->state->ruleMemo[$ruleIndex][$ruleStartIndex] = $stopTokenIndex;
 		}
 	}
 
-	public function getRuleMemoizationCacheSize() {
+	public function getRuleMemoizationCacheSize()
+	{
 		$n = 0;
-		for ($i = 0; $this->state->ruleMemo!=null && $i < sizeof($this->state->ruleMemo); $i++) {
+		for ($i = 0; $this->state->ruleMemo !== null && $i < sizeof($this->state->ruleMemo); $i++) {
 			$ruleMap = $this->state->ruleMemo[$i];
-			if ( $ruleMap!=null ) {
+			if ($ruleMap !== null) {
 				$n += sizeof($ruleMap); // how many input indexes are recorded?
 			}
 		}
 		return $n;
 	}
 
-	public function traceIn($ruleName, $ruleIndex, $inputSymbol)  {
-		echo("enter ".$ruleName." ".$inputSymbol);
-		if ( $this->state->failed ) {
-			echo(" failed=".$this->state->failed);
+	public function traceIn($ruleName, $ruleIndex, $inputSymbol)
+	{
+		echo("enter " . $ruleName . " " . $inputSymbol);
+		if ($this->state->failed) {
+			echo(" failed=" . $this->state->failed);
 		}
-		if ( $this->state->backtracking>0 ) {
-			echo(" backtracking=".$this->state->backtracking);
-		}
-		echo "\n";
-	}
-
-	public function traceOut($ruleName, $ruleIndex, $inputSymbol) {
-		echo("exit ".$ruleName." ".$inputSymbol);
-		if ( $this->state->failed ) {
-			echo(" failed=".$this->state->failed);
-		}
-		if ( $this->state->backtracking>0 ) {
-			echo(" backtracking="+$this->state->backtracking);
+		if ($this->state->backtracking > 0) {
+			echo(" backtracking=" . $this->state->backtracking);
 		}
 		echo "\n";
 	}
 
-	public function getToken($name){
-		if(preg_match("/\d+/", $name)){
-			return (integer)$name;
-		}else{
+	public function traceOut($ruleName, $ruleIndex, $inputSymbol)
+	{
+		echo("exit " . $ruleName . " " . $inputSymbol);
+		if ($this->state->failed) {
+			echo(" failed=" . $this->state->failed);
+		}
+		if ($this->state->backtracking > 0) {
+			echo(" backtracking=" + $this->state->backtracking);
+		}
+		echo "\n";
+	}
+
+	public function getToken($name)
+	{
+		if (preg_match("/\d+/", $name)) {
+			return (integer) $name;
+		} else {
 			return $this->$name;
 		}
 	}
-	
-	public function getTokenName($tokenId){
+
+	public function getTokenName($tokenId)
+	{
 		
 	}
-
 }
 
 BaseRecognizer::$DEFAULT_TOKEN_CHANNEL = TokenConst::$DEFAULT_CHANNEL;
 BaseRecognizer::$HIDDEN = TokenConst::$HIDDEN_CHANNEL;
+
 ?>

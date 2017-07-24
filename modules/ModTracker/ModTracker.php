@@ -200,7 +200,7 @@ class ModTracker
 			$params[] = $entityModule;
 		}
 
-		if ($limit != false)
+		if ($limit !== false)
 			$query .= " LIMIT $limit";
 
 		$result = $adb->pquery($query, $params);
