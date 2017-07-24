@@ -6,8 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'Widgets' => 'Módulos – Widgets',
-	'LBL_MODULE_DESC' => 'Módulo de administración de widgets en resumen',
+	'Widgets' => 'Módulos – Widgets en Resumen',
+	'LBL_MODULE_DESC' => 'Módulo de administración de Widgets en Resumen',
 	'Add widget' => 'Añadir Widget',
 	'Type widget' => 'Tipo',
 	'LBL_WIDGET_TYPE' => 'Seleccionar tipo de widget',
