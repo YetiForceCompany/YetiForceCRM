@@ -2308,7 +2308,7 @@
 			if(!obj) { return false; }
 			if(obj.id === $.jstree.root) { return this.redraw(true); }
 			node = this.get_node(node, true);
-			if(!node || !node.length) { return false; } // TODO: quick toggle
+			if(!node || !node.length) { return false; } // YTTODO: quick toggle
 
 			node.children('.jstree-children').remove();
 			node = node[0];
@@ -6572,7 +6572,7 @@
 		use_html5: false
 	};
 	var drg, elm;
-	// TODO: now check works by checking for each node individually, how about max_children, unique, etc?
+	// YTTODO: now check works by checking for each node individually, how about max_children, unique, etc?
 	$.jstree.plugins.dnd = function (options, parent) {
 		this.init = function (el, options) {
 			parent.init.call(this, el, options);
