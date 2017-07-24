@@ -19,7 +19,7 @@
 	<div class="col-md-6 col-sm-8 col-xs-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title">{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_UNDO_RESULT', $MODULE)}</h4>
+				<h4 class="panel-title">{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)} - {\App\Language::translate('LBL_UNDO_RESULT', $MODULE)}</h4>
 			</div>
 			<div class="panel-body form-horizontal font-larger">
 				<input type="hidden" name="module" value="{$FOR_MODULE}" />
