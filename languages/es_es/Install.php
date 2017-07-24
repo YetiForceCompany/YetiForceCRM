@@ -42,6 +42,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Vuelve a introducir las contraseñas. Los valores de \"Contraseña\" y \"Volver a escribir contraseña\" no coinciden.',
 	'LBL_PHP_CONFIGURATION' => 'Configuración PHP',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Configuración de PHP recomendada',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Configuración de seguridad recomendada',
 	'LBL_PHP_VERSION' => 'Versión PHP',
 	'LBL_PLEASE_WAIT' => 'Por favor, espere',
 	'LBL_PRESENT_VALUE' => 'Valores actuales',
