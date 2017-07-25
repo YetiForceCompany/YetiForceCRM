@@ -122,6 +122,6 @@ class Debug extends DAV\ServerPlugin
 	 */
 	public static function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 	{
-		throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+		throw new \ErrorException($errstr, 0, $errno, $errfile, $errline, $errcontext);
 	}
 }
