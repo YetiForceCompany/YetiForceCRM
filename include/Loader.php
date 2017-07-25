@@ -67,8 +67,6 @@ class Vtiger_Loader
 		// Check file inclusion before including it
 		\vtlib\Deprecated::checkFileAccessForInclusion($file);
 
-		$status = -1;
-
 		$status = include_once $file;
 
 		$success = ($status === 0) ? false : true;
