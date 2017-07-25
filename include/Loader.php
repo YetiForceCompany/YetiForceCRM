@@ -49,10 +49,9 @@ class Vtiger_Loader
 	/**
 	 * Function to include a given php file through qualified file name
 	 * @param string $qualifiedName
-	 * @param boolean $supressWarning
 	 * @return boolean
 	 */
-	static function includeOnce($qualifiedName, $supressWarning = false)
+	static function includeOnce($qualifiedName)
 	{
 
 		if (isset(self::$includeCache[$qualifiedName])) {
@@ -69,11 +68,8 @@ class Vtiger_Loader
 		\vtlib\Deprecated::checkFileAccessForInclusion($file);
 
 		$status = -1;
-		if ($supressWarning) {
-			$status = @include_once $file;
-		} else {
-			$status = include_once $file;
-		}
+
+		$status = include_once $file;
 
 		$success = ($status === 0) ? false : true;
 
