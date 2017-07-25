@@ -20,10 +20,11 @@
 				<input type="hidden" name="showCompanies" value="{AppConfig::module($MODULE, 'SHOW_COMPANIES_IN_QUICKCREATE')}" >
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
-						<div class="pull-left"><h3 class="modal-title">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)} {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</h3></div>
-
+						<div class="pull-left">
+							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp <p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
+						</div>
 						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
-						<div class="quickCreateActions pull-right">
+						<div class="quickCreateActions pull-right pullRight">
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
 								&nbsp;&nbsp;
@@ -33,9 +34,9 @@
 							{else}
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
-							<button class="btn btn-default" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"
-									type="button" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+							<button class="btn btn-default goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
+							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="glyphicon glyphicon-ok"></span></strong></button>
+							<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="glyphicon glyphicon-remove"></span></button>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -106,7 +107,7 @@
 								</div>
 								<div class="pull-right marginTB10">
 									<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
-									<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+									<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="glyphicon glyphicon-ok"></span></strong></button>
 								</div>
 								{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
 									<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
