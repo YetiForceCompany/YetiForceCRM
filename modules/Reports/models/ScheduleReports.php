@@ -252,7 +252,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 
 		$scheduleType = $this->get('scheduleid');
 		$nextTime = null;
