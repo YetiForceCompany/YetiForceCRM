@@ -106,4 +106,9 @@ class Debug extends DAV\ServerPlugin
 			'link' => 'https://yetiforce.com/',
 		];
 	}
+
+	public static function exceptionErrorHandler($errno, $errstr, $errfile, $errline)
+	{
+		throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+	}
 }
