@@ -161,7 +161,7 @@ class Reports extends CRMEntity
 	// Initializes the module list for listing columns for report creation.
 	public function initListOfModules()
 	{
-		global $old_related_modules;
+		$oldRelatedModules = vglobal('old_related_modules');
 
 		$adb = PearDatabase::getInstance();
 		$restricted_modules = array('Events');
@@ -251,10 +251,10 @@ class Reports extends CRMEntity
 						}
 
 						// To achieve Backward Compatability with Report relations
-						if (isset($old_related_modules[$module])) {
+						if (isset($oldRelatedModules[$module])) {
 
 							$rel_mod = [];
-							foreach ($old_related_modules[$module] as $key => $name) {
+							foreach ($oldRelatedModules[$module] as $key => $name) {
 								if (\App\Module::isModuleActive($name) && isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
