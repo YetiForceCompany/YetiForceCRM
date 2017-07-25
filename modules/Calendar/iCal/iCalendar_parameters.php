@@ -101,7 +101,7 @@ class iCalendar_parameter
 				if (rfc2445_is_xname($value)) {
 					return true;
 				}
-				@list($type, $subtype) = explode('/', $value);
+				list($type, $subtype) = explode('/', $value);
 				if (empty($type) || empty($subtype)) {
 					return false;
 				}
