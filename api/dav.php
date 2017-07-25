@@ -16,12 +16,7 @@ AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/davPhpError.log');
 $pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-//Mapping PHP errors to exceptions
-function exception_error_handler($errno, $errstr, $errfile, $errline)
-{
-	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-}
-set_error_handler('exception_error_handler');
+set_error_handler(['App\Dav\Debug', 'exceptionErrorHandler']);
 $enableWebDAV = false;
 // Backends 
 $authBackend = new App\Dav\DAV_Auth_Backend_PDO($pdo);
