@@ -270,6 +270,78 @@ class Importer
 		$this->logs .= "# end reset sequence\n";
 	}
 
+	/**
+	 * Rename tables
+	 * 
+	 * $tables = [
+	 * 		['oldName', 'newName']
+	 * 		['u_#__mail_address_boock', 'u_#__mail_address_book']
+	 * ];
+	 * @param array $tables
+	 */
+	public function renameTables($tables)
+	{
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		foreach ($tables as $table) {
+			if ($db->isTableExists($table[0])) {
+				$dbCommand->renameTable($table[0], $table[1])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Rename columns
+	 * 
+	 * $columns = [
+	 * 		['TableName', 'oldName', 'newName'],
+	 * 		['vtiger_smsnotifier', 'status', 'smsnotifier_status'],
+	 * ];
+	 * @param array $columns
+	 */
+	public function renameColumns($columns)
+	{
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		$schema = $db->getSchema();
+		foreach ($columns as $column) {
+			$tableSchema = $schema->getTableSchema($column[0]);
+			if ($tableSchema && isset($tableSchema->columns[$column[1]]) && !isset($tableSchema->columns[$column[2]])) {
+				$dbCommand->renameColumn($column[0], $column[1], $column[2])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Drop columns
+	 * 
+	 * $columns = [
+	 * 		['TableName', 'columnName'],
+	 * 		['vtiger_smsnotifier', 'status'],
+	 * ];
+	 * @param array $columns
+	 */
+	public function dropColumns($columns)
+	{
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		$schema = $db->getSchema();
+		foreach ($columns as $column) {
+			$tableSchema = $schema->getTableSchema($column[0]);
+			if ($tableSchema && isset($tableSchema->columns[$column[1]])) {
+				$dbCommand->dropColumn($column[0], $column[1])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Refresh db schema
+	 */
+	public function refreshSchema()
+	{
+		\App\Db::getInstance()->getSchema()->getTableSchemas('', true);
+	}
+
 	public function logs($show = true)
 	{
 		if ($show) {
