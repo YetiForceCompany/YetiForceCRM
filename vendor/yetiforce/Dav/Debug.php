@@ -106,4 +106,22 @@ class Debug extends DAV\ServerPlugin
 			'link' => 'https://yetiforce.com/',
 		];
 	}
+
+	/**
+	 * Mapping PHP errors to exceptions.
+	 *
+	 * While this is not strictly needed, it makes a lot of sense to do so. If an
+	 * E_NOTICE or anything appears in your code, this allows SabreDAV to intercept
+	 * the issue and send a proper response back to the client (HTTP/1.1 500). 
+	 * @param int $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param int $errline
+	 * @param array $errcontext
+	 * @throws \ErrorException
+	 */
+	public static function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+	{
+		throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+	}
 }
