@@ -806,8 +806,8 @@ class CustomView extends CRMEntity
 	public function getAdvComparator($comparator, $value, $datatype = '')
 	{
 
-		global $adb, $default_charset;
-		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
+		$adb = vglobal('ab');
+		$value = html_entity_decode(trim($value), ENT_QUOTES, vglobal('default_charset'));
 		$value = $adb->sql_escape_string($value);
 
 		if ($comparator == "e") {
