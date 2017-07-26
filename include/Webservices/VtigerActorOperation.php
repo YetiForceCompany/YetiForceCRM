@@ -87,7 +87,6 @@ class VtigerActorOperation extends WebserviceEntityOperation
 	public function __create($elementType, $element)
 	{
 		require_once 'include/utils/utils.php';
-		$db = PearDatabase::getInstance();
 
 		$this->id = $this->getNextId($elementType, $element);
 
