@@ -301,7 +301,6 @@ class CommonTokenStream implements TokenStream
 
 	public function LA($i)
 	{
-		$lt = $this->LT($i);
 		return $this->LT($i)->getType();
 	}
 

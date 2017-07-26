@@ -251,8 +251,6 @@ class API_CalDAV_Model
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
-			$current_user = vglobal('current_user');
-			$current_user = $user;
 			$this->recordSync();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');

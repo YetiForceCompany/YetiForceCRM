@@ -49,7 +49,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 		$sql = "DELETE FROM roundcube_identities WHERE identity_id = ?";
-		$result = $db->pquery($sql, array($id), true);
+		$db->pquery($sql, array($id), true);
 	}
 
 	public static function getEmailActionsListName($data)
@@ -70,7 +70,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function setActions($userid, $vale)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("UPDATE roundcube_users SET actions = ? WHERE user_id = ?", array($vale, $userid), true);
+		$adb->pquery("UPDATE roundcube_users SET actions = ? WHERE user_id = ?", array($vale, $userid), true);
 	}
 
 	public static function setFolderList($user, $foldersByType)
@@ -294,9 +294,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	public static function getEmailSearch($module = false)
 	{
-		$db = PearDatabase::getInstance();
 		$return = [];
-		$queryParams = ['Users'];
 		$query = (new App\Db\Query())->from('vtiger_field')
 			->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
 			->where(['and', ['or', ['uitype' => 13], ['uitype' => 14]], ['<>', 'vtiger_field.presence', 1], ['<>', 'vtiger_tab.name', 'Users']]);

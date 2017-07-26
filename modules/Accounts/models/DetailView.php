@@ -20,7 +20,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
 
