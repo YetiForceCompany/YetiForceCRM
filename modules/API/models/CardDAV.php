@@ -81,8 +81,6 @@ class API_CardDAV_Model
 		foreach ($this->davUsers as $key => $user) {
 			$this->addressBookId = $user->get('addressbooksid');
 			$this->user = $user;
-			$current_user = vglobal('current_user');
-			$current_user = $user;
 			$this->syncAddressBooks();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');

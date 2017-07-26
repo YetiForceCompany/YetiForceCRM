@@ -483,7 +483,6 @@ class Users extends CRMEntity
 	 */
 	public function retrieve_entity_info($record, $module)
 	{
-		$adb = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 

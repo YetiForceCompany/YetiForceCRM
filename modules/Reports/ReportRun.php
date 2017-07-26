@@ -952,7 +952,7 @@ class ReportRun extends CRMEntity
 								$tableColumnSql = $selectedFields[0] . '.' . $selectedFields[1];
 							}
 
-							if ($value != null && $value != '') {
+							if ($value !== null && $value !== '') {
 								if ($comparator == 'e' || $comparator == 'n') {
 									$dateTimeComponents = explode(' ', $value);
 									$dateTime = new DateTime($dateTimeComponents[0] . ' ' . '00:00:00');
@@ -2587,7 +2587,7 @@ class ReportRun extends CRMEntity
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
 							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
 						}
-						if (false != strpos($fld->name, 'Share__with__users')) {
+						if (false !== strpos($fld->name, 'Share__with__users')) {
 							$id = $custom_field_values[$this->primarymodule . '__LBL_ACTION'];
 							$usersSqlFullName = \App\Module::getSqlForNameInDisplayFormat('Users');
 							$query = sprintf('SELECT %s FROM  u_yf_crmentity_showners LEFT JOIN vtiger_users ON u_yf_crmentity_showners.userid = vtiger_users.id WHERE crmid = ?', $usersSqlFullName);

@@ -560,7 +560,7 @@ AutoFill.prototype = {
 			return that.s.dt.oApi._fnVisibleToColumnIndex( that.s.dt, visIdx );
 		};
 
-		// xxx - urgh - there must be a way of reducing this...
+		// urgh - there must be a way of reducing this...
 		if ( coordsStart.y <= coordsEnd.y ) {
 			for ( i=coordsStart.y ; i<=coordsEnd.y ; i++ ) {
 				if ( coordsStart.x <= coordsEnd.x ) {

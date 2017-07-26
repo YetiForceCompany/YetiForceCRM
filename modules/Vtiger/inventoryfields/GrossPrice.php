@@ -14,7 +14,7 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_GROSS_PRICE';
 	protected $defaultValue = 0;
 	protected $columnName = 'gross';
-	protected $dbType = 'decimal(27,8) DEFAULT 0';
+	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $summationValue = true;
 
 	/**

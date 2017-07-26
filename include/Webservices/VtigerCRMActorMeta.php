@@ -295,7 +295,7 @@ class VtigerCRMActorMeta extends EntityMeta
 		$exists = false;
 		$sql = sprintf('SELECT 1 FROM %s WHERE %s = ?', $this->baseTable, $this->getObectIndexColumn());
 		$result = $this->pearDB->pquery($sql, array($recordId));
-		if ($result != null && isset($result)) {
+		if ($result !== null && isset($result)) {
 			if ($this->pearDB->num_rows($result) > 0) {
 				$exists = true;
 			}

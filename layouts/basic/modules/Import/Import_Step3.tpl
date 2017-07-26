@@ -50,7 +50,7 @@
 										{foreach key=BLOCK_NAME item=_FIELDS from=$AVAILABLE_BLOCKS}
 											<optgroup label="{\App\Language::translate($BLOCK_NAME, $FOR_MODULE)}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
-													<option value="{$_FIELD_NAME}">{\App\Language::translate($_FIELD_INFO->getFieldLabel() $FOR_MODULE)}</option>
+													<option value="{$_FIELD_NAME}">{\App\Language::translate($_FIELD_INFO->getFieldLabel(), $FOR_MODULE)}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}

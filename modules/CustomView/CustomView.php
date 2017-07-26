@@ -272,7 +272,6 @@ class CustomView extends CRMEntity
 	 */
 	public function getAdvFilterByCvid($cvid)
 	{
-		$adb = PearDatabase::getInstance();
 		$advft_criteria = [];
 		$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
 				->where(['cvid' => $cvid])
@@ -327,7 +326,6 @@ class CustomView extends CRMEntity
 
 	public function getAdvftCriteria($relcriteriarow)
 	{
-		$columnIndex = $relcriteriarow['columnindex'];
 		$criteria = [];
 		$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 		$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -416,7 +414,6 @@ class CustomView extends CRMEntity
 	 */
 	public function getCvColumnListSQL($cvid)
 	{
-		$adb = PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
 		if (isset($columnslist)) {
 			foreach ($columnslist as $columnname => $value) {
@@ -553,8 +550,6 @@ class CustomView extends CRMEntity
 	// Not modified as of now, as this function is not used for now (Instead Query Generator is used for better performance).
 	public function getCVAdvFilterSQL($cvid)
 	{
-		$current_user = vglobal('current_user');
-
 		$advfilter = $this->getAdvFilterByCvid($cvid);
 
 		$advcvsql = "";
@@ -642,8 +637,6 @@ class CustomView extends CRMEntity
 	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
 		$currentModule = vglobal('currentModule');
 		$mod_strings = vglobal('mod_strings');
 		//Added for proper check of contact name in advance filter
@@ -806,8 +799,8 @@ class CustomView extends CRMEntity
 	public function getAdvComparator($comparator, $value, $datatype = '')
 	{
 
-		global $adb, $default_charset;
-		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
+		$adb = vglobal('ab');
+		$value = html_entity_decode(trim($value), ENT_QUOTES, vglobal('default_charset'));
 		$value = $adb->sql_escape_string($value);
 
 		if ($comparator == "e") {

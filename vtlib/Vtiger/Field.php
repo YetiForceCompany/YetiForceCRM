@@ -47,8 +47,8 @@ class Field extends FieldBasic
 				$picklistIdCol => 'pk',
 				$this->name => 'string',
 				'presence' => $importer->boolean()->defaultValue(true),
-				'picklist_valueid' => $importer->smallInteger()->defaultValue(0),
-				'sortorderid' => $importer->smallInteger()->defaultValue(0)
+				'picklist_valueid' => $importer->int(10)->defaultValue(0),
+				'sortorderid' => $importer->smallInteger(5)->defaultValue(0)
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
 			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');

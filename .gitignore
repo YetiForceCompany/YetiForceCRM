@@ -11,7 +11,6 @@ config/config_override.php
 cache/logs/*.log
 cache/vtlib/
 test/templates_c/basic/*.php
-nbproject/
 libraries/mPDF/
 public_html/modules/OSSMail/roundcube/
 public_html/libraries/gantt/

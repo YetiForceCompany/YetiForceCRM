@@ -149,7 +149,6 @@ class OperationManager
 	public function runOperation($params, $user)
 	{
 		try {
-			$operation = strtolower($this->operationName);
 			if (!$this->preLogin) {
 				$params[] = $user;
 				return call_user_func_array($this->handlerMethod, $params);

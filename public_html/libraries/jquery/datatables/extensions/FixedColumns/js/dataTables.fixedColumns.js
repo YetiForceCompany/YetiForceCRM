@@ -503,7 +503,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 						}
 					}
 				} )
-				.on( wheelType, function(e) { // xxx update the destroy as well
+				.on( wheelType, function(e) { // update the destroy as well
 					// Pass horizontal scrolling through
 					var xDelta = e.type === 'wheel' ?
 						-e.originalEvent.deltaX :
