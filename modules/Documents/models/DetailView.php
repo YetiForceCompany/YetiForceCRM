@@ -67,7 +67,6 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
-		$parentModuleModel = $this->getModule();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
 
 		$relatedLinks[] = [
