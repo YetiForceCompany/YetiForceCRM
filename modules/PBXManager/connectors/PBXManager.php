@@ -248,7 +248,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to respond for incoming calls
 	 * @param \App\Request $details 
 	 */
-	public function respondToIncomingCall($details)
+	public function respondToIncomingCall(\App\Request $details)
 	{
 		$current_user = vglobal('current_user');
 		self::$NUMBERS = PBXManager_Record_Model::getUserNumbers();
