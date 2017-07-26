@@ -27,7 +27,6 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function getListViewLinks()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$basicLinks = [];
 		if ($currentUserModel->isAdminUser()) {
 			$basicLinks = array(

@@ -372,8 +372,6 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getObjectEntityName($webserviceId)
 	{
-		$adb = PearDatabase::getInstance();
-
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];
 

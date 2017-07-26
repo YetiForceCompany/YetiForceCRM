@@ -271,7 +271,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function _get_body_attach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
-		$i = 0;
 		$mail = array('id' => $id);
 		if (empty($struct->parts)) {
 			$mail = self::initMailPart($mbox, $mail, $struct, 0);
@@ -379,8 +378,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	protected static function uuDecode($input)
 	{
 		$attachments = $parts = [];
-		$pid = 0;
-
 		$uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
 		$uu_regexp_end = '/`\r?\nend((\r?\n)|($))/s';
 
@@ -553,7 +550,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mailLimit = $numMessages;
 			}
 			for ($i = $numMessages; $i > ($numMessages - $mailLimit); $i--) {
-				$header = imap_headerinfo($imap, $i);
+				imap_headerinfo($imap, $i);
 				$mail = self::getMail($imap, false, $i);
 				$mails[] = $mail;
 			}

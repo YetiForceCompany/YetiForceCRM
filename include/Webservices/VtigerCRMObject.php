@@ -105,7 +105,6 @@ class VtigerCRMObject
 
 	public function read($id)
 	{
-		$adb = PearDatabase::getInstance();
 		$this->instance->retrieve_entity_info($id, $this->getTabName());
 		return true;
 	}
