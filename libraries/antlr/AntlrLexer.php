@@ -227,18 +227,16 @@ abstract class AntlrLexer extends BaseRecognizer
 		$msg = null;
 		if ($e instanceof MismatchedTokenException) {
 			$mte = $e;
-			$msg = "mismatched character " . $this->getCharErrorDisplay($e->c) .
-				" expecting " . $this->getCharErrorDisplay($mte->expecting);
+			$msg = 'mismatched character ' . $this->getCharErrorDisplay($e->c) .
+				' expecting ' . $this->getCharErrorDisplay($mte->expecting);
 		} else if ($e instanceof NoViableAltException) {
-			$nvae = $e;
 			// for development, can add "decision=<<"+nvae.grammarDecisionDescription+">>"
 			// and "(decision="+nvae.decisionNumber+") and
 			// "state "+nvae.stateNumber
-			$msg = "no viable alternative at character " . $this->getCharErrorDisplay($e->c);
+			$msg = 'no viable alternative at character ' . $this->getCharErrorDisplay($e->c);
 		} else if ($e instanceof EarlyExitException) {
-			$eee = $e;
 			// for development, can add "(decision="+eee.decisionNumber+")"
-			$msg = "required (...)+ loop did not match anything at character " . $this->getCharErrorDisplay($e->c);
+			$msg = 'required (...)+ loop did not match anything at character ' . $this->getCharErrorDisplay($e->c);
 		} else if ($e instanceof MismatchedNotSetException) {
 			$mse = $e;
 			$msg = "mismatched character " . $this->getCharErrorDisplay($e->c) . " expecting set " . $mse->expecting;

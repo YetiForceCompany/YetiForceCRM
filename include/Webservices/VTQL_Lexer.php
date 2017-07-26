@@ -113,7 +113,7 @@ function handlewhere($lexer, $val)
 		$where_col = true;
 		return VTQL_Parser::COLUMNNAME;
 	} else if ((strcasecmp($val, "in") === 0)) {
-		$in_started = true;
+		$inStarted = true;
 		return VTQL_Parser::IN;
 	} else if (strcmp($val, ",") === 0) {
 		return VTQL_Parser::COMMA;

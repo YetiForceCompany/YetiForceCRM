@@ -224,16 +224,14 @@ abstract class BaseRecognizer
 			} else {
 				$tokenName = $tokenNames[$mtne->expecting];
 			}
-			$msg = "mismatched tree node: " . $mtne->node .
-				" expecting " . $tokenName;
+			$msg = 'mismatched tree node: ' . $mtne->node .
+				' expecting ' . $tokenName;
 		} else if ($e instanceof NoViableAltException) {
-			$nvae = $e;
 			// for development, can add "decision=<<"+nvae.grammarDecisionDescription+">>"
 			// and "(decision="+nvae.decisionNumber+") and
 			// "state "+nvae.stateNumber
 			$msg = "no viable alternative at input " . $this->getTokenErrorDisplay($e->token);
 		} else if ($e instanceof EarlyExitException) {
-			$eee = $e;
 			// for development, can add "(decision="+eee.decisionNumber+")"
 			$msg = "required (...)+ loop did not match anything at input " .
 				getTokenErrorDisplay($e->token);

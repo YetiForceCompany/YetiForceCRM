@@ -152,7 +152,6 @@ class Reports extends CRMEntity
 			$blockid = $adb->query_result($res, $index, 'blockid');
 			if (in_array($blockid, $this->module_list[$module]))
 				continue;
-			$blockid_list[] = $blockid;
 			$blocklabel = $adb->query_result($res, $index, 'blocklabel');
 			$this->module_list[$module][$blocklabel] = $blockid;
 		}
@@ -823,7 +822,6 @@ class Reports extends CRMEntity
 				if (sizeof($permitted_fields) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 					$permitted_fields = $this->getaccesfield($module);
 				}
-				$querycolumns = $this->getEscapedColumns($selectedfields);
 				$fieldlabel = trim(str_replace($module, ' ', $module_field));
 				$mod_arr = explode('__', $fieldlabel);
 				$mod = ($mod_arr[0] == '') ? $module : $mod_arr[0];
@@ -874,7 +872,6 @@ class Reports extends CRMEntity
 				continue;
 
 			while ($relcriteriarow = $adb->fetch_array($result)) {
-				$columnIndex = $relcriteriarow["columnindex"];
 				$criteria = [];
 				$criteria['columnname'] = $relcriteriarow["columnname"];
 				$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -882,7 +879,6 @@ class Reports extends CRMEntity
 				$col = explode(":", $relcriteriarow["columnname"]);
 
 				$moduleFieldLabel = $col[2];
-				$fieldName = $col[3];
 
 				list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
@@ -950,7 +946,6 @@ class Reports extends CRMEntity
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, []);
 		$reportfldrow = $adb->fetch_array($result);
-		$x = 0;
 		do {
 			$shtml .= "<option value='" . $reportfldrow['folderid'] . "'>" . $reportfldrow['foldername'] . "</option>";
 		} while ($reportfldrow = $adb->fetch_array($result));
@@ -1132,11 +1127,9 @@ class Reports extends CRMEntity
  */
 function getReportsModuleList($focus)
 {
-	$adb = PearDatabase::getInstance();
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
 		if (isPermitted($key, 'index') == "yes") {
-			$count_flag = 1;
 			$modules [$key] = \App\Language::translate($key, $key);
 		}
 	}
@@ -1169,13 +1162,10 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 {
 
 	$adb = PearDatabase::getInstance();
-
-
-	$idelrelcriteriasql = "delete from vtiger_relcriteria where queryid=?";
-	$idelrelcriteriasqlresult = $adb->pquery($idelrelcriteriasql, array($reportid));
-
-	$idelrelcriteriagroupsql = "delete from vtiger_relcriteria_grouping where queryid=?";
-	$idelrelcriteriagroupsqlresult = $adb->pquery($idelrelcriteriagroupsql, array($reportid));
+	$idelrelcriteriasql = 'delete from vtiger_relcriteria where queryid=?';
+	$adb->pquery($idelrelcriteriasql, array($reportid));
+	$idelrelcriteriagroupsql = 'delete from vtiger_relcriteria_grouping where queryid=?';
+	$adb->pquery($idelrelcriteriagroupsql, array($reportid));
 
 	if (empty($advft_criteria))
 		return;
@@ -1193,7 +1183,6 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 
 		$column_info = explode(":", $adv_filter_column);
 		$moduleFieldLabel = $column_info[2];
-		$fieldName = $column_info[3];
 
 		list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
@@ -1232,7 +1221,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		}
 
 		$irelcriteriasql = "insert into vtiger_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE,GROUPID,COLUMN_CONDITION) values (?,?,?,?,?,?,?)";
-		$irelcriteriaresult = $adb->pquery($irelcriteriasql, array($reportid, $column_index, $adv_filter_column, $adv_filter_comparator, $adv_filter_value, $adv_filter_groupid, $adv_filter_column_condition));
+		$adb->pquery($irelcriteriasql, array($reportid, $column_index, $adv_filter_column, $adv_filter_comparator, $adv_filter_value, $adv_filter_groupid, $adv_filter_column_condition));
 
 		// Update the condition expression for the group to which the condition column belongs
 		$groupConditionExpression = '';
@@ -1251,6 +1240,6 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 			continue; // Case when the group doesn't have any column criteria
 
 		$irelcriteriagroupsql = "insert into vtiger_relcriteria_grouping(GROUPID,QUERYID,GROUP_CONDITION,CONDITION_EXPRESSION) values (?,?,?,?)";
-		$irelcriteriagroupresult = $adb->pquery($irelcriteriagroupsql, array($group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]));
+		$adb->pquery($irelcriteriagroupsql, array($group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]));
 	}
 }

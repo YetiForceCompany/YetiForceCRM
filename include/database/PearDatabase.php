@@ -372,7 +372,7 @@ class PearDatabase
 	public function execute()
 	{
 		try {
-			$success = $this->stmt->execute($params);
+			$this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\Exception\AppException $e) {
 			$error = $this->database->errorInfo();
