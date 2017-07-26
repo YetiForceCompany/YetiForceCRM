@@ -250,7 +250,6 @@ class Events_RecuringEvents_Model extends \App\Base
 			case self::UPDATE_THIS_EVENT:
 				if ($this->templateRecordId === $this->recordModel->get('followup')) {
 					$recordsIds = $this->getRecords($this->recordModel->get('followup'));
-					$newFollowUp = 0;
 					$skip = true;
 					foreach ($recordsIds as $recordId => $data) {
 						if ($data['date_start'] >= $this->recordModel->get('date_start')) {

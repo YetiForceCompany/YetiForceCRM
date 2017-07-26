@@ -23,7 +23,6 @@ class Documents_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mod
 
 		$values = [];
 		$recordModel = $this->getRecord();
-		$recordExists = !empty($recordModel);
 		$recordId = $recordModel->getId();
 		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();

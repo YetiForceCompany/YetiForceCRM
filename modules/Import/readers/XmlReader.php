@@ -146,7 +146,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		if ($this->moduleModel->isInventory()) {
 			$isInventory = true;
 		}
-		$fields = $this->moduleModel->getFields();
 		while ($xmlToImport->read()) {
 			if ($xmlToImport->nodeType == XMLReader::ELEMENT) {
 				if (!in_array($xmlToImport->localName, ['MODULE_FIELDS', 'INVENTORY_ITEM', 'INVENTORY_ITEMS'])) {

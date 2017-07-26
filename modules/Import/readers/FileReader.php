@@ -161,7 +161,7 @@ class Import_FileReader_Reader
 	{
 		$db = \App\Db::getInstance();
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		$result = $db->createCommand()->insert($tableName, $data)->execute();
+		$db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
 		return $db->getLastInsertID($tableName . '_id_seq');
 	}

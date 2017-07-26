@@ -191,7 +191,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$handlerOn = false;
 			$rowId = $row['id'];
 
 			if ($isInventory) {
@@ -281,7 +280,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$entityInfo = null;
 				} else {
 					$entityInfo = $this->createRecordByModel($moduleName, $fieldData);
-					$handlerOn = true;
 				}
 			}
 			if ($entityInfo === null) {
@@ -308,7 +306,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getName() == 'Currency') {
-						$curencyName = $value;
 						$value = \App\Currency::getCurrencyIdByName($entityLabel);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
@@ -747,10 +744,8 @@ class Import_Data_Action extends Vtiger_Action_Controller
 
 	public static function runScheduledImport()
 	{
-		$current_user = vglobal('current_user');
 		$scheduledImports = self::getScheduledImport();
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
-			$current_user = $importDataController->user;
 			$importDataController->batchImport = false;
 
 			if (!$importDataController->initializeImport()) {

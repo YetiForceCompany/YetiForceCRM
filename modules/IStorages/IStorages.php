@@ -105,9 +105,6 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$current_user = vglobal('current_user');
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 
 		$listviewHeader = [];
