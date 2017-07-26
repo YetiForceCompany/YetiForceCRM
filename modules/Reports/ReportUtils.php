@@ -81,7 +81,6 @@ function IsDateField($reportColDetails)
 
 /**
  *
- * @global Users $current_user
  * @param ReportRun $report
  * @param Array $picklistArray
  * @param ADOFieldObject $dbField
@@ -91,7 +90,6 @@ function IsDateField($reportColDetails)
  */
 function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fieldName)
 {
-	$currentUser = vglobal('current_user');
 	$defaultCharset = vglobal('default_charset');
 
 	$db = PearDatabase::getInstance();

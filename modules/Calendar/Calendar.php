@@ -67,7 +67,6 @@ class Calendar
 	 */
 	public function constructLayout()
 	{
-		$current_user = vglobal('current_user');
 		switch ($this->view) {
 			case 'day':
 				for ($i = -1; $i <= 23; $i++) {
@@ -197,7 +196,6 @@ class Layout
  */
 function getCalendarDaysInMonth($date_time)
 {
-	$current_user = vglobal('current_user');
 	$month_array = [];
 	$slices = [];
 	$monthview_days = $date_time->daysinmonth;

@@ -586,7 +586,6 @@ function getProfileAllActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
 	$actionArr = getProfileActionPermission($profileid);
 	$utilArr = getTabsUtilityActionPermission($profileid);
 	foreach ($utilArr as $tabid => $act_arr) {
@@ -776,7 +775,6 @@ function deleteRoleRelatedSharingRules($roleId)
 {
 
 	\App\Log::trace('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
-	$adb = PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_us2role' => 'to_roleid',
 		'vtiger_datashare_us2rs' => 'to_roleandsubid',
