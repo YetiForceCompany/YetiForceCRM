@@ -237,7 +237,6 @@ class Calendar_Calendar_Model extends App\Base
 	public function getEntityCount()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
 		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
@@ -245,7 +244,6 @@ class Calendar_Calendar_Model extends App\Base
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
-			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);

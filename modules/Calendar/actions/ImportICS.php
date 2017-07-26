@@ -79,12 +79,10 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 
-				$skipRecord = false;
 				foreach ($requiredFields[$module] as $key) {
 					$value = $recordModel->get($key);
 					if (empty($value)) {
 						$skipCount[$module] ++;
-						$skipRecord = true;
 						break;
 					}
 				}

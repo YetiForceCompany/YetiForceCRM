@@ -196,7 +196,6 @@ class Accounts extends CRMEntity
 	public function getAccountHierarchy($id, $listColumns = false)
 	{
 
-		$current_user = vglobal('current_user');
 		\App\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
 
 		$listview_header = [];
@@ -475,7 +474,6 @@ class Accounts extends CRMEntity
 	public function createDependentQuery($other, $row, $id)
 	{
 		$dependentColumn = $row['columnname'];
-		$dependentTable = $row['tablename'];
 		$joinTables = [];
 		$join = '';
 		$tables = '';

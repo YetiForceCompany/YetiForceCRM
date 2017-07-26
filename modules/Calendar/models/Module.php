@@ -411,7 +411,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getCalendarReminder($allReminder = false)
 	{
-		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
