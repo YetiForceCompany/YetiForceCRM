@@ -74,7 +74,6 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.Index'

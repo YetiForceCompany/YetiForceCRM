@@ -501,11 +501,9 @@ class CustomView extends CRMEntity
 
 			foreach ($stdfilterlist as $columnname => $value) {
 
-				if ($columnname == "columnname") {
+				if ($columnname === 'columnname') {
 					$filtercolumn = $value;
-				} elseif ($columnname == "stdfilter") {
-					$filtertype = $value;
-				} elseif ($columnname == "startdate") {
+				} elseif ($columnname === 'startdate') {
 					$startDateTime = new DateTimeField($value . ' ' . date('H:i:s'));
 					$userStartDate = $startDateTime->getDisplayDate();
 					$userStartDateTime = new DateTimeField($userStartDate . ' 00:00:00');

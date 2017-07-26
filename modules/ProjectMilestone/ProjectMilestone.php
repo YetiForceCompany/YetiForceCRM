@@ -131,7 +131,6 @@ class ProjectMilestone extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -226,7 +225,6 @@ class ProjectMilestone extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -311,10 +309,6 @@ class ProjectMilestone extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
-
-			$projectMilestoneResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectMilestone'));
-			$projectmilestoneTabid = $adb->query_result($projectMilestoneResult, 0, 'tabid');
-
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 

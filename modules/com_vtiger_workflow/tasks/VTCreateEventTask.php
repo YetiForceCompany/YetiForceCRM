@@ -52,15 +52,12 @@ class VTCreateEventTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$currentUser = vglobal('current_user');
 		$userId = $recordModel->get('assigned_user_id');
 		$adminUser = $this->getAdmin();
 		if ($userId === null) {
 			$userId = $adminUser;
 		}
 		$moduleName = $recordModel->getModuleName();
-
-
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
 		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
@@ -109,8 +106,6 @@ class VTCreateEventTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
-		$currentUser = vglobal('current_user');
-		$currentUser = $this->originalUser;
 	}
 
 	private function calculateDate($recordModel, $days, $direction, $datefield)

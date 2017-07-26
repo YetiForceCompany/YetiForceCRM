@@ -73,9 +73,6 @@ class mt940_BGK extends mt940
 			'contName' => '',
 			'contAccount' => ''
 		);
-		$delimiter = substr($value, 3, 1);
-		$tab = explode($delimiter, substr($value, 4));
-
 		$transaction['contName'] .= $value;
 
 		$this->operations[count($this->operations) - 1]['details'] = $transaction;
@@ -92,5 +89,3 @@ class mt940_BGK extends mt940
 		);
 	}
 }
-
-?>

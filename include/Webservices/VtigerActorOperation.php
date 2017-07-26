@@ -268,8 +268,6 @@ class VtigerActorOperation extends WebserviceEntityOperation
 			foreach ($moduleFields as $fieldName => $webserviceField) {
 				array_push($fields, $this->getDescribeFieldArray($webserviceField));
 			}
-			$label = ($app_strings[$this->meta->getObectIndexColumn()]) ? $app_strings[$this->meta->getObectIndexColumn()] :
-				$this->meta->getObectIndexColumn();
 			$this->moduleFields = $fields;
 		}
 		return $this->moduleFields;

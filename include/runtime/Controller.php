@@ -304,7 +304,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	protected function preProcessDisplay(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$displayed = $viewer->view($this->preProcessTplName($request), $request->getModule());
+		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
 	/**
