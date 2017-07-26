@@ -105,15 +105,12 @@ class VtigerCRMObject
 
 	public function read($id)
 	{
-		$adb = PearDatabase::getInstance();
 		$this->instance->retrieve_entity_info($id, $this->getTabName());
 		return true;
 	}
 
 	public function create($element)
 	{
-		$adb = PearDatabase::getInstance();
-
 		$error = false;
 		foreach ($element as $k => $v) {
 			$this->instance->column_fields[$k] = $v;
@@ -126,7 +123,6 @@ class VtigerCRMObject
 
 	public function update($element)
 	{
-		$adb = PearDatabase::getInstance();
 		$error = false;
 
 		foreach ($element as $k => $v) {
@@ -141,7 +137,6 @@ class VtigerCRMObject
 
 	public function revise($element)
 	{
-		$adb = PearDatabase::getInstance();
 		$error = false;
 
 		$error = $this->read($this->getObjectId());

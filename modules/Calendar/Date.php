@@ -327,7 +327,6 @@ class vt_DateTime
 	 */
 	public function getDateTime()
 	{
-		$modStrings = vglobal('mod_strings');
 		$hour = 0;
 		$minute = 0;
 		$second = 0;
