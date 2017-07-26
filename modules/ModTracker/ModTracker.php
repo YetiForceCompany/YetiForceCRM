@@ -179,7 +179,6 @@ class ModTracker
 	 */
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$adb = PearDatabase::getInstance();
 		$datetime = date('Y-m-d H:i:s', $mtime);
 

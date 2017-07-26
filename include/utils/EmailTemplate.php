@@ -72,7 +72,6 @@ class EmailTemplate
 		$variableList = $this->getTemplateVariableListForModule($module);
 		$handler = vtws_getModuleHandlerFromName($module, $this->user);
 		$meta = $handler->getMeta();
-		$referenceFields = $meta->getReferenceFieldDetails();
 		$fieldColumnMapping = $meta->getFieldColumnMapping();
 		$columnTableMapping = $meta->getColumnTableMapping();
 
@@ -85,7 +84,6 @@ class EmailTemplate
 			$recordId = $params['id'];
 
 			$meta = $params['referencedMeta'];
-			$referenceFields = $meta->getReferenceFieldDetails();
 			$fieldColumnMapping = $meta->getFieldColumnMapping();
 			$columnTableMapping = $meta->getColumnTableMapping();
 			$referenceColumn = $parentFieldColumnMapping[$params['field']];
@@ -121,7 +119,7 @@ class EmailTemplate
 				$moduleTableIndexList = $meta->getEntityTableIndexList();
 				foreach ($tableList as $index => $tableName) {
 					if ($tableName != $tableList[0]) {
-						$sql .=' INNER JOIN ' . $tableName . ' ON ' . $tableList[0] . '.' .
+						$sql .= ' INNER JOIN ' . $tableName . ' ON ' . $tableList[0] . '.' .
 							$moduleTableIndexList[$tableList[0]] . '=' . $tableName . '.' .
 							$moduleTableIndexList[$tableName];
 					}
@@ -129,7 +127,7 @@ class EmailTemplate
 				//If module is Leads and if you are not selected any leads fields then query failure is happening.
 				//By default we are checking where condition on base table.
 				if ($module == 'Leads' && !in_array('vtiger_leaddetails', $tableList)) {
-					$sql .=' INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid';
+					$sql .= ' INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid';
 				}
 
 				$sql .= ' WHERE';

@@ -170,8 +170,8 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					if ($decrypt_aff_rows == $encrypt_aff_rows) {
 						// at end we are saving new password key
 						$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-						$config = array("encode" => array('key' => "$newKey"));
-						$save_ini = $recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
+						$config = array('encode' => array('key' => "$newKey"));
+						$recordModel->write_php_ini($config, 'modules/OSSPasswords/config.ini.php');
 						$success = 'Your key has been changed correctly.';
 					} else {
 						\App\Log::error('Changing password encryption keys was unsuccessfull!');

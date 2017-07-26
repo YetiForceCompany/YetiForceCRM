@@ -203,8 +203,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
-		$reportname = decode_html($reportRecordModel->getName());
-		$subject = $reportname;
+		$reportname = \App\Purifier::decodeHtml($reportRecordModel->getName());
 		vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
