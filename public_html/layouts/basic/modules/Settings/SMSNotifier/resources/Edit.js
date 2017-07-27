@@ -7,7 +7,6 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 		return this.formElement;
 	},
 	registerProviderTypeChangeEvent : function(form) {
-		var thisInstance = this;
 		var contents = this.getForm();
 		contents.find('[name="providertype"]').on('change',function(e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -21,7 +20,8 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 	registerEvents: function () {
 		var thisInstance = this;
 		var container = this.getForm();
-		container.find('select').removeClass('chzn-select')
+		app.destroyChosenElement(container);
+		container.find('select').removeClass('chzn-select');
 		app.showSelect2ElementView(container.find('form select'));
 		this.registerBasicEvents(container);
 		var form = container.find('form');
@@ -30,7 +30,6 @@ Vtiger_Edit_Js('Settings_SMSNotifier_Edit_Js', {}, {
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
 				app.saveAjax('', [], formData).then(function (data) {
-					console.log(data)
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
 						var listInstance = Settings_Vtiger_List_Js.getInstance();
