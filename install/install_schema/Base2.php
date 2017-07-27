@@ -1971,7 +1971,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_eventhandlers' => [
 				'columns' => [
-					'eventhandler_id' => $this->smallInteger(5)->unsigned()->notNull(),
+					'eventhandler_id' => $this->primaryKey(5)->unsigned(),
 					'event_name' => $this->stringType(50)->notNull(),
 					'handler_class' => $this->stringType(100)->notNull(),
 					'is_active' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -1985,10 +1985,7 @@ class Base2 extends \App\Db\Importers\Base
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(5),
 				],
 				'index' => [
-					['eventhandler_idx', 'eventhandler_id', true],
-				],
-				'primaryKeys' => [
-					['eventhandlers_pk', ['eventhandler_id', 'event_name', 'handler_class']]
+					['event_name_class', ['event_name', 'handler_class']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

@@ -290,7 +290,7 @@ class Base1 extends \App\Db\Importers\Base
 					'crmid' => $this->integer(10)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'uri' => $this->varbinary(255),
+					'uri' => $this->varbinary(200),
 					'etag' => $this->varbinary(32),
 				],
 				'index' => [
@@ -362,7 +362,7 @@ class Base1 extends \App\Db\Importers\Base
 				],
 				'columns_mysql' => [
 					'principaluri' => $this->varbinary(),
-					'uri' => $this->varbinary(),
+					'uri' => $this->varbinary(200),
 					'etag' => $this->varbinary(32),
 				],
 				'engine' => 'InnoDB',
@@ -1581,13 +1581,10 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__github' => [
 				'columns' => [
-					'github_id' => $this->integer(10)->notNull(),
+					'github_id' => $this->primaryKey(10),
 					'client_id' => $this->stringType(20),
 					'token' => $this->stringType(100),
 					'username' => $this->stringType(32),
-				],
-				'index' => [
-					['github_id', 'github_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

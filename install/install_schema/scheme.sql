@@ -1033,7 +1033,7 @@ CREATE TABLE `u_yf_attachments` (
   `crmid` int(10) DEFAULT NULL,
   `createdtime` datetime DEFAULT NULL,
   PRIMARY KEY (`attachmentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_browsinghistory` */
 
@@ -1759,7 +1759,7 @@ CREATE TABLE `u_yf_github` (
   `client_id` varchar(20) DEFAULT NULL,
   `token` varchar(100) DEFAULT NULL,
   `username` varchar(32) DEFAULT NULL,
-  KEY `github_id` (`github_id`)
+  PRIMARY KEY (`github_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_igdn` */
@@ -5018,8 +5018,8 @@ CREATE TABLE `vtiger_eventhandlers` (
   `exclude_modules` varchar(255) NOT NULL DEFAULT '',
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '5',
   `owner_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`eventhandler_id`,`event_name`,`handler_class`),
-  UNIQUE KEY `eventhandler_idx` (`eventhandler_id`)
+  PRIMARY KEY (`eventhandler_id`),
+  KEY `event_name_class` (`event_name`,`handler_class`)
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_eventstatus` */
@@ -9236,12 +9236,12 @@ CREATE TABLE `vtiger_ws_operation` (
 /*Table structure for table `vtiger_ws_operation_parameters` */
 
 CREATE TABLE `vtiger_ws_operation_parameters` (
-  `operationid` int(10) NOT NULL AUTO_INCREMENT,
+  `operationid` int(10) NOT NULL,
   `name` varchar(128) NOT NULL,
   `type` varchar(64) NOT NULL,
   `sequence` int(10) NOT NULL,
   PRIMARY KEY (`operationid`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_operation_seq` */
 

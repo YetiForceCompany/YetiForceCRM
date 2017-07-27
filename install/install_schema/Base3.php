@@ -612,7 +612,7 @@ class Base3 extends \App\Db\Importers\Base
 					'evaluationstatus' => $this->stringType(50),
 					'transferdate' => $this->date(),
 					'revenuetype' => $this->stringType(50),
-					'noofemployees' => $this->integer(),
+					'noofemployees' => $this->integer(50),
 					'secondaryemail' => $this->stringType(100),
 					'assignleadchk' => $this->integer(1)->defaultValue(0),
 					'noapprovalcalls' => $this->smallInteger(1),
