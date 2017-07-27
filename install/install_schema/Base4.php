@@ -1987,10 +1987,13 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_ws_operation_parameters' => [
 				'columns' => [
-					'operationid' => $this->primaryKey(),
+					'operationid' => $this->integer(10)->notNull(),
 					'name' => $this->stringType(128)->notNull(),
 					'type' => $this->stringType(64)->notNull(),
 					'sequence' => $this->integer(10)->notNull(),
+				],
+				'primaryKeys' => [
+					['ws_operation_parameters_idx', ['operationid', 'name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

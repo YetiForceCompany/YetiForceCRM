@@ -1579,6 +1579,9 @@ class Base3 extends \App\Db\Importers\Base
 					['ossmailview_relation_id_idx', 'ossmailviewid'],
 					['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
 				],
+				'primaryKeys' => [
+					['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
