@@ -19,7 +19,6 @@ class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$param = $request->get('updatedFields');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$recordModel->runRestartCron();
 		$recordModel->verificationCron();

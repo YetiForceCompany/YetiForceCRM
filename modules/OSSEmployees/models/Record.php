@@ -17,7 +17,6 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getEmployeeHierarchy($this->getId());
-		$i = 0;
 		foreach ($hierarchy['entries'] as $employeeId => $employeeInfo) {
 			preg_match('/<a href="+/', $employeeInfo[0], $matches);
 			if ($matches !== null) {

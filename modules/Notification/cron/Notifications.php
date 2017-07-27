@@ -26,7 +26,6 @@ class Cron_Notification
 	 */
 	public function executeScheduled($row)
 	{
-		$db = PearDatabase::getInstance();
 		$currentTime = time();
 		$timestampEndDate = empty($row['last_execution']) ? $currentTime : strtotime($row['last_execution'] . ' +' . $row['frequency'] . 'min');
 		if ($currentTime >= $timestampEndDate) {

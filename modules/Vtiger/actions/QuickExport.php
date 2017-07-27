@@ -57,8 +57,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			$col++;
 		}
 		$row++;
-
-		$targetModuleFocus = CRMEntity::getInstance($module);
 		//ListViewController has lots of paging stuff and things we don't want
 		//so lets just itterate across the list of IDs we have and get the field values
 		foreach ($recordIds as $id) {
