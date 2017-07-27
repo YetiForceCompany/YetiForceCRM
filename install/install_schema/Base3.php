@@ -18,7 +18,7 @@ class Base3 extends \App\Db\Importers\Base
 		$this->tables = [
 			'vtiger_glacct' => [
 				'columns' => [
-					'glacctid' => $this->primaryKey(),
+					'glacctid' => $this->primaryKey(10),
 					'glacct' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -128,7 +128,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_holidaysentitlement_year' => [
 				'columns' => [
-					'holidaysentitlement_yearid' => $this->primaryKey(),
+					'holidaysentitlement_yearid' => $this->primaryKey(10),
 					'holidaysentitlement_year' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -156,7 +156,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_hour_format' => [
 				'columns' => [
-					'hour_formatid' => $this->primaryKey(),
+					'hour_formatid' => $this->primaryKey(10),
 					'hour_format' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -198,7 +198,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_ideasstatus' => [
 				'columns' => [
-					'ideasstatusid' => $this->primaryKey(),
+					'ideasstatusid' => $this->primaryKey(10),
 					'ideasstatus' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -216,7 +216,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_igdn_status' => [
 				'columns' => [
-					'igdn_statusid' => $this->primaryKey(),
+					'igdn_statusid' => $this->primaryKey(10),
 					'igdn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -227,7 +227,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_igdnc_status' => [
 				'columns' => [
-					'igdnc_statusid' => $this->primaryKey(),
+					'igdnc_statusid' => $this->primaryKey(10),
 					'igdnc_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -238,7 +238,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_igin_status' => [
 				'columns' => [
-					'igin_statusid' => $this->primaryKey(),
+					'igin_statusid' => $this->primaryKey(10),
 					'igin_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -249,7 +249,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_igrn_status' => [
 				'columns' => [
-					'igrn_statusid' => $this->primaryKey(),
+					'igrn_statusid' => $this->primaryKey(10),
 					'igrn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -260,7 +260,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_igrnc_status' => [
 				'columns' => [
-					'igrnc_statusid' => $this->primaryKey(),
+					'igrnc_statusid' => $this->primaryKey(10),
 					'igrnc_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -271,7 +271,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_iidn_status' => [
 				'columns' => [
-					'iidn_statusid' => $this->primaryKey(),
+					'iidn_statusid' => $this->primaryKey(10),
 					'iidn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -296,7 +296,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_import_maps' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'name' => $this->stringType(36)->notNull(),
 					'module' => $this->stringType(36)->notNull(),
 					'content' => $this->binary(),
@@ -315,7 +315,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_import_queue' => [
 				'columns' => [
-					'importid' => $this->primaryKey(),
+					'importid' => $this->primaryKey(10),
 					'userid' => $this->integer(10)->notNull(),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'field_mapping' => $this->text(),
@@ -332,7 +332,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_industry' => [
 				'columns' => [
-					'industryid' => $this->primaryKey(),
+					'industryid' => $this->primaryKey(10),
 					'industry' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -353,7 +353,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_internal_tickets_status' => [
 				'columns' => [
-					'internal_tickets_statusid' => $this->primaryKey(),
+					'internal_tickets_statusid' => $this->primaryKey(10),
 					'internal_tickets_status' => $this->stringType(),
 					'presence' => $this->smallInteger(1)->defaultValue(1),
 					'picklist_valueid' => $this->smallInteger(5)->defaultValue(0),
@@ -367,7 +367,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_inventory_tandc' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'type' => $this->stringType(30)->notNull(),
 					'tandc' => $this->text(),
 				],
@@ -386,7 +386,7 @@ class Base3 extends \App\Db\Importers\Base
 					'comment' => $this->stringType(500),
 					'description' => $this->text(),
 					'incrementondel' => $this->integer(10)->notNull()->defaultValue(0),
-					'lineitem_id' => $this->primaryKey(),
+					'lineitem_id' => $this->primaryKey(10),
 					'tax' => $this->stringType(10),
 					'tax1' => $this->decimal('7,3'),
 					'tax2' => $this->decimal('7,3'),
@@ -420,7 +420,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_ipreorder_status' => [
 				'columns' => [
-					'ipreorder_statusid' => $this->primaryKey(),
+					'ipreorder_statusid' => $this->primaryKey(10),
 					'ipreorder_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -431,7 +431,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_istdn_status' => [
 				'columns' => [
-					'istdn_statusid' => $this->primaryKey(),
+					'istdn_statusid' => $this->primaryKey(10),
 					'istdn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -442,7 +442,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_istn_status' => [
 				'columns' => [
-					'istn_statusid' => $this->primaryKey(),
+					'istn_statusid' => $this->primaryKey(10),
 					'istn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -453,7 +453,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_istn_type' => [
 				'columns' => [
-					'istn_typeid' => $this->primaryKey(),
+					'istn_typeid' => $this->primaryKey(10),
 					'istn_type' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -463,7 +463,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_istrn_status' => [
 				'columns' => [
-					'istrn_statusid' => $this->primaryKey(),
+					'istrn_statusid' => $this->primaryKey(10),
 					'istrn_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -474,7 +474,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_knowledgebase_status' => [
 				'columns' => [
-					'knowledgebase_statusid' => $this->primaryKey(),
+					'knowledgebase_statusid' => $this->primaryKey(10),
 					'knowledgebase_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -485,7 +485,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_knowledgebase_view' => [
 				'columns' => [
-					'knowledgebase_viewid' => $this->primaryKey(),
+					'knowledgebase_viewid' => $this->primaryKey(10),
 					'knowledgebase_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -495,7 +495,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_language' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'name' => $this->stringType(50)->notNull(),
 					'prefix' => $this->stringType(10)->notNull(),
 					'label' => $this->stringType(30)->notNull(),
@@ -542,7 +542,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lead_view' => [
 				'columns' => [
-					'lead_viewid' => $this->primaryKey(),
+					'lead_viewid' => $this->primaryKey(10),
 					'lead_view' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
@@ -646,7 +646,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_leads_relation' => [
 				'columns' => [
-					'leads_relationid' => $this->primaryKey(),
+					'leads_relationid' => $this->primaryKey(10),
 					'leads_relation' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -673,7 +673,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_leadsource' => [
 				'columns' => [
-					'leadsourceid' => $this->primaryKey(),
+					'leadsourceid' => $this->primaryKey(10),
 					'leadsource' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -691,7 +691,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_leadstage' => [
 				'columns' => [
-					'leadstageid' => $this->primaryKey(),
+					'leadstageid' => $this->primaryKey(10),
 					'stage' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
@@ -704,7 +704,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_leadstatus' => [
 				'columns' => [
-					'leadstatusid' => $this->primaryKey(),
+					'leadstatusid' => $this->primaryKey(10),
 					'leadstatus' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -737,7 +737,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_legal_form' => [
 				'columns' => [
-					'legal_formid' => $this->primaryKey(),
+					'legal_formid' => $this->primaryKey(10),
 					'legal_form' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -820,7 +820,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lin_dimensions' => [
 				'columns' => [
-					'lin_dimensionsid' => $this->primaryKey(),
+					'lin_dimensionsid' => $this->primaryKey(10),
 					'lin_dimensions' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -837,7 +837,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lin_status' => [
 				'columns' => [
-					'lin_statusid' => $this->primaryKey(),
+					'lin_statusid' => $this->primaryKey(10),
 					'lin_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -855,7 +855,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lin_type_doc' => [
 				'columns' => [
-					'lin_type_docid' => $this->primaryKey(),
+					'lin_type_docid' => $this->primaryKey(10),
 					'lin_type_doc' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -873,7 +873,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lin_type_ship' => [
 				'columns' => [
-					'lin_type_shipid' => $this->primaryKey(),
+					'lin_type_shipid' => $this->primaryKey(10),
 					'lin_type_ship' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -890,7 +890,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_links' => [
 				'columns' => [
-					'linkid' => $this->primaryKey(),
+					'linkid' => $this->primaryKey(10),
 					'tabid' => $this->smallInteger(5),
 					'linktype' => $this->stringType(50),
 					'linklabel' => $this->stringType(50),
@@ -913,7 +913,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_loginhistory' => [
 				'columns' => [
-					'login_id' => $this->primaryKey(),
+					'login_id' => $this->primaryKey(10),
 					'user_name' => $this->stringType(32),
 					'user_ip' => $this->stringType(50)->notNull(),
 					'logout_time' => $this->timestamp(),
@@ -930,7 +930,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lout_dimensions' => [
 				'columns' => [
-					'lout_dimensionsid' => $this->primaryKey(),
+					'lout_dimensionsid' => $this->primaryKey(10),
 					'lout_dimensions' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -947,7 +947,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lout_status' => [
 				'columns' => [
-					'lout_statusid' => $this->primaryKey(),
+					'lout_statusid' => $this->primaryKey(10),
 					'lout_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -965,7 +965,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lout_type_doc' => [
 				'columns' => [
-					'lout_type_docid' => $this->primaryKey(),
+					'lout_type_docid' => $this->primaryKey(10),
 					'lout_type_doc' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -983,7 +983,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_lout_type_ship' => [
 				'columns' => [
-					'lout_type_shipid' => $this->primaryKey(),
+					'lout_type_shipid' => $this->primaryKey(10),
 					'lout_type_ship' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -1026,7 +1026,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_manufacturer' => [
 				'columns' => [
-					'manufacturerid' => $this->primaryKey(),
+					'manufacturerid' => $this->primaryKey(10),
 					'manufacturer' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1080,7 +1080,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_modentity_num' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(5),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'prefix' => $this->stringType(50)->notNull()->defaultValue(''),
 					'postfix' => $this->stringType(50)->notNull()->defaultValue(''),
@@ -1098,7 +1098,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_modtracker_basic' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'crmid' => $this->integer(10),
 					'module' => $this->stringType(50),
 					'whodid' => $this->integer(10),
@@ -1160,7 +1160,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_module_dashboard' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'blockid' => $this->integer(10)->notNull(),
 					'linkid' => $this->integer(10),
 					'filterid' => $this->stringType(100),
@@ -1186,7 +1186,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_module_dashboard_blocks' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(100),
 					'authorized' => $this->stringType(10)->notNull(),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'dashboard_id' => $this->integer(10),
@@ -1200,7 +1200,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_module_dashboard_widgets' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'linkid' => $this->integer(10)->notNull(),
 					'userid' => $this->integer(10),
 					'templateid' => $this->integer(10)->notNull(),
@@ -1233,7 +1233,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_no_of_currency_decimals' => [
 				'columns' => [
-					'no_of_currency_decimalsid' => $this->primaryKey(),
+					'no_of_currency_decimalsid' => $this->primaryKey(10),
 					'no_of_currency_decimals' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -1295,7 +1295,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_notification_status' => [
 				'columns' => [
-					'notification_statusid' => $this->primaryKey(),
+					'notification_statusid' => $this->primaryKey(10),
 					'notification_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -1305,7 +1305,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_notification_type' => [
 				'columns' => [
-					'notification_typeid' => $this->primaryKey(),
+					'notification_typeid' => $this->primaryKey(10),
 					'notification_type' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1316,7 +1316,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_opportunitystage' => [
 				'columns' => [
-					'potstageid' => $this->primaryKey(),
+					'potstageid' => $this->primaryKey(10),
 					'stage' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
@@ -1330,7 +1330,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_oproductstatus' => [
 				'columns' => [
-					'oproductstatusid' => $this->primaryKey(),
+					'oproductstatusid' => $this->primaryKey(10),
 					'oproductstatus' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1373,7 +1373,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_ossdc_status' => [
 				'columns' => [
-					'ossdc_statusid' => $this->primaryKey(),
+					'ossdc_statusid' => $this->primaryKey(10),
 					'ossdc_status' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1442,7 +1442,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_osservicesstatus' => [
 				'columns' => [
-					'osservicesstatusid' => $this->primaryKey(),
+					'osservicesstatusid' => $this->primaryKey(10),
 					'osservicesstatus' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1460,7 +1460,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_ossmails_logs' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'start_time' => $this->timestamp(),
 					'end_time' => $this->timestamp(),
 					'action' => $this->stringType(100),
@@ -1501,7 +1501,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_ossmailscanner_log_cron' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'created_time' => $this->timestamp(),
 					'laststart' => $this->integer(10)->unsigned(),
 					'status' => $this->stringType(50),
@@ -1584,7 +1584,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_ossmailview_sendtype' => [
 				'columns' => [
-					'ossmailview_sendtypeid' => $this->primaryKey(),
+					'ossmailview_sendtypeid' => $this->primaryKey(10),
 					'ossmailview_sendtype' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1703,7 +1703,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_osssoldservices_renew' => [
 				'columns' => [
-					'osssoldservices_renewid' => $this->primaryKey(),
+					'osssoldservices_renewid' => $this->primaryKey(10),
 					'osssoldservices_renew' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1755,7 +1755,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_osstimecontrol_status' => [
 				'columns' => [
-					'osstimecontrol_statusid' => $this->primaryKey(),
+					'osstimecontrol_statusid' => $this->primaryKey(10),
 					'osstimecontrol_status' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -1783,7 +1783,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_othereventduration' => [
 				'columns' => [
-					'othereventdurationid' => $this->primaryKey(),
+					'othereventdurationid' => $this->primaryKey(10),
 					'othereventduration' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10),
 					'presence' => $this->integer(10)->notNull()->defaultValue(1),
@@ -1873,7 +1873,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_paymentsin_status' => [
 				'columns' => [
-					'paymentsin_statusid' => $this->primaryKey(),
+					'paymentsin_statusid' => $this->primaryKey(10),
 					'paymentsin_status' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1920,7 +1920,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_paymentsout_status' => [
 				'columns' => [
-					'paymentsout_statusid' => $this->primaryKey(),
+					'paymentsout_statusid' => $this->primaryKey(10),
 					'paymentsout_status' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -1948,7 +1948,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_pbxmanager' => [
 				'columns' => [
-					'pbxmanagerid' => $this->primaryKey(),
+					'pbxmanagerid' => $this->primaryKey(10),
 					'direction' => $this->stringType(10),
 					'callstatus' => $this->stringType(20),
 					'starttime' => $this->dateTime(),
@@ -1972,7 +1972,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_pbxmanager_gateway' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'gateway' => $this->stringType(20),
 					'parameters' => $this->text(),
 				],
@@ -2006,7 +2006,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_picklist' => [
 				'columns' => [
-					'picklistid' => $this->primaryKey(),
+					'picklistid' => $this->primaryKey(10),
 					'name' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
@@ -2047,7 +2047,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_portal' => [
 				'columns' => [
-					'portalid' => $this->primaryKey(),
+					'portalid' => $this->primaryKey(10),
 					'portalname' => $this->stringType(200)->notNull(),
 					'portalurl' => $this->stringType()->notNull(),
 					'sequence' => $this->integer(3)->notNull(),
@@ -2103,7 +2103,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_priority' => [
 				'columns' => [
-					'priorityid' => $this->primaryKey(),
+					'priorityid' => $this->primaryKey(10),
 					'priority' => $this->stringType(200)->notNull(),
 					'sortorderid' => $this->integer(10)->notNull()->defaultValue(0),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
@@ -2188,7 +2188,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_profile' => [
 				'columns' => [
-					'profileid' => $this->primaryKey(),
+					'profileid' => $this->primaryKey(10),
 					'profilename' => $this->stringType(50)->notNull(),
 					'description' => $this->text(),
 					'directly_related_to_role' => $this->integer(1)->defaultValue(0),
@@ -2281,7 +2281,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_progress' => [
 				'columns' => [
-					'progressid' => $this->primaryKey(),
+					'progressid' => $this->primaryKey(10),
 					'progress' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2364,7 +2364,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projectmilestone_priority' => [
 				'columns' => [
-					'projectmilestone_priorityid' => $this->primaryKey(),
+					'projectmilestone_priorityid' => $this->primaryKey(10),
 					'projectmilestone_priority' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2392,7 +2392,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projectmilestonetype' => [
 				'columns' => [
-					'projectmilestonetypeid' => $this->primaryKey(),
+					'projectmilestonetypeid' => $this->primaryKey(10),
 					'projectmilestonetype' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2410,7 +2410,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projectpriority' => [
 				'columns' => [
-					'projectpriorityid' => $this->primaryKey(),
+					'projectpriorityid' => $this->primaryKey(10),
 					'projectpriority' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2428,7 +2428,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projectstatus' => [
 				'columns' => [
-					'projectstatusid' => $this->primaryKey(),
+					'projectstatusid' => $this->primaryKey(10),
 					'projectstatus' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2488,7 +2488,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projecttaskpriority' => [
 				'columns' => [
-					'projecttaskpriorityid' => $this->primaryKey(),
+					'projecttaskpriorityid' => $this->primaryKey(10),
 					'projecttaskpriority' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2506,7 +2506,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projecttaskprogress' => [
 				'columns' => [
-					'projecttaskprogressid' => $this->primaryKey(),
+					'projecttaskprogressid' => $this->primaryKey(10),
 					'projecttaskprogress' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2524,7 +2524,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projecttaskstatus' => [
 				'columns' => [
-					'projecttaskstatusid' => $this->primaryKey(),
+					'projecttaskstatusid' => $this->primaryKey(10),
 					'projecttaskstatus' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2542,7 +2542,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projecttasktype' => [
 				'columns' => [
-					'projecttasktypeid' => $this->primaryKey(),
+					'projecttasktypeid' => $this->primaryKey(10),
 					'projecttasktype' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2560,7 +2560,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_projecttype' => [
 				'columns' => [
-					'projecttypeid' => $this->primaryKey(),
+					'projecttypeid' => $this->primaryKey(10),
 					'projecttype' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -2578,7 +2578,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_publicholiday' => [
 				'columns' => [
-					'publicholidayid' => $this->primaryKey(),
+					'publicholidayid' => $this->primaryKey(10),
 					'holidaydate' => $this->date()->notNull(),
 					'holidayname' => $this->stringType()->notNull(),
 					'holidaytype' => $this->stringType(25),

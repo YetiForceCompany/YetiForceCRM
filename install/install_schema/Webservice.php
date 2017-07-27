@@ -33,7 +33,7 @@ class Webservice extends \App\Db\Importers\Base
 			],
 			'w_#__portal_user' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'server_id' => $this->integer(10),
 					'status' => $this->smallInteger(1)->defaultValue(0),
 					'user_name' => $this->stringType(50)->notNull(),
@@ -59,7 +59,7 @@ class Webservice extends \App\Db\Importers\Base
 			],
 			'w_#__servers' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'name' => $this->stringType(100)->notNull(),
 					'pass' => $this->stringType(100),
 					'acceptable_url' => $this->stringType(),

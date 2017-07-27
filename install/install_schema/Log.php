@@ -35,7 +35,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'l_#__settings_tracker_basic' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'type' => $this->smallInteger(1)->notNull(),
 					'action' => $this->stringType(50)->notNull(),
@@ -81,7 +81,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'l_#__switch_users' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'date' => $this->dateTime()->notNull(),
 					'status' => $this->stringType(10)->notNull(),
 					'baseid' => $this->integer(10)->notNull(),
@@ -100,7 +100,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_for_admin' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -115,7 +115,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_for_api' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -128,7 +128,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_for_user' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100),
@@ -143,7 +143,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_to_record' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -159,7 +159,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__csrf' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),

@@ -50,7 +50,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'com_vtiger_workflows' => [
 				'columns' => [
-					'workflow_id' => $this->primaryKey(),
+					'workflow_id' => $this->primaryKey(10),
 					'module_name' => $this->stringType(100),
 					'summary' => $this->stringType(400)->notNull(),
 					'test' => $this->text(),
@@ -83,7 +83,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'com_vtiger_workflowtasks' => [
 				'columns' => [
-					'task_id' => $this->primaryKey(),
+					'task_id' => $this->primaryKey(10),
 					'workflow_id' => $this->integer(10),
 					'summary' => $this->stringType(400)->notNull(),
 					'task' => $this->text(),
@@ -127,7 +127,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'com_vtiger_workflowtemplates' => [
 				'columns' => [
-					'template_id' => $this->primaryKey(),
+					'template_id' => $this->primaryKey(10),
 					'module_name' => $this->stringType(100),
 					'title' => $this->stringType(400),
 					'template' => $this->text(),
@@ -137,7 +137,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_addressbookchanges' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer(10)->unsigned()->notNull(),
 					'addressbookid' => $this->integer(10)->unsigned()->notNull(),
@@ -155,7 +155,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_addressbooks' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'principaluri' => $this->stringType(),
 					'displayname' => $this->stringType(),
 					'uri' => $this->stringType(200),
@@ -179,7 +179,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendarchanges' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer(10)->unsigned()->notNull(),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
@@ -197,7 +197,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendarobjects' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'calendardata' => $this->binary(),
 					'uri' => $this->stringType(200),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
@@ -224,7 +224,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendars' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'principaluri' => $this->stringType(100),
 					'displayname' => $this->stringType(100),
 					'uri' => $this->stringType(200),
@@ -251,7 +251,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendarsubscriptions' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'uri' => $this->stringType(200)->notNull(),
 					'principaluri' => $this->stringType(100)->notNull(),
 					'source' => $this->text(),
@@ -280,7 +280,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_cards' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'addressbookid' => $this->integer(10)->unsigned()->notNull(),
 					'carddata' => $this->binary(),
 					'uri' => $this->stringType(200),
@@ -301,7 +301,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_groupmembers' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'principal_id' => $this->integer(10)->unsigned()->notNull(),
 					'member_id' => $this->integer(10)->unsigned()->notNull(),
 				],
@@ -313,7 +313,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_principals' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'uri' => $this->stringType(200)->notNull(),
 					'email' => $this->stringType(80),
 					'displayname' => $this->stringType(80),
@@ -331,7 +331,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_propertystorage' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'path' => $this->stringType(1024)->notNull(),
 					'name' => $this->stringType(100)->notNull(),
 					'valuetype' => $this->integer(10)->unsigned(),
@@ -352,7 +352,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_schedulingobjects' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'principaluri' => $this->stringType(),
 					'calendardata' => $this->binary(),
 					'uri' => $this->stringType(200),
@@ -370,7 +370,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_users' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'username' => $this->stringType(50),
 					'digesta1' => $this->stringType(32),
 					'userid' => $this->integer(10)->unsigned(),
@@ -490,7 +490,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_contactgroups' => [
 				'columns' => [
-					'contactgroup_id' => $this->primaryKey(),
+					'contactgroup_id' => $this->primaryKey(10),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -507,7 +507,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_contacts' => [
 				'columns' => [
-					'contact_id' => $this->primaryKey(),
+					'contact_id' => $this->primaryKey(10),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull()->defaultValue(''),
@@ -541,7 +541,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_identities' => [
 				'columns' => [
-					'identity_id' => $this->primaryKey(),
+					'identity_id' => $this->primaryKey(10),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -568,7 +568,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_searches' => [
 				'columns' => [
-					'search_id' => $this->primaryKey(),
+					'search_id' => $this->primaryKey(10),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'type' => $this->integer(3)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull(),
@@ -610,7 +610,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_users' => [
 				'columns' => [
-					'user_id' => $this->primaryKey(),
+					'user_id' => $this->primaryKey(10),
 					'username' => $this->stringType(128)->notNull(),
 					'mail_host' => $this->stringType(128)->notNull(),
 					'created' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
@@ -643,7 +643,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__activity_invitation' => [
 				'columns' => [
-					'inviteesid' => $this->primaryKey(),
+					'inviteesid' => $this->primaryKey(10),
 					'activityid' => $this->integer(10)->notNull(),
 					'crmid' => $this->integer(10)->notNull()->defaultValue(0),
 					'email' => $this->stringType(100)->notNull()->defaultValue(''),
@@ -710,7 +710,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__attachments' => [
 				'columns' => [
-					'attachmentid' => $this->primaryKey(),
+					'attachmentid' => $this->primaryKey(10),
 					'name' => $this->stringType()->notNull(),
 					'type' => $this->stringType(100),
 					'path' => $this->text()->notNull(),
@@ -724,7 +724,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__browsinghistory' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'userid' => $this->integer(10)->notNull(),
 					'date' => $this->dateTime(),
 					'title' => $this->stringType(),
@@ -778,7 +778,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__chat_messages' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'userid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'user_name' => $this->stringType(50)->notNull(),
 					'created' => $this->integer(10)->unsigned(),
@@ -954,7 +954,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__dashboard_type' => [
 				'columns' => [
-					'dashboard_id' => $this->primaryKey(),
+					'dashboard_id' => $this->primaryKey(10),
 					'name' => $this->stringType()->notNull(),
 					'system' => $this->smallInteger(1)->defaultValue(0),
 				],
@@ -1132,7 +1132,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__fcorectinginvoice_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1283,7 +1283,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__finvoice_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1409,7 +1409,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__finvoicecost_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1536,7 +1536,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__finvoiceproforma_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1639,7 +1639,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__igdn_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1719,7 +1719,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__igdnc_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1815,7 +1815,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__igin_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1904,7 +1904,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__igrn_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -1985,7 +1985,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__igrnc_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2081,7 +2081,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__iidn_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2169,7 +2169,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__ipreorder_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2262,7 +2262,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__istdn_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2442,7 +2442,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__istrn_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2758,7 +2758,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__scalculations_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2845,7 +2845,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__squoteenquiries_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -2990,7 +2990,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__squotes_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -3121,7 +3121,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__srecurringorders_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -3210,7 +3210,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__srequirementscards_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -3400,7 +3400,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__ssingleorders_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),
@@ -3496,7 +3496,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__svendorenquiries_invfield' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'columnname' => $this->stringType(30)->notNull(),
 					'label' => $this->stringType(50)->notNull(),
 					'invtype' => $this->stringType(30)->notNull(),

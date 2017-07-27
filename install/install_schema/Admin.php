@@ -18,7 +18,7 @@ class Admin extends \App\Db\Importers\Base
 		$this->tables = [
 			'a_#__adv_permission' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(5),
 					'name' => $this->stringType()->notNull(),
 					'tabid' => $this->smallInteger(5),
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
@@ -55,7 +55,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__bruteforce_blocked' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'ip' => $this->stringType(50)->notNull(),
 					'time' => $this->timestamp(),
 					'attempts' => $this->smallInteger(2)->defaultValue(0),
@@ -95,7 +95,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__discounts_global' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
@@ -116,7 +116,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__inventory_limits' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->integer(10)->unsigned()->notNull(),
@@ -132,7 +132,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__mapped_config' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'reltabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'status' => $this->smallInteger(1)->unsigned()->defaultValue(0),
@@ -153,7 +153,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__mapped_fields' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'mappedid' => $this->integer(10),
 					'type' => $this->stringType(30),
 					'source' => $this->stringType(30),
@@ -168,7 +168,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__pdf' => [
 				'columns' => [
-					'pdfid' => $this->primaryKey(),
+					'pdfid' => $this->primaryKey(10),
 					'module_name' => $this->stringType(25)->notNull(),
 					'header_content' => $this->text()->notNull(),
 					'body_content' => $this->text()->notNull(),
@@ -237,7 +237,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__smsnotifier_servers' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'providertype' => $this->stringType(50)->notNull(),
 					'isactive' => $this->smallInteger(1)->defaultValue(0),
 					'api_key' => $this->stringType()->notNull(),
@@ -262,7 +262,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__taxes_global' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
@@ -275,7 +275,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__automatic_assignment' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'field' => $this->stringType(30)->notNull(),
 					'value' => $this->stringType(),
@@ -296,7 +296,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__companies' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(5),
 					'name' => $this->stringType(100)->notNull(),
 					'short_name' => $this->stringType(100),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -331,7 +331,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__handler_updater' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'crmid' => $this->integer(10)->unsigned()->notNull(),
 					'userid' => $this->integer(10)->unsigned()->notNull(),
@@ -344,8 +344,8 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__mail_queue' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
-					'smtp_id' => $this->integer(6)->unsigned()->notNull()->defaultValue(1),
+					'id' => $this->primaryKey(10),
+					'smtp_id' => $this->integer(10)->unsigned()->notNull()->defaultValue(1),
 					'date' => $this->dateTime()->notNull(),
 					'owner' => $this->integer(10)->notNull(),
 					'status' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -381,7 +381,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__mail_smtp' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'mailer_type' => $this->stringType(10)->defaultValue('smtp'),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType()->notNull(),
@@ -433,7 +433,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__pbx' => [
 				'columns' => [
-					'pbxid' => $this->primaryKey(),
+					'pbxid' => $this->primaryKey(5),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType(50),
 					'type' => $this->stringType(50),
@@ -465,7 +465,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__smsnotifier_queue' => [
 				'columns' => [
-					'id' => $this->primaryKey(),
+					'id' => $this->primaryKey(10),
 					'message' => $this->stringType()->notNull(),
 					'tonumbers' => $this->text()->notNull(),
 					'records' => $this->text()->notNull(),
