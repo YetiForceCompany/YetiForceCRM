@@ -375,16 +375,16 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		container.find('.autofill').on('change', function (e) {
 			var currentTarget = $(e.currentTarget);
 			if (currentTarget.is(':checked')) {
-				container.find('.autofill').attr('checked', 'checked');
+				container.find('.autofill').prop('checked', true);
 				thisInstance.getFreeTime(container);
 				timeStart.attr('readonly', 'readonly');
 				timeEnd.attr('readonly', 'readonly');
 				allDay.attr('disabled', 'disabled');
-				allDay.removeAttr('checked');
+				allDay.prop('checked', false);
 				allDay.trigger('change');
 				dateEnd.attr('readonly', 'readonly');
 			} else {
-				container.find('.autofill').removeAttr('checked');
+				container.find('.autofill').prop('checked', false);
 				allDay.removeAttr('disabled');
 				timeStart.removeAttr('readonly');
 				timeEnd.removeAttr('readonly');
