@@ -349,7 +349,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getRelatedTreeEntriesCount()
 	{
-		$db = PearDatabase::getInstance();
 		$recordId = $this->getParentRecordModel()->getId();
 		$relModuleId = $this->getRelatedModuleModel()->getId();
 		$treeViewModel = $this->getTreeViewModel();
@@ -415,8 +414,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function getLinks()
 	{
 		$relationModel = $this->getRelationModel();
-		$actions = $relationModel->getActions();
-
 		$selectLinks = $this->getSelectRelationLinks();
 		foreach ($selectLinks as $selectLinkModel) {
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModel->getRelationModuleModel());
@@ -516,8 +513,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$db = PearDatabase::getInstance();
 		$moduleName = $fieldModel->getModuleName();
 		$fieldName = $fieldModel->get('name');
-		$tableName = $fieldModel->get('table');
-		$columnName = $fieldModel->get('column');
 
 		if (($fieldName === 'currency_id') && ($moduleName === 'Products' || $moduleName === 'Services')) {
 			$query = "SELECT currency_symbol FROM vtiger_currency_info WHERE id = (";

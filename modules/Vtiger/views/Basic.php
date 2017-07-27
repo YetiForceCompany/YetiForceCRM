@@ -75,7 +75,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 
 	public function postProcess(\App\Request $request)
 	{
-		$viewer = $this->getViewer($request);
 		parent::postProcess($request);
 	}
 

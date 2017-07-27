@@ -198,7 +198,6 @@ function getCalendarDaysInMonth($date_time)
 {
 	$month_array = [];
 	$slices = [];
-	$monthview_days = $date_time->daysinmonth;
 
 	$firstday_of_month = $date_time->getThisMonthsDayByIndex(0);
 	$fdom = $firstday_of_month;
