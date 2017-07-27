@@ -78,22 +78,22 @@ Vtiger_List_Js("Campaigns_List_Js",{},{
 		if(selectedIds != ''){
 			if(selectedIds == 'all'){
 				jQuery('.listViewEntriesCheckBox').each( function(index,element) {
-					jQuery(this).attr('checked', true).closest('tr').addClass('highlightBackgroundColor');
+					jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 				});
 				jQuery('#deSelectAllMsgDiv').show();
 				var excludedIds = jQuery('[name="excludedIds"]').data('excludedIds');
 				if(excludedIds != ''){
-					jQuery('#listViewEntriesMainCheckBox').attr('checked',false);
+					jQuery('#listViewEntriesMainCheckBox').prop('checked',false);
 					jQuery('.listViewEntriesCheckBox').each( function(index,element) {
 						if(jQuery.inArray(jQuery(element).val(),excludedIds) != -1){
-							jQuery(element).attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+							jQuery(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 						}
 					});
 				}
 			} else {
 				jQuery('.listViewEntriesCheckBox').each( function(index,element) {
 					if(jQuery.inArray(jQuery(element).val(),selectedIds) != -1){
-						jQuery(this).attr('checked', true).closest('tr').addClass('highlightBackgroundColor');
+						jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 					}
 				});
 			}
