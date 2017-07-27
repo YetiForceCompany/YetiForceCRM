@@ -171,8 +171,8 @@ class Base1 extends \App\Db\Importers\Base
 					['dav_addressbooks_ibfk_1', 'principaluri'],
 				],
 				'index_mysql' => [
-					['dav_addressbooks_uri_idx', ['principaluri(100)', 'uri(100)'], true],
-					['dav_addressbooks_pri_idx', 'principaluri(100)'],
+					['principaluri', ['principaluri(100)', 'uri(100)'], true],
+					['dav_addressbooks_ibfk_1', 'principaluri(100)'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
@@ -345,7 +345,7 @@ class Base1 extends \App\Db\Importers\Base
 					['path_property', ['path', 'name'], true],
 				],
 				'index_mysql' => [
-					['dav_propertystorage_path_idx', ['path(600)', 'name(100)'], true],
+					['path_property', ['path(600)', 'name(100)'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
@@ -385,7 +385,7 @@ class Base1 extends \App\Db\Importers\Base
 					['userid', 'userid', true],
 				],
 				'index_mysql' => [
-					['dav_users_name_idx', 'username(50)', true],
+					['username', 'username(50)', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'

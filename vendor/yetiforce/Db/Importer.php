@@ -110,7 +110,7 @@ class Importer
 				$importer->db->createCommand()->createTable($tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table))->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
-				$this->logs .= " | Error(1) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+				$this->logs .= " | Error(1) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -122,7 +122,7 @@ class Importer
 						$importer->db->createCommand()->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
 						$this->logs .= "done\n";
 					} catch (\Exception $e) {
-						$this->logs .= " | Error(2) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+						$this->logs .= " | Error(2) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
 							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -136,7 +136,7 @@ class Importer
 						$importer->db->createCommand()->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
 						$this->logs .= "done\n";
 					} catch (\Exception $e) {
-						$this->logs .= " | Error(3) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+						$this->logs .= " | Error(3) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
 							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -199,6 +199,7 @@ class Importer
 		if (isset($table['index_' . $type])) {
 			foreach ($table['index_' . $type] as $customIndex) {
 				foreach ($indexes as $key => $index) {
+					var_dump($customIndex[0], $index[0]);
 					if ($customIndex[0] === $index[0]) {
 						$this->logs .= "    > custom index, driver: $type, type: {$customIndex['0']} \n";
 						$indexes[$key] = $customIndex;
@@ -206,6 +207,7 @@ class Importer
 				}
 			}
 		}
+		echo '<hr>';
 		return $indexes;
 	}
 
@@ -225,7 +227,7 @@ class Importer
 				$importer->db->createCommand()->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6])->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
-				$this->logs .= " | Error(4) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+				$this->logs .= " | Error(4) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -253,7 +255,7 @@ class Importer
 				}
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
-				$this->logs .= " | Error(5) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+				$this->logs .= " | Error(5) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -276,7 +278,7 @@ class Importer
 					$importer->db->createCommand()->resetSequence($tableName)->execute();
 					$this->logs .= "done\n";
 				} catch (\Exception $e) {
-					$this->logs .= " | Error(6) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+					$this->logs .= " | Error(6) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 					if ($this->dieOnError) {
 						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
@@ -438,7 +440,7 @@ class Importer
 					}
 				}
 			} catch (\Exception $e) {
-				$this->logs .= " | Error(7) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+				$this->logs .= " | Error(7) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
@@ -470,7 +472,7 @@ class Importer
 							$this->logs .= "done\n";
 						}
 					} catch (\Exception $e) {
-						$this->logs .= " | Error(8) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+						$this->logs .= " | Error(8) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
 							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
@@ -487,7 +489,7 @@ class Importer
 						}
 					}
 					if ($status) {
-						$this->logs .= "  > update primary key: {$primaryKey[0]} ... ";
+						$this->logs .= "  > update primary key: {$primaryKey[0]} , table: $tableName , column: {$primaryKey[1]} ... ";
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
 								$dbCommand->dropPrimaryKey($primaryKey[0], $tableName)->execute();
@@ -497,7 +499,7 @@ class Importer
 							$dbCommand->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
 							$this->logs .= "done\n";
 						} catch (\Exception $e) {
-							$this->logs .= " | Error(9) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
+							$this->logs .= " | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 							if ($this->dieOnError) {
 								throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 							}
@@ -551,22 +553,22 @@ class Importer
 		$schema = $importer->db->getSchema();
 		foreach ($importer->foreignKey as $key) {
 			$add = true;
-			$tableSchema = $schema->getTableSchema($key[1]);
+			$keyName = $importer->db->quoteSql($key[0]);
+			$sourceTableName = $importer->db->quoteSql($key[1]);
+			$destTableName = $importer->db->quoteSql($key[3]);
+			$tableSchema = $schema->getTableSchema($sourceTableName);
 			foreach ($tableSchema->foreignKeys as $dbForeignKey) {
-				if ($key[3] === $dbForeignKey[0] && isset($dbForeignKey[$key[2]]) && $key[4] === $dbForeignKey[$key[2]]) {
+				if ($destTableName === $dbForeignKey[0] && isset($dbForeignKey[$key[2]]) && $key[4] === $dbForeignKey[$key[2]]) {
 					$add = false;
 				}
 			}
 			if ($add) {
-				$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
+				$this->logs .= "  > add: $keyName, $sourceTableName ... ";
 				try {
-					$dbCommand->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6])->execute();
+					$dbCommand->addForeignKey($keyName, $sourceTableName, $key[2], $destTableName, $key[4], $key[5], $key[6])->execute();
 					$this->logs .= "done\n";
 				} catch (\Exception $e) {
-					$this->logs .= " | Error(10) [{$e->getMessage()}] in {$e->getFile()}:{$e->getLine()} !!!\n";
-					if ($this->dieOnError) {
-						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
-					}
+					$this->logs .= " | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			}
 		}
