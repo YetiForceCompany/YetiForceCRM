@@ -41,7 +41,7 @@ class Db extends \yii\db\Connection
 	public $dbName;
 
 	/**
-	 * @var Database type
+	 * @var Database section
 	 */
 	public $dbType;
 
@@ -184,7 +184,7 @@ class Db extends \yii\db\Connection
 	 */
 	public function isTableExists($tableName)
 	{
-		return in_array($tableName, $this->getSchema()->getTableNames());
+		return in_array(str_replace('#__', $this->tablePrefix, $tableName), $this->getSchema()->getTableNames());
 	}
 
 	/**
@@ -199,5 +199,51 @@ class Db extends \yii\db\Connection
 			$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
 		}
 		$this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
+	}
+
+	/**
+	 * Get table keys
+	 * @param string $tableName
+	 * @return array
+	 */
+	public function getTableKeys($tableName)
+	{
+		if (Cache::has('getTableKeys', $tableName)) {
+			return Cache::get('getTableKeys', $tableName);
+		}
+		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
+		$keys = [];
+		switch ($this->getDriverName()) {
+			case 'mysql':
+				$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
+				while ($row = $dataReader->read()) {
+					$keys[$row['Key_name']][$row['Column_name']] = ['columnName' => $row['Column_name'], 'unique' => empty($row['Non_unique'])];
+				}
+				break;
+		}
+		Cache::save('getTableKeys', $tableName, $keys, Cache::LONG);
+		return $keys;
+	}
+
+	/**
+	 * Get table primary keys
+	 * @param type $tableName
+	 * @return type
+	 */
+	public function getPrimaryKey($tableName)
+	{
+		if (Cache::has('getPrimaryKey', $tableName)) {
+			return Cache::get('getPrimaryKey', $tableName);
+		}
+		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
+		$key = false;
+		switch ($this->getDriverName()) {
+			case 'mysql':
+				$tableKeys = $this->getTableKeys($tableName);
+				$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : false;
+				break;
+		}
+		Cache::save('getPrimaryKey', $tableName, $key, Cache::LONG);
+		return $key;
 	}
 }
