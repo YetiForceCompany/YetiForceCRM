@@ -4,6 +4,7 @@
 .buildpath
 _private
 README.md
+nbproject/
 user_privileges/cron.php
 cache/templates_c
 config/csrf_secret.php
