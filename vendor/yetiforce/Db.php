@@ -236,11 +236,11 @@ class Db extends \yii\db\Connection
 			return Cache::get('getPrimaryKey', $tableName);
 		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
-		$key = false;
+		$key = [];
 		switch ($this->getDriverName()) {
 			case 'mysql':
 				$tableKeys = $this->getTableKeys($tableName);
-				$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : false;
+				$key = isset($tableKeys['PRIMARY']) ? ['PRIMARY' => array_keys($tableKeys['PRIMARY'])] : [];
 				break;
 		}
 		Cache::save('getPrimaryKey', $tableName, $key, Cache::LONG);
