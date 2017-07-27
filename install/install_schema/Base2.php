@@ -546,7 +546,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_blocks_hide' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'blockid' => $this->integer(10)->unsigned(),
 					'conditions' => $this->text(),
 					'enabled' => $this->smallInteger(1)->unsigned(),

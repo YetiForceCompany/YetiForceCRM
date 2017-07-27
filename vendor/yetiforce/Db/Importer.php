@@ -176,7 +176,6 @@ class Importer
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {
 			foreach ($table['columns_' . $type] as $column => $customType) {
-				$this->logs .= "    > custom column type, name: $column, driver: $type, type: $customType \n";
 				$columns[$column] = $customType;
 			}
 		}
@@ -518,7 +517,7 @@ class Importer
 	 */
 	protected function comperColumns($queryBuilder, $baseColumn, $targetColumn)
 	{
-		if ($baseColumn->dbType !== strtok($queryBuilder->getColumnType($targetColumn), ' ')) {
+		if (rtrim($baseColumn->dbType, ' unsigned') !== strtok($queryBuilder->getColumnType($targetColumn), ' ')) {
 			return true;
 		}
 		if (($baseColumn->allowNull !== (is_null($targetColumn->isNotNull))) || ($baseColumn->defaultValue !== $targetColumn->default) || ($baseColumn->unsigned !== $targetColumn->isUnsigned)) {

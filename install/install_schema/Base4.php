@@ -61,7 +61,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_relatedlists' => [
 				'columns' => [
-					'relation_id' => $this->primaryKey(5),
+					'relation_id' => $this->primaryKey(5)->unsigned(),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'related_tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'name' => $this->stringType(50),
@@ -2036,7 +2036,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'yetiforce_auth' => [
 				'columns' => [
-					'id' => $this->primaryKey(3),
+					'id' => $this->primaryKey(3)->unsigned(),
 					'type' => $this->stringType(20),
 					'param' => $this->stringType(20),
 					'value' => $this->text(),
@@ -2105,7 +2105,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'yetiforce_menu' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'role' => $this->integer(10),
 					'parentid' => $this->integer(10)->defaultValue(0),
 					'type' => $this->smallInteger(1),

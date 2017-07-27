@@ -137,7 +137,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_addressbookchanges' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer(10)->unsigned()->notNull(),
 					'addressbookid' => $this->integer(10)->unsigned()->notNull(),
@@ -155,7 +155,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_addressbooks' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'principaluri' => $this->stringType(),
 					'displayname' => $this->stringType(),
 					'uri' => $this->stringType(200),
@@ -168,18 +168,18 @@ class Base1 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['principaluri', ['principaluri', 'uri'], true],
-					['dav_addressbooks_ibfk_1', 'principaluri'],
+					['dav_addressbooks_idx', 'principaluri'],
 				],
 				'index_mysql' => [
 					['principaluri', ['principaluri(100)', 'uri(100)'], true],
-					['dav_addressbooks_ibfk_1', 'principaluri(100)'],
+					['dav_addressbooks_idx', 'principaluri(100)'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_calendarchanges' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer(10)->unsigned()->notNull(),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
@@ -197,7 +197,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendarobjects' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'calendardata' => $this->binary(),
 					'uri' => $this->stringType(200),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
@@ -224,7 +224,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendars' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'principaluri' => $this->stringType(100),
 					'displayname' => $this->stringType(100),
 					'uri' => $this->stringType(200),
@@ -251,7 +251,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendarsubscriptions' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'uri' => $this->stringType(200)->notNull(),
 					'principaluri' => $this->stringType(100)->notNull(),
 					'source' => $this->text(),
@@ -280,7 +280,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_cards' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'addressbookid' => $this->integer(10)->unsigned()->notNull(),
 					'carddata' => $this->binary(),
 					'uri' => $this->stringType(200),
@@ -301,7 +301,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_groupmembers' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'principal_id' => $this->integer(10)->unsigned()->notNull(),
 					'member_id' => $this->integer(10)->unsigned()->notNull(),
 				],
@@ -313,7 +313,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_principals' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'uri' => $this->stringType(200)->notNull(),
 					'email' => $this->stringType(80),
 					'displayname' => $this->stringType(80),
@@ -331,7 +331,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_propertystorage' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'path' => $this->stringType(1024)->notNull(),
 					'name' => $this->stringType(100)->notNull(),
 					'valuetype' => $this->integer(10)->unsigned(),
@@ -352,7 +352,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_schedulingobjects' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'principaluri' => $this->stringType(),
 					'calendardata' => $this->binary(),
 					'uri' => $this->stringType(200),
@@ -370,7 +370,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_users' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'username' => $this->stringType(50),
 					'digesta1' => $this->stringType(32),
 					'userid' => $this->integer(10)->unsigned(),
@@ -490,7 +490,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_contactgroups' => [
 				'columns' => [
-					'contactgroup_id' => $this->primaryKey(10),
+					'contactgroup_id' => $this->primaryKey(10)->unsigned(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -507,7 +507,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_contacts' => [
 				'columns' => [
-					'contact_id' => $this->primaryKey(10),
+					'contact_id' => $this->primaryKey(10)->unsigned(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull()->defaultValue(''),
@@ -541,7 +541,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_identities' => [
 				'columns' => [
-					'identity_id' => $this->primaryKey(10),
+					'identity_id' => $this->primaryKey(10)->unsigned(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -568,7 +568,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_searches' => [
 				'columns' => [
-					'search_id' => $this->primaryKey(10),
+					'search_id' => $this->primaryKey(10)->unsigned(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'type' => $this->integer(3)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull(),
@@ -610,7 +610,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_users' => [
 				'columns' => [
-					'user_id' => $this->primaryKey(10),
+					'user_id' => $this->primaryKey(10)->unsigned(),
 					'username' => $this->stringType(128)->notNull(),
 					'mail_host' => $this->stringType(128)->notNull(),
 					'created' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
@@ -643,7 +643,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__activity_invitation' => [
 				'columns' => [
-					'inviteesid' => $this->primaryKey(10),
+					'inviteesid' => $this->primaryKey(10)->unsigned(),
 					'activityid' => $this->integer(10)->notNull(),
 					'crmid' => $this->integer(10)->notNull()->defaultValue(0),
 					'email' => $this->stringType(100)->notNull()->defaultValue(''),
@@ -778,7 +778,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__chat_messages' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'userid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'user_name' => $this->stringType(50)->notNull(),
 					'created' => $this->integer(10)->unsigned(),
@@ -954,7 +954,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__dashboard_type' => [
 				'columns' => [
-					'dashboard_id' => $this->primaryKey(10),
+					'dashboard_id' => $this->primaryKey(10)->unsigned(),
 					'name' => $this->stringType()->notNull(),
 					'system' => $this->smallInteger(1)->defaultValue(0),
 				],

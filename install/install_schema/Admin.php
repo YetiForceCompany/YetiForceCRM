@@ -18,7 +18,7 @@ class Admin extends \App\Db\Importers\Base
 		$this->tables = [
 			'a_#__adv_permission' => [
 				'columns' => [
-					'id' => $this->primaryKey(5),
+					'id' => $this->primaryKey(5)->unsigned(),
 					'name' => $this->stringType()->notNull(),
 					'tabid' => $this->smallInteger(5),
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
@@ -95,7 +95,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__discounts_global' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
@@ -116,7 +116,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__inventory_limits' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->integer(10)->unsigned()->notNull(),
@@ -168,7 +168,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__pdf' => [
 				'columns' => [
-					'pdfid' => $this->primaryKey(10),
+					'pdfid' => $this->primaryKey(10)->unsigned(),
 					'module_name' => $this->stringType(25)->notNull(),
 					'header_content' => $this->text()->notNull(),
 					'body_content' => $this->text()->notNull(),
@@ -262,7 +262,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__taxes_global' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
@@ -296,7 +296,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__companies' => [
 				'columns' => [
-					'id' => $this->primaryKey(5),
+					'id' => $this->primaryKey(5)->unsigned(),
 					'name' => $this->stringType(100)->notNull(),
 					'short_name' => $this->stringType(100),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -344,7 +344,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__mail_queue' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'smtp_id' => $this->integer(10)->unsigned()->notNull()->defaultValue(1),
 					'date' => $this->dateTime()->notNull(),
 					'owner' => $this->integer(10)->notNull(),
@@ -381,7 +381,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__mail_smtp' => [
 				'columns' => [
-					'id' => $this->primaryKey(10),
+					'id' => $this->primaryKey(10)->unsigned(),
 					'mailer_type' => $this->stringType(10)->defaultValue('smtp'),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType()->notNull(),
@@ -433,7 +433,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__pbx' => [
 				'columns' => [
-					'pbxid' => $this->primaryKey(5),
+					'pbxid' => $this->primaryKey(5)->unsigned(),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType(50),
 					'type' => $this->stringType(50),

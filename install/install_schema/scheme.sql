@@ -323,7 +323,7 @@ CREATE TABLE `dav_addressbooks` (
   `synctoken` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `principaluri` (`principaluri`(100),`uri`(100)),
-  KEY `dav_addressbooks_ibfk_1` (`principaluri`),
+  KEY `dav_addressbooks_idx` (`principaluri`),
   CONSTRAINT `dav_addressbooks_ibfk_1` FOREIGN KEY (`principaluri`) REFERENCES `dav_principals` (`uri`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

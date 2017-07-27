@@ -1080,7 +1080,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_modentity_num' => [
 				'columns' => [
-					'id' => $this->primaryKey(5),
+					'id' => $this->primaryKey(5)->unsigned(),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'prefix' => $this->stringType(50)->notNull()->defaultValue(''),
 					'postfix' => $this->stringType(50)->notNull()->defaultValue(''),
@@ -1186,7 +1186,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_module_dashboard_blocks' => [
 				'columns' => [
-					'id' => $this->primaryKey(100),
+					'id' => $this->primaryKey(100)->unsigned(),
 					'authorized' => $this->stringType(10)->notNull(),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'dashboard_id' => $this->integer(10),
@@ -2578,7 +2578,7 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_publicholiday' => [
 				'columns' => [
-					'publicholidayid' => $this->primaryKey(10),
+					'publicholidayid' => $this->primaryKey(10)->unsigned(),
 					'holidaydate' => $this->date()->notNull(),
 					'holidayname' => $this->stringType()->notNull(),
 					'holidaytype' => $this->stringType(25),
