@@ -302,8 +302,8 @@ class Base3 extends \App\Db\Importers\Base
 					'content' => $this->binary(),
 					'has_header' => $this->integer(1)->notNull()->defaultValue(1),
 					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
-					'date_entered' => $this->timestamp(),
-					'date_modified' => $this->timestamp(),
+					'date_entered' => $this->timestamp()->null(),
+					'date_modified' => $this->timestamp()->null(),
 					'assigned_user_id' => $this->stringType(36),
 					'is_published' => $this->stringType(3)->notNull()->defaultValue('no'),
 				],
@@ -916,8 +916,8 @@ class Base3 extends \App\Db\Importers\Base
 					'login_id' => $this->primaryKey(10),
 					'user_name' => $this->stringType(32),
 					'user_ip' => $this->stringType(50)->notNull(),
-					'logout_time' => $this->timestamp(),
-					'login_time' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+					'logout_time' => $this->timestamp()->null(),
+					'login_time' => $this->timestamp()->null(),
 					'status' => $this->stringType(25),
 					'browser' => $this->stringType(25),
 				],
@@ -1461,8 +1461,8 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_ossmails_logs' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
-					'start_time' => $this->timestamp(),
-					'end_time' => $this->timestamp(),
+					'start_time' => $this->timestamp()->null(),
+					'end_time' => $this->timestamp()->null(),
 					'action' => $this->stringType(100),
 					'status' => $this->smallInteger(3),
 					'user' => $this->stringType(100),
@@ -1502,7 +1502,7 @@ class Base3 extends \App\Db\Importers\Base
 			'vtiger_ossmailscanner_log_cron' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
-					'created_time' => $this->timestamp(),
+					'created_time' => $this->timestamp()->null(),
 					'laststart' => $this->integer(10)->unsigned(),
 					'status' => $this->stringType(50),
 				],

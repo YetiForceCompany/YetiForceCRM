@@ -6146,7 +6146,7 @@ CREATE TABLE `vtiger_loginhistory` (
   `user_name` varchar(32) DEFAULT NULL,
   `user_ip` varchar(50) NOT NULL,
   `logout_time` timestamp NULL DEFAULT NULL,
-  `login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `login_time` timestamp NULL DEFAULT NULL,
   `status` varchar(25) DEFAULT NULL,
   `browser` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`login_id`),

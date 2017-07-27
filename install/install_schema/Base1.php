@@ -1004,7 +1004,7 @@ class Base1 extends \App\Db\Importers\Base
 					'relcrmid' => $this->integer(10),
 					'relmodule' => $this->stringType(30),
 					'userid' => $this->integer(10),
-					'data' => $this->timestamp(),
+					'data' => $this->timestamp()->null(),
 				],
 				'index' => [
 					['crmid', 'crmid'],

@@ -512,7 +512,7 @@ class Base4 extends \App\Db\Importers\Base
 					'recipients' => $this->text(),
 					'schedule' => $this->text(),
 					'format' => $this->stringType(10),
-					'next_trigger_time' => $this->timestamp(),
+					'next_trigger_time' => $this->timestamp()->null(),
 				],
 				'primaryKeys' => [
 					['scheduled_reports_pk', 'reportid']
@@ -531,7 +531,7 @@ class Base4 extends \App\Db\Importers\Base
 					'schdayofthemonth' => $this->stringType(100),
 					'schannualdates' => $this->stringType(500),
 					'specificemails' => $this->stringType(500),
-					'next_trigger_time' => $this->timestamp(),
+					'next_trigger_time' => $this->timestamp()->null(),
 					'filetype' => $this->stringType(20),
 				],
 				'index' => [
@@ -1587,8 +1587,8 @@ class Base4 extends \App\Db\Importers\Base
 					'is_admin' => $this->stringType(3)->defaultValue(0),
 					'currency_id' => $this->integer(10)->notNull()->defaultValue(1),
 					'description' => $this->text(),
-					'date_entered' => $this->timestamp(),
-					'date_modified' => $this->timestamp(),
+					'date_entered' => $this->timestamp()->null(),
+					'date_modified' => $this->timestamp()->null(),
 					'modified_user_id' => $this->stringType(36),
 					'email1' => $this->stringType(100),
 					'status' => $this->stringType(25),
@@ -2169,7 +2169,7 @@ class Base4 extends \App\Db\Importers\Base
 			'yetiforce_updates' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
-					'time' => $this->timestamp(),
+					'time' => $this->timestamp()->null(),
 					'user' => $this->stringType(50),
 					'name' => $this->stringType(100),
 					'from_version' => $this->stringType(10),
