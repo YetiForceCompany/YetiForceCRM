@@ -64,23 +64,23 @@
 							</th>
 							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter">
-									&nbsp;{'LBL_VIEW_PRIVILEGE'|\App\Language::translate:$QUALIFIED_MODULE}
+									&nbsp;{\App\Language::translate('LBL_VIEW_PRIVILEGE', $QUALIFIED_MODULE)}
 								</span>
 							</th>
 							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >
-									&nbsp;{'LBL_CREATE_PRIVILIGE'|\App\Language::translate:$QUALIFIED_MODULE}
+									&nbsp;{\App\Language::translate('LBL_CREATE_PRIVILIGE',$QUALIFIED_MODULE)}
 								</span>
 							</th>
 							<th data-hide="phone" width="12%" style="border-left: 1px solid #DDD !important;">
 								<span class="horizontalAlignCenter" >
-									&nbsp;{'LBL_EDIT_PRIVILIGE'|\App\Language::translate:$QUALIFIED_MODULE}
+									&nbsp;{\App\Language::translate('LBL_EDIT_PRIVILIGE',$QUALIFIED_MODULE)}
 								</span>
 							</th>
 							<th data-hide="phone" width="11%" style="border-left: 1px solid #DDD !important;">
-								<span class="horizontalAlignCenter" >{'LBL_DELETE_PRIVILIGE'|\App\Language::translate:$QUALIFIED_MODULE}</span>
+								<span class="horizontalAlignCenter" >{\App\Language::translate('LBL_DELETE_PRIVILIGE', $QUALIFIED_MODULE)}</span>
 							</th>
-							<th width="39%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|\App\Language::translate:$QUALIFIED_MODULE}</th>
+							<th width="39%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{\App\Language::translate('LBL_FIELD_AND_TOOL_PRVILIGES', $QUALIFIED_MODULE)}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -88,7 +88,7 @@
 							<tr>
 								<td>
 									<img src="{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_IMAGE_PATH}{else}{$DISABLE_IMAGE_PATH}{/if}" class="alignMiddle" />&nbsp;
-									{$PROFILE_MODULE->get('label')|\App\Language::translate:$PROFILE_MODULE->getName()}
+									{\App\Language::translate($PROFILE_MODULE->get('label'), $PROFILE_MODULE->getName())}
 								</td>
 								{assign var="BASIC_ACTION_ORDER" value=array(2,3,0,1)}
 								{foreach from=$BASIC_ACTION_ORDER item=ACTION_ID}
