@@ -1005,12 +1005,17 @@ class PackageImport extends PackageExport
 						Functions::recurseDelete($path);
 					}
 				}
+				if (method_exists($updateInstance, 'afterDelete')) {
+					$updateInstance->afterDelete();
+				}
 				Functions::recurseCopy($dirName . '/files', '', true);
+				if (method_exists($updateInstance, 'afterCopy')) {
+					$updateInstance->afterCopy();
+				}
 				file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
 				ob_start();
 				$result = $updateInstance->postupdate();
 			}
-
 			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		} else {
 			Functions::recurseCopy($dirName . '/files', '', true);
