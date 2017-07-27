@@ -18,8 +18,6 @@ class OSSPasswords_List_View extends Vtiger_List_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'libraries.jquery.clipboardjs.clipboard',
 			'modules.OSSPasswords.resources.showRelatedModulePass',

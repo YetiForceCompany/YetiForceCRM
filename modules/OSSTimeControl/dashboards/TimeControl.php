@@ -223,13 +223,9 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				$whatDay = date("N", $begin);
 				$day = date('Y-m-d', $begin);
 				$isWorkDay = true;
-				$isHolidayNotInWeekend = true;
 				foreach ($holidayDays as $key => $value) {
 					if ($day == $value['date']) {
 						$isWorkDay = false;
-						if ($whatDay > 5) {
-							$isHolidayNotInWeekend = false;
-						}
 						unset($holidayDays[$key]);
 					}
 				}
@@ -246,7 +242,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				}
 				$begin += 86400;
 			};
-			$workingDays = $days - $weekends;
 			$result = ['workDays' => $workDays, 'weekends' => $weekends, 'days' => $days];
 			return $result;
 		}
