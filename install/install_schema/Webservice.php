@@ -19,7 +19,7 @@ class Webservice extends \App\Db\Importers\Base
 			'w_#__portal_session' => [
 				'columns' => [
 					'id' => $this->stringType(32)->notNull(),
-					'user_id' => $this->integer(),
+					'user_id' => $this->integer(10),
 					'language' => $this->stringType(10),
 					'created' => $this->dateTime(),
 					'changed' => $this->dateTime(),
@@ -43,12 +43,12 @@ class Webservice extends \App\Db\Importers\Base
 					'login_time' => $this->dateTime(),
 					'logout_time' => $this->dateTime(),
 					'language' => $this->stringType(10),
-					'crmid' => $this->integer(),
-					'user_id' => $this->integer(),
+					'crmid' => $this->integer(10),
+					'user_id' => $this->integer(10),
 				],
 				'columns_mysql' => [
-					'status' => 'tinyint(1) DEFAULT \'0\'',
-					'type' => 'tinyint(1) unsigned DEFAULT \'1\'',
+					'status' => $this->tinyInteger(1)->defaultValue(0),
+					'type' => $this->tinyInteger(1)->unsigned()->defaultValue(1),
 				],
 				'index' => [
 					['portal_users_idx', 'user_name', true],
@@ -66,10 +66,10 @@ class Webservice extends \App\Db\Importers\Base
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'api_key' => $this->stringType(100)->notNull(),
 					'type' => $this->stringType(40)->notNull(),
-					'accounts_id' => $this->integer(),
+					'accounts_id' => $this->integer(10),
 				],
 				'columns_mysql' => [
-					'status' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
+					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
 					['servers_idx', ['name', 'status']],
@@ -78,7 +78,6 @@ class Webservice extends \App\Db\Importers\Base
 				'charset' => 'utf8'
 			],
 		];
-
 		$this->foreignKey = [
 		];
 	}

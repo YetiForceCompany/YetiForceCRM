@@ -18,7 +18,7 @@ class Log extends \App\Db\Importers\Base
 		$this->tables = [
 			'l_#__profile' => [
 				'columns' => [
-					'id' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+					'id' => $this->integer(10)->unsigned()->notNull()->defaultValue(0),
 					'category' => $this->stringType()->notNull(),
 					'info' => $this->text(),
 					'log_time' => $this->stringType(20)->notNull(),
@@ -36,22 +36,22 @@ class Log extends \App\Db\Importers\Base
 			'l_#__settings_tracker_basic' => [
 				'columns' => [
 					'id' => $this->primaryKey()->unsigned(),
-					'user_id' => $this->integer()->unsigned()->notNull(),
+					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'type' => $this->smallInteger(1)->notNull(),
 					'action' => $this->stringType(50)->notNull(),
-					'record_id' => $this->integer(),
+					'record_id' => $this->integer(10),
 					'module_name' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 				],
 				'columns_mysql' => [
-					'type' => 'tinyint(1) NOT NULL',
+					'type' => $this->tinyInteger(1)->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'l_#__settings_tracker_detail' => [
 				'columns' => [
-					'id' => $this->integer()->unsigned()->notNull(),
+					'id' => $this->integer(10)->unsigned()->notNull(),
 					'prev_value' => $this->stringType()->notNull()->defaultValue(''),
 					'post_value' => $this->stringType()->notNull()->defaultValue(''),
 					'field' => $this->stringType()->notNull(),
@@ -64,12 +64,12 @@ class Log extends \App\Db\Importers\Base
 			],
 			'l_#__sqltime' => [
 				'columns' => [
-					'id' => $this->integer()->notNull(),
+					'id' => $this->integer(10)->notNull(),
 					'type' => $this->stringType(20),
 					'content' => $this->text(),
 					'date' => $this->dateTime(),
 					'qtime' => $this->decimal('20,3'),
-					'group' => $this->integer(),
+					'group' => $this->integer(10),
 				],
 				'index' => [
 					['sqltime_id_idx', 'id'],
@@ -84,8 +84,8 @@ class Log extends \App\Db\Importers\Base
 					'id' => $this->primaryKey()->unsigned(),
 					'date' => $this->dateTime()->notNull(),
 					'status' => $this->stringType(10)->notNull(),
-					'baseid' => $this->integer()->notNull(),
-					'destid' => $this->integer()->notNull(),
+					'baseid' => $this->integer(10)->notNull(),
+					'destid' => $this->integer(10)->notNull(),
 					'busername' => $this->stringType(50)->notNull(),
 					'dusername' => $this->stringType(50)->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -147,7 +147,7 @@ class Log extends \App\Db\Importers\Base
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
-					'record' => $this->integer()->notNull(),
+					'record' => $this->integer(10)->notNull(),
 					'module' => $this->stringType(30)->notNull(),
 					'url' => $this->stringType(300)->notNull(),
 					'agent' => $this->stringType()->notNull(),
@@ -171,7 +171,6 @@ class Log extends \App\Db\Importers\Base
 				'charset' => 'utf8'
 			],
 		];
-
 		$this->foreignKey = [
 		];
 	}

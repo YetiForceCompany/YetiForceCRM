@@ -134,7 +134,7 @@ class Base
 	}
 
 	/**
-	 * Creates a tinyint column.
+	 * Creates a tinyint column. Available only in MySql.
 	 * @param integer $length column size or precision definition.
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
 	 */
@@ -271,6 +271,16 @@ class Base
 	public function binary($length = null)
 	{
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_BINARY, $length);
+	}
+
+	/**
+	 * Creates a varbinary column. Available only in MySql.
+	 * @param integer $length column size or precision definition.
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
+	 */
+	public function varbinary($length = 255)
+	{
+		return $this->schema->createColumnSchemaBuilder('varbinary', $length);
 	}
 
 	/**
