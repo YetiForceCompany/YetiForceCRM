@@ -227,6 +227,7 @@ class Vtiger_AdvancedFilter_Helper
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
 								$name = "$(relatedRecord : $parentFieldName|$fieldName|$refModule)$";
+								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {
 									$fieldValueType = $recordModel->getFieldFilterValueType($name);
 									$fieldInfo = $fieldModel->getFieldInfo();
