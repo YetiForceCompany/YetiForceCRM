@@ -29,8 +29,6 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'~libraries/jquery/boxslider/jqueryBxslider.js'
 		);

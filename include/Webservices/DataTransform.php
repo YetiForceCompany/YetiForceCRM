@@ -61,12 +61,10 @@ class DataTransform
 	{
 		$adb = PearDatabase::getInstance();
 		$associatedToUser = false;
-		$parentTypeId = null;
-		if (strtolower($meta->getEntityName()) == "emails") {
+		if (strtolower($meta->getEntityName()) == 'emails') {
 			if (isset($row['parent_id'])) {
 				$components = vtws_getIdComponents($row['parent_id']);
 				$userObj = VtigerWebserviceObject::fromName($adb, 'Users');
-				$parentTypeId = $components[0];
 				if ($components[0] == $userObj->getEntityId()) {
 					$associatedToUser = true;
 				}
@@ -79,7 +77,6 @@ class DataTransform
 				\App\Request::_set('mode', 'edit');
 
 				$reminder = $row['reminder_time'];
-				$seconds = (int) $reminder % 60;
 				$minutes = (int) ($reminder / 60) % 60;
 				$hours = (int) ($reminder / (60 * 60)) % 24;
 				$days = (int) ($reminder / (60 * 60 * 24));

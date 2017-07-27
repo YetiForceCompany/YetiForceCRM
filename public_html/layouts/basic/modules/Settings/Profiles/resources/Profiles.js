@@ -43,11 +43,11 @@ var Settings_Profiles_Js = {
 			var tabid  = target.data('value');
 			
 			var parent = target.closest('tr');
-			if (target.attr('checked')) {
-				jQuery('[data-action-state]', parent).attr('checked', 'checked');
+			if (target.prop('checked')) {
+				jQuery('[data-action-state]', parent).prop('checked', true);
 				jQuery('[data-handlerfor]', parent).removeAttr('disabled');
 			} else {
-				jQuery('[data-action-state]', parent).attr('checked', false);
+				jQuery('[data-action-state]', parent).prop('checked', false);
 				
 				// Pull-up fields / tools details in disabled state.
 				jQuery('[data-handlerfor]', parent).attr('disabled', 'disabled');
@@ -59,21 +59,21 @@ var Settings_Profiles_Js = {
 		function handleActionSelectionState(e) {
 			var target = jQuery(e.currentTarget);
 			var parent = target.closest('tr');
-			var checked = target.attr('checked')? true : false;
+			var checked = target.prop('checked')? true : false;
 			
 			if (target.data('action-state') == 'EditView' || target.data('action-state') == 'Delete') {
 				if (checked) {
-					jQuery('[data-action-state="DetailView"]', parent).attr('checked', 'checked');
-					jQuery('[data-module-state]', parent).attr('checked', 'checked');
+					jQuery('[data-action-state="DetailView"]', parent).prop('checked', true);
+					jQuery('[data-module-state]', parent).prop('checked', true);
 					jQuery('[data-handlerfor]', parent).removeAttr('disabled');
 				}
 			}
 			if (target.data('action-state') == 'DetailView') {
 				if (!checked) {
-					jQuery('[data-action-state]', parent).removeAttr('checked');
-					jQuery('[data-module-state]', parent).removeAttr('checked').trigger('change');
+					jQuery('[data-action-state]', parent).prop('checked', false);
+					jQuery('[data-module-state]', parent).prop('checked', false).trigger('change');
 				} else {
-					jQuery('[data-module-state]', parent).attr('checked', 'checked');
+					jQuery('[data-module-state]', parent).prop('checked', true);
 					jQuery('[data-handlerfor]', parent).removeAttr('disabled');
 				}
 			}
@@ -81,12 +81,12 @@ var Settings_Profiles_Js = {
 		
 		function selectAllModulesViewAndToolPriviliges(e) {
 			var target = jQuery(e.currentTarget);
-			var checked = target.attr('checked')? true : false;
+			var checked = target.prop('checked')? true : false;
 			if(checked) {
-				jQuery('#mainAction4CheckBox').attr('checked','checked');
-				jQuery('#mainModulesCheckBox').attr('checked','checked');
-				jQuery('.modulesCheckBox').attr('checked','checked');
-				jQuery('.action4CheckBox').attr('checked','checked');
+				jQuery('#mainAction4CheckBox').prop('checked', true);
+				jQuery('#mainModulesCheckBox').prop('checked', true);
+				jQuery('.modulesCheckBox').prop('checked', true);
+				jQuery('.action4CheckBox').prop('checked', true);
 				jQuery('[data-handlerfor]').removeAttr('disabled');
 			}
 		}
@@ -122,19 +122,19 @@ var Settings_Profiles_Js = {
 		mainModulesCheckBox.on('change',function(e) {
 			var mainCheckBox = jQuery(e.currentTarget);
 			if(mainCheckBox.is(':checked')){
-				moduleCheckBoxes.attr('checked',true);
-				viewAction.attr('checked',true);
-				editAction.show().attr('checked',true);
-				deleteAction.show().attr('checked',true);
-				createAction.show().attr('checked',true);
+				moduleCheckBoxes.prop('checked',true);
+				viewAction.prop('checked',true);
+				editAction.show().prop('checked',true);
+				deleteAction.show().prop('checked',true);
+				createAction.show().prop('checked',true);
 				moduleCheckBoxes.trigger('change');
 			} else {
-				moduleCheckBoxes.attr('checked',false);
+				moduleCheckBoxes.prop('checked',false);
 				moduleCheckBoxes.trigger('change');
-				viewAction.attr('checked',false);
-				editAction.attr('checked', false);
-				deleteAction.attr('checked', false);
-				createAction.attr('checked', false);
+				viewAction.prop('checked',false);
+				editAction.prop('checked', false);
+				deleteAction.prop('checked', false);
+				createAction.prop('checked', false);
 			}
 		});
 		
@@ -155,10 +155,10 @@ var Settings_Profiles_Js = {
 		mainViewActionCheckBox.on('change',function(e){
 			var mainCheckBox = jQuery(e.currentTarget);
 			if(mainCheckBox.is(':checked')){
-				modulesMainCheckBox.attr('checked',true);
+				modulesMainCheckBox.prop('checked',true);
 				modulesMainCheckBox.trigger('change');
 			} else {
-				modulesMainCheckBox.attr('checked',false);
+				modulesMainCheckBox.prop('checked',false);
 				modulesMainCheckBox.trigger('change');
 			}
 		});
@@ -175,9 +175,9 @@ var Settings_Profiles_Js = {
 		mainEditActionCheckBox.on('change',function(e){
 			var mainCheckBox = jQuery(e.currentTarget);
 			if(mainCheckBox.is(':checked')){
-				editActionCheckBoxes.attr('checked',true);
+				editActionCheckBoxes.prop('checked',true);
 			} else {
-				editActionCheckBoxes.attr('checked',false);
+				editActionCheckBoxes.prop('checked',false);
 			}
 		});
 		mainEditActionCheckBox.on('change',function() {
@@ -192,9 +192,9 @@ var Settings_Profiles_Js = {
 		mainDeleteActionCheckBox.on('change',function(e){
 			var mainCheckBox = jQuery(e.currentTarget);
 			if(mainCheckBox.is(':checked')){
-				deleteActionCheckBoxes.attr('checked',true);
+				deleteActionCheckBoxes.prop('checked',true);
 			} else {
-				deleteActionCheckBoxes.attr('checked',false);
+				deleteActionCheckBoxes.prop('checked',false);
 			}
 		});
 		deleteActionCheckBoxes.on('change',function() {
@@ -207,9 +207,9 @@ var Settings_Profiles_Js = {
 		mainCreateActionCheckBox.on('change',function(e){
 			var mainCheckBox = jQuery(e.currentTarget);
 			if(mainCheckBox.is(':checked')){
-				createActionCheckBoxes.attr('checked',true);
+				createActionCheckBoxes.prop('checked',true);
 			} else {
-				createActionCheckBoxes.attr('checked',false);
+				createActionCheckBoxes.prop('checked',false);
 			}
 		});
 		createActionCheckBoxes.on('change',function() {
@@ -230,25 +230,25 @@ var Settings_Profiles_Js = {
 			}
 		});
 		if(state == true){
-			mainCheckBoxElement.attr('checked',true);
+			mainCheckBoxElement.prop('checked',true);
 		} else {
-			mainCheckBoxElement.attr('checked', false);
+			mainCheckBoxElement.prop('checked', false);
 		}
 	},
 	
 	performSelectAllActionsOnLoad : function() {
 		if(jQuery('[data-module-unchecked]').length > 0){
-			jQuery('#mainModulesCheckBox').attr('checked',false);
+			jQuery('#mainModulesCheckBox').prop('checked',false);
 		}
         
 		if(jQuery('[data-action4-unchecked]').length <= 0){
-			jQuery('#mainAction4CheckBox').attr('checked',true);
+			jQuery('#mainAction4CheckBox').prop('checked',true);
 		}
 		if(jQuery('[data-action1-unchecked]').length <= 0) {
-			jQuery('#mainAction1CheckBox').attr('checked',true);
+			jQuery('#mainAction1CheckBox').prop('checked',true);
 		}
 		if(jQuery('[data-action2-unchecked]').length > 0) {
-			jQuery('#mainAction2CheckBox').attr('checked',false);
+			jQuery('#mainAction2CheckBox').prop('checked',false);
 		}
 	}, 
 	
@@ -348,9 +348,9 @@ var Settings_Profiles_Js = {
 			if(currentTarget.attr('readonly') == 'readonly') {
 				var status = jQuery(e.currentTarget).is(':checked');
 				if(!status){
-					jQuery(e.currentTarget).attr('checked','checked')
+					jQuery(e.currentTarget).prop('checked', true)
 				}else{
-					jQuery(e.currentTarget).removeAttr('checked');
+					jQuery(e.currentTarget).prop('checked', false);
 				}
 				e.preventDefault();
 			}
@@ -359,7 +359,7 @@ var Settings_Profiles_Js = {
 		editAllAction.on('change', function(e) {
 			var currentTarget = jQuery(e.currentTarget);
 			if(currentTarget.is(':checked')) {
-				viewAllAction.attr('checked', 'checked');
+				viewAllAction.prop('checked', 'checked');
 				viewAllAction.attr('readonly', 'readonly');
 			} else {
 				viewAllAction.removeAttr('readonly');

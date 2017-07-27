@@ -314,8 +314,6 @@ class Reports_Folder_Model extends \App\Base
 	{
 		$db = PearDatabase::getInstance();
 		$params = [];
-
-		// To get the report ids which are permitted for the user
 		$query = "SELECT reportmodulesid, primarymodule from vtiger_reportmodules";
 		$result = $db->pquery($query, []);
 		$noOfRows = $db->num_rows($result);
@@ -327,8 +325,7 @@ class Reports_Folder_Model extends \App\Base
 				$allowedReportIds[] = $reportid;
 			}
 		}
-		//End
-		if (null !== $allowedReportIds) {
+		if (!empty($allowedReportIds)) {
 			$sql = sprintf('SELECT count(*) AS count FROM vtiger_report
 					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid && 
 					vtiger_report.reportid in (%s)', implode(',', $allowedReportIds));

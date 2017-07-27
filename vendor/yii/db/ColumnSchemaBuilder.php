@@ -32,59 +32,59 @@ class ColumnSchemaBuilder extends Object
 	/**
 	 * @var string the column type definition such as INTEGER, VARCHAR, DATETIME, etc.
 	 */
-	protected $type;
+	public $type;
 
 	/**
 	 * @var integer|string|array column size or precision definition. This is what goes into the parenthesis after
 	 * the column type. This can be either a string, an integer or an array. If it is an array, the array values will
 	 * be joined into a string separated by comma.
 	 */
-	protected $length;
+	public $length;
 
 	/**
 	 * @var boolean|null whether the column is or not nullable. If this is `true`, a `NOT NULL` constraint will be added.
 	 * If this is `false`, a `NULL` constraint will be added.
 	 */
-	protected $isNotNull = null;
+	public $isNotNull = null;
 
 	/**
 	 * @var boolean whether the column values should be unique. If this is `true`, a `UNIQUE` constraint will be added.
 	 */
-	protected $isUnique = false;
+	public $isUnique = false;
 
 	/**
 	 * @var string the `CHECK` constraint for the column.
 	 */
-	protected $check;
+	public $check;
 
 	/**
 	 * @var mixed default value of the column.
 	 */
-	protected $default;
+	public $default;
 
 	/**
 	 * @var mixed SQL string to be appended to column schema definition.
 	 * @since 2.0.9
 	 */
-	protected $append;
+	public $append;
 
 	/**
 	 * @var boolean whether the column values should be unsigned. If this is `true`, an `UNSIGNED` keyword will be added.
 	 * @since 2.0.7
 	 */
-	protected $isUnsigned = false;
+	public $isUnsigned = false;
 
 	/**
 	 * @var string the column after which this column will be added.
 	 * @since 2.0.8
 	 */
-	protected $after;
+	public $after;
 
 	/**
 	 * @var boolean whether this column is to be inserted at the beginning of the table.
 	 * @since 2.0.8
 	 */
-	protected $isFirst;
+	public $isFirst;
 
 	/**
 	 * @var array mapping of abstract column types (keys) to type categories (values).
@@ -299,7 +299,7 @@ public function __toString()
  * Builds the length/precision part of the column.
  * @return string
  */
-protected function buildLengthString()
+public function buildLengthString()
 {
 	if ($this->length === null || $this->length === []) {
 		return '';

@@ -108,8 +108,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$workedDaysAmount = count($workedDaysAmount);
 			$holidayDaysAmount = count($holidayDaysAmount);
 			$allDaysAndWeekends = $this->getDays($time['start'], $time['end']);
-			$response['workingDays'] = $allDaysAndWeekends['workingDays'];
-
 			if ($sumWorkTime > 0) {
 				if (0 == $workedDaysAmount)
 					$averageWorkingTime = $sumWorkTime;
@@ -123,13 +121,11 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				else
 					$averageBreakTime = $sumBreakTime / $workedDaysAmount;
 			}
-
 			$response['holiayDays'] = $holidayDaysAmount;
 			$response['daysWorked'] = $workedDaysAmount;
 			$response['workDays'] = $allDaysAndWeekends['workDays'];
 			$response['allDays'] = $allDaysAndWeekends['days'];
 			$response['weekends'] = $allDaysAndWeekends['weekends'];
-			$response['coundDaysType'] = $coundDaysType;
 			$response['averageWorkingTime'] = number_format($averageWorkingTime, 2, '.', ' ');
 			$response['sumBreakTime'] = number_format($averageBreakTime, 2, '.', ' ');
 			$response['legend'] = $workingTimeByType;
@@ -137,7 +133,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$response['ticks'] = $ticks;
 			$response['days'] = $days;
 		}
-
 		return $response;
 	}
 
@@ -187,7 +182,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WORKEDDAYS', $data['daysWorked']);
 		$viewer->assign('HOLIDAYDAYS', $data['holiayDays']);
 		$viewer->assign('AVERAGEBREAKTIME', $data['sumBreakTime']);
-		$viewer->assign('WORKINGDAYS', $data['workingDays']);
+		$viewer->assign('WORKINGDAYS', $data['workDays']);
 		$viewer->assign('WEEKENDDAYS', $data['weekends']);
 		$viewer->assign('AVERAGEWORKTIME', $data['averageWorkingTime']);
 		$viewer->assign('ALLDAYS', $data['allDays']);
@@ -220,16 +215,12 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$weekends = 0;
 			while ($begin <= $end) {
 				$days++;
-				$whatDay = date("N", $begin);
+				$whatDay = date('N', $begin);
 				$day = date('Y-m-d', $begin);
 				$isWorkDay = true;
-				$isHolidayNotInWeekend = true;
 				foreach ($holidayDays as $key => $value) {
 					if ($day == $value['date']) {
 						$isWorkDay = false;
-						if ($whatDay > 5) {
-							$isHolidayNotInWeekend = false;
-						}
 						unset($holidayDays[$key]);
 					}
 				}
@@ -237,16 +228,14 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					if ($whatDay == $value)
 						$isWorkDay = false;
 				}
-
-				if ($isWorkDay)
+				if ($isWorkDay) {
 					$workDays++;
-
+				}
 				if ($whatDay > 5 && !$isWorkDay && $notWorkingDaysType) {
 					$weekends++;
 				}
 				$begin += 86400;
 			};
-			$workingDays = $days - $weekends;
 			$result = ['workDays' => $workDays, 'weekends' => $weekends, 'days' => $days];
 			return $result;
 		}

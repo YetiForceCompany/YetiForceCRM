@@ -16,9 +16,7 @@ jQuery(document).ready(function ($) {
         }
     });
     $('#myRegisterModal .okay-button').click(function() {
-        //var confirm = $('#confirmRegistration').attr('checked');
-        //if ( confirm === false ) {            
-        var disabled = $('#confirmRegistration').attr('disabled');
+		var disabled = $('#confirmRegistration').attr('disabled');
         if(typeof disabled == 'undefined') {
             $('#myRegisterModal').modal('hide');
         }

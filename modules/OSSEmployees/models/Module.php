@@ -45,7 +45,6 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 
 	public function getBarChartColors($chartData)
 	{
-		$numSelectedTimeTypes = count($chartData);
 		$i = 0;
 		$colors = array('#4bb2c5', '#EAA228', '#c5b47f');
 		foreach ($chartData as $key => $value) {

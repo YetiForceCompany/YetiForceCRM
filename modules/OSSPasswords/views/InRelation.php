@@ -17,7 +17,6 @@ class OSSPasswords_InRelation_View extends Vtiger_RelatedList_View
 
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RELATED_SCRIPTS', $this->getScripts($request));
 		return parent::process($request);

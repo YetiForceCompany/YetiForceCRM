@@ -70,17 +70,17 @@
 				</th>
 				<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 					<input type="checkbox" {if !$RECORD_ID} class="alignTop" checked="true" {/if} id="mainAction4CheckBox" />&nbsp;
-					{'LBL_VIEW_PRIVILEGE'|\App\Language::translate:$QUALIFIED_MODULE}
+					{\App\Language::translate('LBL_VIEW_PRIVILEGE', $QUALIFIED_MODULE)}
 				</th>
 				<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 					<input {if !$RECORD_ID} class="alignTop"  checked="true" {/if} type="checkbox" id="mainAction1CheckBox" />&nbsp;
-					{'LBL_EDIT_PRIVILIGE'|\App\Language::translate:$QUALIFIED_MODULE}
+					{\App\Language::translate('LBL_EDIT_PRIVILIGE', $QUALIFIED_MODULE)}
 				</th>
 				<th data-hide='phone' width="14%" style="border-left: 1px solid #DDD !important;">
 					<input checked="true" class="alignTop" type="checkbox" id="mainAction2CheckBox" />&nbsp;
-					{'LBL_DELETE_PRIVILIGE'|\App\Language::translate:$QUALIFIED_MODULE}
+					{\App\Language::translate('LBL_DELETE_PRIVILIGE', $QUALIFIED_MODULE)}
 				</th>
-				<th width="28%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{'LBL_FIELD_AND_TOOL_PRVILIGES'|\App\Language::translate:$QUALIFIED_MODULE}</th>
+				<th width="28%" style="border-left: 1px solid #DDD !important;" nowrap="nowrap">{\App\Language::translate('LBL_FIELD_AND_TOOL_PRVILIGES', $QUALIFIED_MODULE)}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -90,7 +90,7 @@
 				{if $MODULE_NAME neq 'Events'}
 				<tr>
 					<td>
-						<input class="modulesCheckBox alignTop" type="checkbox" name="permissions[{$TABID}][is_permitted]" data-value="{$TABID}" data-module-state="" {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}checked="true"{else} data-module-unchecked="true" {/if}> {$PROFILE_MODULE->get('label')|\App\Language::translate:$PROFILE_MODULE->getName()}
+						<input class="modulesCheckBox alignTop" type="checkbox" name="permissions[{$TABID}][is_permitted]" data-value="{$TABID}" data-module-state="" {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}checked="true"{else} data-module-unchecked="true" {/if}> {\App\Language::translate($PROFILE_MODULE->get('label'), $PROFILE_MODULE->getName())}
 					</td>
 					{assign var="BASIC_ACTION_ORDER" value=array(2,0,1)}
 					{foreach from=$BASIC_ACTION_ORDER item=ORDERID}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Library test class
  * @package YetiForce.Test
@@ -37,7 +36,7 @@ class InstalNewDb extends TestCase
 		$importer->loadFiles();
 		$importer->importScheme();
 		$importer->importData();
-		$importer->postProcess();
+		$importer->postImport();
 		$importer->logs(false);
 		$this->assertNotNull($schema->getTableSchema('a_yf_adv_permission'));
 		$this->assertNotNull($schema->getTableSchema('yetiforce_updates'));

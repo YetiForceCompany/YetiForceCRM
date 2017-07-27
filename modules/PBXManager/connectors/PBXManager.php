@@ -215,7 +215,6 @@ class PBXManager_PBXManager_Connector
 	 */
 	public function handleStartupCall($details, $userInfo, $customerInfo)
 	{
-		$current_user = vglobal('current_user');
 		$params = $this->prepareParameters($details, self::RINGING_TYPE);
 		$direction = $details->get('Direction');
 
@@ -231,10 +230,7 @@ class PBXManager_PBXManager_Connector
 		}
 
 		$params['starttime'] = $details->get('StartTime');
-		$params['callstatus'] = "ringing";
-		$user = CRMEntity::getInstance('Users');
-		$current_user = $user->getActiveAdminUser();
-
+		$params['callstatus'] = 'ringing';
 		$recordModel = PBXManager_Record_Model::getCleanInstance();
 		$recordModel->saveRecordWithArrray($params);
 
@@ -250,10 +246,9 @@ class PBXManager_PBXManager_Connector
 	 */
 	public function respondToIncomingCall(\App\Request $details)
 	{
-		$current_user = vglobal('current_user');
 		self::$NUMBERS = PBXManager_Record_Model::getUserNumbers();
 
-		header("Content-type: text/xml; charset=utf-8");
+		header('Content-type: text/xml; charset=utf-8');
 		$response = '<?xml version="1.0" encoding="utf-8"?>';
 		$response .= '<Response><Dial><Authentication>';
 		$response .= 'Success</Authentication>';
@@ -261,8 +256,6 @@ class PBXManager_PBXManager_Connector
 		if (self::$NUMBERS) {
 
 			foreach (self::$NUMBERS as $userId => $number) {
-				$userInstance = Users_Privileges_Model::getInstanceById($userId);
-				$current_user = $userInstance;
 				$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 				if ($number != $details->get('callerIdNumber') && $callPermission) {

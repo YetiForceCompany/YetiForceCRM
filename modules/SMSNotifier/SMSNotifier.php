@@ -103,7 +103,7 @@ class SMSNotifier extends Vtiger_CRMEntity
 	{
 		$orderby = $this->default_order_by;
 		if (!\App\Request::_isEmpty('order_by'))
-			$sortorder = \App\Request::_get('order_by');
+			$orderby = \App\Request::_get('order_by');
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;

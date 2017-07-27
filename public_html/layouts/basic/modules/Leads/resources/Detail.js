@@ -169,7 +169,7 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 			var module = currentTarget.val();
 			var moduleBlock = jQuery('#' + module + '_FieldInfo');
 			if (currentTarget.is(':checked')) {
-				jQuery('#' + module + 'Module').attr('checked', 'checked');
+				jQuery('#' + module + 'Module').prop('checked', true);
 				moduleBlock.collapse('show');
 				instance.removeDisableAttr(moduleBlock);
 			}
@@ -189,14 +189,14 @@ Vtiger_Detail_Js("Leads_Detail_Js", {
 				moduleBlock.collapse('show');
 				instance.removeDisableAttr(moduleBlock);
 				if (!otherModuleElement.is(':checked')) {
-					jQuery(currentTransferModuleElement).attr('checked', 'checked');
+					jQuery(currentTransferModuleElement).prop('checked', true);
 				}
 			} else {
 				moduleBlock.collapse('hide');
 				instance.addDisableAttr(moduleBlock);
-				jQuery(currentTransferModuleElement).removeAttr('checked');
+				jQuery(currentTransferModuleElement).prop('checked', false);
 				if (otherModuleElement.is(':checked')) {
-					jQuery(otherTransferModuleElement).attr('checked', 'checked');
+					jQuery(otherTransferModuleElement).prop('checked', true);
 				}
 			}
 			e.stopImmediatePropagation();

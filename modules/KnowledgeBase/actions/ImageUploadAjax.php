@@ -61,7 +61,6 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 					break;
 				case 'img':
 					// Image width and height
-					$saveFile = 'true';
 					if (!$fileInstance->validate('image')) {
 						return false;
 					} else {

@@ -2171,7 +2171,6 @@ class ReportRun extends CRMEntity
 
 		$columnlist = $this->getQueryColumnsList($reportid, $type);
 		$groupslist = $this->getGroupingList($reportid);
-		$groupTimeList = $this->getGroupByTimeList($reportid);
 		$stdfilterlist = $this->getStdFilterList($reportid);
 		$columnstotallist = $this->getColumnsTotal($reportid);
 		if (isset($filtersql) && $filtersql !== false && $filtersql != '') {
@@ -2572,7 +2571,6 @@ class ReportRun extends CRMEntity
 				$y = $adb->getFieldsCount($result);
 				$noofrows = $adb->num_rows($result);
 				$custom_field_values = $adb->fetch_array($result);
-				$column_definitions = $adb->getFieldsDefinition($result);
 
 				do {
 					$arraylists = [];
@@ -2848,8 +2846,6 @@ class ReportRun extends CRMEntity
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 
-				$column_definitions = $adb->getFieldsDefinition($result);
-
 				do {
 					$arraylists = [];
 					if (count($groupslist) == 1) {
@@ -3044,7 +3040,6 @@ class ReportRun extends CRMEntity
 			return $this->_columnstotallist;
 		}
 		$adb = PearDatabase::getInstance();
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		static $modulename_cache = [];
 
 		$query = "select * from vtiger_reportmodules where reportmodulesid =?";

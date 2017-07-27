@@ -426,7 +426,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$adb = App\Db::getInstance();
 		$db = PearDatabase::getInstance();
-		$modulePermissions = $this->getModulePermissions();
 
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');

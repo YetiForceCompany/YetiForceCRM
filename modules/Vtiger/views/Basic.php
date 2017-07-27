@@ -67,18 +67,6 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		return 'BasicHeader.tpl';
 	}
 
-	//Note: To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
-
-	public function postProcess(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		parent::postProcess($request);
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request

@@ -323,7 +323,7 @@ CREATE TABLE `dav_addressbooks` (
   `synctoken` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `principaluri` (`principaluri`(100),`uri`(100)),
-  KEY `dav_addressbooks_ibfk_1` (`principaluri`),
+  KEY `dav_addressbooks_idx` (`principaluri`),
   CONSTRAINT `dav_addressbooks_ibfk_1` FOREIGN KEY (`principaluri`) REFERENCES `dav_principals` (`uri`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -874,7 +874,7 @@ CREATE TABLE `s_yf_handler_updater` (
 
 CREATE TABLE `s_yf_mail_queue` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `smtp_id` int(6) unsigned NOT NULL DEFAULT '1',
+  `smtp_id` int(10) unsigned NOT NULL DEFAULT '1',
   `date` datetime NOT NULL,
   `owner` int(10) NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -902,7 +902,7 @@ CREATE TABLE `s_yf_mail_relation_updater` (
 /*Table structure for table `s_yf_mail_smtp` */
 
 CREATE TABLE `s_yf_mail_smtp` (
-  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `mailer_type` varchar(10) DEFAULT 'smtp',
   `default` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,

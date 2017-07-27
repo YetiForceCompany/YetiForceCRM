@@ -33,10 +33,10 @@
 
 							{foreach from=$ALL_ACTIONS key=ACTION_ID item=ACTION_MODEL}
 								<th>
-									{$ACTION_MODEL->getName()|\App\Language::translate:$QUALIFIED_MODULE}
+									{\App\Language::translate($ACTION_MODEL->getName(), $QUALIFIED_MODULE)}
 								</th>
 							{/foreach}
-							<th nowrap="nowrap">{'LBL_ADVANCED_SHARING_RULES'|\App\Language::translate:$QUALIFIED_MODULE}</th>
+							<th nowrap="nowrap">{\App\Language::translate('LBL_ADVANCED_SHARING_RULES', $QUALIFIED_MODULE)}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -44,15 +44,15 @@
 						<tr data-module-name="{$MODULE_MODEL->get('name')}">
 							<td>
 								{if $MODULE_MODEL->getName() == 'Accounts'}
-									{$MODULE_MODEL->get('label')|\App\Language::translate:$QUALIFIED_MODULE}
+									{\App\Language::translate($MODULE_MODEL->get('label'), $QUALIFIED_MODULE)}
 								{else}
-									{$MODULE_MODEL->get('label')|\App\Language::translate:$MODULE_MODEL->getName()}
+									{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_MODEL->getName())}
 								{/if}
 							</td>
 							{foreach from=$ALL_ACTIONS key=ACTION_ID item=ACTION_MODEL}
 							<td class="">
 								{if $ACTION_MODEL->isModuleEnabled($MODULE_MODEL)}
-									<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" title="{$ACTION_MODEL->getName()|\App\Language::translate:$QUALIFIED_MODULE}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
+									<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" title="{\App\Language::translate($ACTION_MODEL->getName(), $QUALIFIED_MODULE)}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
 								{/if}
 							</td>
 							{/foreach}

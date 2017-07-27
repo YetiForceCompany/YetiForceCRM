@@ -11,7 +11,6 @@ class OSSMailScanner
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$registerLink = false;
 		$adb = PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
@@ -28,7 +27,7 @@ class OSSMailScanner
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'changeTicketStatus', 'false'));
 			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
 			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
-			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');
+			$moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);

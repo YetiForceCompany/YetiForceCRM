@@ -388,9 +388,8 @@ class WebserviceField
 	{
 		$fieldName = $this->getFieldName();
 		$db = PearDatabase::getInstance();
-		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$options = [];
-		$sql = "select * from vtiger_picklist where name=?";
+		$sql = 'select * from vtiger_picklist where name=?';
 		$result = $db->pquery($sql, array($fieldName));
 		$numRows = $db->num_rows($result);
 		if ($numRows == 0) {

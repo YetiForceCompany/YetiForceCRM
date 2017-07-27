@@ -1231,7 +1231,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$this->syntax_error = true;
 			throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "There is an syntax error in query");
 		}
-		$adb = PearDatabase::getInstance();
 		$handler = vtws_getModuleHandlerFromName($moduleName, $this->user);
 		$objectMeta = $handler->getMeta();
 		$this->out['moduleName'] = $moduleName;
@@ -1394,7 +1393,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	public function yy_r41()
 	{
-		$adb = PearDatabase::getInstance();
 		if (empty($this->out['meta'])) {
 			// / ProCRM
 			$module = $this->out['moduleName'];
@@ -1585,7 +1583,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			fprintf(self::$yyTraceFILE, "%sAccept!\n", self::$yyTracePrompt);
 		}
 		while ($this->yyidx >= 0) {
-			$stack = $this->yy_pop_parser_stack();
+			$this->yy_pop_parser_stack();
 		}
 		/* Here code is inserted which will be executed whenever the
 		 * * parser accepts */

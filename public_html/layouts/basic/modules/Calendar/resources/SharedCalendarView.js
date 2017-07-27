@@ -29,7 +29,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 			var feedcheckbox = jQuery(element);
 			var disabledOnes = app.cacheGet('calendar.feeds.disabled',[]); 
 			if (disabledOnes.indexOf(feedcheckbox.data('calendar-sourcekey')) == -1) { 
-				feedcheckbox.attr('checked',true); 
+				feedcheckbox.prop('checked',true); 
 				var id = feedcheckbox.data('calendar-userid'); 
 				result[id] = feedcheckbox.data('calendar-feed-color')+','+feedcheckbox.data('calendar-feed-textcolor'); 
 			}
@@ -47,7 +47,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 		calendarfeeds.each(function(index,element){
 			var feedcheckbox = jQuery(element);
 			thisInstance.getCalendarView().fullCalendar('removeEventSource', thisInstance.calendarfeedDS[feedcheckbox.data('calendar-sourcekey')]);
-			if(feedcheckbox.attr('checked') == 'checked'){
+			if(feedcheckbox.prop('checked') == 'checked'){
 				multipleEventsToLoad = --multipleEventsToLoad;
 				thisInstance.fetchCalendarFeed(feedcheckbox);
 			}
@@ -97,7 +97,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 
 			AppConnector.request(params).then(function(events){
 				callback(events);
-				feedcheckbox.attr('disabled', false).attr('checked', true);
+				feedcheckbox.attr('disabled', false).prop('checked', true);
 			},
             function(error){
                 //To send empty events if error occurs
@@ -303,7 +303,7 @@ Calendar_CalendarView_Js("SharedCalendar_SharedCalendarView_Js",{
 				var clonedContainer = labelModal.clone(true, true);
 				var labelView = clonedContainer.find('label');
 				feedUserEle = labelView.find('[type="checkbox"]');
-				feedUserEle.attr('checked', 'checked');
+				feedUserEle.prop('checked', true);
 				feedUserEle.attr('data-calendar-feed-color',userColor).attr('data-calendar-feed', 'Events').attr('data-calendar-userid', userId)
 						.attr('data-calendar-sourcekey', 'Events33_'+userId).attr('data-calendar-feed-textcolor',textColor);
 				feedUserEle.closest('.addedCalendars').find('.label').css({'background-color':userColor,'color':textColor}).text(userName);
