@@ -25,19 +25,19 @@ class Updater
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = App\Db::getInstance();
 		$schema = $db->getSchema();
-
+		$dbCommand = $db->createCommand();
 		$roleIds = (new \App\Db\Query)->select('roleid')->from('vtiger_role')->column();
-
 		$query = (new \App\Db\Query())->from('vtiger_field')
 			->where(['uitype' => 16])
 			->andWhere(['fieldname' => $fiels]);
+
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$picklistTable = 'vtiger_' . $row['fieldname'];
 			$tableSchema = $schema->getTableSchema($picklistTable);
 			if ($tableSchema && !isset($tableSchema->columns['picklist_valueid'])) {
-				$db->createCommand()->addColumn($picklistTable, 'picklist_valueid', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 10)->notNull()->defaultValue(0))->execute();
-				$db->createCommand()->insert('vtiger_picklist', ['name' => $row['fieldname']])->execute();
+				$dbCommand->addColumn($picklistTable, 'picklist_valueid', $schema->createColumnSchemaBuilder(\yii\db\Schema::TYPE_INTEGER, 10)->notNull()->defaultValue(0))->execute();
+				$dbCommand->insert('vtiger_picklist', ['name' => $row['fieldname']])->execute();
 				$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $row['fieldname']])->scalar();
 				if (!$newPicklistId) {
 					$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
@@ -47,16 +47,14 @@ class Updater
 				$dataReader2 = $query2->createCommand()->query();
 				while ($picklistRow = $dataReader2->read()) {
 					$newPicklistValueId = $db->getUniqueID('vtiger_picklistvalues');
-					$db->createCommand()->update($picklistTable, ['picklist_valueid' => $newPicklistValueId], [$identifier => $picklistRow[$identifier]])->execute();
+					$dbCommand->update($picklistTable, ['picklist_valueid' => $newPicklistValueId], [$identifier => $picklistRow[$identifier]])->execute();
 					$insertedData = [];
 					foreach ($roleIds as $value) {
 						$insertedData [] = [$value, $newPicklistValueId, $newPicklistId, $picklistRow['sortorderid']];
 					}
-					$db->createCommand()
-						->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
-						->execute();
+					$dbCommand->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)->execute();
 				}
-				$db->createCommand()->update('vtiger_field', ['uitype' => 15], ['fieldid' => $row['fieldid']])->execute();
+				$dbCommand->update('vtiger_field', ['uitype' => 15], ['fieldid' => $row['fieldid']])->execute();
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
@@ -75,7 +73,7 @@ class Updater
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		foreach ($rows as $row) {
-			$dbCommand->update($row[0], $row[1], $row[2]);
+			$dbCommand->update($row[0], $row[1], $row[2])->execute();
 		}
 	}
 
@@ -93,7 +91,7 @@ class Updater
 		$dbCommand = $db->createCommand();
 		foreach ($rows as $row) {
 			if (!(new \App\db\Query())->from($row[0])->where($row[1])->exists()) {
-				$dbCommand->insert($row[0], $row[1]);
+				$dbCommand->insert($row[0], $row[1])->execute();
 			}
 		}
 	}
@@ -113,7 +111,6 @@ class Updater
 			return [];
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
-		$db = App\Db::getInstance();
 		$cronAction = [];
 		foreach ($crons as $cron) {
 			if (empty($cron)) {

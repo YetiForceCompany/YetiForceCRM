@@ -14,17 +14,43 @@ use App\Exceptions;
 class Importer
 {
 
+	/**
+	 * End of line character
+	 * @var string 
+	 */
 	public $logs = "\n";
+
+	/**
+	 * Path to the directory with files to import
+	 * @var string 
+	 */
 	public $path = 'install/install_schema';
+
+	/**
+	 * Stop import if an error occurs
+	 * @var bool 
+	 */
 	public $dieOnError = false;
+
+	/**
+	 * Check redundant tables
+	 * @var bool 
+	 */
+	public $redundantTables = false;
+
+	/**
+	 * Array with objects to import
+	 * @var App\Db\Importers\Base[]
+	 */
 	private $importers = [];
 
 	/**
 	 * Load all files for import
+	 * @param string|bool $path
 	 */
-	public function loadFiles()
+	public function loadFiles($path = false)
 	{
-		$dir = new \DirectoryIterator($this->path);
+		$dir = new \DirectoryIterator($path ? $path : $this->path);
 		foreach ($dir as $fileinfo) {
 			if ($fileinfo->getType() !== 'dir' && $fileinfo->getExtension() === 'php') {
 				require $fileinfo->getPath() . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
@@ -64,7 +90,7 @@ class Importer
 	/**
 	 * Post Process action
 	 */
-	public function postProcess()
+	public function postImport()
 	{
 		foreach ($this->importers as &$importer) {
 			$this->addForeignKey($importer);
@@ -81,9 +107,7 @@ class Importer
 		foreach ($importer->tables as $tableName => $table) {
 			$this->logs .= "  > add table: $tableName ... ";
 			try {
-				$importer->db->createCommand()->createTable(
-					$tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table)
-				)->execute();
+				$importer->db->createCommand()->createTable($tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table))->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= "error ({$e->getMessage()}) !!!\n";
@@ -151,7 +175,7 @@ class Importer
 		$type = $importer->db->getDriverName();
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {
-			foreach ($table['columns_' . $type] as $column => &$customType) {
+			foreach ($table['columns_' . $type] as $column => $customType) {
 				$this->logs .= "\n    > custom column type,  driver: $type, type: $customType";
 				$columns[$column] = $customType;
 			}
@@ -173,8 +197,8 @@ class Importer
 		$type = $importer->db->getDriverName();
 		$indexes = $table['index'];
 		if (isset($table['index_' . $type])) {
-			foreach ($table['index_' . $type] as &$customIndex) {
-				foreach ($indexes as $key => &$index) {
+			foreach ($table['index_' . $type] as $customIndex) {
+				foreach ($indexes as $key => $index) {
 					if ($customIndex[0] === $index[0]) {
 						$this->logs .= "\n    > custom index,  driver: $type, type: {$customIndex['0']}";
 						$indexes[$key] = $customIndex;
@@ -195,12 +219,10 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start add foreign key\n";
-		foreach ($importer->foreignKey as &$key) {
+		foreach ($importer->foreignKey as $key) {
 			$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
 			try {
-				$importer->db->createCommand()->addForeignKey(
-					$key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6]
-				)->execute();
+				$importer->db->createCommand()->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6])->execute();
 				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= "error ({$e->getMessage()}) !!!\n";
@@ -222,7 +244,7 @@ class Importer
 			return;
 		}
 		$this->logs .= "> start add data rows\n";
-		foreach ($importer->data as $tableName => &$table) {
+		foreach ($importer->data as $tableName => $table) {
 			$this->logs .= "  > add data to table: $tableName ... ";
 			try {
 				$keys = $table['columns'];
@@ -239,10 +261,10 @@ class Importer
 		}
 		$this->logs .= "# end add data rows\n";
 		$this->logs .= "> start reset sequence\n";
-		foreach ($importer->data as $tableName => &$table) {
+		foreach ($importer->data as $tableName => $table) {
 			$tableSchema = $importer->db->getTableSchema($tableName);
 			$isAutoIncrement = false;
-			foreach ($tableSchema->columns as &$column) {
+			foreach ($tableSchema->columns as $column) {
 				if ($column->autoIncrement) {
 					$isAutoIncrement = true;
 					break;
@@ -259,7 +281,7 @@ class Importer
 						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
-				if (false && isset($importer->data[$tableName . '_seq'])) {
+				if ($this->redundantTables && isset($importer->data[$tableName . '_seq'])) {
 					$this->logs .= "   > error: redundant table {$tableName}_seq !!!\n";
 					if ($this->dieOnError) {
 						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
@@ -286,6 +308,23 @@ class Importer
 		foreach ($tables as $table) {
 			if ($db->isTableExists($table[0])) {
 				$dbCommand->renameTable($table[0], $table[1])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Drop table
+	 * @param string|array $tables
+	 */
+	public function dropTable($tables)
+	{
+		$db = \App\Db::getInstance();
+		if (is_string($tables)) {
+			$tables = [$tables];
+		}
+		foreach ($tables as $tableName) {
+			if ($db->isTableExists($tableName)) {
+				$db->createCommand()->dropTable($tableName)->execute();
 			}
 		}
 	}
@@ -342,6 +381,10 @@ class Importer
 		\App\Db::getInstance()->getSchema()->getTableSchemas('', true);
 	}
 
+	/**
+	 * Show or save logs
+	 * @param bool $show
+	 */
 	public function logs($show = true)
 	{
 		if ($show) {
@@ -349,5 +392,187 @@ class Importer
 		} else {
 			file_put_contents('cache/logs/Importer.log', $this->logs);
 		}
+	}
+
+	/**
+	 * Update db scheme
+	 */
+	public function updateScheme()
+	{
+		foreach ($this->importers as &$importer) {
+			$this->updateTables($importer);
+		}
+	}
+
+	/**
+	 * Update tables structure
+	 * @param Base $importer
+	 * @throws Exceptions\AppException
+	 */
+	public function updateTables(Base $importer)
+	{
+		$this->logs .= "> start update tables\n";
+		$schema = $importer->db->getSchema();
+		$queryBuilder = $schema->getQueryBuilder();
+		$dbCommand = $importer->db->createCommand();
+		foreach ($importer->tables as $tableName => $table) {
+			if (!$importer->db->isTableExists($tableName)) {
+				$this->logs .= "  > add table: $tableName ... ";
+				try {
+					$dbCommand->createTable($tableName, $this->getColumns($importer, $table), $this->getOptions($importer, $table))->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= "error ({$e->getMessage()}) !!!\n";
+					if ($this->dieOnError) {
+						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					}
+				}
+			} else {
+				$tableSchema = $schema->getTableSchema($tableName);
+				foreach ($this->getColumns($importer, $table) as $columnName => $column) {
+					if (!isset($tableSchema->columns[$columnName])) {
+						$dbCommand->addColumn($tableName, $columnName, $column)->execute();
+					} else {
+						if ($this->comperColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
+							$dbCommand->alterColumn($tableName, $columnName, $column)->execute();
+						}
+					}
+				}
+			}
+			if ($indexes = $this->getIndexes($importer, $table)) {
+				$dbIndexes = $importer->db->getTableKeys($tableName);
+				foreach ($indexes as $index) {
+					if (isset($dbIndexes[$index[0]])) {
+						$update = false;
+						if (is_string($index[1]) ? !isset($dbIndexes[$index[0]][$index[1]]) : array_diff($index[1], array_keys($dbIndexes[$index[0]]))) {
+							$update = true;
+						} else {
+							foreach ($dbIndexes[$index[0]] as $dbIndex) {
+								if (empty($index[2]) !== empty($dbIndex['unique'])) {
+									$update = true;
+								}
+							}
+						}
+						if ($update) {
+							$this->logs .= "  > update index: {$index[0]} ... ";
+							try {
+								$dbCommand->dropIndex($index[0], $tableName)->execute();
+								$dbCommand->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
+								$this->logs .= "done\n";
+							} catch (\Exception $e) {
+								$this->logs .= "error ({$e->getMessage()}) !!!\n";
+								if ($this->dieOnError) {
+									throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+								}
+							}
+						}
+					} else {
+						$this->logs .= "  > create index: {$index[0]} ... ";
+						try {
+							$dbCommand->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false )->execute();
+							$this->logs .= "done\n";
+						} catch (\Exception $e) {
+							$this->logs .= "error ({$e->getMessage()}) !!!\n";
+							if ($this->dieOnError) {
+								throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							}
+						}
+					}
+				}
+			}
+			if (isset($table['primaryKeys'])) {
+				$dbPrimaryKeys = $importer->db->getPrimaryKey($tableName);
+				foreach ($table['primaryKeys'] as $primaryKey) {
+					$status = false;
+					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
+						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) === 1 && $primaryKey[1] === $dbPrimaryKey[0]) : array_diff($primaryKey[1], $dbPrimaryKey)) {
+							$status = true;
+						}
+					}
+					if ($status) {
+						$this->logs .= "  > update primary key: {$primaryKey[0]} ... ";
+						try {
+							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
+								$dbCommand->dropPrimaryKey($primaryKey[0], $tableName)->execute();
+							} else {
+								$dbCommand->dropPrimaryKey(key($dbPrimaryKeys), $tableName)->execute();
+							}
+							$dbCommand->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
+							$this->logs .= "done\n";
+						} catch (\Exception $e) {
+							$this->logs .= "error ({$e->getMessage()}) !!!\n";
+							if ($this->dieOnError) {
+								throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							}
+						}
+					}
+				}
+			}
+		}
+		$this->logs .= "# end update tables\n";
+	}
+
+	/**
+	 * Compare two columns if they are identical
+	 * @param \yii\db\QueryBuilder $queryBuilder
+	 * @param \yii\db\ColumnSchema $baseColumn
+	 * @param \yii\db\ColumnSchemaBuilder $targetColumn
+	 * @return boolean
+	 */
+	protected function comperColumns($queryBuilder, $baseColumn, $targetColumn)
+	{
+		if ($baseColumn->dbType !== strtok($queryBuilder->getColumnType($targetColumn), ' ')) {
+			return true;
+		}
+		if (($baseColumn->allowNull !== (is_null($targetColumn->isNotNull))) || ($baseColumn->defaultValue !== $targetColumn->default) || ($baseColumn->unsigned !== $targetColumn->isUnsigned)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Post Process action
+	 */
+	public function postUpdate()
+	{
+		foreach ($this->importers as &$importer) {
+			$this->updateForeignKey($importer);
+		}
+	}
+
+	/**
+	 * Update a foreign key constraint to an existing table.
+	 * @param Base $importer
+	 */
+	public function updateForeignKey(Base $importer)
+	{
+		if (!isset($importer->foreignKey)) {
+			return;
+		}
+		$this->logs .= "> start update foreign key\n";
+		$dbCommand = $importer->db->createCommand();
+		$schema = $importer->db->getSchema();
+		foreach ($importer->foreignKey as $key) {
+			$add = true;
+			$tableSchema = $schema->getTableSchema($key[1]);
+			foreach ($tableSchema->foreignKeys as $dbForeignKey) {
+				if ($key[3] === $dbForeignKey[0] && isset($dbForeignKey[$key[2]]) && $key[4] === $dbForeignKey[$key[2]]) {
+					$add = false;
+				}
+			}
+			if ($add) {
+				$this->logs .= "  > add: {$key[0]}, {$key[1]} ... ";
+				try {
+					$dbCommand->addForeignKey($key[0], $key[1], $key[2], $key[3], $key[4], $key[5], $key[6])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= "error ({$e->getMessage()}) !!!\n";
+					if ($this->dieOnError) {
+						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					}
+				}
+			}
+		}
+		$this->logs .= "# end update foreign key\n";
 	}
 }
