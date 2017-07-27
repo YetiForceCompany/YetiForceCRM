@@ -550,7 +550,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$mailLimit = $numMessages;
 			}
 			for ($i = $numMessages; $i > ($numMessages - $mailLimit); $i--) {
-				imap_headerinfo($imap, $i);
 				$mail = self::getMail($imap, false, $i);
 				$mails[] = $mail;
 			}
