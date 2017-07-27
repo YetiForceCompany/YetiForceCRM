@@ -22,7 +22,6 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		\AppConfig::main('site_URL');
 		$html = '';
 		$scheduleData = \Vtiger_Watchdog_Model::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
