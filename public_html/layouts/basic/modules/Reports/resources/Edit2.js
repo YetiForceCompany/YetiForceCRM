@@ -204,19 +204,19 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 				var lineItemCalculationFields = jQuery('.CalculationFields').find('[value^="cb:vtiger_inventoryproductrel"]');
 				if(reg.test(value)) {	// line item field selected
 					if(attr) {	// disable all the other checkboxes
-						moduleCalculationFields.attr('checked',false).attr('disabled',true);
+						moduleCalculationFields.prop('checked',false).attr('disabled',true);
 					} else {
 						var otherLineItemFieldsCheckedLength = lineItemCalculationFields.filter(':checked').length;
 						if(otherLineItemFieldsCheckedLength == 0) moduleCalculationFields.attr('disabled',false);
-						else moduleCalculationFields.attr('checked',false).attr('disabled',true);
+						else moduleCalculationFields.prop('checked',false).attr('disabled',true);
 					}
 				} else {		// some other field is selected
 					if(attr) {
-						lineItemCalculationFields.attr('checked',false).attr('disabled',true);
+						lineItemCalculationFields.prop('checked',false).attr('disabled',true);
 					} else {
 						var moduleCalculationFieldLength = moduleCalculationFields.filter(':checked').length;
 						if(moduleCalculationFieldLength == 0) lineItemCalculationFields.attr('disabled', false);
-						else lineItemCalculationFields.attr('disabled', true).attr('checked',false);
+						else lineItemCalculationFields.attr('disabled', true).prop('checked',false);
 					}
 				}
 				thisInstance.displayLineItemFieldLimitationMessage();
@@ -236,10 +236,10 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		var moduleCalculationFields = jQuery('.CalculationFields input[type="checkbox"]').not('[value^="cb:vtiger_inventoryproductrel"]');
 		var lineItemFields = jQuery('.CalculationFields').find('[value^="cb:vtiger_inventoryproductrel"]');
 		if(moduleCalculationFields.filter(':checked').length != 0) {
-			lineItemFields.attr('checked', false).attr('disabled', true);
+			lineItemFields.prop('checked', false).attr('disabled', true);
 			this.displayLineItemFieldLimitationMessage();
 		} else if(lineItemFields.filter(':checked').length != 0) {
-			moduleCalculationFields.attr('checked', false).attr('disabled', true);
+			moduleCalculationFields.prop('checked', false).attr('disabled', true);
 			this.displayLineItemFieldLimitationMessage();
 		}
 	},
