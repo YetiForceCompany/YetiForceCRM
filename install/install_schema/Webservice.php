@@ -51,8 +51,8 @@ class Webservice extends \App\Db\Importers\Base
 					'type' => $this->tinyInteger(1)->unsigned()->defaultValue(1),
 				],
 				'index' => [
-					['portal_users_idx', 'user_name', true],
-					['portal_users_status_idx', ['user_name', 'status']],
+					['user_name', 'user_name', true],
+					['user_name_2', ['user_name', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -72,7 +72,7 @@ class Webservice extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['servers_idx', ['name', 'status']],
+					['name', ['name', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

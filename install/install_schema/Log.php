@@ -27,15 +27,15 @@ class Log extends \App\Db\Importers\Base
 					'duration' => $this->decimal('3,3')->notNull(),
 				],
 				'index' => [
-					['profile_id_idx', 'id'],
-					['profile_category_idx', 'category'],
+					['id', 'id'],
+					['category', 'category'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'l_#__settings_tracker_basic' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'type' => $this->smallInteger(1)->notNull(),
 					'action' => $this->stringType(50)->notNull(),
@@ -57,7 +57,7 @@ class Log extends \App\Db\Importers\Base
 					'field' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['settings_tracker_detail_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -72,16 +72,16 @@ class Log extends \App\Db\Importers\Base
 					'group' => $this->integer(10),
 				],
 				'index' => [
-					['sqltime_id_idx', 'id'],
-					['sqltime_type_idx', 'type'],
-					['sqltime_group_idx', 'group'],
+					['id', 'id'],
+					['type', 'type'],
+					['group', 'group'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'l_#__switch_users' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'date' => $this->dateTime()->notNull(),
 					'status' => $this->stringType(10)->notNull(),
 					'baseid' => $this->integer(10)->notNull(),
@@ -92,15 +92,15 @@ class Log extends \App\Db\Importers\Base
 					'agent' => $this->stringType()->notNull(),
 				],
 				'index' => [
-					['switch_users_baseid_idx', 'baseid'],
-					['switch_users_destid_idx', 'destid'],
+					['baseid', 'baseid'],
+					['destid', 'destid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'o_#__access_for_admin' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -115,7 +115,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_for_api' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -128,7 +128,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_for_user' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100),
@@ -143,7 +143,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__access_to_record' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),
@@ -159,7 +159,7 @@ class Log extends \App\Db\Importers\Base
 			],
 			'o_#__csrf' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'username' => $this->stringType(50)->notNull(),
 					'date' => $this->dateTime()->notNull(),
 					'ip' => $this->stringType(100)->notNull(),

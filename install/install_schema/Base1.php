@@ -103,7 +103,7 @@ class Base1 extends \App\Db\Importers\Base
 					'function_name' => $this->stringType(100),
 				],
 				'index' => [
-					['workflowtasks_entitymethod_idx', 'workflowtasks_entitymethod_id', true],
+					['com_vtiger_workflowtasks_entitymethod_idx', 'workflowtasks_entitymethod_id', true],
 				],
 				'primaryKeys' => [
 					['workflowtasks_entitymethod_pk', 'workflowtasks_entitymethod_id']
@@ -137,7 +137,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_addressbookchanges' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer(10)->unsigned()->notNull(),
 					'addressbookid' => $this->integer(10)->unsigned()->notNull(),
@@ -148,14 +148,14 @@ class Base1 extends \App\Db\Importers\Base
 					'operation' => $this->tinyInteger(1)->notNull(),
 				],
 				'index' => [
-					['dav_addressbookchanges_idx', ['addressbookid', 'synctoken']],
+					['addressbookid_synctoken', ['addressbookid', 'synctoken']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_addressbooks' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'principaluri' => $this->stringType(),
 					'displayname' => $this->stringType(),
 					'uri' => $this->stringType(200),
@@ -167,8 +167,8 @@ class Base1 extends \App\Db\Importers\Base
 					'uri' => $this->varbinary(200),
 				],
 				'index' => [
-					['dav_addressbooks_uri_idx', ['principaluri', 'uri'], true],
-					['dav_addressbooks_pri_idx', 'principaluri'],
+					['principaluri', ['principaluri', 'uri'], true],
+					['dav_addressbooks_ibfk_1', 'principaluri'],
 				],
 				'index_mysql' => [
 					['dav_addressbooks_uri_idx', ['principaluri(100)', 'uri(100)'], true],
@@ -179,7 +179,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_calendarchanges' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'uri' => $this->stringType(200)->notNull(),
 					'synctoken' => $this->integer(10)->unsigned()->notNull(),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
@@ -190,14 +190,14 @@ class Base1 extends \App\Db\Importers\Base
 					'operation' => $this->tinyInteger(1)->notNull(),
 				],
 				'index' => [
-					['dav_calendarchanges_idx', ['calendarid', 'synctoken']],
+					['calendarid_synctoken', ['calendarid', 'synctoken']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_calendarobjects' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'calendardata' => $this->binary(),
 					'uri' => $this->stringType(200),
 					'calendarid' => $this->integer(10)->unsigned()->notNull(),
@@ -217,14 +217,14 @@ class Base1 extends \App\Db\Importers\Base
 					'uid' => $this->varbinary(200),
 				],
 				'index' => [
-					['dav_calendarobjects_cal_idx', ['calendarid', 'uri'], true],
+					['calendarid', ['calendarid', 'uri'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_calendars' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'principaluri' => $this->stringType(100),
 					'displayname' => $this->stringType(100),
 					'uri' => $this->stringType(200),
@@ -244,14 +244,14 @@ class Base1 extends \App\Db\Importers\Base
 					'transparent' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['dav_calendars_uri_idx', ['principaluri', 'uri'], true],
+					['principaluri', ['principaluri', 'uri'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_calendarsubscriptions' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'uri' => $this->stringType(200)->notNull(),
 					'principaluri' => $this->stringType(100)->notNull(),
 					'source' => $this->text(),
@@ -273,14 +273,14 @@ class Base1 extends \App\Db\Importers\Base
 					'stripattachments' => $this->tinyInteger(1),
 				],
 				'index' => [
-					['dav_calendarsubscriptions_uri_idx', ['principaluri', 'uri'], true],
+					['principaluri', ['principaluri', 'uri'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_cards' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'addressbookid' => $this->integer(10)->unsigned()->notNull(),
 					'carddata' => $this->binary(),
 					'uri' => $this->stringType(200),
@@ -294,26 +294,26 @@ class Base1 extends \App\Db\Importers\Base
 					'etag' => $this->varbinary(32),
 				],
 				'index' => [
-					['dav_cards_address_idx', ['addressbookid', 'crmid']],
+					['addressbookid', ['addressbookid', 'crmid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_groupmembers' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'principal_id' => $this->integer(10)->unsigned()->notNull(),
 					'member_id' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-					['dav_groupmembers_pri_idx', ['principal_id', 'member_id'], true],
+					['principal_id', ['principal_id', 'member_id'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_principals' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'uri' => $this->stringType(200)->notNull(),
 					'email' => $this->stringType(80),
 					'displayname' => $this->stringType(80),
@@ -324,14 +324,14 @@ class Base1 extends \App\Db\Importers\Base
 					'email' => $this->varbinary(80),
 				],
 				'index' => [
-					['dav_principals_uri_idx', 'uri', true],
+					['uri', 'uri', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8mb4'
 			],
 			'dav_propertystorage' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'path' => $this->stringType(1024)->notNull(),
 					'name' => $this->stringType(100)->notNull(),
 					'valuetype' => $this->integer(10)->unsigned(),
@@ -342,7 +342,7 @@ class Base1 extends \App\Db\Importers\Base
 					'name' => $this->varbinary(100)->notNull(),
 				],
 				'index' => [
-					['dav_propertystorage_path_idx', ['path', 'name'], true],
+					['path_property', ['path', 'name'], true],
 				],
 				'index_mysql' => [
 					['dav_propertystorage_path_idx', ['path(600)', 'name(100)'], true],
@@ -352,7 +352,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_schedulingobjects' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'principaluri' => $this->stringType(),
 					'calendardata' => $this->binary(),
 					'uri' => $this->stringType(200),
@@ -370,7 +370,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'dav_users' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'username' => $this->stringType(50),
 					'digesta1' => $this->stringType(32),
 					'userid' => $this->integer(10)->unsigned(),
@@ -381,8 +381,8 @@ class Base1 extends \App\Db\Importers\Base
 					'digesta1' => $this->varbinary(32),
 				],
 				'index' => [
-					['dav_users_name_idx', 'username', true],
-					['dav_users_user_id_idx', 'userid', true],
+					['username', 'username', true],
+					['userid', 'userid', true],
 				],
 				'index_mysql' => [
 					['dav_users_name_idx', 'username(50)', true],
@@ -399,8 +399,8 @@ class Base1 extends \App\Db\Importers\Base
 					'data' => $this->text()->notNull(),
 				],
 				'index' => [
-					['roundcube_cache_expires_idx', 'expires'],
-					['roundcube_cache_id_idx', ['user_id', 'cache_key']],
+					['expires_index', 'expires'],
+					['user_cache_index', ['user_id', 'cache_key']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -417,7 +417,7 @@ class Base1 extends \App\Db\Importers\Base
 					'valid' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['roundcube_index_exp_idx', 'expires'],
+					['expires_index', 'expires'],
 				],
 				'primaryKeys' => [
 					['roundcube_cache_index_pk', ['user_id', 'mailbox']]
@@ -435,7 +435,7 @@ class Base1 extends \App\Db\Importers\Base
 					'flags' => $this->integer(10)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['cache_messages_exp_idx', 'expires'],
+					['expires_index', 'expires'],
 				],
 				'primaryKeys' => [
 					['roundcube_cache_messages_pk', ['user_id', 'mailbox', 'uid']]
@@ -451,8 +451,8 @@ class Base1 extends \App\Db\Importers\Base
 					'data' => $this->text()->notNull(),
 				],
 				'index' => [
-					['cache_shared_exp_idx', 'expires'],
-					['cache_shared_key_idx', 'cache_key'],
+					['expires_index', 'expires'],
+					['cache_key_index', 'cache_key'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -465,7 +465,7 @@ class Base1 extends \App\Db\Importers\Base
 					'data' => $this->text()->notNull(),
 				],
 				'index' => [
-					['cache_thread_exp_idx', 'expires'],
+					['expires_index', 'expires'],
 				],
 				'primaryKeys' => [
 					['roundcube_cache_thread_pk', ['user_id', 'mailbox']]
@@ -480,7 +480,7 @@ class Base1 extends \App\Db\Importers\Base
 					'created' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 				],
 				'index' => [
-					['r_contactgroupmembers_idx', 'contact_id'],
+					['roundcube_contactgroupmembers_contact_index', 'contact_id'],
 				],
 				'primaryKeys' => [
 					['roundcube_contactgroupmembers_pk', ['contactgroup_id', 'contact_id']]
@@ -490,7 +490,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_contactgroups' => [
 				'columns' => [
-					'contactgroup_id' => $this->primaryKey()->unsigned(),
+					'contactgroup_id' => $this->primaryKey(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -500,14 +500,14 @@ class Base1 extends \App\Db\Importers\Base
 					'del' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['roundcube_contactgroups_idx', ['user_id', 'del']],
+					['roundcube_contactgroups_user_index', ['user_id', 'del']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'roundcube_contacts' => [
 				'columns' => [
-					'contact_id' => $this->primaryKey()->unsigned(),
+					'contact_id' => $this->primaryKey(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull()->defaultValue(''),
@@ -522,7 +522,7 @@ class Base1 extends \App\Db\Importers\Base
 					'del' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['roundcube_user_contacts_idx', ['user_id', 'del']],
+					['roundcube_user_contacts_index', ['user_id', 'del']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -534,14 +534,14 @@ class Base1 extends \App\Db\Importers\Base
 					'data' => $this->text()->notNull(),
 				],
 				'index' => [
-					['roundcube_dictionary_idx', ['user_id', 'language'], true],
+					['uniqueness', ['user_id', 'language'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'roundcube_identities' => [
 				'columns' => [
-					'identity_id' => $this->primaryKey()->unsigned(),
+					'identity_id' => $this->primaryKey(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'changed' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
 					'del' => $this->smallInteger(1)->notNull()->defaultValue(0),
@@ -560,22 +560,22 @@ class Base1 extends \App\Db\Importers\Base
 					'html_signature' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['roundcube_identities_user_idx', ['user_id', 'del']],
-					['roundcube_identities_email_idx', ['email', 'del']],
+					['user_identities_index', ['user_id', 'del']],
+					['email_identities_index', ['email', 'del']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'roundcube_searches' => [
 				'columns' => [
-					'search_id' => $this->primaryKey()->unsigned(),
+					'search_id' => $this->primaryKey(),
 					'user_id' => $this->integer(10)->unsigned()->notNull(),
 					'type' => $this->integer(3)->notNull()->defaultValue(0),
 					'name' => $this->stringType(128)->notNull(),
 					'data' => $this->text(),
 				],
 				'index' => [
-					['roundcube_searches_user_idx', ['user_id', 'type', 'name'], true],
+					['uniqueness', ['user_id', 'type', 'name'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -589,7 +589,7 @@ class Base1 extends \App\Db\Importers\Base
 					'vars' => $this->text()->notNull(),
 				],
 				'index' => [
-					['roundcube_session_idx', 'changed'],
+					['changed_index', 'changed'],
 				],
 				'primaryKeys' => [
 					['roundcube_session_pk', 'sess_id']
@@ -610,7 +610,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'roundcube_users' => [
 				'columns' => [
-					'user_id' => $this->primaryKey()->unsigned(),
+					'user_id' => $this->primaryKey(),
 					'username' => $this->stringType(128)->notNull(),
 					'mail_host' => $this->stringType(128)->notNull(),
 					'created' => $this->dateTime()->notNull()->defaultValue('1000-01-01 00:00:00'),
@@ -624,8 +624,8 @@ class Base1 extends \App\Db\Importers\Base
 					'crm_user_id' => $this->integer(10)->defaultValue(0),
 				],
 				'index' => [
-					['roundcube_users_idx', ['username', 'mail_host'], true],
-					['roundcube_users_crm_id_idx', 'crm_user_id'],
+					['username', ['username', 'mail_host'], true],
+					['crm_user_id', 'crm_user_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -636,14 +636,14 @@ class Base1 extends \App\Db\Importers\Base
 					'crmuser_id' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['roundcube_users_autologin_idx', 'rcuser_id'],
+					['rcuser_id', 'rcuser_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'u_#__activity_invitation' => [
 				'columns' => [
-					'inviteesid' => $this->primaryKey()->unsigned(),
+					'inviteesid' => $this->primaryKey(),
 					'activityid' => $this->integer(10)->notNull(),
 					'crmid' => $this->integer(10)->notNull()->defaultValue(0),
 					'email' => $this->stringType(100)->notNull()->defaultValue(''),
@@ -654,7 +654,7 @@ class Base1 extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['activity_invitation_idx', 'activityid'],
+					['activityid', 'activityid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -670,7 +670,7 @@ class Base1 extends \App\Db\Importers\Base
 					'is_mandatory' => $this->smallInteger(5),
 				],
 				'index' => [
-					['announcement_idx', 'announcementstatus'],
+					['announcementstatus', 'announcementstatus'],
 				],
 				'primaryKeys' => [
 					['announcement_pk', 'announcementid']
@@ -689,8 +689,8 @@ class Base1 extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['announcement_mark_user_idx', ['userid', 'status']],
-					['announcement_mark_ann_idx', ['announcementid', 'userid', 'date', 'status']],
+					['userid', ['userid', 'status']],
+					['announcementid', ['announcementid', 'userid', 'date', 'status']],
 				],
 				'primaryKeys' => [
 					['announcement_mark_pk', ['announcementid', 'userid']]
@@ -778,7 +778,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__chat_messages' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'userid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'user_name' => $this->stringType(50)->notNull(),
 					'created' => $this->integer(10)->unsigned(),
@@ -904,7 +904,7 @@ class Base1 extends \App\Db\Importers\Base
 					'date_updated' => $this->dateTime()->notNull(),
 				],
 				'index' => [
-					['crmentity_last_changes_idx', ['crmid', 'fieldname']],
+					['crmid', ['crmid', 'fieldname']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -930,8 +930,8 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->text(),
 				],
 				'index' => [
-					['crmentity_label_idx', 'searchlabel'],
-					['crmentity_search_idx', ['searchlabel', 'setype']],
+					['searchlabel', 'searchlabel'],
+					['searchlabel_2', ['searchlabel', 'setype']],
 				],
 				'primaryKeys' => [
 					['crmentity_search_label_pk', 'crmid']
@@ -945,16 +945,16 @@ class Base1 extends \App\Db\Importers\Base
 					'userid' => $this->smallInteger(5)->unsigned()->notNull(),
 				],
 				'index' => [
-					['crmentity_showners_max_idx', ['crmid', 'userid'], true],
-					['crmentity_showners_crmid_idx', 'crmid'],
-					['crmentity_showners_userid_idx', 'userid'],
+					['mix', ['crmid', 'userid'], true],
+					['crmid', 'crmid'],
+					['userid', 'userid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'u_#__dashboard_type' => [
 				'columns' => [
-					'dashboard_id' => $this->primaryKey()->unsigned(),
+					'dashboard_id' => $this->primaryKey(),
 					'name' => $this->stringType()->notNull(),
 					'system' => $this->smallInteger(1)->defaultValue(0),
 				],
@@ -965,6 +965,10 @@ class Base1 extends \App\Db\Importers\Base
 				'columns' => [
 					'crmid' => $this->integer(10),
 					'relcrmid' => $this->integer(10),
+				],
+				'index' => [
+					['u_yf_documents_emailtemplates_crmid_idx', 'crmid'],
+					['u_yf_documents_emailtemplates_relcrmid_idx', 'relcrmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -985,7 +989,7 @@ class Base1 extends \App\Db\Importers\Base
 					'email_template_priority' => $this->tinyInteger(1)->defaultValue(1),
 				],
 				'index' => [
-					['emailtemplates_sys_name_idx', 'sys_name'],
+					['sys_name', 'sys_name'],
 				],
 				'primaryKeys' => [
 					['emailtemplates_pk', 'emailtemplatesid']
@@ -1003,9 +1007,9 @@ class Base1 extends \App\Db\Importers\Base
 					'data' => $this->timestamp(),
 				],
 				'index' => [
-					['favorites_crmid_idx', 'crmid'],
-					['favorites_relcrmid_idx', 'relcrmid'],
-					['favorites_idx', ['crmid', 'module', 'relcrmid', 'relmodule', 'userid']],
+					['crmid', 'crmid'],
+					['relcrmid', 'relcrmid'],
+					['mix', ['crmid', 'module', 'relcrmid', 'relmodule', 'userid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1018,7 +1022,7 @@ class Base1 extends \App\Db\Importers\Base
 					'related_to' => $this->integer(10),
 				],
 				'index' => [
-					['fbookkeeping_rel_idx', 'related_to'],
+					['related_to', 'related_to'],
 				],
 				'primaryKeys' => [
 					['fbookkeeping_pk', 'fbookkeepingid']
@@ -1051,8 +1055,8 @@ class Base1 extends \App\Db\Importers\Base
 					'finvoiceid' => $this->integer(10),
 				],
 				'index' => [
-					['fcorectinginvoice_acc_idx', 'accountid'],
-					['fcorectinginvoice_inv_idx', 'finvoiceid'],
+					['accountid', 'accountid'],
+					['finvoiceid', 'finvoiceid'],
 				],
 				'primaryKeys' => [
 					['fcorectinginvoice_pk', 'fcorectinginvoiceid']
@@ -1121,7 +1125,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['fcorectinginvoice_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1177,8 +1181,8 @@ class Base1 extends \App\Db\Importers\Base
 					'cvid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['featured_filter_cvid_idx', 'cvid'],
-					['featured_filter_user_idx', 'user'],
+					['cvid', 'cvid'],
+					['user', 'user'],
 				],
 				'primaryKeys' => [
 					['featured_filter_pk', ['user', 'cvid']]
@@ -1203,7 +1207,7 @@ class Base1 extends \App\Db\Importers\Base
 					'pscategory' => $this->stringType(100),
 				],
 				'index' => [
-					['finvoice_idx', 'accountid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['finvoice_pk', 'finvoiceid']
@@ -1272,7 +1276,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['finvoice_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1456,7 +1460,7 @@ class Base1 extends \App\Db\Importers\Base
 					'finvoiceproforma_status' => $this->stringType(),
 				],
 				'index' => [
-					['finvoiceproforma_idx', 'accountid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['finvoiceproforma_pk', 'finvoiceproformaid']
@@ -1525,7 +1529,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['finvoiceproforma_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1582,6 +1586,9 @@ class Base1 extends \App\Db\Importers\Base
 					'token' => $this->stringType(100),
 					'username' => $this->stringType(32),
 				],
+				'index' => [
+					['github_id', 'github_id'],
+				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
@@ -1597,9 +1604,9 @@ class Base1 extends \App\Db\Importers\Base
 					'ssingleordersid' => $this->integer(10),
 				],
 				'index' => [
-					['igdn_storage_idx', 'storageid'],
-					['igdn_accountid_idx', 'accountid'],
-					['igdn_ssingleordersid_idx', 'ssingleordersid'],
+					['storageid', 'storageid'],
+					['accountid', 'accountid'],
+					['ssingleordersid', 'ssingleordersid'],
 				],
 				'primaryKeys' => [
 					['igdn_pk', 'igdnid']
@@ -1625,7 +1632,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['igdn_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1677,9 +1684,9 @@ class Base1 extends \App\Db\Importers\Base
 					'igdnid' => $this->integer(10),
 				],
 				'index' => [
-					['igdnc_storageid_idx', 'storageid'],
-					['igdnc_accountid_idx', 'accountid'],
-					['igdnc_igdnid_idx', 'igdnid'],
+					['storageid', 'storageid'],
+					['accountid', 'accountid'],
+					['igdnid', 'igdnid'],
 				],
 				'primaryKeys' => [
 					['igdnc_pk', 'igdncid']
@@ -1705,7 +1712,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['igdnc_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1775,7 +1782,7 @@ class Base1 extends \App\Db\Importers\Base
 					'acceptance_date' => $this->date(),
 				],
 				'index' => [
-					['igin_storageid_idx', 'storageid'],
+					['storageid', 'storageid'],
 				],
 				'primaryKeys' => [
 					['igin_pk', 'iginid']
@@ -1801,7 +1808,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['igin_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1863,8 +1870,8 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_total' => $this->decimal('28,8')->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['igrn_storageid_idx', 'storageid'],
-					['igrn_vendorid_idx', 'vendorid'],
+					['storageid', 'storageid'],
+					['vendorid', 'vendorid'],
 				],
 				'primaryKeys' => [
 					['igrn_pk', 'igrnid']
@@ -1890,7 +1897,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['igrn_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1943,9 +1950,9 @@ class Base1 extends \App\Db\Importers\Base
 					'igrnid' => $this->integer(10),
 				],
 				'index' => [
-					['igrnc_storageid_idx', 'storageid'],
-					['igrnc_vendorid_idx', 'vendorid'],
-					['igrnc_igrnid_idx', 'igrnid'],
+					['storageid', 'storageid'],
+					['vendorid', 'vendorid'],
+					['igrnid', 'igrnid'],
 				],
 				'primaryKeys' => [
 					['igrnc_pk', 'igrncid']
@@ -1971,7 +1978,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['igrnc_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2041,7 +2048,7 @@ class Base1 extends \App\Db\Importers\Base
 					'acceptance_date' => $this->date(),
 				],
 				'index' => [
-					['iidn_idx', 'storageid'],
+					['storageid', 'storageid'],
 				],
 				'primaryKeys' => [
 					['iidn_pk', 'iidnid']
@@ -2067,7 +2074,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['iidn_inventory_pk', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2128,8 +2135,8 @@ class Base1 extends \App\Db\Importers\Base
 					'acceptance_date' => $this->date(),
 				],
 				'index' => [
-					['ipreorder_storageid_idx', 'storageid'],
-					['ipreorder_accountid_idx', 'accountid'],
+					['storageid', 'storageid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['ipreorder_pk', 'ipreorderid']
@@ -2155,7 +2162,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['ipreorder_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2219,10 +2226,10 @@ class Base1 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(10),
 				],
 				'index' => [
-					['istdn_storageid_idx', 'storageid'],
-					['istdn_accountid_idx', 'accountid'],
-					['istdn_process_idx', 'process'],
-					['istdn_subprocess_idx', 'subprocess'],
+					['storageid', 'storageid'],
+					['accountid', 'accountid'],
+					['process', 'process'],
+					['subprocess', 'subprocess'],
 				],
 				'primaryKeys' => [
 					['istdn_pk', 'istdnid']
@@ -2248,7 +2255,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['istdn_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2333,7 +2340,7 @@ class Base1 extends \App\Db\Importers\Base
 					'parentid' => $this->integer(10),
 				],
 				'index' => [
-					['istorages_idx', 'parentid'],
+					['parentid', 'parentid'],
 				],
 				'primaryKeys' => [
 					['istorages_pk', 'istorageid']
@@ -2369,8 +2376,8 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyinstock' => $this->decimal('25,3'),
 				],
 				'index' => [
-					['istorages_products_crmid_idx', 'crmid'],
-					['istorages_products_rel_idx', 'relcrmid'],
+					['crmid', 'crmid'],
+					['relcrmid', 'relcrmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2399,10 +2406,10 @@ class Base1 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(10),
 				],
 				'index' => [
-					['istrn_storageid_idx', 'storageid'],
-					['istrn_vendorid_idx', 'vendorid'],
-					['istrn_process_idx', 'process'],
-					['istrn_subprocess_idx', 'subprocess'],
+					['storageid', 'storageid'],
+					['vendorid', 'vendorid'],
+					['process', 'process'],
+					['subprocess', 'subprocess'],
 				],
 				'primaryKeys' => [
 					['istrn_pk', 'istrnid']
@@ -2428,7 +2435,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['istrn_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2512,8 +2519,8 @@ class Base1 extends \App\Db\Importers\Base
 					'users' => $this->text()->notNull(),
 				],
 				'index' => [
-					['mail_address_book_email_idx', ['email', 'name']],
-					['mail_address_book_id_idx', 'id'],
+					['email', ['email', 'name']],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2526,9 +2533,9 @@ class Base1 extends \App\Db\Importers\Base
 					'params' => $this->text()->notNull(),
 				],
 				'index' => [
-					['mail_autologin_ruid_idx', 'ruid'],
-					['mail_autologin_cuid_idx', 'cuid'],
-					['mail_autologin_key_idx', 'key'],
+					['ruid', 'ruid'],
+					['cuid', 'cuid'],
+					['key', 'key'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2540,7 +2547,7 @@ class Base1 extends \App\Db\Importers\Base
 					'data' => $this->text()->notNull(),
 				],
 				'index' => [
-					['mail_compose_data_idx', ['userid', 'key'], true],
+					['userid', ['userid', 'key'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2557,9 +2564,9 @@ class Base1 extends \App\Db\Importers\Base
 					'subprocess' => $this->integer(10),
 				],
 				'index' => [
-					['notification_link_idx', 'link'],
-					['notification_process_idx', 'process'],
-					['notification_subprocess_idx', 'subprocess'],
+					['link', 'link'],
+					['process', 'process'],
+					['subprocess', 'subprocess'],
 				],
 				'primaryKeys' => [
 					['notification_pk', 'notificationid']
@@ -2575,8 +2582,8 @@ class Base1 extends \App\Db\Importers\Base
 					'lon' => $this->decimal('10,7'),
 				],
 				'index' => [
-					['openstreetmap_lat_idx', ['lat', 'lon']],
-					['openstreetmap_crmid_idx', ['crmid', 'type']],
+					['u_yf_openstreetmap_lat_lon', ['lat', 'lon']],
+					['crmid_type', ['crmid', 'type']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2595,7 +2602,7 @@ class Base1 extends \App\Db\Importers\Base
 					'crmids' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-					['openstreetmap_cache_idx', ['user_id', 'module_name']],
+					['u_yf_openstreetmap_cache_user_id_module_name_idx', ['user_id', 'module_name']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2607,7 +2614,7 @@ class Base1 extends \App\Db\Importers\Base
 					'address' => $this->text()->notNull(),
 				],
 				'index' => [
-					['openstreetmap_record_updater_idx', ['crmid', 'type']],
+					['crmid', ['crmid', 'type']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2689,7 +2696,7 @@ class Base1 extends \App\Db\Importers\Base
 					'time' => $this->dateTime(),
 				],
 				'index' => [
-					['reviewed_queue_idx', 'userid'],
+					['userid', 'userid'],
 				],
 				'primaryKeys' => [
 					['reviewed_queue_pk', 'id']
@@ -2714,9 +2721,9 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_margin' => $this->decimal('28,8'),
 				],
 				'index' => [
-					['scalculations_salesprocessid_idx', 'salesprocessid'],
-					['scalculations_accountid_idx', 'accountid'],
-					['scalculations_srequirementscardsid_idx', 'srequirementscardsid'],
+					['salesprocessid', 'salesprocessid'],
+					['accountid', 'accountid'],
+					['srequirementscardsid', 'srequirementscardsid'],
 				],
 				'primaryKeys' => [
 					['scalculations_pk', 'scalculationsid']
@@ -2744,7 +2751,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['scalculations_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2807,8 +2814,8 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-					['squoteenquiries_salesprocessid_idx', 'salesprocessid'],
-					['squoteenquiries_accountid_idx', 'accountid'],
+					['salesprocessid', 'salesprocessid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['squoteenquiries_pk', 'squoteenquiriesid']
@@ -2831,7 +2838,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['squoteenquiries_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2902,9 +2909,9 @@ class Base1 extends \App\Db\Importers\Base
 					'valid_until' => $this->date(),
 				],
 				'index' => [
-					['squotes_salesprocessid_idx', 'salesprocessid'],
-					['squotes_scalculationsid_idx', 'scalculationsid'],
-					['squotes_accountid_idx', 'accountid'],
+					['salesprocessid', 'salesprocessid'],
+					['scalculationsid', 'scalculationsid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['squotes_pk', 'squotesid']
@@ -2976,7 +2983,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['squotes_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3044,9 +3051,9 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-					['srecurringorders_salesprocessid_idx', 'salesprocessid'],
-					['srecurringorders_squotesid_idx', 'squotesid'],
-					['srecurringorders_accountid_idx', 'accountid'],
+					['salesprocessid', 'salesprocessid'],
+					['squotesid', 'squotesid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['srecurringorders_pk', 'srecurringordersid']
@@ -3107,7 +3114,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['srecurringorders_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3171,9 +3178,9 @@ class Base1 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-					['srequirementscards_salesprocessid_idx', 'salesprocessid'],
-					['srequirementscards_accountid_idx', 'accountid'],
-					['srequirementscards_quoteenquiryid_idx', 'quoteenquiryid'],
+					['salesprocessid', 'salesprocessid'],
+					['accountid', 'accountid'],
+					['quoteenquiryid', 'quoteenquiryid'],
 				],
 				'primaryKeys' => [
 					['srequirementscards_pk', 'srequirementscardsid']
@@ -3196,7 +3203,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['srequirementscards_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3267,10 +3274,10 @@ class Base1 extends \App\Db\Importers\Base
 					'startdate' => $this->date(),
 				],
 				'index' => [
-					['ssalesprocesses_rel_idx', 'related_to'],
-					['ssalesprocesses_cam_idx', 'campaignid'],
-					['ssalesprocesses_parent_idx', 'parentid'],
-					['ssalesprocesses_no_idx', 'ssalesprocesses_no'],
+					['related_to', 'related_to'],
+					['campaignid', 'campaignid'],
+					['parentid', 'parentid'],
+					['ssalesprocesses_no', 'ssalesprocesses_no'],
 				],
 				'primaryKeys' => [
 					['ssalesprocesses_pk', 'ssalesprocessesid']
@@ -3312,9 +3319,9 @@ class Base1 extends \App\Db\Importers\Base
 					'ssingleorders_source' => $this->stringType()->defaultValue(''),
 				],
 				'index' => [
-					['ssingleorders_salesprocessid_idx', 'salesprocessid'],
-					['ssingleorders_squotesid_idx', 'squotesid'],
-					['ssingleorders_accountid_idx', 'accountid'],
+					['salesprocessid', 'salesprocessid'],
+					['squotesid', 'squotesid'],
+					['accountid', 'accountid'],
 				],
 				'primaryKeys' => [
 					['ssingleorders_pk', 'ssingleordersid']
@@ -3386,7 +3393,7 @@ class Base1 extends \App\Db\Importers\Base
 					'qtyparam' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['ssingleorders_inventory_idx', 'id'],
+					['id', 'id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3549,7 +3556,7 @@ class Base1 extends \App\Db\Importers\Base
 					'lock' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['watchdog_module_idx', 'member'],
+					['userid', 'member'],
 				],
 				'primaryKeys' => [
 					['watchdog_module_pk', ['member', 'module']]
@@ -3567,9 +3574,9 @@ class Base1 extends \App\Db\Importers\Base
 					'state' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['watchdog_record_userid_idx', 'userid'],
-					['watchdog_record_record_idx', 'record'],
-					['watchdog_record_state_idx', ['userid', 'record', 'state']],
+					['userid', 'userid'],
+					['record', 'record'],
+					['userid_2', ['userid', 'record', 'state']],
 				],
 				'primaryKeys' => [
 					['watchdog_record_pk', ['userid', 'record']]

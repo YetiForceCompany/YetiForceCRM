@@ -18,7 +18,7 @@ class Admin extends \App\Db\Importers\Base
 		$this->tables = [
 			'a_#__adv_permission' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'name' => $this->stringType()->notNull(),
 					'tabid' => $this->smallInteger(5),
 					'status' => $this->smallInteger(1)->unsigned()->notNull(),
@@ -33,7 +33,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull(),
 				],
 				'index' => [
-					['adv_permission_idx', 'tabid'],
+					['tabid', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -67,7 +67,7 @@ class Admin extends \App\Db\Importers\Base
 					'blocked' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['bruteforce_blocked_idx', ['ip', 'time', 'blocked']],
+					['bf1_mixed', ['ip', 'time', 'blocked']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -95,7 +95,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__discounts_global' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
@@ -116,7 +116,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__inventory_limits' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->integer(10)->unsigned()->notNull(),
@@ -125,7 +125,7 @@ class Admin extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['inventory_limits_idx', 'status'],
+					['status', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -144,9 +144,9 @@ class Admin extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->unsigned()->defaultValue(0),
 				],
 				'index' => [
-					['mapped_config_tabid_idx', 'tabid'],
-					['mapped_config_reltabid_idx', 'reltabid'],
-					['mapped_config_status_idx', ['tabid', 'status']],
+					['tabid', 'tabid'],
+					['reltabid', 'reltabid'],
+					['tabid_2', ['tabid', 'status']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -161,14 +161,14 @@ class Admin extends \App\Db\Importers\Base
 					'default' => $this->stringType(),
 				],
 				'index' => [
-					['mapped_fields_idx', 'mappedid'],
+					['a_yf_mapped_fields_ibfk_1', 'mappedid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			'a_#__pdf' => [
 				'columns' => [
-					'pdfid' => $this->primaryKey()->unsigned(),
+					'pdfid' => $this->primaryKey(),
 					'module_name' => $this->stringType(25)->notNull(),
 					'header_content' => $this->text()->notNull(),
 					'body_content' => $this->text()->notNull(),
@@ -214,8 +214,8 @@ class Admin extends \App\Db\Importers\Base
 					'one_pdf' => $this->tinyInteger(1),
 				],
 				'index' => [
-					['pdf_module_status_idx', ['module_name', 'status']],
-					['pdf_module_idx', 'module_name'],
+					['module_name', ['module_name', 'status']],
+					['module_name_2', 'module_name'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -230,7 +230,7 @@ class Admin extends \App\Db\Importers\Base
 					'sequence' => $this->tinyInteger(1),
 				],
 				'index' => [
-					['relatedlists_inv_fields_id_idx', 'relation_id'],
+					['relation_id', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -262,7 +262,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			'a_#__taxes_global' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'name' => $this->stringType(50)->notNull(),
 					'value' => $this->decimal('5,2')->unsigned()->notNull()->defaultValue(0),
 					'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
@@ -291,15 +291,12 @@ class Admin extends \App\Db\Importers\Base
 					'active' => $this->tinyInteger(1)->defaultValue(1),
 					'user_limit' => $this->tinyInteger(1),
 				],
-				'index' => [
-					['automatic_assignment_idx', 'tabid'],
-				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			's_#__companies' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'name' => $this->stringType(100)->notNull(),
 					'short_name' => $this->stringType(100),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -347,7 +344,7 @@ class Admin extends \App\Db\Importers\Base
 			],
 			's_#__mail_queue' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'smtp_id' => $this->integer(6)->unsigned()->notNull()->defaultValue(1),
 					'date' => $this->dateTime()->notNull(),
 					'owner' => $this->integer(10)->notNull(),
@@ -366,7 +363,7 @@ class Admin extends \App\Db\Importers\Base
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
 				],
 				'index' => [
-					['mail_queue_smtp_id_idx', 'smtp_id'],
+					['smtp_id', 'smtp_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -377,14 +374,14 @@ class Admin extends \App\Db\Importers\Base
 					'crmid' => $this->integer(10)->unsigned()->notNull(),
 				],
 				'index' => [
-					['mail_updater_idx', 'tabid'],
+					['tabid', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			's_#__mail_smtp' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'mailer_type' => $this->stringType(10)->defaultValue('smtp'),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType()->notNull(),
@@ -429,14 +426,14 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['multireference_idx', ['source_module', 'dest_module']],
+					['source_module', ['source_module', 'dest_module']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
 			's_#__pbx' => [
 				'columns' => [
-					'pbxid' => $this->primaryKey()->unsigned(),
+					'pbxid' => $this->primaryKey(),
 					'default' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'name' => $this->stringType(50),
 					'type' => $this->stringType(50),
@@ -460,8 +457,8 @@ class Admin extends \App\Db\Importers\Base
 					'type' => $this->tinyInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['privileges_updater_module_idx', ['module', 'crmid', 'type'], true],
-					['privileges_updater_crmid_idx', 'crmid'],
+					['module', ['module', 'crmid', 'type'], true],
+					['crmid', 'crmid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

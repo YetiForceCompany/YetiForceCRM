@@ -61,7 +61,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_relatedlists' => [
 				'columns' => [
-					'relation_id' => $this->primaryKey()->unsigned(),
+					'relation_id' => $this->primaryKey(),
 					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'related_tabid' => $this->smallInteger(5)->unsigned()->notNull(),
 					'name' => $this->stringType(50),
@@ -81,11 +81,11 @@ class Base4 extends \App\Db\Importers\Base
 					'relation_comment' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['relatedlists_tabid_idx', 'tabid'],
-					['relatedlists_reltab_idx', 'related_tabid'],
-					['relatedlists_tabid_2_idx', ['tabid', 'related_tabid']],
-					['relatedlists_label_idx', ['tabid', 'related_tabid', 'label']],
-					['relatedlists_pres_idx', ['tabid', 'related_tabid', 'presence']],
+					['tabid', 'tabid'],
+					['related_tabid', 'related_tabid'],
+					['tabid_2', ['tabid', 'related_tabid']],
+					['tabid_3', ['tabid', 'related_tabid', 'label']],
+					['tabid_4', ['tabid', 'related_tabid', 'presence']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -98,7 +98,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sequence' => $this->integer(10),
 				],
 				'index' => [
-					['relatedlists_fields_idx', 'relation_id'],
+					['relation_id', 'relation_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -130,7 +130,7 @@ class Base4 extends \App\Db\Importers\Base
 					'condition_expression' => $this->text(),
 				],
 				'index' => [
-					['relcriteria_grouping_idx', 'queryid'],
+					['queryid', 'queryid'],
 				],
 				'primaryKeys' => [
 					['relcriteria_grouping_pk', ['groupid', 'queryid']]
@@ -222,7 +222,7 @@ class Base4 extends \App\Db\Importers\Base
 					'dategroupbycriteria' => $this->stringType(250),
 				],
 				'index' => [
-					['reportgroupbycolumn_idx', 'reportid'],
+					['fk_1_vtiger_reportgroupbycolumn', 'reportid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -256,7 +256,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sortorder' => $this->stringType(250)->defaultValue('Asc'),
 				],
 				'index' => [
-					['reportsortcol_idx', 'reportid'],
+					['fk_1_vtiger_reportsortcol', 'reportid'],
 				],
 				'primaryKeys' => [
 					['reportsortcol_pk', ['sortcolid', 'reportid']]
@@ -370,8 +370,8 @@ class Base4 extends \App\Db\Importers\Base
 					'auto_assign' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['role_parent_idx', 'parentrole'],
-					['role_depth_idx', ['parentrole', 'depth']],
+					['parentrole', 'parentrole'],
+					['parentrole_2', ['parentrole', 'depth']],
 				],
 				'primaryKeys' => [
 					['role_pk', 'roleid']
@@ -388,7 +388,7 @@ class Base4 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['role2picklist_roleid_picklistid_idx', ['roleid', 'picklistid', 'picklistvalueid']],
-					['role2picklist_idx', 'picklistid'],
+					['fk_2_vtiger_role2picklist', 'picklistid'],
 				],
 				'primaryKeys' => [
 					['role2picklist_pk', ['roleid', 'picklistvalueid', 'picklistid']]
@@ -403,8 +403,8 @@ class Base4 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['role2profile_roleid_profileid_idx', ['roleid', 'profileid']],
-					['role2profile_id_idx', 'roleid'],
-					['role2profile_profile_idx', 'profileid'],
+					['roleid', 'roleid'],
+					['profileid', 'profileid'],
 				],
 				'primaryKeys' => [
 					['role2profile_pk', ['roleid', 'profileid']]
@@ -535,7 +535,7 @@ class Base4 extends \App\Db\Importers\Base
 					'filetype' => $this->stringType(20),
 				],
 				'index' => [
-					['schedulereports_idx', 'reportid'],
+					['reportid', 'reportid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -706,7 +706,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 				],
 				'index' => [
-					['servicecontracts_idx', 'sc_related_to'],
+					['sc_related_to', 'sc_related_to'],
 				],
 				'primaryKeys' => [
 					['servicecontracts_pk', 'servicecontractsid']
@@ -779,7 +779,7 @@ class Base4 extends \App\Db\Importers\Base
 					'admin_access' => $this->text(),
 				],
 				'index' => [
-					['settings_field_idx', 'blockid'],
+					['fk_1_vtiger_settings_field', 'blockid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -816,7 +816,7 @@ class Base4 extends \App\Db\Importers\Base
 					'onetime' => $this->integer(5),
 				],
 				'index' => [
-					['shorturls_idx', 'uid'],
+					['uid', 'uid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -864,7 +864,7 @@ class Base4 extends \App\Db\Importers\Base
 					'lang' => $this->stringType(10),
 				],
 				'index' => [
-					['soapservice_idx', ['id', 'type']],
+					['id', ['id', 'type']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1153,9 +1153,9 @@ class Base4 extends \App\Db\Importers\Base
 					['tab_name_idx', 'name', true],
 					['tab_modifiedby_idx', 'modifiedby'],
 					['tab_tabid_idx', 'tabid'],
-					['tab_name_presence_idx', ['name', 'presence']],
-					['tab_presence_idx', 'presence'],
-					['tab_idx', ['name', 'presence', 'type']],
+					['name', ['name', 'presence']],
+					['presence', 'presence'],
+					['name_2', ['name', 'presence', 'type']],
 				],
 				'primaryKeys' => [
 					['tab_pk', 'tabid']
@@ -1170,7 +1170,7 @@ class Base4 extends \App\Db\Importers\Base
 					'prefvalue' => $this->stringType(256),
 				],
 				'index' => [
-					['tab_info_idx', 'tabid'],
+					['fk_1_vtiger_tab_info', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1302,7 +1302,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_read_group_rel_sharing_per_idx', ['userid', 'sharedgroupid', 'tabid']],
+					['tmp_read_group_rel_sharing_per_userid_sharedgroupid_tabid', ['userid', 'sharedgroupid', 'tabid']],
 				],
 				'primaryKeys' => [
 					['tmp_read_group_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'sharedgroupid']]
@@ -1317,7 +1317,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_read_group_sharing_per_idx', ['userid', 'sharedgroupid']],
+					['tmp_read_group_sharing_per_userid_sharedgroupid_idx', ['userid', 'sharedgroupid']],
 				],
 				'primaryKeys' => [
 					['tmp_read_group_sharing_per_pk', ['userid', 'tabid', 'sharedgroupid']]
@@ -1333,7 +1333,7 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_read_user_rel_sharing_per_idx', ['userid', 'shareduserid', 'relatedtabid']],
+					['tmp_read_user_rel_sharing_per_userid_shared_reltabid_idx', ['userid', 'shareduserid', 'relatedtabid']],
 				],
 				'primaryKeys' => [
 					['tmp_read_user_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'shareduserid']]
@@ -1348,7 +1348,7 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_read_user_sharing_per_idx', ['userid', 'shareduserid']],
+					['tmp_read_user_sharing_per_userid_shareduserid_idx', ['userid', 'shareduserid']],
 				],
 				'primaryKeys' => [
 					['tmp_read_user_sharing_per_pk', ['userid', 'tabid', 'shareduserid']]
@@ -1364,7 +1364,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_write_group_rel_sharing_per_idx', ['userid', 'sharedgroupid', 'tabid']],
+					['tmp_write_group_rel_sharing_per_userid_sharedgroupid_tabid_idx', ['userid', 'sharedgroupid', 'tabid']],
 				],
 				'primaryKeys' => [
 					['tmp_write_group_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'sharedgroupid']]
@@ -1379,7 +1379,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sharedgroupid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_write_group_sharing_per_idx', ['userid', 'sharedgroupid']],
+					['tmp_write_group_sharing_per_UK1', ['userid', 'sharedgroupid']],
 				],
 				'primaryKeys' => [
 					['tmp_write_group_sharing_per_pk', ['userid', 'tabid', 'sharedgroupid']]
@@ -1395,7 +1395,7 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_write_user_rel_sharing_per_idx', ['userid', 'shareduserid', 'tabid']],
+					['tmp_write_user_rel_sharing_per_userid_sharduserid_tabid_idx', ['userid', 'shareduserid', 'tabid']],
 				],
 				'primaryKeys' => [
 					['tmp_write_user_rel_sharing_per_pk', ['userid', 'tabid', 'relatedtabid', 'shareduserid']]
@@ -1410,7 +1410,7 @@ class Base4 extends \App\Db\Importers\Base
 					'shareduserid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['tmp_write_user_sharing_per_idx', ['userid', 'shareduserid']],
+					['tmp_write_user_sharing_per_userid_shareduserid_idx', ['userid', 'shareduserid']],
 				],
 				'primaryKeys' => [
 					['tmp_write_user_sharing_per_pk', ['userid', 'tabid', 'shareduserid']]
@@ -1465,8 +1465,8 @@ class Base4 extends \App\Db\Importers\Base
 					'depth' => $this->tinyInteger(3)->unsigned()->notNull(),
 				],
 				'index' => [
-					['trees_templates_data_id_idx', 'templateid'],
-					['trees_templates_data_idx', ['parenttrre', 'templateid']],
+					['id', 'templateid'],
+					['parenttrre', ['parenttrre', 'templateid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1500,11 +1500,11 @@ class Base4 extends \App\Db\Importers\Base
 				'index' => [
 					['troubletickets_ticketid_idx', 'ticketid'],
 					['troubletickets_status_idx', 'status'],
-					['troubletickets_parent_idx', 'parent_id'],
-					['troubletickets_product_idx', 'product_id'],
-					['troubletickets_serv_idx', 'servicecontractsid'],
-					['troubletickets_sold_idx', 'pssold_id'],
-					['troubletickets_ticket_no_idx', 'ticket_no'],
+					['parent_id', 'parent_id'],
+					['product_id', 'product_id'],
+					['servicecontractsid', 'servicecontractsid'],
+					['pssold_id', 'pssold_id'],
+					['ticket_no', 'ticket_no'],
 				],
 				'primaryKeys' => [
 					['troubletickets_pk', 'ticketid']
@@ -1541,7 +1541,7 @@ class Base4 extends \App\Db\Importers\Base
 					'visible' => $this->integer(2),
 				],
 				'index' => [
-					['user2mergefields_idx', ['userid', 'tabid']],
+					['userid_tabid_idx', ['userid', 'tabid']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1567,7 +1567,7 @@ class Base4 extends \App\Db\Importers\Base
 					'default_cvid' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['user_module_preferences_idx', 'tabid'],
+					['fk_2_vtiger_user_module_preferences', 'tabid'],
 				],
 				'primaryKeys' => [
 					['user_module_preferences_pk', ['userid', 'tabid']]
@@ -1648,10 +1648,10 @@ class Base4 extends \App\Db\Importers\Base
 					'auto_assign' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['users_email1_idx', 'email1', true],
+					['email1', 'email1', true],
 					['user_user_name_idx', 'user_name'],
 					['user_user_password_idx', 'user_password'],
-					['users_status_idx', 'status'],
+					['status', 'status'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1663,7 +1663,7 @@ class Base4 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['users2group_groupname_uerid_idx', ['groupid', 'userid']],
-					['users2group_idx', 'userid'],
+					['fk_2_vtiger_users2group', 'userid'],
 				],
 				'primaryKeys' => [
 					['users2group_pk', ['groupid', 'userid']]
@@ -1680,7 +1680,7 @@ class Base4 extends \App\Db\Importers\Base
 					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
 				],
 				'index' => [
-					['users_last_import_idx', 'assigned_user_id'],
+					['idx_user_id', 'assigned_user_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1724,7 +1724,7 @@ class Base4 extends \App\Db\Importers\Base
 					'active' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['vendor_idx', 'vendorname'],
+					['vendorname', 'vendorname'],
 				],
 				'primaryKeys' => [
 					['vendor_pk', 'vendorid']
@@ -1871,7 +1871,7 @@ class Base4 extends \App\Db\Importers\Base
 					'nomargin' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['widgets_tabid_idx', 'tabid'],
+					['tabid', 'tabid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1895,7 +1895,7 @@ class Base4 extends \App\Db\Importers\Base
 					'fieldtype' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-					['ws_entity_fieldtype_idx', ['table_name', 'field_name'], true],
+					['vtiger_idx_1_tablename_fieldname', ['table_name', 'field_name'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1968,7 +1968,7 @@ class Base4 extends \App\Db\Importers\Base
 					'fieldtype' => $this->stringType(200)->notNull(),
 				],
 				'index' => [
-					['ws_fieldtype_idx', 'uitype', true],
+					['uitype_idx', 'uitype', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1993,7 +1993,7 @@ class Base4 extends \App\Db\Importers\Base
 					'sequence' => $this->integer(10)->notNull(),
 				],
 				'primaryKeys' => [
-					['ws_operation_parameters_idx', ['operationid', 'name']]
+					['ws_operation_parameters_pk', ['operationid', 'name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2011,7 +2011,7 @@ class Base4 extends \App\Db\Importers\Base
 					'type' => $this->stringType(25)->notNull(),
 				],
 				'index' => [
-					['ws_referencetype_idx', 'fieldtypeid'],
+					['fieldtypeid', 'fieldtypeid'],
 				],
 				'primaryKeys' => [
 					['ws_referencetype_pk', ['fieldtypeid', 'type']]
@@ -2026,7 +2026,7 @@ class Base4 extends \App\Db\Importers\Base
 					'expiretime' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['ws_userauthtoken_idx', 'userid', true],
+					['userid_idx', 'userid', true],
 				],
 				'primaryKeys' => [
 					['ws_userauthtoken_pk', ['userid', 'expiretime']]
@@ -2036,13 +2036,13 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'yetiforce_auth' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'type' => $this->stringType(20),
 					'param' => $this->stringType(20),
 					'value' => $this->text(),
 				],
 				'index' => [
-					['yetiforce_auth_idx', ['type', 'param'], true],
+					['type', ['type', 'param'], true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2057,8 +2057,8 @@ class Base4 extends \App\Db\Importers\Base
 					'bank_id' => $this->integer(10)->notNull(),
 				],
 				'index' => [
-					['yetiforce_currencyupdate_idx', ['currency_id', 'exchange_date', 'bank_id'], true],
-					['yetiforce_currencyupdate_cur_idx', 'currency_id'],
+					['fetchdate_currencyid_unique', ['currency_id', 'exchange_date', 'bank_id'], true],
+					['fk_1_vtiger_osscurrencies', 'currency_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2070,7 +2070,7 @@ class Base4 extends \App\Db\Importers\Base
 					'active' => $this->integer(1)->notNull(),
 				],
 				'index' => [
-					['currencyupdate_banks_idx', 'bank_name', true],
+					['unique_bankname', 'bank_name', true],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2082,8 +2082,8 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->text(),
 				],
 				'index' => [
-					['mail_config_idx', ['type', 'name'], true],
-					['mail_config_type_idx', 'type'],
+					['type', ['type', 'name'], true],
+					['type_2', 'type'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2105,7 +2105,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'yetiforce_menu' => [
 				'columns' => [
-					'id' => $this->primaryKey()->unsigned(),
+					'id' => $this->primaryKey(),
 					'role' => $this->integer(10),
 					'parentid' => $this->integer(10)->defaultValue(0),
 					'type' => $this->smallInteger(1),
@@ -2126,9 +2126,9 @@ class Base4 extends \App\Db\Importers\Base
 					'showicon' => $this->tinyInteger(1)->defaultValue(0),
 				],
 				'index' => [
-					['yetiforce_menu_idx', 'parentid'],
-					['yetiforce_menu_role_idx', 'role'],
-					['yetiforce_menu_mod_idx', 'module'],
+					['parent_id', 'parentid'],
+					['role', 'role'],
+					['module', 'module'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2140,7 +2140,7 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->stringType(200),
 				],
 				'index' => [
-					['proc_marketing_type', ['type', 'param']],
+					['type', ['type', 'param']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2152,7 +2152,7 @@ class Base4 extends \App\Db\Importers\Base
 					'value' => $this->stringType(200),
 				],
 				'index' => [
-					['proc_sales_idx', ['type', 'param']],
+					['type', ['type', 'param']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
