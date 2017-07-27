@@ -199,7 +199,6 @@ class Importer
 		if (isset($table['index_' . $type])) {
 			foreach ($table['index_' . $type] as $customIndex) {
 				foreach ($indexes as $key => $index) {
-					var_dump($customIndex[0], $index[0]);
 					if ($customIndex[0] === $index[0]) {
 						$this->logs .= "    > custom index, driver: $type, type: {$customIndex['0']} \n";
 						$indexes[$key] = $customIndex;
@@ -207,7 +206,6 @@ class Importer
 				}
 			}
 		}
-		echo '<hr>';
 		return $indexes;
 	}
 
