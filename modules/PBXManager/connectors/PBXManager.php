@@ -230,9 +230,7 @@ class PBXManager_PBXManager_Connector
 		}
 
 		$params['starttime'] = $details->get('StartTime');
-		$params['callstatus'] = "ringing";
-		$user = CRMEntity::getInstance('Users');
-
+		$params['callstatus'] = 'ringing';
 		$recordModel = PBXManager_Record_Model::getCleanInstance();
 		$recordModel->saveRecordWithArrray($params);
 

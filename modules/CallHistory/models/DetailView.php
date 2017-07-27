@@ -13,8 +13,6 @@ class CallHistory_DetailView_Model extends Vtiger_DetailView_Model
 	{
 		$linkTypes = array('DETAILVIEWBASIC', 'DETAILVIEW');
 		$moduleModel = $this->getModule();
-		$recordModel = $this->getRecord();
-
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.
 		//Since ui will be look ugly if you need many basic links

@@ -2571,7 +2571,6 @@ class ReportRun extends CRMEntity
 				$y = $adb->getFieldsCount($result);
 				$noofrows = $adb->num_rows($result);
 				$custom_field_values = $adb->fetch_array($result);
-				$column_definitions = $adb->getFieldsDefinition($result);
 
 				do {
 					$arraylists = [];
@@ -2846,8 +2845,6 @@ class ReportRun extends CRMEntity
 				$noofrows = $adb->num_rows($result);
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
-
-				$column_definitions = $adb->getFieldsDefinition($result);
 
 				do {
 					$arraylists = [];

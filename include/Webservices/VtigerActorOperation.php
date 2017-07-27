@@ -260,7 +260,6 @@ class VtigerActorOperation extends WebserviceEntityOperation
 
 	public function getModuleFields()
 	{
-		$app_strings = VTWS_PreserveGlobal::getGlobal('app_strings');
 		if ($this->moduleFields === null) {
 			$fields = [];
 			$moduleFields = $this->meta->getModuleFields();
