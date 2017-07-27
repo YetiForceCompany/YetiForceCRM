@@ -11,7 +11,6 @@ class OSSMailScanner
 
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$registerLink = false;
 		$adb = PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {

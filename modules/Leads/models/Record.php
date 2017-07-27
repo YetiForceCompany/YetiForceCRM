@@ -27,7 +27,6 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	public function getAccountFieldsForLeadConvert()
 	{
 		$accountsFields = [];
-		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleName = 'Accounts';
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {

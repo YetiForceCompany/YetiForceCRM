@@ -164,7 +164,6 @@ class OSSMail_Mail_Model extends \App\Base
 
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
 	{
-		$db = PearDatabase::getInstance();
 		$return = [];
 		$emails = $this->get($field);
 		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
@@ -188,8 +187,6 @@ class OSSMail_Mail_Model extends \App\Base
 				}
 
 				if ($enableFind) {
-					$instance = CRMEntity::getInstance($moduleName);
-					$table_index = $instance->table_index;
 					foreach ($emails as $email) {
 						if (empty($email)) {
 							continue;
@@ -206,7 +203,6 @@ class OSSMail_Mail_Model extends \App\Base
 							if ($queryGenerator->getModuleField($row[0])) {
 								$queryGenerator->setFields(['id']);
 								$queryGenerator->addCondition($row[0], $email, 'e');
-								$query = $queryGenerator->createQuery();
 								$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 								while (($crmid = $dataReader->readColumn(0)) !== false) {
 									$ids[] = $crmid;

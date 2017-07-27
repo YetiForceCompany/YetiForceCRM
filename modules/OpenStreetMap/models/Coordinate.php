@@ -395,7 +395,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$groupByField = $this->get('groupBy');
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
-		$params = [];
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {

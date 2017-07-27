@@ -23,7 +23,6 @@ class Module
 		if (isset(static::$permittedModules)) {
 			return static::$permittedModules;
 		}
-		$action = \Api\Controller::getAction();
 		//$permissionType = $action->getPermissionType();
 		$modules = [];
 		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {

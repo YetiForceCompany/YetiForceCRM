@@ -55,7 +55,6 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$links = parent::getListViewLinks($linkParams);
 
 		$index = 0;
