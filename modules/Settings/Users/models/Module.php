@@ -49,13 +49,16 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		return true;
 	}
 
+	/**
+	 * Save configuration about switching between users
+	 * @param array $data
+	 */
 	public function saveSwitchUsers($data)
 	{
-		$content = '<?php' . PHP_EOL . '$switchUsersRaw = [';
-		$map = [];
+		$map = $switchUsers = $switchUsersRaw = [];
 		if (!empty($data) && count($data)) {
 			foreach ($data as $row) {
-				$content .= "'" . $row['user'] . "'=>['" . implode("','", $row['access']) . "'],";
+				$switchUsersRaw [$row['user']] = $row['access'];
 				$accessList = [];
 				if (count($row['access'])) {
 					foreach ($row['access'] as $access) {
@@ -67,24 +70,25 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-		$content .= '];' . PHP_EOL . '$switchUsers = [';
 		foreach ($map as $user => $accessList) {
 			$usersForSort = [];
+			$usersForSort[$user] = $this->getUserName($user);
 			foreach ($accessList as $ID) {
 				$usersForSort[$ID] = $this->getUserName($ID);
 			}
 			asort($usersForSort);
-			$users = "$user => '" . $this->getUserName($user) . "',";
-			foreach ($usersForSort as $ID => $name) {
-				$users .= "$ID => '" . $name . "',";
-			}
-			$content .= "'$user'=>[" . rtrim($users, ',') . "],";
+			$switchUsers[$user] = $usersForSort;
 		}
-		$content .= '];';
-		$file = 'user_privileges/switchUsers.php';
-		file_put_contents($file, $content);
+		$content = '<?php' . PHP_EOL .
+				'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
+				'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
+		file_put_contents('user_privileges/switchUsers.php', $content);
 	}
 
+	/**
+	 * Returns the list of users to switch
+	 * @return array
+	 */
 	public function getSwitchUsers()
 	{
 		require('user_privileges/switchUsers.php');
@@ -130,14 +134,15 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		return $name;
 	}
 
+	/**
+	 * Refresh list users to switch
+	 */
 	public function refreshSwitchUsers()
 	{
-		$switchUsers = $this->getSwitchUsers();
-		$content = '<?php' . PHP_EOL . '$switchUsersRaw = [';
-		$map = [];
-		if (count($switchUsers)) {
-			foreach ($switchUsers as $key => $row) {
-				$content .= "'" . $key . "'=>['" . implode("','", $row) . "'],";
+		$switchUsersRaw = $this->getSwitchUsers();
+		$map = $switchUsers = [];
+		if (count($switchUsersRaw)) {
+			foreach ($switchUsersRaw as $key => $row) {
 				$accessList = [];
 				if (count($row)) {
 					foreach ($row as $access) {
@@ -149,31 +154,35 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
-		$content .= '];' . PHP_EOL . '$switchUsers = [';
 		foreach ($map as $user => $accessList) {
 			$usersForSort = [];
+			$usersForSort [$user] = $this->getUserName($user);
 			foreach ($accessList as $ID) {
 				$usersForSort[$ID] = $this->getUserName($ID);
 			}
 			asort($usersForSort);
-			$users = "$user => '" . $this->getUserName($user) . "',";
-			foreach ($usersForSort as $ID => $name) {
-				$users .= "$ID => '" . $name . "',";
-			}
-			$content .= "'$user'=>[" . rtrim($users, ',') . "],";
+			$switchUsers [$user] = $usersForSort;
 		}
-		$content .= '];';
-		$file = 'user_privileges/switchUsers.php';
-		file_put_contents($file, $content);
+		$content = '<?php' . PHP_EOL .
+				'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
+				'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
+		file_put_contents('user_privileges/switchUsers.php', $content);
 	}
 
+	/**
+	 * Function to get locks
+	 * @return array
+	 */
 	public function getLocks()
 	{
 		include('user_privileges/locks.php');
 		return $locksRaw;
 	}
 
+	/**
+	 * Return type of locks
+	 * @return string[]
+	 */
 	public function getLocksTypes()
 	{
 		return [
@@ -215,8 +224,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		$content = '<?php' . PHP_EOL .
 				'$locksRaw = ' . \vtlib\Functions::varExportMin($toSave) . ';' . PHP_EOL .
 				'$locks = ' . \vtlib\Functions::varExportMin($map) . ';';
-		$file = 'user_privileges/locks.php';
-		file_put_contents($file, $content);
+		file_put_contents('user_privileges/locks.php', $content);
 		$newValues = $this->getLocks();
 		$difference = vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);
 		if (!empty($difference)) {
