@@ -280,9 +280,9 @@ class Vtiger_Util_Helper
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 		$date = date('Y-m-d H:i:s');
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $date;
 	}
 

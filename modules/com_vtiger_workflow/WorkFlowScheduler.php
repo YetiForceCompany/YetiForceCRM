@@ -64,9 +64,9 @@ class WorkFlowScheduler
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled workflows
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date('Y-m-d H:i:s');
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
 		foreach ($scheduledWorkflows as $i => &$workflow) {
@@ -194,7 +194,7 @@ class WorkFlowScheduler
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 
 		switch ($operation) {
 			case 'less than days ago' :  //between current date and (currentdate - givenValue)
@@ -251,7 +251,7 @@ class WorkFlowScheduler
 				$value = date('Y-m-d H:i:s', strtotime('-' . $hours . ' hours'));
 				break;
 		}
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $value;
 	}
 }
