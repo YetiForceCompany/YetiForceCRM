@@ -97,6 +97,23 @@ class Updater
 	}
 
 	/**
+	 * Batch insert rows
+	 * 
+	 * $rows = [
+	 * 		['vtiger_cvcolumnlist', ['cvid' => 43]],
+	 * ];
+	 * @param array $rows
+	 */
+	public static function batchDelete($rows)
+	{
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		foreach ($rows as $row) {
+			$dbCommand->delete($row[0], $row[1])->execute();
+		}
+	}
+
+	/**
 	 * Function to add and remove cron
 	 * 
 	 * $crons = [

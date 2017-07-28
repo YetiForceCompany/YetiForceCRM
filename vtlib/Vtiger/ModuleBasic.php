@@ -151,12 +151,6 @@ class ModuleBasic
 		if ($this->isentitytype) {
 			Access::initSharing($this);
 		}
-
-		$moduleInstance = Module::getInstance($this->name);
-		$parentTab = $this->parent;
-		if (!empty($parentTab)) {
-			
-		}
 		self::log("Creating Module $this->name ... DONE");
 	}
 
