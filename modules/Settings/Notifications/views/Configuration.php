@@ -17,7 +17,6 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$srcModule = $request->get('srcModule');
 		$modules = Vtiger_Watchdog_Model::getSupportedModules();
 		if (!$request->has('srcModule')) {

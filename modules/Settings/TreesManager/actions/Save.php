@@ -23,7 +23,6 @@ class Settings_TreesManager_Save_Action extends Vtiger_Action_Controller
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$name = $request->get('name');

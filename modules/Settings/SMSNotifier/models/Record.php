@@ -74,7 +74,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$links = [];
 		$recordLinks = [
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl() . '&record=' . $this->getId(),
@@ -82,7 +82,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true
 			],
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
@@ -208,7 +208,6 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getModule()->getName(true);
-		$fieldsLabel = $this->getEditFields();
 		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fields[$name], 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
 			case 'providertype':

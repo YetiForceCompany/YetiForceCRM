@@ -39,7 +39,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$db = PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
-		$idColName = $fieldName . 'id';
 		$query = 'SELECT %s';
 		if ($intersectionMode) {
 			$query .= ',count(roleid) as rolecount ';

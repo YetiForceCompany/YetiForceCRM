@@ -72,8 +72,6 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
 		);
