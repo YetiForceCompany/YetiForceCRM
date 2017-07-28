@@ -34,9 +34,6 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 
 	public function getEvent(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$id = $request->get('id');
-
 		$record = Reservations_Calendar_Model::getInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));

@@ -62,7 +62,6 @@ class Settings_AutomaticAssignment_Edit_View extends Settings_Vtiger_Index_View
 		if ($conditions) {
 			$conditions = \App\Json::decode($conditions);
 		}
-		$criteria = Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($conditions);
 		$viewer->assign('ADVANCE_CRITERIA', Vtiger_AdvancedFilter_Helper::transformToAdvancedFilterCondition($conditions));
 
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));

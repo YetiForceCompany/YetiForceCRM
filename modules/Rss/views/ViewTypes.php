@@ -52,7 +52,6 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 	public function getRssAddForm(\App\Request $request)
 	{
 		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$this->preProcess($request);

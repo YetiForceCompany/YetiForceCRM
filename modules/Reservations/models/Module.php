@@ -16,7 +16,6 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = [];
 
 		$quickLinks = [
