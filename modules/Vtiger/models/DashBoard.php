@@ -125,7 +125,6 @@ class Vtiger_DashBoard_Model extends \App\Base
 	 */
 	public function getDefaultWidgets()
 	{
-		$moduleModel = $this->getModule();
 		$widgets = [];
 
 		return $widgets;

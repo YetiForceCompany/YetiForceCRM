@@ -39,7 +39,6 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	public function getOwners(\App\Request $request)
 	{
 		$searchValue = $request->get('value');
-		$type = $request->get('type');
 		if ($request->has('result')) {
 			$result = $request->get('result');
 		} else {

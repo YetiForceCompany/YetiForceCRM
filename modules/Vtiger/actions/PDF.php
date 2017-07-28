@@ -142,9 +142,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 						$pdf->setLanguage($template->get('language'));
 						vglobal('default_language', $template->get('language'));
 
-						// building parameters
-						$parameters = $template->getParameters();
-
 						$styles .= " @page template_{$record}_{$id} {
 							sheet-size: {$template->getFormat()};
 							margin-top: {$template->get('margin_top')}mm;

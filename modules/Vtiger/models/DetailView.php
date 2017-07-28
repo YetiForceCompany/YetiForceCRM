@@ -235,7 +235,6 @@ class Vtiger_DetailView_Model extends \App\Base
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
@@ -334,8 +333,6 @@ class Vtiger_DetailView_Model extends \App\Base
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$moduleLinks = $this->getModule()->getSideBarLinks($linkTypes);
 

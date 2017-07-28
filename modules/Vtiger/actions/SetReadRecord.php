@@ -23,9 +23,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordModel = $this->saveRecord($request);
+		$this->saveRecord($request);
 
 		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();

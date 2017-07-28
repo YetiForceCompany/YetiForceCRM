@@ -80,7 +80,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private function getSector($sectors, $value)
 	{
 		$sectorId = false;
-		$countSectors = count($sectors);
 		foreach ($sectors as $key => $sector) {
 			if ($value <= $sector) {
 				$sectorId = $key;
