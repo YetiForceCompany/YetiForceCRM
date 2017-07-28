@@ -31,7 +31,6 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$records = $request->get('records');
 		$template = $request->get('template');
 		$targetModuleName = $request->get('target');

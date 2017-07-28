@@ -51,7 +51,6 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleName = $request->get('source_module');
 		$query = $this->getExportQuery($request);
 
@@ -134,8 +133,6 @@ class Vtiger_Export_Model extends \App\Base
 			$queryGenerator->initForCustomViewById($cvId);
 		}
 		$fieldInstances = $this->moduleFieldInstances;
-
-		$accessiblePresenceValue = [0, 2];
 		$fields[] = 'id';
 		foreach ($fieldInstances as &$fieldModel) {
 			// Check added as querygenerator is not checking this for admin users
@@ -230,7 +227,6 @@ class Vtiger_Export_Model extends \App\Base
 	public function sanitizeValues($arr)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$roleid = $currentUser->get('roleid');
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {

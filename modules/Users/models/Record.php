@@ -76,7 +76,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getPreferenceDetailViewUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=' . $this->getModuleName() . '&view=PreferenceDetail&record=' . $this->getId();
 	}
 
@@ -86,7 +85,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getProfileUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=Users&view=ChangePassword&mode=Profile';
 	}
 

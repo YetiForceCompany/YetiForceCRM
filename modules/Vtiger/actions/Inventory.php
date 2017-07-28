@@ -99,7 +99,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	{
 		$record = $request->get('record');
 		$recordModule = $request->get('recordModule');
-		$moduleName = $request->getModule();
 		$unitPriceValues = false;
 
 		if (in_array($recordModule, ['Products', 'Services'])) {
