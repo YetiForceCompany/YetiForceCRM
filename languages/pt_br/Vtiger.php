@@ -1609,4 +1609,9 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => 'Tem certeza que deseja redefinir os e-mails relacionados novamente?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Tem certeza que desena revisar as alterações nos registros selecioandos?',
 	'JS_MARKED_AS_READ' => 'Marcar como lido',
+	'JS_LAST_7_DAYS' => 'Last 7 days',
+ 	'JS_LAST_30_DAYS' => 'Last 30 days',
+ 	'JS_CURRENT_MONTH' => 'Current month',
+ 	'JS_LAST_MONTH' => 'Last month',
+ 	'JS_CUSTOM' => 'Custom date range',
 ];
