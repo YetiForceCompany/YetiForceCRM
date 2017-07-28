@@ -70,8 +70,6 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = [
 			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'

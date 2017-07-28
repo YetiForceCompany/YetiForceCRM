@@ -35,7 +35,6 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	public function updateModuleStatus(\App\Request $request)
 	{
 		$moduleName = $request->get('forModule');
-		$updateStatus = $request->get('updateStatus');
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		$response = new Vtiger_Response();
 		try {
@@ -134,7 +133,6 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function createModule(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$formData = $request->get('formData');
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		$result = array('success' => true, 'text' => ucfirst($formData['module_name']));

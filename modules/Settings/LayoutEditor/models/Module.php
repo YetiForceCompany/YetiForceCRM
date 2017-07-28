@@ -556,7 +556,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
-		$modulesList = [];
 		while ($row = $dataReader->read()) {
 			$treeList[$row['templateid']] = $row['name'];
 		}
