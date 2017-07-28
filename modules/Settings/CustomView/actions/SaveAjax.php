@@ -57,6 +57,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function setFilterPermissions(\App\Request $request)
 	{
 		$params = $request->get('param');
+		Settings_CustomView_Module_Model::upadteSequences($params);
 		$type = $request->get('type');
 		if ($type == 'default') {
 			$result = Settings_CustomView_Module_Model::setDefaultUsersFilterView($params['tabid'], $params['cvid'], $params['user'], $params['action']);
