@@ -144,7 +144,6 @@ class VTScheduledReport extends Reports
 		if ($reportFormat === 'pdf' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.pdf';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$filePath] = $fileName;
 		}
 		if ($reportFormat === 'excel' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.xls';
