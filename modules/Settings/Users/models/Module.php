@@ -99,12 +99,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			return self::$usersID[$data];
 		}
 		if (substr($data, 0, 1) === 'H') {
-			$db = PearDatabase::getInstance();
-			$return = [];
-			$result = $db->pquery('SELECT userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid WHERE roleid = ? AND deleted=0 AND status <> ?', [$data, 'Inactive']);
-			while ($userid = $db->getSingleValue($result)) {
-				$return[] = $userid;
-			}
+			$return = (new \App\Db\Query())->select(['userid'])
+					->from('vtiger_user2role')
+					->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
+					->where(['and', ['roleid' => $data], ['<>', 'status', 'Inactive']])
+					->column();
 		} else {
 			$return = [(int) $data];
 		}
@@ -187,13 +186,16 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		];
 	}
 
+	/**
+	 * Function to save locks for users
+	 * @param array $data
+	 */
 	public function saveLocks($data)
 	{
 		$oldValues = $this->getLocks();
-		$content = '<?php' . PHP_EOL . '$locksRaw = [';
 		$map = $toSave = [];
 		if (!empty($data)) {
-			foreach ($data as &$row) {
+			foreach ($data as $row) {
 				if (empty($row['locks'])) {
 					continue;
 				}
@@ -205,23 +207,14 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			foreach ($toSave as $user => &$locks) {
 				$locks = array_unique($locks);
-				$content .= "'" . $user . "'=>['" . implode("','", $locks) . "'],";
 				foreach ($this->getUserID($user) as $userID) {
 					$map[$userID] = array_merge(isset($map[$userID]) ? $map[$userID] : [], $locks);
 				}
 			}
 		}
-		$content = rtrim($content, ',');
-		$content .= '];' . PHP_EOL . '$locks = [';
-		foreach ($map as $user => &$lockList) {
-			$userLocks = '';
-			foreach ($lockList as $name) {
-				$userLocks .= "'" . $name . "',";
-			}
-			$content .= "$user=>[" . rtrim($userLocks, ',') . "],";
-		}
-		$content = rtrim($content, ',');
-		$content .= '];';
+		$content = '<?php' . PHP_EOL .
+				'$locksRaw = ' . \vtlib\Functions::varExportMin($toSave) . ';' . PHP_EOL .
+				'$locks = ' . \vtlib\Functions::varExportMin($map) . ';';
 		$file = 'user_privileges/locks.php';
 		file_put_contents($file, $content);
 		$newValues = $this->getLocks();
@@ -234,10 +227,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					$name = Settings_Roles_Record_Model::getInstanceById($id);
 				}
 				$name = $name->getName();
-				if ($oldValues[$id])
+				if ($oldValues[$id]) {
 					$prev[$name] = implode(',', $oldValues[$id]);
-				else
+				} else {
 					$prev[$name] = '';
+				}
 				$post[$name] = implode(',', $newValues[$id]);
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
@@ -254,10 +248,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$name = $name->getName();
 				$prev[$name] = implode(',', $oldValues[$id]);
-				if ($newValues[$id])
+				if ($newValues[$id]) {
 					$post[$name] = implode(',', $newValues[$id]);
-				else
+				} else {
 					$post[$name] = '';
+				}
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
 		}
