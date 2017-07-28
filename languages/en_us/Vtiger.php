@@ -1619,4 +1619,9 @@ $jsLanguageStrings = [
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 	'JS_MARKED_AS_READ' => 'Marked as read',
 	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'At least one of the attached files is too large',
+	'JS_LAST_7_DAYS' => 'Last 7 days',
+ 	'JS_LAST_30_DAYS' => 'Last 30 days',
+ 	'JS_CURRENT_MONTH' => 'Current month',
+ 	'JS_LAST_MONTH' => 'Last month',
+ 	'JS_CUSTOM' => 'Custom date range',
 ];
