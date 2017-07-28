@@ -75,6 +75,12 @@ class ColumnSchemaBuilder extends Object
 	public $isUnsigned = false;
 
 	/**
+	 * @var boolean whether the column values should be auto increment. If this is `true`, an `AUTO_INCREMENT` keyword will be added.
+	 * YetiForce
+	 */
+	public $autoIncrement = false;
+
+	/**
 	 * @var string the column after which this column will be added.
 	 * @since 2.0.8
 	 */
@@ -227,6 +233,12 @@ public function unsigned()
 			break;
 	}
 	$this->isUnsigned = true;
+	return $this;
+}
+
+public function autoIncrement()
+{
+	$this->autoIncrement = true;
 	return $this;
 }
 
@@ -436,6 +448,11 @@ protected function buildCommentString()
 	return '';
 }
 
+protected function buildAutoIncrementString()
+{
+	return '';
+}
+
 /**
  * Returns the complete column definition from input format
  * @param string $format the format of the definition.
@@ -451,6 +468,7 @@ protected function buildCompleteString($format)
 		'{notnull}' => $this->buildNotNullString(),
 		'{unique}' => $this->buildUniqueString(),
 		'{default}' => $this->buildDefaultString(),
+		'{autoIncrement}' => $this->buildAutoIncrementString(),
 		'{check}' => $this->buildCheckString(),
 		'{comment}' => $this->buildCommentString(),
 		'{pos}' => $this->isFirst ? $this->buildFirstString() : $this->buildAfterString(),

@@ -731,7 +731,7 @@ class Functions
 		}
 	}
 
-	public function recurseCopy($src, $dest, $delete = false)
+	public static function recurseCopy($src, $dest, $delete = false)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
