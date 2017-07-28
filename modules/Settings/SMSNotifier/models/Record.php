@@ -208,7 +208,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getModule()->getName(true);
-		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fields[$name], 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
+		$fieldsLabel = $this->getEditFields();
+		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fieldsLabel[$name], 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
 			case 'providertype':
 				$params['uitype'] = 16;
