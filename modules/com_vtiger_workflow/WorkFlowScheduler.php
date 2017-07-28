@@ -146,11 +146,9 @@ class WorkFlowScheduler
 				if (in_array($operation, $this->_specialDateTimeOperator())) {
 					$value = $this->_parseValueForDate($condition);
 				}
-				$groupId = $condition['groupid'];
 				$groupJoin = $condition['groupjoin'];
 				$operator = $conditionMapping[$operation];
 				$fieldName = $condition['fieldname'];
-				$valueType = $condition['valuetype'];
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {

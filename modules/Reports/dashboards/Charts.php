@@ -14,7 +14,6 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
 		$widgetId = $request->get('widgetid');
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
