@@ -315,7 +315,7 @@ class Importer
 					$this->logs .= " | Error(11) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
-				$this->logs .= "table does not exist\n";
+				$this->logs .= "error table does not exist\n";
 			}
 		}
 		$this->logs .= "# end rename tables\n";
@@ -342,7 +342,7 @@ class Importer
 					$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
-				$this->logs .= "table does not exist\n";
+				$this->logs .= "error table does not exist\n";
 			}
 		}
 		$this->logs .= "# end drop tables\n";
@@ -374,7 +374,7 @@ class Importer
 					$this->logs .= " | Error(13) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
-				$this->logs .= "table or column does not exist\n";
+				$this->logs .= "error table or column does not exist\n";
 			}
 		}
 		$this->logs .= "# end rename columns\n";
@@ -406,7 +406,7 @@ class Importer
 					$this->logs .= " | Error(14) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 				}
 			} else {
-				$this->logs .= "table or column does not exist\n";
+				$this->logs .= "error table or column does not exist\n";
 			}
 		}
 		$this->logs .= "# end drop columns\n";
