@@ -408,17 +408,18 @@ jQuery.Class('Settings_PickListDependency_Js', {
 					jQuery.each(sourceValues, function (index, ele) {
 						var element = jQuery(ele);
 						var value = element.val();
+						var encodedValue;
 						if (typeof value == 'string') {
-							var encodedValue = value.replace(/"/g, '\\"');
+							encodedValue = value.replace(/"/g, '\\"');
 						} else {
 							encodedValue = value;
 						}
-						var hiddenElement = selectSourceValues.find('[class*="' + encodedValue + '"]');
+						var hiddenElement = selectSourceValues.find('[type="checkbox"].sourceValue.' + encodedValue);
 						if (element.is(':checked')) {
 							thisInstance.selectedSourceValues.push(value);
-							hiddenElement.attr('checked', true);
+							hiddenElement.prop('checked', true);
 						} else {
-							hiddenElement.removeAttr('checked');
+							hiddenElement.prop('checked', false);
 						}
 					})
 					app.hideModalWindow();

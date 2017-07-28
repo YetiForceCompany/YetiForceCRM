@@ -322,9 +322,9 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var isMainCheckBoxChecked = currentElement.is(':checked');
 		var tableElement = currentElement.closest('table');
 		if (isMainCheckBoxChecked) {
-			jQuery('input.entryCheckBox', tableElement).attr('checked', 'checked').closest('tr').addClass('highlightBackgroundColor');
+			jQuery('input.entryCheckBox', tableElement).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 		} else {
-			jQuery('input.entryCheckBox', tableElement).removeAttr('checked').closest('tr').removeClass('highlightBackgroundColor');
+			jQuery('input.entryCheckBox', tableElement).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 		}
 	},
 
