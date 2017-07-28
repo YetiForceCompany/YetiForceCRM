@@ -1,5 +1,4 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -44,237 +43,232 @@
  */
 class HTTP_Session_Container
 {
-    /**
-     * Additional options for the container object
-     *
-     * @var array
-     * @access private
-     */
-    public $options = [];
 
-    /**
-     * Constrtuctor method
-     *
-     * @param array $options Additional options for the container object
-     *
-     * @access public
-     * @return object
-     */
-    public function HTTP_Session_Container($options = null)
-    {
-        $this->_setDefaults();
-        if (is_array($options)) {
-            $this->_parseOptions();
-        }
-    }
+	/**
+	 * Additional options for the container object
+	 *
+	 * @var array
+	 * @access private
+	 */
+	public $options = [];
 
-    /**
-     * Set some default options
-     *
-     * @access private
-     * @return void
-     */
-    public function _setDefaults()
-    {
-    }
+	/**
+	 * Constrtuctor method
+	 *
+	 * @param array $options Additional options for the container object
+	 *
+	 * @access public
+	 * @return object
+	 */
+	public function HTTP_Session_Container($options = null)
+	{
+		$this->_setDefaults();
+		if (is_array($options)) {
+			$this->_parseOptions();
+		}
+	}
 
-    /**
-     * Parse options passed to the container class
-     *
-     * @param array $options Options
-     *
-     * @access private
-     * @return void
-     */
-    public function _parseOptions($options)
-    {
-        foreach ($options as $option => $value) {
-            if (in_array($option, array_keys($this->options))) {
-                $this->options[$option] = $value;
-            }
-        }
-    }
+	/**
+	 * Set some default options
+	 *
+	 * @access private
+	 * @return void
+	 */
+	public function _setDefaults()
+	{
+		
+	}
 
-    /**
-     * This function is called by the session handler to initialize things
-     *
-     * @param string $save_path    Save path
-     * @param string $session_name Session name
-     *
-     * @access public
-     * @return bool
-     */
-    public function open($save_path, $session_name)
-    {
-        return true;
-    }
+	/**
+	 * Parse options passed to the container class
+	 *
+	 * @param array $options Options
+	 *
+	 * @access private
+	 * @return void
+	 */
+	public function _parseOptions($options)
+	{
+		foreach ($options as $option => $value) {
+			if (in_array($option, array_keys($this->options))) {
+				$this->options[$option] = $value;
+			}
+		}
+	}
 
-    /**
-     * This function is called when the page is finished
-     * executing and the session handler needs to close things off
-     *
-     * Has to be overwritten by each container class
-     *
-     * @access public
-     * @return bool
-     */
-    public function close()
-    {
-        return true;
-    }
+	/**
+	 * This function is called by the session handler to initialize things
+	 *
+	 * @param string $save_path    Save path
+	 * @param string $session_name Session name
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function open($save_path, $session_name)
+	{
+		return true;
+	}
 
-    /**
-     * This function is called by the session handler
-     * to read the data associated with a given session ID.
-     * This function must retrieve and return the session data
-     * for the session identified by $id.
-     *
-     * Has to be overwritten by each container class
-     *
-     * @param string $id ID of the session
-     *
-     * @access public
-     * @return string
-     */
-    public function read($id)
-    {
-        return '';
-    }
+	/**
+	 * This function is called when the page is finished
+	 * executing and the session handler needs to close things off
+	 *
+	 * Has to be overwritten by each container class
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function close()
+	{
+		return true;
+	}
 
-    /**
-     * This function is called when the session handler
-     * has session data to save, which usually happens
-     * at the end of your script
-     *
-     * Has to be overwritten by each container class
-     *
-     * @param string $id   ID of the session
-     * @param mixed  $data The data associated with a given session ID
-     *
-     * @access public
-     * @return bool
-     */
-    public function write($id, $data)
-    {
-        return true;
-    }
+	/**
+	 * This function is called by the session handler
+	 * to read the data associated with a given session ID.
+	 * This function must retrieve and return the session data
+	 * for the session identified by $id.
+	 *
+	 * Has to be overwritten by each container class
+	 *
+	 * @param string $id ID of the session
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function read($id)
+	{
+		return '';
+	}
 
-    /**
-     * This function is called when a session is destroyed.
-     * It is responsible for deleting the session and cleaning things up.
-     *
-     * Has to be overwritten by each container class
-     *
-     * @param string $id ID of the session
-     *
-     * @access public
-     * @return bool
-     */
-    public function destroy($id)
-    {
-        return true;
-    }
+	/**
+	 * This function is called when the session handler
+	 * has session data to save, which usually happens
+	 * at the end of your script
+	 *
+	 * Has to be overwritten by each container class
+	 *
+	 * @param string $id   ID of the session
+	 * @param mixed  $data The data associated with a given session ID
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function write($id, $data)
+	{
+		return true;
+	}
 
-    /**
-     * This function copies session data of specified id to specified table
-     *
-     * Has to be overwritten by each container class
-     *
-     * @param string $targetTable Table to replicate data to
-     * @param string $id          ID of the session
-     *
-     * @access public
-     * @return bool
-     */
-    public function replicate($targetTable, $id = null)
-    {
-        return true;
-    }
+	/**
+	 * This function is called when a session is destroyed.
+	 * It is responsible for deleting the session and cleaning things up.
+	 *
+	 * Has to be overwritten by each container class
+	 *
+	 * @param string $id ID of the session
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function destroy($id)
+	{
+		return true;
+	}
 
-    /**
-     * This function is responsible for garbage collection.
-     * In the case of session handling, it is responsible
-     * for deleting old, stale sessions that are hanging around.
-     * The session handler will call this every now and then.
-     *
-     * Has to be overwritten by each container class
-     *
-     * @param integer $maxlifetime Maximum lifetime
-     *
-     * @access public
-     * @return bool
-     */
-    public function gc($maxlifetime)
-    {
-        return true;
-    }
+	/**
+	 * This function copies session data of specified id to specified table
+	 *
+	 * Has to be overwritten by each container class
+	 *
+	 * @param string $targetTable Table to replicate data to
+	 * @param string $id          ID of the session
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function replicate($targetTable, $id = null)
+	{
+		return true;
+	}
 
-    /**
-     * Set session save handler
-     *
-     * @access public
-     * @return void
-     */
-    public function set()
-    {
-        $GLOBALS['HTTP_Session_Container'] =& $this;
-        session_module_name('user');
-        session_set_save_handler('HTTP_Session_Open',
-                                 'HTTP_Session_Close',
-                                 'HTTP_Session_Read',
-                                 'HTTP_Session_Write',
-                                 'HTTP_Session_Destroy',
-                                 'HTTP_Session_GC');
-    }
+	/**
+	 * This function is responsible for garbage collection.
+	 * In the case of session handling, it is responsible
+	 * for deleting old, stale sessions that are hanging around.
+	 * The session handler will call this every now and then.
+	 *
+	 * Has to be overwritten by each container class
+	 *
+	 * @param integer $maxlifetime Maximum lifetime
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function gc($maxlifetime)
+	{
+		return true;
+	}
 
-    /**
-     * Destructor for compatibility with PHP >= 5.0.5
-     *
-     * @access private
-     * @return void
-     */
-    public function __destruct()
-    {
-        $GLOBALS['HTTP_Session_Container'] =& $this;
-        session_write_close();
-    }
+	/**
+	 * Set session save handler
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function set()
+	{
+		$GLOBALS['HTTP_Session_Container'] = & $this;
+		session_module_name('user');
+		session_set_save_handler('HTTP_Session_Open', 'HTTP_Session_Close', 'HTTP_Session_Read', 'HTTP_Session_Write', 'HTTP_Session_Destroy', 'HTTP_Session_GC');
+	}
+
+	/**
+	 * Destructor for compatibility with PHP >= 5.0.5
+	 *
+	 * @access private
+	 * @return void
+	 */
+	public function __destruct()
+	{
+		$GLOBALS['HTTP_Session_Container'] = & $this;
+		session_write_close();
+	}
 }
 
 // Delegate function calls to the object's methods
 /** @ignore */
 function HTTP_Session_Open($save_path, $session_name)
 {
-    return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->open($save_path, $session_name)
-                                                       : false;
+	return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->open($save_path, $session_name) : false;
 }
+
 /** @ignore */
 function HTTP_Session_Close()
 {
-    return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->close()
-                                                       : false;
+	return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->close() : false;
 }
+
 /** @ignore */
 function HTTP_Session_Read($id)
 {
-    return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->read($id)
-                                                       : false;
+	return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->read($id) : false;
 }
+
 /** @ignore */
 function HTTP_Session_Write($id, $data)
 {
-    return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->write($id, $data)
-                                                       : false;
+	return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->write($id, $data) : false;
 }
+
 /** @ignore */
 function HTTP_Session_Destroy($id)
 {
-    return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->destroy($id)
-                                                       : false;
+	return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->destroy($id) : false;
 }
+
 /** @ignore */
 function HTTP_Session_GC($maxlifetime)
 {
-    return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->gc($maxlifetime)
-                                                       : false;
+	return (isset($GLOBALS['HTTP_Session_Container'])) ? $GLOBALS['HTTP_Session_Container']->gc($maxlifetime) : false;
 }
-?>

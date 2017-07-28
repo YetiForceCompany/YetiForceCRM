@@ -397,5 +397,3 @@ class CommonTokenStream implements TokenStream
 		return $this->toString();
 	}
 }
-
-?>

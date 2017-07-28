@@ -1,5 +1,4 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -28,7 +27,6 @@
  * @link      http://pear.php.net/package/HTTP_Session
  * @since     File available since Release 0.5.0
  */
-
 require_once 'HTTP/Session/Container.php';
 require_once 'MDB.php';
 
@@ -60,305 +58,271 @@ require_once 'MDB.php';
 class HTTP_Session_Container_MDB extends HTTP_Session_Container
 {
 
-    /**
-     * MDB connection object
-     *
-     * @var object MDB
-     * @access private
-     */
-    public $db = null;
+	/**
+	 * MDB connection object
+	 *
+	 * @var object MDB
+	 * @access private
+	 */
+	public $db = null;
 
-    /**
-     * Session data cache id
-     *
-     * @var mixed
-     * @access private
-     */
-    public $crc = false;
+	/**
+	 * Session data cache id
+	 *
+	 * @var mixed
+	 * @access private
+	 */
+	public $crc = false;
 
-    /**
-     * Constructor method
-     *
-     * $options is an array with the options.<br />
-     * The options are:
-     * <ul>
-     * <li>'dsn' - The DSN string</li>
-     * <li>'table' - Table with session data, default is 'sessiondata'</li>
-     * <li>'autooptimize' - Boolean, 'true' to optimize
-     * the table on garbage collection, default is 'false'.</li>
-     * </ul>
-     *
-     * @param array $options Options
-     *
-     * @access public
-     * @return object
-     */
-    public function HTTP_Session_Container_MDB($options)
-    {
-        $this->_setDefaults();
-        if (is_array($options)) {
-            $this->_parseOptions($options);
-        } else {
-            $this->options['dsn'] = $options;
-        }
-    }
+	/**
+	 * Constructor method
+	 *
+	 * $options is an array with the options.<br />
+	 * The options are:
+	 * <ul>
+	 * <li>'dsn' - The DSN string</li>
+	 * <li>'table' - Table with session data, default is 'sessiondata'</li>
+	 * <li>'autooptimize' - Boolean, 'true' to optimize
+	 * the table on garbage collection, default is 'false'.</li>
+	 * </ul>
+	 *
+	 * @param array $options Options
+	 *
+	 * @access public
+	 * @return object
+	 */
+	public function HTTP_Session_Container_MDB($options)
+	{
+		$this->_setDefaults();
+		if (is_array($options)) {
+			$this->_parseOptions($options);
+		} else {
+			$this->options['dsn'] = $options;
+		}
+	}
 
-    /**
-     * Connect to database by using the given DSN string
-     *
-     * @param string $dsn DSN string
-     *
-     * @access private
-     * @return mixed  Object on error, otherwise bool
-     */
-    public function _connect($dsn)
-    {
-        if (is_string($dsn) || is_array($dsn)) {
-            $this->db = MDB::connect($dsn);
-        } else if (is_object($dsn) && is_a($dsn, 'mdb_common')) {
-            $this->db = $dsn;
-        } else if (is_object($dsn) && MDB::isError($dsn)) {
-            return new MDB_Error($dsn->code, PEAR_ERROR_DIE);
-        } else {
-            return new PEAR_Error("The given dsn was not valid in file " . __FILE__ 
-                                  . " at line " . __LINE__,
-                                  41,
-                                  PEAR_ERROR_RETURN,
-                                  null,
-                                  null
-                                  );
+	/**
+	 * Connect to database by using the given DSN string
+	 *
+	 * @param string $dsn DSN string
+	 *
+	 * @access private
+	 * @return mixed  Object on error, otherwise bool
+	 */
+	public function _connect($dsn)
+	{
+		if (is_string($dsn) || is_array($dsn)) {
+			$this->db = MDB::connect($dsn);
+		} else if (is_object($dsn) && is_a($dsn, 'mdb_common')) {
+			$this->db = $dsn;
+		} else if (is_object($dsn) && MDB::isError($dsn)) {
+			return new MDB_Error($dsn->code, PEAR_ERROR_DIE);
+		} else {
+			return new PEAR_Error("The given dsn was not valid in file " . __FILE__
+				. " at line " . __LINE__, 41, PEAR_ERROR_RETURN, null, null
+			);
+		}
 
-        }
+		if (MDB::isError($this->db)) {
+			return new MDB_Error($this->db->code, PEAR_ERROR_DIE);
+		}
 
-        if (MDB::isError($this->db)) {
-            return new MDB_Error($this->db->code, PEAR_ERROR_DIE);
-        }
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Set some default options
+	 *
+	 * @access private
+	 * @return void
+	 */
+	public function _setDefaults()
+	{
+		$this->options['dsn'] = null;
+		$this->options['table'] = 'sessiondata';
+		$this->options['autooptimize'] = false;
+	}
 
-    /**
-     * Set some default options
-     *
-     * @access private
-     * @return void
-     */
-    public function _setDefaults()
-    {
-        $this->options['dsn']          = null;
-        $this->options['table']        = 'sessiondata';
-        $this->options['autooptimize'] = false;
-    }
+	/**
+	 * Establish connection to a database
+	 *
+	 * @param string $save_path    Save path
+	 * @param string $session_name Session name
+	 *
+	 * @return bool
+	 */
+	public function open($save_path, $session_name)
+	{
+		if (MDB::isError($this->_connect($this->options['dsn']))) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-    /**
-     * Establish connection to a database
-     *
-     * @param string $save_path    Save path
-     * @param string $session_name Session name
-     *
-     * @return bool
-     */
-    public function open($save_path, $session_name)
-    {
-        if (MDB::isError($this->_connect($this->options['dsn']))) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+	/**
+	 * Free resources
+	 *
+	 * @return bool
+	 */
+	public function close()
+	{
+		return true;
+	}
 
-    /**
-     * Free resources
-     *
-     * @return bool
-     */
-    public function close()
-    {
-        return true;
-    }
+	/**
+	 * Read session data
+	 *
+	 * @param string $id Session id
+	 *
+	 * @return mixed
+	 */
+	public function read($id)
+	{
+		$query = sprintf("SELECT data FROM %s WHERE id = %s && expiry >= %d", $this->options['table'], $this->db->getTextValue(md5($id)), time());
+		$result = $this->db->getOne($query);
+		if (MDB::isError($result)) {
+			new MDB_Error($result->code, PEAR_ERROR_DIE);
+			return false;
+		}
+		$this->crc = strlen($result) . crc32($result);
+		return $result;
+	}
 
-    /**
-     * Read session data
-     *
-     * @param string $id Session id
-     *
-     * @return mixed
-     */
-    public function read($id)
-    {
-        $query = sprintf("SELECT data FROM %s WHERE id = %s && expiry >= %d",
-                         $this->options['table'],
-                         $this->db->getTextValue(md5($id)),
-                         time());
-        $result = $this->db->getOne($query);
-        if (MDB::isError($result)) {
-            new MDB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
-        }
-        $this->crc = strlen($result) . crc32($result);
-        return $result;
-    }
+	/**
+	 * Write session data
+	 *
+	 * @param string $id   Session id
+	 * @param mixed  $data Data
+	 *
+	 * @return bool
+	 */
+	public function write($id, $data)
+	{
+		if ((false !== $this->crc) &&
+			($this->crc === strlen($data) . crc32($data))) {
+			// $_SESSION hasn't been touched, no need to update the blob column
+			$query = sprintf("UPDATE %s SET expiry = %d WHERE id = %s", $this->options['table'], time() + ini_get('session.gc_maxlifetime'), $this->db->getTextValue(md5($id)));
+		} else {
+			// Check if table row already exists
+			$query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s", $this->options['table'], $this->db->getTextValue(md5($id)));
+			$result = $this->db->getOne($query);
+			if (MDB::isError($result)) {
+				new MDB_Error($result->code, PEAR_ERROR_DIE);
+				return false;
+			}
+			if (0 == intval($result)) {
+				// Insert new row into table
+				$query = sprintf("INSERT INTO %s (id, expiry, data) VALUES (%s, %d, %s)", $this->options['table'], $this->db->getTextValue(md5($id)), time() + ini_get('session.gc_maxlifetime'), $this->db->getTextValue($data));
+			} else {
+				// Update existing row
+				$query = sprintf("UPDATE %s SET expiry = %d, data = %s WHERE id = %s", $this->options['table'], time() + ini_get('session.gc_maxlifetime'), $this->db->getTextValue($data), $this->db->getTextValue(md5($id)));
+			}
+		}
+		$result = $this->db->query($query);
+		if (MDB::isError($result)) {
+			new MDB_Error($result->code, PEAR_ERROR_DIE);
+			return false;
+		}
 
-    /**
-     * Write session data
-     *
-     * @param string $id   Session id
-     * @param mixed  $data Data
-     *
-     * @return bool
-     */
-    public function write($id, $data)
-    {
-        if ((false !== $this->crc) && 
-            ($this->crc === strlen($data) . crc32($data))) {
-            // $_SESSION hasn't been touched, no need to update the blob column
-            $query = sprintf("UPDATE %s SET expiry = %d WHERE id = %s",
-                             $this->options['table'],
-                             time() + ini_get('session.gc_maxlifetime'),
-                             $this->db->getTextValue(md5($id)));
-        } else {
-            // Check if table row already exists
-            $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
-                             $this->options['table'],
-                             $this->db->getTextValue(md5($id)));
-            $result = $this->db->getOne($query);
-            if (MDB::isError($result)) {
-                new MDB_Error($result->code, PEAR_ERROR_DIE);
-                return false;
-            }
-            if (0 == intval($result)) {
-                // Insert new row into table
-                $query = sprintf("INSERT INTO %s (id, expiry, data) VALUES (%s, %d, %s)",
-                                 $this->options['table'],
-                                 $this->db->getTextValue(md5($id)),
-                                 time() + ini_get('session.gc_maxlifetime'),
-                                 $this->db->getTextValue($data));
-            } else {
-                // Update existing row
-                $query = sprintf("UPDATE %s SET expiry = %d, data = %s WHERE id = %s",
-                                 $this->options['table'],
-                                 time() + ini_get('session.gc_maxlifetime'),
-                                 $this->db->getTextValue($data),
-                                 $this->db->getTextValue(md5($id)));
-            }
-        }
-        $result = $this->db->query($query);
-        if (MDB::isError($result)) {
-            new MDB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
-        }
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Destroy session data
+	 *
+	 * @param string $id Session id
+	 *
+	 * @return bool
+	 */
+	public function destroy($id)
+	{
+		$query = sprintf("DELETE FROM %s WHERE id = %s", $this->options['table'], $this->db->getTextValue(md5($id)));
+		$result = $this->db->query($query);
+		if (MDB::isError($result)) {
+			new MDB_Error($result->code, PEAR_ERROR_DIE);
+			return false;
+		}
 
-    /**
-     * Destroy session data
-     *
-     * @param string $id Session id
-     *
-     * @return bool
-     */
-    public function destroy($id)
-    {
-        $query = sprintf("DELETE FROM %s WHERE id = %s",
-                         $this->options['table'],
-                         $this->db->getTextValue(md5($id)));
-        $result = $this->db->query($query);
-        if (MDB::isError($result)) {
-            new MDB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
-        }
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Replicate session data to table specified in option 'replicateBeforeDestroy'
+	 *
+	 * @param string $targetTable Table to replicate to
+	 * @param string $id          Id of record to replicate
+	 *
+	 * @access private
+	 * @return bool
+	 */
+	public function replicate($targetTable, $id = null)
+	{
+		if (is_null($id)) {
+			$id = HTTP_Session::id();
+		}
 
-    /**
-     * Replicate session data to table specified in option 'replicateBeforeDestroy'
-     *
-     * @param string $targetTable Table to replicate to
-     * @param string $id          Id of record to replicate
-     *
-     * @access private
-     * @return bool
-     */
-    public function replicate($targetTable, $id = null)
-    {
-        if (is_null($id)) {
-            $id = HTTP_Session::id();
-        }
+		// Check if table row already exists
+		$query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s", $targetTable, $this->db->getTextValue(md5($id)));
+		$result = $this->db->getOne($query);
+		if (MDB::isError($result)) {
+			new MDB_Error($result->code, PEAR_ERROR_DIE);
+			return false;
+		}
 
-        // Check if table row already exists
-        $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
-                         $targetTable,
-                         $this->db->getTextValue(md5($id)));
-        $result = $this->db->getOne($query);
-        if (MDB::isError($result)) {
-            new MDB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
-        }
+		// Insert new row into dest table
+		if (0 == intval($result)) {
+			$query = sprintf("INSERT INTO %s SELECT * FROM %s WHERE id = %s", $targetTable, $this->options['table'], $this->db->getTextValue(md5($id)));
+		} else {
+			// Update existing row
+			$query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id && src.id = %s", $targetTable, $this->options['table'], $this->db->getTextValue(md5($id)));
+		}
 
-        // Insert new row into dest table
-        if (0 == intval($result)) {
-            $query = sprintf("INSERT INTO %s SELECT * FROM %s WHERE id = %s",
-                             $targetTable,
-                             $this->options['table'],
-                             $this->db->getTextValue(md5($id)));
-        } else {
-            // Update existing row
-            $query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id && src.id = %s",
-                             $targetTable,
-                             $this->options['table'],
-                             $this->db->getTextValue(md5($id)));
-        }
+		$result = $this->db->query($query);
+		if (MDB::isError($result)) {
+			new MDB_Error($result->code, PEAR_ERROR_DIE);
+			return false;
+		}
 
-        $result = $this->db->query($query);
-        if (MDB::isError($result)) {
-            new MDB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
-        }
+		return true;
+	}
 
-        return true;
-    }
+	/**
+	 * Garbage collection
+	 *
+	 * @param int $maxlifetime Maximum lifetime
+	 *
+	 * @return bool
+	 */
+	public function gc($maxlifetime)
+	{
+		$query = sprintf("DELETE FROM %s WHERE expiry < %d", $this->options['table'], time());
+		$result = $this->db->query($query);
+		if (MDB::isError($result)) {
+			new MDB_Error($result->code, PEAR_ERROR_DIE);
+			return false;
+		}
+		if ($this->options['autooptimize']) {
+			switch ($this->db->phptype) {
+				case 'mysql':
+					$query = sprintf("OPTIMIZE TABLE %s", $this->options['table']);
+					break;
+				case 'pgsql':
+					$query = sprintf("VACUUM %s", $this->options['table']);
+					break;
+				default:
+					$query = null;
+					break;
+			}
+			if (isset($query)) {
+				$result = $this->db->query($query);
+				if (MDB::isError($result)) {
+					new MDB_Error($result->code, PEAR_ERROR_DIE);
+					return false;
+				}
+			}
+		}
 
-    /**
-     * Garbage collection
-     *
-     * @param int $maxlifetime Maximum lifetime
-     *
-     * @return bool
-     */
-    public function gc($maxlifetime)
-    {
-        $query = sprintf("DELETE FROM %s WHERE expiry < %d",
-                         $this->options['table'],
-                         time());
-        $result = $this->db->query($query);
-        if (MDB::isError($result)) {
-            new MDB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
-        }
-        if ($this->options['autooptimize']) {
-            switch($this->db->phptype) {
-            case 'mysql':
-                $query = sprintf("OPTIMIZE TABLE %s", $this->options['table']);
-                break;
-            case 'pgsql':
-                $query = sprintf("VACUUM %s", $this->options['table']);
-                break;
-            default:
-                $query = null;
-                break;
-            }
-            if (isset($query)) {
-                $result = $this->db->query($query);
-                if (MDB::isError($result)) {
-                    new MDB_Error($result->code, PEAR_ERROR_DIE);
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+		return true;
+	}
 }
-?>
