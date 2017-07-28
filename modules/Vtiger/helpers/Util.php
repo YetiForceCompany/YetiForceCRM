@@ -191,7 +191,6 @@ class Vtiger_Util_Helper
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
 		if (count($dateTimeInUserFormat) == 3) {
@@ -371,7 +370,6 @@ class Vtiger_Util_Helper
 			$groupColumnsInfo = $groupConditionInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
 				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
-				$fieldInfo = $moduleModel->getField($fieldName);
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
 					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
 				}

@@ -30,8 +30,6 @@ class Reports_Save_Action extends Vtiger_Save_Action
 
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');

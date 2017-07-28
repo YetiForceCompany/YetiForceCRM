@@ -14,7 +14,6 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordId = $recordModel->getId();
