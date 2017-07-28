@@ -53,7 +53,6 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function checkDuplicateName(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
 		$name = $request->get('name');
@@ -74,7 +73,6 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function deleteInventory(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$params = $request->get('param');
 		$id = $params['id'];
@@ -96,8 +94,6 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function saveConfig(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
 		$params = $request->get('param');
 		$type = $params['view'];
 

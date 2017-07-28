@@ -47,7 +47,6 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function upadteSequences(\App\Request $request)
 	{
 		$params = $request->get('param');
-		$result = Settings_CustomView_Module_Model::upadteSequences($params);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_SAVE_SEQUENCES', $request->getModule(false))
