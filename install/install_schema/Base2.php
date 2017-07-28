@@ -479,9 +479,9 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'uid' => $this->stringType()->notNull(),
 					'channel' => $this->stringType(100),
-					'from_number' => $this->integer(10),
+					'from_number' => $this->bigInteger(10),
 					'from_name' => $this->stringType(100),
-					'to_number' => $this->integer(10),
+					'to_number' => $this->bigInteger(10),
 					'callertype' => $this->stringType(100),
 					'timer' => $this->integer(10),
 					'flag' => $this->stringType(3),
