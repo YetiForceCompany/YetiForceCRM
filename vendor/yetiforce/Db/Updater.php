@@ -23,7 +23,7 @@ class Updater
 	public static function addRoleToPicklist($fiels)
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 		$dbCommand = $db->createCommand();
 		$roleIds = (new \App\Db\Query)->select('roleid')->from('vtiger_role')->column();
