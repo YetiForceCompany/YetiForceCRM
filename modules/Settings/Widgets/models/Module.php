@@ -110,7 +110,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getCheckboxs($modules)
 	{
-		$db = PearDatabase::getInstance();
 		$checkboxs = [];
 		$tabid = [];
 		foreach ($modules as $key => $value) {
@@ -140,7 +139,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$sql .= " AND uitype in ('$uitype')";
 		}
 		$result = $adb->pquery($sql, $params, true);
-		$Num = $adb->num_rows($result);
 		while ($row = $adb->fetch_array($result)) {
 			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);

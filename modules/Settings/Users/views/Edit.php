@@ -74,8 +74,6 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.Index'
 		);
