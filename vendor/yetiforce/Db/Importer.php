@@ -302,13 +302,23 @@ class Importer
 	 */
 	public function renameTables($tables)
 	{
+		$this->logs .= "> start rename tables\n";
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		foreach ($tables as $table) {
+			$this->logs .= "  > rename table, {$table[0]} ... ";
 			if ($db->isTableExists($table[0])) {
-				$dbCommand->renameTable($table[0], $table[1])->execute();
+				try {
+					$dbCommand->renameTable($table[0], $table[1])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(11) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "table does not exist\n";
 			}
 		}
+		$this->logs .= "# end rename tables\n";
 	}
 
 	/**
@@ -317,15 +327,25 @@ class Importer
 	 */
 	public function dropTable($tables)
 	{
+		$this->logs .= "> start drop tables\n";
 		$db = \App\Db::getInstance();
 		if (is_string($tables)) {
 			$tables = [$tables];
 		}
 		foreach ($tables as $tableName) {
+			$this->logs .= "  > drop table, $tableName ... ";
 			if ($db->isTableExists($tableName)) {
-				$db->createCommand()->dropTable($tableName)->execute();
+				try {
+					$db->createCommand()->dropTable($tableName)->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "table does not exist\n";
 			}
 		}
+		$this->logs .= "# end drop tables\n";
 	}
 
 	/**
@@ -339,15 +359,25 @@ class Importer
 	 */
 	public function renameColumns($columns)
 	{
+		$this->logs .= "> start rename columns\n";
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
 		foreach ($columns as $column) {
 			$tableSchema = $schema->getTableSchema($column[0]);
+			$this->logs .= "  > rename column: {$column[0]}:{$column[1]} ... ";
 			if ($tableSchema && isset($tableSchema->columns[$column[1]]) && !isset($tableSchema->columns[$column[2]])) {
-				$dbCommand->renameColumn($column[0], $column[1], $column[2])->execute();
+				try {
+					$dbCommand->renameColumn($column[0], $column[1], $column[2])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(13) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "table or column does not exist\n";
 			}
 		}
+		$this->logs .= "# end rename columns\n";
 	}
 
 	/**
@@ -361,15 +391,25 @@ class Importer
 	 */
 	public function dropColumns($columns)
 	{
+		$this->logs .= "> start drop columns\n";
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
 		foreach ($columns as $column) {
 			$tableSchema = $schema->getTableSchema($column[0]);
+			$this->logs .= "  > drop column: {$column[0]}:{$column[1]} ... ";
 			if ($tableSchema && isset($tableSchema->columns[$column[1]])) {
-				$dbCommand->dropColumn($column[0], $column[1])->execute();
+				try {
+					$dbCommand->dropColumn($column[0], $column[1])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(14) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "table or column does not exist\n";
 			}
 		}
+		$this->logs .= "# end drop columns\n";
 	}
 
 	/**
