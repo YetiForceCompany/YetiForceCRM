@@ -288,7 +288,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 	public static function listAccesDataDirector($module = false)
 	{
 		$dirMain = self::$AccesDataDirector;
-		$FolderFiles = [];
 		$moduleFolderFiles = [];
 		$mainFolderFiles = self::listFolderFiles($dirMain, 'Vtiger');
 		if ($module && file_exists("modules/$module/data_access")) {

@@ -16,7 +16,7 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 
 	public function process(\App\Request $request)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
@@ -35,7 +35,6 @@ class Settings_Inventory_DiscountConfiguration_View extends Settings_Vtiger_Inde
 
 	public function getPageLabels(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$view = $this->getView();
 		$translations = [];
 		$translations['title'] = 'LBL_' . strtoupper($view);

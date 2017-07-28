@@ -13,11 +13,8 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
-
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$prevValues = [];
 		if (!empty($recordId)) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($recordId);

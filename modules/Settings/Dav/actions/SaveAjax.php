@@ -45,7 +45,7 @@ class Settings_Dav_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('params');
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Dav_Module_Model::getInstance($qualifiedModuleName);
-		$result = $moduleModel->deleteKey($params);
+		$moduleModel->deleteKey($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
