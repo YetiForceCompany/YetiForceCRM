@@ -43,8 +43,6 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.CustomRecordNumbering',
 			'libraries.jquery.clipboardjs.clipboard',

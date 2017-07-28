@@ -56,7 +56,6 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function checkDuplicateName(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$taxId = $request->get('taxid');
 		$taxLabel = $request->get('taxlabel');

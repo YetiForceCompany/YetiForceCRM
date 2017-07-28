@@ -19,7 +19,6 @@ class Settings_WebserviceUsers_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 		$data = $request->get('param');
 		$typeApi = $request->get('typeApi');
 		$recordId = $request->get('record');
-		$qualifiedModuleName = $request->getModule(false);
 		if ($recordId) {
 			$recordModel = Settings_WebserviceUsers_Record_Model::getInstanceById($recordId, $typeApi);
 		} else {

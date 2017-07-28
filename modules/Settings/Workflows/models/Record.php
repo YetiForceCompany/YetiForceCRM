@@ -154,7 +154,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
@@ -396,8 +396,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function getReferenceFieldName($relatedModule)
 	{
 		if ($relatedModule) {
-			$db = PearDatabase::getInstance();
-
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 

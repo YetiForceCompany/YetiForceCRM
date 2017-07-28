@@ -61,7 +61,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public static function getDashboardTypes()
 	{
-		if (App\Cache::has('WidgetsDashboard', 'AllTypes')){
+		if (App\Cache::has('WidgetsDashboard', 'AllTypes')) {
 			return App\Cache::get('WidgetsDashboard', 'AllTypes');
 		}
 		$types = (new App\Db\Query())->from('u_#__dashboard_type')->all();
@@ -454,8 +454,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				->innerJoin('vtiger_module_dashboard_blocks AS mdb', 'mdw.blockid = mdb.id AND vtiger_links.tabid = mdb.tabid')
 				->where(['vtiger_links.tabid' => $tabId])
 				->createCommand()->query();
-		$userId = '';
-		$blockId = '';
 		while ($row = $dataReader->read()) {
 			if ($row['linklabel'] == 'Mini List') {
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
