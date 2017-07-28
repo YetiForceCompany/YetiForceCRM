@@ -1656,4 +1656,9 @@ $jsLanguageStrings = [
 	'JS_RECORD_INFO' => 'Info d\'Enregistrement',
 	'JS_NOTIFY_COPY_TEXT' => 'Copié dans le bloc-notes',
 	'JS_DATE_NOT_SHOULD_BE_GREATER_THAN_24H' => 'Le temps de travail ne peut pas excéder 24 heures',
+	'JS_LAST_7_DAYS' => 'Last 7 days',
+ 	'JS_LAST_30_DAYS' => 'Last 30 days',
+ 	'JS_CURRENT_MONTH' => 'Current month',
+ 	'JS_LAST_MONTH' => 'Last month',
+ 	'JS_CUSTOM' => 'Custom date range',
 ];
