@@ -13,12 +13,10 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 
 	public function recalculateTimeControl($data)
 	{
-		$db = PearDatabase::getInstance();
 		$ticketid = $data->get('ticketid');
 		$projectid = $data->get('projectid');
 		$projecttaskid = $data->get('projecttaskid');
 		$servicecontractsid = $data->get('servicecontractsid');
-		$reservationsid = $data->get('reservationsid');
 
 		self::recalculateProjectTask($projecttaskid);
 		self::recalculateHelpDesk($ticketid);

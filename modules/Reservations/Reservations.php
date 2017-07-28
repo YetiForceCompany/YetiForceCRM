@@ -92,7 +92,6 @@ class Reservations extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$registerLink = false;
 		$adb = PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
