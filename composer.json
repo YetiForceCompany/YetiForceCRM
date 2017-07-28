@@ -37,7 +37,7 @@
 		"sabre/dav": "3.1.3",
 		"rmccue/requests": "1.7",
 		"smarty/smarty": "3.1.31",
-		"phpmailer/phpmailer": "v5.2.23",
+		"phpmailer/phpmailer": "v5.2.24",
 		"ezyang/htmlpurifier": "v4.9.3",
 		"symfony/var-dumper": "v3.3.5",
 		"simshaun/recurr": "v3.0.1",
