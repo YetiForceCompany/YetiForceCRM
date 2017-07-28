@@ -251,7 +251,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 
 		$scheduleType = $this->get('scheduleid');
 		$nextTime = null;
@@ -275,7 +275,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		if ($scheduleType == self::$SCHEDULED_ANNUALLY) {
 			$nextTime = $workflow->getNextTriggerTimeForAnnualDates($this->get('schannualdates'), $this->get('schtime'));
 		}
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $nextTime;
 	}
 
@@ -295,9 +295,9 @@ class Reports_ScheduleReports_Model extends \App\Base
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date("Y-m-d H:i:s");
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		$dataReader = (new App\Db\Query())->select(['reportid'])
 				->from('vtiger_schedulereports')
 				->where(['or', ['next_trigger_time' => null], ['<=', 'next_trigger_time', $currentTimestamp]])
