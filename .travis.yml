@@ -40,7 +40,7 @@ before_script:
         sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
     fi
 - /usr/local/bin/phpunit --version
-- composer install
+- composer install --no-dev
 - sudo wget https://scrutinizer-ci.com/ocular.phar
 - sudo chmod +x ocular.phar
 - sudo mv ocular.phar /usr/local/bin/ocular
