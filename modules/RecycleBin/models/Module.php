@@ -164,37 +164,26 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Delete files
+	 * @param int[] $recordIds
+	 */
 	public function deleteFiles($recordIds)
 	{
-		$db = PearDatabase::getInstance();
-		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
-		$result = $db->pquery($getAttachmentsIdQuery, [$recordIds]);
-		$attachmentsIds = [];
-		if ($db->num_rows($result)) {
-			for ($i = 0; $i < ($db->num_rows($result)); $i++) {
-				$attachmentsIds[$i] = $db->query_result($result, $i, 'attachmentsid');
-			}
-		}
+		$db = \App\Db::getInstance();
+		$attachmentsIds = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $recordIds])->column($db);
 		if (!empty($attachmentsIds)) {
-			$deleteRelQuery = sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
-			$db->pquery($deleteRelQuery, array($recordIds));
-			$attachmentsLocation = [];
-			$getPathQuery = sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
-			$pathResult = $db->pquery($getPathQuery, array($attachmentsIds));
-			if ($db->num_rows($pathResult)) {
-				for ($i = 0; $i < ($db->num_rows($pathResult)); $i++) {
-					$attachmentsLocation[$i] = $db->query_result($pathResult, $i, 'path');
-					$attachmentName = $db->query_result($pathResult, $i, 'name');
-					$attachmentId = $db->query_result($pathResult, $i, 'attachmentsid');
-					$fileName = $attachmentsLocation[$i] . $attachmentId . '_' . $attachmentName;
-					if (file_exists($fileName)) {
-						chmod($fileName, 0750);
-						unlink($fileName);
-					}
+			$dataReader = (new \App\Db\Query())->select(['path', 'attachmentsid'])->from('vtiger_attachments')->where(['attachmentsid' => $attachmentsIds])->createCommand($db)->query();
+			while ($row = $dataReader->read()) {
+				$fileName = $row['path'] . $row['attachmentsid'];
+				if (file_exists($fileName)) {
+					chmod($fileName, 0750);
+					unlink($fileName);
 				}
 			}
-			$where = sprintf('attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
-			$db->delete('vtiger_attachments', $where, [$attachmentsIds]);
+			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $recordIds])->execute();
+			$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
+			$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();
 		}
 	}
 

@@ -27,13 +27,17 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return "javascript:Documents_Detail_Js.checkFileIntegrity('index.php?module=" . $this->getModuleName() . "&action=CheckFileIntegrity&record=" . $this->getId() . "')";
 	}
 
+	/**
+	 * Check file integrity
+	 * @return boolean
+	 */
 	public function checkFileIntegrity()
 	{
 		$returnValue = false;
 		if ($this->get('filelocationtype') === 'I') {
 			$fileDetails = $this->getFileDetails();
 			if (!empty($fileDetails)) {
-				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'] . '_' . $fileDetails['name'];
+				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'];
 				if (file_exists($savedFile) && fopen($savedFile, 'r')) {
 					$returnValue = true;
 				}
