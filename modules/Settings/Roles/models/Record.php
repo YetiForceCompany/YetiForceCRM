@@ -184,18 +184,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		if (empty($roleId)) {
 			return false;
 		}
-
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT directly_related_to_role, vtiger_profile.profileid FROM vtiger_role2profile 
-                  INNER JOIN vtiger_profile ON vtiger_profile.profileid = vtiger_role2profile.profileid 
-                  WHERE vtiger_role2profile.roleid=?';
-		$params = array($this->getId());
-
-		$result = $db->pquery($query, $params);
-
-		if ($db->num_rows($result) == 1 && $db->query_result($result, 0, 'directly_related_to_role') == '1') {
-			return $db->query_result($result, 0, 'profileid');
+		$row = (new App\Db\Query())->select(['directly_related_to_role', 'vtiger_profile.profileid'])
+				->from('vtiger_role2profile')
+				->innerJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_role2profile.profileid')
+				->where(['vtiger_role2profile.roleid' => $this->getId()])
+				->one();
+		if ($row && (int) $row['directly_related_to_role'] === 1) {
+			return $row['profileid'];
 		}
 		return false;
 	}
@@ -469,20 +464,14 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAll($baseRole = false)
 	{
-		$db = PearDatabase::getInstance();
-		$params = [];
-
-		$sql = 'SELECT * FROM vtiger_role';
+		$query = (new App\Db\Query())->from('vtiger_role');
 		if (!$baseRole) {
-			$sql .= ' WHERE depth != ?';
-			$params[] = 0;
+			$query->where(['<>', 'depth' , 0]);
 		}
-		$sql .= ' ORDER BY parentrole';
-
-		$result = $db->pquery($sql, $params);
-
+		$dataReader = $query->orderBy(['parentrole' => SORT_DESC])
+				->createCommand()->query();
 		$roles = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$role = new self();
 			$role->setData($row);
 			$roles[$role->getId()] = $role;
@@ -518,12 +507,10 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getBaseRole()
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->query('SELECT * FROM vtiger_role WHERE depth=0 LIMIT 1');
-		if ($db->getRowCount($result) > 0) {
+		$row = (new App\Db\Query())->from('vtiger_role')->where(['depth' => 0])->one();
+		if ($row) {
 			$instance = new self();
-			$instance->setData($db->getRow($result));
+			$instance->setData($row);
 			return $instance;
 		}
 		return null;

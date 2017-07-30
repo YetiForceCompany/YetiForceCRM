@@ -350,16 +350,10 @@ class WebserviceField
 
 	private function getFieldTypeFromUIType()
 	{
-
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('select * from vtiger_ws_fieldtype', []);
-			while ($resultrow = $db->fetch_array($result)) {
-				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
-			}
+			self::$fieldTypeMapping = (new App\Db\Query())->from('vtiger_ws_fieldtype')->indexBy('uitype')->all();
 		}
-
 		if (isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 			if (WebserviceField::$fieldTypeMapping[$this->getUIType()] === false) {
 				return null;
