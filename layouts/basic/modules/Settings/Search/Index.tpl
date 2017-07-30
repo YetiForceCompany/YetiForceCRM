@@ -31,15 +31,15 @@
 					{foreach from=$MODULESENTITY item=item key=KEY}
 						{assign var="FIELDS" value=$FIELDS_MODULES[$KEY]}
 						<tr data-tabid="{$KEY}">
-							<td class="alignMiddle"><span>&nbsp;
+							<td class="alignMiddle widthMin noWrap"><span>&nbsp;
 									<a>
 										<img src="{\Vtiger_Theme::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 									</a>&nbsp;
 								</span>
-								{\App\Language::translate($item['modulename'],$item['modulename'])}
+								<strong>{\App\Language::translate($item['modulename'],$item['modulename'])}</strong>
 							</td>
 							<td class="alignMiddle">
-								<div class="elementLabels{$KEY}">
+								<div class="elementLabels{$KEY} paddingLR5">
 									{assign var="VALUE" value=explode(',',$item['fieldname'])}
 									{foreach from=$VALUE item=NAME name=valueLoop}
 										{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
@@ -59,7 +59,7 @@
 								</div>
 							</td>
 							<td class="alignMiddle">
-								<div class="elementLabels{$KEY}">
+								<div class="elementLabels{$KEY} paddingLR5">
 									{assign var="VALUE" value=explode(',',$item['searchcolumn'])}
 									{foreach from=$VALUE item=NAME name=valueLoop}
 										{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
@@ -78,13 +78,13 @@
 									</select>
 								</div>
 							</td>
-							<td class="alignMiddle">
+							<td class="alignMiddle widthMin">
 								<button class="btn editLabels btn-default" data-tabid="{$KEY}">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 							</td>
-							<td class="alignMiddle">
+							<td class="alignMiddle widthMin">
 								<button class="btn updateLabels btn-info noWrap" data-tabid="{$KEY}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>
 							</td>
-							<td class="alignMiddle">
+							<td class="alignMiddle widthMin">
 								<button name="turn_off" class="noWrap btn turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{\App\Language::translate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{\App\Language::translate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
 							</td>
 						</tr>

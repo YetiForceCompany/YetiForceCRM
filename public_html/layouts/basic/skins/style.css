@@ -5820,7 +5820,8 @@ select.form-control {
 .leftRecordActions .actions .actionImages a{
 	color: inherit;
 }
-.listViewSearchTd{
+.listViewSearchTd,
+.widthMin{
 	width: 1%;
 }
 .openStreetMapModalBody .descriptionContainer{

@@ -118,7 +118,7 @@ class Updater
 	 * 
 	 * $crons = [
 	 * 		['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
-	 * 		['remove' => 'add', 'data' => ['LBL_BATCH_PROCESSES']],
+	 * 		['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
 	 * ];
 	 * @param array $crons
 	 */
