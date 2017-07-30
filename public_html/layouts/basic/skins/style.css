@@ -57,7 +57,7 @@
 	}
 }
 .noWrap{
-	white-space:nowrap;
+	white-space:nowrap !important;
 }
 .input-block-level {
 	display: block;
@@ -5376,7 +5376,8 @@ select.form-control {
 .customViewList table td{
 	vertical-align: middle !important;
 }
-.customViewList .ui-sortable-helper{
+.customViewList .ui-sortable-helper,
+.SearchFieldsEdit .ui-sortable-helper{
 	background-color: #dff0d8 !important;
 }
 .detailViewContainer .contents .knowledgeBaseDetails {

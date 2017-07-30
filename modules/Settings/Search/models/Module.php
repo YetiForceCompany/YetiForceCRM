@@ -31,13 +31,16 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		return $moduleEntity;
 	}
 
+	/**
+	 * Get fields
+	 * @return array
+	 */
 	public function getFieldFromModule()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * from vtiger_field WHERE uitype NOT IN ('15','16','52','53','56','70','120')");
 		$fields = [];
-		while ($row = $adb->fetch_array($result)) {
-			$fields[$row['tabid']][] = $row;
+		$dataReader = (new \App\Db\Query())->select(['columnname', 'tabid', 'fieldlabel'])->from('vtiger_field')->where(['not in', 'uitype', [15, 16, 52, 53, 56, 70, 120]])->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$fields[$row['tabid']][$row['columnname']] = $row;
 		}
 		return $fields;
 	}

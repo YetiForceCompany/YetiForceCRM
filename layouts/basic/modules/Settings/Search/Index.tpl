@@ -1,14 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	{assign var="ModulesEntity" value=$MODULE_MODEL->getModulesEntity(false, true)}
-	{assign var="Fields" value=$MODULE_MODEL->getFieldFromModule()}
-	<div class=" SearchFieldsEdit">
+	{assign var="MODULESENTITY" value=$MODULE_MODEL->getModulesEntity(false, true)}
+	{assign var="FIELDS_MODULES" value=$MODULE_MODEL->getFieldFromModule()}
+	<div class="SearchFieldsEdit">
 		<div class="widget_header row">
 			<div class="col-md-12">
-			    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			    {\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
 			</div>
-			
 		</div>
 		<div class="btn-toolbar">
 			<span class="pull-right group-desc ">
@@ -22,50 +21,71 @@
 			<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" id="modulesEntity">
 				<thead>
 					<tr class="blockHeader">
-						<th><strong>{\App\Language::translate('Module',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='phone'><strong>{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='phone'><strong>{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
-						<th data-hide='tablet' colspan="2"><strong>{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</strong></th>
+						<th class="noWrap"><strong>{\App\Language::translate('Module',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='phone' class="noWrap"><strong>{\App\Language::translate('LabelFields',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='phone' class="noWrap"><strong>{\App\Language::translate('SearchFields',$QUALIFIED_MODULE)}</strong></th>
+						<th data-hide='tablet' colspan="3" class="noWrap"><strong>{\App\Language::translate('Tools',$QUALIFIED_MODULE)}</strong></th>
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=$ModulesEntity item=item key=key}
-						{assign var="Field" value=$Fields[$key]}
-						<tr data-tabid="{$key}">
-							<td><span>&nbsp;
+					{foreach from=$MODULESENTITY item=item key=KEY}
+						{assign var="FIELDS" value=$FIELDS_MODULES[$KEY]}
+						<tr data-tabid="{$KEY}">
+							<td class="alignMiddle"><span>&nbsp;
 									<a>
-										<img src="{vimage_path('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+										<img src="{\Vtiger_Theme::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 									</a>&nbsp;
 								</span>
 								{\App\Language::translate($item['modulename'],$item['modulename'])}
 							</td>
-							<td>
-								<select multiple class="chzn-select form-control col-md-4 fieldname" name="fieldname">
-									<optgroup>
-										{foreach from=$Field item=fieldTab }
-											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['fieldname'],$fieldTab['columnname'])}selected{/if}>
-												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
-											</option>
-										{/foreach}
-									</optgroup>
-								</select>
+							<td class="alignMiddle">
+								<div class="elementLabels{$KEY}">
+									{assign var="VALUE" value=explode(',',$item['fieldname'])}
+									{foreach from=$VALUE item=NAME name=valueLoop}
+										{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
+										{if !$smarty.foreach.valueLoop.last},&nbsp;{/if}
+									{/foreach}
+								</div>
+								<div class="hide elementEdit{$KEY}">
+									<select multiple class="form-control fieldname" name="fieldname">
+										<optgroup>
+											{foreach from=$FIELDS item=fieldTab}
+												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
+													{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
+												</option>
+											{/foreach}
+										</optgroup>
+									</select>
+								</div>
 							</td>
-							<td>
-								<select multiple class="chzn-select form-control col-md-4 searchcolumn" name="searchcolumn">
-									<optgroup>
-										{foreach from=$Field item=fieldTab }
-											<option value="{$fieldTab['columnname']}" {if $MODULE_MODEL->compare_vale($item['searchcolumn'],$fieldTab['columnname'])}selected{/if}>
-												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
-											</option>
-										{/foreach}
-									</optgroup>
-								</select>
+							<td class="alignMiddle">
+								<div class="elementLabels{$KEY}">
+									{assign var="VALUE" value=explode(',',$item['searchcolumn'])}
+									{foreach from=$VALUE item=NAME name=valueLoop}
+										{\App\Language::translate($FIELDS[$NAME]['fieldlabel'],$item['modulename'])}
+										{if !$smarty.foreach.valueLoop.last},&nbsp;{/if}
+									{/foreach}
+								</div>
+								<div class="hide elementEdit{$KEY}">
+									<select multiple class="form-control searchcolumn" name="searchcolumn">
+										<optgroup>
+											{foreach from=$FIELDS item=fieldTab }
+												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
+													{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
+												</option>
+											{/foreach}
+										</optgroup>
+									</select>
+								</div>
 							</td>
-							<td>
-								<button class="btn marginLeftZero updateLabels btn-info" data-tabid="{$key}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>
+							<td class="alignMiddle">
+								<button class="btn editLabels btn-default" data-tabid="{$KEY}">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 							</td>
-							<td>
-								<button name="turn_off" class="btn marginLeftZero turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" style="min-width:40px" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{\App\Language::translate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{\App\Language::translate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
+							<td class="alignMiddle">
+								<button class="btn updateLabels btn-info noWrap" data-tabid="{$KEY}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>
+							</td>
+							<td class="alignMiddle">
+								<button name="turn_off" class="noWrap btn turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{\App\Language::translate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{\App\Language::translate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
 							</td>
 						</tr>
 					{/foreach}
