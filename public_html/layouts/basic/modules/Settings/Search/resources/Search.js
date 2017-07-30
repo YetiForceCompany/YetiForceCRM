@@ -12,11 +12,10 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		if (parseInt(target.val())) {
 			target.val(0).html(app.vtranslate('JS_TURN_ON'));
-			target.removeClass("btn-success").toggleClass("btn-danger btn-success");
 		} else {
 			target.val(1).html(app.vtranslate('JS_TURN_OFF'));
-			target.removeClass("btn-danger").toggleClass("btn-success btn-danger");
 		}
+		target.toggleClass("btn-success btn-danger");
 		Settings_Index_Js.save(e);
 	},
 	updateLabels: function (e) {

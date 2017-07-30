@@ -323,54 +323,26 @@ class SMSNotifier extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string Module name
+	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $event_type)
+	public function vtlib_handler($modulename, $eventType)
 	{
-
 		//adds sharing accsess
 		$SMSNotifierModule = vtlib\Module::getInstance('SMSNotifier');
 		vtlib\Access::setDefaultSharing($SMSNotifierModule);
-
-		$registerLinks = false;
-		$unregisterLinks = false;
-
-		if ($event_type == 'module.postinstall') {
-			$adb = PearDatabase::getInstance();
-			$unregisterLinks = true;
-			$registerLinks = true;
-
-			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-		} else if ($event_type == 'module.disabled') {
-			$unregisterLinks = true;
-		} else if ($event_type == 'module.enabled') {
-			$registerLinks = true;
-		} else if ($event_type == 'module.preuninstall') {
+		if ($eventType == 'module.postinstall') {
 			
-		} else if ($event_type == 'module.preupdate') {
+		} else if ($eventType == 'module.disabled') {
 			
-		} else if ($event_type == 'module.postupdate') {
+		} else if ($eventType == 'module.enabled') {
 			
-		}
-
-		if ($unregisterLinks) {
-
-			$smsnotifierModuleInstance = vtlib\Module::getInstance('SMSNotifier');
-			$smsnotifierModuleInstance->deleteLink("HEADERSCRIPT", "SMSNotifierCommonJS", "modules/SMSNotifier/SMSNotifierCommon.js");
-
-			$leadsModuleInstance = vtlib\Module::getInstance('Leads');
-			$leadsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
-			$leadsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
-
-			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
-			$contactsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
-			$contactsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
-
-			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accountsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
-			$accountsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
+		} else if ($eventType == 'module.preuninstall') {
+			
+		} else if ($eventType == 'module.preupdate') {
+			
+		} else if ($eventType == 'module.postupdate') {
+			
 		}
 	}
 }
