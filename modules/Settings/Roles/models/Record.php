@@ -134,19 +134,15 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all the children roles
-	 * @return <Array> - List of Settings_Roles_Record_Model instances
+	 * @return Settings_Roles_Record_Model[] List of Settings_Roles_Record_Model instances
 	 */
 	public function getAllChildren()
 	{
-		$db = PearDatabase::getInstance();
-
-		$parentRoleString = $this->getParentRoleString();
-
-		$sql = 'SELECT * FROM vtiger_role WHERE parentrole LIKE ?';
-		$params = array($parentRoleString . '::%');
-		$result = $db->pquery($sql, $params);
+		$dataReader = (new App\Db\Query())->from('vtiger_role')
+				->where(['like', 'parentrole', $this->getParentRoleString() . '::%', false])
+				->createCommand()->query();
 		$roles = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$role = new self();
 			$role->setData($row);
 			$roles[$role->getId()] = $role;
@@ -381,15 +377,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete($transferToRole)
 	{
-		$db = PearDatabase::getInstance();
+		$db = App\Db::getInstance();
 		$roleId = $this->getId();
 		$transferRoleId = $transferToRole->getId();
-
-		$db->pquery('UPDATE vtiger_user2role SET roleid=? WHERE roleid=?', array($transferRoleId, $roleId));
-
-		$db->pquery('DELETE FROM vtiger_role2profile WHERE roleid=?', array($roleId));
-		$db->pquery('DELETE FROM vtiger_group2role WHERE roleid=?', array($roleId));
-		$db->pquery('DELETE FROM vtiger_group2rs WHERE roleandsubid=?', array($roleId));
+		$db->createCommand()->update('vtiger_user2role', ['roleid' => $transferRoleId], ['roleid' => $roleId])->execute();
+		$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
+		$db->createCommand()->delete('vtiger_group2role', ['roleid' => $roleId])->execute();
+		$db->createCommand()->delete('vtiger_group2rs', ['roleandsubid' => $roleId])->execute();
 		/*
 		  $noOfUsers = $db->num_rows($user_result);
 		  $array_users = [];
@@ -401,13 +395,10 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		 */
 		//delete handling for sharing rules
 		deleteRoleRelatedSharingRules($roleId);
-
-		$db->pquery('DELETE FROM vtiger_role WHERE roleid=?', array($roleId));
-
+		$db->createCommand()->delete('vtiger_role', ['roleid' => $roleId])->execute();
 		$allChildren = $this->getAllChildren();
 		$transferParentRoleSequence = $transferToRole->getParentRoleString();
 		$currentParentRoleSequence = $this->getParentRoleString();
-
 		foreach ($allChildren as $roleId => $roleModel) {
 			$oldChildParentRoleString = $roleModel->getParentRoleString();
 			$newChildParentRoleString = str_replace($currentParentRoleSequence, $transferParentRoleSequence, $oldChildParentRoleString);
@@ -537,17 +528,16 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Users who are from this role
-	 * @return <Array> User record models list <Users_Record_Model>
+	 * @return Users_Record_Model[] User record models list Users_Record_Model
 	 */
 	public function getUsers()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT userid FROM vtiger_user2role WHERE roleid = ?', array($this->getId()));
-		$numOfRows = $db->num_rows($result);
-
+		$userIds = (new App\Db\Query())->select(['userid'])
+				->from('vtiger_user2role')
+				->where(['roleid' => $this->getId()])
+				->column();
 		$usersList = [];
-		for ($i = 0; $i < $numOfRows; $i++) {
-			$userId = $db->query_result($result, $i, 'userid');
+		foreach ($userIds as $userId) {
 			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');
 		}
 		return $usersList;
