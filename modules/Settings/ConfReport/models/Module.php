@@ -316,17 +316,17 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
 				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
 			],
-			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'status' => '?'],
-			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'status' => '?'],
-			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'status' => '?'],
-			'Header: X-Robots-Tag' => ['prefer' => 'none', 'status' => '?'],
-			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'status' => '?'],
-			'Header: X-Powered-By' => ['prefer' => '', 'status' => '?'],
-			'Header: Server' => ['prefer' => '', 'status' => '?'],
-			'Header: Referrer-Policy' => ['prefer' => 'no-referrer', 'status' => '?'],
-			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'status' => '?'],
-			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'status' => '?'],
-			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=15768000; includeSubDomains; preload', 'status' => '?'],
+			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'current' => '?'],
+			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'current' => '?'],
+			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'current' => '?'],
+			'Header: X-Robots-Tag' => ['prefer' => 'none', 'current' => '?'],
+			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'current' => '?'],
+			'Header: X-Powered-By' => ['prefer' => '', 'current' => '?'],
+			'Header: Server' => ['prefer' => '', 'current' => '?'],
+			'Header: Referrer-Policy' => ['prefer' => 'no-referrer', 'current' => '?'],
+			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'current' => '?'],
+			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'current' => '?'],
+			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=15768000; includeSubDomains; preload', 'current' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
@@ -359,6 +359,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			$headers = array_change_key_case(get_headers($requestUrl, 1), CASE_UPPER);
+			if (stripos($headers[0], 'ok') === false) {
+				$headers = [];
+			}
 		}
 		if ($headers) {
 			$directiveValues['Header: X-Frame-Options']['status'] = strtolower($headers['X-FRAME-OPTIONS']) !== 'sameorigin';
