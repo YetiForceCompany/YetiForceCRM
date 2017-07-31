@@ -958,7 +958,7 @@ class Vtiger_Record_Model extends \App\Base
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$fields = $inventory->getColumns();
 		$summaryFields = $inventory->getSummaryFields();
-		$inventoryData = $summary = [];
+		$inventoryData = [];
 		if (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
