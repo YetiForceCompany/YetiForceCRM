@@ -3,14 +3,15 @@
 /**
  * Export PDF Modal View Class
  * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
@@ -18,7 +19,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();

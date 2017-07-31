@@ -11,23 +11,6 @@
 require_once('include/CRMEntity.php');
 require_once('include/utils/utils.php');
 require_once 'include/Webservices/Utils.php';
-global $adv_filter_options;
-
-$adv_filter_options = array(
-	'e' => 'equals',
-	'n' => 'not equal to',
-	's' => 'starts with',
-	'ew' => 'ends with',
-	'c' => 'contains',
-	'k' => 'does not contain',
-	'l' => 'less than',
-	'g' => 'greater than',
-	'm' => 'less or equal',
-	'h' => 'greater or equal',
-	'b' => 'before',
-	'a' => 'after',
-	'bw' => 'between',
-);
 
 class CustomView extends CRMEntity
 {
@@ -54,14 +37,14 @@ class CustomView extends CRMEntity
 	 */
 	public function __construct($module = '')
 	{
-		global $current_user;
+		$currentUser = vglobal('current_user');
 		$this->customviewmodule = $module;
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
-		$this->smownerid = $current_user->id;
+		$this->smownerid = $currentUser->id;
 		$this->moduleMetaInfo = [];
 		if ($module != '' && $module != 'Calendar') {
-			$this->meta = $this->getMeta($module, $current_user);
+			$this->meta = $this->getMeta($module, $currentUser);
 		}
 	}
 
@@ -227,7 +210,7 @@ class CustomView extends CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			\App\Log::trace("Error !!!: " . \App\Language::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
@@ -238,7 +221,7 @@ class CustomView extends CRMEntity
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				\App\Log::trace("Error !!!: " . vtranslate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				\App\Log::trace("Error !!!: " . \App\Language::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
 				throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
@@ -289,7 +272,6 @@ class CustomView extends CRMEntity
 	 */
 	public function getAdvFilterByCvid($cvid)
 	{
-		$adb = PearDatabase::getInstance();
 		$advft_criteria = [];
 		$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
 				->where(['cvid' => $cvid])
@@ -344,7 +326,6 @@ class CustomView extends CRMEntity
 
 	public function getAdvftCriteria($relcriteriarow)
 	{
-		$columnIndex = $relcriteriarow['columnindex'];
 		$criteria = [];
 		$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 		$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -433,7 +414,6 @@ class CustomView extends CRMEntity
 	 */
 	public function getCvColumnListSQL($cvid)
 	{
-		$adb = PearDatabase::getInstance();
 		$columnslist = $this->getColumnsListByCvid($cvid);
 		if (isset($columnslist)) {
 			foreach ($columnslist as $columnname => $value) {
@@ -518,11 +498,9 @@ class CustomView extends CRMEntity
 
 			foreach ($stdfilterlist as $columnname => $value) {
 
-				if ($columnname == "columnname") {
+				if ($columnname === 'columnname') {
 					$filtercolumn = $value;
-				} elseif ($columnname == "stdfilter") {
-					$filtertype = $value;
-				} elseif ($columnname == "startdate") {
+				} elseif ($columnname === 'startdate') {
 					$startDateTime = new DateTimeField($value . ' ' . date('H:i:s'));
 					$userStartDate = $startDateTime->getDisplayDate();
 					$userStartDateTime = new DateTimeField($userStartDate . ' 00:00:00');
@@ -570,8 +548,6 @@ class CustomView extends CRMEntity
 	// Not modified as of now, as this function is not used for now (Instead Query Generator is used for better performance).
 	public function getCVAdvFilterSQL($cvid)
 	{
-		$current_user = vglobal('current_user');
-
 		$advfilter = $this->getAdvFilterByCvid($cvid);
 
 		$advcvsql = "";
@@ -659,8 +635,6 @@ class CustomView extends CRMEntity
 	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
 		$currentModule = vglobal('currentModule');
 		$mod_strings = vglobal('mod_strings');
 		//Added for proper check of contact name in advance filter
@@ -823,8 +797,8 @@ class CustomView extends CRMEntity
 	public function getAdvComparator($comparator, $value, $datatype = '')
 	{
 
-		global $adb, $default_charset;
-		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
+		$adb = vglobal('ab');
+		$value = html_entity_decode(trim($value), ENT_QUOTES, vglobal('default_charset'));
 		$value = $adb->sql_escape_string($value);
 
 		if ($comparator == "e") {

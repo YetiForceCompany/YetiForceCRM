@@ -26,7 +26,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		$this->exposeMethod('undoImport');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -34,7 +34,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -44,7 +44,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		echo $this->import($request);
 	}
 
-	public function postprocess(Vtiger_Request $request)
+	public function postprocess(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -54,9 +54,9 @@ class Calendar_Import_View extends Vtiger_Import_View
 
 	/**
 	 * Function to show import UI in Calendar Module
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function import(Vtiger_Request $request)
+	public function import(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -69,9 +69,9 @@ class Calendar_Import_View extends Vtiger_Import_View
 
 	/**
 	 * Function to show result of import
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function importResult(Vtiger_Request $request)
+	public function importResult(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUserModel->getId();
@@ -91,7 +91,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 				$todoModule => array('activitystatus')
 			);
 
-			$requiredFields = array();
+			$requiredFields = [];
 			$modules = array($eventModule, $todoModule);
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
@@ -173,9 +173,9 @@ class Calendar_Import_View extends Vtiger_Import_View
 
 	/**
 	 * Function to show result of undo import
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function undoImport(Vtiger_Request $request)
+	public function undoImport(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();

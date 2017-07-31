@@ -1,6 +1,6 @@
 {*<!--
 /*+***********************************************************************************************************************************
-* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
+* The contents of this file are subject to the YetiForce Public License Version 2.0 (the "License"); you may not use this file except
 * in compliance with the License.
 * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 * See the License for the specific language governing rights and limitations under the License.
@@ -34,8 +34,8 @@
 		loadChart: function () {
 			var container = this.getContainer();
 			var data = container.find('.widgetData').val();
-			var labels = new Array();
-			var value = new Array();
+			var labels = [];
+			var value = [];
 			var dataInfo = JSON.parse(data);
 			for (var i = 0; i < dataInfo.length; i++) {
 				labels[i] = dataInfo[i][2];
@@ -87,16 +87,16 @@
 		<tbody>
 			<tr>
 				<td class="col-md-8">
-					<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
+					<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 				</td>
 				<td class="col-md-2">
 					<div>
 						<select class="widgetFilter owner" name="owner" style='width:70px;margin-bottom:0px'>
-							<option value="{$CURRENTUSER->getId()}" >{vtranslate('LBL_MINE')}</option>
-							<option value="all">{vtranslate('LBL_ALL')}</option>
+							<option value="{$CURRENTUSER->getId()}" >{\App\Language::translate('LBL_MINE')}</option>
+							<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 							{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 							{if count($ALL_ACTIVEUSER_LIST) gt 1}
-								<optgroup label="{vtranslate('LBL_USERS')}">
+								<optgroup label="{\App\Language::translate('LBL_USERS')}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 										{if $OWNER_ID neq {$CURRENTUSER->getId()}}
 											<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
@@ -106,7 +106,7 @@
 							{/if}
 							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 							{if !empty($ALL_ACTIVEGROUP_LIST)}
-								<optgroup label="{vtranslate('LBL_GROUPS')}">
+								<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 									{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 										<option value="{$OWNER_ID}">{$OWNER_NAME}</option>
 									{/foreach}
@@ -118,13 +118,13 @@
 				<td class="col-md-2">
 					<div>
 						<select class="widgetFilter" id="dateFilter" name="dateFilter" style='width:70px;margin-bottom:0px'>
-							<option value="Today" >{vtranslate('Today', $MODULE_NAME)}</option>
-							<option value="Yesterday">{vtranslate('Yesterday', $MODULE_NAME)}</option>
-							<option value="Current week">{vtranslate('Current week', $MODULE_NAME)}</option>
-							<option value="Previous week">{vtranslate('Previous week', $MODULE_NAME)}</option>
-							<option value="Current month">{vtranslate('Current month', $MODULE_NAME)}</option>
-							<option value="Previous month">{vtranslate('Previous month', $MODULE_NAME)}</option>
-							{*<option value="All">{vtranslate('All')}</option>*}
+							<option value="Today" >{\App\Language::translate('Today', $MODULE_NAME)}</option>
+							<option value="Yesterday">{\App\Language::translate('Yesterday', $MODULE_NAME)}</option>
+							<option value="Current week">{\App\Language::translate('Current week', $MODULE_NAME)}</option>
+							<option value="Previous week">{\App\Language::translate('Previous week', $MODULE_NAME)}</option>
+							<option value="Current month">{\App\Language::translate('Current month', $MODULE_NAME)}</option>
+							<option value="Previous month">{\App\Language::translate('Previous month', $MODULE_NAME)}</option>
+							{*<option value="All">{\App\Language::translate('All')}</option>*}
 						</select>
 					</div>
 				</td>
@@ -141,7 +141,7 @@
 	<div class="row">
 	<span class="col-md-5">
 	<span class="pull-right">
-	{vtranslate('Expected Close Date', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}
+	{\App\Language::translate('Expected Close Date', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}
 	</span>
 	</span>
 	<span class="col-md-4">

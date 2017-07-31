@@ -3,7 +3,8 @@
 /**
  * Advanced Filter Class
  * @package YetiForce.Helpers
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -120,6 +121,8 @@ class Vtiger_AdvancedFilter_Helper
 	public static function transformToAdvancedFilterCondition($conditions = false)
 	{
 		$transformedConditions = [];
+		$firstGroup = [];
+		$secondGroup = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
@@ -163,7 +166,7 @@ class Vtiger_AdvancedFilter_Helper
 		foreach (\App\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
-			$comparatorInfo['label'] = vtranslate($comparatorInfo['label'], $moduleName);
+			$comparatorInfo['label'] = \App\Language::translate($comparatorInfo['label'], $moduleName);
 			$dateFilters[$comparatorKey] = $comparatorInfo;
 		}
 		return $dateFilters;
@@ -178,7 +181,7 @@ class Vtiger_AdvancedFilter_Helper
 			return self::$recordStructure[$recordId];
 		}
 		$values = [];
-		$baseModuleModel = $moduleModel = $recordModel->getModule();
+		$moduleModel = $recordModel->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
@@ -223,8 +226,7 @@ class Vtiger_AdvancedFilter_Helper
 					if (!empty($fieldModelList)) {
 						foreach ($fieldModelList as $fieldName => $fieldModel) {
 							if ($fieldModel->isViewable()) {
-								$name = "$(reletedRecord : $parentFieldName|$fieldName|$refModule)$";
-								$label = vtranslate($field->get('label'), $baseModuleModel->getName()) . ' : (' . vtranslate($refModule, $refModule) . ') ' . vtranslate($fieldModel->get('label'), $refModule);
+								$name = "$(relatedRecord : $parentFieldName|$fieldName|$refModule)$";
 								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {
 									$fieldValueType = $recordModel->getFieldFilterValueType($name);

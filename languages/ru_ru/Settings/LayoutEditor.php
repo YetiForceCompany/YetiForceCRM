@@ -90,6 +90,7 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Пользовательское (Например: vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
 	'Tree' => 'Каталог',
+	'CategoryMultipicklist' => 'Tree field (multiple choice)',
 	'LBL_FIELD_MASK_INFO' => 'Маска по умолчанию <br />9: цифры<br />a: буквы<br />*: цифры и буквы<br /><br />Пример:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Значения соответствующего модуля',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Связанные модули',
@@ -162,6 +163,7 @@ $languageStrings = [
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Добавить дополнительное поле в блок',
 	'LBL_MAX_LENGTH_TEXT' => 'Максимальная длина текста',
 	'LBL_MAX_WIDTH_COLUMN' => 'Ширина колонки [%]',
+	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
 ];
 
 $jsLanguageStrings = [

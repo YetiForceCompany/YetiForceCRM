@@ -3,10 +3,11 @@
 /**
  * Calendar Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author YetiForce.com
  */
-class Calendar_Calendar_Model extends Vtiger_Base_Model
+class Calendar_Calendar_Model extends App\Base
 {
 
 	public $moduleName = 'Calendar';
@@ -20,6 +21,14 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	public function getModuleName()
 	{
 		return $this->moduleName;
+	}
+
+	private function getLabel($labels, $key)
+	{
+		if (isset($labels[$key])) {
+			return $labels[$key];
+		}
+		return '';
 	}
 
 	/**
@@ -47,20 +56,20 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
 			$query->andWhere([
 				'or',
-					[
+				[
 					'and',
-						['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
+					['>=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(date_start, ' ', time_start)"), $dbEndDateTime]
 				],
-					[
+				[
 					'and',
-						['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
-						['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime]
+					['>=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(due_date, ' ', time_end)"), $dbEndDateTime]
 				],
-					[
+				[
 					'and',
-						['<', 'date_start', $dbStartDate],
-						['>', 'due_date', $dbEndDate]
+					['<', 'date_start', $dbStartDate],
+					['>', 'due_date', $dbEndDate]
 				]
 			]);
 		}
@@ -144,21 +153,23 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 
 			//translate
-			$item['labels']['sta'] = vtranslate($record['status'], $this->getModuleName());
-			$item['labels']['pri'] = vtranslate($record['priority'], $this->getModuleName());
-			$item['labels']['state'] = vtranslate($record['state'], $this->getModuleName());
+			$item['labels']['sta'] = \App\Language::translate($record['status'], $this->getModuleName());
+			$item['labels']['pri'] = \App\Language::translate($record['priority'], $this->getModuleName());
+			$item['labels']['state'] = \App\Language::translate($record['state'], $this->getModuleName());
 
 			//Relation
 			$item['link'] = $record['link'];
-			$item['linkl'] = $labels[$record['link']];
+			$item['linkl'] = $this->getLabel($labels, $record['link']);
+			// / migoi
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = vtlib\Functions::textLength($labels[$record['process']]);
+			$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+			// / migoi
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = vtlib\Functions::textLength($labels[$record['subprocess']]);
+			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
@@ -226,7 +237,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 	public function getEntityCount()
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
 		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
 		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
@@ -234,7 +244,6 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
-			$crmid = $record['activityid'];
 			$activitytype = $record['activitytype'];
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
@@ -262,7 +271,7 @@ class Calendar_Calendar_Model extends Vtiger_Base_Model
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
 					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
-					$return[$date]['event'][$activitytype]['label'] = vtranslate($activitytype, $this->getModuleName());
+					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}
 			}

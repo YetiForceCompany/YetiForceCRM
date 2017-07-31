@@ -44,7 +44,7 @@
 				<p class="col-xs-6 marginLeftZero">
 					<small>
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">
-							[ {vtranslate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
+							[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
 						</span>
 					</small>
 				</p>
@@ -63,17 +63,17 @@
 					{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 						<button type="button" class="btn btn-xs btn-success replyComment">
 							<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-							&nbsp;{vtranslate('LBL_REPLY',$MODULE_NAME)}
+							&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 						</button>
 					{/if}
 					{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 						<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_EDIT',$MODULE_NAME)}
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 						</button>
 					{/if}
 					{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
 						<button type="button" class="btn btn-xs btn-danger deleteComment marginLeft5">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{vtranslate('LBL_DELETE',$MODULE_NAME)}
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}
 						</button>
 					{/if}
 				</span>

@@ -23,7 +23,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('deleteModule');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -32,10 +32,9 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function updateModuleStatus(Vtiger_Request $request)
+	public function updateModuleStatus(\App\Request $request)
 	{
 		$moduleName = $request->get('forModule');
-		$updateStatus = $request->get('updateStatus');
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		$response = new Vtiger_Response();
 		try {
@@ -50,7 +49,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function importUserModuleStep3(Vtiger_Request $request)
+	public function importUserModuleStep3(\App\Request $request)
 	{
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
@@ -78,7 +77,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function updateUserModuleStep3(Vtiger_Request $request)
+	public function updateUserModuleStep3(\App\Request $request)
 	{
 		$importModuleName = $request->get('module_import_name');
 		$uploadFile = $request->get('module_import_file');
@@ -110,20 +109,20 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}
 
-	public function checkModuleName(Vtiger_Request $request)
+	public function checkModuleName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('moduleName');
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
-			$result = array('success' => false, 'text' => vtranslate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
-			$result = array('success' => false, 'text' => vtranslate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+			$result = array('success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
 		} else {
 			$result = array('success' => true);
 		}
@@ -132,9 +131,8 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function createModule(Vtiger_Request $request)
+	public function createModule(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$formData = $request->get('formData');
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		$result = array('success' => true, 'text' => ucfirst($formData['module_name']));
@@ -148,7 +146,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$response->emit();
 	}
 
-	public function deleteModule(Vtiger_Request $request)
+	public function deleteModule(\App\Request $request)
 	{
 		$moduleName = $request->get('forModule');
 		$moduleInstance = vtlib\Module::getInstance($moduleName);

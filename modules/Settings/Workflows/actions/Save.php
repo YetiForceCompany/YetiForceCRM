@@ -11,7 +11,7 @@
 class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
@@ -37,7 +37,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 			if (!preg_match('/^[0-2]\d(:[0-5]\d){1,2}$/', $schtime) || substr($schtime, 0, 2) > 23) {  // invalid time format
 				$schtime = '00:00';
 			}
-			$schtime .=':00';
+			$schtime .= ':00';
 
 			$workflowModel->set('schtime', $schtime);
 
@@ -46,7 +46,6 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 
 			$dayOfMonth = null;
 			$dayOfWeek = null;
-			$month = null;
 			$annualDates = null;
 
 			if ($workflowScheduleType == Workflow::$SCHEDULED_WEEKLY) {
@@ -89,7 +88,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

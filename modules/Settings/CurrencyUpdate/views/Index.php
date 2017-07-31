@@ -1,14 +1,15 @@
 <?php
 
 /**
- * @package YetiForce.Views
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 
 		\App\Log::trace('Start ' . __METHOD__);
@@ -49,7 +50,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$selectBankId = $moduleModel->getActiveBankId();
 
 		$history = $moduleModel->getRatesHistory($selectBankId, $dateCur, $request);
-		$bankTab = array();
+		$bankTab = [];
 
 		$db = new \App\Db\Query();
 		$db->from('yetiforce_currencyupdate_banks');

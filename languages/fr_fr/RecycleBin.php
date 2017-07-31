@@ -18,10 +18,10 @@ $languageStrings = [
 	'LBL_NO_RECORDS_FOUND' => 'Aucun enregistrement du module trouvé dans la corbeille',
 ];
 $jsLanguageStrings = [
-	'JS_DELETE_CONFIRMATION_RB' => 'Etes-vous sur de vouloir supprimer tous les enregistremenst effacés de la DB?',
-	'JS_MASS_DELETE_CONFIRMATION_RB' => 'Etes-vous sur de vouloir supprimer tous les enregistremenst effacés de la DB?',
-	'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Etes-vous sur de vouloir restaurer tous les enregistrements?',
-	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Etes-vous sur de vouloir supprimer tous les enregistremenst effacés de la DB?',
-	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Etes-vous sur de vouloir restaurer tous les enregistrements?',
+	'JS_DELETE_CONFIRMATION_RB' => 'Etes-vous sur de vouloir supprimer tous les enregistremenst effacés de la base de données ?',
+	'JS_MASS_DELETE_CONFIRMATION_RB' => 'Etes-vous sur de vouloir supprimer tous les enregistremenst effacés de la base de données ?',
+	'JS_LBL_RESTORE_RECORD_CONFIRMATION' => 'Etes-vous sur de vouloir restaurer tous les enregistrements ?',
+	'JS_MSG_EMPTY_RB_CONFIRMATION' => 'Etes-vous sur de vouloir supprimer tous les enregistremenst effacés de la base de données ?',
+	'JS_LBL_RESTORE_RECORDS_CONFIRMATION' => 'Etes-vous sur de vouloir restaurer tous les enregistrements ?',
 	'JS_RESTORING_RECORDS' => 'Restauration des enregistrements',
 ];

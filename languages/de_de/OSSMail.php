@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * OSSMail german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'OSSMail' => 'Meine Mailbox',
 	'OSSMail_manual' => 'E-Mail Modul',
@@ -70,6 +75,8 @@ $languageStrings = [
 	'LBL_ADD_HELPDESK' => 'Ticket hinzufügen',
 	'LBL_ADD_PRODUCTS' => 'Produkt hinzufügen',
 	'LBL_ADD_SERVICES' => 'Service  hinzufügen',
+	//BTN
+	'LBL_CREATEMAIL' => 'E-Mail senden',
 ];
 $jsLanguageStrings = [
 	'NoFindEmailInRecord' => 'Datensatz hat keine E-Mail-Adresse',

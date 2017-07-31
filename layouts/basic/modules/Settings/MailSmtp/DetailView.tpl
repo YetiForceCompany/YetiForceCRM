@@ -1,5 +1,5 @@
-{strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip} 
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="widget_header row">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -57,7 +57,7 @@
 						{$RECORD_MODEL->getDisplayValue('port')}
 					</td>
 				</tr>
-					<tr>
+				<tr>
 					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('authentication')}
@@ -106,9 +106,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_REPLAY_TO', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_REPLY_TO', $QUALIFIED_MODULE)}</label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
-						{$RECORD_MODEL->getDisplayValue('replay_to')}
+						{$RECORD_MODEL->getDisplayValue('reply_to')}
 					</td>
 				</tr>
 				<tr>
@@ -117,7 +117,60 @@
 						{$RECORD_MODEL->getDisplayValue('options')}
 					</td>
 				</tr>
+				<tr>
+					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}</label></td>
+					<td class="{$WIDTHTYPE} col-md-8">
+						{$RECORD_MODEL->getDisplayValue('save_send_mail')}
+					</td>
+				</tr>
 			</tbody>
 		</table>
+		{if $RECORD_MODEL->get('save_send_mail') eq 1}	
+			<table class="table table-bordered">
+				<thead>
+					<tr class="blockHeader">
+						<th colspan="2" class="{$WIDTHTYPE} col-md-12"><strong>{App\Language::translate('LBL_IMAP_SAVE_MAIL',$QUALIFIED_MODULE)}</strong></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}</label></td>
+						<td class="{$WIDTHTYPE} col-md-8">
+							{$RECORD_MODEL->getDisplayValue('smtp_host')}
+						</td>
+					</tr>
+					<tr>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)}</label></td>
+						<td class="{$WIDTHTYPE} col-md-8">
+							{$RECORD_MODEL->getDisplayValue('smtp_port')}
+						</td>
+					</tr>
+					<tr>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_USERNAME', $QUALIFIED_MODULE)}</label></td>
+						<td class="{$WIDTHTYPE} col-md-8">
+							{$RECORD_MODEL->getDisplayValue('smtp_username')}
+						</td>
+					</tr>
+					<tr>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}</label></td>
+						<td class="{$WIDTHTYPE} col-md-8">
+							{$RECORD_MODEL->getDisplayValue('smtp_password')}
+						</td>
+					</tr>
+					<tr>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_SEND_FOLDER', $QUALIFIED_MODULE)}</label></td>
+						<td class="{$WIDTHTYPE} col-md-8">
+							{$RECORD_MODEL->getDisplayValue('smtp_folder')}
+						</td>
+					</tr>
+					<tr>
+						<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{App\Language::translate('LBL_VALIDATE_CERT', $QUALIFIED_MODULE)}</label></td>
+						<td class="{$WIDTHTYPE} col-md-8">
+							{$RECORD_MODEL->getDisplayValue('smtp_validate_cert')}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		{/if}	
 	</div>
 	{strip}

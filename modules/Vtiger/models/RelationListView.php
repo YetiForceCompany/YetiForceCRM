@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_RelationListView_Model extends Vtiger_Base_Model
+class Vtiger_RelationListView_Model extends \App\Base
 {
 
 	protected $relationModel = false;
@@ -90,23 +90,10 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 
 		$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModuleModel, $label);
 		$instance->setParentRecordModel($parentRecordModel);
-		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
-
 		if (!$relationModel) {
-			throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification  1 <<<");
-			$relatedModuleName = $relatedModuleModel->getName();
-			$parentModuleModel = $instance->getParentRecordModel()->getModule();
-			$referenceFieldOfParentModule = $parentModuleModel->getFieldsByType('reference');
-			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
-				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
-				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
-					$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
-					$relationModel = new $relationModelClassName();
-					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
-					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
-				}
-			}
+			return false;
 		}
+		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
 		$relationModel->set('query_generator', $queryGenerator);
 		$relationModel->set('parentRecord', $parentRecordModel);
 		$instance->setRelationModel($relationModel)->set('query_generator', $queryGenerator);
@@ -250,11 +237,14 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	{
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			$relationModule = $this->getRelationModel()->getRelationModuleModel();
-			$field = $relationModule->getFieldByColumn($orderBy);
+			$field = $this->getRelationModel()->getRelationModuleModel()->getFieldByColumn($orderBy);
 			if ($field) {
-				$this->getRelationModel()->getQueryGenerator()->setOrder($field->getName(), $this->getForSql('sortorder'));
+				$orderBy = $field->getName();
 			}
+			if ($field || $orderBy === 'id') {
+				return $this->getRelationModel()->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
+			}
+			\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 
@@ -315,8 +305,8 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$relModuleName = $this->getRelatedModuleModel()->getName();
 		$relationModel = $this->getRelationModel();
 		$template = $this->getTreeViewModel()->getTemplate();
-		$showCreatorDetail = $relationModel->showCreatorDetail();
-		$showComment = $relationModel->showComment();
+		$showCreatorDetail = $relationModel->get('creator_detail');
+		$showComment = $relationModel->get('relation_comment');
 
 		$rows = (new \App\Db\Query())
 				->select(['ttd.*', 'rel.crmid', 'rel.rel_created_time', 'rel.rel_created_user', 'rel.rel_comment'])
@@ -359,7 +349,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	 */
 	public function getRelatedTreeEntriesCount()
 	{
-		$db = PearDatabase::getInstance();
 		$recordId = $this->getParentRecordModel()->getId();
 		$relModuleId = $this->getRelatedModuleModel()->getId();
 		$treeViewModel = $this->getTreeViewModel();
@@ -425,8 +414,6 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 	public function getLinks()
 	{
 		$relationModel = $this->getRelationModel();
-		$actions = $relationModel->getActions();
-
 		$selectLinks = $this->getSelectRelationLinks();
 		foreach ($selectLinks as $selectLinkModel) {
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModel->getRelationModuleModel());
@@ -456,7 +443,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$selectLinkList = array(
 			array(
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => vtranslate('LBL_SELECT_RELATION', $relatedModel->getName()),
+				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => '',
 			)
@@ -481,7 +468,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			return $addLinkModel;
 		}
 
-		if ($relatedModel->get('label') == 'Calendar') {
+		if ($relatedModel->get('label') === 'Calendar') {
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
@@ -500,7 +487,7 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 			$addLinkList = [[
 				'linktype' => 'LISTVIEWBASIC',
 				// NOTE: $relatedModel->get('label') assuming it to be a module name - we need singular label for Add action.
-				//'linklabel' => vtranslate('LBL_ADD')." ".vtranslate('SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
+				//'linklabel' => \App\Language::translate('LBL_ADD')." ".vtranslate'SINGLE_' . $relatedModel->getName(), $relatedModel->getName()),
 				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
@@ -526,14 +513,12 @@ class Vtiger_RelationListView_Model extends Vtiger_Base_Model
 		$db = PearDatabase::getInstance();
 		$moduleName = $fieldModel->getModuleName();
 		$fieldName = $fieldModel->get('name');
-		$tableName = $fieldModel->get('table');
-		$columnName = $fieldModel->get('column');
 
-		if (($fieldName == 'currency_id') && ($moduleName == 'Products' || $moduleName == 'Services')) {
+		if (($fieldName === 'currency_id') && ($moduleName === 'Products' || $moduleName === 'Services')) {
 			$query = "SELECT currency_symbol FROM vtiger_currency_info WHERE id = (";
-			if ($moduleName == 'Products')
+			if ($moduleName === 'Products')
 				$query .= "SELECT currency_id FROM vtiger_products WHERE productid = ?)";
-			else if ($moduleName == 'Services')
+			else if ($moduleName === 'Services')
 				$query .= "SELECT currency_id FROM vtiger_service WHERE serviceid = ?)";
 
 			$result = $db->pquery($query, array($recordId));

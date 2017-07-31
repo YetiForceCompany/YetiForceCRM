@@ -11,7 +11,7 @@
 class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$recordPermission = Users_Privileges_Model::isPermitted('Faq', 'EditView');
 
@@ -20,12 +20,11 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
-		$result = array();
 		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 

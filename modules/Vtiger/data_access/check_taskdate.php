@@ -35,7 +35,7 @@ Class DataAccess_check_taskdate
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => vtranslate('Date can not be greater', 'DataAccess') . ' ( ' . $record_form['targetenddate'] . ' < ' . $projectMilestoneDateUserFormat . ')',
+					'text' => \App\Language::translate('Date can not be greater', 'DataAccess') . ' ( ' . $record_form['targetenddate'] . ' < ' . $projectMilestoneDateUserFormat . ')',
 					'type' => 'error'
 				)
 			);

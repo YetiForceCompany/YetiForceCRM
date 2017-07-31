@@ -14,9 +14,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -50,10 +50,10 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
@@ -62,9 +62,48 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
 			if ($fieldModel && $fieldModel->isEditable()) {
 				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));
+				if ($request->getBoolean('setRelatedFields') && $fieldModel->isReferenceField()) {
+					$recordModel = $this->setRelatedFieldsInHierarchy($recordModel, $fieldModel->getName());
+				}
 			}
 		} else {
 			$recordModel = parent::getRecordModelFromRequest($request);
+		}
+		return $recordModel;
+	}
+
+	/**
+	 * Replenishment of related fields
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string $fieldName
+	 * @return \Vtiger_Record_Model
+	 */
+	public function setRelatedFieldsInHierarchy($recordModel, $fieldName)
+	{
+		$fieldValue = $recordModel->get($fieldName);
+		$relatedModules = \App\ModuleHierarchy::getRelationFieldByHierarchy($recordModel->getModuleName(), $fieldName);
+		if ($relatedModules && !empty($fieldValue) && $recordModel->getPreviousValue($fieldName) !== $fieldValue) {
+			$sourceModule = \App\Record::getType($fieldValue);
+			foreach ($relatedModules as $relatedModule => $relatedFields) {
+				if ($relatedModule === $sourceModule) {
+					$relRecordModel = \Vtiger_Record_Model::getInstanceById($fieldValue, $sourceModule);
+					foreach ($relatedFields as $to => $from) {
+						$toModel = $recordModel->getModule()->getFieldByName($to);
+						$relFieldModel = $relRecordModel->getModule()->getFieldByName($from[0]);
+						$relFieldValue = $relRecordModel->get($from[0]);
+						if ($relFieldValue && $relFieldModel && $toModel && $toModel->isWritable()) {
+							if ($toModel->isReferenceField() || $relFieldModel->isReferenceField()) {
+								$sourceType = \App\Record::getType($relFieldValue);
+								if (in_array($sourceType, $toModel->getReferenceList())) {
+									$recordModel->set($toModel->getName(), $relFieldValue);
+								}
+							} else {
+								$recordModel->set($toModel->getName(), $relFieldValue);
+							}
+						}
+					}
+				}
+			}
 		}
 		return $recordModel;
 	}

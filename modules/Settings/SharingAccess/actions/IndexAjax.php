@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings SharingAccess IndexAjax action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action
 {
 
@@ -20,7 +17,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$this->exposeMethod('deleteRule');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -29,7 +26,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		}
 	}
 
-	public function saveRule(Vtiger_Request $request)
+	public function saveRule(\App\Request $request)
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('save');
@@ -64,7 +61,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->emit();
 	}
 
-	public function deleteRule(Vtiger_Request $request)
+	public function deleteRule(\App\Request $request)
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('delete');
@@ -85,7 +82,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

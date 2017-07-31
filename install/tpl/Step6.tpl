@@ -16,7 +16,7 @@
 		<input type="hidden" name="lang" value="{$LANG}" />
 		<div class="row main-container">
 			<div class="inner-container">
-				<h4>{vtranslate('LBL_CONFIGURATION_COMPANY_DETAILS','Install')}</h4>
+				<h4>{\App\Language::translate('LBL_CONFIGURATION_COMPANY_DETAILS','Install')}</h4>
 				<hr>
 				<div class="offset2">
 					<div class="row">
@@ -121,8 +121,8 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="button-container">
-								<input type="button" class="btn btn-sm btn-default" value="{vtranslate('LBL_BACK','Install')}" onclick="window.history.back()"/>
-								<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT','Install')}" name="step7"/>
+								<input type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_BACK','Install')}" onclick="window.history.back()"/>
+								<input type="button" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT','Install')}" name="step7"/>
 							</div>
 						</div>
 					</div>
@@ -135,9 +135,9 @@
 			<div class="inner-container">
 				<div class="row">
 					<div class="span12 welcome-div alignCenter">
-						<h3>{vtranslate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br>
-						<img src="../layouts/basic/skins/images/install_loading.gif"/>
-						<h6>{vtranslate('LBL_PLEASE_WAIT','Install')}.... </h6>
+						<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br />
+						<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
+						<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
 					</div>
 				</div>
 			</div>

@@ -11,18 +11,18 @@
 class Vtiger_Delete_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'Delete', $record)) {
-			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -43,7 +43,7 @@ class Vtiger_Delete_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

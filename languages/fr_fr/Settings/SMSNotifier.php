@@ -9,7 +9,7 @@
  *************************************************************************************/
 $languageStrings = [
 	'Enter new data' => 'Saisir de nouvelles données',
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'ID Organisation',
+	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'N° de compte',
 	'LBL_SMS_SENDER' => 'Expéditeur',
 	'LBL_SMSPM_AUTH_HASH' => 'Hash d\'authentification',
 	'LBL_SMS_TIME' => 'Temps (min)',
@@ -34,7 +34,7 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'ID Organisation',
+	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'N° de compte',
 	'LBL_SMSPM_AUTH_HASH' => 'Hash d\'authentification',
 	'LBL_SMS_TIME' => 'Heure (min)',
 	'LBL_SMS_SENDER' => 'Expéditeur',

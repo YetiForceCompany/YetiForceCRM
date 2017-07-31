@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Non applicable (vérification)',
+	'PLL_NOT_RENEWED_VERIFICATION' => 'Non renouvelé (vérification)',
+	'PLL_RENEWED_VERIFICATION' => 'Renouvelé (vérification)',
 	// Basic Strings
 	'Assets'        => 'Actifs',
 	'SINGLE_Assets' => 'Actif',
@@ -17,12 +20,12 @@ $languageStrings = [
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Détails actif',
 	//Field Labels
-        'Asset No' => 'Actif No',
-	'Serial Number' => 'Numéro de série',
+    'Asset No' => 'Actif N°',
+	'Serial Number' => 'N° de série',
 	'Date Sold' => 'Date de vente',
 	'Date in Service' => 'Date d\'expiration',
-	'Invoice Name' => 'Numéro de facture',
-	'Shipping Tracking Number' => 'Numéro de suivi d\'envoi',
+	'Invoice Name' => 'N° de facture',
+	'Shipping Tracking Number' => 'N° de suivi d\'envoi',
 	'Asset Name' => 'Nom',
 	'Customer Name' => 'Nom du Client',
 	'Notes' => 'Notes',

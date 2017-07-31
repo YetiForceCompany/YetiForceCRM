@@ -3,7 +3,8 @@
 /**
  * Notification Record Model
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_Record_Model extends Vtiger_Record_Model
@@ -146,7 +147,8 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];
 		if (!empty($users)) {
-			foreach (explode(',', $users) as $userId) {
+			$users = is_array($users) ? $users : explode(',', $users);
+			foreach ($users as $userId) {
 				$userType = \App\Fields\Owner::getType($userId);
 				if ($userType === 'Groups') {
 					$usersCollection = array_merge($usersCollection, \App\PrivilegeUtil::getUsersByGroup($userId));
@@ -187,7 +189,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				$relatedRecord = $this->getRelatedRecord();
 				$icon = [
 					'type' => 'icon',
-					'title' => vtranslate($relatedRecord['module'], $relatedRecord['module']),
+					'title' => \App\Language::translate($relatedRecord['module'], $relatedRecord['module']),
 					'class' => 'userIcon-' . $relatedRecord['module'],
 				];
 				break;

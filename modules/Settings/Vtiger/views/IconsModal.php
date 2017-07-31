@@ -3,13 +3,14 @@
 /**
  * Icons Modal View Class
  * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -17,7 +18,7 @@ class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -30,7 +31,7 @@ class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$scripts = array(
 			'modules.Settings.Vtiger.resources.IconsModal'

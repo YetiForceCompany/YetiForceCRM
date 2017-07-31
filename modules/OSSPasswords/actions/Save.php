@@ -1,18 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSPasswords save action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSPasswords_Save_Action extends Vtiger_Save_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
@@ -30,17 +27,14 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \App\Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord($request)
+	public function saveRecord(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$recordModel = $this->getRecordModelFromRequest($request);
-		$mode = $recordModel->get('mode');
-
 		$adb = PearDatabase::getInstance();
-
 		// check if encryption is enabled
 		$config = false;
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {
@@ -50,7 +44,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 		//check if password was edited with hidden password
 		$properPassword = $recordModel->get('password');
 		// edit mode
-		if ($recordId != '' && $mode == 'edit') {
+		if (!$recordModel->isNew()) {
 			if ($properPassword == '**********') { // hidden password sent in edit mode, get the correct one
 				if ($config) { // when encryption is on
 					$sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
@@ -70,7 +64,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 				$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?,?) WHERE `osspasswordsid` = ?;";
 				$result = $adb->pquery($sql, array($properPassword, $config['key'], $recordId), true);
 			}
-		} else if ($recordId == '' && $mode == '') {
+		} else {
 			$recordModel->save();
 
 			// if encryption mode is on we will encrypt the password

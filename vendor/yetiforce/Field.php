@@ -4,8 +4,10 @@ namespace App;
 /**
  * Field basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Field
 {
@@ -74,7 +76,12 @@ class Field
 			return static::$fieldPermissionCacheWrite[$tabId][$fieldMix];
 		}
 		$fields = static::getFieldsPermissions($tabId, $readOnly);
-		$key = is_numeric($fieldMix) ? 'fieldid' : 'fieldname';
+		if (is_numeric($fieldMix)) {
+			$key = 'fieldid';
+			settype($fieldMix, 'int');
+		} else {
+			$key = 'fieldname';
+		}
 		foreach ($fields as &$field) {
 			if ($field[$key] === $fieldMix) {
 				$permission = !($field['visible']);
@@ -141,15 +148,16 @@ class Field
 	}
 
 	/**
-	 * Get releted field for module
+	 * Get related field for module
 	 * @param string|boolean $moduleName
 	 * @param string|boolean $forModule
 	 * @return array
 	 */
-	public static function getReletedFieldForModule($moduleName = false, $forModule = false)
+	public static function getRelatedFieldForModule($moduleName = false, $forModule = false)
 	{
-		if (Cache::has('getReletedFieldForModule', $moduleName)) {
-			$fileds = Cache::get('getReletedFieldForModule', $moduleName);
+		$key = 'all';
+		if (Cache::has('getRelatedFieldForModule', $key)) {
+			$fields = Cache::get('getRelatedFieldForModule', $key);
 		} else {
 			$db = Db::getInstance();
 			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
@@ -163,10 +171,10 @@ class Field
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
 				->where(['vtiger_tab.presence' => 0]);
-			$fileds = [];
+			$fields = [];
 			$dataReader = $wsQuery->union($fmrQuery)->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$fileds[$row['name']][$row['relmod']] = $row;
+				$fields[$row['name']][$row['relmod']] = $row;
 			}
 			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
 				->from('vtiger_field')
@@ -177,31 +185,31 @@ class Field
 				foreach (ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
 					$row['relmod'] = $module;
 					$row['type'] = 3;
-					$fileds[$row['name']][$row['relmod']] = $row;
+					$fields[$row['name']][$row['relmod']] = $row;
 				}
 			}
-			Cache::save('getReletedFieldForModule', '', $fileds, Cache::LONG);
+			Cache::save('getRelatedFieldForModule', $key, $fields, Cache::LONG);
 		}
 		if ($moduleName) {
-			if (isset($fileds[$moduleName])) {
+			if (isset($fields[$moduleName])) {
 				if ($forModule) {
-					return isset($fileds[$moduleName][$forModule]) ? $fileds[$moduleName][$forModule] : [];
+					return isset($fields[$moduleName][$forModule]) ? $fields[$moduleName][$forModule] : [];
 				}
-				return $fileds[$moduleName];
+				return $fields[$moduleName];
 			}
 			return [];
 		} else {
 			if ($forModule) {
-				$rfileds = [];
-				foreach ($fileds as $moduleName => $forModules) {
+				$rfields = [];
+				foreach ($fields as $moduleName => $forModules) {
 					if (isset($forModules[$forModule])) {
-						$rfileds[$moduleName] = $forModules[$forModule];
+						$rfields[$moduleName] = $forModules[$forModule];
 					}
 				}
-				return $rfileds;
+				return $rfields;
 			}
 		}
-		return $fileds;
+		return $fields;
 	}
 
 	/**
@@ -222,5 +230,29 @@ class Field
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;
+	}
+
+	/**
+	 * Function to gets module field info
+	 * @param string|int $mixed
+	 * @param string|int $module
+	 * @return null|array
+	 */
+	public static function getFieldInfo($mixed, $module = false)
+	{
+		if (is_numeric($mixed)) {
+			if (Cache::has('FieldInfoById', $mixed)) {
+				return Cache::get('FieldInfoById', $mixed);
+			}
+			$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => $mixed])->one();
+			Cache::save('FieldInfoById', $mixed, $fieldInfo, Cache::LONG);
+		} else {
+			$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);
+			if ($fieldsInfo && isset($fieldsInfo[$mixed])) {
+				$fieldInfo = $fieldsInfo[$mixed];
+				Cache::save('FieldInfoById', $fieldInfo['fieldid'], $fieldInfo, Cache::LONG);
+			}
+		}
+		return $fieldInfo;
 	}
 }

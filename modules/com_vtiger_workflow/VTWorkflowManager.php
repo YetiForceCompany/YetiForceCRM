@@ -210,7 +210,7 @@ class VTWorkflowManager
 	 */
 	public function serializeWorkflow($workflow)
 	{
-		$exp = array();
+		$exp = [];
 		$exp['moduleName'] = $workflow->moduleName;
 		$exp['description'] = $workflow->description;
 		$exp['test'] = $workflow->test;
@@ -220,7 +220,7 @@ class VTWorkflowManager
 		$exp['schdayofmonth'] = $workflow->schdayofmonth;
 		$exp['schdayofweek'] = $workflow->schdayofweek;
 		$exp['schannualdates'] = $workflow->schannualdates;
-		$exp['tasks'] = array();
+		$exp['tasks'] = [];
 		$tm = new VTTaskManager($this->adb);
 		$tasks = $tm->getTasksForWorkflow($workflow->id);
 		foreach ($tasks as $task) {
@@ -285,7 +285,7 @@ class VTWorkflowManager
 			->andWhere(['like', 'test', '_VT_add_comment']);
 		$workflowModels = $this->getWorkflowsForResult($query->all());
 
-		$commentSupportedWorkflowModels = array();
+		$commentSupportedWorkflowModels = [];
 		foreach ($workflowModels as $workflowId => &$workflowModel) {
 			$conditions = \App\Json::decode($workflowModel->test);
 			if (is_array($conditions)) {
@@ -323,7 +323,7 @@ class Workflow
 	{
 		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
 		$this->moduleName = isset($row['module_name']) ? $row['module_name'] : '';
-		$this->description = \App\Purifier::toHtml(isset($row['summary']) ? $row['summary'] : '');
+		$this->description = isset($row['summary']) ? $row['summary'] : '';
 		$this->test = isset($row['test']) ? $row['test'] : '';
 		$this->executionCondition = isset($row['execution_condition']) ? $row['execution_condition'] : '';
 		$this->schtypeid = isset($row['schtypeid']) ? $row['schtypeid'] : '';
@@ -469,7 +469,7 @@ class Workflow
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 
 		$scheduleType = $this->getWFScheduleType();
 		$nextTime = null;
@@ -501,7 +501,7 @@ class Workflow
 		if ($scheduleType == Workflow::$SCHEDULED_ANNUALLY) {
 			$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
 		}
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $nextTime;
 	}
 

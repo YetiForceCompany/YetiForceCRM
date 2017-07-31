@@ -6,19 +6,52 @@ use yii\db\Schema;
 /**
  * Base class for database import
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
 {
 
+	/**
+	 * Database section
+	 * @var string 
+	 */
 	public $dbType = 'base';
+
+	/**
+	 * Table structure
+	 * @var array 
+	 */
 	public $tables;
+
+	/**
+	 * Foreign keys
+	 * @var array 
+	 */
 	public $foreignKey;
+
+	/**
+	 * Data to import
+	 * @var array 
+	 */
 	public $data;
+
+	/**
+	 * Db
+	 * @var \App\Db 
+	 */
 	public $db;
+
+	/**
+	 * Db schema
+	 * @var \yii\db\Schema 
+	 */
 	protected $schema;
 
+	/**
+	 * Construct
+	 */
 	public function __construct()
 	{
 		$this->db = \App\Db::getInstance($this->dbType);
@@ -28,12 +61,23 @@ class Base
 	/**
 	 * Creates a primary key column.
 	 * @param integer $length column size or precision definition.
-	 * This par,ameter will be ignored if not supported by the DBMS.
+	 * This parameter will be ignored if not supported by the DBMS.
 	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
 	 */
 	public function primaryKey($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_PK, $length);
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_PK, $length)->notNull();
+	}
+
+	/**
+	 * Creates a primary unsigned key column.
+	 * @param integer $length column size or precision definition.
+	 * This parameter will be ignored if not supported by the DBMS.
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
+	 */
+	public function primaryKeyUnsigned($length = null)
+	{
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_UPK, $length)->notNull();
 	}
 
 	/**
@@ -44,7 +88,18 @@ class Base
 	 */
 	public function bigPrimaryKey($length = null)
 	{
-		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_BIGPK, $length);
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_BIGPK, $length)->notNull();
+	}
+
+	/**
+	 * Creates a big primary unsigned key column.
+	 * @param integer $length column size or precision definition.
+	 * This parameter will be ignored if not supported by the DBMS.
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
+	 */
+	public function bigPrimaryKeyUnsigned($length = null)
+	{
+		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_UBIGPK, $length)->notNull();
 	}
 
 	/**
@@ -76,6 +131,16 @@ class Base
 	public function text()
 	{
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_TEXT);
+	}
+
+	/**
+	 * Creates a tinyint column. Available only in MySql.
+	 * @param integer $length column size or precision definition.
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
+	 */
+	public function tinyInteger($length = 5)
+	{
+		return $this->schema->createColumnSchemaBuilder('tinyint', $length);
 	}
 
 	/**
@@ -206,6 +271,16 @@ class Base
 	public function binary($length = null)
 	{
 		return $this->schema->createColumnSchemaBuilder(Schema::TYPE_BINARY, $length);
+	}
+
+	/**
+	 * Creates a varbinary column. Available only in MySql.
+	 * @param integer $length column size or precision definition.
+	 * @return \yii\db\ColumnSchemaBuilder the column instance which can be further customized.
+	 */
+	public function varbinary($length = 255)
+	{
+		return $this->schema->createColumnSchemaBuilder('varbinary', $length);
 	}
 
 	/**

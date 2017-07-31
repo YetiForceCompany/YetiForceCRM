@@ -20,14 +20,19 @@
 		{include file=$FILENAME|vtemplate_path:$MODULE RELATED_RECORDS=$RELATED_RECORDS}
 	{elseif $PAGING_MODEL->get('nrt') == 1}
 		<div class="summaryWidgetContainer">
-			<p class="textAlignCenter">{vtranslate('LBL_NO_RELATED',$MODULE)} {vtranslate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}</p>
+			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RELATED',$MODULE)} {\App\Language::translate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}</p>
 		</div>
 	{/if}
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
-	{if $LIMIT neq 'no_limit' && $NUMBER_OF_RECORDS >= $LIMIT}
+	{if $NUMBER_OF_RECORDS == 0}
+		<div class="summaryWidgetContainer noCommentsMsgContainer">
+			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RECORDS_FOUND',$MODULE_NAME)}</p>
+		</div>
+	{/if}
+	{if !$IS_READ_ONLY && $LIMIT neq 'no_limit' && $NUMBER_OF_RECORDS >= $LIMIT}
 		<div class="container-fluid">
 			<div class="pull-right">
-				<button type="button" class="btn btn-primary btn-xs moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{vtranslate('LBL_MORE',$MODULE_NAME)}</button>
+				<button type="button" class="btn btn-primary btn-xs moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</button>
 			</div>
 		</div>
 	{/if}

@@ -1,22 +1,23 @@
 <?php
 /**
- * Address boock cron file
+ * Address book cron file
  * @package YetiForce.Cron
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-\App\Log::trace('Start create AddressBoock');
+\App\Log::trace('Start create AddressBook');
 
-$limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_ADDRESS_BOOCK_UPDATER');
+$limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
 $db = PearDatabase::getInstance();
 $currentUser = Users::getActiveAdminUser();
 $usersIds = \App\Fields\Owner::getUsersIds();
 $i = ['rows' => [], 'users' => count($usersIds)];
 $l = 0;
 $break = false;
-$table = OSSMail_AddressBoock_Model::TABLE;
-$last = OSSMail_AddressBoock_Model::getLastRecord();
+$table = OSSMail_AddressBook_Model::TABLE;
+$last = OSSMail_AddressBook_Model::getLastRecord();
 $dataReader = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
 		->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
 		->where(['like', 'task', 'VTAddressBookTask'])
@@ -54,8 +55,8 @@ while ($row = $dataReader->read()) {
 		$emailCondition[] = ['<>', $fieldName, ''];
 	}
 	$query->andWhere($emailCondition)->limit($limit + 1);
-	$dataReader = $query->createCommand()->query();
-	while ($row = $dataReader->read()) {
+	$dataReaderRows = $query->createCommand()->query();
+	while ($row = $dataReaderRows->read()) {
 		$users = $name = '';
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $row[$entityName];
@@ -78,16 +79,16 @@ while ($row = $dataReader->read()) {
 		$i['rows'][$moduleName] ++;
 		$l++;
 		if ($limit == $l) {
-			OSSMail_AddressBoock_Model::saveLastRecord($record, $moduleName);
+			OSSMail_AddressBook_Model::saveLastRecord($record, $moduleName);
 			$break = true;
 			break;
 		}
 	}
 	if (!$break && $last !== false) {
-		OSSMail_AddressBoock_Model::clearLastRecord();
+		OSSMail_AddressBook_Model::clearLastRecord();
 	}
 	$last = false;
 }
-OSSMail_AddressBoock_Model::createABFile();
+OSSMail_AddressBook_Model::createABFile();
 \App\Log::trace(vtlib\Functions::varExportMin($i));
-\App\Log::trace('End create AddressBoock');
+\App\Log::trace('End create AddressBook');

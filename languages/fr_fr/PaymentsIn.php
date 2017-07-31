@@ -1,10 +1,14 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Payments in french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'PaymentsIn' => 'Paiements reçus',
 	'SINGLE_PaymentsIn' => 'Paiement reçu',
-	'LBL_MAIN_INFORMATION' => 'Information',
+	'LBL_MAIN_INFORMATION' => 'Détails du paiement reçu',
 	'LBL_PAYMENT_INFORMATION' => 'Information de paiement',
 	'LBL_PAYMENTSVALUE' => 'Valeur',
 	'LBL_PAYMENTSTITLE' => 'Titre du paiement',
@@ -14,19 +18,19 @@ $languageStrings = [
 	'LBL_PAYMENTS_IMPORT' => 'Importer des paiements',
 	'LBL_RELATEDID' => 'Lié à',
 	'LBL_SALESID' => 'Facture / commande',
-	'LBL_PAYMENTSNAME' => 'Nm du paiement',
+	'LBL_PAYMENTSNAME' => 'N° du paiement',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_RECORDS_LIST' => 'Liste des enregistrements',
 	'LBL_PARENTID' => 'Paiement reçu parent ',
-	'Denied'=>'Refusé',
-	'Created'=>'Créé',
+	'Denied' => 'Refusé',
+	'Created' => 'Créé',
 	'Paid' => 'Payé',
 	'LBL_PAYMENTSCURRENCY' => 'Devise',
-	'Account' => 'Numéro de compte',
+	'Account' => 'N° de compte',
 	'Currency' => 'Devise',
 	'Go to Payments' => 'Liste des paiements',
 	'Create records' => 'Importer',
-	'LBL_ERROR_FILE' => 'un fichier doit être ajouté.',
+	'LBL_ERROR_FILE' => 'Un fichier doit être ajouté.',
 	'LBL_ERROR_TYPE' => 'Format de fichier non supporté.',
 	'MSG_SAVE_OK' => 'Les enregistrements ont été créés.',
 	'MSG_SAVE_ERROR' => 'Erreur lors de la sauvegarde.',
@@ -59,5 +63,4 @@ $languageStrings = [
 	'SGB' => 'Spółdzielcza Grupa Bankowa',
 	'Citi' => 'Citi Handlowy',
 	'idea' => 'Idea Bank S.A.',
-	
 ];

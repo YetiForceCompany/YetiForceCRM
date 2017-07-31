@@ -17,7 +17,7 @@
 			{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
 			{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
 				<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
-					<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>
+					<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 					{foreach item=LABEL key=VALUE from=$_FIELD_INFO->getPicklistValues()}
 						<option value="{$VALUE}">{$LABEL}</option>
 					{/foreach}
@@ -26,7 +26,7 @@
 				<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small defaultInputTextContainer form-control" value="0" />
 			{elseif $_FIELD_TYPE eq 'owner' || $_FIELD_INFO->getUIType() eq '52'}
 				<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
-					<option value="">--{'LBL_NONE'|@vtranslate:$FOR_MODULE}--</option>
+					<option value="">--{\App\Language::translate('LBL_NONE', $FOR_MODULE)}--</option>
 					{foreach key=_ID item=_NAME from=$USERS_LIST}
 						<option value="{$_ID}">{$_NAME}</option>
 					{/foreach}
@@ -47,7 +47,7 @@
 			{elseif $_FIELD_TYPE eq 'reference'}
 				<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small chzn-select">
 					{foreach item=_REFERENCE_DETAILS from=$_FIELDS[$_FIELD_NAME]->getReferenceList()}
-						<option value="{$_REFERENCE_DETAILS}">{$_REFERENCE_DETAILS|@vtranslate:$FOR_MODULE}</option>
+						<option value="{$_REFERENCE_DETAILS}">{\App\Language::translate($_REFERENCE_DETAILS, $FOR_MODULE)}</option>
 					{/foreach}
 				</select>
 			{elseif $_FIELD_TYPE neq 'reference'}

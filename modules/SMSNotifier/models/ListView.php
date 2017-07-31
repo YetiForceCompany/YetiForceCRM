@@ -15,9 +15,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
-
 		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = array(
@@ -35,10 +33,10 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
@@ -72,7 +70,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
@@ -93,11 +91,11 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$linkTypes = array('LISTVIEWMASSACTION');
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
-		$massActionLink = array();
+		$massActionLink = [];
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => vtranslate('LBL_DELETE', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_DELETE', $moduleName),
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleName . '&action=MassDelete");',
 				'linkicon' => ''
 			);

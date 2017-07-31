@@ -1,31 +1,31 @@
 <?php
 /*
- [The "BSD licence"]
- Copyright (c) 2005-2008 Terence Parr
- All rights reserved.
+  [The "BSD licence"]
+  Copyright (c) 2005-2008 Terence Parr
+  All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
- 1. Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
- 2. Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
- 3. The name of the author may not be used to endorse or promote products
-    derived from this software without specific prior written permission.
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+  1. Redistributions of source code must retain the above copyright
+  notice, this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
+  3. The name of the author may not be used to endorse or promote products
+  derived from this software without specific prior written permission.
 
- THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
- INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 /** The root of the ANTLR exception hierarchy.
  *
@@ -57,12 +57,13 @@
  *  Better to just say the recognizer had a problem and then let the parser
  *  figure out a fancy report.
  */
-class RecognitionException extends Exception {
+class RecognitionException extends Exception
+{
 
-	public $line=0;
+	public $line = 0;
 
-
-	public function __construct($input) {
+	public function __construct($input)
+	{
 		/** What input stream did the error occur in? */
 		$this->input = $input;
 		/** What is index of token/char were we looking at when the error occurred? */
@@ -72,64 +73,63 @@ class RecognitionException extends Exception {
 		 *  can retrieve the ith Token, we have to track the Token object.
 		 *  For parsers.  Even when it's a tree parser, token might be set.
 		 */
-		$this->token=null;
+		$this->token = null;
 
 		/** If this is a tree parser exception, node is set to the node with
 		 *  the problem.
 		 */
-		$this->node=null;
+		$this->node = null;
 
 		/** The current char when an error occurred. For lexers. */
-		$this->c=0;
+		$this->c = 0;
 
 		/** Track the line at which the error occurred in case this is
 		 *  generated from a lexer.  We need to track this since the
 		 *  unexpected char doesn't carry the line info.
 		 */
-		$this->line=0;
+		$this->line = 0;
 
-		$this->charPositionInLine=0;
+		$this->charPositionInLine = 0;
 
 		/** If you are parsing a tree node stream, you will encounter som
 		 *  imaginary nodes w/o line/col info.  We now search backwards looking
 		 *  for most recent token with line/col info, but notify getErrorHeader()
 		 *  that info is approximate.
 		 */
-		$this->approximateLineInfo=false;
-		
+		$this->approximateLineInfo = false;
 
-		if ( $this->input instanceof TokenStream ) {
+
+		if ($this->input instanceof TokenStream) {
 			$this->token = $input->LT(1);
 			$this->line = $this->token->getLine();
 			$this->charPositionInLine = $this->token->getCharPositionInLine();
 		}
-		if ( $this->input instanceof TreeNodeStream ) {
+		if ($this->input instanceof TreeNodeStream) {
 			$this->extractInformationFromTreeNodeStream($input);
-		}
-		else if ( $input instanceof CharStream ) {
+		} else if ($input instanceof CharStream) {
 			$this->c = $input->LA(1);
 			$this->line = $input->getLine();
 			$this->charPositionInLine = $input->getCharPositionInLine();
-		}
-		else {
+		} else {
 			$this->c = $input->LA(1);
 		}
 	}
 
-	protected function extractInformationFromTreeNodeStream($input) {
+	protected function extractInformationFromTreeNodeStream($input)
+	{
 		$nodes = $input;
 		$this->node = $nodes->LT(1);
 		$adaptor = $nodes->getTreeAdaptor();
 		$payload = $adaptor->getToken($this->node);
-		if ( $payload!=null ) {
+		if ($payload !== null) {
 			$this->token = $payload;
-			if ( $payload->getLine()<= 0 ) {
+			if ($payload->getLine() <= 0) {
 				// imaginary node; no line/pos info; scan backwards
 				$i = -1;
 				$priorNode = $nodes->LT($i);
-				while ( $priorNode!=null ) {
+				while ($priorNode !== null) {
 					$priorPayload = $adaptor->getToken($priorNode);
-					if ( $priorPayload!=null && $priorPayload->getLine()>0 ) {
+					if ($priorPayload !== null && $priorPayload->getLine() > 0) {
 						// we found the most recent real line / pos info
 						$this->line = $priorPayload->getLine();
 						$this->charPositionInLine = $priorPayload->getCharPositionInLine();
@@ -139,20 +139,17 @@ class RecognitionException extends Exception {
 					--$i;
 					$priorNode = $nodes->LT($i);
 				}
-			}
-			else { // node created from real token
+			} else { // node created from real token
 				$this->line = $payload->getLine();
 				$this->charPositionInLine = $payload->getCharPositionInLine();
 			}
-		}
-		else if ( $this->node instanceof Tree) {
+		} else if ($this->node instanceof Tree) {
 			$this->line = $this->node->getLine();
 			$this->charPositionInLine = $this->node->getCharPositionInLine();
-			if ( $this->node instanceof CommonTree) {
+			if ($this->node instanceof CommonTree) {
 				$this->token = $this->node->token;
 			}
-		}
-		else {
+		} else {
 			$type = $adaptor->getType($this->node);
 			$text = $adaptor->getText($this->node);
 			$this->token = CommonToken::forTypeAndText($type, $text);
@@ -160,20 +157,18 @@ class RecognitionException extends Exception {
 	}
 
 	/** Return the token type or char of the unexpected input element */
-	public function getUnexpectedType() {
-		if ( $this->input instanceof TokenStream ) {
+	public function getUnexpectedType()
+	{
+		if ($this->input instanceof TokenStream) {
 			return $this->token->getType();
-		}
-		else if ( $this->input instanceof TreeNodeStream ) {
+		} else if ($this->input instanceof TreeNodeStream) {
 			$nodes = $this->input;
 			$adaptor = $nodes->getTreeAdaptor();
 			return $adaptor->getType($this->node);
-		}
-		else {
+		} else {
 			return $this->c;
 		}
 	}
 }
-
 
 ?>

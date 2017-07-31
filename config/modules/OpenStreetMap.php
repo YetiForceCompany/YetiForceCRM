@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-$CONFIG = [
+/**
+ * OpenStreetMap module config
+ * @package YetiForce.Config
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
+return [
 	// Address URL to route API
 	'ADDRESS_TO_ROUTE' => 'http://www.yournavigation.org/api/1.0/gosmore.php',
 	// Address URL to seaching API
-	'ADDRESS_TO_SEARCH' => 'http://nominatim.openstreetmap.org',
+	'ADDRESS_TO_SEARCH' => 'https://nominatim.openstreetmap.org',
 	// Max number to update addresses
 	'CRON_MAX_UPDATED_ADDRESSES' => 1000,
 	// Allow modules

@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings menu SaveAjax action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
 
@@ -22,7 +19,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('copyMenu');
 	}
 
-	public function createMenu(Vtiger_Request $request)
+	public function createMenu(\App\Request $request)
 	{
 		$data = $request->get('mdata');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
@@ -31,12 +28,12 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateMenu(Vtiger_Request $request)
+	public function updateMenu(\App\Request $request)
 	{
 		$data = $request->get('mdata');
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
@@ -46,12 +43,12 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVED_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function removeMenu(Vtiger_Request $request)
+	public function removeMenu(\App\Request $request)
 	{
 		$data = $request->get('mdata');
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
@@ -59,12 +56,12 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
 		));
 		$response->emit();
 	}
 
-	public function updateSequence(Vtiger_Request $request)
+	public function updateSequence(\App\Request $request)
 	{
 		$data = $request->get('mdata');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
@@ -72,16 +69,16 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 		$response->emit();
 	}
-	
+
 	/**
 	 * Function to trigger copying menu
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function copyMenu(Vtiger_Request $request)
+	public function copyMenu(\App\Request $request)
 	{
 		$fromRole = filter_var($request->get('fromRole'), FILTER_SANITIZE_NUMBER_INT);
 		$toRole = filter_var($request->get('toRole'), FILTER_SANITIZE_NUMBER_INT);
@@ -90,7 +87,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
-			'message' => vtranslate('LBL_SAVED_MAP_MENU', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
 		));
 
 		$response->emit();

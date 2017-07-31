@@ -21,6 +21,18 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
+	 * Function to get the value for ListView
+	 * @param string $value
+	 * @param integer $record
+	 * @param Vtiger_Record_Model
+	 * @return string
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
+	}
+
+	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param <Integer> $record
@@ -33,17 +45,17 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			$fileLocationType = $recordInstance->get('filelocationtype');
 			$fileStatus = $recordInstance->get('filestatus');
 			if (!empty($value) && $fileStatus) {
-				if ($fileLocationType == 'I') {
+				if ($fileLocationType === 'I') {
 					$fileId = (new App\Db\Query())->select(['attachmentsid'])
 						->from('vtiger_seattachmentsrel')
 						->where(['crmid' => $record])
 						->scalar();
 					if ($fileId) {
-						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
-							' title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+						$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					$value = '<a href="' . $value . '" target="_blank" title="' . vtranslate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				}
 			}
 		}

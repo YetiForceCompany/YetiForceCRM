@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Companies german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_COMPANIES' => 'Firmeninformationen',
 	'Companies' => 'Firmeninformationen',
@@ -18,8 +23,6 @@ $languageStrings = [
 	'LBL_COUNTRY' => 'Land',
 	'LBL_FAX' => 'Fax',
 	'LBL_WEBSITE' => 'Webseite',
-	'LBL_ID1' => 'Statistiknummer (REGON)',
-	'LBL_ID2' => 'Handelsregisternummer',
 	'LBL_INDUSTRY' => 'Industry',
 	'LBL_LOGO_LOGIN' => 'Firmenlogo (Anmeldeseite)',
 	'LBL_LOGO_LOGIN_HEIGHT' => 'Logo Höhe (Anmeldeseite)',
@@ -27,11 +30,11 @@ $languageStrings = [
 	'LBL_LOGO_MAIN_HEIGHT' => 'Logo Höhe (sichtbar wenn angemeldet)',
 	'LBL_LOGO_MAIL' => 'Firmenlogo (E-Mail)',
 	'LBL_LOGO_MAIL_HEIGHT' => 'Logo Höhe (E-Mail)',
-	'LBL_LOGO_IMG_MAIL' => 'Company logo (email)',
-	'LBL_LOGO_IMG_LOGIN' => 'Company logo (login page)',
-	'LBL_LOGO_PATH_LOGIN' => 'Path to company logo (login page)',
-	'LBL_LOGO_PATH_MAIN' => 'Path to company logo (visible after logging in)',
-	'LBL_LOGO_PATH_MAIL' => 'Path to company logo (email)',
+	'LBL_LOGO_IMG_MAIL' => 'Firmenlogo (E-Mail)',
+	'LBL_LOGO_IMG_LOGIN' => 'Firmenlogo (Anmeldeseite)',
+	'LBL_LOGO_PATH_LOGIN' => 'Pfad zum Firmenlogo (Anmeldeseite)',
+	'LBL_LOGO_PATH_MAIN' => 'Pfad zum Firmenlogo (Sichtbar nach dem Anmelden)',
+	'LBL_LOGO_PATH_MAIL' => 'Pfad zum Firmenlogo (E-Mail)',
 	// Others
-	 'LBL_COMPANY_NAMES_EXIST' => 'Der Firmenname existiert bereits',
+	'LBL_COMPANY_NAMES_EXIST' => 'Der Firmenname existiert bereits',
 ];

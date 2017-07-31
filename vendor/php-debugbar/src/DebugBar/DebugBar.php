@@ -29,7 +29,7 @@ class DebugBar implements ArrayAccess
 {
 
 	public static $useOpenHandlerWhenSendingDataHeaders = false;
-	protected $collectors = array();
+	protected $collectors = [];
 	protected $data;
 	protected $jsRenderer;
 	protected $requestIdGenerator;
@@ -261,7 +261,7 @@ class DebugBar implements ArrayAccess
 			)));
 		}
 
-		$chunks = array();
+		$chunks = [];
 
 		while (strlen($data) > $maxHeaderLength) {
 			$chunks[] = substr($data, 0, $maxHeaderLength);
@@ -269,7 +269,7 @@ class DebugBar implements ArrayAccess
 		}
 		$chunks[] = $data;
 
-		$headers = array();
+		$headers = [];
 		for ($i = 0, $c = count($chunks); $i < $c; $i++) {
 			$name = $headerName . ($i > 0 ? "-$i" : '');
 			$headers[$name] = $chunks[$i];
@@ -351,7 +351,7 @@ class DebugBar implements ArrayAccess
 			$http->deleteSessionValue($this->stackSessionNamespace);
 		}
 
-		$datasets = array();
+		$datasets = [];
 		if ($this->isDataPersisted() && !$this->stackAlwaysUseSessionStorage) {
 			foreach ($stackedData as $id => $data) {
 				$datasets[$id] = $this->getStorage()->get($id);
@@ -422,7 +422,7 @@ class DebugBar implements ArrayAccess
 		}
 
 		if (!$http->hasSessionValue($this->stackSessionNamespace)) {
-			$http->setSessionValue($this->stackSessionNamespace, array());
+			$http->setSessionValue($this->stackSessionNamespace, []);
 		}
 
 		return $http;

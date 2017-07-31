@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Brute force german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'BruteForce' => 'Brute Force',
 	'LBL_NUMBER_OF_ATTEMPTS' => 'Anzahl von Versuchen',
@@ -18,8 +23,8 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Benutzer für Benachrichtungen',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Aktiv',
 	'LBL_VIEW_SHOW' => 'Brute Force',
-	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
+	'LBL_SENT_NOTIFICATIONS' => 'Benachrichtigung senden',
 ];
 $jsLanguageStrings = [
-	'JS_COULD_NOT_FINNISH_REACTION' => 'Error. Save failed.',
+	'JS_COULD_NOT_FINNISH_REACTION' => 'Fehler. Sichern fehlgeschlagen.',
 ];

@@ -4,19 +4,28 @@ namespace App\Fields;
 /**
  * Tools for email class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Email
 {
 
+	/**
+	 * Gets the prefix from text
+	 * @param string $value
+	 * @param string $moduleName
+	 * @return boolean|string
+	 */
 	public static function findRecordNumber($value, $moduleName)
 	{
 		$moduleData = RecordNumber::getNumber($moduleName);
-		$redex = '/\[' . $moduleData['prefix'] . '([0-9]*)' . $moduleData['postfix'] . '\]/';
+		$prefix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData['prefix'], '/'));
+		$postfix = str_replace(['\{\{YYYY\}\}', '\{\{YY\}\}', '\{\{MM\}\}', '\{\{DD\}\}', '\{\{M\}\}', '\{\{D\}\}'], ['\d{4}', '\d{2}', '\d{2}', '\d{2}', '\d{1,2}', '\d{1,2}'], preg_quote($moduleData['postfix'], '/'));
+		$redex = '/\[' . $prefix . '([0-9]*)' . $postfix . '\]/';
 		preg_match($redex, $value, $match);
 		if (!empty($match)) {
-			return $moduleData['prefix'] . $match[1] . $moduleData['postfix'];
+			return trim($match[0], '[,]');
 		} else {
 			return false;
 		}

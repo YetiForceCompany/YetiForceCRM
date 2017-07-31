@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-$CONFIG = [
+/**
+ * Calender module config
+ * @package YetiForce.Config
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
+return [
 	// Limits the number of events displayed on a day.
 	// Boolean, Integer. default: false
 	'EVENT_LIMIT' => 10,
@@ -35,7 +40,9 @@ $CONFIG = [
 	// Display days below the form in quick create
 	'SHOW_DAYS_QUICKCREATE' => true, // Boolean
 	// Max number of records to update status in cron
-	'CRON_MAX_NUMERS_ACTIVITY_STATE' => 5000,
+	'CRON_MAX_NUMBERS_ACTIVITY_STATE' => 5000,
 	// Max number of records to update calendar activity fields in related modules (in cron)
-	'CRON_MAX_NUMERS_ACTIVITY_STATS' => 5000,
+	'CRON_MAX_NUMBERS_ACTIVITY_STATS' => 5000,
+	// Show number of current records in record preview for related modules
+	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => false,
 ];

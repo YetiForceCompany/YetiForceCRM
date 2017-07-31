@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Summationbyuser_Widget_Js',{}, {
 		loadChart: function () {
@@ -58,8 +58,8 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}">
-				<strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
+			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}">
+				<strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong>
 			</div>
 		</div>
 		<div class="col-md-4">
@@ -73,7 +73,7 @@
 		<div class="col-md-6">
 			<div class="input-group input-group-sm">
 				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-				<input type="text" name="time" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
 			</div>	
 		</div>
 		<div class="col-md-6">

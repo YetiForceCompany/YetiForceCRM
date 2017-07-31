@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE}
 	{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
@@ -11,9 +11,9 @@
 		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-					<h4>{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 				</div>
 			</div>
 		<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
@@ -32,13 +32,13 @@
 				{/if}
 				<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero"
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 						<div id="imageContainer">
 							{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 								{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-									<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="300" height="200">
+									<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" width="300" height="200">
 								{/if}
 							{/foreach}
 						</div>
@@ -60,7 +60,7 @@
 				 <div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-							{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+							{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
 						</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->get('name') eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
@@ -89,13 +89,13 @@
 		</div>
 	</div>
 	{/if}
-	<br>
+	<br />
 	{/foreach}    
     
     <div class="contentHeader row no-margin">
         <div class="pull-right">
-            <button class="btn btn-success hide" id="copy-button" type="button" title="{vtranslate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="glyphicon glyphicon-copy"></span> {vtranslate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
-            <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{vtranslate('LBL_ShowPassword', $MODULE_NAME)}</button>
+            <button class="btn btn-success hide" data-copy-target="detailPassword" id="copy-button" type="button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="glyphicon glyphicon-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
+            <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
         </div>
         <div class="clearfix"></div>
     </div>

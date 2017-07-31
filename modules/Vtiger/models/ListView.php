@@ -12,7 +12,7 @@
 /**
  * Vtiger ListView Model Class
  */
-class Vtiger_ListView_Model extends Vtiger_Base_Model
+class Vtiger_ListView_Model extends \App\Base
 {
 
 	/**
@@ -246,8 +246,14 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 	{
 		$orderBy = $this->getForSql('orderby');
 		if (!empty($orderBy)) {
-			$orderByFieldName = $this->getModule()->getFieldByColumn($orderBy);
-			$this->getQueryGenerator()->setOrder($orderByFieldName->getName(), $this->getForSql('sortorder'));
+			$field = $this->getModule()->getFieldByColumn($orderBy);
+			if ($field) {
+				$orderBy = $field->getName();
+			}
+			if ($field || $orderBy === 'id') {
+				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
+			}
+			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 
@@ -368,10 +374,10 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}
@@ -437,7 +443,7 @@ class Vtiger_ListView_Model extends Vtiger_Base_Model
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'linkhint' => vtranslate('LBL_EXPORT_PDF')
+					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 			}
 		}

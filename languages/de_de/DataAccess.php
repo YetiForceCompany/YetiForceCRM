@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * DataAccess german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'DataAccess' => 'Zugriffsberechtigung',
 	'LBL_NONE' => '--Keine--',
@@ -24,9 +21,9 @@ $languageStrings = [
 	'LBL_LOCKS_SAVE_LABEL3' => 'Ja - Zwei Bedingungen erfüllt',
 	'LBL_LOCKS_SAVE_LABEL4' => 'Ja - Modales Fenster',
 	'LBL_VALIDATION_TWO_FIELDS' => 'Zwei Felder bestätigen',
-	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schrieben nicht gesperrt ist',
+	'LBL_MESSAGE_LOCK0' => 'Nachricht, wenn Schreiben nicht gesperrt ist',
 	'LBL_MESSAGE_LOCK1' => 'Nachricht für eine erfüllte Bedingung',
-	'LBL_MESSAGE_LOCK2' => 'Nachricht für zwei erfüllte Bedingung',
+	'LBL_MESSAGE_LOCK2' => 'Nachricht für zwei erfüllte Bedingungen',
 	//
 	'Action_check_task' => 'Aufgabe prüfen',
 	'Action_Desc_check_task' => 'Diese Aktion überprüft, ob die Aufgabe in Beziehung mit dem entsprechenden Thema und Status steht. Wenn sie es nicht ist, wird der Eintritt blockiert.',
@@ -86,9 +83,11 @@ $languageStrings = [
 	'Action_Desc_unique_account' => 'Prüfe ob die Organisation einmalig ist im Modul.',
 	'LBL_DUPLICATED_FOUND' => 'Dubletten gefunden',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Dubletten gefunden. Wollen Sie speichern?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Es wurde versucht im Schnellerfassungsmodus etwas zu ändern. <br>Wählen Sie die Änderungen aus, welche Sie übernehmen möchten.<br>Achtung!<br>Nimmt Änderungen in diesem Datensatz zurück.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Es wurde versucht im Schnellerfassungsmodus etwas zu ändern. <br />Wählen Sie die Änderungen aus, welche Sie übernehmen möchten.<br />Achtung!<br />Nimmt Änderungen in diesem Datensatz zurück.',
 	'LBL_DONT_ASK_AGAIN' => 'Nicht nochmal für diesen Datensatz nachfragen.',
 	'LBL_SEARCH_TRASH' => 'Papierkorb durchsuchen',
+	'LBL_BLOCK_EDITVIEW' => 'Bearbeitungsmodus wurde gesperrt',
+	'LBL_CONTENT_MESSAGE' => 'Nachrichteninhalt',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Datenzugriff',

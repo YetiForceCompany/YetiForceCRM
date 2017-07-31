@@ -55,7 +55,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public function getAllPickListFields()
 	{
-		
+
 		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
 
 		$query = (new \App\Db\Query)->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
@@ -115,7 +115,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public function save($mapping)
 	{
-		$dependencyMap = array();
+		$dependencyMap = [];
 		$dependencyMap['sourcefield'] = $this->get('sourcefield');
 		$dependencyMap['targetfield'] = $this->get('targetfield');
 		$dependencyMap['valuemapping'] = $mapping;
@@ -139,7 +139,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
-			if ($fieldName == $this->get('sourcefield')) {
+			if ($fieldName === $this->get('sourcefield')) {
 				$this->set('sourcelabel', $row['fieldlabel']);
 			} else {
 				$this->set('targetlabel', $row['fieldlabel']);
@@ -153,7 +153,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		if (empty($sourceFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		return vtranslate($this->get('sourcelabel'), $this->get('sourceModule'));
+		return \App\Language::translate($this->get('sourcelabel'), $this->get('sourceModule'));
 	}
 
 	public function getTargetFieldLabel()
@@ -162,7 +162,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		if (empty($targetFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		return vtranslate($this->get('targetlabel'), $this->get('sourceModule'));
+		return \App\Language::translate($this->get('targetlabel'), $this->get('sourceModule'));
 	}
 
 	public static function getInstance($module, $sourceField, $targetField)

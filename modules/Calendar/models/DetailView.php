@@ -20,11 +20,11 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 	{
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getType();
-		$relatedLinks = array();
+		$relatedLinks = [];
 		//link which shows the summary information(generally detail of record)
 		$relatedLinks[] = array(
 			'linktype' => 'DETAILVIEWTAB',
-			'linklabel' => vtranslate('LBL_RECORD_DETAILS', $moduleName),
+			'linklabel' => \App\Language::translate('LBL_RECORD_DETAILS', $moduleName),
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
@@ -54,8 +54,6 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();

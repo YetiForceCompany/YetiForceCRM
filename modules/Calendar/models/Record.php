@@ -106,8 +106,8 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function saveToDb()
 	{
 		//Time should changed to 24hrs format
-		AppRequest::set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_start')));
-		AppRequest::set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(AppRequest::get('time_end')));
+		\App\Request::_set('time_start', Vtiger_Time_UIType::getTimeValueWithSeconds(\App\Request::_get('time_start')));
+		\App\Request::_set('time_end', Vtiger_Time_UIType::getTimeValueWithSeconds(\App\Request::_get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
 		$this->insertIntoInviteTable();
@@ -168,13 +168,13 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertIntoInviteTable()
 	{
-		if (!AppRequest::has('inviteesid')) {
+		if (!\App\Request::_has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = App\Db::getInstance();
-		$inviteesRequest = AppRequest::get('inviteesid');
+		$inviteesRequest = \App\Request::_getArray('inviteesid');
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
 		$invities = [];
 		while ($row = $dataReader->read()) {
@@ -246,6 +246,10 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			->execute();
 	}
 
+	/**
+	 * Update reminder postpone
+	 * @param string $time
+	 */
 	public function updateReminderPostpone($time)
 	{
 		switch ($time) {
@@ -288,12 +292,11 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 			$duration = strtotime($dueDateRecord . ' ' . $timeEndRecord) - strtotime($row['date_start'] . ' ' . $row['time_start']);
 			$timeEndRecord = date('H:i:s', $datatimeSTR + $duration);
 			$dueDateRecord = date('Y-m-d', $datatimeSTR + $duration);
-			App\Db::getInstance()->createCommand()->update('vtiger_activity', [
-				'date_start' => $dateStart,
-				'time_start' => $timeStart,
-				'due_date' => $dueDateRecord,
-				'time_end' => $timeEndRecord
-				], ['activityid' => $this->getId()])->execute();
+			$this->set('date_start', $dateStart);
+			$this->set('time_start', $timeStart);
+			$this->set('due_date', $dueDateRecord);
+			$this->set('time_end', $timeEndRecord);
+			$this->save();
 		}
 	}
 

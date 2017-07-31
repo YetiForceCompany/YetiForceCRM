@@ -11,7 +11,7 @@
 -->*}
 {strip}
 
-	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {vtranslate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
+	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {\App\Language::translate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
 	<br />
 	<br />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -40,7 +40,7 @@
 							{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th  {if $LISTVIEW_HEADER@last}colspan="1" {/if} class="{$WIDTHTYPE}">
-								<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+								<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 									{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 							</th>
 						{/foreach}
@@ -54,14 +54,14 @@
 							>
 							<td width="1%" nowrap class="{$WIDTHTYPE}">
 								{if $MODULE eq 'CronTasks'}
-									<img src="{vimage_path('drag.png')}" class="alignTop" title="{vtranslate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+									<img src="{vimage_path('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 								{/if}
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 								<td class="listViewEntryValue {$WIDTHTYPE}"  >
-									&nbsp; {vtranslate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
+									&nbsp; {\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 									</td><td nowrap class="{$WIDTHTYPE}">
 										<div class="pull-right actions">
@@ -72,7 +72,7 @@
 															if (event.stopPropagation){ldelim}
 			event.stopPropagation();{rdelim} else{ldelim}
 			event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 													</a>
 													{if !$RECORD_LINK@last}
 														&nbsp;&nbsp;
@@ -95,7 +95,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_NO')} {vtranslate($MODULE, $QUALIFIED_MODULE)} {vtranslate('LBL_FOUND')}
+							{\App\Language::translate('LBL_NO')} {\App\Language::translate($MODULE, $QUALIFIED_MODULE)} {\App\Language::translate('LBL_FOUND')}
 						</td>
 					</tr>
 				</tbody>

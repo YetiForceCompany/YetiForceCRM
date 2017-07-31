@@ -47,8 +47,8 @@ class Field extends FieldBasic
 				$picklistIdCol => 'pk',
 				$this->name => 'string',
 				'presence' => $importer->boolean()->defaultValue(true),
-				'picklist_valueid' => $importer->smallInteger()->defaultValue(0),
-				'sortorderid' => $importer->smallInteger()->defaultValue(0)
+				'picklist_valueid' => $importer->integer(10)->defaultValue(0),
+				'sortorderid' => $importer->smallInteger(5)->defaultValue(0)
 			]);
 			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
 			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
@@ -187,8 +187,9 @@ class Field extends FieldBasic
 
 	/**
 	 * Get Field instance by fieldid or fieldname
-	 * @param mixed fieldid or fieldname
-	 * @param Module Instance of the module if fieldname is used
+	 * @param string|int $value mixed fieldid or fieldname
+	 * @param \vtlib\Module $moduleInstance Instance of the module if fieldname is used
+	 * @return \vtlib\Field|null
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
@@ -197,7 +198,7 @@ class Field extends FieldBasic
 		if ($moduleInstance) {
 			$moduleid = $moduleInstance->id;
 		}
-		$data = Functions::getModuleFieldInfo($moduleid, $value);
+		$data = \App\Field::getFieldInfo($value, $moduleid);
 		if ($data) {
 			$instance = new self();
 			$instance->initialize($data, $moduleInstance);
@@ -218,7 +219,6 @@ class Field extends FieldBasic
 		} else {
 			$instances = false;
 			$query = false;
-			$queryParams = false;
 			if ($moduleInstance) {
 				$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id, 'tabid' => $moduleInstance->id])->orderBy('sequence');
 			} else {

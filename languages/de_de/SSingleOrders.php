@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * SSingleOrders german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'SSingleOrders' => 'Bestellungen',
 	'SINGLE_SSingleOrders' => 'Bestellung',
@@ -17,7 +22,7 @@ $languageStrings = [
 	'LBL_REALIZATION_START_DATE' => 'Start Realisierung',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Ende Realisierung',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Aktuelles Fertigstellungsdatum',
-	'LBL_COMPANY_NAME' => 'Formenname',
+	'LBL_COMPANY_NAME' => 'Firmenname',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',
 	'FL_TOTAL_PRICE' => 'Nettogesamt',
 	'FL_MARGINP' => 'Gesamtmarge in Prozent',

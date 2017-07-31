@@ -1,5 +1,5 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {assign var="AMODULE" value='Announcements'}
 	<div id="announcements">
 		{foreach item=ANNOUNCEMENT from=$ANNOUNCEMENTS->getAnnouncements()}
@@ -14,13 +14,15 @@
 								{$ANNOUNCEMENT->get('description')}
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-danger" data-type="0">
-									<span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
-									{vtranslate('LBL_REMIND_ME_LATER',$AMODULE)}
-								</button>
+								{if !$ANNOUNCEMENT->get('is_mandatory')}
+									<button type="button" class="btn btn-danger" data-type="0">
+										<span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+										{\App\Language::translate('LBL_REMIND_ME_LATER',$AMODULE)}
+									</button>
+								{/if}
 								<button type="button" class="btn btn-success" data-type="1">
 									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
-									{vtranslate('LBL_MARK_AS_READ',$AMODULE)}
+									{\App\Language::translate('LBL_MARK_AS_READ',$AMODULE)}
 								</button>
 							</div>
 						</div>

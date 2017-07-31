@@ -51,11 +51,11 @@
 					<div class="col-md-2">
 						<span class="customFilterMainSpan">
 							{if $CUSTOM_VIEWS|@count gt 0}
-								<select id="recordsFilter" class="col-md-12" data-placeholder="{vtranslate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
+								<select id="recordsFilter" class="col-md-12" data-placeholder="{\App\Language::translate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-										<optgroup label="{vtranslate($GROUP_LABEL)}">
+										<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
 											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {vtranslate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{vtranslate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
+												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {\App\Language::translate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}
@@ -69,9 +69,9 @@
 						</span>
 					</div>
 					<div class="col-md-2">
-						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{vtranslate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
 							<span class="glyphicon glyphicon-filter"></span>&nbsp;
-							<strong>{vtranslate('LBL_LOAD_RECORDS',$MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 						</button>
 					</div>
 					<div class="col-md-4">
@@ -82,10 +82,10 @@
 				</div>
 			</div>
 			<div id="selectAllMsgDiv" class="alert-block msgDiv">
-				<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($RELATED_MODULE->get('name'))}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+				<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($RELATED_MODULE->get('name'))}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 			</div>
 			<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
-				<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+				<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 			</div>
 			<div class="contents-topscroll">
 				<div class="topscroll-div">
@@ -100,7 +100,7 @@
 						<thead>
 							<tr class="listViewHeaders">
 								<th width="4%">
-									<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
+									<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
 								</th>
 								{if $IS_FAVORITES}
 									<th></th>
@@ -108,17 +108,17 @@
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th nowrap>
 										{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
-											<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
+											<a href="javascript:void(0);" class="noSorting">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
 										{elseif $HEADER_FIELD->get('column') eq 'time_start'}
 										{else}
-											<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+											<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 												&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}
 											</a>
 										{/if}
 									</th>
 								{/foreach}
 								<th nowrap colspan="2">
-									<a href="javascript:void(0);" class="noSorting">{vtranslate('Status', $RELATED_MODULE->get('name'))}</a>
+									<a href="javascript:void(0);" class="noSorting">{\App\Language::translate('Status', $RELATED_MODULE->get('name'))}</a>
 								</th>
 							</tr>
 						</thead>
@@ -149,21 +149,21 @@
 						{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 							<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 								<td width="4%" class="{$WIDTHTYPE}">
-									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+									<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 								</td>
 								{if $IS_FAVORITES}
 									<td class="{$WIDTHTYPE} text-center text-center font-larger">
 										{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 										<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-											<span title="{vtranslate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-											<span title="{vtranslate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+											<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+											<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 										</a>
 									</td>
 								{/if}
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 									<td nowrap class="{$WIDTHTYPE}">
-										{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
+										{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
 											<a href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}</a>
 										{elseif $RELATED_HEADERNAME eq 'access_count'}
 											{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}
@@ -176,12 +176,12 @@
 								<td nowrap class="{$WIDTHTYPE}">
 									<!--
 									<span class="currentStatus btn-group">
-										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{vtranslate($RELATED_RECORD->get('status'),$MODULE)}</span>
-										<span title="{vtranslate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
+										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{\App\Language::translate($RELATED_RECORD->get('status'),$MODULE)}</span>
+										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
 										<ul class="dropdown-menu pull-right" style="left: -2px; position: relative;">
 											{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
-												<li id="{$STATUS_ID}" data-status="{vtranslate($STATUS, $MODULE)}">
-													<a>{vtranslate($STATUS, $MODULE)}</a>
+												<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
+													<a>{\App\Language::translate($STATUS, $MODULE)}</a>
 												</li>
 											{/foreach}
 										</ul>
@@ -191,12 +191,12 @@
 								<td nowrap class="{$WIDTHTYPE}">
 									<div class="pull-right actions">
 										<span class="actionImages">
-											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+											<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
 												{if $IS_EDITABLE}
-												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+												<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
 												{/if}
 												{if $IS_DELETABLE}
-												<a class="relationDelete"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+												<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 												{/if}
 										</span>
 									</div>

@@ -3,10 +3,11 @@
 /**
  * Coordiante model
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
+class OpenStreetMap_Coordinate_Model extends \App\Base
 {
 
 	const earthRadius = 6378137;
@@ -23,27 +24,15 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 	/**
 	 * The function to retrieve data from the server
 	 * @param string $url
-	 * @return string
+	 * @return array|boolean
 	 */
 	private function doRequest($url)
 	{
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => $url,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => "",
-			CURLOPT_MAXREDIRS => 3,
-			CURLOPT_TIMEOUT => 10,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => "GET",
-		));
-		$response = curl_exec($curl);
-		$err = curl_error($curl);
-		curl_close($curl);
-		if ($err) {
-			return false;
+		$response = Requests::get($url);
+		if ($response->success) {
+			return \App\Json::decode($response->body);
 		} else {
-			return \App\Json::decode($response);
+			return false;
 		}
 	}
 
@@ -120,7 +109,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 			return [];
 		$coordinatesDetails = reset($coordinatesDetails);
 		if (empty($coordinatesDetails)) {
-			return ['error' => vtranslate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
+			return ['error' => \App\Language::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
 		} else {
 			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
 		}
@@ -184,7 +173,7 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$html = '';
 		foreach ($row as $fieldName => $value) {
 			if (!empty($value)) {
-				$html .= $value . '<br>';
+				$html .= $value . '<br />';
 			}
 		}
 		return $html;
@@ -227,14 +216,14 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
-				$html .= $data[$fieldName] . '<br>';
+				$html .= $data[$fieldName] . '<br />';
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . vtranslate('LBL_START', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . vtranslate('LBL_END', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . vtranslate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br>';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . vtranslate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \App\Language::translate('LBL_START', 'OpenStreetMap') . '</button><br />';
+		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \App\Language::translate('LBL_END', 'OpenStreetMap') . '</button><br />';
+		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br />';
+		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 		return $html;
 	}
 
@@ -406,7 +395,6 @@ class OpenStreetMap_Coordinate_Model extends Vtiger_Base_Model
 		$groupByField = $this->get('groupBy');
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
-		$params = [];
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {

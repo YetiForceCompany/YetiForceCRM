@@ -3,7 +3,8 @@
 /**
  * Inventory Margin Field Class
  * @package YetiForce.Fields
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -14,7 +15,7 @@ class Vtiger_Margin_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultLabel = 'LBL_MARGIN';
 	protected $defaultValue = 0;
 	protected $columnName = 'margin';
-	protected $dbType = 'decimal(27,8) DEFAULT 0';
+	protected $dbType = 'decimal(28,8) DEFAULT 0';
 	protected $summationValue = true;
 
 	/**

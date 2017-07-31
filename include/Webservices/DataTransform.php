@@ -61,25 +61,22 @@ class DataTransform
 	{
 		$adb = PearDatabase::getInstance();
 		$associatedToUser = false;
-		$parentTypeId = null;
-		if (strtolower($meta->getEntityName()) == "emails") {
+		if (strtolower($meta->getEntityName()) == 'emails') {
 			if (isset($row['parent_id'])) {
 				$components = vtws_getIdComponents($row['parent_id']);
 				$userObj = VtigerWebserviceObject::fromName($adb, 'Users');
-				$parentTypeId = $components[0];
 				if ($components[0] == $userObj->getEntityId()) {
 					$associatedToUser = true;
 				}
 			}
 		}
 		// added to handle the setting reminder time
-		if (strtolower($meta->getEntityName()) == "events") {
-			if (isset($row['reminder_time']) && $row['reminder_time'] != null && $row['reminder_time'] != 0) {
-				AppRequest::set('set_reminder', 'Yes');
-				AppRequest::set('mode', 'edit');
+		if (strtolower($meta->getEntityName()) == 'events') {
+			if (isset($row['reminder_time']) && $row['reminder_time'] !== null && $row['reminder_time'] != 0) {
+				\App\Request::_set('set_reminder', 'Yes');
+				\App\Request::_set('mode', 'edit');
 
 				$reminder = $row['reminder_time'];
-				$seconds = (int) $reminder % 60;
 				$minutes = (int) ($reminder / 60) % 60;
 				$hours = (int) ($reminder / (60 * 60)) % 24;
 				$days = (int) ($reminder / (60 * 60 * 24));
@@ -89,11 +86,11 @@ class DataTransform
 					$minutes = 1;
 				}
 
-				AppRequest::set('remmin', $minutes);
-				AppRequest::set('remhrs', $hours);
-				AppRequest::set('remdays', $days);
+				\App\Request::_set('remmin', $minutes);
+				\App\Request::_set('remhrs', $hours);
+				\App\Request::_set('remdays', $days);
 			} else {
-				AppRequest::set('set_reminder', 'No');
+				\App\Request::_set('set_reminder', 'No');
 			}
 		} elseif (strtolower($meta->getEntityName()) == "calendar") {
 			if (empty($row['sendnotification']) || strtolower($row['sendnotificaiton']) == 'no' || $row['sendnotificaiton'] == '0' || $row['sendnotificaiton'] == 'false' || strtolower($row['sendnotificaiton']) == 'n') {
@@ -102,19 +99,19 @@ class DataTransform
 		}
 		$references = $meta->getReferenceFieldDetails();
 		foreach ($references as $field => $typeList) {
-			if (strpos($row[$field], 'x') !== false) {
+			if (isset($row[$field]) && strpos($row[$field], 'x') !== false) {
 				$row[$field] = vtws_getIdComponents($row[$field]);
 				$row[$field] = $row[$field][1];
 			}
 		}
 		$ownerFields = $meta->getOwnerFields();
 		foreach ($ownerFields as $index => $field) {
-			if (isset($row[$field]) && $row[$field] != null) {
+			if (isset($row[$field]) && $row[$field] !== null) {
 				$ownerDetails = vtws_getIdComponents($row[$field]);
 				$row[$field] = $ownerDetails[1];
 			}
 		}
-		if ($row["id"]) {
+		if (!empty($row["id"])) {
 			unset($row["id"]);
 		}
 		if (isset($row[$meta->getObectIndexColumn()])) {
@@ -226,7 +223,7 @@ class DataTransform
 		$adb = PearDatabase::getInstance();
 		$ownerFields = $meta->getOwnerFields();
 		foreach ($ownerFields as $index => $field) {
-			if (isset($row[$field]) && $row[$field] != null) {
+			if (isset($row[$field]) && $row[$field] !== null) {
 				$ownerType = vtws_getOwnerType($row[$field]);
 				$webserviceObject = VtigerWebserviceObject::fromName($adb, $ownerType);
 				$row[$field] = vtws_getId($webserviceObject->getEntityId(), $row[$field]);

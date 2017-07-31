@@ -10,14 +10,13 @@
 
 function vtws_create($elementType, $element, $user)
 {
-
 	$types = vtws_listtypes(null, $user);
 	if (!in_array($elementType, $types['types'])) {
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied");
 	}
 
 	$adb = PearDatabase::getInstance();
-	
+
 
 	// Cache the instance for re-use
 	if (!isset($vtws_create_cache[$elementType]['webserviceobject'])) {
@@ -44,7 +43,6 @@ function vtws_create($elementType, $element, $user)
 		if (isset($element[$fieldName]) && strlen($element[$fieldName]) > 0) {
 			$ids = vtws_getIdComponents($element[$fieldName]);
 			$elemTypeId = $ids[0];
-			$elemId = $ids[1];
 			$referenceObject = VtigerWebserviceObject::fromId($adb, $elemTypeId);
 			if (!in_array($referenceObject->getEntityName(), $details)) {
 				throw new WebServiceException(WebServiceErrorCode::$REFERENCEINVALID, "Invalid reference specified for $fieldName");
@@ -57,11 +55,10 @@ function vtws_create($elementType, $element, $user)
 			if (!in_array($referenceObject->getEntityName(), $types['types']) && $referenceObject->getEntityName() != 'Users') {
 				throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to access reference type is denied" . $referenceObject->getEntityName());
 			}
-		} else if ($element[$fieldName] !== NULL) {
+		} else if (isset($element[$fieldName]) && $element[$fieldName] !== NULL) {
 			unset($element[$fieldName]);
 		}
 	}
-
 
 	if ($meta->hasMandatoryFields($element)) {
 

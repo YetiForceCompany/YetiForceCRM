@@ -17,7 +17,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 		$this->exposeMethod('updateDeltaOnDrop');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -26,10 +26,9 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 		}
 	}
 
-	public function updateDeltaOnResize(Vtiger_Request $request)
+	public function updateDeltaOnResize(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$activityType = $request->get('activitytype');
 		$recordId = $request->get('id');
 		$dayDelta = $request->get('dayDelta');
 		$minuteDelta = $request->get('minuteDelta');
@@ -73,10 +72,9 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 		}
 	}
 
-	public function updateDeltaOnDrop(Vtiger_Request $request)
+	public function updateDeltaOnDrop(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$activityType = $request->get('activitytype');
 		$recordId = $request->get('id');
 		$dayDelta = $request->get('dayDelta');
 		$minuteDelta = $request->get('minuteDelta');

@@ -3,7 +3,7 @@
 class Users_CheckUserEmail_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->get('cUser')) {
@@ -11,7 +11,7 @@ class Users_CheckUserEmail_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 
 		$moduleModel = Vtiger_Module_Model::getInstance('Users');

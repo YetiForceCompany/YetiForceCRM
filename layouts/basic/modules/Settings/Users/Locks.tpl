@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="lcount" value="{count($LOCKS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
@@ -8,16 +8,16 @@
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 	</div>
-	<span>{vtranslate('LBL_LOCKS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
+	<span>{\App\Language::translate('LBL_LOCKS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
 	<hr>
 	<div>
 		<div class="contents">
 			<table class="locksTable table table-bordered">
 				<thead>
 					<tr class="listViewHeaders">
-						<th class="col-md-3">{vtranslate('LBL_USER', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-8">{vtranslate('LBL_LOCKS', $QUALIFIED_MODULE)}</th>
-						<th class="col-md-1">{vtranslate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
+						<th class="col-md-3">{\App\Language::translate('LBL_USER', $QUALIFIED_MODULE)}</th>
+						<th class="col-md-8">{\App\Language::translate('LBL_LOCKS', $QUALIFIED_MODULE)}</th>
+						<th class="col-md-1">{\App\Language::translate('LBL_TOOLS', $QUALIFIED_MODULE)}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -27,12 +27,12 @@
 				</tbody>
 			</table>
 		</div>
-		<br>
+		<br />
 		<div>
-			<button class="btn btn-info addItem"><strong>{vtranslate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn btn-success saveItems"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-info addItem"><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn btn-success saveItems"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
-		<br>
+		<br />
 		<table class="table table-bordered cloneItem hide">
 			{assign var="LOCK" value=[]}
 			{include file='LocksItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}

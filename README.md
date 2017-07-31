@@ -1,7 +1,8 @@
 
 ## YetiForceCRM 
-[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM) [![HHVM Status](https://img.shields.io/badge/hhvm-tested-green.svg)](https://travis-ci.org/YetiForceCompany/YetiForceCRM) [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.png)](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c) [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)  [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
+[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM) [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.png)](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c) [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)  [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 
+<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 
 We design an innovative CRM system that is dedicated for large and medium sized companies. We dedicate it to everyone who values open source software, security and innovation. YetiForce was built on a rock-solid Vtiger foundation, but has hundreds of changes that help to accomplish even the most challenging tasks in the simplest way. Every function within the system was thought through and automated to ensure that all of them work together seamlessly and form a coherent integrity. We looked at the entire sales process and consequently refined the system, module by module. We have years of experience creating tailor made CRM software for a variety of different companies. Download it and have a first-hand experience.
 
@@ -27,6 +28,8 @@ Where else can you find YetiForce?
 https://github.com/YetiForceCompany/YetiForceCRM/milestones
 3. Update PKG link.
 https://github.com/YetiForceCompany/UpdatePackages
+4. Additional scripts
+https://github.com/YetiForceCompany/YetiForceScripts
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 

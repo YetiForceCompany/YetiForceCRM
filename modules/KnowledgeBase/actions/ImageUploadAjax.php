@@ -3,13 +3,14 @@
 /**
  * Action to upload file
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
 class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -19,7 +20,7 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fileTypeSettings = AppConfig::module($moduleName, 'fileTypeSettings');
@@ -56,38 +57,37 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 			}
 			switch ($fileType) {
 				default:
-					$response = vtranslate('ERR_NOT_ALLOWED', $moduleName);
+					$response = \App\Language::translate('ERR_NOT_ALLOWED', $moduleName);
 					break;
 				case 'img':
 					// Image width and height
-					$saveFile = 'true';
 					if (!$fileInstance->validate('image')) {
 						return false;
 					} else {
 						list($width, $height) = getimagesize($_FILES['upload']['tmp_name']);
 						if (isset($width) && isset($height)) {
 							if ($width > $iConf['maxwidth'] || $height > $iConf['maxheight']) {
-								$response = '\\n ' . vtranslate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . ' \\n '
-									. vtranslate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
+								$response = '\\n ' . \App\Language::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . ' \\n '
+									. \App\Language::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['maxwidth'] . ' x ' . $iConf['maxheight'];
 							}
 							if ($width < $iConf['minwidth'] || $height < $iConf['minheight']) {
-								$response = '\\n ' . vtranslate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . '\\n '
-									. vtranslate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['minwidth'] . ' x ' . $iConf['minheight'];
+								$response = '\\n ' . \App\Language::translate('LBL_WIDTH_HEIGHT', $moduleName) . ' = ' . $width . ' x ' . $height . '\\n '
+									. \App\Language::translate('LBL_ALLOWED_WIDTH_HEIGHT', $moduleName) . ': ' . $iConf['minwidth'] . ' x ' . $iConf['minheight'];
 							}
 							if ($_FILES['upload']['size'] > $iConf['maxsize'] * 1000) {
-								$response = '\\n ' . vtranslate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $iConf['maxsize'] . ' KB.';
+								$response = '\\n ' . \App\Language::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $iConf['maxsize'] . ' KB.';
 							}
 						}
 					}
 					break;
 				case 'audio':
 					if ($_FILES['upload']['size'] > $aConf['maxsize'] * 1000) {
-						$response = '\\n ' . vtranslate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $aConf['maxsize'] . ' KB.';
+						$response = '\\n ' . \App\Language::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $aConf['maxsize'] . ' KB.';
 					}
 					break;
 				case 'video':
 					if ($_FILES['upload']['size'] > $vConf['maxsize'] * 1000) {
-						$response = '\\n ' . vtranslate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $vConf['maxsize'] . ' KB.';
+						$response = '\\n ' . \App\Language::translate('LBL_MAX_FILE_SIZE', $moduleName) . ': ' . $vConf['maxsize'] . ' KB.';
 					}
 					break;
 			}
@@ -102,8 +102,8 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 				if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadPath)) {
 					$CKEditorFuncNum = $_GET['CKEditorFuncNum'];
 					$url = $site . $uploadDir . $newFileName;
-					$msg = $fileName . '.' . $type . ' ' . vtranslate('LBL_FILE_UPLOADED', $moduleName) . ': \\n-';
-					$msg.= vtranslate('LBL_SIZE', $moduleName) . ': ' . number_format($_FILES['upload']['size'] / 1024, 2, '.', '') . ' KB';
+					$msg = $fileName . '.' . $type . ' ' . \App\Language::translate('LBL_FILE_UPLOADED', $moduleName) . ': \\n-';
+					$msg .= \App\Language::translate('LBL_SIZE', $moduleName) . ': ' . number_format($_FILES['upload']['size'] / 1024, 2, '.', '') . ' KB';
 
 					switch ($fileType) {
 						case 'img':
@@ -131,7 +131,7 @@ class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller
 							break;
 					}
 				} else {
-					$response = 'alert("' . vtranslate('ERR_UNABLE_TO_UPLOAD', $moduleName) . '")';
+					$response = 'alert("' . \App\Language::translate('ERR_UNABLE_TO_UPLOAD', $moduleName) . '")';
 				}
 			} else {
 				$response = 'alert("' . $response . '")';

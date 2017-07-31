@@ -17,7 +17,7 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('checkDuplicate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -26,7 +26,7 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 	}
 
-	public function checkDuplicate(Vtiger_Request $request)
+	public function checkDuplicate(\App\Request $request)
 	{
 		$groupName = $request->get('groupname');
 		$recordId = $request->get('record');
@@ -35,7 +35,7 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$response = new Vtiger_Response();
 		if (!empty($recordModel)) {
-			$response->setResult(array('success' => true, 'message' => vtranslate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
+			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
 		} else {
 			$response->setResult(array('success' => false));
 		}

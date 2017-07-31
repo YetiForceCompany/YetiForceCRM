@@ -3,7 +3,8 @@
 /**
  * Inventory Reference Field Class
  * @package YetiForce.Fields
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
@@ -26,7 +27,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 			return '';
 		}
 		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
-		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . vtranslate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
+		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . \App\Language::translate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
 

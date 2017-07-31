@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
 	<div class="well-large zeroPaddingAndMargin">
@@ -16,7 +6,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('From',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_From" class="">{$FROM}</span>
@@ -27,7 +17,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('To',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
@@ -38,7 +28,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('CC',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_Cc" class="row">
@@ -52,7 +42,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('BCC',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_Bcc" class="row">
@@ -65,7 +55,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('Subject',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_Subject" class="">
@@ -78,12 +68,12 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('Attachments_Exist',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						<span id="emailPreview_attachment" class="row">
 							{foreach item=ATTACHMENT from=$ATTACHMENTS}
-                                <a href="index.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+                                <a href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 							{/foreach}
 						</span>
 					</span>
@@ -93,7 +83,7 @@
 			<div class="row padding-bottom1per">
 				<span class="col-md-12">
 					<span class="col-xs-1">
-						<span class="pull-right muted">{vtranslate('Content',$MODULENAME)}</span>
+						<span class="pull-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
 					</span>
 					<span class="col-xs-11">
 						

@@ -123,8 +123,8 @@ class Activity extends CRMEntity
 	{
 
 		\App\Log::trace('Entering getSortOrder() method ...');
-		if (AppRequest::has('sorder'))
-			$sorder = $this->db->sql_escape_string(AppRequest::get('sorder'));
+		if (\App\Request::_has('sorder'))
+			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder method ...');
@@ -145,8 +145,8 @@ class Activity extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 
-		if (AppRequest::has('order_by'))
-			$order_by = $this->db->sql_escape_string(AppRequest::get('order_by'));
+		if (\App\Request::_has('order_by'))
+			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -186,7 +186,7 @@ class Activity extends CRMEntity
 		} elseif (($reminderMode == 'delete') && ($this->db->getRowCount($resultExist) > 0)) {
 			$this->db->delete($this->reminder_table, 'activity_id = ?', [$activityId]);
 		} else {
-			if (AppRequest::get('set_reminder') == 'Yes') {
+			if (\App\Request::_get('set_reminder') == 'Yes') {
 				$this->db->insert($this->reminder_table, [
 					'activity_id' => $activityId,
 					'reminder_time' => $reminderTime,
@@ -246,8 +246,13 @@ class Activity extends CRMEntity
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
 		}
-
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
+		$moduleLevel = App\ModuleHierarchy::getModuleLevel($module);
+		if ($moduleLevel === false) {
+			$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
+		} else {
+			$field = App\ModuleHierarchy::getMappingRelatedField($module);
+			$query = " LEFT JOIN vtiger_activity ON vtiger_activity.$field = vtiger_crmentity.crmid";
+		}
 
 		if ($queryPlanner->requireTable("vtiger_crmentityCalendar", $matrix)) {
 			$query .= " left join vtiger_crmentity as vtiger_crmentityCalendar on vtiger_crmentityCalendar.crmid=vtiger_activity.activityid and vtiger_crmentityCalendar.deleted=0";
@@ -296,8 +301,6 @@ class Activity extends CRMEntity
 		$tabId = \App\Module::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id . '_t' . $tabId;
-			$sharingRuleInfoVariable = $module . '_share_read_permission';
-			$sharingRuleInfo = $$sharingRuleInfoVariable;
 			$sharedTabId = null;
 			$this->setupTemporaryTable($tableName, $sharedTabId, $user, $current_user_parent_role_seq, $current_user_groups);
 
@@ -364,7 +367,6 @@ class Activity extends CRMEntity
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($sharedid, $sharedid));
-		$rows = $db->num_rows($result);
 		if ($db->num_rows($result) != 0) {
 			for ($j = 0; $j < $db->num_rows($result); $j++) {
 				$userid[] = $db->query_result($result, $j, 'userid');

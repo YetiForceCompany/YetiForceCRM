@@ -70,7 +70,7 @@ class PBXManager extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 //    public $mandatory_fields = Array('assigned_user_id');
-	public $column_fields = Array();
+	public $column_fields = [];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
@@ -128,7 +128,7 @@ class PBXManager extends CRMEntity
 				$blockInstance->addField($fieldInstance);
 			}
 		}
-		\App\Log::error('User Extension Field added');
+		\App\Log::info('User Extension Field added');
 	}
 
 	/**
@@ -141,7 +141,7 @@ class PBXManager extends CRMEntity
 		App\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
 		App\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
 		App\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
-		\App\Log::error('Lookup Events Registered');
+		\App\Log::info('Lookup Events Registered');
 	}
 
 	/**
@@ -153,9 +153,9 @@ class PBXManager extends CRMEntity
 		$pbxmanager = vtlib\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
 			$moduleInstance = vtlib\Module::getInstance($module);
-			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'getDependentsList');
+			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", [], 'getDependentsList');
 		}
-		\App\Log::error('Successfully added Module Related lists');
+		\App\Log::info('Successfully added Module Related lists');
 	}
 
 	/**
@@ -169,7 +169,7 @@ class PBXManager extends CRMEntity
 			$moduleInstance = vtlib\Module::getInstance($module);
 			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'getDependentsList');
 		}
-		\App\Log::error('Successfully removed Module Related lists');
+		\App\Log::info('Successfully removed Module Related lists');
 	}
 
 	/**
@@ -183,7 +183,7 @@ class PBXManager extends CRMEntity
 			'method' => 'checkLinkPermission');
 
 		vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
-		\App\Log::error('Links added');
+		\App\Log::info('Links added');
 	}
 
 	/**
@@ -194,7 +194,7 @@ class PBXManager extends CRMEntity
 
 		//Deleting Headerscripts links
 		vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js');
-		\App\Log::error('Links Removed');
+		\App\Log::info('Links Removed');
 	}
 
 	/**
@@ -212,7 +212,7 @@ class PBXManager extends CRMEntity
 			$blockid = $adb->query_result($integrationBlock, 0, 'blockid');
 		} else {
 			$blockid = $adb->getUniqueID('vtiger_settings_blocks');
-			$sequenceResult = $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_blocks", array());
+			$sequenceResult = $adb->pquery("SELECT max(sequence) as sequence FROM vtiger_settings_blocks", []);
 			if ($adb->num_rows($sequenceResult)) {
 				$sequence = $adb->query_result($sequenceResult, 0, 'sequence');
 			}
@@ -224,7 +224,7 @@ class PBXManager extends CRMEntity
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',
 			'linkto' => 'index.php?module=PBXManager&parent=Settings&view=Index'
 		]);
-		\App\Log::error('Settings Block and Field added');
+		\App\Log::info('Settings Block and Field added');
 	}
 
 	/**
@@ -235,7 +235,7 @@ class PBXManager extends CRMEntity
 
 		$adb = PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
-		\App\Log::error('Settings Field Removed');
+		\App\Log::info('Settings Field Removed');
 	}
 
 	/**
@@ -249,24 +249,24 @@ class PBXManager extends CRMEntity
 		$moduleInstance = $module->getInstance('PBXManager');
 
 		//To add actionname as ReceiveIncomingcalls
-		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
+		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', []);
 		if ($adb->num_rows($maxActionIdresult)) {
 			$actionId = $adb->query_result($maxActionIdresult, 0, 'actionid');
 		}
 		$adb->pquery('INSERT INTO vtiger_actionmapping
                      (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'ReceiveIncomingCalls', 0));
 		$moduleInstance->enableTools('ReceiveIncomingcalls');
-		\App\Log::error('ReceiveIncomingcalls ActionName Added');
+		\App\Log::info('ReceiveIncomingcalls ActionName Added');
 
 		//To add actionname as MakeOutgoingCalls
-		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
+		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', []);
 		if ($adb->num_rows($maxActionIdresult)) {
 			$actionId = $adb->query_result($maxActionIdresult, 0, 'actionid');
 		}
 		$adb->pquery('INSERT INTO vtiger_actionmapping
                      (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'MakeOutgoingCalls', 0));
 		$moduleInstance->enableTools('MakeOutgoingCalls');
-		\App\Log::error('MakeOutgoingCalls ActionName Added');
+		\App\Log::info('MakeOutgoingCalls ActionName Added');
 	}
 
 	/**
@@ -282,12 +282,12 @@ class PBXManager extends CRMEntity
 		$moduleInstance->disableTools('ReceiveIncomingcalls');
 		$adb->pquery('DELETE FROM vtiger_actionmapping 
                      WHERE actionname=?', array('ReceiveIncomingCalls'));
-		\App\Log::error('ReceiveIncomingcalls ActionName Removed');
+		\App\Log::info('ReceiveIncomingcalls ActionName Removed');
 
 		$moduleInstance->disableTools('MakeOutgoingCalls');
 		$adb->pquery('DELETE FROM vtiger_actionmapping 
                       WHERE actionname=?', array('MakeOutgoingCalls'));
-		\App\Log::error('MakeOutgoingCalls ActionName Removed');
+		\App\Log::info('MakeOutgoingCalls ActionName Removed');
 	}
 
 	public static function checkLinkPermission($linkData)

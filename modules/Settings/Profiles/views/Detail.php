@@ -12,19 +12,19 @@
 class Settings_Profiles_Detail_View extends Settings_Vtiger_Index_View
 {
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
-			$title = vtranslate('LBL_VIEW_DETAIL', $moduleName);
+			$title = \App\Language::translate('LBL_VIEW_DETAIL', $moduleName);
 		}
 		return $title;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

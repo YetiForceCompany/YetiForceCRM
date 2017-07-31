@@ -17,7 +17,7 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 		$this->exposeMethod('GetPickListFields');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, $mode)) {
@@ -35,9 +35,9 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 
 	/**
 	 * Function returns the picklist field for a module
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function GetPickListFields(Vtiger_Request $request)
+	public function GetPickListFields(\App\Request $request)
 	{
 		$module = $request->get('sourceModule');
 

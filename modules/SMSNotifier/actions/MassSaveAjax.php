@@ -12,50 +12,93 @@
 class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	/**
+	 * Check Permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
+		$sourceModule = $request->get('source_module');
+		if (!\App\Privilege::isPermitted($sourceModule, 'CreateView') || !\App\Privilege::isPermitted($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	/**
 	 * Function that saves SMS records
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
+		$sourceModule = $request->get('source_module');
+		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
+		$phoneFieldList = $fields = $request->get('fields');
+		$fields[] = 'id';
 
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$recordIds = $this->getRecordsListFromRequest($request);
-		$phoneFieldList = $request->get('fields');
-		$message = $request->get('message');
-
-		foreach ($recordIds as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$queryGenerator->setFields($fields);
+		$query = $queryGenerator->createQuery();
+		$dataReader = $query->createCommand()->query();
+		$recordIds = $toNumbers = [];
+		while ($row = $dataReader->read()) {
 			$numberSelected = false;
-			foreach ($phoneFieldList as $fieldname) {
-				$fieldValue = $recordModel->get($fieldname);
-				if (!empty($fieldValue)) {
-					$toNumbers[] = $fieldValue;
+			foreach ($phoneFieldList as $fieldName) {
+				if (!empty($row[$fieldName])) {
+					$toNumbers[] = preg_replace_callback('/[^\d]/s', function($m) {
+						return '';
+					}, $row[$fieldName]);
 					$numberSelected = true;
 				}
 			}
 			if ($numberSelected) {
-				$recordIds[] = $recordId;
+				$recordIds[] = $row['id'];
 			}
 		}
-
+		$toNumbers = array_unique($toNumbers);
 		$response = new Vtiger_Response();
-
 		if (!empty($toNumbers)) {
-			SMSNotifier_Record_Model::SendSMS($message, $toNumbers, $currentUserModel->getId(), $recordIds, $moduleName);
+			SMSNotifier_Module_Model::addSmsToCron($request->getForHtml('message'), $toNumbers, $recordIds, $sourceModule);
 			$response->setResult(true);
 		} else {
 			$response->setResult(false);
 		}
 		return $response;
+	}
+
+	/**
+	 * Function gets query of records list 
+	 * @param \App\Request $request
+	 * @return \App\QueryGenerator
+	 */
+	public function getRecordsListQueryFromRequest(\App\Request $request)
+	{
+		$cvId = $request->get('viewname');
+		$module = $request->getModule();
+		$sourceModule = $request->get('source_module');
+		$selectedIds = $request->get('selected_ids');
+		$excludedIds = $request->get('excluded_ids');
+
+		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
+			if (!empty($selectedIds) && count($selectedIds) > 0) {
+				$queryGenerator = new \App\QueryGenerator($sourceModule);
+				$queryGenerator->addCondition('id', $selectedIds, 'e');
+				return $queryGenerator;
+			}
+		}
+
+		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
+		if ($customViewModel) {
+			$searchKey = $request->get('search_key');
+			$searchValue = $request->get('search_value');
+			$operator = $request->get('operator');
+			if (!empty($operator)) {
+				$customViewModel->set('operator', $operator);
+				$customViewModel->set('search_key', $searchKey);
+				$customViewModel->set('search_value', $searchValue);
+			}
+
+			$customViewModel->set('search_params', $request->get('search_params'));
+			return $customViewModel->getRecordsListQuery($excludedIds, $module);
+		}
 	}
 }

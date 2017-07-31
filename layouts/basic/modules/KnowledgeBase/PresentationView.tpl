@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="popupValue" value="{$IS_POPUP}" />
 	<div class="{if $IS_POPUP === false}col-xs-12 {/if}knowledgePresentation">
@@ -23,11 +23,11 @@
 			</div>
 			<a class="left carousel-control knowledgePresentationControl" href="#carouselPresentation" role="button" data-slide="prev">
 				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">{vtranslate('LBL_PREVIOUS',$MODULE_NAME)}</span>
+				<span class="sr-only">{\App\Language::translate('LBL_PREVIOUS',$MODULE_NAME)}</span>
 			</a>
 			<a class="right carousel-control knowledgePresentationControl" href="#carouselPresentation" role="button" data-slide="next">
 				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">{vtranslate('LBL_NEXT',$MODULE_NAME)}</span>
+				<span class="sr-only">{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}</span>
 			</a>
 		</div>
 	</div>

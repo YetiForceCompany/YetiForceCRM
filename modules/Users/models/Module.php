@@ -47,7 +47,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($query, $params);
 			$noOfRows = $db->num_rows($result);
 
-			$matchingRecords = array();
+			$matchingRecords = [];
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
@@ -95,10 +95,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function deleteRecord($recordModel)
 	{
 		$db = PearDatabase::getInstance();
-		$moduleName = $this->get('name');
-		$date_var = date('Y-m-d H:i:s');
-		$query = "UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
-		$db->pquery($query, array('Inactive', $adb->formatDate($date_var, true), $recordModel->getId(), $recordModel->getId()), true, "Error marking record deleted: ");
+		$query = 'UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?';
+		$db->pquery($query, array('Inactive', date('Y-m-d H:i:s'), $recordModel->getId(), $recordModel->getId()), true, 'Error marking record deleted: ');
 	}
 
 	/**
@@ -200,7 +198,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 
 		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
-		$result = $adb->pquery($currency_query, array());
+		$result = $adb->pquery($currency_query, []);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$currencyname = decode_html($adb->query_result($result, $i, 'currency_name'));
@@ -219,7 +217,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$adb = PearDatabase::getInstance();
 
 		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
-		$result = $adb->pquery($timezone_query, array());
+		$result = $adb->pquery($timezone_query, []);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$time_zone = decode_html($adb->query_result($result, $i, 'time_zone'));
@@ -295,27 +293,48 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Function to save a given record model of the current module
 	 * @param Vtiger_Record_Model $recordModel
+	 * @copyright Modyfikowane przez PWC
 	 */
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
 		$moduleName = $this->get('name');
-		$focus = $this->getEntityInstance();
-		$fields = $focus->column_fields;
-		foreach ($fields as $fieldName => $fieldValue) {
-			$fieldValue = $recordModel->get($fieldName);
-			if (is_array($fieldValue)) {
-				$focus->column_fields[$fieldName] = $fieldValue;
-			} else if ($fieldValue !== null) {
-				$focus->column_fields[$fieldName] = decode_html($fieldValue);
-			}
+		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
+			App\Log::info('ERR_NO_DATA');
+			return $recordModel;
 		}
-		$focus->mode = !$recordModel->isNew() ? 'edit' : '';
-		$focus->id = $recordModel->getId();
+		$recordModel->validate();
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setModuleName($moduleName);
+		if ($recordModel->getHandlerExceptions()) {
+			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
+		}
+		$recordModel->saveToDb();
+		//After adding new user, set the default activity types for new user
+		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($recordModel->getId());
+		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
+			Vtiger_Session::set('language', $recordModel->get('language'));
+		}
+		vimport('~/modules/Users/CreateUserPrivilegeFile.php');
+		createUserPrivilegesfile($recordModel->getId());
+		createUserSharingPrivilegesfile($recordModel->getId());
 
-		$recordModel->setData($focus->column_fields)->setEntity($focus);
-		$focus->save($moduleName);
-		$recordModel->setId($focus->id);
-
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			\App\PrivilegeFile::createUsersFile();
+		}
 		return $recordModel;
+	}
+
+	/**
+	 * Function gives list fields for save
+	 * @return string[]
+	 */
+	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
+	{
+		$editFields = [];
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+			$editFields[] = $field['fieldname'];
+		}
+		return $editFields;
 	}
 }

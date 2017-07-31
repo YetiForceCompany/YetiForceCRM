@@ -17,17 +17,17 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 	 */
 	public function getListViewHeaders()
 	{
-		$field = new Vtiger_Base_Model();
+		$field = new \App\Base();
 		$field->set('name', 'sourceLabel');
 		$field->set('label', 'Module');
 		$field->set('sort', false);
 
-		$field1 = new Vtiger_Base_Model();
+		$field1 = new \App\Base();
 		$field1->set('name', 'sourcefieldlabel');
 		$field1->set('label', 'LBL_SOURCE_FIELD');
 		$field1->set('sort', false);
 
-		$field2 = new Vtiger_Base_Model();
+		$field2 = new \App\Base();
 		$field2->set('name', 'targetfieldlabel');
 		$field2->set('label', 'LBL_TARGET_FIELD');
 		$field2->set('sort', false);
@@ -49,14 +49,14 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		$noOfRecords = count($dependentPicklists);
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
 
-		$listViewRecordModels = array();
+		$listViewRecordModels = [];
 		for ($i = 0; $i < $noOfRecords; $i++) {
 			$record = new $recordModelClass();
 			$module = $dependentPicklists[$i]['module'];
 			unset($dependentPicklists[$i]['module']);
 			$record->setData($dependentPicklists[$i]);
 			$record->set('sourceModule', $module);
-			$record->set('sourceLabel', vtranslate($module, $module));
+			$record->set('sourceLabel', \App\Language::translate($module, $module));
 			$listViewRecordModels[] = $record;
 		}
 		$pagingModel->calculatePageRange($noOfRecords);

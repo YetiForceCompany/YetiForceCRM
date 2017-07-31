@@ -3,13 +3,14 @@
 /**
  * Popup view for KnowledgeBase module
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 class KnowledgeBase_FullScreen_View extends Vtiger_Popup_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$previewView = new KnowledgeBase_PreviewContent_View();
 		$previewView->process($request, false);

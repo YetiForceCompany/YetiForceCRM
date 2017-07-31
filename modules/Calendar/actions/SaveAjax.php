@@ -12,7 +12,7 @@
 class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$allDay = $request->get('allday');
@@ -33,7 +33,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
 				}
 			}
-			$result[$fieldName] = array();
+			$result[$fieldName] = [];
 			if ($fieldName === 'date_start') {
 				$timeStart = $recordModel->get('time_start');
 				$dateTimeFieldInstance = new DateTimeField($fieldValue . ' ' . $timeStart);
@@ -104,10 +104,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function getRecordModelFromRequest(Vtiger_Request $request)
+	public function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 

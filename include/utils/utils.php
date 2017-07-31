@@ -48,55 +48,6 @@ define("RB_RECORD_DELETED", 'delete');
 define("RB_RECORD_INSERTED", 'insert');
 define("RB_RECORD_UPDATED", 'update');
 
-/** Function to return a full name
- * @param $row -- row:: Type integer
- * @param $first_column -- first column:: Type string
- * @param $last_column -- last column:: Type string
- * @returns $fullname -- fullname:: Type string
- *
- */
-function return_name(&$row, $first_column, $last_column)
-{
-
-	\App\Log::trace("Entering return_name(" . $row . "," . $first_column . "," . $last_column . ") method ...");
-	$first_name = "";
-	$last_name = "";
-	$full_name = "";
-
-	if (isset($row[$first_column])) {
-		$first_name = stripslashes($row[$first_column]);
-	}
-
-	if (isset($row[$last_column])) {
-		$last_name = stripslashes($row[$last_column]);
-	}
-
-	$full_name = $first_name;
-
-	// If we have a first name and we have a last name
-	if ($full_name != "" && $last_name != "") {
-		// append a space, then the last name
-		$full_name .= " " . $last_name;
-	}
-	// If we have no first name, but we have a last name
-	else if ($last_name != "") {
-		// append the last name without the space.
-		$full_name .= $last_name;
-	}
-
-	\App\Log::trace("Exiting return_name method ...");
-	return $full_name;
-}
-$toHtml = array(
-	'"' => '&quot;',
-	'<' => '&lt;',
-	'>' => '&gt;',
-	'& ' => '&amp; ',
-	"'" => '&#039;',
-	'' => '\r',
-	'\r\n' => '\n',
-);
-
 /** Function to get column fields for a given module
  * @param $module -- module:: Type string
  * @returns $column_fld -- column field :: Type array
@@ -145,7 +96,7 @@ function getColumnFields($module)
 		}
 	}
 
-	\App\Log::trace("Exiting getColumnFields method ...");
+	\App\Log::trace('Exiting getColumnFields method ...');
 	return $column_fld;
 }
 
@@ -157,22 +108,22 @@ function getColumnFields($module)
 function getUserId_Ol($username)
 {
 
-	\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
-	\App\Log::trace("in getUserId_Ol " . $username);
+	\App\Log::trace('Entering getUserId_Ol(' . $username . ') method ...');
+	\App\Log::trace('in getUserId_Ol ' . $username);
 	$cache = Vtiger_Cache::getInstance();
 	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
 		return $cache->getUserId($username);
 	} else {
 		$adb = PearDatabase::getInstance();
-		$sql = "select id from vtiger_users where user_name=?";
+		$sql = 'select id from vtiger_users where user_name=?';
 		$result = $adb->pquery($sql, array($username));
 		$num_rows = $adb->num_rows($result);
 		if ($num_rows > 0) {
-			$user_id = $adb->query_result($result, 0, "id");
+			$user_id = $adb->query_result($result, 0, 'id');
 		} else {
 			$user_id = 0;
 		}
-		\App\Log::trace("Exiting getUserId_Ol method ...");
+		\App\Log::trace('Exiting getUserId_Ol method ...');
 		$cache->setUserId($username, $user_id);
 		return $user_id;
 	}
@@ -260,49 +211,10 @@ function getRecordOwnerId($record)
 	return $ownerArr;
 }
 
-/** Function to update product quantity
- * @param $product_id -- product id :: Type integer
- * @param $upd_qty -- quantity :: Type integer
- */
-function updateProductQty($product_id, $upd_qty)
-{
-
-	\App\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$query = "update vtiger_products set qtyinstock=? where productid=?";
-	$adb->pquery($query, array($upd_qty, $product_id));
-	\App\Log::trace("Exiting updateProductQty method ...");
-}
-
-/**
- * simple HTML to UTF-8 conversion:
- */
-function html_to_utf8($data)
-{
-	return preg_replace("/\\&\\#([0-9]{3,10})\\;/e", '_html_to_utf8("\\1")', $data);
-}
-
-function _html_to_utf8($data)
-{
-	if ($data > 127) {
-		$i = 5;
-		while (($i--) > 0) {
-			if ($data != ($a = $data % ($p = pow(64, $i)))) {
-				$ret = chr(base_convert(str_pad(str_repeat(1, $i + 1), 8, "0"), 2, 10) + (($data - $a) / $p));
-				for ($i; $i > 0; $i--)
-					$ret .= chr(128 + ((($data % pow(64, $i)) - ($data % ($p = pow(64, $i - 1)))) / $p));
-				break;
-			}
-		}
-	} else
-		$ret = "&#$data;";
-	return $ret;
-}
-
 // Return Question mark
 function _questionify($v)
 {
-	return "?";
+	return '?';
 }
 
 /**
@@ -312,9 +224,9 @@ function generateQuestionMarks($items_list)
 {
 	// array_map will call the function specified in the first parameter for every element of the list in second parameter
 	if (is_array($items_list)) {
-		return implode(",", array_map("_questionify", $items_list));
+		return implode(',', array_map('_questionify', $items_list));
 	} else {
-		return implode(",", array_map("_questionify", explode(",", $items_list)));
+		return implode(',', array_map('_questionify', explode(',', $items_list)));
 	}
 }
 
@@ -329,24 +241,12 @@ function is_uitype($uitype, $reqtype)
 		'_users_list_' => array(52),
 	);
 
-	if ($ui_type_arr[$reqtype] != null) {
+	if ($ui_type_arr[$reqtype] !== null) {
 		if (in_array($uitype, $ui_type_arr[$reqtype])) {
 			return true;
 		}
 	}
 	return false;
-}
-
-/**
- * Function to escape quotes
- * @param $value - String in which single quotes have to be replaced.
- * @return Input string with single quotes escaped.
- */
-function escape_single_quotes($value)
-{
-	if (isset($value))
-		$value = str_replace("'", "\'", $value);
-	return $value;
 }
 
 /**
@@ -389,16 +289,15 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 }
 
 /** Function to get on clause criteria for duplicate check queries */
-function get_on_clause($field_list, $uitype_arr, $module)
+function get_on_clause($field_list)
 {
-	$field_array = explode(",", $field_list);
+	$field_array = explode(',', $field_list);
 	$ret_str = '';
 	$i = 1;
 	foreach ($field_array as $fld) {
-		$sub_arr = explode(".", $fld);
+		$sub_arr = explode('.', $fld);
 		$tbl_name = $sub_arr[0];
 		$col_name = $sub_arr[1];
-		$fld_name = $sub_arr[2];
 
 		$ret_str .= " ifnull($tbl_name.$col_name,'null') = ifnull(temp.$col_name,'null')";
 
@@ -407,66 +306,6 @@ function get_on_clause($field_list, $uitype_arr, $module)
 		$i++;
 	}
 	return $ret_str;
-}
-
-/**
- * this function searches for a given number in vtiger and returns the callerInfo in an array format
- * currently the search is made across only leads, accounts and contacts modules
- *
- * @param $number - the number whose information you want
- * @return array in format array(name=>callername, module=>module, id=>id);
- */
-function getCallerInfo($number)
-{
-	$adb = PearDatabase::getInstance();
-
-	if (empty($number)) {
-		return false;
-	}
-	$caller = "Unknown Number (Unknown)"; //declare caller as unknown in beginning
-
-	$params = [];
-	$name = array('Contacts', 'Accounts', 'Leads');
-	foreach ($name as $module) {
-		$focus = CRMEntity::getInstance($module);
-		$query = $focus->buildSearchQueryForFieldTypes(11, $number);
-		if (empty($query))
-			return;
-
-		$result = $adb->pquery($query, []);
-		if ($adb->num_rows($result) > 0) {
-			$callerName = $adb->query_result($result, 0, "name");
-			$callerID = $adb->query_result($result, 0, 'id');
-			$data = array("name" => $callerName, "module" => $module, "id" => $callerID);
-			return $data;
-		}
-	}
-	return false;
-}
-
-/**
- * this function returns the value of use_asterisk from the database for the current user
- * @param string $id - the id of the current user
- */
-function get_use_asterisk($id)
-{
-	$adb = PearDatabase::getInstance();
-	if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
-		return false;
-	}
-	$sql = "select * from vtiger_asteriskextensions where userid = ?";
-	$result = $adb->pquery($sql, array($id));
-	if ($adb->num_rows($result) > 0) {
-		$use_asterisk = $adb->query_result($result, 0, "use_asterisk");
-		$asterisk_extension = $adb->query_result($result, 0, "asterisk_extension");
-		if ($use_asterisk == 0 || empty($asterisk_extension)) {
-			return 'false';
-		} else {
-			return 'true';
-		}
-	} else {
-		return 'false';
-	}
 }
 
 //functions for asterisk integration end
@@ -486,7 +325,6 @@ function getRelationTables($module, $secmodule)
 	if ($adb->num_rows($ui10_query) > 0) {
 		$ui10_tablename = $adb->query_result($ui10_query, 0, 'tablename');
 		$ui10_columnname = $adb->query_result($ui10_query, 0, 'columnname');
-		$ui10_tabid = $adb->query_result($ui10_query, 0, 'tabid');
 
 		if ($primary_obj->table_name == $ui10_tablename) {
 			$reltables = array($ui10_tablename => array("" . $primary_obj->table_index . "", "$ui10_columnname"));
@@ -543,7 +381,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 	} else {
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}

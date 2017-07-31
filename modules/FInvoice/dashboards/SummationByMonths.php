@@ -3,7 +3,8 @@
 /**
  * FInvoice Summation By Months Dashboard Class
  * @package YetiForce.Dashboard
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -14,9 +15,9 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$linkId = $request->get('linkid');
 
@@ -58,7 +59,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $owner)
 	{
-		$rawData = $data = $response = $ticks = $years = [];
+		$rawData = $data = $response = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
 		$displayDate = \App\Fields\DateTime::currentUserDisplayDate($date);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
@@ -93,7 +94,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$data[] = [
 				'data' => $values,
 				'bars' => ['order' => (array_search($y, $years) + 1)],
-				'label' => vtranslate('LBL_YEAR', $moduleName) . ' ' . $y,
+				'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
 			];
 		}
 		$response['chart'] = $data;

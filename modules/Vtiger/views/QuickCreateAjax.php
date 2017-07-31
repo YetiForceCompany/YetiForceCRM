@@ -12,7 +12,7 @@
 class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -21,7 +21,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -82,7 +82,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 
 		$moduleName = $request->getModule();
@@ -95,7 +95,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		return $jsScriptInstances;
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

@@ -47,11 +47,6 @@ class Vtiger_Cache_Connector
 	public function flush()
 	{
 		$this->connection->flush();
-
-		$time = time() + 1; //one second future 
-		while (time() < $time) {
-			//sleep 
-		}
 	}
 
 	public static function getInstance()

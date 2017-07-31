@@ -4,27 +4,42 @@ namespace App;
 /**
  * Request Utils basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RequestUtil
 {
 
+	private static $ipFields = [
+		'HTTP_CLIENT_IP',
+		'HTTP_X_FORWARDED_FOR',
+		'HTTP_X_FORWARDED',
+		'HTTP_FORWARDED_FOR',
+		'HTTP_FORWARDED',
+		'HTTP_X_CLUSTER_CLIENT_IP',
+		'HTTP_CF_CONNECTING_IP',
+	];
+
 	public static function getRemoteIP($onlyIP = false)
 	{
 		$address = $_SERVER['REMOTE_ADDR'];
+		if ($onlyIP) {
+			return empty($address) ? '' : $address;
+		}
 		// append the NGINX X-Real-IP header, if set
 		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
 			$remoteIp[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
 		}
-		// append the X-Forwarded-For header, if set
-		if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$remoteIp[] = 'X-Forwarded-For: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+		foreach (static::$ipFields as $key) {
+			if (isset($_SERVER[$key])) {
+				$remoteIp[] = "$key: {$_SERVER[$key]}";
+			}
 		}
-		if ($onlyIP === false && !empty($remoteIp)) {
+		if (!empty($remoteIp)) {
 			$address .= '(' . implode(',', $remoteIp) . ')';
 		}
-		return $address;
+		return empty($address) ? '' : $address;
 	}
 
 	protected static $browerCache = false;

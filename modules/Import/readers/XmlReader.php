@@ -3,7 +3,8 @@
 /**
  * XmlReader Class
  * @package YetiForce.Import
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Import_XmlReader_Reader extends Import_FileReader_Reader
@@ -123,8 +124,8 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 
 	public function arrayCombine($key, $value)
 	{
-		$combine = array();
-		$dup = array();
+		$combine = [];
+		$dup = [];
 		$countKey = count($key);
 		for ($i = 0; $i < $countKey; $i++) {
 			if (array_key_exists($key[$i], $combine)) {
@@ -145,7 +146,6 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 		if ($this->moduleModel->isInventory()) {
 			$isInventory = true;
 		}
-		$fields = $this->moduleModel->getFields();
 		while ($xmlToImport->read()) {
 			if ($xmlToImport->nodeType == XMLReader::ELEMENT) {
 				if (!in_array($xmlToImport->localName, ['MODULE_FIELDS', 'INVENTORY_ITEM', 'INVENTORY_ITEMS'])) {

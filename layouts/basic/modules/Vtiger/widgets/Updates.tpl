@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="summaryWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{Vtiger_Util_Helper::toSafeHTML($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
@@ -7,7 +7,7 @@
 					<div class="col-xs-9 col-md-5 col-sm-6">
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="moduleColor_{$WIDGET['label']}">
-								{vtranslate($WIDGET['label'],$MODULE_NAME)}
+								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							</h4>
 						</div>
 					</div>
@@ -21,7 +21,7 @@
 							<div class="btn-group">
 								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
 									<div class="pull-right btn-group">
-										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{vtranslate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
+										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
 											<span class="glyphicon glyphicon-ok-circle"></span>
 										</button>
 									</div>

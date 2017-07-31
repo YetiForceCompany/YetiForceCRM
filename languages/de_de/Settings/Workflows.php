@@ -213,7 +213,7 @@ $languageStrings = [
 	//VTWatchdog
 	'LBL_SELECT_RECIPIENTS' => 'Empfänger',
 	'LBL_MESSAGE' => 'Nachricht',
-	'LBL_MESSAGE_INFO' => 'Der Text der Nachricht unterstützt Variablen, der Name der Variable kann gleich einem System Feldnamen entsprechen oder einer speziellen Funktion.<br/><br/>Beispiel Feldvariablen:<br/><strong>$accountname$</strong> - Feldwert<br/><strong>%accountname%</strong> - Feldnamen<br/><br/>Spezielle Funktionen:',
+	'LBL_MESSAGE_INFO' => 'Der Text der Nachricht unterstützt Variablen, der Name der Variable kann gleich einem System Feldnamen entsprechen oder einer speziellen Funktion.<br /><br />Beispiel Feldvariablen:<br /><strong>$accountname$</strong> - Feldwert<br /><strong>%accountname%</strong> - Feldnamen<br /><br />Spezielle Funktionen:',
 	'LBL_WATCHING_USERS' => 'Beobachter',
 	'LBL_VALUE_FROM_FIELD' => 'Wert von Feld',
 	'LBL_FIELDS_LABELS' => 'Feldbezeichnung',

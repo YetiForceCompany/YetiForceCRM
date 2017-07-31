@@ -3,7 +3,8 @@
 /**
  * Notifications parser class
  * @package YetiForce.TextParser
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Notification_Notifications_TextParser extends \App\TextParser\Base
@@ -21,7 +22,6 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$siteURL = \AppConfig::main('site_URL');
 		$html = '';
 		$scheduleData = \Vtiger_Watchdog_Model::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
@@ -41,9 +41,9 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 						$pattern, function ($matches) {
 						return \AppConfig::main('site_URL') . $matches[0];
 					}, $notification->getMessage());
-					$html .= "<li>$title<br>$massage</li>";
+					$html .= "<li>$title<br />$massage</li>";
 				}
-				$html .= '</ul><br>';
+				$html .= '</ul><br />';
 			}
 		}
 		if (empty($html)) {

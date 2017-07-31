@@ -71,8 +71,6 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 	{
 		$ids = vtws_getIdComponents($id);
 		$sourceModule = $this->webserviceObject->getEntityName();
-		global $currentModule;
-		$currentModule = $sourceModule;
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($ids[1], $sourceModule);
 		$targetModel = Vtiger_RelationListView_Model::getInstance($sourceRecordModel, $relatedModule, $relatedLabel);
 		$sql = $targetModel->getRelationQuery();
@@ -193,8 +191,6 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 	public function describe($elementType)
 	{
 		$app_strings = VTWS_PreserveGlobal::getGlobal('app_strings');
-		$current_user = vtws_preserveGlobal('current_user', $this->user);
-		;
 
 		$label = (isset($app_strings[$elementType])) ? $app_strings[$elementType] : $elementType;
 		$createable = (strcasecmp(isPermitted($elementType, EntityMeta::$CREATE), 'yes') === 0) ? true : false;
@@ -233,7 +229,6 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 
 	public function getDescribeFieldArray($webserviceField)
 	{
-		$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
 
 		$fieldLabel = \App\Language::translate($webserviceField->getFieldLabelKey(), $this->meta->getTabName());
 

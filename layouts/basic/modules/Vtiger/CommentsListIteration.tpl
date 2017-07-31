@@ -20,7 +20,7 @@
 			{include file='CommentsListIteration.tpl'|@vtemplate_path CHILD_COMMENTS_MODEL=$COMMENT->getChildComments()}
 		{/if}
 		</li>
-		<br>
+		<br />
 	{/foreach}
 </ul>
 {/if}

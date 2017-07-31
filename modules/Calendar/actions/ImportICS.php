@@ -18,7 +18,7 @@ vimport('~modules/Calendar/iCalLastImport.php');
 class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -29,7 +29,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$ics = $request->get('ics') . '.ics';
@@ -48,7 +48,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$todoModule => array('activitystatus')
 			);
 
-			$requiredFields = array();
+			$requiredFields = [];
 			$modules = array($eventModule, $todoModule);
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
@@ -79,12 +79,10 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$recordModel->setData($activityFieldsList);
 				$recordModel->set('assigned_user_id', $userId);
 
-				$skipRecord = false;
 				foreach ($requiredFields[$module] as $key) {
 					$value = $recordModel->get($key);
 					if (empty($value)) {
 						$skipCount[$module] ++;
-						$skipRecord = true;
 						break;
 					}
 				}
@@ -109,7 +107,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 			$return = 'LBL_IMPORT_ICS_ERROR_NO_RECORD';
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate($return, $moduleName));
+		$response->setResult(\App\Language::translate($return, $moduleName));
 		$response->emit();
 	}
 }

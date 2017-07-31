@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Mail test class
- * @package YetiForce.Tests
- * @license licenses/License.html
+ * @package YetiForce.Test
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\TestCase;
@@ -13,6 +15,9 @@ use PHPUnit\Framework\TestCase;
 class Mail extends TestCase
 {
 
+	/**
+	 * Load configuration
+	 */
 	public function testLoadConfig()
 	{
 		$db = \App\Db::getInstance();
@@ -31,7 +36,8 @@ class Mail extends TestCase
 				'user_id' => '1',
 				'type' => 'Received',
 				'folder' => 'INBOX',
-				'uid' => '1',
+				'uid' => '0',
 			])->execute();
+		$this->assertTrue(true);
 	}
 }

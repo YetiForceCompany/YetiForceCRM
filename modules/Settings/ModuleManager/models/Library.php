@@ -3,7 +3,8 @@
 /**
  * Module Manager Library class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_ModuleManager_Library_Model
@@ -11,19 +12,18 @@ class Settings_ModuleManager_Library_Model
 
 	/**
 	 * List of all installation libraries
-	 * @var array 
+	 * @var array
 	 */
 	public static $libraries = [
 		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
-		'roundcube' => ['dir' => 'modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
+		'roundcube' => ['dir' => 'public_html/modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
 		'PHPExcel' => ['dir' => 'libraries/PHPExcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
-		'AJAXChat' => ['dir' => 'libraries/AJAXChat/', 'url' => 'https://github.com/YetiForceCompany/lib_AJAXChat', 'name' => 'lib_AJAXChat'],
-		'Gantt' => ['dir' => 'libraries/gantt/', 'url' => 'https://github.com/YetiForceCompany/lib_gantt', 'name' => 'lib_gantt'],
+		'Gantt' => ['dir' => 'public_html/libraries/gantt/', 'url' => 'https://github.com/YetiForceCompany/lib_gantt', 'name' => 'lib_gantt'],
 	];
 
 	/**
 	 * Path to save temporary files
-	 * @var string 
+	 * @var string
 	 */
 	const TEMP_DIR = 'cache' . DIRECTORY_SEPARATOR . 'upload';
 
@@ -104,21 +104,21 @@ class Settings_ModuleManager_Library_Model
 			App\Log::info('Library has already been downloaded: ' . $name);
 			return false;
 		}
-		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
+		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $lib['name'] . '.zip';
 		$mode = AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : App\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
 			stream_context_set_default([
 				'ssl' => [
-					'verify_peer' => false,
-					'verify_peer_name' => false,
+					'verify_peer' => true,
+					'verify_peer_name' => true,
 				],
 			]);
 			$url = $lib['url'] . "/archive/$mode.zip";
 			$headers = get_headers($url, 1);
 			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
 				App\Log::trace('Started downloading library: ' . $name);
-				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]))) {
+				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true]]))) {
 					file_put_contents($path, $file);
 					App\Log::trace('Completed downloads library: ' . $name);
 				}
@@ -127,9 +127,8 @@ class Settings_ModuleManager_Library_Model
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
-			$unzip = new \vtlib\Unzip($path);
-			$unzip->unzipAllEx('.', [], [$compressedName => $lib['dir']]);
-			$unzip->close();
+			$zip = new \App\Zip($path, ['checkFiles' => false]);
+			$zip->unzip([$compressedName => $lib['dir']]);
 			unlink($path);
 		} else {
 			App\Log::warning('No import file: ' . $name);

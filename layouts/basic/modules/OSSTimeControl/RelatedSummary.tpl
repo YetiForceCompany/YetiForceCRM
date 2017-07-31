@@ -1,11 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="sumaryRelatedTimeControl">
-		<link rel="stylesheet" href="libraries/jquery/flot/jquery.flot.valuelabels.css">
-		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.min.js"></script>
-		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.stack.min.js"></script>
-		<script type="text/javascript" src="libraries/jquery/flot/jquery.flot.valuelabels.min.js"></script>
-		<script type="text/javascript" src="{Yeti_Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
 		<style type="text/css">
 		.legendContainer{
 			position: absolute;
@@ -26,14 +22,14 @@
 					<button class="btn btn-sm pull-left btn-default switchChartContainer" type="button">
 						<span class="glyphicon glyphicon-chevron-up"></span>
 					</button>
-					<h5>{vtranslate('LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS', $RELATED_MODULE_NAME)}:</h5>
+					<h5>{\App\Language::translate('LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS', $RELATED_MODULE_NAME)}:</h5>
 				</div>
 			</div>
 			<div class="row chartContainer">
 				<div class="col-md-12">
 					<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
 					<div class="legendContainer">
-						{vtranslate('LBL_SUM', $RELATED_MODULE_NAME)}: {$TOTALTIME['full']}<br />
+						{\App\Language::translate('LBL_SUM', $RELATED_MODULE_NAME)}: {$TOTALTIME['full']}<br />
 					</div>
 					<div class="chartBlock" style="height: 200px;width:100%"></div>
 				</div>

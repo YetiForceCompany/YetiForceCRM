@@ -4,7 +4,8 @@ namespace Api\Portal\BaseModule;
 /**
  * Get record list class
  * @package YetiForce.WebserviceAction
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordsList extends \Api\Core\BaseAction
@@ -23,6 +24,7 @@ class RecordsList extends \Api\Core\BaseAction
 		$records = $headers = [];
 		$queryGenerator = $this->getQuery();
 		$fieldsModel = $queryGenerator->getListViewFields();
+		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
@@ -36,10 +38,12 @@ class RecordsList extends \Api\Core\BaseAction
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}
+		$rowsCount = count($records);
 		return [
 			'headers' => $headers,
 			'records' => $records,
-			'count' => count($records)
+			'count' => $rowsCount,
+			'isMorePages' => $rowsCount === $limit,
 		];
 	}
 
@@ -55,6 +59,30 @@ class RecordsList extends \Api\Core\BaseAction
 		if ($this->getPermissionType() !== 1) {
 			$this->getQueryByParentRecord($queryGenerator);
 		}
+		$limit = 1000;
+		if ($requestLimit = $this->controller->request->getHeader('X-ROW-LIMIT')) {
+			$limit = (int) $requestLimit;
+		}
+		$offset = 0;
+		if ($requestOffset = $this->controller->request->getHeader('X-ROW-OFFSET')) {
+			$offset = (int) $requestOffset;
+		}
+		$queryGenerator->setLimit($limit);
+		$queryGenerator->setOffset($offset);
+		if ($requestFields = $this->controller->request->getHeader('X-FIELDS')) {
+			$queryGenerator->setFields(\App\Json::decode($requestFields));
+			$queryGenerator->setField('id');
+		}
+		if ($conditions = $this->controller->request->getHeader('X-CONDITION')) {
+			$conditions = \App\Json::decode($conditions);
+			if (isset($conditions['fieldName'])) {
+				$queryGenerator->addCondition($conditions['fieldName'], $conditions['value'], $conditions['operator']);
+			} else {
+				foreach ($conditions as $condition) {
+					$queryGenerator->addCondition($condition['fieldName'], $condition['value'], $condition['operator']);
+				}
+			}
+		}
 		return $queryGenerator;
 	}
 
@@ -67,7 +95,7 @@ class RecordsList extends \Api\Core\BaseAction
 	{
 		$parentId = $this->getParentCrmId();
 		$parentModule = \App\Record::getType($parentId);
-		$fields = \App\Field::getReletedFieldForModule($queryGenerator->getModule());
+		$fields = \App\Field::getRelatedFieldForModule($queryGenerator->getModule());
 		$foundField = true;
 		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
@@ -80,11 +108,11 @@ class RecordsList extends \Api\Core\BaseAction
 				if ($moduleName === $parentModule) {
 					continue;
 				}
-				if ($reletedField = \App\Field::getReletedFieldForModule($moduleName, $parentModule)) {
-					$queryGenerator->addReletedCondition([
+				if ($relatedField = \App\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
+					$queryGenerator->addRelatedCondition([
 						'sourceField' => $field['fieldname'],
 						'relatedModule' => $moduleName,
-						'relatedField' => $reletedField['fieldname'],
+						'relatedField' => $relatedField['fieldname'],
 						'value' => $parentId,
 						'operator' => 'e',
 						'conditionGroup' => true

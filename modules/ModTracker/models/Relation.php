@@ -37,7 +37,6 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 		$query = 'SELECT * FROM vtiger_crmentity WHERE crmid = ?';
 		$result = $db->pquery($query, [$targetId]);
 		$noOfRows = $db->num_rows($result);
-		$moduleModels = [];
 		if ($noOfRows) {
 			$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
 			$row = $db->getRow($result);

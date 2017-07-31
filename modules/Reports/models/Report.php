@@ -74,12 +74,12 @@ class Vtiger_Report_Model extends Reports
 					);
 				}
 
-				$subOrdinateUsers = Array();
+				$subOrdinateUsers = [];
 
 				$subResult = $db->pquery("SELECT userid FROM vtiger_user2role
 									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
 									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-									WHERE vtiger_role.parentrole LIKE '$current_user_parent_role_seq::%'", array());
+									WHERE vtiger_role.parentrole LIKE '$current_user_parent_role_seq::%'", []);
 
 				$numOfSubRows = $db->num_rows($subResult);
 
@@ -120,7 +120,7 @@ class Vtiger_Report_Model extends Reports
 	{
 		foreach ($this->module_list as $key => $value) {
 			if (isPermitted($key, 'index') == "yes") {
-				$modules [$key] = vtranslate($key, $key);
+				$modules [$key] = \App\Language::translate($key, $key);
 			}
 		}
 		asort($modules);

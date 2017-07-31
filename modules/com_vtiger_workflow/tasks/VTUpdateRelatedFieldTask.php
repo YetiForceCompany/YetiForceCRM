@@ -1,8 +1,9 @@
 <?php
 /**
  * Update Related Field Task Handler Class
- * @package YetiForce.WorkflowTask
- * @license licenses/License.html
+ * @package YetiForce.Workflow
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
@@ -33,7 +34,6 @@ class VTUpdateRelatedFieldTask extends VTTask
 		if (!empty($fieldValueMapping)) {
 			$util->loggedInUser();
 			foreach ($fieldValueMapping as $fieldInfo) {
-				$reletedData = $fieldInfo['fieldname'];
 				$fieldValue = trim($fieldInfo['value']);
 				switch ($fieldInfo['valuetype']) {
 					case 'fieldname':
@@ -58,37 +58,54 @@ class VTUpdateRelatedFieldTask extends VTTask
 						}
 						break;
 				}
-				if (!empty($fieldValue) || $fieldValue == 0) {
-					$this->updateRecords($recordModel, $reletedData, $fieldValue);
+				$relatedData = explode('::', $fieldInfo['fieldname']);
+				if (count($relatedData) === 2) {
+					if (!empty($fieldValue) || $fieldValue == 0) {
+						$this->updateRecords($recordModel, $relatedData, $fieldValue);
+					}
+				} else {
+					$recordId = $recordModel->get($relatedData[0]);
+					if ($recordId) {
+						$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedData[1]);
+						$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
+						$recordModel->set($relatedData[2], $fieldValue);
+						$recordModel->save();
+					}
 				}
 			}
 		}
 		$util->revertUser();
 	}
 
-	function updateRecords($recordModel, $relatedData, $fieldValue)
+	/**
+	 * Update related records by releted module
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param string[] $relatedData
+	 * @param string $fieldValue
+	 * @return boolean
+	 */
+	private function updateRecords($recordModel, $relatedData, $fieldValue)
 	{
-		$reletedDataEx = explode('::', $relatedData);
-		$reletedModuleName = $reletedDataEx[0];
-		$reletedFieldName = $reletedDataEx[1];
-		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $reletedModuleName);
+		$relatedModuleName = $relatedData[0];
+		$relatedFieldName = $relatedData[1];
+		$targetModel = Vtiger_RelationListView_Model::getInstance($recordModel, $relatedModuleName);
 		if (!$targetModel->getRelationModel()) {
 			return false;
 		}
 		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
 				->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $reletedModuleName);
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedModuleName);
 			$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
-			$recordModel->set($reletedFieldName, $fieldValue);
+			$recordModel->set($relatedFieldName, $fieldValue);
 			$recordModel->save();
 		}
 	}
 
 	/**
 	 * Function to get contents of this task
-	 * @param <Object> $entity
-	 * @return <Array> contents
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return boolean contents
 	 */
 	public function getContents($recordModel)
 	{

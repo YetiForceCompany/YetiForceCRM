@@ -82,7 +82,7 @@ class Users_Privileges_Model extends Users_Record_Model
 
 	/**
 	 * Function to check whether the user has access to a given module by tabid
-	 * @param <Number> $tabId
+	 * @param int $mixed
 	 * @return boolean true/false
 	 */
 	public function hasModulePermission($mixed)
@@ -223,6 +223,20 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
+	 * Clear user cache
+	 * @param int|boolean $userId
+	 */
+	public static function clearCache($userId = false)
+	{
+		self::$lockEditCache = [];
+		if ($userId) {
+			unset(self::$userPrivilegesModelCache[$userId]);
+		} else {
+			self::$userPrivilegesModelCache = [];
+		}
+	}
+
+	/**
 	 * Function to set Shared Owner
 	 * @param int|array|string $userIds
 	 * @param int $record
@@ -232,7 +246,7 @@ class Users_Privileges_Model extends Users_Record_Model
 		$saveFull = true;
 
 		$db = \App\Db::getInstance();
-		if (AppRequest::get('action') == 'SaveAjax' && AppRequest::has('field') && AppRequest::get('field') != 'shownerid') {
+		if (\App\Request::_get('action') == 'SaveAjax' && \App\Request::_has('field') && \App\Request::_get('field') != 'shownerid') {
 			$saveFull = false;
 		}
 		if ($saveFull) {
@@ -262,7 +276,6 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
-
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$db = PearDatabase::getInstance();
@@ -295,20 +308,28 @@ class Users_Privileges_Model extends Users_Record_Model
 				$array[$row['module']][] = $row['id'];
 			}
 		}
-		return $array;
 		\App\Log::trace('Exiting getSharedRecordsRecursively()');
+		return $array;
 	}
 
-	protected static $parentRecordCache = [];
-
+	/**
+	 * Get parent record id
+	 * @param int $record
+	 * @param string|bool $moduleName
+	 * @param int $type
+	 * @param type $actionid
+	 * @return int|bool
+	 */
 	public static function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)
 	{
-		if (isset(self::$parentRecordCache[$record])) {
-			return self::$parentRecordCache[$record];
+		$cacheKey = "$record,$moduleName,$type,$actionid";
+		if (\App\Cache::staticHas('PrivilegesParentRecord', $cacheKey)) {
+			return \App\Cache::staticGet('PrivilegesParentRecord', $cacheKey);
 		}
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$currentUserId = $userPrivilegesModel->getId();
-		$currentUserGroups = $userPrivilegesModel->get('groups');
+		$userModel = App\User::getCurrentUserModel();
+		$currentUserId = $userModel->getId();
+		$currentUserGroups = $userModel->get('groups');
+		settype($currentUserGroups, 'array');
 		if (!$moduleName) {
 			$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
@@ -341,7 +362,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
 			$db = PearDatabase::getInstance();
-			$role = $userPrivilegesModel->getRoleDetail();
+			$role = $userModel->getRoleInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
@@ -349,7 +370,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
-				foreach ($permissionsRelatedField as &$row) {
+				foreach ($permissionsRelatedField as $row) {
 					if (!$relatedPermission) {
 						switch ($row) {
 							case 0:
@@ -360,6 +381,10 @@ class Users_Privileges_Model extends Users_Record_Model
 								break;
 							case 2:
 								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
+								break;
+							case 3:
+								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -377,7 +402,7 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
 			$db = PearDatabase::getInstance();
-			$role = $userPrivilegesModel->getRoleDetail();
+			$role = $userModel->getRoleInstance();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
 			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);
 			$result = $db->pquery($query, [$record]);
@@ -386,7 +411,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
-				foreach ($permissionsRelatedField as &$row) {
+				foreach ($permissionsRelatedField as $row) {
 					if (!$relatedPermission) {
 						switch ($row) {
 							case 0:
@@ -397,6 +422,10 @@ class Users_Privileges_Model extends Users_Record_Model
 								break;
 							case 2:
 								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
+								break;
+							case 3:
+								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -413,7 +442,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				}
 			}
 		}
-		self::$parentRecordCache[$record] = $parentRecord;
+		\App\Cache::staticSave('PrivilegesParentRecord', $cacheKey, $parentRecord);
 		return $parentRecord;
 	}
 

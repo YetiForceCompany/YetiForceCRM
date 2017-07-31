@@ -20,7 +20,6 @@ class PearDatabase
 	protected $database = null;
 	protected $stmt = false;
 	public $dieOnError = false;
-	static private $dbConfig = false;
 	static private $dbCache = false;
 	protected $dbType = null;
 	protected $dbHostName = null;
@@ -241,7 +240,11 @@ class PearDatabase
 
 	public function getRowCount(&$result)
 	{
-		return $result->rowCount();
+		if (method_exists($result, 'rowCount')) {
+			return $result->rowCount();
+		}
+		App\Log::warning('No rowCount function');
+		return 0;
 	}
 
 	public function num_rows(&$result)
@@ -369,7 +372,7 @@ class PearDatabase
 	public function execute()
 	{
 		try {
-			$success = $this->stmt->execute($params);
+			$this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\Exception\AppException $e) {
 			$error = $this->database->errorInfo();
@@ -454,7 +457,7 @@ class PearDatabase
 
 	public function query_result(&$result, $row, $col = 0)
 	{
-		return \App\Purifier::toHtml($this->query_result_raw($result, $row, $col));
+		return $this->query_result_raw($result, $row, $col);
 	}
 
 	public function query_result_raw(&$result, $row, $col = 0)
@@ -466,6 +469,9 @@ class PearDatabase
 
 		if (!isset($result->tmp)) {
 			$result->tmp = $result->fetchAll(PDO::FETCH_ASSOC);
+		}
+		if (!isset($result->tmp[$row]) || !isset($result->tmp[$row][$col])) {
+			return null;
 		}
 		return $result->tmp[$row][$col];
 	}
@@ -583,15 +589,11 @@ class PearDatabase
 	{
 		if (isset($result) && $rowNum < 0) {
 			$row = $this->getRow($result);
-			if ($encode && is_array($row))
-				return array_map('\App\Purifier::toHtml', $row);
 			return $row;
 		}
 		if ($this->getRowCount($result) > $rowNum) {
 			$row = $this->raw_query_result_rowdata($result, $rowNum);
 		}
-		if ($encode && is_array($row))
-			return array_map('\App\Purifier::toHtml', $row);
 		return $row;
 	}
 

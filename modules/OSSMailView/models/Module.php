@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSMailView ListView model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSMailView_Module_Model extends Vtiger_Module_Model
 {
 
@@ -47,7 +44,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			$owner = '';
 		}
 
-		$params = array();
+		$params = [];
 		if (!empty($owner)) {
 			$ownerSql = ' && smownerid = ? ';
 			$params[] = $owner;
@@ -62,14 +59,14 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 						INNER JOIN vtiger_crmentity ON vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid
 						AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
 
-		$response = array();
+		$response = [];
 
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$saleStage = $db->query_result($result, $i, 'ossmailview_sendtype');
 			$response[$i][0] = $saleStage;
 			$response[$i][1] = $db->query_result($result, $i, 'count');
-			$response[$i][2] = vtranslate($saleStage, $this->getName());
+			$response[$i][2] = \App\Language::translate($saleStage, $this->getName());
 		}
 		return $response;
 	}

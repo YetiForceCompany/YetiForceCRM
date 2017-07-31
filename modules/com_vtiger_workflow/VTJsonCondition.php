@@ -23,8 +23,8 @@ class VTJsonCondition
 		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
 		if (is_array($expr)) {
-			$groupResults = array();
-			$expressionResults = array();
+			$groupResults = [];
+			$expressionResults = [];
 			$i = 0;
 			foreach ($expr as $cond) {
 				$conditionGroup = $cond['groupid'];
@@ -56,8 +56,12 @@ class VTJsonCondition
 			foreach ($expressionResults as $groupId => &$groupExprResultSet) {
 				$groupResult = TRUE;
 				foreach ($groupExprResultSet as &$exprResult) {
-					$result = $exprResult['result'];
-					$logicalOperator = $exprResult['logicaloperator'];
+					if (isset($exprResult['result'])) {
+						$result = $exprResult['result'];
+					}
+					if (isset($exprResult['logicaloperator'])) {
+						$logicalOperator = $exprResult['logicaloperator'];
+					}
 					if (isset($result)) { // Condition to skip last condition
 						if (!empty($logicalOperator)) {
 							switch ($logicalOperator) {

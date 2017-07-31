@@ -35,7 +35,7 @@
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th nowrap  class="{$WIDTHTYPE}">
-						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{vtranslate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
 							{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 					</th>
 					{/foreach}
@@ -70,7 +70,7 @@
 												{else if $RECORD_LINK->getLabel() eq 'LBL_DEACTIVATION_TASKS' && $ACTIVE_TASKS eq 0}
 													hide
 												{/if}" >
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{vtranslate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 												</a>
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;
@@ -92,7 +92,7 @@
 		<tbody>
 			<tr>
 				<td>
-					{vtranslate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
 				</td>
 			</tr>
 		</tbody>

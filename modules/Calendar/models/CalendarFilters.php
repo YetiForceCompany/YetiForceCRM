@@ -3,10 +3,11 @@
 /**
  * Calendar CalendarWidget Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
+class Calendar_CalendarFilters_Model extends \App\Base
 {
 
 	protected $filterPath = 'modules/Calendar/calendarfilters';
@@ -18,6 +19,10 @@ class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 		return $instance;
 	}
 
+	/**
+	 * Constructor
+	 * @return boolean
+	 */
 	public function __construct()
 	{
 		if (!is_dir($this->filterPath)) {
@@ -25,9 +30,8 @@ class Calendar_CalendarFilters_Model extends Vtiger_Base_Model
 		}
 		$dir = new DirectoryIterator($this->filterPath);
 		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot()) {
-				$name = $fileinfo->getFilename();
-				$name = rtrim($name, '.php');
+			if (!$fileinfo->isDot() && $fileinfo->getExtension() === 'php') {
+				$name = trim($fileinfo->getBasename('.php'));
 				$filterClassName = Vtiger_Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
 				$filterInstance = new $filterClassName();
 				if (method_exists($filterInstance, 'checkPermissions') && $filterInstance->checkPermissions()) {

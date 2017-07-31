@@ -11,7 +11,7 @@
 class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -43,7 +43,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
-	public function getDependencyGraph(Vtiger_Request $request)
+	public function getDependencyGraph(\App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
 		$module = $request->get('sourceModule');
@@ -66,14 +66,12 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
 		);
@@ -83,7 +81,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 

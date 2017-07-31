@@ -6,7 +6,8 @@ use \App\Db;
 /**
  * Custom view class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class CustomView
@@ -195,11 +196,11 @@ class CustomView
 	 */
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
 	{
-		if (\AppRequest::has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = \AppRequest::get('orderby');
+		if (Request::_has('orderby')) {
+			$_SESSION['lvs'][$moduleName]['sortby'] = Request::_get('orderby');
 		}
-		if (\AppRequest::has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = \AppRequest::get('sortorder');
+		if (Request::_has('sortorder')) {
+			$_SESSION['lvs'][$moduleName]['sorder'] = Request::_get('sortorder');
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
@@ -220,7 +221,7 @@ class CustomView
 		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-		if (!\AppRequest::isEmpty('viewname') && (\AppRequest::get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if (!Request::_isEmpty('viewname') && (Request::_get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
 		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
@@ -243,7 +244,7 @@ class CustomView
 		if (is_numeric($user)) {
 			$user = User::getUserModel($user);
 		}
-		$cacheName = $moduleName . '.' . $user->getUserId();
+		$cacheName = $moduleName . '.' . $user->getId();
 		if (\App\Cache::staticHas('AppCustomView', $cacheName)) {
 			return \App\Cache::staticGet('AppCustomView', $cacheName);
 		}
@@ -456,7 +457,7 @@ class CustomView
 		if (isset($this->defaultViewId)) {
 			return $this->defaultViewId;
 		}
-		if ($noCache || \AppRequest::isEmpty('viewname')) {
+		if ($noCache || Request::_isEmpty('viewname')) {
 
 			if (!$noCache && self::getCurrentView($this->moduleName)) {
 				$viewId = self::getCurrentView($this->moduleName);
@@ -467,7 +468,7 @@ class CustomView
 				$viewId = $this->getMandatoryFilter();
 			}
 		} else {
-			$viewId = \AppRequest::get('viewname');
+			$viewId = Request::_get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
 					$viewId = $this->getMandatoryFilter();
@@ -490,13 +491,13 @@ class CustomView
 	public function getDefaultCvId()
 	{
 		Log::trace(__METHOD__);
-		$cacheName = $this->moduleName . $this->user->getUserId();
+		$cacheName = $this->moduleName . $this->user->getId();
 		if (Cache::has('GetDefaultCvId', $cacheName)) {
 			return Cache::get('GetDefaultCvId', $cacheName);
 		}
 		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => Module::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
-		$user = 'Users:' . $this->user->getUserId();
+		$user = 'Users:' . $this->user->getId();
 		if (isset($data[$user])) {
 			Cache::save('GetDefaultCvId', $cacheName, $data[$user]);
 			return $data[$user];
@@ -545,8 +546,8 @@ class CustomView
 				$userId = $statusUseridInfo['userid'];
 				if ($status === self::CV_STATUS_DEFAULT || $this->user->isAdmin()) {
 					$permission = true;
-				} elseif (\AppRequest::get('view') !== 'ChangeStatus') {
-					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getUserId()) {
+				} elseif (Request::_get('view') !== 'ChangeStatus') {
+					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
 						$permission = true;
 					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
 						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
@@ -560,7 +561,7 @@ class CustomView
 							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
 						$userArray = $query->column();
 						if ($userArray) {
-							if (!in_array($this->user->getUserId(), $userArray)) {
+							if (!in_array($this->user->getId(), $userArray)) {
 								$permission = false;
 							} else {
 								$permission = true;

@@ -14,40 +14,40 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header contentsBackground">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-				<h3 class="modal-title">{vtranslate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+				<h3 class="modal-title">{\App\Language::translate('LBL_MERGING_CRITERIA_SELECTION', $MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="findDuplicate" action="index.php" method="POST">
 				<input type='hidden' name='module' value='{$MODULE}' />
 				<input type='hidden' name='view' value='FindDuplicates' />
-				<br>
+				<br />
 				<div class="form-group">
 					<div class="col-sm-3 control-label">
-						{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}
+						{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
 					</div>
 					<div class="col-sm-6 controls">
 							<div class="col-md-10">
-								<select id="fieldList" class="select2 form-control" multiple="true" title="{vtranslate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
+								<select id="fieldList" class="select2 form-control" multiple="true" title="{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}" name="fields[]"
 									data-validation-engine="validate[required]">
 									{foreach from=$FIELDS item=FIELD}
 										{if $FIELD->isViewableInDetailView()}
-											<option value="{$FIELD->getName()}">{vtranslate($FIELD->get('label'), $MODULE)}</option>
+											<option value="{$FIELD->getName()}">{\App\Language::translate($FIELD->get('label'), $MODULE)}</option>
 										{/if}
 									{/foreach}
 								</select>
 							</div>
 							<div class="col-md-10">
-								<label><input type="checkbox" name="ignoreEmpty" title="{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{vtranslate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
+								<label><input type="checkbox" name="ignoreEmpty" title="{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}" checked /><span class="alignMiddle">&nbsp;{\App\Language::translate('LBL_IGNORE_EMPTY_VALUES', $MODULE)}</span></label>
 							</div>
-						<br>
+						<br />
 					</div>
 				</div>
 				<div class="modal-footer">
 					<div class="pull-right cancelLinkContainer">
-						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+						<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 					</div>
 					<button class="btn btn-success" type="submit" disabled="true">
-						<strong>{vtranslate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
+						<strong>{\App\Language::translate('LBL_FIND_DUPLICATES', $MODULE)}</strong>
 					</button>
 				</div>
 			</form>

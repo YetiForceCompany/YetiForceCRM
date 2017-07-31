@@ -247,7 +247,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (empty($type)) {
 			$type = 'all';
 		}
-		$comments = array();
+		$comments = [];
 		if ($type == 'all' || $type == 'comments') {
 			$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 			if ($modCommentsModel->isPermitted('DetailView')) {
@@ -286,7 +286,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		$history = array_merge($activites, $comments);
 
-		$dateTime = array();
+		$dateTime = [];
 		foreach ($history as $time => $model) {
 			$dateTime[] = $time;
 		}

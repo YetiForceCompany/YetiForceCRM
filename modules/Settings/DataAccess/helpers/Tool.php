@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Oss tool class
+ * @package YetiForce.Helper
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 include_once 'include/main/WebUI.php';
 include_once 'modules/com_vtiger_workflow/include.php';
 include_once 'modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php';
@@ -25,8 +22,6 @@ class Oss_Tool
 	public static function addCreatedtimeAndModifiedtimeField($moduleName, $blockLabel)
 	{
 		if (self::checkArg(func_get_args(), 2)) {
-			vglobal('Vtiger_Utils_Log', true);
-
 			self::addUitype70Field($moduleName, $blockLabel, 'createdtime', 'Created Time');
 			self::addUitype70Field($moduleName, $blockLabel, 'modifiedtime', 'Modified Time');
 		}
@@ -44,8 +39,6 @@ class Oss_Tool
 	public static function addUitype70Field($moduleName, $blockLabel, $fieldName, $fieldLabel)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			vglobal('Vtiger_Utils_Log', true);
-
 			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
@@ -76,8 +69,6 @@ class Oss_Tool
 	public static function addUitype56Field($moduleName, $blockLabel, $fieldName = NULL, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 2)) {
-			vglobal('Vtiger_Utils_Log', true);
-
 			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
@@ -196,8 +187,6 @@ class Oss_Tool
 	public static function addUitype10Field($moduleName, $blockLabel, $relModuleList, $fieldName, $mandatory = false, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			vglobal('Vtiger_Utils_Log', true);
-
 			$tabid = vtlib\Functions::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
@@ -244,10 +233,7 @@ class Oss_Tool
 	public static function addFunctionToWorkflow($moduleName, $methodName, $functionPath)
 	{
 		if (self::checkArg(func_get_args(), 3)) {
-			vglobal('Vtiger_Utils_Log', true);
-
-			$db = PearDatabase::getInstance();
-			$vtemm = new VTEntityMethodManager($db);
+			$vtemm = new VTEntityMethodManager();
 			$vtemm->addEntityMethod($moduleName, $methodName, $functionPath, $methodName);
 		}
 	}
@@ -263,8 +249,6 @@ class Oss_Tool
 	public static function addRelatedModule($baseModule, $relatedModule, $relatedFunction, $action)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			vglobal('Vtiger_Utils_Log', true);
-
 			$relModuleObj = vtlib\Module::getInstance($relatedModule);
 			$baseModuleObj = vtlib\Module::getInstance($baseModule);
 			$baseModuleObj->setRelatedList($relModuleObj, $relatedModule, $action, $relatedFunction);
@@ -337,7 +321,6 @@ class Oss_Tool
 	 */
 	private static function addLink($type, $moduleName, $widgetName, $link)
 	{
-		vglobal('Vtiger_Utils_Log', true);
 		$tabId = vtlib\Functions::getModuleId($moduleName);
 		if ($tabId) {
 			vtlib\Link::addLink($tabId, $type, $widgetName, $link);
@@ -356,7 +339,6 @@ class Oss_Tool
 	 */
 	private static function checkArg($parameterList, $numMandatoryArg)
 	{
-		vglobal('Vtiger_Utils_Log', true);
 		for ($i = 0; $i < $numMandatoryArg; $i++) {
 			if (empty($parameterList[$i])) {
 				$i++;

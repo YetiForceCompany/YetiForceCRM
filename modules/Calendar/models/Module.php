@@ -109,7 +109,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkicon' => '',
 			],
 		];
-		if ($linkParams['ACTION'] == 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
@@ -124,7 +124,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$quickWidgets = [];
 		$quickWidgetsRight = [];
 
-		if ($linkParams['ACTION'] == 'Calendar') {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar') {
 			$quickWidgetsRight[] = array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'Activity Type',
@@ -145,7 +145,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			);
 		}
 
-		if ($linkParams['ACTION'] == 'SharedCalendar') {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'SharedCalendar') {
 			$quickWidgets[] = array(
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_ADDED_CALENDARS',
@@ -262,7 +262,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($id, $id));
 		$rows = $db->num_rows($result);
 
-		$userIds = Array();
+		$userIds = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$id = $db->query_result($result, $i, 'userid');
 			$userName = $db->query_result($result, $i, 'first_name') . ' ' . $db->query_result($result, $i, 'last_name');
@@ -285,7 +285,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($id));
 		$rows = $db->num_rows($result);
 
-		$sharedUsers = Array();
+		$sharedUsers = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$sharedUserId = $db->query_result($result, $i, 'shareduserid');
 			$color = $db->query_result($result, $i, 'color');
@@ -311,7 +311,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery($query, array($id, 1));
 		$rows = $db->num_rows($result);
 
-		$calendarViewTypes = Array();
+		$calendarViewTypes = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
 			$moduleInstance = vtlib\Module::getInstance($activityTypes['module']);
@@ -411,7 +411,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getCalendarReminder($allReminder = false)
 	{
-		$db = PearDatabase::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
@@ -423,7 +422,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
 
 			$query = (new \App\Db\Query())
-				->select('recordid')
+				->select(['recordid', 'vtiger_activity_reminder_popup.datetime'])
 				->from('vtiger_activity_reminder_popup')
 				->innerJoin('vtiger_activity', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid')
@@ -443,7 +442,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
 					$url = "index.php?module=OSSMail&view=compose&mod=" . vtlib\Functions::getCRMRecordType($link) . "&record=$link";
-					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . vtranslate('LBL_SEND_MAIL') . "</a>");
+					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Language::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
 			}
@@ -547,13 +546,17 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$dates[$key] = strtotime($dBFomatedDate . " " . $timeFormatedString);
 			}
 			$activityStatusLabels = Calendar_Module_Model::getComponentActivityStateLabel();
-			$state = $activityStatusLabels['not_started'];
-			if ($dates['end'] > $dates['current'] && $dates['start'] < $dates['current']) {
-				$state = $activityStatusLabels['in_realization'];
-			} elseif ($dates['end'] > $dates['current']) {
+			if (!empty($data['activitystatus']) && isset($activityStatusLabels[$data['activitystatus']])) {
+				$state = $activityStatusLabels[$data['activitystatus']];
+			} else {
 				$state = $activityStatusLabels['not_started'];
-			} elseif ($dates['end'] < $dates['current']) {
-				$state = $activityStatusLabels['overdue'];
+				if ($dates['end'] > $dates['current'] && $dates['start'] < $dates['current']) {
+					$state = $activityStatusLabels['in_realization'];
+				} elseif ($dates['end'] > $dates['current']) {
+					$state = $activityStatusLabels['not_started'];
+				} elseif ($dates['end'] < $dates['current']) {
+					$state = $activityStatusLabels['overdue'];
+				}
 			}
 			return $state;
 		}

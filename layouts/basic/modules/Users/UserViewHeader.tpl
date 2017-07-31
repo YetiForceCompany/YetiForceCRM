@@ -30,7 +30,7 @@
 										{else}
 											onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
 										{/if}>
-									<strong>{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
+									<strong>{\App\Language::translate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
 								</button>
 								</div>
 							{/foreach}
@@ -38,19 +38,19 @@
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 								<span class="btn-group">
 									<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-										<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
+										<strong>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
 									</button>
 									<ul class="dropdown-menu pull-right">
 										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 											{if $DETAIL_VIEW_LINK->getLabel() eq 'Delete'}
 												{if $USER_MODEL->isAdminUser() && $USER_MODEL->getId() neq $RECORD->getId()}
 													<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-													<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+													<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 												</li>
 												{/if}
 											{else}	
 												<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-													<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+													<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 												</li>
 											{/if}
 										{/foreach}

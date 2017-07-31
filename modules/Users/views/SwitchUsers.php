@@ -2,25 +2,26 @@
 
 /**
  * @package YetiForce.Modal
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Module_Model::getSwitchUsers()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$users = Users_Module_Model::getSwitchUsers(true);

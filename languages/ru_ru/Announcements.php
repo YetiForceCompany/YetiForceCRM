@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Announcements russian translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'Announcements' => 'Объявления',
 	'SINGLE_Announcements' => 'Объявление',
@@ -10,6 +15,7 @@ $languageStrings = [
 	'LBL_NUMBER' => 'Номер',
 	'FL_STATUS' => 'Статус',
 	'FL_INTERVAL' => 'Время напоминания',
+	'FL_IS_MANDATORY' => 'Obligatory to accept',
 	// Picklist values
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_FOR_ACCEPTANCE' => 'Для подтверждения',

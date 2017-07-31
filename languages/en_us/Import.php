@@ -80,7 +80,7 @@ $languageStrings = [
 	'LBL_IMPORT_FILE_COPY_FAILED' => 'Import file copy failed. Change permissions',
 	'LBL_INVALID_FILE' => 'Invalid file',
 	'LBL_NO_ROWS_FOUND' => 'No rows found',
-	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Your import has been scheduled and will start within 15 minutes. You will receive an email after import is completed.  <br> <br>
+	'LBL_SCHEDULED_IMPORT_DETAILS' => 'Your import has been scheduled and will start within 15 minutes. You will receive an email after import is completed.  <br /> <br />
 										Please make sure that the outgoing server and your email address is configured to receive email notification',
 	'LBL_DETAILS' => 'Details',
 	'skipped' => 'Skipped records',

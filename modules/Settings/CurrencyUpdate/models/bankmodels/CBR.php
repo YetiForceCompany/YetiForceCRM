@@ -1,7 +1,8 @@
 <?php
 /**
- * @package YetiForce.models
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
@@ -91,7 +92,6 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
 			foreach ($ratesXml->ValuteData[0] as $currencyRate) {
 				if ($currencyRate->VchCode == $mainCurrency) {
-					echo $currencyRate->VchCode . ' == ' . $mainCurrency . ' = ' . $currencyRate->Vcurs;
 					$exchangeRate = $currencyRate->Vcurs;
 				}
 			}

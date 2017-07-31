@@ -38,15 +38,6 @@ function getInventoryCurrencyInfo($module, $id)
 	return $currency_info;
 }
 
-/** 	Function used to get the list of all Currencies as a array
- *  @param string available - if 'all' returns all the currencies, default value 'available' returns only the currencies which are available for use.
- * 	return array $currency_details - return details of all the currencies as a array
- */
-function getAllCurrencies($available = 'available')
-{
-	return vtlib\Functions::getAllCurrency($available != 'all');
-}
-
 /** 	Function used to get all the price details for different currencies which are associated to the given product
  * 	@param int $productid - product id to which we want to get all the associated prices
  *  @param decimal $unit_price - Unit price of the product
@@ -101,7 +92,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			}
 			if ($cur_value === null || $cur_value == '') {
 				$price_details[$i]['check_value'] = false;
-				if ($unit_price != null) {
+				if ($unit_price !== null) {
 					$cur_value = CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
 				} else {
 					$cur_value = '0';
@@ -210,47 +201,4 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 	$convRate = 1 / $convRate;
 	Vtiger_Cache::set('getBaseConversionRateForProduct', $nameCache, $convRate);
 	return $convRate;
-}
-
-/** 	Function used to get the prices for the given list of products based in the specified currency
- * 	@param int $currencyid - currency id based on which the prices have to be provided
- * 	@param array $productIds - List of product id's for which we want to get the price based on given currency
- *  @return array $prices_list - List of prices for the given list of products based on the given currency in the form of 'product id' mapped to 'price value'
- */
-function getPricesForProducts($currencyid, $productIds, $module = 'Products')
-{
-	$priceList = [];
-	if (count($productIds) > 0) {
-		if ($module == 'Services') {
-			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
-						'productid' => 'vtiger_service.serviceid', 'vtiger_service.unit_price', 'vtiger_productcurrencyrel.actual_price'])
-					->from('vtiger_service')
-					->leftJoin('vtiger_productcurrencyrel', 'vtiger_service.serviceid = vtiger_productcurrencyrel.productid')
-					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-					->where(['vtiger_service.serviceid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
-					->createCommand()->query();
-		} else {
-			$dataReader = (new \App\Db\Query())->select(['vtiger_currency_info.id', 'vtiger_currency_info.conversion_rate',
-						'vtiger_products.productid', 'vtiger_products.unit_price', 'vtiger_productcurrencyrel.actual_price'])
-					->from('vtiger_products')
-					->leftJoin('vtiger_productcurrencyrel', 'vtiger_products.productid = vtiger_productcurrencyrel.productid')
-					->leftJoin('vtiger_currency_info', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')
-					->where(['vtiger_products.productid' => $productIds, 'vtiger_currency_info.id' => $currencyid])
-					->createCommand()->query();
-		}
-
-		while ($row = $dataReader->read()) {
-			$productId = $row['productid'];
-			if (\App\Field::getFieldPermission($module, 'unit_price')) {
-				$actualPrice = (float) $row['actual_price'];
-				if ($actualPrice === null || $actualPrice == '') {
-					$actualPrice = $row['unit_price'] * $row['conversion_rate'] * getBaseConversionRateForProduct($productId, 'edit', $module);
-				}
-				$priceList[$productId] = $actualPrice;
-			} else {
-				$priceList[$productId] = '';
-			}
-		}
-	}
-	return $priceList;
 }

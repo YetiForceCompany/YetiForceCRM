@@ -3,7 +3,8 @@
 /**
  * Api CardDAV Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class API_CardDAV_Model
@@ -31,8 +32,6 @@ class API_CardDAV_Model
 		$dbConfig = \App\Db::getConfig('base');
 		$this->pdo = new PDO($dbConfig['dsn'] . ';charset=' . $dbConfig['charset'], $dbConfig['username'], $dbConfig['password']);
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		// Autoloader
-		require_once 'libraries/SabreDAV/autoload.php';
 	}
 
 	public function cardDavCrm2Dav()
@@ -82,8 +81,6 @@ class API_CardDAV_Model
 		foreach ($this->davUsers as $key => $user) {
 			$this->addressBookId = $user->get('addressbooksid');
 			$this->user = $user;
-			$current_user = vglobal('current_user');
-			$current_user = $user;
 			$this->syncAddressBooks();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');

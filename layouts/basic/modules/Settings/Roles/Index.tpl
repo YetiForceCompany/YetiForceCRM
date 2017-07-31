@@ -12,7 +12,7 @@
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
-					{vtranslate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
+					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
 		</div>
 	</div>
@@ -20,8 +20,8 @@
 		<ul>
 			<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
 				<div class="toolbar-handle">
-					<a href="javascript:;" class="btn btn-default draggable droppable">{vtranslate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
-					<div class="toolbar" title="{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
+					<a href="javascript:;" class="btn btn-default draggable droppable">{\App\Language::translate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
+					<div class="toolbar" title="{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
 						&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="glyphicon glyphicon-plus-sign"></span></a>
 					</div>
 				</div>

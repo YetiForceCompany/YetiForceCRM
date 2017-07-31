@@ -4,18 +4,20 @@
 		<table class="table noStyle listViewEntriesTable">
 			<thead>
 				<tr class="">
-					<th class="noWrap listViewSearchTd">&nbsp;</th>
+					{if !$IS_READ_ONLY}
+						<th class="noWrap listViewSearchTd">&nbsp;</th>
+					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<th nowrap>
-							{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+							{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 						{/if}
 						{if $SHOW_COMMENT}
-						<th>{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 						{/if}
 				</tr>
 			</thead>
@@ -27,13 +29,15 @@
 					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
 						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
-						{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
-					</td>
+					{if !$IS_READ_ONLY}
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+							{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
+						</td>
+					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
-							{if $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
+							{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
 								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 									{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 								</a>
@@ -57,7 +61,7 @@
 							{/if}&nbsp;&nbsp;
 							<span class="actionImages">
 								<a class="showModal" data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-									<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT', $MODULE)}"></span>
+									<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 								</a>
 							</span>
 						</td>

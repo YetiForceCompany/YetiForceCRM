@@ -30,4 +30,28 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		return 'uitypes/PhoneDetailView.tpl';
 	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int|bool $record
+	 * @param Vtiger_Record_Model|bool $recordInstance
+	 * @param bool $rawText
+	 * @return string
+	 */
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		if ($rawText) {
+			return $value;
+		}
+		if (!\App\Integrations\Pbx::isActive()) {
+			return \App\Purifier::encodeHtml($value);
+		}
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value) . '</a>';
+	}
+
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+	}
 }

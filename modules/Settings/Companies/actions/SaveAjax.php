@@ -3,7 +3,8 @@
 /**
  * Companies SaveAjax action model class
  * @package YetiForce.Settings.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
@@ -20,10 +21,10 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	/**
 	 * Function to save company info
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return array
 	 */
-	public function updateCompany(Vtiger_Request $request)
+	public function updateCompany(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
@@ -67,9 +68,9 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	/**
 	 * Validate Request
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

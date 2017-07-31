@@ -14,7 +14,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getSearchParams($value, $assignedto, $dates)
 	{
-		$listSearchParams = array();
+		$listSearchParams = [];
 		$conditions = array(array('leadstatus', 'e', $value));
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
@@ -25,7 +25,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -57,7 +57,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$data = ($owner === false) ? array() : $moduleModel->getLeadsByStatusConverted($owner, $dates);
+		$data = ($owner === false) ? [] : $moduleModel->getLeadsByStatusConverted($owner, $dates);
 		$listViewUrl = $moduleModel->getListViewUrl();
 		foreach ($data as &$value) {
 			$value['links'] = $listViewUrl . $this->getSearchParams($value[2], $owner, $dates);

@@ -1,5 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
+/**
+ * DataAccess show quick create class
+ * @package YetiForce.DataAccess
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 /*
   Return Description
   ------------------------
@@ -17,7 +23,6 @@ Class DataAccess_show_quick_create
 
 	public function process($moduleName, $id, $record_form, $config)
 	{
-		$db = PearDatabase::getInstance();
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!isset($id) || $id == 0 || $id == '' || !$userPrivModel->hasModuleActionPermission($config['modules'], 'CreateView')) {
 			return ['save_record' => true];
@@ -37,7 +42,6 @@ Class DataAccess_show_quick_create
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		$db = PearDatabase::getInstance();
 		$modulesQuickCreate = Vtiger_Module_Model::getQuickCreateModules(true);
 		$modules = [];
 		foreach ($modulesQuickCreate as $moduleName => $moduleModel) {

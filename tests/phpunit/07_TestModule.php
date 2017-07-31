@@ -1,8 +1,9 @@
 <?php
 /**
  * Cron test class
- * @package YetiForce.Tests
- * @license licenses/License.html
+ * @package YetiForce.Test
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\TestCase;
@@ -13,7 +14,10 @@ use PHPUnit\Framework\TestCase;
 class TestModule extends TestCase
 {
 
-	public function testInstall()
+	/**
+	 * Testing the installation of the sample data module
+	 */
+	public function testInstallSampleData()
 	{
 		$testModule = 'TestModule.zip';
 		try {
@@ -22,13 +26,11 @@ class TestModule extends TestCase
 			
 		}
 		if (file_exists($testModule)) {
-			$package = new vtlib\Package();
-			$package->import($testModule);
+			(new vtlib\Package())->import($testModule);
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
+		} else {
+			$this->assertTrue(true);
 		}
-	}
-
-	public function testSetConfig()
-	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->update('vtiger_cron_task', [

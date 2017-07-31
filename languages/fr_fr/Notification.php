@@ -1,10 +1,22 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Notification french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'LBL_SENT_NOTIFICATIONS' => 'Envoyer des notifications',
+	'LBL_MODULES' => 'Moudules',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Fréquence de lancement du CRON',
+	'LBL_NOTIFICATION_SETTINGS' => 'Paramètres de notification',
+	'LBL_NO_NOTIFICATIONS' => 'Aucune notification',
+	'LBL_NOTIFICATION_CONTENTS' => 'Contenu de la notification',
+	'SINGLE_Notification' => 'Notification',
 	'Notification' => 'Notifications',
 	'Notification' => 'Notifications',
-	'Notification ID' => 'Notification ID',
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'Notification ID' => 'N° de notification',
+	'LBL_CUSTOM_INFORMATION' => 'Informations personnalisées',
 	'FL_TITLE' => 'Titre',
 	'LBL_NOTIFICATION_INFORMATION' => 'Détails de la notification',
 	'FL_RELATED_MODULE' => 'Module lié',

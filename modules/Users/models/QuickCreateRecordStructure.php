@@ -21,11 +21,11 @@ class Users_QuickCreateRecordStructure_Model extends Vtiger_QuickCreateRecordStr
 			return $this->structuredValues;
 		}
 
-		$values = array();
+		$values = [];
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 
-		$fieldModelList = array();
+		$fieldModelList = [];
 		$quickCreateFields = array('user_name', 'email1', 'first_name', 'last_name', 'user_password', 'confirm_password', 'roleid', 'is_admin', 'status');
 		foreach ($quickCreateFields as $field) {
 			$fieldModelList[$field] = $moduleModel->getField($field);

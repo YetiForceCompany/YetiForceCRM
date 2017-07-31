@@ -1,12 +1,12 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_EDITING', $MODULE)}</h3>
+		<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_EDITING', $MODULE)}</h3>
 		<div class="input-group paddingTop10">
-			<input id="valueSearchTree" type="text" class="form-control" placeholder="{vtranslate('LBL_SEARCH', $MODULE)} ..." >
+			<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE)} ..." >
 			<span class="input-group-btn">
-				<button id="btnSearchTree" class="btn btn-danger" type="button">{vtranslate('LBL_SEARCH', $MODULE)}</button>
+				<button id="btnSearchTree" class="btn btn-danger" type="button">{\App\Language::translate('LBL_SEARCH', $MODULE)}</button>
 			</span>
 		</div>
 	</div>
@@ -20,14 +20,14 @@
 				<div class="col-md-12" id="treePopupContents"></div>
 			</div>
 		{else}	
-			<h4 class="textAlignCenter ">{vtranslate('LBL_RECORDS_NO_FOUND', $MODULE)}</h4>
+			<h4 class="textAlignCenter ">{\App\Language::translate('LBL_RECORDS_NO_FOUND', $MODULE)}</h4>
 		{/if}
 	</div>
 	<div class="modal-footer">
 		<div class="pull-left paddingTop10 counterSelected"></div>
 		<div class="pull-right">
-			<button class="btn btn-success" type="submit" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>
-			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{vtranslate('LBL_CANCEL', $MODULE)}</strong></button>
+			<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+			<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 		</div>
 	</div>
 {/strip}

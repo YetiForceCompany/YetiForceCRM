@@ -11,7 +11,7 @@
 class Calendar_Save_Action extends Vtiger_Save_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
 		$loadUrl = $recordModel->getDetailViewUrl();
@@ -30,10 +30,10 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to save record
-	 * @param Vtiger_Request $request - values of the record
+	 * @param \App\Request $request - values of the record
 	 * @return Vtiger_Record_Model - record Model of saved record
 	 */
-	public function saveRecord(Vtiger_Request $request)
+	public function saveRecord(\App\Request $request)
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
@@ -55,10 +55,10 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 		//Start Date and Time values

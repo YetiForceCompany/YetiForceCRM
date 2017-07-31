@@ -17,10 +17,10 @@
 					{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 							<ul class="dropdown-menu">
 								{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
-									<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
+									<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
 										{if $smarty.foreach.actionCount.last eq true}
 										<li class="divider"></li>
 										{/if}
@@ -41,7 +41,7 @@
 														data-{$NAME}="{$DATA}" 
 													{/foreach}
 												{/if}
-											>{vtranslate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
+											>{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
 										</li>
 										{/foreach}
 									{/if}
@@ -55,23 +55,23 @@
 				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
 					<div class="customFilterMainSpan btn-group">
 						{if $CUSTOM_VIEWS|@count gt 0}
-							<select id="customFilter" title="{vtranslate('LBL_CUSTOM_FILTER')}">
+							<select id="customFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-									<optgroup label='{vtranslate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
+									<optgroup label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}" data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" 
-													 data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" 
-													 data-pending="{$CUSTOM_VIEW->isPending()}" 
-													 data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}" id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" 
-													 value="{$CUSTOM_VIEW->get('cvid')}" 
-													 data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
+											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}" data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {/strip} {strip}
+													data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" {/strip} {strip}
+													data-pending="{$CUSTOM_VIEW->isPending()}" {/strip} {strip}
+													data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}" id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {/strip} {strip}
+													value="{$CUSTOM_VIEW->get('cvid')}" {/strip} {strip}
+													data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}
 								{if isset($FOLDERS)}
-									<optgroup id="foldersBlock" label='{vtranslate('LBL_FOLDERS', $MODULE)}' >
+									<optgroup id="foldersBlock" label='{\App\Language::translate('LBL_FOLDERS', $MODULE)}' >
 										{foreach item=FOLDER from=$FOLDERS}
-											<option data-foldername="{$FOLDER->getName()}" {if decode_html($FOLDER->getName()) eq $FOLDER_NAME} selected=""{/if} data-folderid="{$FOLDER->get('folderid')}" data-deletable="{!($FOLDER->hasDocuments())}" class="filterOptionId_folder{$FOLDER->get('folderid')} folderOption{if $FOLDER->getName() eq 'Default'} defaultFolder {/if}" id="filterOptionId_folder{$FOLDER->get('folderid')}" data-id="{$DEFAULT_CUSTOM_FILTER_ID}">{vtranslate($FOLDER->getName(),$MODULE)}</option>
+											<option data-foldername="{$FOLDER->getName()}" {if decode_html($FOLDER->getName()) eq $FOLDER_NAME} selected=""{/if} data-folderid="{$FOLDER->get('folderid')}" data-deletable="{!($FOLDER->hasDocuments())}" class="filterOptionId_folder{$FOLDER->get('folderid')} folderOption{if $FOLDER->getName() eq 'Default'} defaultFolder {/if}" id="filterOptionId_folder{$FOLDER->get('folderid')}" data-id="{$DEFAULT_CUSTOM_FILTER_ID}">{\App\Language::translate($FOLDER->getName(),$MODULE)}</option>
 										{/foreach}
 									</optgroup>
 								{/if}
@@ -80,11 +80,11 @@
 								<div class="filterActionsDiv hide">
 									<hr>
 									<ul class="filterActions">
-										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="glyphicon glyphicon-plus-sign"></span> {vtranslate('LBL_CREATE_NEW_FILTER')}</li>
+										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="glyphicon glyphicon-plus-sign"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
 									</ul>
 								</div>
 							{/if}
-							<img class="filterImage" alt="{vtranslate('LBL_FILTER')}" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+							<span class="glyphicon glyphicon-filter filterImage" style="display:none;margin-right:2px"></span>
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
@@ -94,11 +94,11 @@
 					{include file='ListViewActions.tpl'|@vtemplate_path}
 				</div>
 				<span class="hide filterActionImages pull-right">
-					<span title="{vtranslate('LBL_DENY', $MODULE)}" data-value="deny" class="icon-ban-circle alignMiddle denyFilter filterActionImage pull-right"></span>
-					<span title="{vtranslate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
-					<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
-					<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
-					<span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
+					<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage pull-right"></span>
+					<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
+					<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
+					<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
+					<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
 				</span>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
@@ -109,7 +109,7 @@
 								{if $CUSTOM_VIEW->isFeatured()}
 									<h5 class="btn-group resetButton cursorPointer">
 										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
-											{vtranslate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+											{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 											{if $CUSTOM_VIEW->get('description')}
 												&nbsp;<span class="popoverTooltip glyphicon glyphicon-info-sign"  data-placement="auto right" data-content="{Vtiger_Util_Helper::toSafeHTML($CUSTOM_VIEW->get('description'))}"></span>
 											{/if}

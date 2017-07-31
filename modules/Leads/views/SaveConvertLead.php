@@ -13,7 +13,7 @@ vimport('~include/Webservices/ConvertLead.php');
 class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -34,12 +34,12 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$modules = $request->get('modules');
@@ -74,9 +74,9 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
 			}
 			if (!$results) {
-				$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
+				$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '');
 				if ($currentUser->isAdminUser()) {
-					$message = vtranslate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
+					$message = \App\Language::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
 				throw new \Exception\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
@@ -111,8 +111,8 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		if ($exception != false) {
-			$viewer->assign('EXCEPTION', vtranslate($exception->getMessage(), $moduleName));
+		if ($exception !== false) {
+			$viewer->assign('EXCEPTION', \App\Language::translate($exception->getMessage(), $moduleName));
 		} elseif ($message) {
 			$viewer->assign('EXCEPTION', $message);
 		}
@@ -122,7 +122,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

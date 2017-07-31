@@ -18,11 +18,11 @@
 		<tr>
 			<td rowspan='2' width='11%'><img src="{vimage_path('denied.gif')}" ></td>
 			<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'>
-				<span class='genHeaderSmall'>{vtranslate($MESSAGE)}</span></td>
+				<span class='genHeaderSmall'>{\App\Language::translate($MESSAGE)}</span></td>
 		</tr>
 		<tr>
 			<td class='small' align='right' nowrap='nowrap'>
-				<a {if $REQUEST->isAjax()} href="#" onclick='closeWindow()' {else} href='javascript:window.history.back();' {/if}>{vtranslate('LBL_GO_BACK')}</a><br>
+				<a {if $REQUEST->isAjax()} href="#" onclick='closeWindow()' {else} href='javascript:window.history.back();' {/if}>{\App\Language::translate('LBL_GO_BACK')}</a><br />
 			</td>
 		</tr>
 		</table>

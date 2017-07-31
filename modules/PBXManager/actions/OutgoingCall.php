@@ -12,7 +12,7 @@
 class PBXManager_OutgoingCall_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -22,7 +22,7 @@ class PBXManager_OutgoingCall_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");

@@ -11,7 +11,7 @@
 class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if ($mode) {
@@ -21,7 +21,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -36,7 +36,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step1(Vtiger_Request $request)
+	public function step1(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -74,7 +74,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
 	}
 
-	public function step2(Vtiger_Request $request)
+	public function step2(\App\Request $request)
 	{
 
 		$viewer = $this->getViewer($request);
@@ -131,7 +131,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function Step3(Vtiger_Request $request)
+	public function Step3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -161,7 +161,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -175,24 +175,11 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
-			"modules.Vtiger.resources.CkEditor",
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
+			'modules.Vtiger.resources.CkEditor',
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function getHeaderCss(Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-		$cssFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
-		return $headerCssInstances;
 	}
 }

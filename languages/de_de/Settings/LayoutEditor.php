@@ -155,11 +155,12 @@ $languageStrings = [
 	'LBL_ACTIVATE_FAVORITES' => 'Funktion aktivieren: Zu Favoriten hinzufügen',
 	'LBL_HEADER_FIELD' => 'Vorschau (Mouseover)',
 	'LBL_COPY' => 'Kopieren',
-	'LBL_STANDARD_FIELDS' => 'Standartfelder',
+	'LBL_STANDARD_FIELDS' => 'Standardfelder',
 	'LBL_ADVANCED_BLOCK_FIELDS' => 'Felder erweitert',
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Advanced Block Felder hinzufügen',
 	'LBL_MAX_LENGTH_TEXT' => 'Maximale Textlänge',
-	'LBL_MAX_WIDTH_COLUMN' => 'Spaltenbreite [%]'
+	'LBL_MAX_WIDTH_COLUMN' => 'Spaltenbreite [%]',
+	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
 ];
 
 $jsLanguageStrings = [

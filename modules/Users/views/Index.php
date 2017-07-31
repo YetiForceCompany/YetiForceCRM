@@ -11,7 +11,7 @@
 class Users_Index_View extends Vtiger_Basic_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -21,7 +21,7 @@ class Users_Index_View extends Vtiger_Basic_View
 		}
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser()) {
@@ -31,17 +31,17 @@ class Users_Index_View extends Vtiger_Basic_View
 		parent::postProcess($request);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		
 	}
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

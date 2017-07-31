@@ -9,6 +9,14 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Echec mise à jour de la clé',
+	'LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY' => 'Clé mise à jour avec succès',
+	'LBL_CHANGE_ACCESS_KEY' => 'Changer la clé d\'accès',
+	'LBL_SELECT_LAYOUT' => 'Sélectionner la mise en page',
+	'LBL_MAIL_WAITING_TO_SENT' => 'Un email a été envoyé dans votre boite de réception, veuillez vérifier.',
+	'FL_RECORD_LIMIT_IN_MODULE' => 'Limite d\'enregistrement dans le module',
+	'FL_AUTO_ASSIGN_RECORDS' => 'Affectation automatique des enregistrements',
+	'FL_AVAILABLE' => 'Disponible',
 	'SINGLE_Users' => 'Utilisateur',
 	'dd-mm-yyyy' => 'jj-mm-aaaa',
 	'mm-dd-yyyy' => 'mm-jj-aaaa',
@@ -99,7 +107,7 @@ $languageStrings = [
 	'LBL_USER_RESTORED_SUCCESSFULLY' => 'Utilisateur restauré avec succès',
 	'LBL_USER_TO_BE_DELETED' => 'Utilisateur à effacer',
 	'LBL_WE_PROMISE_TO_KEEP_THIS_PRIVATE' => '(Nous promettons de garder ceci privé)',
-	'LBL_WHERE_ARE_YOU_FROM' => 'D\'où êtes-vous?',
+	'LBL_WHERE_ARE_YOU_FROM' => 'D\'où êtes-vous ?',
 	'LBL_YOUR_CONTACT_NUMBER' => 'Votre numéro de téléphone',
 	'Number Of Currency Decimals' => 'Nombre de décimales de la devise',
 	'Office Phone' => 'Téléphone professionel',
@@ -319,6 +327,10 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
+	'JS_CHANGE_ACCESS_KEY_CONFIRMATION' => 'Demande d\'un nouvelle clé d\'accès ! Avec la nouvelle clé il faudrat mettre à jour toutes applications externe utilisés, voulez-vous continuer ?',
+	'JS_NEW_ACCESS_KEY_REQUESTED' => 'Entrer le nouveau mot de passe',
+	'JS_USER_MAIL_EXIST' => 'Un utilisateur avec cette adresse email existe déjà',
+	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Séparateur décimal et séparateur de millier ne peuvent pas être les mêmes.',
 	//Curency seperator validation messages
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques.',
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Merci de saisir votre confirmation de mot de passe.',

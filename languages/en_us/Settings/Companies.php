@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Companies english translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_COMPANIES' => 'Company details',
 	'Companies' => 'Company details',
@@ -33,5 +38,5 @@ $languageStrings = [
 	'LBL_LOGO_PATH_MAIN' => 'Path to company logo (visible after logging in)',
 	'LBL_LOGO_PATH_MAIL' => 'Path to company logo (email)',
 	// Others
-	 'LBL_COMPANY_NAMES_EXIST' => 'The company name already exists',
+	'LBL_COMPANY_NAMES_EXIST' => 'The company name already exists',
 ];

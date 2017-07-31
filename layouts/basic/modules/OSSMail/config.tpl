@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
-* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
-* in compliance with the License.
-* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
-* See the License for the specific language governing rights and limitations under the License.
-* The Original Code is YetiForce.
-* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
-* All Rights Reserved.
-*************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 	<style>
@@ -22,32 +12,32 @@
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 0px;">
-		<li class="active"><a href="#tab_rc_config" data-toggle="tab">{vtranslate('Roundcube config', 'OSSMail')}</a></li>
+		<li class="active"><a href="#tab_rc_config" data-toggle="tab">{\App\Language::translate('Roundcube config', 'OSSMail')}</a></li>
 	</ul>
 	<div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
 		<div class="editViewContainer tab-pane active" id="tab_rc_config">
 			{if Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
-				<br>
+				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
+						<h4>{\App\Language::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
 			{elseif !\App\Module::isModuleActive('OSSMail')}	
-				<br>
+				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{vtranslate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
+						<h4>{\App\Language::translate('ERR_NO_MODULE_IS_INACTIVE', $QUALIFIED_MODULE)}</h4>
 					</div>
 				</div>
 			{else}
 				<form id="RCConfigEditorForm" class="form-horizontal">
 					{assign var=FIELD_DATA value=$RecordModel->getViewableData()}
-					<br>
+					<br />
 					{foreach key=FIELD_NAME item=FIELD_DETAILS from=$RecordModel->getEditableFields()}
 						<div class="row marginBottom10px">
 							<div class="row col-md-3">
-								<label class="muted ">{vtranslate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
+								<label class="muted ">{\App\Language::translate($FIELD_DETAILS['label'], 'OSSMail')}</label></td>
 							</div>
 							<div class="col-md-9">
 								{if $FIELD_DETAILS['fieldType'] == 'picklist'}
@@ -56,7 +46,7 @@
 											{foreach item=row from=$FIELD_DETAILS['value']}
 												<option value="{$row}" {if $row == $FIELD_DATA[$FIELD_NAME]} selected {/if}>
 													{if $FIELD_NAME != 'language'}
-														{vtranslate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
+														{\App\Language::translate($FIELD_NAME|cat:'_'|cat:$row, 'OSSMail')}
 													{else}
 														{$row}
 													{/if}
@@ -81,13 +71,13 @@
 									<div class="row col-sm-8">
 										<input class="form-control" type="text" name="{$FIELD_NAME}" {if $FIELD_DETAILS['required'] == '1'}required{/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 									</div>
-									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{vtranslate('LBL_MB', 'OSSMail')}{/if}
+									{if $FIELD_NAME == 'upload_maxsize'}&nbsp;{\App\Language::translate('LBL_MB', 'OSSMail')}{/if}
 								{/if}
 							</div>
 						</div>
 					{/foreach}
 					<div class="pull-right">
-						<button class="btn btn-success saveButton" style="margin-top:10px;"type="submit" title=""><strong>{vtranslate('LBL_SAVE', 'OSSMail')}</strong></button>
+						<button class="btn btn-success saveButton" style="margin-top:10px;" type="submit" title=""><strong>{\App\Language::translate('LBL_SAVE', 'OSSMail')}</strong></button>
 					</div>
 				</form>
 			{/if}

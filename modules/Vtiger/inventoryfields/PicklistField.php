@@ -3,7 +3,8 @@
 /**
  * Inventory Picklist from Field Class
  * @package YetiForce.Fields
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
@@ -28,7 +29,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 		$values = [];
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		foreach ($moduleModel->getFieldsByType(['picklist']) as $fieldName => $fieldModel) {
-			$values[$fieldName] = vtranslate($fieldModel->get('label'), $moduleName);
+			$values[$fieldName] = \App\Language::translate($fieldModel->get('label'), $moduleName);
 		}
 		return $values;
 	}
@@ -50,7 +51,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 				$values[] = [
 					'module' => $module,
 					'value' => $value,
-					'name' => vtranslate($value, $module)
+					'name' => \App\Language::translate($value, $module)
 				];
 			}
 		}

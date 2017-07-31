@@ -79,7 +79,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
-		$settingsLinks = array();
+		$settingsLinks = [];
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = array(

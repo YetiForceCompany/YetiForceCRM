@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Security config
+ * @package YetiForce.Config
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $SECURITY_CONFIG = [
 	// Possible to reset the password while logging in (true/false)
 	'RESET_LOGIN_PASSWORD' => false,
@@ -34,4 +39,17 @@ $SECURITY_CONFIG = [
 	'RESTRICTED_DOMAINS_EXCLUDED' => ['OSSEmployees', 'Users'],
 	// Remember user credentials
 	'LOGIN_PAGE_REMEMBER_CREDENTIALS' => false,
+	// Interdependent reference fields
+	'FIELDS_REFERENCES_DEPENDENT' => false,
+	/**
+	 * HTTP Public-Key-Pins (HPKP) pin-sha256
+	 * For HPKP to work properly at least 2 keys are needed.
+	 * https://scotthelme.co.uk/hpkp-http-public-key-pinning/
+	 * https://sekurak.pl/mechanizm-http-public-key-pinning/
+	 */
+	'HPKP_KEYS' => [],
+	/**
+	 * Content Security Policy
+	 */
+	'CSP_ACTIVE' => true,
 ];

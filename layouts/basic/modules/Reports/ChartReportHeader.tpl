@@ -21,14 +21,14 @@
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">
-								<strong>{vtranslate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
+								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
 								<span class="glyphicon glyphicon-pencil"></span>
 							</button>
 						</div>
 					{/if}
 					<div class="btn-group">
 						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-success">
-							<strong>{vtranslate('LBL_DUPLICATE',$MODULE)}</strong>
+							<strong>{\App\Language::translate('LBL_DUPLICATE',$MODULE)}</strong>
 						</button>
 					</div>
 				</div>
@@ -53,10 +53,10 @@
 					<input type="hidden" name='datafields' value={Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($CHART_MODEL->getDataFields()))} />
 					<input type="hidden" name='charttype' value="{$CHART_MODEL->getChartType()}" />
 
-					{assign var=RECORD_STRUCTURE value=array()}
-					{assign var=PRIMARY_MODULE_LABEL value=vtranslate($PRIMARY_MODULE, $PRIMARY_MODULE)}
+					{assign var=RECORD_STRUCTURE value=[]}
+					{assign var=PRIMARY_MODULE_LABEL value=\App\Language::translate($PRIMARY_MODULE, $PRIMARY_MODULE)}
 					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$PRIMARY_MODULE_RECORD_STRUCTURE}
-						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $PRIMARY_MODULE)}
+						{assign var=PRIMARY_MODULE_BLOCK_LABEL value=\App\Language::translate($BLOCK_LABEL, $PRIMARY_MODULE)}
 						{assign var=key value="$PRIMARY_MODULE_LABEL $PRIMARY_MODULE_BLOCK_LABEL"}
 						{if $LINEITEM_FIELD_IN_CALCULATION eq false && $BLOCK_LABEL eq 'LBL_ITEM_DETAILS'}
 							{* dont show the line item fields block when Inventory fields are selected for calculations *}
@@ -65,9 +65,9 @@
 						{/if}
 					{/foreach}
 					{foreach key=MODULE_LABEL item=SECONDARY_MODULE_RECORD_STRUCTURE from=$SECONDARY_MODULE_RECORD_STRUCTURES}
-						{assign var=SECONDARY_MODULE_LABEL value=vtranslate($MODULE_LABEL, $MODULE_LABEL)}
+						{assign var=SECONDARY_MODULE_LABEL value=\App\Language::translate($MODULE_LABEL, $MODULE_LABEL)}
 						{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$SECONDARY_MODULE_RECORD_STRUCTURE}
-							{assign var=SECONDARY_MODULE_BLOCK_LABEL value=vtranslate($BLOCK_LABEL, $MODULE_LABEL)}
+							{assign var=SECONDARY_MODULE_BLOCK_LABEL value=\App\Language::translate($BLOCK_LABEL, $MODULE_LABEL)}
 							{assign var=key value="$SECONDARY_MODULE_LABEL $SECONDARY_MODULE_BLOCK_LABEL"}
 							{$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
 						{/foreach}
@@ -76,19 +76,19 @@
 						<div class="row">
 							<div class='form-inline'>
 								<div class="form-group col-xs-6">
-									<label>{vtranslate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
+									<label>{\App\Language::translate('LBL_SELECT_GROUP_BY_FIELD', $MODULE)}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
 										<select id='groupbyfield' name='groupbyfieldSelect' class="form-control" data-validation-engine="validate[required]"></select>
 									</div>
 								</div>
 								<div class="form-group col-xs-6">
-									<label>{vtranslate('LBL_SELECT_DATA_FIELD', $MODULE)}<span class="redColor">*</span></label>
+									<label>{\App\Language::translate('LBL_SELECT_DATA_FIELD', $MODULE)}<span class="redColor">*</span></label>
 									<div class="col-md-12 paddingLRZero">
 										<select id='datafields' name='datafields[]' class="form-control" data-validation-engine="validate[required]">
 										</select></div>
 								</div>
 							</div>
-							<br>
+							<br />
 
 							<div class='hide'>
 								{include file="chartReportHiddenContents.tpl"|vtemplate_path:$MODULE}
@@ -98,7 +98,7 @@
 							<div class='h3'>
 								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
 								<button type="button" class="btn btn-default" name="modify_condition" data-val="{$filterConditionNotExists}">
-									<strong>{vtranslate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
+									<strong>{\App\Language::translate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
 									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
 								</button>
 							</div>
@@ -108,8 +108,8 @@
 						</div>
 					</div>
 					<div class="row textAlignCenter">
-						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{vtranslate('LBL_SAVE',$MODULE)}"/>
-						<strong>{vtranslate('LBL_SAVE',$MODULE)}</strong>
+						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}"/>
+						<strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong>
 						</button>
 					</div>
 			</div>

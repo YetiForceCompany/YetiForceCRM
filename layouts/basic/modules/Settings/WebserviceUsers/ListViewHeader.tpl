@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class='widget_header row '>
 		<div class="col-xs-12">
@@ -9,7 +9,7 @@
 		<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
 			{foreach item=VALUE from=Settings_WebserviceApps_Module_Model::getTypes() name=typeLoop}
 				<li class="tabApi{if $smarty.foreach.typeLoop.first} active{/if}" data-typeapi="{$VALUE}">
-					<a data-toggle="tab"><strong>{vtranslate($VALUE, $QUALIFIED_MODULE)}</strong></a>
+					<a data-toggle="tab"><strong>{\App\Language::translate($VALUE, $QUALIFIED_MODULE)}</strong></a>
 				</li>
 			{/foreach}
 		</ul>

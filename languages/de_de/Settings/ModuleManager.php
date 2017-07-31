@@ -1,16 +1,14 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
+/**
+ * Module manager german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
 	'ModuleManager' => 'Modulmanager',
+	'Module Manager' => 'Modulmanager',
 	'LBL_IMPORT_MODULE_FROM_FILE' => 'Import Bundle von Datei',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
 	'LBL_IMPORTED_UPDATE' => 'System wurde erfolgreich aktualisiert.',

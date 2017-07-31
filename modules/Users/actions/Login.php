@@ -17,16 +17,16 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		return false;
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
 	/**
 	 * Function verifies application access
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
@@ -50,8 +50,8 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			Vtiger_Session::set('user_name', $username);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
-			if ($request->has('language') && AppConfig::main('langInLoginView')) {
-				Vtiger_Session::set('language', $request->get('language'));
+			if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
+				Vtiger_Session::set('language', $request->get('loginLanguage'));
 			}
 			if ($request->has('layout')) {
 				Vtiger_Session::set('layout', $request->get('layout'));
@@ -77,7 +77,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				$error = 2;
 			}
 			//Track the login History
-			$moduleModel->saveLoginHistory($username, 'Failed login');
+			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 			header("Location: index.php?module=Users&view=Login&error=$error");
 		}
 	}

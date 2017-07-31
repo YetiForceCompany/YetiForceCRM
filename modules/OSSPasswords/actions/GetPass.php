@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * OSSPasswords GetPass action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -22,7 +27,7 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');

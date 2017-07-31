@@ -53,7 +53,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			if ($currentRow === 0 || ($currentRow === 1 && $hasHeader)) {
 				if ($hasHeader && $currentRow === 0) {
 					foreach ($data as $key => $value) {
-						if ($isInventory && strpos($value, 'Inventory::') === 0) {
+						if (!empty($isInventory) && strpos($value, 'Inventory::') === 0) {
 							$value = substr($value, 11);
 							$inventoryHeaders[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
 						} else {
@@ -62,7 +62,7 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 					}
 				} else {
 					foreach ($data as $key => $value) {
-						if ($isInventory && isset($inventoryHeaders[$key])) {
+						if (!empty($isInventory) && isset($inventoryHeaders[$key])) {
 							$inventoryData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
 						} else {
 							$standardData[$key] = $this->convertCharacterEncoding($value, $this->request->get('file_encoding'), $defaultCharset);
@@ -142,12 +142,18 @@ class Import_CSVReader_Reader extends Import_FileReader_Reader
 			$allValuesEmpty = true;
 			foreach ($fieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];
-				$mappedData[$fieldName] = $fieldValue;
 				if ($this->request->get('file_encoding') !== $defaultCharset) {
-					$mappedData[$fieldName] = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
+					$fieldValue = $this->convertCharacterEncoding($fieldValue, $this->request->get('file_encoding'), $defaultCharset);
 				}
-				if (!empty($fieldValue))
+				$fieldValueTemp = $fieldValue;
+				$fieldValueTemp = str_replace(',', '.', $fieldValueTemp);
+				if (is_numeric($fieldValueTemp)) {
+					$fieldValue = $fieldValueTemp;
+				}
+				$mappedData[$fieldName] = $fieldValue;
+				if (!empty($fieldValue)) {
 					$allValuesEmpty = false;
+				}
 			}
 			foreach ($inventoryFieldMapping as $fieldName => $index) {
 				$fieldValue = $data[$index];

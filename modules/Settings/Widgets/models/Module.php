@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings OSSMailView index view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
 
@@ -85,7 +82,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
 				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
 		$result = $adb->pquery($sql, array($tabid));
-		$relation = array();
+		$relation = [];
 		while ($row = $adb->fetch_array($result)) {
 			$relation[$row['relation_id']] = $row;
 		}
@@ -113,7 +110,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getCheckboxs($modules)
 	{
-		$db = PearDatabase::getInstance();
 		$checkboxs = [];
 		$tabid = [];
 		foreach ($modules as $key => $value) {
@@ -143,7 +139,6 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$sql .= " AND uitype in ('$uitype')";
 		}
 		$result = $adb->pquery($sql, $params, true);
-		$Num = $adb->num_rows($result);
 		while ($row = $adb->fetch_array($result)) {
 			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $value['name']);
 			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
@@ -168,7 +163,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$type = $data['type'];
 		unset($data['type']);
 		if (isset($data['FastEdit'])) {
-			$FastEdit = array();
+			$FastEdit = [];
 			if (!is_array($data['FastEdit'])) {
 				$FastEdit[] = $data['FastEdit'];
 				$data['FastEdit'] = $FastEdit;
@@ -249,7 +244,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getHeaderSwitch($index = [])
 	{
 		$data = [
-			\App\Module::getModuleId('SSalesProcesses') => [ 0 =>
+			\App\Module::getModuleId('SSalesProcesses') => [0 =>
 				[
 					'type' => 1,
 					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration

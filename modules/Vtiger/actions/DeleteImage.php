@@ -11,17 +11,17 @@
 class Vtiger_DeleteImage_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('id');
 
 		if (!(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record) && Users_Privileges_Model::isPermitted($moduleName, 'Delete', $record))) {
-			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -32,10 +32,10 @@ class Vtiger_DeleteImage_Action extends Vtiger_Action_Controller
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 			$status = $recordModel->deleteImage($imageId);
 			if ($status) {
-				$response->setResult(array(vtranslate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
+				$response->setResult(array(\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
 			}
 		} else {
-			$response->setError(vtranslate('LBL_IMAGE_NOT_DELETED', $moduleName));
+			$response->setError(\App\Language::translate('LBL_IMAGE_NOT_DELETED', $moduleName));
 		}
 
 		$response->emit();

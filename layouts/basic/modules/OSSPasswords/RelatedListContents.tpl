@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -15,21 +15,21 @@
 							{assign var=COUNT value=$COUNT+1}
 						<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
 							{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
-								<a href="javascript:void(0);" class="noSorting">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
+								<a href="javascript:void(0);" class="noSorting">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
 							{elseif $HEADER_FIELD->get('column') eq 'time_start'}
 							{else}
-								<a href="javascript:void(0);" class="relatedListHeaderValues" {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-fieldname="{$HEADER_FIELD->get('column')}">{vtranslate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
+								<a href="javascript:void(0);" class="relatedListHeaderValues" {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-fieldname="{$HEADER_FIELD->get('column')}">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}
 								</a>
 							{/if}
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<th>{vtranslate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-						<th>{vtranslate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
 					{/if}
 					{if $SHOW_COMMENT}
-						<th>{vtranslate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
+						<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
 					{/if}
 				</tr>
 			</thead>
@@ -83,9 +83,9 @@
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap {if $RELATED_HEADERNAME eq 'password'} id="{$PASS_ID}"{/if} {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 							{if $RELATED_HEADERNAME eq 'password'}
 								{str_repeat('*', 10)}
-							{elseif $HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4'}
+							{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
 								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
-							{elseif $HEADER_FIELD->fromOutsideList eq true}
+							{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 							{else}
 								{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
@@ -107,6 +107,6 @@
 		</table>
 	</div>
 	{foreach key=index item=jsModel from=$RELATED_SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
 {/strip}

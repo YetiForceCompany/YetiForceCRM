@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="summaryWidgetContainer productsServicesWidgetContainer">
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{$WIDGET['url']}" data-name="{$WIDGET['label']}">
@@ -6,7 +6,7 @@
 				<span class="col-md-12 margin0px">
 					<div class="row">
 						<div class="col-md-4">
-							<span class="{$span} margin0px"><h4>{vtranslate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+							<span class="{$span} margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 						</div>
 						<div class="col-md-8" align="center" style="padding-right: 40px;">
 							<div class="btn-group" data-toggle="buttons">

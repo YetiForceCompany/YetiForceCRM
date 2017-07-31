@@ -3,7 +3,8 @@
 /**
  * UIType Tree Field Class
  * @package YetiForce.Fields
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Tree_UIType extends Vtiger_Base_UIType
@@ -54,9 +55,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 					->from('vtiger_trees_templates_data')
 					->where(['templateid' => $template, 'tree' => $parent])
 					->scalar();
-				$parentName = '(' . vtranslate($parentName, $module) . ') ';
+				$parentName = '(' . \App\Language::translate($parentName, $module) . ') ';
 			}
-			$name = $parentName . vtranslate($row['name'], $module);
+			$name = $parentName . \App\Language::translate($row['name'], $module);
 		}
 		Vtiger_Cache::set('TreeData' . $template, $tree, $name);
 		return $name;
@@ -100,9 +101,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 				$parent = end($pieces);
 				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?", array($template, $parent));
 				$parentName = $adb->getSingleValue($result3);
-				$parentName = '(' . vtranslate($parentName, $module) . ') ';
+				$parentName = '(' . \App\Language::translate($parentName, $module) . ') ';
 			}
-			$values[$row['tree']] = array($parentName . vtranslate($row['name'], $this->get('field')->getModuleName()), $parent);
+			$values[$row['tree']] = array($parentName . \App\Language::translate($row['name'], $this->get('field')->getModuleName()), $parent);
 		}
 		return $values;
 	}
@@ -117,7 +118,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		$template = $adb->query_result_raw($result, 0, 'fieldparams');
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?', array($template, $tree));
 		if ($adb->num_rows($result)) {
-			return vtranslate($adb->query_result_raw($result, 0, 'name'), $module);
+			return \App\Language::translate($adb->query_result_raw($result, 0, 'name'), $module);
 		}
 		return false;
 	}

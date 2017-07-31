@@ -1,18 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSMailView preview view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 Class OSSMailView_preview_View extends Vtiger_Index_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -24,12 +21,12 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		return true;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->getModule();
@@ -65,7 +62,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$result = $db->pquery($query, $params, true);
 		$num = $db->num_rows($result);
 
-		$attachments = array();
+		$attachments = [];
 		for ($i = 0; $i < $num; $i++) {
 			$attachments[$i]['name'] = $db->query_result($result, $i, 'title');
 			$attachments[$i]['file'] = $db->query_result($result, $i, 'filename');
@@ -93,7 +90,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$viewer->view('preview.tpl', 'OSSMailView');
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$scripts = [
 			'~layouts/basic/modules/OSSMailView/resources/preview.js'

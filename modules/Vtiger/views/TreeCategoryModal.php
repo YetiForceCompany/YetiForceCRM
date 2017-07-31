@@ -2,19 +2,20 @@
 
 /**
  * Tree Category Modal Class
- * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(vtranslate($moduleName) . ' ' . vtranslate('LBL_NOT_ACCESSIBLE'));
+			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
 		if (!Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
@@ -24,15 +25,15 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to get size modal window
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -58,7 +59,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 
@@ -79,7 +80,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		return $scriptInstances;
 	}
 
-	public function getModalCss(Vtiger_Request $request)
+	public function getModalCss(\App\Request $request)
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [

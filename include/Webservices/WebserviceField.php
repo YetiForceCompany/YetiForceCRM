@@ -350,16 +350,10 @@ class WebserviceField
 
 	private function getFieldTypeFromUIType()
 	{
-
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('select * from vtiger_ws_fieldtype', []);
-			while ($resultrow = $db->fetch_array($result)) {
-				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
-			}
+			self::$fieldTypeMapping = (new App\Db\Query())->from('vtiger_ws_fieldtype')->indexBy('uitype')->all();
 		}
-
 		if (isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 			if (WebserviceField::$fieldTypeMapping[$this->getUIType()] === false) {
 				return null;
@@ -388,9 +382,8 @@ class WebserviceField
 	{
 		$fieldName = $this->getFieldName();
 		$db = PearDatabase::getInstance();
-		$default_charset = VTWS_PreserveGlobal::getGlobal('default_charset');
 		$options = [];
-		$sql = "select * from vtiger_picklist where name=?";
+		$sql = 'select * from vtiger_picklist where name=?';
 		$result = $db->pquery($sql, array($fieldName));
 		$numRows = $db->num_rows($result);
 		if ($numRows == 0) {

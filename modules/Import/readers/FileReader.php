@@ -115,7 +115,12 @@ class Import_FileReader_Reader
 		];
 		foreach ($fieldMapping as $fieldName => $index) {
 			if ($field = $moduleFields[$fieldName]) {
-				$columns[$fieldName] = $field->getDBColumnType();
+				$stringTypes = array_merge(Vtiger_Field_Model::$referenceTypes, ['owner', 'currencyList', 'sharedOwner']);
+				if (in_array($field->getFieldDataType(), $stringTypes)) {
+					$columns[$fieldName] = $schema->createColumnSchemaBuilder('string', 255);
+				} else {
+					$columns[$fieldName] = $field->getDBColumnType();
+				}
 			}
 		}
 		$db->createTable($tableName, $columns);
@@ -156,7 +161,7 @@ class Import_FileReader_Reader
 	{
 		$db = \App\Db::getInstance();
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		$result = $db->createCommand()->insert($tableName, $data)->execute();
+		$db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
 		return $db->getLastInsertID($tableName . '_id_seq');
 	}

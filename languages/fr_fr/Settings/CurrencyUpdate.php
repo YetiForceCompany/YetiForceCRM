@@ -1,14 +1,19 @@
 <?php
-// The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
-
+/**
+ * Currency update french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'NBR' => 'Banque Nationale de Roumanie',
 	'CurrencyUpdate' => 'Mise à jour devise',
 	'LBL_CURRENCY_UPDATE' => 'Mise à jour devise',
 	'LBL_CURRENCY_UPDATE_DESCRIPTION' => 'Options pour paramétrer lees taux de conversions des devises dans le système.',
 	'LBL_SELECT_BANK' => 'Sélectionner la banque',
-	'MSG_ONE_CURRENCY' => 'Iln\'y a qu\'une seule devise paramétrée. Pour avoir les taux de changes des autres devises merci de les paramétrer dans le CRM.',
+	'MSG_ONE_CURRENCY' => 'Il n\'y a qu\'une seule devise paramétrée. Pour avoir les taux de changes des autres devises merci de les paramétrer dans le CRM.',
 	'LBL_HISTORY' => 'Hitorique des taux de change',
-	'LBL_BANK' => 'Sélectionner la banque delaquelle vous voulez telécharger les taux de change',
+	'LBL_BANK' => 'Sélectionner la banque depuis laquelle vous voulez telécharger les taux de change',
 	'LBL_CAL_DATE' => 'Date du cours',
 	'LBL_MAINCURRENCY' => 'Devise principale',
 	'LBL_CODE' => 'Code',
@@ -24,7 +29,7 @@ $languageStrings = [
 	'LBL_SET_BANK_OK' => 'Banque active sauvegardée avec succès.',
 	'LBL_SET_BANK_ERROR' => 'Echec pour paramètrer la banque active.',
 	'LBL_INFORMATIONS' => 'Information',
-	'LBL_WARNING' => 'Attention!',
+	'LBL_WARNING' => 'Attention !',
 	// bank labels
 	'NBP' => 'Banque Nationale de Pologne',
 	'ECB' => 'Banque Centrale Européenne',

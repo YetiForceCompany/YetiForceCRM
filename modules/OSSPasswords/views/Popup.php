@@ -3,18 +3,19 @@
 /**
  * Popup View Class
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSPasswords_Popup_View extends Vtiger_Popup_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param Vtiger_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
@@ -31,7 +32,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relParentModule));
 			}
 		}
 		parent::initializeListViewContents($request, $viewer);

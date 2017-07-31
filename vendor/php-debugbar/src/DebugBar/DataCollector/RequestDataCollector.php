@@ -21,7 +21,7 @@ class RequestDataCollector extends DataCollector implements Renderable
 	public function collect()
 	{
 		$vars = array('_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER');
-		$data = array();
+		$data = [];
 
 		foreach ($vars as $var) {
 			if (isset($GLOBALS[$var])) {

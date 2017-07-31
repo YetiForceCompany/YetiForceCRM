@@ -14,10 +14,10 @@ class Services_QuickCreateAjax_View extends Products_QuickCreateAjax_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = ['modules.Products.resources.Edit'];

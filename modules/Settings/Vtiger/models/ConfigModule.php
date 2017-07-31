@@ -68,13 +68,13 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			$pattern = '/\$([^=]+)=([^;]+);/';
 			$matches = null;
 			$matchesFound = preg_match_all($pattern, $fileContent, $matches);
-			$configContents = array();
+			$configContents = [];
 			if ($matchesFound) {
 				$configContents = $matches[0];
 			}
 			$data = [];
-			$editableFileds = $this->getEditableFields();
-			foreach ($editableFileds as $fieldName => $fieldDetails) {
+			$editableFields = $this->getEditableFields();
+			foreach ($editableFields as $fieldName => $fieldDetails) {
 				foreach ($configContents as $configContent) {
 					if (strpos($configContent, $fieldName)) {
 						$fieldValue = explode(' = ', $configContent);
@@ -112,12 +112,11 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 			$moduleData = array('Home' => 'Home');
 			for ($i = 0; $i < $numOfRows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
 				$moduleData[$db->query_result($result, $i, 'name')] = $db->query_result($result, $i, 'tablabel');
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
-			return Yeti_Layout::getAllLayouts();
+			return \App\Layout::getAllLayouts();
 		}
 		return ['true', 'false'];
 	}
@@ -135,7 +134,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),
 			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'),
 			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox'],
-			'title_max_length ' => ['label' => 'LBL_TITLE_MAX_LENGHT', 'fieldType' => 'input'],
+			'title_max_length ' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input'],
 			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input'],
 			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input'],
 			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox'],

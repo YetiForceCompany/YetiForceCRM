@@ -18,6 +18,6 @@ class ModComments_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		return array();
+		return [];
 	}
 }

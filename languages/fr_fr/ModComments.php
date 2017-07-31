@@ -21,7 +21,7 @@ $languageStrings = [
 	'Comment' => 'Commentaire',
 	'Creator' => 'Créateur',
 	'Related To Comments' => 'Relié à',
-	'UserId' => 'Id utilisateur',
+	'UserId' => 'N° d\'utilisateur',
 	'Customer' => 'Client',
 	'ReasonToEdit' => 'Justification édition',
 	//Email notifications
@@ -31,8 +31,8 @@ $languageStrings = [
 	'LBL_NOTICE_FOOTER' => 'Si vous ne souhaitez pas recevoir de notifications de notre gestion de projet, merci de nous envoyer un email à <a href="mailto:help@yetiforce.com" target="_blank">help@yetiforce.com</a>. Si vous n\'etes pas le destinataire du message merci de l\'effacer.',
 	'LBL_NOTICE_CREATED' => 'Crée par',
 	//Others
-	'LBL_COMMENTS_0' => 'Current record',
-	'LBL_COMMENTS_1' => 'Processes',
-	'LBL_COMMENTS_2' => 'Subprocesses',
-	'LBL_COMMENTS_SEARCH' => 'Search',
+	'LBL_COMMENTS_0' => 'Enregistrement actuel',
+	'LBL_COMMENTS_1' => 'Processus',
+	'LBL_COMMENTS_2' => 'Sous-processus',
+	'LBL_COMMENTS_SEARCH' => 'Chercher',
 ];

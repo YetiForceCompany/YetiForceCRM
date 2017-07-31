@@ -2,8 +2,9 @@
 
 /**
  * Edit View Class
- * @package YetiForce.Settings.Modal
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_Edit_View extends Settings_Vtiger_BasicModal_View
@@ -11,12 +12,11 @@ class Settings_WebserviceUsers_Edit_View extends Settings_Vtiger_BasicModal_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		parent::preProcess($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$type = $request->get('typeApi');

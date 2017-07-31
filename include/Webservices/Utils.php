@@ -93,7 +93,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	}
 
 	$groups = [];
-	if ($result != null && $result != '' && is_object($result)) {
+	if ($result !== null && $result !== '' && is_object($result)) {
 		$rowCount = $adb->num_rows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
 			$nameArray = $adb->query_result_rowdata($result, $i);
@@ -123,25 +123,15 @@ function vtws_getUserWebservicesGroups($tabId, $user)
 
 function vtws_getIdComponents($elementid)
 {
-	return explode("x", $elementid);
+	if (strpos($elementid, 'x') !== false) {
+		return explode('x', $elementid);
+	}
+	App\Log::warning('Incorrect ID');
 }
 
 function vtws_getId($objId, $elemId)
 {
 	return $objId . "x" . $elemId;
-}
-
-function getEmailFieldId($meta, $entityId)
-{
-	$adb = PearDatabase::getInstance();
-	//no email field accessible in the module. since its only association pick up the field any way.
-	$query = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=?
-		and uitype=13 and presence in (0,2)";
-	$result = $adb->pquery($query, array($meta->getTabId()));
-
-	//pick up the first field.
-	$fieldId = $adb->query_result($result, 0, 'fieldid');
-	return $fieldId;
 }
 
 function vtws_getParameter($parameterArray, $paramName, $default = null)
@@ -254,7 +244,7 @@ function vtws_getCalendarEntityType($id)
 	$sql = 'select activitytype from vtiger_activity where activityid=?';
 	$result = $adb->pquery($sql, array($id));
 	$seType = 'Calendar';
-	if ($result != null && isset($result)) {
+	if ($result !== null && isset($result)) {
 		if ($adb->num_rows($result) > 0) {
 			$activityType = $adb->query_result($result, 0, 'activitytype');
 			if ($activityType !== 'Task') {
@@ -448,6 +438,8 @@ function vtws_getModuleHandlerFromName($name, $user)
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
+	$log = null; // not used
+
 	require_once $handlerPath;
 
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
@@ -485,7 +477,6 @@ function vtws_getActorEntityNameById($entityId, $idList)
 		return [];
 	}
 	$nameList = [];
-	$webserviceObject = VtigerWebserviceObject::fromId($db, $entityId);
 	$query = "select * from vtiger_ws_entity_name where entity_id = ?";
 	$result = $db->pquery($query, array($entityId));
 	if (is_object($result)) {
@@ -760,18 +751,10 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 		->execute();
 	$db->createCommand()->update('vtiger_crmentity', ['modifiedby' => $newOwnerId], ['modifiedby' => $ownerId])
 		->execute();
-	//deleting from vtiger_tracker
-	if ($delete) {
-		$db->createCommand()->delete('vtiger_tracker', ['user_id' => $ownerId])
-			->execute();
-	}
 	//updating the vtiger_import_maps
-	$db->createCommand()->update('vtiger_import_maps', ['assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
+	$db->createCommand()->update('vtiger_import_maps', ['date_modified' => date('Y-m-d H:i:s'), 'assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
 		->execute();
-	//delete from vtiger_homestuff
 	if ($delete) {
-		$db->createCommand()->delete('vtiger_homestuff', ['userid' => $ownerId])
-			->execute();
 		$db->createCommand()->delete('vtiger_users2group', ['userid' => $ownerId])
 			->execute();
 	}

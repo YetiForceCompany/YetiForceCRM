@@ -48,8 +48,8 @@ class VTExpressionTokenizer
 			'CLOSE_BRACKET' => array('[)]', '_vt_processtoken_symbol'),
 			'COMMA' => array('[,]', '_vt_processtoken_symbol')
 		);
-		$tokenReArr = array();
-		$tokenNames = array();
+		$tokenReArr = [];
+		$tokenNames = [];
 		$this->tokenTypes = $tokenTypes;
 
 		foreach ($tokenTypes as $tokenName => $code) {
@@ -61,7 +61,7 @@ class VTExpressionTokenizer
 		$tokenRe = '/' . implode('|', $tokenReArr) . '/';
 		$this->EOF = new VTExpressionToken("EOF");
 
-		$matches = array();
+		$matches = [];
 		preg_match_all($tokenRe, $expr, $matches, PREG_SET_ORDER);
 		$this->matches = $matches;
 		$this->idx = 0;

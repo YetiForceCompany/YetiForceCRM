@@ -50,8 +50,6 @@ class VTCreateTodoTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$currentUser = vglobal('current_user');
-
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$adminUser = $this->getAdmin();
 		$userId = $recordModel->get('assigned_user_id');
@@ -154,10 +152,11 @@ class VTCreateTodoTask extends VTTask
 		$baseDateEnd = strtotime($match[0]);
 		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
 		$due_date = strftime('%Y-%m-%d', $baseDateEnd + (int) $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
+		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$fields = [
 			'activitytype' => 'Task',
-			'description' => $this->description,
-			'subject' => $this->todo,
+			'description' => $textParser->setContent($this->description)->parse()->getContent(),
+			'subject' => $textParser->setContent($this->todo)->parse()->getContent(),
 			'taskpriority' => $this->priority,
 			'activitystatus' => $this->status,
 			'assigned_user_id' => $userId,
@@ -187,14 +186,12 @@ class VTCreateTodoTask extends VTTask
 				'task_id' => $this->id,
 			])->execute();
 		}
-		$currentUser = vglobal('current_user');
-		$currentUser = $this->originalUser;
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	static function conv12to24hour($timeStr)
 	{
-		$arr = array();
+		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
 		if ($arr[3] == 'am') {
 			$hours = ((int) $arr[1]) % 12;

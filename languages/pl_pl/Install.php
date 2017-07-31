@@ -1,14 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
-
+/**
+ * Install polish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LANGNAME' => 'Polski',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Nie można się połączyć z bazą danych',
@@ -43,6 +39,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Proszę wprowadzić ponownie hasła. Hasła do siebie nie pasują.',
 	'LBL_PHP_CONFIGURATION' => 'PHP konfiguracja',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Zalecane parametry PHP',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Zalecane parametry bezpieczeństwa',
 	'LBL_PHP_VERSION' => 'Wersja PHP',
 	'LBL_PLEASE_WAIT' => 'Proszę czekać...',
 	'LBL_PRESENT_VALUE' => 'Aktualne wartości',

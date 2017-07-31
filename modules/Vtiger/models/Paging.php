@@ -12,7 +12,7 @@
 /**
  * Vtiger Paging Model Class
  */
-class Vtiger_Paging_Model extends Vtiger_Base_Model
+class Vtiger_Paging_Model extends \App\Base
 {
 
 	const DEFAULT_PAGE = 1;

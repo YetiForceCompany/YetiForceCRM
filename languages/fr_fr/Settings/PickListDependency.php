@@ -13,7 +13,7 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'PickListDependency' => 'Liste déroulante dépendante',
 	'LBL_CONFIGURE_DEPENDENCY_HELP_1' => 'Seules les valeurs mappées de la liste déroulante seront affichées ci-dessous (excepté la première fois)',
-	'LBL_CONFIGURE_DEPENDENCY_HELP_2' => "Si vous voulez voir ou modifier le mapping pour d\'autres valeurs de la liste déroulante, <br/>alors vous pouvez sélectionner les valeurs en cliquant sur le bouton <b>'Sélectionner les valeurs Source'</b> sur la droite de l'écran",
+	'LBL_CONFIGURE_DEPENDENCY_HELP_2' => "Si vous voulez voir ou modifier le mapping pour d\'autres valeurs de la liste déroulante, <br />alors vous pouvez sélectionner les valeurs en cliquant sur le bouton <b>'Sélectionner les valeurs Source'</b> sur la droite de l'écran",
 	'LBL_CONFIGURE_DEPENDENCY_HELP_3' => 'Les valeurs sélectionnés comme destination sont surlignées comme',
 	'LBL_CONFIGURE_DEPENDENCY_INFO' => 'Cliquer sur les cellules respectives pour modifier le mapping des valeurs de la liste déroulante destination',
 	'LBL_ERR_CYCLIC_DEPENDENCY' => 'Ce paramètrage de dépendance n\'est pas autorisé car il finirait en référence circulaire',
@@ -35,7 +35,7 @@ $jsLanguageStrings = [
 	'JS_DEPENDENCY_DELETED_SUEESSFULLY' => 'Dépendance supprimée avec succès',
 	'JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE' => 'Etes-vous sur de vouloir supprimer cette dépendance de liste déroulante?',
 	'JS_PICKLIST_DEPENDENCY_SAVED' => 'Dépendance liste déroulante sauvegardée',
-	'JS_SELECT_SOME_VALUE' => 'Sélect quelque valeur',
+	'JS_SELECT_SOME_VALUE' => 'Sélectionner une valeur',
 	'JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME' => 'Le champ source et destination ne peuvent être identiques',
 	'JS_PICKLIST_DEPENDENCY_NO_SAVED' => 'Aucune dépendance saisie. Aucune modification sauvegardée.',
 ];

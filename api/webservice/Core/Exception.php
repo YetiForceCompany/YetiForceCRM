@@ -4,7 +4,8 @@ namespace Api\Core;
 /**
  * Web service exception class 
  * @package YetiForce.Webservice
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Exception extends \Exception
@@ -44,12 +45,12 @@ class Exception extends \Exception
 	public function handleError()
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
-			$request = \AppRequest::init();
+			$request = \App\Request::init();
 			$error .= "code: {$this->getCode()} | message: {$this->getMessage()}\n";
 			$error .= "file: {$this->getFile()} ({$this->getLine()})\n";
 			$error .= '============ stacktrace: ' . PHP_EOL . $this->getTraceAsString() . PHP_EOL;
 			$error .= '============ Headers: ' . PHP_EOL;
-			$error .= 'REQUEST_METHOD : ' . $request->getRequestMetod() . PHP_EOL;
+			$error .= 'REQUEST_METHOD : ' . $request->getRequestMethod() . PHP_EOL;
 			foreach ($request->getHeaders() as $key => $header) {
 				$error .= $key . ': ' . $header . PHP_EOL;
 			}

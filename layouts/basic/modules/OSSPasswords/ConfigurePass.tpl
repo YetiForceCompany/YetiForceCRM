@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
-* The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
-* in compliance with the License.
-* Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
-* See the License for the specific language governing rights and limitations under the License.
-* The Original Code is YetiForce.
-* The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
-* All Rights Reserved.
-*************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <div class="widget_header row">
 	<div class="col-md-12">
 		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -18,23 +8,23 @@
 
 	{if $ERROR|count_characters:true gt 0}
 		<div class="alert alert-warning">
-			<strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate($ERROR, $MODULENAME)}
+			<strong>{\App\Language::translate('Error', $MODULENAME)}</strong> {\App\Language::translate($ERROR, $MODULENAME)}
 		</div>
 	{elseif $INFO|count_characters:true gt 0}
 		<div class="alert alert-info">
-			<strong>{vtranslate('Info', $MODULENAME)}</strong> {vtranslate($INFO, $MODULENAME)}
+			<strong>{\App\Language::translate('Info', $MODULENAME)}</strong> {\App\Language::translate($INFO, $MODULENAME)}
 		</div>
 	{elseif $SUCCESS|count_characters:true gt 0}
 		<div class="alert alert-success">
-			<strong>{vtranslate('Success', $MODULENAME)}</strong> {vtranslate($SUCCESS, $MODULENAME)}
+			<strong>{\App\Language::translate('Success', $MODULENAME)}</strong> {\App\Language::translate($SUCCESS, $MODULENAME)}
 		</div>
 	{/if}
 
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-		<li class="active"><a href="#encoding" data-toggle="tab">{vtranslate('Encoding', $MODULENAME)}</a></li>
-		<li><a href="#confpass" data-toggle="tab">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</a></li>
+		<li class="active"><a href="#encoding" data-toggle="tab">{\App\Language::translate('Encoding', $MODULENAME)}</a></li>
+		<li><a href="#confpass" data-toggle="tab">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</a></li>
 	</ul>
-	<br>
+	<br />
 	<div id="my-tab-content" class="tab-content">
 		{* encryption configuration *}
 		<div class="editViewContainer tab-pane active" id="encoding">
@@ -42,26 +32,26 @@
 			{if $CONFIG neq false}
 				<ul id="pills" class="nav nav-pills">
 					<li class="active">
-						<a href="#edit" data-toggle="tab">{vtranslate('Edit Password Key', $MODULENAME)}</a>
+						<a href="#edit" data-toggle="tab">{\App\Language::translate('Edit Password Key', $MODULENAME)}</a>
 					</li>
-					<li><a href="#stop" data-toggle="tab">{vtranslate('Stop Password Encryption', $MODULENAME)}</a></li>
+					<li><a href="#stop" data-toggle="tab">{\App\Language::translate('Stop Password Encryption', $MODULENAME)}</a></li>
 				</ul>
 				<div id="my-tab-content2" class="tab-content">
 					<div class="editViewContainer tab-pane active" id="edit">
 						<form class="form-horizontal recordEditView" id="EditView" name="edit_pass_key" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings&parent=Settings">                
 							<input type="hidden" name="encrypt" value="edit" />
 							<div class="contentHeader row">
-								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Change Password Key', $MODULENAME)}</span>
+								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('Change Password Key', $MODULENAME)}</span>
 							</div>
 
 							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-									<h5>&nbsp;{vtranslate('Edit Encryption Key', $MODULENAME)}</h5>
+									<h5>&nbsp;{\App\Language::translate('Edit Encryption Key', $MODULENAME)}</h5>
 								</div>
 								<div class="col-md-12 paddingLRZero panel-body blockContent">									
 									<div class="fieldRow col-md-8 col-xs-12">
 										<div class="fieldLabel col-xs-5 col-sm-2">
-											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Old Key', $MODULENAME)}:</label>
+											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-xs-7 col-sm-10" >
 											<div class="row">
@@ -71,7 +61,7 @@
 									</div>
 									<div class="fieldRow col-md-8 col-xs-12">
 										<div class="fieldLabel col-xs-5 col-sm-2">
-											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('New Key', $MODULENAME)}:</label>
+											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-xs-7 col-sm-10" >
 											<div class="row">
@@ -83,8 +73,8 @@
 							</div>
 							<div class="contentHeader">
 								<span class="pull-right">
-									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 								</span>
 							</div>
 						</form>
@@ -94,16 +84,16 @@
 						<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">                
 							<input type="hidden" name="encrypt" value="stop" />
 							<div class="contentHeader row">
-								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Cancel Encrypting Passwords', $MODULENAME)}</span>
+								<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('Cancel Encrypting Passwords', $MODULENAME)}</span>
 							</div>
 							<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 								<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-									<h5>&nbsp;{vtranslate('Enter Your Old Password', $MODULENAME)}</h5>
+									<h5>&nbsp;{\App\Language::translate('Enter Your Old Password', $MODULENAME)}</h5>
 								</div>
 								<div class="col-md-12 paddingLRZero panel-body blockContent">									
 									<div class="fieldRow col-md-8 col-xs-12">
 										<div class="fieldLabel col-xs-5 col-sm-2">
-											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption Password', $MODULENAME)}:</label>
+											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-xs-7 col-sm-10" >
 											<div class="row">
@@ -115,8 +105,8 @@
 							</div>
 							<div class="contentHeader">
 								<span class="pull-right">
-									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 								</span>
 							</div>
 						</form>
@@ -126,17 +116,17 @@
 				<form class="form-horizontal recordEditView" id="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
 					<input type="hidden" name="encrypt" value="start" />
 					<div class="contentHeader row">
-						<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('Encrypt Passwords', $MODULENAME)}</span>
+						<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('Encrypt Passwords', $MODULENAME)}</span>
 					</div>
 
 					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-							<h5>&nbsp;{vtranslate('Enter encryption password', $MODULENAME)}</h5>
+							<h5>&nbsp;{\App\Language::translate('Enter encryption password', $MODULENAME)}</h5>
 						</div>
 						<div class="col-md-12 paddingLRZero panel-body blockContent">
 							<div class="fieldRow col-md-8 col-xs-12">
 								<div class="fieldLabel col-xs-5 col-sm-2">
-									<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Encryption password', $MODULENAME)}:</label>
+									<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption password', $MODULENAME)}:</label>
 								</div>
 								<div class="fieldValue col-xs-7 col-sm-10">
 									<div class="row">
@@ -148,8 +138,8 @@
 					</div>
 					<div class="contentHeader">
 						<span class="pull-right">
-							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-							<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+							<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 						</span>
 					</div>
 				</form>
@@ -160,17 +150,17 @@
 		<div class="editViewContainer tab-pane" id="confpass">
 			<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php?module={$MODULENAME}&view=ConfigurePass&parent=Settings">
 				<div class="contentHeader row">
-					<span class="col-md-8 font-x-x-large textOverflowEllipsis">{vtranslate('LBL_ConfigurePass', $MODULENAME)}</span>
+					<span class="col-md-8 font-x-x-large textOverflowEllipsis">{\App\Language::translate('LBL_ConfigurePass', $MODULENAME)}</span>
 				</div>
 				
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-						<h5>&nbsp;{vtranslate('Password Length', $MODULENAME)}</h5>
+						<h5>&nbsp;{\App\Language::translate('Password Length', $MODULENAME)}</h5>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
 						<div class="fieldRow col-md-8 col-xs-12">
 							<div class="fieldLabel col-xs-5 col-sm-2">
-								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Minimum Length', $MODULENAME)}:</label>
+								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Minimum Length', $MODULENAME)}:</label>
 							</div>
 							<div class="fieldValue col-xs-7 col-sm-10">
 								<div class="row">
@@ -180,7 +170,7 @@
 						</div>
 						<div class="fieldRow col-md-8 col-xs-12">
 							<div class="fieldLabel col-xs-5 col-sm-2">
-								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {vtranslate('Maximum Length', $MODULENAME)}:</label>
+								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Maximum Length', $MODULENAME)}:</label>
 							</div>
 							<div class="fieldValue col-xs-7 col-sm-10">
 								<div class="row">
@@ -192,7 +182,7 @@
 				</div>
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-						<h5>&nbsp;{vtranslate('Allowed Characters', $MODULENAME)}</h5>
+						<h5>&nbsp;{\App\Language::translate('Allowed Characters', $MODULENAME)}</h5>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
 						<div class="fieldRow col-md-8 col-xs-12">
@@ -207,7 +197,7 @@
 				</div>
 				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-						<h5>&nbsp;{vtranslate('LBL_REGISTER_CHANGES', $MODULENAME)}</h5>
+						<h5>&nbsp;{\App\Language::translate('LBL_REGISTER_CHANGES', $MODULENAME)}</h5>
 					</div>
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
 						<div class="fieldRow col-md-8 col-xs-12">
@@ -215,7 +205,7 @@
 							<div align="center" class="fieldValue col-xs-7 col-sm-10">
 								<div class="row pull-left">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
-										{vtranslate('LBL_START_REGISTER', $MODULENAME)}
+										{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
 								</div>
 							</div>
 						</div>
@@ -223,8 +213,8 @@
 				</div>
 				<div class="contentHeader">
 					<span class="pull-right">
-						<button class="btn btn-success" name="save" value="save" type="submit"><strong>{vtranslate('Save', $MODULENAME)}</strong></button>
-						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('Cancel', $MODULENAME)}</a>
+						<button class="btn btn-success" name="save" value="save" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 					</span>
 				</div>
 			</form>
@@ -237,21 +227,21 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">{vtranslate('LBL_REGISTER_WARN1', $MODULENAME)}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_REGISTER_WARN1', $MODULENAME)}</h3>
 				</div>
 				<div class="modal-body">
-					<p>{vtranslate('LBL_REGISTER_WARN2', $MODULENAME)}</p>
-					<p><input id="statusRegistration" name="status" type="checkbox" {$REGISTER} value="1" required="required" /> {vtranslate('LBL_START_REGISTER', $MODULENAME)}</p>
+					<p>{\App\Language::translate('LBL_REGISTER_WARN2', $MODULENAME)}</p>
+					<p><input id="statusRegistration" name="status" type="checkbox" {$REGISTER} value="1" required="required" /> {\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}</p>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success okay-button" id="confirmRegistration" type="submit" name="uninstall" form="EditView">{vtranslate('Yes', $MODULENAME)}</button>
-					<button class="btn btn-warning" data-dismiss="modal">{vtranslate('No', $MODULENAME)}</button>
+					<button class="btn btn-success okay-button" id="confirmRegistration" type="submit" name="uninstall" form="EditView">{\App\Language::translate('Yes', $MODULENAME)}</button>
+					<button class="btn btn-warning" data-dismiss="modal">{\App\Language::translate('No', $MODULENAME)}</button>
 				</div>
 			</div>
 		</div>
 	</div>
 {else}
     <div class="alert alert-warning" style="margin:10px 15px;">
-        <strong>{vtranslate('Error', $MODULENAME)}</strong> {vtranslate('Access denied!', $MODULENAME)}
+        <strong>{\App\Language::translate('Error', $MODULENAME)}</strong> {\App\Language::translate('Access denied!', $MODULENAME)}
     </div>
 {/if}

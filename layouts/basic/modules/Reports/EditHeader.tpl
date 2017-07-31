@@ -21,19 +21,19 @@
                 <li class="first step"  style="z-index:9" id="step1">
                     <a>
                         <span class="stepNum">1</span>
-                        <span class="stepText">{vtranslate('LBL_REPORT_DETAILS',$MODULE)}</span>
+                        <span class="stepText">{\App\Language::translate('LBL_REPORT_DETAILS',$MODULE)}</span>
                     </a>
                 </li>
                 <li style="z-index:8" class="step" id="step2">
                     <a>
                         <span class="stepNum">2</span>
-                        <span class="stepText">{vtranslate('LBL_SELECT_COLUMNS',$MODULE)}</span>
+                        <span class="stepText">{\App\Language::translate('LBL_SELECT_COLUMNS',$MODULE)}</span>
                     </a>
                 </li>
                 <li class="step last" style="z-index:7" id="step3">
                     <a>
                         <span class="stepNum">3</span>
-                        <span class="stepText">{vtranslate('LBL_FILTERS',$MODULE)}</span>
+                        <span class="stepText">{\App\Language::translate('LBL_FILTERS',$MODULE)}</span>
                     </a>
                 </li>
             </ul>

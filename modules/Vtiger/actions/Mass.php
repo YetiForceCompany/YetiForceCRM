@@ -12,7 +12,7 @@
 abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 {
 
-	public static function getRecordsListFromRequest(Vtiger_Request $request)
+	public static function getRecordsListFromRequest(\App\Request $request)
 	{
 		$cvId = $request->get('viewname');
 		$module = $request->get('module');
@@ -45,7 +45,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

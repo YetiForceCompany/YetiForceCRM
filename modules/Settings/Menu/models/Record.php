@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings menu record model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
 
@@ -91,6 +88,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			if (!isset($data['newwindow'])) {
 				$params['newwindow'] = 0;
+			}
+			if (!isset($data['filters'])) {
+				$params['filters'] = '';
 			}
 			$db->createCommand()->update('yetiforce_menu', $params, ['id' => $this->getId()])->execute();
 		} else {
@@ -254,10 +254,11 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function createFilterList($menu)
 	{
+		$content = '';
 		if (!empty($menu['filters'])) {
 			$content = $menu['id'] . '=>[';
 			$content .= "'module'=>" . var_export($menu['mod'], true) . ",";
-			$content .= "'filters'=>'" . var_export($menu['filters'], true) . "'";
+			$content .= "'filters'=>" . var_export($menu['filters'], true);
 			$content .= '],';
 		}
 		if (count($menu['childs']) > 0) {
@@ -346,6 +347,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				];
 				$db->createCommand()->insert('yetiforce_menu', $params)->execute();
 			}
+			$this->generateFileMenu($toRole);
 		}
 	}
 }

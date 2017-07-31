@@ -3,7 +3,8 @@
 /**
  * PopupAjax View Class
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSPasswords_PopupAjax_View extends OSSPasswords_Popup_View
@@ -17,17 +18,17 @@ class OSSPasswords_PopupAjax_View extends OSSPasswords_Popup_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

@@ -11,7 +11,7 @@
 class Settings_Workflows_TasksList_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

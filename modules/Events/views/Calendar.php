@@ -11,17 +11,17 @@
 class Events_Calendar_View extends Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		header("Location: index.php?module=Calendar&view=Calendar");
 	}

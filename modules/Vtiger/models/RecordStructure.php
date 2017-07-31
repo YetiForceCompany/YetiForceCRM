@@ -11,7 +11,7 @@
 /**
  * Vtiger Record Structure Model
  */
-class Vtiger_RecordStructure_Model extends Vtiger_Base_Model
+class Vtiger_RecordStructure_Model extends \App\Base
 {
 
 	protected $record = false;

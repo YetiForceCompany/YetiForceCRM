@@ -4,7 +4,8 @@ namespace App\Fields;
 /**
  * Record number class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -97,18 +98,13 @@ class RecordNumber
 
 	/**
 	 * Converts record numbering variables to values
+	 * @see Important: When you add new parameter in this function you also must add it in Email::findRecordNumber() 
 	 * @param string $content
 	 * @return string
 	 */
 	public static function parse($content)
 	{
-		$content = str_replace('{{YYYY}}', date('Y'), $content);
-		$content = str_replace('{{YY}}', date('y'), $content);
-		$content = str_replace('{{MM}}', date('m'), $content);
-		$content = str_replace('{{M}}', date('n'), $content);
-		$content = str_replace('{{DD}}', date('d'), $content);
-		$content = str_replace('{{D}}', date('j'), $content);
-		return $content;
+		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [date('Y'), date('y'), date('m'), date('n'), date('d'), date('j')], $content);
 	}
 
 	public static function updateNumber($curId, $tabId)

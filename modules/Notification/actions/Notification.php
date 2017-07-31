@@ -3,14 +3,15 @@
 /**
  * Notification Action Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
 class Notification_Notification_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$id = $request->get('id');
 		if (!empty($id)) {
@@ -25,21 +26,23 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif (in_array($mode, ['setMark', 'getNumberOfNotifications', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
+		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('setMark');
-		$this->exposeMethod('getNumberOfNotifications');
 		$this->exposeMethod('saveWatchingModules');
 		$this->exposeMethod('createMail');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -49,7 +52,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
-	public function setMark(Vtiger_Request $request)
+	public function setMark(\App\Request $request)
 	{
 		$ids = $request->get('ids');
 		if (!is_array($ids)) {
@@ -65,14 +68,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function getNumberOfNotifications(Vtiger_Request $request)
-	{
-		$response = new Vtiger_Response();
-		$response->setResult(Notification_Module_Model::getNumberOfEntries());
-		$response->emit();
-	}
-
-	public function saveWatchingModules(Vtiger_Request $request)
+	public function saveWatchingModules(\App\Request $request)
 	{
 		$selectedModules = $request->get('selctedModules');
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
@@ -94,7 +90,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		Vtiger_Watchdog_Model::reloadCache();
 	}
 
-	public function createMail(Vtiger_Request $request)
+	public function createMail(\App\Request $request)
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$content = $request->get('message');

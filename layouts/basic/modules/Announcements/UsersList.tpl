@@ -1,12 +1,12 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="">
 		<table class="table table-striped">
 			<thead>
 				<tr> 
-					<th>{vtranslate('LBL_USER',$MODULE_NAME)}</th>
-					<th class="text-center">{vtranslate('LBL_ACCEPT_ANNOUNCEMENT',$MODULE_NAME)}</th>
-					<th class="text-center">{vtranslate('LBL_DATE',$MODULE_NAME)}</th>
+					<th>{\App\Language::translate('LBL_USER',$MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_ACCEPT_ANNOUNCEMENT',$MODULE_NAME)}</th>
+					<th class="text-center">{\App\Language::translate('LBL_DATE',$MODULE_NAME)}</th>
 				</tr> 
 			</thead>
 			<tbody>

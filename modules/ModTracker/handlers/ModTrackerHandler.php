@@ -201,7 +201,7 @@ class ModTracker_ModTrackerHandler_Handler
 			$users = $watchdog->getWatchingUsers([\App\User::getCurrentUserRealId()]);
 			if (!empty($users)) {
 				$currentUser = \App\User::getCurrentUserModel();
-				$watchdogTitle = '(translate: [' . $watchdogTitle . '|||ModTracker]) (general: RecordLabel)';
+				$watchdogTitle = '$(translate : ModTracker|' . $watchdogTitle . ')$ $(record : RecordLabel)$';
 				$watchdogTitle = $currentUser->getName() . ' ' . $watchdogTitle;
 				$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 				if ($relatedField) {
