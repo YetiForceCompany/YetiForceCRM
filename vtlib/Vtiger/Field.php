@@ -219,7 +219,6 @@ class Field extends FieldBasic
 		} else {
 			$instances = false;
 			$query = false;
-			$queryParams = false;
 			if ($moduleInstance) {
 				$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id, 'tabid' => $moduleInstance->id])->orderBy('sequence');
 			} else {

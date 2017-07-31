@@ -139,8 +139,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 	{
 		$module = $this->get('module');
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$relatedModelFields = $moduleModel->getFields();
-
 		$relatedModules = [];
 		$relations = $moduleModel->getRelations();
 		foreach ($relations as $relation) {

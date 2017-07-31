@@ -15,7 +15,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
+		Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
 
 		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');

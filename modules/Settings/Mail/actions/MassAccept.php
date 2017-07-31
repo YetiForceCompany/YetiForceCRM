@@ -22,18 +22,15 @@ class Settings_Mail_MassAccept_Action extends Vtiger_Mass_Action
 			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
-	
+
 	/**
 	 * Process
 	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{
-
-		$selectedIds = $request->get('selected_ids');
-
 		$recordIds = $this->getRecordsListFromRequest($request);
-		
+
 		foreach ($recordIds as $recordId) {
 			Settings_Mail_Config_Model::acceptanceRecord($recordId);
 		}
