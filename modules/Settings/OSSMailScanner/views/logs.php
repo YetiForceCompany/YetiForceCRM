@@ -23,7 +23,7 @@ class Settings_OSSMailScanner_logs_View extends Settings_Vtiger_Index_View
 		$viewer->assign('HISTORYACTIONLIST_NUM', $this->getNumLog());
 
 		$stopButtonStatus = $OSSMailScanner_Record_Model->checkLogStatus();
-		if (false != $stopButtonStatus) {
+		if (false !== $stopButtonStatus) {
 			$viewer->assign('STOP_BUTTON_STATUS', 'true');
 		} else {
 			$viewer->assign('STOP_BUTTON_STATUS', 'false');

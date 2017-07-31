@@ -1044,7 +1044,7 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
-		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) ? $fileDetails['original_name'] : $fileDetails['name'];
+		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] !== null) ? $fileDetails['original_name'] : $fileDetails['name'];
 		$db = \App\Db::getInstance();
 		$date = date('Y-m-d H:i:s');
 		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
