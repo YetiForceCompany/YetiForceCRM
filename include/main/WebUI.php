@@ -98,22 +98,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	public function isInstalled()
-	{
-		$dbconfig = AppConfig::main('dbconfig');
-		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
-			return false;
-		}
-		return true;
-	}
-
 	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
-		}
-		if (!$this->isInstalled()) {
-			header('Location:install/Install.php');
 		}
 		if (AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
