@@ -226,7 +226,6 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function sanitizeValues($arr)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;
 			foreach ($this->fieldArray as $fieldName => $fieldObj) {

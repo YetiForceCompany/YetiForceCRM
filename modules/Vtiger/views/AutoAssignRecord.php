@@ -46,7 +46,6 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$users = [];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');

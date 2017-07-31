@@ -23,7 +23,6 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$discountType = $request->get('discountType');
 		$currency = $request->get('currency');
 		$relatedRecord = $request->get('relatedRecord');
-		$isIndividual = $request->get('isIndividual');
 		$totalPrice = $request->get('totalPrice');
 
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);

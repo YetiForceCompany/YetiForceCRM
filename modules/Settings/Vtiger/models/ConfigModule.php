@@ -112,7 +112,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 			$moduleData = array('Home' => 'Home');
 			for ($i = 0; $i < $numOfRows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
 				$moduleData[$db->query_result($result, $i, 'name')] = $db->query_result($result, $i, 'tablabel');
 			}
 			return $moduleData;

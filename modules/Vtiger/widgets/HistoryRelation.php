@@ -68,7 +68,6 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 */
 	public static function getHistory(\App\Request $request, Vtiger_Paging_Model $pagingModel)
 	{
-		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
 		if (empty($type)) {

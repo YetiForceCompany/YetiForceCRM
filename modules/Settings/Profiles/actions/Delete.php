@@ -13,7 +13,6 @@ class Settings_Profiles_Delete_Action extends Settings_Vtiger_Basic_Action
 
 	public function process(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$transferRecordId = $request->get('transfer_record');
 

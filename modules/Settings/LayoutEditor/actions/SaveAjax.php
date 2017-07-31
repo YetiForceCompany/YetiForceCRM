@@ -49,7 +49,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$edit = false;
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		if (!empty($id)) {
-			$return = $inventoryField->saveField($name, $param);
+			$inventoryField->saveField($name, $param);
 			$edit = true;
 		} else {
 			$id = $inventoryField->addField($name, $param);

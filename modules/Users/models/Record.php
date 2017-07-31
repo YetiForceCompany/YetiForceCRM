@@ -104,7 +104,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getPreferenceEditViewUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=' . $this->getModuleName() . '&view=PreferenceEdit&record=' . $this->getId();
 	}
 
