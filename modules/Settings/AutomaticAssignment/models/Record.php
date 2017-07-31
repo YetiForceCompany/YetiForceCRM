@@ -362,19 +362,19 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		$links = [];
 		$recordLinks = [
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
 				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
 				'linkicon' => 'glyphicon glyphicon-transfer'
 			],
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
 			],
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
@@ -595,7 +595,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			->groupBy([$queryGenerator->getColumnName('assigned_user_id'), 'vtiger_users.records_limit'])
 			->orderBy(['c' => SORT_ASC]);
 		if ($this->get('user_limit')) {
-			$usersRecords = [];
 			$access = new \yii\db\Expression('CASE WHEN ' . $count . '<=vtiger_users.records_limit OR vtiger_users.records_limit IS NULL OR vtiger_users.records_limit = 0 THEN 1 ELSE 0 END');
 			$query->addSelect(['a' => $access]);
 			$dataReader = $query->createCommand()->query();

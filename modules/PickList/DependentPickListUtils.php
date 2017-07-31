@@ -28,7 +28,6 @@ class Vtiger_DependencyPicklist
 
 		$dependentPicklists = [];
 		if ($noofrows > 0) {
-			$fieldlist = [];
 			for ($i = 0; $i < $noofrows; ++$i) {
 				$fieldTabId = $adb->query_result($result, $i, 'tabid');
 				$sourceField = $adb->query_result($result, $i, 'sourcefield');

@@ -19,7 +19,6 @@ class VTWorkflowUtils
 
 	public function __construct()
 	{
-		$current_user = vglobal('current_user');
 		if (empty(self::$userStack)) {
 			self::$userStack = [];
 		}
