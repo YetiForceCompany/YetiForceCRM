@@ -47,7 +47,6 @@ SetEnv HTACCESS_TEST on
 	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
-	php_value	session.save_path			cache/session
 </IfModule>
 <IfModule mod_php7.c>
 	#Error: 337 ,Error + Warning: 5111
@@ -78,7 +77,6 @@ SetEnv HTACCESS_TEST on
 	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
-	php_value	session.save_path			cache/session
 </IfModule>
 <IfModule mod_headers.c>
   <IfModule mod_env.c>

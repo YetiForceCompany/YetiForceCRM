@@ -47,7 +47,6 @@ SetEnv HTACCESS_TEST on
 	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
-	php_value	session.save_path			cache/session
 </IfModule>
 <IfModule mod_php7.c>
 	#Error: 337 ,Error + Warning: 5111
@@ -78,17 +77,9 @@ SetEnv HTACCESS_TEST on
 	php_value	session.cache_expire		1440
 	php_value	session.gc_divisor			500
 	php_value	session.gc_probability		1
-	php_value	session.save_path			cache/session
 </IfModule>
 <IfModule mod_headers.c>
   <IfModule mod_env.c>
-	Header set X-Frame-Options "SAMEORIGIN"
-	Header set X-XSS-Protection "1; mode=block"
-    Header set X-Content-Type-Options "nosniff"
-	Header set Referrer-Policy "no-referrer"
-	Header set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
-    Header set X-Robots-Tag "none"
-    Header set X-Permitted-Cross-Domain-Policies "none"
 	Header unset Server
 	Header unset X-Powered-By
     SetEnv modHeadersAvailable true
