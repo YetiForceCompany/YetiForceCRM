@@ -228,6 +228,7 @@ class CSRF
 				$tokens = 'hidden';
 			}
 			call_user_func(static::$callback, $tokens);
+			throw new Exception('Hidden');
 		}
 		return $ok;
 	}
