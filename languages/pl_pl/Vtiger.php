@@ -1,14 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************************************************************** */
+/**
+ * Vtiger polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'LBL_SEND_EMAIL' => 'Wyślij maila',
@@ -261,7 +257,7 @@ $languageStrings = [
 	'LBL_MAIN_PAGE' => 'Strona główna',
 	'Illegal request' => 'Zabezpieczenie CSRF: Wykryto próbę włamania',
 	'LBL_ERROR' => 'Błąd!!!',
-	'LBL_GO_TO_FULL_FORM' => 'Przejdź do pełnego formularza',
+	'LBL_GO_TO_FULL_FORM' => 'Pełny formularz',
 	'LBL_GO_TO_PREVIEW' => 'Przejdź do podglądu',
 	'LBL_GRAND_TOTAL' => 'Wartość (brutto)',
 	'LBL_GREATER_OR_EQUAL' => 'większy lub równy', //Duplicated key-value pairs
@@ -303,7 +299,7 @@ $languageStrings = [
 	'LBL_LESS_THAN' => 'mniejszy od',
 	'LBL_LESS_THAN_OR_EQUAL' => 'mniejszy lub równy', //Duplicated key-value pairs
 	'LBL_LISTVIEW_PAGE_JUMP' => 'Przeskocz do strony',
-	'LBL_LIST_IN_METRICS' => 'Pokaż na tablicy',
+	'LBL_LIST_IN_METRICS' => 'Dostępny w widżetach',
 	'LBL_LIST_PRICE' => 'Cena sprzedażowa',
 	'LBL_LOADING' => 'Ładowanie',
 	'LBL_LOADING_LISTVIEW_CONTENTS' => 'Trwa ładowanie widoku, proszę czekać',
@@ -418,6 +414,8 @@ $languageStrings = [
 	'LBL_RESULT_FOR_THE_TAG' => 'Wynik dla etykiet',
 	'LBL_Sat' => 'Sob',
 	'LBL_SAVE' => 'Zapisz',
+	'BTN_SAVE' => 'Zapisz',
+	'BTN_CLOSE' => 'Zamknij',
 	'LBL_SAVE_AS_DRAFT' => 'Zapisz jako szablon',
 	'LBL_SAVE_AS_FILTER' => 'Zapisz to wyszukiwanie jako filtr',
 	'LBL_SAVE_FILTER' => 'Zapisz filtr',
@@ -502,6 +500,8 @@ $languageStrings = [
 	'LBL_YEARS' => 'lata',
 	'LBL_YES' => 'Tak',
 	'LBL_YESTERDAY' => 'Wczoraj',
+	'LBL_OLDER' => 'Starsze',
+	'LBL_CLEAR_HISTORY' => 'Wyczyść historię przeglądania',
 	'LBL_ZERO_DISCOUNT' => 'Rabat zerowy',
 	'Lead Source' => 'Źródło pozyskania',
 	'Leads by Industry' => 'Leady według branży',
@@ -644,7 +644,7 @@ $languageStrings = [
 	'Project Milestone Name' => 'Nazwa etapu projektu',
 	'Milestone Date' => 'Data etapu',
 	'WEBLOADTIME' => 'Czas ładowania strony', //OpenSaaS VTE
-	'LBL_FOOTER_CONTENT' => 'Copyright &copy; YetiForce.com All rights reserved. %s<br/>Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
+	'LBL_FOOTER_CONTENT' => 'Copyright &copy; YetiForce.com All rights reserved. %s<br />Creating YetiForce software was possible thanks to the %s called Vtiger CRM and other programs that have open source codes.',
 	'LBL_RELATED_ASSETS' => 'Produkty sprzedane',
 	'LBL_RELATED_OSSOS' => 'Usługi obce',
 	'LBL_RELATED_OSSSS' => 'Usługi sprzedane',
@@ -690,7 +690,7 @@ $languageStrings = [
 	'Address details' => 'Dane adresowe',
 	'Contact details' => 'Dane kontaktowe',
 	'Registration details' => 'Dane rejestrowe',
-	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 1.1',
+	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 2.0',
 	'LBL_REGISTERING_INFORMATION' => 'Informacje rejestrowe',
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',
@@ -1023,7 +1023,7 @@ $languageStrings = [
 	'LBL_TAX_SUMMARY' => 'Podsumowanie podatku',
 	'LBL_CURRENCIES_SUMMARY' => 'Podsumowanie walut',
 	'LBL_CHANGE_CURRENCY' => 'Zmiana waluty',
-	'LBL_CHANGE_CURRENCY_INFO' => 'Zmiana waluty spowoduje przeliczenie wszystkich wartości.<br/>Czy jesteś pewien czy chcesz to zrobić?',
+	'LBL_CHANGE_CURRENCY_INFO' => 'Zmiana waluty spowoduje przeliczenie wszystkich wartości.<br />Czy jesteś pewien czy chcesz to zrobić?',
 	'LBL_SUMMARY' => 'Podsumowanie',
 	'LBL_AMOUNT' => 'Suma',
 	'LBL_SET_GLOBAL_TAX' => 'Ustaw',
@@ -1267,6 +1267,11 @@ $languageStrings = [
 	'LBL_NO_USERS_TO_ASSIGN' => 'Brak użytkowników do przypisania',
 	'BTN_ASSIGN_TO' => 'Przekaż',
 	'BTN_REALIZE' => 'Realizuj',
+	'LBL_SHOW_QUICK_DETAILS' => 'Szybki podgląd',
+	'DW_TEAMS_ESTIMATED_SALES' => 'Szacowana sprzedaż zespołu',
+	'LBL_COMPARE_TO_LAST_PERIOD' => 'Porównaj z poprzednim okresem o tej samej długości co obecny zakres dat.',
+	'DW_ACTUAL_SALES_OF_TEAM' => 'Rzeczywista sprzedaż zespołu',
+	'LBL_SEND_MESSAGE' => 'Wyślij wiadomość',
 	//TextParser
 	'LBL_TRANSLATE' => 'Tłumaczenie',
 	'LBL_COMPANY_VARIABLES' => 'Dane firmy',
@@ -1285,16 +1290,17 @@ $languageStrings = [
 	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Lista zmian w rekordzie',
 	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Lista nowych wartości w rekordzie',
 	'LBL_RECORD_COMMENT' => 'Komentarz(e)',
-	'LBL_RELETED_RECORD_LABEL' => 'Powiązana etykieta',
+	'LBL_RELATED_RECORD_LABEL' => 'Powiązana etykieta',
 	'LBL_OWNER_EMAIL' => 'Email właściciela',
 	'LBL_MODULE_FIELDS' => 'Pola z modułu',
-	'LBL_RELETED_MODULE_FIELDS' => 'Pola z modułów powiązanych',
+	'LBL_DEPENDENT_MODULE_FIELDS' => 'Pola z modułów zależnych',
 	'LBL_ADDITIONAL_VARIABLES' => 'Zmienne dodatkowe',
 	'LBL_SOURCE_MODULE_FIELDS' => 'Pola z modułu źródłowego',
 	'LBL_ENTITY_VARIABLES' => 'Zmienne ogólne',
 	'LBL_COPY_TO_CLIPBOARD' => 'Kopiuj do schowka',
 	'LBL_COPY_VALUE' => 'Wartość pola',
 	'LBL_COPY_LABEL' => 'Nazwa pola',
+	'LBL_AUTOMATIC' => 'Automatyczny',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',
@@ -1302,6 +1308,10 @@ $languageStrings = [
 	'LBL_EMAIL_TEMPLATE' => 'Szablon mailowy',
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Wszystkie maile są kolejkowane i wysłane w cronie.',
 	'ERR_NO_DEFAULT_SMTP' => 'Brak domyślnej skrzynki pocztowej do wysyłania wiadomości.',
+	'LBL_ADD_FILES' => 'Dodaj pliki',
+	'BTN_ADD_FILE' => 'Dodaj plik',
+	'BTN_SUBMIT' => 'Prześlij',
+	'LBL_PHONE_CALL_SUCCESS' => 'Trwa wybieranie numeru',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1576,4 +1586,10 @@ $jsLanguageStrings = [
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Czy jesteś pewien, że chcesz zapoznać się ze zmianami wybranych rekordów?',
 	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'Waluta bazowa musi być zmieniona na wyłączony',
 	'JS_MARKED_AS_READ' => 'Oznacz jako przeczytane',
+	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'Co najmniej jeden z załączonych plików jest za duży',
+	'JS_LAST_7_DAYS' => 'Poprzednie 7 dni',
+	'JS_LAST_30_DAYS' => 'Poprzednie 30 dni',
+	'JS_CURRENT_MONTH' => 'Obecny miesiąc',
+	'JS_LAST_MONTH' => 'Poprzedni miesiąc',
+	'JS_CUSTOM' => 'Własny zakres dat',
 ];

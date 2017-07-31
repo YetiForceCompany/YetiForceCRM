@@ -208,7 +208,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_blocks SET sequence=sequence+1 WHERE sequence > ? and tabid=?';
-		$result = $db->pquery($query, array($fromSequence, $sourceModuleTabId));
+		$db->pquery($query, array($fromSequence, $sourceModuleTabId));
 	}
 
 	public static function getAllBlockSequenceList($moduleTabId)

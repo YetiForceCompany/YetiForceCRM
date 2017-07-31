@@ -11,17 +11,15 @@
 -->*}
 {strip}
 	<input id='activityReminder' class='hide noprint' type="hidden" value="{$ACTIVITY_REMINDER}"/>
-
 	{if !$MAIN_PRODUCT_WHITELABEL}
 		<footer class="noprint">
 			<div class="vtFooter">
 				<p>
-					{vtranslate('LBL_FOOTER_CONTENT')}
+					{\App\Language::translate('LBL_FOOTER_CONTENT')}
 				</p>
 			</div>
 		</footer>
 	{/if}
-
 	{* javascript files *}
 	{include file='JSResources.tpl'}
 </div>

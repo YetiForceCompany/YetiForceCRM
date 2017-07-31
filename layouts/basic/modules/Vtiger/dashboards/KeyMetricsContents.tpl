@@ -11,7 +11,7 @@
 	{foreach item=KEYMETRIC from=$KEYMETRICS}
 	<div style='padding:5px'>
 		<span class="pull-right">{$KEYMETRIC.count}</span>
-		<a href="?module={$KEYMETRIC.module}&view=List&viewname={$KEYMETRIC.id}">{vtranslate($KEYMETRIC.name,$KEYMETRIC.module)}</a>
+		<a href="?module={$KEYMETRIC.module}&view=List&viewname={$KEYMETRIC.id}">{\App\Language::translate($KEYMETRIC.name,$KEYMETRIC.module)}</a>
 	</div>	
 	{/foreach}
 </div>

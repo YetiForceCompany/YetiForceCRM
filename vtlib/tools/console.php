@@ -25,7 +25,7 @@ class Vtiger_Tools_Console_Controller
 	const PROMPT_PATH = 7;
 
 	protected $interactive = true;
-	protected $arguments = array();
+	protected $arguments = [];
 
 	protected function __construct()
 	{
@@ -41,8 +41,7 @@ class Vtiger_Tools_Console_Controller
 
 	protected function handle()
 	{
-		global $argv;
-		$this->arguments = $argv;
+		$this->arguments = vglobal('argv');
 
 		// Discard the script name.
 		array_shift($this->arguments);
@@ -233,7 +232,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 	{
 		echo ">>> MODULE <<<\n";
 
-		$moduleInformation = array();
+		$moduleInformation = [];
 		do {
 			$moduleInformation['name'] = ucwords($this->prompt("Enter module name: ", self::PROMPT_NAME));
 			$module = $this->find($moduleInformation['name']);
@@ -355,7 +354,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 	{
 		echo ">>> LAYOUT <<<\n";
 
-		$layoutInformation = array();
+		$layoutInformation = [];
 		do {
 			$layoutInformation['name'] = strtolower($this->prompt("Enter layout name: ", self::PROMPT_NAME));
 			if (!file_exists('layouts/' . $layoutInformation['name'])) {
@@ -371,7 +370,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 
 	protected function create($layoutInformation)
 	{
-		$files = array();
+		$files = [];
 		$this->findFiles('include', '.php$', $files);
 		$this->findFiles('modules', '.php$', $files);
 
@@ -386,7 +385,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 				}
 			}
 
-			$tpls = array();
+			$tpls = [];
 			$this->findTemplateNames($file, $tpls);
 			$tpls = array_unique($tpls);
 
@@ -401,7 +400,7 @@ class Vtiger_Tools_Console_LayoutController extends Vtiger_Tools_Console_Control
 					if (!file_exists($tplpath . $tplname)) {
 						$initialContent = "{* License Text *}\n";
 						// Enable debug to make it easy to implement.
-						$initialContent.= "{debug}{* REMOVE THIS LINE AFTER IMPLEMENTATION *}\n\n";
+						$initialContent .= "{debug}{* REMOVE THIS LINE AFTER IMPLEMENTATION *}\n\n";
 						file_put_contents($tplpath . $tplname, $initialContent);
 					}
 					file_put_contents($tplpath . $tplname, "{* $file *}\n", FILE_APPEND);
@@ -440,7 +439,7 @@ class Vtiger_Tools_Console_LanguageController extends Vtiger_Tools_Console_Contr
 	{
 		echo ">>> LANGUAGE <<<\n";
 
-		$languageInformation = array();
+		$languageInformation = [];
 		do {
 			$languageInformation['prefix'] = strtolower($this->prompt("Enter (languagecode_countrycode): ", self::PROMPT_NAME));
 			if (!file_exists('languages/' . $languageInformation['prefix'])) {
@@ -456,7 +455,7 @@ class Vtiger_Tools_Console_LanguageController extends Vtiger_Tools_Console_Contr
 
 	protected function create($languageInformation)
 	{
-		$files = array();
+		$files = [];
 		$this->findFiles('languages/' . self::BASE_LANG_PREFIX, '.php$', $files);
 
 		foreach ($files as $file) {

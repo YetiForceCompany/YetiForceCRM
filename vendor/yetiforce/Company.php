@@ -4,14 +4,18 @@ namespace App;
 /**
  * Company basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Company extends Base
 {
 
-	/** @var Logo directory */
-	public static $logoPath = 'storage/Logo/';
+	/**
+	 * Logo directory
+	 * @var string
+	 */
+	public static $logoPath = 'public_html/layouts/resources/Logo/';
 
 	/**
 	 * Function to get the instance of the Company model
@@ -40,7 +44,7 @@ class Company extends Base
 	 * Function to get the Company Logo
 	 * @return \Vtiger_Image_Model instance
 	 */
-	public function getLogo($type = false)
+	public function getLogo($type = false, $fullUrl = false)
 	{
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
@@ -49,9 +53,16 @@ class Company extends Base
 		if (!$logoName) {
 			return false;
 		}
+		$logoURL = static::$logoPath . $logoName;
+		if (IS_PUBLIC_DIR) {
+			$logoURL = str_replace('public_html/', '', $logoURL);
+		}
+		if ($fullUrl) {
+			$logoURL = \AppConfig::main('site_URL') . $logoURL;
+		}
 		$logoModel = new \Vtiger_Image_Model();
 		$logoModel->setData([
-			'imageUrl' => \AppConfig::main('site_URL') . static::$logoPath . $logoName,
+			'imageUrl' => $logoURL,
 			'imagePath' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoPath) . $logoName,
 			'alt' => $logoName,
 			'imageName' => $logoName,

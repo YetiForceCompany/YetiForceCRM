@@ -11,7 +11,7 @@
 class Events_SharedCalendar_View extends Calendar_SharedCalendar_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		header("Location: index.php?module=Calendar&view=SharedCalendar");
 	}

@@ -11,7 +11,7 @@
 class Settings_Vtiger_TermsAndConditionsSaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$model = Settings_Vtiger_TermsAndConditions_Model::getInstance();
 		$model->setText($request->get('tandc'));
@@ -21,7 +21,7 @@ class Settings_Vtiger_TermsAndConditionsSaveAjax_Action extends Settings_Vtiger_
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

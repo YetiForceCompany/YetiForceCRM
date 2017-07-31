@@ -3,7 +3,8 @@
 /**
  * Main class to save modification in settings
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_Vtiger_Tracker_Model
@@ -21,7 +22,7 @@ class Settings_Vtiger_Tracker_Model
 	static function addBasic($type)
 	{
 		$db = App\Db::getInstance('log');
-		if ($type == 'view' && AppRequest::isAjax()) {
+		if ($type == 'view' && App\Request::_isAjax()) {
 			self::lockTracking();
 		}
 		if (self::$id != false || self::$lockTrack) {
@@ -30,10 +31,10 @@ class Settings_Vtiger_Tracker_Model
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
 				'user_id' => Users_Privileges_Model::getCurrentUserModel()->getId(),
 				'type' => self::$types[$type],
-				'module_name' => AppRequest::get('module'),
+				'module_name' => \App\Request::_get('module'),
 				'record_id' => self::$recordId ? self::$recordId : 0,
 				'date' => date('Y-m-d H:i:s'),
-				'action' => _PROCESS_NAME
+				'action' => \App\Config::$processType . ':' . \App\Config::$processName
 			])->execute();
 		if ($insertedInfo === 1) {
 			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
@@ -43,8 +44,8 @@ class Settings_Vtiger_Tracker_Model
 	static function changeType($type)
 	{
 		App\Db::getInstance('log')->createCommand()
-				->update('l_#__settings_tracker_basic', ['type' => self::$types[$type]], ['id' => [self::$id]])
-				->execute();
+			->update('l_#__settings_tracker_basic', ['type' => self::$types[$type]], ['id' => [self::$id]])
+			->execute();
 	}
 
 	static function addDetail($prev, $post)
@@ -57,7 +58,7 @@ class Settings_Vtiger_Tracker_Model
 		}
 		$db = App\Db::getInstance('log');
 		foreach ($post as $key => $value) {
-			if ($value == $prev[$key]) {
+			if (isset($prev[$key]) && $value == $prev[$key]) {
 				continue;
 			}
 			$db->createCommand()->insert('l_#__settings_tracker_detail', [

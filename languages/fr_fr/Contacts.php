@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'LBL_SWITCH_OFF_DECISION_MAKER' => 'Tout',
+	'LBL_SWITCH_ON_DECISION_MAKER' => 'Décideur',
 	'LBL_MAP' => 'Carte',
 	'Member Of' => 'Membre de',
 	'Birthdate' => 'Date de naissance',
@@ -18,7 +20,7 @@ $languageStrings = [
 	'Do Not Call' => 'Ne pas appeler',
 	'Email' => 'Email principal',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
-	'LBL_CONTACT_INFORMATION' => 'Information standard',
+	'LBL_CONTACT_INFORMATION' => 'Détails du contact',
 	'LBL_COPY_MAILING_ADDRESS' => 'Copier l\'adresse postale',
 	'LBL_COPY_OTHER_ADDRESS' => 'Copier les autres adresses',
 	'LBL_CUSTOMER_PORTAL_INFORMATION' => 'Détails pour le portail client',
@@ -47,8 +49,8 @@ $languageStrings = [
 	
 	'Other Po Box' => 'Adresse additionelle : Boîte Postale',
 	'Mailing Po Box' => 'Adresse: Boîte Postale',
-	'LBL_ADDRESS_INFORMATION' => 'Adresse de la résidence principale',
-	'LBL_CONTACT_INFO' => 'Information contact',
+	'LBL_ADDRESS_INFORMATION' => 'Adresse principale de la résidence',
+	'LBL_CONTACT_INFO' => 'Informations sur le contact',
 	'Approval for phone calls'=>'Permission d\'appeler',
 	'Approval for email'=>'Permission d\'envoyer des emails',
 	'LBL_LANGUAGE_NOTIFICATIONS' => 'Langue de notifications',

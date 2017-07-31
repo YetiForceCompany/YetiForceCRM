@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_Vtiger_TermsAndConditions_Model extends Vtiger_Base_Model
+class Settings_Vtiger_TermsAndConditions_Model extends \App\Base
 {
 
 	const tableName = 'vtiger_inventory_tandc';

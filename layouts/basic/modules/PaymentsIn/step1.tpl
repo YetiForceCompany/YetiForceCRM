@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 
 <style>
 .badge1 {
@@ -22,12 +22,12 @@
 	<div class="contentsDiv" >
 		<div id="paymentsIn" style="display:none">{$JSON}</div>
 		<div style="padding:20px">	  
-        <h3 class="col-md-8 ">{vtranslate('Summary', $MODULENAME)}	</h3>
+        <h3 class="col-md-8 ">{\App\Language::translate('Summary', $MODULENAME)}	</h3>
 		</div>
 		<div class="" style="margin-top:20px">
 				<div class="row " style="padding:20px" >
 					<div  style="text-align:center">
-						<b>{vtranslate('Liczba transakcji:', $MODULENAME)}</b>&nbsp&nbsp&nbsp
+						<b>{\App\Language::translate('Liczba transakcji:', $MODULENAME)}</b>&nbsp&nbsp&nbsp
 					
 						<span class="badge1" data-badge="{$COUNT}"></span>
 					</div>
@@ -38,13 +38,13 @@
 					<div class="col-md-12 " >
 						<div style="padding-bottom:10px">
 							<span class="label label-info" >
-								{vtranslate('Import', $MODULENAME)} {$FREQUENCY+1}
+								{\App\Language::translate('Import', $MODULENAME)} {$FREQUENCY+1}
 							</span>
 						</div>
 							{if $PAYMENTSIN[$FREQUENCY].details.contName neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">
 									<div class="col-md-2 " >
-										<label>{vtranslate('Kontrahent', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Kontrahent', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8 " style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.contName}
@@ -54,7 +54,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].details.countAddress neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">
 									<div class="col-md-2" >
-										<label>{vtranslate('Kontrahent address', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Kontrahent address', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.countAddress}
@@ -64,7 +64,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].amount neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px" >
 									<div class="col-md-2" >
-										<label>{vtranslate('Amount', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Amount', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].amount}
@@ -74,7 +74,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].details.currancy neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px" >
 									<div class="col-md-2" >
-										<label>{vtranslate('Currancy operation', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Currancy operation', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.currancy}
@@ -84,7 +84,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].details.currancyAmount neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px" >
 									<div class="col-md-2" >
-										<label>{vtranslate('Amount operation', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Amount operation', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.currancyAmount}
@@ -95,7 +95,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].third_letter_currency_code neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">	
 									<div class="col-md-2 label" >
-										<div style="padding-top:1px;">{vtranslate('Currency', $MODULENAME)}</div>
+										<div style="padding-top:1px;">{\App\Language::translate('Currency', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].third_letter_currency_code}
@@ -106,7 +106,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].details.contAccount neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">	
 									<div class="col-md-2" >
-										<label>{vtranslate('Account', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Account', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.contAccount}
@@ -116,7 +116,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].date neq ''}		
 								<div class="row" style="padding:5px; padding-left:20px">	
 									<div class="col-md-2" >
-										<label>{vtranslate('Date', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Date', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].date}
@@ -126,7 +126,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].accountDate neq ''}		
 								<div class="row" style="padding:5px; padding-left:20px">	
 									<div class="col-md-2" >
-										<label>{vtranslate('DateK', $MODULENAME)}</label>
+										<label>{\App\Language::translate('DateK', $MODULENAME)}</label>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].accountDate}
@@ -136,7 +136,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].details.dateLoad neq ''}		
 								<div class="row" style="padding:5px; padding-left:20px">	
 									<div class="col-md-2 " >
-										<div style="padding-top:1px;">{vtranslate('DateLoad', $MODULENAME)}</div>
+										<div style="padding-top:1px;">{\App\Language::translate('DateLoad', $MODULENAME)}</div>
 									</div>
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.dateLoad}
@@ -146,7 +146,7 @@
 							{if $PAYMENTSIN[$FREQUENCY].details.title neq ''}	
 								<div class="row" style="padding:5px; padding-left:20px">
 									<div class="col-md-2" >
-										<label>{vtranslate('Title', $MODULENAME)}</label>
+										<label>{\App\Language::translate('Title', $MODULENAME)}</label>
 									</div> 
 									<div class="col-md-8" style="padding-top:2px;">
 										{$PAYMENTSIN[$FREQUENCY].details.title}
@@ -168,9 +168,9 @@
 			{/if}
 		*}
 		<div class="pull-right" >
-						<button class="btn btn-default addButton" id="createRecordButton" onclick="generateRecords();" data-dismiss="modal" aria-hidden="true" >{vtranslate('Create records', $MODULENAME)}</button>
-						<a href="index.php?module=PaymentsIn&view=List" id="go" class="btn btn-default addButton hide">{vtranslate('Go to Payments', $MODULENAME)}</a>&nbsp
-                        <a href="index.php?module=PaymentsIn&view=PaymentsImport#" class="btn btn-default">{vtranslate('Back', $MODULENAME)}</a>
+						<button class="btn btn-default addButton" id="createRecordButton" onclick="generateRecords();" data-dismiss="modal" aria-hidden="true" >{\App\Language::translate('Create records', $MODULENAME)}</button>
+						<a href="index.php?module=PaymentsIn&view=List" id="go" class="btn btn-default addButton hide">{\App\Language::translate('Go to Payments', $MODULENAME)}</a>&nbsp
+                        <a href="index.php?module=PaymentsIn&view=PaymentsImport#" class="btn btn-default">{\App\Language::translate('Back', $MODULENAME)}</a>
         </div>
     </div>
 </div>

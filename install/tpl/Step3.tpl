@@ -16,14 +16,19 @@
 
 		<div class="row main-container">
 			<div class="inner-container">
-				<h4>{vtranslate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
+				<div class="pull-right">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+					</a>
+				</div>
+				<h4>{App\Language::translate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
 				<hr>
 				<div>
 					<div class="offset2">
 						<div class="pull-right">
 							<div class="button-container">
 								<a href ="#">
-									<input type="button" class="btn btn-default" value="{vtranslate('LBL_RECHECK', 'Install')}" id='recheck'/>
+									<input type="button" class="btn btn-default" value="{App\Language::translate('LBL_RECHECK', 'Install')}" id='recheck'/>
 								</a>
 							</div>
 						</div>
@@ -31,48 +36,74 @@
 					<div class="clearfix"></div>
 					<div class="offset2">
 						<div>
+							{assign var="LIBRARY" value=Settings_ConfReport_Module_Model::getConfigurationLibrary()}
 							<table class="config-table table">
 								<thead>
 									<tr>
-										<th><label>{vtranslate('LBL_LIBRARY', 'Settings::ConfReport')}</label></th>
-										<th><label>{vtranslate('LBL_INSTALLED', 'Settings::ConfReport')}</label></th>
-										<th><label>{vtranslate('LBL_MANDATORY', 'Settings::ConfReport')}</label></th>
+										<th><label>{App\Language::translate('LBL_LIBRARY', 'Settings::ConfReport')}</label></th>
+										<th><label>{App\Language::translate('LBL_INSTALLED', 'Settings::ConfReport')}</label></th>
+										<th><label>{App\Language::translate('LBL_MANDATORY', 'Settings::ConfReport')}</label></th>
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+									{foreach from=$LIBRARY key=key item=item}
 										<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
-											<td>{vtranslate($key, 'Settings::ConfReport')}</td>
-											<td>{vtranslate($item.status, 'Settings::ConfReport')}</td>
+											<td>{App\Language::translate($key, 'Settings::ConfReport')}</td>
+											<td>{App\Language::translate($item.status, 'Settings::ConfReport')}</td>
 											<td>
 												{if $item.mandatory}
-													{vtranslate('LBL_MANDATORY', 'Settings::ConfReport')}
+													{App\Language::translate('LBL_MANDATORY', 'Settings::ConfReport')}
 												{else}
-													{vtranslate('LBL_OPTIONAL', 'Settings::ConfReport')}
+													{App\Language::translate('LBL_OPTIONAL', 'Settings::ConfReport')}
 												{/if}
 											</td>
 										</tr>
 									{/foreach}
 								</tbody>
 							</table>
-							<br>
+							{assign var="STABILITY_CONF" value=Settings_ConfReport_Module_Model::getSecurityConf(true)}
+							<br />
 							<table class="config-table table">
 								<thead>
 									<tr>
-										<th>{vtranslate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
-										<th>{vtranslate('LBL_REQUIRED_VALUE', 'Install')}</th>
-										<th>{vtranslate('LBL_PRESENT_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_SECURITY_RECOMMENDED_SETTINGS', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=Settings_ConfReport_Module_Model::getConfigurationValue(true) key=key item=item}
-										{if $item.status}
-											<tr class="danger">
-												<td><label>{$key}</label></td>
-												<td><label>{vtranslate($item.prefer, $MODULE)}</label></td>
-												<td><label>{vtranslate($item.current, $MODULE)}</label></td>
-											</tr>
-										{/if}
+									{foreach from=$STABILITY_CONF key=key item=item}
+										<tr {if $item.status}class="danger"{/if}>
+											<td>
+												<label>{$key}</label>
+												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+											</td>
+											<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
+										</tr>
+									{/foreach}
+								</tbody>
+							</table>
+							{assign var="STABILITY_CONF" value=Settings_ConfReport_Module_Model::getStabilityConf(true)}
+							<br />
+							<table class="config-table table">
+								<thead>
+									<tr>
+										<th>{App\Language::translate('LBL_PHP_RECOMMENDED_SETTINGS', 'Install')}</th>
+										<th>{App\Language::translate('LBL_REQUIRED_VALUE', 'Install')}</th>
+										<th>{App\Language::translate('LBL_PRESENT_VALUE', 'Install')}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{foreach from=$STABILITY_CONF key=key item=item}
+										<tr {if $item.status}class="danger"{/if}>
+											<td>
+												<label>{$key}</label>
+												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+											</td>
+											<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
+										</tr>
 									{/foreach}
 								</tbody>
 							</table>
@@ -81,28 +112,28 @@
 									<thead>
 										<tr class="blockHeader">
 											<th colspan="1" class="mediumWidthType">
-												<span>{vtranslate('LBL_READ_WRITE_ACCESS', 'Install')}</span>
+												<span>{App\Language::translate('LBL_READ_WRITE_ACCESS', 'Install')}</span>
 											</th>
 											<th colspan="1" class="mediumWidthType">
-												<span>{vtranslate('LBL_PATH', 'Settings::ConfReport')}</span>
-											</th> 							
+												<span>{App\Language::translate('LBL_PATH', 'Settings::ConfReport')}</span>
+											</th>
 											<th colspan="1" class="mediumWidthType">
-												<span>{vtranslate('LBL_PERMISSION', 'Settings::ConfReport')}</span>
-											</th>  				
+												<span>{App\Language::translate('LBL_PERMISSION', 'Settings::ConfReport')}</span>
+											</th>
 										</tr>
 									</thead>
 									<tbody>
-										{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}			
+										{foreach from=$FAILED_FILE_PERMISSIONS key=key item=item}
 											<tr {if $item.permission eq 'FailedPermission'}class="danger"{/if}>
-												<td width="23%"><label class="marginRight5px">{vtranslate($key, 'Settings::ConfReport')}</label></td>
-												<td width="23%"><label class="marginRight5px">{vtranslate($item.path, 'Settings::ConfReport')}</label></td>
+												<td width="23%"><label class="marginRight5px">{App\Language::translate($key, 'Settings::ConfReport')}</label></td>
+												<td width="23%"><label class="marginRight5px">{App\Language::translate($item.path, 'Settings::ConfReport')}</label></td>
 												<td width="23%"><label class="marginRight5px">
 														{if $item.permission eq 'FailedPermission'}
-															{vtranslate('LBL_FAILED_PERMISSION', 'Settings::ConfReport')}
+															{App\Language::translate('LBL_FAILED_PERMISSION', 'Settings::ConfReport')}
 														{else}
-															{vtranslate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
+															{App\Language::translate('LBL_TRUE_PERMISSION', 'Settings::ConfReport')}
 														{/if}
-													</label></td>			
+													</label></td>
 											</tr>
 										{/foreach}
 									</tbody>
@@ -113,8 +144,8 @@
 				</div>
 				<div class="row">
 					<div class="button-container">
-						<a class="btn btn-sm btn-default" href="Install.php" >{vtranslate('LBL_BACK', 'Install')}</a>
-						<input type="button" class="btn btn-sm btn-primary" value="{vtranslate('LBL_NEXT', 'Install')}" name="step4"/>
+						<a class="btn btn-sm btn-default" href="Install.php" >{App\Language::translate('LBL_BACK', 'Install')}</a>
+						<input type="button" class="btn btn-sm btn-primary" value="{App\Language::translate('LBL_NEXT', 'Install')}" name="step4"/>
 					</div>
 				</div>
 			</div>

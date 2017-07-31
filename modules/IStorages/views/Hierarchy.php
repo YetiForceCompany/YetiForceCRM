@@ -3,14 +3,15 @@
 /**
  * Class to show hierarchy 
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class IStorages_Hierarchy_View extends Vtiger_View_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -21,12 +22,12 @@ class IStorages_Hierarchy_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -40,7 +41,7 @@ class IStorages_Hierarchy_View extends Vtiger_View_Controller
 		$viewer->view('Hierarchy.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}

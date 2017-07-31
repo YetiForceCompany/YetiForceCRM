@@ -59,15 +59,14 @@ class WorkFlowScheduler
 
 		$vtWorflowManager = new VTWorkflowManager($adb);
 		$taskQueue = new VTTaskQueue($adb);
-		$entityCache = new VTEntityCache($this->user);
 
 		// set the time zone to the admin's time zone, this is needed so that the scheduled workflow will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled workflows
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date('Y-m-d H:i:s');
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
 		foreach ($scheduledWorkflows as $i => &$workflow) {
@@ -147,21 +146,19 @@ class WorkFlowScheduler
 				if (in_array($operation, $this->_specialDateTimeOperator())) {
 					$value = $this->_parseValueForDate($condition);
 				}
-				$groupId = $condition['groupid'];
 				$groupJoin = $condition['groupjoin'];
 				$operator = $conditionMapping[$operation];
 				$fieldName = $condition['fieldname'];
-				$valueType = $condition['valuetype'];
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {
-					list($full, $sourceField, $relatedModule, $reletedFieldName) = $matches;
+					list($full, $sourceField, $relatedModule, $relatedFieldName) = $matches;
 				}
 				if ($sourceField) {
-					$queryGenerator->addReletedCondition([
+					$queryGenerator->addRelatedCondition([
 						'sourceField' => $sourceField,
 						'relatedModule' => $relatedModule,
-						'relatedField' => $reletedFieldName,
+						'relatedField' => $relatedFieldName,
 						'value' => $value,
 						'operator' => $operator,
 						'conditionGroup' => $groupJoin === 'and',
@@ -197,7 +194,7 @@ class WorkFlowScheduler
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 
 		switch ($operation) {
 			case 'less than days ago' :  //between current date and (currentdate - givenValue)
@@ -254,7 +251,7 @@ class WorkFlowScheduler
 				$value = date('Y-m-d H:i:s', strtotime('-' . $hours . ' hours'));
 				break;
 		}
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $value;
 	}
 }

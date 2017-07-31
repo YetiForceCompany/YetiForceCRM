@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 $languageStrings = [
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Nombre de notifications par consommateurs',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Nombre de notifications par radiodiffuseurs',
+	'LBL_SEND_NOTIFICATION_MAIL' => 'Envoyer un e-mail',
 	'LBL_MARK_AS_READ' => 'Marquer comme lu',
 	'LBL_MESSAGES_FROM_USERS' => 'Messages',
 	'LBL_WATCHDOG' => 'Suivi',

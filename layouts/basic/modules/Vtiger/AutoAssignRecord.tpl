@@ -1,15 +1,15 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<div class="col-xs-10">
-			<h3 class="modal-title">{vtranslate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
+			<h3 class="modal-title">{\App\Language::translate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
-				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
+				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 				{/if}
 				{if $RECORD->isViewable()}
-				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
 				{/if}
 		</div>
 		<div class="clearfix"></div>

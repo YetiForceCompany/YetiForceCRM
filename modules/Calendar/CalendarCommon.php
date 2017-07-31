@@ -37,7 +37,7 @@ function getSharedCalendarId($sharedid)
  */
 function getaddEventPopupTime($starttime, $endtime, $format)
 {
-	$timearr = Array();
+	$timearr = [];
 	list($sthr, $stmin) = explode(":", $starttime);
 	list($edhr, $edmin) = explode(":", $endtime);
 	if ($format == 'am/pm' || $format == '12') {
@@ -75,7 +75,7 @@ function getaddEventPopupTime($starttime, $endtime, $format)
  */
 function getActivityDetails($description, $user_id, $from = '')
 {
-	
+
 	$currentUser = vglobal('current_user');
 	$adb = PearDatabase::getInstance();
 	require_once 'include/utils/utils.php';
@@ -107,21 +107,21 @@ function getActivityDetails($description, $user_id, $from = '')
 	$currentUsername = \App\Fields\Owner::getUserLabel($currentUser->id);
 	$status = \App\Language::translate($description['status'], 'Calendar');
 	$list = $name . ',';
-	$list .= '<br><br>' . $msg . ' ' . $reply . '.<br> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br>';
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \App\Language::translate($description['taskpriority']);
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \App\Language::translate($description['relatedto']);
+	$list .= '<br /><br />' . $msg . ' ' . $reply . '.<br /> ' . $mod_strings['LBL_DETAILS_STRING'] . ':<br />';
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_SUBJECT"] . ' : ' . $description['subject'];
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Start date and time"] . ' : ' . $startDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $end_date_lable . ' : ' . $endDate->getDisplayDateTimeValue($inviteeUser) . ' ' . \App\Language::translate($inviteeUser->time_zone, 'Users');
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_STATUS"] . ': ' . $status;
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Priority"] . ': ' . \App\Language::translate($description['taskpriority']);
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Related To"] . ': ' . \App\Language::translate($description['relatedto']);
 	if (!empty($description['contact_name'])) {
-		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
+		$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_CONTACT_LIST"] . ' ' . $description['contact_name'];
 	} else
-		$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Location"] . ' : ' . $description['location'];
+		$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["Location"] . ' : ' . $description['location'];
 
-	$list .= '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_APP_DESCRIPTION"] . ': ' . $description['description'];
-	$list .= '<br><br>' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
-	$list .= '<br>' . $currentUsername . '.';
+	$list .= '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $mod_strings["LBL_APP_DESCRIPTION"] . ': ' . $description['description'];
+	$list .= '<br /><br />' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
+	$list .= '<br />' . $currentUsername . '.';
 
 	\App\Log::trace("Exiting getActivityDetails method ...");
 	return $list;
@@ -134,45 +134,3 @@ function twoDigit($no)
 	else
 		return "" . $no;
 }
-
-// User Select Customization
-/**
- * Function returns the id of the User selected by current user in the picklist of the ListView or Calendar view of Current User
- * return String -  Id of the user that the current user has selected 
- */
-function calendarview_getSelectedUserId()
-{
-	$currentUser = Users_Privileges_Model::getCurrentUserModel();
-	$onlyForUser = htmlspecialchars(strip_tags(AppRequest::getForSql('onlyforuser')), ENT_QUOTES, AppConfig::main('default_charset'));
-	if ($onlyForUser == '')
-		$onlyForUser = $currentUser->id;
-	return $onlyForUser;
-}
-
-function calendarview_getSelectedUserFilterQuerySuffix()
-{
-	$currentUser = Users_Privileges_Model::getCurrentUserModel();
-	$adb = PearDatabase::getInstance();
-	$onlyForUser = calendarview_getSelectedUserId();
-	$qcondition = '';
-	if (!empty($onlyForUser)) {
-		if ($onlyForUser != 'ALL') {
-			// For logged in user include the group records also.
-			if ($onlyForUser == $currentUser->id) {
-				$userGroupIds = fetchUserGroupids($currentUser->id);
-				// User does not belong to any group? Let us reset to non-existent group
-				if (!empty($userGroupIds))
-					$userGroupIds .= ',';
-				else
-					$userGroupIds = '';
-				$userGroupIds .= $currentUser->id;
-				$qcondition = " && vtiger_crmentity.smownerid IN (" . $userGroupIds . ")";
-			} else {
-				$qcondition = " && vtiger_crmentity.smownerid = " . $adb->sql_escape_string($onlyForUser);
-			}
-		}
-	}
-	return $qcondition;
-}
-
-?>

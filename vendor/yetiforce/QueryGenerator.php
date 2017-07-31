@@ -4,7 +4,8 @@ namespace App;
 /**
  * Query generator class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -49,8 +50,8 @@ class QueryGenerator
 	private $group = [];
 	private $sourceRecord;
 	private $concatColumn = [];
-	private $reletedFields = [];
-	private $reletedQueryFields = [];
+	private $relatedFields = [];
+	private $relatedQueryFields = [];
 
 	/**
 	 * @var boolean 
@@ -82,10 +83,14 @@ class QueryGenerator
 	 */
 	private $entityModel;
 
-	/**
-	 * @var User 
-	 */
+	/** @var User */
 	private $user;
+
+	/** @var Limit */
+	private $limit;
+
+	/** @var Offset */
+	private $offset;
 
 	/**
 	 * QueryGenerator construct
@@ -149,6 +154,32 @@ class QueryGenerator
 	public function setFields($fields)
 	{
 		$this->fields = $fields;
+	}
+
+	/**
+	 * Set query offset
+	 * @param int $offset
+	 */
+	public function setOffset($offset)
+	{
+		$this->offset = $offset;
+	}
+
+	/**
+	 * Set query limit
+	 * @param int $limit
+	 */
+	public function setLimit($limit)
+	{
+		$this->limit = $limit;
+	}
+
+	/**
+	 * Get query limit
+	 */
+	public function getLimit()
+	{
+		return $this->limit;
 	}
 
 	/**
@@ -238,13 +269,13 @@ class QueryGenerator
 	}
 
 	/**
-	 * Set releted field
+	 * Set related field
 	 * @param string[] $field
 	 */
-	public function addReletedField($field)
+	public function addRelatedField($field)
 	{
-		$reletedFieldModel = $this->addReletedJoin($field);
-		$this->reletedFields["{$field['relatedModule']}{$reletedFieldModel->getName()}"] = "{$reletedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
+		$relatedFieldModel = $this->addRelatedJoin($field);
+		$this->relatedFields["{$field['relatedModule']}{$relatedFieldModel->getName()}"] = "{$relatedFieldModel->getTableName()}{$field['sourceField']}.{$field['relatedField']}";
 	}
 
 	/**
@@ -266,6 +297,15 @@ class QueryGenerator
 			return false;
 		}
 		$this->joins[$join[1]] = $join;
+	}
+
+	/**
+	 * Add table to query
+	 * @param string $tableName
+	 */
+	public function addTableToQuery($tableName)
+	{
+		$this->tablesList[$tableName] = $tableName;
 	}
 
 	/**
@@ -524,6 +564,12 @@ class QueryGenerator
 			$this->loadOrder();
 			$this->loadJoin();
 			$this->loadGroup();
+			if (!empty($this->limit)) {
+				$this->query->limit($this->limit);
+			}
+			if (!empty($this->offset)) {
+				$this->query->offset($this->offset);
+			}
 			$this->buildedQuery = $this->query;
 		}
 		return $this->buildedQuery;
@@ -552,7 +598,7 @@ class QueryGenerator
 				$columns[$key] = $customColumn;
 			}
 		}
-		$this->query->select(array_merge($columns, $this->reletedFields));
+		$this->query->select(array_merge($columns, $this->relatedFields));
 	}
 
 	/**
@@ -670,7 +716,7 @@ class QueryGenerator
 		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		if ($this->permissions) {
 			if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
-				$userId = $this->user->getUserId();
+				$userId = $this->user->getId();
 				$this->query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 			} else {
 				PrivilegeQuery::getConditions($this->query, $this->moduleName, $this->user, $this->sourceRecord);
@@ -758,13 +804,13 @@ class QueryGenerator
 	 * Set condition on reference module fields
 	 * @param array $condition
 	 */
-	public function addReletedCondition($condition)
+	public function addRelatedCondition($condition)
 	{
-		$field = $this->addReletedJoin($condition);
+		$field = $this->addRelatedJoin($condition);
 		if (!$field) {
 			return false;
 		}
-		$queryField = $this->getQueryReletedField($field, $condition);
+		$queryField = $this->getQueryRelatedField($field, $condition);
 		$queryField->setValue($condition['value']);
 		$queryField->setOperator($condition['operator']);
 		$queryCondition = $queryField->getCondition();
@@ -780,43 +826,43 @@ class QueryGenerator
 	}
 
 	/**
-	 * Set releted field join
+	 * Set related field join
 	 * @param string[] $fieldDetail
 	 * @return Vtiger_Field_Model|boolean
 	 */
-	protected function addReletedJoin($fieldDetail)
+	protected function addRelatedJoin($fieldDetail)
 	{
-		$reletedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
-		$reletedFieldModel = $reletedModuleModel->getField($fieldDetail['relatedField']);
-		if (!$reletedFieldModel || !$reletedFieldModel->isActiveField()) {
-			Log::warning("Field in related module is inactive or does not exist. Releted module: {$fieldDetail['referenceModule']} | Releted field: {$fieldDetail['relatedField']}");
+		$relatedModuleModel = \Vtiger_Module_Model::getInstance($fieldDetail['relatedModule']);
+		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
+		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
+			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
 			return false;
 		}
-		$tableName = $reletedFieldModel->getTableName();
+		$tableName = $relatedFieldModel->getTableName();
 		$sourceFieldModel = $this->getModuleField($fieldDetail['sourceField']);
-		$reletedTableName = $tableName . $fieldDetail['sourceField'];
-		$reletedTableIndex = $reletedModuleModel->getEntityInstance()->tab_name_index[$tableName];
-		$this->addJoin(['LEFT JOIN', "$tableName $reletedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $reletedTableName.$reletedTableIndex"]);
-		return $reletedFieldModel;
+		$relatedTableName = $tableName . $fieldDetail['sourceField'];
+		$relatedTableIndex = $relatedModuleModel->getEntityInstance()->tab_name_index[$tableName];
+		$this->addJoin(['LEFT JOIN', "$tableName $relatedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $relatedTableName.$relatedTableIndex"]);
+		return $relatedFieldModel;
 	}
 
 	/**
-	 * Get query releted field instance
+	 * Get query related field instance
 	 * @param \Vtiger_Field_Model $field
-	 * @param array $reletedInfo
+	 * @param array $relatedInfo
 	 * @return QueryField\BaseField
 	 * @throws \Exception\AppException
 	 */
-	private function getQueryReletedField($field, $reletedInfo)
+	private function getQueryRelatedField($field, $relatedInfo)
 	{
-		$relatedModule = $reletedInfo['relatedModule'];
-		if (isset($this->reletedQueryFields[$relatedModule][$field->getName()])) {
-			return $this->reletedQueryFields[$relatedModule][$field->getName()];
+		$relatedModule = $relatedInfo['relatedModule'];
+		if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
+			return $this->relatedQueryFields[$relatedModule][$field->getName()];
 		}
 		if ($field->getName() === 'id') {
 			$queryField = new QueryField\IdField($this, '');
-			$queryField->setReleted($reletedInfo);
-			return $this->reletedQueryFields[$relatedModule][$field->getName()] = $queryField;
+			$queryField->setRelated($relatedInfo);
+			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
@@ -824,8 +870,8 @@ class QueryGenerator
 			throw new \Exception\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
-		$queryField->setReleted($reletedInfo);
-		return $this->reletedQueryFields[$relatedModule][$field->getName()] = $queryField;
+		$queryField->setRelated($relatedInfo);
+		return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 	}
 
 	/**
@@ -905,9 +951,9 @@ class QueryGenerator
 			}
 			$groupColumnsInfo = $groupConditionInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
-				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
+				list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
 				$field = $this->getModuleField($fieldName);
-				if ($field->getFieldDataType() === 'tree' && $specialOption) {
+				if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
 					$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 				}
 				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting

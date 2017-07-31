@@ -16,11 +16,11 @@
 				<span class="btn-toolbar col-md-4">
 					{if $LISTVIEW_MASSACTIONS}
 					<span class="btn-group listViewMassActions">
-						<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{vtranslate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<i class="caret"></i></button>
+						<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<i class="caret"></i></button>
 						<ul class="dropdown-menu">
 							{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS}
 								<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
-									<a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{vtranslate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a>
+									<a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a>
 								</li>
 							{/foreach}
 						</ul>
@@ -29,7 +29,7 @@
 					{* Fix for empty Recycle bin Button *} 
                                         {foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']} 
                                                 <span class="btn-group">  
-                                                    <button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default clearRecycleBin" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if} {if $DELETED_RECORDS_TOTAL_COUNT eq 0} disabled="disabled" {/if}>&nbsp;<strong>{vtranslate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button> 
+                                                    <button id="{$MODULE}_listView_basicAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default clearRecycleBin" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if} {if $DELETED_RECORDS_TOTAL_COUNT eq 0} disabled="disabled" {/if}>&nbsp;<strong>{\App\Language::translate($LISTVIEW_BASICACTION->getLabel(), $MODULE)}</strong></button> 
                                                 </span> 
                                         {/foreach} 
 				</span>
@@ -39,9 +39,9 @@
 						<select id="customFilter" style="width:350px;">
 							{foreach item=MODULEMODEL from=$MODULE_LIST}
 								{if $SOURCE_MODULE eq $MODULEMODEL->get('name')}
-									<option  value="{$MODULEMODEL->get('name')}" selected="">{vtranslate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}</option>
+									<option  value="{$MODULEMODEL->get('name')}" selected="">{\App\Language::translate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}</option>
 								{else if $MODULEMODEL->get('name') neq 'Events'}
-									<option  value="{$MODULEMODEL->get('name')}">{vtranslate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}</option>
+									<option  value="{$MODULEMODEL->get('name')}">{\App\Language::translate($MODULEMODEL->get('name'),$MODULEMODEL->get('name'))}</option>
 								{/if}
 							{/foreach}
 						</select>

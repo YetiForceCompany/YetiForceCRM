@@ -70,7 +70,7 @@ class ModComments extends ModCommentsCore
 		if (is_string($moduleNames))
 			$moduleNames = array($moduleNames);
 
-		$commentWidgetModules = array();
+		$commentWidgetModules = [];
 		foreach ($moduleNames as $moduleName) {
 			$module = vtlib\Module::getInstance($moduleName);
 			if ($module) {
@@ -101,7 +101,7 @@ class ModComments extends ModCommentsCore
 		if (is_string($moduleNames))
 			$moduleNames = array($moduleNames);
 
-		$commentWidgetModules = array();
+		$commentWidgetModules = [];
 		foreach ($moduleNames as $moduleName) {
 			$module = vtlib\Module::getInstance($moduleName);
 			if ($module) {

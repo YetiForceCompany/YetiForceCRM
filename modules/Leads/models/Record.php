@@ -26,8 +26,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getAccountFieldsForLeadConvert()
 	{
-		$accountsFields = array();
-		$privilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$accountsFields = [];
 		$moduleName = 'Accounts';
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
@@ -38,7 +37,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		if ($moduleModel->isActive()) {
 			$fieldModels = $moduleModel->getFields();
 			//Fields that need to be shown
-			$complusoryFields = array(); //Field List in the conversion lead
+			$complusoryFields = []; //Field List in the conversion lead
 			foreach ($fieldModels as $fieldName => $fieldModel) {
 				if ($fieldModel->isMandatory() && $fieldName != 'assigned_user_id') {
 
@@ -84,9 +83,9 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 		if (!$mappingFields) {
 			$db = PearDatabase::getInstance();
-			$mappingFields = array();
+			$mappingFields = [];
 
-			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', array());
+			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', []);
 			$numOfRows = $db->num_rows($result);
 
 			$accountInstance = Vtiger_Module_Model::getInstance('Accounts');
@@ -121,7 +120,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getConvertLeadFields()
 	{
-		$convertFields = array();
+		$convertFields = [];
 		$accountFields = $this->getAccountFieldsForLeadConvert();
 		if (!empty($accountFields)) {
 			$convertFields['Accounts'] = $accountFields;

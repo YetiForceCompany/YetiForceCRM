@@ -12,7 +12,7 @@ F<?php
 class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
@@ -20,12 +20,10 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordModel = $this->saveRecord($request);
+		$this->saveRecord($request);
 
 		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();

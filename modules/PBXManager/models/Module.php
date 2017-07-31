@@ -44,13 +44,12 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 	public function getSettingLinks()
 	{
 		if (!$this->isEntityModule()) {
-			return array();
+			return [];
 		}
 		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
-		$settingsLinks = array();
+		$settingsLinks = [];
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = array(

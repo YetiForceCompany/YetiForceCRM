@@ -24,10 +24,10 @@
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+		<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="contents-topscroll noprint stick" data-position="top">
 		<div class="topscroll-div"></div>
@@ -45,19 +45,20 @@
 				<thead>
 					<tr class="listViewHeaders">
 						<th>
-							<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
+							<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 						</th>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
-								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
-									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree'}
+									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
+									{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 									<div class='pull-left'>
-										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
-											  data-content="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
+										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
+											  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-info-sign"></span>
 										</span>
-										<input type="checkbox" id="searchInSubcategories" title="{vtranslate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if $SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]['specialOption']} checked {/if}>
+										<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->get('column')}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
 									</div>
 								{/if}
 							</th>
@@ -72,8 +73,9 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER->getName()])}
-									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()]}
+								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
 								{else}
 									{assign var=SEARCH_INFO value=[]}
 								{/if}
@@ -98,7 +100,7 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" data-raw-value="{Vtiger_Util_Helper::toSafeHTML($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
-								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') and $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true }
+								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
 									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 									</a>
@@ -120,7 +122,7 @@
 					<tbody>
 						<tr>
 							<td>
-								{vtranslate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate('LBL_CREATE_SINGLE_RECORD')}</a>{/if}
+								{\App\Language::translate('LBL_RECORDS_NO_FOUND')}.{if $IS_MODULE_EDITABLE} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{\App\Language::translate('LBL_CREATE_SINGLE_RECORD')}</a>{/if}
 							</td>
 						</tr>
 					</tbody>

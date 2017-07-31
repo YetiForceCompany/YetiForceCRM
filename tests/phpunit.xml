@@ -4,9 +4,8 @@
 		 colors="true"
 		 processIsolation="false"
 		 stopOnFailure="true"
-		 syntaxCheck="false"
-		 bootstrap="tests_init.php">
-
+		 syntaxCheck="true"
+		 bootstrap="bootstrap.php">
 	<testsuites>
 		<testsuite name="AllTests">
 			<directory suffix=".php">./phpunit/</directory>

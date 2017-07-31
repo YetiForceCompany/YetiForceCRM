@@ -12,7 +12,7 @@
 class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
@@ -20,7 +20,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
@@ -40,10 +40,10 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return array - List of Vtiger_Record_Model instances
 	 */
-	public function getRecordModelsFromRequest(Vtiger_Request $request)
+	public function getRecordModelsFromRequest(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

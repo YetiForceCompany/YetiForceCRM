@@ -34,7 +34,7 @@ class Contacts extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_contactscf', 'contactid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	public $list_link_field = 'lastname';
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(

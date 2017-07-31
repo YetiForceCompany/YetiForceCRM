@@ -3,7 +3,8 @@
 /**
  * Brute force model class
  * @package YetiForce.Settings.Module
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author YetiForce.com
  */
 class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
@@ -104,7 +105,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$time = $this->get('timelock');
 		$blockDate = new DateTime();
 		$blockDate->modify("-$time minutes");
-		$ip = \App\RequestUtil::getRemoteIP();
+		$ip = \App\RequestUtil::getRemoteIP(true);
 		$this->blockedId = (new \App\Db\Query())
 			->select(['id'])
 			->from('a_#__bruteforce_blocked')
@@ -139,7 +140,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$time = $this->get('timelock');
 		$date = new DateTime();
 		$checkData = $date->modify("-$time minutes")->format('Y-m-d H:i:s');
-		$ip = \App\RequestUtil::getRemoteIP();
+		$ip = \App\RequestUtil::getRemoteIP(true);
 
 		$bfData = (new \App\Db\Query())
 				->select(['id', 'attempts'])
@@ -175,6 +176,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$db = \App\Db::getInstance('admin');
 		$db->createCommand()->insert('a_#__bruteforce_blocked', [
 			'ip' => $ip,
+			'time' => date('Y-m-d H:i:s'),
 			'attempts' => 1,
 			'blocked' => self::UNBLOCKED,
 		])->execute();

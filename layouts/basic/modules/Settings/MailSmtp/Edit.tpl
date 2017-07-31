@@ -1,5 +1,5 @@
-{strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip} 
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -54,7 +54,7 @@
 					{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="host" value="{$RECORD_MODEL->get('host')}" >
+					<input class="form-control" type="text" name="host" placeholder="smtp.gmail.com" value="{$RECORD_MODEL->get('host')}" >
 				</div>
 			</div>
 			<div class="form-group">
@@ -62,7 +62,7 @@
 					{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="port" value="{$RECORD_MODEL->get('port')}"  data-validation-engine="validate[custom[integer]]">
+					<input class="form-control" type="text" name="port" placeholder="587" value="{$RECORD_MODEL->get('port')}"  data-validation-engine="validate[custom[integer]]">
 				</div>
 			</div>
 			<div class="form-group">
@@ -118,7 +118,7 @@
 					{\App\Language::translate('LBL_FROM_NAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="from_name"  value="{$RECORD_MODEL->get('from_name')}">
+					<input class="form-control" type="text" name="from_name" value="{$RECORD_MODEL->get('from_name')}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -131,10 +131,10 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label col-md-3">
-					{\App\Language::translate('LBL_REPLAY_TO', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_REPLY_TO', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
-					<input class="form-control" type="text" name="replay_to"  value="{$RECORD_MODEL->get('replay_to')}" data-validation-engine="validate[custom[email]]">
+					<input class="form-control" type="text" name="reply_to" value="{$RECORD_MODEL->get('reply_to')}" data-validation-engine="validate[custom[email]]">
 				</div>
 			</div>
 			<div class="form-group">
@@ -149,6 +149,76 @@
 					<textarea class="form-control" name="options">{$RECORD_MODEL->get('options')}</textarea>
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="control-label col-md-3">
+					{\App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}&nbsp;
+					<span class="popoverTooltip"  data-placement="top"
+						  data-content="{\App\Language::translate('LBL_SAVE_SEND_MAIL_INFO',$QUALIFIED_MODULE)}">
+						<span class="glyphicon glyphicon-info-sign"></span>
+					</span>
+				</label>
+				<div class="controls col-md-8">
+					<input type="checkbox" name="save_send_mail" class="saveSendMail" value="1" {if $RECORD_MODEL->get('save_send_mail') eq 1} checked {/if}>
+				</div>
+			</div>
+			<div class="saveMailContent {if $RECORD_MODEL->get('save_send_mail') neq 1}hide{/if}">
+				<hr>
+				<div class="form-group">
+					<div class="col-md-3">
+					</div>
+					<label class="col-md-6">
+						<h4>{\App\Language::translate('LBL_IMAP_SAVE_MAIL', $QUALIFIED_MODULE)}</h4>
+					</label>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)} <span class="redColor"> *
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="text" name="smtp_host" placeholder="ssl://imap.gmail.com" value="{$RECORD_MODEL->get('smtp_host')}" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)} <span class="redColor"> *
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="text" name="smtp_port" placeholder="993" value="{$RECORD_MODEL->get('smtp_port')}"  data-validation-engine="validate[custom[integer]]">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_USERNAME', $QUALIFIED_MODULE)} <span class="redColor"> *
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_username')}" name="smtp_username" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)} <span class="redColor"> *
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="password" value="{$RECORD_MODEL->get('smtp_password')}" name="smtp_password" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_SEND_FOLDER', $QUALIFIED_MODULE)} <span class="redColor"> *
+					</label>
+					<div class="controls col-md-8">
+						<input class="form-control" type="text" value="{$RECORD_MODEL->get('smtp_folder')}" placeholder="Send"  name="smtp_folder" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{\App\Language::translate('LBL_VALIDATE_CERT', $QUALIFIED_MODULE)}
+					</label>
+					<div class="controls col-md-8">
+						<input type="checkbox" name="smtp_validate_cert" value="1" {if $RECORD_MODEL->get('smtp_validate_cert') eq 1} checked {/if}>
+					</div>
+				</div> 
+			</div>	
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">

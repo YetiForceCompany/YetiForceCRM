@@ -173,7 +173,7 @@ class VTEventConditionParserParser extends AntlrParser
 				if ($this->state->failed)
 					return $result;
 				if ($this->state->backtracking == 0) {
-					$result = array('==', new VTEventConditionSymbol(($lhs != null ? $lhs->getText() : null)), $rhs);
+					$result = array('==', new VTEventConditionSymbol(($lhs !== null ? $lhs->getText() : null)), $rhs);
 					echo $value;
 				}
 			}
@@ -211,7 +211,7 @@ class VTEventConditionParserParser extends AntlrParser
 				if ($this->state->failed)
 					return $result;
 				if ($this->state->backtracking == 0) {
-					$result = array('in', new VTEventConditionSymbol(($lhs != null ? $lhs->getText() : null)), $rhs);
+					$result = array('in', new VTEventConditionSymbol(($lhs !== null ? $lhs->getText() : null)), $rhs);
 				}
 			}
 		} catch (RecognitionException $e) {
@@ -305,7 +305,7 @@ class VTEventConditionParserParser extends AntlrParser
 				if ($this->state->failed)
 					return $result;
 				if ($this->state->backtracking == 0) {
-					$result = stripcslashes(substr(($val != null ? $val->getText() : null), 1, strlen(($val != null ? $val->getText() : null)) - 2));
+					$result = stripcslashes(substr(($val !== null ? $val->getText() : null), 1, strlen(($val !== null ? $val->getText() : null)) - 2));
 				}
 			}
 		} catch (RecognitionException $e) {

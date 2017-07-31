@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Vtiger polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'Allows you to Configure Cron Task' => 'Wywołuje okresowo kolejno zdefiniowane zadania w celu automatyzacji procesów w systemie CRM.',
 	'Configuration Editor' => 'Ustawienia',
@@ -16,7 +13,6 @@ $languageStrings = [
 	'LBL_TERMS_AND_CONDITIONS' => 'Warunki i ustalenia',
 	'LBL_ACCESS_MANAGEMENT' => 'Zasady dostępu',
 	'LBL_ACTIVE' => 'Aktywne',
-	'LBL_ACTIVE_USERS' => 'Użytkowników',
 	'LBL_ADD_MENU_ITEM' => 'Dodaj pozycje menu',
 	'LBL_ADD_MOVE_MENU_ITEMS' => 'Dodaj/Przesuń pozycje menu',
 	'LBL_ADD_NEW_TAX' => 'Dodaj nowy podatek',
@@ -148,7 +144,6 @@ $languageStrings = [
 	'LBL_USER_NAME' => 'Nazwa użytkownika', //Duplicated key-value pair
 	'LBL_USE_RTE' => 'Używaj RTE',
 	'LBL_WORKFLOW_LIST' => 'Lista obiegów informacji',
-	'LBL_WORKFLOWS_ACTIVE' => 'Obiegów informacji',
 	'LBL_WORLD_CLOCK_DISPLAY' => 'Zagar światowy',
 	'LoginHistory' => 'Historia logowania',
 	'ModTracker' => 'Śledzenie zmian w systemie',
@@ -174,6 +169,8 @@ $languageStrings = [
 	'GlobalPermission' => 'Uprawnienia globalne',
 	'Search Setup' => 'Konfiguracja wyszukiwania',
 	'LBL_EXTENDED_MODULES' => 'Moduły rozszerzone',
+	'LBL_PBX' => 'PBX',
+	'LBL_PBX_DESCRIPTION' => 'Integracja z PBX umożliwia wywoływanie połaczeń telefonicznych prosto z systemu CRM.',
 	/* modules */
 	'CustomView' => 'Widoki',
 	'Widgets' => 'Widgety podsumowania rekordu',
@@ -282,7 +279,7 @@ $languageStrings = [
 	'LBL_POPUP_TYPE' => 'Wygląd okna popup z listą rekordów. 1 - podstawowe, 2 - rozszerzone',
 	'LBL_SHOWING_BREADCRUMBS' => 'Pokazywanie menu okruszkowego',
 	'LBL_SHOW_RESPONSE_TIME' => 'Informacja o czasie wygenerowania strony',
-	'LBL_TITLE_MAX_LENGHT' => 'Maksymalna długośc tytułu',
+	'LBL_TITLE_MAX_LENGTH' => 'Maksymalna długośc tytułu',
 	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimalna częstotliwość crona [min]',
 	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Maksymalna liczba rekordów w masowej edycji',
 	'LBL_BG_CLOSING_MODAL' => 'Włączenie zamykania modalnego okna poprzez kliknięcie na tło',
@@ -347,6 +344,27 @@ $languageStrings = [
 	'LBL_ADD_CUSTOM_FIELD' => 'Dodaj pole',
 	'LBL_FIELD_NAME' => 'Nazwa pola',
 	'LBL_HEIGHT_LOGO' => 'Wysokość loga',
+	'LBL_SECURITY' => 'Bezpieczeństwo',
+	'LBL_LOG_ACCESS_TO_RECORD' => 'Braku dostepu do rekordów',
+	'LBL_LOG_ACCESS_FOR_ADMIN' => 'Braku dostepu do administracji',
+	'LBL_LOG_ACCESS_FOR_API' => 'Braku dostepu do api',
+	'LBL_LOG_ACCESS_FOR_USER' => 'Ogólny brak dostepu do systemu',
+	//Pluralized
+	'PLU_USERS_0' => 'Użytkownik',
+	'PLU_USERS_1' => 'Użytkowników',
+	'PLU_USERS_2' => 'Użytkowników',
+	'PLU_SYSTEM_WARNINGS_0' => 'Ostrzeżenie systemowe',
+	'PLU_SYSTEM_WARNINGS_1' => 'Ostrzeżenia systemowe',
+	'PLU_SYSTEM_WARNINGS_2' => 'Ostrzeżeń systemowych',
+	'PLU_WORKFLOWS_ACTIVE_0' => 'Obieg informacji',
+	'PLU_WORKFLOWS_ACTIVE_1' => 'Obiegi informacji',
+	'PLU_WORKFLOWS_ACTIVE_2' => 'Obiegów informacji',
+	'PLU_MODULES_0' => 'Moduł',
+	'PLU_MODULES_1' => 'Moduły',
+	'PLU_MODULES_2' => 'Modułów',
+	'PLU_SECURITY_0' => 'Błąd bezpieczeństwa',
+	'PLU_SECURITY_1' => 'Błędy bezpieczeństwa',
+	'PLU_SECURITY_2' => 'Błędów bezpieczeństwa',
 ];
 $jsLanguageStrings = [
 	'JS_AUTHORIZATION_COMPLETE' => 'Autoryzacja zakończona pomyślnie',

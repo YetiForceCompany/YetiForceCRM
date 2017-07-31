@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Workflows polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'ADD_CONDITIONS' => 'Dodaj warunek',
 	'ADD_TASKS' => 'Dodaj zadania',
@@ -174,7 +171,7 @@ $languageStrings = [
 	'LBL_UPDATE_DATES_CREATED_EVENTS_AUTOMATICALLY' => 'Aktualizuj daty automatycznie utworzonych wydarzeń',
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Automatycznie aktualizuj czas pracy',
 	'LBL_UPDATE_WORK_TIME' => 'Aktualizacja czasu pracy',
-	'LBL_UPDATE_RELATED_FIELD' => 'Aktualizuj rekord powiązany',
+	'LBL_UPDATE_RELATED_FIELD' => 'Aktualizuj rekordy powiązane',
 	'LBL_AUTO_ASSIGN' => 'Automatyczny przydział rekordu',
 	//workflow add time
 	'Current Date' => 'Aktualna data',
@@ -214,7 +211,7 @@ $languageStrings = [
 	'LBL_SELECT_ACTION_TYPE' => 'Wybierz typ powiadomienia',
 	'LBL_SELECT_RECIPIENTS' => 'Odbiorcy',
 	'LBL_MESSAGE' => 'Wiadomość',
-	'LBL_MESSAGE_INFO' => 'Treść wiadomości obsługuje zmienne, nazwa zmiennej może być taka jak nazwa systemowa pola lub funkcje specjalne.<br/><br/>Przykładowe zmienne dla pól:<br/><strong>$accountname$</strong> - Wartość z pola<br/><strong>%accountname%</strong> - Etykieta pola<br/><br/>Funkcje specjalne:',
+	'LBL_MESSAGE_INFO' => 'Treść wiadomości obsługuje zmienne, nazwa zmiennej może być taka jak nazwa systemowa pola lub funkcje specjalne.<br /><br />Przykładowe zmienne dla pól:<br /><strong>$accountname$</strong> - Wartość z pola<br /><strong>%accountname%</strong> - Etykieta pola<br /><br />Funkcje specjalne:',
 	'LBL_WATCHING_USERS' => 'Użytkownicy obserwujący',
 	'LBL_VALUE_FROM_FIELD' => 'Wartość z pola',
 	'LBL_FIELDS_LABELS' => 'Etykieta pola',

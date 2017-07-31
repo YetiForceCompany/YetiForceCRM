@@ -15,10 +15,9 @@
 {assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 <div class="checkbox">
 	<label>
-		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=0 />
-		<input {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-		{if $FIELD_MODEL->get('fieldvalue') eq true} checked
-		{/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
+		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="0" />
+		<input {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+		{if $FIELD_MODEL->get('fieldvalue') eq true} checked {/if} value="1" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	</label>
 </div>
 {/strip}

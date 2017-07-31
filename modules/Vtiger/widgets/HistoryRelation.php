@@ -3,7 +3,8 @@
 /**
  * Class for history widget
  * @package YetiForce.Widget
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -61,13 +62,12 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 
 	/**
 	 * Function gets records for timeline widget
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param Vtiger_Paging_Model $pagingModel
 	 * @return array - List of records
 	 */
-	public static function getHistory(Vtiger_Request $request, Vtiger_Paging_Model $pagingModel)
+	public static function getHistory(\App\Request $request, Vtiger_Paging_Model $pagingModel)
 	{
-		$db = \App\Db::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
 		if (empty($type)) {
@@ -101,7 +101,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			} else {
 				$row['url'] = Vtiger_Module_Model::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-			$row['body'] = vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($row['body']))), 100);
+			$body = trim(App\Purifier::purify($row['body']));
+			if (!$request->getBoolean('isFullscreen')) {
+				$body = vtlib\Functions::textLength($body, 100);
+			} else {
+				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], decode_html(App\Purifier::purify($body)));
+				$body = nl2br(vtlib\Functions::textLength($body, 500), false);
+			}
+			$row['body'] = $body;
 			$history[] = $row;
 		}
 		return $history;

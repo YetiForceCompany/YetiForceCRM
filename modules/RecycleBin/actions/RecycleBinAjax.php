@@ -20,7 +20,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		$this->exposeMethod('deleteRecords');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		if ($request->get('mode') == 'emptyRecycleBin') {
 			//we dont check for permissions since recylebin axis will not be there for non admin users
@@ -33,17 +33,17 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request)
+	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 
@@ -58,7 +58,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 	 * @param type $sourceModule
 	 * @param type $recordIds
 	 */
-	public function restoreRecords(Vtiger_Request $request)
+	public function restoreRecords(\App\Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$recordIds = $this->getRecordsListFromRequest($request);
@@ -76,7 +76,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 	/**
 	 * Function to delete the records permanently in vitger CRM database
 	 */
-	public function emptyRecycleBin(Vtiger_Request $request)
+	public function emptyRecycleBin(\App\Request $request)
 	{
 		$recycleBinModule = new RecycleBin_Module_Model();
 
@@ -93,7 +93,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 	 * Function to deleted the records permanently in CRM
 	 * @param type $reocrdIds
 	 */
-	public function deleteRecords(Vtiger_Request $request)
+	public function deleteRecords(\App\Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recycleBinModule = new RecycleBin_Module_Model();

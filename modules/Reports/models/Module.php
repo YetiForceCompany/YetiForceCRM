@@ -20,7 +20,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
 
-		$subOrdinates = array();
+		$subOrdinates = [];
 		foreach ($subOrdinateUsers as $id => $name) {
 			$subOrdinates[] = $id;
 		}
@@ -30,24 +30,10 @@ class Reports_Module_Model extends Vtiger_Module_Model
 		if ($currentUser->isAdminUser() || in_array($owner, $subOrdinates) || $owner == $currentUser->getId()) {
 			$reportId = $reportModel->getId();
 			$db = PearDatabase::getInstance();
-
 			$db->pquery('DELETE FROM vtiger_selectquery WHERE queryid = ?', array($reportId));
-
 			$db->pquery('DELETE FROM vtiger_report WHERE reportid = ?', array($reportId));
-
 			$db->pquery('DELETE FROM vtiger_schedulereports WHERE reportid = ?', array($reportId));
-
 			$db->pquery('DELETE FROM vtiger_reporttype WHERE reportid = ?', array($reportId));
-
-			$result = $db->pquery('SELECT * FROM vtiger_homereportchart WHERE reportid = ?', array($reportId));
-			$numOfRows = $db->num_rows($result);
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$homePageChartIdsList[] = $adb->query_result($result, $i, 'stuffid');
-			}
-			if ($homePageChartIdsList) {
-				$where = sprintf('stuffid IN (%s)', implode(",", $homePageChartIdsList));
-				$db->delete('vtiger_homestuff', $where);
-			}
 			return true;
 		}
 		return false;
@@ -98,7 +84,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery('SELECT * FROM vtiger_report ORDER BY reportid DESC LIMIT ?', array($limit));
 		$rows = $db->num_rows($result);
 
-		$recentRecords = array();
+		$recentRecords = [];
 		for ($i = 0; $i < $rows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$recentRecords[$row['reportid']] = $this->getRecordFromArray($row);

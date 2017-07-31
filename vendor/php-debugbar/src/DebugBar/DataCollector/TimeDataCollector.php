@@ -31,12 +31,12 @@ class TimeDataCollector extends DataCollector implements Renderable
 	/**
 	 * @var array
 	 */
-	protected $startedMeasures = array();
+	protected $startedMeasures = [];
 
 	/**
 	 * @var array
 	 */
-	protected $measures = array();
+	protected $measures = [];
 
 	/**
 	 * @param float $requestStartTime
@@ -88,7 +88,7 @@ class TimeDataCollector extends DataCollector implements Renderable
 	 * @param array $params
 	 * @throws DebugBarException
 	 */
-	public function stopMeasure($name, $params = array())
+	public function stopMeasure($name, $params = [])
 	{
 		$end = microtime(true);
 		if (!$this->hasStartedMeasure($name)) {
@@ -109,7 +109,7 @@ class TimeDataCollector extends DataCollector implements Renderable
 	 * @param array $params
 	 * @param string|null $collector
 	 */
-	public function addMeasure($label, $start, $end, $params = array(), $collector = null)
+	public function addMeasure($label, $start, $end, $params = [], $collector = null)
 	{
 		$this->measures[] = array(
 			'label' => $label,
@@ -136,7 +136,7 @@ class TimeDataCollector extends DataCollector implements Renderable
 		$name = spl_object_hash($closure);
 		$this->startMeasure($name, $label, $collector);
 		$result = $closure();
-		$params = is_array($result) ? $result : array();
+		$params = is_array($result) ? $result : [];
 		$this->stopMeasure($name, $params);
 	}
 

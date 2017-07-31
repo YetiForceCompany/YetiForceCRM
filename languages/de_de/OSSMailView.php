@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * OSSMailView german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	// Basic Strings
 	'OSSMailView' => 'Unternehmens-E-Mails',
@@ -52,6 +57,10 @@ $languageStrings = [
 	'RC user' => 'RC User',
 	'FromID' => 'Sender Id',
 	'ToID' => 'Empfänger Id',
+	'LBL_SHOW_PREVIEW_EMAIL' => 'E-Mail anzeigen',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Vorschau der E-Mails',
+	'LBL_NO_MAILS' => 'keine E-Mails',
+	'LBL_CHANGE_FILTER' => 'Filter ändern',
 	'LBL_VERIFY' => 'Zur Überprüfung',
 	'LBL_REL_MOD' => 'Verknüpfte Module',
 	'LBL_BindMailsOK' => 'Zugeordnete E-Mails werden beim nächsten CRON Durchlauf den Datensätzen zugewiesen',
@@ -76,7 +85,9 @@ $languageStrings = [
 	'LBL_FILTER_ALL' => 'Alle',
 	'LBL_FILTER_ACCOUNTS' => 'Alle Organisationen',
 	'LBL_FILTER_CONTACTS' => 'Alle Kontakte',
-	'LBL_ORGINAL_MAIL_CONTENT' => 'Orginal EMail Inhalt',
+	'LBL_ORGINAL_MAIL_CONTENT' => 'Original E-Mail Inhalt',
+	'BTN_RESET_RELATED_MAILS' => 'zugeordnete E-Mails zurücksetzen',
+	'LBL_SET_RELOAD_RELATIONS' => 'Zuordnung neu laden',
 ];
 $jsLanguageStrings = [
 	'From' => 'Von',

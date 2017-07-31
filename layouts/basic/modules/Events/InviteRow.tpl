@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{assign var=LABEL value=''}
 	{assign var=TITLE value=''}
@@ -19,12 +19,12 @@
 			<span class="input-group-addon inviteStatus">
 				{assign var=STATUS_LABEL value=Events_Record_Model::getInvitionStatus($INVITIE['status'])}
 				{if $INVITIE['status'] == '1'}
-					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{elseif $INVITIE['status'] == '2'}
-					<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{else}
 					{assign var=LABEL value=$INVITIE['email']}
-					<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{vtranslate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>
 				{/if}
 			</span>
 			<span class="input-group-btn">

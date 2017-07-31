@@ -18,14 +18,11 @@
 						{assign var=IMAGE_DETAILS value=$RECORD->getImageDetails()}
 						{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path)}
-								<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" class="pushDown" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" width="65" height="80" align="left"><br>
-							{else}
-								<img src="{vimage_path('Contacts48.png')}" class="summaryImg" alt="{vtranslate($MODULE, $MODULE)}"/>
+								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" width="65" height="80" align="left"><br />
 							{/if}
-						{/foreach}
-						{if empty($IMAGE_DETAILS)}
+						{foreachelse}
 							<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
-						{/if}
+						{/foreach}
 					</span>
 				</div>
 				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
@@ -39,10 +36,10 @@
 				{$RECORD->getDisplayValue('parent_id')}
 				<div>
 					<span class="muted">
-						{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 						{if $SHOWNERS != ''}
-							<br/>{vtranslate('Share with users',$MODULE_NAME)} {$SHOWNERS}
+							<br />{\App\Language::translate('Share with users',$MODULE_NAME)} {$SHOWNERS}
 						{/if}
 					</span>
 				</div>

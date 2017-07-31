@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if $GROUP_DISCOUNT != 0}
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<strong>{vtranslate('LBL_GROUP_DISCOUNTS', $MODULE)}</strong>
+				<strong>{\App\Language::translate('LBL_GROUP_DISCOUNTS', $MODULE)}</strong>
 				<div class="pull-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="group" class="activeCheckbox">
 				</div>
@@ -11,7 +11,7 @@
 			<div class="panel-body" style="display: none;">
 				<div>
 					<p>
-						{vtranslate('LBL_DISCOUNT_FOR_ACCOUNT', $MODULE)} {$ACCOUNT_NAME}
+						{\App\Language::translate('LBL_DISCOUNT_FOR_ACCOUNT', $MODULE)} {$ACCOUNT_NAME}
 					</p>
 					<div class="input-group">
 						<span class="input-group-addon">

@@ -9,15 +9,13 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-vimport('~include/Webservices/Query.php');
-
 class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		try {
-			$result = array();
+			$result = [];
 
 			$start = $request->get('start');
 			$end = $request->get('end');
@@ -43,21 +41,5 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);
 		return $userGroupInstance->user_groups;
-	}
-
-	public function queryForRecords($query, $onlymine = true)
-	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		if ($onlymine) {
-			$groupIds = $this->getGroupsIdsForUsers($user->getId());
-			$groupWsIds = array();
-			foreach ($groupIds as $groupId) {
-				$groupWsIds[] = vtws_getWebserviceEntityId('Groups', $groupId);
-			}
-			$userwsid = vtws_getWebserviceEntityId('Users', $user->getId());
-			$userAndGroupIds = array_merge(array($userwsid), $groupWsIds);
-			$query .= " && assigned_user_id IN ('" . implode("','", $userAndGroupIds) . "')";
-		}
-		return vtws_query($query . ';', $user);
 	}
 }

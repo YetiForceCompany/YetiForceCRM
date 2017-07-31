@@ -1,8 +1,9 @@
 <?php
 /**
  * IStorages CRMEntity Class
- * @package YetiForce.Model
- * @license licenses/License.html
+ * @package YetiForce.CRMEntity
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
@@ -104,9 +105,6 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$current_user = vglobal('current_user');
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 
 		$listviewHeader = [];
@@ -118,7 +116,7 @@ class IStorages extends Vtiger_CRMEntity
 		}
 		foreach ($listColumns as $fieldname => $colname) {
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
-				$listviewHeader[] = vtranslate($fieldname);
+				$listviewHeader[] = \App\Language::translate($fieldname);
 			}
 		}
 		$iStoragesList = [];

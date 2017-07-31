@@ -3,7 +3,8 @@
 /**
  * LastRelation Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
@@ -11,10 +12,10 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Checking permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermittedToRecord
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$records = $request->get('recordsId');
@@ -34,9 +35,9 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$records = $request->get('recordsId');
 		$result = ModTracker_Record_Model::getLastRelation($records, $request->get('sourceModule'));
@@ -47,10 +48,10 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Validate request
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return type
 	 */
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

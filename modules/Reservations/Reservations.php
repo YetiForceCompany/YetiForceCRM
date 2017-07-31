@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Reservations CRMEntity class
+ * @package YetiForce.CRMEntity
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 include_once 'modules/Vtiger/CRMEntity.php';
 
 class Reservations extends Vtiger_CRMEntity
@@ -15,7 +12,7 @@ class Reservations extends Vtiger_CRMEntity
 
 	public $table_name = 'vtiger_reservations';
 	public $table_index = 'reservationsid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
@@ -95,7 +92,6 @@ class Reservations extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($modulename, $event_type)
 	{
-		$registerLink = false;
 		$adb = PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
@@ -133,18 +129,5 @@ class Reservations extends Vtiger_CRMEntity
 		$this->column_fields['date_start'] = $start->format('Y-m-d');
 		$end = DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
-	}
-
-	public function saveentity($module_name, $fileid = '')
-	{
-		$date_start = $this->column_fields['date_start'];
-		$due_date = $this->column_fields['due_date'];
-		$start = DateTimeField::convertToDBTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
-		$this->column_fields['date_start'] = $start->format(DateTimeField::getPHPDateFormat());
-		$end = DateTimeField::convertToDBTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
-		$this->column_fields['due_date'] = $end->format(DateTimeField::getPHPDateFormat());
-		parent::saveentity($module_name, $fileid = '');
-		$this->column_fields['date_start'] = $date_start;
-		$this->column_fields['due_date'] = $due_date;
 	}
 }

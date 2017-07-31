@@ -41,18 +41,18 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		if ($time) {
 			list($hours, $minutes, $seconds) = explode(':', $time);
-			$format = vtranslate('PM');
+			$format = \App\Language::translate('PM');
 
 			if ($hours > 12) {
 				$hours = (int) $hours - 12;
 			} else if ($hours < 12) {
-				$format = vtranslate('AM');
+				$format = \App\Language::translate('AM');
 			}
 
 			//If hours zero then we need to make it as 12 AM
 			if ($hours == '00') {
 				$hours = '12';
-				$format = vtranslate('AM');
+				$format = \App\Language::translate('AM');
 			}
 
 			return "$hours:$minutes $format";
@@ -69,8 +69,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public static function getTimeValueWithSeconds($time)
 	{
 		if ($time) {
-			$timeDetails = explode(' ', $time);
-			list($hours, $minutes, $seconds) = explode(':', $timeDetails[0]);
+			$timeDetails = array_pad(explode(' ', $time), 2, '');
+			list($hours, $minutes, $seconds) = array_pad(explode(':', $timeDetails[0]), 3, 0);
 
 			//If pm exists and if it not 12 then we need to make it to 24 hour format
 			if ($timeDetails[1] === 'PM' && $hours != '12') {

@@ -3,7 +3,8 @@
 /**
  * Announcements Module Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Announcements_Module_Model extends Vtiger_Module_Model
@@ -13,7 +14,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 
 	public function checkActive()
 	{
-		if (AppRequest::get('view') == 'Login' || !$this->isActive()) {
+		if (\App\Request::_get('view') == 'Login' || !$this->isActive()) {
 			return false;
 		}
 		$this->loadAnnouncements();
@@ -23,14 +24,14 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function loadAnnouncements()
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime']);
+		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime', 'is_mandatory']);
 		$query = $queryGenerator->createQuery();
 		$query->andWhere(['announcementstatus' => 'PLL_PUBLISHED']);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $row['announcementid'], 'userid' => \App\User::getCurrentUserId()]);
+				->where(['announcementid' => $row['id'], 'userid' => \App\User::getCurrentUserId()]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
 				$query->andWhere(['status' => 0]);
@@ -40,7 +41,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 				continue;
 			}
 			$recordModel = $this->getRecordFromArray($row);
-			$recordModel->set('id', $row['announcementid']);
+			$recordModel->set('id', $row['id']);
 			$this->announcements[] = $recordModel;
 		}
 	}
@@ -56,11 +57,10 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	public function setMark($record, $state)
 	{
 		$db = \App\Db::getInstance();
-
 		$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
 				->where(['announcementid' => $record, 'userid' => \App\User::getCurrentUserId()])->limit(1);
-		if ($query->scalar() !== false) {
+		if ($query->scalar() === false) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,

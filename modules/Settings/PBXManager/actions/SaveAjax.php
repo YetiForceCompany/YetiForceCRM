@@ -11,7 +11,7 @@
 class Settings_PBXManager_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
@@ -20,7 +20,7 @@ class Settings_PBXManager_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	// To save Mapping of user from mapping popup
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$id = $request->get('id');
 		$qualifiedModuleName = 'PBXManager';

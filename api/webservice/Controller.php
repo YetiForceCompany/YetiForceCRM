@@ -4,7 +4,8 @@ namespace Api;
 /**
  * Base class to handle communication via web services
  * @package YetiForce.Webservice
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Controller
@@ -36,7 +37,7 @@ class Controller
 	{
 		$this->request = Core\Request::init();
 		$this->response = Core\Response::getInstance();
-		$this->method = strtoupper($this->request->getRequestMetod());
+		$this->method = strtoupper($this->request->getRequestMethod());
 	}
 
 	/**
@@ -125,7 +126,7 @@ class Controller
 	{
 		if (\AppConfig::debug('WEBSERVICE_DEBUG')) {
 			$log = '============ Request ======  ' . date('Y-m-d H:i:s') . "  ======\n";
-			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMetod() . PHP_EOL;
+			$log .= 'REQUEST_METHOD: ' . $this->request->getRequestMethod() . PHP_EOL;
 			$log .= "Headers: \n";
 			foreach ($this->request->getHeaders() as $key => $header) {
 				$log .= "$key : $header\n";

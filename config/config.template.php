@@ -146,7 +146,7 @@ $default_timezone = '_TIMEZONE_';
 
 /** If timezone is configured, try to set it */
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
-	@date_default_timezone_set($default_timezone);
+	date_default_timezone_set($default_timezone);
 }
 
 // Maximum length of characters for title
@@ -165,7 +165,7 @@ $breadcrumbs_separator = '>';
 $MINIMUM_CRON_FREQUENCY = 1;
 
 //Update the current session id with a newly generated one after login
-$session_regenerate_id = false;
+$session_regenerate_id = true;
 
 $davStorageDir = 'storage/Files';
 $davHistoryDir = 'storage/FilesHistory';

@@ -25,7 +25,7 @@ class HelpDesk extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	//Pavani: Assign value to entity_table
 	public $entity_table = "vtiger_crmentity";
 	public $list_fields = Array(
@@ -84,7 +84,7 @@ class HelpDesk extends CRMEntity
 		'Title' => 'ticket_title',
 	);
 	//Specify Required fields
-	public $required_fields = array();
+	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
@@ -152,72 +152,6 @@ class HelpDesk extends CRMEntity
 
 		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
-	}
-
-	/** Function to get the update ticket history for the specified ticketid
-	 * @param $id -- $ticketid:: Type Integer
-	 */
-	public function constructUpdateLog($focus, $mode, $assigned_group_name, $assigntype)
-	{
-		$adb = PearDatabase::getInstance();
-		$currentUser = Users_Privileges_Model::getCurrentUserModel();
-
-		if ($mode != 'edit') {//this will be updated when we create new ticket
-			$updatelog = "Ticket created. Assigned to ";
-
-			if (!empty($assigned_group_name) && $assigntype == 'T') {
-				$updatelog .= " group " . (is_array($assigned_group_name) ? $assigned_group_name[0] : $assigned_group_name);
-			} elseif ($focus->column_fields['assigned_user_id'] != '') {
-				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($focus->column_fields['assigned_user_id']);
-			} else {
-				$updatelog .= " user " . \App\Fields\Owner::getUserLabel($currentUser->getId());
-			}
-
-			$fldvalue = date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName();
-			$updatelog .= " -- " . $fldvalue . "--//--";
-		} else {
-			$ticketid = $focus->id;
-
-			//First retrieve the existing information
-			$tktresult = $adb->pquery("select * from vtiger_troubletickets where ticketid=?", array($ticketid));
-			$crmresult = $adb->pquery("select * from vtiger_crmentity where crmid=?", array($ticketid));
-
-			$updatelog = decode_html($adb->query_result($tktresult, 0, "update_log"));
-
-			$old_owner_id = $adb->query_result($crmresult, 0, "smownerid");
-			$old_status = $adb->query_result($tktresult, 0, "status");
-			$old_priority = $adb->query_result($tktresult, 0, "priority");
-			$old_severity = $adb->query_result($tktresult, 0, "severity");
-			$old_category = $adb->query_result($tktresult, 0, "category");
-
-			//Assigned to change log
-			if ($focus->column_fields['assigned_user_id'] != $old_owner_id) {
-				$ownerName = \App\Fields\Owner::getLabel($focus->column_fields['assigned_user_id']);
-				if ($assigntype == 'T')
-					$updatelog .= ' Transferred to group ' . $ownerName . '\.';
-				else
-					$updatelog .= ' Transferred to user ' . decode_html($ownerName) . '\.'; // Need to decode UTF characters which are migrated from versions < 5.0.4.
-			}
-			//Status change log
-			if ($old_status != $focus->column_fields['ticketstatus'] && $focus->column_fields['ticketstatus'] != '') {
-				$updatelog .= ' Status Changed to ' . $focus->column_fields['ticketstatus'] . '\.';
-			}
-			//Priority change log
-			if ($old_priority != $focus->column_fields['ticketpriorities'] && $focus->column_fields['ticketpriorities'] != '') {
-				$updatelog .= ' Priority Changed to ' . $focus->column_fields['ticketpriorities'] . '\.';
-			}
-			//Severity change log
-			if ($old_severity != $focus->column_fields['ticketseverities'] && $focus->column_fields['ticketseverities'] != '') {
-				$updatelog .= ' Severity Changed to ' . $focus->column_fields['ticketseverities'] . '\.';
-			}
-			//Category change log
-			if ($old_category != $focus->column_fields['ticketcategories'] && $focus->column_fields['ticketcategories'] != '') {
-				$updatelog .= ' Category Changed to ' . $focus->column_fields['ticketcategories'] . '\.';
-			}
-
-			$updatelog .= ' -- ' . date("l dS F Y h:i:s A") . ' by ' . $currentUser->getName() . '--//--';
-		}
-		return $updatelog;
 	}
 
 	/**
@@ -289,6 +223,9 @@ class HelpDesk extends CRMEntity
 		}
 		if ($queryplanner->requireTable("vtiger_accountRelHelpDesk")) {
 			$query .= " left join vtiger_account as vtiger_accountRelHelpDesk on vtiger_accountRelHelpDesk.accountid=vtiger_crmentityRelHelpDesk.crmid";
+		}
+		if ($queryplanner->requireTable('vtiger_vendorRelHelpDesk')) {
+			$query .= ' left join vtiger_vendor as vtiger_vendorRelHelpDesk on vtiger_vendorRelHelpDesk.vendorid=vtiger_crmentityRelHelpDesk.crmid';
 		}
 		if ($queryplanner->requireTable("vtiger_contactdetailsRelHelpDesk")) {
 			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsRelHelpDesk on vtiger_contactdetailsRelHelpDesk.contactid= vtiger_troubletickets.contact_id";

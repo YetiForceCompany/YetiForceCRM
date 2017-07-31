@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="col-xs-12 paddingLRZero">
-		<h4>{vtranslate('LBL_LIST_RECORDS',$MODULE_NAME)}</h4>
+		<h4>{\App\Language::translate('LBL_LIST_RECORDS',$MODULE_NAME)}</h4>
 		<hr>
 	</div>
 	{if $ENTRIES}
@@ -10,7 +10,7 @@
 				<tr>
 					{foreach item=HEADER from=$HEADERS}
 						<th>
-							{vtranslate($HEADER->get('label'), $MODULE_NAME)}
+							{\App\Language::translate($HEADER->get('label'), $MODULE_NAME)}
 						</th>
 					{/foreach}
 					<th></th>
@@ -32,7 +32,7 @@
 						<td>
 							<div class="actions pull-right">
 								<a href="{$ENTRY->getDetailViewUrl()}">
-									<span class="glyphicon glyphicon-th-list alignMiddle" title="{vtranslate('LBL_RECORD_DETAILS', $MODULE_NAME)}"></span>
+									<span class="glyphicon glyphicon-th-list alignMiddle" title="{\App\Language::translate('LBL_RECORD_DETAILS', $MODULE_NAME)}"></span>
 								</a>
 							</div>
 						</td>
@@ -43,7 +43,7 @@
 	{else}
 		<div class="col-xs-12 paddingLRZero">
 			<div class="alert alert-info">
-				{vtranslate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
+				{\App\Language::translate('LBL_RECORDS_NO_FOUND',$MODULE_NAME)}
 			</div>
 		</div>
 	{/if}

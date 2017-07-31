@@ -15,7 +15,7 @@
 		<table class="table table-bordered">
 			<tr>
 				{foreach from=$COLUMN_LIST item=col key=col_key}
-					<th>{vtranslate($col_key, 'Vtiger')}</th>
+					<th>{\App\Language::translate($col_key, 'Vtiger')}</th>
 					{/foreach}
 			</tr>
 			{foreach key=$index item=record from=$LIST}
@@ -28,7 +28,7 @@
 		</table>
 	{else}
 		<span class="noDataMsg">
-			{vtranslate('LBL_NO_MOD_RECORDS', $MODULE_NAME)}
+			{\App\Language::translate('LBL_NO_MOD_RECORDS', $MODULE_NAME)}
 		</span>
 	{/if}
 </div>

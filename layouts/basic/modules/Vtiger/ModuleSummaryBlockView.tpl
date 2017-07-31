@@ -12,7 +12,7 @@
 {strip}
 	<div class="recordDetails">
 		<div>
-			<h4> {vtranslate('LBL_RECORD_SUMMARY',$MODULE_NAME)}	</h4>
+			<h4> {\App\Language::translate('LBL_RECORD_SUMMARY',$MODULE_NAME)}	</h4>
 			<hr>
 		</div>
 		{include file='SummaryViewContents.tpl'|@vtemplate_path}

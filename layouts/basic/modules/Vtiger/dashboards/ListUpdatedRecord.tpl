@@ -13,7 +13,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
@@ -24,8 +24,8 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-md-6 pull-right">
-			<select class="widgetFilter form-control input-sm" id="listUpdatedRecordLimit" title="{vtranslate('LBL_RECORDS_LIMIT')}" name="number" >
-				<option title="{vtranslate('LBL_ALL')}" value="all" >{vtranslate('LBL_ALL')}</option>
+			<select class="widgetFilter form-control input-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
+				<option title="{\App\Language::translate('LBL_ALL')}" value="all" >{\App\Language::translate('LBL_ALL')}</option>
 				<option title="20" value="10" >10</option>
 				<option title="25" value="25" >25</option>
 				<option title="50" value="50" >50</option>

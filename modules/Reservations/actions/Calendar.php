@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Reservations calendar action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Reservations_Calendar_Action extends Vtiger_Action_Controller
 {
 
@@ -11,7 +16,7 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateEvent');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -19,7 +24,7 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -27,11 +32,8 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function getEvent(Vtiger_Request $request)
+	public function getEvent(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$id = $request->get('id');
-
 		$record = Reservations_Calendar_Model::getInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));
@@ -46,7 +48,7 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function updateEvent(Vtiger_Request $request)
+	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');

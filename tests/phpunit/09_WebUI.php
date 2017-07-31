@@ -1,8 +1,10 @@
 <?php
+
 /**
  * WebUI test class
- * @package YetiForce.Tests
- * @license licenses/License.html
+ * @package YetiForce.Test
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\TestCase;
@@ -13,27 +15,36 @@ use PHPUnit\Framework\TestCase;
 class WebUI extends TestCase
 {
 
+	/**
+	 * Testing list view
+	 */
 	public function testListView()
 	{
-		ob_start();
 		\App\Cache::clear();
 		foreach (vtlib\Functions::getAllModules() as $id => $module) {
-			if ($module['name'] === 'Events' || !\App\Module::isModuleActive($module['name'])) {
+			if ($module['name'] === 'Events') {
 				continue;
 			}
-			$request = AppRequest::init();
+			ob_start();
+			ob_implicit_flush(false);
+
+			$request = App\Request::init();
 			$request->set('module', $module['name']);
 			$request->set('view', 'List');
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
+
+			ob_end_clean();
 		}
-		ob_end_clean();
 	}
 
+	/**
+	 * Testing detail view
+	 */
 	public function testDetailView()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Accounts');
 		$request->set('view', 'Detail');
 		$request->set('record', ACCOUNT_ID);
@@ -44,10 +55,13 @@ class WebUI extends TestCase
 		ob_end_clean();
 	}
 
+	/**
+	 * Testing edit view
+	 */
 	public function testEditView()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Accounts');
 		$request->set('view', 'Edit');
 		$request->set('record', ACCOUNT_ID);
@@ -59,10 +73,13 @@ class WebUI extends TestCase
 		ob_end_clean();
 	}
 
+	/**
+	 * Search engine testing
+	 */
 	public function testGlobalSearch()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Vtiger');
 		$request->set('view', 'BasicAjax');
 		$request->set('value', 'yeti');
@@ -79,10 +96,13 @@ class WebUI extends TestCase
 		ob_end_clean();
 	}
 
+	/**
+	 * Testing reminds of calendars
+	 */
 	public function testReminders()
 	{
 		ob_start();
-		$request = AppRequest::init();
+		$request = App\Request::init();
 		$request->set('module', 'Calendar');
 		$request->set('view', 'Reminders');
 		$request->set('type_remainder', true);

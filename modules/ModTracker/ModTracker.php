@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
-include_once 'include/Webservices/GetUpdates.php';
 
 class ModTracker
 {
@@ -180,7 +179,6 @@ class ModTracker
 	 */
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
-		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$adb = PearDatabase::getInstance();
 		$datetime = date('Y-m-d H:i:s', $mtime);
 
@@ -201,12 +199,12 @@ class ModTracker
 			$params[] = $entityModule;
 		}
 
-		if ($limit != false)
+		if ($limit !== false)
 			$query .= " LIMIT $limit";
 
 		$result = $adb->pquery($query, $params);
 
-		$modTime = array();
+		$modTime = [];
 		$rows = $adb->num_rows($result);
 
 		for ($i = 0; $i < $rows; $i++) {
@@ -269,7 +267,7 @@ class ModTracker
 		if (!$maxModifiedTime) {
 			$modifiedtime = $mtime;
 		} else {
-			$modifiedtime = vtws_getSeconds($maxModifiedTime);
+			$modifiedtime = strtotime($maxModifiedTime);
 		}
 		if (is_string($modifiedtime)) {
 			$modifiedtime = intval($modifiedtime);

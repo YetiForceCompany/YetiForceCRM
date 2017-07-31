@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 $languageStrings = [
-
 	//Blocks
 	'LBL_PBXMANAGER_INFORMATION' => 'Anrufdetails',
 	'LBL_CUSTOM_INFORMATION' => 'Kundenspezifische Informationen',
@@ -29,11 +28,12 @@ $languageStrings = [
 	'Customer Number' => 'Kundennummer',
 	'Customer' => 'Kunde',
 	'User' => 'Benutzer',
-	'SINGLE_PBXManager' => 'Anruf Mitschneiden',
+	'SINGLE_PBXManager' => 'Anruf mitschneiden',
 	'Direction' => 'Richtung',
 	'Gateway' => 'Gateway',
 	'Customer type' => 'Kundentyp',
 	'Source UUID' => 'Source UUID',
 	'End Time' => 'Endezeit',
 	'Record Id' => 'Record Id',
+	'dial' => 'anrufen',
 ];

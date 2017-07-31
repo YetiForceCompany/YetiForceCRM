@@ -1,19 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************************************************************** */
 
+/**
+ * Vtiger AssignedOverdueCalendarTasks dashboard class
+ * @package YetiForce.Dashboard
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
@@ -55,8 +51,8 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGHT', AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGHT', AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

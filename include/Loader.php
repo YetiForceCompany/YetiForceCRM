@@ -31,14 +31,17 @@ class Vtiger_Loader
 		if (!in_array($fileExtension, $allowedExtensions)) {
 			return '';
 		}
-
+		$prefix = '';
+		if ($fileExtension !== 'php') {
+			$prefix = 'public_html' . DIRECTORY_SEPARATOR;
+		}
 		// TO handle loading vtiger files
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
-			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $file;
+			$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $prefix . $file;
 		}
 		return $file;
 	}
@@ -46,10 +49,9 @@ class Vtiger_Loader
 	/**
 	 * Function to include a given php file through qualified file name
 	 * @param string $qualifiedName
-	 * @param boolean $supressWarning
 	 * @return boolean
 	 */
-	static function includeOnce($qualifiedName, $supressWarning = false)
+	static function includeOnce($qualifiedName)
 	{
 
 		if (isset(self::$includeCache[$qualifiedName])) {
@@ -65,12 +67,7 @@ class Vtiger_Loader
 		// Check file inclusion before including it
 		\vtlib\Deprecated::checkFileAccessForInclusion($file);
 
-		$status = -1;
-		if ($supressWarning) {
-			$status = @include_once $file;
-		} else {
-			$status = include_once $file;
-		}
+		$status = include_once $file;
 
 		$success = ($status === 0) ? false : true;
 
@@ -110,8 +107,6 @@ class Vtiger_Loader
 		// Fall Back Directory & Fall Back Class
 		$fallBackModuleDir = $fallBackModuleClassPath = 'Vtiger';
 		// Intermediate Fall Back Directories & Classes, before relying on final fall back
-		$firstFallBackModuleDir = $firstFallBackModuleClassPath = '';
-		$secondFallBackDir = $secondFallBackClassPath = '';
 		// Default module directory & class name
 		$moduleDir = $moduleClassPath = $moduleName;
 		// Change the Module directory & class, along with intermediate fall back directory and class, if module names has submodule as well
@@ -204,5 +199,4 @@ function vimport($qualifiedName)
 {
 	return Vtiger_Loader::includeOnce($qualifiedName);
 }
-
 spl_autoload_register('Vtiger_Loader::autoLoad');

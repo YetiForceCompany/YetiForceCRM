@@ -2,16 +2,16 @@
 
 /**
  * Mail Scanner bind email action 
- * @package YetiForce.models
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class OSSMail_Mail_Model extends Vtiger_Base_Model
+class OSSMail_Mail_Model extends \App\Base
 {
 
 	protected $mailAccount = [];
 	protected $mailFolder = '';
-	protected $accountOwner = false;
 	protected $mailCrmId = false;
 	protected $actionResult = [];
 
@@ -42,7 +42,7 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function getActionResult($action = false)
 	{
-		if ($action) {
+		if ($action && isset($this->actionResult[$action])) {
 			return $this->actionResult[$action];
 		}
 		return $this->actionResult;
@@ -100,28 +100,42 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function getAccountOwner()
 	{
-		if ($this->accountOwner) {
-			return $this->accountOwner;
-		}
-		$db = PearDatabase::getInstance();
 		$account = $this->getAccount();
-
-		$result = $db->pquery('SELECT crm_user_id FROM roundcube_users where user_id = ? ', [$account['user_id']]);
-		$this->accountOwner = $db->getSingleValue($result);
-		return $this->accountOwner;
+		if ($account['crm_user_id']) {
+			return $account['crm_user_id'];
+		}
+		return \App\User::getCurrentUserId();
 	}
 
+	/**
+	 * Generation crm unique id
+	 * @return string
+	 */
+	public function getUniqueId()
+	{
+		if ($this->has('cid')) {
+			return $this->get('cid');
+		}
+		$uid = sha1($this->get('fromaddress') . '|' . $this->get('date') . '|' . $this->get('subject') . '|' . $this->get('body'));
+		$this->set('cid', $uid);
+		return $uid;
+	}
+
+	/**
+	 * Get mail crm id 
+	 * @return int|bool
+	 */
 	public function getMailCrmId()
 	{
-		if ($this->mailCrmId != false) {
+		if ($this->mailCrmId) {
 			return $this->mailCrmId;
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT ossmailviewid FROM vtiger_ossmailview where uid = ? && rc_user = ? ', [$this->get('message_id'), $this->getAccountOwner()]);
-		if ($db->getRowCount($result) > 0) {
-			$this->mailCrmId = $db->getSingleValue($result);
+		if (empty($this->get('message_id')) || AppConfig::module('OSSMailScanner', 'ONE_MAIL_FOR_MULTIPLE_RECIPIENTS')) {
+			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1);
+		} else {
+			$query = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['uid' => $this->get('message_id'), 'rc_user' => $this->getAccountOwner()])->limit(1);
 		}
-		return $this->mailCrmId;
+		return $this->mailCrmId = $query->scalar();
 	}
 
 	public function setMailCrmId($id)
@@ -132,14 +146,17 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 	public function getEmail($name)
 	{
 		$header = $this->get('header');
-		$text = $header->$name;
+		$text = '';
+		if (property_exists($header, $name)) {
+			$text = $header->$name;
+		}
 		$return = '';
 		if (is_array($text)) {
 			foreach ($text as $row) {
 				if ($return != '') {
-					$return.= ',';
+					$return .= ',';
 				}
-				$return.= $row->mailbox . '@' . $row->host;
+				$return .= $row->mailbox . '@' . $row->host;
 			}
 		}
 		return $return;
@@ -147,7 +164,6 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 
 	public function findEmailAdress($field, $searchModule = false, $returnArray = true)
 	{
-		$db = PearDatabase::getInstance();
 		$return = [];
 		$emails = $this->get($field);
 		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
@@ -163,21 +179,19 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 			foreach ($emailSearchList as $field) {
 				$enableFind = true;
 				$row = explode('=', $field);
-				$moduleName = $row[2];
+				$moduleName = $row[1];
 				if ($searchModule) {
-					if ($searchModule != $moduleName) {
+					if ($searchModule !== $moduleName) {
 						$enableFind = false;
 					}
 				}
 
 				if ($enableFind) {
-					$instance = CRMEntity::getInstance($moduleName);
-					$table_index = $instance->table_index;
 					foreach ($emails as $email) {
 						if (empty($email)) {
 							continue;
 						}
-						$name = 'MSFindEmail_' . $moduleName . '_' . $row[1];
+						$name = 'MSFindEmail_' . $moduleName . '_' . $row[0];
 						$cache = Vtiger_Cache::get($name, $email);
 						if ($cache !== false) {
 							if ($cache != 0) {
@@ -185,11 +199,16 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 							}
 						} else {
 							$ids = [];
-							$result = $db->pquery("SELECT $table_index FROM " . $row[0] . ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = ' . $row[0] . ".$table_index WHERE vtiger_crmentity.deleted = 0 && " . $row[1] . ' = ? ', [$email]);
-							while (($crmid = $db->getSingleValue($result)) !== false) {
-								$ids[] = $crmid;
+							$queryGenerator = new \App\QueryGenerator($moduleName);
+							if ($queryGenerator->getModuleField($row[0])) {
+								$queryGenerator->setFields(['id']);
+								$queryGenerator->addCondition($row[0], $email, 'e');
+								$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+								while (($crmid = $dataReader->readColumn(0)) !== false) {
+									$ids[] = $crmid;
+								}
+								$return = array_merge($return, $ids);
 							}
-							$return = array_merge($return, $ids);
 							if (empty($ids)) {
 								$ids = 0;
 							}
@@ -203,5 +222,37 @@ class OSSMail_Mail_Model extends Vtiger_Base_Model
 			return implode(',', $return);
 		}
 		return $return;
+	}
+
+	/**
+	 * Function to saving attachments
+	 */
+	public function saveAttachments()
+	{
+		$userId = $this->getAccountOwner();
+		$useTime = $this->get('udate_formated');
+		$files = $this->get('files');
+		$params = [
+			'created_user_id' => $userId,
+			'assigned_user_id' => $userId,
+			'modifiedby' => $userId,
+			'createdtime' => $useTime,
+			'modifiedtime' => $useTime
+		];
+		if ($attachments = $this->get('attachments')) {
+			foreach ($attachments as $attachment) {
+				if ($id = App\Fields\File::saveFromContent($attachment['attachment'], $attachment['filename'], false, $params)) {
+					$files[] = $id;
+				}
+			}
+		}
+		$db = App\Db::getInstance();
+		foreach ($files as $file) {
+			$db->createCommand()->insert('vtiger_ossmailview_files', [
+				'ossmailviewid' => $this->mailCrmId,
+				'documentsid' => $file['crmid'],
+				'attachmentsid' => $file['attachmentsId']
+			])->execute();
+		}
 	}
 }

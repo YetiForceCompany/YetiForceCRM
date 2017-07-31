@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSTimeControl module model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 {
 
@@ -19,7 +16,6 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = [];
 
 		$quickLinks = [
@@ -78,7 +74,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRelatedSummary(App\Db\Query $query)
 	{
-	
+
 		// Calculate total working time
 		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
 
@@ -107,14 +103,15 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$response = false;
 		else {
 			$query = (new \App\Db\Query())->select([
-				'vtiger_crmentity.smownerid',
-				'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
-			])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::recalculateStatus])
-					->groupBy('smownerid');
+					'vtiger_crmentity.smownerid',
+					'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
+				])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
+				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::recalculateStatus])
+				->groupBy('smownerid');
 			App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
 			$data = [];
+			$ticks = [];
 			$i = 0;
 			while ($row = $dataReader->read()) {
 				$name = App\Fields\Owner::getLabel($row['smownerid']);

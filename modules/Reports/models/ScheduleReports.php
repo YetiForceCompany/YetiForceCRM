@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_ScheduleReports_Model extends Vtiger_Base_Model
+class Reports_ScheduleReports_Model extends \App\Base
 {
 
 	public $scheduledFormat = 'CSV';
@@ -203,8 +203,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
-		$reportname = decode_html($reportRecordModel->getName());
-		$subject = $reportname;
+		$reportname = \App\Purifier::decodeHtml($reportRecordModel->getName());
 		vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
@@ -252,7 +251,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		$default_timezone = vglobal('default_timezine');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 
 		$scheduleType = $this->get('scheduleid');
 		$nextTime = null;
@@ -276,7 +275,7 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		if ($scheduleType == self::$SCHEDULED_ANNUALLY) {
 			$nextTime = $workflow->getNextTriggerTimeForAnnualDates($this->get('schannualdates'), $this->get('schtime'));
 		}
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $nextTime;
 	}
 
@@ -296,9 +295,9 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 		$currentTimestamp = date("Y-m-d H:i:s");
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		$dataReader = (new App\Db\Query())->select(['reportid'])
 				->from('vtiger_schedulereports')
 				->where(['or', ['next_trigger_time' => null], ['<=', 'next_trigger_time', $currentTimestamp]])
@@ -339,7 +338,8 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 	{
 		$site_URL = vglobal('site_URL');
 		$currentModule = vglobal('currentModule');
-		$logo = $site_URL . '/storage/Logo/' . Vtiger_CompanyDetails_Model::getInstanceById()->get('logoname');
+
+		$logo = \App\Company::getInstanceById()->getLogo()->get('imageUrl', true);
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>
@@ -370,16 +370,16 @@ class Reports_ScheduleReports_Model extends Vtiger_Base_Model
 													<td> </td>
 												</tr>
 												<tr>
-													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . vtranslate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
+													<td style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal; text-align: justify; line-height: 20px;"> ' . \App\Language::translate('LBL_AUTO_GENERATED_REPORT_EMAIL', $currentModule) . '</td>
 												</tr>
 												<tr>
 													<td align="center">
 													<table width="75%" cellspacing="0" cellpadding="10" border="0" style="border: 2px solid rgb(180, 180, 179); background-color: rgb(226, 226, 225); font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0); font-weight: normal;">
 															<tr>
-																<td><b>' . vtranslate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
+																<td><b>' . \App\Language::translate('LBL_REPORT_NAME', $currentModule) . ' </b> : <font color="#990000"><strong> <a href=' . $site_URL . '/' . $reportRecordModel->getDetailViewUrl() . '>' . $reportRecordModel->getName() . '</a></strong></font> </td>
 															</tr>
 															<tr>
-																<td><b>' . vtranslate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
+																<td><b>' . \App\Language::translate('LBL_DESCRIPTION', $currentModule) . ' :</b> <font color="#990000"><strong>' . $reportRecordModel->get('description') . '</strong></font> </td>
 															</tr>
 													</table>
 													</td>

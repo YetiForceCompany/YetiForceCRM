@@ -4,7 +4,8 @@ namespace App\QueryField;
 /**
  * Reference Query Field Class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ReferenceField extends BaseField
@@ -21,8 +22,8 @@ class ReferenceField extends BaseField
 	 */
 	public function getRelatedTableName()
 	{
-		if ($this->releted) {
-			return [$this->fieldModel->getTableName() . $this->releted['sourceField'] . '.' . $this->fieldModel->getColumnName()];
+		if ($this->related) {
+			return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
 		}
 		$relatedTableName = [];
 		foreach ($this->getTables() as &$moduleName) {

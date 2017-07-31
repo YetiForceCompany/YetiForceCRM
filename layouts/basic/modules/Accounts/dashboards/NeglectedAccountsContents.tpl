@@ -1,15 +1,15 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if count($ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('Account Name' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{\App\Language::translate('Account Name' ,$MODULE_NAME)}</b></h6>
 			</div>
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{\App\Language::translate('LBL_ASSIGNED_TO' ,$MODULE_NAME)}</b></h6>
 			</div>
 			<div class="col-xs-4">
-				<h6><b>{vtranslate('LBL_CRMACTIVITY' ,$MODULE_NAME)}</b></h6>
+				<h6><b>{\App\Language::translate('LBL_CRMACTIVITY' ,$MODULE_NAME)}</b></h6>
 			</div>
 			<div class="col-xs-12"><hr></div>
 			{/if}
@@ -38,13 +38,13 @@
 			{/foreach}
 		{if count($ACCOUNTS) eq $PAGING_MODEL->getPageLimit()}
 			<div class="pull-right padding5">
-				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{vtranslate('LBL_MORE', $MODULE_NAME)}</button>
+				<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</button>
 			</div>
 		{/if}
 	{else}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
 			<span class="noDataMsg">
-				{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
+				{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 			</span>
 		{/if}
 	{/if}

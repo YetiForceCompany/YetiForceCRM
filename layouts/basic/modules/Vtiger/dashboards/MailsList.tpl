@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
@@ -9,13 +9,13 @@
 	{/foreach}
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(),'OSSMail')}</strong></div>
+			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),'OSSMail')}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
 				{if !$WIDGET->isDefault()}
 					<a name="dclose" class="btn btn-xs btn-default widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{vtranslate('LBL_CLOSE')}" alt="{vtranslate('LBL_CLOSE')}"></span>
+						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
 					</a>
 				{/if}
 			</div>
@@ -24,9 +24,9 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-md-6 pull-right">
-			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{vtranslate('LBL_MAIL_USERS_LIST')}" name="type">
+			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
 				{if count($ACCOUNTSLIST) eq 0}
-					<option value="-">{vtranslate('--None--', $MODULE_NAME)}</option>
+					<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 				{else}
 					{foreach from=$ACCOUNTSLIST item=item key=key}
 						<option title="{$item['username']}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>

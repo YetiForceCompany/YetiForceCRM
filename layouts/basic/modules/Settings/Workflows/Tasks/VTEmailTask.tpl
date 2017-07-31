@@ -14,10 +14,10 @@
 		<div class="">
 			<div class="row padding-bottom1per">
 				<span class="col-md-12 row">
-					<span class="col-md-2 control-label">{vtranslate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+					<span class="col-md-2 control-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-10 paddingLRZero">
-						<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option value="">{vtranslate('LBL_DEFAULT')}</option>
+						<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
 							{foreach from=App\Mail::getAll() item=ITEM key=ID}
 								<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}({$ITEM['host']})</option>
 							{/foreach}	
@@ -29,20 +29,20 @@
 				<span class="col-md-12 row">
 					<span class="col-md-2"></span>
 					<span class="col-md-10">
-						<label><input type="checkbox" class="alignTop" value="true" name="emailoptout" {if $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{vtranslate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
+						<label><input type="checkbox" class="alignTop" value="true" name="emailoptout" {if $TASK_OBJECT->emailoptout}checked{/if}>&nbsp;{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}</label>
 					</span>
 				</span>
 			</div>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{vtranslate('LBL_FROM', $QUALIFIED_MODULE)}</span>
+					<span class="col-md-3 control-label">{\App\Language::translate('LBL_FROM', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[]' name="fromEmail" class="fields form-control" type="text" value="{$TASK_OBJECT->fromEmail}" />
 					</div>
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 paddingLRZero">
-						<select id="fromEmailOption" class="chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+						<select id="fromEmailOption" class="chzn-select form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
 							{foreach item=FIELDS key=BLOCK_NAME from=$FROM_EMAIL_FIELD_OPTION}
 								<optgroup label="{$BLOCK_NAME}">
@@ -57,14 +57,14 @@
 			</div>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{vtranslate('LBL_TO',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-3 control-label">{\App\Language::translate('LBL_TO',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[required]' name="recepient" class="fields form-control" type="text" value="{$TASK_OBJECT->recepient}" />
 					</div>
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 paddingLRZero">
-						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+						<select class="task-fields chzn-select form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
 							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
 								<optgroup label="{$BLOCK_NAME}">
@@ -79,14 +79,14 @@
 			</div>
 			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailcc)}hide {/if}" id="ccContainer">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{vtranslate('LBL_CC',$QUALIFIED_MODULE)}</span>
+					<span class="col-md-3 control-label">{\App\Language::translate('LBL_CC',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<input class="fields form-control" type="text" name="emailcc" value="{$TASK_OBJECT->emailcc}" />
 					</div>
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 paddingLRZero">
-						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}" >
+						<select class="task-fields chzn-select form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}" >
 							<option></option>
 							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
 								<optgroup label="{$BLOCK_NAME}">
@@ -101,14 +101,14 @@
 			</div>
 			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailbcc)}hide {/if}" id="bccContainer">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{vtranslate('LBL_BCC',$QUALIFIED_MODULE)}</span>
+					<span class="col-md-3 control-label">{\App\Language::translate('LBL_BCC',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<input class="fields form-control" type="text" name="emailbcc" value="{$TASK_OBJECT->emailbcc}" />
 					</div>
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 paddingLRZero">
-						<select class="task-fields chzn-select form-control" data-placeholder="{vtranslate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+						<select class="task-fields chzn-select form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
 							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
 								<optgroup label="{$BLOCK_NAME}">
@@ -125,8 +125,8 @@
 				<span class="col-md-8 row">
 					<span class="col-md-3">&nbsp;</span>
 					<span class="col-md-9">
-						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{vtranslate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
-						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{vtranslate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
+						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
 					</span>
 				</span>
 			</div>
@@ -137,7 +137,7 @@
 			<hr/>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{vtranslate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-3 control-label">{\App\Language::translate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[required]' name="subject" class="fields form-control" type="text" name="subject" value="{$TASK_OBJECT->subject|escape}" id="subject" spellcheck="true"/>
 					</div>

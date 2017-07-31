@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{foreach key=BLOCK_LABEL_KEY item=FIELD_MODEL_LIST from=$RECORD_STRUCTURE name=block}
 	{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL_KEY]}
@@ -11,9 +11,9 @@
 	<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
 		<div class="row blockHeader panel-heading no-margin">
 			<div class="iconCollapse">
-				<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{vtranslate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-				<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{vtranslate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
-				<h4>{vtranslate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
+				<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+				<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+				<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 			</div>
 		</div>
 		<div class="col-xs-12 noSpaces panel-body blockContent {if $IS_HIDDEN} hide{/if}">
@@ -32,13 +32,13 @@
 				{/if}
 				<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 						<div id="imageContainer" width="300" height="200">
 							{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 								{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-									<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="300" height="200">
+									<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" width="300" height="200">
 								{/if}
 							{/foreach}
 						</div>
@@ -60,7 +60,7 @@
 				 <div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-							{vtranslate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+							{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
 						</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1} {/if}>
@@ -85,7 +85,7 @@
 		</div>
 		</div>
 	</div>
-	<br>
+	<br />
 	{/if}
 	{/foreach}
 {/strip}

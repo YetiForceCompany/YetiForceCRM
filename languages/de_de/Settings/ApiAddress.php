@@ -1,14 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
-
+/**
+ * Api address german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_SAVE' => 'Sichern',
 	'ApiAddress' => 'Adresssuche',
@@ -17,7 +13,7 @@ $languageStrings = [
 	'LBL_USE_OPENCAGE_GEOCODER' => 'Benutze OpenCage Geocoder',
 	'LBL_REMOVE_CONNECTION' => 'Verbindung entfernen',
 	'LBL_ENTER_KEY_APPLICATION' => 'Schlüssel Anwendung eingeben',
-	'LBL_MIN_LOOKUP_LENGHT' => 'Die minimale Anzahl von Zeichen, die ein Benutzer eingeben muss, bevor die Suche durchgeführt wird.',
+	'LBL_MIN_LOOKUP_LENGTH' => 'Die minimale Anzahl von Zeichen, die ein Benutzer eingeben muss, bevor die Suche durchgeführt wird.',
 	'LBL_SAVE_NOTIFY_OK' => 'Änderungen gespeichert',
 	'LBL_CHOOSE_API' => 'Wähle API',
 	'LBL_USE_GOOGLE_GEOCODER' => 'Nutze Google Geocoding',

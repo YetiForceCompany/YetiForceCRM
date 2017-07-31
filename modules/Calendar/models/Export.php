@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Calendar export model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 vimport('modules.Calendar.iCal.iCalendar_rfc2445');
 vimport('modules.Calendar.iCal.iCalendar_components');
 vimport('modules.Calendar.iCal.iCalendar_properties');
@@ -10,10 +15,10 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 
 	/**
 	 * Function that generates Export Query based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string export query
 	 */
-	public function getExportQuery(Vtiger_Request $request)
+	public function getExportQuery(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$cvId = $request->get('viewname');
@@ -58,19 +63,19 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 
 	/**
 	 * Function returns the export type - This can be extended to support different file exports
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getExportContentType(Vtiger_Request $request)
+	public function getExportContentType(\App\Request $request)
 	{
 		return 'text/calendar';
 	}
 
 	/**
 	 * Function exports the data based on the mode
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function exportData(Vtiger_Request $request)
+	public function exportData(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
@@ -84,13 +89,12 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 
 	/**
 	 * Function that create the exported file
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param array $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
 	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$adb = PearDatabase::getInstance();
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = explode('/', date_default_timezone_get());
 

@@ -1,8 +1,8 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
-		<button data-dismiss="modal" class="close" type="button" title="{vtranslate('LBL_CLOSE')}">x</button>
-		<h3 class="modal-title">{vtranslate('LBL_MASS_ADD', $MODULE)}</h3>
+		<button data-dismiss="modal" class="close" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+		<h3 class="modal-title">{\App\Language::translate('LBL_MASS_ADD', $MODULE)}</h3>
 	</div>
 	<form class="form-horizontal" id="addDocuments" method="post" action="index.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE}" />
@@ -13,7 +13,7 @@
 			</div>
 			<div class="fileContainer hide">
 				<div class="fileItem">
-					<label>{vtranslate('Title', $MODULE)}</label>
+					<label>{\App\Language::translate('Title', $MODULE)}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">
 						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file"></span></span>

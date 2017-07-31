@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * FInvoiceCost german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'FInvoiceCost' => 'Rechnungskosten',
 	'SINGLE_FInvoiceCost' => 'Rechnungskosten',
@@ -33,7 +38,7 @@ $languageStrings = [
 	'PLL_UNASSIGNED' => 'Nicht zugeordnet',
 	'PLL_AWAITING_REALIZATION' => 'Warten auf Umsetzung',
 	'PLL_FOR_PROCESSING' => 'Bereit zur Umsetzung',
-	'PLL_IN_PROGRESSING' => 'In Umsezzung',
+	'PLL_IN_PROGRESSING' => 'In Umsetzung',
 	'PLL_SUBMITTED_COMMENTS' => 'Kommentare',
 	'PLL_FOR_APPROVAL' => 'Zur Freigabe',
 	'PLL_CANCELLED' => 'Abgebrochen',

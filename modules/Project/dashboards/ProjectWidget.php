@@ -13,10 +13,10 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param Vtiger_Request $request - request model
+	 * @param \App\Request $request - request model
 	 * @return <array> - array of Vtiger_CssScript_Model
 	 */
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = array(
 			//Place your widget specific css files here
@@ -27,8 +27,8 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getSearchParams($stage, $assignedto, $dates)
 	{
-		$listSearchParams = array();
-		$conditions = array();
+		$listSearchParams = [];
+		$conditions = [];
 		array_push($conditions, array("sales_stage", "e", $stage));
 		if ($assignedto == '') {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
@@ -50,7 +50,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

@@ -12,7 +12,7 @@
  * Vtiger Settings MenuItem Model Class
  */
 
-class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
+class Settings_Vtiger_MenuItem_Model extends \App\Base
 {
 
 	protected static $itemsTable = 'vtiger_settings_field';
@@ -296,21 +296,6 @@ class Settings_Vtiger_MenuItem_Model extends Vtiger_Base_Model
 			$menuItemModels[$rowData[self::$itemId]] = $menuItem;
 		}
 		return $menuItemModels;
-	}
-
-	/**
-	 * used only in old layout 
-	 * @param type $url
-	 * @return type modulename 
-	 */
-	public function getModuleNameFromUrl($url)
-	{
-		$query_str = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
-		parse_str($query_str, $query_params);
-		if ($query_params[parent]) {
-			return ("$query_params[parent]:$query_params[module]");
-		}
-		return $query_params[module];
 	}
 
 	/**

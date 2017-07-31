@@ -12,38 +12,33 @@ require_once("include/events/SqlResultIterator.php");
 class VTEntityMethodManager
 {
 
-	function __construct($adb)
+	public function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
 	{
-		$this->adb = $adb;
-	}
-
-	function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
-	{
-		$adb = $this->adb;
+		$adb = PearDatabase::getInstance();
 		$id = $adb->getUniqueId("com_vtiger_workflowtasks_entitymethod");
 		$adb->pquery("insert into com_vtiger_workflowtasks_entitymethod (workflowtasks_entitymethod_id, module_name, function_path, function_name, method_name) values (?,?,?,?,?)", array($id, $moduleName, $functionPath, $functionName, $methodName));
 	}
 
-	function executeMethod($entityData, $methodName)
+	public function executeMethod(Vtiger_Record_Model $recordModel, $methodName)
 	{
-		$adb = $this->adb;
-		$moduleName = $entityData->getModuleName();
+		$adb = PearDatabase::getInstance();
+		$moduleName = $recordModel->getModuleName();
 		$result = $adb->pquery("select function_path, function_name from com_vtiger_workflowtasks_entitymethod where module_name=? and method_name=?", array($moduleName, $methodName));
 		if ($adb->num_rows($result) != 0) {
 			$data = $adb->raw_query_result_rowdata($result, 0);
 			$functionPath = $data['function_path'];
 			$functionName = $data['function_name'];
 			require_once($functionPath);
-			$functionName($entityData);
+			$functionName($recordModel);
 		}
 	}
 
-	function methodsForModule($moduleName)
+	public function methodsForModule($moduleName)
 	{
-		$adb = $this->adb;
+		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("select method_name from com_vtiger_workflowtasks_entitymethod where module_name=?", array($moduleName));
 		$it = new SqlResultIterator($adb, $result);
-		$methodNames = array();
+		$methodNames = [];
 		foreach ($it as $row) {
 			$methodNames[] = $row->method_name;
 		}
@@ -64,12 +59,11 @@ class VTEntityMethodManager
 
 	/**
 	 * Function to remove workflowtasks entity method 
-	 * @param <String> Module Name
-	 * @param <String> Entity Method Name.
+	 * @param string Module Name
+	 * @param string Entity Method Name.
 	 */
-	function removeEntityMethod($moduleName, $methodName)
+	public function removeEntityMethod($moduleName, $methodName)
 	{
-		$adb = $this->adb;
-		$adb->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
+		PearDatabase::getInstance()->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
 	}
 }

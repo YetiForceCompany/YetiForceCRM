@@ -19,7 +19,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		parent::__construct();
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -30,7 +30,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
@@ -40,9 +40,8 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
@@ -131,10 +130,10 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

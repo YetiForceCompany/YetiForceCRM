@@ -11,11 +11,11 @@
 class Users_Save_Action extends Vtiger_Save_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		// Check for operation access.
@@ -31,7 +31,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 				}
 			}
 		}
-
 		if (!$allowed) {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
 		}
@@ -39,63 +38,26 @@ class Users_Save_Action extends Vtiger_Save_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	protected function getRecordModelFromRequest(Vtiger_Request $request)
+	protected function getRecordModelFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!empty($recordId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$modelData = $recordModel->getData();
-			$recordModel->set('id', $recordId);
-			$sharedType = $request->get('sharedtype');
-			if (!empty($sharedType))
-				$recordModel->set('calendarsharedtype', $request->get('sharedtype'));
-		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$modelData = $recordModel->getData();
+		$recordModel = parent::getRecordModelFromRequest($request);
+		if ($recordModel->isNew()) {
+			$recordModel->set('user_name', $request->get('user_name', null));
+			$recordModel->set('user_password', $request->getRaw('user_password', null));
+			$recordModel->set('confirm_password', $request->getRaw('confirm_password', null));
 		}
-		unset($modelData['mode']);
-		foreach ($modelData as $fieldName => $value) {
-			if (!$request->has($fieldName)) {
-				continue;
-			}
-			$fieldValue = $request->get($fieldName, null);
-			if ($fieldName === 'is_admin') {
-				if (!$currentUserModel->isAdminUser() && (!$fieldValue)) {
-					$fieldValue = 'off';
-				} else if ($currentUserModel->isAdminUser() && ($fieldValue || $fieldValue === 'on')) {
-					$fieldValue = 'on';
-					$recordModel->set('is_owner', 1);
-				} else {
-					$fieldValue = 'off';
-					$recordModel->set('is_owner', 0);
-				}
-			}
-			if ($fieldValue !== null) {
-				if (!is_array($fieldValue)) {
-					$fieldValue = trim($fieldValue);
-				}
-				$recordModel->set($fieldName, $fieldValue);
-			}
-		}
-		$homePageComponents = $recordModel->getHomePageComponents();
-		$selectedHomePageComponents = $request->get('homepage_components', array());
-		foreach ($homePageComponents as $key => $value) {
-			if (in_array($key, $selectedHomePageComponents)) {
-				$request->setGlobal($key, $key);
-			} else {
-				$request->setGlobal($key, '');
-			}
-		}
-
 		return $recordModel;
 	}
 
-	public function process(Vtiger_Request $request)
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @return boolean
+	 */
+	public function process(\App\Request $request)
 	{
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
@@ -103,7 +65,6 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$moduleModel = Vtiger_Module_Model::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);
-
 			$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 			$settingsModuleModel->refreshSwitchUsers();
 
@@ -114,24 +75,23 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
-				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
+				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
 			} else if ($sharedType == 'public') {
 				$allUsers = $currentUserModel->getAll(true);
-				$accessibleUsers = array();
+				$accessibleUsers = [];
 				foreach ($allUsers as $id => $userModel) {
 					$accessibleUsers[$id] = $id;
 				}
-				$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
-				$calendarModuleModel->insertSharedUsers($currentUserModel->id, array_keys($accessibleUsers));
+				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+				$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), array_keys($accessibleUsers));
 			} else {
 				if (!empty($sharedIds)) {
-					$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
-					$calendarModuleModel->insertSharedUsers($currentUserModel->id, $sharedIds);
+					$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+					$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), $sharedIds);
 				} else {
-					$calendarModuleModel->deleteSharedUsers($currentUserModel->id);
+					$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
 				}
 			}
-
 			if ($request->get('relationOperation')) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
 				$loadUrl = $parentRecordModel->getDetailViewUrl();

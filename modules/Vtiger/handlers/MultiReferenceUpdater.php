@@ -3,8 +3,10 @@
 /**
  * Multi Reference Updater Handler Class
  * @package YetiForce.Handler
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MultiReferenceUpdater_Handler
 {
@@ -37,7 +39,34 @@ class Vtiger_MultiReferenceUpdater_Handler
 			$fieldModel = new Vtiger_Field_Model();
 			$fieldModel->initialize($field);
 			$uitypeModel = $fieldModel->getUITypeModel();
-			$uitypeModel->removeValue(CRMEntity::getInstance($params['sourceModule']), $params['sourceRecordId'], $params['destinationRecordId']);
+			$uitypeModel->reloadValue($params['sourceModule'], $params['sourceRecordId']);
+		}
+	}
+
+	/**
+	 * EntityAfterSave function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityAfterSave(App\EventHandler $eventHandler)
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		$moduleName = $eventHandler->getModuleName();
+		$moduleIds = Vtiger_MultiReferenceValue_UIType::getMultiReferenceModules($moduleName);
+		if ($moduleIds) {
+			$previousValue = $recordModel->getPreviousValue();
+			$referenceFields = $recordModel->getModule()->getFieldsByReference();
+			foreach ($referenceFields as $fieldName => $fieldModel) {
+				if (isset($previousValue[$fieldName]) && !$recordModel->isNew()) {
+					$module = \App\Record::getType($previousValue[$fieldName]);
+					if ($module && in_array(\vtlib\Functions::getModuleId($module), $moduleIds)) {
+						Vtiger_MultiReferenceValue_UIType::setRecordToCron($module, $moduleName, $previousValue[$fieldName]);
+					}
+				}
+				$module = \App\Record::getType($recordModel->get($fieldName));
+				if ($module && in_array(\vtlib\Functions::getModuleId($module), $moduleIds)) {
+					Vtiger_MultiReferenceValue_UIType::setRecordToCron($module, $moduleName, $recordModel->get($fieldName));
+				}
+			}
 		}
 	}
 }

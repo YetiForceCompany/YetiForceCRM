@@ -22,7 +22,7 @@ class iCalendar_property
 
 	public function construct()
 	{
-		$this->parameters = array();
+		$this->parameters = [];
 	}
 
 	// If some property needs extra care with its parameters, override this
@@ -127,14 +127,12 @@ class iCalendar_property
 		$name = strtoupper($name);
 
 		// Are we trying to add a valid parameter?
-		$xname = false;
 		if (!isset($this->valid_parameters[$name])) {
 			// If not, is it an x-name as per RFC 2445?
 			if (!rfc2445_is_xname($name)) {
 				return false;
 			}
 			// No more checks -- all components are supposed to allow x-name parameters
-			$xname = true;
 		}
 
 		if (!$this->is_valid_parameter($name, $value)) {
@@ -1219,7 +1217,7 @@ class iCalendar_property_request_status extends iCalendar_property
 		}
 
 		$len = strlen($value);
-		$parts = array();
+		$parts = [];
 		$from = 0;
 		$escch = false;
 

@@ -3,7 +3,8 @@
 /**
  * MailSmtp record model class
  * @package YetiForce.Settings.Record
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
@@ -104,9 +105,12 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			case 'default':
 			case 'authentication':
 			case 'individual_delivery':
+			case 'save_send_mail':
+			case 'smtp_validate_cert':
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'password':
+			case 'smtp_password':
 				$passLength = strlen($value);
 				$value = '';
 				for ($i = 0; $i < $passLength; $i++) {

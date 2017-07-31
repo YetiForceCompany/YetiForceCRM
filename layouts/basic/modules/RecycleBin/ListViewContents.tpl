@@ -24,10 +24,10 @@
 <input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 
 <div id="selectAllMsgDiv" class="alert-block msgDiv">
-	<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($SOURCE_MODULE ,$SOURCE_MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+	<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($SOURCE_MODULE ,$SOURCE_MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
 <div id="deSelectAllMsgDiv" class="alert-block msgDiv">
-	<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+	<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 </div>
 <div class="contents-topscroll noprint stick" data-position="top">
 	<div class="topscroll-div"></div>
@@ -45,12 +45,12 @@
 		<thead>
 			<tr class="listViewHeaders">
 				<th width="5%">
-					<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
+					<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				<th {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
 					<a href="javascript:void(0);" class="listViewHeaderValues" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">
-						{vtranslate($LISTVIEW_HEADER->get('label'), $SOURCE_MODULE)}
+						{\App\Language::translate($LISTVIEW_HEADER->get('label'), $SOURCE_MODULE)}
 						&nbsp;&nbsp;
 						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}
 							<span class="{$SORT_IMAGE}"></span>
@@ -63,12 +63,12 @@
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 		<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
             <td  width="5%" class="{$WIDTHTYPE}">
-				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+				<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 			</td>
 			{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 			{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 			<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
-				{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
+				{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
 					<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}</a>
 				{else}
 					{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
@@ -77,8 +77,8 @@
 				</td><td nowrap class="{$WIDTHTYPE}">
 				<div class="pull-right actions">
 					<span class="actionImages">
-						<a class="restoreRecordButton"><i title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></i></a>&nbsp;
-						<a class="deleteRecordButton"><i title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
+						<a class="restoreRecordButton"><i title="{\App\Language::translate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></i></a>&nbsp;
+						<a class="deleteRecordButton"><i title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></i></a>
 					</span>
 				</div>
 				</td>
@@ -95,7 +95,7 @@
 		<tbody>
 			<tr>
 				<td>
-					{vtranslate('LBL_NO_RECORDS_FOUND', $MODULE)} {vtranslate($SOURCE_MODULE, $SOURCE_MODULE)}.
+					{\App\Language::translate('LBL_NO_RECORDS_FOUND', $MODULE)} {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}.
 				</td>
 			</tr>
 		</tbody>

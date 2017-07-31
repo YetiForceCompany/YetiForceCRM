@@ -94,7 +94,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$mapping[$row['cfmid']] = $row;
 			}
 
-			$finalMapping = $fieldIdsList = array();
+			$finalMapping = $fieldIdsList = [];
 			foreach ($mapping as $mappingDetails) {
 				array_push($fieldIdsList, $mappingDetails['leadfid'], $mappingDetails['accountfid']);
 			}

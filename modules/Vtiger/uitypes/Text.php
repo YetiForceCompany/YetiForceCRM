@@ -19,7 +19,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$uiType = $this->get('field')->get('uitype');
-		if ($uiType == 300) {
+		if ($uiType === 300) {
 			return \App\Purifier::purifyHtml($value);
 		} else {
 			return nl2br($value);

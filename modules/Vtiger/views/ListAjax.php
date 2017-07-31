@@ -19,17 +19,17 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -42,7 +42,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 	 * Function to get the page count for list
 	 * @return total number of pages
 	 */
-	public function getPageCount(Vtiger_Request $request)
+	public function getPageCount(\App\Request $request)
 	{
 		$listViewCount = $this->getListViewCount($request);
 		$pagingModel = new Vtiger_Paging_Model();
@@ -62,9 +62,9 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 
 	/**
 	 * Function returns the number of records for the current filter
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getRecordsCount(Vtiger_Request $request)
+	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$cvId = App\CustomView::getInstance($moduleName)->getViewId();
@@ -83,9 +83,9 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 
 	/**
 	 * Function to get listView count
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getListViewCount(Vtiger_Request $request)
+	public function getListViewCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!$this->listViewModel) {

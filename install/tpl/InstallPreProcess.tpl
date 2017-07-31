@@ -15,13 +15,28 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="logo">
-					<img src="../storage/Logo/logo_yetiforce.png" style="height: 70px;" />
+					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" style="height: 70px;" />
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="head pull-right">
-					<h3>{vtranslate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
+					<h3>{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
 				</div>
 			</div>
 		</div>
+		{if $MODE === 'Step7'}
+			<div id="progressIndicator" class="row main-container">
+				<div class="inner-container">
+					<div class="inner-container">
+						<div class="row">
+							<div class="span12 welcome-div alignCenter">
+								<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br />
+								<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
+								<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}			
 	{/strip}

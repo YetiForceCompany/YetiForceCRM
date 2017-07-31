@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Vtiger pagination view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 {
 
@@ -11,7 +16,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('getRelationPagination');
 	}
 
-	public function getRelationPagination(Vtiger_Request $request)
+	public function getRelationPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
@@ -43,12 +48,11 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$cvId = $request->get('viewname');
 		$pageNumber = $request->get('page');
-		$searchResult = $request->get('searchResult');
 		$moduleName = $request->getModule();
 		if (empty($cvId)) {
 			$cvId = App\CustomView::getInstance($moduleName)->getViewId();
@@ -62,6 +66,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
 
 		$totalCount = (int) $request->get('totalCount');
+		$operator = '';
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 			$searchKey = $request->get('search_key');
@@ -86,10 +91,11 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 			if ($totalCount === $pageNumber * $pagingModel->getPageLimit()) {
 				$pagingModel->set('nextPageExists', false);
 			}
-			$viewer->assign('LISTVIEW_COUNT', $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', $totalCount);
+		} else {
+			$totalCount = false;
 		}
-		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('LISTVIEW_COUNT', $totalCount);
+		$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());

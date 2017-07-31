@@ -6,35 +6,36 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public $baseTable = 'vtiger_smsnotifier_servers';
-	public $nameFields = array();
-	public $listFields = array('providertype' => 'Provider', 'username' => 'User Name', 'isactive' => 'Active');
-	public $name = 'SMSNotifier';
+	/**
+	 * @var string 
+	 */
+	public $baseTable = 'a_#__smsnotifier_servers';
 
 	/**
-	 * Function to get editable fields from this module
-	 * @return <Array> list of editable fields
+	 * @var string 
 	 */
-	public function getEditableFields()
-	{
-		$fieldsList = array(
-			array('name' => 'providertype', 'label' => 'Provider', 'type' => 'picklist'),
-			array('name' => 'isactive', 'label' => 'Active', 'type' => 'radio'),
-			array('name' => 'username', 'label' => 'User Name', 'type' => 'text'),
-			array('name' => 'password', 'label' => 'Password', 'type' => 'password')
-		);
+	public $baseIndex = 'id';
 
-		$fieldModelsList = array();
-		foreach ($fieldsList as $fieldInfo) {
-			$fieldModelsList[$fieldInfo['name']] = Settings_SMSNotifier_Field_Model::getInstanceByRow($fieldInfo);
-		}
-		return $fieldModelsList;
-	}
+	/**
+	 * @var string[] 
+	 */
+	public $nameFields = [];
+
+	/**
+	 * @var string[]
+	 */
+	public $listFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS'];
+
+	/**
+	 * @var string 
+	 */
+	public $name = 'SMSNotifier';
 
 	/**
 	 * Function to get Create view url
@@ -42,7 +43,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'javascript:Settings_SMSNotifier_List_Js.triggerEdit(event, "index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Edit")';
+		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Edit';
 	}
 
 	/**
@@ -56,28 +57,13 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get list of all providers
-	 * @return <Array> list of all providers <SMSNotifier_Provider_Model>
+	 * @return mixed
 	 */
 	public function getAllProviders()
 	{
 		if (!$this->allProviders) {
-			$this->allProviders = SMSNotifier_Provider_Model::getAll();
+			$this->allProviders = SMSNotifier_Module_Model::getProviders();
 		}
 		return $this->allProviders;
-	}
-
-	/**
-	 * Function to delete records
-	 * @param <Array> $recordIdsList
-	 * @return boolean true/false
-	 */
-	public static function deleteRecords($recordIdsList = array())
-	{
-		if ($recordIdsList) {
-			$db = PearDatabase::getInstance();
-			$db->delete('vtiger_smsnotifier_servers', 'id IN (' . generateQuestionMarks($recordIdsList) . ')', $recordIdsList);
-			return true;
-		}
-		return false;
 	}
 }

@@ -8,9 +8,9 @@
 					<div class="widgetTitle textOverflowEllipsis">
 						<h4 class="moduleColor_{$WIDGET['label']}">
 							{if $WIDGET['label'] eq ''}
-								{vtranslate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+								{\App\Language::translate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 							{else}	
-								{vtranslate($WIDGET['label'],$MODULE_NAME)}
+								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							{/if}
 						</h4>
 					</div>
@@ -29,7 +29,7 @@
 								{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 								{if $WIDGET['data']['actionSelect'] eq 1}
 									{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-									<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{vtranslate('LBL_SELECT_OPTION',$MODULE_NAME)}">
+									<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}">
 										<span class="glyphicon glyphicon-search"></span>
 									</button>
 								{/if}
@@ -37,7 +37,7 @@
 									{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 									{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 									<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
-											{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{vtranslate('LBL_ADD',$MODULE_NAME)}" alt="{vtranslate('LBL_ADD',$MODULE_NAME)}">
+											{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}">
 										<span class="glyphicon glyphicon-plus"></span>
 									</button>
 								{/if}
@@ -65,8 +65,8 @@
 						{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 						{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-						<select class="select2 filterField form-control input-sm" name="{$FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}' data-filter="{$FIELD_MODEL->get('table')|cat:'.'|cat:$filter}" data-urlparams="whereCondition">
-							<option>{vtranslate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}</option>
+						<select class="select2 filterField form-control input-sm" name="{$FIELD_MODEL->get('name')}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{\App\Language::translate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}' data-filter="{$FIELD_MODEL->get('table')|cat:'.'|cat:$filter}" data-urlparams="whereCondition">
+							<option>{\App\Language::translate($FIELD_MODEL->get('label'),$WIDGET['data']['relatedmodule'])}</option>
 							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 								<option value="{$PICKLIST_NAME}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{$PICKLIST_VALUE}</option>
 							{/foreach}

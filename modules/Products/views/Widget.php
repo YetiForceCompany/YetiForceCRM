@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Products widget view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Products_Widget_View extends Vtiger_Index_View
 {
 
@@ -18,7 +15,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		$this->exposeMethod('showProductsServices');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -27,7 +24,7 @@ class Products_Widget_View extends Vtiger_Index_View
 		}
 	}
 
-	public function showProductsServices(Vtiger_Request $request)
+	public function showProductsServices(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$fromModule = $request->get('fromModule');

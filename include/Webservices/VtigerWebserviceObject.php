@@ -71,17 +71,6 @@ class VtigerWebserviceObject
 		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied for id");
 	}
 
-	static function fromQuery($adb, $query)
-	{
-		$moduleRegex = "/[fF][rR][Oo][Mm]\s+([^\s;]+)/";
-		$matches = [];
-		$found = preg_match($moduleRegex, $query, $matches);
-		if ($found === 1) {
-			return VtigerWebserviceObject::fromName($adb, trim($matches[1]));
-		}
-		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied for query");
-	}
-
 	public function getEntityName()
 	{
 		return $this->name;

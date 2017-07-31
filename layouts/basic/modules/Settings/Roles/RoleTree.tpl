@@ -14,17 +14,17 @@
 			{if $TYPE == 'Transfer'}
 				{assign var="SOURCE_ROLE_SUBPATTERN" value='::'|cat:$SOURCE_ROLE->getId()}
 				{if strpos($CHILD_ROLE->getParentRoleString(), $SOURCE_ROLE_SUBPATTERN) !== false}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-info" rel="tooltip" >{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-info" rel="tooltip" >{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 				{else}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default roleEle" rel="tooltip" >{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default roleEle" rel="tooltip" >{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 				{/if}
 			{else}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default draggable droppable" rel="tooltip" title="{vtranslate('LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE',$QUALIFIED_MODULE)}">{vtranslate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default draggable droppable" rel="tooltip" title="{\App\Language::translate('LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE',$QUALIFIED_MODULE)}">{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 			{/if}
 			{if $VIEW != 'Popup'}
 			<div class="toolbar">
-				&nbsp;<a href="{$CHILD_ROLE->getCreateChildUrl()}" data-url="{$CHILD_ROLE->getCreateChildUrl()}" title="{vtranslate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-plus-sign"></span></a>
-				&nbsp;<a data-id="{$CHILD_ROLE->getId()}" href="javascript:;" data-url="{$CHILD_ROLE->getDeleteActionUrl()}" data-action="modal" title="{vtranslate('LBL_DELETE', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-trash"></span></a>
+				&nbsp;<a href="{$CHILD_ROLE->getCreateChildUrl()}" data-url="{$CHILD_ROLE->getCreateChildUrl()}" title="{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-plus-sign"></span></a>
+				&nbsp;<a data-id="{$CHILD_ROLE->getId()}" href="javascript:;" data-url="{$CHILD_ROLE->getDeleteActionUrl()}" data-action="modal" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"><span class="glyphicon glyphicon-trash"></span></a>
 			</div>
 			{/if}
 		</div>

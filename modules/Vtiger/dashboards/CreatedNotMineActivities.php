@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Vtiger CreatedNotMineActivities dashboard class
+ * @package YetiForce.Dashboard
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -50,8 +55,8 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITIES', $overDueActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGHT', AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGHT', AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

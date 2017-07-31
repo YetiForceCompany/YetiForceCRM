@@ -125,8 +125,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEntityMethods()
 	{
-		$db = PearDatabase::getInstance();
-		$emm = new VTEntityMethodManager($db);
+		$emm = new VTEntityMethodManager();
 		$methodNames = $emm->methodsForModule($this->get('module_name'));
 		return $methodNames;
 	}
@@ -138,7 +137,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 
-		$links = array();
+		$links = [];
 
 		$recordLinks = array(
 			array(
@@ -234,7 +233,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$taskManager = new VTTaskManager($db);
 		$taskList = $taskManager->getTasks();
 
-		$examinedIdList = array();
+		$examinedIdList = [];
 		foreach ($taskList as $taskDetails) {
 			$workFlowId = $taskDetails->workflowId;
 			if (in_array($workFlowId, $examinedIdList)) {
@@ -247,12 +246,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return count($examinedIdList);
 	}
 
-	public static function getActiveCountFromRecord($taskList = array())
+	public static function getActiveCountFromRecord($taskList = [])
 	{
 
-		$examinedIdList = array();
+		$examinedIdList = [];
 		if (!is_array($taskList))
-			$taskList = array();
+			$taskList = [];
 		foreach ($taskList as $taskDetails) {
 			$workFlowId = $taskDetails->getId();
 			if (in_array($workFlowId, $examinedIdList)) {
@@ -282,7 +281,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!$conditions)
 			$conditions = $this->get('conditions');
-		$transformedConditions = array();
+		$transformedConditions = [];
 
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
@@ -323,9 +322,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function transformAdvanceFilterToWorkFlowFilter()
 	{
 		$conditions = $this->get('conditions');
-		$wfCondition = array();
+		$wfCondition = [];
 
-		if (!empty($conditions)) {
+		if (is_array($conditions)) {
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
@@ -397,8 +396,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public function getReferenceFieldName($relatedModule)
 	{
 		if ($relatedModule) {
-			$db = PearDatabase::getInstance();
-
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 			$referenceFieldsList = $relatedModuleModel->getFieldsByType('reference');
 
@@ -438,12 +435,12 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return $tasks;
 	}
 
+	/**
+	 * Function to get number of workflow
+	 * @return int
+	 */
 	public static function getAllAmountWorkflowsAmount()
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT workflow_id FROM com_vtiger_workflows;';
-		$result = $db->query($query);
-		$numRows = $db->getRowCount($result);
-		return $numRows;
+		return (new App\Db\Query())->from('com_vtiger_workflows')->count();
 	}
 }

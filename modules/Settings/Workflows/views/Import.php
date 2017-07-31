@@ -3,15 +3,16 @@
 /**
  * Import View Class for Workflows Settings
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
-		
+
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
@@ -62,7 +63,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 				$viewer->assign('UPLOAD', true);
 				$viewer->assign('MESSAGES', $messages);
 			} else {
-				$viewer->assign('UPLOAD_ERROR', vtranslate('LBL_UPLOAD_ERROR', $qualifiedModule));
+				$viewer->assign('UPLOAD_ERROR', \App\Language::translate('LBL_UPLOAD_ERROR', $qualifiedModule));
 				$viewer->assign('UPLOAD', false);
 			}
 		}
@@ -72,7 +73,7 @@ class Settings_Workflows_Import_View extends Settings_Vtiger_Index_View
 		\App\Log::trace('End ' . __METHOD__);
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

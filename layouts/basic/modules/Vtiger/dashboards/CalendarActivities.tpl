@@ -16,7 +16,7 @@
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
@@ -28,11 +28,11 @@
 	<div class="row" >
 		<div class="col-xs-12">
 			<div class="pull-right">
-				<button class="btn btn-default btn-sm changeRecordSort" title="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{vtranslate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{vtranslate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+				<button class="btn btn-default btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 					<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
 				</button>
 				{if $LISTVIEWLINKS}
-					<button class="btn btn-default btn-sm goToListView" title="{vtranslate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
+					<button class="btn btn-default btn-sm goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
 						<span class="glyphicon glyphicon-th-list"></span>
 					</button>
 				{/if}	

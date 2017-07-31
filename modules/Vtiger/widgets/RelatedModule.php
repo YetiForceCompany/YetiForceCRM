@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Vtiger RelatedModule widget class
+ * @package YetiForce.Widget
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 {
 
@@ -32,7 +29,7 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			if ($this->Data['action'] == 1) {
 				$createPermission = $model->isPermitted('CreateView');
 				$this->Config['action'] = ($createPermission === true) ? 1 : 0;
-				$this->Config['actionURL'] = $model->getQuickCreateUrl();
+				$this->Config['actionURL'] = "{$model->getQuickCreateUrl()}&sourceRecord={$this->Record}&sourceModule={$this->Module}";
 			}
 			if (isset($this->Data['showAll'])) {
 				$this->Config['url'] .= '&showAll=' . $this->Data['showAll'];
@@ -85,15 +82,15 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getCheckboxLables($model, $type, $prefix)
 	{
 		$on = $prefix . 'ON_' . strtoupper($this->Data[$type]);
-		$translateOn = vtranslate($on, $model->getName());
-		if ($on == $translateOn) {
-			$translateOn = vtranslate('LBL_YES', $model->getName());
+		$translateOn = \App\Language::translate($on, $model->getName());
+		if ($on === $translateOn) {
+			$translateOn = \App\Language::translate('LBL_YES', $model->getName());
 		}
 		$off = $prefix . 'OFF_' . strtoupper($this->Data[$type]);
-		$translateOff = vtranslate($off, $model->getName());
+		$translateOff = \App\Language::translate($off, $model->getName());
 
-		if ($off == $translateOff) {
-			$translateOff = vtranslate('LBL_NO', $model->getName());
+		if ($off === $translateOff) {
+			$translateOff = \App\Language::translate('LBL_NO', $model->getName());
 		}
 		$this->Config[$type . 'Lables'] = ['on' => $translateOn, 'off' => $translateOff];
 	}

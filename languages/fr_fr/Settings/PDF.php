@@ -1,12 +1,19 @@
 <?php
 /**
- * Polish language
+ * PDF french translation
  * @package YetiForce.Language
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com) 
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $languageStrings = [
+	'LBL_GENERATE_ONE_PDF_INFO' => 'Dans le cas où le fichier PDF comprend une fonction spéciale qui génère une table pour de nombreux enregistrements, cocher cette case pourra générer un fichier PDF.',
+	'LBL_GENERATE_ONE_PDF' => 'Générer un PDF pour de nombreux enregistrements',
+	'PLL_INACTIVE' => 'Inactif',
+	'PLL_ACTIVE' => 'Actif',
+	'PLL_IMAGE' => 'Image',
+	'PLL_TEXT' => 'Texte',
 	'LBL_PDF' => 'PDF',
 	'LBL_PDF_DESCRIPTION' => 'Version de Test de la configuration modèle de PDF ',
 	'LBL_CREATING_PDF' => 'Créer un modèle PDF',
@@ -161,7 +168,7 @@ $languageStrings = [
 	'B' => 'B',
 	'A' => 'A',
 	'DEMY' => 'Demy',
-	'ROYAL' => 'Rotyal'
+	'ROYAL' => 'Royal',
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'Modèle PDF sauvegardé.',

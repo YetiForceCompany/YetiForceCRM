@@ -4,7 +4,8 @@ namespace App;
 /**
  * Privilege Util basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeUtil
@@ -95,7 +96,7 @@ class PrivilegeUtil
 			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
 			while ($row = $adb->getRow($result)) {
 				$relTabId = $row['relatedto_tabid'];
-				if (is_array($relModSharArr[$relTabId])) {
+				if (isset($relModSharArr[$relTabId]) && is_array($relModSharArr[$relTabId])) {
 					$temArr = $relModSharArr[$relTabId];
 					$temArr[] = $row['tabid'];
 				} else {
@@ -449,6 +450,105 @@ class PrivilegeUtil
 		return $roleSubordinates;
 	}
 
+	/**
+	 * Function to get the Profile Tab Permissions for the specified vtiger_profileid
+	 * @param int $profileid
+	 * @return int[]
+	 */
+	public static function getProfileTabsPermission($profileid)
+	{
+		Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
+		if (Cache::has('getProfileTabsPermission', $profileid)) {
+			return Cache::get('getProfileTabsPermission', $profileid);
+		}
+		$profileData = (new Db\Query())->select(['tabid', 'permissions'])->from('vtiger_profile2tab')->where(['profileid' => $profileid])->createCommand()->queryAllByGroup(0);
+		$profileData = array_map('intval', $profileData);
+		Cache::save('getProfileTabsPermission', $profileid, $profileData);
+		Log::trace("Exiting getProfileTabsPermission method ...");
+		return $profileData;
+	}
+
+	/**
+	 * Function to get the Profile Global Information for the specified vtiger_profileid
+	 * @param int $profileid
+	 * @return int[]
+	 */
+	public static function getProfileGlobalPermission($profileid)
+	{
+		if (Cache::has('getProfileGlobalPermission', $profileid)) {
+			return Cache::get('getProfileGlobalPermission', $profileid);
+		}
+		$profileData = (new Db\Query())->select(['globalactionid', 'globalactionpermission'])->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileid])->createCommand()->queryAllByGroup(0);
+		$profileData = array_map('intval', $profileData);
+		Cache::save('getProfileGlobalPermission', $profileid, $profileData);
+		return $profileData;
+	}
+
+	/**
+	 * To retreive the global permission of the specifed user from the various vtiger_profiles associated with the user
+	 * @param int $userId
+	 * @return int[]
+	 */
+	public static function getCombinedUserGlobalPermissions($userId)
+	{
+		if (Cache::staticHas('getCombinedUserGlobalPermissions', $userId)) {
+			return Cache::staticGet('getCombinedUserGlobalPermissions', $userId);
+		}
+		$userGlobalPerrArr = [];
+		$profArr = static::getProfilesByUser($userId);
+		$profileId = array_shift($profArr);
+		if ($profileId) {
+			$userGlobalPerrArr = static::getProfileGlobalPermission($profileId);
+			foreach ($profArr as $profileId) {
+				$tempUserGlobalPerrArr = static::getProfileGlobalPermission($profileId);
+				foreach ($userGlobalPerrArr as $globalActionId => $globalActionPermission) {
+					if ($globalActionPermission === 1) {
+						$permission = $tempUserGlobalPerrArr[$globalActionId];
+						if ($permission === 0) {
+							$userGlobalPerrArr[$globalActionId] = $permission;
+						}
+					}
+				}
+			}
+		}
+		Cache::staticSave('getCombinedUserGlobalPermissions', $userId, $userGlobalPerrArr);
+		return $userGlobalPerrArr;
+	}
+
+	/**
+	 * To retreive the vtiger_tab permissions of the specifed user from the various vtiger_profiles associated with the user
+	 * @param int $userId
+	 * @return array
+	 */
+	public static function getCombinedUserTabsPermissions($userId)
+	{
+		if (Cache::staticHas('getCombinedUserTabsPermissions', $userId)) {
+			return Cache::staticGet('getCombinedUserTabsPermissions', $userId);
+		}
+		$profArr = static::getProfilesByUser($userId);
+		$profileId = array_shift($profArr);
+		if ($profileId) {
+			$userTabPerrArr = static::getProfileTabsPermission($profileId);
+			foreach ($profArr as $profileId) {
+				$tempUserTabPerrArr = static::getProfileTabsPermission($profileId);
+				foreach ($userTabPerrArr as $tabId => $tabPermission) {
+					if ($tabPermission === 1) {
+						$permission = $tempUserTabPerrArr[$tabId];
+						if ($permission === 0) {
+							$userTabPerrArr[$tabId] = $permission;
+						}
+					}
+				}
+			}
+		}
+		$homeTabid = \App\Module::getModuleId('Home');
+		if (!isset($userTabPerrArr[$homeTabid])) {
+			$userTabPerrArr[$homeTabid] = 0;
+		}
+		Cache::staticSave('getCombinedUserTabsPermissions', $userId, $userTabPerrArr);
+		return $userTabPerrArr;
+	}
+
 	protected static $dataShareStructure = [
 		'role2role' => ['vtiger_datashare_role2role', 'to_roleid'],
 		'role2rs' => ['vtiger_datashare_role2rs', 'to_roleandsubid'],
@@ -506,7 +606,10 @@ class PrivilegeUtil
 	{
 		$modTabId = \App\Module::getModuleId($module);
 		$modShareWritePermission = $modShareReadPermission = ['ROLE' => [], 'GROUP' => []];
-		$modDefOrgShare = $defOrgShare[$modTabId];
+		$modDefOrgShare = null;
+		if (isset($defOrgShare[$modTabId])) {
+			$modDefOrgShare = $defOrgShare[$modTabId];
+		}
 		$shareIdMembers = [];
 		//If Sharing of leads is Private
 		if ($modDefOrgShare === 3 || $modDefOrgShare === 0) {
@@ -537,8 +640,10 @@ class PrivilegeUtil
 			}
 			//Retreiving from role to rs
 			$parRoleList = [];
-			foreach ($parentRoles as $par_role_id) {
-				array_push($parRoleList, $par_role_id);
+			if (is_array($parentRoles)) {
+				foreach ($parentRoles as $par_role_id) {
+					array_push($parRoleList, $par_role_id);
+				}
 			}
 			array_push($parRoleList, $currentUserRoles);
 			$rows = static::getDatashare('role2rs', $modTabId, $parRoleList);
@@ -571,7 +676,7 @@ class PrivilegeUtil
 			}
 			if ($groupList) {
 				$rows = static::getDatashare('role2group', $modTabId, $groupList);
-				foreach ($rows as &$row) {
+				foreach ($rows as $row) {
 					$shareRoleId = $row['share_roleid'];
 					$shareIdRoleMembers = [];
 					$shareIdRoles = [];
@@ -732,7 +837,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2role sharing 
 			$rows = static::getDatashare('group2role', $modTabId, $currentUserRoles);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -787,7 +892,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2rs sharing 
 			$rows = static::getDatashare('group2rs', $modTabId, $parRoleList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -842,7 +947,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2us sharing 
 			$rows = static::getDatashare('group2user', $modTabId, $userid);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -897,7 +1002,7 @@ class PrivilegeUtil
 
 			//Retreiving from the grp2grp sharing 
 			$rows = static::getDatashare('group2group', $modTabId, $groupList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareGrpId = $row['share_groupid'];
 				$shareIdGrpMembers = [];
 				$shareIdGrps = [];
@@ -952,7 +1057,7 @@ class PrivilegeUtil
 
 			//Get roles from Us2Us 
 			$rows = static::getDatashare('user2user', $modTabId, $userid);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
@@ -976,7 +1081,7 @@ class PrivilegeUtil
 			}
 			//Get roles from Us2Grp 
 			$rows = static::getDatashare('user2group', $modTabId, $groupList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
@@ -1000,7 +1105,7 @@ class PrivilegeUtil
 			}
 			//Get roles from Us2role 
 			$rows = static::getDatashare('user2role', $modTabId, $currentUserRoles);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];
@@ -1025,7 +1130,7 @@ class PrivilegeUtil
 
 			//Get roles from Us2rs 
 			$rows = static::getDatashare('user2rs', $modTabId, $parRoleList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareUserId = $row['share_userid'];
 				$shareIdGrpMembers = [];
 				$shareIdUsers = [];

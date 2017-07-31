@@ -3,7 +3,7 @@
 class Users_CheckUserPass_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
@@ -11,7 +11,7 @@ class Users_CheckUserPass_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 
 		$response = new Vtiger_Response();

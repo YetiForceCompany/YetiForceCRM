@@ -1,13 +1,14 @@
 <?php
 
 /**
- * @package YetiForce.models
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Settings_CurrencyUpdate_Module_Model extends Vtiger_Base_Model
+class Settings_CurrencyUpdate_Module_Model extends \App\Base
 {
 	/*
 	 * Returns objects instance

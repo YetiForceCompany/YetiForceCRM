@@ -20,7 +20,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$this->exposeMethod('step3');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -36,7 +36,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		}
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -67,7 +67,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->view('EditChartHeader.tpl', $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -77,7 +77,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		}
 	}
 
-	public function step1(Vtiger_Request $request)
+	public function step1(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -109,10 +109,10 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$relatedModules = $reportModel->getReportRelatedModules();
 
 		foreach ($relatedModules as $primaryModule => $relatedModuleList) {
-			$translatedRelatedModules = array();
+			$translatedRelatedModules = [];
 
 			foreach ($relatedModuleList as $relatedModuleName) {
-				$translatedRelatedModules[$relatedModuleName] = vtranslate($relatedModuleName, $relatedModuleName);
+				$translatedRelatedModules[$relatedModuleName] = \App\Language::translate($relatedModuleName, $relatedModuleName);
 			}
 			$relatedModules[$primaryModule] = $translatedRelatedModules;
 		}
@@ -130,7 +130,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->view('ChartEditStep1.tpl', $moduleName);
 	}
 
-	public function step2(Vtiger_Request $request)
+	public function step2(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -154,7 +154,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 
 			$secondaryModules = explode(':', $secondaryModules);
 		} else {
-			$secondaryModules = array();
+			$secondaryModules = [];
 		}
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('REPORT_MODEL', $reportModel);
@@ -168,7 +168,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->assign('PRIMARY_MODULE_RECORD_STRUCTURE', $primaryModuleRecordStructure);
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
 		$viewer->assign('DATE_FILTERS', Vtiger_AdvancedFilter_Helper::getDateFilter($moduleName));
-		if (($primaryModule == 'Calendar') || (in_array('Calendar', $secondaryModules))) {
+		if (($primaryModule === 'Calendar') || (in_array('Calendar', $secondaryModules))) {
 			$advanceFilterOpsByFieldType = Calendar_Field_Model::getAdvancedFilterOpsByFieldType();
 		} else {
 			$advanceFilterOpsByFieldType = Vtiger_Field_Model::getAdvancedFilterOpsByFieldType();
@@ -188,7 +188,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->view('ChartEditStep2.tpl', $moduleName);
 	}
 
-	public function step3(Vtiger_request $request)
+	public function step3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -211,7 +211,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 			$reportModel->setSecondaryModule($secondaryModules);
 			$secondaryModules = explode(':', $secondaryModules);
 		} else {
-			$secondaryModules = array();
+			$secondaryModules = [];
 		}
 
 		$chartModel = Reports_Chart_Model::getInstanceById($reportModel);
@@ -237,16 +237,15 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/jquery.datepick.package-4.1.0/jquery.datepick.js',
 			"modules.Reports.resources.Edit",
 			"modules.Reports.resources.Edit1",
 			"modules.Reports.resources.Edit2",

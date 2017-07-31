@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * EmailTemplates german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'EmailTemplates' => 'E-Mail Templates',
 	'SINGLE_EmailTemplates' => 'E-Mail Template',
@@ -12,11 +17,11 @@ $languageStrings = [
 	'FL_MODULE' => 'Modul',
 	'FL_SUBJECT' => 'Betreff',
 	'FL_CONTENT' => 'Inhalt',
-	'FL_SMTP_PRIORITY' => 'SMTP priority',
+	'FL_SMTP_PRIORITY' => 'SMTP Priorität',
 	// PICKLIST
 	'PLL_MODULE' => 'Modul',
-	'PLL_RECORD' => 'Record',
+	'PLL_RECORD' => 'Datensatz',
 	'PLL_MAIL' => 'Nachricht',
 	'PLL_LIST' => 'Liste',
-	'PLL_DEFAULT' => 'Default company',
+	'PLL_DEFAULT' => 'Firma (Standard)',
 ];

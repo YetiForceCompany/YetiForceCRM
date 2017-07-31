@@ -12,7 +12,7 @@
 class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->get('record');
 		if (!$record) {
@@ -26,9 +26,8 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 

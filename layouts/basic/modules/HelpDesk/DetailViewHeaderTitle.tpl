@@ -12,7 +12,7 @@
 {strip}
 	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
 		<div class="alert alert-danger marginBottom10px" role="alert">
-			<strong>{vtranslate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
+			<strong>{\App\Language::translate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
 					<strong> [ <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ]</strong>
@@ -25,14 +25,14 @@
 			{if $SERVICE_CONTRACTS}
 				<ul class="nav nav-pills pull-right relative top10" role="tablist">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
-						<li role="presentation" class="btn btn-default popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{vtranslate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
+						<li role="presentation" class="btn btn-default popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
 							<span class="glyphicon glyphicon-link" aria-hidden="true"></span> {$ROW['subject']} {if $ROW['due_date']}({$ROW['due_date']}){/if}
 						</li>
 					{/foreach}
 				</ul>
-				<strong>{vtranslate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
+				<strong>{\App\Language::translate('LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK',$MODULE)}</strong>
 			{else}
-				<strong>{vtranslate('LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS',$MODULE)}</strong>
+				<strong>{\App\Language::translate('LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS',$MODULE)}</strong>
 			{/if}
 		</div>
 	{/if}
@@ -55,24 +55,24 @@
 				{assign var=PRIORITY value=$RECORD->get('ticketpriorities')}
 				{if !empty($PRIORITY)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Priority',$MODULE_NAME)} - </span>
+						<span class="muted">{\App\Language::translate('Priority',$MODULE_NAME)} - </span>
 						{$RECORD->getDisplayValue('ticketpriorities')}
 					</div>
 				{/if}
 				{assign var=STATUS value=$RECORD->get('ticketstatus')}
 				{if !empty($STATUS)}
 					<div class="paddingLeft5px">
-						<span class="muted">{vtranslate('Status',$MODULE_NAME)}: </span>
+						<span class="muted">{\App\Language::translate('Status',$MODULE_NAME)}: </span>
 						{$RECORD->getDisplayValue('ticketstatus')}
 					</div>
 				{/if}
 				<div class="muted paddingLeft5px">
-					{vtranslate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{\App\Language::translate('Assigned To',$MODULE_NAME)}: {$RECORD->getDisplayValue('assigned_user_id')}
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}
 					<div class="muted paddingLeft5px">
-						{vtranslate('Share with users',$MODULE_NAME)}: {$SHOWNERS}
+						{\App\Language::translate('Share with users',$MODULE_NAME)}: {$SHOWNERS}
 					</div>
 				{/if}
 			</div>

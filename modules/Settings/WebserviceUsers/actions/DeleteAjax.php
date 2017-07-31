@@ -2,8 +2,9 @@
 
 /**
  * Class to delete
- * @package YetiForce.Settings.Action
- * @license licenses/License.html
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
@@ -11,9 +12,9 @@ class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_
 
 	/**
 	 * Function  proccess
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$typeApi = $request->get('typeApi');
@@ -27,9 +28,9 @@ class Settings_WebserviceUsers_DeleteAjax_Action extends Settings_Vtiger_Delete_
 
 	/**
 	 * Validating incoming request.
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

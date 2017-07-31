@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * LangManagement russian translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_UNTRANSLATED_LABELS' => 'Не переведенные переменные',
 	'Language editor' => 'Редактор языков',
@@ -36,6 +41,7 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Перевод обновлен',
 	'LBL_AddTranslationOK' => 'Новая переменная добавлена',
 	'LBL_DeleteTranslationOK' => 'Переменная удалена',
+	'LBL_DELETE_TRANSLATION_FAILED' => 'Removing translation unsuccessful',
 	'Modules' => 'Модули',
 	'Module' => 'Модуль',
 	'Language' => 'Язык',
@@ -55,6 +61,7 @@ $languageStrings = [
 	'LBL_LANGUAGE' => 'Язык',
 	'LBL_SHOW' => 'Показать',
 	'LBL_STATS_INFO' => 'Представленные статистические значения определяют соотношение количества непереведенных меток для всех меток, которые существуют в файле базового языка в процентах.',
+	'LBL_CUSTOM_TYPE_INFO' => 'Custom mode is enabled. You cannot modify source language files. All modifications will take place in the custom/ directory.',
 ];
 $jsLanguageStrings = [
 	'JS_NOTRANSLATION' => 'Не найдено ни одной записи',

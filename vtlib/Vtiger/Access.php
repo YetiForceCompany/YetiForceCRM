@@ -23,7 +23,7 @@ class Access
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
 		Utils::Log($message, $delim);
 	}
@@ -33,7 +33,7 @@ class Access
 	 * @internal This function could take up lot of resource while execution
 	 * @access private
 	 */
-	static function syncSharingAccess()
+	public static function syncSharingAccess()
 	{
 		self::log("Recalculating sharing rules ... ", false);
 		RecalculateSharingRules();
@@ -46,7 +46,7 @@ class Access
 	 * @param Boolean true to enable sharing access, false disable sharing access
 	 * @access private
 	 */
-	static function allowSharing($moduleInstance, $enable = true)
+	public static function allowSharing($moduleInstance, $enable = true)
 	{
 		$ownedBy = $enable ? 0 : 1;
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['ownedby' => $ownedBy], ['tabid' => $moduleInstance->id])->execute();
@@ -59,7 +59,7 @@ class Access
 	 * @access private
 	 * @internal This method is called from Module during creation.
 	 */
-	static function initSharing($moduleInstance)
+	public static function initSharing($moduleInstance)
 	{
 		$query = (new \App\Db\Query)->select(['share_action_id'])->from('vtiger_org_share_action_mapping')
 			->where(['share_action_name' => ['Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private']]);
@@ -80,7 +80,7 @@ class Access
 	 * @access private
 	 * @internal This method is called from Module during deletion.
 	 */
-	static function deleteSharing($moduleInstance)
+	public static function deleteSharing($moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_org_share_action2tab', ['tabid' => $moduleInstance->id])->execute();
 		self::log("Deleting sharing access ... DONE");
@@ -92,7 +92,7 @@ class Access
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 * @access private
 	 */
-	static function setDefaultSharing($moduleInstance, $permissionText = 'Public_ReadWriteDelete')
+	public static function setDefaultSharing($moduleInstance, $permissionText = 'Public_ReadWriteDelete')
 	{
 		$permissionText = strtolower($permissionText);
 
@@ -127,11 +127,11 @@ class Access
 	 * @param Integer (optional) profile id to use, false applies to all profile.
 	 * @access private
 	 */
-	static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)
+	public static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)
 	{
 		$actionId = getActionid($toolAction);
 		if ($actionId) {
-			$permission = ($flag === true) ? 0 : 1;
+			$permission = ($flag === true) ? '0' : '1';
 
 			$profileids = [];
 			if ($profileid) {
@@ -143,13 +143,11 @@ class Access
 			self::log(($flag ? 'Enabling' : 'Disabling') . " $toolAction for Profile [", false);
 			$db = \App\Db::getInstance();
 			foreach ($profileids as &$useProfileId) {
-				$curpermission = (new \App\Db\Query)->select('permission')->from('vtiger_profile2utility')
+				$isExists = (new \App\Db\Query)->from('vtiger_profile2utility')
 					->where(['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])
-					->scalar();
-				if ($curpermission) {
-					if ($curpermission !== $permission) {
-						$db->createCommand()->update('vtiger_profile2utility', ['permission' => $permission], ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])->execute();
-					}
+					->exists();
+				if ($isExists) {
+					$db->createCommand()->update('vtiger_profile2utility', ['permission' => $permission], ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId])->execute();
 				} else {
 					$db->createCommand()->insert('vtiger_profile2utility', ['profileid' => $useProfileId, 'tabid' => $moduleInstance->id, 'activityid' => $actionId, 'permission' => $permission])->execute();
 				}
@@ -164,7 +162,7 @@ class Access
 	 * Delete tool (actions) of the module
 	 * @param Module Instance of module to use
 	 */
-	static function deleteTools($moduleInstance)
+	public static function deleteTools($moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_profile2utility', ['tabid' => $moduleInstance->id])->execute();
 		self::log("Deleting tools ... DONE");

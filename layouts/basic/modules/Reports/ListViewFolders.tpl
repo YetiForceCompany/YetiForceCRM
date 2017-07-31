@@ -11,17 +11,17 @@
 -->*}
 {strip}
 <span class="customFilterMainSpan btn-group">
-	<select id="customFilter"  style="width:350px;" title="{vtranslate('LBL_SELECT_REPORT', $MODULE)}">
-		<optgroup id="foldersBlock" label="{vtranslate('LBL_FOLDERS', $MODULE)}">
-			<option value="All" data-id="All">{vtranslate('LBL_ALL_REPORTS', $MODULE)}</option>
+	<select id="customFilter"  style="width:350px;" title="{\App\Language::translate('LBL_SELECT_REPORT', $MODULE)}">
+		<optgroup id="foldersBlock" label="{\App\Language::translate('LBL_FOLDERS', $MODULE)}">
+			<option value="All" data-id="All">{\App\Language::translate('LBL_ALL_REPORTS', $MODULE)}</option>
 			{foreach item=FOLDER from=$FOLDERS}
-				<option  data-editurl="{$FOLDER->getEditUrl()}" id="filterOptionId_{$FOLDER->getId()}" class="filterOptionId_{$FOLDER->getId()}" data-deletable="{$FOLDER->isDeletable()}" data-editable="{$FOLDER->isEditable()}" data-deleteurl="{$FOLDER->getDeleteUrl()}" value="{$FOLDER->getId()}" data-id="{$FOLDER->getId()}" {if $VIEWNAME eq $FOLDER->getId()}selected=""{/if}>{vtranslate($FOLDER->getName(), $MODULE)}</option>
+				<option  data-editurl="{$FOLDER->getEditUrl()}" id="filterOptionId_{$FOLDER->getId()}" class="filterOptionId_{$FOLDER->getId()}" data-deletable="{$FOLDER->isDeletable()}" data-editable="{$FOLDER->isEditable()}" data-deleteurl="{$FOLDER->getDeleteUrl()}" value="{$FOLDER->getId()}" data-id="{$FOLDER->getId()}" {if $VIEWNAME eq $FOLDER->getId()}selected=""{/if}>{\App\Language::translate($FOLDER->getName(), $MODULE)}</option>
 			{/foreach}
 		</optgroup>
 	</select>
 </span>
 <span class="hide filterActionImages pull-right">
-	<span title="{vtranslate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
-	<span title="{vtranslate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
+	<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
+	<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
 </span>
 {/strip}

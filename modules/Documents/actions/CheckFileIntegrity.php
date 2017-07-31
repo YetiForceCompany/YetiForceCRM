@@ -12,16 +12,16 @@
 class Documents_CheckFileIntegrity_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new \Exception\NoPermittedToRecord(vtranslate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new \Exception\NoPermittedToRecord(\App\Language::translate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');

@@ -27,15 +27,15 @@ $languageStrings = [
 	'GL Account' => 'Compte de comptabilité générale',
 	'LBL_ADD_RECORD' => 'Ajouter un enregistrement',
 	'LBL_RECORDS_LIST' => 'Liste des vendeurs',
-	'LBL_VENDOR_INFORMATION' => 'Détails Vendeur',
+	'LBL_VENDOR_INFORMATION' => 'Détails du vendeur',
 	'Phone' => 'Téléphone',
 	'SINGLE_Vendors' => 'Vendeur',
 	'Vendor Name' => 'Nom du vendeur',
-	'Vendor No' => 'No. Vendeur',
+	'Vendor No' => 'Vendeur N°',
 	'Vendors' => 'Vendeurs',
 	'Website' => 'Site web',
-	'LBL_BUILDING_NUMBER' => 'No. Bâtiment',
-	'LBL_LOCAL_NUMBER' => 'No. bureau',
+	'LBL_BUILDING_NUMBER' => 'Bâtiment N°',
+	'LBL_LOCAL_NUMBER' => 'Bureau N°',
 ];
 
 $jsLanguageStrings = [

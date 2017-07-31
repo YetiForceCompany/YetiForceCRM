@@ -12,7 +12,7 @@
 class Products_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 

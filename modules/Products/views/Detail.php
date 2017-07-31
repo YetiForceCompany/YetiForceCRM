@@ -12,7 +12,7 @@
 class Products_Detail_View extends Vtiger_Detail_View
 {
 
-	public function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -27,12 +27,12 @@ class Products_Detail_View extends Vtiger_Detail_View
 		return parent::showModuleDetailView($request);
 	}
 
-	public function showModuleBasicView(Vtiger_Request $request)
+	public function showModuleBasicView(\App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

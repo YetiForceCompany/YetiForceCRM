@@ -1,29 +1,25 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSMailView mbody view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 Class OSSMailView_mbody_View extends Vtiger_Index_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
-		parent::preProcess($request, false);
+		
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request, $display = true)
 	{
-		global $GLOBALS;
-		$GLOBALS['csrf']['frame-breaker'] = false;
+		
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -35,16 +31,18 @@ Class OSSMailView_mbody_View extends Vtiger_Index_View
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
+		if (class_exists('CSRF')) {
+			CSRF::$frameBreaker = false;
+			CSRF::$rewriteJs = null;
+		}
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$content = $recordModel->get('content');
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
-		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($content));
+		$viewer->assign('CONTENT', vtlib\Functions::getHtmlOrPlainText($recordModel->get('content')));
 		$viewer->assign('RECORD', $record);
 		$viewer->view('mbody.tpl', 'OSSMailView');
 	}

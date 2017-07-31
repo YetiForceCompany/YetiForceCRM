@@ -4,7 +4,8 @@ namespace App;
 /**
  * Privilege File basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeQuery
@@ -71,7 +72,7 @@ class PrivilegeQuery
 	public static function getConditions(\App\Db\Query $query, $moduleName, $user = false, $relatedRecord = false)
 	{
 		if ($user && $user instanceof User) {
-			$userId = $user->getUserId();
+			$userId = $user->getId();
 		} elseif (!$user) {
 			$userId = \App\User::getCurrentUserId();
 		}

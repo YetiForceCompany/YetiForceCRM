@@ -1,5 +1,4 @@
 <?php
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -25,7 +24,6 @@
  * @link      http://pear.php.net/package/HTTP_Session
  * @since     File available since Release 0.5.6
  */
-
 require_once 'HTTP/Session/Container.php';
 
 /**
@@ -43,160 +41,152 @@ require_once 'HTTP/Session/Container.php';
  */
 class HTTP_Session_Container_Memcache extends HTTP_Session_Container
 {
-    /**
-     * Memcache connection object
-     *
-     * @var     object  Memcache
-     * @access  private
-     */
-    public $mc;
 
-    /**
-     * Constructor method
-     *
-     * $options is an array with the options.<br>
-     * The options are:
-     * <ul>
-     * <li>'memcache' - Memcache object
-     * <li>'prefix' - Key prefix, default is 'sessiondata:'</li>
-     * </ul>
-     *
-     * @param array $options Options
-     *
-     * @access public
-     * @return object
-     */
-    public function HTTP_Session_Container_Memcache($options)
-    {
-        $this->_setDefaults();
+	/**
+	 * Memcache connection object
+	 *
+	 * @var     object  Memcache
+	 * @access  private
+	 */
+	public $mc;
 
-        if (is_array($options)) {
-            $this->_parseOptions($options);
-        }
-    }
+	/**
+	 * Constructor method
+	 *
+	 * $options is an array with the options.<br />
+	 * The options are:
+	 * <ul>
+	 * <li>'memcache' - Memcache object
+	 * <li>'prefix' - Key prefix, default is 'sessiondata:'</li>
+	 * </ul>
+	 *
+	 * @param array $options Options
+	 *
+	 * @access public
+	 * @return object
+	 */
+	public function HTTP_Session_Container_Memcache($options)
+	{
+		$this->_setDefaults();
 
-    /**
-     * Connect to database by using the given DSN string
-     *
-     * @param string $mc Memcache object
-     *
-     * @access private
-     * @return mixed   Object on error, otherwise bool
-     */
-    public function _connect($mc)
-    {
-        if (is_object($mc) && is_a($mc, 'Memcache')) {
-            $this->mc = $mc;
+		if (is_array($options)) {
+			$this->_parseOptions($options);
+		}
+	}
 
-        } else {
+	/**
+	 * Connect to database by using the given DSN string
+	 *
+	 * @param string $mc Memcache object
+	 *
+	 * @access private
+	 * @return mixed   Object on error, otherwise bool
+	 */
+	public function _connect($mc)
+	{
+		if (is_object($mc) && is_a($mc, 'Memcache')) {
+			$this->mc = $mc;
+		} else {
 
-            return new PEAR_Error('The given memcache object was not valid in file '
-                                  . __FILE__ . ' at line ' . __LINE__,
-                                  41,
-                                  PEAR_ERROR_RETURN,
-                                  null,
-                                  null
-                                 );
-        }
+			return new PEAR_Error('The given memcache object was not valid in file '
+				. __FILE__ . ' at line ' . __LINE__, 41, PEAR_ERROR_RETURN, null, null
+			);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Set some default options
-     *
-     * @access private
-     * @return void
-     */
-    public function _setDefaults()
-    {
-        $this->options['prefix']   = 'sessiondata:';
-        $this->options['memcache'] = null;
-    }
+	/**
+	 * Set some default options
+	 *
+	 * @access private
+	 * @return void
+	 */
+	public function _setDefaults()
+	{
+		$this->options['prefix'] = 'sessiondata:';
+		$this->options['memcache'] = null;
+	}
 
-    /**
-     * Establish connection to a database
-     *
-     * @param string $save_path    Save path
-     * @param string $session_name Session name
-     *
-     * @access public
-     * @return mixed  Object on error, otherwise bool
-     */
-    public function open($save_path, $session_name)
-    {
-        return $this->_connect($this->options['memcache']);
-    }
+	/**
+	 * Establish connection to a database
+	 *
+	 * @param string $save_path    Save path
+	 * @param string $session_name Session name
+	 *
+	 * @access public
+	 * @return mixed  Object on error, otherwise bool
+	 */
+	public function open($save_path, $session_name)
+	{
+		return $this->_connect($this->options['memcache']);
+	}
 
-    /**
-     * Free resources
-     *
-     * @access public
-     * @return bool
-     */
-    public function close()
-    {
-        return true;
-    }
+	/**
+	 * Free resources
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function close()
+	{
+		return true;
+	}
 
-    /**
-     * Read session data
-     *
-     * @param string $id Session id
-     *
-     * @access public
-     * @return mixed
-     */
-    public function read($id)
-    {
-        $result = $this->mc->get($this->options['prefix'] . $id);
-        return $result;
-    }
+	/**
+	 * Read session data
+	 *
+	 * @param string $id Session id
+	 *
+	 * @access public
+	 * @return mixed
+	 */
+	public function read($id)
+	{
+		$result = $this->mc->get($this->options['prefix'] . $id);
+		return $result;
+	}
 
-    /**
-     * Write session data
-     *
-     * @param string $id   Session id
-     * @param mixed  $data Session data
-     *
-     * @access public
-     * @return bool
-     */
-    public function write($id, $data)
-    {
-        $this->mc->set($this->options['prefix'] . $id,
-                       $data,
-                       MEMCACHE_COMPRESSED,
-                       time() + ini_get('session.gc_maxlifetime'));
+	/**
+	 * Write session data
+	 *
+	 * @param string $id   Session id
+	 * @param mixed  $data Session data
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function write($id, $data)
+	{
+		$this->mc->set($this->options['prefix'] . $id, $data, MEMCACHE_COMPRESSED, time() + ini_get('session.gc_maxlifetime'));
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Destroy session data
-     *
-     * @param string $id Session id
-     *
-     * @access public
-     * @return bool
-     */
-    public function destroy($id)
-    {
-        $this->mc->delete($this->options['prefix'] . $id);
-        return true;
-    }
+	/**
+	 * Destroy session data
+	 *
+	 * @param string $id Session id
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function destroy($id)
+	{
+		$this->mc->delete($this->options['prefix'] . $id);
+		return true;
+	}
 
-    /**
-     * Garbage collection
-     *
-     * @param int $maxlifetime Maximum lifetime
-     *
-     * @access public
-     * @return bool
-     */
-    public function gc($maxlifetime)
-    {
-        return true;
-    }
+	/**
+	 * Garbage collection
+	 *
+	 * @param int $maxlifetime Maximum lifetime
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function gc($maxlifetime)
+	{
+		return true;
+	}
 }
-?>

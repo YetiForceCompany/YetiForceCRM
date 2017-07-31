@@ -7,29 +7,29 @@
  * All Rights Reserved.
  *************************************************************************************}
 {strip}
-	<br>
+	<br />
 	<div>
 		<table class="table table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th width="10%">{vtranslate('LBL_ACTIVE',$QUALIFIED_MODULE)}</th>
-					<th width="30%">{vtranslate('LBL_TASK_TYPE',$QUALIFIED_MODULE)}</th>
-					<th>{vtranslate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}</th>
+					<th width="10%">{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}</th>
+					<th width="30%">{\App\Language::translate('LBL_TASK_TYPE',$QUALIFIED_MODULE)}</th>
+					<th>{\App\Language::translate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}</th>
 				</tr>
 			</thead>
 			<tbody>
 				{foreach from=$TASK_LIST item=TASK}
 					<tr class="listViewEntries">
 						<td><input type="checkbox" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" {/if} /></td>
-						<td>{vtranslate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
+						<td>{\App\Language::translate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
 						<td>{$TASK->getName()}
 							<div class="pull-right actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
-										<span class="glyphicon glyphicon-pencil alignMiddle" title="{vtranslate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
+										<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>
 									</a>&nbsp;&nbsp;
 									<a class="deleteTask" data-deleteurl="{$TASK->getDeleteActionUrl()}">
-										<span class="glyphicon glyphicon-trash alignMiddle" title="{vtranslate('LBL_DELETE',$QUALIFIED_MODULE)}"></span>
+										<span class="glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE',$QUALIFIED_MODULE)}"></span>
 									</a>
 								</span>
 							</div>
@@ -43,7 +43,7 @@
 				<tbody>
 					<tr>
 						<td>
-							{vtranslate('LBL_NO_TASKS_ADDED',$QUALIFIED_MODULE)}
+							{\App\Language::translate('LBL_NO_TASKS_ADDED',$QUALIFIED_MODULE)}
 						</td>
 					</tr>
 				</tbody>

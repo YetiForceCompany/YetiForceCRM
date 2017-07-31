@@ -1,14 +1,4 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 <style>
     .table tbody tr.error > td {
@@ -26,21 +16,21 @@
 	</div>
         <table class="">
             <tr>
-                <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{vtranslate('RunCron', 'OSSMailScanner')}</button></td>
+                <td><button class="btn btn-success" id="run_cron" type="button" {if $STOP_BUTTON_STATUS neq 'false'}disabled{/if}>{\App\Language::translate('RunCron', 'OSSMailScanner')}</button></td>
             </tr>
             </table><br />   
 		<div class="row col-xs-12">
 			<div  class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px" >
-				<div class="row col-sm-4">{vtranslate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-7"><input type="text" class="form-control" title="{vtranslate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
+				<div class="row col-sm-4">{\App\Language::translate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" class="form-control" title="{\App\Language::translate('email_to_notify', 'OSSMailScanner')}" name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
 			</div>
 			<div class='row col-sm-10 col-md-8 col-lg-7 marginBottom10px'>
-				<div class="row col-sm-4">{vtranslate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{vtranslate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
+				<div class="row col-sm-4">{\App\Language::translate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
+				<div class="col-sm-7"><input type="text" name="time_to_notify" title="{\App\Language::translate('time_to_notify', 'OSSMailScanner')}" class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
 			</div>
 		</div>
 		<div class="pull-right">
-		<select class="col-md-1 form-control" name="page_num" title="{vtranslate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
+		<select class="col-md-1 form-control" name="page_num" title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}">
 						{if $HISTORYACTIONLIST_NUM eq 0}<option vlaue="1">1</option>{/if}
 			{for $i=1 to $HISTORYACTIONLIST_NUM}
 			<option vlaue="{$i}">{$i}</option>
@@ -50,15 +40,15 @@
 			<table class="table tableRWD table-bordered log-list">
 				<thead>
 					<tr class="listViewHeaders">
-						<th>{vtranslate('No', 'OSSMailScanner')}.</th>
-						<th>{vtranslate('startTime', 'OSSMailScanner')}</th>
-						<th>{vtranslate('endTime', 'OSSMailScanner')}</th>
-						<th>{vtranslate('status', 'OSSMailScanner')}</th>
-						<th>{vtranslate('who', 'OSSMailScanner')}</th>
-						<th>{vtranslate('count', 'OSSMailScanner')}</th>
-						<th>{vtranslate('stop_user', 'OSSMailScanner')}</th>
-						<th>{vtranslate('Action', 'OSSMailScanner')}</th>
-						<th>{vtranslate('Desc', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('No', 'OSSMailScanner')}.</th>
+						<th>{\App\Language::translate('startTime', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('endTime', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('status', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('who', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('count', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('stop_user', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('Action', 'OSSMailScanner')}</th>
+						<th>{\App\Language::translate('Desc', 'OSSMailScanner')}</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -67,15 +57,15 @@
 						<td>{$item['id']}</td>
 						<td>{$item['start_time']}</td>
 						<td>{$item['end_time']}</td>
-						<td>{vtranslate($item['status'], 'OSSMailScanner')}</td>
+						<td>{\App\Language::translate($item['status'], 'OSSMailScanner')}</td>
 						<td>{$item['user']}</td>
 						<td>{$item['count']}</td>
 						<td>{$item['stop_user']}</td>
-						<td>{vtranslate($item['action'], 'OSSMailScanner')}</td>
+						<td>{\App\Language::translate($item['action'], 'OSSMailScanner')}</td>
 						<td>{$item['info']}</td>
 						<td>
 							{if $item['status'] eq 'In progress'}
-							<button type="button" class="btn btn-danger" id="manula_stop_cron" {if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{vtranslate('StopCron', 'OSSMailScanner')}</button>
+							<button type="button" class="btn btn-danger" id="manula_stop_cron" {if $STOP_BUTTON_STATUS eq 'false'}disabled{/if}>{\App\Language::translate('StopCron', 'OSSMailScanner')}</button>
 							{/if}
 						</td>
 					</tr>

@@ -10,11 +10,13 @@
 
 class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 {
-	public function checkPermission(Vtiger_Request $request){
+
+	public function checkPermission(\App\Request $request)
+	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$module = $request->getModule();
@@ -22,7 +24,7 @@ class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 		$moduleModel->deleteRecord($recordId);
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => vtranslate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
+		$response->setResult(array('message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
 		$response->emit();
 	}
 }

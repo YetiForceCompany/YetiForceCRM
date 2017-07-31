@@ -11,7 +11,7 @@
 /**
  * Vtiger Image Model Class
  */
-class Vtiger_Image_Model extends Vtiger_Base_Model
+class Vtiger_Image_Model extends \App\Base
 {
 
 	/**

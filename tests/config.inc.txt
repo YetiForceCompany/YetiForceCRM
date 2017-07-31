@@ -22,7 +22,7 @@ $USE_RTE = 'true';
 // url for customer portal (Example: https://portal.yetiforce.com/)
 $PORTAL_URL = 'https://portal';
 
-// helpdesk support email id and support name (Example: 'support@vtiger.com' and 'vtiger support')
+// helpdesk support email id and support name (Example: 'support@yetiforce.com' and 'yetiforce support')
 $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY = '';
 
@@ -60,9 +60,6 @@ $import_dir = 'cache/import/';
 
 // upload_dir default 
 $upload_dir = 'cache/upload/';
-
-// disable send files using KCFinder
-$upload_disabled = false;
 
 // maximum file size for uploaded files in bytes also used when uploading import files
 // upload_maxsize default value = 3000000
@@ -139,7 +136,7 @@ $default_timezone = 'Europe/Warsaw';
 
 /** If timezone is configured, try to set it */
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
-	@date_default_timezone_set($default_timezone);
+	date_default_timezone_set($default_timezone);
 }
 
 // Maximum length of characters for title
@@ -159,12 +156,12 @@ $breadcrumbs_separator = '>';
 $MINIMUM_CRON_FREQUENCY = 1;
 
 //Update the current session id with a newly generated one after login
-$session_regenerate_id = false;
+$session_regenerate_id = true;
 
 $davStorageDir = 'storage/Files';
 $davHistoryDir = 'storage/FilesHistory';
 
-// prod and demo
+// prod, demo, test
 $systemMode = 'test';
 
 // Force site access to always occur under SSL (https) for selected areas. You will not be able to access selected areas under non-ssl. Note, you must have SSL enabled on your server to utilise this option.
@@ -173,10 +170,10 @@ $forceSSL = false;
 // Maximum number of records in a mass edition
 $listMaxEntriesMassEdit = 500;
 
-// enable closing of mondal window by clicking on the background
+// Enable closing of mondal window by clicking on the background
 $backgroundClosingModal = true;
 
-// enable CSRF-protection
+// Enable CSRF-protection
 $csrfProtection = false;
 
 // Is sending emails active. 
@@ -196,3 +193,5 @@ $layoutInLoginView = false;
 
 // Set the default layout 
 $defaultLayout = 'basic';
+
+$forceRedirect = false;

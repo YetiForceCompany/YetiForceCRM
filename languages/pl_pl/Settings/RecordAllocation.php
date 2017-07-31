@@ -1,11 +1,16 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * RecordAllocation polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_OWNER_ALLOCATION' => 'Przydział właściciela rekordu',
 	'LBL_OWNER_ALLOCATION_DESCRIPTION' => ' ',
 	'LBL_MULTIOWNER_ALLOCATION' => 'Przydział osób współdzielących',
 	'LBL_MULTIOWNER_ALLOCATION_DESCRIPTION' => ' ',
-	'LBL_SORTING_SETTINGS_WORNING' => 'Uwaga!<br>Poniższa konfiguracja będzie uwzględniana dopiero po włączeniu jej w panelu roli',
+	'LBL_SORTING_SETTINGS_WORNING' => 'Uwaga!<br />Poniższa konfiguracja będzie uwzględniana dopiero po włączeniu jej w panelu roli',
 	'LBL_ADD_PANEL_TO_MODULE' => 'Dodaj przydział dla modułu',
 	'LBL_SELECT_MODULE' => 'Wybierz moduł',
 	'LBL_GO_TO_PANEL' => 'przejdź do panelu',

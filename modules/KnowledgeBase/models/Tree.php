@@ -3,10 +3,11 @@
 /**
  * Model of tree
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
+class KnowledgeBase_Tree_Model extends \App\Base
 {
 
 	private $lastIdinTree;
@@ -32,7 +33,7 @@ class KnowledgeBase_Tree_Model extends Vtiger_Base_Model
 				'type' => 'folder',
 				'record_id' => $row['tree'],
 				'parent' => $parent == 0 ? '#' : $parent,
-				'text' => vtranslate($row['name'], $this->getModuleName())
+				'text' => \App\Language::translate($row['name'], $this->getModuleName())
 			];
 			if (!empty($row['icon'])) {
 				$tree['icon'] = $row['icon'];

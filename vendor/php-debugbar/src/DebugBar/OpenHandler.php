@@ -82,7 +82,7 @@ class OpenHandler
 			$offset = $request['offset'];
 		}
 
-		$filters = array();
+		$filters = [];
 		foreach (array('utime', 'datetime', 'ip', 'uri', 'method') as $key) {
 			if (isset($request[$key])) {
 				$filters[$key] = $request[$key];

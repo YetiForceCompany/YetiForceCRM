@@ -1,8 +1,9 @@
 <?php
 /**
- * FCorectingInvoice language
+ * FCorecting invoice french translation
  * @package YetiForce.Language
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com) 
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
@@ -17,10 +18,10 @@ $languageStrings = [
 	'FL_PAYMENT_DATE' => 'Date dûe',
 	'FL_SALE_DATE' => 'Date de vente',
 	'FL_FORM_PAYMENT' => 'Méthode de paiement',
-	'FL_BANK_ACCOUNT' => 'Numéro de compte',
-	'FL_NUMBER' => 'Numéro de facture',
+	'FL_BANK_ACCOUNT' => 'N° de compte',
+	'FL_NUMBER' => 'N° de facture',
 	'FL_ACCOUNT' => 'Organisation',
-	'FL_TOTAL' => 'Net',
+	'FL_TOTAL' => 'HT',
 	'FL_GROSS' => 'TTC',
 	'FL_STATUS' => 'Statut',
 	//PICKLIST VALUES

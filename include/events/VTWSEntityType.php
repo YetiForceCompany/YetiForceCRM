@@ -186,7 +186,6 @@ class VTWSEntityType
 
 	function getFieldTypes()
 	{
-		$adb = $this->adb;
 		$fieldNames = $this->getFieldNames();
 		$fieldTypes = [];
 		foreach ($fieldNames as $fieldName) {

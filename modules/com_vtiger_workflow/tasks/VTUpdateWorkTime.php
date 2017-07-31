@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * VTUpdateWorkTime Class
+ * @package YetiForce.Workflow
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class VTUpdateWorkTime extends VTTask
 {
 
@@ -21,7 +26,6 @@ class VTUpdateWorkTime extends VTTask
 			vglobal('workflowIdsAlreadyDone', []);
 		}
 		$globalIds = vglobal('workflowIdsAlreadyDone');
-		$db = PearDatabase::getInstance();
 		$referenceIds = [];
 		$referenceName = OSSTimeControl_Record_Model::$referenceFieldsToTime;
 
@@ -48,7 +52,7 @@ class VTUpdateWorkTime extends VTTask
 		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
-			if (!$metaData['delete'] && in_array($metaData['setype'], $modulesHierarchy)) {
+			if (((int) $metaData['delete']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {
 				OSSTimeControl_Record_Model::recalculateTimeControl($referenceId, $referenceIds[$referenceId]);
 				$globalIds[] = $referenceId;
 			}

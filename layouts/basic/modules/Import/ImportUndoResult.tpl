@@ -19,7 +19,7 @@
 	<div class="col-md-6 col-sm-8 col-xs-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title">{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$FOR_MODULE} - {'LBL_UNDO_RESULT'|@vtranslate:$MODULE}</h4>
+				<h4 class="panel-title">{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $FOR_MODULE)} - {\App\Language::translate('LBL_UNDO_RESULT', $MODULE)}</h4>
 			</div>
 			<div class="panel-body form-horizontal font-larger">
 				<input type="hidden" name="module" value="{$FOR_MODULE}" />
@@ -29,13 +29,13 @@
 					</div>
 				{/if}
 				<div class="form-group">
-					<div class="col-md-7 col-sm-6 col-xs-8 textAlignRight fontBold">{'LBL_TOTAL_RECORDS'|@vtranslate:$MODULE}:</div>
+					<div class="col-md-7 col-sm-6 col-xs-8 textAlignRight fontBold">{\App\Language::translate('LBL_TOTAL_RECORDS', $MODULE)}:</div>
 					<div class="col-md-5 col-sm-6 col-xs-4">
 						{$TOTAL_RECORDS}
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-7 col-sm-6 col-xs-8 textAlignRight fontBold">{'LBL_NUMBER_OF_RECORDS_DELETED'|@vtranslate:$MODULE}:</div>
+					<div class="col-md-7 col-sm-6 col-xs-8 textAlignRight fontBold">{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DELETED', $MODULE)}:</div>
 					<div class="col-md-5 col-sm-6 col-xs-4">
 						{$DELETED_RECORDS_COUNT}
 					</div>

@@ -76,7 +76,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getPreferenceDetailViewUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=' . $this->getModuleName() . '&view=PreferenceDetail&record=' . $this->getId();
 	}
 
@@ -86,7 +85,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getProfileUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=Users&view=ChangePassword&mode=Profile';
 	}
 
@@ -106,7 +104,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getPreferenceEditViewUrl()
 	{
-		$module = $this->getModule();
 		return 'index.php?module=' . $this->getModuleName() . '&view=PreferenceEdit&record=' . $this->getId();
 	}
 
@@ -148,25 +145,162 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save the current Record Model
+	 * Function to save the user record model
+	 * @throws \Exception
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-		$db->startTransaction();
-		$this->getModule()->saveRecord($this);
-		$db->completeTransaction();
+		$entityInstance = $this->getModule()->getEntityInstance();
+		$entityInstance->column_fields['user_name'] = $this->get('user_name');
+		$db = \App\Db::getInstance();
+		$transaction = $db->beginTransaction();
+		try {
+			$this->getModule()->saveRecord($this);
+			$transaction->commit();
+		} catch (\Exception $e) {
+			$transaction->rollBack();
+			throw $e;
+		}
 	}
 
 	/**
-	 * Function to get all the Home Page components list
-	 * @return <Array> List of the Home Page components
+	 * Save data to the database
 	 */
-	public function getHomePageComponents()
+	public function saveToDb()
 	{
-		$entity = $this->getEntity();
-		$homePageComponents = $entity->getHomeStuffOrder($this->getId());
-		return $homePageComponents;
+		$entityInstance = $this->getModule()->getEntityInstance();
+		$db = \App\Db::getInstance();
+		foreach ($this->getValuesForSave() as $tableName => $tableData) {
+			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
+			if ($this->isNew()) {
+				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+			} else {
+				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Prepare value to save
+	 * @return array
+	 */
+	public function getValuesForSave()
+	{
+		$forSave = [
+			'vtiger_users' => [
+				'date_modified' => date('Y-m-d H:i:s'),
+				'reminder_next_time' => date('Y-m-d H:i'),
+				'modified_user_id' => \App\User::getCurrentUserRealId(),
+			]
+		];
+		$moduleModel = $this->getModule();
+		$saveFields = $moduleModel->getFieldsForSave($this);
+		if (!$this->isNew()) {
+			$saveFields = array_intersect($saveFields, array_keys($this->changes));
+		} else {
+			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
+			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
+		}
+		$forSave = $this->transformValues($forSave);
+		foreach ($saveFields as $fieldName) {
+			$fieldModel = $moduleModel->getFieldByName($fieldName);
+			if ($fieldModel) {
+				$value = $this->get($fieldName);
+				if ($value === null || $value === '') {
+					$defaultValue = $fieldModel->getDefaultFieldValue();
+					if ($defaultValue !== '') {
+						$value = $defaultValue;
+					} elseif ($default = $this->getDefaultValue($fieldName)) {
+						$value = $default;
+					} else {
+						$value = $fieldModel->getUITypeModel()->getDBValue($value, $this);
+					}
+					$this->set($fieldName, $value);
+				}
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
+			}
+		}
+		return $forSave;
+	}
+
+	/**
+	 * Get default value
+	 * @param string $fieldName
+	 * @return mixed
+	 */
+	protected function getDefaultValue($fieldName)
+	{
+		switch ($fieldName) {
+			case 'currency_id':
+				return CurrencyField::getDBCurrencyId();
+				break;
+			case 'accesskey':
+				return vtws_generateRandomAccessKey(16);
+				break;
+			case 'language':
+				return \App\Language::getLanguage();
+				break;
+			case 'time_zone':
+				return DateTimeField::getDBTimeZone();
+				break;
+			case 'theme':
+				return Vtiger_Viewer::DEFAULTTHEME;
+				break;
+			case 'is_admin':
+				return 'off';
+				break;
+		}
+		return false;
+	}
+
+	/**
+	 * Validation of modified data
+	 * @throws \Exception
+	 */
+	public function validate()
+	{
+		$checkUserExist = false;
+		if ($this->isNew()) {
+			$checkUserExist = true;
+		} else {
+			if ($this->getPreviousValue('is_admin') !== false) {
+				\App\Privilege::setAllUpdater();
+			}
+			if ($this->getPreviousValue('roleid') !== false) {
+				$checkUserExist = true;
+			}
+		}
+		if ($checkUserExist) {
+			if ((new App\Db\Query())
+					->from('vtiger_users')
+					->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
+					->where(['user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')])->exists()) {
+				throw new \Exception('LBL_USER_EXISTS');
+			}
+			if ($this->getId()) {
+				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
+			}
+			\App\Privilege::setAllUpdater();
+		}
+	}
+
+	/**
+	 * Transform values
+	 * @param array $values
+	 * @return array
+	 */
+	protected function transformValues($values)
+	{
+		$entityInstance = $this->getModule()->getEntityInstance();
+		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
+			$this->set('confirm_password', $entityInstance->encrypt_password($this->get('confirm_password'), $cryptType));
+		}
+		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
+			$this->set('user_password', $entityInstance->encrypt_password($this->get('user_password'), $cryptType));
+			$values['vtiger_users']['crypt_type'] = $cryptType;
+		}
+		return $values;
 	}
 
 	/**
@@ -460,23 +594,20 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the Day Starts picklist values
-	 * @param type $name Description
+	 * @return array
 	 */
-	public static function getDayStartsPicklistValues($stucturedValues)
+	public function getDayStartsPicklistValues()
 	{
-		$fieldModel = $stucturedValues['LBL_CALENDAR_SETTINGS'];
-		$hour_format = $fieldModel['hour_format']->getPicklistValues();
-		$start_hour = $fieldModel['start_hour']->getPicklistValues();
-
-		$defaultValues = array('00:00' => '12:00 AM', '01:00' => '01:00 AM', '02:00' => '02:00 AM', '03:00' => '03:00 AM', '04:00' => '04:00 AM', '05:00' => '05:00 AM',
+		$hourFormats = $this->getField('hour_format')->getPicklistValues();
+		$startHour = $this->getField('start_hour')->getPicklistValues();
+		$defaultValues = ['00:00' => '12:00 AM', '01:00' => '01:00 AM', '02:00' => '02:00 AM', '03:00' => '03:00 AM', '04:00' => '04:00 AM', '05:00' => '05:00 AM',
 			'06:00' => '06:00 AM', '07:00' => '07:00 AM', '08:00' => '08:00 AM', '09:00' => '09:00 AM', '10:00' => '10:00 AM', '11:00' => '11:00 AM', '12:00' => '12:00 PM',
 			'13:00' => '01:00 PM', '14:00' => '02:00 PM', '15:00' => '03:00 PM', '16:00' => '04:00 PM', '17:00' => '05:00 PM', '18:00' => '06:00 PM', '19:00' => '07:00 PM',
-			'20:00' => '08:00 PM', '21:00' => '09:00 PM', '22:00' => '10:00 PM', '23:00' => '11:00 PM');
-
+			'20:00' => '08:00 PM', '21:00' => '09:00 PM', '22:00' => '10:00 PM', '23:00' => '11:00 PM'];
 		$picklistDependencyData = [];
-		foreach ($hour_format as $value) {
+		foreach ($hourFormats as $value) {
 			if ($value == 24) {
-				$picklistDependencyData['hour_format'][$value]['start_hour'] = $start_hour;
+				$picklistDependencyData['hour_format'][$value]['start_hour'] = $startHour;
 			} else {
 				$picklistDependencyData['hour_format'][$value]['start_hour'] = $defaultValues;
 			}
@@ -612,26 +743,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		return $users;
 	}
-
-	/**
-	 * Function to get the user hash
-	 * @param type $userId
-	 * @return boolean
-	 */
-	public function getUserHash()
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT user_hash FROM vtiger_users WHERE id = ?';
-		$result = $db->pquery($query, array($this->getId()));
-		if ($db->num_rows($result) > 0) {
-			return $db->query_result($result, 0, 'user_hash');
-		}
-	}
 	/*
 	 * Function to delete user permanemtly from CRM and
 	 * assign all record which are assigned to that user
 	 * and not transfered to other user to other user
-	 * 
+	 *
 	 * @param User Ids of user to be deleted and user
 	 * to whom records should be assigned
 	 */
@@ -640,12 +756,20 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
-		//update history details in vtiger_modtracker_basic 
+		//update history details in vtiger_modtracker_basic
 		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
-		//update comments details in vtiger_modcomments 
+		//update comments details in vtiger_modcomments
 		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
 		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
 		deleteUserRelatedSharingRules($userId);
+		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
+		if (file_exists($fileName)) {
+			unlink($fileName);
+		}
+		$fileName = "user_privileges/user_privileges_{$userId}.php";
+		if (file_exists($fileName)) {
+			unlink($fileName);
+		}
 	}
 
 	/**

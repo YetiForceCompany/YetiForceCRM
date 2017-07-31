@@ -23,7 +23,7 @@ Class DataAccess_validate_mandatory
 			$recordModel = Users_Record_Model::getCleanInstance($moduleName);
 			$fieldList = $recordModel->getModule()->getFields();
 			foreach ($fieldList as $fieldName => $field) {
-				if ($field->isMandatory() && !$records->get($fieldName) && !$record_form[$fieldName]) {
+				if ($field->isMandatory() && !$records->get($fieldName) && !isset($record_form[$fieldName])) {
 					$invalidField = $field->get('label');
 					$fieldName2 = $fieldName;
 					$save_record = false;
@@ -38,8 +38,8 @@ Class DataAccess_validate_mandatory
 				'fne' => $fieldName2,
 				'type' => 0,
 				'info' => Array(
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . vtranslate($invalidField, $moduleName),
+					'title' => \App\Language::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Language::translate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . \App\Language::translate($invalidField, $moduleName),
 					'type' => 'info'
 				)
 			);

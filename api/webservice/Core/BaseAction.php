@@ -4,7 +4,8 @@ namespace Api\Core;
 /**
  * Base action class
  * @package YetiForce.WebserviceAction
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseAction
@@ -24,8 +25,8 @@ class BaseAction
 		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
 			throw new \Api\Core\Exception('Invalid method', 405);
 		}
-		$this->checkPermissionToModule();
 		$this->checkPermission();
+		$this->checkPermissionToModule();
 		/*
 		  $acceptableUrl = $this->controller->app['acceptable_url'];
 		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
@@ -60,8 +61,10 @@ class BaseAction
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->from($sessionTable)->innerJoin($userTable, "$sessionTable.user_id = $userTable.id")
-				->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])->one($db);
+		$row = (new \App\Db\Query())->from($userTable)
+			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
+			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
+			->one($db);
 		if (empty($row)) {
 			throw new \Api\Core\Exception('Invalid token', 401);
 		}
@@ -82,7 +85,7 @@ class BaseAction
 	{
 		$language = $this->getLanguage();
 		if ($language) {
-			\Vtiger_Language_Handler::$language = $language;
+			\App\Language::setLanguage($language);
 		}
 	}
 

@@ -12,7 +12,12 @@
 class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
@@ -20,11 +25,17 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	/**
+	 * Main process
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
-		foreach ($recordModels as &$recordModel) {
+		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->get('source_module')), Vtiger_Module_Model::getInstance($request->getModule()));
+		foreach ($recordModels as $relatedRecordId => &$recordModel) {
 			$recordModel->save();
+			$relationModel->addRelation($relatedRecordId, $recordModel->getId());
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(true);
@@ -33,10 +44,10 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 
 	/**
 	 * Function to get the record model based on the request parameters
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	private function getRecordModelsFromRequest(Vtiger_Request $request)
+	private function getRecordModelsFromRequest(\App\Request $request)
 	{
 
 		$moduleName = $request->getModule();

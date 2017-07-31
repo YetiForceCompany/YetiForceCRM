@@ -57,17 +57,14 @@ class Vtiger_Util_Helper
 	public static function formatDateDiffInStrings($dateTime)
 	{
 		// http://www.php.net/manual/en/datetime.diff.php#101029
-		$currentDateTime = date('Y-m-d H:i:s');
-
-		$seconds = strtotime($currentDateTime) - strtotime($dateTime);
-
-		if ($seconds == 0)
-			return vtranslate('LBL_JUSTNOW');
+		$seconds = strtotime('now') - strtotime($dateTime);
+		if ($seconds === 0)
+			return \App\Language::translate('LBL_JUSTNOW');
 		if ($seconds > 0) {
 			$prefix = '';
-			$suffix = ' ' . vtranslate('LBL_AGO');
+			$suffix = ' ' . \App\Language::translate('LBL_AGO');
 		} else if ($seconds < 0) {
-			$prefix = vtranslate('LBL_DUE') . ' ';
+			$prefix = \App\Language::translate('LBL_DUE') . ' ';
 			$suffix = '';
 			$seconds = -($seconds);
 		}
@@ -106,7 +103,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function pluralize($count, $text)
 	{
-		return $count . " " . (($count == 1) ? vtranslate("$text") : vtranslate("${text}S"));
+		return $count . " " . (($count == 1) ? \App\Language::translate("$text") : \App\Language::translate("${text}S"));
 	}
 
 	/**
@@ -114,8 +111,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function toSafeHTML($input)
 	{
-		global $default_charset;
-		return htmlspecialchars($input, ENT_QUOTES, $default_charset);
+		return htmlspecialchars($input, ENT_QUOTES, vglobal('default_charset'));
 	}
 
 	/**
@@ -125,7 +121,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function toVtiger6SafeHTML($input)
 	{
-		$allowableTags = '<a><br>';
+		$allowableTags = '<a><br />';
 		return strip_tags($input, $allowableTags);
 	}
 
@@ -153,15 +149,15 @@ class Vtiger_Util_Helper
 		$userDate = DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
 		if ($dateInUserFormat == $today) {
-			$todayInfo = vtranslate('LBL_TODAY');
+			$todayInfo = \App\Language::translate('LBL_TODAY');
 			if ($time) {
-				$todayInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$todayInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($todayInfo)";
 		} elseif ($dateInUserFormat == $tomorrow) {
-			$tomorrowInfo = vtranslate('LBL_TOMORROW');
+			$tomorrowInfo = \App\Language::translate('LBL_TOMORROW');
 			if ($time) {
-				$tomorrowInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$tomorrowInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($tomorrowInfo)";
 		} else {
@@ -169,9 +165,9 @@ class Vtiger_Util_Helper
 				$dateInUserFormat = str_replace('-', '/', $dateInUserFormat);
 			}
 			$date = strtotime($dateInUserFormat);
-			$dayInfo = vtranslate('LBL_' . date('D', $date));
+			$dayInfo = \App\Language::translate('LBL_' . date('D', $date));
 			if ($time) {
-				$dayInfo .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+				$dayInfo .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 			}
 			$formatedDate = $userDate . " ($dayInfo)";
 		}
@@ -195,7 +191,6 @@ class Vtiger_Util_Helper
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$dateTimeInUserFormat = explode(' ', Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
 
 		if (count($dateTimeInUserFormat) == 3) {
@@ -212,11 +207,11 @@ class Vtiger_Util_Helper
 			$seconds = '';
 		}
 
-		$dateDay = vtranslate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		$dateDay = \App\Language::translate(DateTimeField::getDayFromDate($dateTime), 'Calendar');
 		$formatedDate = $dateInUserFormat;
 		if (!$allday) {
 			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
-			$formatedDate .= ' ' . vtranslate('LBL_AT') . ' ' . $displayTime;
+			$formatedDate .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
 		}
 		$formatedDate .= " ($dateDay)";
 		return $formatedDate;
@@ -285,9 +280,9 @@ class Vtiger_Util_Helper
 		$default_timezone = vglobal('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
-		@date_default_timezone_set($adminTimeZone);
+		date_default_timezone_set($adminTimeZone);
 		$date = date('Y-m-d H:i:s');
-		@date_default_timezone_set($default_timezone);
+		date_default_timezone_set($default_timezone);
 		return $date;
 	}
 
@@ -375,7 +370,6 @@ class Vtiger_Util_Helper
 			$groupColumnsInfo = $groupConditionInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
 				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
-				$fieldInfo = $moduleModel->getField($fieldName);
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
 					$fieldValue = Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $moduleModel);
 				}

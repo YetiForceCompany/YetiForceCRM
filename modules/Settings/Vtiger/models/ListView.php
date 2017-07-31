@@ -13,7 +13,7 @@
  * Settings List View Model Class
  */
 
-class Settings_Vtiger_ListView_Model extends Vtiger_Base_Model
+class Settings_Vtiger_ListView_Model extends \App\Base
 {
 
 	/**

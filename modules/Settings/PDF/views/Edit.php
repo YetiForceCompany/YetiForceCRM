@@ -3,20 +3,21 @@
 /**
  * Edit View Class for PDF Settings
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$step = strtolower($request->getMode());
 		$this->step($step, $request);
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
@@ -24,7 +25,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
-	public function step($step, Vtiger_Request $request)
+	public function step($step, \App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -98,7 +99,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
@@ -124,7 +125,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();

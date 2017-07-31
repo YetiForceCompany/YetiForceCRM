@@ -57,7 +57,6 @@ class Vtiger_CRMEntity extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -122,12 +121,12 @@ class Vtiger_CRMEntity extends CRMEntity
 	 */
 	public function create_export_query($where)
 	{
-		global $current_user, $currentModule;
+		$currentUser = vglobal('current_user');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('ServiceContracts', "detail_view");
+		$sql = getPermittedFieldsQuery('ServiceContracts', 'detail_view');
 
 		$fields_list = getFieldsListFromQuery($sql);
 
@@ -150,7 +149,6 @@ class Vtiger_CRMEntity extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -160,8 +158,8 @@ class Vtiger_CRMEntity extends CRMEntity
 				"$this->table_name.$columnname";
 		}
 
-		$query .= $this->getNonAdminAccessControlQuery($thismodule, $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
+		$query .= $this->getNonAdminAccessControlQuery($thismodule, $currentUser);
+		$where_auto = ' vtiger_crmentity.deleted=0';
 
 		if ($where != '')
 			$query .= " WHERE ($where) && $where_auto";
@@ -211,7 +209,7 @@ class Vtiger_CRMEntity extends CRMEntity
 
 		$query = $select_clause . $from_clause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
 

@@ -17,7 +17,7 @@ Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAj
 		$this->exposeMethod('exportModule');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -26,7 +26,7 @@ Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAj
 		}
 	}
 
-	protected function exportModule(Vtiger_Request $request)
+	protected function exportModule(\App\Request $request)
 	{
 		$moduleName = $request->get('forModule');
 

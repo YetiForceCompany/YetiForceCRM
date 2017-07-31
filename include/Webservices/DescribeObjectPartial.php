@@ -15,7 +15,7 @@ function vtws_describe_partial($elementType, $user)
 {
 
 	$adb = PearDatabase::getInstance();
-	
+
 	$webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
@@ -23,7 +23,6 @@ function vtws_describe_partial($elementType, $user)
 	require_once $handlerPath;
 
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
-	$meta = $handler->getMeta();
 
 	$types = vtws_listtypes(null, $user);
 	if (!in_array($elementType, $types['types'])) {

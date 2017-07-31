@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	{assign var='MODULEMODEL' value=Vtiger_Module_Model::getInstance($MENU.tabid)}
 	{assign var='QUICKCREATEMODULE' value=$MODULEMODEL->isQuickCreateSupported()}
 	{assign var='SINGULAR_LABEL' value=$MODULEMODEL->getSingularLabelKey()}
@@ -17,7 +17,7 @@
 					<div {if $DEVICE == 'Desktop'}class="labelValue" {/if}>
 						<span class="menuName">
 							{if $MENU.name != ''}
-								{vtranslate($MENU.name,'Menu')}
+								{\App\Language::translate($MENU.name,'Menu')}
 							{else}
 								{Vtiger_Menu_Model::vtranslateMenu('LBL_QUICK_CREATE_MODULE',$NAME)}: {Vtiger_Menu_Model::vtranslateMenu($SINGULAR_LABEL, $NAME)}
 							{/if}

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="summaryWidgetContainer noCommentsMsgContainer">
-		<p class="textAlignCenter"> {vtranslate('LBL_NO_COMMENTS',$MODULE_NAME)}
+		<p class="textAlignCenter"> {\App\Language::translate('LBL_NO_COMMENTS',$MODULE_NAME)}
 		</p>
 	</div>
 {/strip}

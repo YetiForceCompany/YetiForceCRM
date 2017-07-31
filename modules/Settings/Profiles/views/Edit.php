@@ -12,19 +12,19 @@
 Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 {
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
 			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
-			$title = vtranslate('LBL_VIEW_EDIT', $moduleName);
+			$title = \App\Language::translate('LBL_VIEW_EDIT', $moduleName);
 		}
 		return $title;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->initialize($request);
 		$qualifiedModuleName = $request->getModule(false);
@@ -33,7 +33,7 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
-	public function initialize(Vtiger_Request $request)
+	public function initialize(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -67,10 +67,10 @@ Class Settings_Profiles_Edit_View extends Settings_Vtiger_Index_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();

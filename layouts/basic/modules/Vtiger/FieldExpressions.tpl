@@ -15,27 +15,27 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" aria-hidden="true" data-close-modal="modal">×</button>
-					<h3 class="modal-title">{vtranslate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h3>
+					<h3 class="modal-title">{\App\Language::translate('LBL_SET_VALUE',$QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<span class="col-md-4">
 							<select class="textType form-control">
 								<optgroup>
-									<option data-ui="textarea" value="rawtext">{vtranslate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</option>
-									<option data-ui="textarea" value="fieldname">{vtranslate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</option>
-									<option data-ui="textarea" value="expression">{vtranslate('LBL_EXPRESSION',$QUALIFIED_MODULE)}</option>
+									<option data-ui="textarea" value="rawtext">{\App\Language::translate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</option>
+									<option data-ui="textarea" value="fieldname">{\App\Language::translate('LBL_FIELD_NAME',$QUALIFIED_MODULE)}</option>
+									<option data-ui="textarea" value="expression">{\App\Language::translate('LBL_EXPRESSION',$QUALIFIED_MODULE)}</option>
 								</optgroup>	
 							</select>
 						</span>
 						<span class="col-md-4 hide useFieldContainer">
 							<span name="{$MODULE_MODEL->get('name')}" class="useFieldElement">
 								{assign var=MODULE_FIELDS value=$MODULE_MODEL->getFields()}
-								<select class="useField form-control" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
+								<select class="useField form-control" data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
 									<option></option>
 									<optgroup>
 										{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-											<option value="{$MODULE_FIELD->getName()}">{vtranslate($MODULE_FIELD->get('label'),$MODULE_MODEL->get('name'))}</option>
+											<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$MODULE_MODEL->get('name'))}</option>
 										{/foreach}
 									</optgroup>
 								</select>
@@ -43,11 +43,11 @@
 							{if $RELATED_MODULE_MODEL neq ''}
 								<span name="{$RELATED_MODULE_MODEL->get('name')}" class="useFieldElement">
 									{assign var=MODULE_FIELDS value=$RELATED_MODULE_MODEL->getFields()}
-									<select class="useField form-control" data-placeholder="{vtranslate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
+									<select class="useField form-control" data-placeholder="{\App\Language::translate('LBL_USE_FIELD',$QUALIFIED_MODULE)}">
 										<option></option>
 										<optgroup>
 											{foreach from=$MODULE_FIELDS item=MODULE_FIELD}
-												<option value="{$MODULE_FIELD->getName()}">{vtranslate($MODULE_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
+												<option value="{$MODULE_FIELD->getName()}">{\App\Language::translate($MODULE_FIELD->get('label'),$QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</optgroup>
 									</select>
@@ -55,38 +55,38 @@
 							{/if}
 						</span>
 						<span class="col-md-4 hide useFunctionContainer">
-							<select class="useFunction form-control" data-placeholder="{vtranslate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
+							<select class="useFunction form-control" data-placeholder="{\App\Language::translate('LBL_USE_FUNCTION',$QUALIFIED_MODULE)}">
 								<option></option>
 								<optgroup>
 									{foreach from=$FIELD_EXPRESSIONS key=FIELD_EXPRESSION_VALUE item=FIELD_EXPRESSIONS_KEY}
-										<option value="{$FIELD_EXPRESSIONS_KEY}">{vtranslate($FIELD_EXPRESSION_VALUE,$QUALIFIED_MODULE)}</option>
+										<option value="{$FIELD_EXPRESSIONS_KEY}">{\App\Language::translate($FIELD_EXPRESSION_VALUE,$QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</optgroup>
 							</select>
 						</span>
-					</div><br>
+					</div><br />
 					<div class="fieldValueContainer">
 						<textarea data-textarea="true" class="fieldValue form-control"></textarea>
-					</div><br>
+					</div><br />
 					<div id="rawtext_help" class="alert alert-info helpmessagebox hide">
-						<p><h5>{vtranslate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</h5></p>
+						<p><h5>{\App\Language::translate('LBL_RAW_TEXT',$QUALIFIED_MODULE)}</h5></p>
 						<p>2000</p>
-						<p>{vtranslate('LBL_VTIGER',$QUALIFIED_MODULE)}</p>
+						<p>{\App\Language::translate('LBL_VTIGER',$QUALIFIED_MODULE)}</p>
 					</div>
 					<div id="fieldname_help" class="helpmessagebox alert alert-info hide">
-						<p><h5>{vtranslate('LBL_EXAMPLE_FIELD_NAME',$QUALIFIED_MODULE)}</h5></p>
-						<p>{vtranslate('LBL_ANNUAL_REVENUE',$QUALIFIED_MODULE)}</p>
-						<p>{vtranslate('LBL_NOTIFY_OWNER',$QUALIFIED_MODULE)}</p>
+						<p><h5>{\App\Language::translate('LBL_EXAMPLE_FIELD_NAME',$QUALIFIED_MODULE)}</h5></p>
+						<p>{\App\Language::translate('LBL_ANNUAL_REVENUE',$QUALIFIED_MODULE)}</p>
+						<p>{\App\Language::translate('LBL_NOTIFY_OWNER',$QUALIFIED_MODULE)}</p>
 					</div>
 					<div id="expression_help" class="alert alert-info helpmessagebox hide">
-						<p><h5>{vtranslate('LBL_EXAMPLE_EXPRESSION',$QUALIFIED_MODULE)}</h5></p>
-						<p>{vtranslate('LBL_ANNUAL_REVENUE',$QUALIFIED_MODULE)}/12</p>
-						<p>{vtranslate('LBL_EXPRESSION_EXAMPLE2',$QUALIFIED_MODULE)}</p>
+						<p><h5>{\App\Language::translate('LBL_EXAMPLE_EXPRESSION',$QUALIFIED_MODULE)}</h5></p>
+						<p>{\App\Language::translate('LBL_ANNUAL_REVENUE',$QUALIFIED_MODULE)}/12</p>
+						<p>{\App\Language::translate('LBL_EXPRESSION_EXAMPLE2',$QUALIFIED_MODULE)}</p>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" type="button" name="saveButton"><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-					<button class="btn btn-warning cancelLink" type="button" data-close-modal="modal">{vtranslate('LBL_CANCEL', $MODULE)}</button>
+					<button class="btn btn-success" type="button" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
+					<button class="btn btn-warning cancelLink" type="button" data-close-modal="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 				</div>
 			</div>
 		</div>

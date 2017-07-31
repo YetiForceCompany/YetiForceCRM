@@ -3,13 +3,14 @@
 /**
  * ProductsSoldToRenew Dashboard Class
  * @package YetiForce.Dashboard
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	public function process(Vtiger_Request $request, $widget = NULL)
+	public function process(\App\Request $request, $widget = NULL)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

@@ -21,7 +21,7 @@
 	{/foreach}
 	<div class="row">
 		<div class="col-md-8">
-			<div class="dashboardTitle" title="{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{vtranslate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
+			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
@@ -33,8 +33,8 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{vtranslate('Created Time', $MODULE_NAME)} &nbsp; {vtranslate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
-				<input type="text" name="createdtime" title="{vtranslate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter form-control width90 textAlignCenter"  value="{implode(',', $DTIME)}"/>
+				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
+				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter form-control width90 textAlignCenter"  value="{implode(',', $DTIME)}"/>
 			</div>
 		</div>
 		<div class="col-sm-6">

@@ -66,7 +66,7 @@ class Functions
 		}
 		if ($onlyActive) {
 			$currencies = [];
-			foreach ($currencyInfo as $currencyId => &$currency) {
+			foreach ($currencyInfo as $currencyId => $currency) {
 				if ($currency['currency_status'] === 'Active') {
 					$currencies[$currencyId] = $currency;
 				}
@@ -164,7 +164,7 @@ class Functions
 		if ($name && \App\Cache::has('moduleTabByName', $name)) {
 			return \App\Cache::get('moduleTabByName', $name);
 		}
-		return $id ? \App\Cache::get('moduleTabById', $name) : NULL;
+		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
 	}
 
 	public static function getModuleId($name)
@@ -314,39 +314,16 @@ class Functions
 		return \App\Cache::get($cacheName, $module);
 	}
 
-	public static function getModuleFieldInfoWithId($fieldid)
+	/**
+	 * Function to gets mudule field ID
+	 * @param string|int $moduleId
+	 * @param string|int $mixed
+	 * @param boolean $onlyactive
+	 * @return int|bool
+	 */
+	public static function getModuleFieldId($moduleId, $mixed, $onlyactive = true)
 	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_field WHERE fieldid=?', array($fieldid));
-		return ($adb->num_rows($result)) ? $adb->fetch_array($result) : NULL;
-	}
-
-	public static function getModuleFieldInfo($moduleid, $mixed)
-	{
-		$field = NULL;
-		if (empty($moduleid) && is_numeric($mixed)) {
-			$field = self::getModuleFieldInfoWithId($mixed);
-		} else {
-			$fieldsInfo = self::getModuleFieldInfos($moduleid);
-			if ($fieldsInfo) {
-				if (is_numeric($mixed)) {
-					foreach ($fieldsInfo as $name => $row) {
-						if ($row['fieldid'] == $mixed) {
-							$field = $row;
-							break;
-						}
-					}
-				} else {
-					$field = isset($fieldsInfo[$mixed]) ? $fieldsInfo[$mixed] : NULL;
-				}
-			}
-		}
-		return $field;
-	}
-
-	public static function getModuleFieldId($moduleid, $mixed, $onlyactive = true)
-	{
-		$field = self::getModuleFieldInfo($moduleid, $mixed, $onlyactive);
+		$field = \App\Field::getFieldInfo($mixed, $moduleId);
 
 		if ($field) {
 			if ($onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {
@@ -412,51 +389,6 @@ class Functions
 		return $tandc;
 	}
 
-	public static function initStorageFileDirectory($module = false)
-	{
-		$filepath = 'storage/';
-
-		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView'))) {
-			$filepath .= $module . '/';
-		}
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-		$year = date('Y');
-		$month = date('F');
-		$day = date('j');
-		$week = '';
-		$filepath .= $year;
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-		$filepath .= '/' . $month;
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-
-		if ($day > 0 && $day <= 7)
-			$week = 'week1';
-		elseif ($day > 7 && $day <= 14)
-			$week = 'week2';
-		elseif ($day > 14 && $day <= 21)
-			$week = 'week3';
-		elseif ($day > 21 && $day <= 28)
-			$week = 'week4';
-		else
-			$week = 'week5';
-
-		$filepath .= '/' . $week;
-		if (!is_dir($filepath)) {
-			//create new folder
-			mkdir($filepath);
-		}
-		return $filepath . '/';
-	}
-
 	public static function getMergedDescriptionCustomVars($fields, $description)
 	{
 		foreach ($fields['custom'] as $columnname) {
@@ -496,11 +428,11 @@ class Functions
 		for ($i = 0; $i < $countResult; $i++) {
 			$comment = $adb->query_result($result, $i, 'commentcontent');
 			if ($comment != '') {
-				$commentlist .= '<br><br>' . $comment;
+				$commentlist .= '<br /><br />' . $comment;
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br><br>' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br /><br />' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 
@@ -647,28 +579,28 @@ class Functions
 		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
-			$short[] = $years == 1 ? $years . vtranslate('LBL_Y') : $years . vtranslate('LBL_YRS');
-			$full[] = $years == 1 ? $years . vtranslate('LBL_YEAR') : $years . vtranslate('LBL_YEARS');
+			$short[] = $years == 1 ? $years . \App\Language::translate('LBL_Y') : $years . \App\Language::translate('LBL_YRS');
+			$full[] = $years == 1 ? $years . \App\Language::translate('LBL_YEAR') : $years . \App\Language::translate('LBL_YEARS');
 		}
 		$days = self::myBcmod(($timeMinutesRange), (60 * 24 * 365));
 		$days = ($days) / (24 * 60);
 		$days = floor($days);
 		if (!empty($days)) {
-			$short[] = $days . vtranslate('LBL_D');
-			$full[] = $days == 1 ? $days . vtranslate('LBL_DAY') : $days . vtranslate('LBL_DAYS');
+			$short[] = $days . \App\Language::translate('LBL_D');
+			$full[] = $days == 1 ? $days . \App\Language::translate('LBL_DAY') : $days . \App\Language::translate('LBL_DAYS');
 		}
 		$hours = self::myBcmod(($timeMinutesRange), (24 * 60));
 		$hours = ($hours) / (60);
 		$hours = floor($hours);
 		if (!empty($hours)) {
-			$short[] = $hours . vtranslate('LBL_H');
-			$full[] = $hours == 1 ? $hours . vtranslate('LBL_HOUR') : $hours . vtranslate('LBL_HOURS');
+			$short[] = $hours . \App\Language::translate('LBL_H');
+			$full[] = $hours == 1 ? $hours . \App\Language::translate('LBL_HOUR') : $hours . \App\Language::translate('LBL_HOURS');
 		}
 		$minutes = self::myBcmod(($timeMinutesRange), (60));
 		$minutes = floor($minutes);
 		if (!empty($timeMinutesRange) || $showEmptyValue) {
-			$short[] = $minutes . vtranslate('LBL_M');
-			$full[] = $minutes == 1 ? $minutes . vtranslate('LBL_MINUTE') : $minutes . vtranslate('LBL_MINUTES');
+			$short[] = $minutes . \App\Language::translate('LBL_M');
+			$full[] = $minutes == 1 ? $minutes . \App\Language::translate('LBL_MINUTE') : $minutes . \App\Language::translate('LBL_MINUTES');
 		}
 
 		return [
@@ -678,14 +610,14 @@ class Functions
 	}
 
 	/**
-	 * myBcmod - get modulus (substitute for bcmod) 
-	 * string my_bcmod ( string left_operand, int modulus ) 
-	 * left_operand can be really big, but be carefull with modulus :( 
-	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania 
+	 * myBcmod - get modulus (substitute for bcmod)
+	 * string my_bcmod ( string left_operand, int modulus )
+	 * left_operand can be really big, but be carefull with modulus :(
+	 * by Andrius Baranauskas and Laurynas Butkus :) Vilnius, Lithuania
 	 * */
 	public static function myBcmod($x, $y)
 	{
-		// how many numbers to take at once? carefull not to exceed (int) 
+		// how many numbers to take at once? carefull not to exceed (int)
 		$take = 5;
 		$mod = '';
 
@@ -716,70 +648,43 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
-		if (REQUEST_MODE == 'API') {
-			throw new \APIException($e->getMessage(), 401);
+		$message = is_object($e) ? $e->getMessage() : $e;
+		if (\App\Config::$requestMode === 'API') {
+			throw new \APIException($message, 401);
 		}
-		$request = \AppRequest::init();
-		if ($request->isAjax()) {
+		if (\App\Request::_isAjax()) {
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
-			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			$trace = '';
+			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
-			$response->setError($e->getCode(), $e->getMessage(), $trace);
+			if (is_object($e)) {
+				$response->setError($e->getCode(), $e->getMessage(), $trace);
+			} else {
+				$response->setError('error', $message, $trace);
+			}
 			$response->emit();
 		} else {
 			$viewer = new \Vtiger_Viewer();
-			$viewer->assign('MESSAGE', $e->getMessage());
+			$viewer->assign('MESSAGE', $message);
 			$viewer->view($tpl, 'Vtiger');
 		}
 		if ($die) {
-			trigger_error(print_r($e->getMessage(), true), E_USER_ERROR);
-			throw new \Exception('');
-		}
-	}
-
-	public static function removeHtmlTags(array $tags, $html)
-	{
-		$crmUrl = \AppConfig::main('site_URL');
-
-		$doc = new \DOMDocument('1.0', 'UTF-8');
-		$previousValue = libxml_use_internal_errors(true);
-		$doc->loadHTML('<?xml encoding="utf-8" ?>' . $html);
-		libxml_clear_errors();
-		libxml_use_internal_errors($previousValue);
-
-		foreach ($tags as $tag) {
-			$xPath = new \DOMXPath($doc);
-			$nodes = $xPath->query('//' . $tag);
-			for ($i = 0; $i < $nodes->length; $i++) {
-				if ('img' === $tag) {
-					$htmlNode = $nodes->item($i)->ownerDocument->saveHTML($nodes->item($i));
-					$imgDom = new \DOMDocument();
-					$imgDom->loadHTML($htmlNode);
-					$xpath = new \DOMXPath($imgDom);
-					$src = $xpath->evaluate("string(//img/@src)");
-					if ($src == '' || 0 !== strpos('index.php', $src) || false === strpos($crmUrl, $src)) {
-						$nodes->item($i)->parentNode->removeChild($nodes->item($i));
-					}
-				} else {
-					$nodes->item($i)->parentNode->removeChild($nodes->item($i));
-				}
+			trigger_error(print_r($message, true), E_USER_ERROR);
+			if (is_object($message)) {
+				throw new $message;
+			} elseif (is_array($message)) {
+				throw new \Exception($message['message']);
+			} else {
+				throw new \Exception($message);
 			}
 		}
-		$savedHTML = $doc->saveHTML();
-		$savedHTML = preg_replace('/<!DOCTYPE[^>]+\>/', '', $savedHTML);
-		$savedHTML = preg_replace('/<html[^>]+\>/', '', $savedHTML);
-		$savedHTML = preg_replace('/<body[^>]+\>/', '', $savedHTML);
-		$savedHTML = preg_replace('#<head(.*?)>(.*?)</head>#is', '', $savedHTML);
-		$savedHTML = preg_replace('/<!--(.*)-->/Uis', '', $savedHTML);
-		$savedHTML = str_replace(['</html>', '</body>', '<?xml encoding="utf-8" ?>'], ['', '', ''], $savedHTML);
-		return trim($savedHTML);
 	}
 
 	public static function getHtmlOrPlainText($content)
 	{
-		if ($content != strip_tags($content)) {
+		if ($content !== strip_tags($content)) {
 			$content = decode_html($content);
 		} else {
 			$content = nl2br($content);
@@ -802,11 +707,12 @@ class Functions
 
 	public static function recurseDelete($src)
 	{
-		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
-		if (!file_exists($rootDir . $src))
+		$rootDir = strpos($src, ROOT_DIRECTORY) === 0 ? '' : ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		if (!file_exists($rootDir . $src)) {
 			return;
+		}
 		$dirs = [];
-		@chmod($root_dir . $src, 0777);
+		@chmod($rootDir . $src, 0777);
 		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
@@ -825,7 +731,7 @@ class Functions
 		}
 	}
 
-	public function recurseCopy($src, $dest, $delete = false)
+	public static function recurseCopy($src, $dest, $delete = false)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
@@ -877,11 +783,11 @@ class Functions
 		if ($bytes >= 1073741824) {
 			$unit = 'GB';
 			$gb = $bytes / 1073741824;
-			$str = sprintf($gb >= 10 ? "%d " : "%.1f ", $gb) . $unit;
+			$str = sprintf($gb >= 10 ? "%d " : "%.2f ", $gb) . $unit;
 		} else if ($bytes >= 1048576) {
 			$unit = 'MB';
 			$mb = $bytes / 1048576;
-			$str = sprintf($mb >= 10 ? "%d " : "%.1f ", $mb) . $unit;
+			$str = sprintf($mb >= 10 ? "%d " : "%.2f ", $mb) . $unit;
 		} else if ($bytes >= 1024) {
 			$unit = 'KB';
 			$str = sprintf("%d ", round($bytes / 1024)) . $unit;
@@ -963,7 +869,7 @@ class Functions
 	{
 		$allCurrencies = self::getAllCurrency(true);
 		foreach ($allCurrencies as $currency) {
-			if ($currency['defaultid'] === '-11') {
+			if ((int) $currency['defaultid'] === -11) {
 				return $currency;
 			}
 		}

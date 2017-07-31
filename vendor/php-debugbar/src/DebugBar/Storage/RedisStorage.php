@@ -49,9 +49,9 @@ class RedisStorage implements StorageInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function find(array $filters = array(), $max = 20, $offset = 0)
+	public function find(array $filters = [], $max = 20, $offset = 0)
 	{
-		$results = array();
+		$results = [];
 		foreach ($this->redis->hgetall($this->hash) as $id => $data) {
 			if ($data = unserialize($data)) {
 				$meta = $data['__meta'];

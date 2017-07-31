@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * DataAccess polish translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'DataAccess' => 'Walidacja dostępu',
 	'Message' => 'Komunikat',
@@ -87,9 +84,11 @@ $languageStrings = [
 	'Action_Desc_unique_account' => 'Sprawdź czy kontrahent jest unikatowy w module.',
 	'LBL_DUPLICATED_FOUND' => 'Znaleziono duplikaty',
 	'LBL_DUPLICTAE_CREATION_CONFIRMATION' => 'Wykryto duplikat. Czy na pewno chcesz dokonać zapisu?',
-	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Dokonano próby zmiany wartości w rekordzie w trybie szybkiej edycji.<br>Chcąc dokonać zmiany w tym widoku zaznacz poniższe pole wyboru i zatwierdź wybór.<br><strong>Uwaga!</strong><br>Należy ponownie wprowadzić zamierzone modyfikacje na rekordzie.',
+	'LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION' => 'Dokonano próby zmiany wartości w rekordzie w trybie szybkiej edycji.<br />Chcąc dokonać zmiany w tym widoku zaznacz poniższe pole wyboru i zatwierdź wybór.<br /><strong>Uwaga!</strong><br />Należy ponownie wprowadzić zamierzone modyfikacje na rekordzie.',
 	'LBL_DONT_ASK_AGAIN' => 'Nie pytaj ponownie dla tego rekordu.',
 	'LBL_SEARCH_TRASH' => 'Przeszukaj kosz',
+	'LBL_BLOCK_EDITVIEW' => 'Zablokowano edycję rekordu',
+	'LBL_CONTENT_MESSAGE' => 'Treść komunikatu',
 ];
 $jsLanguageStrings = [
 	'DataAccess' => 'Data Access',

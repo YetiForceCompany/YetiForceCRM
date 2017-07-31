@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Dav german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_DAV_KEYS' => 'DAV Anwendungen',
 	'LBL_DAV_KEYS_DESCRIPTION' => 'Anlegen und Bearbeiten von DAV Schlüssel',
@@ -33,7 +30,7 @@ $languageStrings = [
 	'Dav' => 'DAV Schlüssel',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Schlüssel für diese Applikation existiert bereits.',
 	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Konfigurationsinformationen',
-	'LBL_ALERT_DAV_CONFIG_DESC' => 'Examples of DAV server connection configuration for different apps and systems:<br><b>DAVdroid</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php<br>Preventive authorization NO<br><b>Thunderbird CalDAV</b><br>Address: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br><b>iOS</b><br>Address: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/<br> For SSL connections: <br> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
+	'LBL_ALERT_DAV_CONFIG_DESC' => 'Konfigurationsbeispiele für DAV Serververbindungen für unterschiedliche Apps und Systeme:<br /><b>DAVdroid</b><br />Address: https://gitdeveloper.yetiforce.com/api/dav.php<br />Preventive authorization NO<br /><b>Thunderbird CalDAV</b><br />Address: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />Address: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/<br /> Für SSL Verbindung: <br /> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Schlüssel hinzufügen',

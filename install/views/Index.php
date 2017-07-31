@@ -15,6 +15,11 @@ class Install_Index_view extends Vtiger_View_Controller
 	protected $debug = false;
 	protected $viewer;
 
+	public function checkPermission(\App\Request $request)
+	{
+		
+	}
+
 	public function loginRequired()
 	{
 		return false;
@@ -39,6 +44,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function __construct()
 	{
+		parent::__construct();
 		//Install
 		$this->exposeMethod('Step1');
 		$this->exposeMethod('Step2');
@@ -54,7 +60,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->exposeMethod('mStep3');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		date_default_timezone_set('UTC'); // to overcome the pre configuration settings
 		// Added to redirect to default module if already installed
@@ -76,12 +82,16 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
 		$this->viewer->assign('LANG', $request->get('lang'));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
-		define('INSTALLATION_MODE', true);
-		define('INSTALLATION_MODE_DEBUG', $this->debug);
+		$this->viewer->assign('LANGUAGE', $defaultLanguage);
+		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
+		$this->viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
+		$this->viewer->assign('MODE', $request->getMode());
+
+		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
 		echo $this->viewer->fetch('InstallPreProcess.tpl');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$default_charset = AppConfig::main('default_charset');
 		if (empty($default_charset)) {
@@ -94,15 +104,16 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->Step1($request);
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
+		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		echo $this->viewer->fetch('InstallPostProcess.tpl');
 		if ($request->getMode() === 'Step7') {
 			$this->cleanInstallationFiles();
 		}
 	}
 
-	public function Step1(Vtiger_Request $request)
+	public function Step1(\App\Request $request)
 	{
 		$isMigrate = false;
 		if (is_dir('install/migrate_schema/')) {
@@ -116,18 +127,18 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step1.tpl');
 	}
 
-	public function Step2(Vtiger_Request $request)
+	public function Step2(\App\Request $request)
 	{
 		echo $this->viewer->fetch('Step2.tpl');
 	}
 
-	public function Step3(Vtiger_Request $request)
+	public function Step3(\App\Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
 		echo $this->viewer->fetch('Step3.tpl');
 	}
 
-	public function Step4(Vtiger_Request $request)
+	public function Step4(\App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once 'modules/Users/UserTimeZonesArray.php';
@@ -146,7 +157,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step4.tpl');
 	}
 
-	public function Step5(Vtiger_Request $request)
+	public function Step5(\App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$requestData = $request->getAll();
@@ -184,7 +195,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step5.tpl');
 	}
 
-	public function Step6(Vtiger_Request $request)
+	public function Step6(\App\Request $request)
 	{
 		// Create configuration file
 		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
@@ -194,11 +205,13 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step6.tpl');
 	}
 
-	public function Step7(Vtiger_Request $request)
+	public function Step7(\App\Request $request)
 	{
-		$webuiInstance = new Vtiger_WebUI();
-		$isInstalled = $webuiInstance->isInstalled();
-		if ($isInstalled) {
+		AppConfig::iniSet('display_errors', 'On');
+		AppConfig::iniSet('max_execution_time', 0);
+		AppConfig::iniSet('max_input_time', 0);
+		$dbconfig = AppConfig::main('dbconfig');
+		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
 				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
@@ -214,7 +227,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		}
 	}
 
-	public function mStep0(Vtiger_Request $request)
+	public function mStep0(\App\Request $request)
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
@@ -227,7 +240,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('mStep0.tpl');
 	}
 
-	public function mStep1(Vtiger_Request $request)
+	public function mStep1(\App\Request $request)
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
@@ -240,7 +253,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('mStep1.tpl');
 	}
 
-	public function mStep2(Vtiger_Request $request)
+	public function mStep2(\App\Request $request)
 	{
 		$initSchema = new Install_InitSchema_Model();
 		$schemaLists = $initSchema->getMigrationSchemaList();
@@ -253,7 +266,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('mStep2.tpl');
 	}
 
-	public function mStep3(Vtiger_Request $request)
+	public function mStep3(\App\Request $request)
 	{
 		$system = $request->get('system');
 		$source_directory = $request->get('source_directory');
@@ -313,12 +326,12 @@ class Install_Index_view extends Vtiger_View_Controller
 		return $application_unique_key;
 	}
 
-	protected function preProcessDisplay(Vtiger_Request $request)
+	protected function preProcessDisplay(\App\Request $request)
 	{
 		
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess(true);
 	}
@@ -333,11 +346,46 @@ class Install_Index_view extends Vtiger_View_Controller
 			}
 		}
 		\vtlib\Functions::recurseDelete('install');
+		\vtlib\Functions::recurseDelete('public_html/install');
 		\vtlib\Functions::recurseDelete('tests');
 		\vtlib\Functions::recurseDelete('config/config.template.php');
 		\vtlib\Functions::recurseDelete('.github');
 		\vtlib\Functions::recurseDelete('.gitattributes');
 		\vtlib\Functions::recurseDelete('.gitignore');
 		\vtlib\Functions::recurseDelete('.travis.yml');
+	}
+
+	/**
+	 * Retrieves css styles that need to loaded in the page
+	 * @param \App\Request $request - request model
+	 * @return Vtiger_CssScript_Model[]
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'~install/tpl/resources/css/style.css',
+			'~install/tpl/resources/css/mkCheckbox.css',
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		return array_merge($headerCssInstances, $cssInstances);
+	}
+
+	/**
+	 * Function to get the list of Script models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_JsScript_Model[]
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		if ($request->getMode() === 'Step7') {
+			return [];
+		}
+		$headerScriptInstances = parent::getFooterScripts($request);
+		$jsFileNames = array(
+			'~install/tpl/resources/Index.js',
+		);
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}
 }

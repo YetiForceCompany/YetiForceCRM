@@ -48,35 +48,34 @@ class FieldBasic
 
 	/**
 	 * Initialize this instance
-	 * @param Array 
-	 * @param Module Instance of module to which this field belongs
-	 * @param vtlib\Block Instance of block to which this field belongs
-	 * @access private
+	 * @param array $valuemap
+	 * @param \vtlib\Module $moduleInstance Module Instance of module to which this field belongs
+	 * @param \vtlib\Block $blockInstance Instance of block to which this field belongs
 	 */
 	public function initialize($valuemap, $moduleInstance = false, $blockInstance = false)
 	{
-		$this->id = $valuemap['fieldid'];
-		$this->tabid = $valuemap['tabid'];
+		$this->id = (int) $valuemap['fieldid'];
+		$this->tabid = (int) $valuemap['tabid'];
 		$this->name = $valuemap['fieldname'];
 		$this->label = $valuemap['fieldlabel'];
 		$this->column = $valuemap['columnname'];
 		$this->table = $valuemap['tablename'];
-		$this->uitype = $valuemap['uitype'];
+		$this->uitype = (int) $valuemap['uitype'];
 		$this->typeofdata = $valuemap['typeofdata'];
 		$this->helpinfo = $valuemap['helpinfo'];
-		$this->masseditable = $valuemap['masseditable'];
+		$this->masseditable = (int) $valuemap['masseditable'];
 		$this->header_field = $valuemap['header_field'];
-		$this->maxlengthtext = $valuemap['maxlengthtext'];
-		$this->maxwidthcolumn = $valuemap['maxwidthcolumn'];
-		$this->displaytype = $valuemap['displaytype'];
-		$this->generatedtype = $valuemap['generatedtype'];
-		$this->readonly = $valuemap['readonly'];
-		$this->presence = $valuemap['presence'];
+		$this->maxlengthtext = (int) $valuemap['maxlengthtext'];
+		$this->maxwidthcolumn = (int) $valuemap['maxwidthcolumn'];
+		$this->displaytype = (int) $valuemap['displaytype'];
+		$this->generatedtype = (int) $valuemap['generatedtype'];
+		$this->readonly = (int) $valuemap['readonly'];
+		$this->presence = (int) $valuemap['presence'];
 		$this->defaultvalue = $valuemap['defaultvalue'];
-		$this->quickcreate = $valuemap['quickcreate'];
-		$this->sequence = $valuemap['sequence'];
-		$this->quicksequence = $valuemap['quickcreatesequence'];
-		$this->summaryfield = $valuemap['summaryfield'];
+		$this->quickcreate = (int) $valuemap['quickcreate'];
+		$this->sequence = (int) $valuemap['sequence'];
+		$this->quicksequence = (int) $valuemap['quickcreatesequence'];
+		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
 		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $moduleInstance);
 	}
@@ -228,7 +227,10 @@ class FieldBasic
 		if ($this->tabid) {
 			return $this->tabid;
 		}
-		return $this->block->module->id;
+		if (!empty($this->block)) {
+			return $this->block->module->id;
+		}
+		return false;
 	}
 
 	/**

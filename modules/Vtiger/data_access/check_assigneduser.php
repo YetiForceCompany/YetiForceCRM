@@ -16,7 +16,6 @@ Class DataAccess_check_assigneduser
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		$db = PearDatabase::getInstance();
 		$allowedUsers = $config['field'];
 		$assignedUser = $record_form['assigned_user_id'];
 		if (!is_array($allowedUsers))
@@ -35,7 +34,7 @@ Class DataAccess_check_assigneduser
 				'save_record' => false,
 				'type' => 0,
 				'info' => Array(
-					'text' => vtranslate($config['info'], 'DataAccess'),
+					'text' => \App\Language::translate($config['info'], 'DataAccess'),
 					'type' => 'error'
 				)
 			);

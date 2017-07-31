@@ -1,10 +1,15 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Vtiger QuickExport action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
@@ -17,7 +22,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$this->exposeMethod('ExportToExcel');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -26,7 +31,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function ExportToExcel(Vtiger_Request $request)
+	public function ExportToExcel(\App\Request $request)
 	{
 		vimport('libraries.PHPExcel.PHPExcel');
 		$module = $request->getModule(false); //this is the type of things in the current view
@@ -52,8 +57,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 			$col++;
 		}
 		$row++;
-
-		$targetModuleFocus = CRMEntity::getInstance($module);
 		//ListViewController has lots of paging stuff and things we don't want
 		//so lets just itterate across the list of IDs we have and get the field values
 		foreach ($recordIds as $id) {
@@ -114,7 +117,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: ' . @filesize($tempFileName));
-		$filename = vtranslate($module, $module) . '-' . vtranslate(decode_html($customView->get('viewname')), $module) . ".xls";
+		$filename = \App\Language::translate($module, $module) . '-' . \App\Language::translate(decode_html($customView->get('viewname')), $module) . ".xls";
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 
 		$fp = fopen($tempFileName, 'rb');
@@ -123,7 +126,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		unlink($tempFileName);
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

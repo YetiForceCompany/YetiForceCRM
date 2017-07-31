@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 $languageStrings = [
+	'LBL_EXCEL' => 'EXCEL',
+	'LBL_CSV' => 'CSV',
+	'LBL_FILE_TYPE' => 'Type de fichier',
 	'PRIMARY_MODULE' => 'Module principal',
 	'Report Name' => 'Nom du rapport',
 	'Reports'=>'Rapports',
@@ -92,7 +95,7 @@ $languageStrings = [
 
 	//charts labels
 	'LBL_SELECT_CHART_TYPE' => 'Sélectionner type de graphique',
-	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Click through non disponible comme vous avez sélectionné plusieurs modules',
+	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Clique non disponible comme vous avez sélectionné plusieurs modules',
 	'LBL_TOTAL_SUM_OF' => 'Somme totale de %s',
 	'LBL_AVG_OF' => 'Moyenne de %s',
 	'LBL_MIN_OF' => 'Minimum de %s',
@@ -116,11 +119,11 @@ $languageStrings = [
     //Schedule Reports - Mail Content
     'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Ceci est un mail automatique pour l\'envoi des rapports.',
 	'LBL_PIVOT_REPORT' => 'Rapport pivot',
-	'LBL_VIEW_CHARTDETAIL' => 'Chart preview',
+	'LBL_VIEW_CHARTDETAIL' => 'Aperçu des graphiques',
 ];
 
 $jsLanguageStrings = [
-	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Limitation: Les champs ligne d\'objets(Prix, Remise & Quantité) peuvent seulement être utilisé si d\'autres champs calculés ne sont pas utilisés.',
+	'JS_CALCULATION_LINE_ITEM_FIELDS_SELECTION_LIMITATION' => 'Limitation: Les champs ligne d\'objets (Prix, Remise & Quantité) peuvent seulement être utilisé si d\'autres champs calculés ne sont pas utilisés.',
 	'JS_DUPLICATE_RECORD' => 'Rapport en doublon',
 	'JS_NO_CHART_DATA_AVAILABLE' => 'Données non disponibles, merci de vérifier les champs choisis',
 ];

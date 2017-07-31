@@ -1,18 +1,15 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Settings SharingAccess rule model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 
 /**
  * Sharng Access Vtiger Module Model Class
  */
-class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
+class Settings_SharingAccess_Rule_Model extends \App\Base
 {
 
 	const RULE_TYPE_GROUPS = 'GRP';
@@ -322,7 +319,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 	public function getRecordLinks()
 	{
 
-		$links = array();
+		$links = [];
 		$recordLinks = array(
 			array(
 				'linktype' => 'LISTVIEWRECORD',
@@ -355,7 +352,6 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 			])->execute();
 			$ruleId = $db->getLastInsertID('vtiger_datashare_module_rel_shareid_seq');
 			$this->set('shareid', $ruleId);
-
 		} else {
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
@@ -440,7 +436,7 @@ class Settings_SharingAccess_Rule_Model extends Vtiger_Base_Model
 		$result = $db->pquery($sql, $params);
 		$noOfRules = $db->num_rows($result);
 
-		$ruleModels = array();
+		$ruleModels = [];
 		for ($i = 0; $i < $noOfRules; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$ruleModel = new self();

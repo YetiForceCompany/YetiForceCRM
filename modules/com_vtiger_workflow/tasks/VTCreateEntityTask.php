@@ -189,7 +189,7 @@ class VTCreateEntityTask extends VTTask
 				$invDat[$name . $i] = $value;
 			}
 		}
-		$recordModel->setInventoryRawData(new Vtiger_Base_Model($invDat));
+		$recordModel->setInventoryRawData(new App\Base($invDat));
 		return $recordModel;
 	}
 }

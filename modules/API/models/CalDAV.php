@@ -3,7 +3,8 @@
 /**
  * Api CalDAV Model Class
  * @package YetiForce.Model
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class API_CalDAV_Model
@@ -20,12 +21,6 @@ class API_CalDAV_Model
 	protected $crmRecords = [];
 
 	const MAX_DATE = '2038-01-01';
-
-	public function __construct()
-	{
-// Autoloader
-		require_once 'libraries/SabreDAV/autoload.php';
-	}
 
 	public function calDavCrm2Dav()
 	{
@@ -122,7 +117,7 @@ class API_CalDAV_Model
 		if (!empty($record['description'])) {
 			$component->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
 		}
-		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
 			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
@@ -191,7 +186,7 @@ class API_CalDAV_Model
 			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
 			$vcalendar->add($vTimeZone);
 		}
-		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+		if (AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
 			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
@@ -256,8 +251,6 @@ class API_CalDAV_Model
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
-			$current_user = vglobal('current_user');
-			$current_user = $user;
 			$this->recordSync();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');

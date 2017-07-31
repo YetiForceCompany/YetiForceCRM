@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @package YetiForce.views
- * @license licenses/License.html
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		// get min, max, allow_chars from vtiger_passwords_config
 		$passwordConfig = (new App\Db\Query())->from('vtiger_passwords_config')->one();
@@ -49,8 +50,8 @@ class OSSPasswords_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->assign('RELATEDMODULE', $relatedModule);
 		$viewer->assign('GENERATEPASS', 'Generate Password');
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('VALIDATE_STRINGS', vtranslate('Very Weak', $relatedModule) . ',' . vtranslate('Weak', $relatedModule) . ',' . vtranslate('Better', $relatedModule) . ',' .
-			vtranslate('Medium', $relatedModule) . ',' . vtranslate('Strong', $relatedModule) . ',' . vtranslate('Very Strong', $relatedModule));
+		$viewer->assign('VALIDATE_STRINGS', \App\Language::translate('Very Weak', $relatedModule) . ',' . \App\Language::translate('Weak', $relatedModule) . ',' . \App\Language::translate('Better', $relatedModule) . ',' .
+			\App\Language::translate('Medium', $relatedModule) . ',' . \App\Language::translate('Strong', $relatedModule) . ',' . \App\Language::translate('Very Strong', $relatedModule));
 		$viewer->assign('Very Weak', 'Very Weak');
 		$viewer->assign('Weak', 'Weak');
 		$viewer->assign('Better', 'Better');

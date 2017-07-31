@@ -22,7 +22,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 		$fldModule = $this->getModuleName();
 		$id = $this->getId();
-		$uitype = $this->get('uitype');
 		$typeofdata = $this->get('typeofdata');
 		$fieldname = $this->getName();
 		$oldfieldlabel = $this->get('label');
@@ -30,9 +29,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$columnName = $this->get('column');
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $this->getModuleId();
-
-		$focus = CRMEntity::getInstance($fldModule);
-
 		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
 		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
 		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
@@ -60,18 +56,18 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
 		if ($this->getFieldDataType() == 'picklist' || $this->getFieldDataType() == 'multipicklist') {
 			$query = (new \App\Db\Query())->from('vtiger_field')
-				->where(['columnname' => $columnName])
+				->where(['fieldname' => $fieldname])
 				->andWhere(['in', 'uitype', [15, 16, 33]]);
 			$dataReader = $query->createCommand()->query();
 			if (!$dataReader->count()) {
-				$db->createCommand()->dropTable('vtiger_' . $columnName)->execute();
+				$db->createCommand()->dropTable('vtiger_' . $fieldname)->execute();
 				//To Delete Sequence Table 
-				if ($db->isTableExists('vtiger_' . $columnName . '_seq')) {
-					$db->createCommand()->dropTable('vtiger_' . $columnName . '_seq')->execute();
+				if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
+					$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
 				}
-				$db->createCommand()->delete('vtiger_picklist', ['name' => $columnName]);
+				$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname]);
 			}
-			$db->createCommand()->delete('vtiger_picklist_dependency', ['and', "tabid = $tabId", ['or', "sourcefield = '$columnname'", "targetfield = '$columnname'"]])->execute();
+			$db->createCommand()->delete('vtiger_picklist_dependency', ['and', ['tabid' => $tabId], ['or', ['sourcefield' => $fieldname], ['targetfield' => $fieldname]]])->execute();
 		}
 	}
 
@@ -104,7 +100,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		}
 	}
 
-	public static function makeFieldActive($fieldIdsList = array(), $blockId)
+	public static function makeFieldActive($fieldIdsList = [], $blockId)
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
 
@@ -133,7 +129,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
-		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes) || ($this->get('displaytype') == 2 && $this->get('uitype') != 306)) {
+		if (in_array($this->get('uitype'), $mandatoryRestrictedUitypes)) {
 			return true;
 		}
 		return false;
@@ -265,21 +261,5 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isMassEditDisabled'] = $this->isMassEditOptionDisabled();
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
 		return $fieldInfo;
-	}
-
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
-	{
-		if (is_string($fieldId)) {
-			$fieldId = [$fieldId];
-		}
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $moduleTabId, 'fieldid' => $fieldId])->orderBy('sequence');
-		$dataReader = $query->createCommand()->query();
-		$fieldModelList = [];
-		while ($row = $dataReader->read()) {
-			$fieldModel = new self();
-			$fieldModel->initialize($row);
-			$fieldModelList[] = $fieldModel;
-		}
-		return $fieldModelList;
 	}
 }

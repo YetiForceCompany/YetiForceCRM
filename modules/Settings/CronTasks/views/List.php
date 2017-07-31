@@ -11,9 +11,8 @@
 class Settings_CronTasks_List_View extends Settings_Vtiger_List_View
 {
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);

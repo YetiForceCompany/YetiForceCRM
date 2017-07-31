@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_DetailView_Model extends Vtiger_Base_Model
+class Vtiger_DetailView_Model extends \App\Base
 {
 
 	protected $module = false;
@@ -181,7 +181,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => vtranslate('LBL_DELETE_RECORD')
+				'title' => \App\Language::translate('LBL_DELETE_RECORD')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}
@@ -191,7 +191,7 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
 				'linkicon' => 'glyphicon glyphicon-duplicate',
-				'title' => vtranslate('LBL_DUPLICATE_RECORD')
+				'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
@@ -201,10 +201,10 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$pdfLink = [
 					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => vtranslate('LBL_EXPORT_PDF'),
+					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => vtranslate('LBL_EXPORT_PDF')
+					'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfLink);
 			}
@@ -235,7 +235,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
@@ -312,7 +311,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 		$module = $this->getModuleName();
 		$record = $this->getRecord()->getId();
 		$modelWidgets = $moduleModel->getWidgets($module);
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
 				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
@@ -335,8 +333,6 @@ class Vtiger_DetailView_Model extends Vtiger_Base_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$moduleLinks = $this->getModule()->getSideBarLinks($linkTypes);
 

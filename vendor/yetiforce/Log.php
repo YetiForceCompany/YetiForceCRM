@@ -6,7 +6,8 @@ use \yii\log\Logger;
 /**
  * Logger class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Log extends Logger
@@ -127,6 +128,33 @@ class Log extends Logger
 	{
 		if (static::$logToProfile) {
 			\Yii::getLogger()->log($token, Logger::LEVEL_PROFILE_END, $category);
+		}
+	}
+
+	/**
+	 * Get user action logs
+	 * @param string $type
+	 * @param string $mode
+	 * @param bool $countMode
+	 * @return array
+	 */
+	public static function getLogs($type, $mode, $countMode = false)
+	{
+		$db = \App\Db::getInstance('log');
+		$query = (new \App\Db\Query())->from('o_#__' . $type);
+		switch ($mode) {
+			case 'oneDay':
+				$query->where(['>=', 'date', date('Y-m-d H:i:s', strtotime('-1 day'))]);
+				break;
+			default:
+				$query->limit(100);
+				break;
+		}
+		if ($countMode) {
+			return $query->count('*', $db);
+		} else {
+			$query->orderBy(['id' => SORT_DESC]);
+			return $query->all($db);
 		}
 	}
 }
