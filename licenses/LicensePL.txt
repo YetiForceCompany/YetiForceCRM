@@ -242,4 +242,7 @@ Ta licencja nie nadaje żadnych praw do posługiwania się znakiem towarowym "Ye
 
 Oprócz innych obowiązków wynikających z licencji, wszystkie kopie Kodu Przedmiotowego w formie Wykonawczej i Kodu Źródłowego muszą, jako formę przypisania oryginalnego autorstwa, zawierać na każdym ekranie interfejsu użytkownika notę o prawach autorskich w postaci tekstu "Fueled by YetiForce", w tej samej formie jak najnowsza wersja Kodu Przedmiotowego rozpowszechnianego przez YetiForce Sp. z o.o. w czasie dystrybucji takiej kopii. Dodatkowo, tekst "Fueled by YetiForce" musi być wyświetlany tą samą czcionką, o tym samym rozmiarze co czcionka tego tekstu w najnowszej wersji Kodu Przedmiotowego, oraz musi być widoczny dla wszystkich użytkowników, i znajdować się na samym dole, na środku każdego ekranu interfejsu użytkownika.
 
+III. Informacje statystyczne
+Dane przesyłane w celach statystycznych muszą być danymi rzeczywistymi. 
+
 Copyright (c) 2014 www.yetiforce.com All rights reserved.
