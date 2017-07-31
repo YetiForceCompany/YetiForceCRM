@@ -701,7 +701,7 @@ class PackageImport extends PackageExport
 			return;
 
 		foreach ($blocknode->fields->field as $fieldnode) {
-			$fieldInstance = $this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
+			$this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 		}
 	}
 

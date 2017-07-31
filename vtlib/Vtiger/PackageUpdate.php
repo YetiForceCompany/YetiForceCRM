@@ -121,7 +121,6 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_Module($moduleInstance)
 	{
-		$tabname = $this->_modulexml->name;
 		$tablabel = $this->_modulexml->label;
 		$tabversion = $this->_modulexml->version;
 
@@ -188,7 +187,6 @@ class PackageUpdate extends PackageImport
 				self::log("Migrating to $migversion ... STARTED");
 				if (!empty($migrationnode->tables) && !empty($migrationnode->tables->table)) {
 					foreach ($migrationnode->tables->table as $tablenode) {
-						$tablename = $tablenode->name;
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
 						if (Utils::IsDestructiveSql($tablesql)) {

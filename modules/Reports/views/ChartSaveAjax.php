@@ -28,7 +28,6 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
