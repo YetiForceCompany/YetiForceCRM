@@ -38,7 +38,6 @@ function getListQuery($module, $where = '')
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$tab_id = \App\Module::getModuleId($module);
 	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 			'vtiger_users.last_name'), 'Users');
 	switch ($module) {
@@ -164,7 +163,7 @@ function getListQuery($module, $where = '')
 				ON vtiger_contactdetails.reportsto = vtiger_contactdetails2.contactid
 			LEFT JOIN vtiger_customerdetails
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
-			if (AppRequest::get('from_dashboard') === true && AppRequest::get('type') == 'dbrd') {
+			if (\App\Request::_get('from_dashboard') === true && \App\Request::_get('type') == 'dbrd') {
 				$query .= " INNER JOIN vtiger_campaign_records on vtiger_campaign_records.crmid = " .
 					"vtiger_contactdetails.contactid";
 			}
@@ -282,53 +281,20 @@ function getListQuery($module, $where = '')
 		// END
 	}
 
-	if ($module != 'Users') {
-		$query = listQueryNonAdminChange($query, $module);
+	if ($module !== 'Users') {
+		$instance = CRMEntity::getInstance($module);
+		$query = $instance->listQueryNonAdminChange($query, '');
 	}
 	\App\Log::trace("Exiting getListQuery method ...");
 	return $query;
 }
-/* Function to get the Entity Id of a given Entity Name */
 
-function getEntityId($module, $entityName)
+/**
+ * To remove
+ */
+function decode_html($string)
 {
-	$adb = PearDatabase::getInstance();
-
-	\App\Log::trace("in getEntityId " . $entityName);
-
-	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
-	$result = $adb->pquery($query, array($module));
-	$fieldsname = $adb->query_result($result, 0, 'fieldname');
-	$tablename = $adb->query_result($result, 0, 'tablename');
-	$entityidfield = $adb->query_result($result, 0, 'entityidfield');
-	if (!(strpos($fieldsname, ',') === false)) {
-		$fieldlists = explode(',', $fieldsname);
-		$fieldsname = "trim(concat(";
-		$fieldsname = $fieldsname . implode(",' ',", $fieldlists);
-		$fieldsname = $fieldsname . "))";
-		$entityName = trim($entityName);
-	}
-
-	if ($entityName != '') {
-		$sql = "select $entityidfield from $tablename INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $tablename.$entityidfield " .
-			" WHERE vtiger_crmentity.deleted = 0 and $fieldsname=?";
-		$result = $adb->pquery($sql, array($entityName));
-		if ($adb->num_rows($result) > 0) {
-			$entityId = $adb->query_result($result, 0, $entityidfield);
-		}
-	}
-	if (!empty($entityId))
-		return $entityId;
-	else
-		return 0;
-}
-
-function decode_html($str)
-{
-	static $defaultCharset = false;
-	if (empty($defaultCharset))
-		$defaultCharset = AppConfig::main('default_charset', 'UTF-8');
-	return html_entity_decode($str, ENT_QUOTES, $defaultCharset);
+	return App\Purifier::decodeHtml($string);
 }
 
 function popup_decode_html($str)
@@ -367,10 +333,4 @@ function getFirstModule($module, $fieldname)
 		}
 	}
 	return $data;
-}
-
-function listQueryNonAdminChange($query, $module, $scope = '')
-{
-	$instance = CRMEntity::getInstance($module);
-	return $instance->listQueryNonAdminChange($query, $scope);
 }

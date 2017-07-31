@@ -20,7 +20,6 @@ class Accounts_Record_Model extends Vtiger_Record_Model
 	{
 		$focus = CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getAccountHierarchy($this->getId());
-		$i = 0;
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {
 			$link = $accountInfo[0]['data'];
 			preg_match('/<a href="+/', $link, $matches);

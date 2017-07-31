@@ -23,8 +23,6 @@ class ModComments_ListView_Model extends Vtiger_ListView_Model
 	{
 		$links = parent::getListViewLinks($linkParams);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$moduleModel = $this->getModule();
-
 		unset($links['LISTVIEW']);
 		unset($links['LISTVIEWSETTING']);
 
@@ -48,6 +46,6 @@ class ModComments_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		return array();
+		return [];
 	}
 }

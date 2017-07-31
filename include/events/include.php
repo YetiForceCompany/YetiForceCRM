@@ -13,7 +13,3 @@ require_once 'VTEventConditionSymbol.php';
 require_once 'VTEventCondition.php';
 require_once 'VTEventConditionParserLexer.php';
 require_once 'VTEventConditionParserParser.php';
-require_once 'VTEntityData.php';
-require_once 'VTEntityType.php';
-require_once 'VTEventHandler.php';
-require_once 'VTBatchData.php';

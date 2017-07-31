@@ -2,7 +2,8 @@
 /**
  * Class using mPDF as a PDF creator
  * @package YetiForce.PDF
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -31,7 +32,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 0, $defaultFont = '', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$this->setLibraryName('mPDF');
-		$this->pdf = new mPDF($mode, $format, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
+		$this->pdf = new mPDF($mode, $format . '-' . $orientation, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
 	}
 
 	/**
@@ -148,15 +149,15 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 
 	/**
 	 * Parse and set options
-	 * @param <Array> $params - array of parameters
+	 * @param array $params - array of parameters
 	 */
-	public function parseParams(array &$params)
+	public function parseParams(array $params)
 	{
-		foreach ($params as $param => &$value) {
+		foreach ($params as $param => $value) {
 			switch ($param) {
 				case 'page_format':
 					$pageOrientation = '';
-					if (array_key_exists('page_orientation', $params)) {
+					if (isset($params['page_orientation'])) {
 						$pageOrientation = $params['page_orientation'];
 					}
 					$this->setPageSize($value, $pageOrientation);

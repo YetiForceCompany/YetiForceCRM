@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * IStorages french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'FL_POS' => 'POS',
 	'IStorages' => 'Stockages',
@@ -20,6 +25,6 @@ $languageStrings = [
 	'LBL_SHOW_HIERARCHY' => 'Hierarchie',
 	'LBL_PARENT_IS_CHILD' => 'Le stockage parent séléctionné ne peut être secondaire du stockage actuel ',
 	'LBL_SECONDARY_STORAGES' => 'Stockages secondaires',
-	'LBL_ROW_NUM' => 'No.',
+	'LBL_ROW_NUM' => 'N°',
 	'LBL_STORAGE_OWNER' => 'Propriétaire',
 ];

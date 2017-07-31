@@ -3,7 +3,8 @@
 /**
  * Returns special functions for PDF Settings
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
@@ -11,7 +12,7 @@
 class Vtiger_PDF_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
@@ -27,7 +28,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('generate');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -36,13 +37,13 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function validateRecords(Vtiger_Request $request)
+	public function validateRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$records = $request->get('records');
 		$templates = $request->get('templates');
 		$allRecords = count($records);
-		$output = ['valid_records' => [], 'message' => vtranslate('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
+		$output = ['valid_records' => [], 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
 
 		if (!empty($templates) && count($templates) > 0) {
 			foreach ($templates as $templateId) {
@@ -57,14 +58,14 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			}
 			$selectedRecords = count($records);
 
-			$output = ['valid_records' => $records, 'message' => vtranslate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
+			$output = ['valid_records' => $records, 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
 	}
 
-	public function generate(Vtiger_Request $request)
+	public function generate(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
@@ -90,7 +91,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
-					throw new \Exception\AppException(vtranslate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \Exception\AppException(\App\Language::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
 				}
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
@@ -141,9 +142,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 						$pdf->setLanguage($template->get('language'));
 						vglobal('default_language', $template->get('language'));
 
-						// building parameters
-						$parameters = $template->getParameters();
-
 						$styles .= " @page template_{$record}_{$id} {
 							sheet-size: {$template->getFormat()};
 							margin-top: {$template->get('margin_top')}mm;
@@ -164,7 +162,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				vglobal('default_language', $origLanguage);
 				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
 				$pdf->loadHTML($html);
-				$pdf->setFileName(vtranslate('LBL_PDF_MANY_IN_ONE'));
+				$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
 				$pdf->output();
 			} else {
 				mt_srand(time());
@@ -219,10 +217,10 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Checks if given record has valid pdf template
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return boolean true if valid template exists for this record
 	 */
-	public function hasValidTemplate(Vtiger_Request $request)
+	public function hasValidTemplate(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->get('modulename');

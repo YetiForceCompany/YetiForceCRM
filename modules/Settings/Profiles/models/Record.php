@@ -426,7 +426,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$adb = App\Db::getInstance();
 		$db = PearDatabase::getInstance();
-		$modulePermissions = $this->getModulePermissions();
 
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
@@ -708,23 +707,18 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all the profiles linked to the given role
-	 * @param string - $roleId
-	 * @return <Array> - Array of Settings_Profiles_Record_Model instances
+	 * @param string $roleId
+	 * @return Settings_Profiles_Record_Model[] Array of Settings_Profiles_Record_Model instances
 	 */
 	public static function getAllByRole($roleId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT vtiger_profile.*
-					FROM vtiger_profile
-					INNER JOIN
-						vtiger_role2profile ON vtiger_profile.profileid = vtiger_role2profile.profileid
-						AND
-						vtiger_role2profile.roleid = ?';
-		$params = array($roleId);
-		$result = $db->pquery($sql, $params);
+		$dataReader = (new App\Db\Query())->select(['vtiger_profile.*'])
+				->from('vtiger_profile')
+				->innerJoin('vtiger_role2profile', 'vtiger_role2profile.profileid = vtiger_profile.profileid')
+				->where(['vtiger_role2profile.roleid' => $roleId])
+				->createCommand()->query();
 		$profiles = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$profile = new self();
 			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
@@ -734,15 +728,14 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get all the profiles
-	 * @return <Array> - Array of Settings_Profiles_Record_Model instances
+	 * @return Settings_Profiles_Record_Model[] Array of Settings_Profiles_Record_Model instances
 	 */
 	public static function getAll()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_profile';
-		$result = $db->query($sql);
+		$dataReader = (new App\Db\Query())->from('vtiger_profile')
+				->createCommand()->query();
 		$profiles = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$profile = new self();
 			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
@@ -757,20 +750,18 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($profileId)
 	{
-		$instance = Vtiger_Cache::get('ProfilesRecordModelById', $profileId);
-		if ($instance) {
-			return $instance;
+		if (App\Cache::has('ProfilesRecordModelById', $profileId)) {
+			return App\Cache::get('ProfilesRecordModelById', $profileId);
 		}
-
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_profile WHERE profileid = ?';
-		$result = $db->pquery($sql, [$profileId]);
-		if ($db->getRowCount($result) > 0) {
-			$row = $db->getRow($result);
+		$row = (new App\Db\Query())->from('vtiger_profile')
+				->where(['profileid' => $profileId])
+				->one();
+		$profile = null;
+		if ($row) {
 			$profile = new self();
 			$profile->setData($row);
 		}
-		Vtiger_Cache::set('ProfilesRecordModelById', $profileId, $profile);
+		App\Cache::save('ProfilesRecordModelById', $profileId, $profile);
 		return $profile;
 	}
 
@@ -834,24 +825,19 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get Users list from this Profile
-	 * @param boolean $allUsers
-	 * @return <Array> list of user ids
+	 * @param int $profileId
+	 * @return int[] list of user ids
 	 */
 	public static function getUsersList($profileId = false)
 	{
-		$db = PearDatabase::getInstance();
-		$params = [0];
-		$query = 'SELECT id FROM vtiger_users
-					INNER JOIN vtiger_user2role ON vtiger_user2role.userid = vtiger_users.id
-					INNER JOIN vtiger_role2profile ON vtiger_role2profile.roleid = vtiger_user2role.roleid
-					WHERE vtiger_users.deleted = ?';
-
+		$query = (new App\Db\Query())->select(['id'])->from('vtiger_users')
+				->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
+				->innerJoin('vtiger_role2profile', 'vtiger_role2profile.roleid = vtiger_user2role.roleid')
+				->where(['vtiger_users.deleted' => 0]);
 		if ($profileId) {
-			$query .= ' AND vtiger_role2profile.profileid = ?';
-			$params[] = $profileId;
+			$query->andWhere(['vtiger_role2profile.profileid' => $profileId]);
 		}
-		$result = $db->pquery($query, $params);
-		return $db->getArrayColumn($result);
+		return $query->column();
 	}
 
 	/**

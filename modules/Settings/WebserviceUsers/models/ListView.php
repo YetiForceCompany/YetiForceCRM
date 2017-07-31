@@ -2,8 +2,9 @@
 
 /**
  * WebserviceUsers ListView Model Class
- * @package YetiForce.Settings.Model
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_ListView_Model extends Settings_Vtiger_ListView_Model
@@ -18,7 +19,7 @@ class Settings_WebserviceUsers_ListView_Model extends Settings_Vtiger_ListView_M
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
-		$this->module->typeApi = \AppRequest::get('typeApi');
+		$this->module->typeApi = \App\Request::_get('typeApi');
 		return $this;
 	}
 

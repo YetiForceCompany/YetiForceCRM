@@ -18,8 +18,8 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header contentsBackground">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-				<h3 class="modal-title">{vtranslate('LBL_ADDING_COMMENT', $MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+				<h3 class="modal-title">{\App\Language::translate('LBL_ADDING_COMMENT', $MODULE)}</h3>
 			</div>
 			<form class="form-horizontal" id="massSave" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
@@ -34,7 +34,7 @@
 				<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 
 				<div class="modal-body tabbable">
-					<textarea class="input-lg form-control" name="commentcontent" id="commentcontent" title="{vtranslate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" placeholder="{vtranslate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."></textarea>
+					<textarea class="input-lg form-control" name="commentcontent" id="commentcontent" title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."></textarea>
 				</div>
 				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
 			</form>

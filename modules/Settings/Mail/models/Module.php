@@ -2,8 +2,9 @@
 
 /**
  * Mail module model class
- * @package YetiForce.Settings.Module
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model

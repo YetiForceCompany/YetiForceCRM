@@ -2,15 +2,16 @@
 
 /**
  * Fields Action Class
- * @package YetiForce.Actions
- * @license licenses/License.html
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Fields_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -26,7 +27,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('searchValues');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -35,10 +36,9 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function getOwners(Vtiger_Request $request)
+	public function getOwners(\App\Request $request)
 	{
 		$searchValue = $request->get('value');
-		$type = $request->get('type');
 		if ($request->has('result')) {
 			$result = $request->get('result');
 		} else {
@@ -57,7 +57,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			if (in_array('users', $result)) {
 				$users = $owner->getAccessibleUsers('', 'owner');
 				if (!empty($users)) {
-					$data[] = ['name' => vtranslate('LBL_USERS'), 'type' => 'optgroup'];
+					$data[] = ['name' => \App\Language::translate('LBL_USERS'), 'type' => 'optgroup'];
 					foreach ($users as $key => &$value) {
 						$data[] = ['id' => $key, 'name' => $value];
 					}
@@ -66,7 +66,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 			if (in_array('groups', $result)) {
 				$grup = $owner->getAccessibleGroups('', 'owner', true);
 				if (!empty($grup)) {
-					$data[] = ['name' => vtranslate('LBL_GROUPS'), 'type' => 'optgroup'];
+					$data[] = ['name' => \App\Language::translate('LBL_GROUPS'), 'type' => 'optgroup'];
 					foreach ($grup as $key => &$value) {
 						$data[] = ['id' => $key, 'name' => $value];
 					}
@@ -79,9 +79,9 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function searches for value data 
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function searchValues(Vtiger_Request $request)
+	public function searchValues(\App\Request $request)
 	{
 		$searchValue = $request->get('value');
 		$fieldId = (int) $request->get('fld');
@@ -104,7 +104,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function searchReference(Vtiger_Request $request)
+	public function searchReference(\App\Request $request)
 	{
 		$fieldId = $request->get('fid');
 		$searchValue = $request->get('value');

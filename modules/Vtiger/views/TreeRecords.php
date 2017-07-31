@@ -3,22 +3,23 @@
 /**
  * Basic TreeView View Class
  * @package YetiForce.TreeView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
 {
 
-	public function getBreadcrumbTitle(Vtiger_Request $request)
+	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
-		$pageTitle = vtranslate($treeViewModel->getName(), $moduleName);
+		$pageTitle = \App\Language::translate($treeViewModel->getName(), $moduleName);
 		return $pageTitle;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
@@ -32,7 +33,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
 	}
 
-	public function postProcess(Vtiger_Request $request, $display = true)
+	public function postProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -43,13 +44,13 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
-	protected function postProcessDisplay(Vtiger_Request $request)
+	protected function postProcessDisplay(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
@@ -79,7 +80,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
 
@@ -95,7 +96,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		return $scriptInstances;
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [

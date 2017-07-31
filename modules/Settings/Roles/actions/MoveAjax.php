@@ -11,19 +11,18 @@
 class Settings_Roles_MoveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$parentRoleId = $request->get('parent_roleid');
 

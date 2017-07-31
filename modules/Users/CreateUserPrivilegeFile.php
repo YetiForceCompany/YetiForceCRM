@@ -42,8 +42,8 @@ function createUserPrivilegesfile($userid)
 		} else {
 			$newbuf .= "\$is_admin=false;\n";
 
-			$globalPermissionArr = getCombinedUserGlobalPermissions($userid);
-			$tabsPermissionArr = getCombinedUserTabsPermissions($userid);
+			$globalPermissionArr = App\PrivilegeUtil::getCombinedUserGlobalPermissions($userid);
+			$tabsPermissionArr = App\PrivilegeUtil::getCombinedUserTabsPermissions($userid);
 			$actionPermissionArr = getCombinedUserActionPermissions($userid);
 			$user_role = \App\PrivilegeUtil::getRoleByUsers($userid);
 			$user_role_info = \App\PrivilegeUtil::getRoleDetail($user_role);
@@ -57,7 +57,7 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\PrivilegeUtil::getUserGroups($userid)) . ";\n";
+			$newbuf .= "\$current_user_groups=" . constructSingleArray(\Vtiger_Util_Helper::getGroupsIdsForUsers($userid)) . ";\n";
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
@@ -66,6 +66,8 @@ function createUserPrivilegesfile($userid)
 		fputs($handle, $newbuf);
 		fclose($handle);
 		\App\PrivilegeFile::createUserPrivilegesFile($userid);
+		Users_Privileges_Model::clearCache($userid);
+		\App\User::clearCache($userid);
 	}
 }
 
@@ -321,6 +323,8 @@ function constructArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -346,6 +350,8 @@ function constructSingleStringValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -371,6 +377,8 @@ function constructSingleStringKeyAndValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -388,6 +396,8 @@ function constructSingleArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -405,6 +415,8 @@ function constructSingleCharArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -426,6 +438,8 @@ function constructTwoDimensionalArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -447,6 +461,8 @@ function constructTwoDimensionalValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -468,6 +484,8 @@ function constructTwoDimensionalCharIntSingleArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 
@@ -489,6 +507,8 @@ function constructTwoDimensionalCharIntSingleValueArray($var)
 		}
 		$code .= ']';
 		return $code;
+	} else {
+		return '[]';
 	}
 }
 

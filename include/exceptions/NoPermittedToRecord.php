@@ -1,9 +1,11 @@
-<?php namespace Exception;
+<?php
+namespace Exception;
 
 /**
- * No Permitted Exception class
+ * No Permitted to record exception class
  * @package YetiForce.Exception
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class NoPermittedToRecord extends NoPermitted
@@ -14,10 +16,8 @@ class NoPermittedToRecord extends NoPermitted
 		parent::__construct($message, $code, $previous);
 		\Vtiger_Session::init();
 
-		$request = \AppRequest::init();
-		$record = $request->get('record');
-		if(empty($record))
-			$record = 0;
+		$request = \App\Request::init();
+		$record = $request->getInteger('record', 0);
 		$userName = \Vtiger_Session::get('full_user_name');
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,

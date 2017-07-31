@@ -12,7 +12,7 @@
 class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -20,7 +20,7 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$reportName = $request->get('reportname');
@@ -39,7 +39,7 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 		if (!$recordModel->checkDuplicate()) {
 			$result = array('success' => false);
 		} else {
-			$result = array('success' => true, 'message' => vtranslate('LBL_DUPLICATES_EXIST', $moduleName));
+			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

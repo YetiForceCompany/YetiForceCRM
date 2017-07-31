@@ -23,7 +23,15 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	public function process(\App\Request $request)
 	{
 		return;
 	}
@@ -112,7 +120,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		$db = PearDatabase::getInstance();
 
 		$query = 'SELECT * FROM vtiger_import_queue';
-		$params = array();
+		$params = [];
 		if ($temp_status !== false) {
 			$query .= ' WHERE temp_status = ?';
 			array_push($params, $temp_status);
@@ -120,7 +128,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		$result = $db->pquery($query, $params);
 
 		$noOfImports = $db->num_rows($result);
-		$scheduledImports = array();
+		$scheduledImports = [];
 		for ($i = 0; $i < $noOfImports; ++$i) {
 			$rowData = $db->raw_query_result_rowdata($result, $i);
 			$scheduledImports[$rowData['importid']] = self::getImportInfoFromResult($rowData);

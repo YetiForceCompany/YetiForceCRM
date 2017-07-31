@@ -1,11 +1,12 @@
 <?php
 /**
- * Multi reference value cron
+ * Privileges updater cron
  * @package YetiForce.Cron
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$limit = AppConfig::performance('CRON_MAX_NUMERS_RECORD_PRIVILEGES_UPDATER');
+$limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
 $dataReader = (new \App\Db\Query())->select('crmid, setype')
 		->from('vtiger_crmentity')
 		->where(['users' => null])
@@ -38,7 +39,7 @@ $dataReader = (new \App\Db\Query())
 while ($row = $dataReader->read()) {
 	$db = App\Db::getInstance();
 	$crmid = $row['crmid'];
-	if (0 === $row['type']) {
+	if (0 === (int) $row['type']) {
 		\App\PrivilegeUpdater::update($crmid, $row['module']);
 		$limit--;
 		if (0 === $limit) {
@@ -59,7 +60,7 @@ while ($row = $dataReader->read()) {
 				])->execute();
 			$crmid = $rowCrm['crmid'];
 			$limit--;
-			if (0 === $limit || $affected === 0) {
+			if (0 === $limit || (int) $affected === 0) {
 				return;
 			}
 		}

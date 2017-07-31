@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * AdvancedPermission russian translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'LBL_ADVANCED_PERMISSION' => 'Advanced permissions',
 	'AdvancedPermission' => 'Advanced permissions',
@@ -26,5 +31,4 @@ $languageStrings = [
 	'LBL_RECALCULATE_CRON_INFO' => 'Permission recalculations requires enabled CRON, please check if the task is active.',
 	'LBL_MODULES_LIST' => 'Modules list',
 	'ERR_INACTIVE_CACHING_PERM_ALERT_DESC' => 'Special permissions have been disabled because they require enabling record permission caching. For the permissions to start working you should enable cron, and set CACHING_PERMISSION_TO_RECORD [config/security.php] variable to true.',
-
 ];

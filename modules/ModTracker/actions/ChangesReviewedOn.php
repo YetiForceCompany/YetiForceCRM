@@ -3,13 +3,14 @@
 /**
  * ChangesReviewedOn Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$sourceModule = $request->get('sourceModule');
@@ -35,7 +36,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('reviewChanges');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -50,7 +51,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function getUnreviewed(Vtiger_Request $request)
+	public function getUnreviewed(\App\Request $request)
 	{
 		$records = $request->get('recordsId');
 		$result = ModTracker_Record_Model::getUnreviewed($records, false, true);
@@ -61,9 +62,9 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function marks forwarded records as reviewed
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function reviewChanges(Vtiger_Request $request)
+	public function reviewChanges(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
@@ -79,9 +80,9 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 			}
 			ModTracker_Relation_Model::reviewChangesQueue($data, $sourceModule);
 			$cronInfo = \vtlib\Cron::getInstance('LBL_MARK_RECORDS_AS_REVIEWED');
-			$message = vtranslate('LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION', $moduleName);
+			$message = \App\Language::translate('LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION', $moduleName);
 			if ($cronInfo && $cronInfo->getStatus()) {
-				$message .= '<br>' . vtranslate('LBL_ESTIMATED_TIME', $moduleName) . ': ' . ($cronInfo->getFrequency() / 60) . vtranslate('LBL_MINUTES');
+				$message .= '<br />' . \App\Language::translate('LBL_ESTIMATED_TIME', $moduleName) . ': ' . ($cronInfo->getFrequency() / 60) . \App\Language::translate('LBL_MINUTES');
 			}
 			$result = [$message];
 		} else {
@@ -93,7 +94,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		return $request->validateWriteAccess();
 	}

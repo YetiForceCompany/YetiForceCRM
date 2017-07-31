@@ -13,11 +13,11 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @param Vtiger_Viewer $viewer
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
@@ -31,7 +31,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'SSalesProcesses' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
@@ -41,7 +41,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 		if ($moduleName == 'Contacts' && $sourceModule == 'Project' && isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=Project') === 0) {
@@ -51,7 +51,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', vtranslate('SINGLE_' . $relParentModule, $relParentModule));
+				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translate('SINGLE_' . $relParentModule, $relParentModule));
 			}
 		}
 

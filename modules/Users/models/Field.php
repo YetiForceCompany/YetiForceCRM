@@ -88,10 +88,10 @@ class Users_Field_Model extends Vtiger_Field_Model
 			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());
 			$result = $db->pquery($query, []);
 			$num_rows = $db->num_rows($result);
-			$fieldPickListValues = array();
+			$fieldPickListValues = [];
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
-				$fieldPickListValues[$picklistValue] = vtranslate($picklistValue, $this->getModuleName());
+				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
 			return $fieldPickListValues;
 		}
@@ -118,8 +118,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 			return Vtiger_Language_Handler::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
-		if (($fieldName == 'currency_decimal_separator' || $fieldName == 'currency_grouping_separator') && ($value == '&nbsp;')) {
-			return vtranslate('LBL_SPACE', 'Users');
+		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
+			return \App\Language::translate('LBL_SPACE', 'Users');
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
@@ -131,7 +131,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function getAllRoles()
 	{
 		$roleModels = Settings_Roles_Record_Model::getAll();
-		$roles = array();
+		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
 			$roleName = $roleModel->getName();
 			$roles[$roleName] = $roleId;
@@ -157,7 +157,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEmptyPicklistOptionAllowed()
 	{
-		if ($this->getFieldName() == 'reminder_interval') {
+		if ($this->getFieldName() === 'reminder_interval') {
 			return true;
 		}
 		return false;

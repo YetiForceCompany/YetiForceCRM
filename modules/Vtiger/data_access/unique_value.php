@@ -1,5 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+
+/**
+ * DataAccess unique value class
+ * @package YetiForce.DataAccess
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 /*
   Return Description
   ------------------------
@@ -74,7 +80,7 @@ Class DataAccess_unique_value
 						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
 					}
 				}
-				if ($DestModuleName == 'Leads') {
+				if ($DestModuleName === 'Leads') {
 					$spacialCondition = ' AND converted = 0';
 					if ('vtiger_crmentity' == $where[0]) {
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
@@ -87,7 +93,7 @@ Class DataAccess_unique_value
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
-						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
+						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Language::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
@@ -108,7 +114,7 @@ Class DataAccess_unique_value
 					$sql_param[] = $ID;
 					$sql_ext = 'AND ' . $index . ' <> ?';
 				}
-				if ($DestModuleName == 'Leads') {
+				if ($DestModuleName === 'Leads') {
 					$spacialCondition = ' && `converted` = 0';
 					if ('vtiger_crmentity' == $where[0]) {
 						$sqlSpecial = 'INNER JOIN vtiger_leaddetails ON vtiger_crmentity.crmid = vtiger_leaddetails.leadid ';
@@ -128,7 +134,7 @@ Class DataAccess_unique_value
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
-						$deletedLabel = $metadata['deleted'] ? ' - ' . vtranslate('LBL_RECORD_DELETED', 'DataAccess') : '';
+						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Language::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . vtlib\Functions::getCRMRecordLabel($id) . '</strong></a> (' . vtlib\Functions::getOwnerRecordLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
@@ -150,19 +156,19 @@ Class DataAccess_unique_value
 		if ($config['locksave'] == 3 && !$save_record) {
 			$type = $config['locksave'];
 			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
-			$text = '<div class="marginLeft10">' . vtranslate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
+			$text = '<div class="marginLeft10">' . \App\Language::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {
-				$title = '<strong>' . vtranslate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
+				$title = '<strong>' . \App\Language::translate('LBL_DUPLICTAE_CREATION_CONFIRMATION', 'DataAccess') . '</strong>';
 				if (!empty($ID)) {
 					$text .= '<form class="form-horizontal"><div class="checkbox">
 							<label>
-								<input type="checkbox" name="cache"> ' . vtranslate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
+								<input type="checkbox" name="cache"> ' . \App\Language::translate('LBL_DONT_ASK_AGAIN', 'DataAccess') . '
 							</label>
 						</div></form>';
 				}
 				if ($record_form['view'] == 'quick_edit') {
-					$text = '<div class="alert alert-warning" role="alert">' . vtranslate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
+					$text = '<div class="alert alert-warning" role="alert">' . \App\Language::translate('LBL_DUPLICTAE_QUICK_EDIT_CONFIRMATION', 'DataAccess') . '</div>' . $text;
 				}
 			}
 			$info = ['text' => $text,
@@ -175,10 +181,10 @@ Class DataAccess_unique_value
 				'save_record' => $save_record,
 				'type' => $type,
 				'info' => is_array($info) ? $info : [
-					'text' => vtranslate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
-					'ntype' => $typeInfo,
-					'hide' => false,
-					]
+				'text' => \App\Language::translate($info, 'DataAccess') . ' <br/ >' . trim($fieldlabel, ','),
+				'ntype' => $typeInfo,
+				'hide' => false,
+				]
 			);
 		else
 			return Array('save_record' => true);
@@ -192,7 +198,7 @@ Class DataAccess_unique_value
 		$ModuleFields = [];
 		while ($row = $db->fetch_array($result)) {
 			array_push($fields, array($row['fieldlabel'], $row['tablename'], $row['columnname'], $row['name'], $row['tabid'], $row['fieldname']));
-			if ($row['name'] == $baseModule) {
+			if ($row['name'] === $baseModule) {
 				array_push($ModuleFields, array($row['name'], $row['fieldname'], $row['fieldlabel']));
 			}
 		}

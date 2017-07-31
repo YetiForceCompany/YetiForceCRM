@@ -15,7 +15,7 @@
 	<table class="col-xs-12 paddingLRZero no-margin searchUIBasic well">
 		<tr>
 			<td class="font-x-large" align="left" colspan="2">
-				<strong>{'LBL_IMPORT'|@vtranslate:$MODULE} {$FOR_MODULE|@vtranslate:$MODULE} - {'LBL_RESULT'|@vtranslate:$MODULE}</strong>
+				<strong>{\App\Language::translate('LBL_IMPORT', $MODULE)} {\App\Language::translate($FOR_MODULE, $MODULE)} - {\App\Language::translate('LBL_RESULT', $MODULE)}</strong>
 			</td>
 		</tr>
 		{if $ERROR_MESSAGE neq ''}
@@ -29,23 +29,23 @@
 			<td valign="top">
 				<table cellpadding="5" cellspacing="0" align="center" width="100%" class="dvtSelectedCell thickBorder importContents">
 					<tr>
-						<td>{'LBL_TOTAL_EVENTS_IMPORTED'|@vtranslate:$MODULE}</td>
+						<td>{\App\Language::translate('LBL_TOTAL_EVENTS_IMPORTED', $MODULE)}</td>
 						<td width="10%">:</td>
 						<td width="30%">{$SUCCESS_EVENTS}</td>
 					</tr>
 					<tr>
-						<td>{'LBL_TOTAL_EVENTS_SKIPPED'|@vtranslate:$MODULE}</td>
+						<td>{\App\Language::translate('LBL_TOTAL_EVENTS_SKIPPED', $MODULE)}</td>
 						<td width="10%">:</td>
 						<td width="30%">{$SKIPPED_EVENTS}</td>
 					</tr>
 
 					<tr>
-						<td>{'LBL_TOTAL_TASKS_IMPORTED'|@vtranslate:$MODULE}</td>
+							<td>{\App\Language::translate('LBL_TOTAL_TASKS_IMPORTED', $MODULE)}</td>
 						<td width="10%">:</td>
 						<td width="30%">{$SUCCESS_TASKS}</td>
 					</tr>
 					<tr>
-						<td>{'LBL_TOTAL_TASKS_SKIPPED'|@vtranslate:$MODULE}</td>
+						<td>{\App\Language::translate('LBL_TOTAL_TASKS_SKIPPED', $MODULE)}</td>
 						<td width="10%">:</td>
 						<td width="30%">{$SKIPPED_TASKS}</td>
 					</tr>
@@ -56,10 +56,10 @@
 			<td align="right" colspan="1">
 				<div class="pull-right">
 					<a href="index.php?module={$MODULE}&view=Import&mode=undoImport" name="next" class="marginLeft10 delete btn btn-danger">
-						<strong>{'LBL_UNDO_LAST_IMPORT'|@vtranslate:$MODULE}</strong>
+						<strong>{\App\Language::translate('LBL_UNDO_LAST_IMPORT', $MODULE)}</strong>
 					<a/>
 					<a href="index.php?module={$MODULE}&view=List" name="next" class="marginLeft10 create btn btn-success">
-						<strong>{'LBL_FINISH'|@vtranslate:$MODULE}</strong>
+						<strong>{\App\Language::translate('LBL_FINISH', $MODULE)}</strong>
 					</a>
 				</div>
 			</td>

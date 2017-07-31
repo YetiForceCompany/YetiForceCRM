@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{assign var=DEFAULT_SMTP value=App\Mail::getDefaultSmtp()}
 	{assign var=TEMPLETE_LIST value=App\Mail::getTempleteList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">{vtranslate('LBL_MASS_SEND_EMAIL', $MODULE)}</h4>
+		<h4 class="modal-title">{\App\Language::translate('LBL_MASS_SEND_EMAIL', $MODULE)}</h4>
 	</div>
 	<div class="modal-body">
 		<div class="alert alert-info" role="alert">

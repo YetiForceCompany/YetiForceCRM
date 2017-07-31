@@ -8,6 +8,10 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
+	'LBL_MAX_WIDTH_COLUMN' => 'Largeur de colonne [%]',
+	'LBL_MAX_LENGTH_TEXT' => 'Longueur maximale du texte',
+	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Champs obligatoires',
+	'PLL_ATTACHMENTS' => 'Pièces jointes',
 	'LBL_FIELD_MASK' => 'Masque de saisie',
 	'Calendar' => 'Tâche',
 	'Checkbox' => 'Case à cocher',
@@ -82,7 +86,7 @@ $languageStrings = [
 	'LBL_HELP_INFO' => 'Icône aide',
 	'LBL_GENERATED_TYPE' => 'Champ basique',
 	'LBL_FIELD_TYPE0' => 'Basique (eg. vtiger_account)',
-	'LBL_FIELD_TYPE1' => 'Additionel (eg. vtiger_accountcf)',
+	'LBL_FIELD_TYPE1' => 'Supplémentaire (eg. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Arbre',
 	'Tree' => 'Champ d\'arbres',
 	'LBL_FIELD_MASK_INFO' => 'Dëfinitions des masques de saisie par défaut <br />9: Numérique<br />a: Alphabétique<br />*: Alphanumérique<br /><br />Exemple:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
@@ -138,15 +142,15 @@ $languageStrings = [
 	'LBL_ITEM_NAME_DESC' => 'Champ basique obligatoire, qui specifie le module source des enregistrements à sélectionner. En outre inclu des paramètres bloc pour limiter la sauvegarde de l\'enregistrement lorsque la limite de crédit est atteinte.',
 	'LBL_QUANTITY_DESC' => 'Champ numérique utilisé pour saisir la quantité pour chaque enregistrement, par exemple quantité produit. Sa valeur doit être supérieure à zéro.',
 	'LBL_UNIT_PRICE_DESC' => 'Champ numérique utilisé pour saisir le prix unitaire pour enregistrement donné, par exemple prix unitaire d\'un produit.',
-	'LBL_TOTAL_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix Net pour un élément donné. (Quantité * Prix unitaire).',
-	'LBL_DISCOUNT_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix Net après remise pour un élément donné. (Prix Net - Remise).',
+	'LBL_TOTAL_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix HT pour un élément donné. (Quantité * Prix unitaire).',
+	'LBL_DISCOUNT_PRICE_DESC' => 'Champ non éditable calculé automatiquement, contenant le prix HT après remise pour un élément donné. (Prix HT - Remise).',
 	'LBL_TAX_DESC' => 'Champ numérique utilisé pour saisir la valeur de la taxe pour un élément donné, la taxe peut être choisie parmi les taxes disponibles. Règles de calculs peuvent être personnalisées via l\'administration système.',
 	'LBL_VALUE_DESC' => 'Champ additionnel utilisé pour la saisie d\'une valeur par l\'utilisateur.',
 	'LBL_REFERENCE_DESC' => 'Champ additionnel utilisé pour lié un élément donné avec n\'importe quel autre enregistrement dans le système.',
 	'LBL_PURCHASE_DESC' => 'Champ numérique utilisé pour saisir la valeur d\'achat d\'un élément donné.',
 	'LBL_MARGIN_DESC' => 'Champ non éditable calculé automatiquement, qui contient le profit pour un élément donné (Prix après remise – Achat), ne comprend pas les taxes.',
 	'LBL_MARGIN_PERCENT_DESC' => 'Champ non éditable calculé automatiquement, qui contient le gain, exprimé en pourcentage.',
-	'LBL_ITEM_NUMBER' => 'No. de l\'item',
+	'LBL_ITEM_NUMBER' => 'N° de l\'item',
 	'LBL_ITEM_NUMBER_DESC' => 'Le champ contient le no. de l\'item',
 	'LBL_PICKLIST_FIELD' => 'Sélectionner depuis le champ',
 	'LBL_PICKLIST_FIELD_DESC' => 'Liste de sélection avec les valeurs prises depuis n\'inmporte quels champs du module sélectionné',
@@ -154,9 +158,9 @@ $languageStrings = [
 	'LBL_ACTIVATE_FAVORITES' => 'Activer la fonction: Ajouter aux favoris',
 	'LBL_HEADER_FIELD' => 'Visible dans l\'en-tête de prévisualisation',
 	'LBL_COPY' => 'Copier',
-	'LBL_STANDARD_FIELDS' => 'Standard fields',
-	'LBL_ADVANCED_BLOCK_FIELDS' => 'Advanced block fields',
-	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
+	'LBL_STANDARD_FIELDS' => 'Champs standard',
+	'LBL_ADVANCED_BLOCK_FIELDS' => 'Champs de bloc avancés',
+	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Ajouter des champs de bloc avancés',
 ];
 
 $jsLanguageStrings = [

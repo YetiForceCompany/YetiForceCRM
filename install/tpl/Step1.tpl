@@ -15,7 +15,7 @@
 			<form class="form-horizontal" name="step1" method="post" action="Install.php">
 				<div class="row">
 					<div class="col-md-9">
-						<h4>{vtranslate('LBL_WELCOME', 'Install')}</h4>
+						<h4>{\App\Language::translate('LBL_WELCOME', 'Install')}</h4>
 					</div>
 					<div class="col-md-3">
 						<select name="lang" class="chzn-select" style="width: 250px;">
@@ -26,24 +26,29 @@
 					</div>
 				</div>
 				<hr>
+				<div class="pull-right">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+					</a>
+				</div>
 				<input type="hidden" name="mode" value="Step2" />
 				<div class="col-md-4 welcome-image">
-					<img src="../layouts/basic/skins/images/wizard_screen.png" alt="Vtiger Logo"/>
+					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="Yetiforce Logo"/>
 				</div>
 				<div class="col-md-8">
 					<div class="welcome-div">
-						<h3>{vtranslate('LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD', 'Install')}</h3>
-						<p>{vtranslate('LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION','Install')}</p>
+						<h3>{\App\Language::translate('LBL_WELCOME_TO_VTIGER6_SETUP_WIZARD', 'Install')}</h3>
+						<p>{\App\Language::translate('LBL_VTIGER6_SETUP_WIZARD_DESCRIPTION','Install')}</p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="button-container">
 						<a href="#" class="btn btn-sm btn-primary bt_install">
-							{vtranslate('LBL_INSTALL_BUTTON','Install')}
+							{\App\Language::translate('LBL_INSTALL_BUTTON','Install')}
 						</a>
 						{if $IS_MIGRATE}
 							<a style="" href="#" class="btn btn-sm btn-primary bt_migrate">
-								{vtranslate('LBL_MIGRATION','Install')}
+								{\App\Language::translate('LBL_MIGRATION','Install')}
 							</a>
 						{/if}
 					</div>

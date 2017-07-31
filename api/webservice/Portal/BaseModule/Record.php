@@ -4,7 +4,8 @@ namespace Api\Portal\BaseModule;
 /**
  * Get record detail class
  * @package YetiForce.WebserviceAction
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -12,7 +13,56 @@ class Record extends \Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
-	public $allowedMethod = ['GET', 'DELETE', 'PUT'];
+	public $allowedMethod = ['GET', 'DELETE', 'PUT', 'POST'];
+
+	/**
+	 * Record model
+	 * @var \Vtiger_Record_Model 
+	 */
+	protected $recordModel = false;
+
+	/**
+	 * Check permission to method
+	 * @return boolean
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkPermission()
+	{
+		parent::checkPermission();
+		$moduleName = $this->controller->request->getModule();
+		$method = $this->controller->method;
+		if ('POST' === $method) {
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+			if (!$this->recordModel->isCreateable()) {
+				throw new \Api\Core\Exception('No permissions to create record', 401);
+			}
+		} else {
+			$record = $this->controller->request->get('record');
+			if (!$record || !\App\Record::isExists($record, $moduleName)) {
+				throw new \Api\Core\Exception('Record doesn\'t exist', 401);
+			}
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			switch ($method) {
+				case 'DELETE':
+					if (!$this->recordModel->isDeletable()) {
+						throw new \Api\Core\Exception('No permissions to remove record', 401);
+					}
+					break;
+				case 'GET':
+					if (!$this->recordModel->isViewable()) {
+						throw new \Api\Core\Exception('No permissions to view record', 401);
+					}
+					break;
+				case 'PUT':
+					if (!$this->recordModel->isEditable()) {
+						throw new \Api\Core\Exception('No permissions to edit record', 401);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
 
 	/**
 	 * Get record detail
@@ -22,7 +72,7 @@ class Record extends \Api\Core\BaseAction
 	{
 		$moduleName = $this->controller->request->get('module');
 		$record = $this->controller->request->get('record');
-		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$recordModel = $this->recordModel;
 		$rawData = $recordModel->getData();
 		$moduleModel = $recordModel->getModule();
 
@@ -78,41 +128,33 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function delete()
 	{
-		$moduleName = $this->controller->request->get('module');
-		$record = $this->controller->request->get('record');
-		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$status = false;
-		if ($recordModel->isDeletable()) {
-			$recordModel->delete();
-			$status = true;
-		}
-		return $status;
+		$this->recordModel->delete();
+		return true;
 	}
 
 	/**
-	 * Save record
+	 * Edit record
 	 * @return array
 	 */
 	public function put()
 	{
-		$recordData = $this->controller->request->get('recordData');
-		$moduleName = $this->controller->request->get('module');
-		$record = $this->controller->request->get('record');
-		$result = false;
-		if ($record) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		} else {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		}
-		foreach ($recordData as $key => $value) {
-			$recordModel->set($key, $value);
-		}
-		if (!$record && $recordModel->isCreateable() || $record && $recordModel->isEditable()) {
-			$recordModel->save();
-			$result = true;
-		} else {
-			$message = \App\Language::translate('Permission to perform the operation is denied');
-		}
-		return ['id' => $recordModel->getId(), 'result' => $result, 'message' => $message];
+		$moduleName = $this->controller->request->getModule();
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$saveClass = new $modelClassName();
+		$recordModel = $saveClass->saveRecord($this->controller->request);
+		return ['id' => $recordModel->getId()];
+	}
+
+	/**
+	 * Create record
+	 * @return array
+	 */
+	public function post()
+	{
+		$moduleName = $this->controller->request->getModule();
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$saveClass = new $modelClassName();
+		$recordModel = $saveClass->saveRecord($this->controller->request);
+		return ['id' => $recordModel->getId()];
 	}
 }

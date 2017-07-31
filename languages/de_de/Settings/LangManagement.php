@@ -1,6 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Lang management german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'No data available in table' => 'Keine Daten in Tabelle verfügbar',
 	'Translations' => 'Übersetzungen',
@@ -36,6 +40,7 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Übersetzung aktualisiert',
 	'LBL_AddTranslationOK' => 'Neue Übersetzung hinzugefügt',
 	'LBL_DeleteTranslationOK' => 'Übersetzung gelöscht',
+	'LBL_DELETE_TRANSLATION_FAILED' => 'Removing translation unsuccessful',
 	'Modules' => 'Module',
 	'Module' => 'Modul',
 	'Language' => 'Sprache',
@@ -56,6 +61,7 @@ $languageStrings = [
 	'LBL_SHOW' => 'Anzeigen',
 	'LBL_STATS_INFO' => 'Die angezeigte Statistik stellt das prozentuale Verhältnis der nicht übersetzten Labels zu allen Labels in den Standardsprachdateien.',
 	'LBL_UNTRANSLATED_LABELS' => 'Nicht übersetzte Labels',
+	'LBL_CUSTOM_TYPE_INFO' => 'Custom mode is enabled. You cannot modify source language files. All modifications will take place in the custom/ directory.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Übersetzungen',

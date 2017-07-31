@@ -17,7 +17,6 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel, $searchResult = false)
 	{
-		$db = PearDatabase::getInstance();
 		$moduleModel = Vtiger_Module_Model::getInstance('Portal');
 
 		$query = $this->getQuery();
@@ -41,7 +40,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 
 		$listViewEntries = [];
 		foreach ($dataReader as $row) {
-			$listViewEntries[$row['portalid']] = array();
+			$listViewEntries[$row['portalid']] = [];
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
 			$listViewEntries[$row['portalid']]['createdtime'] = Vtiger_Date_UIType::getDisplayDateValue($row['createdtime']);

@@ -1,17 +1,7 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <style>
 {foreach from=Vtiger_Module_Model::getAll() item=MODULE}
-	.modIcon_{$MODULE->get('name')}{ background-image: url("{Yeti_Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}") !important; }
+	.modIcon_{$MODULE->get('name')}{ background-image: url("{\App\Layout::getLayoutFile('skins/images/'|cat:$MODULE->get('name')|cat:'.png')}") !important; }
 {/foreach}
 td{
 	padding-left:10px;
@@ -25,17 +15,17 @@ label{
 <table>
 	<tr style="run-in">
 		<fieldset>
-			<legend class="hide">{vtranslate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
-			<td><strong> {vtranslate('LBL_FILTERING',$QUALIFIED_MODULE)}: &nbsp; </strong></td>
-			<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{vtranslate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-			<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{vtranslate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
-			<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{vtranslate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
+			<legend class="hide">{\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}</legend>
+			<td><strong> {\App\Language::translate('LBL_FILTERING',$QUALIFIED_MODULE)}: &nbsp; </strong></td>
+			<td><input name="filter" id="all" class="filter" type="radio" value="" checked="true"><label for="all"><span>&nbsp;{\App\Language::translate('LBL_ALL_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
+			<td><input name="filter" id="low" class="filter" type="radio" value="PLL_LOW"><label for="low"><span>&nbsp;{\App\Language::translate('LBL_LOW_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
+			<td><input name="filter" id="high" class="filter" type="radio" value="PLL_HIGH"><label for="high"><span>&nbsp;{\App\Language::translate('LBL_HIGH_PRIORITY',$QUALIFIED_MODULE)}</span></label></td>
 		</fieldset>
 		<fieldset>
-			<legend class="hide">{vtranslate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
-			<td><strong><span>| &nbsp;</span> {vtranslate('LBL_ZOOMING',$QUALIFIED_MODULE)}: </strong></td>
-			<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{vtranslate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
-			<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{vtranslate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>
+			<legend class="hide">{\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}</legend>
+			<td><strong><span>| &nbsp;</span> {\App\Language::translate('LBL_ZOOMING',$QUALIFIED_MODULE)}: </strong></td>
+			<td><input name="scales" id="days" class="zoom" type="radio" value="trplweek" checked="true"><label for="days"><span>&nbsp;{\App\Language::translate('LBL_DAYS_CHART',$QUALIFIED_MODULE)}</span></label></td>
+			<td><input name="scales" id="months" class="zoom" type="radio" value="year"><label for="months"><span>&nbsp;{\App\Language::translate('LBL_MONTHS_CHART',$QUALIFIED_MODULE)}</span></label></td>
 		</fieldset>
 	</tr>
 </table>

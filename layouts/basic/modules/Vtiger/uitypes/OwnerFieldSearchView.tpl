@@ -28,12 +28,12 @@
 			{if $ASSIGNED_USER_ID neq 'modifiedby'}
 				{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 			{else}
-				{assign var=ALL_ACTIVEGROUP_LIST value=array()}
+				{assign var=ALL_ACTIVEGROUP_LIST value=[]}
 			{/if}
 		{/if}
 	{/if}
 	<div class="picklistSearchField">
-		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{vtranslate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
+		<select class="select2noactive listSearchContributor form-control {$ASSIGNED_USER_ID}" title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}"  name="{$ASSIGNED_USER_ID}" multiple{/strip} {strip}
 				{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 					data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=List" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"{/strip} {strip}
 				{/if}
@@ -44,7 +44,7 @@
 				{/foreach}
 			{else}
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}
-					<optgroup label="{vtranslate('LBL_USERS')}">
+					<optgroup label="{\App\Language::translate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
 								{$OWNER_NAME}
@@ -53,7 +53,7 @@
 					</optgroup>
 				{/if}
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
-					<optgroup label="{vtranslate('LBL_GROUPS')}">
+					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(decode_html($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
 								{$OWNER_NAME}

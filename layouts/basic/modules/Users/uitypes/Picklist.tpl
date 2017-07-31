@@ -24,12 +24,12 @@
     {assign var=PICKLIST_VALUES value=$ACTIVITYTYPE_FIELD_MODEL->getPicklistValues()} 
 {/if}
     <select class="chzn-select form-control" name="{$FIELD_NAME}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-selected-value='{$FIELD_MODEL->get('fieldvalue')}'>
-        {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
-        {if $FIELD_MODEL->get('name') eq 'defaulteventstatus' || $FIELD_MODEL->get('name') eq 'defaultactivitytype' }<option value="">{vtranslate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
+        {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
+        {if $FIELD_MODEL->get('name') eq 'defaulteventstatus' || $FIELD_MODEL->get('name') eq 'defaultactivitytype' }<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
         {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 			{assign var=OPTION_VALUE value=Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}
 			{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
-				{assign var=PICKLIST_VALUE value=vtranslate('LBL_SPACE', 'Users')}
+				{assign var=PICKLIST_VALUE value=\App\Language::translate('LBL_SPACE', 'Users')}
 				{assign var=OPTION_VALUE value='&nbsp;'}
 				<option value="{$OPTION_VALUE}" {if decode_html($FIELD_MODEL->get('fieldvalue')) eq decode_html($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{elseif $FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator'}

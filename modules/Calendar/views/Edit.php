@@ -19,7 +19,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$this->exposeMethod('Calendar');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 

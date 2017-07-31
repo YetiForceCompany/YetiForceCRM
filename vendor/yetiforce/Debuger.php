@@ -4,7 +4,8 @@ namespace App;
 /**
  * Debuger basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use DebugBar;
@@ -15,7 +16,12 @@ class Debuger
 {
 
 	protected static $debugBar;
-
+	
+	/**
+	 * Base path of files javascript
+	 */
+	const BASE_PATH_JAVASCRIPT = 'vendor/php-debugbar/src/DebugBar/Resources';
+	
 	/**
 	 * Initiating debugging console
 	 * @return \App\DebugBar\Debuger
@@ -28,12 +34,20 @@ class Debuger
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
 		if (\AppConfig::debug('LOG_TO_CONSOLE')) {
-			$debugbar->addCollector(new debug\DebugBarLogs());
+			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
 		return static::$debugBar = $debugbar;
 	}
 
+	/**
+	 * Function to get path of files javascript 
+	 * @return string
+	 */
+	public static function getJavascriptPath(){
+		return Layout::getPublicUrl(self::BASE_PATH_JAVASCRIPT);
+	}
+	
 	/**
 	 * Get Debuger instance
 	 * @return \App\DebugBar\Debuger

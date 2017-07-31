@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 $languageStrings = [
-	'LBL_MIGRATION_SYSTEM_FINISH' => ' Abgeschlossene Migration YetiForce CRM-System',
+	'LBL_MIGRATION_SYSTEM_FINISH' => 'Migration abgeschlossen - YetiForce CRM-System',
 	'LBL_EXAMPLE_DIRECTORY' => 'Beispiel',
 	'LANGNAME' => 'Deutsch',
 	'ERR_DATABASE_CONNECTION_FAILED' => 'Keine Verbindung zum Datenbankserver hergestellt',
@@ -31,6 +31,7 @@ $languageStrings = [
 	'LBL_EMAIL' => 'E-Mail',
 	'LBL_GD_LIBRARY' => 'GD Bibliothek Support',
 	'LBL_HOST_NAME' => 'Hostname',
+	'LBL_HOST_PORT' => 'Host port',
 	'LBL_I_AGREE' => 'Ich stimme zu',
 	'LBL_IMAP_SUPPORT' => 'IMAP Support',
 	'LBL_INSTALLATION_IN_PROGRESS' => 'Installation in Arbeit',
@@ -72,6 +73,7 @@ $languageStrings = [
 	'LBL_CURL' => 'cURL Support',
 	'LBL_INDUSTRY_OPTION' => 'Bitte wählen Sie eine entsprechende Branche.',
 	'LBL_ERROR_LOGIN' => 'Berechtigungsfehler, Login Daten falsch',
+	'LBL_CONFIGURATION_COMPANY_DETAILS' => 'Firmeninformationen',
 	//Migration
 	'LBL_MIGRATION' => 'Migration',
 	'LBL_START_MIGRATION' => 'Starte Migration',
@@ -92,7 +94,7 @@ $languageStrings = [
 	'LBL_MIGRATION_ERROR' => 'Während der Migration ist ein Fehler aufgetreten',
 	'LBL_ERROR_NO_CONFIG' => 'Ungültige lokale Systemadresse',
 	'LBL_WRONG_USERNAME_OR_PASSWORD' => 'Falscher Benutzername oder Passwort',
-	'LBL_DESCRIPTION_CONDITIONS' => '<strong>Warnung!</strong> Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:	MailManager, EmailTemplates, Workflows. <br> Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle möglichen Sicherheitskopien machen',
+	'LBL_DESCRIPTION_CONDITIONS' => '<strong>Warnung!</strong> Bei der Migration werden Sie alle Daten aus den folgenden Modulen verlieren:	MailManager, EmailTemplates, Workflows. <br /> Bitte beachten Sie, dass sich die Migration immer noch in der Testphase befindet. Sie sollten alle möglichen Sicherheitskopien machen',
 	'LBL_MIGRATION_IN_PROGRESS' => 'Migration in Bearbeitung',
 	'LBL_BACK' => 'Zurück',
 	'LBL_READ_LICENSE' => 'Lizenz lesen',

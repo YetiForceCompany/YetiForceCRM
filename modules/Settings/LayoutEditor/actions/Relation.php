@@ -22,7 +22,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('removeRelation');
 	}
 
-	public function changeStatusRelation(Vtiger_Request $request)
+	public function changeStatusRelation(\App\Request $request)
 	{
 		$relationId = $request->get('relationId');
 		$status = $request->get('status');
@@ -36,7 +36,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function updateSequenceRelatedModule(Vtiger_Request $request)
+	public function updateSequenceRelatedModule(\App\Request $request)
 	{
 		$modules = $request->get('modules');
 		$response = new Vtiger_Response();
@@ -49,7 +49,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function updateSelectedFields(Vtiger_Request $request)
+	public function updateSelectedFields(\App\Request $request)
 	{
 		$fields = $request->get('fields');
 		$relationId = $request->get('relationId');
@@ -68,7 +68,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function addRelation(Vtiger_Request $request)
+	public function addRelation(\App\Request $request)
 	{
 		$source = $request->get('source');
 		$target = $request->get('target');
@@ -84,7 +84,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function removeRelation(Vtiger_Request $request)
+	public function removeRelation(\App\Request $request)
 	{
 		$relationId = $request->get('relationId');
 		$response = new Vtiger_Response();
@@ -97,7 +97,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function updateStateFavorites(Vtiger_Request $request)
+	public function updateStateFavorites(\App\Request $request)
 	{
 		$relationId = $request->get('relationId');
 		$status = $request->get('status');
@@ -111,7 +111,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

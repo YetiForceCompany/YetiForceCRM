@@ -3,8 +3,9 @@ namespace App\SystemWarnings\YetiForce;
 
 /**
  * Privilege File basic class
- * @package YetiForce.SystemWarnings
- * @license licenses/License.html
+ * @package YetiForce.SystemWarning
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Stats extends \App\SystemWarnings\Template
@@ -46,21 +47,23 @@ class Stats extends \App\SystemWarnings\Template
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION');
 			return 'ERR_NO_INTERNET_CONNECTION';
 		}
-		$return = false;
+		$result = false;
+		$message = \App\Language::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
 		try {
 			$request = \Requests::POST('https://api.yetiforce.com/stats', [], array_merge($params, [
 					'key' => sha1(\AppConfig::main('site_URL') . ROOT_DIRECTORY),
 					'version' => \App\Version::get(),
-					'language' => \Vtiger_Language_Handler::getLanguage(),
+					'language' => \App\Language::getLanguage(),
 					'timezone' => date_default_timezone_get(),
 					]), ['useragent' => 'YetiForceCRM']);
 			if ($request->body === 'OK') {
 				file_put_contents('cache/' . $this->getKey(), 'Stats');
-				$return = true;
+				$result = true;
+				$message = \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
 			}
 		} catch (\Exception $exc) {
 			\App\Log::warning($exc->getMessage());
 		}
-		return $return;
+		return ['result' => $result, 'message' => $message];
 	}
 }

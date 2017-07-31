@@ -33,7 +33,6 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		} else if ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
 			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
 		}
-
 		return $value;
 	}
 

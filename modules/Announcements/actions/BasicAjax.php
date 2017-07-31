@@ -3,7 +3,8 @@
 /**
  * Watchdog Action Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
@@ -14,7 +15,7 @@ class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$this->exposeMethod('mark');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
@@ -23,7 +24,7 @@ class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	public function mark(Vtiger_Request $request)
+	public function mark(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -37,7 +38,7 @@ class Announcements_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

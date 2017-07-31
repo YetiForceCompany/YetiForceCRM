@@ -30,10 +30,10 @@
 
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE)}
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="selectAllMsg">{vtranslate('LBL_SELECT_ALL',$MODULE)}&nbsp;{vtranslate($MODULE ,$MODULE)}&nbsp;</a></strong>
+		<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($MODULE ,$MODULE)}&nbsp;</a></strong>
 	</div>
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
-		<strong><a id="deSelectAllMsg">{vtranslate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
+		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="listViewEntriesDiv" >
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
@@ -47,14 +47,14 @@
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="2%">
-						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{vtranslate('LBL_SELECT_ALL')}" />
+						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 					</th>
 					<th width="5%" nowrap>
-						<a href="javascript:void(0);" class="listViewHeaderValues">{vtranslate('LBL_USER_LIST_DETAILS', $MODULE)}</a>
+						<a href="javascript:void(0);" class="listViewHeaderValues">{\App\Language::translate('LBL_USER_LIST_DETAILS', $MODULE)}</a>
 					</th>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}columnSorted{/if}">
-							<a href="javascript:void(0);" class="listViewHeaderValues" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+							<a href="javascript:void(0);" class="listViewHeaderValues" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
 								&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 						</th>
 					{/foreach}
@@ -72,7 +72,7 @@
 						</td>
 					{/foreach}
 					<td width="5%">
-						<button class="btn btn-default" data-trigger="listSearch">{vtranslate('LBL_SEARCH', $MODULE )}</button>
+						<button class="btn btn-default" data-trigger="listSearch">{\App\Language::translate('LBL_SEARCH', $MODULE )}</button>
 					</td>
 				</tr>
 			{/if}
@@ -81,7 +81,7 @@
 				<td  width="2%" class="{$WIDTHTYPE}">
 					<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
 					{if $LISTVIEW_ENTRY->isEditable()}
-						<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{vtranslate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+						<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
 					{/if}
 				</td>
 				<td width="5%" class="{$WIDTHTYPE}">
@@ -90,7 +90,7 @@
 						{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
 							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
 								<div class="col-md-6">
-									<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
+									<img class="list-user-img" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}">
 								</div>
 							{/if}
 						{/foreach}
@@ -111,16 +111,16 @@
 					{if $LISTVIEW_HEADER@last}
 						<div class="pull-right actions">
 							<span class="actionImages">
-								<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{vtranslate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-retweet alignMiddle"></span></a>&nbsp;
+								<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-retweet alignMiddle"></span></a>&nbsp;
 									{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-									<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{vtranslate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
+									<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 									{/if}
 									{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
 										{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 										{else}
-										<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{vtranslate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
-										<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{vtranslate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+										<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
+										<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 										{/if}
 									{/if}
 							</span>
@@ -136,7 +136,7 @@
 					<tr>
 						<td>
 							{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-							{vtranslate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE)} <!--{if $IS_MODULE_EDITABLE} {vtranslate('LBL_CREATE')} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{vtranslate($SINGLE_MODULE, $MODULE)}</a>-->{/if}
+							{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE)} <!--{if $IS_MODULE_EDITABLE} {\App\Language::translate('LBL_CREATE')} <a href="{$MODULE_MODEL->getCreateRecordUrl()}">{\App\Language::translate($SINGLE_MODULE, $MODULE)}</a>-->{/if}
 						</td>
 					</tr>
 				</tbody>

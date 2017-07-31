@@ -11,7 +11,7 @@
 class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$qualifiedModuleName = $request->getModule(false);
@@ -25,15 +25,15 @@ class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_
 			if ($status === true) {
 				$response->setResult(array($status));
 			} else {
-				$response->setError(vtranslate($status, $qualifiedModuleName));
+				$response->setError(\App\Language::translate($status, $qualifiedModuleName));
 			}
 		} else {
-			$response->setError(vtranslate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
+			$response->setError(\App\Language::translate('LBL_FIELDS_INFO_IS_EMPTY', $qualifiedModuleName));
 		}
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

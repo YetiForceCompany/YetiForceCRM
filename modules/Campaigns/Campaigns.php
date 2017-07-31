@@ -25,7 +25,7 @@ class Campaigns extends CRMEntity
 	 * Mandatory table for supporting custom fields.
 	 */
 	public $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
-	public $column_fields = Array();
+	public $column_fields = [];
 	public $list_fields = Array(
 		'Campaign Name' => Array('campaign' => 'campaignname'),
 		'Campaign Type' => Array('campaign' => 'campaigntype'),

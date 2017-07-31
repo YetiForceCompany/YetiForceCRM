@@ -1,15 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * Contributor(s): YetiForce.com.
- * *********************************************************************************************************************************** */
 
+/**
+ * Reservations record model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 Class Reservations_Record_Model extends Vtiger_Record_Model
 {
 
@@ -17,12 +13,10 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 
 	public function recalculateTimeControl($data)
 	{
-		$db = PearDatabase::getInstance();
 		$ticketid = $data->get('ticketid');
 		$projectid = $data->get('projectid');
 		$projecttaskid = $data->get('projecttaskid');
 		$servicecontractsid = $data->get('servicecontractsid');
-		$reservationsid = $data->get('reservationsid');
 
 		self::recalculateProjectTask($projecttaskid);
 		self::recalculateHelpDesk($ticketid);
@@ -92,7 +86,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 			FROM vtiger_project
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
 			WHERE deleted = ? && servicecontractsid = ?;", array(0, $ServiceContractsID), true);
-		
+
 		$numRowsCount = $db->num_rows($project_result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$ProjectID = $db->query_result($project_result, $i, 'projectid');
@@ -189,15 +183,15 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		}
 		$db = PearDatabase::getInstance();
 		//////// sum_time
-		$projectIDS = array();
+		$projectIDS = [];
 		$sum_time_result = $db->pquery("SELECT reservationsid FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-		
+
 		$numRowsCount = $db->num_rows($sum_time_result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$projectIDS[] = $db->query_result($sum_time_result, $i, 'reservationsid');
 		}
 		//////// sum_time_h
-		$ticketsIDS = array();
+		$ticketsIDS = [];
 		$sql_sum_time_h = 'SELECT reservationsid 
 						FROM vtiger_reservations 
 						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
@@ -206,13 +200,13 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 						AND reservations_status = ?
 						AND vtiger_troubletickets.projectid = ?;';
 		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
-		
+
 		$numRowsCount = $db->num_rows($sum_time_h_result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$ticketsIDS[] = $db->query_result($sum_time_h_result, $i, 'reservationsid');
 		}
 		//////// sum_time_pt
-		$taskIDS = array();
+		$taskIDS = [];
 		$sql_sum_time_pt = 'SELECT reservationsid 
 						FROM vtiger_reservations 
 						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_reservations.projecttaskid
@@ -223,7 +217,7 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 						AND vtiger_reservations.reservations_status = ?
 						AND vtiger_projecttask.projectid = ?;';
 		$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
-		
+
 		$numRowsCount = $db->num_rows($sum_time_pt_result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$taskIDS[] = $db->query_result($sum_time_pt_result, $i, 'reservationsid');

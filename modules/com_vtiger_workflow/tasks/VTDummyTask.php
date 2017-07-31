@@ -15,7 +15,7 @@ class VTDummyTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array();
+		return [];
 	}
 
 	/**

@@ -4,7 +4,8 @@ namespace App;
 /**
  * Record search basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordSearch
@@ -19,7 +20,7 @@ class RecordSearch
 	public $table = 'searchLabel'; //searchLabel, label
 	public $operator = 'contains'; // contains,starts,ends,fulltext 
 	public $checkPermissions = true;
-	private $moduleConditions = ['Leads' => ['vtiger_leaddetails.converted' => 0]];
+	private $moduleConditions = ['Leads' => ['where' => ['vtiger_leaddetails.converted' => 0], 'innerJoin' => ['vtiger_leaddetails' => 'csl.crmid = vtiger_leaddetails.leadid']]];
 
 	/**
 	 * Construct
@@ -98,7 +99,12 @@ class RecordSearch
 		if ($this->moduleName) {
 			$where[] = ['csl.setype' => $this->moduleName];
 			if (is_string($this->moduleName) && isset($this->moduleConditions[$this->moduleName])) {
-				$where[] = $this->moduleConditions[$this->moduleName];
+				$where[] = $this->moduleConditions[$this->moduleName]['where'];
+				if (isset($this->moduleConditions[$this->moduleName]['innerJoin'])) {
+					foreach ($this->moduleConditions[$this->moduleName]['innerJoin'] as $table => $on) {
+						$query->innerJoin($table, $on);
+					}
+				}
 			}
 		} elseif ($this->entityName) {
 			$where[] = ['vtiger_entityname.turn_off' => 1];

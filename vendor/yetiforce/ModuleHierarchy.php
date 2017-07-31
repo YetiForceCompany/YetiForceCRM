@@ -4,7 +4,8 @@ namespace App;
 /**
  * Modules hierarchy basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ModuleHierarchy
@@ -41,25 +42,37 @@ class ModuleHierarchy
 	public static function getModulesMap1M($moduleName)
 	{
 		static::init();
-		return static::$hierarchy['modulesMap1M'][$moduleName];
+		if (isset(static::$hierarchy['modulesMap1M'][$moduleName])) {
+			return static::$hierarchy['modulesMap1M'][$moduleName];
+		}
+		return false;
 	}
 
 	public static function getModulesMapMMBase()
 	{
 		static::init();
-		return static::$hierarchy['modulesMapMMBase'];
+		if (isset(static::$hierarchy['modulesMapMMBase'])) {
+			return static::$hierarchy['modulesMapMMBase'];
+		}
+		return false;
 	}
 
 	public static function getModulesMapMMCustom($moduleName)
 	{
 		static::init();
-		return static::$hierarchy['modulesMapMMCustom'][$moduleName];
+		if (isset(static::$hierarchy['modulesMapMMCustom'][$moduleName])) {
+			return static::$hierarchy['modulesMapMMCustom'][$moduleName];
+		}
+		return false;
 	}
 
 	public static function getModulesByLevel($level = 0)
 	{
 		static::init();
-		return static::$modulesByLevels[$level];
+		if (isset(static::$modulesByLevels[$level])) {
+			return static::$modulesByLevels[$level];
+		}
+		return false;
 	}
 
 	/**
@@ -173,7 +186,7 @@ class ModuleHierarchy
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
-		$fields = Field::getReletedFieldForModule(false, $moduleName);
+		$fields = Field::getRelatedFieldForModule(false, $moduleName);
 		$modules = static::getChildModules($moduleName);
 		foreach ($fields as $field) {
 			if (in_array($field['name'], $modules)) {

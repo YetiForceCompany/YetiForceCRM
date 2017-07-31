@@ -14,8 +14,8 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">
-				<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">x</button>
-				<h3 class="modal-title">{vtranslate('LBL_ASSIGN_VALUES_TO_ROLES', $QUALIFIED_MODULE)}</h3>
+				<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
+				<h3 class="modal-title">{\App\Language::translate('LBL_ASSIGN_VALUES_TO_ROLES', $QUALIFIED_MODULE)}</h3>
 			</div>
 			<form id="assignValueToRoleForm" class="form-horizontal" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE}" />
@@ -27,23 +27,23 @@
 				<input type="hidden" name="pickListValues" value='{\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES)}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 control-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
 						<div class="col-md-9 controls">
 							<select multiple class="select2 form-control" id="assignValues" name="assign_values[]">
 								{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$SELECTED_PICKLISTFIELD_ALL_VALUES}
-									<option value="{$PICKLIST_KEY}">{vtranslate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</option>
+									<option value="{$PICKLIST_KEY}">{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</option>
 								{/foreach}
 							</select>
 						</div>
 					</div>		
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 						<div class="form-group">	
-							<div class="col-md-3 control-label"><span class="redColor">*</span>{vtranslate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-3 control-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
-								<select class="rolesList select2 form-control" id="rolesSelected" name="rolesSelected[]" multiple data-placeholder="{vtranslate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
-									<option value="all" selected>{vtranslate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
+								<select class="rolesList select2 form-control" id="rolesSelected" name="rolesSelected[]" multiple data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+									<option value="all" selected>{\App\Language::translate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
 									{foreach from=$ROLES_LIST item=ROLE}
-										<option value="{$ROLE->get('roleid')}">{vtranslate($ROLE->get('rolename'))}</option>
+										<option value="{$ROLE->get('roleid')}">{\App\Language::translate($ROLE->get('rolename'))}</option>
 									{/foreach}
 								</select>	
 							</div>

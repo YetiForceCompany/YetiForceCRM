@@ -27,8 +27,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function getListViewLinks()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$basicLinks = array();
+		$basicLinks = [];
 		if ($currentUserModel->isAdminUser()) {
 			$basicLinks = array(
 				array(
@@ -56,7 +55,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
-		$massActionLinks = array();
+		$massActionLinks = [];
 		if ($currentUserModel->isAdminUser()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -150,6 +149,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 			->execute();
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
 		$this->deleteFiles($recordIds);
+		\Vtiger_Files_Model::getRidOfTrash(['crmid' => $recordIds]);
 	}
 	/*	 * Function to delete files from CRM.
 	 * @param type $recordIds
@@ -164,37 +164,26 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Delete files
+	 * @param int[] $recordIds
+	 */
 	public function deleteFiles($recordIds)
 	{
-		$db = PearDatabase::getInstance();
-		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
-		$result = $db->pquery($getAttachmentsIdQuery, [$recordIds]);
-		$attachmentsIds = [];
-		if ($db->num_rows($result)) {
-			for ($i = 0; $i < ($db->num_rows($result)); $i++) {
-				$attachmentsIds[$i] = $db->query_result($result, $i, 'attachmentsid');
-			}
-		}
+		$db = \App\Db::getInstance();
+		$attachmentsIds = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $recordIds])->column($db);
 		if (!empty($attachmentsIds)) {
-			$deleteRelQuery = sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', generateQuestionMarks($recordIds));
-			$db->pquery($deleteRelQuery, array($recordIds));
-			$attachmentsLocation = array();
-			$getPathQuery = sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
-			$pathResult = $db->pquery($getPathQuery, array($attachmentsIds));
-			if ($db->num_rows($pathResult)) {
-				for ($i = 0; $i < ($db->num_rows($pathResult)); $i++) {
-					$attachmentsLocation[$i] = $db->query_result($pathResult, $i, 'path');
-					$attachmentName = $db->query_result($pathResult, $i, 'name');
-					$attachmentId = $db->query_result($pathResult, $i, 'attachmentsid');
-					$fileName = $attachmentsLocation[$i] . $attachmentId . '_' . $attachmentName;
-					if (file_exists($fileName)) {
-						chmod($fileName, 0750);
-						unlink($fileName);
-					}
+			$dataReader = (new \App\Db\Query())->select(['path', 'attachmentsid'])->from('vtiger_attachments')->where(['attachmentsid' => $attachmentsIds])->createCommand($db)->query();
+			while ($row = $dataReader->read()) {
+				$fileName = $row['path'] . $row['attachmentsid'];
+				if (file_exists($fileName)) {
+					chmod($fileName, 0750);
+					unlink($fileName);
 				}
 			}
-			$where = sprintf('attachmentsid in (%s)', generateQuestionMarks($attachmentsIds));
-			$db->delete('vtiger_attachments', $where, [$attachmentsIds]);
+			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $recordIds])->execute();
+			$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
+			$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();
 		}
 	}
 
@@ -214,7 +203,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function getDeletedRecordsTotalCount()
 	{
 		$db = PearDatabase::getInstance();
-		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', array());
+		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', []);
 		return $db->query_result($totalCount, 0, 'count');
 	}
 }

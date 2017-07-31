@@ -16,11 +16,11 @@
 		</div>
 	</div>
     <div class="contents">
-		<br>
-        <textarea class="input-xxlarge TCContent textarea-autosize form-control" rows="3" placeholder="{vtranslate('LBL_INV_TANDC_DESCRIPTION', $QUALIFIED_MODULE)}" style="width:100%;" >{$CONDITION_TEXT}</textarea>
+		<br />
+        <textarea class="input-xxlarge TCContent textarea-autosize form-control" rows="3" placeholder="{\App\Language::translate('LBL_INV_TANDC_DESCRIPTION', $QUALIFIED_MODULE)}" style="width:100%;" >{$CONDITION_TEXT}</textarea>
         <div class="textAlignCenter">
-            <br>
-			<button class="btn btn-success saveTC hide pull-right"><strong>{vtranslate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+            <br />
+			<button class="btn btn-success saveTC hide pull-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
         </div>
     </div>
 </div>

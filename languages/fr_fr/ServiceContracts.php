@@ -1,7 +1,12 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-
+/**
+ * Service contracts french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'LBL_ACTIVE_SERVICE_CONTRACTS' => 'Contrats de service actifs',
 	'LBL_SUMMARY' => 'Résumé temps de travail',
 	// Basic Strings
 	'ServiceContracts' => 'Contrats de services',
@@ -11,18 +16,16 @@ $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Liste des contrats de services',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Détails du contrat de services',
-	
 	//Field Labels
-	'Contract No' => 'No contrat',
+	'Contract No' => 'Contrat N°',
 	'Start Date' => 'Date d\'effet',
 	'End Date' => 'Date de fin',
 	'Tracking Unit' => 'Unité de suivi',
 	'Total Units' => 'Total unités',
 	'Used Units' => 'Unités utilisés',
-	'Progress'=> 'Progression',
+	'Progress' => 'Progression',
 	'Planned Duration' => 'Durée planifiée (en jours)',
 	'Actual Duration' => 'Durée réelle (en jours)',
-	
 	//YetiForce
 	'Support' => 'Support',
 	'Administrative' => 'Administratif',
@@ -37,7 +40,6 @@ $languageStrings = [
 	'Low' => 'Bas',
 	'Normal' => 'Normal',
 	'High' => 'Haut',
-	
 	'Hours' => 'Heures',
 	'Days' => 'Jours',
 	'Incidents' => 'Incidents',

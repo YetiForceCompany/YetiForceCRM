@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_Base_UIType extends Vtiger_Base_Model
+class Vtiger_Base_UIType extends \App\Base
 {
 
 	public function isAjaxEditable()
@@ -58,7 +58,10 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $value;
+		if ($rawText) {
+			return $value;
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
@@ -107,7 +110,7 @@ class Vtiger_Base_UIType extends Vtiger_Base_Model
 		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
 	}
 
-	public function getReletedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getRelatedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		return $this->getListViewDisplayValue($value, $record, $recordInstance, $rawText);
 	}

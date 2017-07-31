@@ -55,10 +55,10 @@ class Rss_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		$sql = 'Select *from vtiger_rss';
-		$result = $db->pquery($sql, array());
+		$result = $db->pquery($sql, []);
 		$noOfRows = $db->num_rows($result);
 
-		$records = array();
+		$records = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
 			$row['id'] = $row['rssid'];

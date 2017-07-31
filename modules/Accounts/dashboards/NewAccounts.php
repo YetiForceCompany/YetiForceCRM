@@ -3,7 +3,8 @@
 /**
  * Wdiget to show new accounts
  * @package YetiForce.Dashboard
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
@@ -27,9 +28,9 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ? OFFSET ?';
-	
+
 		$params[] = $pagingModel->getPageLimit();
 		$params[] = $pagingModel->getStartIndex();
 		$db = PearDatabase::getInstance();
@@ -44,13 +45,13 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		return $newAccounts;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('owner');
-		$time = $request->get('time');
+		$time = $request->getArray('time');
 		if (empty($time)) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
 			$time['end'] = vtlib\Functions::currentUserDisplayDateNew();

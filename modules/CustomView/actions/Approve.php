@@ -11,7 +11,23 @@
 class CustomView_Approve_Action extends Vtiger_Action_Controller
 {
 
-	public function process(Vtiger_Request $request)
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if (!CustomView_Record_Model::getInstanceById($request->get('record')->isPending())) {
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+	
+	/**
+	 * Main function
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($currentUser->isAdminUser()) {
@@ -24,7 +40,11 @@ class CustomView_Approve_Action extends Vtiger_Action_Controller
 		header("Location: $listViewUrl");
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	/**
+	 * Validate request
+	 * @param \App\Request $request
+	 */
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

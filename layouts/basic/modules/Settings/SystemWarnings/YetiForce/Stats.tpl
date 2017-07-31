@@ -10,31 +10,41 @@
 				<input type="checkbox" checked>
 			</span>
 			<input type="text" name="company_name" class="form-control" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
-		</div><br>
+		</div><br />
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_city" class="form-control" placeholder="{App\Language::translate('LBL_CITY','Settings:Companies')}" value="{$COMPANY->get('city')}">
-		</div><br>
+			<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
+				{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
+					<option value="{$ITEM}" {if $COMPANY->get('industry') eq $ITEM}selected{/if}>{App\Language::translate($ITEM)}</option>
+				{/foreach}
+			</select>
+		</div><br />
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_country" class="form-control" placeholder="{App\Language::translate('LBL_COUNTRY','Settings:Companies')}" value="{$COMPANY->get('country')}">
-		</div><br>
+			<input type="text" name="company_city" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_CITY','Settings:Companies')}" value="{$COMPANY->get('city')}">
+		</div><br />
+		<div class="input-group">
+			<span class="input-group-addon">
+				<input type="checkbox" checked disabled>
+			</span>
+			<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_COUNTRY','Settings:Companies')}" value="{$COMPANY->get('country')}">
+		</div><br />
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
 			</span>
 			<input type="text" name="company_website" class="form-control" placeholder="{App\Language::translate('LBL_WEBSITE','Settings:Companies')}" value="{$COMPANY->get('website')}">
-		</div><br>
+		</div><br />
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
 			</span>
 			<input type="text" name="company_email" class="form-control" placeholder="{App\Language::translate('LBL_EMAIL','Settings:Companies')}" value="{$COMPANY->get('email')}">
-		</div><br>
+		</div><br />
 		<div class="pull-right">
 			<button type="button" class="btn btn-success ajaxBtn">
 				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div id="VtVTEmailTemplateTaskContainer">
 		<div class="">
 			<div class="row padding-bottom1per">
@@ -31,6 +31,7 @@
 				</span>
 			</div>
 			<div class="row padding-bottom1per">
+				{assign var=EMAIL value=settype($TASK_OBJECT->email, 'array')}
 				<span class="col-md-4 control-label">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select class="chzn-select form-control" name="email" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" multiple  data-validation-engine="validate[required]">
@@ -45,10 +46,10 @@
 								{/foreach}
 							</optgroup>
 						{/foreach}
-						{foreach item=FIELDS from=$TEXT_PARSER->getReletedVariable('email')}
-							{foreach item=RELETED_FIELDS key=BLOCK_NAME from=$FIELDS}
+						{foreach item=FIELDS from=$TEXT_PARSER->getRelatedVariable('email')}
+							{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=ITEM from=$RELETED_FIELDS}
+									{foreach item=ITEM from=$RELATED_FIELDS}
 										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
 											{$ITEM['label']}
 										</option>

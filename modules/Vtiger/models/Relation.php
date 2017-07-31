@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Vtiger_Relation_Model extends Vtiger_Base_Model
+class Vtiger_Relation_Model extends \App\Base
 {
 
 	protected static $cachedInstances = [];
@@ -20,7 +20,9 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	const RELATION_O2M = 1;
 	//Many to many and many to one
 	const RELATION_M2M = 2;
-	const RELATIONS_O2M = ['getDependentsList'];
+
+	/** @var string[] */
+	protected static $RELATIONS_O2M = ['getDependentsList'];
 
 	/**
 	 * Function returns the relation id
@@ -180,7 +182,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getRelationType()
 	{
 		if (!$this->get('relationType')) {
-			if (in_array($this->get('name'), self::RELATIONS_O2M) || $this->getRelationField()) {
+			if (in_array($this->get('name'), self::$RELATIONS_O2M) || $this->getRelationField()) {
 				$this->set('relationType', self::RELATION_O2M);
 			} else {
 				$this->set('relationType', self::RELATION_M2M);
@@ -316,15 +318,18 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$parentModuleName = $this->getParentModuleModel()->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
-		$fieldRel = App\Field::getReletedFieldForModule($relatedModuleName, $parentModuleName);
+		$fieldRel = App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
-		foreach ($relatedModelFields as &$fieldModel) {
-			if ($fieldModel->getId() === $fieldRel['fieldid']) {
-				$relationField = $fieldModel;
-				break;
+		if (isset($fieldRel['fieldid'])) {
+			foreach ($relatedModelFields as &$fieldModel) {
+				if ($fieldModel->getId() === $fieldRel['fieldid']) {
+					$relationField = $fieldModel;
+					break;
+				}
 			}
 		}
-		if (!$relationField) {
+		if (!isset($relationField) || !$relationField) {
+			$relationField = false;
 			foreach ($relatedModelFields as &$fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
@@ -345,9 +350,11 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 	public function getDependentsList()
 	{
 		$fieldModel = $this->getRelationField(true);
-		$this->getQueryGenerator()->addNativeCondition([
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addNativeCondition([
 			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
 		]);
+		$queryGenerator->addTableToQuery($fieldModel->getTableName());
 	}
 
 	/**
@@ -412,7 +419,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 				}
 			}
 		}
-		switch (AppRequest::get('time')) {
+		switch (\App\Request::_get('time')) {
 			case 'current':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')]);
 				break;
@@ -714,16 +721,17 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
 		}
 		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
-		$result = $db->pquery($query, array($sourceModuleTabId, $relation_ids));
+		$db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
+	/**
+	 * Function to set presence relation
+	 * @param int $relationId
+	 * @param string $status
+	 */
 	public static function updateRelationPresence($relationId, $status)
 	{
-		$presence = 0;
-		if ($status === 0) {
-			$presence = 1;
-		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $presence], ['relation_id' => $relationId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === '0' ? 1 : 0], ['relation_id' => $relationId])->execute();
 	}
 
 	public static function removeRelationById($relationId)
@@ -832,6 +840,7 @@ class Vtiger_Relation_Model extends Vtiger_Base_Model
 		$result = false;
 		if ('add' === $action) {
 			$result = $db->createCommand()->insert('u_#__favorites', [
+					'data' => date('Y-m-d H:i:s'),
 					'crmid' => $data['crmid'],
 					'module' => $moduleName,
 					'relcrmid' => $data['relcrmid'],

@@ -29,7 +29,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ($moduleName === 'Calendar') {
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
-			$moduleRecordStructure = array();
+			$moduleRecordStructure = [];
 			$calendarRecordStructure = $recordStructureInstance->getStructure();
 
 			$eventsModel = Vtiger_Module_Model::getInstance('Events');
@@ -70,7 +70,7 @@ class Reports_RecordStructure_Model extends Vtiger_RecordStructure_Model
 	 */
 	public function getSecondaryModuleRecordStructure()
 	{
-		$recordStructureInstances = array();
+		$recordStructureInstances = [];
 
 		$secondaryModule = $this->getRecord()->getSecondaryModules();
 		if (!empty($secondaryModule)) {

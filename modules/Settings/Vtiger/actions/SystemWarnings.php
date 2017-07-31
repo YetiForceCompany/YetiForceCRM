@@ -3,7 +3,8 @@
 /**
  * System warnings basic action class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
@@ -18,9 +19,9 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 
 	/**
 	 * Update ignore status
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function update(Vtiger_Request $request)
+	public function update(\App\Request $request)
 	{
 		$className = $request->get('id');
 		if (!class_exists($className)) {
@@ -36,9 +37,9 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 
 	/**
 	 * Update ignore status
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function cancel(Vtiger_Request $request)
+	public function cancel(\App\Request $request)
 	{
 		Vtiger_Session::set('SystemWarnings', true);
 		$response = new Vtiger_Response();

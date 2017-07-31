@@ -19,7 +19,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('addCalendarView');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -29,7 +29,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
@@ -40,10 +40,10 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to delete the user calendar from shared calendar
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function deleteUserCalendar(Vtiger_Request $request)
+	public function deleteUserCalendar(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -65,10 +65,10 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to add other user calendar to shared calendar
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function addUserCalendar(Vtiger_Request $request)
+	public function addUserCalendar(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -92,10 +92,10 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to delete the calendar view from My Calendar
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function deleteCalendarView(Vtiger_Request $request)
+	public function deleteCalendarView(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
@@ -116,10 +116,10 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Function to add calendar views to My calendar
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return Vtiger_Response $response
 	 */
-	public function addCalendarView(Vtiger_Request $request)
+	public function addCalendarView(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();

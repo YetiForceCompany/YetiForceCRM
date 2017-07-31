@@ -221,7 +221,7 @@ class DateTimeField
 		} elseif (strpos($date[0], '/') !== false) {
 			$separator = '/';
 		}
-		list($y, $m, $d) = explode($separator, $date[0]);
+		list($y, $m, $d) = array_pad(explode($separator, $date[0]), 3, null);
 
 		switch ($format) {
 			case 'dd-mm-yyyy': $date[0] = $d . '-' . $m . '-' . $y;
@@ -426,7 +426,7 @@ class DateTimeField
 		}
 
 		$value = str_replace('T', ' ', $value);
-		list($date, $time) = explode(' ', $value);
+		list($date, $time) = array_pad(explode(' ', $value), 2, '');
 		if (!empty($date) && !in_array($time, ['AM', 'PM'])) {
 			$date = self::__convertToDBFormat($date, $user->date_format);
 			$value = $date;

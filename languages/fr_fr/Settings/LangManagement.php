@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Lang management french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'No data available in table' => 'Aucune donnée disponible dans la table',
 	'Translations' => 'Traductions',
@@ -63,10 +68,10 @@ $jsLanguageStrings = [
 	'JS_DEFAULT' => 'Défaut',
 	'Delete' => 'Supprimer',
 	'Cancel' => 'Annuler',
-	'LBL_Loader' => 'Télecharge',
+	'LBL_Loader' => 'Téléchargement',
 	'No matching records found' => 'Aucun enregitrement correspondant trouvé',
 	'Search' => 'Chercher :',
 	'No data available in table' => 'Aucune traduction',
 	'JS_EXPORT' => 'Exporter',
-	'JS_NOTRANSLATION' => '--No Translation--', 
+	'JS_NOTRANSLATION' => '--Pas de traduction--',
 ];

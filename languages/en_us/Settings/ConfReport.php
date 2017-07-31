@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * ConfReport english translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'ConfReport' => 'Server configuration',
 	'LBL_CONFIGURATION' => 'Server configuration',
@@ -15,6 +12,9 @@ $languageStrings = [
 	'LBL_PARAMETER' => 'Parameter',
 	'LBL_VALUE' => 'Current configuration',
 	'LBL_RECOMMENDED' => 'Recommended configuration',
+	'LBL_SYSTEM_STABILITY' => 'System stability configuration',
+	'LBL_SYSTEM_SECURITY' => 'System security configuration',
+	'LBL_SECURITY_ADVISORIES_CHECKER' => 'Security vulnerabilities in used libraries',
 	'LBL_FILES_PERMISSIONS' => 'Files/Folders',
 	'LBL_FILE' => 'Name',
 	'LBL_PATH' => 'Path',
@@ -42,7 +42,8 @@ $languageStrings = [
 	'LBL_JSON_LIBRARY' => 'JSON',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
-	'LBL_MBSTRING_LIBRARY' => 'php_mbstring (required for mPDF)',
+	'LBL_MBSTRING_LIBRARY' => 'Mbstring (required for mPDF)',
+	'LBL_EXIF_LIBRARY' => 'Exif (improves security of uploaded files)',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
 	'LBL_SPACE' => 'Capacity',
 	'LBL_SPACE_TOTAL' => 'Total',
@@ -57,7 +58,17 @@ $languageStrings = [
 	'LBL_APCU_LIBRARY' => 'APCu',
 	'LBL_OPCACHE_LIBRARY' => 'OPcache',
 	'LBL_CRON_PHP' => 'Cron - PHP version',
- 	'LBL_CRON_PHPINI' => 'Cron - PHP configuration',
- 	'LBL_CRON_LOG_FILE' => 'Cron - Error logs',
- 	'LBL_CRON_PHP_SAPI' => 'Cron - API server',
+	'LBL_CRON_PHPINI' => 'Cron - PHP configuration',
+	'LBL_CRON_LOG_FILE' => 'Cron - Error logs',
+	'LBL_CRON_PHP_SAPI' => 'Cron - API server',
+	'LBL_ENVIRONMENTAL_INFORMATION' => 'Environment information',
+	'LBL_LIB_NAME' => 'Library name',
+ 	'LBL_VULNERABILITY_NAME' => 'Vulnerability name',
+ 	'LBL_VULNERABILITY_URL' => 'Vulnerability address',
+	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
+	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
+	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address'
+];
+$jsLanguageStrings = [
+	'JS_SPEED_TEST_START' => 'Checking speed...',
 ];

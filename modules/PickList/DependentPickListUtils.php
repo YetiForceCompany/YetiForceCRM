@@ -19,16 +19,15 @@ class Vtiger_DependencyPicklist
 		$adb = PearDatabase::getInstance();
 
 		if (empty($module)) {
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
+			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', []);
 		} else {
 			$tabId = \App\Module::getModuleId($module);
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		}
 		$noofrows = $adb->num_rows($result);
 
-		$dependentPicklists = array();
+		$dependentPicklists = [];
 		if ($noofrows > 0) {
-			$fieldlist = array();
 			for ($i = 0; $i < $noofrows; ++$i) {
 				$fieldTabId = $adb->query_result($result, $i, 'tabid');
 				$sourceField = $adb->query_result($result, $i, 'sourcefield');
@@ -46,9 +45,9 @@ class Vtiger_DependencyPicklist
 				$forModule = \App\Module::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
-					'sourcefieldlabel' => vtranslate($sourceFieldLabel, $forModule),
+					'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $forModule),
 					'targetfield' => $targetField,
-					'targetfieldlabel' => vtranslate($targetFieldLabel, $forModule),
+					'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $forModule),
 					'module' => $forModule
 				);
 			}
@@ -70,7 +69,7 @@ class Vtiger_DependencyPicklist
 		$result = $adb->pquery($query, array($tabId));
 		$noofrows = $adb->num_rows($result);
 
-		$fieldlist = array();
+		$fieldlist = [];
 		if ($noofrows > 0) {
 			for ($i = 0; $i < $noofrows; ++$i) {
 				$fieldlist[$adb->query_result($result, $i, "fieldname")] = $adb->query_result($result, $i, "fieldlabel");
@@ -98,7 +97,7 @@ class Vtiger_DependencyPicklist
 			$optionalsourcevalues = $mapping['optionalsourcevalues'];
 
 			if (!empty($optionalsourcefield)) {
-				$criteria = array();
+				$criteria = [];
 				$criteria["fieldname"] = $optionalsourcefield;
 				$criteria["fieldvalues"] = $optionalsourcevalues;
 				$serializedCriteria = \App\Json::encode($criteria);
@@ -108,13 +107,13 @@ class Vtiger_DependencyPicklist
 			//to handle Accent Sensitive search in MySql
 			//reference Links http://dev.mysql.com/doc/refman/5.0/en/charset-convert.html , http://stackoverflow.com/questions/500826/how-to-conduct-an-accent-sensitive-search-in-mysql
 			$dependencyId = (new App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
-					->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
-					->scalar();
+				->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
+				->scalar();
 			if ($dependencyId) {
 				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 					'targetvalues' => $serializedTargetValues,
 					'criteria' => $serializedCriteria,
-				], ['id' => $dependencyId])->execute();
+					], ['id' => $dependencyId])->execute();
 			} else {
 				$db->createCommand()->insert('vtiger_picklist_dependency', [
 					'id' => $db->getUniqueID('vtiger_picklist_dependency'),
@@ -143,7 +142,7 @@ class Vtiger_DependencyPicklist
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
 		$dataReader = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
-			->createCommand()->query();
+				->createCommand()->query();
 		$valueMapping = [];
 		while ($row = $dataReader->read()) {
 			$valueMapping[] = [
@@ -164,9 +163,9 @@ class Vtiger_DependencyPicklist
 		$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		$noofrows = $adb->num_rows($result);
 
-		$picklistDependencyDatasource = array();
+		$picklistDependencyDatasource = [];
 		for ($i = 0; $i < $noofrows; ++$i) {
-			$pickArray = array();
+			$pickArray = [];
 			$sourceField = $adb->query_result($result, $i, 'sourcefield');
 			$targetField = $adb->query_result($result, $i, 'targetfield');
 			$sourceValue = decode_html($adb->query_result($result, $i, 'sourcevalue'));
@@ -175,10 +174,10 @@ class Vtiger_DependencyPicklist
 			$criteria = decode_html($adb->query_result($result, $i, 'criteria'));
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
-			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] != null) {
+			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
 				$conditionValue = array(
-					"condition" => array($unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']),
-					"values" => $unserializedTargetValues
+					'condition' => array($unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']),
+					'values' => $unserializedTargetValues
 				);
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = $conditionValue;
 			} else {
@@ -221,7 +220,7 @@ class Vtiger_DependencyPicklist
 						AND vtiger_field.presence in (0,2)
 					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
 		// END
-		$result = $adb->pquery($query, array());
+		$result = $adb->pquery($query, []);
 		while ($row = $adb->fetch_array($result)) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}

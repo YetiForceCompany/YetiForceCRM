@@ -2,8 +2,9 @@
 
 /**
  * Action to mass upload files
- * @package YetiForce.Modal
- * @license licenses/License.html
+ * @package YetiForce.ModalView
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
@@ -11,10 +12,10 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to check permission
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @throws \Exception\NoPermitted
 	 */
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
@@ -25,9 +26,9 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Process
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();

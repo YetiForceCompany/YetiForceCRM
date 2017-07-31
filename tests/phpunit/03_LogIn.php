@@ -1,8 +1,10 @@
 <?php
+
 /**
  * LogIn test class
- * @package YetiForce.Tests
- * @license licenses/License.html
+ * @package YetiForce.Test
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\TestCase;
@@ -13,14 +15,25 @@ use PHPUnit\Framework\TestCase;
 class LogIn extends TestCase
 {
 
+	/**
+	 * Testing login page display
+	 */
 	public function testLoginPage()
 	{
-		ob_start();
-		(new Vtiger_WebUI())->process(AppRequest::init());
-		file_put_contents('tests/LoginPage.txt', ob_get_contents());
-		ob_end_clean();
+		if (!IS_WINDOWS) {
+			ob_start();
+			(new Vtiger_WebUI())->process(App\Request::init());
+			$content = ob_get_contents();
+			$this->assertTrue(strpos($content, 'input name="username"') !== false);
+			$this->assertTrue(strpos($content, 'input name="password"') !== false);
+			file_put_contents('tests/LoginPage.txt', $content);
+			ob_end_clean();
+		}
 	}
 
+	/**
+	 * Test logging into the system
+	 */
 	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
@@ -31,6 +44,17 @@ class LogIn extends TestCase
 			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('user_name', $userName);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel(TESTS_USER_ID));
+			$this->assertInternalType('int', TESTS_USER_ID);
 		}
+	}
+
+	/**
+	 * Testing the Brute Force mechanism
+	 */
+	public function testBruteForce()
+	{
+		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		$this->assertFalse($bfInstance->isBlockedIp());
+		$bfInstance->updateBlockedIp();
 	}
 }

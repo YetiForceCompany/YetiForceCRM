@@ -4,7 +4,8 @@ namespace App;
 /**
  * Base class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
@@ -23,12 +24,12 @@ class Base
 
 	/**
 	 * Function to get the value for a given key
-	 * @param $key
+	 * @param string $key
 	 * @return mixed Value for the given key
 	 */
 	public function get($key)
 	{
-		return isset($this->value[$key]) ? $this->value[$key] : false;
+		return isset($this->value[$key]) ? $this->value[$key] : null;
 	}
 
 	/**
@@ -40,6 +41,31 @@ class Base
 	public function getForSql($key, $skipEmtpy = true)
 	{
 		return Purifier::purifySql($this->get($key), $skipEmtpy);
+	}
+
+	/**
+	 * Function to get the html encoded value for a given key
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getForHtml($key)
+	{
+		return Purifier::encodeHtml($this->get($key));
+	}
+
+	/**
+	 * Function to get the array values for a given key
+	 * @param string $key
+	 * @param array $value
+	 * @return array
+	 */
+	public function getArray($key, $value = [])
+	{
+		if (!isset($this->value[$key])) {
+			return $value;
+		}
+		$value = settype($this->value[$key], 'array');
+		return $value;
 	}
 
 	/**
@@ -91,7 +117,7 @@ class Base
 	 */
 	public function isEmpty($key)
 	{
-		return (!isset($this->value[$key]) || empty($this->value[$key]));
+		return empty($this->value[$key]);
 	}
 
 	/**
@@ -105,6 +131,7 @@ class Base
 
 	/**
 	 * Function to get keys
+	 * @return string[]
 	 */
 	public function getKeys()
 	{

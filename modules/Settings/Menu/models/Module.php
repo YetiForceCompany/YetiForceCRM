@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings menu module model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Menu_Module_Model
 {
 
@@ -58,7 +55,7 @@ class Settings_Menu_Module_Model
 				if ($row['label'] != '') {
 					$name = $row['label'];
 				} elseif ($settings) {
-					$name = vtranslate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
+					$name = \App\Language::translate('LBL_QUICK_CREATE_MODULE', 'Menu') . ': ' . Vtiger_Menu_Model::vtranslateMenu('SINGLE_' . $row['name'], $row['name']);
 				}
 				break;
 			case 6: $name = 'LBL_HOME';
@@ -67,7 +64,7 @@ class Settings_Menu_Module_Model
 				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data = $query->one();
 				if ($settings) {
-					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . vtranslate($data['viewname'], $data['entitytype']);
+					$name = Vtiger_Menu_Model::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']);
 				} else {
 					$name = Vtiger_Menu_Model::vtranslateMenu($data['viewname'], $data['entitytype']);
 				}
@@ -117,13 +114,15 @@ class Settings_Menu_Module_Model
 		return (int) $maxSequence;
 	}
 
+	/**
+	 * Function to get all filters
+	 * @return array
+	 */
 	public function getCustomViewList()
 	{
-		$query = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
-			->from('vtiger_customview')
-			->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype');
-		$dataReader = $query->createCommand()->query();
-		$filters = $dataReader->readAll();
+		$filters = (new \App\Db\Query())->select('cvid, viewname, entitytype, vtiger_tab.tabid')
+				->from('vtiger_customview')
+				->leftJoin('vtiger_tab', 'vtiger_tab.name = vtiger_customview.entitytype')->all();
 		foreach (Vtiger_Module_Model::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {
@@ -133,7 +132,7 @@ class Settings_Menu_Module_Model
 					$handlerClass = Vtiger_Loader::getComponentClassName('Filter', $name, $module->get('name'));
 					if (class_exists($handlerClass)) {
 						$filters[] = [
-							'viewname' => $handler->getViewName(),
+							'viewname' => (new $handlerClass())->getViewName(),
 							'cvid' => $name,
 							'entitytype' => $module->get('name'),
 							'tabid' => $module->getId(),

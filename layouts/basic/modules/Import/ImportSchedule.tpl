@@ -14,7 +14,7 @@
     <table style=" width:90%;margin-left: 5% " cellpadding="10" class="searchUIBasic well">
         <tr>
             <td class="font-x-large" align="left" colspan="2">
-                <strong>{'LBL_IMPORT_SCHEDULED'|@vtranslate:$MODULE}</strong>
+                <strong>{\App\Language::translate('LBL_IMPORT_SCHEDULED', $MODULE)}</strong>
             </td>
         </tr>
         {if $ERROR_MESSAGE neq ''}
@@ -28,15 +28,15 @@
             <td colspan="2" valign="top">
                 <table cellpadding="10" cellspacing="0" align="center" class="dvtSelectedCell thickBorder importContents">
                     <tr>
-                        <td>{'LBL_SCHEDULED_IMPORT_DETAILS'|@vtranslate:$MODULE}</td>
+                        <td>{\App\Language::translate('LBL_SCHEDULED_IMPORT_DETAILS', $MODULE)}</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
             <td align="right" colspan="2">
-                <a type="button" name="cancel" value="{'LBL_CANCEL_IMPORT'|@vtranslate:$MODULE}" class="crmButton small delete"
-                   onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">{'LBL_CANCEL_IMPORT'|@vtranslate:$MODULE}</a>
+                <a type="button" name="cancel" value="{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE)}" class="crmButton small delete"
+                   onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE)}</a>
                 {include file='Import_Done_Buttons.tpl'|@vtemplate_path:'Import'}
             </td>
         </tr>

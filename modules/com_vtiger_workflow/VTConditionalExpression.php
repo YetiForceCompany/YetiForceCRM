@@ -78,7 +78,7 @@ class VTConditionalParser
 	private function getTokens($expression)
 	{
 		preg_match_all('/and|or|\\d+|=|\\w+|\\(|\\)/', $expression, $matches, PREG_SET_ORDER);
-		$tokens = array();
+		$tokens = [];
 		foreach ($matches as $arr) {
 			$tokenVal = $arr[0];
 			if (in_array($tokenVal, array("and", "or", "=", "(", ")"))) {

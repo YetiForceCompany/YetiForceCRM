@@ -52,13 +52,13 @@ class MemcachedStorage implements StorageInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function find(array $filters = array(), $max = 20, $offset = 0)
+	public function find(array $filters = [], $max = 20, $offset = 0)
 	{
 		if (!($keys = $this->memcached->get($this->keyNamespace))) {
-			return array();
+			return [];
 		}
 
-		$results = array();
+		$results = [];
 		foreach (explode('|', $keys) as $key) {
 			if ($data = $this->memcached->get($key)) {
 				$meta = $data['__meta'];

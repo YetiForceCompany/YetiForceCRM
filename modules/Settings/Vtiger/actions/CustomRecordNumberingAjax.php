@@ -19,18 +19,18 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$this->exposeMethod('updateRecordsWithSequenceNumber');
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
 
 		if (!$sourceModule) {
-			throw new \Exception\AppException(vtranslate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
+			throw new \Exception\AppException(\App\Language::translate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -41,9 +41,9 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 
 	/**
 	 * Function to get Module custom numbering data
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function getModuleCustomNumberingData(Vtiger_Request $request)
+	public function getModuleCustomNumberingData(\App\Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 		$moduleData = \App\Fields\RecordNumber::getNumber($sourceModule);
@@ -56,9 +56,9 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 
 	/**
 	 * Function save module custom numbering data
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function saveModuleCustomNumberingData(Vtiger_Request $request)
+	public function saveModuleCustomNumberingData(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->get('sourceModule'));
@@ -78,9 +78,9 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 
 	/**
 	 * Function to update record with sequence number
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function updateRecordsWithSequenceNumber(Vtiger_Request $request)
+	public function updateRecordsWithSequenceNumber(\App\Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
 
@@ -92,7 +92,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

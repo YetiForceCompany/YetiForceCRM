@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * PDF german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'PLL_TEXT' => 'Text',
 	'PLL_IMAGE' => 'Image',
@@ -51,7 +56,7 @@ $languageStrings = [
 	'PLL_PORTRAIT' => 'Portrait',
 	'LBL_LANGUAGE_CHOICE' => 'Sprachwahl',
 	'LBL_FILENAME' => 'Name der erzeugten Datei',
-	'LBL_VISIBILITY' => 'Verfügabr in Views',
+	'LBL_VISIBILITY' => 'Verfügbar in Ansicht',
 	'PLL_LISTVIEW' => 'Liste',
 	'PLL_DETAILVIEW' => 'Datensatz',
 	'LBL_DEFAULT_TPL' => 'Standardselektion',

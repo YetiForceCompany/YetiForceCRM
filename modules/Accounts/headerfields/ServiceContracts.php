@@ -3,7 +3,8 @@
 /**
  * ServiceContracts Header Field Class
  * @package YetiForce.HeaderField
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Accounts_ServiceContracts_HeaderField
@@ -18,7 +19,7 @@ class Accounts_ServiceContracts_HeaderField
 		if (!empty($row['date']) || !empty($row['total'])) {
 			return [
 				'class' => 'btn-success',
-				'title' => vtranslate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
+				'title' => \App\Language::translate('LBL_NUMBER_OF_ACTIVE_CONTRACTS', 'Accounts') . ': ' . $row['total'],
 				'badge' => DateTimeField::convertToUserFormat($row['date']),
 				'action' => 'Vtiger_Detail_Js.getInstance().getTabContainer().find(\'[data-reference="ServiceContracts"]:not(.hide)\').trigger("click");'
 			];

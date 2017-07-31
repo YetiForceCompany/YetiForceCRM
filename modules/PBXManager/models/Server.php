@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class PBXManager_Server_Model extends Vtiger_Base_Model
+class PBXManager_Server_Model extends \App\Base
 {
 
 	const tableName = 'vtiger_pbxmanager_gateway';

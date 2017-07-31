@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{foreach from=$DATA item=REL_MODULE}
 		{$ITEM}
@@ -7,7 +7,7 @@
 				<div class="panel-heading paddingTBZero widget_header">
 					<input type="hidden" name="relatedModule" value="{$REL_MODULE}" />
 					<div class="panel-title row">
-						<h4 class="col-xs-8">{vtranslate($REL_MODULE, $REL_MODULE)}</h4>
+						<h4 class="col-xs-8">{\App\Language::translate($REL_MODULE, $REL_MODULE)}</h4>
 					</div>
 				</div>
 				<div class="widget_contents panel-body padding0">

@@ -3,13 +3,14 @@
 /**
  * Relation action class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailView_Relation_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -21,14 +22,14 @@ class OSSMailView_Relation_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->setReloadRelationRecord($request->get('moduleName'), $request->get('record'));
 
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate('LBL_SET_RELOAD_RELATIONS', $moduleName));
+		$response->setResult(\App\Language::translate('LBL_SET_RELOAD_RELATIONS', $moduleName));
 		$response->emit();
 	}
 }

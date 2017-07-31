@@ -20,7 +20,7 @@
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 
 		<select class="chzn-select form-control {$ASSIGNED_USER_ID}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-name="{$ASSIGNED_USER_ID}" name="{$ASSIGNED_USER_ID}[]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} multiple>
-			<optgroup label="{vtranslate('LBL_USERS')}">
+			<optgroup label="{\App\Language::translate('LBL_USERS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
                     <option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}'{foreach item=USER from=$FIELD_VALUE}{if $USER eq $OWNER_ID } selected {/if}{/foreach}
 							data-userId="{$CURRENT_USER_ID}">
@@ -28,7 +28,7 @@
                     </option>
 				{/foreach}
 			</optgroup>
-			<optgroup label="{vtranslate('LBL_GROUPS')}">
+			<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 				{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 					<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {foreach item=USER from=$FIELD_VALUE}{if $USER eq $OWNER_ID } selected {/if}{/foreach}>
 						{$OWNER_NAME}

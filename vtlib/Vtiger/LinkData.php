@@ -32,7 +32,7 @@ class LinkData
 
 	public function getInputParameter($name)
 	{
-		return \AppRequest::get($name);
+		return \App\Request::_get($name);
 	}
 
 	/**

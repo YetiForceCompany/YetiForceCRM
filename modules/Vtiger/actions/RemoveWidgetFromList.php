@@ -3,13 +3,14 @@
 /**
  * RemoveWidgetFromList Class
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Adrian Koń  <a.kon@yetiforce.com>
  */
 class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
@@ -19,7 +20,7 @@ class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($request->has('id')) {

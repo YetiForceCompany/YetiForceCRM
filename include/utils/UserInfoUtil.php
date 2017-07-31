@@ -15,24 +15,6 @@ require_once 'include/events/include.php';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
-/** Function to get the lists of groupids releated with an user
- * This function accepts the user id as arguments and
- * returns the groupids related with the user id
- * as a comma seperated string
- */
-function fetchUserGroupids($userid)
-{
-
-	\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$focus = new GetUserGroups();
-	$focus->getAllUserGroups($userid);
-	//Asha: Remove implode if not required and if so, also remove explode functions used at the recieving end of this function
-	$groupidlists = implode(",", $focus->user_groups);
-	\App\Log::trace("Exiting fetchUserGroupids method ...");
-	return $groupidlists;
-}
-
 /** Function to get all the vtiger_tab utility action permission for the specified vtiger_profile
  * @param $profileid -- Profile Id:: Type integer
  * @returns  Tab Utility Action Permission Array in the following format:
@@ -86,7 +68,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	$userPrivileges = App\User::getPrivilegesFile($current_user->id);
 
 	$permission = 'no';
-	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && AppRequest::get('parenttab') != 'Settings') {
+	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && \App\Request::_get('parenttab') != 'Settings') {
 		//These modules dont have security right now
 		vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
 		\App\Log::trace('Exiting isPermitted method ...');
@@ -94,7 +76,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	}
 
 	//Checking the Access for the Settings Module
-	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || AppRequest::get('parenttab') == 'Settings') {
+	if ($module == 'Settings' || $module == 'Administration' || $module == 'System' || \App\Request::_get('parenttab') == 'Settings') {
 		if (!$userPrivileges['is_admin']) {
 			$permission = 'no';
 		} else {
@@ -255,7 +237,7 @@ function isPermitted($module, $actionname, $record_id = '')
 					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 					$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 					$relatedPermission = false;
-					foreach ($permissionsRelatedField as &$row) {
+					foreach ($permissionsRelatedField as $row) {
 						switch ($row) {
 							case 0:
 								$relatedPermission = $recordMetaData['smownerid'] == $current_user->id || in_array($recordMetaData['smownerid'], $userPrivileges['groups']);
@@ -268,6 +250,10 @@ function isPermitted($module, $actionname, $record_id = '')
 									$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 									$relatedPermission = $permission == 'yes' ? true : false;
 								}
+								break;
+							case 3:
+								$permission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
+								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
 						if ($relatedPermission) {
@@ -552,55 +538,6 @@ function isReadWritePermittedBySharing($module, $tabid, $actionid, $record_id)
 	return $sharePer;
 }
 
-/** Function to get the Profile Global Information for the specified vtiger_profileid
- * @param $profileid -- Profile Id:: Type integer
- * @returns Profile Gloabal Permission Array in the following format:
- * $profileGloblaPermisson=Array($viewall_actionid=>permission, $editall_actionid=>permission)
- */
-function getProfileGlobalPermission($profileid)
-{
-
-	\App\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql = "select * from vtiger_profile2globalpermissions where profileid=?";
-	$result = $adb->pquery($sql, array($profileid));
-	$num_rows = $adb->num_rows($result);
-
-	for ($i = 0; $i < $num_rows; $i++) {
-		$act_id = $adb->query_result($result, $i, "globalactionid");
-		$per_id = $adb->query_result($result, $i, "globalactionpermission");
-		$copy[$act_id] = $per_id;
-	}
-
-	\App\Log::trace("Exiting getProfileGlobalPermission method ...");
-	return $copy;
-}
-
-/** Function to get the Profile Tab Permissions for the specified vtiger_profileid
- * @param $profileid -- Profile Id:: Type integer
- * @returns Profile Tabs Permission Array in the following format:
- * $profileTabPermisson=Array($tabid1=>permission, $tabid2=>permission,........., $tabidn=>permission)
- */
-function getProfileTabsPermission($profileid)
-{
-
-	\App\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$sql = "select * from vtiger_profile2tab where profileid=?";
-	$result = $adb->pquery($sql, array($profileid));
-	$num_rows = $adb->num_rows($result);
-
-	$copy = [];
-	for ($i = 0; $i < $num_rows; $i++) {
-		$tab_id = $adb->query_result($result, $i, "tabid");
-		$per_id = $adb->query_result($result, $i, "permissions");
-		$copy[$tab_id] = $per_id;
-	}
-
-	\App\Log::trace("Exiting getProfileTabsPermission method ...");
-	return $copy;
-}
-
 /** Function to get the Profile Action Permissions for the specified vtiger_profileid
  * @param $profileid -- Profile Id:: Type integer
  * @returns Profile Tabs Action Permission Array in the following format:
@@ -649,7 +586,6 @@ function getProfileAllActionPermission($profileid)
 {
 
 	\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
-	$adb = PearDatabase::getInstance();
 	$actionArr = getProfileActionPermission($profileid);
 	$utilArr = getTabsUtilityActionPermission($profileid);
 	foreach ($utilArr as $tabid => $act_arr) {
@@ -839,7 +775,6 @@ function deleteRoleRelatedSharingRules($roleId)
 {
 
 	\App\Log::trace('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
-	$adb = PearDatabase::getInstance();
 	$dataShareTableColArr = [
 		'vtiger_datashare_us2role' => 'to_roleid',
 		'vtiger_datashare_us2rs' => 'to_roleandsubid',
@@ -1066,80 +1001,6 @@ function getDSTableNameForType($typeString)
 	return $tableName;
 }
 
-/** To retreive the global permission of the specifed user from the various vtiger_profiles associated with the user
- * @param $userid -- The User Id:: Type Integer
- * @returns  user global permission  array in the following format:
- *     $gloabalPerrArray=(view all action id=>permission,
-  edit all action id=>permission)							);
- */
-function getCombinedUserGlobalPermissions($userId)
-{
-
-	\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
-	$no_of_profiles = sizeof($profArr);
-	$userGlobalPerrArr = [];
-
-	$userGlobalPerrArr = getProfileGlobalPermission($profArr[0]);
-	if ($no_of_profiles != 1) {
-		for ($i = 1; $i < $no_of_profiles; $i++) {
-			$tempUserGlobalPerrArr = getProfileGlobalPermission($profArr[$i]);
-
-			foreach ($userGlobalPerrArr as $globalActionId => $globalActionPermission) {
-				if ($globalActionPermission == 1) {
-					$now_permission = $tempUserGlobalPerrArr[$globalActionId];
-					if ($now_permission == 0) {
-						$userGlobalPerrArr[$globalActionId] = $now_permission;
-					}
-				}
-			}
-		}
-	}
-
-	\App\Log::trace("Exiting getCombinedUserGlobalPermissions method ...");
-	return $userGlobalPerrArr;
-}
-
-/** To retreive the vtiger_tab permissions of the specifed user from the various vtiger_profiles associated with the user
- * @param $userid -- The User Id:: Type Integer
- * @returns  user global permission  array in the following format:
- *     $tabPerrArray=(tabid1=>permission,
- * 			   tabid2=>permission)							);
- */
-function getCombinedUserTabsPermissions($userId)
-{
-
-	\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
-	$no_of_profiles = sizeof($profArr);
-	$userTabPerrArr = [];
-
-	$userTabPerrArr = getProfileTabsPermission($profArr[0]);
-	if ($no_of_profiles != 1) {
-		for ($i = 1; $i < $no_of_profiles; $i++) {
-			$tempUserTabPerrArr = getProfileTabsPermission($profArr[$i]);
-
-			foreach ($userTabPerrArr as $tabId => $tabPermission) {
-				if ($tabPermission == 1) {
-					$now_permission = $tempUserTabPerrArr[$tabId];
-					if ($now_permission == 0) {
-						$userTabPerrArr[$tabId] = $now_permission;
-					}
-				}
-			}
-		}
-	}
-
-	$homeTabid = \App\Module::getModuleId('Home');
-	if (!array_key_exists($homeTabid, $userTabPerrArr)) {
-		$userTabPerrArr[$homeTabid] = 0;
-	}
-	\App\Log::trace("Exiting getCombinedUserTabsPermissions method ...");
-	return $userTabPerrArr;
-}
-
 /** To retreive the vtiger_tab acion permissions of the specifed user from the various vtiger_profiles associated with the user
  * @param $userid -- The User Id:: Type Integer
  * @returns  user global permission  array in the following format:
@@ -1150,12 +1011,12 @@ function getCombinedUserActionPermissions($userId)
 {
 
 	\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
-	$adb = PearDatabase::getInstance();
 	$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
 	$no_of_profiles = sizeof($profArr);
 	$actionPerrArr = [];
-
-	$actionPerrArr = getProfileAllActionPermission($profArr[0]);
+	if (isset($profArr[0])) {
+		$actionPerrArr = getProfileAllActionPermission($profArr[0]);
+	}
 	if ($no_of_profiles != 1) {
 		for ($i = 1; $i < $no_of_profiles; $i++) {
 			$tempActionPerrArr = getProfileAllActionPermission($profArr[$i]);
@@ -1189,7 +1050,6 @@ function getSubordinateRoleAndUsers($roleId)
 {
 
 	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
-	$adb = PearDatabase::getInstance();
 	$subRoleAndUsers = [];
 	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {

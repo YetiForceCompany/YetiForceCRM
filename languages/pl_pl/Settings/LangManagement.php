@@ -1,13 +1,10 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * LangManagement polish translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'No data available in table' => 'Brak danych w tabeli',
 	'Translations' => 'Tłumaczenia',
@@ -43,6 +40,7 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Zaktualizowano tłumaczenie',
 	'LBL_AddTranslationOK' => 'Dodano nowe tłumaczenie',
 	'LBL_DeleteTranslationOK' => 'Usunięto tłumaczenie',
+	'LBL_DELETE_TRANSLATION_FAILED' => 'Usunięcie tłumaczenia nie powiodło się',
 	'Modules' => 'Moduły',
 	'Module' => 'Moduł',
 	'Language' => 'Język',
@@ -63,6 +61,7 @@ $languageStrings = [
 	'LBL_SHOW' => 'Pokaż',
 	'LBL_STATS_INFO' => 'Prezentowane wartości statystyczne określają stosunek etykiet nieprzetłumaczonych do wszystkich etykiet występujących w pliku(-ach) języka bazowego w procentach.',
 	'LBL_UNTRANSLATED_LABELS' => 'Nieprzetłumaczone etykiety',
+	'LBL_CUSTOM_TYPE_INFO' => 'Włączony jest tryb Custom. Nie można modyfikować źródłowych plików językowych. Wszelkie modyfikacje będą miały miejsce w katalogu custom/.',
 ];
 $jsLanguageStrings = [
 	'Translations' => 'Tłumaczenia',

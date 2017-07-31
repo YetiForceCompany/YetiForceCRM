@@ -1,14 +1,18 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
+/**
+ * Widgets management french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'LBL_MAXIMUM_VALUE' => 'Valeur maximal',
+	'LBL_TICK_SIZE' => 'Valeur du saut',
+	'PLL_CURRENT_YEAR' => 'Année actuelle',
+	'PLL_CURRENT_MONTH' => 'Mois en cours',
+	'PLL_CURRENT_WEEK' => 'Cette semaine',
+	'PLL_CURRENT_DAY' => 'Jour actuel',
+	'LBL_DEFAULT_DATE' => 'Date par défaut',
 	'LBL_CHOISE_AUTHORIZED' => 'Sélectionner rôle',
 	'LBL_ADD_DASHBOARD_BLOCK' => 'Ajouter un bloc résumé pour le module',
 	'LBL_WIDTH' => 'Largeur',
@@ -23,7 +27,6 @@ $languageStrings = [
 	'LBL_CREATE_CUSTOM_FIELD' => 'Ajouter widget au panel',
 	'LBL_ADD_CONDITION' => 'Ajouter rôle',
 	'LBL_INVALID_DATA' => 'Données invalide',
-
 	'WidgetsManagement' => 'Gestion des Widgets',
 	'LBL_WIDGETS_MANAGEMENT' => 'Widgets – Configuration',
 	'LBL_WIDGETS_MANAGEMENT_DESCRIPTION' => 'Widgets – Description',
@@ -37,15 +40,15 @@ $languageStrings = [
 	'LBL_WIDGET_ADDED' => 'Widget a été ajouté avec succès',
 	'LBL_CACHE_WIDGET' => 'Cache',
 	'LBL_SHOW_USERS' => 'Afficher le nom d\'utilisateur',
-	'LBL_TITLE_WIDGET' => 'Widget title',
-	'LBL_ADDRESS_RSS' => 'RSS address ',
-	'LBL_ADD_CHANNEL' => 'Add channel',
+	'LBL_TITLE_WIDGET' => 'Widget titre',
+	'LBL_ADDRESS_RSS' => 'Adresse RSS',
+	'LBL_ADD_CHANNEL' => 'Ajouter un canal',
 	'LBL_ADD_RSS' => 'RSS',
-	'LBL_ADD_CHART_FILTER' => 'Chart from filter',
-	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
-	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Number of notifications by recipient',
-	'LBL_SAVE_DASHBOARD' => 'Save dashboard',
-	'LBL_NAME_DASHBOARD' => 'Dashboard name',
+	'LBL_ADD_CHART_FILTER' => 'Filtre graphique',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Nombre de notifications par expéditeur',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Nombre de notifications par destinataire',
+	'LBL_SAVE_DASHBOARD' => 'Enregistrer tableau de bord',
+	'LBL_NAME_DASHBOARD' => 'Nom du tableau de bord',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Bloc a été ajouté avec succès',

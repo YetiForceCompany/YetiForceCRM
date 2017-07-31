@@ -12,11 +12,12 @@
 /**
  * Vtiger Entity Record Model Class
  */
-class Vtiger_Record_Model extends Vtiger_Base_Model
+class Vtiger_Record_Model extends \App\Base
 {
 
 	protected $module = false;
 	protected $inventoryData;
+	protected $inventoryDataExist = false;
 	protected $inventoryRawData;
 	protected $privileges = [];
 	protected $fullForm = true;
@@ -24,6 +25,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
+	public $ext = [];
 
 	/**
 	 * Function to get the id of the record
@@ -32,16 +34,6 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getId()
 	{
 		return $this->get('id');
-	}
-
-	/**
-	 * Function to get the value for a given key
-	 * @param $key
-	 * @return Value for the given key
-	 */
-	public function get($key)
-	{
-		return isset($this->valueMap[$key]) ? $this->valueMap[$key] : null;
 	}
 
 	/**
@@ -69,10 +61,10 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->valueMap[$key] != $value) {
+		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && $this->value[$key] != $value) {
 			$this->changes[$key] = $this->get($key);
 		}
-		$this->valueMap[$key] = $value;
+		$this->value[$key] = $value;
 		return $this;
 	}
 
@@ -317,15 +309,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	}
 
 	/**
-	 * Function to get the display value in ReletedListView
+	 * Function to get the display value in RelatedListView
 	 * @param string $fieldName
 	 * @return string
 	 */
-	public function getReletedListViewDisplayValue($fieldName)
+	public function getRelatedListViewDisplayValue($fieldName)
 	{
 		$recordId = $this->getId();
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
-		return $fieldModel->getUITypeModel()->getReletedListViewDisplayValue($this->get($fieldName), $recordId, $this);
+		return $fieldModel->getUITypeModel()->getRelatedListViewDisplayValue($this->get($fieldName), $recordId, $this);
 	}
 
 	/**
@@ -398,7 +390,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			if ($this->isNew()) {
 				if ($tableName === 'vtiger_crmentity') {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
-					$this->setId($db->getLastInsertID('vtiger_crmentity_crmid_seq'));
+					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
 					$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
 				}
@@ -432,6 +424,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 				$value = $this->get($fieldName);
 				if ($value === '' || $value === null) {
 					$value = $fieldModel->getUITypeModel()->getDBValue($value, $this);
+					$this->set($fieldName, $value);
 				}
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
 			}
@@ -439,21 +432,25 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $forSave;
 	}
 
+	/**
+	 * Get entity data for save
+	 * @return array
+	 */
 	public function getEntityDataForSave()
 	{
 		$row = [];
 		$time = date('Y-m-d H:i:s');
 		if ($this->isNew()) {
 			$row['setype'] = $this->getModuleName();
-			$row['smcreatorid'] = \App\User::getCurrentUserRealId();
-			$row['createdtime'] = $time;
 			$row['users'] = ',' . \App\User::getCurrentUserId() . ',';
-			$this->set('createdtime', $time);
+			$row['smcreatorid'] = $this->isEmpty('created_user_id') ? \App\User::getCurrentUserRealId() : $this->get('created_user_id');
+			$row['createdtime'] = $this->isEmpty('createdtime') ? $time : $this->get('createdtime');
+			$this->set('createdtime', $row['createdtime']);
 		}
-		$row['modifiedtime'] = $time;
-		$row['modifiedby'] = \App\User::getCurrentUserRealId();
-		$this->set('modifiedtime', $time);
-		$this->set('modifiedby', \App\User::getCurrentUserRealId());
+		$row['modifiedtime'] = $this->getPreviousValue('modifiedtime') ? $this->get('modifiedtime') : $time;
+		$row['modifiedby'] = $this->getPreviousValue('modifiedby') ? $this->get('modifiedby') : \App\User::getCurrentUserRealId();
+		$this->set('modifiedtime', $row['modifiedtime']);
+		$this->set('modifiedby', $row['modifiedby']);
 		return ['vtiger_crmentity' => $row];
 	}
 
@@ -853,9 +850,58 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
+	/**
+	 * Set inventory data
+	 * @param array $data
+	 */
+	public function setInventoryData($data)
+	{
+		$this->inventoryData = $data;
+	}
+
+	/**
+	 * Set inventory raw data
+	 * @param array $data
+	 */
+	public function setInventoryRawData($data)
+	{
+		$this->inventoryRawData = $data;
+	}
+
+	/**
+	 * Save the inventory data
+	 * @param string $moduleName
+	 * @return boolean
+	 */
+	public function saveInventoryData($moduleName)
+	{
+		if (!$this->inventoryDataExist) {
+			return false;
+		}
+		\App\Log::trace('Start ' . __METHOD__);
+		$db = App\Db::getInstance();
+		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
+		$table = $inventory->getTableName('data');
+
+		$inventoryData = $this->getInventoryData();
+		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
+		if (is_array($inventoryData)) {
+			foreach ($inventoryData as $insertData) {
+				$insertData['id'] = $this->getId();
+				$db->createCommand()->insert($table, $insertData)->execute();
+			}
+		}
+		\App\Log::trace('End ' . __METHOD__);
+	}
+
+	/**
+	 * Function to gets inventory default data fields
+	 * @return string|int|null
+	 */
 	public function getInventoryDefaultDataFields()
 	{
-		$lastItem = end($this->getInventoryData());
+		$inventoryData = $this->getInventoryData();
+		$lastItem = end($inventoryData);
 		$defaultData = [];
 		if (!empty($lastItem)) {
 			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
@@ -873,7 +919,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	public function getInventoryData()
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		if (!$this->inventoryData) {
+		if (!isset($this->inventoryData)) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
 			if (empty($record)) {
@@ -906,18 +952,17 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 */
 	public function initInventoryData()
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
 		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$fields = $inventory->getColumns();
 		$summaryFields = $inventory->getSummaryFields();
-		$inventoryData = $summary = [];
+		$inventoryData = [];
 		if (isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
 		} else {
-			$request = AppRequest::init();
+			$request = App\Request::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
@@ -926,21 +971,22 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 					continue;
 				}
 				$insertData = ['seq' => $request->get('seq' . $i)];
-				foreach ($fields as &$field) {
+				foreach ($fields as $field) {
 					$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
 				}
 				$inventoryData[] = $insertData;
 			}
 			$prefix = 'sum_';
 			$inventoryFields = $inventory->getFields();
-			foreach ($summaryFields as &$fieldName) {
+			foreach ($summaryFields as $fieldName) {
 				if ($this->has($prefix . $fieldName)) {
 					$value = $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData);
 					$this->set($prefix . $fieldName, $value);
 				}
 			}
+			$this->inventoryData = $inventoryData;
+			$this->inventoryDataExist = true;
 		}
-		$this->inventoryData = $inventoryData;
 		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
@@ -969,46 +1015,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
 			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
-		return (bool) $this->privileges['editFieldByModal'];
-	}
-
-	/**
-	 * Set inventory data
-	 * @param array $data
-	 */
-	public function setInventoryData($data)
-	{
-		$this->inventoryData = $data;
-	}
-
-	/**
-	 * Set inventory raw data
-	 * @param array $data
-	 */
-	public function setInventoryRawData($data)
-	{
-		$this->inventoryRawData = $data;
-	}
-
-	/**
-	 * Save the inventory data
-	 */
-	public function saveInventoryData($moduleName)
-	{
-		\App\Log::trace('Start ' . __METHOD__);
-		$db = App\Db::getInstance();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventory->getTableName('data');
-
-		$inventoryData = $this->getInventoryData();
-		$db->createCommand()->delete($table, ['id' => $this->getId()])->execute();
-		if (is_array($inventoryData)) {
-			foreach ($inventoryData as &$insertData) {
-				$insertData['id'] = $this->getId();
-				$db->createCommand()->insert($table, $insertData)->execute();
-			}
-		}
-		\App\Log::trace('End ' . __METHOD__);
+		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
 	}
 
 	public function clearPrivilegesCache($name = false)
@@ -1027,74 +1034,46 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	 * @param array $fileDetails  - array which contains the file information(name, type, size, tmp_name and error)
 	 * @return boolean
 	 */
-	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment')
+	public function uploadAndSaveFile($fileDetails)
 	{
 		$id = $this->getId();
-		$module = AppRequest::get('module');
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
-		$db = \App\Db::getInstance();
-		$userId = \App\User::getCurrentUserId();
-		$date = date('Y-m-d H:i:s');
-
-		//to get the owner id
-		$ownerid = $this->get('assigned_user_id');
-		if (!isset($ownerid) || $ownerid === '')
-			$ownerid = $userId;
-
-		if (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) {
-			$fileName = $fileDetails['original_name'];
-		} else {
-			$fileName = $fileDetails['name'];
-		}
-
+		$moduleName = $this->getModuleName();
+		\App\Log::trace("Entering into uploadAndSaveFile($id,$moduleName) method.");
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate()) {
+			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
-		$binFile = \App\Fields\File::sanitizeUploadFileName($fileName);
-
-		$filename = ltrim(basename(' ' . $binFile)); //allowed filename like UTF-8 characters
-		$filetype = $fileDetails['type'];
-		$filesize = $fileDetails['size'];
-		$filetmp_name = $fileDetails['tmp_name'];
-
-		//get the file path inwhich folder we want to upload the file
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
-
+		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) ? $fileDetails['original_name'] : $fileDetails['name'];
+		$db = \App\Db::getInstance();
+		$date = date('Y-m-d H:i:s');
+		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
 		$params = [
-			'smcreatorid' => $userId,
-			'smownerid' => $ownerid,
-			'setype' => $module . ' Image',
-			'description' => $this->get('description'),
-			'createdtime' => $date,
-			'modifiedtime' => $date
+			'smcreatorid' => $this->isEmpty('created_user_id') ? \App\User::getCurrentUserId() : $this->get('created_user_id'),
+			'smownerid' => $this->isEmpty('assigned_user_id') ? \App\User::getCurrentUserId() : $this->get('assigned_user_id'),
+			'setype' => $moduleName . ' Image',
+			'createdtime' => $this->isEmpty('createdtime') ? $date : $this->get('createdtime'),
+			'modifiedtime' => $this->isEmpty('modifiedtime') ? $date : $this->get('modifiedtime'),
 		];
-		if ($module === 'Contacts' || $module === 'Products') {
-			$params['setype'] = $module . ' Image';
-		} else {
-			$params['setype'] = $module . ' Attachment';
-		}
+		$params['setype'] = ($moduleName === 'Contacts' || $moduleName === 'Products') ? $moduleName . ' Image' : $moduleName . ' Attachment';
 		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		$uploadStatus = move_uploaded_file($filetmp_name, $uploadFilePath . $currentId . '_' . $binFile);
-		if ($uploadStatus) {
+		if ($fileInstance->moveFile($uploadFilePath . $currentId)) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,
-				'name' => $filename,
-				'description' => $this->get('description'),
-				'type' => $filetype,
+				'name' => ltrim(App\Purifier::purify($fileName)),
+				'type' => $fileDetails['type'],
 				'path' => $uploadFilePath
 			])->execute();
-
-			if (AppRequest::get('mode') === 'edit') {
-				if (!empty($id) && !empty(AppRequest::get('fileid'))) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => AppRequest::get('fileid')])->execute();
+			if (\App\Request::_get('mode') === 'edit') {
+				if (!empty($id) && !empty(\App\Request::_get('fileid'))) {
+					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => \App\Request::_get('fileid')])->execute();
 				}
 			}
-			if ($module === 'Documents') {
+			if ($moduleName === 'Documents') {
 				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
 			}
-			if ($module === 'Contacts') {
+			if ($moduleName === 'Contacts') {
 				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
 					->from('vtiger_seattachmentsrel')
 					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
@@ -1110,6 +1089,7 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 			} else {
 				$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
 			}
+			$this->ext['attachmentsId'] = $currentId;
 			return true;
 		} else {
 			\App\Log::trace('Skip the save attachment process.');
@@ -1177,6 +1157,15 @@ class Vtiger_Record_Model extends Vtiger_Base_Model
 	{
 		$links = $recordLinks = [];
 		if ($this->isViewable()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-expand',
+				'linkclass' => 'btn-sm btn-default',
+				'modalView' => true
+			];
+
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',

@@ -11,7 +11,7 @@
 /**
  * CSS Script Model Class
  */
-class Vtiger_CssScript_Model extends Vtiger_Base_Model
+class Vtiger_CssScript_Model extends \App\Base
 {
 
 	const DEFAULT_REL = 'stylesheet';
@@ -67,6 +67,9 @@ class Vtiger_CssScript_Model extends Vtiger_Base_Model
 		$href = $this->get('href');
 		if (empty($href)) {
 			$href = $this->get('linkurl');
+		}
+		if ($this->has('base') && $fs = @filemtime($this->get('base'))) {
+			$href = $href . '?s=' . $fs;
 		}
 		return $href;
 	}

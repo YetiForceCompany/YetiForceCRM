@@ -12,7 +12,7 @@
  * Settings Menu Model Class
  */
 
-class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
+class Settings_Vtiger_Menu_Model extends \App\Base
 {
 
 	protected static $menusTable = 'vtiger_settings_blocks';
@@ -116,22 +116,15 @@ class Settings_Vtiger_Menu_Model extends Vtiger_Base_Model
 	/**
 	 * Static Function to get the instance of Settings Menu model for given menu id
 	 * @param int $id - Menu Id
-	 * @return <Settings_Vtiger_Menu_Model> instance
+	 * @return Settings_Vtiger_Menu_Model instance
 	 */
 	public static function getInstanceById($id)
 	{
 		if (isset(self::$cacheInstance[$id])) {
 			return self::$cacheInstance[$id];
 		}
-		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$menusTable, self::$menuId);
-		$params = [$id];
-
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = (new App\Db\Query())->from(self::$menusTable)->where([self::$menuId => $id])->one();
+		if ($rowData) {
 			$instance = Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
 			self::$cacheInstance[$id] = $instance;
 			return $instance;

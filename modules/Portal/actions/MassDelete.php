@@ -12,7 +12,7 @@
 class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
@@ -20,14 +20,14 @@ class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$module = $request->getModule();
 
 		Portal_Module_Model::deleteRecords($request);
 
 		$response = new Vtiger_Response();
-		$result = array('message' => vtranslate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
+		$result = array('message' => \App\Language::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
 		$response->setResult($result);
 		$response->emit();
 	}

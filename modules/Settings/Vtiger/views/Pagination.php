@@ -1,6 +1,11 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
+/**
+ * Settings OSSMailView index view class
+ * @package YetiForce.View
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
 
@@ -10,7 +15,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
-	public function getPagination(Vtiger_Request $request)
+	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->get('page');
@@ -53,10 +58,10 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		if (!empty($searchResult) && is_array($searchResult)) {
 			$listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
-		if (!$this->listViewEntries) {
+		if (!property_exists($this, 'listViewEntries') || empty($this->listViewEntries)) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		if (!$this->listViewCount) {
+		if (!property_exists($this, 'listViewCount') || empty($this->listViewCount)) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$noOfEntries = count($this->listViewEntries);

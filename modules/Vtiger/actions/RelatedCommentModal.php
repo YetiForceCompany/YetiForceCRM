@@ -3,13 +3,14 @@
 /**
  * Update comment for related record
  * @package YetiForce.ModalView
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 {
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -19,7 +20,7 @@ class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 		}
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
@@ -28,12 +29,12 @@ class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new \Exception\NoPermitted(vtranslate('LBL_PERMISSION_DENIED'));
+			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$rcmModel->save($request->get('comment'));
 
 		$response = new Vtiger_Response();
-		$response->setResult(vtranslate('LBL_SAVED_RELATION_COMMENT', $moduleName));
+		$response->setResult(\App\Language::translate('LBL_SAVED_RELATION_COMMENT', $moduleName));
 		$response->emit();
 	}
 }

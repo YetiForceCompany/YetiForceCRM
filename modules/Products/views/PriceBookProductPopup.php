@@ -11,7 +11,7 @@
 class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -26,30 +26,31 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->get('src_module');
-		$jsFileNames = array(
-			"modules.$moduleName.resources.PriceBooksPopup",
-			'modules.Vtiger.resources.validator.BaseValidator',
-			'modules.Vtiger.resources.validator.FieldValidator',
+		$moduleName = $request->get('module');
+		$jsServices = [];
+		if ($moduleName === 'Services') {
+			$jsServices = ['modules.Products.resources.ProductsPopup'];
+		}
+		$jsFileNames = [
+			"modules.$moduleName.resources.ProductsPopup",
+			'~layouts/resources/validator/BaseValidator.js',
+			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator"
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-
-		return $headerScriptInstances;
+		];
+		$jsFileNames = array_merge($jsServices, $jsFileNames);
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts($jsFileNames));
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('cvid');

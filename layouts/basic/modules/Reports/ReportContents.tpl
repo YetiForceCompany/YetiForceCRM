@@ -22,11 +22,11 @@
 			<table class=" table-bordered table-condensed marginBottom10px" width="100%">
 				<thead>
 					<tr class="blockHeader">
-						<th>{vtranslate('LBL_FIELD_NAMES',$MODULE)}</th>
-						<th>{vtranslate('LBL_SUM',$MODULE)}</th>
-						<th>{vtranslate('LBL_AVG',$MODULE)}</th>
-						<th>{vtranslate('LBL_MIN',$MODULE)}</th>
-						<th>{vtranslate('LBL_MAX',$MODULE)}</th>
+						<th>{\App\Language::translate('LBL_FIELD_NAMES',$MODULE)}</th>
+						<th>{\App\Language::translate('LBL_SUM',$MODULE)}</th>
+						<th>{\App\Language::translate('LBL_AVG',$MODULE)}</th>
+						<th>{\App\Language::translate('LBL_MIN',$MODULE)}</th>
+						<th>{\App\Language::translate('LBL_MAX',$MODULE)}</th>
 					</tr>
 				</thead>
 				{assign var=ESCAPE_CHAR value=array('__SUM','__AVG','__MIN','__MAX')}
@@ -38,7 +38,7 @@
 						{assign var=MODULE_NAME value=$FIELD_IMPLODE['0']}
 						{assign var=FIELD_LABEL value=""|implode:$FIELD_IMPLODE}
 						{assign var=FIELD_LABEL value=$FIELD_LABEL|replace:$MODULE_NAME:''}
-						<td>{vtranslate($MODULE_NAME,$MODULE_NAME)} - {vtranslate($FIELD_LABEL, $MODULE_NAME)}</td>
+						<td>{\App\Language::translate($MODULE_NAME,$MODULE_NAME)} - {\App\Language::translate($FIELD_LABEL, $MODULE_NAME)}</td>
 						{foreach from=$CALCULATION_FIELD item=CALCULATION_VALUE}
 							<td width="15%">{$CALCULATION_VALUE}</td>
 						{/foreach}
@@ -53,7 +53,7 @@
 				<thead>
 					<tr class="blockHeader">
 						{foreach from=$HEADERS item=HEADER key=NAME}
-							<th nowrap>{vtranslate($NAME,$MODULE)}</th>
+							<th nowrap>{\App\Language::translate($NAME,$MODULE)}</th>
 						{/foreach}
 					</tr>
 				</thead>
@@ -61,7 +61,7 @@
                 {assign var=GROUPBYFIELDS value=array_keys($REPORTRUN->getGroupingList($RECORD_ID))}
                 {assign var=GROUPBYFIELDSCOUNT value=count($GROUPBYFIELDS)}
                 {if $GROUPBYFIELDSCOUNT > 0}
-                    {assign var=FIELDNAMES value=array()}
+                    {assign var=FIELDNAMES value=[]}
                     {for $i=0 to $GROUPBYFIELDSCOUNT-1}
                         {assign var=FIELD value=explode(':',$GROUPBYFIELDS[$i])}
                         {assign var=FIELD_EXPLODE value=explode('__',$FIELD[2])}
@@ -71,14 +71,14 @@
                     {/for}
                     
                     {if $GROUPBYFIELDSCOUNT eq 1}
-                        {assign var=FIRST_FIELD value=vtranslate(trim($FIELDNAMES[0]), $MODULE)}
+                        {assign var=FIRST_FIELD value=\App\Language::translate(trim($FIELDNAMES[0]), $MODULE)}
                     {else if $GROUPBYFIELDSCOUNT eq 2}    
-                        {assign var=FIRST_FIELD value=vtranslate(trim($FIELDNAMES[0]),$MODULE)}
-                        {assign var=SECOND_FIELD value=vtranslate(trim($FIELDNAMES[1]),$MODULE)}
+                        {assign var=FIRST_FIELD value=\App\Language::translate(trim($FIELDNAMES[0]),$MODULE)}
+                        {assign var=SECOND_FIELD value=\App\Language::translate(trim($FIELDNAMES[1]),$MODULE)}
                     {else if $GROUPBYFIELDSCOUNT eq 3}    
-                        {assign var=FIRST_FIELD value=vtranslate(trim($FIELDNAMES[0]),$MODULE)}
-                        {assign var=SECOND_FIELD value=vtranslate(trim($FIELDNAMES[1]),$MODULE)}
-                        {assign var=THIRD_FIELD value=vtranslate(trim($FIELDNAMES[2]),$MODULE)}
+                        {assign var=FIRST_FIELD value=\App\Language::translate(trim($FIELDNAMES[0]),$MODULE)}
+                        {assign var=SECOND_FIELD value=\App\Language::translate(trim($FIELDNAMES[1]),$MODULE)}
+                        {assign var=THIRD_FIELD value=\App\Language::translate(trim($FIELDNAMES[2]),$MODULE)}
                     {/if}    
 
                     {assign var=FIRST_VALUE value=" "}
@@ -138,14 +138,14 @@
                 {/if}
 			</table>
 			{if $LIMIT_EXCEEDED}
-				<center>{vtranslate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="pull-right"><a href="#top" >{vtranslate('LBL_TOP',$MODULE)}</a></span></center>
+				<center>{\App\Language::translate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="pull-right"><a href="#top" >{\App\Language::translate('LBL_TOP',$MODULE)}</a></span></center>
 			{/if}
 		{else}
-			{vtranslate('LBL_NO_DATA_AVAILABLE',$MODULE)}
+			{\App\Language::translate('LBL_NO_DATA_AVAILABLE',$MODULE)}
 		{/if}
 		</div>
 	</div>
-	<br>	
+	<br />	
    </div>
 </div>
 {/strip}

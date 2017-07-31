@@ -3,7 +3,8 @@
 /**
  * UIType Category multipicklist
  * @package YetiForce.UIType
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -29,7 +30,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			return '';
 		}
 		$names = [];
-		$trees = explode(',', $tree);
+		$trees = array_filter(explode(',', $tree));
 		if (\App\Cache::has('TreeData', $template)) {
 			$treeData = \App\Cache::get('TreeData', $template);
 		} else {
@@ -59,5 +60,21 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			}
 		}
 		return implode(', ', $names);
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return string
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if ($value) {
+			$value = ",$value,";
+		} elseif (is_null($value)) {
+			$value = '';
+		}
+		return $value;
 	}
 }

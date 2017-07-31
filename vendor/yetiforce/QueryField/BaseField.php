@@ -6,7 +6,8 @@ use App\Log;
 /**
  * Base Query Field Class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseField
@@ -43,9 +44,9 @@ class BaseField
 	protected $operator;
 
 	/**
-	 * @var array Releted detail 
+	 * @var array Related detail 
 	 */
-	protected $releted = false;
+	protected $related = false;
 
 	/**
 	 * Constructor
@@ -97,12 +98,12 @@ class BaseField
 	}
 
 	/**
-	 * Set releted details
-	 * @param array $reletedInfo
+	 * Set related details
+	 * @param array $relatedInfo
 	 */
-	public function setReleted($reletedInfo)
+	public function setRelated($relatedInfo)
 	{
-		$this->releted = $reletedInfo;
+		$this->related = $relatedInfo;
 	}
 
 	/**
@@ -124,8 +125,8 @@ class BaseField
 			return $this->tableName;
 		}
 		$tableName = $this->fieldModel->getTableName();
-		if ($this->releted) {
-			$tableName .= $this->releted['sourceField'];
+		if ($this->related) {
+			$tableName .= $this->related['sourceField'];
 		}
 		return $this->tableName = $tableName;
 	}

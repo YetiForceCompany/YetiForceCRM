@@ -6,7 +6,8 @@ use vtlib\Functions;
 /**
  * Record basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -38,7 +39,8 @@ class Record
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					Cache::save('recordLabel', $id, $computeLabel[$id]);
+					$recordLabel = \vtlib\Functions::textLength(decode_html($computeLabel[$id]), 254, false);
+					Cache::save('recordLabel', $id, $recordLabel);
 				}
 			}
 		}
@@ -105,7 +107,7 @@ class Record
 				return $entityDisplay;
 			}
 			$table = $metainfo['tablename'];
-			$idColumn = $metainfo['entityidfield'];
+			$idColumn = $table . '.' . $metainfo['entityidfield'];
 			$columnsName = $metainfo['fieldnameArr'];
 			$columnsSearch = $metainfo['searchcolumnArr'];
 			$columns = array_unique(array_merge($columnsName, $columnsSearch));
@@ -117,9 +119,10 @@ class Record
 			$focus = \CRMEntity::getInstance($moduleName);
 			foreach (array_filter($columns) as $column) {
 				if (array_key_exists($column, $moduleInfoExtend)) {
-					$paramsCol[] = $column;
-					if ($moduleInfoExtend[$column]['tablename'] !== $table && !in_array($moduleInfoExtend[$column]['tablename'], $leftJoinTables)) {
-						$otherTable = $moduleInfoExtend[$column]['tablename'];
+					$otherTable = $moduleInfoExtend[$column]['tablename'];
+
+					$paramsCol[] = $otherTable . '.' . $column;
+					if ($otherTable !== $table && !in_array($otherTable, $leftJoinTables)) {
 						$leftJoinTables[] = $otherTable;
 						$focusTables = $focus->tab_name_index;
 						$query->leftJoin($otherTable, "$table.$focusTables[$table] = $otherTable.$focusTables[$otherTable]");
@@ -178,10 +181,10 @@ class Record
 			$db = \App\Db::getInstance();
 			$label = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['name']), 254, false);
 			$search = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['search']), 254, false);
-			if (empty($label)) {
+			if (!is_numeric($label) && empty($label)) {
 				$label = '';
 			}
-			if (empty($search)) {
+			if (!is_numeric($search) && empty($search)) {
 				$search = '';
 			}
 			if (!$insertMode) {
@@ -288,7 +291,7 @@ class Record
 		$parentId = false;
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
-				if ($fields = Field::getReletedFieldForModule($moduleName, $parentModule)) {
+				if ($fields = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
 					$entity = \CRMEntity::getInstance($moduleName);
 					$index = $entity->tab_name_index[$fields['tablename']];
 					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])

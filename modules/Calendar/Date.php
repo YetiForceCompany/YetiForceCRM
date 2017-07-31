@@ -93,7 +93,7 @@ class vt_DateTime
 			$month = $this->month;
 		if ($year === '')
 			$year = $this->year;
-		$day_array = array();
+		$day_array = [];
 
 		if ($index < 0 || $index > 23) {
 			throw new \Exception\AppException('hour is invalid');
@@ -115,7 +115,7 @@ class vt_DateTime
 	 */
 	public function getThisweekDaysbyIndex($index)
 	{
-		$week_array = array();
+		$week_array = [];
 		if ($index < 1 || $index > 7) {
 			throw new \Exception\AppException('day is invalid');
 		}
@@ -146,7 +146,7 @@ class vt_DateTime
 			$month = $this->month;
 		if ($year == '')
 			$year = $this->year;
-		$month_array = array();
+		$month_array = [];
 		$month_array['day'] = $day;
 		$month_array['month'] = $month;
 		$month_array['year'] = $year;
@@ -161,7 +161,7 @@ class vt_DateTime
 	 */
 	public function getThisyearMonthsbyIndex($index)
 	{
-		$year_array = array();
+		$year_array = [];
 		$year_array['day'] = 1;
 		if ($index < 0 || $index > 11) {
 			throw new \Exception\AppException('month is invalid');
@@ -178,7 +178,7 @@ class vt_DateTime
 	 */
 	public function getHourendtime()
 	{
-		$date_array = array();
+		$date_array = [];
 		$date_array['hour'] = $this->hour;
 		$date_array['min'] = 59;
 		$date_array['day'] = $this->day;
@@ -195,7 +195,7 @@ class vt_DateTime
 	 */
 	public function getDayendtime()
 	{
-		$date_array = array();
+		$date_array = [];
 		$date_array['hour'] = 23;
 		$date_array['min'] = 59;
 		$date_array['sec'] = 59;
@@ -212,7 +212,7 @@ class vt_DateTime
 	 */
 	public function getMonthendtime()
 	{
-		$date_array = array();
+		$date_array = [];
 		$date_array['hour'] = 23;
 		$date_array['min'] = 59;
 		$date_array['sec'] = 59;
@@ -299,7 +299,7 @@ class vt_DateTime
 	 */
 	public function setDateTime($ts)
 	{
-		global $mod_strings;
+		$modStrings = vglobal('mod_strings');
 		if (empty($ts)) {
 			$ts = time();
 		}
@@ -310,10 +310,10 @@ class vt_DateTime
 
 		list($this->minute, $this->hour, $this->z_hour, $this->day, $this->z_day, $this->daysinmonth, $this->dayofweek, $this->dayofyear, $is_leap, $this->week, $this->month, $this->z_month, $this->year, $this->offset, $this->tz, $this->second) = explode('::', $date_string);
 
-		$this->dayofweek_inshort = $mod_strings['cal_weekdays_short'][$this->dayofweek - 1];
-		$this->dayofweek_inlong = $mod_strings['cal_weekdays_long'][$this->dayofweek - 1];
-		$this->month_inshort = $mod_strings['cal_month_short'][$this->month];
-		$this->month_inlong = $mod_strings['cal_month_long'][$this->month];
+		$this->dayofweek_inshort = $modStrings['cal_weekdays_short'][$this->dayofweek - 1];
+		$this->dayofweek_inlong = $modStrings['cal_weekdays_long'][$this->dayofweek - 1];
+		$this->month_inshort = $modStrings['cal_month_short'][$this->month];
+		$this->month_inlong = $modStrings['cal_month_long'][$this->month];
 
 		$this->daysinyear = 365;
 
@@ -327,7 +327,6 @@ class vt_DateTime
 	 */
 	public function getDateTime()
 	{
-		global $mod_strings;
 		$hour = 0;
 		$minute = 0;
 		$second = 0;
@@ -506,7 +505,7 @@ class vt_DateTime
 	 */
 	public function get_date_str()
 	{
-		$array = Array();
+		$array = [];
 		if (isset($this->hour) && $this->hour != '') {
 			array_push($array, "hour=" . $this->hour);
 		}
@@ -539,7 +538,7 @@ class vt_DateTime
 		$day = $index;
 		$month = $this->month;
 		$year = $this->year;
-		$month_array = array();
+		$month_array = [];
 		$month_array['day'] = $day;
 		$month_array['month'] = $month;
 		$month_array['year'] = $year;

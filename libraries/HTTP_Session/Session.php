@@ -6,7 +6,7 @@
  *
  * Provides access to session-state values as well as session-level
  * settings and lifetime management methods.
- * Based on the standart PHP session handling mechanism
+ * Based on the standard PHP session handling mechanism
  * it provides for you more advanced features such as
  * database container, idle and expire timeouts, etc.
  *
@@ -40,7 +40,7 @@ define("HTTP_SESSION_CONTINUED", 2);
  *
  * Provides access to session-state values as well as session-level
  * settings and lifetime management methods.
- * Based on the standart PHP session handling mechanism
+ * Based on the standard PHP session handling mechanism
  * it provides for you more advanced features such as
  * database container, idle and expire timeouts, etc.
  *
@@ -646,7 +646,7 @@ class HTTP_Session
 	{
 		$local = md5(self::localName());
 		if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
-			$_SESSION[$local] = array();
+			$_SESSION[$local] = [];
 		}
 		if (!isset($_SESSION[$local][$name]) && isset($default)) {
 			$_SESSION[$local][$name] = $default;
@@ -669,7 +669,7 @@ class HTTP_Session
 	{
 		$local = md5(self::localName());
 		if (!isset($_SESSION[$local]) || !is_array($_SESSION[$local])) {
-			$_SESSION[$local] = array();
+			$_SESSION[$local] = [];
 		}
 		$return = (isset($_SESSION[$local][$name])) ? $_SESSION[$local][$name] : null;
 

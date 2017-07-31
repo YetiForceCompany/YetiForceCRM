@@ -1,24 +1,29 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Announcements french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'Announcements' => 'Annonces',
 	'SINGLE_Announcements' => 'Annonce',
 	//BLOCKS
-	'LBL_ANNOUNCEMENTS_INFORMATION' => 'Information standard',
+	'LBL_ANNOUNCEMENTS_INFORMATION' => 'Détails annonces',
 	//FIELDS
 	'LBL_SUBJECT' => 'Sujet',
 	'LBL_NUMBER' => 'Nombre',
 	'FL_STATUS' => 'Status',
-	'FL_INTERVAL' => 'Reminder time',
+	'FL_INTERVAL' => 'Temps de rappel',
 	// Picklist values
-	'PLL_DRAFT' => 'Draft',
-	'PLL_FOR_ACCEPTANCE' => 'For approval',
-	'PLL_PUBLISHED' => 'Published',
-	'PLL_ARCHIVES' => 'Archived',
+	'PLL_DRAFT' => 'Brouillon',
+	'PLL_FOR_ACCEPTANCE' => 'Pour approbation',
+	'PLL_PUBLISHED' => 'Publié',
+	'PLL_ARCHIVES' => 'Archivé',
 	// Alert
-	'LBL_REMIND_ME_LATER' => 'Remind me later',
-	'LBL_MARK_AS_READ' => 'Mark as read',
+	'LBL_REMIND_ME_LATER' => 'Me rappeler plus tard',
+	'LBL_MARK_AS_READ' => 'Marquer comme lu',
 	// Others
-	'LBL_ACCEPT_ANNOUNCEMENT' => 'Was accepted?',
-	'LBL_DATE' => 'Read on',
+	'LBL_ACCEPT_ANNOUNCEMENT' => 'A été acceptée ?',
+	'LBL_DATE' => 'Date de lecture',
 ];

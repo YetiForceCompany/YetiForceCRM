@@ -69,7 +69,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		$cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
 		$cont_res = $adb->pquery($cont_qry, array($return_id));
 		$noofrows = $adb->num_rows($cont_res);
-		$cont_id = array();
+		$cont_id = [];
 		if ($noofrows > 0) {
 			for ($i = 0; $i < $noofrows; $i++) {
 				$cont_id[] = $adb->query_result($cont_res, $i, "contactid");
@@ -90,7 +90,7 @@ class Events_Record_Model extends Calendar_Record_Model
 		}
 
 		$cont_name = trim($cont_name, ', ');
-		$mail_data = Array();
+		$mail_data = [];
 		$mail_data['user_id'] = $this->get('assigned_user_id');
 		$mail_data['subject'] = $this->get('subject');
 		$moduleName = $this->getModuleName();
@@ -104,12 +104,12 @@ class Events_Record_Model extends Calendar_Record_Model
 		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
 		$mail_data['mode'] = $this->get('mode');
 
-		$value = getaddEventPopupTime(AppRequest::get('time_start'), AppRequest::get('time_end'), '24');
+		$value = getaddEventPopupTime(\App\Request::_get('time_start'), \App\Request::_get('time_end'), '24');
 		$start_hour = $value['starthour'] . ':' . $value['startmin'] . '' . $value['startfmt'];
-		if (AppRequest::get('activity_mode') != 'Task')
+		if (\App\Request::_get('activity_mode') != 'Task')
 			$end_hour = $value['endhour'] . ':' . $value['endmin'] . '' . $value['endfmt'];
-		$startDate = new DateTimeField(AppRequest::get('date_start') . ' ' . $start_hour);
-		$endDate = new DateTimeField(AppRequest::get('due_date') . ' ' . $end_hour);
+		$startDate = new DateTimeField(\App\Request::_get('date_start') . ' ' . $start_hour);
+		$endDate = new DateTimeField(\App\Request::_get('due_date') . ' ' . $end_hour);
 		$mail_data['st_date_time'] = $startDate->getDBInsertDateTimeValue();
 		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
 		$mail_data['location'] = $this->get('location');
@@ -118,9 +118,9 @@ class Events_Record_Model extends Calendar_Record_Model
 
 	/**
 	 * Add relation
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function addRelationOperation(Vtiger_Request $request)
+	public function addRelationOperation(\App\Request $request)
 	{
 		if ($request->get('relationOperation')) {
 			$parentModuleName = $request->get('sourceModule');

@@ -17,36 +17,33 @@ class Users_Login_View extends Vtiger_View_Controller
 		return false;
 	}
 
-	public function checkPermission(Vtiger_Request $request)
+	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
 		$selectedModule = $request->getModule();
-		$companyDetails = App\Company::getInstanceById();
-		$companyLogo = $companyDetails->getLogo();
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
 		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
@@ -60,7 +57,7 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer->view('Login.tpl', 'Users');
 	}
 
-	public function getHeaderCss(Vtiger_Request $request)
+	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 

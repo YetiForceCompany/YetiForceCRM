@@ -20,26 +20,34 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @param \App\Request $request
+	 * @return Vtiger_JsScript_Model[]
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'~libraries/jquery/flot/jquery.flot.min.js',
 			'~libraries/jquery/flot/jquery.flot.resize.js',
 			'~libraries/jquery/flot/jquery.flot.stack.min.js',
+			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',
 		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	public function showCharts(Vtiger_Request $request)
+	/**
+	 * Function to get the list of Css models to be included
+	 * @param \App\Request $request
+	 * @return Vtiger_CssScript_Model[]
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$cssFileNames = array(
+			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
+		);
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
+	}
+
+	public function showCharts(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

@@ -18,7 +18,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showDocumentRelations');
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		$recordId = $request->get('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
@@ -45,12 +45,12 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(Vtiger_Request $request)
+	public function showModuleBasicView(\App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	public function showDocumentRelations(Vtiger_Request $request)
+	public function showDocumentRelations(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

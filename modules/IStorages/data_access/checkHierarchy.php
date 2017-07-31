@@ -3,7 +3,8 @@
 /**
  * Prevents setting loop of parent storages
  * @package YetiForce.DataAccess
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 class DataAccess_checkHierarchy
@@ -32,8 +33,8 @@ class DataAccess_checkHierarchy
 				'save_record' => false,
 				'type' => 0,
 				'info' => [
-					'title' => vtranslate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
-					'text' => vtranslate('LBL_PARENT_IS_CHILD', $moduleName),
+					'title' => \App\Language::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
+					'text' => \App\Language::translate('LBL_PARENT_IS_CHILD', $moduleName),
 					'type' => 'error'
 				]
 			];

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_Chart_Model extends Vtiger_Base_Model
+class Reports_Chart_Model extends \App\Base
 {
 
 	public static function getInstanceById($reportModel)
@@ -72,7 +72,7 @@ class Reports_Chart_Model extends Vtiger_Base_Model
 	}
 }
 
-abstract class Base_Chart extends Vtiger_Base_Model
+abstract class Base_Chart extends \App\Base
 {
 
 	public function __construct($parent)
@@ -295,7 +295,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 	{
 		$columnLabelInfo = explode('__', $column);
 		$columnLabelInfo = array_diff($columnLabelInfo, array('SUM', 'MIN', 'MAX', 'AVG')); // added to remove aggregate functions from the graph labels
-		return vtranslate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
+		return \App\Language::translate(implode(' ', array_slice($columnLabelInfo, 1)), $columnLabelInfo[0]);
 	}
 
 	/**
@@ -428,7 +428,7 @@ abstract class Base_Chart extends Vtiger_Base_Model
 		}
 
 		//Step 3. Convert advanced filter format to list view search format
-		$listSearchParams = array();
+		$listSearchParams = [];
 		$i = 0;
 		if ($filter) {
 			foreach ($filter as $index => $filterInfo) {
@@ -463,7 +463,7 @@ class PieChart extends Base_Chart
 		$db = PearDatabase::getInstance();
 		$values = [];
 		$chartSQL = $this->getQuery();
-		$result = $db->pquery($chartSQL, array());
+		$result = $db->pquery($chartSQL, []);
 		$rows = $db->num_rows($result);
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
@@ -508,18 +508,18 @@ class PieChart extends Base_Chart
 			//translate picklist and multiselect picklist values
 			if ($legendField) {
 				$fieldDataType = $legendField->getFieldDataType();
-				if ($fieldDataType == 'picklist') {
-					$label = vtranslate($row[$legend], $legendField->getModuleName());
-				} else if ($fieldDataType == 'multipicklist') {
+				if ($fieldDataType === 'picklist') {
+					$label = \App\Language::translate($row[$legend], $legendField->getModuleName());
+				} else if ($fieldDataType === 'multipicklist') {
 					$multiPicklistValue = $row[$legend];
 					$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 					foreach ($multiPicklistValues as $multiPicklistValue) {
-						$labelList[] = vtranslate($multiPicklistValue, $legendField->getModuleName());
+						$labelList[] = \App\Language::translate($multiPicklistValue, $legendField->getModuleName());
 					}
 					$label = implode(',', $labelList);
-				} else if ($fieldDataType == 'date') {
+				} else if ($fieldDataType === 'date') {
 					$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
-				} else if ($fieldDataType == 'datetime') {
+				} else if ($fieldDataType === 'datetime') {
 					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
@@ -548,9 +548,9 @@ class VerticalbarChart extends Base_Chart
 		$db = PearDatabase::getInstance();
 		$chartSQL = $this->getQuery();
 
-		$result = $db->pquery($chartSQL, array());
+		$result = $db->pquery($chartSQL, []);
 		$rows = $db->num_rows($result);
-		$values = array();
+		$values = [];
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 
@@ -563,7 +563,7 @@ class VerticalbarChart extends Base_Chart
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
-		$links = array();
+		$links = [];
 
 		for ($i = 0; $i < $rows; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -586,18 +586,18 @@ class VerticalbarChart extends Base_Chart
 			if ($groupByColumnsByFieldModel) {
 				foreach ($groupByColumnsByFieldModel as $gFieldModel) {
 					$fieldDataType = $gFieldModel->getFieldDataType();
-					if ($fieldDataType == 'picklist') {
-						$label = vtranslate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
-					} else if ($fieldDataType == 'multipicklist') {
+					if ($fieldDataType === 'picklist') {
+						$label = \App\Language::translate($row[$gFieldModel->get('reportlabel')], $gFieldModel->getModuleName());
+					} else if ($fieldDataType === 'multipicklist') {
 						$multiPicklistValue = $row[$gFieldModel->get('reportlabel')];
 						$multiPicklistValues = explode(' |##| ', $multiPicklistValue);
 						foreach ($multiPicklistValues as $multiPicklistValue) {
-							$labelList[] = vtranslate($multiPicklistValue, $gFieldModel->getModuleName());
+							$labelList[] = \App\Language::translate($multiPicklistValue, $gFieldModel->getModuleName());
 						}
 						$label = implode(',', $labelList);
-					} else if ($fieldDataType == 'date') {
+					} else if ($fieldDataType === 'date') {
 						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
-					} else if ($fieldDataType == 'datetime') {
+					} else if ($fieldDataType === 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
 						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
@@ -625,9 +625,9 @@ class VerticalbarChart extends Base_Chart
 
 	public function getDataLabels()
 	{
-		$dataLabels = array();
+		$dataLabels = [];
 		if ($this->isRecordCount()) {
-			$dataLabels[] = vtranslate('LBL_RECORD_COUNT', 'Reports');
+			$dataLabels[] = \App\Language::translate('LBL_RECORD_COUNT', 'Reports');
 		}
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if ($queryColumnsByFieldModel) {
@@ -639,7 +639,7 @@ class VerticalbarChart extends Base_Chart
 				$aggregateFunction = $reportColumnInfo[5];
 				$aggregateFunctionLabel = $this->getAggregateFunctionLabel($aggregateFunction);
 
-				$dataLabels[] = vtranslate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
+				$dataLabels[] = \App\Language::translate($aggregateFunctionLabel, 'Reports', $fieldTranslatedLabel);
 			}
 		}
 		return $dataLabels;

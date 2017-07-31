@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     <div class="picklistSearchField">
@@ -27,7 +27,7 @@
 					{/if}
 				{/foreach}
 			{else}
-				<optgroup label="{vtranslate('LBL_USERS')}">
+				<optgroup label="{\App\Language::translate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
 						<option value="{$OWNER_ID}" data-picklistvalue= '{$OWNER_NAME}' {if in_array($OWNER_ID,$SEARCH_VALUES)} selected {/if}
 								data-userId="{$CURRENT_USER_ID}">
@@ -36,7 +36,7 @@
 					{/foreach}
 				</optgroup>
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
-					<optgroup label="{vtranslate('LBL_GROUPS')}">
+					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim($OWNER_ID),$SEARCH_VALUES)} selected {/if}>
 								{$OWNER_NAME}

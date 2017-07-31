@@ -1,29 +1,19 @@
-{*<!--
-/*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- *************************************************************************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			{vtranslate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	{if $MANDATORY_FIELDS}
 		<div class="alert alert-warning">
-			{vtranslate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
+			{\App\Language::translate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
 		</div>
-		<br>	
+		<br />	
 		<div class="pull-right">
-			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
+			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_BACK', $MODULE)}</a>
 		</div>
 		<div class="clearfix"></div>
 	{else}
@@ -41,11 +31,11 @@
 					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE}
 				</div>
 			</div>
-			<br>	
+			<br />	
 			<div class="">
 				<div class="pull-right">
-					<a class="saveLink btn btn-success" ><strong>{vtranslate('LBL_SAVE', $MODULE)}</strong></a>
-					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{vtranslate('LBL_BACK', $MODULE)}</a>
+					<a class="saveLink btn btn-success" ><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></a>
+					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_BACK', $MODULE)}</a>
 				</div>
 				<div class="clearfix"></div>
 			</div>

@@ -52,15 +52,12 @@ class VTCreateEventTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$currentUser = vglobal('current_user');
 		$userId = $recordModel->get('assigned_user_id');
 		$adminUser = $this->getAdmin();
 		if ($userId === null) {
 			$userId = $adminUser;
 		}
 		$moduleName = $recordModel->getModuleName();
-
-
 		$startDate = $this->calculateDate($recordModel, $this->startDays, $this->startDirection, $this->startDatefield);
 		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
@@ -85,11 +82,11 @@ class VTCreateEventTask extends VTTask
 				}
 			}
 		}
-
+		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$fields = array(
 			'activitytype' => $this->eventType,
-			'description' => $this->description,
-			'subject' => $this->eventName,
+			'description' => $textParser->setContent($this->description)->parse()->getContent(),
+			'subject' => $textParser->setContent($this->eventName)->parse()->getContent(),
 			'taskpriority' => $this->priority,
 			'activitystatus' => $this->status,
 			'assigned_user_id' => $userId,
@@ -109,8 +106,6 @@ class VTCreateEventTask extends VTTask
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 		$newRecordModel->save();
 		relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
-		$currentUser = vglobal('current_user');
-		$currentUser = $this->originalUser;
 	}
 
 	private function calculateDate($recordModel, $days, $direction, $datefield)
@@ -144,7 +139,7 @@ class VTCreateEventTask extends VTTask
 
 	static function conv12to24hour($timeStr)
 	{
-		$arr = array();
+		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
 		if ($arr[3] == 'am') {
 			$hours = ((int) $arr[1]) % 12;

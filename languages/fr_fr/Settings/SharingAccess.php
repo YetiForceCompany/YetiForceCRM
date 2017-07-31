@@ -8,6 +8,9 @@
  * All Rights Reserved.
  *************************************************************************************/
 $languageStrings = [
+	'Roles' => 'Rôle',
+	'RoleAndSubordinates' => 'Rôle et subordoné',
+	'Groups' => 'Groupe',
 	'Sharing Rules' => 'Règles de partage',
 	'SharingAccess' => 'Règles de partage',
 	'Accounts' => 'Organisations et contacts',
@@ -36,8 +39,8 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
-	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Custom sharing rule saved successfully',
-	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Opportunities, Tickets, Quotes & Invoice access must be set to private when the Account access is set to private',
-	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'New sharing rules applied successfully',
-	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Select any other accessing user',
+	'JS_CUSTOM_RULE_SAVED_SUCCESSFULLY' => 'Règle de partage personnalisée enregistrée avec succès',
+	'JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE' => 'Les opportunités, les tickets, les devis et l\'accès aux factures doivent être définis sur privé lorsque l\'accès au compte est défini sur privé',
+	'JS_NEW_SHARING_RULES_APPLIED_SUCCESSFULLY' => 'Nouvelles règles de partage appliquées avec succès',
+	'JS_SELECT_ANY_OTHER_ACCESSING_USER' => 'Sélectionner un autre utilisateur',
 ];

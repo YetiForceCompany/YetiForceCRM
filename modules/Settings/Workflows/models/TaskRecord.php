@@ -99,7 +99,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 
 		$tm = new VTTaskManager($db);
 		$tasks = $tm->getTasksForWorkflow($workflowModel->getId());
-		$taskModels = array();
+		$taskModels = [];
 		foreach ($tasks as $task) {
 			if (!$active || $task->active == self::TASK_STATUS_ACTIVE) {
 				$taskModels[$task->id] = self::getInstanceFromTaskObject($task, $workflowModel, $tm);

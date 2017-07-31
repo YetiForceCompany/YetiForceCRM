@@ -3,7 +3,8 @@
 /**
  * SaveAjax Action Class for MappedFields Settings
  * @package YetiForce.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
@@ -17,7 +18,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$this->exposeMethod('import');
 	}
 
-	public function step1(Vtiger_Request $request)
+	public function step1(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$params = $request->get('param');
@@ -32,7 +33,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			$moduleInstance->getRecord()->set($field, $params[$field]);
-			if ($field == 'conditions') {
+			if ($field === 'conditions') {
 				$moduleInstance->transformAdvanceFilterToWorkFlowFilter();
 			}
 		}
@@ -43,11 +44,11 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => vtranslate($message, $qualifiedModuleName)]);
+		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message, $qualifiedModuleName)]);
 		$response->emit();
 	}
 
-	public function step2(Vtiger_Request $request)
+	public function step2(\App\Request $request)
 	{
 		$params = $request->get('param');
 		$recordId = $params['record'];
@@ -62,7 +63,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$response->emit();
 	}
 
-	public function import(Vtiger_Request $request)
+	public function import(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();

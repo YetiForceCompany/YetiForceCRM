@@ -26,10 +26,10 @@
 						</div>
 						<div class="col-xs-9 col-md-9">
 							<div id="myPrefHeading" class="col-md-12">
-								<h3>{vtranslate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
+								<h3>{\App\Language::translate('LBL_MY_PREFERENCES', $MODULE_NAME)} </h3>
 							</div>
 							<div class="col-md-12">
-								{vtranslate('LBL_USERDETAIL_INFO', $MODULE_NAME)}&nbsp;&nbsp;"<strong>{$RECORD->getName()}</strong>"
+								{\App\Language::translate('LBL_USERDETAIL_INFO', $MODULE_NAME)}&nbsp;&nbsp;"<strong>{$RECORD->getName()}</strong>"
 							</div>
 						</div>
 					</span>
@@ -45,19 +45,19 @@
                                             {else}
                                                 onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
                                             {/if}>
-                                        <strong>{vtranslate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
+                                        <strong>{\App\Language::translate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
                                     </button>
                                 </div>
                             {/foreach}
 							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 								<span class="btn-group">
 									<button class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-										<strong>{vtranslate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
+										<strong>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
 									</button>
 									<ul class="dropdown-menu pull-right">
 										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
 											<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
-												<a href={$DETAIL_VIEW_LINK->getUrl()} >{vtranslate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+												<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 											</li>
 										{/foreach}
 									</ul>

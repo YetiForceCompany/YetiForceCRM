@@ -39,7 +39,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		$db = PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
-		$idColName = $fieldName . 'id';
 		$query = 'SELECT %s';
 		if ($intersectionMode) {
 			$query .= ',count(roleid) as rolecount ';
@@ -51,7 +50,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			$query .= ' GROUP BY picklistvalueid';
 		}
 		$result = $db->pquery($query, $roleIdList);
-		$pickListValues = array();
+		$pickListValues = [];
 		$num_rows = $db->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
 			$rowData = $db->query_result_rowdata($result, $i);

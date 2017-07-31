@@ -1,10 +1,18 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * Github french translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
-	'LBL_ID_CLIENT' => 'ID Client',
+	'open' => 'Ouvert',
+	'closed' => 'Fermer',
+	'LBL_ADD_ISSUES' => 'Ajouter',
+	'LBL_ID_CLIENT' => 'Identification client',
 	'LBL_TOKEN' => 'Jeton',
 	'LBL_NOT_AUTHORIZED' => 'Autorisation requise pour accéder à l\'ensemble des fonctionnalités.',
-	'LBL_TITLE' => 'Titre', 
+	'LBL_TITLE' => 'Titre',
 	'LBL_AUTHOR' => 'Auteur',
 	'LBL_TITLE_ADD_ISSUE' => 'Ajouter',
 	'LBL_ADD_ISSUE' => 'Nouvelle question',

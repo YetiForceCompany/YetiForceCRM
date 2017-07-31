@@ -1,9 +1,10 @@
 <?php
 
 /**
- * 
- * @package YetiForce.ServiceContracts
- * @license licenses/License.html
+ * ServiceContracts CRMEntity class
+ * @package YetiForce.CRMEntity
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts extends CRMEntity
@@ -11,7 +12,7 @@ class ServiceContracts extends CRMEntity
 
 	public $table_name = 'vtiger_servicecontracts';
 	public $table_index = 'servicecontractsid';
-	public $column_fields = Array();
+	public $column_fields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
@@ -43,17 +44,21 @@ class ServiceContracts extends CRMEntity
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
 		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Contract No' => Array('servicecontracts', 'contract_no'),
+		'Related to' => Array('servicecontracts', 'sc_related_to'),
+		'Status' => Array('servicecontracts', 'contract_status'),
 		'Used Units' => Array('servicecontracts', 'used_units'),
-		'Total Units' => Array('servicecontracts', 'total_units')
+		'Total Units' => Array('servicecontracts', 'total_units'),
+		'Contract No' => Array('servicecontracts', 'contract_no'),
 	);
 	public $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-		'Contract No' => 'contract_no',
+		'Related To' => 'sc_related_to',
+		'Status' => 'contract_status',
 		'Used Units' => 'used_units',
-		'Total Units' => 'total_units'
+		'Total Units' => 'total_units',
+		'Contract No' => 'contract_no',
 	);
 
 	/**
@@ -67,18 +72,28 @@ class ServiceContracts extends CRMEntity
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Subject' => Array('servicecontracts', 'subject'),
-		'Contract No' => Array('servicecontracts', 'contract_no'),
-		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
+		'Status' => Array('servicecontracts', 'contract_status'),
+		'Due Date' => Array('servicecontracts', 'due_date'),
+		'Start Date' => Array('servicecontracts', 'start_date'),
+		'Type' => Array('servicecontracts', 'contract_type'),
+		'Related to' => Array('servicecontracts', 'sc_related_to'),
 		'Used Units' => Array('servicecontracts', 'used_units'),
-		'Total Units' => Array('servicecontracts', 'total_units')
+		'Total Units' => Array('servicecontracts', 'total_units'),
+		'Assigned To' => Array('crmentity', 'smownerid'),
+		'Contract No' => Array('servicecontracts', 'contract_no'),
 	);
 	public $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Subject' => 'subject',
-		'Contract No' => 'contract_no',
-		'Assigned To' => 'assigned_user_id',
+		'Status' => 'contract_status',
+		'Due Date' => 'due_date',
+		'Start Date' => 'start_date',
+		'Type' => 'contract_type',
+		'Related To' => 'sc_related_to',
 		'Used Units' => 'used_units',
-		'Total Units' => 'total_units'
+		'Total Units' => 'total_units',
+		'Assigned To' => 'assigned_user_id',
+		'Contract No' => 'contract_no',
 	);
 	// For Popup window record selection
 	public $popup_fields = Array('subject');
@@ -126,7 +141,6 @@ class ServiceContracts extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -265,7 +279,6 @@ class ServiceContracts extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -326,7 +339,7 @@ class ServiceContracts extends CRMEntity
 
 		$query = $select_clause . $from_clause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
 
@@ -566,7 +579,7 @@ class ServiceContracts extends CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		global $currentModule;
+		$currentModule = vglobal('currentModule');
 		if ($relatedName == 'getManyToMany') {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {

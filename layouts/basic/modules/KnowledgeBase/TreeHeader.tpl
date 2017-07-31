@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="widget_header row marginBottom10px">
 		<div class="col-sm-8 col-xs-12">
@@ -9,16 +9,16 @@
 		</div>
 		<div class="col-sm-4 col-xs-12">
 			<div class="pull-right">
-				<button class="btn btn-success addRecord">{vtranslate('LBL_ADD', $MODULE_NAME)}</button>
+				<button class="btn btn-success addRecord">{\App\Language::translate('LBL_ADD', $MODULE_NAME)}</button>
 			</div>
 		</div>
 	</div>
 	<div class="col-sm-3 col-xs-12 panelTree">
 		<div class="col-xs-12 treeContainer paddingLRZero">
 			<div class="input-group paddingBottom10">
-				<input id="valueSearchTree" type="text" class="form-control" placeholder="{vtranslate('LBL_SEARCH', $MODULE_NAME)} ..." >
+				<input id="valueSearchTree" type="text" class="form-control" placeholder="{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)} ..." >
 				<span class="input-group-btn">
-					<button id="btnSearchTree" class="btn btn-danger" type="button">{vtranslate('LBL_SEARCH', $MODULE_NAME)}</button>
+					<button id="btnSearchTree" class="btn btn-danger" type="button">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</button>
 				</span>
 			</div>
 			<div id="treeContent">

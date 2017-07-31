@@ -13,10 +13,10 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 
 	/**
 	 * Function to get the list of Script models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <Array> - List of Vtiger_JsScript_Model instances
 	 */
-	public function getFooterScripts(Vtiger_Request $request)
+	public function getFooterScripts(\App\Request $request)
 	{
 
 		$jsFileNames = array(
@@ -31,7 +31,7 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 		return $headerScriptInstances;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);

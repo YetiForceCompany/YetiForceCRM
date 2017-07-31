@@ -4,7 +4,8 @@ namespace App\TextParser;
 /**
  * Oustanding deadlines class
  * @package YetiForce.TextParser
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OverdueDeadlines extends Base
@@ -32,16 +33,16 @@ class OverdueDeadlines extends Base
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFields();
 		$currentUserModel = \App\User::getCurrentUserModel();
-		$adminUser = !$currentUserModel->isAdmin() ? \App\User::getActiveAdminId() : $currentUserModel->getUserId();
+		$adminUser = !$currentUserModel->isAdmin() ? \App\User::getActiveAdminId() : $currentUserModel->getId();
 
 		$queryGenerator = new \App\QueryGenerator($moduleName, $adminUser);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addNativeCondition(['vtiger_activity.status' => 'PLL_OVERDUE']);
-		$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $currentUserModel->getUserId()]);
+		$queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $currentUserModel->getId()]);
 		$query = $queryGenerator->createQuery();
 		$query->limit(500);
 		$dataReader = $query->createCommand()->query();
-		$html = '<br><style>' .
+		$html = '<br /><style>' .
 			'.table {width: 100%; border-collapse: collapse;}' .
 			'.table thead th {border-bottom: 1px solid grey;}' .
 			'.table tbody tr {border-bottom: 1px solid grey}' .

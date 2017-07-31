@@ -11,8 +11,8 @@
 -->*}
 {strip}
 	<div class="modal-header">
-		<button data-dismiss="modal" class="close" title="{vtranslate('LBL_CLOSE')}">&times;</button>
-		<h3 class="modal-title">{vtranslate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}</h3>
+		<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
+		<h3 class="modal-title">{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}</h3>
 	</div>
 	<div class="recordNamesList">
 		<div class="row">
@@ -23,7 +23,7 @@
 							<a href="#" class="rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>
 						</li>
 					{foreachelse}
-						<li class="text-center">{vtranslate('LBL_NO_RECORDS', $MODULE)}</li>
+						<li class="text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
 					{/foreach}
 				</ul>
 			</div>

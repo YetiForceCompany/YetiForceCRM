@@ -26,8 +26,6 @@ class VTEntityMethodTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$adb = PearDatabase::getInstance();
-		$emm = new VTEntityMethodManager($adb);
-		$emm->executeMethod($recordModel, $this->methodName);
+		(new VTEntityMethodManager())->executeMethod($recordModel, $this->methodName);
 	}
 }

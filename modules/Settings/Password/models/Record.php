@@ -1,14 +1,11 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * Settings Password save model class
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
 
@@ -19,7 +16,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			$query->where(['type' => $type]);
 		}
 		$dataReader = $query->createCommand()->query();
-		while($row = $dataReader->read()) {
+		while ($row = $dataReader->read()) {
 			$resp[$row['type']] = $row['val'];
 		}
 		return $resp;
@@ -51,22 +48,22 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		$conf = self::getPassDetail();
 		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
-			return vtranslate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . vtranslate("characters", $moduleName);
+			return \App\Language::translate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate("characters", $moduleName);
 		}
 		if (strlen($pass) < $conf['min_length']) {
-			return vtranslate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . vtranslate("characters", $moduleName);
+			return \App\Language::translate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate("characters", $moduleName);
 		}
 		if ($conf['numbers'] == 'true' && !preg_match("#[0-9]+#", $pass)) {
-			return vtranslate("Password should contain numbers", $moduleName);
+			return \App\Language::translate("Password should contain numbers", $moduleName);
 		}
 		if ($conf['big_letters'] == 'true' && !preg_match("#[A-Z]+#", $pass)) {
-			return vtranslate("Uppercase letters from A to Z", $moduleName);
+			return \App\Language::translate("Uppercase letters from A to Z", $moduleName);
 		}
 		if ($conf['small_letters'] == 'true' && !preg_match("#[a-z]+#", $pass)) {
-			return vtranslate("Lowercase letters a to z", $moduleName);
+			return \App\Language::translate("Lowercase letters a to z", $moduleName);
 		}
 		if ($conf['special'] == 'true' && !preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $pass)) {
-			return vtranslate("Password should contain special characters", $moduleName);
+			return \App\Language::translate("Password should contain special characters", $moduleName);
 		}
 		return false;
 	}

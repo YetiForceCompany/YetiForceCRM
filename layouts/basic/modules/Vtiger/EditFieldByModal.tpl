@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{assign var=ID value=$RECORD->get('id')}
 	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
@@ -7,14 +7,14 @@
 	<input type="hidden" class="moduleBasic" id="moduleBasic" value="{$RECORD->getModuleName()}">
 	<div class="modal-header">
 		<div class="col-xs-10">
-			<h3 class="modal-title">{vtranslate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}: {vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
+			<h3 class="modal-title">{\App\Language::translate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}: {\App\Language::translate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} </h3>
 		</div>
 		<div class="pull-right btn-group">
 			{if $RECORD->isEditable()}
-				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
+				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="glyphicon glyphicon-pencil summaryViewEdit"></span></a>
 			{/if}
 			{if $RECORD->isViewable()}
-				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{vtranslate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
+				<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default" title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}"><span  class="glyphicon glyphicon-th-list summaryViewEdit"></span></a>
 			{/if}
 		</div>
 		<div class="clearfix"></div>
@@ -34,9 +34,9 @@
 						{assign var=CONVERT value=false}
 						{assign var=VALUE value={include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{vtranslate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
+							<label class="col-sm-4 control-label">{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
 								{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}
-									<a href="#" class="helpInfoPopover" title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{vtranslate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
+									<a href="#" class="helpInfoPopover" title="{\App\Language::translate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{\App\Language::translate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
 									{assign var=CONVERT value=true}
 								{/if}
 							:</label>
@@ -57,7 +57,7 @@
 			{if $RECORD->isViewable()}
 				<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
 					<button type="button" class="btn btn-primary dropdown-toggle{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{vtranslate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
+						{\App\Language::translate($BASIC_FIELD_MODEL->get('label'),$MODULE_NAME)} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						{foreach  key=KEY item=ITEM from=$PICKLIST}
@@ -70,12 +70,12 @@
 			{foreach from=$RESTRICTS_ITEM item=CLASS key=ITEM}
 				{if $CONDITION_TO_RESTRICTS && array_key_exists($RECORD->get($FIELD_TO_EDIT), $PICKLIST) && $RECORD->get($FIELD_TO_EDIT) neq $ITEM}
 					<div class="btn-group fieldButton" data-name="{$FIELD_TO_EDIT}">
-						<button type="button" class="btn {$CLASS} editState{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-state='{$ITEM}' data-id='{$ID}'>{vtranslate($ITEM, $MODULE_NAME)}</button>
+						<button type="button" class="btn {$CLASS} editState{if $BASIC_FIELD_MODEL->isEditableReadOnly()} disabled{/if}" data-state='{$ITEM}' data-id='{$ID}'>{\App\Language::translate($ITEM, $MODULE_NAME)}</button>
 					</div>
 				{/if}
 			{/foreach}
 		</div>
 	</div>
-	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{vtranslate('LBL_CLOSE', $MODULE_NAME)}</button>
+	<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 </div>
 {/strip}

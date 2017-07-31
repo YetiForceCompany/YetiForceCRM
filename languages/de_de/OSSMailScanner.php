@@ -1,6 +1,12 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * OSSMailScanner german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
+	'show_identities' => 'zeige Identitäten',
 	'OSSMailScanner' => 'E-Mail Scanner',
 	'OSSMailScanner_manual' => 'E-Mail Scanner',
 	'E-mail Accounts' => 'E-Mail Konten',

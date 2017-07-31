@@ -1,5 +1,5 @@
-{strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{strip} 
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -32,7 +32,7 @@
 							<div class="col-sm-10">
 								<select class="select2 form-control" name="industry">
 									{foreach from=$INDUSTRY_LIST item=ITEM}
-										<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
+										<option value="{$ITEM}"  {if $RECORD_MODEL->get('industry') == $ITEM}selected="true"{/if}>{App\Language::translate($ITEM)}</option>
 									{/foreach}
 								</select>
 							</div>

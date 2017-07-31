@@ -9,11 +9,10 @@
 * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
-{* <script> resources below *}
 {strip}
 	<div>
 		{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
-            <script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+            <script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
 	</div>
 {/strip}

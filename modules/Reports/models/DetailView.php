@@ -36,17 +36,15 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams = '')
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$moduleModel = $this->getModule();
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 
-		$detailViewLinks = array();
+		$detailViewLinks = [];
 		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => vtranslate('LBL_REPORT_PRINT', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
 				'linkicon' => 'fa fa-print'
 			);
@@ -55,21 +53,21 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$detailViewLinks[] = array(
-				'linklabel' => vtranslate('LBL_REPORT_CSV', $moduleName),
+				'linklabel' => \App\Language::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
 				'linkicon' => 'fa fa-file-text-o'
 			);
 
 			if (!Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 				$detailViewLinks[] = array(
-					'linklabel' => vtranslate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
+					'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),
 					'linkicon' => 'fa fa-file-excel-o'
 				);
 			}
 		}
 
-		$linkModelList = array();
+		$linkModelList = [];
 		foreach ($detailViewLinks as $detailViewLinkEntry) {
 			$linkModelList[] = Vtiger_Link_Model::getInstanceFromValues($detailViewLinkEntry);
 		}
@@ -84,7 +82,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 	public function getWidgets()
 	{
 		$moduleModel = $this->getModule();
-		$widgets = array();
+		$widgets = [];
 
 		if ($moduleModel->isTrackingEnabled()) {
 			$widgets[] = array(
@@ -95,7 +93,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			);
 		}
 
-		$widgetLinks = array();
+		$widgetLinks = [];
 		foreach ($widgets as $widgetDetails) {
 			$widgetLinks[] = Vtiger_Link_Model::getInstanceFromValues($widgetDetails);
 		}

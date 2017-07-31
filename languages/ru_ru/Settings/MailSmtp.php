@@ -1,5 +1,10 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * MailSmtp russian translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 $languageStrings = [
 	'MailSmtp' => 'SMTP configuration',
 	'LBL_MAIL_SMTP' => 'SMTP configuration ',
@@ -16,9 +21,14 @@ $languageStrings = [
 	'LBL_AUTHENTICATION' => 'Authentication',
 	'LBL_REPLY_TO' => 'Reply to',
 	'LBL_INDIVIDUAL_DELIVERY' => 'Individual delivery',
-	'LBL_REPLAY_TO' => 'Replay to',
+	'LBL_REPLY_TO' => 'Reply to',
 	'LBL_NAME' => 'Name',
 	'LBL_FROM_EMAIL' => 'Sender email',
+	'LBL_SAVE_SEND_MAIL' => 'Do you want to save a sent email?',
+	'LBL_SAVE_SEND_MAIL_INFO' => 'All sent emails are not saved (Gmail saves them automatically, so there is no need to enable this option). In order to save emails, enter an additional configuration.',
+	'LBL_VALIDATE_CERT' => 'Do you want to validate the certificate?',
+	'LBL_IMAP_SAVE_MAIL' => 'IMAP configuration for saving emails',
+	'LBL_SEND_FOLDER' => 'Folder',
 	// Picklist
 	'LBL_SMTP' => 'SMTP',
 	'LBL_SENDMAIL' => 'Sendmail',
@@ -30,5 +40,5 @@ $languageStrings = [
 	'LBL_CREATE_SMTP' => 'Create SMTP',
 	'LBL_SMTP_DETAIL' => 'SMTP detail',
 	'LBL_INDIVIDUAL_DELIVERY_INFO' => 'Emails will be sent individually for each recipient',
-	'LBL_OPTIONS_INFO' => "Exemplary additional parameters:<br /> 'ssl' => [<br />'verify_peer'  => true,<br />'verify_depth' => 3,<br />'allow_self_signed' => true,<br />'peer_name' => 'smtp.example.com',<br />'cafile' => '/etc/ssl/ca_cert.pem',<br />]",
+	'LBL_OPTIONS_INFO' => "Exemplary additional parameters(Json):<br /> {<br />  &quot;ssl&quot;: {<br />    &quot;verify_peer&quot;:false,<br />    &quot;verify_peer_name&quot;:false,<br />    &quot;allow_self_signed&quot;:true<br />  }<br />}",
 ];

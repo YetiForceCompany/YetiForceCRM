@@ -25,47 +25,47 @@
 	<div class="checkbox">
 		<input type="hidden" name=set_reminder value=0 />
 		<label>
-			<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{vtranslate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
+			<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{\App\Language::translate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
 		</label>
 	</div>
 	<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12">
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select input-mini" name="remdays" title="{vtranslate('LBL_REMAIND_DAYS', $MODULE)}">
+				<select class="chzn-select input-mini" name="remdays" title="{\App\Language::translate('LBL_REMAIND_DAYS', $MODULE)}">
 					{for $DAYS = 0 to 31}
 						<option value="{$DAYS}" {if $DAYS eq $DAY}selected{/if}>{$DAYS}</option>
 					{/for}
 				</select>
 			</div>
 			<div style="float:left;margin-top:5px">
-				&nbsp;{vtranslate('LBL_DAYS', $MODULE)}&nbsp;&nbsp;
+				&nbsp;{\App\Language::translate('LBL_DAYS', $MODULE)}&nbsp;&nbsp;
 			</div>
 			
 		</div>
 	
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select input-mini" name="remhrs" title="{vtranslate('LBL_REMAIND_HOURS', $MODULE)}" >
+				<select class="chzn-select input-mini" name="remhrs" title="{\App\Language::translate('LBL_REMAIND_HOURS', $MODULE)}" >
 					{for $HOURS = 0 to 23}
 						<option value="{$HOURS}" {if $HOURS eq $HOUR}selected{/if}>{$HOURS}</option>
 					{/for}
 				</select>
 			</div>
 			<div style="float:left;margin-top:5px">
-				&nbsp;{vtranslate('LBL_HOURS', $MODULE)}&nbsp;&nbsp;
+				&nbsp;{\App\Language::translate('LBL_HOURS', $MODULE)}&nbsp;&nbsp;
 			</div>
 			
 		</div>
 		<div class="col-xs-3 ">
 			<div>
-				<select class="chzn-select  input-mini" name="remmin" title="{vtranslate('LBL_REMAIND_MINS', $MODULE)}">
+				<select class="chzn-select  input-mini" name="remmin" title="{\App\Language::translate('LBL_REMAIND_MINS', $MODULE)}">
 				{for $MINUTES = 1 to 59}
 					<option value="{$MINUTES}" {if $MINUTES eq $MINUTE}selected{/if}>{$MINUTES}</option>
 				{/for}
 				</select>
 			</div>
 			<div style="float:left;margin-top:5px">
-				&nbsp;{vtranslate('LBL_MINUTES', $MODULE)}&nbsp;&nbsp;
+				&nbsp;{\App\Language::translate('LBL_MINUTES', $MODULE)}&nbsp;&nbsp;
 			</div>
 		</div>
 	

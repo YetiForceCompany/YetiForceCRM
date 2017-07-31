@@ -20,9 +20,9 @@ class iCalendar_component
 	{
 		// Initialize the components array
 		if (empty($this->components)) {
-			$this->components = array();
+			$this->components = [];
 			foreach ($this->valid_components as $name) {
-				$this->components[$name] = array();
+				$this->components[$name] = [];
 			}
 		}
 	}
@@ -235,8 +235,7 @@ class iCalendar_component
 
 	public function generateArray($ical_activity)
 	{
-		$current_user = vglobal('current_user');
-		$activity = array();
+		$activity = [];
 		$activitytype = $ical_activity['TYPE'];
 		if ($activitytype == 'VEVENT') {
 			$modtype = 'Events';
@@ -565,7 +564,7 @@ class iCalendar_todo extends iCalendar_component
 	public function construct()
 	{
 
-		$this->valid_components = array();
+		$this->valid_components = [];
 		$this->valid_properties = array(
 			'CLASS' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'COMPLETED' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -655,7 +654,7 @@ class iCalendar_alarm extends iCalendar_component
 	public function construct()
 	{
 
-		$this->valid_components = array();
+		$this->valid_components = [];
 		$this->valid_properties = array(
 			'TRIGGER' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DESCRIPTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -691,7 +690,7 @@ class iCalendar_timezone extends iCalendar_component
 
 	public function construct()
 	{
-		$this->valid_components = array();
+		$this->valid_components = [];
 		$this->valid_properties = array(
 			'TZID' => RFC2445_REQUIRED | RFC2445_ONCE,
 			'LAST-MODIFIED' => RFC2445_OPTIONAL | RFC2445_ONCE,

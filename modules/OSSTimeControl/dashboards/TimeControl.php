@@ -1,21 +1,18 @@
 <?php
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
 
+/**
+ * OSSTimeControl TimeControl dashboard class
+ * @package YetiForce.Dashboard
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
 
 	public function getSearchParams($assignedto = '', $date)
 	{
-		$conditions = array();
-		$listSearchParams = array();
+		$conditions = [];
+		$listSearchParams = [];
 		if ($assignedto != '')
 			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
 		if (!empty($date)) {
@@ -55,7 +52,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$workingTimeByType[vtranslate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
+			$workingTimeByType[\App\Language::translate($row['timecontrol_type'], 'OSSTimeControl')] += $row['daytime'];
 			$workingTime[$row['due_date']][$row['timecontrol_type']] += $row['daytime'];
 			if (!array_key_exists($row['timecontrol_type'], $timeTypes)) {
 				$timeTypes[$row['timecontrol_type']] = $counter++;
@@ -86,11 +83,11 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			}
 
 			$counter = 0;
-			$result = array();
+			$result = [];
 			foreach ($workingTime as $timeKey => $timeValue) {
 				foreach ($timeTypes as $timeTypeKey => $timeTypeKey) {
 					$result[$timeTypeKey]['data'][$counter][0] = $counter;
-					$result[$timeTypeKey]['label'] = vtranslate($timeTypeKey, 'OSSTimeControl');
+					$result[$timeTypeKey]['label'] = \App\Language::translate($timeTypeKey, 'OSSTimeControl');
 					$result[$timeTypeKey]['color'] = $colors[$timeTypeKey];
 					if ($timeValue[$timeTypeKey]) {
 						$result[$timeTypeKey]['data'][$counter][1] = $timeValue[$timeTypeKey];
@@ -111,8 +108,6 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$workedDaysAmount = count($workedDaysAmount);
 			$holidayDaysAmount = count($holidayDaysAmount);
 			$allDaysAndWeekends = $this->getDays($time['start'], $time['end']);
-			$response['workingDays'] = $allDaysAndWeekends['workingDays'];
-
 			if ($sumWorkTime > 0) {
 				if (0 == $workedDaysAmount)
 					$averageWorkingTime = $sumWorkTime;
@@ -126,13 +121,11 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				else
 					$averageBreakTime = $sumBreakTime / $workedDaysAmount;
 			}
-
 			$response['holiayDays'] = $holidayDaysAmount;
 			$response['daysWorked'] = $workedDaysAmount;
 			$response['workDays'] = $allDaysAndWeekends['workDays'];
 			$response['allDays'] = $allDaysAndWeekends['days'];
 			$response['weekends'] = $allDaysAndWeekends['weekends'];
-			$response['coundDaysType'] = $coundDaysType;
 			$response['averageWorkingTime'] = number_format($averageWorkingTime, 2, '.', ' ');
 			$response['sumBreakTime'] = number_format($averageBreakTime, 2, '.', ' ');
 			$response['legend'] = $workingTimeByType;
@@ -140,11 +133,10 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$response['ticks'] = $ticks;
 			$response['days'] = $days;
 		}
-
 		return $response;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$loggedUserId = $currentUser->get('id');
@@ -190,7 +182,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('WORKEDDAYS', $data['daysWorked']);
 		$viewer->assign('HOLIDAYDAYS', $data['holiayDays']);
 		$viewer->assign('AVERAGEBREAKTIME', $data['sumBreakTime']);
-		$viewer->assign('WORKINGDAYS', $data['workingDays']);
+		$viewer->assign('WORKINGDAYS', $data['workDays']);
 		$viewer->assign('WEEKENDDAYS', $data['weekends']);
 		$viewer->assign('AVERAGEWORKTIME', $data['averageWorkingTime']);
 		$viewer->assign('ALLDAYS', $data['allDays']);
@@ -223,16 +215,12 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$weekends = 0;
 			while ($begin <= $end) {
 				$days++;
-				$whatDay = date("N", $begin);
+				$whatDay = date('N', $begin);
 				$day = date('Y-m-d', $begin);
 				$isWorkDay = true;
-				$isHolidayNotInWeekend = true;
 				foreach ($holidayDays as $key => $value) {
 					if ($day == $value['date']) {
 						$isWorkDay = false;
-						if ($whatDay > 5) {
-							$isHolidayNotInWeekend = false;
-						}
 						unset($holidayDays[$key]);
 					}
 				}
@@ -240,16 +228,14 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 					if ($whatDay == $value)
 						$isWorkDay = false;
 				}
-
-				if ($isWorkDay)
+				if ($isWorkDay) {
 					$workDays++;
-
+				}
 				if ($whatDay > 5 && !$isWorkDay && $notWorkingDaysType) {
 					$weekends++;
 				}
 				$begin += 86400;
 			};
-			$workingDays = $days - $weekends;
 			$result = ['workDays' => $workDays, 'weekends' => $weekends, 'days' => $days];
 			return $result;
 		}

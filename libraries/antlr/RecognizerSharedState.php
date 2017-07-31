@@ -5,7 +5,7 @@
 			 *  Stack grows upwards.  When it hits the max, it grows 2x in size
 			 *  and keeps going.
 			 */
-			$this->following = array(); //Should be an array of bitsets
+			$this->following = []; //Should be an array of bitsets
 			$this->_fsp = -1;
 			//public BitSet[] following = new BitSet[BaseRecognizer.INITIAL_FOLLOW_STACK_SIZE];
 			

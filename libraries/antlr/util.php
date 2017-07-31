@@ -2,7 +2,7 @@
 
 function strToIntArray($string)
 {
-	$arr = array();
+	$arr = [];
 	for ($i = 0, $n = strlen($string); $i < $n; $i++) {
 		$arr[] = ord(substr($string, $i, 1));
 	}

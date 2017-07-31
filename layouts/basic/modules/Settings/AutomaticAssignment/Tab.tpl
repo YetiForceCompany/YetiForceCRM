@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="row padding20">
 		{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
@@ -72,7 +72,7 @@
 				<div class="fieldContainer row col-md-10 col-lg-8" data-dbname="{$FIELD_NAME}">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h5 class="no-margin">{vtranslate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
+							<h5 class="no-margin">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $QUALIFIED_MODULE)}</h5>
 						</div>
 						<div class="panel-body paddingBottomZero">
 							<div class="filterConditionsDiv">
@@ -127,7 +127,7 @@
 					</table>
 				</div>
 				<div class="col-xs-12 col-sm-2 col-md-2 col-lg-1 groupMembersColors">
-					<br/>
+					<br />
 					<ul class="nav nav-pills nav-stacked">
 						{if $FIELD_NAME eq 'roles'}
 							<li class="Roles padding5per textAlignCenter"><strong>{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}</strong></li>

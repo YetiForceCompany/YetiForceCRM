@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Additional (eg. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Tree',
 	'Tree' => 'Field of trees',
+	'CategoryMultipicklist' => 'Tree field (multiple choice)',
 	'LBL_FIELD_MASK_INFO' => 'Default masking definitions <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Values from the related module',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Related module',
@@ -156,7 +157,8 @@ $languageStrings = [
 	'LBL_ADVANCED_BLOCK_FIELDS' => 'Advanced block fields',
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Add advanced block fields',
 	'LBL_MAX_LENGTH_TEXT' => 'Max text length',
-	'LBL_MAX_WIDTH_COLUMN' => 'Column width [%]'
+	'LBL_MAX_WIDTH_COLUMN' => 'Column width [%]',
+	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
 ];
 
 $jsLanguageStrings = [

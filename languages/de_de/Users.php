@@ -238,7 +238,7 @@ $languageStrings = [
 	'Invalid username or password.' => 'Ungültiger Benutzername oder Passwort.',
 	'Too many failed login attempts.' => 'Zu viele fehlgeschlagene Anmeldeversuche.',
 	'Outgoing mail server was not configured.' => 'Postausgangsserver wurde nicht konfiguriert.',
-	'LBL_MAIL_WAITING_TO_SENT' => 'The email is waiting to be sent. It should be delivered within a couple of minutes.',
+	'LBL_MAIL_WAITING_TO_SENT' => 'Die E-Mail wird gleich versendet. Es kann ein paar Minuten dauern.',
 	'Invalid Username or Email address.' => 'Ungültiger Benutzername oder E-Mail-Adresse.',
 	'Please enter valid username' => 'Bitte geben Sie einen gültigen Benutzernamen ein',
 	'Please enater valid email address' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
@@ -324,6 +324,7 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Wechsel',
 	'LBL_SWITCH_USER' => 'Benutzer wechseln',
 	'LBL_SWITCH_TO_YOURSELF' => 'Zurückwechseln',
+	'LBL_USER_EXISTS' => 'Benutzer existiert bereits',
 ];
 
 $jsLanguageStrings = [

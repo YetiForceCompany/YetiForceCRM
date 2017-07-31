@@ -3,7 +3,8 @@
 /**
  * Show modal with configuration
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -12,19 +13,19 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function get modal size
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return string
 	 */
-	public function getSize(Vtiger_Request $request)
+	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';
 	}
 
 	/**
 	 * Function gets module settings
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
@@ -54,10 +55,10 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 
 	/**
 	 * Function to get the list of Css models to be included
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return array - List of Vtiger_CssScript_Model instances
 	 */
-	public function getModalScripts(Vtiger_Request $request)
+	public function getModalScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [

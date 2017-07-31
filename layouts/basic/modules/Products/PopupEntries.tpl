@@ -22,16 +22,16 @@
 				<tr class="listViewHeaders">
 					{if $MULTI_SELECT}
 					<th class="{$WIDTHTYPE}">
-						<input type="checkbox" title="{vtranslate('LBL_SELECT_ALL_CURRENTPAGE')}" class="selectAllInCurrentPage" />
+						<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}" class="selectAllInCurrentPage" />
 					</th>
 					{/if}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th class="{$WIDTHTYPE}">
-						<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{vtranslate($LISTVIEW_HEADER->get('label'), $MODULE)}
+						<a href="javascript:void(0);" class="listViewHeaderValues" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
 							{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE)}">{/if}</a>
 					</th>
 					{/foreach}
-					<th class="{$WIDTHTYPE}">{vtranslate('Action', $MODULE_NAME)}</th>
+					<th class="{$WIDTHTYPE}">{\App\Language::translate('Action', $MODULE_NAME)}</th>
 				</tr>
 			</thead>
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
@@ -39,13 +39,13 @@
 				{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
 				{if $MULTI_SELECT}
 				<td class="{$WIDTHTYPE}">
-					<input class="entryCheckBox" title="{vtranslate('LBL_SELECT_RECORD')}" type="checkbox" />
+					<input class="entryCheckBox" title="{\App\Language::translate('LBL_SELECT_RECORD')}" type="checkbox" />
 				</td>
 				{/if}
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 				<td class="listViewEntryValue {$WIDTHTYPE}">
-					{if $LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4'}
+					{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
 						<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
 					{else}
 						{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}
@@ -54,8 +54,8 @@
 				{/foreach}
 				<td class="listViewEntryValue {$WIDTHTYPE}">
 					{if $LISTVIEW_ENTRY->get('subProducts') eq true}
-						<a class="subproducts"><b>{vtranslate('Sub Products',$MODULE_NAME)}</b></a>
-						<!--<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>-->
+						<a class="subproducts"><b>{\App\Language::translate('Sub Products',$MODULE_NAME)}</b></a>
+						<!--<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{\App\Language::translate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>-->
 					{else} 
 						Not a Bunble
 					{/if}
@@ -64,10 +64,10 @@
 			{/foreach}
 			<td class="listViewEntryValue {$WIDTHTYPE}">
 				{if $LISTVIEW_ENTRY->get('subProducts') eq true}
-					<a class="subproducts"><b>{vtranslate('Sub Products',$MODULE_NAME)}</b></a>
-					<!--<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{vtranslate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>-->
+					<a class="subproducts"><b>{\App\Language::translate('Sub Products',$MODULE_NAME)}</b></a>
+					<!--<img class="lineItemPopup cursorPointer alignMiddle" data-popup="ProductsPopup" title="{\App\Language::translate('Products',$MODULE)}" data-module-name="Products" data-field-name="productid" src="{vimage_path('Products.png')}"/>-->
 				{else} 
-					{vtranslate('NOT_A_BUNDLE', $MODULE_NAME)}
+					{\App\Language::translate('NOT_A_BUNDLE', $MODULE_NAME)}
 				{/if}
 			</td>
 		</tr>
@@ -77,7 +77,7 @@
 	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 	<div class="row">
-		<div class="emptyRecordsDiv">{vtranslate('LBL_NO', $MODULE)} {vtranslate($MODULE, $MODULE)} {vtranslate('LBL_FOUND', $MODULE)}.</div>
+		<div class="emptyRecordsDiv">{\App\Language::translate('LBL_NO', $MODULE)} {\App\Language::translate($MODULE, $MODULE)} {\App\Language::translate('LBL_FOUND', $MODULE)}.</div>
 	</div>
 	{/if}
 </div>

@@ -38,7 +38,7 @@ class iCal
 							$begin = true;
 							$majorarray['TYPE'] = $tmpholderarray[1];
 						} else {
-							$majorarray[$tmpholderarray[1]] = array();
+							$majorarray[$tmpholderarray[1]] = [];
 							$key = $tmpholderarray[1];
 						}
 					} else if ($tmpholderarray[0] == 'END') {
@@ -80,7 +80,7 @@ class iCal
 							$begin = true;
 							$majorarray['TYPE'] = $tmpholderarray[1];
 						} else {
-							$majorarray[$tmpholderarray[1]] = array();
+							$majorarray[$tmpholderarray[1]] = [];
 							$key = $tmpholderarray[1];
 						}
 					} else if ($tmpholderarray[0] == 'END') {

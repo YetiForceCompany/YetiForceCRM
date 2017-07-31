@@ -4,7 +4,8 @@ namespace App;
 /**
  * User basic class
  * @package YetiForce.App
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -99,10 +100,10 @@ class User
 		if (isset(static::$userPrivilegesCache[$userId])) {
 			return self::$userPrivilegesCache[$userId];
 		}
-		if (!file_exists("user_privileges/user_privileges_$userId.php")) {
+		if (!file_exists("user_privileges/user_privileges_{$userId}.php")) {
 			return null;
 		}
-		$privileges = require("user_privileges/user_privileges_$userId.php");
+		$privileges = require("user_privileges/user_privileges_{$userId}.php");
 
 		$valueMap = [];
 		$valueMap['id'] = $userId;
@@ -128,6 +129,23 @@ class User
 		return $valueMap;
 	}
 
+	/**
+	 * Clear user cache
+	 * @param int|boolean $userId
+	 */
+	public static function clearCache($userId = false)
+	{
+		if ($userId) {
+			unset(self::$userPrivilegesCache[$userId], self::$userSharingCache[$userId], static::$userModelCache[$userId]);
+			if (static::$currentUserId === $userId) {
+				static::$currentUserCache = false;
+			}
+		} else {
+			self::$userPrivilegesCache = self::$userSharingCache = static::$userModelCache = [];
+			static::$currentUserCache = false;
+		}
+	}
+
 	protected static $userSharingCache = [];
 
 	/**
@@ -140,10 +158,10 @@ class User
 		if (isset(self::$userSharingCache[$userId])) {
 			return self::$userSharingCache[$userId];
 		}
-		if (!file_exists("user_privileges/sharing_privileges_$userId.php")) {
+		if (!file_exists("user_privileges/sharing_privileges_{$userId}.php")) {
 			return null;
 		}
-		$sharingPrivileges = require("user_privileges/sharing_privileges_$userId.php");
+		$sharingPrivileges = require("user_privileges/sharing_privileges_{$userId}.php");
 		self::$userSharingCache[$userId] = $sharingPrivileges;
 		return $sharingPrivileges;
 	}
@@ -152,7 +170,7 @@ class User
 	 * Get user id
 	 * @return int
 	 */
-	public function getUserId()
+	public function getId()
 	{
 		return $this->privileges['details']['record_id'];
 	}
@@ -201,6 +219,18 @@ class User
 	public function getRole()
 	{
 		return $this->privileges['details']['roleid'];
+	}
+
+	/**
+	 * Get user role instance
+	 * @return \Settings_Roles_Record_Model
+	 */
+	public function getRoleInstance()
+	{
+		if (!empty($this->privileges['roleInstance'])) {
+			return $this->privileges['roleInstance'];
+		}
+		return $this->privileges['roleInstance'] = \Settings_Roles_Record_Model::getInstanceById($this->getRole());
 	}
 
 	/**

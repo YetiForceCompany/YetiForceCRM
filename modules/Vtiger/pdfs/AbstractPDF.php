@@ -3,7 +3,8 @@
 /**
  * Abstract class for connection to bank currency exchange rates
  * @package YetiForce.PDF
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -105,7 +106,7 @@ abstract class Vtiger_AbstractPDF_Pdf
 	/**
 	 * Parse and set options
 	 */
-	abstract public function parseParams(array &$params);
+	abstract public function parseParams(array $params);
 
 	// meta attributes
 	/**

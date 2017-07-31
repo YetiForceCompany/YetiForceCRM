@@ -13,7 +13,7 @@ class Assets extends CRMEntity
 
 	public $table_name = 'vtiger_assets';
 	public $table_index = 'assetsid';
-	public $column_fields = Array();
+	public $column_fields = [];
 	protected $lockFields = ['assetstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
 
 	/** Indicator if this is a custom module or standard module */
@@ -124,7 +124,6 @@ class Assets extends CRMEntity
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
@@ -278,7 +277,7 @@ class Assets extends CRMEntity
 
 		$query = $select_clause . $from_clause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .
-			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values, $ui_type_arr, $module) .
+			" INNER JOIN (" . $sub_query . ") AS temp ON " . get_on_clause($field_values) .
 			$where_clause .
 			" ORDER BY $table_cols," . $this->table_name . "." . $this->table_index . " ASC";
 

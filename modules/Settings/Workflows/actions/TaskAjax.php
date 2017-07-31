@@ -21,7 +21,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('Save');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
@@ -30,7 +30,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function Delete(Vtiger_Request $request)
+	public function Delete(\App\Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
@@ -42,7 +42,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function ChangeStatus(Vtiger_Request $request)
+	public function ChangeStatus(\App\Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
@@ -59,7 +59,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function ChangeStatusAllTasks(Vtiger_Request $request)
+	public function ChangeStatusAllTasks(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$status = $request->get('status');
@@ -81,7 +81,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function Save(Vtiger_Request $request)
+	public function Save(\App\Request $request)
 	{
 
 		$workflowId = $request->get('for_workflow');
@@ -166,7 +166,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

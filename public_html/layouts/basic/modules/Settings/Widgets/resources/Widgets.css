@@ -1,0 +1,41 @@
+/*+***********************************************************************************************************************************
+ * The contents of this file are subject to the YetiForce Public License Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and limitations under the License.
+ * The Original Code is YetiForce.
+ * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
+ * All Rights Reserved.
+ *************************************************************************************************************************************/
+.state-highlight{ 
+	height: 2em; line-height: 2em; border: 1px solid #FFD600;background-color:#F9FFB3; border-style: dashed;
+}
+.blocks-content{
+	background: white;
+	border: 1px solid #dddddd;
+}
+.modal-Fields .col-md-7{
+	margin-bottom: 9px;
+}
+.ui-sortable-helper{
+	background: white;
+	-webkit-box-shadow: 0 0 3px -1px #dddddd;
+	-moz-box-shadow: 0 0 3px -1px #dddddd;
+	box-shadow: 0 0 3px -1px #dddddd;
+}
+.HelpInfoPopover .glyphicon-info-sign{
+	margin-left: 3px;
+}
+.form-switch-mini .control-label{
+	padding-top: 2px !important;
+}
+.form-horizontal .form-container-sm .form-group{
+	margin-bottom: 3px;
+}
+.form-group-sm .form-control-static{
+	padding-right: 15px;
+	padding-left: 15px;
+}
+.blocksSortable {
+	min-height: 30px;
+}

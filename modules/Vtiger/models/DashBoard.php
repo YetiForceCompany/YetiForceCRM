@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_DashBoard_Model extends Vtiger_Base_Model
+class Vtiger_DashBoard_Model extends \App\Base
 {
 
 	/**
@@ -65,7 +65,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
 			if ($row['linklabel'] == 'Mini List') {
-				if (!$row['isdeafult'])
+				if (!$row['isdefault'])
 					$row['deleteFromList'] = true;
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
@@ -73,7 +73,7 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
 			} elseif ($row['linklabel'] == 'ChartFilter') {
-				if (!$row['isdeafult'])
+				if (!$row['isdefault'])
 					$row['deleteFromList'] = true;
 				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
@@ -125,7 +125,6 @@ class Vtiger_DashBoard_Model extends Vtiger_Base_Model
 	 */
 	public function getDefaultWidgets()
 	{
-		$moduleModel = $this->getModule();
 		$widgets = [];
 
 		return $widgets;

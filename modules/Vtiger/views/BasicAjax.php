@@ -17,24 +17,25 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		parent::__construct();
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
+		$this->exposeMethod('performPhoneCall');
 	}
 
-	public function checkPermission()
+	public function checkPermission(\App\Request $request)
 	{
 		
 	}
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(Vtiger_Request $request)
+	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
@@ -45,9 +46,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 	/**
 	 * Function to display the UI for advance search on any of the module
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function showAdvancedSearch(Vtiger_Request $request)
+	public function showAdvancedSearch(\App\Request $request)
 	{
 		//Modules for which search is excluded
 		$excludedModuleForSearch = array('Vtiger', 'Reports');
@@ -98,9 +99,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 	/**
 	 * Function to display the Search Results
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 */
-	public function showSearchResults(Vtiger_Request $request)
+	public function showSearchResults(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -158,7 +159,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		} else {
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
-				foreach ($modules as $recordID => &$recordModel) {
+				foreach ($modules as $recordID => $recordModel) {
 					$label = decode_html($recordModel->getName());
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
@@ -167,7 +168,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 					$recordsList[] = [
 						'id' => $recordID,
 						'module' => $module,
-						'category' => vtranslate($module, $module),
+						'category' => \App\Language::translate($module, $module),
 						'label' => $label,
 						'permitted' => $recordModel->get('permitted'),
 					];
@@ -176,6 +177,24 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$response = new Vtiger_Response();
 			$response->setResult($recordsList);
 			$response->emit();
+		}
+	}
+
+	/**
+	 * Perform phone call
+	 * @param \App\Request $request
+	 */
+	public function performPhoneCall(\App\Request $request)
+	{
+		$pbx = App\Integrations\Pbx::getDefaultInstance();
+		$pbx->loadUserPhone();
+		try {
+			$pbx->performCall($request->get('phoneNumber'));
+			$response = new Vtiger_Response();
+			$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
+			$response->emit();
+		} catch (Exception $exc) {
+			\App\Log::error('Error while telephone connections: ' . $exc->getMessage(), 'PBX');
 		}
 	}
 }

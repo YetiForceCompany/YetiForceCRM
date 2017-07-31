@@ -17,12 +17,12 @@ Class Settings_PBXManager_Edit_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('showPopup');
 	}
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$this->showPopup($request);
 	}
 
-	public function showPopup(Vtiger_Request $request)
+	public function showPopup(\App\Request $request)
 	{
 		$id = $request->get('id');
 		$qualifiedModuleName = $request->getModule(false);

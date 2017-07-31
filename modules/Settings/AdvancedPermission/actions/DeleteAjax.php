@@ -3,13 +3,14 @@
 /**
  * Advanced permission delete action model class
  * @package YetiForce.Settings.Action
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_AdvancedPermission_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
 
-	public function process(Vtiger_Request $request)
+	public function process(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
@@ -20,7 +21,7 @@ class Settings_AdvancedPermission_DeleteAjax_Action extends Settings_Vtiger_Dele
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateReadAccess();
 	}

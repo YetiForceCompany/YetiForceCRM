@@ -1,9 +1,10 @@
 <?php
 
 /**
- * ZipReader Class
+ * ZipReader class
  * @package YetiForce.Reader
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Import_ZipReader_Reader extends Import_FileReader_Reader
@@ -13,7 +14,12 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	protected $importFolderLocation;
 	protected $filelist = [];
 
-	public function __construct(Vtiger_Request $request, $user)
+	/**
+	 * Construct
+	 * @param \App\Request $request
+	 * @param Users_Record_Model $user
+	 */
+	public function __construct(\App\Request $request, $user)
 	{
 		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
 		if (!empty($instance)) {
@@ -36,27 +42,28 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		}
 	}
 
-	public function initialize($request, $user)
+	/**
+	 * Initialize zip file
+	 * @param \App\Request $request
+	 * @param Users_Record_Model $user
+	 */
+	public function initialize(\App\Request $request, $user)
 	{
 		$zipfile = Import_Utils_Helper::getImportFilePath($user);
-		$this->importFolderLocation = $zipfile . '_' . $user->id;
+		$this->importFolderLocation = "{$zipfile}_{$this->extension}";
 		// clean old data
-		if ($request->getMode() == 'uploadAndParse') {
+		if ($request->getMode() === 'uploadAndParse') {
 			$this->deleteFolder();
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
 			mkdir($this->importFolderLocation);
-			$unzip = new vtlib\Unzip($zipfile);
-			$unzip->unzipAllEx($this->importFolderLocation);
-			foreach ($unzip->getList() as $name => $data) {
-				$this->filelist[] = $name;
-			}
-			$unzip->__destroy();
+			$zip = new \App\Zip($zipfile, ['onlyExtension' => $this->extension]);
+			$this->filelist = $zip->unzip($this->importFolderLocation);
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
 			foreach (new DirectoryIterator($this->importFolderLocation) as $file) {
 				if (!$file->isDot()) {
-					if (strpos($file->getFilename(), '.xml') !== false) {
+					if (strpos($file->getFilename(), '.' . $this->extension) !== false) {
 						$this->filelist[] = $file->getFilename();
 					}
 				}
@@ -82,10 +89,10 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		return $return;
 	}
 
-	public function getFirstRowData($hasHeader)
+	public function getFirstRowData($hasHeader = true)
 	{
 		$data = $this->request->getAll();
-		$newRequest = new Vtiger_Request($data);
+		$newRequest = new \App\Request($data);
 		$newRequest->set('type', $this->extension);
 		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
@@ -120,7 +127,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	public function read()
 	{
 		$data = $this->request->getAll();
-		$newRequest = new Vtiger_Request($data);
+		$newRequest = new \App\Request($data);
 		$newRequest->set('type', $this->extension);
 		$fileReader = Import_Module_Model::getFileReader($newRequest, $this->user);
 		if (!$fileReader) {
@@ -136,19 +143,8 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 
 	public function deleteFolder()
 	{
-		if (!empty($this->importFolderLocation) && is_dir($this->importFolderLocation)) {
-			$dirs[] = $this->importFolderLocation;
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->importFolderLocation, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-				if ($item->isDir()) {
-					$dirs[] = $this->importFolderLocation . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
-				} else {
-					unlink($this->importFolderLocation . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
-				}
-			}
-			arsort($dirs);
-			foreach ($dirs as $dir) {
-				rmdir($dir);
-			}
+		if (!empty($this->importFolderLocation)) {
+			\vtlib\Functions::recurseDelete($this->importFolderLocation);
 		}
 	}
 }

@@ -14,7 +14,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	public static function getNonVisibleModulesList()
 	{
-		return ['ModTracker', 'Portal', 'Users', 'Integration', 'WSAPP',
+		return ['ModTracker', 'Portal', 'Users', 'Integration',
 			'ConfigEditor', 'FieldFormulas', 'VtigerBackup', 'CronTasks', 'Import', 'Tooltip',
 			'Home'];
 	}
@@ -113,7 +113,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module = new vtlib\Module();
 		$module->name = ucfirst($moduleInformation['module_name']);
 		$module->label = $moduleInformation['module_label'];
-		$module->type = $moduleInformation['entitytype'];
+		$module->type = (int) $moduleInformation['entitytype'];
 		$module->save();
 		$module->initTables();
 

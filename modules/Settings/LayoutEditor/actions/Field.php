@@ -21,7 +21,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('getPicklist');
 	}
 
-	public function add(Vtiger_Request $request)
+	public function add(\App\Request $request)
 	{
 		$type = $request->get('fieldType');
 		$moduleName = $request->get('sourceModule');
@@ -43,7 +43,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function save(Vtiger_Request $request)
+	public function save(\App\Request $request)
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
@@ -57,7 +57,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 		}
 		$defaultValue = $request->get('fieldDefaultValue');
-		if ($fieldInstance->getFieldDataType() == 'date') {
+		if ($fieldInstance->getFieldDataType() === 'date') {
 			$dateInstance = new Vtiger_Date_UIType();
 			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
 		}
@@ -75,14 +75,14 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => vtranslate($fieldInstance->get('label'), $request->get('sourceModule'))]);
+				'label' => \App\Language::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
 	}
 
-	public function delete(Vtiger_Request $request)
+	public function delete(\App\Request $request)
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
@@ -103,7 +103,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function move(Vtiger_Request $request)
+	public function move(\App\Request $request)
 	{
 		$updatedFieldsList = $request->get('updatedFields');
 
@@ -115,13 +115,13 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function unHide(Vtiger_Request $request)
+	public function unHide(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		try {
 			$fieldIds = $request->get('fieldIdList');
 			Settings_LayoutEditor_Field_Model::makeFieldActive($fieldIds, $request->get('blockId'));
-			$responseData = array();
+			$responseData = [];
 			foreach ($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
@@ -134,7 +134,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function getPicklist(Vtiger_Request $request)
+	public function getPicklist(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
 		$fieldName = $request->get('rfield');
@@ -152,7 +152,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function validateRequest(Vtiger_Request $request)
+	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
 	}

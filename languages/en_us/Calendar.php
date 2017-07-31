@@ -9,6 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Status' => 'Status',
 	'Activity Type' => 'Activity type',
 	'Call' => 'Call',
 	'Completed' => 'Completed',
@@ -147,6 +148,11 @@ $languageStrings = [
 ];
 
 $jsLanguageStrings = [
+	'LBL_CANT_SELECT_CONTACT_FROM_LEADS' => 'Cant select contact from leads',
+	'JS Activity Type' => 'Activity type',
+	'JS_SATATUS' => 'Status',
+	'JS_End Date' => 'End date',
+	'JS_Start Date' => 'Start date',
 	'JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY' => 'Calendar view added successfully',
 	'JS_CALENDAR_VIEW_COLOR_UPDATED_SUCCESSFULLY' => 'Calendar view color updated successfully',
 	'JS_CALENDAR_VIEW_DELETE_CONFIRMATION' => 'Are you sure you want to delete this Calendar view ?',

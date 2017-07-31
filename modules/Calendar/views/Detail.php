@@ -12,7 +12,7 @@
 class Calendar_Detail_View extends Vtiger_Detail_View
 {
 
-	public function preProcess(Vtiger_Request $request, $display = true)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 
@@ -29,7 +29,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$summaryInfo = array();
+		$summaryInfo = [];
 		// Take first block information as summary information
 		$stucturedValues = $recordStrucure->getStructure();
 		foreach ($stucturedValues as $blockLabel => $fieldList) {
@@ -101,10 +101,10 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 
 	/**
 	 * Function shows the entire detail for the record
-	 * @param Vtiger_Request $request
+	 * @param \App\Request $request
 	 * @return <type>
 	 */
-	public function showModuleDetailView(Vtiger_Request $request)
+	public function showModuleDetailView(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -143,7 +143,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */
-	public function showModuleBasicView(Vtiger_Request $request)
+	public function showModuleBasicView(\App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}

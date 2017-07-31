@@ -55,7 +55,7 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 	{
 		$commentsFieldsInfo = array('$(record : Comments 1)$' => 'Last Comment', 'last5Comments' => '$(record : Comments 5)$', 'allComments' => '$(record : Comments)$');
 
-		$commentFieldModelsList = array();
+		$commentFieldModelsList = [];
 		foreach ($commentsFieldsInfo as $fieldName => $fieldLabel) {
 			$commentField = new Vtiger_Field_Model();
 			$commentField->setModule($moduleModel);

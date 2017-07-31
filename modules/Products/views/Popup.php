@@ -3,7 +3,8 @@
 /**
  * Popup View Class for Products
  * @package YetiForce.View
- * @license licenses/License.html
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Products_Popup_View extends Vtiger_Popup_View
@@ -12,7 +13,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(Vtiger_Request $request, Vtiger_Viewer $viewer)
+	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
@@ -86,7 +87,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams)) {
-			$searchParmams = array();
+			$searchParmams = [];
 		}
 		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$listViewModel->set('search_params', $transformedSearchParams);
@@ -118,7 +119,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 
 		// If there are no related records with parent module then, we should show all the records
-		if (!$parentRelatedRecords && !empty($relatedParentModule) && !empty($relatedParentId)) {
+		if (!empty($parentRelatedRecords) && !empty($relatedParentModule) && !empty($relatedParentId)) {
 			$relatedParentModule = null;
 			$relatedParentId = null;
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);

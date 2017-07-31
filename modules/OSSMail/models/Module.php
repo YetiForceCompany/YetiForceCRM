@@ -2,8 +2,9 @@
 
 /**
  *
- * @package YetiForce.models
- * @license licenses/License.html
+ * @package YetiForce.Model
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -59,7 +60,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public static function getComposeParam(Vtiger_Request $request)
+	public static function getComposeParam(\App\Request $request)
 	{
 		$moduleName = $request->get('crmModule');
 		$record = $request->get('crmRecord');
@@ -83,7 +84,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$recordNumber = $recordModel->getRecordNumber();
 				if (!empty($recordNumber)) {
 					$return['recordNumber'] = $recordNumber;
-					$subject .= ' [' . $recordNumber . ']';
+					$subject = "[$recordNumber] $subject";
 				}
 				$return['subject'] = $subject;
 			}
@@ -186,7 +187,15 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url;
 	}
 
-	public function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
+	/**
+	 * Get mail url for widget
+	 * @param int $record
+	 * @param string $type
+	 * @param int $srecord
+	 * @param string $smoduleName
+	 * @return string
+	 */
+	public static function getExternalUrlForWidget($record, $type, $srecord = false, $smoduleName = false)
 	{
 		if (is_object($record)) {
 			$body = $record->get('content');
@@ -241,11 +250,11 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$mailtoLimit = AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
-			$content .= vtranslate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
-			$content .= vtranslate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
-			$content .= vtranslate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
-			$content .= vtranslate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
-			$content .= vtranslate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
+			$content .= \App\Language::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;
+			$content .= \App\Language::translate('Subject', 'OSSMailView') . ': ' . $subject . PHP_EOL;
+			$content .= \App\Language::translate('Date', 'OSSMailView') . ': ' . $date . PHP_EOL;
+			$content .= \App\Language::translate('From', 'OSSMailView') . ': ' . $from . PHP_EOL;
+			$content .= \App\Language::translate('To', 'OSSMailView') . ': ' . $to . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {
@@ -257,7 +266,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		} else {
-			$content .= vtranslate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
+			$content .= \App\Language::translate('LBL_MAIL_REPLY_INTRO', 'OSSMailView', $date, $from) . PHP_EOL;
 			foreach (explode(PHP_EOL, $body) as $line) {
 				$line = trim($line);
 				if (!empty($line)) {

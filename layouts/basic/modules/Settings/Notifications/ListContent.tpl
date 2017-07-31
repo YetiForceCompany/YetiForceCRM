@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<table class="table table-bordered themeTableColor">
 		<thead>
 			<tr>
 				<th>
-					{vtranslate('LBL_NAME', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 				</th>
 
 			</tr>
@@ -13,7 +13,7 @@
 			{foreach from=$LIST_CONTENT item=RECORD}
 				<tr class="opacity" data-id="{$RECORD->getId()}">
 					<td>
-						{vtranslate($RECORD->getName(), $QUALIFIED_MODULE)}
+						{\App\Language::translate($RECORD->getName(), $QUALIFIED_MODULE)}
 						{if $RECORD->get('presence') == 1}
 							<div class="pull-right actions">
 								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">

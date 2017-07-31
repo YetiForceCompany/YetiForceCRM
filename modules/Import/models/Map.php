@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Import_Map_Model extends Vtiger_Base_Model
+class Import_Map_Model extends \App\Base
 {
 
 	static $tableName = 'vtiger_import_maps';
@@ -23,10 +23,10 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 	public static function getInstanceFromDb($row, $user)
 	{
-		$map = array();
+		$map = [];
 		foreach ($row as $key => $value) {
 			if ($key == 'content') {
-				$content = array();
+				$content = [];
 				$pairs = explode("&", $value);
 				foreach ($pairs as $pair) {
 					list($mappedName, $sequence) = explode("=", $pair);
@@ -44,8 +44,10 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 	public static function markAsDeleted($mapId)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_import_maps SET deleted=1 WHERE id=?', array($mapId));
+		\App\Db::getInstance()
+			->createCommand()
+			->update('vtiger_import_maps', ['date_modified' => date('Y-m-d H:i:s'), 'deleted' => 1], ['id' => $mapId])
+			->execute();
 	}
 
 	public function getId()
@@ -70,7 +72,7 @@ class Import_Map_Model extends Vtiger_Base_Model
 		if (empty($this->map['content']))
 			return;
 		$content = $this->map['content'];
-		$keyValueStrings = array();
+		$keyValueStrings = [];
 		foreach ($content as $key => $value) {
 			$key = str_replace('=', '/eq/', $key);
 			$key = str_replace('&', '/amp/', $key);
@@ -86,6 +88,7 @@ class Import_Map_Model extends Vtiger_Base_Model
 
 		$map = $this->getAllValues();
 		$map['content'] = "" . $db->getEmptyBlob() . "";
+		$map['date_entered'] = date('Y-m-d H:i:s');
 		$columnNames = array_keys($map);
 		$columnValues = array_values($map);
 		if (count($map) > 0) {

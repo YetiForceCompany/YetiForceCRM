@@ -1,14 +1,14 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		{if $ALL_RECORDS neq ''}
 			<input type="hidden" name="all_records" id="all_records" value="{$ALL_RECORDS}" />
 		{/if}
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3 id="massEditHeader" class="modal-title">{vtranslate('LBL_GENERATE_PDF_FILE', $QUALIFIED_MODULE)}</h3>
+		<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_GENERATE_PDF_FILE', $QUALIFIED_MODULE)}</h3>
 		<br />
 		<div class="panel panel-default">
-			<div class="panel-heading"><strong>{vtranslate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</strong></div>
+			<div class="panel-heading"><strong>{\App\Language::translate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</strong></div>
 			<div class="panel-body">
 			{foreach from=$TEMPLATES item=TEMPLATE}
 				<div class="form-group row form-horizontal">

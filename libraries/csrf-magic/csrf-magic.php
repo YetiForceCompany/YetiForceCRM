@@ -177,16 +177,19 @@ class CSRF
 		$input = "<input type='hidden' name='" . static::$inputName . "' value=\"$tokens\"$endSlash>";
 		$buffer = preg_replace('#(<form[^>]*method\s*=\s*["\']post["\'][^>]*>)#i', '$1' . $input, $buffer);
 		if (static::$frameBreaker && !static::$isPartial) {
-			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
+			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
+			if (!IS_PUBLIC_DIR) {
+				$js = 'public_html/' . $js;
+			}
 			$buffer = preg_replace(
-				'/<\/head>/', '<script type="text/javascript">' .
+				'/<\/head>/', '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">' .
 				'var csrfMagicToken = "' . $tokens . '";' .
 				'var csrfMagicName = "' . static::$inputName . '";</script>' .
 				'<script src="' . $js . '" type="text/javascript"></script></head>', $buffer, $count
 			);
-			$script = '<script type="text/javascript">CsrfMagic.end();</script>';
+			$script = '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">CsrfMagic.end();</script>';
 			$buffer = preg_replace('/<\/body>/', $script . '</body>', $buffer, $count);
 			if (!$count) {
 				$buffer .= $script;
@@ -202,26 +205,30 @@ class CSRF
 	 */
 	public static function check($fatal = true)
 	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			return true;
+		}
 		static::start();
 		$ok = false;
 		$tokens = '';
 		do {
-			if (!isset($_POST[static::$inputName]))
+			if (!isset($_POST[static::$inputName])) {
 				break;
+			}
 			// we don't regenerate a token and check it because some token creation
 			// schemes are volatile.
 			$tokens = $_POST[static::$inputName];
-			if (!static::checkTokens($tokens))
+			if (!static::checkTokens($tokens)) {
 				break;
+			}
 			$ok = true;
 		} while (false);
 		if ($fatal && !$ok) {
-			if (trim($tokens, 'A..Za..z0..9:;,') !== '')
+			if (trim($tokens, 'A..Za..z0..9:;,') !== '') {
 				$tokens = 'hidden';
+			}
 			call_user_func(static::$callback, $tokens);
-			exit;
+			throw new Exception('Hidden');
 		}
 		return $ok;
 	}
@@ -280,7 +287,7 @@ class CSRF
 	{
 		if (!is_array($data))
 			return array($key => $data);
-		$ret = array();
+		$ret = [];
 		foreach ($data as $n => $v) {
 			$nk = $level >= 1 ? $key . "[$n]" : "[$n]";
 			$ret = array_merge($ret, static::flattenpost2($level + 1, $nk, $v));
@@ -463,7 +470,7 @@ class CSRF
 	public static function init()
 	{
 		// Load user configuration
-		if (function_exists('CSRFConfig::startup')) {
+		if (class_exists('CSRFConfig')) {
 			CSRFConfig::startup();
 		}
 		// Initialize our handler

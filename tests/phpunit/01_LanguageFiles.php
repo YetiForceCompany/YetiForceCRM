@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Language Files test class
- * @package YetiForce.Tests
- * @license licenses/License.html
+ * @package YetiForce.Test
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\TestCase;
@@ -10,15 +12,38 @@ use PHPUnit\Framework\TestCase;
 class LanguageFiles extends TestCase
 {
 
-	public function test()
+	/**
+	 * Testing language files
+	 */
+	public function testLoadFiles()
 	{
-		$templatepath = 'languages/';
-		$flags = FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS;
-		$objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($templatepath, $flags), RecursiveIteratorIterator::SELF_FIRST);
-		foreach ($objects as $name => $object) {
-			if (!is_dir($name)) {
-				include_once $name;
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			if ($item->isFile()) {
+				if (isset($languageStrings)) {
+					unset($languageStrings);
+				}
+				if (isset($jsLanguageStrings)) {
+					unset($jsLanguageStrings);
+				}
+				ob_start();
+				include $item->getPathname();
+				$this->assertTrue(empty(ob_get_contents()), $item->getPathname());
+				ob_end_clean();
+				$this->assertTrue(is_array($languageStrings) || is_array($jsLanguageStrings), 'File: ' . $item->getPathname() . ' | $languageStrings: ' . print_r(is_array($languageStrings), true) . ' | $jsLanguageStrings: ' . print_r(is_array($jsLanguageStrings), true));
 			}
 		}
+	}
+
+	/**
+	 * Testing translation functions
+	 */
+	public function testTranslate()
+	{
+		\App\Language::setLanguage('pl_pl');
+		$this->assertTrue(\App\Language::translate('LBL_MONTH') === 'miesiąc');
+		$this->assertTrue(\App\Language::translateArgs('LBL_VALID_RECORDS', 'Vtiger', 'aaa', 'bbb') === 'aaa z bbb są poprawne dla wybranego szablonu.');
+		$this->assertTrue(\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', 'Settings::Vtiger', 1) === 'Ostrzeżenie systemowe');
+		$this->assertTrue(\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', 'Settings::Vtiger', 2) === 'Ostrzeżenia systemowe');
+		$this->assertTrue(\App\Language::translatePluralized('PLU_SYSTEM_WARNINGS', 'Settings::Vtiger', 9) === 'Ostrzeżeń systemowych');
 	}
 }

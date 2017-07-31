@@ -215,6 +215,8 @@ $languageStrings = [
 	'LBL_ADDED_COMPANY_FIELD' => 'Поле добавлено',
 	'LBL_FIELD_NOT_VALID' => 'Поле должно содержать только буквы',
 	'LBL_EXTENDED_MODULES' => 'Пользовательские Модули',
+	'LBL_PBX' => 'PBX',
+ 	'LBL_PBX_DESCRIPTION' => 'Integration with PBX allows to make calls directly from the CRM system',
 	/* settings menu */
 	'LBL_QUICK_CREATE_EDITOR' => 'Редактор быстрого создания',
 	'LBL_QUICK_CREATE_EDITOR_DESCRIPTION' => 'В этом модуле, вы сможете настроить отображение и расположение полей в окне быстрого создания.',
@@ -305,7 +307,7 @@ $languageStrings = [
 	'LBL_POPUP_TYPE' => 'Тип всплывающего окна со списком записей.  1 - Нормальный, 2 - Расширенный',
 	'LBL_SHOWING_BREADCRUMBS' => 'Показывать строку навигации',
 	'LBL_SHOW_RESPONSE_TIME' => 'Показывать время загрузки страницы',
-	'LBL_TITLE_MAX_LENGHT' => 'Максимальная длина символов для заголовка',
+	'LBL_TITLE_MAX_LENGTH' => 'Максимальная длина символов для заголовка',
 	'LBL_MINIMUM_CRON_FREQUENCY' => 'Минимальная частота обработчика [мин] ',
 	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Максимальное количество записей при массовом редактировании',
 	'LBL_BG_CLOSING_MODAL' => 'Закрытие всплывающего окна кликом по любому месту на экране',

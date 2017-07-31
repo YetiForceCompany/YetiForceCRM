@@ -81,7 +81,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getSupportedModules()
 	{
 		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
-		$supportedModuleModels = array();
+		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {
 				$supportedModuleModels[$tabId] = $moduleModel;
@@ -105,15 +105,15 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getListFields()
 	{
-		if (!$this->listFieldModels) {
+		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
-			$fieldObjects = array();
+			$fieldObjects = [];
 			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
+					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
 				} else {
-					$fieldObjects[$fieldName] = new Vtiger_Base_Model(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel));
 				}
 			}
 			$this->listFieldModels = $fieldObjects;
@@ -195,12 +195,12 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {
-				$messages['error'][] = vtranslate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
+				$messages['error'][] = \App\Language::translate('LBL_FAILED_TO_SAVE_SCRIPT', $this->getName(true), basename($method['function_path']), $method['function_path']);
 			}
 		} else {
 			require_once $method['function_path'];
 			if (!function_exists($method['function_name'])) {
-				$messages['error'][] = vtranslate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
+				$messages['error'][] = \App\Language::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
 			}
 		}
 
@@ -211,7 +211,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 		if ($num == 0) {
 			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
-			$emm = new VTEntityMethodManager($db);
+			$emm = new VTEntityMethodManager();
 			$emm->addEntityMethod($method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']);
 		}
 	}

@@ -215,6 +215,10 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		$accessControlQuery = $meta->getEntityAccessControlQuery();
 		$this->query = $this->query . ' ' . $accessControlQuery;
 		if ($sqlDump['where_condition']) {
+			// YTfixme - yy_11 seems not to be called
+			if (!isset($sqlDump['where_condition']['operators'])) {
+				$sqlDump['where_condition']['operators'] = [];
+			}
 			if ((sizeof($sqlDump['where_condition']['column_names']) == sizeof($sqlDump['where_condition']['column_values'])) &&
 				(sizeof($sqlDump['where_condition']['column_operators']) == sizeof($sqlDump['where_condition']['operators']) + 1)) {
 				$this->query = $this->query . ' WHERE (';
@@ -288,7 +292,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 		$this->query = $this->query . ' ' . $deletedQuery;
 
-		if ($sqlDump['orderby']) {
+		if (!empty($sqlDump['orderby'])) {
 			$i = 0;
 			$this->query = $this->query . ' ORDER BY ';
 			foreach ($sqlDump['orderby'] as $ind => $field) {
@@ -1187,9 +1191,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		if ($this->yystack[$this->yyidx + -5]->minor) {
 			$this->out['from'] = $this->yystack[$this->yyidx + -5]->minor;
 		}
-		if (SEMI) {
-			$this->out['semi_colon'] = SEMI;
-		}
 		if ($this->out['select']) {
 			$this->buildSelectStmt($this->out);
 		}
@@ -1230,7 +1231,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$this->syntax_error = true;
 			throw new WebServiceException(WebServiceErrorCode::$QUERYSYNTAX, "There is an syntax error in query");
 		}
-		$adb = PearDatabase::getInstance();
 		$handler = vtws_getModuleHandlerFromName($moduleName, $this->user);
 		$objectMeta = $handler->getMeta();
 		$this->out['moduleName'] = $moduleName;
@@ -1275,7 +1275,10 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	public function yy_r17()
 	{
-		$length = sizeof($this->out['where_condition']['column_values']);
+		$length = 0;
+		if (!empty($this->out['where_condition']['column_values'])) {
+			$length = sizeof($this->out['where_condition']['column_values']);
+		}
 		$pos = $length - 1;
 		if ($pos < 0) {
 			$pos = 0;
@@ -1390,8 +1393,8 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	public function yy_r41()
 	{
-		$adb = PearDatabase::getInstance();
-		if (!$this->out['meta']) {
+		if (empty($this->out['meta'])) {
+			// / ProCRM
 			$module = $this->out['moduleName'];
 			$handler = vtws_getModuleHandlerFromName($module, $this->user);
 			$objectMeta = $handler->getMeta();
@@ -1426,6 +1429,9 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			$firstIndex = $tabNameIndex[$firstTable];
 			foreach ($tables as $ind => $table) {
 				if ($firstTable != $table) {
+					if (!isset($this->out['defaultJoinConditions'])) {
+						$this->out['defaultJoinConditions'] = '';
+					}
 					if (!isset($tabNameIndex[$table]) && $table == "vtiger_crmentity") {
 						$this->out['defaultJoinConditions'] = $this->out['defaultJoinConditions'] . " LEFT JOIN $table ON $firstTable.$firstIndex=$table.crmid";
 					} else {
@@ -1480,7 +1486,6 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 		//mixed $yygotominor;        /* The LHS of the rule reduced */
 		//VTQL_ParseryyStackEntry $yymsp;            /* The top of the parser's stack */
 		//int $yysize;                     /* Amount to pop the stack */
-		$yymsp = $this->yystack[$this->yyidx];
 		$countYyRuleName = count(self::$yyRuleName);
 		if (self::$yyTraceFILE && $yyruleno >= 0 && $yyruleno < $countYyRuleName) {
 			fprintf(self::$yyTraceFILE, "%sReduce (%d) [%s].\n", self::$yyTracePrompt, $yyruleno, self::$yyRuleName[$yyruleno]);
@@ -1578,7 +1583,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 			fprintf(self::$yyTraceFILE, "%sAccept!\n", self::$yyTracePrompt);
 		}
 		while ($this->yyidx >= 0) {
-			$stack = $this->yy_pop_parser_stack();
+			$this->yy_pop_parser_stack();
 		}
 		/* Here code is inserted which will be executed whenever the
 		 * * parser accepts */

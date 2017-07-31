@@ -16,9 +16,13 @@ class DateTime
 		'yyyy/mm/dd' => 'Y/m/d',
 	];
 
-	public static function currentUserJSDateFormat()
+	public static function currentUserJSDateFormat($format = false)
 	{
-		return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')];
+		if ($format) {
+			return static::$jsDateFormat[$format];
+		} else {
+			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')];
+		}
 	}
 
 	/**

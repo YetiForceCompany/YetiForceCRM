@@ -21,20 +21,20 @@
 				<input id="recordId" type="hidden" value="{$RECORD->getId()}">
 				<div class="row">
 					<div class="col-md-8" id="rssFeedHeading">
-						<h3> {vtranslate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
+						<h3> {\App\Language::translate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
 					</div>
 					<div class="btn-toolbar col-md-4">
 						<span class="btn-group pull-right">
-							<button id="deleteButton" class="btn btn-danger" title="{vtranslate('LBL_DELETE', $MODULE)}"><span class="glyphicon glyphicon-trash"></span></button>
+							<button id="deleteButton" class="btn btn-danger" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="glyphicon glyphicon-trash"></span></button>
 						</span>
 						<span class="btn-group pull-right">
-							<button id="makeDefaultButton" class="btn btn-info" title="{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{vtranslate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
+							<button id="makeDefaultButton" class="btn btn-info" title="{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
 						</span>
 						<span class="btn-group pull-right">
-							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{vtranslate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="glyphicon glyphicon-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="glyphicon glyphicon-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 						<span class="btn-group pull-right">
-							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{vtranslate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="glyphicon glyphicon-transfer"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="glyphicon glyphicon-transfer"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 						<tr>
 							<td>
 								{assign var=SINGLE_MODULE value="SINGLE_$MODULE"}
-								<button class="rssAddButton btn btn-link tdUnderline">{vtranslate('LBL_RECORDS_NO_FOUND')}. {vtranslate('LBL_CREATE')} {vtranslate($SINGLE_MODULE, $MODULE)}</button>
+								<button class="rssAddButton btn btn-link tdUnderline">{\App\Language::translate('LBL_RECORDS_NO_FOUND')}. {\App\Language::translate('LBL_CREATE')} {\App\Language::translate($SINGLE_MODULE, $MODULE)}</button>
 							</td>
 						</tr>
 					</tbody>

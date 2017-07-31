@@ -544,7 +544,7 @@ abstract class Schema extends Object
 
 			return str_replace('%', $this->db->tablePrefix, $name);
 		} else {
-			return $name;
+			return str_replace('#__', $this->db->tablePrefix, $name);
 		}
 	}
 
