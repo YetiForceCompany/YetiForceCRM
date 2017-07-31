@@ -505,7 +505,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.data = data;
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 				function (reponseData) {
 					aDeferred.resolve(reponseData);
 				}

@@ -283,7 +283,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			filters.push({name: name, value: value});
 		});
 		if (allEvents == true || types.length > 0) {
-			console.log(formatDate, view.start.format(formatDate));
 			var params = {
 				module: 'Calendar',
 				action: 'Calendar',

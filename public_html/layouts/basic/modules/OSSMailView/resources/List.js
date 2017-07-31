@@ -11,7 +11,7 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 			params.data = {module: 'OSSMailView', action: 'BindMails'};
 			$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 			params.async = false;
-			AppConnector.request(params).then(function (data) {
+			AppConnector.request(params).done(function (data) {
 				Vtiger_Helper_Js.showPnotify({
 					text: data.result,
 					delay: '4000',
@@ -30,7 +30,7 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 			var save_params = {};
 			save_params.data = {module: 'OSSMailView', action: 'ChangeType', data: selectedIds, mail_type: mail_type};
 			save_params.async = false;
-			AppConnector.request(save_params).then(
+			AppConnector.request(save_params).done(
 					function (data) {
 						var params = {
 							title: app.vtranslate('JS_MESSAGE'),

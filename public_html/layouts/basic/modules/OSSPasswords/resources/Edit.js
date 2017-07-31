@@ -21,8 +21,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 					record : id
 				};
 				params.async = false;
-
-				AppConnector.request(params).then(
+				AppConnector.request(params).done(
 					function(data) {
 						var response = data['result'];
 						if (response['success']) {
@@ -45,8 +44,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			params.data = { module: 'OSSPasswords', action: 'CheckPass', 'password': password , 'id': id};
 			params.async = false;
 			params.dataType = 'json';
-			
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function(data) {
 					if ( data.result.success == false ) {
 						var params = {

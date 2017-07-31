@@ -41,7 +41,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 				params['view'] = 'Configuration';
 				params['parent'] = app.getParentModuleName();
 				params['async'] = false;
-				AppConnector.request(params).then( function(data) {
+				AppConnector.request(params).done( function(data) {
 					jQuery('.contentsDiv').html(data);
 					thisInstance.registerEvents();
 					progressIndicatorElement.progressIndicator({'mode' : 'hide'});

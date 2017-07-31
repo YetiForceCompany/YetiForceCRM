@@ -18,7 +18,7 @@ function DataAccessSave() {
                 form: form.serializeArray(),
             }
             requestParams.async = false;
-            AppConnector.request(requestParams).then(function(data) {
+            AppConnector.request(requestParams).done(function(data) {
                 var json = jQuery.extend({}, data['result']);
                 jQuery('#validation_data').text(JSON.stringify(json))
             });
@@ -39,7 +39,7 @@ function DataAccessSave() {
 					form: form.serializeArray(),
 				}
 				requestParams.async = false;
-				AppConnector.request(requestParams).then(function(data) {
+				AppConnector.request(requestParams).done(function(data) {
 					var json = jQuery.extend({}, data['result']);
 					jQuery('#validation_data').text(JSON.stringify(json))
 				});
@@ -59,7 +59,7 @@ function DataAccessSave() {
 					form: form.serializeArray(),
 				}
 				requestParams.async = false;
-				AppConnector.request(requestParams).then(function(data) {
+				AppConnector.request(requestParams).done(function(data) {
 					var json = jQuery.extend({}, data['result']);
 					jQuery('#validation_data').text(JSON.stringify(json))
 				});

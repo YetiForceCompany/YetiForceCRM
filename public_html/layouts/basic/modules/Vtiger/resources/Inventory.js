@@ -943,10 +943,9 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		params.async = false;
 		params.dataType = 'json';
 		var progressInstace = jQuery.progressIndicator();
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 				function (data) {
 					progressInstace.hide();
-					var editViewForm = Vtiger_Edit_Js.getInstance().getForm();
 					if (data.result.status == false) {
 						app.showModalWindow(data.result.html, function (data) {});
 						response = false;
