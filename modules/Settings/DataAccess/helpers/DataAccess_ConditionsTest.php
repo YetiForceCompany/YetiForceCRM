@@ -41,7 +41,7 @@ class DataAccess_ConditionsTest
 		} else if ('time' == $cndArray['field_type']) {
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
-			if ($dateTime != false) {
+			if ($dateTime !== false) {
 				if ($dateTime->diff($recordTime)->format('%R') == '+') {
 					return true;
 				} else {
@@ -89,7 +89,7 @@ class DataAccess_ConditionsTest
 			$dateTime = new DateTime($cndArray['val'] . ':00');
 			$recordTime = new DateTime($val);
 
-			if ($dateTime != false) {
+			if ($dateTime !== false) {
 				if ($dateTime->diff($recordTime)->format('%R') != '+') {
 					return true;
 				} else {

@@ -113,9 +113,9 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				$newPassword = strlen($pass_key) > 0 ? hash('sha256', $pass_key) : false;
 
 				// config already exists, cant create encryption password
-				if ($config != false) {
+				if ($config !== false) {
 					$info = 'Encryption password is already created.';
-				} else if ($newPassword != false) {
+				} else if ($newPassword !== false) {
 					// create new config
 					$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 
@@ -152,7 +152,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$error = 'New password too short!';
 				}
 
-				if ($pass_ok && $configKey != false) {
+				if ($pass_ok && $configKey !== false) {
 					// start transaction
 					$adb->startTransaction();
 
@@ -203,7 +203,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$result = $adb->pquery($sql, array($passKey), true);
 
 					// delete config file
-					if ($result != false) {
+					if ($result !== false) {
 						@unlink('modules/OSSPasswords/config.ini.php');
 						$success = 'Password encryption is stopped.';
 					} else {

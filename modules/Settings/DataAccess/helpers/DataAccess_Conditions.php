@@ -48,14 +48,14 @@ class DataAccess_Conditions
 		}
 		$countResponeListRequired = count($responeListRequired);
 		for ($i = 0; $i < $countResponeListRequired; $i++) {
-			if (true != $responeListRequired[$i]) {
+			if (true !== $responeListRequired[$i]) {
 				$responeListRequiredStatus = false;
 			}
 		}
 		if (count($responeListOptional)) {
 			$countResponeListOptional = count($responeListOptional);
 			for ($i = 0; $i < $countResponeListOptional; $i++) {
-				if (true == $responeListOptional[$i]) {
+				if (true === $responeListOptional[$i]) {
 					$responeListOptionalStatus = true;
 				}
 			}

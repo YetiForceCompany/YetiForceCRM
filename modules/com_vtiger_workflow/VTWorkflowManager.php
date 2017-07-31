@@ -35,7 +35,7 @@ class VTWorkflowManager
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
-			if ($wf->filtersavedinnew == null)
+			if ($wf->filtersavedinnew === null)
 				$wf->filtersavedinnew = 5;
 			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
@@ -54,7 +54,7 @@ class VTWorkflowManager
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
-			if ($wf->filtersavedinnew == null)
+			if ($wf->filtersavedinnew === null)
 				$wf->filtersavedinnew = 5;
 			$db->createCommand()->insert('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
@@ -391,12 +391,12 @@ class Workflow
 		foreach ($tasks as &$task) {
 			if ($task->active) {
 				$trigger = $task->trigger;
-				if ($trigger != null) {
+				if ($trigger !== null) {
 					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;
 				} else {
 					$delay = 0;
 				}
-				if ($task->executeImmediately == true) {
+				if ($task->executeImmediately === true) {
 					$task->doTask($recordModel);
 				} else {
 					$hasContents = $task->hasContents($recordModel);
@@ -410,7 +410,7 @@ class Workflow
 
 	public function executionConditionAsLabel($label = null)
 	{
-		if ($label == null) {
+		if ($label === null) {
 			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
 			return $arr[$this->executionCondition - 1];
 		} else {
@@ -566,7 +566,7 @@ class Workflow
 					}
 				}
 
-				if ($nextTime == null) {
+				if ($nextTime === null) {
 					if (!empty($nextTriggerWeekDay)) {
 						$nextTime = date("Y-m-d H:i:s", strtotime($weekDays[$nextTriggerWeekDay] . ' ' . $scheduledTime));
 					} else {
