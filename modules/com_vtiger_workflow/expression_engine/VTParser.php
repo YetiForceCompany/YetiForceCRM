@@ -194,7 +194,7 @@ class VTExpressionParser
 	{
 		$la = $this->la();
 		if ($la->label == "OPERATOR" && in_array($la->value->value, array('+', '-'))) {
-			$token = $this->nextToken();
+			$this->nextToken();
 			$operator = $la->value;
 			$operand = $this->unaryOp();
 			return new VTExpressionTreeNode(array($operator, $operand));
