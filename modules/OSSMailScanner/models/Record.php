@@ -106,20 +106,18 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Return folders config
+	 * @param string|bool $folder
+	 * @return string|array
+	 */
 	public static function getConfigFolderList($folder = false)
 	{
-		$adb = PearDatabase::getInstance();
-		$return = null;
 		if ($folder) {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' && value LIKE '%$folder%' ORDER BY parameter");
-			$return = $adb->query_result($result, 0, 'parameter');
+			return (new \App\Db\Query())->select(['parameter'])->from('vtiger_ossmailscanner_config')->where(['and', ['conf_type' => 'folders'], ['like', 'value', $folder]])->orderBy('parameter')->scalar();
 		} else {
-			$result = $adb->query("SELECT * FROM vtiger_ossmailscanner_config WHERE conf_type = 'folders' ORDER BY parameter DESC");
-			while ($row = $adb->fetch_array($result)) {
-				$return[$row['parameter']] = $row['value'];
-			}
+			return (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'folders'])->orderBy(['parameter' => SORT_DESC])->createCommand()->queryAllByGroup(0);
 		}
-		return $return;
 	}
 
 	/**
