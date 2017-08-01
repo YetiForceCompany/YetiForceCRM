@@ -101,18 +101,13 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	public function getPicklistValues($fieldName)
 	{
 		if ($fieldName === 'default_module') {
-			$db = PearDatabase::getInstance();
-
 			$presence = [0];
 			$restrictedModules = array('Integration', 'Dashboard');
-			$query = 'SELECT name, tablabel FROM vtiger_tab WHERE presence IN (%s) AND isentitytype = ? AND name NOT IN (%s)';
-			$query = sprintf($query, generateQuestionMarks($presence), generateQuestionMarks($restrictedModules));
-			$result = $db->pquery($query, [$presence, '1', $restrictedModules]);
-			$numOfRows = $db->num_rows($result);
-
+			$query = (new \App\Db\Query())->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
 			$moduleData = array('Home' => 'Home');
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$moduleData[$db->query_result($result, $i, 'name')] = $db->query_result($result, $i, 'tablabel');
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$moduleData[$row['name']] = $row['tablabel'];
 			}
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
