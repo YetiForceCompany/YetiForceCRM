@@ -27,19 +27,17 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 		return $this->parent;
 	}
 
+	/**
+	 * Function return link to record
+	 * @return boolean|\Vtiger_Record_Model
+	 */
 	public function getLinkedRecord()
 	{
-		$db = PearDatabase::getInstance();
-
 		$targetId = $this->get('targetid');
 		$targetModule = $this->get('targetmodule');
-
-		$query = 'SELECT * FROM vtiger_crmentity WHERE crmid = ?';
-		$result = $db->pquery($query, [$targetId]);
-		$noOfRows = $db->num_rows($result);
-		if ($noOfRows) {
+		$row = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $targetId])->one();
+		if ($row) {
 			$moduleModel = Vtiger_Module_Model::getInstance($targetModule);
-			$row = $db->getRow($result);
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
