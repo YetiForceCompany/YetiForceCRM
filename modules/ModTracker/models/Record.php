@@ -288,7 +288,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function return Modtracker Field Model
-	 * @return \ModTracker_Field_Model
+	 * @return \ModTracker_Field_Model[]
 	 */
 	public function getFieldInstances()
 	{
