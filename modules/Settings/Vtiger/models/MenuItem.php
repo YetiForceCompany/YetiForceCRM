@@ -15,9 +15,23 @@
 class Settings_Vtiger_MenuItem_Model extends \App\Base
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	protected static $itemsTable = 'vtiger_settings_field';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	protected static $itemId = 'fieldid';
-	public static $transformedUrlMapping = array(
+
+	/**
+	 * Url mapping array
+	 * @var array
+	 */
+	public static $transformedUrlMapping = [
 		'index.php?module=Administration&action=index&parenttab=Settings' => 'index.php?module=Users&parent=Settings&view=List',
 		'index.php?module=Settings&action=listroles&parenttab=Settings' => 'index.php?module=Roles&parent=Settings&view=Index',
 		'index.php?module=Settings&action=ListProfiles&parenttab=Settings' => 'index.php?module=Profiles&parent=Settings&view=List',
@@ -44,7 +58,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 		'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker' => 'index.php?module=Settings&submodule=ModTracker&view=Index',
 		'index.php?module=CronTasks&action=ListCronJobs&parenttab=Settings' => 'index.php?module=CronTasks&parent=Settings&view=List',
 		'index.php?module=ExchangeConnector&action=index&parenttab=Settings' => 'index.php?module=ExchangeConnector&parent=Settings&view=Index'
-	);
+	];
 
 	/**
 	 * Function to get the Id of the menu item
@@ -131,7 +145,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	}
 
 	/**
-	 * Function which will update the pin status 
+	 * Function which will update the pin status
 	 * @param boolean $pinned - true to enable , false to disable
 	 */
 	private function updatePinStatus($pinned = false)
@@ -173,24 +187,20 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	/**
 	 * Function to get the instance of the Menu Item model, given name and Menu instance
 	 * @param string $name
-	 * @param <Settings_Vtiger_Menu_Model> $menuModel
+	 * @param Settings_Vtiger_Menu_Model $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstance($name, $menuModel = false)
 	{
 		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE name = ?', self::$itemsTable);
-		$params = [$name];
-
+		$query = (new \App\Db\Query())
+			->from(self::$itemsTable)
+			->where(['name' => $name]);
 		if ($menuModel) {
-			$sql .= ' WHERE blockid = ?';
-			$params[] = $menuModel->getId();
+			$query->andWhere(['blockid' => $menuModel->getId()]);
 		}
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = $query->one();
+		if ($rowData) {
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			if ($menuModel) {
 				$menuItem->setMenuFromInstance($menuModel);
@@ -205,24 +215,20 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance
 	 * @param string $name
-	 * @param <Settings_Vtiger_Menu_Model> $menuModel
+	 * @param Settings_Vtiger_Menu_Model $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstanceById($id, $menuModel = false)
 	{
 		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$itemsTable, self::$itemId);
-		$params = array($id);
-
+		$query = (new \App\Db\Query())
+			->from(self::$itemsTable)
+			->where([self::$itemId => $id]);
 		if ($menuModel) {
-			$sql .= ' WHERE blockid = ?';
-			$params[] = $menuModel->getId();
+			$query->andWhere(['blockid' => $menuModel->getId()]);
 		}
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = $query->one();
+		if ($rowData) {
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			if ($menuModel) {
 				$menuItem->setMenuFromInstance($menuModel);
@@ -273,7 +279,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the pinned items 
+	 * Function to get the pinned items
 	 * @param array of fieldids.
 	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
 	 */
