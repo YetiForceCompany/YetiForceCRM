@@ -26,7 +26,6 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	 */
 	public static function getConfig($type = false)
 	{
-
 		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
 		$cache = Vtiger_Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
@@ -36,22 +35,20 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 
 		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
 		$query = (new \App\Db\Query())
-			->select(['type', 'param', 'value'])
 			->from('yetiforce_proc_sales');
 		if ($type) {
 			$query->where(['type' => $type]);
 		}
-
-		$result = $query->all();
-		if (count($result) == 0) {
+		$rows = $query->all();
+		if (!$rows) {
 			return [];
 		}
 		$config = [];
-		foreach ($result as $row) {
+		foreach ($rows as $row) {
 			$param = $row['param'];
 			$value = $row['value'];
 			if (in_array($param, $returnArrayForFields)) {
-				$value = $value == '' ? [] : explode(',', $value);
+				$value = $value === '' ? [] : explode(',', $value);
 			}
 			if ($type) {
 				$config[$param] = $value;
@@ -65,7 +62,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	}
 
 	/**
-	 * Set Sales processess config variable
+	 * Set sales processess config variable
 	 * @param array $param
 	 * @return boolean
 	 */
