@@ -50,29 +50,19 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$widgets = $this->modules_email_actions_widgets;
 		$queryParams = [];
 		if (!empty($widgets[$smodule])) {
-			$ids = [];
-			$relatedID = [];
-			if ($filter == 'All' || $filter == 'Contacts') {
-				$result = $adb->pquery('SELECT vtiger_contactdetails.contactid FROM vtiger_contactdetails '
-					. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_contactdetails.contactid '
-					. 'WHERE vtiger_contactdetails.parentid = ? AND vtiger_crmentity.deleted = ?', [$srecord, 0]);
-				while ($row = $adb->fetch_array($result)) {
-					$relatedID[] = $row['contactid'];
-				}
+			if ($filter === 'All' || $filter === 'Contacts') {
+				$relatedId = (new \App\Db\Query())->select(['vtiger_contactdetails.contactid'])->from('vtiger_contactdetails')
+						->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
+						->where(['vtiger_contactdetails.parentid' => $srecord, 'deleted' => 0])->column();
 			}
-			if ($filter != 'Contacts') {
-				$relatedID[] = $srecord;
+			if ($filter !== 'Contacts') {
+				$relatedId[] = $srecord;
 			}
-			if (count($relatedID) == 0) {
+			if (!$relatedId) {
 				return [];
 			}
-			$query = sprintf('SELECT ossmailviewid FROM vtiger_ossmailview_relation WHERE crmid IN(%s) AND deleted = ? ORDER BY date DESC', implode(',', $relatedID));
-			$result = $adb->pquery($query, [0]);
-
-			while ($row = $adb->fetch_array($result)) {
-				$ids[] = $row['ossmailviewid'];
-			}
-			if (count($ids) == 0) {
+			$ids = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0])->orderBy(['date' => SORT_DESC])->column();
+			if (!$ids) {
 				return [];
 			}
 			$queryParams[] = $ids;
@@ -80,19 +70,23 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$ifwhere = ' AND type = ?';
 				$queryParams[] = $type;
 			}
-			$query = 'SELECT vtiger_ossmailview.* FROM vtiger_ossmailview INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid';
-			$query .= sprintf(' WHERE ossmailviewid IN (%s) %s', generateQuestionMarks($ids), $ifwhere);
-			$query .= \App\PrivilegeQuery::getAccessConditions('OSSMailView', false, $srecord);
-			$query .= ' ORDER BY date DESC';
-			if ($config['widget_limit'] != '') {
-				$query .= sprintf(' LIMIT %s', $config['widget_limit']);
+			$query = (new \App\Db\Query())->select(['vtiger_ossmailview.*'])->from('vtiger_ossmailview')
+				->innerJoin('vtiger_crmentity', 'vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid')
+				->where(['ossmailviewid' => $ids]);
+			if ($type !== 'All') {
+				$query->andWhere((['type' => $type]));
 			}
-			$result = $adb->pquery($query, $queryParams, true);
-			while ($row = $adb->fetch_array($result)) {
+			\App\PrivilegeQuery::getConditions($query, 'OSSMailView');
+			$query->orderBy(['date' => SORT_DESC]);
+			if ($config['widget_limit'] !== '') {
+				$query->limit($config['widget_limit']);
+			}
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$from = $this->findRecordsById($row['from_id']);
-				$from = ($from && $from != '') ? $from : $row['from_email'];
+				$from = ($from && $from !== '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
-				$to = ($to && $to != '') ? $to : $row['to_email'];
+				$to = ($to && $to !== '') ? $to : $row['to_email'];
 				$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
 				if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
 					$subject = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';

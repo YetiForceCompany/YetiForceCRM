@@ -205,7 +205,7 @@ class Picklist
 		if (\App\Cache::has('getPicklistDependencyDatasource', $module)) {
 			return \App\Cache::get('getPicklistDependencyDatasource', $module);
 		}
-		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => $tabId]);
+		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)]);
 		$dataReader = $query->createCommand()->query();
 		$picklistDependencyDatasource = [];
 		while ($row = $dataReader->read()) {
