@@ -504,34 +504,23 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Images Data
-	 * @return <Array> list of Image names and paths
+	 * @return array list of Image names and paths
 	 */
 	public function getImageDetails()
 	{
-		$db = PearDatabase::getInstance();
-
 		$imageDetails = [];
 		$recordId = $this->getId();
-
 		if ($recordId) {
-			$query = 'SELECT vtiger_attachments.* FROM vtiger_attachments
-            LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-            WHERE vtiger_salesmanattachmentsrel.smid=?';
-
-			$result = $db->pquery($query, [$recordId]);
-
-			if ($db->getRowCount($result)) {
-				$imageId = $db->query_result($result, 0, 'attachmentsid');
-				$imagePath = $db->query_result($result, 0, 'path');
-				$imageName = $db->query_result($result, 0, 'name');
-				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalName = decode_html($imageName);
-				$imageDetails[] = array(
-					'id' => $imageId,
-					'orgname' => $imageOriginalName,
-					'path' => $imagePath . $imageId,
-					'name' => $imageName
-				);
+			$result = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
+					->leftJoin('vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+					->where(['vtiger_salesmanattachmentsrel.smid' => $recordId])->one();
+			if ($result) {
+				$imageDetails[] = [
+					'id' => $row['attachmentsid'],
+					'orgname' => \App\Purifier::decodeHtml($row['name']),
+					'path' => $row['path'] . $row['attachmentsid'],
+					'name' => $row['name']
+				];
 			}
 		}
 		return $imageDetails;
