@@ -175,30 +175,26 @@ function getProductBaseCurrency($productid, $module = 'Products')
  */
 function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 {
-	$adb = PearDatabase::getInstance();
 	$nameCache = $productid . $mode . $module;
-	$convRate = Vtiger_Cache::get('getBaseConversionRateForProduct', $nameCache);
-	if ($convRate !== false) {
-		return $convRate;
+	if (\App\Cache::has('getBaseConversionRateForProduct', $nameCache)) {
+		return \App\Cache::get('getBaseConversionRateForProduct', $nameCache);
 	}
-	$current_user = vglobal('current_user');
-	if ($mode == 'edit') {
-		if ($module == 'Services') {
-			$sql = "select conversion_rate from vtiger_service inner join vtiger_currency_info
-					on vtiger_service.currency_id = vtiger_currency_info.id where vtiger_service.serviceid=?";
+	$query = (new \App\Db\Query());
+	if ($mode === 'edit') {
+		if ($module === 'Services') {
+			$convRate = $query->select(['conversion_rate'])->from('vtiger_service')
+					->innerJoin('vtiger_currency_info', 'vtiger_service.currency_id = vtiger_currency_info.id')
+					->where(['tiger_service.serviceid' => $productid])->scalar();
 		} else {
-			$sql = "select conversion_rate from vtiger_products inner join vtiger_currency_info
-					on vtiger_products.currency_id = vtiger_currency_info.id where vtiger_products.productid=?";
+			$convRate = $query->select(['conversion_rate'])->from('vtiger_products')
+					->innerJoin('vtiger_currency_info', 'vtiger_products.productid = vtiger_currency_info.id')
+					->where(['vtiger_products.productid' => $productid])->scalar();
 		}
-		$params = array($productid);
 	} else {
-		$sql = "select conversion_rate from vtiger_currency_info where id=?";
-		$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
+		$convRate = $query->select(['conversion_rate'])->from('vtiger_currency_info')
+				->where(['id' => \vtlib\Functions::userCurrencyId(\App\User::getCurrentUserId())])->scalar();
 	}
-
-	$result = $adb->pquery($sql, $params);
-	$convRate = $adb->getSingleValue($result);
 	$convRate = 1 / $convRate;
-	Vtiger_Cache::set('getBaseConversionRateForProduct', $nameCache, $convRate);
+	\App\Cache::save('getBaseConversionRateForProduct', $nameCache, $convRate);
 	return $convRate;
 }
