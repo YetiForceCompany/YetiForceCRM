@@ -80,16 +80,14 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the all Values
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @return array
 	 */
 	public function getAllValue()
 	{
 		$template = $this->get('field')->getFieldParams();
-		$adb = PearDatabase::getInstance();
 		$values = [];
-		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
-		while ($row = $adb->getRow($result)) {
+		$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $template])->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$tree = $row['tree'];
 			$parent = '';
 			$parentName = '';
@@ -99,11 +97,10 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 				$parenttrre = substr($parenttrre, 0, - $cut);
 				$pieces = explode('::', $parenttrre);
 				$parent = end($pieces);
-				$result3 = $adb->pquery("SELECT name FROM vtiger_trees_templates_data WHERE templateid = ? && tree = ?", array($template, $parent));
-				$parentName = $adb->getSingleValue($result3);
+				$parentName = (new \App\Db\Query())->select(['name'])->from('vtiger_trees_templates_data')->where(['templateid' => $template, 'tree' => $parent])->scalar();
 				$parentName = '(' . \App\Language::translate($parentName, $module) . ') ';
 			}
-			$values[$row['tree']] = array($parentName . \App\Language::translate($row['name'], $this->get('field')->getModuleName()), $parent);
+			$values[$row['tree']] = [$parentName . \App\Language::translate($row['name'], $this->get('field')->getModuleName()), $parent];
 		}
 		return $values;
 	}
