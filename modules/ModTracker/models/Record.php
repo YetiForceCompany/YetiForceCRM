@@ -286,23 +286,25 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $this->get('changedon');
 	}
 
+	/**
+	 * Function return Modtracker Field Model
+	 * @return \ModTracker_Field_Model
+	 */
 	public function getFieldInstances()
 	{
-		$id = $this->get('id');
-		$db = PearDatabase::getInstance();
-
 		$fieldInstances = [];
 		if ($this->isCreate() || $this->isUpdate()) {
-			$result = $db->pquery('SELECT * FROM vtiger_modtracker_detail WHERE id = ?', array($id));
-			while ($data = $db->getRow($result)) {
+			$dataReader = (new \App\Db\Query())->from('vtiger_modtracker_detail')->where(['id' => $this->get('id')])->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$row = array_map('html_entity_decode', $data);
-
-				if ($row['fieldname'] == 'record_id' || $row['fieldname'] == 'record_module')
+				if ($row['fieldname'] === 'record_id' || $row['fieldname'] === 'record_module') {
 					continue;
+				}
 
 				$fieldModel = Vtiger_Field_Model::getInstance($row['fieldname'], $this->getModule());
-				if (!$fieldModel)
+				if (!$fieldModel) {
 					continue;
+				}
 
 				$fieldInstance = new ModTracker_Field_Model();
 				$fieldInstance->setData($row)->setParent($this)->setFieldInstance($fieldModel);
