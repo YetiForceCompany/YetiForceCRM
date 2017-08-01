@@ -355,18 +355,15 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$query = (new \App\Db\Query())
 			->select(['id'])
 			->from('vtiger_users');
-		$sql = 'SELECT id FROM vtiger_users';
 		if ($onlyActive) {
 			$query->where(['status' => 'Active']);
 		}
-
 		$users = [];
 		$focus = new Users();
 		$dataReader = $query->createCommand()->query();
 		while ($userId = $dataReader->readColumn(0)) {
 			$focus->id = $userId;
 			$focus->retrieve_entity_info($userId, 'Users');
-
 			$userModel = self::getInstanceFromUserObject($focus);
 			$users[$userModel->getId()] = $userModel;
 		}
