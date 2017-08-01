@@ -227,15 +227,11 @@ class Vtiger_Language_Handler
 	/**
 	 * Function to get the label name of the Langauge package
 	 * @param string $name
+	 * @return string|boolean
 	 */
 	public static function getLanguageLabel($name)
 	{
-		$db = PearDatabase::getInstance();
-		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', array($name));
-		if ($db->num_rows($languageResult)) {
-			return $db->query_result($languageResult, 0, 'label');
-		}
-		return false;
+		return (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
 	}
 
 	public static function getTranslateSingularModuleName($moduleName)
