@@ -144,11 +144,7 @@ class PrivilegeUtil
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
 		}
-		$dataReader = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->createCommand()->query();
-		$users = [];
-		while ($row = $dataReader->readColumn(0)) {
-			$users[] = $row;
-		}
+		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->column();
 		static::$usersByRoleCache[$roleId] = $users;
 		return $users;
 	}
@@ -166,7 +162,7 @@ class PrivilegeUtil
 		$users = static::getUsersByRole($roleId);
 		$roleRelatedUsers = [];
 		if ($users) {
-			foreach ($users as $key => $userId) {
+			foreach ($users as $userId) {
 				$roleRelatedUsers[$userId] = Fields\Owner::getUserLabel($userId);
 			}
 		}
