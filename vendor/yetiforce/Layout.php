@@ -20,7 +20,7 @@ class Layout
 	 */
 	public static function getActiveLayout()
 	{
-		$layout = \Vtiger_Session::get('layout');
+		$layout = \App\Session::get('layout');
 		if (!empty($layout)) {
 			return $layout;
 		}

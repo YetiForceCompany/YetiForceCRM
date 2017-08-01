@@ -7,9 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-Vtiger_Loader::includeOnce('include.http.Request');
 Vtiger_Loader::includeOnce('include.http.Response');
-Vtiger_Loader::includeOnce('include.http.Session');
 Vtiger_Loader::includeOnce('include.runtime.Globals');
 Vtiger_Loader::includeOnce('include.runtime.Controller');
 Vtiger_Loader::includeOnce('include.runtime.Viewer');

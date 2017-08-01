@@ -120,7 +120,7 @@ abstract class Vtiger_Controller
 		header('X-Robots-Tag: none');
 		header('X-Permitted-Cross-Domain-Policies: none');
 		if (AppConfig::security('CSP_ACTIVE')) {
-			// 'nonce-" . Vtiger_Session::get('CSP_TOKEN') . "'
+			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
 			header("Content-Security-Policy: default-src 'self'; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;");
 		}
 		if ($keys = AppConfig::security('HPKP_KEYS')) {

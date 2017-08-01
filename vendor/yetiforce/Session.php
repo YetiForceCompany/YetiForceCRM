@@ -6,7 +6,7 @@ namespace App;
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
- * @author Adrian Koń <a.kon@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Session
 {
@@ -23,12 +23,71 @@ class Session
 	public static function init()
 	{
 		$driver = \AppConfig::performance('SESSION_DRIVER');
-		static::$staticPool = new \App\Cache\File();
 		if ($driver) {
-			$className = '\App\Cache\\' . $driver;
+			$className = '\App\Session\\' . $driver;
 			static::$pool = new $className();
-			return;
+			session_set_save_handler(static::$pool, true);
+			session_start();
 		}
-		static::$pool = static::$staticPool;
+	}
+
+	/**
+	 * Returns a session Item representing the specified key.
+	 * @param string $key
+	 * @return string|array
+	 */
+	public static function get($key)
+	{
+		return static::$pool->get($key);
+	}
+
+	/**
+	 * Confirms if the session contains specified session item.
+	 * @param string $key
+	 * @return bool
+	 */
+	public static function has($key)
+	{
+		return static::$pool->has($key);
+	}
+
+	/**
+	 * Session Save
+	 * @param string $key
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public static function set($key, $value = null)
+	{
+		return static::$pool->set($key, $value);
+	}
+
+	/**
+	 * Removes the item from the session.
+	 * @param string $key
+	 * @return bool
+	 */
+	public static function delete($key)
+	{
+		static::$pool->delete($key);
+	}
+
+	/**
+	 * Update the current session id with a newly generated one
+	 * @link http://php.net/manual/en/function.session-regenerate-id.php
+	 * @param bool $deleteOldSession
+	 */
+	public static function regenerateId($deleteOldSession = false)
+	{
+		static::$pool->regenerateId($deleteOldSession);
+	}
+
+	/**
+	 * Destroys all data registered to a session
+	 * @link http://php.net/manual/en/function.session-destroy.php
+	 */
+	public static function destroy()
+	{
+		static::$pool->destroy();
 	}
 }

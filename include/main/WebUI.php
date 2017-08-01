@@ -36,7 +36,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($return_params && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
 				$return_params = urlencode($return_params);
-				Vtiger_Session::set('return_params', $return_params);
+				App\Session::set('return_params', $return_params);
 			}
 			header('Location: index.php');
 			throw new \Exception\AppException('Login is required');
@@ -50,9 +50,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	public function getLogin()
 	{
 		$user = parent::getLogin();
-		if (!$user && Vtiger_Session::has('authenticated_user_id')) {
-			$userid = Vtiger_Session::get('authenticated_user_id');
-			if ($userid && AppConfig::main('application_unique_key') === Vtiger_Session::get('app_unique_key')) {
+		if (!$user && App\Session::has('authenticated_user_id')) {
+			$userid = App\Session::get('authenticated_user_id');
+			if ($userid && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
 				\App\User::getCurrentUserModel();
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
@@ -109,11 +109,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('Location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
-		if (\App\RequestUtil::getBrowserInfo()->https) {
-			$params = session_get_cookie_params();
-			session_set_cookie_params($params['lifetime'], $params['path'], $params['domain'], true, true);
-		}
-		Vtiger_Session::init();
+		App\Session::init();
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
@@ -238,9 +234,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function cspInitToken()
 	{
-		if (!Vtiger_Session::has('CSP_TOKEN') || Vtiger_Session::get('CSP_TOKEN_TIME') < time()) {
-			Vtiger_Session::set('CSP_TOKEN', sha1(AppConfig::main('application_unique_key') . time()));
-			Vtiger_Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
+		if (!App\Session::has('CSP_TOKEN') || App\Session::get('CSP_TOKEN_TIME') < time()) {
+			App\Session::set('CSP_TOKEN', sha1(AppConfig::main('application_unique_key') . time()));
+			App\Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
 		}
 	}
 }
