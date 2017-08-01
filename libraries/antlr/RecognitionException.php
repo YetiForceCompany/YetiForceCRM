@@ -170,5 +170,3 @@ class RecognitionException extends Exception
 		}
 	}
 }
-
-?>
