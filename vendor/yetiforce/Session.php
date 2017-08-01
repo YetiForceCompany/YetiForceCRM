@@ -38,6 +38,9 @@ class Session
 	 */
 	public static function get($key)
 	{
+		if (empty(static::$pool)) {
+			return null;
+		}
 		return static::$pool->get($key);
 	}
 
@@ -48,6 +51,9 @@ class Session
 	 */
 	public static function has($key)
 	{
+		if (empty(static::$pool)) {
+			return null;
+		}
 		return static::$pool->has($key);
 	}
 
