@@ -28,7 +28,7 @@ class ModuleBasic
 	public $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
 	public $tabsequence = false;
 	public $parent = false;
-	public $customized = 0;
+	public $customized = 1;
 	public $isentitytype = true; // Real module or an extension?
 	public $entityidcolumn = false;
 	public $entityidfield = false;
@@ -100,9 +100,6 @@ class ModuleBasic
 		if (!$this->label) {
 			$this->label = $this->name;
 		}
-
-		$customized = 1; // To indicate this is a Custom Module
-
 		$db->createCommand()->insert('vtiger_tab', [
 			'tabid' => $this->id,
 			'name' => $this->name,
@@ -111,7 +108,7 @@ class ModuleBasic
 			'tablabel' => $this->label,
 			'modifiedby' => NULL,
 			'modifiedtime' => NULL,
-			'customized' => $customized,
+			'customized' => $this->customized,
 			'ownedby' => $this->ownedby,
 			'version' => $this->version,
 			'parent' => $this->parent,

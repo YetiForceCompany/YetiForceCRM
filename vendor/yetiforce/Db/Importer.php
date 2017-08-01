@@ -519,10 +519,10 @@ class Importer
 			if (isset($table['primaryKeys'])) {
 				$dbPrimaryKeys = $importer->db->getPrimaryKey($tableName);
 				foreach ($table['primaryKeys'] as $primaryKey) {
-					$status = false;
+					$status = true;
 					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
-						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) === 1 && $primaryKey[1] === $dbPrimaryKey[0]) : array_diff($primaryKey[1], $dbPrimaryKey)) {
-							$status = true;
+						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) !== 1 && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
+							$status = false;
 						}
 					}
 					if ($status) {
@@ -530,7 +530,7 @@ class Importer
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
 								$dbCommand->dropPrimaryKey($primaryKey[0], $tableName)->execute();
-							} else {
+							} elseif ($dbPrimaryKeys) {
 								$dbCommand->dropPrimaryKey(key($dbPrimaryKeys), $tableName)->execute();
 							}
 							$dbCommand->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
