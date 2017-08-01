@@ -52,25 +52,38 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$db->pquery($sql, array($id), true);
 	}
 
+	/**
+	 * Return email  actions name list
+	 * @param array $data
+	 * @return array
+	 */
 	public static function getEmailActionsListName($data)
 	{
 		$return = [];
 		foreach ($data as $row) {
 			if ($row[0] == 'files') {
-				$return[] = array($row[1], $row[1]);
+				$return[] = [$row[1], $row[1]];
 			} else {
 				foreach ($row[2] as $row_dir) {
-					$return[] = array($row_dir[1], $row[1] . '|' . $row_dir[1]);
+					$return[] = [$row_dir[1], $row[1] . '|' . $row_dir[1]];
 				}
 			}
 		}
 		return $return;
 	}
 
-	public static function setActions($userid, $vale)
+	/**
+	 * Update user actions
+	 * @param int $userid
+	 * @param string $value
+	 */
+	public static function setActions($userid, $value)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE roundcube_users SET actions = ? WHERE user_id = ?", array($vale, $userid), true);
+		\App\Db::getInstance()->createCommand()
+			->update('roundcube_users', [
+				'actions' => $value,
+				], ['user_id' => $userid])
+			->execute();
 	}
 
 	/**
@@ -80,7 +93,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function setFolderList($user, $foldersByType)
 	{
-		$db = PearDatabase::getInstance();
 		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$oldFoldersByType = (new \App\Db\Query())->select(['type', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $user])->createCommand()->queryAllByGroup(2);
 		foreach ($types as $type) {
