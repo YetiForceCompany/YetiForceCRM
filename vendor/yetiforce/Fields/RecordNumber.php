@@ -77,11 +77,7 @@ class RecordNumber
 	 */
 	public static function incrementNumber($moduleId)
 	{
-		$db = \PearDatabase::getInstance();
-		//when we save new invoice we will increment the invoice id and write
-		$result = $db->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ?', [$moduleId]);
-		$row = $db->getRow($result);
-
+		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
 		$prefix = $row['prefix'];
 		$postfix = $row['postfix'];
 		$curId = $row['cur_id'];
@@ -93,7 +89,7 @@ class RecordNumber
 		$temp = str_repeat('0', $strip);
 		$reqNo = $temp . ($curId + 1);
 		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
-		return decode_html($fullPrefix);
+		return \App\Purifier::decodeHtml($fullPrefix);
 	}
 
 	/**
