@@ -153,7 +153,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 			if (!empty($recipients['Roles'])) {
 				foreach ($recipients['Roles'] as $roleId) {
-					$roleUsers = getRoleUsers($roleId);
+					$roleUsers = \App\PrivilegeUtil::getUsersNameByRole($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
