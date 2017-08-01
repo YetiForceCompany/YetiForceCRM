@@ -21,9 +21,8 @@ class Picklist
 	public static function getRoleBasedPicklistValues($fieldName, $roleId)
 	{
 		$cacheKey = $fieldName . $roleId;
-		$cache = \App\Cache::get('getRoleBasedPicklistValues', $cacheKey);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getRoleBasedPicklistValues', $cacheKey)) {
+			return \App\Cache::get('getRoleBasedPicklistValues', $cacheKey);
 		}
 		$dataReader = (new \App\Db\Query())->select($fieldName)
 				->from("vtiger_$fieldName")
@@ -47,9 +46,8 @@ class Picklist
 	 */
 	public static function getPickListValues($fieldName)
 	{
-		$cache = \App\Cache::get('getPickListValues', $fieldName);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getPickListValues', $fieldName)) {
+			return \App\Cache::get('getPickListValues', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -88,9 +86,8 @@ class Picklist
 	 */
 	public static function getNonEditablePicklistValues($fieldName)
 	{
-		$cache = \App\Cache::get('getNonEditablePicklistValues', $fieldName);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getNonEditablePicklistValues', $fieldName)) {
+			return \App\Cache::get('getNonEditablePicklistValues', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -157,9 +154,8 @@ class Picklist
 	 */
 	public static function getAssignedPicklistValues($tableName, $roleid)
 	{
-		$cache = \App\Cache::get('getAssignedPicklistValues', $tableName . $roleid);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getAssignedPicklistValues', $tableName . $roleid)) {
+			return \App\Cache::get('getAssignedPicklistValues', $tableName . $roleid);
 		}
 		$values = [];
 		$adb = \PearDatabase::getInstance();
@@ -206,9 +202,8 @@ class Picklist
 	 */
 	public static function getPicklistDependencyDatasource($module)
 	{
-		$cache = \App\Cache::get('getPicklistDependencyDatasource', $module);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getPicklistDependencyDatasource', $module)) {
+			return \App\Cache::get('getPicklistDependencyDatasource', $module);
 		}
 		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => $tabId]);
 		$dataReader = $query->createCommand()->query();
@@ -238,8 +233,8 @@ class Picklist
 				}
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
 			}
-			\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
 		}
+		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
 		return $picklistDependencyDatasource;
 	}
 }
