@@ -8,8 +8,8 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~modules/Reports/Reports.php');
-vimport('~modules/Reports/ReportRun.php');
+Vtiger_Loader::includeOnce('~modules/Reports/Reports.php');
+Vtiger_Loader::includeOnce('~modules/Reports/ReportRun.php');
 require_once('modules/Reports/ReportUtils.php');
 require_once('Report.php');
 

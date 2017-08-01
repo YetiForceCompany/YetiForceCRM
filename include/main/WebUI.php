@@ -13,7 +13,7 @@ require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
-vimport('include.runtime.EntryPoint');
+Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
 App\Debuger::init();
 App\Cache::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');

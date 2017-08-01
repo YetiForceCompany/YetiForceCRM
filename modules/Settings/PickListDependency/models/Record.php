@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-vimport('~~modules/PickList/DependentPickListUtils.php');
+Vtiger_Loader::includeOnce('~~modules/PickList/DependentPickListUtils.php');
 
 class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Model
 {

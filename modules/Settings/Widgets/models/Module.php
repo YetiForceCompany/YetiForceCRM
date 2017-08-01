@@ -60,7 +60,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 			$action = str_replace('.php', "", $ff);
 			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
 				$folderFiles[$action] = $action;
-				vimport('~~' . $dir . $ff);
+				Vtiger_Loader::includeOnce('~~' . $dir . $ff);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
 				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {

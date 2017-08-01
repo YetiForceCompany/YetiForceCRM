@@ -139,9 +139,9 @@ class PaymentsIn extends Vtiger_CRMEntity
 
 	private function addWorkflow($moduleName)
 	{
-		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$db = PearDatabase::getInstance();
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager();

@@ -76,8 +76,8 @@ class Vtiger_DetailView_Model extends \App\Base
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
 			$adb = PearDatabase::getInstance();
-			vimport('~~modules/com_vtiger_workflow/include.php');
-			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager($adb);
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
