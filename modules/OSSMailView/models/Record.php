@@ -56,7 +56,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$return = [];
 		$widgets = $this->modules_email_actions_widgets;
-		$queryParams = [];
 		if (!empty($widgets[$smodule])) {
 			if ($filter === 'All' || $filter === 'Contacts') {
 				$relatedId = (new \App\Db\Query())->select(['vtiger_contactdetails.contactid'])->from('vtiger_contactdetails')
@@ -69,18 +68,10 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			if (!$relatedId) {
 				return [];
 			}
-			$ids = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0])->orderBy(['date' => SORT_DESC])->column();
-			if (!$ids) {
-				return [];
-			}
-			$queryParams[] = $ids;
-			if ($type != 'All') {
-				$ifwhere = ' AND type = ?';
-				$queryParams[] = $type;
-			}
+			$subQuery = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0])->orderBy(['date' => SORT_DESC])->column();
 			$query = (new \App\Db\Query())->select(['vtiger_ossmailview.*'])->from('vtiger_ossmailview')
 				->innerJoin('vtiger_crmentity', 'vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid')
-				->where(['ossmailviewid' => $ids]);
+				->where(['ossmailviewid' => $subQuery]);
 			if ($type !== 'All') {
 				$query->andWhere((['type' => $type]));
 			}
