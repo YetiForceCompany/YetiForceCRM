@@ -521,7 +521,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('TYPE_VIEW', "List");
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		return $viewer->view('CommentsList.tpl');
+		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
 
 	/**
