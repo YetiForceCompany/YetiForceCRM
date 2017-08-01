@@ -314,14 +314,14 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $fieldInstances;
 	}
 
+	/**
+	 * Function return modtracker relation model
+	 * @return \ModTracker_Relation_Model
+	 */
 	public function getRelationInstance()
 	{
-		$id = $this->get('id');
-		$db = PearDatabase::getInstance();
-
 		if ($this->isRelationLink() || $this->isRelationUnLink()) {
-			$result = $db->pquery('SELECT * FROM vtiger_modtracker_relations WHERE id = ?', array($id));
-			$row = $db->query_result_rowdata($result, 0);
+			$row = (new \App\Db\Query())->from('vtiger_modtracker_relations')->where(['id' => $this->get('id')]);
 			$relationInstance = new ModTracker_Relation_Model();
 			$relationInstance->setData($row)->setParent($this);
 		}
