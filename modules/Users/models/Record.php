@@ -500,6 +500,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getImageDetails()
 	{
+		if (\App\Cache::has('getImageDetails', 'imageDetails')) {
+			return \App\Cache::get('getImageDetails', 'imageDetails');
+		}
 		$imageDetails = [];
 		$recordId = $this->getId();
 		if ($recordId) {
@@ -515,6 +518,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				];
 			}
 		}
+		\App\Cache::get('getImageDetails', 'imageDetails', $imageDetails);
 		return $imageDetails;
 	}
 
