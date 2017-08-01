@@ -12,10 +12,34 @@
 class Vtiger_PDF_Model extends \App\Base
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public static $baseTable = 'a_yf_pdf';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	public static $baseIndex = 'pdfid';
+
+	/**
+	 * Records cache
+	 * @var array
+	 */
 	protected $recordCache = [];
+
+	/**
+	 * Current record id
+	 * @var int
+	 */
 	protected $recordId;
+
+	/**
+	 * View to picklist assigment array
+	 * @var array
+	 */
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
 	/**
@@ -46,6 +70,11 @@ class Vtiger_PDF_Model extends \App\Base
 		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
 	}
 
+	/**
+	 *  Return key value
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function get($key)
 	{
 		if ($key === 'conditions' && !is_array(parent::get($key))) {
@@ -55,6 +84,11 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Return raw key value
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function getRaw($key)
 	{
 		return parent::get($key);
@@ -89,6 +123,10 @@ class Vtiger_PDF_Model extends \App\Base
 		$this->recordId = $id;
 	}
 
+	/**
+	 * Return module instance or false
+	 * @return object|false
+	 */
 	public function getModule()
 	{
 		return Vtiger_Module_Model::getInstance($this->get('module_name'));
@@ -112,6 +150,13 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Return available templates for record
+	 * @param int $recordId
+	 * @param string $view
+	 * @param string $moduleName
+	 * @return array
+	 */
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
 
@@ -132,6 +177,12 @@ class Vtiger_PDF_Model extends \App\Base
 		return $templates;
 	}
 
+	/**
+	 * Return available templates for module
+	 * @param string $moduleName
+	 * @param string $view
+	 * @return array
+	 */
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -208,15 +259,24 @@ class Vtiger_PDF_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * Remove conditions for current record
+	 */
 	public function deleteConditions()
 	{
-		$db = PearDatabase::getInstance();
-		$db->update(self::$baseTable, [
-			'conditions' => ''
-			], self::$baseIndex . ' = ? LIMIT 1', [$this->getId()]
-		);
+		\App\Db::getInstance()->createCommand()
+			->update(self::$baseTable, [
+				'conditions' => '',
+				], [self::$baseIndex => $this->getId()])
+			->limit(1)
+			->execute();
 	}
 
+	/**
+	 * Check if is visible for provided view
+	 * @param string $view
+	 * @return boolean
+	 */
 	public function isVisible($view)
 	{
 		$visibility = explode(',', $this->get('visibility'));
@@ -246,6 +306,10 @@ class Vtiger_PDF_Model extends \App\Base
 		return $test;
 	}
 
+	/**
+	 * Check if user has permissions to record
+	 * @return boolean
+	 */
 	public function checkUserPermissions()
 	{
 		$permissions = $this->get('template_members');
@@ -414,11 +478,20 @@ class Vtiger_PDF_Model extends \App\Base
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
+	/**
+	 * Attach current record to email
+	 * @param string $salt
+	 */
 	public static function attachToEmail($salt)
 	{
 		header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $salt);
 	}
 
+	/**
+	 * Compress files and send to browser
+	 * @param array $fileNames
+	 * @throws \Exception\NoPermitted
+	 */
 	public static function zipAndDownload(array $fileNames)
 	{
 
