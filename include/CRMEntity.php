@@ -608,25 +608,30 @@ class CRMEntity
 		}
 	}
 
+	/**
+	 * Function add info about relations
+	 * @param string $module
+	 * @param int $crmid
+	 * @param string $withModule
+	 * @param int $withCrmid
+	 */
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = PearDatabase::getInstance();
 		foreach ($withCrmid as $relcrmid) {
-			if ($withModule == 'Documents') {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
-				// Relation already exists? No need to add again
-				if ($checkpresence && $db->getRowCount($checkpresence))
+			if ($withModule === 'Documents') {
+				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_senotesrel')->where(['crmid' => $crmid, 'notesid' => $relcrmid]);
+				if ($checkpresence) {
 					continue;
+				}
 				\App\Db::getInstance()->createCommand()->insert('vtiger_senotesrel', [
 					'crmid' => $crmid,
 					'notesid' => $relcrmid
 				])->execute();
 			} else {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
-				);
-				// Relation already exists? No need to add again
-				if ($checkpresence && $db->getRowCount($checkpresence))
+				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['crmid' => $crmid, 'module' => $module, 'relcrmid' => $relcrmid, 'relmodule' => $withModule])->one();
+				if ($checkpresence) {
 					continue;
+				}
 				\App\Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
 					'crmid' => $crmid,
 					'module' => $module,
