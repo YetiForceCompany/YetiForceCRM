@@ -30,26 +30,23 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $actions;
 	}
 
+	/**
+	 * Return user identities
+	 * @param int $id
+	 * @return array
+	 */
 	public static function getIdentities($id)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = "SELECT * FROM roundcube_identities WHERE user_id = ?";
-		$result = $db->pquery($sql, array($id), true);
-		$output = [];
-		$newRowCount = $db->getRowCount($result);
-		for ($i = 0; $i < $newRowCount; $i++) {
-			$output[$i]['name'] = $db->query_result($result, $i, 'name');
-			$output[$i]['email'] = $db->query_result($result, $i, 'email');
-			$output[$i]['identity_id'] = $db->query_result($result, $i, 'identity_id');
-		}
-		return $output;
+		return (new \App\Db\Query())->select('name', 'email', 'identity_id')->from('roundcube_identities')->where(['user_id' => $id])->createCommand()->queryAll();
 	}
 
+	/**
+	 * Delete identity by id
+	 * @param int $id
+	 */
 	public function deleteIdentities($id)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = "DELETE FROM roundcube_identities WHERE identity_id = ?";
-		$db->pquery($sql, array($id), true);
+		\App\Db::getInstance()->createCommand()->delete('roundcube_identities', ['identity_id' => $id])->execute();
 	}
 
 	/**
