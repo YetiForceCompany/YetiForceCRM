@@ -9,7 +9,6 @@
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . '/../../../');
 include_once 'include/main/WebUI.php';
-Vtiger_Loader::includeOnce('include.http.Request');
 
 class PBXManager_PBXManager_Callbacks
 {
