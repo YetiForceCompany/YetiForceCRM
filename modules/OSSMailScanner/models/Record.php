@@ -122,17 +122,20 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Return mailscanner config
+	 * @param string|bool $conf_type
+	 * @return array
+	 */
 	public static function getConfig($conf_type)
 	{
-		$adb = PearDatabase::getInstance();
-		$queryParams = [];
-		$sql = '';
+		$query = (new \App\Db\Query())->from('vtiger_ossmailscanner_config');
 		if ($conf_type !== '' || $conf_type !== false) {
-			$sql = 'WHERE conf_type = ?';
-			$queryParams[] = $conf_type;
+			$query->where(['conf_type' => $conf_type]);
 		}
-		$result = $adb->pquery("SELECT * FROM vtiger_ossmailscanner_config $sql ORDER BY parameter DESC", $queryParams);
-		while ($row = $adb->fetch_array($result)) {
+		$query->orderBy(['parameter' => SORT_DESC]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if ($conf_type !== '' || $conf_type !== false) {
 				$return[$row['parameter']] = $row['value'];
 			} else {
