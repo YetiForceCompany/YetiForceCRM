@@ -101,6 +101,6 @@ class Base extends \SessionHandler
 			return false;
 		}
 		session_unset();
-		session_destroy();
+		return session_destroy();
 	}
 }
