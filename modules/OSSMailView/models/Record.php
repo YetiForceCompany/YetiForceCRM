@@ -43,10 +43,18 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Function return emails list
+	 * @param int $srecord
+	 * @param string $smodule
+	 * @param array $config
+	 * @param string $type
+	 * @param string $filter
+	 * @return string[]
+	 */
 	public function showEmailsList($srecord, $smodule, $config, $type, $filter = 'All')
 	{
 		$return = [];
-		$adb = PearDatabase::getInstance();
 		$widgets = $this->modules_email_actions_widgets;
 		$queryParams = [];
 		if (!empty($widgets[$smodule])) {
