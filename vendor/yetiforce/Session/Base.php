@@ -95,7 +95,7 @@ class Base extends \SessionHandler
 	 * @link http://php.net/manual/en/function.session-destroy.php
 	 * @param string $sessionId
 	 */
-	public function destroy()
+	public function destroy($sessionId = '')
 	{
 		if (session_id() === '') {
 			return false;
