@@ -9,12 +9,21 @@
 class Settings_SalesProcesses_Module_Model extends \App\Base
 {
 
+	/**
+	 * Return clean instance of self
+	 * @return \self
+	 */
 	public static function getCleanInstance()
 	{
 		$instance = new self();
 		return $instance;
 	}
 
+	/**
+	 * Return sales processess configuration array
+	 * @param string $type
+	 * @return array
+	 */
 	public static function getConfig($type = false)
 	{
 
@@ -24,31 +33,30 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 			\App\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
-		$db = PearDatabase::getInstance();
-		$params = [];
+
 		$returnArrayForFields = ['groups', 'status', 'calculationsstatus', 'salesstage', 'salesstage', 'assetstatus', 'statuses_close'];
-		$sql = 'SELECT * FROM yetiforce_proc_sales';
+		$query = (new \App\Db\Query())
+			->select(['type', 'param', 'value'])
+			->from('yetiforce_proc_sales');
 		if ($type) {
-			$sql .= ' WHERE type = ?';
-			$params[] = $type;
+			$query->where(['type' => $type]);
 		}
 
-		$result = $db->pquery($sql, $params);
-		if ($db->num_rows($result) == 0) {
+		$result = $query->all();
+		if (count($result) == 0) {
 			return [];
 		}
 		$config = [];
-		$numRowsCount = $db->num_rows($result);
-		for ($i = 0; $i < $numRowsCount; ++$i) {
-			$param = $db->query_result_raw($result, $i, 'param');
-			$value = $db->query_result_raw($result, $i, 'value');
+		foreach ($result as $row) {
+			$param = $row['param'];
+			$value = $row['value'];
 			if (in_array($param, $returnArrayForFields)) {
 				$value = $value == '' ? [] : explode(',', $value);
 			}
 			if ($type) {
 				$config[$param] = $value;
 			} else {
-				$config[$db->query_result_raw($result, $i, 'type')][$param] = $value;
+				$config[$row['type']][$param] = $value;
 			}
 		}
 		Vtiger_Cache::set('SalesProcesses', $type === false ? 'all' : $type, $config);
@@ -56,6 +64,11 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 		return $config;
 	}
 
+	/**
+	 * Set Sales processess config variable
+	 * @param array $param
+	 * @return boolean
+	 */
 	public static function setConfig($param)
 	{
 		\App\Log::trace('Start ' . __METHOD__);
