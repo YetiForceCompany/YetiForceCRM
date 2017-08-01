@@ -178,7 +178,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 
 		if ($display) {
@@ -693,7 +693,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			if (is_numeric($relatedModuleName)){
+			if (is_numeric($relatedModuleName)) {
 				$relatedModuleName = vtlib\Functions::getModuleName($relatedModuleName);
 			}
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);

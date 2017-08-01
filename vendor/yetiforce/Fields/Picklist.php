@@ -198,4 +198,48 @@ class Picklist
 			return $values;
 		}
 	}
+
+	/**
+	 * Function to get picklist dependency data source
+	 * @param string $module
+	 * @return array
+	 */
+	public static function getPicklistDependencyDatasource($module)
+	{
+		$cache = \App\Cache::get('getPicklistDependencyDatasource', $module);
+		if ($cache) {
+			return $cache;
+		}
+		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => $tabId]);
+		$dataReader = $query->createCommand()->query();
+		$picklistDependencyDatasource = [];
+		while ($row = $dataReader->read()) {
+			$pickArray = [];
+			$sourceField = $row['sourcefield'];
+			$targetField = $row['targetfield'];
+			$sourceValue = App\Purifier::decodeHtml($row['sourcevalue']);
+			$targetValues = App\Purifier::decodeHtml($row['targetvalues']);
+			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
+			$criteria = App\Purifier::decodeHtml($row['criteria']);
+			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
+
+			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
+				$conditionValue = [
+					'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
+					'values' => $unserializedTargetValues
+				];
+				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = $conditionValue;
+			} else {
+				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
+			}
+			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
+				foreach (App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
+					$pickArray[] = App\Purifier::decodeHtml($picklistValue);
+				}
+				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
+			}
+			\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
+		}
+		return $picklistDependencyDatasource;
+	}
 }

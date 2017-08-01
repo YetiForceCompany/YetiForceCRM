@@ -114,7 +114,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$isRelationOperation = $request->get('relationOperation');
 		//if it is relation edit

@@ -39,7 +39,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		}
 
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
 
