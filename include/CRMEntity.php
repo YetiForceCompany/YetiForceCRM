@@ -266,10 +266,7 @@ class CRMEntity
 	 */
 	public function mark_deleted($id)
 	{
-		$current_user = vglobal('current_user');
-		$date_var = date("Y-m-d H:i:s");
-		$query = "UPDATE vtiger_crmentity set deleted=1,modifiedtime=?,modifiedby=? where crmid=?";
-		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error marking record deleted: ");
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $id])->execute();
 	}
 
 	/**
@@ -619,7 +616,7 @@ class CRMEntity
 	{
 		foreach ($withCrmid as $relcrmid) {
 			if ($withModule === 'Documents') {
-				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_senotesrel')->where(['crmid' => $crmid, 'notesid' => $relcrmid]);
+				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_senotesrel')->where(['crmid' => $crmid, 'notesid' => $relcrmid])->exists();
 				if ($checkpresence) {
 					continue;
 				}
@@ -628,7 +625,7 @@ class CRMEntity
 					'notesid' => $relcrmid
 				])->execute();
 			} else {
-				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['crmid' => $crmid, 'module' => $module, 'relcrmid' => $relcrmid, 'relmodule' => $withModule])->one();
+				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['crmid' => $crmid, 'module' => $module, 'relcrmid' => $relcrmid, 'relmodule' => $withModule])->exists();
 				if ($checkpresence) {
 					continue;
 				}
