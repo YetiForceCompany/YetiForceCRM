@@ -321,7 +321,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	public function getRelationInstance()
 	{
 		if ($this->isRelationLink() || $this->isRelationUnLink()) {
-			$row = (new \App\Db\Query())->from('vtiger_modtracker_relations')->where(['id' => $this->get('id')]);
+			$row = (new \App\Db\Query())->from('vtiger_modtracker_relations')->where(['id' => $this->get('id')])->one();
 			$relationInstance = new ModTracker_Relation_Model();
 			$relationInstance->setData($row)->setParent($this);
 		}
