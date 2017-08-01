@@ -1,323 +1,43 @@
 [
 	{
-		"name": "rmccue/requests",
-		"version": "v1.7.0",
-		"version_normalized": "1.7.0.0",
+		"name": "composer/ca-bundle",
+		"version": "1.0.7",
+		"version_normalized": "1.0.7.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/rmccue/Requests.git",
-			"reference": "87932f52ffad70504d93f04f15690cf16a089546"
+			"url": "https://github.com/composer/ca-bundle.git",
+			"reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
-			"reference": "87932f52ffad70504d93f04f15690cf16a089546",
+			"url": "https://api.github.com/repos/composer/ca-bundle/zipball/b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
+			"reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
 			"shasum": ""
 		},
 		"require": {
-			"php": ">=5.2"
+			"ext-openssl": "*",
+			"ext-pcre": "*",
+			"php": "^5.3.2 || ^7.0"
 		},
 		"require-dev": {
-			"requests/test-server": "dev-master"
-		},
-		"time": "2016-10-13T00:11:37+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Requests": "library/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"ISC"
-		],
-		"authors": [
-			{
-				"name": "Ryan McCue",
-				"homepage": "http://ryanmccue.info"
-			}
-		],
-		"description": "A HTTP library written in PHP, for human beings.",
-		"homepage": "http://github.com/rmccue/Requests",
-		"keywords": [
-			"curl",
-			"fsockopen",
-			"http",
-			"idna",
-			"ipv6",
-			"iri",
-			"sockets"
-		]
-	},
-	{
-		"name": "smarty/smarty",
-		"version": "v3.1.31",
-		"version_normalized": "3.1.31.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/smarty-php/smarty.git",
-			"reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
-			"reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.2"
-		},
-		"time": "2016-12-14T21:57:25+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.1.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"libs/bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL-3.0"
-		],
-		"authors": [
-			{
-				"name": "Monte Ohrt",
-				"email": "monte@ohrt.com"
-			},
-			{
-				"name": "Uwe Tews",
-				"email": "uwe.tews@googlemail.com"
-			},
-			{
-				"name": "Rodney Rehm",
-				"email": "rodney.rehm@medialize.de"
-			}
-		],
-		"description": "Smarty - the compiling PHP template engine",
-		"homepage": "http://www.smarty.net",
-		"keywords": [
-			"templating"
-		]
-	},
-	{
-		"name": "ezyang/htmlpurifier",
-		"version": "v4.9.3",
-		"version_normalized": "4.9.3.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/ezyang/htmlpurifier.git",
-			"reference": "95e1bae3182efc0f3422896a3236e991049dac69"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
-			"reference": "95e1bae3182efc0f3422896a3236e991049dac69",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.2"
-		},
-		"require-dev": {
-			"simpletest/simpletest": "^1.1"
-		},
-		"time": "2017-06-03T02:28:16+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"HTMLPurifier": "library/"
-			},
-			"files": [
-				"library/HTMLPurifier.composer.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL"
-		],
-		"authors": [
-			{
-				"name": "Edward Z. Yang",
-				"email": "admin@htmlpurifier.org",
-				"homepage": "http://ezyang.com"
-			}
-		],
-		"description": "Standards compliant HTML filter written in PHP",
-		"homepage": "http://htmlpurifier.org/",
-		"keywords": [
-			"html"
-		]
-	},
-	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.4.0",
-		"version_normalized": "1.4.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "f29dca382a6485c3cbe6379f0c61230167681937"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
-			"reference": "f29dca382a6485c3cbe6379f0c61230167681937",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
+			"phpunit/phpunit": "^4.5",
+			"psr/log": "^1.0",
+			"symfony/process": "^2.5 || ^3.0"
 		},
 		"suggest": {
-			"ext-mbstring": "For best performance"
+			"symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
 		},
-		"time": "2017-06-09T14:24:12+00:00",
+		"time": "2017-03-06T11:59:08+00:00",
 		"type": "library",
 		"extra": {
 			"branch-alias": {
-				"dev-master": "1.4-dev"
+				"dev-master": "1.x-dev"
 			}
 		},
 		"installation-source": "dist",
 		"autoload": {
 			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
-		]
-	},
-	{
-		"name": "symfony/var-dumper",
-		"version": "v3.3.5",
-		"version_normalized": "3.3.5.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/var-dumper.git",
-			"reference": "0f32b62d21991700250fed5109b092949007c5b3"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/0f32b62d21991700250fed5109b092949007c5b3",
-			"reference": "0f32b62d21991700250fed5109b092949007c5b3",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"symfony/polyfill-mbstring": "~1.0"
-		},
-		"conflict": {
-			"phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
-		},
-		"require-dev": {
-			"ext-iconv": "*",
-			"twig/twig": "~1.34|~2.4"
-		},
-		"suggest": {
-			"ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
-			"ext-symfony_debug": ""
-		},
-		"time": "2017-07-10T14:18:27+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"Resources/functions/dump.php"
-			],
-			"psr-4": {
-				"Symfony\\Component\\VarDumper\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony mechanism for exploring and dumping PHP variables",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"debug",
-			"dump"
-		]
-	},
-	{
-		"name": "simshaun/recurr",
-		"version": "v3.0.1",
-		"version_normalized": "3.0.1.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/simshaun/recurr.git",
-			"reference": "5c57048a613d119127be31b162b3bbf510f0e308"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/simshaun/recurr/zipball/5c57048a613d119127be31b162b3bbf510f0e308",
-			"reference": "5c57048a613d119127be31b162b3bbf510f0e308",
-			"shasum": ""
-		},
-		"require": {
-			"doctrine/collections": "~1.3",
-			"php": ">=5.5.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "~4.5"
-		},
-		"time": "2017-07-18T22:11:04+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Recurr": "src/"
+				"Composer\\CaBundle\\": "src"
 			}
 		},
 		"notification-url": "https://packagist.org/downloads/",
@@ -326,19 +46,18 @@
 		],
 		"authors": [
 			{
-				"name": "Shaun Simmons",
-				"email": "shaun@envysphere.com",
-				"homepage": "http://envysphere.com"
+				"name": "Jordi Boggiano",
+				"email": "j.boggiano@seld.be",
+				"homepage": "http://seld.be"
 			}
 		],
-		"description": "PHP library for working with recurrence rules",
-		"homepage": "https://github.com/simshaun/recurr",
+		"description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
 		"keywords": [
-			"dates",
-			"events",
-			"recurrence",
-			"recurring",
-			"rrule"
+			"cabundle",
+			"cacert",
+			"certificate",
+			"ssl",
+			"tls"
 		]
 	},
 	{
@@ -759,44 +478,403 @@
 		]
 	},
 	{
-		"name": "composer/ca-bundle",
-		"version": "1.0.7",
-		"version_normalized": "1.0.7.0",
+		"name": "rmccue/requests",
+		"version": "v1.7.0",
+		"version_normalized": "1.7.0.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/composer/ca-bundle.git",
-			"reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12"
+			"url": "https://github.com/rmccue/Requests.git",
+			"reference": "87932f52ffad70504d93f04f15690cf16a089546"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/composer/ca-bundle/zipball/b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
-			"reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
+			"url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
+			"reference": "87932f52ffad70504d93f04f15690cf16a089546",
 			"shasum": ""
 		},
 		"require": {
-			"ext-openssl": "*",
-			"ext-pcre": "*",
-			"php": "^5.3.2 || ^7.0"
+			"php": ">=5.2"
 		},
 		"require-dev": {
-			"phpunit/phpunit": "^4.5",
-			"psr/log": "^1.0",
-			"symfony/process": "^2.5 || ^3.0"
+			"requests/test-server": "dev-master"
 		},
-		"suggest": {
-			"symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
+		"time": "2016-10-13T00:11:37+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"Requests": "library/"
+			}
 		},
-		"time": "2017-03-06T11:59:08+00:00",
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"ISC"
+		],
+		"authors": [
+			{
+				"name": "Ryan McCue",
+				"homepage": "http://ryanmccue.info"
+			}
+		],
+		"description": "A HTTP library written in PHP, for human beings.",
+		"homepage": "http://github.com/rmccue/Requests",
+		"keywords": [
+			"curl",
+			"fsockopen",
+			"http",
+			"idna",
+			"ipv6",
+			"iri",
+			"sockets"
+		]
+	},
+	{
+		"name": "smarty/smarty",
+		"version": "v3.1.31",
+		"version_normalized": "3.1.31.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/smarty-php/smarty.git",
+			"reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
+			"reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.2"
+		},
+		"time": "2016-12-14T21:57:25+00:00",
 		"type": "library",
 		"extra": {
 			"branch-alias": {
-				"dev-master": "1.x-dev"
+				"dev-master": "3.1.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"files": [
+				"libs/bootstrap.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL-3.0"
+		],
+		"authors": [
+			{
+				"name": "Monte Ohrt",
+				"email": "monte@ohrt.com"
+			},
+			{
+				"name": "Uwe Tews",
+				"email": "uwe.tews@googlemail.com"
+			},
+			{
+				"name": "Rodney Rehm",
+				"email": "rodney.rehm@medialize.de"
+			}
+		],
+		"description": "Smarty - the compiling PHP template engine",
+		"homepage": "http://www.smarty.net",
+		"keywords": [
+			"templating"
+		]
+	},
+	{
+		"name": "phpmailer/phpmailer",
+		"version": "v5.2.24",
+		"version_normalized": "5.2.24.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/PHPMailer/PHPMailer.git",
+			"reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/22d04c6a58145a244696f3f254c1875aa653b26a",
+			"reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
+			"shasum": ""
+		},
+		"require": {
+			"ext-ctype": "*",
+			"php": ">=5.0.0"
+		},
+		"require-dev": {
+			"doctrine/annotations": "1.2.*",
+			"jms/serializer": "0.16.*",
+			"phpdocumentor/phpdocumentor": "2.*",
+			"phpunit/phpunit": "4.8.*",
+			"symfony/debug": "2.8.*",
+			"symfony/filesystem": "2.8.*",
+			"symfony/translation": "2.8.*",
+			"symfony/yaml": "2.8.*",
+			"zendframework/zend-cache": "2.5.1",
+			"zendframework/zend-config": "2.5.1",
+			"zendframework/zend-eventmanager": "2.5.1",
+			"zendframework/zend-filter": "2.5.1",
+			"zendframework/zend-i18n": "2.5.1",
+			"zendframework/zend-json": "2.5.1",
+			"zendframework/zend-math": "2.5.1",
+			"zendframework/zend-serializer": "2.5.*",
+			"zendframework/zend-servicemanager": "2.5.*",
+			"zendframework/zend-stdlib": "2.5.1"
+		},
+		"suggest": {
+			"league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+		},
+		"time": "2017-07-26T21:00:20+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"classmap": [
+				"class.phpmailer.php",
+				"class.phpmaileroauth.php",
+				"class.phpmaileroauthgoogle.php",
+				"class.smtp.php",
+				"class.pop3.php",
+				"extras/EasyPeasyICS.php",
+				"extras/ntlm_sasl_client.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL-2.1"
+		],
+		"authors": [
+			{
+				"name": "Jim Jagielski",
+				"email": "jimjag@gmail.com"
+			},
+			{
+				"name": "Marcus Bointon",
+				"email": "phpmailer@synchromedia.co.uk"
+			},
+			{
+				"name": "Andy Prevost",
+				"email": "codeworxtech@users.sourceforge.net"
+			},
+			{
+				"name": "Brent R. Matzelle"
+			}
+		],
+		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+	},
+	{
+		"name": "ezyang/htmlpurifier",
+		"version": "v4.9.3",
+		"version_normalized": "4.9.3.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/ezyang/htmlpurifier.git",
+			"reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
+			"reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.2"
+		},
+		"require-dev": {
+			"simpletest/simpletest": "^1.1"
+		},
+		"time": "2017-06-03T02:28:16+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"HTMLPurifier": "library/"
+			},
+			"files": [
+				"library/HTMLPurifier.composer.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL"
+		],
+		"authors": [
+			{
+				"name": "Edward Z. Yang",
+				"email": "admin@htmlpurifier.org",
+				"homepage": "http://ezyang.com"
+			}
+		],
+		"description": "Standards compliant HTML filter written in PHP",
+		"homepage": "http://htmlpurifier.org/",
+		"keywords": [
+			"html"
+		]
+	},
+	{
+		"name": "symfony/polyfill-mbstring",
+		"version": "v1.4.0",
+		"version_normalized": "1.4.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/polyfill-mbstring.git",
+			"reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
+			"reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.3"
+		},
+		"suggest": {
+			"ext-mbstring": "For best performance"
+		},
+		"time": "2017-06-09T14:24:12+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.4-dev"
 			}
 		},
 		"installation-source": "dist",
 		"autoload": {
 			"psr-4": {
-				"Composer\\CaBundle\\": "src"
+				"Symfony\\Polyfill\\Mbstring\\": ""
+			},
+			"files": [
+				"bootstrap.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony polyfill for the Mbstring extension",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"compatibility",
+			"mbstring",
+			"polyfill",
+			"portable",
+			"shim"
+		]
+	},
+	{
+		"name": "symfony/var-dumper",
+		"version": "v3.3.5",
+		"version_normalized": "3.3.5.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/var-dumper.git",
+			"reference": "0f32b62d21991700250fed5109b092949007c5b3"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/0f32b62d21991700250fed5109b092949007c5b3",
+			"reference": "0f32b62d21991700250fed5109b092949007c5b3",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.5.9",
+			"symfony/polyfill-mbstring": "~1.0"
+		},
+		"conflict": {
+			"phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
+		},
+		"require-dev": {
+			"ext-iconv": "*",
+			"twig/twig": "~1.34|~2.4"
+		},
+		"suggest": {
+			"ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
+			"ext-symfony_debug": ""
+		},
+		"time": "2017-07-10T14:18:27+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "3.3-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"files": [
+				"Resources/functions/dump.php"
+			],
+			"psr-4": {
+				"Symfony\\Component\\VarDumper\\": ""
+			},
+			"exclude-from-classmap": [
+				"/Tests/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony mechanism for exploring and dumping PHP variables",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"debug",
+			"dump"
+		]
+	},
+	{
+		"name": "doctrine/collections",
+		"version": "v1.4.0",
+		"version_normalized": "1.4.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/doctrine/collections.git",
+			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
+			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
+			"shasum": ""
+		},
+		"require": {
+			"php": "^5.6 || ^7.0"
+		},
+		"require-dev": {
+			"doctrine/coding-standard": "~0.1@dev",
+			"phpunit/phpunit": "^5.7"
+		},
+		"time": "2017-01-03T10:49:41+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.3.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"Doctrine\\Common\\Collections\\": "lib/"
 			}
 		},
 		"notification-url": "https://packagist.org/downloads/",
@@ -805,18 +883,88 @@
 		],
 		"authors": [
 			{
-				"name": "Jordi Boggiano",
-				"email": "j.boggiano@seld.be",
-				"homepage": "http://seld.be"
+				"name": "Roman Borschel",
+				"email": "roman@code-factory.org"
+			},
+			{
+				"name": "Benjamin Eberlei",
+				"email": "kontakt@beberlei.de"
+			},
+			{
+				"name": "Guilherme Blanco",
+				"email": "guilhermeblanco@gmail.com"
+			},
+			{
+				"name": "Jonathan Wage",
+				"email": "jonwage@gmail.com"
+			},
+			{
+				"name": "Johannes Schmitt",
+				"email": "schmittjoh@gmail.com"
 			}
 		],
-		"description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+		"description": "Collections Abstraction library",
+		"homepage": "http://www.doctrine-project.org",
 		"keywords": [
-			"cabundle",
-			"cacert",
-			"certificate",
-			"ssl",
-			"tls"
+			"array",
+			"collections",
+			"iterator"
+		]
+	},
+	{
+		"name": "simshaun/recurr",
+		"version": "v3.0.1",
+		"version_normalized": "3.0.1.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/simshaun/recurr.git",
+			"reference": "5c57048a613d119127be31b162b3bbf510f0e308"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/simshaun/recurr/zipball/5c57048a613d119127be31b162b3bbf510f0e308",
+			"reference": "5c57048a613d119127be31b162b3bbf510f0e308",
+			"shasum": ""
+		},
+		"require": {
+			"doctrine/collections": "~1.3",
+			"php": ">=5.5.0"
+		},
+		"require-dev": {
+			"phpunit/phpunit": "~4.5"
+		},
+		"time": "2017-07-18T22:11:04+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "0.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"Recurr": "src/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Shaun Simmons",
+				"email": "shaun@envysphere.com",
+				"homepage": "http://envysphere.com"
+			}
+		],
+		"description": "PHP library for working with recurrence rules",
+		"homepage": "https://github.com/simshaun/recurr",
+		"keywords": [
+			"dates",
+			"events",
+			"recurrence",
+			"recurring",
+			"rrule"
 		]
 	},
 	{
@@ -1043,153 +1191,5 @@
 			}
 		],
 		"description": "A security checker for your composer.lock"
-	},
-	{
-		"name": "phpmailer/phpmailer",
-		"version": "v5.2.24",
-		"version_normalized": "5.2.24.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/PHPMailer/PHPMailer.git",
-			"reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/22d04c6a58145a244696f3f254c1875aa653b26a",
-			"reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"php": ">=5.0.0"
-		},
-		"require-dev": {
-			"doctrine/annotations": "1.2.*",
-			"jms/serializer": "0.16.*",
-			"phpdocumentor/phpdocumentor": "2.*",
-			"phpunit/phpunit": "4.8.*",
-			"symfony/debug": "2.8.*",
-			"symfony/filesystem": "2.8.*",
-			"symfony/translation": "2.8.*",
-			"symfony/yaml": "2.8.*",
-			"zendframework/zend-cache": "2.5.1",
-			"zendframework/zend-config": "2.5.1",
-			"zendframework/zend-eventmanager": "2.5.1",
-			"zendframework/zend-filter": "2.5.1",
-			"zendframework/zend-i18n": "2.5.1",
-			"zendframework/zend-json": "2.5.1",
-			"zendframework/zend-math": "2.5.1",
-			"zendframework/zend-serializer": "2.5.*",
-			"zendframework/zend-servicemanager": "2.5.*",
-			"zendframework/zend-stdlib": "2.5.1"
-		},
-		"suggest": {
-			"league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-		},
-		"time": "2017-07-26T21:00:20+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"classmap": [
-				"class.phpmailer.php",
-				"class.phpmaileroauth.php",
-				"class.phpmaileroauthgoogle.php",
-				"class.smtp.php",
-				"class.pop3.php",
-				"extras/EasyPeasyICS.php",
-				"extras/ntlm_sasl_client.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL-2.1"
-		],
-		"authors": [
-			{
-				"name": "Jim Jagielski",
-				"email": "jimjag@gmail.com"
-			},
-			{
-				"name": "Marcus Bointon",
-				"email": "phpmailer@synchromedia.co.uk"
-			},
-			{
-				"name": "Andy Prevost",
-				"email": "codeworxtech@users.sourceforge.net"
-			},
-			{
-				"name": "Brent R. Matzelle"
-			}
-		],
-		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-	},
-	{
-		"name": "doctrine/collections",
-		"version": "v1.4.0",
-		"version_normalized": "1.4.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/doctrine/collections.git",
-			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
-			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
-			"shasum": ""
-		},
-		"require": {
-			"php": "^5.6 || ^7.0"
-		},
-		"require-dev": {
-			"doctrine/coding-standard": "~0.1@dev",
-			"phpunit/phpunit": "^5.7"
-		},
-		"time": "2017-01-03T10:49:41+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.3.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Doctrine\\Common\\Collections\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Roman Borschel",
-				"email": "roman@code-factory.org"
-			},
-			{
-				"name": "Benjamin Eberlei",
-				"email": "kontakt@beberlei.de"
-			},
-			{
-				"name": "Guilherme Blanco",
-				"email": "guilhermeblanco@gmail.com"
-			},
-			{
-				"name": "Jonathan Wage",
-				"email": "jonwage@gmail.com"
-			},
-			{
-				"name": "Johannes Schmitt",
-				"email": "schmittjoh@gmail.com"
-			}
-		],
-		"description": "Collections Abstraction library",
-		"homepage": "http://www.doctrine-project.org",
-		"keywords": [
-			"array",
-			"collections",
-			"iterator"
-		]
 	}
 ]
