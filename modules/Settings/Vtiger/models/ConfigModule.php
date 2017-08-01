@@ -103,12 +103,10 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		if ($fieldName === 'default_module') {
 			$presence = [0];
 			$restrictedModules = array('Integration', 'Dashboard');
-			$query = (new \App\Db\Query())->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
+			$query = (new \App\Db\Query())->select(['name', 'tablabel'])->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
 			$moduleData = array('Home' => 'Home');
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$moduleData[$row['name']] = $row['tablabel'];
-			}
+			$rows = $query->createCommand()->queryAllByGroup(0);
+			$moduleData = array_merge($moduleData, $rows);
 			return $moduleData;
 		} else if ($fieldName === 'defaultLayout') {
 			return \App\Layout::getAllLayouts();
