@@ -146,7 +146,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Return all non mapped currences
 	 * @param array $includedIds
-	 * @return array
+	 * @return  \Settings_Currency_Record_Model[]
 	 */
 	public static function getAllNonMapped($includedIds = [])
 	{
@@ -175,7 +175,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Return currences
 	 * @param array $excludedIds
-	 * @return array
+	 * @return  \Settings_Currency_Record_Model[]
 	 */
 	public static function getAll($excludedIds = [])
 	{
