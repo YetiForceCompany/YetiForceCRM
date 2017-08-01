@@ -73,15 +73,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$adb->pquery("UPDATE roundcube_users SET actions = ? WHERE user_id = ?", array($vale, $userid), true);
 	}
 
+	/**
+	 * Update folder list for user
+	 * @param int $user
+	 * @param array $foldersByType
+	 */
 	public static function setFolderList($user, $foldersByType)
 	{
 		$db = PearDatabase::getInstance();
 		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
-		$result = $db->pquery('SELECT * FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ?', [$user]);
-		$oldFoldersByType = [];
-		while ($row = $db->getRow($result)) {
-			$oldFoldersByType[$row['type']][] = $row['folder'];
-		}
+		$oldFoldersByType = (new \App\Db\Query())->select(['type', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $user])->createCommand()->queryAllByGroup(2);
 		foreach ($types as $type) {
 			$toRemove = $toAdd = $oldFolders = $folders = [];
 			if (isset($oldFoldersByType[$type])) {
@@ -94,14 +95,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$toAdd = array_diff_assoc($folders, $oldFolders);
 			$toRemove = array_diff_assoc($oldFolders, $folders);
 			foreach ($toAdd as $folder) {
-				$db->insert('vtiger_ossmailscanner_folders_uid', [
-					'user_id' => $user,
-					'type' => $type,
-					'folder' => html_entity_decode($folder)
-				]);
+				\App\Db::getInstance()->createCommand()
+					->insert('vtiger_ossmailscanner_folders_uid', [
+						'user_id' => $user,
+						'type' => $type,
+						'folder' => html_entity_decode($folder)
+					])->execute();
 			}
 			foreach ($toRemove as $folder) {
-				$db->delete('vtiger_ossmailscanner_folders_uid', 'user_id = ? && type = ? && folder = ?', [$user, $type, $folder]);
+				\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailscanner_folders_uid', ['user_id' => $user, 'type' => $type, 'folder' => $folder])->execute();
 			}
 		}
 	}
