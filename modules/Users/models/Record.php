@@ -352,28 +352,23 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getAll($onlyActive = true)
 	{
-		$db = PearDatabase::getInstance();
-
+		$query = (new \App\Db\Query())
+			->select(['id'])
+			->from('vtiger_users');
 		$sql = 'SELECT id FROM vtiger_users';
-		$params = [];
 		if ($onlyActive) {
-			$sql .= ' WHERE status = ?';
-			$params[] = 'Active';
+			$query->where(['status' => 'Active']);
 		}
-		$result = $db->pquery($sql, $params);
 
-		$noOfUsers = $db->num_rows($result);
 		$users = [];
-		if ($noOfUsers > 0) {
-			$focus = new Users();
-			for ($i = 0; $i < $noOfUsers; ++$i) {
-				$userId = $db->query_result($result, $i, 'id');
-				$focus->id = $userId;
-				$focus->retrieve_entity_info($userId, 'Users');
+		$focus = new Users();
+		$dataReader = $query->createCommand()->query();
+		while ($userId = $dataReader->readColumn(0)) {
+			$focus->id = $userId;
+			$focus->retrieve_entity_info($userId, 'Users');
 
-				$userModel = self::getInstanceFromUserObject($focus);
-				$users[$userModel->getId()] = $userModel;
-			}
+			$userModel = self::getInstanceFromUserObject($focus);
+			$users[$userModel->getId()] = $userModel;
 		}
 		return $users;
 	}
