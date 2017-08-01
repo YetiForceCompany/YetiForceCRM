@@ -144,13 +144,33 @@ class PrivilegeUtil
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT userid FROM vtiger_user2role WHERE roleid=?', array($roleId));
+		$dataReader = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->createCommand()->query();
 		$users = [];
-		while (($userId = $adb->getSingleValue($result)) !== false) {
-			$users[] = $userId;
+		while ($row = $dataReader->readColumn(0)) {
+			$users[] = $row;
 		}
 		static::$usersByRoleCache[$roleId] = $users;
+		return $users;
+	}
+
+	/**
+	 * Function to get the users names by role
+	 * @param int $roleId
+	 * @return array $users
+	 */
+	public static function getUsersNameByRole($roleId)
+	{
+		if (\App\Cache::has('getUsersNameByRole', $roleId)) {
+			return \App\Cache::get('getUsersNameByRole', $roleId);
+		}
+		$users = static::getUsersByRole($roleId);
+		$roleRelatedUsers = [];
+		if ($users) {
+			foreach ($users as $key => $userId) {
+				$roleRelatedUsers[$userId] = Fields\Owner::getUserLabel($userId);
+			}
+		}
+		\App\Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
 		return $users;
 	}
 
