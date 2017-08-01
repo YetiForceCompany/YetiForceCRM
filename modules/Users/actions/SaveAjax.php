@@ -70,7 +70,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
 			if ($fieldName === 'language') {
-				$displayValue = Vtiger_Language_Handler::getLanguageLabel($fieldValue);
+				$displayValue = \App\Language::getLanguageLabel($fieldValue);
 			}
 			if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($displayValue === '&nbsp;')) {
 				$displayValue = \App\Language::translate('LBL_SPACE', 'Users');
