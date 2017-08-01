@@ -187,15 +187,12 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	/**
 	 * Function to get the instance of the Menu Item model, given name and Menu instance
 	 * @param string $name
-	 * @param Settings_Vtiger_Menu_Model $menuModel
+	 * @param bool|Settings_Vtiger_Menu_Model $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstance($name, $menuModel = false)
 	{
-		$db = PearDatabase::getInstance();
-		$query = (new \App\Db\Query())
-			->from(self::$itemsTable)
-			->where(['name' => $name]);
+		$query = (new \App\Db\Query())->from(self::$itemsTable)->where(['name' => $name]);
 		if ($menuModel) {
 			$query->andWhere(['blockid' => $menuModel->getId()]);
 		}
@@ -214,16 +211,13 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance
-	 * @param string $name
-	 * @param Settings_Vtiger_Menu_Model $menuModel
+	 * @param int $id
+	 * @param bool|Settings_Vtiger_Menu_Model $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstanceById($id, $menuModel = false)
 	{
-		$db = PearDatabase::getInstance();
-		$query = (new \App\Db\Query())
-			->from(self::$itemsTable)
-			->where([self::$itemId => $id]);
+		$query = (new \App\Db\Query())->from(self::$itemsTable)->where([self::$itemId => $id]);
 		if ($menuModel) {
 			$query->andWhere(['blockid' => $menuModel->getId()]);
 		}
