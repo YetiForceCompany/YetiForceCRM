@@ -116,7 +116,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 
 		header('Content-Type: application/x-msexcel');
-		header('Content-Length: ' . @filesize($tempFileName));
+		header('Content-Length: ' . filesize($tempFileName));
 		$filename = \App\Language::translate($module, $module) . '-' . \App\Language::translate(decode_html($customView->get('viewname')), $module) . ".xls";
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 
