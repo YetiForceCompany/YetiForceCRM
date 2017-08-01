@@ -14,7 +14,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Return currency id
-	 * @return int|bool
+	 * @return int|null
 	 */
 	public function getId()
 	{
@@ -49,18 +49,18 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			//NO Edit and delete link for base currency
 			return [];
 		}
-		$editLink = array(
+		$editLink = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'glyphicon glyphicon-pencil'
-		);
+		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 
-		$deleteLink = array(
+		$deleteLink = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkicon' => 'glyphicon glyphicon-trash'
-		);
+		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
 		return array($editLinkInstance, $deleteLinkInstance);
 	}
@@ -80,7 +80,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Populate changes to database
-	 * @return type
+	 * @return int
 	 */
 	public function save()
 	{
@@ -146,7 +146,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Return all non mapped currences
 	 * @param array $includedIds
-	 * @return \self
+	 * @return array
 	 */
 	public static function getAllNonMapped($includedIds = [])
 	{
@@ -175,7 +175,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Return currences
 	 * @param array $excludedIds
-	 * @return \Settings_Currency_Record_Model
+	 * @return array
 	 */
 	public static function getAll($excludedIds = [])
 	{
