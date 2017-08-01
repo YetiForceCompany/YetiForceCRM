@@ -132,15 +132,17 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	protected static $composeParam = false;
 
+	/**
+	 * Function get compose parameters
+	 * @return array
+	 */
 	public static function getComposeParameters()
 	{
 		if (!self::$composeParam) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT parameter,value FROM vtiger_ossmailscanner_config WHERE conf_type = ?', ['email_list']);
-			$config = [];
-			$numRowsResult = $db->num_rows($result);
-			for ($i = 0; $i < $numRowsResult; $i++) {
-				$config[$db->query_result($result, $i, 'parameter')] = $db->query_result($result, $i, 'value');
+			$dataReader = (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')
+					->where(['conf_type' => 'email_list'])->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$config[$row['parameter']] = $row['value'];
 			}
 			$config['popup'] = $config['target'] == '_blank' ? true : false;
 			self::$composeParam = $config;
