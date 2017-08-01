@@ -195,8 +195,4 @@ class Vtiger_Loader
 	}
 }
 
-function Vtiger_Loader::includeOnce($qualifiedName)
-{
-	return Vtiger_Loader::includeOnce($qualifiedName);
-}
 spl_autoload_register('Vtiger_Loader::autoLoad');
