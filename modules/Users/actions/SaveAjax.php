@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~include/Webservices/Custom/ChangePassword.php');
+Vtiger_Loader::includeOnce('~include/Webservices/Custom/ChangePassword.php');
 
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {

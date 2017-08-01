@@ -15,7 +15,7 @@ require_once 'include/Webservices/Delete.php';
 require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
 require_once('include/ConfigUtils.php');
-vimport('include.runtime.Globals');
+Vtiger_Loader::includeOnce('include.runtime.Globals');
 
 function vtws_convertlead($entityvalues, $user)
 {

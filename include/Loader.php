@@ -195,7 +195,7 @@ class Vtiger_Loader
 	}
 }
 
-function vimport($qualifiedName)
+function Vtiger_Loader::includeOnce($qualifiedName)
 {
 	return Vtiger_Loader::includeOnce($qualifiedName);
 }

@@ -315,7 +315,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			Vtiger_Session::set('language', $recordModel->get('language'));
 		}
-		vimport('~/modules/Users/CreateUserPrivilegeFile.php');
+		Vtiger_Loader::includeOnce('~/modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($recordModel->getId());
 		createUserSharingPrivilegesfile($recordModel->getId());
 
