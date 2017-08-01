@@ -97,6 +97,9 @@ class Base extends \SessionHandler
 	 */
 	public function destroy($sessionId = '')
 	{
+		if (session_id() === '') {
+			return false;
+		}
 		session_unset();
 		session_destroy($sessionId);
 	}
