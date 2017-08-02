@@ -25,9 +25,9 @@ abstract class Vtiger_Controller
 		return true;
 	}
 
-	abstract function getViewer(\App\Request $request);
+	abstract public function getViewer(\App\Request $request);
 
-	abstract function process(\App\Request $request);
+	abstract public function process(\App\Request $request);
 
 	public function validateRequest(\App\Request $request)
 	{
@@ -142,7 +142,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
-	abstract function checkPermission(\App\Request $request);
+	abstract public function checkPermission(\App\Request $request);
 
 	public function getViewer(\App\Request $request)
 	{

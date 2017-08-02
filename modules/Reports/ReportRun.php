@@ -219,7 +219,7 @@ class ReportRun extends CRMEntity
 {
 
 	// Maximum rows that should be emitted in HTML view.
-	static $HTMLVIEW_MAX_ROWS = 1000;
+	public static $HTMLVIEW_MAX_ROWS = 1000;
 	public $reportid;
 	public $primarymodule;
 	public $secondarymodule;
