@@ -11,39 +11,44 @@
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
 
+	/**
+	 * Return accounts array
+	 * @param int $user
+	 * @param bool $onlyMy
+	 * @param bool $password
+	 * @return array
+	 */
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
-		$db = PearDatabase::getInstance();
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$param = $users = [];
-		$sql = 'SELECT * FROM roundcube_users';
-		$where = false;
-		if ($password) {
-			$where .= " && password <> ''";
-		}
+		$users = [];
+		$query = (new \App\Db\Query())->from('roundcube_users');
+		$where = [];
 		if ($user) {
-			$where .= ' && user_id = ?';
-			$param[] = $user;
+			$where['user_id'] = $user;
 		}
 		if ($onlyMy) {
-			$where .= ' && crm_user_id = ?';
-			$param[] = $currentUserModel->getId();
+			$where['crm_user_id'] = \App\User::getCurrentUserId();
 		}
-		if ($where) {
-			$sql .= sprintf(' WHERE %s ', substr($where, 4));
-		}
-		$result = $db->pquery($sql, $param);
-		if ($db->getRowCount($result) == 0) {
-			return [];
-		} else {
-			while ($row = $db->getRow($result)) {
-				$row['actions'] = empty($row['actions']) ? [] : explode(',', $row['actions']);
-				$users[] = $row;
+		if ($password) {
+			if ($where) {
+				$query->where($where);
+				$query->andWhere(['not', ['password' => '']]);
+			} else {
+				$query->where(['not', ['password' => '']]);
 			}
-			return $users;
 		}
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$row['actions'] = empty($row['actions']) ? [] : explode(',', $row['actions']);
+			$users[] = $row;
+		}
+		return $users;
 	}
 
+	/**
+	 * Returns Roundcube configuration
+	 * @return array
+	 */
 	public static function load_roundcube_config()
 	{
 		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
@@ -51,9 +56,28 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $config;
 	}
 
+	/**
+	 * Imap connection cache
+	 * @var array
+	 */
 	protected static $imapConnectCache = [];
+
+	/**
+	 * $imapConnectMailbox
+	 * @var string
+	 */
 	public static $imapConnectMailbox = '';
 
+	/**
+	 * Return imap connection resource
+	 * @param string $user
+	 * @param string $password
+	 * @param string $host
+	 * @param string $folder
+	 * @param bool $dieOnError
+	 * @param array $config
+	 * @return resource
+	 */
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = false)
 	{
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
@@ -118,31 +142,36 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $mbox;
 	}
 
+	/**
+	 * Update mailbox mesages info for users
+	 * @param array $users
+	 * @return boolean
+	 */
 	public static function updateMailBoxmsgInfo($users)
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = PearDatabase::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (count($users) == 0) {
 			return false;
 		}
 		$sUsers = implode(',', $users);
-		$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid IN (?) && status = 1;", [$sUsers]);
-		if ($adb->query_result_raw($result, 0, 'num') > 0) {
+		$query = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $sUsers, 'status' => 1]);
+		if (!$query->count()) {
 			return false;
 		}
-		$adb->update('yetiforce_mail_quantities', ['status' => 1], 'userid IN (?)', [$sUsers]);
+		$dbCommand->update('yetiforce_mail_quantities', ['status' => 1], ['userid' => $sUsers])->execute();
 		foreach ($users as $user) {
 			$account = self::getMailAccountDetail($user);
 			if ($account !== false) {
-				$result = $adb->pquery("SELECT count(*) AS num FROM yetiforce_mail_quantities WHERE userid = ?;", [$user]);
+				$result = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $user])->count();
 				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 				if ($mbox) {
 					$info = imap_mailboxmsginfo($mbox);
-					if ($adb->query_result_raw($result, 0, 'num') > 0) {
-						$adb->pquery('UPDATE yetiforce_mail_quantities SET `num` = ?,`status` = ? WHERE `userid` = ?;', [$info->Unread, 0, $user]);
+					if ($result > 0) {
+						$dbCommand->update('yetiforce_mail_quantities', ['num' => $info->Unread, 'status' => 0], ['userid' => $user])->execute();
 					} else {
-						$adb->pquery('INSERT INTO yetiforce_mail_quantities (`num`,`userid`) VALUES (?,?);', [$info->Unread, $user]);
+						$dbCommand->insert('yetiforce_mail_quantities', ['num' => $info->Unread, 'userid' => $user])->execute();
 					}
 				}
 			}
