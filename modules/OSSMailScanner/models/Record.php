@@ -225,7 +225,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	/**
 	 *
 	 * @param int $account
-	 * @param object $mail
+	 * @param \OSSMail_Mail_Model $mail
 	 * @param string $folder
 	 * @param array $params
 	 * @return array
@@ -403,20 +403,19 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function setEmailSearchList($value)
 	{
-		$db = App\Db::getInstance();
+		$dbCommand = App\Db::getInstance();
 		if ($value === null || $value == 'null') {
-			$db->createCommand()
-				->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
+			$dbCommand->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
 		} else {
 			$isExists = (new App\Db\Query())->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])->exists();
 			if (!$isExists) {
-				$db->createCommand()->insert('vtiger_ossmailscanner_config', [
+				$dbCommand->insert('vtiger_ossmailscanner_config', [
 					'conf_type' => 'emailsearch',
 					'parameter' => 'fields',
 					'value' => $value
 				])->execute();
 			} else {
-				$db->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
+				$dbCommand->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
 			}
 		}
 	}
