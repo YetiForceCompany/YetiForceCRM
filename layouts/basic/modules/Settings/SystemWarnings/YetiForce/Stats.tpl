@@ -8,7 +8,7 @@
 		{assign var=COMPANY value=\App\Company::getInstanceById()}
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
 			<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
 		</div><br />
