@@ -372,18 +372,16 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		return $return;
 	}
-
+	/**
+	 * The function returns information about OSSMailScanner Crons
+	 * @return array
+	 */
 	public static function getCron()
 	{
-		$adb = PearDatabase::getInstance();
-		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE module = ?", array('OSSMailScanner'));
-		$getRowCount = $adb->getRowCount($result);
-		for ($i = 0; $i < $getRowCount; $i++) {
-			$rowData = $adb->query_result_rowdata($result, $i);
-			$return[] = Array('name' => $rowData['name'], 'status' => $rowData['status'], 'frequency' => $rowData['frequency']);
-		}
-		return $return;
+		return (new \App\Db\Query())
+				->select(['name', 'status', 'frequency'])
+				->from('vtiger_cron_task')
+				->where(['module' => 'OSSMailScanner'])->createCommand()->queryAll();
 	}
 
 	public function executeCron($who_trigger)
