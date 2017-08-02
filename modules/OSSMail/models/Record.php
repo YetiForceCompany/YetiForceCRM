@@ -180,22 +180,32 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
+	/**
+	 * Return users messages count
+	 * @param array $users
+	 * @return array
+	 */
 	public static function getMailBoxmsgInfo($users)
 	{
 
 		\App\Log::trace(__METHOD__ . ' - Start');
-		$adb = PearDatabase::getInstance();
-		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
-		$result = $adb->query($query);
+		$query = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $users]);
 		$account = [];
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$account[$row['userid']] = $row['num'];
 		}
 		\App\Log::trace(__METHOD__ . ' - End');
 		return $account;
 	}
 
+	/**
+	 *
+	 * @param resource $mbox
+	 * @param int $id
+	 * @param int $msgno
+	 * @return boolean|\OSSMail_Mail_Model
+	 */
 	public static function getMail($mbox, $id, $msgno = false)
 	{
 		if (!$msgno) {
@@ -249,6 +259,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $mail;
 	}
 
+	/**
+	 * Users cache
+	 * @var array
+	 */
 	protected static $usersCache = [];
 
 	public static function getMailAccountDetail($userid)
