@@ -156,7 +156,8 @@ class Module
 		return $formattedName;
 	}
 
-	/** Function to get a action id for a given action name
+	/**
+	 * Function to get a action id for a given action name
 	 * @param string $action
 	 * @return int|null
 	 */
@@ -165,17 +166,17 @@ class Module
 		if (empty($action)) {
 			return null;
 		}
-		if (\App\Cache::has('getActionId', $action)) {
-			return \App\Cache::get('getActionId', $actionId);
+		if (Cache::has('getActionId', $action)) {
+			return Cache::get('getActionId', $actionId);
 		}
-		$actionIds = \App\Module::getTabData('actionId');
+		$actionIds = Module::getTabData('actionId');
 		if (isset($actionIds[$action])) {
 			$actionId = $actionIds[$action];
 		}
 		if (empty($actionId)) {
-			$actionId = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
+			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
 		}
-		\App\Cache::save('getActionId', $action, $actionId, \App\Cache::LONG);
+		Cache::save('getActionId', $action, $actionId, Cache::LONG);
 		return $actionId;
 	}
 }
