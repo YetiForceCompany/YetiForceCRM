@@ -103,9 +103,6 @@ class Session
 	 */
 	public static function destroy()
 	{
-		if (empty(static::$pool)) {
-			return null;
-		}
 		session_destroy();
 	}
 }

@@ -3164,7 +3164,7 @@ class Base2 extends \App\Db\Importers\Base
 					[3, 'LBL_SEND_REMINDER', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 12, 'Recommended frequency for SendReminder is 15 mins'],
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
 					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],
-					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 1, 'Vtiger', 2, NULL],
+					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 0, 'Vtiger', 2, NULL],
 					[7, 'LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 					[8, 'LBL_SCHEDULED_IMPORT', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 4, 'Recommended frequency for MailScanner is 15 mins'],
 					[9, 'LBL_SCHEDULE_REPORTS', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 24, 'Recommended frequency for ScheduleReports is 15 mins'],
