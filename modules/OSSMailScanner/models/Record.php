@@ -196,28 +196,40 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Return folder UID
+	 * @param int $accountID
+	 * @param string $folder
+	 * @return int
+	 */
 	public static function getUidFolder($accountID, $folder)
 	{
-		$db = PearDatabase::getInstance();
-		$uid = 0;
-		$result = $db->pquery('SELECT uid FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ? && BINARY folder = ?', [$accountID, $folder]);
-		while ($value = $db->getSingleValue($result)) {
-			$uid = $value;
+		$uid = (new \App\Db\Query())->select(['uid'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $accountID, 'folder' => $folder])->scalar();
+		if ($uid) {
+			return $uid;
+		} else {
+			return 0;
 		}
-		return $uid;
 	}
 
+	/**
+	 * Return user folders
+	 * @param int $accountID
+	 * @return array
+	 */
 	public function getFolders($accountID)
 	{
-		$db = PearDatabase::getInstance();
-		$rows = [];
-		$result = $db->pquery('SELECT * FROM vtiger_ossmailscanner_folders_uid WHERE user_id = ?', [$accountID]);
-		while ($row = $db->getRow($result)) {
-			$rows[] = $row;
-		}
-		return $rows;
+		return (new \App\Db\Query())->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $accountID])->createCommand()->queryAll();
 	}
 
+	/**
+	 *
+	 * @param int $account
+	 * @param object $mail
+	 * @param string $folder
+	 * @param array $params
+	 * @return array
+	 */
 	public static function executeActions($account, $mail, $folder, $params = false)
 	{
 
@@ -248,6 +260,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $mail->getActionResult();
 	}
 
+	/**
+	 * Manually scan mail
+	 * @param array $params
+	 * @return array
+	 * @throws \Exception\NoPermitted
+	 */
 	public function manualScanMail($params)
 	{
 		$account = OSSMail_Record_Model::getAccountByHash($params['rcId']);
@@ -269,6 +287,15 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Scan mailbox for emails
+	 * @param resource $mbox
+	 * @param array $account
+	 * @param string $folder
+	 * @param int $scan_id
+	 * @param int $countEmails
+	 * @return int
+	 */
 	public static function mail_Scan($mbox, $account, $folder, $scan_id, $countEmails)
 	{
 		$lastScanUid = self::getUidFolder($account['user_id'], $folder);
@@ -320,6 +347,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $countEmails;
 	}
 
+	/**
+	 * Return email search results
+	 * @param string $module
+	 * @return array
+	 */
 	public static function getEmailSearch($module = false)
 	{
 		$return = [];
@@ -345,6 +377,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Return email search list
+	 * @return array
+	 */
 	public static function getEmailSearchList()
 	{
 		$cache = Vtiger_Cache::get('Mail', 'EmailSearchList');
@@ -362,6 +398,10 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Set email search list
+	 * @param string $value
+	 */
 	public static function setEmailSearchList($value)
 	{
 		$db = App\Db::getInstance();
@@ -388,6 +428,12 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Merge arrays
+	 * @param array $tab1
+	 * @param array $tab2
+	 * @return array
+	 */
 	public static function _merge_array($tab1, $tab2)
 	{
 		$return = [];
@@ -401,16 +447,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Return cron tasks
+	 * @return array
+	 */
 	public static function getCron()
 	{
-		$adb = PearDatabase::getInstance();
-		$return = false;
-		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE module = ?", array('OSSMailScanner'));
-		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
-			$rowData = $adb->query_result_rowdata($result, $i);
-			$return[] = Array('name' => $rowData['name'], 'status' => $rowData['status'], 'frequency' => $rowData['frequency']);
-		}
-		return $return;
+		return (new App\Db\Query())->select(['name', 'status', 'frequency'])->from('vtiger_cron_task')->where(['module' => 'OSSMailScanner'])->createCommand()->queryAll();
 	}
 
 	public function executeCron($who_trigger)
