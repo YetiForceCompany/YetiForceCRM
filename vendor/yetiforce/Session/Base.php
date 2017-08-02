@@ -25,7 +25,7 @@ class Base extends \SessionHandler
 	 * @param string $name
 	 * @param array $cookie
 	 */
-	public function __construct(string $name = 'YTSID', $cookie = [])
+	public function __construct($name = 'YTSID', $cookie = [])
 	{
 		$cookie += [
 			'lifetime' => 0,
@@ -45,7 +45,7 @@ class Base extends \SessionHandler
 	 * @param string $key
 	 * @return mixed Value for the given key
 	 */
-	public function get(string $key)
+	public function get($key)
 	{
 		return $_SESSION[$key];
 	}
@@ -56,7 +56,7 @@ class Base extends \SessionHandler
 	 * @param mixed $value
 	 * @return $this
 	 */
-	public function set(string $key, $value)
+	public function set($key, $value)
 	{
 		$_SESSION[$key] = $value;
 	}
@@ -66,7 +66,7 @@ class Base extends \SessionHandler
 	 * @param string $key
 	 * @return bool
 	 */
-	public function has(string $key)
+	public function has($key)
 	{
 		return isset($_SESSION[$key]);
 	}
@@ -75,7 +75,7 @@ class Base extends \SessionHandler
 	 * Function to remove the value
 	 * @param string $key
 	 */
-	public function delete(string $key)
+	public function delete($key)
 	{
 		unset($_SESSION[$key]);
 	}
