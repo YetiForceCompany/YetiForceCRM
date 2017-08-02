@@ -9,6 +9,10 @@
 class Reservations_Calendar_Model extends \App\Base
 {
 
+	/**
+	 * Function to get records
+	 * @return array
+	 */
 	public function getEntity()
 	{
 		$db = App\Db::getInstance();
@@ -43,12 +47,6 @@ class Reservations_Calendar_Model extends \App\Base
 					],
 				]
 			]);
-			$params[] = $dbStartDateTime;
-			$params[] = $dbEndDateTime;
-			$params[] = $dbStartDateTime;
-			$params[] = $dbEndDateTime;
-			$params[] = $dbStartDate;
-			$params[] = $dbEndDate;
 		}
 		if ($this->get('types')) {
 			$query->andWhere(['vtiger_reservations.type' => $this->get('types')]);
@@ -62,7 +60,6 @@ class Reservations_Calendar_Model extends \App\Base
 		}
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
-
 		$dataReader = $query->createCommand()->query();
 		$result = [];
 		while ($record = $dataReader->read()) {
@@ -70,7 +67,6 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['id'] = $crmid;
 			$item['title'] = $record['title'];
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
-
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -78,15 +74,12 @@ class Reservations_Calendar_Model extends \App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['start'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-
-
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $record['type'];
 			$result[] = $item;
@@ -96,7 +89,6 @@ class Reservations_Calendar_Model extends \App\Base
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name
-	 * @param mixed id or name of the module
 	 */
 	public static function getInstance()
 	{
@@ -110,17 +102,15 @@ class Reservations_Calendar_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Function to get calendar types
+	 * @return string[]
+	 */
 	public static function getCalendarTypes()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery("SELECT fieldparams FROM vtiger_field WHERE columnname = ? AND tablename = ?;", ['type', 'vtiger_reservations']);
-		$templateId = $db->query_result($result, 0, 'fieldparams');
-		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?;', [$templateId]);
-		$calendarConfig = [];
-		$numRowsCount = $db->num_rows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$calendarConfig[$db->query_result_raw($result, $i, 'tree')] = $db->query_result_raw($result, $i, 'label');
-		}
-		return $calendarConfig;
+		$templateId = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'))->getFieldParams();
+		return (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
+				->where(['templateid' => $templateId])
+				->createCommand()->queryAllByGroup(0);
 	}
 }

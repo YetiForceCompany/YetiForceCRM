@@ -57,7 +57,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
-			$item['title'] = \App\Language::translate($record['name'], $moduleName);
+			$item['title'] = $record['name'];
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
@@ -101,10 +101,6 @@ class OSSTimeControl_Calendar_Model extends App\Base
 	 */
 	public static function getCalendarTypes()
 	{
-		return [
-			'PLL_WORKING_TIME',
-			'PLL_BREAK_TIME',
-			'PLL_HOLIDAY_TIME'
-		];
+		return \App\Fields\Picklist::getPickListValues('timecontrol_type');
 	}
 }

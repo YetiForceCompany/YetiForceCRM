@@ -10,12 +10,12 @@
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <style>
-{foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
-	.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
-	.listCol_{$ITEM.label}{ background: {$ITEM.value}!important; }
+{foreach from=Users_Colors_Model::getValuesFromField('timecontrol_type') item=ITEM}
+	.calCol_{$ITEM['value']}{ border: 1px solid {$ITEM['color']}!important; }
+	.listCol_{$ITEM['value']}{ background: {$ITEM['color']}!important; }
 {/foreach}
 {foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
-	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important; }
+	.userCol_{$ITEM['id']}{ background: {$ITEM['color']}!important; }
 {/foreach}
 </style>
 <div class="rowContent paddingLRZero col-xs-12">
