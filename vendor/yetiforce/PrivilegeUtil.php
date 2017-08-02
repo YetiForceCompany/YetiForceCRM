@@ -37,6 +37,21 @@ class PrivilegeUtil
 		return $parentRecOwner;
 	}
 
+	/** Function to get HelpDesk related Accounts
+	 * @param $recordId -- record id :: Type integer
+	 * @returns $accountid -- accountid:: Type integer
+	 */
+	private static function getHelpDeskRelatedAccounts($recordId)
+	{
+		\App\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
+		$adb = \PearDatabase::getInstance();
+		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
+		$result = $adb->pquery($query, array($recordId));
+		$accountid = $adb->getSingleValue($result);
+		\App\Log::trace('Exiting getHelpDeskRelatedAccounts method ...');
+		return $accountid;
+	}
+
 	protected static $datashareRelatedCache = false;
 
 	/**
