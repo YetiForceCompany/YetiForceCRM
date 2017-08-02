@@ -9,6 +9,10 @@
 class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 {
 
+	/**
+	 * Returns array list of actions
+	 * @return array
+	 */
 	public static function getActionsList()
 	{
 		$accountsPriority = ['CreatedEmail', 'CreatedHelpDesk', 'BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindSSalesProcesses'];
@@ -154,6 +158,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Update config widget param
+	 * @param string $confType
+	 * @param string $type
+	 * @param string $value
+	 * @return string
+	 */
 	public function setConfigWidget($confType, $type, $value)
 	{
 		if ($value === null || $value == 'null') {
@@ -163,6 +174,11 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		return App\Language::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
+	/**
+	 * Returns folder type
+	 * @param string $folder
+	 * @return int
+	 */
 	public static function getTypeFolder($folder)
 	{
 		switch ($folder) {
