@@ -23,7 +23,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 
 	public function getSettingLinks()
 	{
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
 		$db = PearDatabase::getInstance();

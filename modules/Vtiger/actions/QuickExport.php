@@ -33,7 +33,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 
 	public function ExportToExcel(\App\Request $request)
 	{
-		vimport('libraries.PHPExcel.PHPExcel');
+		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$module = $request->getModule(false); //this is the type of things in the current view
 		$filter = $request->get('viewname'); //this is the cvid of the current custom filter
 		$recordIds = $this->getRecordsListFromRequest($request); //this handles the 'all' situation.
@@ -116,7 +116,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 
 		header('Content-Type: application/x-msexcel');
-		header('Content-Length: ' . @filesize($tempFileName));
+		header('Content-Length: ' . filesize($tempFileName));
 		$filename = \App\Language::translate($module, $module) . '-' . \App\Language::translate(decode_html($customView->get('viewname')), $module) . ".xls";
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 

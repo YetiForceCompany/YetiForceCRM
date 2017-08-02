@@ -239,5 +239,3 @@ TokenConst::$HIDDEN_CHANNEL = 99;
 
 
 TokenConst::$MIN_TOKEN_TYPE = TokenConst::$UP + 1;
-
-?>

@@ -9,7 +9,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers TestModule::<public>
+ * @codeCoverageIgnore
  */
 class TestModule extends TestCase
 {

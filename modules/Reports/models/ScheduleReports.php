@@ -153,7 +153,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 			if (!empty($recipients['Roles'])) {
 				foreach ($recipients['Roles'] as $roleId) {
-					$roleUsers = getRoleUsers($roleId);
+					$roleUsers = \App\PrivilegeUtil::getUsersNameByRole($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -199,7 +199,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
 		}
-		vimport('~modules/Report/models/Record.php');
+		Vtiger_Loader::includeOnce('~modules/Report/models/Record.php');
 		$reportRecordModel = Reports_Record_Model::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
 		vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
@@ -311,7 +311,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 	public static function runScheduledReports()
 	{
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 

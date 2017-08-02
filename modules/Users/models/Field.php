@@ -114,8 +114,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getLanguageLabel($value);
+		if ($this->get('uitype') === 32) {
+			return \App\Language::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
 		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {

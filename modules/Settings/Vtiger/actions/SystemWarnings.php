@@ -41,7 +41,7 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function cancel(\App\Request $request)
 	{
-		Vtiger_Session::set('SystemWarnings', true);
+		App\Session::set('SystemWarnings', true);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

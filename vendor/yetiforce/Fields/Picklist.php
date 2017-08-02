@@ -21,9 +21,8 @@ class Picklist
 	public static function getRoleBasedPicklistValues($fieldName, $roleId)
 	{
 		$cacheKey = $fieldName . $roleId;
-		$cache = \App\Cache::get('getRoleBasedPicklistValues', $cacheKey);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getRoleBasedPicklistValues', $cacheKey)) {
+			return \App\Cache::get('getRoleBasedPicklistValues', $cacheKey);
 		}
 		$dataReader = (new \App\Db\Query())->select($fieldName)
 				->from("vtiger_$fieldName")
@@ -47,9 +46,8 @@ class Picklist
 	 */
 	public static function getPickListValues($fieldName)
 	{
-		$cache = \App\Cache::get('getPickListValues', $fieldName);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getPickListValues', $fieldName)) {
+			return \App\Cache::get('getPickListValues', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -88,9 +86,8 @@ class Picklist
 	 */
 	public static function getNonEditablePicklistValues($fieldName)
 	{
-		$cache = \App\Cache::get('getNonEditablePicklistValues', $fieldName);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getNonEditablePicklistValues', $fieldName)) {
+			return \App\Cache::get('getNonEditablePicklistValues', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -138,15 +135,10 @@ class Picklist
 	 */
 	public static function getPickListModules()
 	{
-		$adb = \PearDatabase::getInstance();
-		// vtlib customization: Ignore disabled modules.
-		$query = 'select distinct vtiger_field.fieldname,vtiger_field.tabid,vtiger_tab.tablabel, vtiger_tab.name as tabname,uitype from vtiger_field inner join vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid where uitype IN (15,33) and vtiger_field.tabid != 29 and vtiger_tab.presence != 1 and vtiger_field.presence in (0,2) order by vtiger_field.tabid ASC';
-		// END
-		$result = $adb->pquery($query, []);
-		while ($row = $adb->fetch_array($result)) {
-			$modules[$row['tablabel']] = $row['tabname'];
-		}
-		return $modules;
+		return (new App\Db\Query())->select(['vtiger_tab.tablabel', 'vtiger_tab.name as tabname'])->from('vtiger_field')
+				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 33], 'vtiger_field.presence' => [0, 2]])
+				->andWhere((['<>', 'vtiger_field.tabid', 29]))
+				->andWhere((['<>', 'vtiger_tab.presence', 1]))->distinct('vtiger_field.fieldname')->orderBy(['vtiger_field.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(0);
 	}
 
 	/**
@@ -157,45 +149,77 @@ class Picklist
 	 */
 	public static function getAssignedPicklistValues($tableName, $roleid)
 	{
-		$cache = \App\Cache::get('getAssignedPicklistValues', $tableName . $roleid);
-		if ($cache) {
-			return $cache;
+		if (\App\Cache::has('getAssignedPicklistValues', $tableName . $roleid)) {
+			return \App\Cache::get('getAssignedPicklistValues', $tableName . $roleid);
 		}
 		$values = [];
-		$adb = \PearDatabase::getInstance();
-		$sql = "select picklistid from vtiger_picklist where name = ?";
-		$result = $adb->pquery($sql, array($tableName));
-		if ($adb->num_rows($result)) {
-			$picklistid = $adb->query_result($result, 0, "picklistid");
-
+		$exists = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $tableName])->exists();
+		if ($exists) {
 			$sub = getSubordinateRoleAndUsers($roleid);
-			$subRoles = array($roleid);
+			$subRoles = [$roleid];
 			$subRoles = array_merge($subRoles, array_keys($sub));
 
 			$roleids = [];
 			foreach ($subRoles as $role) {
 				$roleids[] = $role;
 			}
-
-			$sql = sprintf('SELECT distinct %s, sortid FROM %s inner join vtiger_role2picklist on %s.picklist_valueid=vtiger_role2picklist.picklistvalueid'
-				. ' and roleid in (%s) order by sortid', $adb->sql_escape_string($tableName, true), $adb->sql_escape_string("vtiger_$tableName", true), $adb->sql_escape_string("vtiger_$tableName", true), $adb->generateQuestionMarks($roleids));
-			$result = $adb->pquery($sql, $roleids);
-			$count = $adb->num_rows($result);
-
-			if ($count) {
-				while ($resultrow = $adb->fetch_array($result)) {
-					/** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
-					 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
-					 *  "test1 &amp;$amp; test2" which we should decode two time to get result
-					 */
-					$pick_val = decode_html(decode_html($resultrow[$tableName]));
-					$values[$pick_val] = $pick_val;
-				}
+			$dataReader = (new \App\Db\Query())->select([$tableName, 'sortid'])->from("vtiger_$tableName")
+					->innerJoin('vtiger_role2picklist', "$tableName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
+					->where(['roleid' => $roleids])->orderBy('sortid')->distinct($tableName)->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				/** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
+				 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
+				 *  "test1 &amp;$amp; test2" which we should decode two time to get result
+				 */
+				$pickVal = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$tableName]));
+				$values[$pickVal] = $pickVal;
 			}
-
 			// END
 			\App\Cache::save('getAssignedPicklistValues', $tableName . $roleid, $values);
 			return $values;
 		}
+	}
+
+	/**
+	 * Function to get picklist dependency data source
+	 * @param string $module
+	 * @return array
+	 */
+	public static function getPicklistDependencyDatasource($module)
+	{
+		if (\App\Cache::has('getPicklistDependencyDatasource', $module)) {
+			return \App\Cache::get('getPicklistDependencyDatasource', $module);
+		}
+		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)]);
+		$dataReader = $query->createCommand()->query();
+		$picklistDependencyDatasource = [];
+		while ($row = $dataReader->read()) {
+			$pickArray = [];
+			$sourceField = $row['sourcefield'];
+			$targetField = $row['targetfield'];
+			$sourceValue = App\Purifier::decodeHtml($row['sourcevalue']);
+			$targetValues = App\Purifier::decodeHtml($row['targetvalues']);
+			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
+			$criteria = App\Purifier::decodeHtml($row['criteria']);
+			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
+
+			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
+				$conditionValue = [
+					'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
+					'values' => $unserializedTargetValues
+				];
+				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = $conditionValue;
+			} else {
+				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
+			}
+			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
+				foreach (App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
+					$pickArray[] = App\Purifier::decodeHtml($picklistValue);
+				}
+				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
+			}
+		}
+		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
+		return $picklistDependencyDatasource;
 	}
 }

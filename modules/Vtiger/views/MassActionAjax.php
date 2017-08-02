@@ -51,7 +51,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		foreach ($fieldList as $fieldName => $fieldModel) {
 			$fieldInfo[$fieldName] = $fieldModel->getFieldInfo();
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));

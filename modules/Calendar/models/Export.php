@@ -5,10 +5,10 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-vimport('modules.Calendar.iCal.iCalendar_rfc2445');
-vimport('modules.Calendar.iCal.iCalendar_components');
-vimport('modules.Calendar.iCal.iCalendar_properties');
-vimport('modules.Calendar.iCal.iCalendar_parameters');
+Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_rfc2445');
+Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_components');
+Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_properties');
+Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_parameters');
 
 class Calendar_Export_Model extends Vtiger_Export_Model
 {

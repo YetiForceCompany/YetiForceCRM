@@ -404,7 +404,8 @@ class WebserviceField
 		}else {
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
 			$details = \App\Fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
-			for ($i = 0; $i < sizeof($details); ++$i) {
+			$amountOfRoles = sizeof($details);
+			for ($i = 0; $i < $amountOfRoles; ++$i) {
 				$elem = [];
 				$picklistValue = decode_html($details[$i]);
 				$moduleName = \App\Module::getModuleName($this->getTabId());

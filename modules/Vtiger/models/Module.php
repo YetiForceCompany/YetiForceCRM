@@ -272,8 +272,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
@@ -1306,7 +1306,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$this->isEntityModule()) {
 			return [];
 		}
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');

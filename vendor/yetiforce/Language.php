@@ -40,8 +40,8 @@ class Language
 		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
-		} elseif (\Vtiger_Session::get('language') !== '') {
-			$language = \Vtiger_Session::get('language');
+		} elseif (\App\Session::get('language') !== '') {
+			$language = \App\Session::get('language');
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
@@ -337,5 +337,15 @@ class Language
 		}
 		//Fallback if no language found
 		return '';
+	}
+
+	/**
+	 * Function to get the label name of the Langauge package
+	 * @param string $name
+	 * @return string|boolean
+	 */
+	public static function getLanguageLabel($name)
+	{
+		return (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
 	}
 }

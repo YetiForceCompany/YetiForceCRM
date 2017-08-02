@@ -13,8 +13,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getRealId()
 	{
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			return Vtiger_Session::get('baseUserId');
+		if (App\Session::has('baseUserId') && App\Session::get('baseUserId') != '') {
+			return App\Session::get('baseUserId');
 		}
 		return $this->getId();
 	}
@@ -352,28 +352,20 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getAll($onlyActive = true)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT id FROM vtiger_users';
-		$params = [];
+		$query = (new \App\Db\Query())
+			->select(['id'])
+			->from('vtiger_users');
 		if ($onlyActive) {
-			$sql .= ' WHERE status = ?';
-			$params[] = 'Active';
+			$query->where(['status' => 'Active']);
 		}
-		$result = $db->pquery($sql, $params);
-
-		$noOfUsers = $db->num_rows($result);
 		$users = [];
-		if ($noOfUsers > 0) {
-			$focus = new Users();
-			for ($i = 0; $i < $noOfUsers; ++$i) {
-				$userId = $db->query_result($result, $i, 'id');
-				$focus->id = $userId;
-				$focus->retrieve_entity_info($userId, 'Users');
-
-				$userModel = self::getInstanceFromUserObject($focus);
-				$users[$userModel->getId()] = $userModel;
-			}
+		$focus = new Users();
+		$dataReader = $query->createCommand()->query();
+		while ($userId = $dataReader->readColumn(0)) {
+			$focus->id = $userId;
+			$focus->retrieve_entity_info($userId, 'Users');
+			$userModel = self::getInstanceFromUserObject($focus);
+			$users[$userModel->getId()] = $userModel;
 		}
 		return $users;
 	}
@@ -504,36 +496,29 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Images Data
-	 * @return <Array> list of Image names and paths
+	 * @return array list of Image names and paths
 	 */
 	public function getImageDetails()
 	{
-		$db = PearDatabase::getInstance();
-
+		if (\App\Cache::has('getImageDetails', 'imageDetails')) {
+			return \App\Cache::get('getImageDetails', 'imageDetails');
+		}
 		$imageDetails = [];
 		$recordId = $this->getId();
-
 		if ($recordId) {
-			$query = 'SELECT vtiger_attachments.* FROM vtiger_attachments
-            LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-            WHERE vtiger_salesmanattachmentsrel.smid=?';
-
-			$result = $db->pquery($query, [$recordId]);
-
-			if ($db->getRowCount($result)) {
-				$imageId = $db->query_result($result, 0, 'attachmentsid');
-				$imagePath = $db->query_result($result, 0, 'path');
-				$imageName = $db->query_result($result, 0, 'name');
-				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalName = decode_html($imageName);
-				$imageDetails[] = array(
-					'id' => $imageId,
-					'orgname' => $imageOriginalName,
-					'path' => $imagePath . $imageId,
-					'name' => $imageName
-				);
+			$result = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
+					->leftJoin('vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+					->where(['vtiger_salesmanattachmentsrel.smid' => $recordId])->one();
+			if ($result) {
+				$imageDetails[] = [
+					'id' => $row['attachmentsid'],
+					'orgname' => \App\Purifier::decodeHtml($row['name']),
+					'path' => $row['path'] . $row['attachmentsid'],
+					'name' => $row['name']
+				];
 			}
 		}
+		\App\Cache::get('getImageDetails', 'imageDetails', $imageDetails);
 		return $imageDetails;
 	}
 

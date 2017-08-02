@@ -45,8 +45,8 @@ class User
 		if (static::$currentUserRealId) {
 			return static::$currentUserRealId;
 		}
-		if (\Vtiger_Session::has('baseUserId') && \Vtiger_Session::get('baseUserId')) {
-			$id = \Vtiger_Session::get('baseUserId');
+		if (\App\Session::has('baseUserId') && \App\Session::get('baseUserId')) {
+			$id = \App\Session::get('baseUserId');
 		} else {
 			$id = static::getCurrentUserId();
 		}
@@ -64,7 +64,7 @@ class User
 			return static::$currentUserCache;
 		}
 		if (!static::$currentUserId) {
-			static::$currentUserId = (int) \Vtiger_Session::get('authenticated_user_id');
+			static::$currentUserId = (int) \App\Session::get('authenticated_user_id');
 		}
 		return static::$currentUserCache = static::getUserModel(static::$currentUserId);
 	}

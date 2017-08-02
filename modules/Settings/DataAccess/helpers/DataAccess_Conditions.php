@@ -125,7 +125,7 @@ class DataAccess_Conditions
 
 	private function checkSingleCondition($form, $cndArray)
 	{
-		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_ConditionsTest.php');
+		Vtiger_Loader::includeOnce('~~modules/Settings/DataAccess/helpers/DataAccess_ConditionsTest.php');
 		$methodName = $this->createFunctionName($cndArray['comparator']);
 		$class = new ReflectionClass('DataAccess_ConditionsTest');
 		$methodList = $class->getMethods(ReflectionMethod::IS_STATIC);

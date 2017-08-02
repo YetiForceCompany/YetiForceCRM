@@ -154,48 +154,9 @@ class Vtiger_DependencyPicklist
 		return $dependencyMap;
 	}
 
-	/**
-	 * Function to get picklist dependency data source
-	 * @param string $module
-	 * @return array
-	 */
-	static function getPicklistDependencyDatasource($module)
-	{
-		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => $tabId]);
-		$dataReader = $query->createCommand()->query();
-		$picklistDependencyDatasource = [];
-		while ($row = $dataReader->read()) {
-			$pickArray = [];
-			$sourceField = $row['sourcefield'];
-			$targetField = $row['targetfield'];
-			$sourceValue = App\Purifier::decodeHtml($row['sourcevalue']);
-			$targetValues = App\Purifier::decodeHtml($row['targetvalues']);
-			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
-			$criteria = App\Purifier::decodeHtml($row['criteria']);
-			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
-
-			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
-				$conditionValue = [
-					'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
-					'values' => $unserializedTargetValues
-				];
-				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = $conditionValue;
-			} else {
-				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
-			}
-			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				foreach (App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
-					$pickArray[] = App\Purifier::decodeHtml($picklistValue);
-				}
-				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
-			}
-		}
-		return($picklistDependencyDatasource);
-	}
-
 	static function getJSPicklistDependencyDatasource($module)
 	{
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($module);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);
 		return \App\Json::encode($picklistDependencyDatasource);
 	}
 

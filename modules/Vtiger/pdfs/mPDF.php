@@ -8,7 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-vimport('~/libraries/mPDF/mpdf.php');
+Vtiger_Loader::includeOnce('~/libraries/mPDF/mpdf.php');
 
 class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 {

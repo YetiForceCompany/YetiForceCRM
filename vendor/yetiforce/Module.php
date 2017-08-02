@@ -155,4 +155,28 @@ class Module
 		}
 		return $formattedName;
 	}
+
+	/**
+	 * Function to get a action id for a given action name
+	 * @param string $action
+	 * @return int|null
+	 */
+	public static function getActionId($action)
+	{
+		if (empty($action)) {
+			return null;
+		}
+		if (Cache::has('getActionId', $action)) {
+			return Cache::get('getActionId', $actionId);
+		}
+		$actionIds = Module::getTabData('actionId');
+		if (isset($actionIds[$action])) {
+			$actionId = $actionIds[$action];
+		}
+		if (empty($actionId)) {
+			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
+		}
+		Cache::save('getActionId', $action, $actionId, Cache::LONG);
+		return $actionId;
+	}
 }

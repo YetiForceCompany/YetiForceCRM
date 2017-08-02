@@ -367,8 +367,9 @@ class Activity extends CRMEntity
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($sharedid, $sharedid));
+		$numberOfRows = $db->num_rows($result);
 		if ($db->num_rows($result) != 0) {
-			for ($j = 0; $j < $db->num_rows($result); $j++) {
+			for ($j = 0; $j < $numberOfRows; $j++) {
 				$userid[] = $db->query_result($result, $j, 'userid');
 			}
 			$shared_ids = implode(",", $userid);

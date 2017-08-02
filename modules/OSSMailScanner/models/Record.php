@@ -439,9 +439,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		return $return;
 	}
-
+  
 	/**
-	 * Return cron tasks
+	 * The function returns information about OSSMailScanner Crons
 	 * @return array
 	 */
 	public static function getCron()

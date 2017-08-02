@@ -224,20 +224,6 @@ class Vtiger_Language_Handler
 		return vtlib\Language::getAll();
 	}
 
-	/**
-	 * Function to get the label name of the Langauge package
-	 * @param string $name
-	 */
-	public static function getLanguageLabel($name)
-	{
-		$db = PearDatabase::getInstance();
-		$languageResult = $db->pquery('SELECT label FROM vtiger_language WHERE prefix = ?', array($name));
-		if ($db->num_rows($languageResult)) {
-			return $db->query_result($languageResult, 0, 'label');
-		}
-		return false;
-	}
-
 	public static function getTranslateSingularModuleName($moduleName)
 	{
 		return Vtiger_Language_Handler::getTranslatedString("SINGLE_$moduleName", $moduleName);

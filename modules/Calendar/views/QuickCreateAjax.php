@@ -60,7 +60,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			$info['moduleModel'] = $moduleModel;
 			$quickCreateContents[$module] = $info;
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));

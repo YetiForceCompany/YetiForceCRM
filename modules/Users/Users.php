@@ -686,10 +686,10 @@ class Users extends CRMEntity
 					}
 				}
 			} else {
-				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1");
 				$adminId = 1;
-				while (($id = $db->getSingleValue($result)) !== false) {
-					$adminId = $id;
+				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->limit(1)->scalar();
+				if ($result) {
+					$adminId = $result;
 				}
 			}
 			$cache->setAdminUserId($adminId);

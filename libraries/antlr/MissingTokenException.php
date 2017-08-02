@@ -57,5 +57,3 @@ class MissingTokenException extends MismatchedTokenException
 		return 'MissingTokenException';
 	}
 }
-
-?>
