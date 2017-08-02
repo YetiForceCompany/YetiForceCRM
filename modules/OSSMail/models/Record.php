@@ -110,7 +110,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (!$mbox) {
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(): ' . imap_last_error());
 			if ($dieOnError) {
-				vtlib\Functions::throwNewException(\App\Language::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . imap_last_error());
+				throw new \Exception\AppException(\App\Language::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . imap_last_error());
 			}
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
