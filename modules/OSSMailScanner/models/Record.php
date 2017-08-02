@@ -94,7 +94,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function setFolderList($user, $foldersByType)
 	{
-		$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$types = ['Received', 'Sent', 'Spam', 'Trash', 'All'];
 		$oldFoldersByType = (new \App\Db\Query())->select(['type', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $user])->createCommand()->queryAllByGroup(2);
 		foreach ($types as $type) {
@@ -109,14 +109,14 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$toAdd = array_diff_assoc($folders, $oldFolders);
 			$toRemove = array_diff_assoc($oldFolders, $folders);
 			foreach ($toAdd as $folder) {
-				$db->createCommand()->insert('vtiger_ossmailscanner_folders_uid', [
+				$dbCommand->insert('vtiger_ossmailscanner_folders_uid', [
 					'user_id' => $user,
 					'type' => $type,
 					'folder' => html_entity_decode($folder)
 				])->execute();
 			}
 			foreach ($toRemove as $folder) {
-				$db->createCommand()->delete('vtiger_ossmailscanner_folders_uid', ['user_id' => $user, 'type' => $type, 'folder' => $folder])->execute();
+				$dbCommand->delete('vtiger_ossmailscanner_folders_uid', ['user_id' => $user, 'type' => $type, 'folder' => $folder])->execute();
 			}
 		}
 	}
@@ -439,7 +439,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		}
 		return $return;
 	}
-  
+
 	/**
 	 * The function returns information about OSSMailScanner Crons
 	 * @return array
