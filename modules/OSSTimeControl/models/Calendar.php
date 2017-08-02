@@ -9,13 +9,17 @@
 class OSSTimeControl_Calendar_Model extends App\Base
 {
 
+	/**
+	 * Function to get records
+	 * @return array
+	 */
 	public function getEntity()
 	{
-		$db = PearDatabase::getInstance();
-		$module = 'OSSTimeControl';
+		$moduleName = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$query = getListQuery($module);
-		$params = [];
+		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id']);
+		$query = $queryGenerator->createQuery();
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
 			$dbStartDateTime = $dbStartDateOject->format('Y-m-d H:i:s');
@@ -23,39 +27,38 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$dbEndDateObject = DateTimeField::convertToDBTimeZone($this->get('end'), null, false);
 			$dbEndDateTime = $dbEndDateObject->format('Y-m-d H:i:s');
 			$dbEndDate = $dbEndDateObject->format('Y-m-d');
-			$query .= " AND ((concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) >= ? AND concat(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start) <= ?) OR (concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) >= ? AND concat(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end) <= ?) OR (vtiger_osstimecontrol.date_start < ? AND vtiger_osstimecontrol.due_date > ?) )";
-			$params[] = $dbStartDateTime;
-			$params[] = $dbEndDateTime;
-			$params[] = $dbStartDateTime;
-			$params[] = $dbEndDateTime;
-			$params[] = $dbStartDate;
-			$params[] = $dbEndDate;
+			$query->andWhere([
+				'or',
+				[
+					'and',
+					['>=', new \yii\db\Expression("CONCAT(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(vtiger_osstimecontrol.date_start, ' ', vtiger_osstimecontrol.time_start)"), $dbEndDateTime]
+				],
+				[
+					'and',
+					['>=', new \yii\db\Expression("CONCAT(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end)"), $dbStartDateTime],
+					['<=', new \yii\db\Expression("CONCAT(vtiger_osstimecontrol.due_date, ' ', vtiger_osstimecontrol.time_end)"), $dbEndDateTime]
+				],
+				[
+					'and',
+					['<', 'vtiger_osstimecontrol.date_start', $dbStartDate],
+					['>', 'vtiger_osstimecontrol.due_date', $dbEndDate]
+				]
+			]);
 		}
 		if (!$this->isEmpty('types')) {
-			$query .= " AND vtiger_osstimecontrol.timecontrol_type IN ('" . implode("','", $this->get('types')) . "')";
+			$query->andWhere(['vtiger_osstimecontrol.timecontrol_type' => $this->get('types')]);
 		}
-		if ($this->get('user')) {
-			if (is_array($this->get('user'))) {
-				$query .= ' AND vtiger_crmentity.smownerid IN (' . implode(",", $this->get('user')) . ')';
-			} else {
-				$query .= ' AND vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
-			}
+		if (!$this->isEmpty('user')) {
+			$query->andWhere(['vtiger_crmentity.smownerid' => $this->get('user')]);
 		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
-		$query .= ' ORDER BY date_start,time_start ASC';
-
-		$queryResult = $db->pquery($query, $params);
+		$dataReader = $query->createCommand()->query();
 		$result = [];
-		$numRowsCount = $db->num_rows($queryResult);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$record = $db->raw_query_result_rowdata($queryResult, $i);
-
+		while ($record = $dataReader->read()) {
 			$item = [];
-			$crmid = $record['osstimecontrolid'];
-			$item['id'] = $crmid;
-			$item['title'] = \App\Language::translate($record['name'], $module);
-			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $crmid;
-
+			$item['id'] = $record['id'];
+			$item['title'] = \App\Language::translate($record['name'], $moduleName);
+			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -63,17 +66,14 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['start'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-
 			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
 			$dateComponent = $dateTimeComponents[0];
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-
-
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $record['timecontrol_type'];
+			$item['className'] = ' userCol_' . $record['assigned_user_id'] . ' calCol_' . $record['timecontrol_type'];
 			$result[] = $item;
 		}
 		return $result;
@@ -95,13 +95,16 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		}
 	}
 
+	/**
+	 * Function to get type of calendars
+	 * @return string[]
+	 */
 	public static function getCalendarTypes()
 	{
-		$calendarConfig = Array(
+		return [
 			'PLL_WORKING_TIME',
 			'PLL_BREAK_TIME',
 			'PLL_HOLIDAY_TIME'
-		);
-		return $calendarConfig;
+		];
 	}
 }
