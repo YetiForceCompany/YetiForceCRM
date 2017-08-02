@@ -37,51 +37,6 @@ class PrivilegeUtil
 		return $parentRecOwner;
 	}
 
-	/** Function to get email related accounts
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $accountid -- accountid:: Type integer
-	 */
-	private static function getEmailsRelatedAccounts($recordId)
-	{
-		\App\Log::trace("Entering getEmailsRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
-		$result = $adb->pquery($query, array($recordId));
-		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getEmailsRelatedAccounts method ...');
-		return $accountid;
-	}
-
-	/** Function to get email related Leads
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $leadid -- leadid:: Type integer
-	 */
-	private static function getEmailsRelatedLeads($recordId)
-	{
-		\App\Log::trace("Entering getEmailsRelatedLeads($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
-		$result = $adb->pquery($query, array($recordId));
-		$leadid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getEmailsRelatedLeads method ...');
-		return $leadid;
-	}
-
-	/** Function to get HelpDesk related Accounts
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $accountid -- accountid:: Type integer
-	 */
-	private static function getHelpDeskRelatedAccounts($recordId)
-	{
-		\App\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
-		$result = $adb->pquery($query, array($recordId));
-		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getHelpDeskRelatedAccounts method ...');
-		return $accountid;
-	}
-
 	protected static $datashareRelatedCache = false;
 
 	/**
