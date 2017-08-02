@@ -337,26 +337,23 @@ class PrivilegeUtil
 		$users = [];
 		$adb = \PearDatabase::getInstance();
 		//Retreiving from the user2grouptable
-		$result = $adb->pquery('select userid from vtiger_users2group where groupid=?', [$groupId]);
-		while ($userId = $adb->getSingleValue($result)) {
-			$users[] = $userId;
-		}
+		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_users2group')->where(['groupid' => $groupId])->column();
 		//Retreiving from the vtiger_group2role
-		$result = $adb->pquery('select roleid from vtiger_group2role where groupid=?', [$groupId]);
-		while ($roleId = $adb->getSingleValue($result)) {
+		$dataReader = (new \App\Db\Query())->select(['roleid'])->from('vtiger_group2role')->where(['groupid' => $groupId])->createCommand()->query();
+		while ($roleId = $dataReader->readColumn(0)) {
 			$roleUsers = static::getUsersByRole($roleId);
 			$users = array_merge($users, $roleUsers);
 		}
 		//Retreiving from the vtiger_group2rs
-		$result = $adb->pquery('select roleandsubid from vtiger_group2rs where groupid=?', [$groupId]);
-		while ($roleId = $adb->getSingleValue($result)) {
+		$dataReader = (new \App\Db\Query())->select(['roleandsubid'])->from('vtiger_group2rs')->where(['groupid' => $groupId])->createCommand()->query();
+		while ($roleId = $dataReader->readColumn(0)) {
 			$roleUsers = static::getUsersByRoleAndSubordinate($roleId);
 			$users = array_merge($users, $roleUsers);
 		}
 		if ($i < 5) {
 			//Retreving from group2group
-			$result = $adb->pquery('select containsgroupid from vtiger_group2grouprel where groupid=?', [$groupId]);
-			while ($containsGroupId = $adb->getSingleValue($result)) {
+			$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
+			while ($roleId = $dataReader->readColumn(0)) {
 				$roleUsers = static::getUsersByGroup($containsGroupId, $i++);
 				$users = array_merge($users, $roleUsers);
 			}
