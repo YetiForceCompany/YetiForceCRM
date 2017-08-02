@@ -754,8 +754,8 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			return App\Cache::get('ProfilesRecordModelById', $profileId);
 		}
 		$row = (new App\Db\Query())->from('vtiger_profile')
-				->where(['profileid' => $profileId])
-				->one();
+			->where(['profileid' => $profileId])
+			->one();
 		$profile = null;
 		if ($row) {
 			$profile = new self();
@@ -831,9 +831,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getUsersList($profileId = false)
 	{
 		$query = (new App\Db\Query())->select(['id'])->from('vtiger_users')
-				->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
-				->innerJoin('vtiger_role2profile', 'vtiger_role2profile.roleid = vtiger_user2role.roleid')
-				->where(['vtiger_users.deleted' => 0]);
+			->innerJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
+			->innerJoin('vtiger_role2profile', 'vtiger_role2profile.roleid = vtiger_user2role.roleid')
+			->where(['vtiger_users.deleted' => 0]);
 		if ($profileId) {
 			$query->andWhere(['vtiger_role2profile.profileid' => $profileId]);
 		}
@@ -877,14 +877,13 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				$db->pquery($insertQuery, array($profileId, $tabId, $fieldId, Settings_Profiles_Module_Model::FIELD_ACTIVE, Settings_Profiles_Module_Model::FIELD_READWRITE));
 			}
 
-			$sql = 'SELECT fieldid FROM vtiger_def_org_field WHERE tabid = ?';
-			$result1 = $db->pquery($sql, array($tabId));
-			$def_org_fields = [];
-			for ($j = 0; $j < $db->num_rows($result1); $j++) {
-				array_push($def_org_fields, $db->query_result($result1, $j, 'fieldid'));
-			}
+			$defOrgFields = (new \App\Db\Query())
+					->select(['fieldid'])
+					->from('vtiger_def_org_field')
+					->where(['tabid' => $tabId])->column();
+			
 			foreach ($userAccessbleFields as $fieldId => $fieldName) {
-				if (!in_array($fieldId, $def_org_fields)) {
+				if (!in_array($fieldId, $defOrgFields)) {
 					$insertQuery = 'INSERT INTO vtiger_def_org_field VALUES(?,?,?,?)';
 					$db->pquery($insertQuery, array($tabId, $fieldId, 0, 0));
 				}

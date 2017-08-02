@@ -23,8 +23,8 @@ class RecordNumber
 		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabId]);
-		if ($result && $db->num_rows($result) > 0) {
+		$exist = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->exists();
+		if ($exist) {
 			return true;
 		}
 		return false;
@@ -112,6 +112,12 @@ class RecordNumber
 
 	protected static $numberCache = [];
 
+	/**
+	 * Function returns information about module numbering
+	 * @param int $tabId
+	 * @param boolen $cache
+	 * @return array
+	 */
 	public static function getNumber($tabId, $cache = true)
 	{
 		if (isset(self::$numberCache[$tabId]) && $cache) {
@@ -120,9 +126,7 @@ class RecordNumber
 		if (is_string($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$tabId]);
-		$row = $adb->getRow($result);
+		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 
 		$number = [
 			'prefix' => $row['prefix'],

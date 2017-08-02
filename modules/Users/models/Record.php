@@ -13,8 +13,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	public function getRealId()
 	{
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			return Vtiger_Session::get('baseUserId');
+		if (App\Session::has('baseUserId') && App\Session::get('baseUserId') != '') {
+			return App\Session::get('baseUserId');
 		}
 		return $this->getId();
 	}

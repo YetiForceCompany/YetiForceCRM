@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WebUI test class
  * @package YetiForce.Test
@@ -21,7 +20,7 @@ class WebUI extends TestCase
 	public function testListView()
 	{
 		\App\Cache::clear();
-		foreach (vtlib\Functions::getAllModules() as $id => $module) {
+		foreach (vtlib\Functions::getAllModules() as $module) {
 			if ($module['name'] === 'Events') {
 				continue;
 			}
@@ -34,6 +33,7 @@ class WebUI extends TestCase
 			$webUI = new Vtiger_WebUI();
 			$webUI->process($request);
 
+			file_put_contents('tests/ListView.txt', ob_get_contents());
 			ob_end_clean();
 		}
 	}

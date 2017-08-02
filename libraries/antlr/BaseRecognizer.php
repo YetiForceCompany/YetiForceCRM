@@ -719,7 +719,8 @@ abstract class BaseRecognizer
 		if ($tokens === null)
 			return null;
 		$strings = [];
-		for ($i = 0; $i < $tokens->size(); $i++) {
+		$amountOfElements = $tokens->size();
+		for ($i = 0; $i < $amountOfElements; $i++) {
 			$strings[] = $tokens[$i]->getText();
 		}
 		return $strings;

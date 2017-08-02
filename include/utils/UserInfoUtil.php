@@ -68,7 +68,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	$userPrivileges = App\User::getPrivilegesFile($current_user->id);
 
 	$permission = 'no';
-	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && \App\Request::_get('parenttab') != 'Settings') {
+	if (($module === 'Users' || $module === 'Home' || $module === 'uploads') && \App\Request::_get('parenttab') !== 'Settings') {
 		//These modules dont have security right now
 		vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
 		\App\Log::trace('Exiting isPermitted method ...');
@@ -89,10 +89,10 @@ function isPermitted($module, $actionname, $record_id = '')
 
 	//Retreiving the Tabid and Action Id
 	$tabid = \App\Module::getModuleId($module);
-	$actionid = getActionid($actionname);
+	$actionid = \App\Module::getActionId($actionname);
 	$checkModule = $module;
 
-	if ($checkModule == 'Events') {
+	if ($checkModule === 'Events') {
 		$checkModule = 'Calendar';
 	}
 

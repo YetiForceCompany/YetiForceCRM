@@ -17,7 +17,7 @@ $DEBUG_CONFIG = [
 	'LOG_TO_PROFILE' => false,
 	// Level of saved/displayed logs
 	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'], 
-	'LOG_LEVELS' => ['error', 'warning'],
+	'LOG_LEVELS' => ['error'],
 	// Level of saved/displayed tracerts. // Values: int
 	'LOG_TRACE_LEVEL' => 9,
 	// Display Main Debug Console
@@ -40,9 +40,9 @@ $DEBUG_CONFIG = [
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
-	'EXCEPTION_ERROR_HANDLER' => false,
+	'EXCEPTION_ERROR_HANDLER' => true,
 	// Save logs to file (cache/logs/errors.log)
-	'EXCEPTION_ERROR_TO_FILE' => false,
+	'EXCEPTION_ERROR_TO_FILE' => true,
 	// Display errors
 	'EXCEPTION_ERROR_TO_SHOW' => false,
 	// Set the error reporting level. The parameter is either an integer representing a bit field, or named constants.  

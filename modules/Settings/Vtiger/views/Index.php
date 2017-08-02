@@ -101,7 +101,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$warnings = \App\SystemWarnings::getWarnings('all');
 
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		$viewer->assign('WARNINGS', !Vtiger_Session::has('SystemWarnings') ? $warnings : []);
+		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
 		$viewer->assign('SECURITY_COUNT', $this->getSecurityCount());
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);

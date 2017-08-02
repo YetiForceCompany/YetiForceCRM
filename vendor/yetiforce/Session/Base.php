@@ -25,7 +25,7 @@ class Base extends \SessionHandler
 	 * @param string $name
 	 * @param array $cookie
 	 */
-	public function __construct(string $name = 'SYTID', $cookie = [])
+	public function __construct(string $name = 'YTSID', $cookie = [])
 	{
 		$cookie += [
 			'lifetime' => 0,
@@ -75,8 +75,28 @@ class Base extends \SessionHandler
 	 * Function to remove the value
 	 * @param string $key
 	 */
-	public function remove(string $key)
+	public function delete(string $key)
 	{
 		unset($_SESSION[$key]);
+	}
+
+	/**
+	 * Update the current session id with a newly generated one
+	 * @link http://php.net/manual/en/function.session-regenerate-id.php
+	 * @param bool $deleteOldSession
+	 */
+	public function regenerateId($deleteOldSession = false)
+	{
+		return session_regenerate_id($deleteOldSession);
+	}
+
+	/**
+	 * Destroys all data registered to a session
+	 * @link http://php.net/manual/en/function.session-destroy.php
+	 * @param string $sessionId
+	 */
+	public function destroy($sessionId)
+	{
+		return parent::destroy($sessionId);
 	}
 }

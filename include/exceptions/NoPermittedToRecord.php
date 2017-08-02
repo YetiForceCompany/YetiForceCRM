@@ -14,11 +14,11 @@ class NoPermittedToRecord extends NoPermitted
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\Vtiger_Session::init();
+		\App\Session::init();
 
 		$request = \App\Request::init();
 		$record = $request->getInteger('record', 0);
-		$userName = \Vtiger_Session::get('full_user_name');
+		$userName = \App\Session::get('full_user_name');
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),

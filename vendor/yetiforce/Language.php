@@ -40,8 +40,8 @@ class Language
 		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
-		} elseif (\Vtiger_Session::get('language') !== '') {
-			$language = \Vtiger_Session::get('language');
+		} elseif (\App\Session::get('language') !== '') {
+			$language = \App\Session::get('language');
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
