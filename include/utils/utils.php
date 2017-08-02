@@ -137,30 +137,24 @@ function getUserId_Ol($username)
 
 function getActionid($action)
 {
-
-	\App\Log::trace('Entering getActionid(' . $action . ') method ...');
-
+	\App\Log::trace("Entering getActionid($action) method ...");
 	if (empty($action)) {
 		return null;
 	}
-	$actionid = Vtiger_Cache::get('getActionid', $action);
-	if ($actionid) {
-		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
-		return $actionid;
+	if (\App\Cache::has('getActionid', $action)) {
+		\App\Log::trace("Exiting getActionid method ... -  $actionId");
+		return \App\Cache::get('getActionid', $actionId);
 	}
 	$actionIds = \App\Module::getTabData('actionId');
 	if (isset($actionIds[$action])) {
-		$actionid = $actionIds[$action];
+		$actionId = $actionIds[$action];
 	}
-	if (empty($actionid)) {
-		$db = PearDatabase::getInstance();
-		$query = 'select actionid from vtiger_actionmapping where actionname=?';
-		$result = $db->pquery($query, [$action]);
-		$actionid = $db->getSingleValue($result);
+	if (empty($actionId)) {
+		$actionId = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
 	}
-	Vtiger_Cache::set('getActionid', $action, $actionid);
-	\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
-	return $actionid;
+	\App\Cache::save('getActionid', $action, $actionId);
+	\App\Log::trace("Exiting getActionid method ... - $actionId");
+	return $actionId;
 }
 
 /** Function to get a action for a given action id
