@@ -459,6 +459,8 @@ var Vtiger_Index_Js = {
 			if (html) {
 				$('.chatModal .modal-body').append(html);
 			}
+		}, function (error, err) {
+			clearTimeout(Vtiger_Index_Js.chatTimer);
 		});
 	},
 	/**

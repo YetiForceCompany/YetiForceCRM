@@ -38,8 +38,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$return_params = urlencode($return_params);
 				App\Session::set('return_params', $return_params);
 			}
-			header('Location: index.php');
-			throw new \Exception\AppException('Login is required');
+			if (!$request->isAjax()) {
+				header('Location: index.php');
+			}
+			throw new \Exception\AppException('Login is required', 401);
 		}
 	}
 
