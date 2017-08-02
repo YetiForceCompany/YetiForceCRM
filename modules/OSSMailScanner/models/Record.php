@@ -587,7 +587,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$return = false;
 		$row = (new App\Db\Query())->from('vtiger_ossmails_logs')->orderBy(['id' => SORT_DESC])->one();
-		if ($row && $row['status'] == 1) {
+		if ($row && $row['status'] === 1) {
 			$config = self::getConfig('cron');
 			$time = strtotime($row['start_time']) + ( $config['time'] * 60);
 			if (strtotime("now") > $time) {
@@ -603,7 +603,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getActiveScan()
 	{
-		return (new App\Db\Query())->from('vtiger_ossmails_logs')->where(['status' => '1'])->createCommand()->query()->count();
+		return (new App\Db\Query())->from('vtiger_ossmails_logs')->where(['status' => 1])->createCommand()->query()->count();
 	}
 
 	/**
@@ -655,13 +655,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$db = App\Db::getInstance();
 				$db->createCommand()->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $checkCronStatus, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
 				$config = self::getConfig('cron');
-				$mail_status = \App\Mailer::addMail([
+				$mailStatus = \App\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => $config['email'],
 						'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
 						'content' => App\Language::translate('Email_Body', 'OSSMailScanner'),
 				]);
-				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mail_status], ['laststart' => $checkCronStatus])->execute();
+				$db->createCommand()->update('vtiger_ossmailscanner_log_cron', ['status' => $mailStatus], ['laststart' => $checkCronStatus])->execute();
 			}
 		}
 	}
@@ -712,7 +712,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($this->group) {
 			return $this->group;
 		}
-		$this->group = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->createCommand()->queryAll();
+		$this->group = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->all();
 		return $this->group;
 	}
 
