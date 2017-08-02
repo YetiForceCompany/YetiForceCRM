@@ -713,7 +713,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		if ($this->group) {
 			return $this->group;
 		}
-		$this->group = (new \App\Db\Query())->select(['id', 'groupname'])->from('vtiger_groups')->createCommand()->queryAll();
+		$this->group = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->createCommand()->queryAll();
 		return $this->group;
 	}
 
