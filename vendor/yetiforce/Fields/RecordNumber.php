@@ -23,8 +23,8 @@ class RecordNumber
 		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabId]);
-		if ($result && $db->num_rows($result) > 0) {
+		$exist = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->exists();
+		if ($exist) {
 			return true;
 		}
 		return false;
