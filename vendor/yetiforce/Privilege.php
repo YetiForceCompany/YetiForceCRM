@@ -48,7 +48,7 @@ class Privilege
 		}
 		//Retreiving the Tabid and Action Id
 		$tabid = Module::getModuleId($moduleName);
-		$actionid = getActionid($actionName);
+		$actionid = App\Module::getActionId($actionName);
 		$checkModule = $moduleName;
 
 		if ($checkModule == 'Events') {

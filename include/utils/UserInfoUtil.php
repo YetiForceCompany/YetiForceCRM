@@ -89,7 +89,7 @@ function isPermitted($module, $actionname, $record_id = '')
 
 	//Retreiving the Tabid and Action Id
 	$tabid = \App\Module::getModuleId($module);
-	$actionid = getActionid($actionname);
+	$actionid = \App\Module::getActionId($actionname);
 	$checkModule = $module;
 
 	if ($checkModule == 'Events') {

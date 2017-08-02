@@ -129,34 +129,6 @@ function getUserId_Ol($username)
 	}
 }
 
-/** Function to get a action id for a given action name
- * @param $action -- action name :: Type string
- * @returns $actionid -- action id :: Type integer
- */
-//outlook security
-
-function getActionid($action)
-{
-	\App\Log::trace("Entering getActionid($action) method ...");
-	if (empty($action)) {
-		return null;
-	}
-	if (\App\Cache::has('getActionid', $action)) {
-		\App\Log::trace("Exiting getActionid method ... -  $actionId");
-		return \App\Cache::get('getActionid', $actionId);
-	}
-	$actionIds = \App\Module::getTabData('actionId');
-	if (isset($actionIds[$action])) {
-		$actionId = $actionIds[$action];
-	}
-	if (empty($actionId)) {
-		$actionId = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
-	}
-	\App\Cache::save('getActionid', $action, $actionId);
-	\App\Log::trace("Exiting getActionid method ... - $actionId");
-	return $actionId;
-}
-
 /** Function to get a action for a given action id
  * @param $action id -- action id :: Type integer
  * @returns $actionname-- action name :: Type string
