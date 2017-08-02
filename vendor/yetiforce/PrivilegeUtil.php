@@ -92,9 +92,8 @@ class PrivilegeUtil
 	{
 		if (static::$datashareRelatedCache === false) {
 			$relModSharArr = [];
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
-			while ($row = $adb->getRow($result)) {
+			$dataReader = (new \App\Db\Query())->from('vtiger_datashare_relatedmodules')->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$relTabId = $row['relatedto_tabid'];
 				if (isset($relModSharArr[$relTabId]) && is_array($relModSharArr[$relTabId])) {
 					$temArr = $relModSharArr[$relTabId];
