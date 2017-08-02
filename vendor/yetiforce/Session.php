@@ -65,6 +65,9 @@ class Session
 	 */
 	public static function set($key, $value = null)
 	{
+		if (empty(static::$pool)) {
+			return null;
+		}
 		return static::$pool->set($key, $value);
 	}
 
@@ -75,6 +78,9 @@ class Session
 	 */
 	public static function delete($key)
 	{
+		if (empty(static::$pool)) {
+			return null;
+		}
 		static::$pool->delete($key);
 	}
 
@@ -85,6 +91,9 @@ class Session
 	 */
 	public static function regenerateId($deleteOldSession = false)
 	{
+		if (empty(static::$pool)) {
+			return null;
+		}
 		static::$pool->regenerateId($deleteOldSession);
 	}
 
@@ -94,6 +103,9 @@ class Session
 	 */
 	public static function destroy()
 	{
-		static::$pool->destroy();
+		if (empty(static::$pool)) {
+			return null;
+		}
+		session_destroy();
 	}
 }

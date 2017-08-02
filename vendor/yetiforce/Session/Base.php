@@ -87,7 +87,7 @@ class Base extends \SessionHandler
 	 */
 	public function regenerateId($deleteOldSession = false)
 	{
-		session_regenerate_id($deleteOldSession);
+		return session_regenerate_id($deleteOldSession);
 	}
 
 	/**
@@ -95,12 +95,8 @@ class Base extends \SessionHandler
 	 * @link http://php.net/manual/en/function.session-destroy.php
 	 * @param string $sessionId
 	 */
-	public function destroy($sessionId = '')
+	public function destroy($sessionId)
 	{
-		if (session_id() === '') {
-			return false;
-		}
-		session_unset();
-		return session_destroy();
+		return parent::destroy($sessionId);
 	}
 }
