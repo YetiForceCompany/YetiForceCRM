@@ -112,6 +112,12 @@ class RecordNumber
 
 	protected static $numberCache = [];
 
+	/**
+	 * Function returns information about module numbering
+	 * @param int $tabId
+	 * @param boolen $cache
+	 * @return array
+	 */
 	public static function getNumber($tabId, $cache = true)
 	{
 		if (isset(self::$numberCache[$tabId]) && $cache) {
@@ -120,9 +126,7 @@ class RecordNumber
 		if (is_string($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$tabId]);
-		$row = $adb->getRow($result);
+		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 
 		$number = [
 			'prefix' => $row['prefix'],
