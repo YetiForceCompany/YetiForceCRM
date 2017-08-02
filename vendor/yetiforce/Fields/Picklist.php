@@ -197,10 +197,10 @@ class Picklist
 			$pickArray = [];
 			$sourceField = $row['sourcefield'];
 			$targetField = $row['targetfield'];
-			$sourceValue = App\Purifier::decodeHtml($row['sourcevalue']);
-			$targetValues = App\Purifier::decodeHtml($row['targetvalues']);
+			$sourceValue = \App\Purifier::decodeHtml($row['sourcevalue']);
+			$targetValues = \App\Purifier::decodeHtml($row['targetvalues']);
 			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
-			$criteria = App\Purifier::decodeHtml($row['criteria']);
+			$criteria = \App\Purifier::decodeHtml($row['criteria']);
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
 			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] !== null) {
@@ -213,8 +213,8 @@ class Picklist
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
 			}
 			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				foreach (App\Fields\Picklist::getPickListValues($targetField) as $picklistValue) {
-					$pickArray[] = App\Purifier::decodeHtml($picklistValue);
+				foreach (self::getPickListValues($targetField) as $picklistValue) {
+					$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
 				}
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
 			}
