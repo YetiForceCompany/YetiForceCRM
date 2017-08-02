@@ -167,7 +167,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public function setConfigWidget($confType, $type, $value)
 	{
-		if ($value === null || $value == 'null') {
+		if ($value === null || $value === 'null') {
 			$value = null;
 		}
 		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
