@@ -18,12 +18,11 @@ class PrivilegeFile
 	 */
 	public static function createUsersFile()
 	{
-		$db = \PearDatabase::getInstance();
 		$entityData = Module::getEntityInfo('Users');
-		$result = $db->query('SELECT id,first_name,last_name,is_admin,cal_color,status,email1,user_name,deleted FROM vtiger_users');
+		$dataReader = (new \App\Db\Query())->select(['id', 'first', 'name', 'last_name', 'is_admin', 'cal_color', 'status', 'email1', 'user_name', 'deleted'])->from('vtiger_users')->createCommand()->query();
 		$users = [];
 		// Get the id and the name.
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$fullName = '';
 			foreach ($entityData['fieldnameArr'] as &$field) {
 				$fullName .= ' ' . $row[$field];
