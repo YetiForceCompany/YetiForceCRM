@@ -47,7 +47,7 @@
 									{/foreach}
 								</div>
 								<div class="hide elementEdit{$KEY}">
-									<select multiple class="form-control fieldname" name="fieldname">
+									<select multiple class="form-control fieldname" name="fieldname" data-tabid="{$KEY}">
 										<optgroup>
 											{foreach from=$FIELDS item=fieldTab}
 												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
@@ -67,7 +67,7 @@
 									{/foreach}
 								</div>
 								<div class="hide elementEdit{$KEY}">
-									<select multiple class="form-control searchcolumn" name="searchcolumn">
+									<select multiple class="form-control searchcolumn" name="searchcolumn" data-tabid="{$KEY}">
 										<optgroup>
 											{foreach from=$FIELDS item=fieldTab }
 												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>

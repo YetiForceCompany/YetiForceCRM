@@ -32,20 +32,16 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var tabId = target.data('tabid');
 		var closestTrElement = target.closest('tr');
-		var l = jQuery('.elementLabels'+tabId).addClass('hide');
+		jQuery('.elementLabels'+tabId).addClass('hide');
 		var e = jQuery('.elementEdit'+tabId).removeClass('hide');
-		Settings_Index_Js.registerSelectElement(l.find('select'));
 		Settings_Index_Js.registerSelectElement(e.find('select'));
 	},
 	save: function (e) {
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var name = target.attr("name");
-		var value = target.val();
 		Settings_Index_Js.registerSaveEvent('Save', {
-			'name': name,
-			'value': value,
-			'tabid': closestTrElement.data('tabid'),
+			name: target.attr('name'),
+			value: target.val(),
+			tabid: target.data('tabid'),
 		});		
 	},
 	registerSaveEvent: function (mode, data) {
