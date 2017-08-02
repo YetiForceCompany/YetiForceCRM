@@ -408,7 +408,7 @@ class WebserviceField
 				$elem = [];
 				$picklistValue = \App\Purifier::decodeHtml($value);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
-				if ($moduleName == 'Events') {
+				if ($moduleName === 'Events') {
 					$moduleName = 'Calendar';
 				}
 				$elem['label'] = \App\Language::translate($picklistValue, $moduleName);
