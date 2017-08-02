@@ -119,14 +119,7 @@ class PrivilegeUtil
 	{
 		if (static::$defaultSharingActionCache === false) {
 			\App\Log::trace('getAllDefaultSharingAction');
-			$adb = \PearDatabase::getInstance();
-			$copy = [];
-			//retreiving the standard permissions
-			$result = $adb->query('select * from vtiger_def_org_share');
-			while ($row = $adb->getRow($result)) {
-				$copy[$row['tabid']] = $row['permission'];
-			}
-			static::$defaultSharingActionCache = $copy;
+			static::$defaultSharingActionCache = (new \App\Db\Query())->select(['tabid', 'permission'])->from('vtiger_def_org_share')->createCommand()->queryAllByGroup(0);
 		}
 		return static::$defaultSharingActionCache;
 	}
