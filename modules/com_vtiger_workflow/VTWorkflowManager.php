@@ -259,12 +259,16 @@ class VTWorkflowManager
 		}
 	}
 
+	/**
+	 * Delete workflow
+	 * @param int $id
+	 */
 	public function delete($id)
 	{
-		$adb = $this->adb;
-		$adb->pquery("DELETE FROM com_vtiger_workflowtasks WHERE workflow_id IN
-							(SELECT workflow_id FROM com_vtiger_workflows WHERE workflow_id=? AND (defaultworkflow IS NULL OR defaultworkflow != 1))", array($id));
-		$adb->pquery("DELETE FROM com_vtiger_workflows WHERE workflow_id=? AND (defaultworkflow IS NULL OR defaultworkflow != 1)", array($id));
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$subQuery = (new \App\Db\Query())->select('workflow_id')->from('com_vtiger_workflows')->where(['workflow_id' => $id])->andWhere(['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]);
+		$dbCommand->delete('com_vtiger_workflowtasks', ['workflow_id' => $subQuery])->execute();
+		$dbCommand->delete('com_vtiger_workflows', ['and', ['workflow_id' => $id], ['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]])->execute();
 	}
 
 	public function newWorkflow($moduleName)
