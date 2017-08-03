@@ -560,11 +560,14 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Sets next trigger time
+	 * @param timestamp $time
+	 */
 	public function setNextTriggerTime($time)
 	{
 		if ($time) {
-			$db = PearDatabase::getInstance();
-			$db->pquery("UPDATE com_vtiger_workflows SET nexttrigger_time=? WHERE workflow_id=?", array($time, $this->id));
+			\App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', ['nexttrigger_time' => $time], ['workflow_id' => $this->id])->execute();
 			$this->nexttrigger_time = $time;
 		}
 	}
