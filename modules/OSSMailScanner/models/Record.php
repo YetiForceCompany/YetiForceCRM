@@ -206,7 +206,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$rows = (new \App\Db\Query())->select(['uid', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $accountId, 'folder' => $folder])->createCommand()->query();
 		while ($row = $rows->read()) {
-			if (isset($row['uid']) && $row['uid'] && $folder === $row['folder']) {
+			if (isset($row['uid']) && isset($row['folder']) && $row['uid'] && $folder === $row['folder']) {
 				return $row['uid'];
 			}
 		}
