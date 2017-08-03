@@ -119,7 +119,7 @@ class PackageExport
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	public function export($moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->moduleInstance = $moduleInstance;
 		$module = $this->moduleInstance->name;

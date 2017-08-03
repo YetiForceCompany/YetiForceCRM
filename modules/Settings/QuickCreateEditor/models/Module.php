@@ -9,23 +9,22 @@
 class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * Update sequence number for quickcreate
+	 * @param array $blockFieldSequence
+	 */
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
-		$fieldIdList = [];
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE vtiger_field SET ';
-		$query .= ' quickcreatesequence= CASE ';
+		$db = \App\Db::getInstance();
+		$caseExpression = 'CASE';
 		foreach ($blockFieldSequence as $newFieldSequence) {
-			$fieldId = $newFieldSequence['fieldid'];
-			$sequence = $newFieldSequence['sequence'];
-			$fieldIdList[] = $fieldId;
-
-			$query .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $sequence;
+			$caseExpression .= " WHEN fieldid = {$db->quoteValue($newFieldSequence['fieldid'])} THEN {$db->quoteValue($newFieldSequence['sequence'])}";
+			$fieldIdList[] = $newFieldSequence['fieldid'];
 		}
-
-		$query .= ' END ';
-		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdList));
-		$db->pquery($query, array($fieldIdList));
+		$caseExpression .= ' END';
+		$db->createCommand()
+			->update('vtiger_field', [
+				'quickcreatesequence' => new \yii\db\Expression($caseExpression),
+				], ['fieldid' => $fieldIdList])->execute();
 	}
 }

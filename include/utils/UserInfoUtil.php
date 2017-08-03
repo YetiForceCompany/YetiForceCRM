@@ -1274,15 +1274,13 @@ function getPermittedModuleIdList()
  */
 function RecalculateSharingRules()
 {
-
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
-	$adb = PearDatabase::getInstance();
 	require_once('modules/Users/CreateUserPrivilegeFile.php');
-	$query = "select id from vtiger_users where deleted=0";
-	$result = $adb->pquery($query, []);
-	$num_rows = $adb->num_rows($result);
-	for ($i = 0; $i < $num_rows; $i++) {
-		$id = $adb->query_result($result, $i, 'id');
+	$userIds = (new App\Db\Query())->select(['id'])
+		->from('vtiger_users')
+		->where(['deleted' => 0])
+		->column();
+	foreach ($userIds as $id) {
 		createUserPrivilegesfile($id);
 		createUserSharingPrivilegesfile($id);
 	}

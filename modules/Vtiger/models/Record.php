@@ -29,7 +29,7 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Function to get the id of the record
-	 * @return <Number> - Record Id
+	 * @return int - Record Id
 	 */
 	public function getId()
 	{
@@ -38,11 +38,11 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Function to set the id of the record
-	 * @param <type> $value - id value
+	 * @param int $value - id value
 	 */
 	public function setId($value)
 	{
-		return $this->set('id', $value);
+		return $this->set('id', (int) $value);
 	}
 
 	/**
@@ -529,7 +529,7 @@ class Vtiger_Record_Model extends \App\Base
 
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$recordModel = new $modelClassName();
-		$recordModel->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
+		$recordModel->setData($focus->column_fields)->setId($recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
 		return $recordModel;
 	}
 

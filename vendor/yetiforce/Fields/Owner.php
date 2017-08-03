@@ -301,11 +301,11 @@ class Owner
 			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
 			$query->where(['groupid' => $subQuery]);
 		}
-		if ($private == 'private') {
+		if ($private === 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
 			$query->andWhere(['groupid' => $this->currentUser->getId()]);
 			$groupsAmount = count($userPrivileges['groups']);
-			if ($groupsAmount !== 0) {
+			if ($groupsAmount) {
 				$query->orWhere(['vtiger_groups.groupid' => $userPrivileges['groups']]);
 			}
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
@@ -314,7 +314,7 @@ class Owner
 				->innerJoin('vtiger_role', 'vtiger_group2role.roleid = vtiger_role.roleid')
 				->where(['like', 'vtiger_role.parentrole', $userPrivileges['parent_role_seq'] . '::%', false]);
 			$query->union($unionQuery);
-			if ($groupsAmount !== 0) {
+			if ($groupsAmount) {
 				$unionQuery = (new \App\Db\Query())->select(['vtiger_groups.groupid as groupid', 'vtiger_groups.groupname as groupname'])->from('vtiger_groups')
 					->innerJoin('vtiger_group2rs', 'vtiger_groups.groupid = vtiger_group2rs.groupid')
 					->where(['vtiger_group2rs.roleandsubid' => $userPrivileges['parent_roles']]);

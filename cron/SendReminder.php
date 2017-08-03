@@ -53,7 +53,7 @@ if ($adb->getRowCount($result) >= 1) {
 				$template = 'ActivityReminderNotificationTask';
 			} else {
 				$template = 'ActivityReminderNotificationEvents';
-				$eventsRecordModel->set('id', $activityId);
+				$eventsRecordModel->setId($activityId);
 				if (AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
 					$invitees = $eventsRecordModel->getInvities();
 				}

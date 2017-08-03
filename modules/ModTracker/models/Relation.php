@@ -41,7 +41,7 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 			$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
-			$recordInstance->set('id', $row['crmid']);
+			$recordInstance->setId($row['crmid']);
 			return $recordInstance;
 		}
 		return false;

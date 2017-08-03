@@ -76,21 +76,12 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	}
 	/*
 	 * Zwraca dane konfiguracyjne haseł
-	 * @return - tablica z konfiguracja lub false
+	 * @return array|boolean
 	 */
 
 	public function getConfiguration()
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_passwords_config;';
-
-		$result = $db->query($sql, true);
-
-		if ($db->num_rows($result) === 1)
-			return $db->fetch_array($result);
-		else if ($db->num_rows($result) === 0)
-			return false;
+		return (new \App\Db\Query())->from('vtiger_passwords_config')->one();
 	}
 	/*
 	 * Sprawdza poprawność hasła - długość, czy nie jest puste i czy nie zawiera samych gwiazdek

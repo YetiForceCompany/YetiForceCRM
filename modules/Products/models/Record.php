@@ -23,14 +23,13 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get values of more currencies listprice
-	 * @return <Array> of listprice values
+	 * @return array of listprice values
 	 */
 	public static function getListPriceValues($id)
 	{
-		$db = PearDatabase::getInstance();
-		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
+		$dataReader = (new App\Db\Query())->from('vtiger_productcurrencyrel')->where(['productid' => $id])->createCommand()->query();
 		$listpriceValues = [];
-		while ($row = $db->fetch_array($listPrice)) {
+		while ($row = $dataReader->read()) {
 			$listpriceValues[$row['currencyid']] = CurrencyField::convertToUserFormat($row['actual_price'], null, true);
 		}
 		return $listpriceValues;
@@ -390,16 +389,21 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return $price_details;
 	}
 
-	public function getProductBaseCurrency($productid, $module = 'Products')
+	/**
+	 * 
+	 * @param int $productId
+	 * @param string $module
+	 * @return int
+	 */
+	public function getProductBaseCurrency($productId, $module = 'Products')
 	{
-		$adb = PearDatabase::getInstance();
-		if ($module == 'Services') {
-			$sql = 'select currency_id from vtiger_service where serviceid=?';
+		$query = (new App\Db\Query());
+		if ($module === 'Services') {
+			$currencyid = $query->select(['currency_id'])->from('vtiger_service')->where(['serviceid' => $productId])->scalar();
 		} else {
-			$sql = 'select currency_id from vtiger_products where productid=?';
+			$currencyid = $query->select(['currency_id'])->from('vtiger_products')->where(['productid' => $productId])->scalar();
 		}
-		$res = $adb->pquery($sql, [$productid]);
-		$currencyid = $adb->query_result($res, 0, 'currency_id');
+
 		return $currencyid;
 	}
 

@@ -18,7 +18,7 @@ class VTJsonCondition
 	 * @param Vtiger_Record_Model $recordModel
 	 * @return string
 	 */
-	public function evaluate($condition, $recordModel)
+	public function evaluate($condition, Vtiger_Record_Model $recordModel)
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
@@ -127,7 +127,7 @@ class VTJsonCondition
 	 * @return boolean
 	 * @throws Exception
 	 */
-	public function checkCondition($recordModel, $cond, $referredRecordModel = null)
+	public function checkCondition(Vtiger_Record_Model $recordModel, $cond, Vtiger_Record_Model $referredRecordModel = null)
 	{
 		$condition = $cond['operation'];
 		if (empty($condition)) {
