@@ -231,7 +231,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 * @param array $params
 	 * @return array
 	 */
-	public static function executeActions($account, $mail, $folder, $params = false)
+	public static function executeActions($account, OSSMail_Mail_Model $mail, $folder, $params = false)
 	{
 
 		\App\Log::trace('Start execute actions: ' . $account['username']);
