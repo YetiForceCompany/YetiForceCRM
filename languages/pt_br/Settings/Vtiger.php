@@ -353,6 +353,17 @@ $languageStrings = [
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo da empresa visível no sistema',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo da empresa visível no painel de login',
 	'LBL_HEIGHT_LOGO' => 'Altura da Logo',
+	//Pluralized
+	'PLU_USERS_0' => 'User',
+	'PLU_USERS_1' => 'Users',
+	'PLU_SYSTEM_WARNINGS_0' => 'System warning',
+	'PLU_SYSTEM_WARNINGS_1' => 'System warnings',
+	'PLU_WORKFLOWS_ACTIVE_0' => 'Workflow',
+	'PLU_WORKFLOWS_ACTIVE_1' => 'Workflows',
+	'PLU_MODULES_0' => 'Module',
+	'PLU_MODULES_1' => 'Modules',
+	'PLU_SECURITY_0' => 'Security error',
+	'PLU_SECURITY_1' => 'Security errors',
 ];
 
 $jsLanguageStrings = [
