@@ -129,7 +129,7 @@ class VTCreateEventTask extends VTTask
 	 * @param type $timeStr
 	 * @return time
 	 */
-	static public function convertToDBFormat($timeStr)
+	public static function convertToDBFormat($timeStr)
 	{
 		$date = new DateTime();
 		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
@@ -137,7 +137,7 @@ class VTCreateEventTask extends VTTask
 		return $dbInsertDateTime->format('H:i:s');
 	}
 
-	static public function conv12to24hour($timeStr)
+	public static function conv12to24hour($timeStr)
 	{
 		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
