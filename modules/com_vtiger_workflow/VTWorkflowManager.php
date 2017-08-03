@@ -15,23 +15,80 @@ require_once 'include/runtime/Cache.php';
 class VTWorkflowManager
 {
 
+	/**
+	 * On first save
+	 * @var int
+	 */
 	static $ON_FIRST_SAVE = 1;
+
+	/**
+	 * Once
+	 * @var int
+	 */
 	static $ONCE = 2;
+
+	/**
+	 * On every save
+	 * @var int
+	 */
 	static $ON_EVERY_SAVE = 3;
+
+	/**
+	 * On modify
+	 * @var int
+	 */
 	static $ON_MODIFY = 4;
+
+	/**
+	 * On delete
+	 * @var int
+	 */
 	static $ON_DELETE = 5;
+
+	/**
+	 * On schedule
+	 * @var int
+	 */
 	static $ON_SCHEDULE = 6;
+
+	/**
+	 * Manual
+	 * @var int
+	 */
 	static $MANUAL = 7;
+
+	/**
+	 * Trigger
+	 * @var int
+	 */
 	static $TRIGGER = 8;
+
+	/**
+	 * Block edit
+	 * @var int
+	 */
 	static $BLOCK_EDIT = 9;
+
+	/**
+	 * On related
+	 * @var int
+	 */
 	static $ON_RELATED = 10;
 
+	/**
+	 * Constructor
+	 * @param PearDatabase $adb
+	 */
 	public function __construct($adb = false)
 	{
 		$this->adb = $adb;
 	}
 
-	public function save($workflow)
+	/**
+	 * Save workflow data
+	 * @param Workflow $workflow
+	 */
+	public function save(Workflow $workflow)
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
@@ -75,6 +132,10 @@ class VTWorkflowManager
 		}
 	}
 
+	/**
+	 * Return workflows
+	 * @return Workflow[]
+	 */
 	public function getWorkflows()
 	{
 		$query = (new \App\Db\Query())
