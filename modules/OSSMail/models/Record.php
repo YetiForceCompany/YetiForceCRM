@@ -265,6 +265,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	protected static $usersCache = [];
 
+	/**
+	 * Return user account detal
+	 * @param int $userid
+	 * @return array
+	 */
 	public static function getMailAccountDetail($userid)
 	{
 		if (isset(self::$usersCache[$userid])) {
@@ -272,14 +277,19 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		$user = false;
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM roundcube_users where user_id = ?', [$userid]);
-		if ($adb->getRowCount($result)) {
-			$user = $adb->getRow($result);
+		$query = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid]);
+		if ($query->count()) {
+			$user = $query->one();
 		}
 		self::$usersCache[$userid] = $user;
 		return $user;
 	}
 
+	/**
+	 * Convert text encoding
+	 * @param string $text
+	 * @return string
+	 */
 	public static function _decode_text($text)
 	{
 		$data = imap_mime_header_decode($text);
@@ -295,6 +305,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $text;
 	}
 
+	/**
+	 * Return full name
+	 * @param string $text
+	 * @return string
+	 */
 	public static function get_full_name($text)
 	{
 		$return = '';
@@ -311,6 +326,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $return;
 	}
 
+	/**
+	 * Return body and attachments
+	 * @param resource $mbox
+	 * @param int $id
+	 * @param int $msgno
+	 * @return array
+	 */
 	public static function _get_body_attach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
@@ -332,6 +354,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		];
 	}
 
+	/**
+	 * Init mail part
+	 * @param resource $mbox
+	 * @param array $mail
+	 * @param object $partStructure
+	 * @param int $partNum
+	 * @return array
+	 */
 	protected static function initMailPart($mbox, $mail, $partStructure, $partNum)
 	{
 		$data = $partNum ? imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK) : imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
@@ -418,6 +448,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $mail;
 	}
 
+	/**
+	 * Decode string
+	 * @param string $input
+	 * @return array
+	 */
 	protected static function uuDecode($input)
 	{
 		$attachments = $parts = [];
@@ -450,6 +485,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return ['attachments' => $attachments, 'text' => $input];
 	}
 
+	/**
+	 * Check if url is encoded
+	 * @param string $string
+	 * @return bool
+	 */
 	public static function isUrlEncoded($string)
 	{
 		$string = str_replace('%20', '+', $string);
@@ -457,6 +497,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $decoded != $string && urlencode($decoded) == $string;
 	}
 
+	/**
+	 * decode RFC2231 formatted string
+	 * @param string $string
+	 * @param string $charset
+	 * @return string
+	 */
 	protected static function decodeRFC2231($string, $charset = 'utf-8')
 	{
 		if (preg_match("/^(.*?)'.*?'(.*?)$/", $string, $matches)) {
@@ -469,6 +515,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $string;
 	}
 
+	/**
+	 * Return user folders
+	 * @param int $user
+	 * @return array
+	 */
 	public static function getFolders($user)
 	{
 		$account = self::getAccountsList($user);
@@ -487,6 +538,13 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $folders;
 	}
 
+	/**
+	 * Convert string from encoding to encoding
+	 * @param string $value
+	 * @param string $toCharset
+	 * @param string $fromCharset
+	 * @return string
+	 */
 	public static function convertCharacterEncoding($value, $toCharset, $fromCharset)
 	{
 		if (function_exists('mb_convert_encoding')) {
@@ -497,6 +555,10 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		return $value;
 	}
 
+	/**
+	 * Return viewable data
+	 * @return array
+	 */
 	public static function getViewableData()
 	{
 		$return = [];
