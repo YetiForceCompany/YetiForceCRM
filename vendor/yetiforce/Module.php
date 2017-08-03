@@ -167,7 +167,7 @@ class Module
 			return null;
 		}
 		if (Cache::has('getActionId', $action)) {
-			return Cache::get('getActionId', $actionId);
+			return Cache::get('getActionId', $action);
 		}
 		$actionIds = Module::getTabData('actionId');
 		if (isset($actionIds[$action])) {
