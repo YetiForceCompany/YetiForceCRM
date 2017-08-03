@@ -204,12 +204,13 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function getUidFolder($accountId, $folder)
 	{
-		$uid = (new \App\Db\Query())->select(['uid'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $accountId, 'BINARY `folder`' => $folder])->scalar();
-		if ($uid) {
-			return $uid;
-		} else {
-			return 0;
+		$rows = (new \App\Db\Query())->select(['uid', 'folder'])->from('vtiger_ossmailscanner_folders_uid')->where(['user_id' => $accountId, 'folder' => $folder])->createCommand()->query();
+		while ($row = $rows->read()) {
+			if (isset($row['uid']) && $row['uid'] && $folder === $row['folder']) {
+				return $row['uid'];
+			}
 		}
+		return 0;
 	}
 
 	/**
