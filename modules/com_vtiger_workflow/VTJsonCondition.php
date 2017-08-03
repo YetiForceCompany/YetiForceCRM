@@ -127,7 +127,7 @@ class VTJsonCondition
 	 * @return boolean
 	 * @throws Exception
 	 */
-	public function checkCondition($recordModel, $cond, $referredRecordModel = null)
+	public function checkCondition(Vtiger_Record_Model $recordModel, $cond, Vtiger_Record_Model $referredRecordModel = null)
 	{
 		$condition = $cond['operation'];
 		if (empty($condition)) {
