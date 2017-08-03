@@ -271,6 +271,11 @@ class VTWorkflowManager
 		$dbCommand->delete('com_vtiger_workflows', ['and', ['workflow_id' => $id], ['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]])->execute();
 	}
 
+	/**
+	 * Create new workflow in module
+	 * @param string $moduleName
+	 * @return Workflow
+	 */
 	public function newWorkflow($moduleName)
 	{
 		$workflow = $this->getWorkflowInstance();
@@ -347,8 +352,8 @@ class VTWorkflowManager
 
 	/**
 	 * Function to get workflows modules those are supporting comments
-	 * @param <String> $moduleName
-	 * @return <Array> list of Workflow models
+	 * @param string $moduleName
+	 * @return array list of Workflow models
 	 */
 	public function getWorkflowsForModuleSupportingComments($moduleName)
 	{
