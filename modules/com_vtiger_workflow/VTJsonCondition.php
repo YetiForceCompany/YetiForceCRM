@@ -18,7 +18,7 @@ class VTJsonCondition
 	 * @param Vtiger_Record_Model $recordModel
 	 * @return string
 	 */
-	public function evaluate($condition, $recordModel)
+	public function evaluate($condition, Vtiger_Record_Model $recordModel)
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
