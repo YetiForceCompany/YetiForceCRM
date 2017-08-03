@@ -32,7 +32,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 		foreach ($values as $value) {
 			if (self::getOwnerType($value) === 'User') {
 				$userModel = Users_Record_Model::getCleanInstance('Users');
-				$userModel->set('id', $value);
+				$userModel->setId($value);
 				$detailViewUrl = $userModel->getDetailViewUrl();
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {

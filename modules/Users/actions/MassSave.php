@@ -66,7 +66,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-			$recordModel->set('id', $recordId);
+			$recordModel->setId($recordId);
 
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				$fieldValue = $request->get($fieldName, null);
