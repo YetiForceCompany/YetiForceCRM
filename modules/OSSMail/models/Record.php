@@ -29,7 +29,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$query->andWhere(['crm_user_id' => \App\User::getCurrentUserId()]);
 		}
 		if ($password) {
-			$query->andWhere(['<>', ['password' => '']]);
+			$query->andWhere(['<>', 'password', '']);
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
