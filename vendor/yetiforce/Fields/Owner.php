@@ -276,67 +276,65 @@ class Owner
 		return $users;
 	}
 
+	/**
+	 * Function to get groups
+	 * @param boolean $addBlank
+	 * @param string $private
+	 * @return array
+	 */
 	public function getGroups($addBlank = true, $private = '')
 	{
 		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$moduleName = '';
-		if (\App\Request::_get('parent') != 'Settings' && $this->moduleName) {
+		if (\App\Request::_get('parent') !== 'Settings' && $this->moduleName) {
 			$moduleName = $this->moduleName;
-			$tabid = \App\Module::getModuleId($moduleName);
+			$tabId = \App\Module::getModuleId($moduleName);
 		}
 		$cacheKey = $addBlank . $private . $moduleName;
 		if (\App\Cache::has('OwnerGroups', $cacheKey)) {
 			return \App\Cache::get('OwnerGroups', $cacheKey);
 		}
-		$db = \PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
 		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
-		$query = 'SELECT groupid, groupname FROM vtiger_groups';
-		$tempResult = $params = [];
-
-		if (!empty($moduleName) && $moduleName != 'CustomView') {
-			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
-			$params[] = $tabid;
+		$query = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups');
+		if (!empty($moduleName) && $moduleName !== 'CustomView') {
+			$subQuery = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2modules')->where(['tabid' => $tabId]);
+			$query->where(['groupid' => $subQuery]);
 		}
 		if ($private == 'private') {
 			$userPrivileges = \App\User::getPrivilegesFile($this->currentUser->getId());
-			if (strpos($query, 'WHERE') === false)
-				$query .= ' WHERE';
-			else
-				$query .= ' AND';
-			$query .= ' groupid=?';
-			array_push($params, $this->currentUser->getId());
-
-			if (count($userPrivileges['groups']) != 0) {
-				$query .= ' || vtiger_groups.groupid in (' . generateQuestionMarks($userPrivileges['groups']) . ')';
-				array_push($params, $userPrivileges['groups']);
+			$query->andWhere(['groupid' => $this->currentUser->getId()]);
+			$groupsAmount = count($userPrivileges['groups']);
+			if ($groupsAmount !== 0) {
+				$query->orWhere(['vtiger_groups.groupid' => $userPrivileges['groups']]);
 			}
 			\App\Log::trace('Sharing is Private. Only the current user should be listed');
-			$query .= ' union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?';
-			array_push($params, $userPrivileges['parent_role_seq'] . '::%');
-
-			if (count($userPrivileges['groups']) != 0) {
-				$query .= ' union select vtiger_groups.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_groups inner join vtiger_group2rs on vtiger_groups.groupid=vtiger_group2rs.groupid where vtiger_group2rs.roleandsubid in (' . generateQuestionMarks($userPrivileges['parent_roles']) . ')';
-				array_push($params, $userPrivileges['parent_roles']);
+			$unionQuery = (new \App\Db\Query())->select(['vtiger_group2role.groupid as groupid', 'vtiger_groups.groupname as groupname'])->from('vtiger_group2role')
+				->innerJoin('vtiger_groups', 'vtiger_group2role.groupid = vtiger_groups.groupid')
+				->innerJoin('vtiger_role', 'vtiger_group2role.roleid = vtiger_role.roleid')
+				->where(['like', 'vtiger_role.parentrole', $userPrivileges['parent_role_seq'] . '::%', false]);
+			$query->union($unionQuery);
+			if ($groupsAmount !== 0) {
+				$unionQuery = (new \App\Db\Query())->select(['vtiger_groups.groupid as groupid', 'vtiger_groups.groupname as groupname'])->from('vtiger_groups')
+					->innerJoin('vtiger_group2rs', 'vtiger_groups.groupid = vtiger_group2rs.groupid')
+					->where(['vtiger_group2rs.roleandsubid' => $userPrivileges['parent_roles']]);
+				$query->union($unionQuery);
 			}
-
-			$query .= ' union select sharedgroupid as groupid,vtiger_groups.groupname as groupname from vtiger_tmp_write_group_sharing_per inner join vtiger_groups on vtiger_groups.groupid=vtiger_tmp_write_group_sharing_per.sharedgroupid where vtiger_tmp_write_group_sharing_per.userid=?';
-			array_push($params, $this->currentUser->getId());
-
-			$query .= ' and vtiger_tmp_write_group_sharing_per.tabid=?';
-			array_push($params, $tabid);
+			$unionQuery = (new \App\Db\Query())->select(['sharedgroupid as groupid', 'vtiger_groups.groupname as groupname'])
+				->from('vtiger_tmp_write_group_sharing_per')
+				->innerJoin('vtiger_groups', 'vtiger_tmp_write_group_sharing_per.sharedgroupid = vtiger_groups.groupid')
+				->where(['vtiger_tmp_write_group_sharing_per.userid' => $this->currentUser->getId()])
+				->andWhere(['vtiger_tmp_write_group_sharing_per.tabid' => $tabId]);
+			$query->union($unionQuery);
 		}
-		$query .= ' order by groupname ASC';
-		$result = $db->pquery($query, $params);
-
+		$query->orderBy(['groupname' => SORT_ASC]);
+		$dataReader = $query->createCommand()->query();
 		if ($addBlank === true) {
 			// Add in a blank row
 			$tempResult[''] = '';
 		}
-
-		// Get the id and the name.
-		while ($row = $db->getRow($result)) {
-			$tempResult[$row['groupid']] = decode_html($row['groupname']);
+		while ($row = $dataReader->read()) {
+			$tempResult[$row['groupid']] = \App\Purifier::decodeHtml($row['groupname']);
 		}
 		\App\Cache::save('OwnerGroups', $cacheKey, $tempResult);
 		\App\Log::trace('Exiting getGroups method ...');
