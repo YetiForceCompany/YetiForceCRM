@@ -40,7 +40,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to ger Supported modules for Custom record numbering
-	 * @return Array list of supported modules Vtiger_Module_Model
+	 * @return array list of supported modules Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{
@@ -55,7 +55,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to set Module sequence
-	 * @return Array result of success
+	 * @return array result of success
 	 */
 	public function setModuleSequence()
 	{
@@ -75,7 +75,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 
 	/**
 	 * Function to update record sequences which are under this module
-	 * @return Array result of success
+	 * @return array result of success
 	 */
 	public function updateRecordsWithSequence()
 	{
