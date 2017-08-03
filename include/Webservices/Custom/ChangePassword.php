@@ -22,7 +22,7 @@
  * @param Users $user 
  * 
  */
-function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, $user)
+function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, Users $user)
 {
 	vtws_preserveGlobal('current_user', $user);
 	$idComponents = vtws_getIdComponents($id);
