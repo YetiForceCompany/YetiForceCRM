@@ -329,6 +329,7 @@ class Owner
 		}
 		$query->orderBy(['groupname' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
+		$tempResult = [];
 		if ($addBlank === true) {
 			// Add in a blank row
 			$tempResult[''] = '';
