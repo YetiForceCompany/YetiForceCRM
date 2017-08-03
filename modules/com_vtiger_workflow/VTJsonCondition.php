@@ -148,7 +148,7 @@ class VTJsonCondition
 		$value = trim(html_entity_decode($cond['value']));
 		$expressionType = $cond['valuetype'];
 		if ($expressionType === 'fieldname') {
-			if ($referredEntityData !== null) {
+			if ($referredRecordModel !== null) {
 				$value = $referredRecordModel->get($value);
 			} else {
 				$value = $recordModel->get($value);
@@ -158,7 +158,7 @@ class VTJsonCondition
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();
 			$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-			if ($referredEntityData !== null) {
+			if ($referredRecordModel !== null) {
 				$value = $exprEvaluater->evaluate($referredRecordModel);
 			} else {
 				$value = $exprEvaluater->evaluate($recordModel);
