@@ -17,7 +17,7 @@ require_once 'include/Loader.php';
 require_once('include/ConfigUtils.php');
 Vtiger_Loader::includeOnce('include.runtime.Globals');
 
-function vtws_convertlead($entityvalues, $user)
+function vtws_convertlead($entityvalues, Users_Record_Model $user)
 {
 	$adb = PearDatabase::getInstance();
 
@@ -238,7 +238,7 @@ function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityv
 	return true;
 }
 
-function vtws_updateConvertLeadStatus($entityIds, $leadId, $user)
+function vtws_updateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 {
 	$adb = PearDatabase::getInstance();
 
