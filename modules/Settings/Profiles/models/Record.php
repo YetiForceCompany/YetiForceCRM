@@ -95,21 +95,17 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getGlobalPermissions()
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!isset($this->global_permissions)) {
 			$globalPermissions = [];
 			$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] = $globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] = Settings_Profiles_Module_Model::GLOBAL_ACTION_DEFAULT_VALUE;
-
 			if ($this->getId()) {
-				$sql = 'SELECT * FROM vtiger_profile2globalpermissions WHERE profileid=?';
-				$params = array($this->getId());
-				$result = $db->pquery($sql, $params);
-				$noOfRows = $db->num_rows($result);
-				for ($i = 0; $i < $noOfRows; ++$i) {
-					$actionId = $db->query_result($result, $i, 'globalactionid');
-					$permissionId = $db->query_result($result, $i, 'globalactionpermission');
-					$globalPermissions[$actionId] = $permissionId;
+				$dataReader = (new App\Db\Query())
+						->select(['globalactionid', 'globalactionpermission'])
+						->from('vtiger_profile2globalpermissions')
+						->where(['profileid' => $this->getId()])
+						->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$globalPermissions[$row['globalactionid']] = $row['globalactionpermission'];
 				}
 			}
 			$this->global_permissions = $globalPermissions;
@@ -250,21 +246,22 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$moduleFields = $profileTabModel->getFields();
-		$fieldModel = $moduleFields[$field->getName()];
-		return $fieldModel;
+		return $moduleFields[$field->getName()];
 	}
 
+	/**
+	 * Function to get permissions for modules
+	 * @return array
+	 */
 	public function getProfileTabPermissions()
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!isset($this->profile_tab_permissions)) {
 			$profile2TabPermissions = [];
 			if ($this->getId()) {
-				$result = $db->pquery('SELECT * FROM vtiger_profile2tab WHERE profileid=?', [$this->getId()]);
-				while ($row = $db->getRow($result)) {
-					$profile2TabPermissions[$row['tabid']] = $row['permissions'];
-				}
+				$profile2TabPermissions = (new App\Db\Query())->select(['tabid', 'permissions'])
+						->from('vtiger_profile2tab')
+						->where(['profileid' => $this->getId()])
+						->createCommand()->queryAllByGroup(0);
 			}
 			$this->profile_tab_permissions = $profile2TabPermissions;
 		}
@@ -292,22 +289,21 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->profile_tab_field_permissions[$tabId];
 	}
 
+	/**
+	 * Function to get permission for actions
+	 * @return array
+	 */
 	public function getProfileActionPermissions()
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!isset($this->profile_action_permissions)) {
 			$profile2ActionPermissions = [];
 			if ($this->getId()) {
-				$sql = 'SELECT * FROM vtiger_profile2standardpermissions WHERE profileid=?';
-				$params = array($this->getId());
-				$result = $db->pquery($sql, $params);
-				$noOfRows = $db->num_rows($result);
-				for ($i = 0; $i < $noOfRows; ++$i) {
-					$tabId = $db->query_result($result, $i, 'tabid');
-					$operation = $db->query_result($result, $i, 'operation');
-					$permissionId = $db->query_result($result, $i, 'permissions');
-					$profile2ActionPermissions[$tabId][$operation] = $permissionId;
+				$dataReader = (new App\Db\Query())
+						->from('vtiger_profile2standardpermissions')
+						->where(['profileid' => $this->getId()])
+						->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$profile2ActionPermissions[$row['tabid']][$row['operation']] = $row['permissions'];
 				}
 			}
 			$this->profile_action_permissions = $profile2ActionPermissions;
@@ -315,22 +311,21 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->profile_action_permissions;
 	}
 
+	/**
+	 * Function to get permissions for utility actions
+	 * @return array
+	 */
 	public function getProfileUtilityPermissions()
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!isset($this->profile_utility_permissions)) {
 			$profile2UtilityPermissions = [];
 			if ($this->getId()) {
-				$sql = 'SELECT * FROM vtiger_profile2utility WHERE profileid=?';
-				$params = array($this->getId());
-				$result = $db->pquery($sql, $params);
-				$noOfRows = $db->num_rows($result);
-				for ($i = 0; $i < $noOfRows; ++$i) {
-					$tabId = $db->query_result($result, $i, 'tabid');
-					$utility = $db->query_result($result, $i, 'activityid');
-					$permissionId = $db->query_result($result, $i, 'permission');
-					$profile2UtilityPermissions[$tabId][$utility] = $permissionId;
+				$dataReader = (new App\Db\Query())
+						->from('vtiger_profile2utility')
+						->where(['profileid' => $this->getId()])
+						->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$profile2UtilityPermissions[$row['tabid']][$row['activityid']] = $row['permission'];
 				}
 			}
 			$this->profile_utility_permissions = $profile2UtilityPermissions;
@@ -390,43 +385,35 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function delete($transferToRecord)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$profileId = $this->getId();
 		$transferProfileId = $transferToRecord->getId();
-
-		$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=?', array($profileId));
-		$db->pquery('DELETE FROM vtiger_profile2tab WHERE profileid=?', array($profileId));
-		$db->pquery('DELETE FROM vtiger_profile2standardpermissions WHERE profileid=?', array($profileId));
-		$db->pquery('DELETE FROM vtiger_profile2utility WHERE profileid=?', array($profileId));
-		$db->pquery('DELETE FROM vtiger_profile2field WHERE profileid=?', array($profileId));
-
-		$checkSql = 'SELECT roleid, count(profileid) AS profilecount FROM vtiger_role2profile
-							WHERE roleid IN (select roleid FROM vtiger_role2profile WHERE profileid=?) GROUP BY roleid';
-		$checkParams = array($profileId);
-		$checkResult = $db->pquery($checkSql, $checkParams);
-		$noOfRoles = $db->num_rows($checkResult);
-		for ($i = 0; $i < $noOfRoles; ++$i) {
-			$roleId = $db->query_result($checkResult, $i, 'roleid');
-			$profileCount = $db->query_result($checkResult, $i, 'profilecount');
+		$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
+		$db->createCommand()->delete('vtiger_profile2tab', ['profileid' => $profileId])->execute();
+		$db->createCommand()->delete('vtiger_profile2standardpermissions', ['profileid' => $profileId])->execute();
+		$db->createCommand()->delete('vtiger_profile2utility', ['profileid' => $profileId])->execute();
+		$db->createCommand()->delete('vtiger_profile2field', ['profileid' => $profileId])->execute();
+		$dataReader = (new App\Db\Query())->select(['roleid', 'profilecount' => new yii\db\Expression('count(profileid)')])
+				->from('vtiger_role2profile')
+				->where(['roleid' => (new App\Db\Query())->select(['roleid'])->from('vtiger_role2profile')->where(['profileid' => $profileId])])
+				->groupBy('roleid')
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$roleId = $row['roleid'];
+			$profileCount = $row['profilecount'];
 			if ($profileCount > 1) {
-				$sql = 'DELETE FROM vtiger_role2profile WHERE roleid=? && profileid=?';
-				$params = array($roleId, $profileId);
+				$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			} else {
-				$sql = 'UPDATE vtiger_role2profile SET profileid=? WHERE roleid=? && profileid=?';
-				$params = array($transferProfileId, $roleId, $profileId);
+				$db->createCommand()->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			}
-			$db->pquery($sql, $params);
 		}
-
-		$db->pquery('DELETE FROM vtiger_profile WHERE profileid=?', array($profileId));
+		$db->createCommand()->delete('vtiger_profile', ['profileid' => $profileId])->execute();
 		vtlib\Access::syncSharingAccess();
 	}
 
 	public function save()
 	{
-		$adb = App\Db::getInstance();
-		$db = PearDatabase::getInstance();
-
+		$db = App\Db::getInstance();
 		$profileName = $this->get('profilename');
 		$description = $this->get('description');
 		$profilePermissions = $this->get('profile_permissions');
@@ -443,33 +430,37 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$profileId = $this->getId();
 		if (!$profileId) {
-			$adb->createCommand()->insert('vtiger_profile', [
+			$db->createCommand()->insert('vtiger_profile', [
 				'profilename' => $profileName,
 				'description' => $description,
 				'directly_related_to_role' => $isProfileDirectlyRelatedToRole
 			])->execute();
-			$profileId = $adb->getLastInsertID('vtiger_profile_profileid_seq');
+			$profileId = $db->getLastInsertID('vtiger_profile_profileid_seq');
 			$this->setId($profileId);
 			$isNewProfile = true;
 		} else {
-			$sql = 'UPDATE vtiger_profile SET profilename=?, description=?, directly_related_to_role=? WHERE profileid=?';
-			$params = array($profileName, $description, $isProfileDirectlyRelatedToRole, $profileId);
-			$db->pquery('DELETE FROM vtiger_profile2globalpermissions WHERE profileid=?', array($profileId));
-			$db->pquery($sql, $params);
+			$db->createCommand()->update('vtiger_profile', [
+				'profilename' => $profileName,
+				'description' => $description,
+				'directly_related_to_role' => $isProfileDirectlyRelatedToRole
+				], ['profileid' => $profileId])->execute();
+			$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
 		}
-		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
-		$params = array($profileId, Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW, $this->tranformInputPermissionValue($this->get('viewall')));
-		$db->pquery($sql, $params);
-
-		$sql = 'INSERT INTO vtiger_profile2globalpermissions(profileid, globalactionid, globalactionpermission) VALUES (?,?,?)';
-		$params = array($profileId, Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT, $this->tranformInputPermissionValue($this->get('editall')));
-		$db->pquery($sql, $params);
-
-		$allModuleModules = Vtiger_Module_Model::getAll(array(0), Settings_Profiles_Module_Model::getNonVisibleModulesList());
+		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
+			'profileid' => $profileId,
+			'globalactionid' => Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW,
+			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('editall'))
+		])->execute();
+		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
+			'profileid' => $profileId,
+			'globalactionid' => Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT,
+			'globalactionpermission' => $this->tranformInputPermissionValue($this->get('viewall'))
+		])->execute();
+		$allModuleModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
 		$allModuleModules[$eventModule->getId()] = $eventModule;
 		if (count($allModuleModules) > 0) {
 			$actionModels = Vtiger_Action_Model::getAll(true);
-			foreach ($allModuleModules as $tabId => $moduleModel) {
+			foreach ($allModuleModules as $moduleModel) {
 				if ($moduleModel->isActive() && isset($profilePermissions[$moduleModel->getId()])) {
 					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleModel->getId()]);
 				} else {
@@ -508,8 +499,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	protected function saveModulePermissions($moduleModel, $permissions)
 	{
-		$db = PearDatabase::getInstance();
-		$adb = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
 		$profileUtilityPermissions = $this->getProfileUtilityPermissions();
@@ -517,7 +507,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$profileTabPermissions = isset($profileTabPermissionsBase[$tabId]) ? $profileTabPermissionsBase[$tabId] : false;
 		$profileActionPermissions = $this->getProfileActionPermissions();
 		$profileActionPermissions = isset($profileActionPermissions[$tabId]) ? $profileActionPermissions[$tabId] : false;
-		$adb->createCommand()->delete('vtiger_profile2tab', ['profileid' => $profileId, 'tabid' => $tabId])
+		$db->createCommand()->delete('vtiger_profile2tab', ['profileid' => $profileId, 'tabid' => $tabId])
 			->execute();
 		$actionPermissions = [];
 		$actionEnabled = false;
@@ -540,7 +530,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					if (!$moduleModel->isEntityModule()) {
 						$actionEnabled = true;
 					} elseif ($actionsIdsList) {
-						$actionsUpdateQuery = 'UPDATE vtiger_profile2standardpermissions SET permissions = CASE ';
+						$caseExpression = 'CASE';
 						foreach ($actionsIdsList as $actionId => $permission) {
 							if (in_array($permission, Vtiger_Action_Model::$nonConfigurableActions)) {
 								$permission = 'on';
@@ -550,11 +540,13 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 								if ($permission == Settings_Profiles_Module_Model::IS_PERMITTED_VALUE) {
 									$actionEnabled = true;
 								}
-								$actionsUpdateQuery .= " WHEN operation = $actionId THEN $permissionValue ";
+								$caseExpression .= " WHEN operation = {$db->quoteValue($actionId)} THEN {$db->quoteValue($permissionValue)} ";
 							}
 						}
-						$actionsUpdateQuery .= 'ELSE permissions END WHERE profileid = ? AND tabid = ?';
-						$db->pquery($actionsUpdateQuery, [$profileId, $tabId]);
+						$caseExpression .= 'ELSE permissions END ';
+						$db->createCommand()->update('vtiger_profile2standardpermissions', [
+							'permissions' => new \yii\db\Expression($caseExpression),
+							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
 
 					foreach (Vtiger_Action_Model::$utilityActions as $utilityActionId => $utilityActionName) {
@@ -565,53 +557,40 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					//Utility permissions
 					if ($utilityIdsList) {
 						$actionEnabled = true;
-						$utilityUpdateQuery = 'UPDATE vtiger_profile2utility SET permission = CASE ';
+						$caseExpression = 'CASE';
 						foreach ($utilityIdsList as $actionId => $permission) {
 							$permissionValue = $this->tranformInputPermissionValue($permission);
-							$utilityUpdateQuery .= " WHEN activityid = $actionId THEN $permissionValue ";
+							$caseExpression .= " WHEN activityid = {$db->quoteValue($actionId)} THEN {$db->quoteValue($permissionValue)} ";
 						}
-						$utilityUpdateQuery .= 'ELSE ? END WHERE profileid = ? AND tabid = ?';
-						$db->pquery($utilityUpdateQuery, [1, $profileId, $tabId]);
+						$caseExpression .= " ELSE {$db->quoteValue(1)} END ";
+						$db->createCommand()->update('vtiger_profile2utility', [
+							'permission' => new \yii\db\Expression($caseExpression),
+							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
 				} else {
 					//Insert Process
 					//Standard permissions
-					$i = 0;
-					$count = count($actionsIdsList);
-					$actionsInsertQuery = 'INSERT INTO vtiger_profile2standardpermissions(profileid, tabid, operation, permissions) VALUES ';
+					$dataToInsert = [];
 					foreach ($actionsIdsList as $actionId => $permission) {
 						if (in_array($permission, Vtiger_Action_Model::$nonConfigurableActions)) {
 							$permission = 'on';
 						}
-						$actionEnabled = true;
-						$permissionValue = $this->tranformInputPermissionValue($permission);
-						$actionsInsertQuery .= "($profileId, $tabId, $actionId, $permissionValue)";
-
-						if ($i !== $count - 1) {
-							$actionsInsertQuery .= ', ';
-						}
-						$i++;
+						$dataToInsert [] = [$profileId, $tabId, $actionId, $this->tranformInputPermissionValue($permission)];
 					}
 					if ($actionsIdsList && ($moduleModel->isEntityModule())) {
-						$db->query($actionsInsertQuery);
+						$actionEnabled = true;
+						$db->createCommand()->batchInsert('vtiger_profile2standardpermissions', ['profileid', 'tabid', 'operation', 'permissions'], $dataToInsert)
+							->execute();
 					}
-
 					//Utility permissions
-					$i = 0;
-					$count = count($utilityIdsList);
-					$utilityInsertQuery = 'INSERT INTO vtiger_profile2utility(profileid, tabid, activityid, permission) VALUES ';
+					$dataToInsert = [];
 					foreach ($utilityIdsList as $actionId => $permission) {
-						$permissionValue = $this->tranformInputPermissionValue($permission);
-						$utilityInsertQuery .= "($profileId, $tabId, $actionId, $permissionValue)";
-
-						if ($i !== $count - 1) {
-							$utilityInsertQuery .= ', ';
-						}
-						$i++;
+						$dataToInsert [] = [$profileId, $tabId, $actionId, $this->tranformInputPermissionValue($permission)];
 					}
 					if ($utilityIdsList) {
 						$actionEnabled = true;
-						$db->pquery($utilityInsertQuery, []);
+						$db->createCommand()->batchInsert('vtiger_profile2utility', ['profileid', 'tabid', 'activityid', 'permission'], $dataToInsert)
+							->execute();
 					}
 				}
 			}
@@ -628,7 +607,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if ($isModulePermitted != $profileTabPermissions) {
 			\App\Privilege::setUpdater($moduleModel->getName());
 		}
-		$adb->createCommand()->insert('vtiger_profile2tab', [
+		$db->createCommand()->insert('vtiger_profile2tab', [
 			'profileid' => $profileId,
 			'tabid' => $tabId,
 			'permissions' => $isModulePermitted
@@ -636,7 +615,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (isset($permissions['fields'])) {
 			if (is_array($permissions['fields'])) {
 				foreach ($permissions['fields'] as $fieldId => $stateValue) {
-					$adb->createCommand()->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])
+					$db->createCommand()->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])
 						->execute();
 					if ($stateValue == Settings_Profiles_Record_Model::PROFILE_FIELD_INACTIVE) {
 						$visible = Settings_Profiles_Module_Model::FIELD_INACTIVE;
@@ -648,7 +627,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 						$visible = Settings_Profiles_Module_Model::FIELD_ACTIVE;
 						$readOnly = Settings_Profiles_Module_Model::FIELD_READWRITE;
 					}
-					$adb->createCommand()->insert('vtiger_profile2field', [
+					$db->createCommand()->insert('vtiger_profile2field', [
 						'profileid' => $profileId,
 						'tabid' => $tabId,
 						'fieldid' => $fieldId,
@@ -849,7 +828,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
-			$db = PearDatabase::getInstance();
+			$db = \App\Db::getInstance();
 			$userRecordModel = Users_Record_Model::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);
@@ -873,19 +852,26 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			//Added user fields into vtiger_profile2field and vtiger_def_org_field
 			//We are using this field information in Email Templates.
 			foreach ($userAccessbleFields as $fieldId => $fieldName) {
-				$insertQuery = 'INSERT INTO vtiger_profile2field VALUES(?,?,?,?,?)';
-				$db->pquery($insertQuery, array($profileId, $tabId, $fieldId, Settings_Profiles_Module_Model::FIELD_ACTIVE, Settings_Profiles_Module_Model::FIELD_READWRITE));
+				$db->createCommand()->insert('vtiger_profile2field', [
+					'profileid' => $profileId,
+					'tabid' => $tabId,
+					'fieldid' => $fieldId,
+					'visible' => Settings_Profiles_Module_Model::FIELD_ACTIVE,
+					'readonly' => Settings_Profiles_Module_Model::FIELD_READWRITE
+				])->execute();
 			}
-
 			$defOrgFields = (new \App\Db\Query())
 					->select(['fieldid'])
 					->from('vtiger_def_org_field')
 					->where(['tabid' => $tabId])->column();
-			
 			foreach ($userAccessbleFields as $fieldId => $fieldName) {
 				if (!in_array($fieldId, $defOrgFields)) {
-					$insertQuery = 'INSERT INTO vtiger_def_org_field VALUES(?,?,?,?)';
-					$db->pquery($insertQuery, array($tabId, $fieldId, 0, 0));
+					$db->createCommand()->insert('vtiger_def_org_field', [
+						'tabid' => $tabId,
+						'fieldid' => $fieldId,
+						'visible' => 0,
+						'readonly' => 0
+					])->execute();
 				}
 			}
 		}

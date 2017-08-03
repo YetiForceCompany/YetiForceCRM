@@ -126,39 +126,41 @@ class Vtiger_Action_Model extends \App\Base
 		return $actionModels;
 	}
 
+	/**
+	 * Function to get all instances models of basic action 
+	 * @param boolean $configurable
+	 * @return self[]
+	 */
 	public static function getAllBasic($configurable = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$basicActionIds = array_keys(self::$standardActions);
-		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
-		$params = $basicActionIds;
+		$query = (new App\Db\Query())->from('vtiger_actionmapping')
+			->where(['actionid' => array_keys(self::$standardActions)]);
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
-			$params = array_merge($params, self::$nonConfigurableActions);
+			$query->andWhere(['NOT IN', 'actionname', self::$nonConfigurableActions]);
 		}
-		$result = $db->pquery($sql, $params);
 		$actionModels = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$actionModels[] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;
 	}
 
+	/**
+	 * Function to get all instances models of utility action
+	 * @param boolean $configurable
+	 * @return self[]
+	 */
 	public static function getAllUtility($configurable = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$basicActionIds = array_keys(self::$standardActions);
-		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
-		$params = $basicActionIds;
+		$query = (new App\Db\Query())->from('vtiger_actionmapping')
+			->where(['NOT IN', 'actionid', array_keys(self::$standardActions)]);
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
-			$params = array_merge($params, self::$nonConfigurableActions);
+			$query->andWhere(['NOT IN', 'actionname', self::$nonConfigurableActions]);
 		}
-		$result = $db->pquery($sql, $params);
 		$actionModels = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$actionModels[] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;
