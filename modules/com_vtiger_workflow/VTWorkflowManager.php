@@ -385,22 +385,66 @@ class VTWorkflowManager
 	}
 }
 
+/**
+ * Workflow class
+ */
 class Workflow
 {
 
+	/**
+	 * Scheduled hourly
+	 * @var int
+	 */
 	static $SCHEDULED_HOURLY = 1;
+
+	/**
+	 * Scheduled daily
+	 * @var int
+	 */
 	static $SCHEDULED_DAILY = 2;
+
+	/**
+	 * Scheduled weekly
+	 * @var int
+	 */
 	static $SCHEDULED_WEEKLY = 3;
+
+	/**
+	 * Scheduled on specific date
+	 * @var int
+	 */
 	static $SCHEDULED_ON_SPECIFIC_DATE = 4;
+
+	/**
+	 * Scheduled monthly by date
+	 * @var int
+	 */
 	static $SCHEDULED_MONTHLY_BY_DATE = 5;
+
+	/**
+	 * Scheduled monthly by weekday
+	 * @var int
+	 */
 	static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
+
+	/**
+	 * Scheduled annually
+	 * @var int
+	 */
 	static $SCHEDULED_ANNUALLY = 7;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$this->conditionStrategy = new VTJsonCondition();
 	}
 
+	/**
+	 * Setup workflow
+	 * @param array $row
+	 */
 	public function setup($row)
 	{
 		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
@@ -435,6 +479,11 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Check if workfow is completed for record
+	 * @param int $recordId
+	 * @return boolean
+	 */
 	public function isCompletedForRecord($recordId)
 	{
 		$isExistsActivateDonce = (new \App\Db\Query())->from('com_vtiger_workflow_activatedonce')->where(['entity_id' => $recordId, 'workflow_id' => $this->id])->exists();
@@ -449,6 +498,10 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Mark workflow as completed for record
+	 * @param int $recordId
+	 */
 	public function markAsCompletedForRecord($recordId)
 	{
 		\App\Db::getInstance()->createCommand()
@@ -490,6 +543,11 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Execution condition as label
+	 * @param string $label
+	 * @return string
+	 */
 	public function executionConditionAsLabel($label = null)
 	{
 		if ($label === null) {
