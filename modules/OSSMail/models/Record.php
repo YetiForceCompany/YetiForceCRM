@@ -13,7 +13,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Return accounts array
-	 * @param int $user
+	 * @param int|bool $user
 	 * @param bool $onlyMy
 	 * @param bool $password
 	 * @return array
@@ -22,20 +22,14 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$users = [];
 		$query = (new \App\Db\Query())->from('roundcube_users');
-		$where = [];
 		if ($user) {
-			$where['user_id'] = $user;
+			$query->where(['user_id' => $user]);
 		}
 		if ($onlyMy) {
-			$where['crm_user_id'] = \App\User::getCurrentUserId();
+			$query->andWhere(['crm_user_id' => \App\User::getCurrentUserId()]);
 		}
 		if ($password) {
-			if ($where) {
-				$query->where($where);
-				$query->andWhere(['not', ['password' => '']]);
-			} else {
-				$query->where(['not', ['password' => '']]);
-			}
+			$query->andWhere(['not', ['password' => '']]);
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -188,14 +182,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	public static function getMailBoxmsgInfo($users)
 	{
 
-		\App\Log::trace(__METHOD__ . ' - Start');
-		$query = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $users]);
-		$account = [];
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$account[$row['userid']] = $row['num'];
-		}
-		\App\Log::trace(__METHOD__ . ' - End');
+		$query = (new \App\Db\Query())->select(['userid', 'num'])->from('yetiforce_mail_quantities')->where(['userid' => $users]);
+		$account = $query->createCommand()->queryAllByGroup(0);
 		return $account;
 	}
 
@@ -277,9 +265,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		$user = false;
 		$adb = PearDatabase::getInstance();
-		$query = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid]);
-		if ($query->count()) {
-			$user = $query->one();
+		$row = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid])->one();
+		if ($row) {
+			$user = $row;
 		}
 		self::$usersCache[$userid] = $user;
 		return $user;
