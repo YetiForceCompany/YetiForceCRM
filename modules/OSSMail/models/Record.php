@@ -29,7 +29,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$query->andWhere(['crm_user_id' => \App\User::getCurrentUserId()]);
 		}
 		if ($password) {
-			$query->andWhere(['not', ['password' => '']]);
+			$query->andWhere(['<>', ['password' => '']]);
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -183,8 +183,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 
 		$query = (new \App\Db\Query())->select(['userid', 'num'])->from('yetiforce_mail_quantities')->where(['userid' => $users]);
-		$account = $query->createCommand()->queryAllByGroup(0);
-		return $account;
+		return $query->createCommand()->queryAllByGroup(0);
 	}
 
 	/**
@@ -263,12 +262,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset(self::$usersCache[$userid])) {
 			return self::$usersCache[$userid];
 		}
-		$user = false;
-		$adb = PearDatabase::getInstance();
-		$row = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid])->one();
-		if ($row) {
-			$user = $row;
-		}
+		$user = (new \App\Db\Query())->from('roundcube_users')->where(['user_id' => $userid])->one();
+
 		self::$usersCache[$userid] = $user;
 		return $user;
 	}
