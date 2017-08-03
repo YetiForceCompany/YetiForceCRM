@@ -25,7 +25,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	 * Function to get values of more currencies listprice
 	 * @return <Array> of listprice values
 	 */
-	static function getListPriceValues($id)
+	static public function getListPriceValues($id)
 	{
 		$db = PearDatabase::getInstance();
 		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
