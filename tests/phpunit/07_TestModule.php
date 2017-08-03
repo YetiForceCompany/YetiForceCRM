@@ -21,21 +21,23 @@ class TestModule extends TestCase
 	{
 		$testModule = 'TestModule.zip';
 		try {
-			file_put_contents($testModule, file_get_contents('https://tests.yetiforce.com/' . $_SERVER['YETI_KEY']));
+			$url = 'https://tests.yetiforce.com/' . $_SERVER['YETI_KEY'];
+			$headers = get_headers($url);
+			if (strpos($headers[0], '200') !== false) {
+				file_put_contents($testModule, file_get_contents($url));
+				(new vtlib\Package())->import($testModule);
+				$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
+				$db = \App\Db::getInstance();
+				$db->createCommand()
+					->update('vtiger_cron_task', [
+						'sequence' => 0,
+						], ['name' => 'TestData'])
+					->execute();
+			} else {
+				$this->assertTrue(true);
+			}
 		} catch (Exception $exc) {
 			
 		}
-		if (file_exists($testModule)) {
-			(new vtlib\Package())->import($testModule);
-			$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'TestData'])->exists());
-		} else {
-			$this->assertTrue(true);
-		}
-		$db = \App\Db::getInstance();
-		$db->createCommand()
-			->update('vtiger_cron_task', [
-				'sequence' => 0,
-				], ['name' => 'TestData'])
-			->execute();
 	}
 }
