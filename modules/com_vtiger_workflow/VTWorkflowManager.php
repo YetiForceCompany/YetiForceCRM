@@ -164,11 +164,7 @@ class VTWorkflowManager
 	 */
 	public function getScheduledWorkflowsCount()
 	{
-		$adb = $this->adb;
-		$query = 'SELECT count(*) AS count FROM com_vtiger_workflows WHERE execution_condition = ?';
-		$params = array(VTWorkflowManager::$ON_SCHEDULE);
-		$result = $adb->pquery($query, $params);
-		return $adb->query_result($result, 0, 'count');
+		return (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => VTWorkflowManager::$ON_SCHEDULE])->count();
 	}
 
 	/**
@@ -180,6 +176,12 @@ class VTWorkflowManager
 		return 10;
 	}
 
+	/**
+	 * Return workflows for module
+	 * @param string $moduleName
+	 * @param string $executionCondition
+	 * @return Workflow[]
+	 */
 	public function getWorkflowsForModule($moduleName, $executionCondition = false)
 	{
 		if (\App\Cache::has('WorkflowsForModule', $moduleName)) {
@@ -201,6 +203,11 @@ class VTWorkflowManager
 		return $this->getWorkflowsForResult($rows);
 	}
 
+	/**
+	 * Return workflows for provided rows
+	 * @param array $rows
+	 * @return Workflow[]
+	 */
 	protected function getWorkflowsForResult($rows)
 	{
 		$workflows = [];
@@ -215,6 +222,11 @@ class VTWorkflowManager
 		return $workflows;
 	}
 
+	/**
+	 * Return workflow instance
+	 * @param string $type
+	 * @return \workflowClass
+	 */
 	protected function getWorkflowInstance($type = 'basic')
 	{
 		$configReader = new ConfigReader('modules/com_vtiger_workflow/config.inc', 'workflowConfig');
