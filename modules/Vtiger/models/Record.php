@@ -33,7 +33,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getId()
 	{
-		return $this->get('id');
+		return (int) $this->get('id');
 	}
 
 	/**
