@@ -53,7 +53,7 @@
 				</span>
 			</span>
 			<span class="col-md-8">
-				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter" />
 			</span>
 		</div>
 		<div class="row">

@@ -843,32 +843,20 @@ jQuery.Class("Vtiger_Popup_Js", {
 			})
 		}
 	},
-
 	triggerListSearch: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
 		popupPageContentsContainer.find('button[data-trigger="listSearch"]').trigger("click");
 	},
-
 	registerTimeListSearch: function (container) {
 		app.registerEventForClockPicker();
 	},
-
 	registerDateListSearch: function (container) {
 		container.find('.dateField').each(function (index, element) {
 			var dateElement = jQuery(element);
-			var customParams = {
-				calendars: 2,
-				mode: 'range',
-				className: 'rangeCalendar',
-				onChange: function (formated) {
-					dateElement.val(formated.join(','));
-				}
-			}
-			app.registerEventForDatePickerFields(dateElement, false, customParams);
+			app.registerDateRangePickerFields(dateElement, {ranges: false});
 		});
 	},
-
 	getListSearchParams: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		var listViewTable = popupPageContentsContainer.find('.listViewEntriesTable');
@@ -931,7 +919,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var documentHeight = (jQuery(document).height()) + 'px';
 		jQuery('#popupPageContainer').css('height', documentHeight);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
-		
+
 		this.registerEventForSelectAllInCurrentPage();
 		this.registerSelectButton();
 		this.registerSwitchButton();

@@ -27,7 +27,7 @@
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
 				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{implode(',',$DTIME)}"/>
 			</div>	
 		</div>
 		<div class="col-sm-6">

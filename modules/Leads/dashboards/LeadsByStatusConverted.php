@@ -33,7 +33,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		$createdTime = $request->get('createdtime');
+		$createdTime = $request->getDateRange('createdtime');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
@@ -41,9 +41,9 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
-		if ($owner == 'all')
+		if ($owner == 'all') {
 			$owner = '';
-
+		}
 		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
@@ -51,7 +51,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time !== false){
+			if ($time !== false) {
 				$dates = $time;
 			}
 		}
