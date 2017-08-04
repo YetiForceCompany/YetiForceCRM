@@ -572,31 +572,55 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Return next trigger timestamp
+	 * @return timestamp
+	 */
 	public function getNextTriggerTimeValue()
 	{
 		return $this->nexttrigger_time;
 	}
 
+	/**
+	 * Return schedule type
+	 * @return int
+	 */
 	public function getWFScheduleType()
 	{
 		return ($this->executionCondition == 6 ? $this->schtypeid : 0);
 	}
 
+	/**
+	 * Return workflow schedule timestamp
+	 * @return timestamp
+	 */
 	public function getWFScheduleTime()
 	{
 		return $this->schtime;
 	}
 
+	/**
+	 * Return workflow schedule day
+	 * @return int
+	 */
 	public function getWFScheduleDay()
 	{
 		return $this->schdayofmonth;
 	}
 
+	/**
+	 * Return workflow schedule week
+	 * @return int
+	 */
 	public function getWFScheduleWeek()
 	{
 		return $this->schdayofweek;
 	}
 
+	/**
+	 * Return workflow schedule annual dates
+	 * @return bool
+	 */
 	public function getWFScheduleAnnualDates()
 	{
 		return $this->schannualdates;
@@ -604,8 +628,8 @@ class Workflow
 
 	/**
 	 * Function gets the next trigger for the workflows
-	 * @global <String> $default_timezone
-	 * @return type
+	 * @global string $default_timezone
+	 * @return timestamp
 	 */
 	public function getNextTriggerTime()
 	{
@@ -667,9 +691,9 @@ class Workflow
 
 	/**
 	 * get next trigger Time For weekly
-	 * @param type $scheduledDaysOfWeek
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param json $scheduledDaysOfWeek
+	 * @param time $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
 	{
@@ -723,9 +747,9 @@ class Workflow
 
 	/**
 	 * get next triggertime for monthly
-	 * @param type $scheduledDayOfMonth
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param int $scheduledDayOfMonth
+	 * @param int $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForMonthlyByDate($scheduledDayOfMonth, $scheduledTime)
 	{
@@ -768,9 +792,9 @@ class Workflow
 
 	/**
 	 * to get next trigger time for weekday of the month
-	 * @param type $scheduledWeekDayOfMonth
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param int $scheduledWeekDayOfMonth
+	 * @param timestamp $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForMonthlyByWeekDay($scheduledWeekDayOfMonth, $scheduledTime)
 	{
@@ -793,9 +817,9 @@ class Workflow
 
 	/**
 	 * to get next trigger time
-	 * @param type $annualDates
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param json $annualDates
+	 * @param timestamp $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForAnnualDates($annualDates, $scheduledTime)
 	{
