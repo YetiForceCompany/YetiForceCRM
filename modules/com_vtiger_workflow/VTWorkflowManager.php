@@ -76,15 +76,6 @@ class VTWorkflowManager
 	static $ON_RELATED = 10;
 
 	/**
-	 * Constructor
-	 * @param PearDatabase $adb
-	 */
-	public function __construct($adb = false)
-	{
-		$this->adb = $adb;
-	}
-
-	/**
 	 * Save workflow data
 	 * @param Workflow $workflow
 	 */

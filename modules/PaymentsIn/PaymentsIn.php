@@ -125,15 +125,15 @@ class PaymentsIn extends Vtiger_CRMEntity
 
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
-			
+
 		} else if ($event_type == 'module.enabled') {
-			
+
 		} else if ($event_type == 'module.preuninstall') {
-			
+
 		} else if ($event_type == 'module.preupdate') {
-			
+
 		} else if ($event_type == 'module.postupdate') {
-			
+
 		}
 	}
 
@@ -147,7 +147,7 @@ class PaymentsIn extends Vtiger_CRMEntity
 		$emm = new VTEntityMethodManager();
 		$emm->addEntityMethod($moduleName, $functionName, "modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
 
-		$workflowManager = new VTWorkflowManager($db);
+		$workflowManager = new VTWorkflowManager();
 		$taskManager = new VTTaskManager($db);
 
 		$newWorkflow = $workflowManager->newWorkFlow($moduleName);
