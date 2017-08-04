@@ -341,14 +341,16 @@ class VTTaskType
 		])->execute();
 	}
 
+	/**
+	 * return all task types
+	 * @param string $moduleName
+	 * @return VTTaskType[]
+	 */
 	public static function getAll($moduleName = '')
 	{
-		$adb = PearDatabase::getInstance();
-
-		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_tasktypes", []);
-		$numrows = $adb->num_rows($result);
-		for ($i = 0; $i < $numrows; $i++) {
-			$rawData = $adb->raw_query_result_rowdata($result, $i);
+		$query = (new App\Db\Query())->from('com_vtiger_workflow_tasktypes');
+		$dataReader = $query->createCommand()->query();
+		while ($rawData = $dataReader->read()) {
 			$taskName = $rawData['tasktypename'];
 			$moduleslist = $rawData['modules'];
 			$sourceModule = $rawData['sourcemodule'];
@@ -380,17 +382,21 @@ class VTTaskType
 		return $taskTypeInstances;
 	}
 
+	/**
+	 * Return instance from task type name
+	 * @param string $taskType
+	 * @return VTTaskType
+	 */
 	public static function getInstanceFromTaskType($taskType)
 	{
-		$adb = PearDatabase::getInstance();
+		$row = (new App\Db\Query())->from('com_vtiger_workflow_tasktypes')->where(['tasktypename' => $taskType])->one();
 
-		$result = $adb->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where tasktypename=?", array($taskType));
-		$taskTypes['name'] = $adb->query_result($result, 0, 'tasktypename');
-		$taskTypes['label'] = $adb->query_result($result, 0, 'label');
-		$taskTypes['classname'] = $adb->query_result($result, 0, 'classname');
-		$taskTypes['classpath'] = $adb->query_result($result, 0, 'classpath');
-		$taskTypes['templatepath'] = $adb->query_result($result, 0, 'templatepath');
-		$taskTypes['sourcemodule'] = $adb->query_result($result, 0, 'sourcemodule');
+		$taskTypes['name'] = $row['tasktypename'];
+		$taskTypes['label'] = $row['label'];
+		$taskTypes['classname'] = $row['classname'];
+		$taskTypes['classpath'] = $row['classpath'];
+		$taskTypes['templatepath'] = $row['templatepath'];
+		$taskTypes['sourcemodule'] = $row['sourcemodule'];
 
 		$taskDetails = self::getInstance($taskTypes);
 		return $taskDetails;
