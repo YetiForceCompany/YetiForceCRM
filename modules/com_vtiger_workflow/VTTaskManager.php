@@ -78,8 +78,7 @@ class VTTaskManager
 	 */
 	public function retrieveTask($taskId)
 	{
-		$row = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->one();
-		$task = $row['task'];
+		$task = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->scalar();
 		$task = $this->unserializeTask($task);
 		return $task;
 	}
