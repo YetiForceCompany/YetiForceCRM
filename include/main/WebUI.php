@@ -118,7 +118,6 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			require_once('config/csrf_config.php');
 			require_once('libraries/csrf-magic/csrf-magic.php');
 		}
-		//$this->cspInitToken();
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);

@@ -131,11 +131,13 @@ class WorkFlowScheduler
 			'more than hours later' => 'g',
 			'is today' => 'e',
 		);
-		//Algorithm :
-		//1. If the query has already where condition then start a new group with and condition, else start a group
-		//2. Foreach of the condition, if its a condition in the same group just append with the existing joincondition
-		//3. If its a new group, then start the group with the group join.
-		//4. And for the first condition in the new group, dont append any joincondition.
+		/*
+		  Algorithm :
+		  1. If the query has already where condition then start a new group with and condition, else start a group
+		  2. Foreach of the condition, if its a condition in the same group just append with the existing joincondition
+		  3. If its a new group, then start the group with the group join.
+		  4. And for the first condition in the new group, dont append any joincondition.
+		 */
 		if ($conditions) {
 			foreach ($conditions as &$condition) {
 				$operation = $condition['operation'];
