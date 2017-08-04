@@ -78,17 +78,15 @@ class VTTaskManager
 	 */
 	public function retrieveTask($taskId)
 	{
-		$adb = $this->adb;
-		$result = $adb->pquery("select task from com_vtiger_workflowtasks where task_id=?", array($taskId));
-		$data = $adb->raw_query_result_rowdata($result, 0);
-		$task = $data["task"];
+		$row = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->one();
+		$task = $row['task'];
 		$task = $this->unserializeTask($task);
-
 		return $task;
 	}
 
 	/**
-	 *
+	 * Return tasks for workflow
+	 * @param int $workflowId
 	 */
 	public function getTasksForWorkflow($workflowId)
 	{
@@ -106,7 +104,9 @@ class VTTaskManager
 	}
 
 	/**
-	 *
+	 * Userialize task string
+	 * @param string $str
+	 * @return array|bool
 	 */
 	public function unserializeTask($str)
 	{
