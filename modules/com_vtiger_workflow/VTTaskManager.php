@@ -326,13 +326,19 @@ class VTTaskType
 	 */
 	public static function registerTaskType($taskType)
 	{
-		$adb = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$modules = \App\Json::encode($taskType['modules']);
-		$taskTypeId = $adb->getUniqueID('com_vtiger_workflow_tasktypes');
-		$taskType['id'] = $taskTypeId;
-		$adb->pquery("INSERT INTO com_vtiger_workflow_tasktypes
-									(id, tasktypename, label, classname, classpath, templatepath, modules, sourcemodule)
-									values (?,?,?,?,?,?,?,?)", array($taskTypeId, $taskType['name'], $taskType['label'], $taskType['classname'], $taskType['classpath'], $taskType['templatepath'], $modules, $taskType['sourcemodule']));
+		$taskType['id'] = $db->getUniqueID('com_vtiger_workflow_tasktypes');
+		$db->createCommand()->insert('com_vtiger_workflow_tasktypes', [
+			'id' => $taskType['id'],
+			'tasktypename' => $taskType['name'],
+			'label' => $taskType['label'],
+			'classname' => $taskType['classname'],
+			'classpath' => $taskType['classpath'],
+			'templatepath' => $taskType['templatepath'],
+			'modules' => $modules,
+			'sourcemodule' => $taskType['sourcemodule']
+		])->execute();
 	}
 
 	public static function getAll($moduleName = '')
