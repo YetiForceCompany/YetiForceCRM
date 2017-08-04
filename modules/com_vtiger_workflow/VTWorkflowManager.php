@@ -536,10 +536,12 @@ class Workflow
 		if ($scheduledDaysOfWeek) {
 			$scheduledDaysOfWeek = \App\Json::decode($scheduledDaysOfWeek);
 			if (is_array($scheduledDaysOfWeek)) {
-				// algorithm :
-				//1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
-				//2. If found, set the next trigger date to the next weekday value in the same week.
-				//3. If not found, set the trigger date to the next first value.
+				/*
+				  algorithm :
+				  1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
+				  2. If found, set the next trigger date to the next weekday value in the same week.
+				  3. If not found, set the trigger date to the next first value.
+				 */
 				$nextTriggerWeekDay = null;
 				sort($scheduledDaysOfWeek);
 				foreach ($scheduledDaysOfWeek as $index => $weekDay) {
@@ -590,10 +592,12 @@ class Workflow
 		if ($scheduledDayOfMonth) {
 			$scheduledDaysOfMonth = \App\Json::decode($scheduledDayOfMonth);
 			if (is_array($scheduledDaysOfMonth)) {
-				// algorithm :
-				//1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
-				//2. If found, set the next trigger date to the found value which is in the same month.
-				//3. If not found, set the trigger date to the next month's first selected value.
+				/*
+				  algorithm :
+				  1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
+				  2. If found, set the next trigger date to the found value which is in the same month.
+				  3. If not found, set the trigger date to the next month's first selected value.
+				 */
 				$nextTriggerDay = null;
 				sort($scheduledDaysOfMonth);
 				foreach ($scheduledDaysOfMonth as $day) {

@@ -22,17 +22,19 @@ class VTWorkflowApplication
 
 	function currentUrl()
 	{
-		// $req = $this->request;
-		// $url = "index.php?module={$this->name}&action={$this->action}";
-		// if($this->action=='editworkflow'){
-		// 	if(isset($req['workflow_id'])){
-		// 		$url.="&workflow_id=".$req['workflow_id'];
-		// 	}
-		// }else if($this->action=='edittask'){
-		// 	if(isset($req['task_id'])){
-		// 		$url.="&task_id=".$req['task_id'];
-		// 	}
-		// }
+		/*
+		  $req = $this->request;
+		  $url = "index.php?module={$this->name}&action={$this->action}";
+		  if($this->action=='editworkflow'){
+		  if(isset($req['workflow_id'])){
+		  $url.="&workflow_id=".$req['workflow_id'];
+		  }
+		  }else if($this->action=='edittask'){
+		  if(isset($req['task_id'])){
+		  $url.="&task_id=".$req['task_id'];
+		  }
+		  }
+		 */
 		return $_SERVER["REQUEST_URI"];
 	}
 
