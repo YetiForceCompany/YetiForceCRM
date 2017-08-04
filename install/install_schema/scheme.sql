@@ -5195,7 +5195,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2607 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2608 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -7815,11 +7815,15 @@ CREATE TABLE `vtiger_reservations` (
   `due_date` date DEFAULT NULL,
   `time_end` varchar(50) DEFAULT NULL,
   `sum_time` decimal(10,2) DEFAULT '0.00',
-  `relatedida` int(10) DEFAULT '0',
-  `relatedidb` int(10) DEFAULT '0',
+  `link` int(10) DEFAULT '0',
+  `process` int(10) DEFAULT '0',
   `deleted` int(1) DEFAULT '0',
   `type` varchar(128) DEFAULT NULL,
+  `subprocess` int(10) DEFAULT '0',
   PRIMARY KEY (`reservationsid`),
+  KEY `process` (`process`),
+  KEY `link` (`link`),
+  KEY `subprocess` (`subprocess`),
   CONSTRAINT `vtiger_reservations` FOREIGN KEY (`reservationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -301,10 +301,16 @@ class Base4 extends \App\Db\Importers\Base
 					'due_date' => $this->date(),
 					'time_end' => $this->stringType(50),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'relatedida' => $this->integer(10)->defaultValue(0),
-					'relatedidb' => $this->integer(10)->defaultValue(0),
+					'link' => $this->integer(10)->defaultValue(0),
+					'process' => $this->integer(10)->defaultValue(0),
 					'deleted' => $this->integer(1)->defaultValue(0),
 					'type' => $this->stringType(128),
+					'subprocess' => $this->integer(10),
+				],
+				'index' => [
+					['process', 'process'],
+					['link', 'link'],
+					['subprocess', 'subprocess'],
 				],
 				'primaryKeys' => [
 					['reservations_pk', 'reservationsid']
