@@ -348,4 +348,23 @@ class Language
 	{
 		return (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
 	}
+
+	/**
+	 * Function return languange
+	 * @param array $condition
+	 * @return array
+	 */
+	public static function getAll($condition = false)
+	{
+		$query = (new \App\Db\Query())->from('vtiger_language');
+		if ($condition) {
+			$query->where($condition);
+		}
+		$output = false;
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$output[$row['prefix']] = $row;
+		}
+		return $output;
+	}
 }
