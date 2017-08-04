@@ -841,6 +841,13 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $profile;
 	}
 
+	/**
+	 * Create instance by profile name
+	 * @param string $profileName
+	 * @param bool $checkOnlyDirectlyRelated
+	 * @param array $excludedRecordId
+	 * @return \self
+	 */
 	public static function getInstanceByName($profileName, $checkOnlyDirectlyRelated = false, $excludedRecordId = [])
 	{
 		$query = (new \App\Db\Query())->from('vtiger_profile')->where(['profilename' => $profileName]);
@@ -919,13 +926,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to save user fields in vtiger_profile2field table
 	 * We need user field values to generating the Email Templates variable valuues.
-	 * @param type $profileId
 	 */
 	public function saveUserAccessbleFieldsIntoProfile2Field()
 	{
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
-			$db = \App\Db::getInstance();
+			$dbCommand = \App\Db::getInstance()->createCommand();
 			$userRecordModel = Users_Record_Model::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Module::getModuleId($module);
@@ -949,7 +955,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			//Added user fields into vtiger_profile2field and vtiger_def_org_field
 			//We are using this field information in Email Templates.
 			foreach ($userAccessbleFields as $fieldId => $fieldName) {
-				$db->createCommand()->insert('vtiger_profile2field', [
+				$dbCommand->insert('vtiger_profile2field', [
 					'profileid' => $profileId,
 					'tabid' => $tabId,
 					'fieldid' => $fieldId,
@@ -963,7 +969,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					->where(['tabid' => $tabId])->column();
 			foreach ($userAccessbleFields as $fieldId => $fieldName) {
 				if (!in_array($fieldId, $defOrgFields)) {
-					$db->createCommand()->insert('vtiger_def_org_field', [
+					$dbCommand->insert('vtiger_def_org_field', [
 						'tabid' => $tabId,
 						'fieldid' => $fieldId,
 						'visible' => 0,
