@@ -115,15 +115,20 @@ class VTTaskManager
 	}
 
 	/**
-	 *
+	 * Return all tasks
+	 * @return array
 	 */
 	function getTasks()
 	{
-		$adb = $this->adb;
-		$result = $adb->query("select task from com_vtiger_workflowtasks");
+		$result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
 		return $this->getTasksForResult($result);
 	}
 
+	/**
+	 * Create tasks from query result array
+	 * @param array $result
+	 * @return VTTask[]
+	 */
 	private function getTasksForResult($result)
 	{
 		$adb = $this->adb;
@@ -138,6 +143,11 @@ class VTTaskManager
 		return $tasks;
 	}
 
+	/**
+	 * Return task name
+	 * @param string $serializedTask
+	 * @return string
+	 */
 	private function taskName($serializedTask)
 	{
 		$matches = [];
@@ -145,6 +155,11 @@ class VTTaskManager
 		return $matches[1];
 	}
 
+	/**
+	 * Require task
+	 * @param string $taskType
+	 * @param VTTask $taskTypeInstance
+	 */
 	private function requireTask($taskType, $taskTypeInstance = '')
 	{
 		if (!empty($taskTypeInstance)) {
@@ -157,6 +172,12 @@ class VTTaskManager
 		}
 	}
 
+	/**
+	 * Return template path
+	 * @param string $moduleName
+	 * @param VTTask $taskTypeInstance
+	 * @return string
+	 */
 	public function retrieveTemplatePath($moduleName, $taskTypeInstance)
 	{
 		$taskTemplatePath = $taskTypeInstance->get('templatepath');
