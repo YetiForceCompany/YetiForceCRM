@@ -346,9 +346,7 @@ class PackageExport
 	 */
 	public function export_Tables()
 	{
-		$_exportedTables = [];
 		$modulename = $this->moduleInstance->name;
-
 		$this->openNode('tables');
 
 		if ($this->moduleInstance->isentitytype) {
@@ -365,8 +363,6 @@ class PackageExport
 				$this->outputNode($table, 'name');
 				$this->outputNode('<![CDATA[' . Utils::CreateTableSql($table) . ']]>', 'sql');
 				$this->closeNode('table');
-
-				$_exportedTables[] = $table;
 			}
 		}
 		$this->closeNode('tables');
