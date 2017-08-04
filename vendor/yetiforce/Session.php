@@ -27,8 +27,8 @@ class Session
 			$className = '\App\Session\\' . $driver;
 			static::$pool = new $className();
 			session_set_save_handler(static::$pool, true);
-			session_start();
 		}
+		session_start();
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Session
 	public static function get($key)
 	{
 		if (empty(static::$pool)) {
-			return null;
+			return $_SESSION[$key];
 		}
 		return static::$pool->get($key);
 	}
@@ -52,7 +52,7 @@ class Session
 	public static function has($key)
 	{
 		if (empty(static::$pool)) {
-			return null;
+			return isset($_SESSION[$key]);
 		}
 		return static::$pool->has($key);
 	}
@@ -66,7 +66,7 @@ class Session
 	public static function set($key, $value = null)
 	{
 		if (empty(static::$pool)) {
-			return null;
+			return $_SESSION[$key] = $value;
 		}
 		return static::$pool->set($key, $value);
 	}
@@ -79,7 +79,7 @@ class Session
 	public static function delete($key)
 	{
 		if (empty(static::$pool)) {
-			return null;
+			unset($_SESSION[$key]);
 		}
 		static::$pool->delete($key);
 	}
@@ -92,7 +92,7 @@ class Session
 	public static function regenerateId($deleteOldSession = false)
 	{
 		if (empty(static::$pool)) {
-			return null;
+			session_regenerate_id($deleteOldSession);
 		}
 		static::$pool->regenerateId($deleteOldSession);
 	}

@@ -877,7 +877,7 @@ var app = {
 			todayHighlight: true
 		}
 		if (typeof customParams != 'undefined') {
-			var params = jQuery.extend(params, customParams);
+			params = jQuery.extend(params, customParams);
 		}
 		element.datepicker(params);
 	},
@@ -921,6 +921,9 @@ var app = {
 				firstDay: $.fn.datepicker.dates[language].weekStart
 			},
 		};
+		if (typeof customParams != 'undefined') {
+			params = jQuery.extend(params, customParams);
+		}
 		elements.each(function (index, element) {
 			element = $(element);
 			element.daterangepicker(params);
