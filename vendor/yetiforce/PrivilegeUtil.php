@@ -37,9 +37,10 @@ class PrivilegeUtil
 		return $parentRecOwner;
 	}
 
-	/** Function to get HelpDesk related Accounts
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $accountid -- accountid:: Type integer
+	/**
+	 * Function return related account with ticket
+	 * @param int $recordId
+	 * @return int
 	 */
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
@@ -330,16 +331,15 @@ class PrivilegeUtil
 	protected static $usersBySubordinateCache = [];
 
 	/**
-	 * Function to get the vtiger_role and subordinate vtiger_users
-	 * @param $roleid -- RoleId :: Type varchar
-	 * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
+	 * Function to get the roles and subordinate users
+	 * @param int $roleId
+	 * @return array
 	 */
 	public static function getUsersByRoleAndSubordinate($roleId)
 	{
 		if (isset(static::$usersBySubordinateCache[$roleId])) {
 			return static::$usersBySubordinateCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
 		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
 		$users = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
