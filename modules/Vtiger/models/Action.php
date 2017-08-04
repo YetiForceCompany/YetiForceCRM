@@ -69,7 +69,6 @@ class Vtiger_Action_Model extends \App\Base
 	 */
 	public function isModuleEnabled($module)
 	{
-		$db = PearDatabase::getInstance();
 		if (!$module->isEntityModule()) {
 			return false;
 		}
@@ -77,10 +76,8 @@ class Vtiger_Action_Model extends \App\Base
 			return true;
 		}
 		$tabId = $module->getId();
-		$sql = 'SELECT 1 FROM vtiger_profile2standardpermissions WHERE tabid = ? && operation = ? LIMIT 1';
-		$params = array($tabId, $this->getId());
-		$result = $db->pquery($sql, $params);
-		if ($result && $db->num_rows($result) > 0) {
+		$query = (new App\Db\Query())->select('1')->from('vtiger_profile2standardpermissions')->where(['tabid' => $tabId, 'operation' => $this->getId()]);
+		if ($query->count()) {
 			return true;
 		}
 		return false;
@@ -133,23 +130,31 @@ class Vtiger_Action_Model extends \App\Base
 		return null;
 	}
 
+	/**
+	 * Return instance by id or name
+	 * @param int|string $value
+	 * @return Vtiger_Action_Model|null
+	 */
 	public static function getInstanceWithIdOrName($value)
 	{
-		$db = PearDatabase::getInstance();
-
+		$query = (new App\Db\Query())->from('vtiger_actionmapping');
 		if (vtlib\Utils::isNumber($value)) {
-			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
+			$query->where(['actionid' => $value])->limit(1);
 		} else {
-			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionname=?';
+			$query->where(['actionname' => $value]);
 		}
-		$params = array($value);
-		$result = $db->pquery($sql, $params);
-		if ($db->getRowCount($result) > 0) {
-			return self::getInstanceFromRow($db->getRow($result));
+		$row = $query->one();
+		if ($row) {
+			return self::getInstanceFromRow($db->getRow($row));
 		}
 		return null;
 	}
 
+	/**
+	 * Return all instances
+	 * @param bool $configurable
+	 * @return Vtiger_Action_Model[]
+	 */
 	public static function getAll($configurable = false)
 	{
 		if (\App\Cache::has('Actions', 'all')) {
