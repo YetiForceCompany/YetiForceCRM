@@ -411,6 +411,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->profile_utility_permissions;
 	}
 
+	/**
+	 * Return module permissions
+	 * @return array
+	 */
 	public function getModulePermissions()
 	{
 		if (!isset($this->module_permissions)) {
@@ -461,16 +465,20 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->module_permissions;
 	}
 
+	/**
+	 * Delete record and optionally transfer assigments to other record
+	 * @param Settings_Profiles_Record_Model $transferToRecord
+	 */
 	public function delete($transferToRecord)
 	{
-		$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$profileId = $this->getId();
 		$transferProfileId = $transferToRecord->getId();
-		$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
-		$db->createCommand()->delete('vtiger_profile2tab', ['profileid' => $profileId])->execute();
-		$db->createCommand()->delete('vtiger_profile2standardpermissions', ['profileid' => $profileId])->execute();
-		$db->createCommand()->delete('vtiger_profile2utility', ['profileid' => $profileId])->execute();
-		$db->createCommand()->delete('vtiger_profile2field', ['profileid' => $profileId])->execute();
+		$dbCommand->delete('vtiger_profile2globalpermissions', ['profileid' => $profileId])->execute();
+		$dbCommand->delete('vtiger_profile2tab', ['profileid' => $profileId])->execute();
+		$dbCommand->delete('vtiger_profile2standardpermissions', ['profileid' => $profileId])->execute();
+		$dbCommand->delete('vtiger_profile2utility', ['profileid' => $profileId])->execute();
+		$dbCommand->delete('vtiger_profile2field', ['profileid' => $profileId])->execute();
 		$dataReader = (new App\Db\Query())->select(['roleid', 'profilecount' => new yii\db\Expression('count(profileid)')])
 				->from('vtiger_role2profile')
 				->where(['roleid' => (new App\Db\Query())->select(['roleid'])->from('vtiger_role2profile')->where(['profileid' => $profileId])])
@@ -480,15 +488,19 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleId = $row['roleid'];
 			$profileCount = $row['profilecount'];
 			if ($profileCount > 1) {
-				$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId, 'profileid' => $profileId])->execute();
+				$dbCommand->delete('vtiger_role2profile', ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			} else {
-				$db->createCommand()->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
+				$dbCommand->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			}
 		}
-		$db->createCommand()->delete('vtiger_profile', ['profileid' => $profileId])->execute();
+		$dbCommand->delete('vtiger_profile', ['profileid' => $profileId])->execute();
 		vtlib\Access::syncSharingAccess();
 	}
 
+	/**
+	 * Save record to database
+	 * @return int
+	 */
 	public function save()
 	{
 		$db = App\Db::getInstance();
