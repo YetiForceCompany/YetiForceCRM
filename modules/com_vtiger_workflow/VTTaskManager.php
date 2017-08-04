@@ -14,19 +14,13 @@
 class VTTaskManager
 {
 
-	function __construct($adb = false)
-	{
-		$this->adb = $adb;
-	}
-
 	/**
 	 * Save the task into the database.
 	 *
 	 * When a new task is saved for the first time a field is added to it called
 	 * id that stores the task id used in the database.
 	 *
-	 * @param $summary A summary of the task instance.
-	 * @param $task The task instance to save.
+	 * @param VTTask $task The task instance to save.
 	 * @return The id of the task
 	 */
 	public function saveTask($task)
@@ -49,14 +43,20 @@ class VTTaskManager
 		}
 	}
 
+	/**
+	 * Delete task by id
+	 * @param int $taskId
+	 */
 	public function deleteTask($taskId)
 	{
-		$adb = $this->adb;
-		$adb->pquery("delete from com_vtiger_workflowtasks where task_id=?", array($taskId));
+		App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtasks', ['task_id' => $taskId])->execute();
 	}
 
 	/**
 	 * Create a new class instance
+	 * @param string $taskType
+	 * @param int $workflowId
+	 * @return VTTask
 	 */
 	public function createTask($taskType, $workflowId)
 	{
