@@ -70,7 +70,7 @@ class WorkFlowScheduler
 
 		$scheduledWorkflows = $vtWorflowManager->getScheduledWorkflows($currentTimestamp);
 		foreach ($scheduledWorkflows as $i => &$workflow) {
-			$tm = new VTTaskManager($adb);
+			$tm = new VTTaskManager();
 			$tasks = $tm->getTasksForWorkflow($workflow->id);
 			if ($tasks) {
 				$records = $this->getEligibleWorkflowRecords($workflow);

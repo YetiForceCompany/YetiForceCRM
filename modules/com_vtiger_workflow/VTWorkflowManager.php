@@ -294,7 +294,7 @@ class VTWorkflowManager
 		$exp['schdayofweek'] = $workflow->schdayofweek;
 		$exp['schannualdates'] = $workflow->schannualdates;
 		$exp['tasks'] = [];
-		$tm = new VTTaskManager($this->adb);
+		$tm = new VTTaskManager();
 		$tasks = $tm->getTasksForWorkflow($workflow->id);
 		foreach ($tasks as $task) {
 			unset($task->id);
@@ -322,7 +322,7 @@ class VTWorkflowManager
 		$workflow->schdayofweek = $data['schdayofweek'];
 		$workflow->schannualdates = $data['schannualdates'];
 		$this->save($workflow);
-		$tm = new VTTaskManager($this->adb);
+		$tm = new VTTaskManager();
 		$tasks = $data['tasks'];
 		foreach ($tasks as $taskStr) {
 			$task = $tm->unserializeTask($taskStr);
