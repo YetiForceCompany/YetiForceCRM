@@ -41,23 +41,5 @@ class Vtiger_FindDuplicatesAjax_View extends Vtiger_FindDuplicates_View
 
 	  return $count;
 	  }
-
-
-
-	  /**
-	 * Function to get the page count for list
-	 * @return total number of pages
 	 */
-	/* function getPageCount(\App\Request $request){
-	  $listViewCount = $this->getListViewCount($request);
-	  $pagingModel = new Vtiger_Paging_Model();
-	  $pageLimit = $pagingModel->getPageLimit();
-	  $pageCount = ceil((int) $listViewCount / (int) $pageLimit);
-
-	  $result = [];
-	  $result['page'] = $pageCount;
-	  $response = new Vtiger_Response();
-	  $response->setResult($result);
-	  $response->emit();
-	  } */
 }
