@@ -14,15 +14,33 @@
 class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 {
 
+	/**
+	 * Profile field inactive
+	 * @var int
+	 */
 	const PROFILE_FIELD_INACTIVE = 0;
+
+	/**
+	 * Profile field readonly
+	 * @var int
+	 */
 	const PROFILE_FIELD_READONLY = 1;
+
+	/**
+	 * Profile field readwrite
+	 * @var int
+	 */
 	const PROFILE_FIELD_READWRITE = 2;
 
+	/**
+	 * Field locked UI types
+	 * @var array
+	 */
 	private static $fieldLockedUiTypes = array('70');
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Profile Id
+	 * @return int Profile Id
 	 */
 	public function getId()
 	{
@@ -31,7 +49,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Profile Id
+	 * @return int Profile Id
 	 */
 	protected function setId($id)
 	{
@@ -114,6 +132,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->global_permissions;
 	}
 
+	/**
+	 * Check if has global read permission
+	 * @return boolean
+	 */
 	public function hasGlobalReadPermission()
 	{
 		$globalPermissions = $this->getGlobalPermissions();
@@ -124,6 +146,10 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Check if has global write permission
+	 * @return boolean
+	 */
 	public function hasGlobalWritePermission()
 	{
 		$globalPermissions = $this->getGlobalPermissions();
@@ -135,6 +161,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Check if has module permission
+	 * @param string $module
+	 * @return boolean
+	 */
 	public function hasModulePermission($module)
 	{
 		$moduleModule = $this->getProfileTabModel($module);
@@ -146,6 +177,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Check if has module action permission
+	 * @param string $module
+	 * @param Vtiger_Action_Model $action
+	 * @return boolean
+	 */
 	public function hasModuleActionPermission($module, $action)
 	{
 		$actionId = false;
@@ -173,6 +210,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Check if has module field permission
+	 * @param string $module
+	 * @param int $field
+	 * @return boolean
+	 */
 	public function hasModuleFieldPermission($module, $field)
 	{
 		$fieldModel = $this->getProfileTabFieldModel($module, $field);
@@ -184,6 +227,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Check if has module field write permission
+	 * @param string $module
+	 * @param int $field
+	 * @return boolean
+	 */
 	public function hasModuleFieldWritePermission($module, $field)
 	{
 		$fieldModel = $this->getProfileTabFieldModel($module, $field);
@@ -196,6 +245,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Return module field permission value
+	 * @param string $module
+	 * @param int $field
+	 * @return int
+	 */
 	public function getModuleFieldPermissionValue($module, $field)
 	{
 		if (!$this->hasModuleFieldPermission($module, $field)) {
