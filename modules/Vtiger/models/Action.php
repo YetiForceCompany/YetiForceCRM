@@ -14,28 +14,59 @@
 class Vtiger_Action_Model extends \App\Base
 {
 
-	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');
-	public static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
+	/**
+	 * Standard actions
+	 * @var array
+	 */
+	public static $standardActions = [0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView'];
+
+	/**
+	 * Non configurable actions
+	 * @var array
+	 */
+	public static $nonConfigurableActions = ['Save', 'index', 'SavePriceBook', 'SaveVendor',
 		'DetailViewAjax', 'PriceBookEditView', 'QuickCreate', 'VendorEditView',
 		'DeletePriceBook', 'DeleteVendor', 'Popup', 'PriceBookDetailView',
-		'VendorDetailView', 'Merge');
-	public static $utilityActions = array(5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling');
+		'VendorDetailView', 'Merge'];
 
+	/**
+	 * Utility actions
+	 * @var array
+	 */
+	public static $utilityActions = [5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling'];
+
+	/**
+	 * Return action id
+	 * @return int
+	 */
 	public function getId()
 	{
 		return $this->get('actionid');
 	}
 
+	/**
+	 * Return action name
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->get('actionname');
 	}
 
+	/**
+	 * Check if is a utility tool
+	 * @return boolean
+	 */
 	public function isUtilityTool()
 	{
 		return false;
 	}
 
+	/**
+	 * Check if module is enabled
+	 * @param Vtiger_Module_Model $module
+	 * @return boolean
+	 */
 	public function isModuleEnabled($module)
 	{
 		$db = PearDatabase::getInstance();
@@ -55,6 +86,11 @@ class Vtiger_Action_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * Create instance from record row
+	 * @param array $row
+	 * @return Vtiger_Action_Model
+	 */
 	public static function getInstanceFromRow($row)
 	{
 		$className = 'Vtiger_Action_Model';
@@ -66,8 +102,18 @@ class Vtiger_Action_Model extends \App\Base
 		return $actionModel->setData($row);
 	}
 
+	/**
+	 * Cached instances
+	 * @var array
+	 */
 	protected static $cachedInstances = NULL;
 
+	/**
+	 * Return instance
+	 * @param int $value
+	 * @param bool $force
+	 * @return Vtiger_Action_Model|null
+	 */
 	public static function getInstance($value, $force = false)
 	{
 		if (!self::$cachedInstances || $force) {
@@ -127,7 +173,7 @@ class Vtiger_Action_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get all instances models of basic action 
+	 * Function to get all instances models of basic action
 	 * @param boolean $configurable
 	 * @return self[]
 	 */
