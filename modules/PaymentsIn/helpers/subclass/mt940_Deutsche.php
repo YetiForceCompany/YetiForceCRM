@@ -73,40 +73,6 @@ class mt940_Deutsche extends mt940
 			'contAccount' => ''
 		);
 		$transaction['title'] = $value;
-		/*
-		  $delimiter = substr($value, 3, 1);
-		  $tab = explode($delimiter, substr($value, 4));
-		  foreach($tab as $line) {
-		  $subTag = substr($line, 0, 2);
-		  $subVal = substr($line, 2);
-		  switch($subTag) {
-		  case '00':
-		  $transaction['typeCode'] = $subVal;
-		  break;
-		  case '10':
-		  $transaction['number'] = $subVal;
-		  break;
-		  case '20':
-		  case '21':
-		  case '22':
-		  case '23':
-		  case '24':
-		  case '25':
-		  case '26':
-		  $transaction['title'] .= $subVal;
-		  break;
-		  case '27':
-		  case '28':
-		  case '29':
-		  $transaction['contName'] .= $subVal;
-		  break;
-		  case '38':
-		  $transaction['contAccount'] = $subVal;
-		  break;
-		  default:
-		  break;
-		  }
-		  } */
 		$this->operations[count($this->operations) - 1]['details'] = $transaction;
 	}
 

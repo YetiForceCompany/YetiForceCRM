@@ -86,7 +86,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
-		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
+		$navigationInfo = false;
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
