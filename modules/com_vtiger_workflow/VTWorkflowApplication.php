@@ -22,7 +22,7 @@ class VTWorkflowApplication
 
 	function currentUrl()
 	{
-		/*
+		/**
 		  $req = $this->request;
 		  $url = "index.php?module={$this->name}&action={$this->action}";
 		  if($this->action=='editworkflow'){
