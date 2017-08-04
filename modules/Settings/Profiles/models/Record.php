@@ -93,20 +93,21 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return 'index.php?module=Profiles&parent=Settings&view=DeleteAjax&record=' . $this->getId();
 	}
 
+	/**
+	 * Return global permissions
+	 * @return array
+	 */
 	public function getGlobalPermissions()
 	{
 		if (!isset($this->global_permissions)) {
 			$globalPermissions = [];
 			$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] = $globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] = Settings_Profiles_Module_Model::GLOBAL_ACTION_DEFAULT_VALUE;
 			if ($this->getId()) {
-				$dataReader = (new App\Db\Query())
+				$globalPermissions = (new App\Db\Query())
 						->select(['globalactionid', 'globalactionpermission'])
 						->from('vtiger_profile2globalpermissions')
 						->where(['profileid' => $this->getId()])
-						->createCommand()->query();
-				while ($row = $dataReader->read()) {
-					$globalPermissions[$row['globalactionid']] = $row['globalactionpermission'];
-				}
+						->createCommand()->queryAllByGroup(0);
 			}
 			$this->global_permissions = $globalPermissions;
 		}
