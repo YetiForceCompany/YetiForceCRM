@@ -60,7 +60,9 @@ class Users_Save_Action extends Vtiger_Save_Action
 	{
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
-
+		if (!empty($_FILES[0]['name'])) {
+			$request->set('imagename', $_FILES[0]['name']);
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);

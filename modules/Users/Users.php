@@ -457,26 +457,6 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/**
-	 * Function to insert values into the attachment table
-	 * @param $id -- entity id:: Type integer
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoAttachment($id, $module)
-	{
-
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-
-		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
-				$this->uploadAndSaveFile($id, $module, $files);
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
-	}
-
 	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
@@ -573,7 +553,7 @@ class Users extends CRMEntity
 		])->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 		//upload the file in server
-		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId . "_" . $binFile);
+		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId);
 		if ($success) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,

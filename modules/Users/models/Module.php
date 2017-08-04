@@ -315,6 +315,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
 			App\Session::set('language', $recordModel->get('language'));
 		}
+		foreach ($_FILES as $fileindex => $files) {
+			if ($files['name'] !== '' && $files['size'] > 0) {
+				$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
+				$recordModel->getEntity()->uploadAndSaveFile($recordModel->getId(), $moduleName, $files);
+			}
+		}
 		Vtiger_Loader::includeOnce('~/modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($recordModel->getId());
 		createUserSharingPrivilegesfile($recordModel->getId());

@@ -506,10 +506,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$imageDetails = [];
 		$recordId = $this->getId();
 		if ($recordId) {
-			$result = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
+			$row = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
 					->leftJoin('vtiger_salesmanattachmentsrel', 'vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
 					->where(['vtiger_salesmanattachmentsrel.smid' => $recordId])->one();
-			if ($result) {
+			if ($row) {
 				$imageDetails[] = [
 					'id' => $row['attachmentsid'],
 					'orgname' => \App\Purifier::decodeHtml($row['name']),
