@@ -639,7 +639,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$time = $row['laststart'] + ( $config['time'] * 60);
 			if (strtotime("now") > $time) {
 				$return = $row['laststart'];
-				//return array( date("Y-m-d H:i:s"), date("Y-m-d H:i:s", $time) , $config['time'] );
 			}
 		}
 		return $return;

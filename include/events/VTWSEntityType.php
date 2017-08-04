@@ -31,7 +31,6 @@ class VTWSEntityType
 	function __construct($entityTypeName, $user)
 	{
 		$describeResult = vtws_describe($entityTypeName, $user);
-		//print_r($describeResult);
 		$this->entityTypeName = $entityTypeName;
 		$this->description = $describeResult;
 	}
