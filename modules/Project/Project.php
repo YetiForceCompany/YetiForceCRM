@@ -380,8 +380,8 @@ class Project extends CRMEntity
 	 * that queries the child module's table (column of the uitype10 field)
 	 *
 	 * @see data/CRMEntity#save_related_module($module, $crmid, $with_module, $with_crmid)
+	 * function save_related_module($module, $crmid, $with_module, $with_crmid) {    }
 	 */
-	//function save_related_module($module, $crmid, $with_module, $with_crmid) {    }
 
 	/**
 	 * Here we override the parent's method

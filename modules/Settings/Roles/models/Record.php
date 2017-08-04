@@ -384,15 +384,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2role', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2rs', ['roleandsubid' => $roleId])->execute();
-		/*
-		  $noOfUsers = $db->num_rows($user_result);
-		  $array_users = [];
-		  if($noOfUsers > 0) {
-		  for($i=0; $i<$noOfUsers; ++$i) {
-		  $array_users[] = $db->query_result($user_result, $i, 'userid');
-		  }
-		  }
-		 */
 		//delete handling for sharing rules
 		deleteRoleRelatedSharingRules($roleId);
 		$db->createCommand()->delete('vtiger_role', ['roleid' => $roleId])->execute();
