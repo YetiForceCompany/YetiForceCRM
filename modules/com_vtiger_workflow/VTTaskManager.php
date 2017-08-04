@@ -158,7 +158,7 @@ class VTTaskManager
 	/**
 	 * Require task
 	 * @param string $taskType
-	 * @param VTTask $taskTypeInstance
+	 * @param VTTaskType $taskTypeInstance
 	 */
 	private function requireTask($taskType, $taskTypeInstance = '')
 	{
@@ -175,7 +175,7 @@ class VTTaskManager
 	/**
 	 * Return template path
 	 * @param string $moduleName
-	 * @param VTTask $taskTypeInstance
+	 * @param VTTaskType $taskTypeInstance
 	 * @return string
 	 */
 	public function retrieveTemplatePath($moduleName, $taskTypeInstance)
@@ -190,6 +190,9 @@ class VTTaskManager
 	}
 }
 
+/**
+ * VTiger workflow VTTask class
+ */
 abstract class VTTask
 {
 
