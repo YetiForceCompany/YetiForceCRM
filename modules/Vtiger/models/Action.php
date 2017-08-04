@@ -76,7 +76,7 @@ class Vtiger_Action_Model extends \App\Base
 			return true;
 		}
 		$tabId = $module->getId();
-		$query = (new App\Db\Query())->select('1')->from('vtiger_profile2standardpermissions')->where(['tabid' => $tabId, 'operation' => $this->getId()]);
+		$query = (new App\Db\Query())->select(['profileid'])->from('vtiger_profile2standardpermissions')->where(['tabid' => $tabId, 'operation' => $this->getId()]);
 		if ($query->count()) {
 			return true;
 		}
