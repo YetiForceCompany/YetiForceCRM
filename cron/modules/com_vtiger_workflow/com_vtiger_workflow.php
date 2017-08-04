@@ -30,8 +30,8 @@ $adb = PearDatabase::getInstance();
 $workflowScheduler = new WorkFlowScheduler($adb);
 $workflowScheduler->queueScheduledWorkflowTasks();
 $readyTasks = (new VTTaskQueue($adb))->getReadyTasks();
-$tm = new VTTaskManager($adb);
-foreach ($readyTasks as $taskDetails) {
+$tm = new VTTaskManager();
+foreach ($readyTasks as $tasdkDetails) {
 	list($taskId, $entityId, $taskContents) = $taskDetails;
 	$task = $tm->retrieveTask($taskId);
 	//If task is not there then continue
