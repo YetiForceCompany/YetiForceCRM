@@ -131,14 +131,10 @@ class VTTaskManager
 	 */
 	private function getTasksForResult($result)
 	{
-		$adb = $this->adb;
-		$it = new SqlResultIterator($adb, $result);
 		$tasks = [];
-		foreach ($it as $row) {
-			$text = $row->task;
-
-			$this->requireTask(self::taskName($text));
-			$tasks[] = unserialize($text);
+		foreach ($result as $row) {
+			$this->requireTask(self::taskName($row['task']));
+			$tasks[] = unserialize($row['task']);
 		}
 		return $tasks;
 	}
@@ -196,12 +192,27 @@ class VTTaskManager
 abstract class VTTask
 {
 
+	/**
+	 * Task contents
+	 * @var string
+	 */
 	var $contents;
 
+	/**
+	 * Do task
+	 * @param Vtiger_Record_Model
+	 */
 	public abstract function doTask($recordModel);
 
+	/**
+	 * Return field names
+	 */
 	public abstract function getFieldNames();
 
+	/**
+	 * Return time field list
+	 * @return array
+	 */
 	public function getTimeFieldList()
 	{
 		return [];
