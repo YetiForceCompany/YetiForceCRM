@@ -90,8 +90,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new VTWorkflowManager();
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
@@ -114,8 +113,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new VTWorkflowManager();
 		$wm->delete($this->getId());
 	}
 
@@ -182,16 +180,14 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getInstance($workflowId)
 	{
-		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new VTWorkflowManager();
 		$wf = $wm->retrieve($workflowId);
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
 	public static function getCleanInstance($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new VTWorkflowManager();
 		$wf = $wm->newWorkflow($moduleName);
 		$wf->filtersavedinnew = 6;
 		return self::getInstanceFromWorkflowObject($wf);
@@ -410,8 +406,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function updateNextTriggerTime()
 	{
-		$db = PearDatabase::getInstance();
-		$wm = new VTWorkflowManager($db);
+		$wm = new VTWorkflowManager();
 		$wf = $this->getWorkflowObject();
 		$wm->updateNexTriggerTime($wf);
 	}

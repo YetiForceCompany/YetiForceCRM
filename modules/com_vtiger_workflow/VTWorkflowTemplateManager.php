@@ -19,7 +19,7 @@ class VTWorkflowTemplateManager
 	/**
 	 * Create anew template instance from a workflow
 	 *
-	 * This template instance will not be saved. The save 
+	 * This template instance will not be saved. The save
 	 * will have to be done explicitly.
 	 *
 	 * @param $title The title of the template
@@ -27,8 +27,7 @@ class VTWorkflowTemplateManager
 	 */
 	public function newTemplate($title, $workflow)
 	{
-		$adb = $this->adb;
-		$wms = new VTWorkflowManager($adb);
+		$wms = new VTWorkflowManager();
 		$str = $wms->serializeWorkflow($workflow);
 		$template = new VTWorkflowTemplate();
 		$template->title = $title;
@@ -67,8 +66,7 @@ class VTWorkflowTemplateManager
 	 */
 	public function createWorkflow($template)
 	{
-		$adb = $this->adb;
-		$wfm = new VTWorkflowManager($adb);
+		$wfm = new VTWorkflowManager();
 		return $wfm->deserializeWorkflow($template->template);
 	}
 
@@ -87,7 +85,7 @@ class VTWorkflowTemplateManager
 
 	/**
 	 * Get all templates
-	 * 
+	 *
 	 * Get all the templates as an array
 	 *
 	 * @return An array containing template objects.
@@ -103,7 +101,7 @@ class VTWorkflowTemplateManager
 	 * Save a template
 	 *
 	 * If the object is a newly created template it
-	 * will be added to the database and a field id containing 
+	 * will be added to the database and a field id containing
 	 * the new id will be added to the object.
 	 *
 	 * @param $template The template object to save.
@@ -120,8 +118,8 @@ class VTWorkflowTemplateManager
 		} else {
 			$templateId = $adb->getUniqueID("com_vtiger_workflowtemplates");
 			$template->id = $templateId;
-			$adb->pquery("insert into com_vtiger_workflowtemplates 
-							(template_id, title, module_name, template) 
+			$adb->pquery("insert into com_vtiger_workflowtemplates
+							(template_id, title, module_name, template)
 							values (?, ?, ?, ?)", array($templateId, $template->title,
 				$template->moduleName, $template->template));
 			return $templateId;
@@ -142,7 +140,7 @@ class VTWorkflowTemplateManager
 	/**
 	 * Dump all the templates in vtiger into a string
 	 *
-	 * This can be used for exporting templates from one 
+	 * This can be used for exporting templates from one
 	 * machine to another
 	 *
 	 * @return The string dump of the templates.
@@ -201,5 +199,5 @@ class VTWorkflowTemplateManager
 
 class VTWorkflowTemplate
 {
-	
+
 }
