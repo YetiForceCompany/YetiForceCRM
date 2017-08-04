@@ -43,13 +43,7 @@ class PrivilegeUtil
 	 */
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
-		\App\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
-		$result = $adb->pquery($query, array($recordId));
-		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getHelpDeskRelatedAccounts method ...');
-		return $accountid;
+		return (new Db\Query)->select(['parent_id'])->from('vtiger_troubletickets')->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.parent_id = vtiger_crmentity.crmid')->where(['ticketid' => $recordId, 'vtiger_crmentity.setype' => 'Accounts'])->scalar();
 	}
 
 	protected static $datashareRelatedCache = false;
@@ -348,12 +342,8 @@ class PrivilegeUtil
 		$adb = \PearDatabase::getInstance();
 		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
-		$query = "SELECT vtiger_user2role.userid FROM vtiger_user2role INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ?";
-		$result = $adb->pquery($query, [$parentRole . '%']);
-		$users = [];
-		while ($userId = $adb->getSingleValue($result)) {
-			$users[] = $userId;
-		}
+		$users = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->where(['like', 'vtiger_role.parentrole', "$parentRole%", false])->column();
 		static::$usersBySubordinateCache[$roleId] = $users;
 		return $users;
 	}
