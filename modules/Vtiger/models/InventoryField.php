@@ -540,21 +540,21 @@ class Vtiger_InventoryField_Model extends App\Base
 		return $summaryFields;
 	}
 
+	/**
+	 * Function return autocomplete fields
+	 * @return array
+	 */
 	public function getAutoCompleteFields()
 	{
-		$instance = Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
-		if ($instance) {
-			return $instance;
+		if (\App\Cache::has('AutoCompleteFields', $this->get('module'))) {
+			return \App\Cache::get('AutoCompleteFields', $this->get('module'));
 		}
-
-		$db = PearDatabase::getInstance();
-		$table = $this->getTableName('autofield');
-		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
+		$dataReader = (new \App\Db\Query())->from($this->getTableName('autofield'))->createCommand()->query();
 		$fields = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$fields[$row['tofield']] = $row;
 		}
-		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
+		App\Cache::save('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
 
