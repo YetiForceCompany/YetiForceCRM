@@ -262,6 +262,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Check if module field is locked
+	 * @param string $module
+	 * @param int $field
+	 * @return boolean
+	 */
 	public function isModuleFieldLocked($module, $field)
 	{
 		$fieldModel = $this->getProfileTabFieldModel($module, $field);
@@ -271,6 +277,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Return profile tab model
+	 * @param Vtiger_Module_Model $module
+	 * @return bool|array
+	 */
 	public function getProfileTabModel($module)
 	{
 		$tabId = false;
@@ -288,6 +299,12 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $moduleModel;
 	}
 
+	/**
+	 * Return profile tab field model
+	 * @param string $module
+	 * @param Vtiger_Field_Model $field
+	 * @return bool|array
+	 */
 	public function getProfileTabFieldModel($module, $field)
 	{
 		$profileTabModel = $this->getProfileTabModel($module);
@@ -324,6 +341,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->profile_tab_permissions;
 	}
 
+	/**
+	 * Return profile tab field permissions
+	 * @param int $tabId
+	 * @return array
+	 */
 	public function getProfileTabFieldPermissions($tabId)
 	{
 		if (!isset($this->profile_tab_field_permissions[$tabId])) {
