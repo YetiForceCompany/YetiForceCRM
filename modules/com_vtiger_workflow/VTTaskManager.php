@@ -194,7 +194,7 @@ abstract class VTTask
 
 	/**
 	 * Task contents
-	 * @var string
+	 * @var Vtiger_Record_Model
 	 */
 	var $contents;
 
@@ -218,25 +218,43 @@ abstract class VTTask
 		return [];
 	}
 
+	/**
+	 * Return content
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return Vtiger_Record_Model
+	 */
 	public function getContents($recordModel)
 	{
 		return $this->contents;
 	}
 
+	/**
+	 * Set contents
+	 * @param Vtiger_Record_Model $recordModel
+	 */
 	public function setContents($recordModel)
 	{
 		$this->contents = $recordModel;
 	}
 
+	/**
+	 * Check if has contents
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return boolean
+	 */
 	public function hasContents($recordModel)
 	{
-		$taskContents = $this->getContents($recordModel);
-		if ($taskContents) {
+		if ($this->getContents($recordModel)) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Return formatted time for timepicker
+	 * @param string $time
+	 * @return string
+	 */
 	public function formatTimeForTimePicker($time)
 	{
 		list($h, $m, $s) = explode(':', $time);
@@ -246,34 +264,66 @@ abstract class VTTask
 	}
 }
 
+/**
+ * VTTaskType class
+ */
 class VTTaskType
 {
 
+	/**
+	 * Data array
+	 * @var array
+	 */
 	var $data;
 
+	/**
+	 * Return value for $data key
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function get($key)
 	{
 		return $this->data[$key];
 	}
 
+	/**
+	 * Set value for $data key
+	 * @param string $key
+	 * @param mixed $value
+	 * @return $this
+	 */
 	public function set($key, $value)
 	{
 		$this->data[$key] = $value;
 		return $this;
 	}
 
+	/**
+	 * Replace $data array
+	 * @param array $valueMap
+	 * @return $this
+	 */
 	public function setData($valueMap)
 	{
 		$this->data = $valueMap;
 		return $this;
 	}
 
+	/**
+	 * Return instance of self with new $data array
+	 * @param array $values
+	 * @return VTTaskType
+	 */
 	public static function getInstance($values)
 	{
 		$instance = new self();
 		return $instance->setData($values);
 	}
 
+	/**
+	 * Registers new task type in database
+	 * @param array $taskType
+	 */
 	public static function registerTaskType($taskType)
 	{
 		$adb = PearDatabase::getInstance();
