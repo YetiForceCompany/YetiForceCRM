@@ -330,7 +330,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (App\Language::getAll(['prefix' => $params['prefix']])) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
-		self::copyDir('languages/en_us/', 'languages/' . $params['prefix'] . '/');
+		$destiny = 'languages/' . $params['prefix'] . '/';
+		mkdir($destiny);
+		vtlib\Functions::recurseCopy('languages/en_us/', $destiny);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),
@@ -408,27 +410,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		closedir($fd);
 		rmdir($dir);
-	}
-
-	/**
-	 * Function copy dir
-	 * @param string $src
-	 * @param string $dst
-	 */
-	public static function copyDir($src, $dst)
-	{
-		$dir = opendir($src);
-		@mkdir($dst);
-		while (false !== ( $file = readdir($dir))) {
-			if (( $file != '.' ) && ( $file != '..' )) {
-				if (is_dir($src . '/' . $file)) {
-					self::copyDir($src . '/' . $file, $dst . '/' . $file);
-				} else {
-					copy($src . '/' . $file, $dst . '/' . $file);
-				}
-			}
-		}
-		closedir($dir);
 	}
 
 	public function setAsDefault($lang)
