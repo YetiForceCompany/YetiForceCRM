@@ -32,12 +32,12 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$userId = $request->get('userid');
+		$userId = $request->getInteger('userid');
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
-			if ($mode === 'savePassword' && (isset($userId) && $currentUserModel->getId() != $userId)) {
+			if ($mode === 'savePassword' && ($userId && (int) $currentUserModel->getId() !== $userId)) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
-			} else if ($mode != 'savePassword' && ($currentUserModel->getId() != $request->get('record'))) {
+			} else if ($mode !== 'savePassword' && ((int) $currentUserModel->getId() !== $request->getInteger('record'))) {
 				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
@@ -49,7 +49,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	 */
 	public function process(\App\Request $request)
 	{
-
 		$mode = $request->get('mode');
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

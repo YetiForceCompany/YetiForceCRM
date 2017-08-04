@@ -15,8 +15,7 @@ class Users_ChangePassword_View extends Vtiger_BasicModal_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$record = $request->get('record');
-		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
+		if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
 			return true;
 		} else {
 			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
