@@ -45,21 +45,6 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		return $fields;
 	}
 
-	public static function compare_vale($actions, $item)
-	{
-		if (strpos($actions, ',')) {
-			$actionsTab = explode(",", $actions);
-			if (in_array($item, $actionsTab)) {
-				$return = true;
-			} else {
-				$return = false;
-			}
-		} else {
-			$return = $actions == $item ? true : false;
-		}
-		return $return;
-	}
-
 	public static function save($params)
 	{
 		$db = App\Db::getInstance();
