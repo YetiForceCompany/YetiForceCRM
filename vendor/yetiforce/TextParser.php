@@ -20,8 +20,8 @@ class TextParser
 		'LBL_PORTAL_DETAIL_VIEW_URL' => '$(record : PortalDetailViewURL)$',
 		'LBL_RECORD_ID' => '$(record : RecordId)$',
 		'LBL_RECORD_LABEL' => '$(record : RecordLabel)$',
-		'LBL_LIST_OF_CHANGES_IN_RECORD' => '(record: ChangesListChanges)',
-		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(record: ChangesListValues)',
+		'LBL_LIST_OF_CHANGES_IN_RECORD' => '$(record : ChangesListChanges)$',
+		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '$(record : ChangesListValues)$',
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
 		'LBL_RELATED_RECORD_LABEL' => '$(relatedRecord : parent_id|email1|Accounts)$, $(relatedRecord : parent_id|email1)$',
 		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
@@ -414,13 +414,18 @@ class TextParser
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
 						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . PHP_EOL;
 					} else {
-						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$ $(translate: LBL_FROM)$ $oldValue $(translate: LBL_TO)$ " .
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " .
 							$currentValue . PHP_EOL;
 					}
 				}
 				return $value;
 			case 'ChangesListValues':
-				foreach ($this->recordModel->getPreviousValue() as $fieldName => $oldValue) {
+				$changes = $this->recordModel->getPreviousValue();
+				if (empty($changes)) {
+					$changes = array_filter($this->recordModel->getData());
+					unset($changes['createdtime'], $changes['modifiedtime'], $changes['id'], $changes['newRecord'], $changes['modifiedby']);
+				}
+				foreach ($changes as $fieldName => $oldValue) {
 					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
 					if (!$fieldModel) {
 						continue;
@@ -429,7 +434,7 @@ class TextParser
 					if ($this->withoutTranslations !== true) {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . PHP_EOL;
 					} else {
-						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$: $currentValue" . PHP_EOL;
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . PHP_EOL;
 					}
 				}
 				return $value;
@@ -526,6 +531,7 @@ class TextParser
 		switch ($fieldModel->getFieldDataType()) {
 			case 'boolean':
 				$value = ($value === 1) ? 'LBL_YES' : 'LBL_NO';
+				$value = "$(translate : $value)$";
 				break;
 			case 'multipicklist':
 				$value = explode(' |##| ', $value);
@@ -569,7 +575,7 @@ class TextParser
 				$template = $fieldModel->getFieldParams();
 				$row = Fields\Tree::getValueByTreeId($template, $value);
 				$parentName = '';
-				$name = '';
+				$value = '';
 				if ($row) {
 					if ($row['depth'] > 0) {
 						$parenttrre = $row['parenttrre'];
@@ -579,14 +585,14 @@ class TextParser
 						$parentRow = Fields\Tree::getValueByTreeId($template, $parent);
 						$parentName = "($(translate : $this->moduleName|{$parentRow['name']})$) ";
 					}
-					$name = $parentName . "$(translate : $this->moduleName|{$row['name']})$";
+					$value = $parentName . "$(translate : $this->moduleName|{$row['name']})$";
 				}
 				break;
 			default:
 				return $fieldModel->getDisplayValue($value, $this->record, $this->recordModel, true);
 				break;
 		}
-		return "$(translate : $value)$";
+		return $value;
 	}
 
 	/**

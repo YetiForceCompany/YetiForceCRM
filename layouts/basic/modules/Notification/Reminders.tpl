@@ -28,9 +28,13 @@
 							<div class="moreContent">
 								{assign var=FULL_TEXT value=$RECORD->getMessage()}
 								<span class="teaserContent">
-									{Vtiger_Util_Helper::toSafeHTML($FULL_TEXT)|substr:0:100}
+									{if $FULL_TEXT|strlen <= 200}
+										{$FULL_TEXT}
+									{else}
+										{Vtiger_Util_Helper::toSafeHTML($FULL_TEXT)|substr:0:200}
+									{/if}
 								</span>
-								{if $FULL_TEXT|strlen > 100}
+								{if $FULL_TEXT|strlen > 200}
 									<span class="fullContent hide">
 										{$FULL_TEXT}
 									</span>
