@@ -28,7 +28,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$textParser = \App\TextParser::getInstance();
 			$textParser->setContent($value)->parseTranslations();
 		}
-		return $textParser->getContent();
+		return nl2br($textParser->getContent());
 	}
 
 	/**
