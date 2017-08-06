@@ -19,20 +19,17 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	public function getSettingLinks()
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
-
-		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
-
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name =  'OSSMail' AND description =  'OSSMail'", true);
-
-		$settingsLinks[] = array(
+		$fieldId = (new App\Db\Query())->select(['fieldid'])
+			->from('vtiger_settings_field')
+			->where(['name' => 'OSSMail', 'description' => 'OSSMail'])
+			->scalar();
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $db->getSingleValue($result),
-			'linkicon' => $layoutEditorImagePath
-		);
-
+			'linkurl' => 'index.php?module=OSSMail&parent=Settings&view=index&block=4&fieldid=' . $fieldId,
+			'linkicon' => Vtiger_Theme::getImagePath('LayoutEditor.gif')
+		];
 		return $settingsLinks;
 	}
 

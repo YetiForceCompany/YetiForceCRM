@@ -89,26 +89,23 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		return $leftJoin;
 	}
 
+	/**
+	 * Update sequence number
+	 * @param array $modulesSequence
+	 */
 	public function updateSequenceNumber($modulesSequence)
 	{
-
-		\App\Log::trace("Entering Settings_Search_Module_Model::updateSequenceNumber(" . $modulesSequence . ") method ...");
+		\App\Log::trace('Entering Settings_Search_Module_Model::updateSequenceNumber() method ...');
 		$tabIdList = [];
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE vtiger_entityname SET ';
-		$query .= ' sequence= CASE ';
+		$db = App\Db::getInstance();
+		$case = ' CASE ';
 		foreach ($modulesSequence as $newModuleSequence) {
 			$tabId = $newModuleSequence['tabid'];
-			$sequence = $newModuleSequence['sequence'];
 			$tabIdList[] = $tabId;
-			$query .= ' WHEN tabid=' . $tabId . ' THEN ' . $sequence;
+			$case .= " WHEN tabid = {$db->quoteValue($tabId)} THEN {$db->quoteValue($newModuleSequence['sequence'])}";
 		}
-
-		$query .= ' END ';
-
-		$query .= sprintf(' WHERE tabid IN (%s)', generateQuestionMarks($tabIdList));
-		$db->pquery($query, [$tabIdList]);
-		\App\Log::trace("Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...");
+		$case .= ' END ';
+		$db->createCommand()->update('vtiger_entityname', ['sequence' => new yii\db\Expression($case)], ['tabid' => $tabIdList])->execute();
+		\App\Log::trace('Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...');
 	}
 }

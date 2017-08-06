@@ -61,13 +61,14 @@ class Vtiger_Block_Model extends vtlib\Block
 		return ($this->iscustom != 0) ? true : false;
 	}
 
+	/**
+	 * Update block
+	 */
 	public function __update()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE vtiger_blocks SET blocklabel=?,display_status=? WHERE blockid=?';
-		$params = array($this->label, $this->display_status, $this->id);
-		$db->pquery($query, $params);
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_blocks', ['blocklabel' => $this->label, 'display_status' => $this->display_status], ['blockid' => $this->id])
+			->execute();
 	}
 
 	/**
@@ -181,48 +182,57 @@ class Vtiger_Block_Model extends vtlib\Block
 		return $blockModel;
 	}
 
+	/**
+	 * Update sequence number of blocks
+	 * @param integer[] $sequenceList
+	 */
 	public static function updateSequenceNumber($sequenceList)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_blocks SET sequence = CASE blockid ';
+		$db = App\Db::getInstance();
+		$case = ' CASE blockid ';
 		foreach ($sequenceList as $blockId => $sequence) {
-			$query .= ' WHEN ' . $blockId . ' THEN ' . $sequence;
+			$case .= " WHEN {$db->quoteValue($blockId)} THEN {$db->quoteValue($sequence)}";
 		}
-		$query .= sprintf(' END WHERE blockid IN (%s)', generateQuestionMarks($sequenceList));
-		$db->pquery($query, array_keys($sequenceList));
+		$case .= ' END';
+		$db->createCommand()->update('vtiger_blocks', ['sequence' => new yii\db\Expression($case)], ['blockid' => array_keys($sequenceList)])
+			->execute();
 	}
 
+	/**
+	 * Check if fields are in block
+	 * @param integer $blockId
+	 * @return boolean
+	 */
 	public static function checkFieldsExists($blockId)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT 1 FROM vtiger_field WHERE block=?';
-		$result = $db->pquery($query, array($blockId));
-		return ($db->num_rows($result) > 0) ? true : false;
+		return (new App\Db\Query())->from('vtiger_field')
+				->where(['block' => $blockId])
+				->exists();
 	}
 
 	/**
 	 * Function to push all blocks down after sequence number
-	 * @param type $fromSequence 
+	 * @param int $fromSequence
+	 * @param int $sourceModuleTabId
 	 */
 	public static function pushDown($fromSequence, $sourceModuleTabId)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_blocks SET sequence=sequence+1 WHERE sequence > ? and tabid=?';
-		$db->pquery($query, array($fromSequence, $sourceModuleTabId));
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_blocks', ['sequence' => new yii\db\Expression('sequence + 1')], ['and', ['>', 'sequence', $fromSequence], ['tabid' => $sourceModuleTabId]])
+			->execute();
 	}
 
+	/**
+	 * Function to get number sequence of blocks
+	 * @param integer $moduleTabId
+	 * @return array
+	 */
 	public static function getAllBlockSequenceList($moduleTabId)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT blockid,sequence FROM vtiger_blocks where tabid=?';
-		$result = $db->pquery($query, array($moduleTabId));
-		$response = [];
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
-			$response[$row['blockid']] = $row['sequence'];
-		}
-		return $response;
+		return (new App\Db\Query())->select(['blockid', 'sequence'])
+				->from('vtiger_blocks')
+				->where(['tabid' => $moduleTabId])
+				->createCommand()->queryAllByGroup(0);
 	}
 
 	/**

@@ -827,17 +827,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		if (!empty($this->fields)) {
 			$fieldList = $this->getFields();
-			foreach ($fieldList as $fieldName => $fieldModel) {
+			foreach ($fieldList as $fieldModel) {
 				if ($fieldModel->get('uitype') === '4') {
 					return true;
 				}
 			}
 		} else {
-			$db = PearDatabase::getInstance();
-			$query = 'SELECT 1 FROM vtiger_field WHERE uitype=4 and tabid=?';
-			$params = array($this->getId());
-			$result = $db->pquery($query, $params);
-			return $db->num_rows($result) > 0 ? true : false;
+			return (new App\Db\Query())->from('vtiger_field')
+					->where(['uitype' => 4, 'tabid' => $this->getId()])
+					->exists();
 		}
 		return false;
 	}
