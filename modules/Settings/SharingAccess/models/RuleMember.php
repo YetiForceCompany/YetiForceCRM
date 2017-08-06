@@ -77,58 +77,46 @@ class Settings_SharingAccess_RuleMember_Model extends \App\Base
 		return $type . ':' . $id;
 	}
 
+	/**
+	 * Function to get instance of class
+	 * @param integer $qualifiedId
+	 * @return self
+	 */
 	public static function getInstance($qualifiedId)
 	{
-		$db = PearDatabase::getInstance();
-
 		$idComponents = self::getIdComponentsFromQualifiedId($qualifiedId);
 		$type = $idComponents[0];
 		$memberId = $idComponents[1];
-
-		if ($type == self::RULE_MEMBER_TYPE_GROUPS) {
-			$sql = 'SELECT * FROM vtiger_groups WHERE groupid = ?';
-			$params = array($memberId);
-			$result = $db->pquery($sql, $params);
-
-			if ($db->num_rows($result)) {
-				$row = $db->query_result_rowdata($result, 0);
+		if ($type === self::RULE_MEMBER_TYPE_GROUPS) {
+			$row = (new App\Db\Query())->from('vtiger_groups')
+				->where(['groupid' => $memberId])
+				->one();
+			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_GROUPS, $row['groupid']);
-				$name = $row['groupname'];
-				$rule = new self();
-				return $rule->set('id', $qualifiedId)->set('name', $name);
+				return (new self())->set('id', $qualifiedId)->set('name', $row['groupname']);
 			}
 		}
-
-		if ($type == self::RULE_MEMBER_TYPE_USERS) {
-			$sql = 'SELECT * FROM vtiger_users WHERE id = ?';
-			$result = $db->pquery($sql, [$memberId]);
-
-			if ($result->rowCount()) {
-				$row = $db->query_result_rowdata($result, 0);
+		if ($type === self::RULE_MEMBER_TYPE_USERS) {
+			$row = (new App\Db\Query())->from('vtiger_users')
+				->where(['id' => $memberId])
+				->one();
+			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_USERS, $row['id']);
-				$name = $row['first_name'] . ' ' . $row['last_name'];
-				$rule = new self();
-				return $rule->set('id', $qualifiedId)->set('name', $name);
+				return (new self())->set('id', $qualifiedId)->set('name', $row['first_name'] . ' ' . $row['last_name']);
 			}
 		}
-
-		if ($type == self::RULE_MEMBER_TYPE_ROLES) {
+		if ($type === self::RULE_MEMBER_TYPE_ROLES) {
 			$row = App\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLES, $row['roleid']);
-				$name = $row['rolename'];
-				$rule = new self();
-				return $rule->set('id', $qualifiedId)->set('name', $name);
+				return (new self())->set('id', $qualifiedId)->set('name', $row['rolename']);
 			}
 		}
-
-		if ($type == self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
+		if ($type === self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
 			$row = App\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
-				$name = $row['rolename'];
-				$rule = new self();
-				return $rule->set('id', $qualifiedId)->set('name', $name);
+				return (new self())->set('id', $qualifiedId)->set('name', $row['rolename']);
 			}
 		}
 		return false;

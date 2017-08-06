@@ -93,18 +93,17 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getInstance($value)
 	{
-		$db = PearDatabase::getInstance();
 		$instance = false;
-		$query = false;
+		$query = (new App\Db\Query())->from('vtiger_def_org_share')
+			->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_def_org_share.tabid');
 		if (vtlib\Utils::isNumber($value)) {
-			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.tabid=?';
+			$query->where(['vtiger_tab.tabid' => $value]);
 		} else {
-			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE name=?';
+			$query->where(['name' => $value]);
 		}
-		$result = $db->pquery($query, [$value]);
-		if ($db->num_rows($result)) {
-			$row = $db->getRow($result);
-			$instance = new Settings_SharingAccess_Module_Model();
+		$row = $query->one();
+		if ($row) {
+			$instance = new self();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
 			$instance->set('editstatus', $row['editstatus']);
@@ -154,14 +153,14 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function recalculateSharingRules()
 	{
-		$phpMaxExecutionTime = vglobal('php_max_execution_time');
+		$phpMaxExecutionTime = AppConfig::main('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
-		$db = PearDatabase::getInstance();
-
 		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);
-
-		while (($id = $db->getSingleValue($result)) !== false) {
+		$userIds = (new App\Db\Query())->select(['id'])
+			->from('vtiger_users')
+			->where(['deleted' => 0])
+			->column();
+		foreach ($userIds as $id) {
 			createUserSharingPrivilegesfile($id);
 		}
 	}
