@@ -307,17 +307,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var searchValue = request.term;
 				var parentElem = inputElement.closest('.fieldValue');
 				var sourceFieldElement = jQuery('input[class="sourceField"]', parentElem);
-				var allValues = sourceFieldElement.data('allvalues');
+				var fieldInfo = sourceFieldElement.data('fieldinfo');
+				var allValues = fieldInfo.picklistvalues;
 				var reponseDataList = [];
 				for (var id in allValues) {
 					var name = allValues[id][0];
-					if (name.toLowerCase().indexOf(searchValue) >= 0) {
-						var parent = allValues[id][1];
-						var label = '';
-						if (parent != '')
-							var label = '(' + allValues[parent][0] + ') ';
-						label = label + name;
-						reponseDataList.push({"label": label, "value": name, "id": id});
+					if (allValues[id].toLowerCase().indexOf(searchValue) >= 0) {
+						reponseDataList.push({label: allValues[id], value: id, id: id});
 					}
 				}
 				if (reponseDataList.length <= 0) {

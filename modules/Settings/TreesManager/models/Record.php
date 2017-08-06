@@ -333,6 +333,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function clearCache()
 	{
-		\App\Cache::delete('TreeData', $this->getId());
+		\App\Cache::delete('TreeValuesById', $this->getId());
 	}
 }

@@ -769,12 +769,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 			case 'categoryMultipicklist':
 			case 'tree':
-				$tree = $this->getUITypeModel()->getAllValue();
-				$pickListValues = [];
-				foreach ($tree as $key => $labels) {
-					$pickListValues[$key] = $labels[0];
-				}
-				$this->fieldInfo['picklistvalues'] = $pickListValues;
+				$this->fieldInfo['picklistvalues'] = \App\Fields\Tree::getPicklistValue($this->getFieldParams(), $this->getModuleName());
 				break;
 			case 'email':
 				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
