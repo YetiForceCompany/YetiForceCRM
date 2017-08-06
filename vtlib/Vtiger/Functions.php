@@ -34,16 +34,20 @@ class Functions
 	// CURRENCY
 	protected static $userIdCurrencyIdCache = [];
 
-	public static function userCurrencyId($userid)
+	/**
+	 * Function return user currency id
+	 * @param int $userid
+	 * @return int
+	 */
+	public static function userCurrencyId($userId)
 	{
-		$adb = \PearDatabase::getInstance();
-		if (!isset(self::$userIdCurrencyIdCache[$userid])) {
-			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', []);
-			while ($row = $adb->fetch_array($result)) {
+		if (!isset(self::$userIdCurrencyIdCache[$userId])) {
+			$dataReader = (new \App\Db\Query())->select(['id', 'currency_id'])->from('vtiger_users')->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				self::$userIdCurrencyIdCache[$row['id']] = $row['currency_id'];
 			}
 		}
-		return self::$userIdCurrencyIdCache[$userid];
+		return self::$userIdCurrencyIdCache[$userId];
 	}
 
 	protected static function getCurrencyInfo($currencyid)
