@@ -483,12 +483,13 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function saveSequence($sequenceList)
 	{
+		$db = \App\Db::getInstance();
 		$case = 'CASE id';
 		foreach ($sequenceList as $sequence => $id) {
-			$case .= ' WHEN ' . $id . ' THEN ' . $sequence;
+			$case .= " WHEN {$db->quoteValue($id)} THEN {$db->quoteValue($sequence)}";
 		}
 		$case .= ' END ';
-		return \App\Db::getInstance()->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
+		return $db->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
 	}
 
 	/**

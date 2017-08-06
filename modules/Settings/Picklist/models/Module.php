@@ -217,16 +217,22 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid'], $insertValueList)->execute();
 	}
 
+	/**
+	 * Function to update sequence number
+	 * @param string $pickListFieldName
+	 * @param array $picklistValues
+	 */
 	public function updateSequence($pickListFieldName, $picklistValues)
 	{
+		$db = \App\Db::getInstance();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 		$set = ' CASE ';
 		foreach ($picklistValues as $values => $sequence) {
-			$set .= ' WHEN ' . $primaryKey . '=' . $values . ' THEN ' . $sequence . '';
+			$set .= " WHEN {$db->quoteColumnName($primaryKey)} = {$db->quoteValue($values)} THEN {$db->quoteValue($sequence)}";
 		}
 		$set .= ' END';
 		$expression = new \yii\db\Expression($set);
-		\App\Db::getInstance()->createCommand()->update($this->getPickListTableName($pickListFieldName), ['sortorderid' => $expression])->execute();
+		$db->createCommand()->update($this->getPickListTableName($pickListFieldName), ['sortorderid' => $expression])->execute();
 	}
 
 	public static function getPicklistSupportedModules()
