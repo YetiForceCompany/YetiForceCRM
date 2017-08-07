@@ -125,45 +125,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 			return $query;
 		}
 		throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification 2 <<<");
-		/*
-		  $relatedModuleModel = $this->getRelatedModuleModel();
-
-		  $relatedModuleBaseTable = $relatedModuleModel->basetable;
-		  $relatedModuleEntityIdField = $relatedModuleModel->basetableid;
-
-		  $parentModuleModel = $relationModel->getParentModuleModel();
-		  $parentModuleBaseTable = $parentModuleModel->basetable;
-		  $parentModuleEntityIdField = $parentModuleModel->basetableid;
-		  $parentRecordId = $this->getParentRecordModel()->getId();
-		  $parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
-
-		  $relatedModuleFields = array_keys($this->getHeaders());
-
-		  $queryGenerator->setFields($relatedModuleFields);
-
-		  $joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
-
-		  $query = $queryGenerator->getQuery();
-		  $queryComponents = preg_split('/FROM/i', $query);
-		  foreach ($queryComponents as $key => $val) {
-		  if ($key == 0) {
-		  $query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
-		  } else {
-		  $query .= sprintf('FROM %s', $val);
-		  }
-		  }
-		  $whereSplitQueryComponents = preg_split('/WHERE/i', $query);
-		  $query = $whereSplitQueryComponents[0] . $joinQuery;
-		  foreach ($whereSplitQueryComponents as $key => $val) {
-		  if ($key == 0) {
-		  $query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
-		  } else {
-		  $query .= $val . ' WHERE ';
-		  }
-		  }
-		  $this->query = trim($query, ' WHERE ');
-		  return $this->query;
-		 */
 	}
 
 	/**

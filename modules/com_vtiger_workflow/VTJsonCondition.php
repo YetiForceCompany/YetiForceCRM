@@ -168,17 +168,6 @@ class VTJsonCondition
 		if ($fieldInstance) {
 			switch ($fieldInstance->getFieldDataType()) {
 				case 'datetime':
-					//Convert the DB Date Time Format to User Date Time Format
-					/*
-					  $rawFieldValue = $fieldValue;
-					  $date = new DateTimeField($fieldValue);
-					  $fieldValue = $date->getDisplayDateTimeValue();
-					  $valueArray = explode(' ', $value);
-					  if (count($valueArray) == 1) {
-					  $fieldValueArray = explode(' ', $fieldValue);
-					  $fieldValue = $fieldValueArray[0];
-					  }
-					 */
 					$fieldValue = $recordModel->getDisplayName($fieldInstance->getName());
 					break;
 				case 'date':
