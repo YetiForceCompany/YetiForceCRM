@@ -53,14 +53,17 @@ class VTEntityMethodManager
 		}
 	}
 
+	/**
+	 * Get methods for module
+	 * @param string $moduleName
+	 * @return array
+	 */
 	public function methodsForModule($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("select method_name from com_vtiger_workflowtasks_entitymethod where module_name=?", array($moduleName));
-		$it = new SqlResultIterator($adb, $result);
+		$data = (new \App\Db\Query())->select(['method_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName])->column();
 		$methodNames = [];
-		foreach ($it as $row) {
-			$methodNames[] = $row->method_name;
+		foreach ($data as $row) {
+			$methodNames[] = $row['method_name'];
 		}
 		return $methodNames;
 	}
@@ -84,6 +87,6 @@ class VTEntityMethodManager
 	 */
 	public function removeEntityMethod($moduleName, $methodName)
 	{
-		PearDatabase::getInstance()->pquery("DELETE FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? and method_name= ?", array($moduleName, $methodName));
+		$db->createCommand()->delete('com_vtiger_workflowtasks_entitymethod', ['module_name' => $moduleName, 'method_name' => $methodName])->execute();
 	}
 }
