@@ -78,7 +78,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get base currency details
-	 * @return <Array>
+	 * @return Array
 	 */
 	public function getBaseCurrencyDetails()
 	{
@@ -91,10 +91,9 @@ class Products_Record_Model extends Vtiger_Record_Model
 		if (!empty($recordId)) {
 			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
 		} else {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$baseCurrency = \vtlib\Functions::userCurrencyId($currentUserModel->getId());
+			$baseCurrency = \App\User::getCurrentUserModel()->getDetail('currency_id');
 		}
-		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
+		$baseCurrencyDetails = ['currencyid' => $baseCurrency];
 
 		$baseCurrencySymbolDetails = \vtlib\Functions::getCurrencySymbolandRate($baseCurrency);
 		$baseCurrencyDetails = array_merge($baseCurrencyDetails, $baseCurrencySymbolDetails);
@@ -344,10 +343,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 			}
 		} else {
-			if ($available == 'available') { // Create View
-				$current_user = vglobal('current_user');
-
-				$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
+			if ($available === 'available') { // Create View
+				$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -366,7 +363,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 					// Both together will be the actual conversion rate for the given currency.
 					$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-					$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
+					$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
 					$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
 					$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
@@ -375,7 +372,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 
 					$is_basecurrency = false;
-					if ($currency_id == $user_currency_id) {
+					if ((int) $currency_id === $userCurrencyId) {
 						$is_basecurrency = true;
 					}
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
@@ -410,9 +407,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		if ($mode == 'edit') {
-			if ($module == 'Services') {
+		if ($mode === 'edit') {
+			if ($module === 'Services') {
 				$sql = 'select conversion_rate from vtiger_service inner join vtiger_currency_info
 					on vtiger_service.currency_id = vtiger_currency_info.id where vtiger_service.serviceid=?';
 			} else {
@@ -422,7 +418,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			$params = array($productid);
 		} else {
 			$sql = 'select conversion_rate from vtiger_currency_info where id=?';
-			$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
+			$params = [\App\User::getCurrentUserModel()->getDetail('currency_id')];
 		}
 
 		$res = $adb->pquery($sql, $params);

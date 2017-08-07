@@ -31,25 +31,6 @@ class Functions
 		return \Vtiger_Language_Handler::getTranslatedString($str, $module);
 	}
 
-	// CURRENCY
-	protected static $userIdCurrencyIdCache = [];
-
-	/**
-	 * Function return user currency id
-	 * @param int $userid
-	 * @return int
-	 */
-	public static function userCurrencyId($userId)
-	{
-		if (!isset(self::$userIdCurrencyIdCache[$userId])) {
-			$dataReader = (new \App\Db\Query())->select(['id', 'currency_id'])->from('vtiger_users')->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				self::$userIdCurrencyIdCache[$row['id']] = $row['currency_id'];
-			}
-		}
-		return self::$userIdCurrencyIdCache[$userId];
-	}
-
 	protected static function getCurrencyInfo($currencyid)
 	{
 		if (\App\Cache::has('AllCurrency', 'All')) {

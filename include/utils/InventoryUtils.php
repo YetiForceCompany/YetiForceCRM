@@ -104,10 +104,8 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 		}
 	} else {
-		if ($available == 'available') { // Create View
-			$current_user = vglobal('current_user');
-
-			$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
+		if ($available === 'available') { // Create View
+			$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
 
 			$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -126,7 +124,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 				// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 				// Both together will be the actual conversion rate for the given currency.
 				$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-				$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
+				$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
 				$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
@@ -135,7 +133,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 				$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 
 				$is_basecurrency = false;
-				if ($currency_id == $user_currency_id) {
+				if ((int) $currency_id === $userCurrencyId) {
 					$is_basecurrency = true;
 				}
 				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
@@ -192,7 +190,7 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 		}
 	} else {
 		$convRate = $query->select(['conversion_rate'])->from('vtiger_currency_info')
-				->where(['id' => \vtlib\Functions::userCurrencyId(\App\User::getCurrentUserId())])->scalar();
+				->where(['id' => App\User::getCurrentUserModel()->getDetail('currency_id')])->scalar();
 	}
 	$convRate = 1 / $convRate;
 	\App\Cache::save('getBaseConversionRateForProduct', $nameCache, $convRate);
