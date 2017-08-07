@@ -263,7 +263,8 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `summary` varchar(400) NOT NULL,
   `task` text,
   PRIMARY KEY (`task_id`),
-  UNIQUE KEY `com_vtiger_workflowtasks_idx` (`task_id`)
+  KEY `workflow_id` (`workflow_id`),
+  CONSTRAINT `com_vtiger_workflowtasks_ibfk_1` FOREIGN KEY (`workflow_id`) REFERENCES `com_vtiger_workflows` (`workflow_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks_entitymethod` */

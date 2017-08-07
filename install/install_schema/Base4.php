@@ -305,7 +305,7 @@ class Base4 extends \App\Db\Importers\Base
 					'process' => $this->integer(10)->defaultValue(0),
 					'deleted' => $this->integer(1)->defaultValue(0),
 					'type' => $this->stringType(128),
-					'subprocess' => $this->integer(10),
+					'subprocess' => $this->integer(10)->defaultValue(0),
 				],
 				'index' => [
 					['process', 'process'],
