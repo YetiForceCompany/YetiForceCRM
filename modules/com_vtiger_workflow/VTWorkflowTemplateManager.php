@@ -11,11 +11,6 @@
 class VTWorkflowTemplateManager
 {
 
-	public function __construct($adb)
-	{
-		$this->adb = $adb;
-	}
-
 	/**
 	 * Create anew template instance from a workflow
 	 *
