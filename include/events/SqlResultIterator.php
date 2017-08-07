@@ -31,7 +31,7 @@ class SqlResultIterator implements Iterator
 
 	public function next()
 	{
-		$this->pos+=1;
+		$this->pos += 1;
 	}
 
 	public function current()
@@ -77,7 +77,6 @@ class SqlResultIterator implements Iterator
 			$arr[] = $rowArr;
 		}
 		return $arr;
-		$this->rewind();
 	}
 }
 

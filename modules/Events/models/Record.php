@@ -65,55 +65,6 @@ class Events_Record_Model extends Calendar_Record_Model
 	{
 		$adb = PearDatabase::getInstance();
 		return []; // To do
-		$return_id = $this->getId();
-		$cont_qry = "select * from vtiger_cntactivityrel where activityid=?";
-		$cont_res = $adb->pquery($cont_qry, array($return_id));
-		$noofrows = $adb->num_rows($cont_res);
-		$cont_id = [];
-		if ($noofrows > 0) {
-			for ($i = 0; $i < $noofrows; $i++) {
-				$cont_id[] = $adb->query_result($cont_res, $i, "contactid");
-			}
-		}
-		$cont_name = '';
-		foreach ($cont_id as $key => $id) {
-			if ($id != '') {
-				$contact_name = \App\Record::getLabel($id);
-				$cont_name .= $contact_name . ', ';
-			}
-		}
-
-		$parentId = $this->get('parent_id');
-		$parentName = '';
-		if ($parentId != '') {
-			$parentName = \App\Record::getLabel($parentId);
-		}
-
-		$cont_name = trim($cont_name, ', ');
-		$mail_data = [];
-		$mail_data['user_id'] = $this->get('assigned_user_id');
-		$mail_data['subject'] = $this->get('subject');
-		$moduleName = $this->getModuleName();
-		$mail_data['status'] = $this->get('activitystatus');
-		$mail_data['activity_mode'] = (($moduleName == 'Calendar') ? ('Task') : ('Events'));
-		$mail_data['taskpriority'] = $this->get('taskpriority');
-		$mail_data['relatedto'] = $parentName;
-		$mail_data['contact_name'] = $cont_name;
-		$mail_data['description'] = $this->get('description');
-		$mail_data['assign_type'] = $this->get('assigntype');
-		$mail_data['group_name'] = \App\Fields\Owner::getGroupName($this->get('assigned_user_id'));
-		$mail_data['mode'] = $this->get('mode');
-
-		$value = getaddEventPopupTime(\App\Request::_get('time_start'), \App\Request::_get('time_end'), '24');
-		$start_hour = $value['starthour'] . ':' . $value['startmin'] . '' . $value['startfmt'];
-		if (\App\Request::_get('activity_mode') != 'Task')
-			$end_hour = $value['endhour'] . ':' . $value['endmin'] . '' . $value['endfmt'];
-		$startDate = new DateTimeField(\App\Request::_get('date_start') . ' ' . $start_hour);
-		$endDate = new DateTimeField(\App\Request::_get('due_date') . ' ' . $end_hour);
-		$mail_data['st_date_time'] = $startDate->getDBInsertDateTimeValue();
-		$mail_data['end_date_time'] = $endDate->getDBInsertDateTimeValue();
-		$mail_data['location'] = $this->get('location');
-		return $mail_data;
 	}
 
 	/**
