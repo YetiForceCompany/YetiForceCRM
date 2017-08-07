@@ -133,7 +133,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 				$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 
 				$is_basecurrency = false;
-				if ((int) $currency_id === $userCurrencyId) {
+				if ($currency_id === $userCurrencyId) {
 					$is_basecurrency = true;
 				}
 				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
