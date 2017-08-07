@@ -351,20 +351,30 @@ class Language
 
 	/**
 	 * Function return languange
-	 * @param array $condition
+	 * @param boolean|array $condition
 	 * @return array
 	 */
 	public static function getAll($condition = false)
 	{
-		$query = (new \App\Db\Query())->from('vtiger_language');
+		if (is_array($condition)) {
+			$cacheKey = implode(',', $condition);
+		} else {
+			$cacheKey = $condition;
+		}
+		if (Cache::has('getAll', $cacheKey)) {
+			return Cache::get('getAll', $cacheKey);
+		}
+
+		$query = (new Db\Query())->from('vtiger_language');
 		if ($condition) {
 			$query->where($condition);
 		}
-		$output = false;
+		$output = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$output[$row['prefix']] = $row;
 		}
+		Cache::save('getAll', $cacheKey, $output);
 		return $output;
 	}
 }
