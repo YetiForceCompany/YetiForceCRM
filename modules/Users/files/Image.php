@@ -29,7 +29,6 @@ class Users_Image_File
 		$file = App\Fields\File::loadFromPath($path);
 		header('Content-Type: ' . $file->getMimeType());
 		header("Content-Transfer-Encoding: binary");
-		//header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		readfile($path);
 	}
 
@@ -58,6 +57,6 @@ class Users_Image_File
 
 	public function post(\App\Request $request)
 	{
-
+		
 	}
 }

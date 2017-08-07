@@ -77,7 +77,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 		// 0 - last 90 days
 		// 1 - historical data from year 1999
 		// we speed script choosing the smaller file for our needs
-		$source = $this->getSource(); //explode( '*|*', $this->getBankSource() );
+		$source = $this->getSource();
 		// how old is the currency rate
 		$now = time(); // or your date as well
 		$rateDay = strtotime($dateParam);
