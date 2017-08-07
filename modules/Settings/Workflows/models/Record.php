@@ -288,6 +288,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return $workflowModel;
 	}
 
+	/**
+	 * Get execution condition label
+	 * @param int $executionCondition
+	 * @return string
+	 */
 	public function executionConditionAsLabel($executionCondition = null)
 	{
 		if ($executionCondition === null) {
@@ -299,7 +304,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the count of active workflows
-	 * @return <Integer> count of acive workflows
+	 * @return integer count of acive workflows
 	 */
 	public static function getActiveCount()
 	{
@@ -321,6 +326,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return count($examinedIdList);
 	}
 
+	/**
+	 * Get active workflows from task list
+	 * @param array $taskList
+	 * @return int
+	 */
 	public static function getActiveCountFromRecord($taskList = [])
 	{
 
@@ -339,6 +349,10 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return count($examinedIdList);
 	}
 
+	/**
+	 * Check if filter is saved in new
+	 * @return boolean
+	 */
 	public function isFilterSavedInNew()
 	{
 		$wf = $this->getWorkflowObject();
