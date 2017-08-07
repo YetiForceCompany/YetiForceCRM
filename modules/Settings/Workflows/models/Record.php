@@ -97,7 +97,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Get module object
-	 * @return Vtiger_module_model
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule()
 	{
@@ -195,7 +195,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return array - Associate array of Vtiger_Link_Model instances
+	 * @return Vtiger_Link_Model[]
 	 */
 	public function getRecordLinks()
 	{
