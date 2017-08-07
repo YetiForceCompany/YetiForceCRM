@@ -14,71 +14,130 @@
 require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
+/**
+ * Class settings workflows record model
+ */
 class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 {
 
+	/**
+	 * Get record id
+	 * @return int
+	 */
 	public function getId()
 	{
 		return $this->get('workflow_id');
 	}
 
+	/**
+	 * Get record name
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->get('summary');
 	}
 
+	/**
+	 * Get attribute by name
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function get($key)
 	{
 		return parent::get($key);
 	}
 
+	/**
+	 * Get edit view url
+	 * @return string
+	 */
 	public function getEditViewUrl()
 	{
 		return 'index.php?module=Workflows&parent=Settings&view=Edit&record=' . $this->getId();
 	}
 
+	/**
+	 * Get tasks list url
+	 * @return string
+	 */
 	public function getTasksListUrl()
 	{
 		return 'index.php?module=Workflows&parent=Settings&view=TasksList&record=' . $this->getId();
 	}
 
+	/**
+	 * Get add task url
+	 * @return string
+	 */
 	public function getAddTaskUrl()
 	{
 		return 'index.php?module=Workflows&parent=Settings&view=EditTask&for_workflow=' . $this->getId();
 	}
 
+	/**
+	 * Set workflow object
+	 * @param object $wf
+	 * @return $this
+	 */
 	protected function setWorkflowObject($wf)
 	{
 		$this->workflow_object = $wf;
 		return $this;
 	}
 
+	/**
+	 * Get workflow object
+	 * @return object
+	 */
 	public function getWorkflowObject()
 	{
 		return $this->workflow_object;
 	}
 
+	/**
+	 * Get module object
+	 * @return Vtiger_module_model
+	 */
 	public function getModule()
 	{
 		return $this->module;
 	}
 
+	/**
+	 * Set module model
+	 * @param string $moduleName
+	 * @return $this
+	 */
 	public function setModule($moduleName)
 	{
 		$this->module = Vtiger_Module_Model::getInstance($moduleName);
 		return $this;
 	}
 
+	/**
+	 * Get tasks array
+	 * @param bool $active
+	 * @return array
+	 */
 	public function getTasks($active = false)
 	{
 		return Settings_Workflows_TaskRecord_Model::getAllForWorkflow($this, $active);
 	}
 
+	/**
+	 * Get task types array
+	 * @return array
+	 */
 	public function getTaskTypes()
 	{
 		return Settings_Workflows_TaskType_Model::getAllForModule($this->getModule());
 	}
 
+	/**
+	 * Check if is default record
+	 * @return boolean
+	 */
 	public function isDefault()
 	{
 		$wf = $this->getWorkflowObject();
