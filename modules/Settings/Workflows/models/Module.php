@@ -11,12 +11,34 @@
 require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager.php';
 
+/**
+ * Class settings workflows module model
+ */
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	/**
+	 * Base table name
+	 * @var string
+	 */
 	public $baseTable = 'com_vtiger_workflows';
+
+	/**
+	 * Base table index column name
+	 * @var string
+	 */
 	public $baseIndex = 'workflow_id';
-	public $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
+
+	/**
+	 * Fields visible on list view array
+	 * @var array
+	 */
+	public $listFields = ['summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS'];
+
+	/**
+	 * All fields list
+	 * @var array
+	 */
 	public static $allFields = [
 		'module_name',
 		'summary',
@@ -32,7 +54,17 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		'schtime',
 		'nexttrigger_time'
 	];
+
+	/**
+	 * Module name
+	 * @var string
+	 */
 	public $name = 'Workflows';
+
+	/**
+	 * Workflow triggers list
+	 * @var array
+	 */
 	static $triggerTypes = [
 		1 => 'ON_FIRST_SAVE',
 		4 => 'ON_MODIFY',
@@ -64,6 +96,10 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return "javascript:Settings_Workflows_List_Js.triggerCreate('index.php?module=Workflows&parent=Settings&view=Edit')";
 	}
 
+	/**
+	 * Get create new record url
+	 * @return string
+	 */
 	public static function getCreateRecordUrl()
 	{
 		return 'index.php?module=Workflows&parent=Settings&view=Edit';
@@ -78,6 +114,10 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return 'index.php?module=Workflows&parent=Settings&view=Import';
 	}
 
+	/**
+	 * Get supported modules list
+	 * @return array
+	 */
 	public static function getSupportedModules()
 	{
 		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
@@ -90,11 +130,19 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return $supportedModuleModels;
 	}
 
+	/**
+	 * Get supported triggers list
+	 * @return array
+	 */
 	public static function getTriggerTypes()
 	{
 		return self::$triggerTypes;
 	}
 
+	/**
+	 * Get expressions list
+	 * @return array
+	 */
 	public static function getExpressions()
 	{
 		$db = PearDatabase::getInstance();
@@ -128,7 +176,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	static function deleteForModule($moduleInstance)
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
+		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows`
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
 			WHERE `module_name` =?', [$moduleInstance->name]);
 	}
