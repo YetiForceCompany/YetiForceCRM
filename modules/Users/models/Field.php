@@ -32,7 +32,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isViewEnabled()
 	{
-		if ($this->getDisplayType() == '4' || in_array($this->get('presence'), array(1, 3))) {
+		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
 		return true;
