@@ -151,17 +151,21 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return $mem->expressionFunctions();
 	}
 
+	/**
+	 * Get fields list
+	 * @return array
+	 */
 	public function getListFields()
 	{
 		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
-			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
+			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks'];
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
-					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));
+					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel, 'sort' => false]);
 				} else {
-					$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel));
+					$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 				}
 			}
 			$this->listFieldModels = $fieldObjects;
@@ -175,10 +179,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	static function deleteForModule($moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows`
-			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
-			WHERE `module_name` =?', [$moduleInstance->name]);
+		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflows', ['module_name' => $moduleInstance->name])->execute();
 	}
 
 	/**
@@ -220,14 +221,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function exportTaskMethod($methodName)
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT workflowtasks_entitymethod_id, module_name, method_name, function_path, function_name FROM com_vtiger_workflowtasks_entitymethod WHERE method_name = ?;';
-		$result = $db->pquery($query, [$methodName]);
-		$method = $db->getRow($result);
-
+		$method = (new \App\Db\Query())->select(['workflowtasks_entitymethod_id', 'module_name', 'method_name', 'function_path', 'function_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['method_name' => $methodName])->one();
 		$method['script_content'] = base64_encode(file_get_contents($method['function_path']));
-
 		return $method;
 	}
 
@@ -251,12 +246,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$messages['error'][] = \App\Language::translate('LBL_SCRIPT_EXISTS_FUNCTION_NOT', $this->getName(true), $method['function_name'], $method['function_path']);
 			}
 		}
-
-		$query = 'SELECT COUNT(1) AS num FROM com_vtiger_workflowtasks_entitymethod WHERE module_name = ? && method_name = ? && function_path = ? && function_name = ?;';
-		$params = [$method['module_name'], $method['method_name'], $method['function_path'], $method['function_name']];
-		$result = $db->pquery($query, $params);
-		$num = $db->getSingleValue($result);
-
+		$num = (new \App\Db\Query())->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $method['module_name'], 'method_name' => $method['method_name'], 'function_path' => $method['function_path'], 'function_name' => $method['function_name']])->count();
 		if ($num == 0) {
 			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 			$emm = new VTEntityMethodManager();
