@@ -127,7 +127,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Set workflow from instance
-	 * @param Workflow $workflowModel
+	 * @param object $workflowModel
 	 * @return $this
 	 */
 	public function setWorkflowFromInstance($workflowModel)
@@ -189,7 +189,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Return clean instance
-	 * @param Workflow $workflowModel
+	 * @param object $workflowModel
 	 * @param string $taskName
 	 * @return VTTask
 	 */
