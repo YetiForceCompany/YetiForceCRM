@@ -147,6 +147,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return false;
 	}
 
+	/**
+	 * Save record to database
+	 */
 	public function save()
 	{
 		$wm = new VTWorkflowManager();
@@ -170,6 +173,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$this->set('workflow_id', $wf->id);
 	}
 
+	/**
+	 * Delete record from database
+	 */
 	public function delete()
 	{
 		$wm = new VTWorkflowManager();
@@ -178,7 +184,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Functions returns the Custom Entity Methods that are supported for a module
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getEntityMethods()
 	{
@@ -189,7 +195,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of Vtiger_Link_Model instances
+	 * @return array - Associate array of Vtiger_Link_Model instances
 	 */
 	public function getRecordLinks()
 	{
@@ -237,6 +243,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return $links;
 	}
 
+	/**
+	 * Get instance
+	 * @param int $workflowId
+	 * @return \Self
+	 */
 	public static function getInstance($workflowId)
 	{
 		$wm = new VTWorkflowManager();
@@ -244,6 +255,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
+	/**
+	 * Get clean instance
+	 * @param string $moduleName
+	 * @return \Self
+	 */
 	public static function getCleanInstance($moduleName)
 	{
 		$wm = new VTWorkflowManager();
@@ -252,6 +268,11 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return self::getInstanceFromWorkflowObject($wf);
 	}
 
+	/**
+	 * Get instance from workflow object
+	 * @param object $wf
+	 * @return \self
+	 */
 	public static function getInstanceFromWorkflowObject($wf)
 	{
 		$workflowModel = new self();
