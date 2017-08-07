@@ -510,8 +510,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTasksForExport()
 	{
-		$tasks = (new \App\Db\Query())->select(['summary', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $this->getId()])->all();
-		return $tasks;
+		return (new \App\Db\Query())->select(['summary', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $this->getId()])->all();
 	}
 
 	/**
