@@ -148,17 +148,15 @@ class VTWorkflowTemplateManager
 	 */
 	public function dumpAllTemplates()
 	{
-		$adb = $this->adb;
-		$result = $adb->query("select * from com_vtiger_workflowtemplates");
-		$it = new SqlResultIterator($adb, $result);
+		$query = (new \App\Db\Query())->from('com_vtiger_workflowtemplates');
 		$arr = [];
-		foreach ($it as $row) {
-			$el = array(
-				'moduleName' => $row->module_name,
-				'title' => $row->title,
-				'template' => $row->template
-			);
-			$arr[] = $el;
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$arr[] = [
+				'moduleName' => $row['module_name'],
+				'title' => $row['title'],
+				'template' => $row['template']
+			];
 		}
 		return \App\Json::encode($arr);
 	}
@@ -181,12 +179,14 @@ class VTWorkflowTemplateManager
 		}
 	}
 
+	/**
+	 * Get Templates objects from result
+	 * @param array $result
+	 * @return \VTWorkflowTemplate[]
+	 */
 	private function getTemplatesForResult($result)
 	{
-		$adb = $this->adb;
-		$it = new SqlResultIterator($adb, $result);
-		$templates = [];
-		foreach ($it as $row) {
+		foreach ($result as $row) {
 			$template = new VTWorkflowTemplate();
 			$template->id = $row->template_id;
 			$template->title = $row->title;
