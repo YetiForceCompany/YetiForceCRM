@@ -53,8 +53,6 @@ class mt940_BGK extends mt940
 			case '86':
 				//	if ($this->_lastTag == '61')
 				$this->parseTransaction($value);
-				//	else
-				//		$this->info .= $value;
 				break;
 			default:
 				break;
