@@ -509,6 +509,7 @@ btn-danger:hover{
 	display: inline-block;
 	margin-right: -4px;
 	white-space: nowrap;
+	height: 73px;
 }
 .leftPanel .modulesList.nav > li > a{
 	margin-top:-5px;
