@@ -103,20 +103,27 @@ class VTWorkflowTemplateManager
 	 */
 	public function saveTemplate($template)
 	{
-		$adb = $this->adb;
+		$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (is_numeric($template->id)) {//How do I check whether a member exists in php?
 			$templateId = $template->id;
-			$adb->pquery("update com_vtiger_workflowtemplates set title=?," +
-				" module_name=?, template=? where template_id=?", array($template->title, $template->moduleName,
-				$template->template, $templateId));
+			$dbCommand->createCommand()
+				->update('com_vtiger_workflowtemplates', [
+					'title' => $template->title,
+					'module_name' => $template->moduleName,
+					'template' => $template->template
+					], ['template_id' => $templateId])
+				->execute();
 			return $templateId;
 		} else {
-			$templateId = $adb->getUniqueID("com_vtiger_workflowtemplates");
+			$templateId = $db->getUniqueID("com_vtiger_workflowtemplates");
 			$template->id = $templateId;
-			$adb->pquery("insert into com_vtiger_workflowtemplates
-							(template_id, title, module_name, template)
-							values (?, ?, ?, ?)", array($templateId, $template->title,
-				$template->moduleName, $template->template));
+			$dbCommand->insert('com_vtiger_workflowtemplates', [
+				'template_id' => $templateId,
+				'title' => $template->title,
+				'module_name' => $template->moduleName,
+				'template' => $template->template
+			])->execute();
 			return $templateId;
 		}
 	}
@@ -128,8 +135,7 @@ class VTWorkflowTemplateManager
 	 */
 	public function deleteTemplate($templateId)
 	{
-		$adb = $this->adb;
-		$adb->pquery('delete from com_vtiger_workflowtemplates where template_id=?', array($templateId));
+		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtemplates', ['template_id' => $templateId])->execute();
 	}
 
 	/**
