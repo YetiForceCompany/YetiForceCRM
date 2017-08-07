@@ -37,8 +37,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var eventLimit = jQuery('#eventLimit').val();
 		if (eventLimit == 'true') {
 			eventLimit = true;
-		}
-		else if (eventLimit == 'false') {
+		} else if (eventLimit == 'false') {
 			eventLimit = false;
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
@@ -111,14 +110,17 @@ jQuery.Class("Reservations_Calendar_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				element.find('.fc-content').popover({
-					title: event.title,
-					placement: 'auto right',
-					html: true,
-					trigger: 'hover',
-					delay: 500,
+				app.showPopoverElementView(element.find('.fc-content'), {
+					title: event.title + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
+					html: true,
+					placement: 'auto right',
+					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 					content: '<i class="icon-time"></i> ' + app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat)
+				});
+				element.find('.fc-content, .fc-info').click(function () {
+					var event = $(this).closest('.fc-event');
+					window.location.href = event.attr('href');
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -154,8 +156,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 				selectAllLabel.removeClass('hide');
 				deselectAllLabel.addClass('hide');
 				$(this).closest('.quickWidget').find('select option').prop("selected", false);
-			}
-			else {
+			} else {
 				$(this).closest('.quickWidget').find('select option').prop("selected", true);
 				deselectAllLabel.removeClass('hide');
 				selectAllLabel.addClass('hide');
