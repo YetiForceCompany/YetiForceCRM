@@ -15,11 +15,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	{
 		parent::__construct();
 	}
-	//Note : To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
 
 	/**
 	 * Function to determine file existence in relocated module folder (under vtiger6)

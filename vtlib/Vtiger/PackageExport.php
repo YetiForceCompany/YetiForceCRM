@@ -132,7 +132,6 @@ class PackageExport
 		$this->__finishExport();
 
 		// Export as Zip
-		// if($zipfilename == '') $zipfilename = "$module-" . date('YmdHis') . ".zip";
 		$zipfilename = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
@@ -623,30 +622,6 @@ class PackageExport
 			}
 		}
 		$this->closeNode('sharingaccess');
-	}
-
-	/**
-	 * Export Events of the module
-	 * @access private
-	 */
-	public function export_Events($moduleInstance)
-	{
-		//TODU: needs updating
-		return false;
-		//$events = Event::getAll($moduleInstance);
-		if (!$events)
-			return;
-
-		$this->openNode('events');
-		foreach ($events as $event) {
-			$this->openNode('event');
-			$this->outputNode($event->eventname, 'eventname');
-			$this->outputNode('<![CDATA[' . $event->classname . ']]>', 'classname');
-			$this->outputNode('<![CDATA[' . $event->filename . ']]>', 'filename');
-			$this->outputNode('<![CDATA[' . $event->condition . ']]>', 'condition');
-			$this->closeNode('event');
-		}
-		$this->closeNode('events');
 	}
 
 	public function export_Actions($moduleInstance)

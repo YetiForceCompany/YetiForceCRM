@@ -364,7 +364,6 @@ class Functions
 			'"' => '&quot;',
 			"'" => '&#039;',
 		);
-		//if($encode && is_string($string))$string = html_entity_decode($string, ENT_QUOTES);
 		if ($encode && is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
