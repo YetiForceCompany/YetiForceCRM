@@ -14,7 +14,7 @@ class Notification_Text_UIType extends Vtiger_Text_UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value
 	 * @param int $record id record
-	 * @param\Vtiger_Record_Model $recordInstance 
+	 * @param \Vtiger_Record_Model $recordInstance 
 	 * @param mixed $rawText
 	 * @return string
 	 */
