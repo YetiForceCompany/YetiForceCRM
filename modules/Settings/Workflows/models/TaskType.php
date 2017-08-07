@@ -20,7 +20,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 {
 
 	/**
-	 * Return record id
+	 * Get record id
 	 * @return int
 	 */
 	public function getId()
@@ -29,7 +29,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return task name
+	 * Get task name
 	 * @return string
 	 */
 	public function getName()
@@ -38,7 +38,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return task label
+	 * Get task label
 	 * @return string
 	 */
 	public function getLabel()
@@ -47,7 +47,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return template path
+	 * Get template path
 	 * @return string
 	 */
 	public function getTemplatePath()
@@ -56,7 +56,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return edit view url
+	 * Get edit view url
 	 * @return string
 	 */
 	public function getEditViewUrl()
@@ -77,7 +77,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return all tasks for module
+	 * Get all tasks for module
 	 * @param object $moduleModel
 	 * @return array
 	 */
@@ -92,7 +92,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return task type instance
+	 * Get task type instance
 	 * @param string $taskType
 	 * @return object
 	 */
@@ -103,7 +103,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return instance from task type object
+	 * Get instance from task type object
 	 * @param object $taskTypeObject
 	 * @return \self
 	 */
@@ -113,7 +113,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	}
 
 	/**
-	 * Return task base module object
+	 * Get task base module object
 	 * @return object
 	 */
 	public function getTaskBaseModule()
