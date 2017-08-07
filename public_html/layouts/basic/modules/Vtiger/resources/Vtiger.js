@@ -418,9 +418,9 @@ var Vtiger_Index_Js = {
 		});
 		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
-			var remindersNoticeContainer = $('.remindersNoticeContainer');
+			var remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
 			if (remindersNoticeContainer.hasClass('toggled')) {
-				remindersNoticeContainer.toggleClass('toggled');
+				remindersNoticeContainer.removeClass('toggled');
 			}
 			$('.chatModal').modal({backdrop: false});
 		});
