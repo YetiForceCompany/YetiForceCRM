@@ -9,14 +9,31 @@
  * **************************************************************************** */
 require_once("include/events/SqlResultIterator.php");
 
+/**
+ * Class VTEntityMethodManager
+ */
 class VTEntityMethodManager
 {
 
+	/**
+	 * Add entity method
+	 * @param string $moduleName
+	 * @param string $methodName
+	 * @param string $functionPath
+	 * @param string $functionName
+	 */
 	public function addEntityMethod($moduleName, $methodName, $functionPath, $functionName)
 	{
-		$adb = PearDatabase::getInstance();
-		$id = $adb->getUniqueId("com_vtiger_workflowtasks_entitymethod");
-		$adb->pquery("insert into com_vtiger_workflowtasks_entitymethod (workflowtasks_entitymethod_id, module_name, function_path, function_name, method_name) values (?,?,?,?,?)", array($id, $moduleName, $functionPath, $functionName, $methodName));
+		$db = \App\Db::getInstance();
+		$id = $db->getUniqueId("com_vtiger_workflowtasks_entitymethod");
+		$db->createCommand()
+			->insert('com_vtiger_workflowtasks_entitymethod', [
+				'workflowtasks_entitymethod_id' => $id,
+				'module_name' => $moduleName,
+				'function_path' => $functionPath,
+				'function_name' => $functionName,
+				'method_name' => $methodName
+			])->execute();
 	}
 
 	public function executeMethod(Vtiger_Record_Model $recordModel, $methodName)
@@ -58,7 +75,7 @@ class VTEntityMethodManager
 	  } */
 
 	/**
-	 * Function to remove workflowtasks entity method 
+	 * Function to remove workflowtasks entity method
 	 * @param string Module Name
 	 * @param string Entity Method Name.
 	 */
