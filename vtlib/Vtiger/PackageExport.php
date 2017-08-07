@@ -321,9 +321,6 @@ class PackageExport
 		// Export Sharing Access
 		$this->export_SharingAccess($this->moduleInstance);
 
-		// Export Events
-		$this->export_Events($this->moduleInstance);
-
 		// Export Actions
 		$this->export_Actions($this->moduleInstance);
 
