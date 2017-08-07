@@ -75,9 +75,8 @@ class VTWorkflowTemplateManager
 	 */
 	public function getTemplatesForModule($moduleName)
 	{
-		$adb = $this->adb;
-		$result = $adb->pquery("select * from com_vtiger_workflowtemplates where module_name=?", array($moduleName));
-		return $this->getTemplatesForResult($result);
+		$data = (new \App\Db\Query())->from('com_vtiger_workflowtemplates')->where(['module_name' => $moduleName])->all();
+		return $this->getTemplatesForResult($data);
 	}
 
 	/**
@@ -89,9 +88,8 @@ class VTWorkflowTemplateManager
 	 */
 	public function getTemplates()
 	{
-		$adb = $this->adb;
-		$result = $adb->query("select * from com_vtiger_workflowtemplates");
-		return $this->getTemplatesForResult($result);
+		$data = (new \App\Db\Query())->from('com_vtiger_workflowtemplates')->all();
+		return $this->getTemplatesForResult($data);
 	}
 
 	/**
