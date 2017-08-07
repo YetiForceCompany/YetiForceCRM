@@ -522,6 +522,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		return $imageDetails;
 	}
 
+	/**
+	 * Get image path
+	 * @return string
+	 */
 	public function getImagePath()
 	{
 		$image = $this->getImageDetails();
@@ -529,7 +533,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (empty($image) || empty($image['path'])) {
 			$imagePath = vimage_path('DefaultUserIcon.png');
 		} else {
-			$imagePath = $image['path'] . '_' . $image['orgname'];
+			$imagePath = $image['path'];
 		}
 		return $imagePath;
 	}
