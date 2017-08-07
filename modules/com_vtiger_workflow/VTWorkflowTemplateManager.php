@@ -44,15 +44,12 @@ class VTWorkflowTemplateManager
 	 */
 	public function retrieveTemplate($templateId)
 	{
-		$adb = $this->adb;
-		$result = $adb->pquery('select * from com_vtiger_workflowtemplates where template_id=?', array($templateId));
-		$it = new SqlResultIterator($adb, $result);
-		$data = $it->current();
+		$data = (new \App\Db\Query())->from('com_vtiger_workflowtemplates')->where(['template_id' => $templateId])->one();
 		$template = new VTWorkflowTemplate();
 		$template->id = $templateId;
-		$template->title = $data->title;
-		$template->moduleName = $data->module_name;
-		$template->template = $data->template;
+		$template->title = $data['title'];
+		$template->moduleName = $data['module_name'];
+		$template->template = $data['template'];
 		return $template;
 	}
 
