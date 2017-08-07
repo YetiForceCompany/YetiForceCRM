@@ -463,7 +463,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			} else {
 				$dataTypeInfo = explode('~', $row['typeofdata']);
 				if ($dataTypeInfo[1] === 'M') { // If the current reference field is mandatory
-					$skipFieldsList[$tabModuleName] = array('fieldname' => $fieldName);
+					$skipFieldsList[$tabModuleName] = ['fieldname' => $fieldName];
 				}
 			}
 		}
@@ -510,16 +510,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTasksForExport()
 	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT summary, task FROM com_vtiger_workflowtasks WHERE workflow_id = ?;';
-		$result = $db->pquery($query, [$this->getId()]);
-
-		$tasks = [];
-		while ($row = $db->fetchByAssoc($result)) {
-			$tasks[] = $row;
-		}
-
+		$tasks = (new \App\Db\Query())->select(['summary', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $this->getId()])->all();
 		return $tasks;
 	}
 
