@@ -418,6 +418,10 @@ var Vtiger_Index_Js = {
 		});
 		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
+			var remindersNoticeContainer = $('.remindersNoticeContainer');
+			if (remindersNoticeContainer.hasClass('toggled')) {
+				remindersNoticeContainer.toggleClass('toggled');
+			}
 			$('.chatModal').modal({backdrop: false});
 		});
 		this.registerChatLoadItems(modal.data('timer'));
