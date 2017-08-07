@@ -309,8 +309,9 @@ class Users extends CRMEntity
 				ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
 				ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
 				ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
-				if ($port != 636) {
-					//ldap_start_tls($ds);
+				var_dump(parse_url($auth['ldap']['server']));
+				if ($auth['ldap']['server'] === 'tls') {
+					ldap_start_tls($ds);
 				}
 				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
