@@ -36,13 +36,16 @@ class VTEntityMethodManager
 			])->execute();
 	}
 
+	/**
+	 * Execute method
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param string $methodName
+	 */
 	public function executeMethod(Vtiger_Record_Model $recordModel, $methodName)
 	{
-		$adb = PearDatabase::getInstance();
 		$moduleName = $recordModel->getModuleName();
-		$result = $adb->pquery("select function_path, function_name from com_vtiger_workflowtasks_entitymethod where module_name=? and method_name=?", array($moduleName, $methodName));
-		if ($adb->num_rows($result) != 0) {
-			$data = $adb->raw_query_result_rowdata($result, 0);
+		$data = (new \App\Db\Query())->select(['function_path', 'function_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName, 'method_name' => $methodName])->one();
+		if ($data) {
 			$functionPath = $data['function_path'];
 			$functionName = $data['function_name'];
 			require_once($functionPath);
