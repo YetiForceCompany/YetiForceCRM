@@ -266,7 +266,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getLastSequence($tabid)
 	{
-		return (new \App\Db\Query())->select('sequence')->from('vtiger_widgets')->where(['tabid' => $tabid])->max('sequence');
+		return (new \App\Db\Query())->from('vtiger_widgets')->where(['tabid' => $tabid])->max('sequence');
 	}
 
 	/**
