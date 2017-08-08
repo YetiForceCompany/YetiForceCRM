@@ -68,6 +68,30 @@
 				</div>
 			</div>
 		{/if}
+		{assign var=RELATED_LISTS value=$TEXT_PARSER->getRelatedModules()}
+		{if $RELATED_LISTS}
+			<div class="col-md-6 fieldRow">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium {if $GRAY}bc-gray-lighter{/if}">
+					<label class="muted">{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}</label>
+				</div>
+				<div class="medium col-md-9 fieldValue">
+					<div class="row">
+						<div class="input-group">
+							<select class="select2" id="relatedLists">
+								{foreach item=MODULE_LIST from=$RELATED_LISTS}
+									<option value="{$MODULE_LIST['key']}">{$MODULE_LIST['label']}</option>
+								{/foreach}
+							</select>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedLists" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
 			<div class="col-md-6 fieldRow">

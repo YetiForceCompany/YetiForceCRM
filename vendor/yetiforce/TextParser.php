@@ -800,6 +800,24 @@ class TextParser
 	}
 
 	/**
+	 * Get related modules list
+	 * @return array
+	 */
+	public function getRelatedModules()
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$variables = [];
+		$relationModels = $moduleModel->getRelations();
+		foreach ($relationModels as $relation) {
+			$variables[] = [
+				'key' => '$(relatedRecordsList : ' . $relation->get('relatedModuleName') . ')$',
+				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName'))
+			];
+		}
+		return $variables;
+	}
+
+	/**
 	 * Get general variables
 	 * @return array
 	 */
