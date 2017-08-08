@@ -151,28 +151,21 @@ class VTWorkflowUtils
 	 */
 	public static function checkModuleWorkflow($modulename)
 	{
-		return (new \App\Db\Query())->from('vtiger_tab')
-				->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Events', 'Users']])
-				->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])
-				->exists();
+		return (new \App\Db\Query())->from('vtiger_tab')->where(['NOT IN', 'name', ['Calendar', 'Faq', 'Events', 'Users']])->andWhere(['isentitytype' => 1, 'presence' => 0, 'tabid' => \App\Module::getModuleId($modulename)])->exists();
 	}
 
 	/**
 	 * Get modules
 	 * @return array
 	 */
-	public function vtGetModules($adb)
+	public function vtGetModules()
 	{
 		$modules_not_supported = ['PBXManager'];
-		$sql = sprintf('select distinct vtiger_field.tabid, name
-			from vtiger_field
-			inner join vtiger_tab
-				on vtiger_field.tabid=vtiger_tab.tabid
-			where vtiger_tab.name not in(%s) and vtiger_tab.isentitytype=1 and vtiger_tab.presence in (0,2) ', generateQuestionMarks($modules_not_supported));
-		$it = new SqlResultIterator($adb, $adb->pquery($sql, [$modules_not_supported]));
+		$query = (new \App\Db\Query())->select(['vtiger_field.tabid', 'name'])->from('vtiger_field')->innerJoin('vtiger_tab', 'vtiger_field.tabid=vtiger_tab.tabid')->where(['vtiger_tab.isentitytype' => 1, 'vtiger_tab.presence' => [0, 2]])->andWhere(['NOT IN', 'vtiger_tab.name', $modules_not_supported])->distinct();
 		$modules = [];
-		foreach ($it as $row) {
-			$modules[] = $row->name;
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$modules[] = $row['name'];
 		}
 		return $modules;
 	}
