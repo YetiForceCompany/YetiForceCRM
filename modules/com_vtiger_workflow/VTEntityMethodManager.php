@@ -77,8 +77,8 @@ class VTEntityMethodManager
 
 	/**
 	 * Function to remove workflowtasks entity method
-	 * @param string Module Name
-	 * @param string Entity Method Name.
+	 * @param string $moduleName Module Name
+	 * @param string $methodName Entity Method Name.
 	 */
 	public function removeEntityMethod($moduleName, $methodName)
 	{
