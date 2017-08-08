@@ -8,7 +8,16 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-function vtws_listtypes($fieldTypeList, $user)
+/**
+ * Vtws list types
+ * @staticvar boolean $webserviceEntities
+ * @staticvar array $types
+ * @param array $fieldTypeList
+ * @param Users_Record_Model $user
+ * @return array
+ * @throws WebServiceException
+ */
+function vtws_listtypes($fieldTypeList, Users_Record_Model $user)
 {
 	// Bulk Save Mode: For re-using information
 	static $webserviceEntities = false;
