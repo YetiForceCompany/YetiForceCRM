@@ -293,29 +293,29 @@ abstract class EntityMeta
 		return "vtiger_users.status='Active'";
 	}
 
-	abstract function hasPermission($operation, $webserviceId);
+	public abstract function hasPermission($operation, $webserviceId);
 
-	abstract function hasAssignPrivilege($ownerWebserviceId);
+	public abstract function hasAssignPrivilege($ownerWebserviceId);
 
-	abstract function hasDeleteAccess();
+	public abstract function hasDeleteAccess();
 
-	abstract function hasAccess();
+	public abstract function hasAccess();
 
-	abstract function hasReadAccess();
+	public abstract function hasReadAccess();
 
-	abstract function hasWriteAccess();
+	public abstract function hasWriteAccess();
 
-	abstract function getEntityName();
+	public abstract function getEntityName();
 
-	abstract function getEntityId();
+	public abstract function getEntityId();
 
-	abstract function exists($recordId);
+	public abstract function exists($recordId);
 
-	abstract function getObjectEntityName($webserviceId);
+	public abstract function getObjectEntityName($webserviceId);
 
-	abstract public function getNameFields();
+	public abstract function getNameFields();
 
-	abstract public function getName($webserviceId);
+	public abstract function getName($webserviceId);
 
-	abstract public function isModuleEntity();
+	public abstract function isModuleEntity();
 }

@@ -36,7 +36,7 @@ class CRMEntity
 		$this->column_fields = getColumnFields(get_class($this));
 	}
 
-	static function getInstance($module)
+	public static function getInstance($module)
 	{
 		$modName = $module;
 		if (is_numeric($module)) {

@@ -129,7 +129,7 @@ class Response
 		return $xml->asXML();
 	}
 
-	function toXml($data, &$xmlData)
+	public function toXml($data, &$xmlData)
 	{
 		foreach ($data as $key => $value) {
 			if (is_numeric($key)) {
