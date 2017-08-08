@@ -1132,7 +1132,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
 				}
-				fieldElement.inputmask('remove');
 				currentTdElement.removeAttr('tabindex');
 				var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();
