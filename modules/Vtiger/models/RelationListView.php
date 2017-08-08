@@ -48,7 +48,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
-	 * Getrelation model instance
+	 * Get relation model instance
 	 * @return Vtiger_Relation_Model
 	 */
 	public function getRelationModel()

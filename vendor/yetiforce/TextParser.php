@@ -27,7 +27,8 @@ class TextParser
 		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
-		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : ModuleName|)$',
+		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
+		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 	];
 
 	/** @var array Variables for entity modules */
@@ -53,7 +54,7 @@ class TextParser
 	];
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList'];
 
 	/** @var string[] List of source modules */
 	public static $sourceModules = [
@@ -875,7 +876,7 @@ class TextParser
 
 	/**
 	 * Parsing related records list
-	 * @param string $params Parameter construction: ModuleName|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
+	 * @param string $params Parameter construction: RelatedModuleName|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
 	 * @return string
 	 */
 	protected function relatedRecordsList($params)
@@ -913,6 +914,56 @@ class TextParser
 			$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
 		}
 		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
+			$rows .= '<tr>';
+			foreach ($fields as $fieldName => $fieldModel) {
+				$rows .= '<td>' . $fieldModel->getDisplayValue($reletedRecordModel->get($fieldName), $reletedRecordModel->getId(), $reletedRecordModel, true) . '</td>';
+			}
+			$rows .= '</tr>';
+		}
+		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+	}
+
+	/**
+	 * Parsing records list
+	 * @param string $params Parameter construction: ModuleName|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
+	 * @return string
+	 */
+	protected function recordsList($params)
+	{
+		list($moduleName, $columns, $conditions, $viewIdOrName, $limit) = array_pad(explode('|', $params), 5, '');
+		$cvId = 0;
+		if ($viewIdOrName) {
+			if (!is_numeric($viewIdOrName)) {
+				$customView = CustomView::getInstance($moduleName);
+				if ($cvIdByName = $customView->getViewIdByName($viewIdOrName)) {
+					$viewIdOrName = $cvIdByName;
+				} else {
+					$viewIdOrName = false;
+					Log::warning("No view found. Module: $moduleName, view name: $viewIdOrName", 'TextParser');
+				}
+			}
+			if ($viewIdOrName) {
+				$cvId = $viewIdOrName;
+			}
+		}
+		$listView = \Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$pagingModel = new \Vtiger_Paging_Model();
+		if ((int) $limit) {
+			$pagingModel->set('limit', (int) $limit);
+		}
+		if ($columns) {
+			$listView->getQueryGenerator()->setFields(explode(',', $columns));
+		}
+		if ($conditions) {
+			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
+			$listView->set('search_params', $transformedSearchParams);
+		}
+		$rows = $headers = '';
+		$fields = $listView->getListViewHeaders();
+		foreach ($fields as $fieldModel) {
+			$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+		}
+		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
 			$rows .= '<tr>';
 			foreach ($fields as $fieldName => $fieldModel) {
 				$rows .= '<td>' . $fieldModel->getDisplayValue($reletedRecordModel->get($fieldName), $reletedRecordModel->getId(), $reletedRecordModel, true) . '</td>';
