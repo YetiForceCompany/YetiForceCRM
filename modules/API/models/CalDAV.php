@@ -256,15 +256,17 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Sync record
+	 */
 	public function recordSync()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
-		$result = $db->pquery($query, [$this->calendarId]);
-
+		$query = (new \App\Db\Query())->select(['dav_calendarobjects.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype', 'vtiger_crmentity.smownerid'])->from('dav_calendarobjects')->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_calendarobjects.crmid')->where(['calendarid' => $this->calendarId]);
 		$skipped = $create = $deletes = $updates = 0;
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
 			if (!$row['crmid']) { //Creating
 				if ($this->recordCreate($row))
 					$create++;
