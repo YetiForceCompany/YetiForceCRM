@@ -11,12 +11,27 @@
 
 //A collection of util functions for the workflow module
 
+/**
+ * Class vTWorkflowUtils
+ */
 class VTWorkflowUtils
 {
 
+	/**
+	 * User stack
+	 * @var array
+	 */
 	static $userStack;
+
+	/**
+	 * Logged in user id
+	 * @var int
+	 */
 	static $loggedInUser;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		if (empty(self::$userStack)) {
@@ -26,6 +41,7 @@ class VTWorkflowUtils
 
 	/**
 	 * Check whether the given identifier is valid.
+	 * @param string $identifier Description
 	 */
 	public function validIdentifier($identifier)
 	{
@@ -89,7 +105,7 @@ class VTWorkflowUtils
 	}
 
 	/**
-	 * The the webservice entity type of an EntityData object
+	 * The webservice entity type of an EntityData object
 	 */
 	public function toWSModuleName($entityData)
 	{
@@ -107,6 +123,8 @@ class VTWorkflowUtils
 
 	/**
 	 * Insert redirection script
+	 * @param string $to
+	 * @param string $message
 	 */
 	public function redirectTo($to, $message)
 	{
@@ -127,10 +145,10 @@ class VTWorkflowUtils
 		$current_user = vglobal('current_user');
 		return strtolower($current_user->is_admin) === 'on';
 	}
-	/* function to check if the module has workflow
-	 * @params :: $modulename - name of the module
-	 */
 
+	/** function to check if the module has workflow
+	 * @param string $modulename - name of the module
+	 */
 	public static function checkModuleWorkflow($modulename)
 	{
 		return (new \App\Db\Query())->from('vtiger_tab')
@@ -139,6 +157,10 @@ class VTWorkflowUtils
 				->exists();
 	}
 
+	/**
+	 * Get modules
+	 * @return array
+	 */
 	public function vtGetModules($adb)
 	{
 		$modules_not_supported = ['PBXManager'];
