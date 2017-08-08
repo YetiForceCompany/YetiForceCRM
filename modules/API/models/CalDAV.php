@@ -785,12 +785,17 @@ class API_CalDAV_Model
 		return $vt;
 	}
 
+	/**
+	 * Record save attendee
+	 * @param Vtiger_Record_Model $record
+	 * @param Sabre\VObject\Component\VEvent $component
+	 */
 	protected function recordSaveAttendee(Vtiger_Record_Model $record, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);
+		$query = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $record->getId()]);
 		$invities = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
 				$invities[$row['email']] = $row;
 			}
