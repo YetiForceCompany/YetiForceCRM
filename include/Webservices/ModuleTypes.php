@@ -27,10 +27,6 @@ function vtws_listtypes($fieldTypeList, $user)
 	}
 	try {
 
-		/**
-		 * @var PearDatabase
-		 */
-		$db = PearDatabase::getInstance();
 
 		vtws_preserveGlobal('current_user', $user);
 		//get All the modules the current user is permitted to Access.
@@ -48,30 +44,17 @@ function vtws_listtypes($fieldTypeList, $user)
 					->innerJoin('vtiger_role2profile', 'vtiger_profile2field.profileid = vtiger_role2profile.profileid')
 					->innerJoin('vtiger_user2role', 'vtiger_user2role.roleid = vtiger_role2profile.roleid')
 					->where(['vtiger_profile2field.visible' => 0, 'vtiger_def_org_field.visible' => 0, 'vtiger_field.presence' => [0, 2], 'vtiger_user2role.userid' => $user->id, 'fieldtype' => $fieldTypeList])->distinct();
-			$params = [];
-			$params[] = $user->id;
-			foreach ($fieldTypeList as $fieldType)
-				$params[] = $fieldType;
 			$moduleList = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$moduleList[] = \App\Module::getModuleName($row->tabid);
+				$moduleList[] = \App\Module::getModuleName($row['tabid']);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
 
-			$params = $fieldTypeList;
-
-			$sql = "select name from vtiger_ws_entity inner join vtiger_ws_entity_tables on " .
-				"vtiger_ws_entity.id=vtiger_ws_entity_tables.webservice_entity_id inner join " .
-				"vtiger_ws_entity_fieldtype on vtiger_ws_entity_fieldtype.table_name=" .
-				"vtiger_ws_entity_tables.table_name where fieldtype=(" .
-				generateQuestionMarks($fieldTypeList) . ')';
-			$result = $db->pquery($sql, $params);
-			$it = new SqlResultIterator($db, $result);
-			$entityList = [];
-			foreach ($it as $row) {
-				$entityList[] = $row->name;
-			}
+			$entityList = (new \App\Db\Query())->select(['name'])->from('vtiger_ws_entity')
+					->innerJoin('vtiger_ws_entity_tables', 'vtiger_ws_entity.id=vtiger_ws_entity_tables.webservice_entity_id')
+					->innerJoin('vtiger_ws_entity_fieldtype', 'vtiger_ws_entity_fieldtype.table_name=vtiger_ws_entity_tables.table_name')
+					->where(['fieldtype' => $fieldTypeList])->column();
 		}
 		//get All the CRM entity names.
 		if ($webserviceEntities === false) {
