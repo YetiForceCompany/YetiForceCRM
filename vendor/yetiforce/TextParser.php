@@ -901,6 +901,9 @@ class TextParser
 	{
 		list($reletedModuleName, $columns, $conditions, $viewIdOrName, $limit) = array_pad(explode('|', $params), 5, '');
 		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $reletedModuleName, '');
+		if (!$relationListView || !Privilege::isPermitted($reletedModuleName)) {
+			return '';
+		}
 		$pagingModel = new \Vtiger_Paging_Model();
 		if ((int) $limit) {
 			$pagingModel->set('limit', (int) $limit);
@@ -929,12 +932,16 @@ class TextParser
 		$rows = $headers = '';
 		$fields = $relationListView->getHeaders();
 		foreach ($fields as $fieldModel) {
-			$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+			if ($fieldModel->isViewable()) {
+				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+			}
 		}
 		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
 			$rows .= '<tr>';
 			foreach ($fields as $fieldName => $fieldModel) {
-				$rows .= '<td>' . $fieldModel->getDisplayValue($reletedRecordModel->get($fieldName), $reletedRecordModel->getId(), $reletedRecordModel, true) . '</td>';
+				if ($fieldModel->isViewable()) {
+					$rows .= '<td>' . $fieldModel->getDisplayValue($reletedRecordModel->get($fieldName), $reletedRecordModel->getId(), $reletedRecordModel, true) . '</td>';
+				}
 			}
 			$rows .= '</tr>';
 		}
@@ -979,12 +986,16 @@ class TextParser
 		$rows = $headers = '';
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
-			$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+			if ($fieldModel->isViewable()) {
+				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+			}
 		}
 		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
 			$rows .= '<tr>';
 			foreach ($fields as $fieldName => $fieldModel) {
-				$rows .= '<td>' . $fieldModel->getDisplayValue($reletedRecordModel->get($fieldName), $reletedRecordModel->getId(), $reletedRecordModel, true) . '</td>';
+				if ($fieldModel->isViewable()) {
+					$rows .= '<td>' . $fieldModel->getDisplayValue($reletedRecordModel->get($fieldName), $reletedRecordModel->getId(), $reletedRecordModel, true) . '</td>';
+				}
 			}
 			$rows .= '</tr>';
 		}

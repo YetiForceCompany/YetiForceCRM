@@ -39,7 +39,7 @@ class Field
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
-			$fields = $query->all();
+			$fields = $query->indexBy('fieldname')->all();
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
 		if ($readOnly) {

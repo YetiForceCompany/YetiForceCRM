@@ -546,7 +546,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$relatedListFields = [];
 		foreach ($fields as $fieldName) {
-			$relatedListFields[$fieldName] = $this->relatedModuleModel->getFieldByName($fieldName);
+			$fieldModel = $this->relatedModuleModel->getFieldByName($fieldName);
+			if ($fieldModel) {
+				$relatedListFields[$fieldName] = $fieldModel;
+			}
 		}
 		$this->relationModel->set('QueryFields', $relatedListFields);
 	}
