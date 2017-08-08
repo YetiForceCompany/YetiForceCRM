@@ -15,10 +15,10 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$source = $request->get('source');
 		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule != '') {
+		if ($sourceModule !== '') {
 			$source = vtlib\Functions::getModuleId($sourceModule);
 		}
-		if ($source == '') {
+		if ($source === '') {
 			$source = App\Module::getModuleId('Accounts');
 		}
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
