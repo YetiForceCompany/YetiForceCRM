@@ -769,7 +769,12 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
 }
 
-function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
+/**
+ * Vtws transfer ownership for Workflow tasks
+ * @param Users_Record_Model $ownerModel
+ * @param Users_Record_Model $newOwnerModel
+ */
+function vtws_transferOwnershipForWorkflowTasks(Users_Record_Model $ownerModel, Users_Record_Model $newOwnerModel)
 {
 	$db = \App\Db::getInstance();
 	//update workflow tasks Assigned User from Deleted User to Transfer User
