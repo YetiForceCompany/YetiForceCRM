@@ -583,12 +583,13 @@ class API_CalDAV_Model
 		return $return;
 	}
 
+	/**
+	 * Get dav detail
+	 * @return array|bool
+	 */
 	public function getDavDetail()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? && crmid = ?;';
-		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
-		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
+		return (new \App\Db\Query())->from('dav_calendarobjects')->where(['calendarid' => $this->calendarId, 'crmid' => $this->record['crmid']])->all();
 	}
 
 	/**
