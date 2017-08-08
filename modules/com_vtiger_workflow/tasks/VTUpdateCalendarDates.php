@@ -34,7 +34,7 @@ class VTUpdateCalendarDates extends VTTask
 		$entityId = $recordModel->getId();
 
 		$delta = $recordModel->getPreviousValue();
-		if (count($delta) === 0) {
+		if (!$delta) {
 			return;
 		}
 		$query = (new \App\Db\Query())->from('vtiger_activity_update_dates')->innerJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id')->where(['vtiger_activity_update_dates.parent' => $entityId]);
