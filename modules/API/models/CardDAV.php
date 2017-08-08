@@ -292,7 +292,12 @@ class API_CardDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
-	public function updateRecord($record, $card)
+	/**
+	 * Update record
+	 * @param Vtiger_Record_Model $record
+	 * @param array $card
+	 */
+	public function updateRecord(Vtiger_Record_Model $record, $card)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Card ID:' . $card['id']);
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
@@ -367,7 +372,13 @@ class API_CardDAV_Model
 		return $result;
 	}
 
-	public function getCardTel($vcard, $type)
+	/**
+	 * Get card tel
+	 * @param Sabre\VObject\Component $vcard
+	 * @param string $type
+	 * @return string
+	 */
+	public function getCardTel(Sabre\VObject\Component $vcard, $type)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->TEL)) {
@@ -388,7 +399,13 @@ class API_CardDAV_Model
 		return '';
 	}
 
-	public function getCardMail($vcard, $type)
+	/**
+	 * Get card mail
+	 * @param Sabre\VObject\Component $vcard
+	 * @param string $type
+	 * @return string
+	 */
+	public function getCardMail(Sabre\VObject\Component $vcard, $type)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
 		if (!isset($vcard->EMAIL)) {
@@ -445,11 +462,18 @@ class API_CardDAV_Model
 		$stmt->execute([0, $crmid]);
 	}
 
-	public function setCardAddres($vcard, $moduleName, $record)
+	/**
+	 * Set card addres
+	 * @param Sabre\VObject\Component $vcard
+	 * @param string $moduleName
+	 * @param array $record
+	 * @return \Sabre\VObject\Component
+	 */
+	public function setCardAddres(Sabre\VObject\Component $vcard, $moduleName, $record)
 	{
 		$adr1 = $adr2 = [];
 
-		if ($moduleName == 'Contacts') {
+		if ($moduleName === 'Contacts') {
 			if (!empty($record['addresslevel5a'])) {
 				$street = $record['addresslevel8a'] . ' ' . $record['buildingnumbera'];
 				if (!empty($record['localnumbera'])) {
@@ -506,7 +530,13 @@ class API_CardDAV_Model
 		return $vcard;
 	}
 
-	public function setRecordAddres($vcard, $moduleName, $record)
+	/**
+	 * Set record addres
+	 * @param Sabre\VObject\Component $vcard
+	 * @param string $moduleName
+	 * @param Vtiger_Record_Model $record
+	 */
+	public function setRecordAddres(Sabre\VObject\Component $vcard, $moduleName, Vtiger_Record_Model $record)
 	{
 		foreach ($vcard->ADR as $property) {
 			$type = false;
@@ -542,7 +572,12 @@ class API_CardDAV_Model
 		}
 	}
 
-	public function cleanForUpdate($vcard)
+	/**
+	 * Clean for update
+	 * @param Sabre\VObject\Component $vcard
+	 * @return \Sabre\VObject\Component
+	 */
+	public function cleanForUpdate(Sabre\VObject\Component $vcard)
 	{
 		unset($vcard->REV);
 		unset($vcard->TEL);
