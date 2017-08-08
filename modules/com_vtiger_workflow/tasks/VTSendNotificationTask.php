@@ -50,8 +50,8 @@ class VTSendNotificationTask extends VTTask
 			$moduleModel->setTodoFieldsForExport();
 			$exportData = new Calendar_Export_Model();
 			$iCal = $exportData->output('', $result, $moduleModel, '', true);
-			$result_invitees = (new \App\Db\Query())->from('u_yf_activity_invitation')->where(['activityid' => $entityId])->createCommand()->query();
-			while ($recordinfo = $result_invitees->read()) {
+			$resultInvitees = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $entityId])->createCommand()->query();
+			while ($recordinfo = $resultInvitees->read()) {
 				$userModel = App\User::getUserModel($recordinfo['inviteeid']);
 				if ($userModel->getDetail('status') === 'Active') {
 					\App\Mailer::sendFromTemplate([
