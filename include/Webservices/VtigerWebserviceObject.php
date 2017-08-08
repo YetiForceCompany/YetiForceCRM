@@ -28,7 +28,7 @@ class VtigerWebserviceObject
 	// Cache variables to enable result re-use
 	private static $_fromNameCache = [];
 
-	static function fromName($adb = false, $entityName)
+	public static function fromName($adb = false, $entityName)
 	{
 		$rowData = false;
 		// If the information not available in cache?
@@ -48,7 +48,7 @@ class VtigerWebserviceObject
 	// Cache variables to enable result re-use
 	private static $_fromIdCache = [];
 
-	static function fromId($adb, $entityId)
+	public static function fromId($adb, $entityId)
 	{
 		$rowData = false;
 
