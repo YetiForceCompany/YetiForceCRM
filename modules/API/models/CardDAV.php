@@ -373,7 +373,7 @@ class API_CardDAV_Model
 	}
 
 	/**
-	 * Get card tel
+	 * Get card phone
 	 * @param Sabre\VObject\Component $vcard
 	 * @param string $type
 	 * @return string
