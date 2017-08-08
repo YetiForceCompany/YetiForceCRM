@@ -7,8 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once("include/events/SqlResultIterator.php");
 
+/**
+ * Class VTExpressionsManager
+ */
 class VTExpressionsManager
 {
 
@@ -17,14 +19,27 @@ class VTExpressionsManager
 		$this->adb = $adb;
 	}
 
-	/** Caching logic * */
+	/**
+	 * Cache array
+	 * @var array
+	 */
 	private static $cache = [];
 
+	/**
+	 * Add parameter to cache
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	static function addToCache($key, $value)
 	{
 		self::$cache[$key] = $value;
 	}
 
+	/**
+	 * Get parameter from cache
+	 * @param string $key
+	 * @return mixed|boolean
+	 */
 	static function fromCache($key)
 	{
 		if (isset(self::$cache[$key]))
@@ -32,12 +47,19 @@ class VTExpressionsManager
 		return false;
 	}
 
+	/**
+	 * Clear cache array
+	 */
 	static function clearCache()
 	{
 		self::$cache = [];
 	}
 
-	/** END * */
+	/**
+	 * Get fields info
+	 * @param string $moduleName
+	 * @return array
+	 */
 	function fields($moduleName)
 	{
 		$current_user = vglobal('current_user');
@@ -50,10 +72,14 @@ class VTExpressionsManager
 		return $arr;
 	}
 
+	/**
+	 * Get expression functions
+	 * @return array
+	 */
 	function expressionFunctions()
 	{
-		return array('concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
+		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
 			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
-			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')");
+			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')"];
 	}
 }

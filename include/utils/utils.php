@@ -24,7 +24,6 @@ require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
-require_once 'include/events/SqlResultIterator.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';

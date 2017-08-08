@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once("include/events/SqlResultIterator.php");
 
 /**
  * Class VTEntityMethodManager
