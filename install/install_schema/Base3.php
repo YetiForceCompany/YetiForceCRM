@@ -915,7 +915,7 @@ class Base3 extends \App\Db\Importers\Base
 				'columns' => [
 					'login_id' => $this->primaryKey(10),
 					'user_name' => $this->stringType(32),
-					'user_ip' => $this->stringType(50)->notNull(),
+					'user_ip' => $this->stringType(100)->notNull(),
 					'logout_time' => $this->timestamp()->null(),
 					'login_time' => $this->timestamp()->null(),
 					'status' => $this->stringType(25),
