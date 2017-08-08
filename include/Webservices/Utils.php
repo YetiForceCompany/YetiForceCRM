@@ -14,9 +14,7 @@ require_once("modules/Users/Users.php");
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';
-require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
@@ -220,17 +218,6 @@ function vtws_getModuleInstance($webserviceObject)
 function vtws_getOwnerType($ownerId)
 {
 	return \App\Fields\Owner::getType($ownerId);
-}
-
-function vtws_runQueryAsTransaction($query, $params, &$result)
-{
-	$adb = PearDatabase::getInstance();
-
-	$adb->startTransaction();
-	$result = $adb->pquery($query, $params);
-	$error = $adb->hasFailedTransaction();
-	$adb->completeTransaction();
-	return !$error;
 }
 
 function vtws_getCalendarEntityType($id)
