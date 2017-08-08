@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-require_once 'include/events/include.php';
-
 /**
  * Roles Record Model Class
  */

@@ -289,9 +289,6 @@ class OSSPasswords extends CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		require_once('include/utils/utils.php');
-		require_once('include/events/include.php');
-
 		$db = App\Db::getInstance();
 		$registerLink = false;
 		$addModTracker = false;
