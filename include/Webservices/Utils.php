@@ -770,7 +770,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 }
 
 /**
- * Vtws transfer ownership for Workflow tasks
+ * Webservice transfer ownership for workflow tasks
  * @param Users_Record_Model $ownerModel
  * @param Users_Record_Model $newOwnerModel
  */
