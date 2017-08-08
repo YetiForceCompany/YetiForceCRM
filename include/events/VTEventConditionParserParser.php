@@ -33,20 +33,20 @@ class VTEventConditionParserParser extends AntlrParser
 	// delegates
 	// delegators
 
-	static $FOLLOW_comparision_in_statement57;
-	static $FOLLOW_inclause_in_statement63;
-	static $FOLLOW_SYMBOL_in_comparision78;
-	static $FOLLOW_13_in_comparision80;
-	static $FOLLOW_value_in_comparision84;
-	static $FOLLOW_SYMBOL_in_inclause101;
-	static $FOLLOW_IN_in_inclause103;
-	static $FOLLOW_listelement_in_inclause107;
-	static $FOLLOW_14_in_listelement122;
-	static $FOLLOW_value_in_listelement126;
-	static $FOLLOW_15_in_listelement137;
-	static $FOLLOW_value_in_listelement141;
-	static $FOLLOW_16_in_listelement147;
-	static $FOLLOW_STRING_in_value162;
+	public static $FOLLOW_comparision_in_statement57;
+	public static $FOLLOW_inclause_in_statement63;
+	public static $FOLLOW_SYMBOL_in_comparision78;
+	public static $FOLLOW_13_in_comparision80;
+	public static $FOLLOW_value_in_comparision84;
+	public static $FOLLOW_SYMBOL_in_inclause101;
+	public static $FOLLOW_IN_in_inclause103;
+	public static $FOLLOW_listelement_in_inclause107;
+	public static $FOLLOW_14_in_listelement122;
+	public static $FOLLOW_value_in_listelement126;
+	public static $FOLLOW_15_in_listelement137;
+	public static $FOLLOW_value_in_listelement141;
+	public static $FOLLOW_16_in_listelement147;
+	public static $FOLLOW_STRING_in_value162;
 
 	public function __construct($input, $state = null)
 	{
