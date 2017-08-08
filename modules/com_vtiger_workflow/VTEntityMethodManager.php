@@ -60,12 +60,7 @@ class VTEntityMethodManager
 	 */
 	public function methodsForModule($moduleName)
 	{
-		$data = (new \App\Db\Query())->select(['method_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName])->column();
-		$methodNames = [];
-		foreach ($data as $row) {
-			$methodNames[] = $row['method_name'];
-		}
-		return $methodNames;
+		return (new \App\Db\Query())->select(['method_name'])->from('com_vtiger_workflowtasks_entitymethod')->where(['module_name' => $moduleName])->column();
 	}
 	/*
 	  private function methodExists($object, $methodName){
@@ -87,6 +82,6 @@ class VTEntityMethodManager
 	 */
 	public function removeEntityMethod($moduleName, $methodName)
 	{
-		$db->createCommand()->delete('com_vtiger_workflowtasks_entitymethod', ['module_name' => $moduleName, 'method_name' => $methodName])->execute();
+		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtasks_entitymethod', ['module_name' => $moduleName, 'method_name' => $methodName])->execute();
 	}
 }
