@@ -268,7 +268,6 @@ class Vtiger_PDF_Model extends \App\Base
 			->update(self::$baseTable, [
 				'conditions' => '',
 				], [self::$baseIndex => $this->getId()])
-			->limit(1)
 			->execute();
 	}
 
