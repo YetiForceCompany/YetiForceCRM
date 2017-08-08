@@ -52,11 +52,11 @@ class VTTaskQueue
 		$time = time();
 		$query = (new \App\Db\Query())->select(['task_id', 'entity_id', 'task_contents'])->from('com_vtiger_workflowtask_queue')->andWhere(['<', 'do_after', $time]);
 		$arr = [];
-		$dataReader = $query->createCommand($db)->query();
+		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$arr[] = array($row['task_id'], $row['entity_id'], $row['task_contents']);
 		}
-		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtask_queue', ["do_after < $time"])->execute();
+		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtask_queue', ['<', 'do_after', $time])->execute();
 		return $arr;
 	}
 }
