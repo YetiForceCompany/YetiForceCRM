@@ -1372,21 +1372,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $settingsLinks;
 	}
 
-	public function isCustomizable()
-	{
-		return $this->customized == '1' ? true : false;
-	}
-
-	public function isModuleUpgradable()
-	{
-		return $this->isCustomizable() ? true : false;
-	}
-
-	public function isExportable()
-	{
-		return $this->isCustomizable() ? true : false;
-	}
-
 	/**
 	 * Function returns query for module record's search
 	 * @param string $searchValue - part of record name (label column of crmentity table)

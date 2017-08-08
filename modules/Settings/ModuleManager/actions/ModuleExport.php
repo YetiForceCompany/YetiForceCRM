@@ -31,7 +31,6 @@ Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAj
 		$moduleName = $request->get('forModule');
 
 		$moduleModel = \vtlib\Module::getInstance($moduleName);
-
 		if (!$moduleModel->isExportable()) {
 			echo 'Module not exportable!';
 			return;
