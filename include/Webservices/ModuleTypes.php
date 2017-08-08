@@ -40,24 +40,21 @@ function vtws_listtypes($fieldTypeList, $user)
 		}
 
 		if (!empty($fieldTypeList)) {
-			$sql = "SELECT distinct(vtiger_field.tabid) as tabid FROM vtiger_field LEFT JOIN vtiger_ws_fieldtype ON " .
-				"vtiger_field.uitype=vtiger_ws_fieldtype.uitype
-				 INNER JOIN vtiger_profile2field ON vtiger_field.fieldid = vtiger_profile2field.fieldid
-				 INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-				 INNER JOIN vtiger_role2profile ON vtiger_profile2field.profileid = vtiger_role2profile.profileid
-				 INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role2profile.roleid
-				 where vtiger_profile2field.visible=0 and vtiger_def_org_field.visible = 0
-				 and vtiger_field.presence in (0,2)
-				 and vtiger_user2role.userid=? and fieldtype in (" .
-				generateQuestionMarks($fieldTypeList) . ')';
+			$query = (new \App\Db\Query())->select(['(vtiger_field.tabid) as tabid'])
+					->from('vtiger_field')
+					->leftJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype=vtiger_ws_fieldtype.uitype')
+					->innerJoin('vtiger_profile2field', 'vtiger_field.fieldid = vtiger_profile2field.fieldid')
+					->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
+					->innerJoin('vtiger_role2profile', 'vtiger_profile2field.profileid = vtiger_role2profile.profileid')
+					->innerJoin('vtiger_user2role', 'vtiger_user2role.roleid = vtiger_role2profile.roleid')
+					->where(['vtiger_profile2field.visible' => 0, 'vtiger_def_org_field.visible' => 0, 'vtiger_field.presence' => [0, 2], 'vtiger_user2role.userid' => $user->id, 'fieldtype' => $fieldTypeList])->distinct();
 			$params = [];
 			$params[] = $user->id;
 			foreach ($fieldTypeList as $fieldType)
 				$params[] = $fieldType;
-			$result = $db->pquery($sql, $params);
-			$it = new SqlResultIterator($db, $result);
 			$moduleList = [];
-			foreach ($it as $row) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$moduleList[] = \App\Module::getModuleName($row->tabid);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
