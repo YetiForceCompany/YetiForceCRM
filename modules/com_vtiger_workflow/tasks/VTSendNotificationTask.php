@@ -37,7 +37,6 @@ class VTSendNotificationTask extends VTTask
 	public function doTask($recordModel)
 	{
 		if (is_numeric($this->template) && $this->template) {
-			$db = PearDatabase::getInstance();
 			$entityId = $recordModel->getId();
 			$result = (new \App\Db\Query())
 					->select(['vtiger_activity.*', 'vtiger_crmentity.description', 'vtiger_crmentity.smownerid as assigned_user_id', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.createdtime', 'vtiger_activity_reminder.reminder_time'])
