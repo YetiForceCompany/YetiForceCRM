@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 /**
- * Vtws list types
+ * Webservice list types
  * @staticvar boolean $webserviceEntities
  * @staticvar array $types
  * @param array $fieldTypeList
