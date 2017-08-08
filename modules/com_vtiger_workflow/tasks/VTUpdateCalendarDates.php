@@ -10,8 +10,16 @@
 class VTUpdateCalendarDates extends VTTask
 {
 
+	/**
+	 * Execute immediately
+	 * @var bool
+	 */
 	public $executeImmediately = true;
 
+	/**
+	 * Get field names
+	 * @return array
+	 */
 	public function getFieldNames()
 	{
 		return [];
@@ -29,10 +37,9 @@ class VTUpdateCalendarDates extends VTTask
 		if (count($delta) == 0) {
 			return;
 		}
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_activity_update_dates INNER JOIN com_vtiger_workflowtasks ON com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id '
-			. 'WHERE vtiger_activity_update_dates.parent = ?', [$entityId]);
-		while ($row = $adb->fetch_array($result)) {
+		$query = (new \App\Db\Query())->from('vtiger_activity_update_dates')->innerJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id')->where(['vtiger_activity_update_dates.parent' => $entityId]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$task = new \ArrayObject(unserialize($row['task']));
 			$rowRecordModel = Vtiger_Record_Model::getInstanceById($row['activityid'], 'Calendar');
 
@@ -70,9 +77,9 @@ class VTUpdateCalendarDates extends VTTask
 				if ($userId === null) {
 					$userId = vtws_getWebserviceEntityId('Users', 1);
 				}
-				$result = $adb->pquery('SELECT `end_hour` FROM vtiger_users WHERE id = ?', [$userId]);
-				if ($adb->num_rows($result)) {
-					$timeEnd = $adb->query_result($result, 0, 'end_hour');
+				$result = (new \App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->scalar();
+				if ($result) {
+					$timeEnd = $result;
 					$timeWithSec = Vtiger_Time_UIType::getTimeValueWithSeconds($timeEnd);
 					$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
 					$timeEnd = $dbInsertDateTime->format('H:i:s');
