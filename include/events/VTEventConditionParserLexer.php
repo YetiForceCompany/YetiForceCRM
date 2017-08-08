@@ -82,20 +82,20 @@ class VTEventConditionParserLexer_DFA9 extends DFA
 class VTEventConditionParserLexer extends AntlrLexer
 {
 
-	static $INTEGER = 8;
-	static $T__16 = 16;
-	static $IN = 5;
-	static $T__15 = 15;
-	static $SYMBOL = 4;
-	static $T__14 = 14;
-	static $LETTER = 9;
-	static $T__13 = 13;
-	static $WHITESPACE = 12;
-	static $DIGIT = 7;
-	static $DOT = 10;
-	static $EOF = -1;
-	static $ELEMENT_ID = 11;
-	static $STRING = 6;
+	public static $INTEGER = 8;
+	public static $T__16 = 16;
+	public static $IN = 5;
+	public static $T__15 = 15;
+	public static $SYMBOL = 4;
+	public static $T__14 = 14;
+	public static $LETTER = 9;
+	public static $T__13 = 13;
+	public static $WHITESPACE = 12;
+	public static $DIGIT = 7;
+	public static $DOT = 10;
+	public static $EOF = -1;
+	public static $ELEMENT_ID = 11;
+	public static $STRING = 6;
 
 	public function reportError($e)
 	{
@@ -125,7 +125,8 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$T__13;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
+			{
 				$this->matchString('==');
 			}
 
@@ -142,7 +143,8 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$T__14;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
+			{
 				$this->matchChar(91);
 			}
 
@@ -159,7 +161,8 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$T__15;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
+			{
 				$this->matchChar(44);
 			}
 
@@ -176,7 +179,8 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$T__16;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
+			{
 				$this->matchChar(93);
 			}
 
@@ -193,7 +197,8 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$IN;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
+			{
 				if ($this->input->LA(1) == 73 || $this->input->LA(1) == 105) {
 					$this->input->consume();
 				} else {
@@ -224,7 +229,8 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$INTEGER;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
+			{
 				$cnt1 = 0;
 				//loop1:
 				do {
@@ -265,8 +271,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$STRING;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$this->matchChar(39);
 				$cnt2 = 0;
 				//loop2:
@@ -341,8 +346,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 			}
 			switch ($alt5) {
 				case 1 : {
-						$this->mLETTER();
-						{
+						$this->mLETTER(); {
 							//loop3:
 							do {
 								$alt3 = 2;
@@ -423,8 +427,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$DOT;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$this->matchChar(46);
 			}
 
@@ -441,8 +444,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$ELEMENT_ID;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$cnt6 = 0;
 				//loop6:
 				do {
@@ -540,8 +542,7 @@ class VTEventConditionParserLexer extends AntlrLexer
 	{
 		try {
 			$_type = VTEventConditionParserLexer::$WHITESPACE;
-			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL;
-			{
+			$_channel = VTEventConditionParserLexer::$DEFAULT_TOKEN_CHANNEL; {
 				$cnt8 = 0;
 				//loop8:
 				do {

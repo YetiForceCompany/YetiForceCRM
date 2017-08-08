@@ -15,7 +15,7 @@ class Vtiger_Viewer extends SmartyBC
 	const DEFAULTLAYOUT = 'basic';
 	const DEFAULTTHEME = 'twilight';
 
-	static $currentLayout;
+	public static $currentLayout;
 	// Turn-it on to analyze the data pushed to templates for the request.
 	protected static $debugViewer = false;
 	protected static $instance = false;
@@ -204,7 +204,7 @@ class Vtiger_Viewer extends SmartyBC
 	 * @param string $media Layout/Media
 	 * @return Vtiger_Viewer instance
 	 */
-	static function getInstance($media = '')
+	public static function getInstance($media = '')
 	{
 		if (self::$instance) {
 			return self::$instance;

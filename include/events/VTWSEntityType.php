@@ -26,25 +26,25 @@ require_once 'include/Webservices/VtigerWebserviceObject.php';
 class VTWSEntityType
 {
 
-	function __construct($entityTypeName, $user)
+	public function __construct($entityTypeName, $user)
 	{
 		$describeResult = vtws_describe($entityTypeName, $user);
 		$this->entityTypeName = $entityTypeName;
 		$this->description = $describeResult;
 	}
 
-	function usingGlobalCurrentUser($entityTypeName)
+	public function usingGlobalCurrentUser($entityTypeName)
 	{
 		$current_user = vglobal('current_user');
 		return new VTWSEntityType($entityTypeName, $current_user);
 	}
 
-	function forUser($entityTypeName, $user)
+	public function forUser($entityTypeName, $user)
 	{
 		return new VTWSEntityType($entityTypeName, $user);
 	}
 
-	function getTabId()
+	public function getTabId()
 	{
 		$adb = PearDatabase::getInstance();
 		if (!isset($this->tabId)) {
@@ -54,12 +54,12 @@ class VTWSEntityType
 		return $this->tabId;
 	}
 
-	function getModuleName()
+	public function getModuleName()
 	{
 		return $this->moduleName;
 	}
 
-	function getFieldNames()
+	public function getFieldNames()
 	{
 		if (!isset($this->fieldNames)) {
 			$fields = $this->description['fields'];
@@ -72,7 +72,7 @@ class VTWSEntityType
 		return $this->fieldNames;
 	}
 
-	function getFieldLabel($fieldName)
+	public function getFieldLabel($fieldName)
 	{
 		if (!isset($this->fieldLabels)) {
 			$this->getFieldLabels();
@@ -80,7 +80,7 @@ class VTWSEntityType
 		return $this->fieldLabels[$fieldName];
 	}
 
-	function getFieldLabels()
+	public function getFieldLabels()
 	{
 		if (!isset($this->fieldLabels)) {
 			$fields = $this->description['fields'];
@@ -91,7 +91,7 @@ class VTWSEntityType
 		return $this->fieldLabels;
 	}
 
-	function getFieldType($fieldName)
+	public function getFieldType($fieldName)
 	{
 		if (!isset($this->fieldTypes[$fieldName])) {
 			$fields = $this->description['fields'];
@@ -181,7 +181,7 @@ class VTWSEntityType
 		return $this->fieldTypes[$fieldName];
 	}
 
-	function getFieldTypes()
+	public function getFieldTypes()
 	{
 		$fieldNames = $this->getFieldNames();
 		$fieldTypes = [];
@@ -195,7 +195,7 @@ class VTWSEntityType
 class VTWSFieldType
 {
 
-	function toArray()
+	public function toArray()
 	{
 		$ro = new ReflectionObject($this);
 		$props = $ro->getProperties();
