@@ -8,8 +8,6 @@
  * All Rights Reserved.
  * ******************************************************************************** */
 
-require_once 'include/events/SqlResultIterator.php';
-
 /**
  * Description of EmailTemplateUtils
  *
@@ -18,16 +16,67 @@ require_once 'include/events/SqlResultIterator.php';
 class EmailTemplate
 {
 
+	/**
+	 * Module
+	 * @var string
+	 */
 	protected $module;
+
+	/**
+	 * Raw description
+	 * @var string
+	 */
 	protected $rawDescription;
+
+	/**
+	 * Processed description
+	 * @var string
+	 */
 	protected $processedDescription;
+
+	/**
+	 * Record id
+	 * @var int
+	 */
 	protected $recordId;
+
+	/**
+	 * Processed
+	 * @var bool
+	 */
 	protected $processed;
+
+	/**
+	 * Template fields
+	 * @var array
+	 */
 	protected $templateFields;
+
+	/**
+	 * User
+	 * @var int
+	 */
 	protected $user;
+
+	/**
+	 * Processed modules
+	 * @var array
+	 */
 	protected $processedmodules;
+
+	/**
+	 * Referenced fields
+	 * @var array
+	 */
 	protected $referencedFields;
 
+	/**
+	 * Class constructor
+	 * @param string $module
+	 * @param string $description
+	 * @param int $recordId
+	 * @param int $user
+	 */
 	public function __construct($module, $description, $recordId, $user)
 	{
 		$this->module = $module;
@@ -37,6 +86,10 @@ class EmailTemplate
 		$this->setDescription($description);
 	}
 
+	/**
+	 * Set description
+	 * @param string $description
+	 */
 	public function setDescription($description)
 	{
 		// Because if we have two dollars like this "$$" it's not working because it'll be like escape char
@@ -60,11 +113,21 @@ class EmailTemplate
 		}
 	}
 
+	/**
+	 * Get template variable list for module
+	 * @param string $module
+	 * @return array
+	 */
 	private function getTemplateVariableListForModule($module)
 	{
 		return $this->templateFields[strtolower($module)];
 	}
 
+	/**
+	 * Process
+	 * @param array $params
+	 * @return null
+	 */
 	public function process($params)
 	{
 		$module = $this->module;
@@ -115,36 +178,30 @@ class EmailTemplate
 			}
 
 			if (count($tableList) > 0 && count($columnList) > 0) {
-				$sql = sprintf('SELECT %s FROM %s', implode(', ', $columnList), $tableList[0]);
+				$query = (new \App\Db\Query())->select($columnList)->from($tableList[0]);
 				$moduleTableIndexList = $meta->getEntityTableIndexList();
 				foreach ($tableList as $index => $tableName) {
 					if ($tableName != $tableList[0]) {
-						$sql .= ' INNER JOIN ' . $tableName . ' ON ' . $tableList[0] . '.' .
-							$moduleTableIndexList[$tableList[0]] . '=' . $tableName . '.' .
-							$moduleTableIndexList[$tableName];
+						$query->innerJoin($tableName, $tableList[0] . '.' . $moduleTableIndexList[$tableList[0]] . ' = ' . $tableName . '.' . $moduleTableIndexList[$tableName]);
 					}
 				}
 				//If module is Leads and if you are not selected any leads fields then query failure is happening.
 				//By default we are checking where condition on base table.
 				if ($module == 'Leads' && !in_array('vtiger_leaddetails', $tableList)) {
-					$sql .= ' INNER JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_crmentity.crmid';
+					$query->innerJoin('vtiger_leaddetails', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid');
 				}
 
-				$sql .= ' WHERE';
 				$deleteQuery = $meta->getEntityDeletedQuery();
 				if (!empty($deleteQuery)) {
-					$sql .= ' ' . $meta->getEntityDeletedQuery() . ' AND';
+					$query->where($meta->getEntityDeletedQuery());
 				}
-				$sql .= ' ' . $tableList[0] . '.' . $moduleTableIndexList[$tableList[0]] . '=?';
-				$sqlparams = array($recordId);
-				$db = PearDatabase::getInstance();
-				$result = $db->pquery($sql, $sqlparams);
-				$it = new SqlResultIterator($db, $result);
+				$query->andWhere([$tableList[0] . '.' . $moduleTableIndexList[$tableList[0]] => $recordId]);
 				//assuming there can only be one row.
 				$values = [];
-				foreach ($it as $row) {
+				$dataReader = $query->createCommand()->query();
+				while ($row = $dataReader->read()) {
 					foreach ($fieldList as $field) {
-						$values[$field] = $row->get($fieldColumnMapping[$field]);
+						$values[$field] = $row[$fieldColumnMapping[$field]];
 					}
 				}
 				$moduleFields = $meta->getModuleFields();
@@ -216,6 +273,11 @@ class EmailTemplate
 		$this->processed = true;
 	}
 
+	/**
+	 * Check if is processing reference field
+	 * @param array $params
+	 * @return boolean
+	 */
 	public function isProcessingReferenceField($params)
 	{
 		if (!empty($params['referencedMeta']) && (!empty($params['id'])) && (!empty($params['field']))
@@ -226,6 +288,10 @@ class EmailTemplate
 		return false;
 	}
 
+	/**
+	 * Get processed description
+	 * @return string
+	 */
 	public function getProcessedDescription()
 	{
 		if (!$this->processed) {
@@ -234,6 +300,11 @@ class EmailTemplate
 		return $this->processedDescription;
 	}
 
+	/**
+	 * Check if module is active
+	 * @param string $module
+	 * @return boolean
+	 */
 	public function isModuleActive($module)
 	{
 		include_once 'include/utils/VtlibUtils.php';
@@ -243,16 +314,20 @@ class EmailTemplate
 		return false;
 	}
 
+	/**
+	 * Check if module field is active
+	 * @param string $field
+	 * @param string $mod
+	 * @return boolean
+	 */
 	public function isActive($field, $mod)
 	{
-		$adb = PearDatabase::getInstance();
 		$tabid = \App\Module::getModuleId($mod);
-		$query = 'select * from vtiger_field where fieldname = ?  and tabid = ? and presence in (0,2)';
-		$res = $adb->pquery($query, array($field, $tabid));
-		$rows = $adb->num_rows($res);
-		if ($rows > 0) {
+		$result = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $field, 'tabid' => $tabid, 'presence' => [0, 2]])->count();
+		if ($result) {
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 }
