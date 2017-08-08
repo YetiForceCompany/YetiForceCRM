@@ -296,7 +296,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		$field = [];
 		$dataReader = (new \App\Db\Query())->select(['fieldlabel', 'fieldname'])
 				->from('vtiger_field')
-				->where(['tabid' => $tabid, 'uitype' => '300'])
+				->where(['tabid' => $tabid, 'uitype' => 300])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
