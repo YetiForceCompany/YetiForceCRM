@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/Webservices/ModuleTypes.php';
 require_once('include/Webservices/Create.php');
