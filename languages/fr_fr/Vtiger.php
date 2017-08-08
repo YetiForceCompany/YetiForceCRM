@@ -1556,6 +1556,7 @@ $jsLanguageStrings = [
 	'LBL_WEDNESDAY' => 'Mercredi',
 	'LBL_WED' => 'Mer',
 	'LBL_WEEK' => 'Semaine',
+	'LBL_RELATED_RECORDS_LIST' => 'List of related records',
 	'JS_MORE' => 'Plus',
 	'JS_TO_REALIZE' => 'A faire',
 	'JS_HISTORY' => 'Historique',
