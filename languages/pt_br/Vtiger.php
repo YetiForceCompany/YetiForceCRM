@@ -1282,6 +1282,7 @@ $languageStrings = [
 	'LBL_COPY_TO_CLIPBOARD' => 'Copiar para área de transferência',
 	'LBL_COPY_VALUE' => 'Valor do Campo',
 	'LBL_COPY_LABEL' => 'Nome do Campo',
+	'LBL_RELATED_RECORDS_LIST' => 'List of related records',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Número de endereços de e-mail encontrados',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Número de registros selecionados',
