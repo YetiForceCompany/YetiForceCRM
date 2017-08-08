@@ -631,7 +631,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param resource
 	 * @param string
 	 */
-	static function Trace($TraceFILE, $zTracePrompt)
+	public static function Trace($TraceFILE, $zTracePrompt)
 	{
 		if (!$TraceFILE) {
 			$zTracePrompt = 0;
@@ -645,7 +645,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * Output debug information to output (php://output stream)
 	 */
-	static function PrintTrace()
+	public static function PrintTrace()
 	{
 		self::$yyTraceFILE = fopen('php://output', 'w');
 		self::$yyTracePrompt = '';
@@ -772,7 +772,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * @param int the symbol code
 	 * @param mixed the symbol's value
 	 */
-	static function yy_destructor($yymajor, $yypminor)
+	public static function yy_destructor($yymajor, $yypminor)
 	{
 		switch ($yymajor) {
 			/* Here is inserted the actions which take place when a
