@@ -27,7 +27,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param array $values
 	 * @param int $record
-	 * @param object $recordInstance
+	 * @param Vtiger_Record_Model $recordInstance
 	 * @param bool $rawText
 	 * @return object
 	 */
