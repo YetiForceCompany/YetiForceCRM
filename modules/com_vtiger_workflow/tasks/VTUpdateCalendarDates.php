@@ -34,7 +34,7 @@ class VTUpdateCalendarDates extends VTTask
 		$entityId = $recordModel->getId();
 
 		$delta = $recordModel->getPreviousValue();
-		if (count($delta) == 0) {
+		if (count($delta) === 0) {
 			return;
 		}
 		$query = (new \App\Db\Query())->from('vtiger_activity_update_dates')->innerJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.task_id = vtiger_activity_update_dates.task_id')->where(['vtiger_activity_update_dates.parent' => $entityId]);
@@ -43,11 +43,11 @@ class VTUpdateCalendarDates extends VTTask
 			$task = new \ArrayObject(unserialize($row['task']));
 			$rowRecordModel = Vtiger_Record_Model::getInstanceById($row['activityid'], 'Calendar');
 
-			if ($task['datefield_start'] == 'wfRunTime') {
+			if ($task['datefield_start'] === 'wfRunTime') {
 				$baseDateStart = date('Y-m-d H:i:s');
 			} else {
 				$baseDateStart = $recordModel->get($task['datefield_start']);
-				if ($baseDateStart == '') {
+				if ($baseDateStart === '') {
 					$baseDateStart = date('Y-m-d');
 				}
 			}
@@ -63,11 +63,11 @@ class VTUpdateCalendarDates extends VTTask
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
 			$baseDateStart = strtotime($match[0]);
 
-			if ($task['datefield_end'] == 'wfRunTime') {
+			if ($task['datefield_end'] === 'wfRunTime') {
 				$baseDateEnd = date('Y-m-d H:i:s');
 			} else {
 				$baseDateEnd = $recordModel->get($task['datefield_end']);
-				if ($baseDateEnd == '') {
+				if ($baseDateEnd === '') {
 					$baseDateEnd = date('Y-m-d');
 				}
 			}
