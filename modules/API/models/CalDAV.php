@@ -680,12 +680,22 @@ class API_CalDAV_Model
 		];
 	}
 
-	public function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0)
+	/**
+	 * Get vtime zone
+	 * @param Sabre\VObject\Component $vcalendar
+	 * @param type $tzid
+	 * @param int $from
+	 * @param int $to
+	 * @return boolean
+	 */
+	public function getVTimeZone(Sabre\VObject\Component $vcalendar, $tzid, $from = 0, $to = 0)
 	{
-		if (!$from)
+		if (!$from) {
 			$from = time();
-		if (!$to)
+		}
+		if (!$to) {
 			$to = $from;
+		}
 
 		try {
 			$tz = new \DateTimeZone($tzid);
