@@ -155,7 +155,7 @@ class VTTaskManager
 	 * @param string $taskType
 	 * @param VTTaskType $taskTypeInstance
 	 */
-	private function requireTask($taskType, $taskTypeInstance = '')
+	private function requireTask($taskType, VTTaskType $taskTypeInstance = '')
 	{
 		if (!empty($taskTypeInstance)) {
 			$taskClassPath = $taskTypeInstance->get('classpath');
@@ -173,7 +173,7 @@ class VTTaskManager
 	 * @param VTTaskType $taskTypeInstance
 	 * @return string
 	 */
-	public function retrieveTemplatePath($moduleName, $taskTypeInstance)
+	public function retrieveTemplatePath($moduleName, VTTaskType $taskTypeInstance)
 	{
 		$taskTemplatePath = $taskTypeInstance->get('templatepath');
 		if (!empty($taskTemplatePath)) {

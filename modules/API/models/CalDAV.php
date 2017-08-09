@@ -347,7 +347,13 @@ class API_CalDAV_Model
 		return true;
 	}
 
-	public function recordUpdate($record, $cal)
+	/**
+	 * Record update
+	 * @param Vtiger_Record_Model $record
+	 * @param array $cal
+	 * @return boolean
+	 */
+	public function recordUpdate(Vtiger_Record_Model $record, $cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
