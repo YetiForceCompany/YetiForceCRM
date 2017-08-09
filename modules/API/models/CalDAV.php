@@ -796,6 +796,14 @@ class API_CalDAV_Model
 		];
 	}
 
+	/**
+	 *
+	 * @param Document $vcalendar
+	 * @param string $tzid
+	 * @param int $from
+	 * @param int $to
+	 * @return boolean
+	 */
 	public function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0)
 	{
 		if (!$from)
@@ -886,11 +894,12 @@ class API_CalDAV_Model
 		}
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
-
+		$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
 			$value = ltrim($attendee->getValue(), 'mailto:');
-			if ($attendee['ROLE']->getValue() == 'CHAIR') {
+			if ($attendee['ROLE']->getValue() === 'CHAIR') {
 				$users = App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
 					continue;
@@ -905,12 +914,12 @@ class API_CalDAV_Model
 			$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
 			if (isset($invities[$value])) {
 				$row = $invities[$value];
-				if ($row['status'] != $status) {
-					$db->update('u_yf_activity_invitation', [
+				if ($row['status'] !== $status) {
+					$dbCommand->update('u_yf_activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
-						], 'activityid=? && email=?', [$record->getId(), $value]
-					);
+						], ['activityid' => $record->getId(), 'email' => $value]
+					)->execute();
 				}
 				unset($invities[$value]);
 			} else {
@@ -920,14 +929,14 @@ class API_CalDAV_Model
 					'status' => $status,
 					'activityid' => $record->getId()
 				];
-				if ($status != 0) {
+				if ($status) {
 					$params['time'] = $timeFormated;
 				}
-				$db->insert('u_yf_activity_invitation', $params);
+				$dbCommand->insert('u_yf_activity_invitation', $params)->execute();
 			}
 		}
 		foreach ($invities as &$invitation) {
-			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
+			$dbCommand->delete('u_yf_activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
 		}
 	}
 
