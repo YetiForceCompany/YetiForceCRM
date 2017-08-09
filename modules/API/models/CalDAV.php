@@ -993,6 +993,12 @@ class API_CalDAV_Model
 		}
 	}
 
+	/**
+	 * Get attendee status
+	 * @param string $value
+	 * @param bool $toCrm
+	 * @return string
+	 */
 	public function getAttendeeStatus($value, $toCrm = true)
 	{
 		$statuses = ['NEEDS-ACTION', 'ACCEPTED', 'DECLINED'];
