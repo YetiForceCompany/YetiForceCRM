@@ -412,6 +412,12 @@ class API_CalDAV_Model
 		return true;
 	}
 
+	/**
+	 * Record update
+	 * @param Vtiger_Record_Model $record
+	 * @param array $cal
+	 * @return boolean
+	 */
 	public function recordUpdate($record, $cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
@@ -454,15 +460,15 @@ class API_CalDAV_Model
 					$record->set('visibility', AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
-				$db = PearDatabase::getInstance();
-				$db->update('dav_calendarobjects', [
+				$dbCommand = \App\Db::getInstance()->createCommand();
+				$dbCommand->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
-					], 'id = ?', [$cal['id']]
-				);
-				$db->update('vtiger_crmentity', [
+					], ['id' => $cal['id']]
+				)->execute();
+				$dbCommand->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
-					], 'crmid = ?', [$record->getId()]
-				);
+					], ['crmid' => $record->getId()]
+				)->execute();
 				if ($type === 'VEVENT') {
 					$this->recordSaveAttendee($record, $component);
 				}
