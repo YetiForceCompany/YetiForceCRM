@@ -8,22 +8,45 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+/**
+ * Class iCalLastImport
+ */
 class iCalLastImport
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public $tableName = 'vtiger_ical_import';
+
+	/**
+	 * Fields
+	 * @var array
+	 */
 	public $fields = array('id', 'userid', 'entitytype', 'crmid');
+
+	/**
+	 * Field data
+	 * @var array
+	 */
 	public $fieldData = [];
 
+	/**
+	 * Clear user records
+	 * @param int $userId
+	 */
 	public function clearRecords($userId)
 	{
-		$adb = PearDatabase::getInstance();
 		if (vtlib\Utils::CheckTable($this->tableName)) {
-			$query = sprintf('DELETE FROM %s WHERE userid = ?', $this->tableName);
-			$adb->pquery($query, array($userId));
+			\App\Db::getInstance()->createCommand()->delete($this->tableName, ['userid' => $userId])->execute();
 		}
 	}
 
+	/**
+	 * Set fields
+	 * @param array $data
+	 */
 	public function setFields($data)
 	{
 		if (!empty($data)) {
@@ -33,6 +56,10 @@ class iCalLastImport
 		}
 	}
 
+	/**
+	 * Save
+	 * @return null
+	 */
 	public function save()
 	{
 		$adb = PearDatabase::getInstance();
