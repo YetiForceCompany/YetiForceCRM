@@ -116,7 +116,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to handle the dial call event
 	 * @param \App\Request $details 
 	 */
-	public function handleDialCall($details)
+	public function handleDialCall(\App\Request $details)
 	{
 		$callid = $details->get('callUUID');
 
@@ -147,7 +147,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to handle the EndCall event
 	 * @param \App\Request $details 
 	 */
-	public function handleEndCall($details)
+	public function handleEndCall(\App\Request $details)
 	{
 		$callid = $details->get('callUUID');
 		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
@@ -164,7 +164,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to handle the hangup call event
 	 * @param \App\Request $details 
 	 */
-	public function handleHangupCall($details)
+	public function handleHangupCall(\App\Request $details)
 	{
 		$callid = $details->get('callUUID');
 		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
@@ -201,7 +201,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to handle record event
 	 * @param \App\Request $details 
 	 */
-	public function handleRecording($details)
+	public function handleRecording(\App\Request $details)
 	{
 		$callid = $details->get('callUUID');
 		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($callid);
@@ -213,7 +213,7 @@ class PBXManager_PBXManager_Connector
 	 * Function to handle AGI event
 	 * @param \App\Request $details 
 	 */
-	public function handleStartupCall($details, $userInfo, $customerInfo)
+	public function handleStartupCall(\App\Request $details, $userInfo, $customerInfo)
 	{
 		$params = $this->prepareParameters($details, self::RINGING_TYPE);
 		$direction = $details->get('Direction');
