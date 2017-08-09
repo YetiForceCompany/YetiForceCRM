@@ -30,7 +30,7 @@ class API_CalDAV_Model
 
 	/**
 	 * User
-	 * @var object|array|bool
+	 * @var mixed|bool
 	 */
 	public $user = false;
 
@@ -72,7 +72,7 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | Start');
 
 		$query = (new \App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.deleted', 'vtiger_crmentity.createdtime', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.description'])->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_activity.dav_status' => 1]);
-		$dataReader = $query->createCommand($db)->query();
+		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$this->record = $row;
 			$this->davSync();
@@ -895,7 +895,7 @@ class API_CalDAV_Model
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
 		$db = \App\Db::getInstance();
-		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand = $db->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
 			$value = ltrim($attendee->getValue(), 'mailto:');
