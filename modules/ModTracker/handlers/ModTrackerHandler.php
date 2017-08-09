@@ -28,12 +28,12 @@ class ModTracker_ModTrackerHandler_Handler
 			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
-			$watchdogMessage = '(recordChanges: listOfAllValues)';
+			$watchdogMessage = '$(record : ChangesListValues)$';
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			$status = ModTracker::$UPDATED;
 			$watchdogTitle = 'LBL_UPDATED';
-			$watchdogMessage = '(recordChanges: listOfAllChanges)';
+			$watchdogMessage = '$(record : ChangesListValues)$';
 		}
 		if (empty($delta)) {
 			return false;
@@ -92,8 +92,8 @@ class ModTracker_ModTrackerHandler_Handler
 		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_ADDED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
-			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
-			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
+			$watchdogMessage .= ' $(translate : LBL_WITH)$ ';
+			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">$(record : RecordLabel)$</a>';
 			$this->addNotification($params['destinationModule'], $params['destinationRecordId'], $watchdogTitle, $watchdogMessage);
 		}
 	}
@@ -112,8 +112,8 @@ class ModTracker_ModTrackerHandler_Handler
 		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_REMOVED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
-			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
-			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
+			$watchdogMessage .= ' $(translate : LBL_WITH)$ ';
+			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">$(record : RecordLabel)$</a>';
 			$this->addNotification($params['destinationModule'], $params['destinationRecordId'], $watchdogTitle, $watchdogMessage);
 		}
 	}

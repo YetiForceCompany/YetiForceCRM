@@ -39,10 +39,10 @@ class Zip extends \ZipArchive
 	{
 		if ($fileName) {
 			if (!file_exists($fileName) || !$this->open($fileName)) {
-				throw new Exceptions\AppException('Unable to open the zip file');
+				throw new \Exceptions\AppException('Unable to open the zip file');
 			}
 			if (!$this->checkFreeSpace()) {
-				throw new Exceptions\AppException('The content of the zip file is too large');
+				throw new \Exceptions\AppException('The content of the zip file is too large');
 			}
 			foreach ($options as $key => $value) {
 				$this->$key = $value;
@@ -88,10 +88,10 @@ class Zip extends \ZipArchive
 			}
 		} else {
 			if (!is_dir($toDir)) {
-				throw new Exceptions\AppException('Directory not found, and unable to create it');
+				throw new \Exceptions\AppException('Directory not found, and unable to create it');
 			}
 			if (!is_writable($toDir)) {
-				throw new Exceptions\AppException('No permissions to create files');
+				throw new \Exceptions\AppException('No permissions to create files');
 			}
 			for ($i = 0; $i < $this->numFiles; $i++) {
 				$path = $this->getNameIndex($i);

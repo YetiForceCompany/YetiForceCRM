@@ -14,7 +14,6 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
 		if (!$currentUserModel->isAdminUser()) {
 			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
 		}

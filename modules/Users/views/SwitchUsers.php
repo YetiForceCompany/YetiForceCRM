@@ -27,8 +27,8 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 		$users = Users_Module_Model::getSwitchUsers(true);
 		$userId = $request->get('id');
 		$baseUserId = $userId;
-		if (Vtiger_Session::has('baseUserId') && Vtiger_Session::get('baseUserId') != '') {
-			$baseUserId = Vtiger_Session::get('baseUserId');
+		if (App\Session::has('baseUserId') && App\Session::get('baseUserId') != '') {
+			$baseUserId = App\Session::get('baseUserId');
 		}
 		unset($users[$baseUserId]);
 		unset($users[$userId]);

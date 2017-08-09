@@ -79,7 +79,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 
 		$linkId = $request->get('linkid');
 		$data = $request->get('data');
-		$createdTime = $request->get('createdtime');
+		$createdTime = $request->getDateRange('createdtime');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
@@ -87,9 +87,9 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
-		if ($owner == 'all')
+		if ($owner == 'all') {
 			$owner = '';
-
+		}
 		$dates = [];
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {

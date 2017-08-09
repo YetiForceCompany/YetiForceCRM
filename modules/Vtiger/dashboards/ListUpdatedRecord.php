@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-vimport('modules.Vtiger.helpers.ListUpdatedRecord');
+Vtiger_Loader::includeOnce('modules.Vtiger.helpers.ListUpdatedRecord');
 
 class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 {

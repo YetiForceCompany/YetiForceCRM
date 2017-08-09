@@ -40,8 +40,8 @@ class Language
 		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
-		} elseif (\Vtiger_Session::get('language') !== '') {
-			$language = \Vtiger_Session::get('language');
+		} elseif (!empty(\App\Session::get('language'))) {
+			$language = \App\Session::get('language');
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');
 		}
@@ -337,5 +337,44 @@ class Language
 		}
 		//Fallback if no language found
 		return '';
+	}
+
+	/**
+	 * Function to get the label name of the Langauge package
+	 * @param string $name
+	 * @return string|boolean
+	 */
+	public static function getLanguageLabel($name)
+	{
+		return (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
+	}
+
+	/**
+	 * Function return languange
+	 * @param boolean|array $condition
+	 * @return array
+	 */
+	public static function getAll($condition = false)
+	{
+		if (is_array($condition)) {
+			$cacheKey = implode(',', $condition);
+		} else {
+			$cacheKey = $condition;
+		}
+		if (Cache::has('getAll', $cacheKey)) {
+			return Cache::get('getAll', $cacheKey);
+		}
+
+		$query = (new Db\Query())->from('vtiger_language');
+		if ($condition) {
+			$query->where($condition);
+		}
+		$output = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$output[$row['prefix']] = $row;
+		}
+		Cache::save('getAll', $cacheKey, $output);
+		return $output;
 	}
 }

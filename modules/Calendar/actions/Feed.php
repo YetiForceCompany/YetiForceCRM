@@ -25,7 +25,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 			$textColor = $request->get('textColor');
 
 			$actionName = 'Calendar_' . $type . '_ActivityTypes';
-			vimport('~modules/Calendar/activityTypes/' . $type . '.php');
+			Vtiger_Loader::includeOnce('~modules/Calendar/activityTypes/' . $type . '.php');
 			$pullInstance = new $actionName;
 			$pullInstance->process($this, $request, $start, $end, $result, $userid, $color, $textColor);
 			echo json_encode($result);
@@ -36,7 +36,7 @@ class Calendar_Feed_Action extends Vtiger_BasicAjax_Action
 
 	public function getGroupsIdsForUsers($userId)
 	{
-		vimport('~include/utils/GetUserGroups.php');
+		Vtiger_Loader::includeOnce('~include/utils/GetUserGroups.php');
 
 		$userGroupInstance = new GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);

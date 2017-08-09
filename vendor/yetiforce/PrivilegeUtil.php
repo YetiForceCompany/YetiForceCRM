@@ -37,49 +37,14 @@ class PrivilegeUtil
 		return $parentRecOwner;
 	}
 
-	/** Function to get email related accounts
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $accountid -- accountid:: Type integer
-	 */
-	private static function getEmailsRelatedAccounts($recordId)
-	{
-		\App\Log::trace("Entering getEmailsRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
-		$result = $adb->pquery($query, array($recordId));
-		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getEmailsRelatedAccounts method ...');
-		return $accountid;
-	}
-
-	/** Function to get email related Leads
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $leadid -- leadid:: Type integer
-	 */
-	private static function getEmailsRelatedLeads($recordId)
-	{
-		\App\Log::trace("Entering getEmailsRelatedLeads($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
-		$result = $adb->pquery($query, array($recordId));
-		$leadid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getEmailsRelatedLeads method ...');
-		return $leadid;
-	}
-
-	/** Function to get HelpDesk related Accounts
-	 * @param $recordId -- record id :: Type integer
-	 * @returns $accountid -- accountid:: Type integer
+	/**
+	 * Function return related account with ticket
+	 * @param int $recordId
+	 * @return int
 	 */
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
-		\App\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
-		$adb = \PearDatabase::getInstance();
-		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
-		$result = $adb->pquery($query, array($recordId));
-		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getHelpDeskRelatedAccounts method ...');
-		return $accountid;
+		return (new Db\Query)->select(['parent_id'])->from('vtiger_troubletickets')->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.parent_id = vtiger_crmentity.crmid')->where(['ticketid' => $recordId, 'vtiger_crmentity.setype' => 'Accounts'])->scalar();
 	}
 
 	protected static $datashareRelatedCache = false;
@@ -92,9 +57,8 @@ class PrivilegeUtil
 	{
 		if (static::$datashareRelatedCache === false) {
 			$relModSharArr = [];
-			$adb = \PearDatabase::getInstance();
-			$result = $adb->query('select * from vtiger_datashare_relatedmodules');
-			while ($row = $adb->getRow($result)) {
+			$dataReader = (new \App\Db\Query())->from('vtiger_datashare_relatedmodules')->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$relTabId = $row['relatedto_tabid'];
 				if (isset($relModSharArr[$relTabId]) && is_array($relModSharArr[$relTabId])) {
 					$temArr = $relModSharArr[$relTabId];
@@ -120,14 +84,7 @@ class PrivilegeUtil
 	{
 		if (static::$defaultSharingActionCache === false) {
 			\App\Log::trace('getAllDefaultSharingAction');
-			$adb = \PearDatabase::getInstance();
-			$copy = [];
-			//retreiving the standard permissions
-			$result = $adb->query('select * from vtiger_def_org_share');
-			while ($row = $adb->getRow($result)) {
-				$copy[$row['tabid']] = $row['permission'];
-			}
-			static::$defaultSharingActionCache = $copy;
+			static::$defaultSharingActionCache = (new \App\Db\Query())->select(['tabid', 'permission'])->from('vtiger_def_org_share')->createCommand()->queryAllByGroup(0);
 		}
 		return static::$defaultSharingActionCache;
 	}
@@ -144,13 +101,29 @@ class PrivilegeUtil
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT userid FROM vtiger_user2role WHERE roleid=?', array($roleId));
-		$users = [];
-		while (($userId = $adb->getSingleValue($result)) !== false) {
-			$users[] = $userId;
-		}
+		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->column();
 		static::$usersByRoleCache[$roleId] = $users;
+		return $users;
+	}
+
+	/**
+	 * Function to get the users names by role
+	 * @param int $roleId
+	 * @return array $users
+	 */
+	public static function getUsersNameByRole($roleId)
+	{
+		if (\App\Cache::has('getUsersNameByRole', $roleId)) {
+			return \App\Cache::get('getUsersNameByRole', $roleId);
+		}
+		$users = static::getUsersByRole($roleId);
+		$roleRelatedUsers = [];
+		if ($users) {
+			foreach ($users as $userId) {
+				$roleRelatedUsers[$userId] = Fields\Owner::getUserLabel($userId);
+			}
+		}
+		\App\Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
 		return $users;
 	}
 
@@ -329,26 +302,23 @@ class PrivilegeUtil
 		$users = [];
 		$adb = \PearDatabase::getInstance();
 		//Retreiving from the user2grouptable
-		$result = $adb->pquery('select userid from vtiger_users2group where groupid=?', [$groupId]);
-		while ($userId = $adb->getSingleValue($result)) {
-			$users[] = $userId;
-		}
+		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_users2group')->where(['groupid' => $groupId])->column();
 		//Retreiving from the vtiger_group2role
-		$result = $adb->pquery('select roleid from vtiger_group2role where groupid=?', [$groupId]);
-		while ($roleId = $adb->getSingleValue($result)) {
+		$dataReader = (new \App\Db\Query())->select(['roleid'])->from('vtiger_group2role')->where(['groupid' => $groupId])->createCommand()->query();
+		while ($roleId = $dataReader->readColumn(0)) {
 			$roleUsers = static::getUsersByRole($roleId);
 			$users = array_merge($users, $roleUsers);
 		}
 		//Retreiving from the vtiger_group2rs
-		$result = $adb->pquery('select roleandsubid from vtiger_group2rs where groupid=?', [$groupId]);
-		while ($roleId = $adb->getSingleValue($result)) {
+		$dataReader = (new \App\Db\Query())->select(['roleandsubid'])->from('vtiger_group2rs')->where(['groupid' => $groupId])->createCommand()->query();
+		while ($roleId = $dataReader->readColumn(0)) {
 			$roleUsers = static::getUsersByRoleAndSubordinate($roleId);
 			$users = array_merge($users, $roleUsers);
 		}
 		if ($i < 5) {
 			//Retreving from group2group
-			$result = $adb->pquery('select containsgroupid from vtiger_group2grouprel where groupid=?', [$groupId]);
-			while ($containsGroupId = $adb->getSingleValue($result)) {
+			$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
+			while ($roleId = $dataReader->readColumn(0)) {
 				$roleUsers = static::getUsersByGroup($containsGroupId, $i++);
 				$users = array_merge($users, $roleUsers);
 			}
@@ -361,24 +331,19 @@ class PrivilegeUtil
 	protected static $usersBySubordinateCache = [];
 
 	/**
-	 * Function to get the vtiger_role and subordinate vtiger_users
-	 * @param $roleid -- RoleId :: Type varchar
-	 * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
+	 * Function to get the roles and subordinate users
+	 * @param int $roleId
+	 * @return array
 	 */
 	public static function getUsersByRoleAndSubordinate($roleId)
 	{
 		if (isset(static::$usersBySubordinateCache[$roleId])) {
 			return static::$usersBySubordinateCache[$roleId];
 		}
-		$adb = \PearDatabase::getInstance();
 		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
-		$query = "SELECT vtiger_user2role.userid FROM vtiger_user2role INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole LIKE ?";
-		$result = $adb->pquery($query, [$parentRole . '%']);
-		$users = [];
-		while ($userId = $adb->getSingleValue($result)) {
-			$users[] = $userId;
-		}
+		$users = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
+				->where(['like', 'vtiger_role.parentrole', "$parentRole%", false])->column();
 		static::$usersBySubordinateCache[$roleId] = $users;
 		return $users;
 	}

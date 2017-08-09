@@ -12,7 +12,7 @@ class ModComments_CommentsModel
 {
 
 	private $data;
-	static $ownerNamesCache = [];
+	public static $ownerNamesCache = [];
 
 	public function __construct($datarow)
 	{

@@ -45,7 +45,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
-			$recordModel->set('id', $value);
+			$recordModel->setId($value);
 			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}
 		return $displayValue;

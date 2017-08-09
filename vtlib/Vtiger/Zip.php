@@ -29,7 +29,6 @@ class Zip extends \dZip
 		header("Cache-Control: private", false);
 		header("Content-Type: application/zip");
 		header("Content-Disposition: attachment; filename='" . basename($zipfileName) . "';");
-		//header("Content-Transfer-Encoding: binary");
 		// For details on this workaround check here the ticket
 		// http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/5298
 		$disk_file_size = filesize($zipfileName);
@@ -100,7 +99,7 @@ class Zip extends \dZip
 					$this->copyDirectoryFromDisk("$dirname$file", $zipdirname, $excludeList, $basedirname);
 				} else {
 					$zippath = $dirname;
-					if ($zipdirname != null && $zipdirname != '') {
+					if ($zipdirname !== null && $zipdirname !== '') {
 						$zipdirname = $this->__fixDirSeparator($zipdirname);
 						$zippath = $zipdirname . $this->__getRelativePath($basedirname, $dirname);
 					}

@@ -134,6 +134,50 @@ class Request
 	}
 
 	/**
+	 * Function to get the exploded values for a given key
+	 * @param string $key
+	 * @param string $delimiter
+	 * @return array
+	 */
+	public function getExploded($key, $delimiter = ',')
+	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			if ($this->rawValues[$key] === '') {
+				return [];
+			}
+			$value = explode($delimiter, $this->rawValues[$key]);
+			if ($value) {
+				$value = Purifier::purify($value);
+			}
+			return $this->parseValues[$key] = $value;
+		}
+		return $value;
+	}
+
+	/**
+	 * Function to get the date range values for a given key
+	 * @param string $key
+	 * @return array
+	 */
+	public function getDateRange($key)
+	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
+				return [];
+			}
+			$value = Purifier::purify(explode(',', $this->rawValues[$key]));
+			return $this->parseValues[$key] = ['start' => $value[0], 'end' => $value[1]];
+		}
+		return $value;
+	}
+
+	/**
 	 * Function to get html the value for a given key
 	 * @param string $key
 	 * @param mixed $value

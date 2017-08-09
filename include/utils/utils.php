@@ -24,7 +24,6 @@ require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
-require_once 'include/events/SqlResultIterator.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
@@ -127,40 +126,6 @@ function getUserId_Ol($username)
 		$cache->setUserId($username, $user_id);
 		return $user_id;
 	}
-}
-
-/** Function to get a action id for a given action name
- * @param $action -- action name :: Type string
- * @returns $actionid -- action id :: Type integer
- */
-//outlook security
-
-function getActionid($action)
-{
-
-	\App\Log::trace('Entering getActionid(' . $action . ') method ...');
-
-	if (empty($action)) {
-		return null;
-	}
-	$actionid = Vtiger_Cache::get('getActionid', $action);
-	if ($actionid) {
-		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
-		return $actionid;
-	}
-	$actionIds = \App\Module::getTabData('actionId');
-	if (isset($actionIds[$action])) {
-		$actionid = $actionIds[$action];
-	}
-	if (empty($actionid)) {
-		$db = PearDatabase::getInstance();
-		$query = 'select actionid from vtiger_actionmapping where actionname=?';
-		$result = $db->pquery($query, [$action]);
-		$actionid = $db->getSingleValue($result);
-	}
-	Vtiger_Cache::set('getActionid', $action, $actionid);
-	\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
-	return $actionid;
 }
 
 /** Function to get a action for a given action id
@@ -358,10 +323,9 @@ function getRelationTables($module, $secmodule)
  * This function returns no value but handles the delete functionality of each entity.
  * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
  */
-function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
+function DeleteEntity($destinationModule, $sourceModule, CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 {
 	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
-	require_once('include/events/include.php');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setModuleName($sourceModule);
@@ -391,7 +355,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 /**
  * Function to related two records of different entity types
  */
-function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
+function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 {
 	\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 	if (!is_array($destinationRecordIds))

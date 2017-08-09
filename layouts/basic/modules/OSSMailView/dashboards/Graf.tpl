@@ -145,7 +145,7 @@
 	</span>
 	</span>
 	<span class="col-md-4">
-	<input type="text" name="expectedclosedate" class="dateRange widgetFilter" />
+	<input type="text" name="expectedclosedate" class="dateRangeField widgetFilter" />
 	</span>
 	</div>
 	</div> *}

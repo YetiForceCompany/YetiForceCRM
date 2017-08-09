@@ -14,9 +14,6 @@ require_once("modules/Users/Users.php");
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
@@ -62,21 +59,6 @@ function vtws_generateRandomAccessKey($length = 10)
 		$accesskey = $accesskey . substr($source, rand(null, $maxIndex), 1);
 	}
 	return $accesskey;
-}
-
-/**
- * get current vtiger version from the database.
- */
-function vtws_getVtigerVersion()
-{
-	$adb = PearDatabase::getInstance();
-	$query = 'select * from vtiger_version';
-	$result = $adb->pquery($query, []);
-	$version = '';
-	while ($row = $adb->fetch_array($result)) {
-		$version = $row['current_version'];
-	}
-	return $version;
 }
 
 function vtws_getUserAccessibleGroups($moduleId, $user)
@@ -134,24 +116,6 @@ function vtws_getId($objId, $elemId)
 	return $objId . "x" . $elemId;
 }
 
-function vtws_getParameter($parameterArray, $paramName, $default = null)
-{
-
-	if (!get_magic_quotes_gpc()) {
-		if (is_array($parameterArray[$paramName])) {
-			$param = array_map('addslashes', $parameterArray[$paramName]);
-		} else {
-			$param = addslashes($parameterArray[$paramName]);
-		}
-	} else {
-		$param = $parameterArray[$paramName];
-	}
-	if (!$param) {
-		$param = $default;
-	}
-	return $param;
-}
-
 function vtws_getEntityNameFields($moduleName)
 {
 
@@ -206,43 +170,20 @@ function vtws_getWebserviceEntities()
 	return array('module' => $moduleArray, 'entity' => $entityArray);
 }
 
-/**
- *
- * @param VtigerWebserviceObject $webserviceObject
- * @return CRMEntity
- */
-function vtws_getModuleInstance($webserviceObject)
-{
-	$moduleName = $webserviceObject->getEntityName();
-	return CRMEntity::getInstance($moduleName);
-}
-
 function vtws_getOwnerType($ownerId)
 {
 	return \App\Fields\Owner::getType($ownerId);
 }
 
-function vtws_runQueryAsTransaction($query, $params, &$result)
-{
-	$adb = PearDatabase::getInstance();
-
-	$adb->startTransaction();
-	$result = $adb->pquery($query, $params);
-	$error = $adb->hasFailedTransaction();
-	$adb->completeTransaction();
-	return !$error;
-}
-
 function vtws_getCalendarEntityType($id)
 {
-	$seType = Vtiger_Cache::get('vtws_getCalendarEntityType', $id);
-	if ($seType !== false) {
-		return $seType;
+	if (\App\Cache::has('vtws_getCalendarEntityType', $id)) {
+		return \App\Cache::get('vtws_getCalendarEntityType', $id);
 	}
 	$adb = PearDatabase::getInstance();
 
 	$sql = 'select activitytype from vtiger_activity where activityid=?';
-	$result = $adb->pquery($sql, array($id));
+	$result = $adb->pquery($sql, [$id]);
 	$seType = 'Calendar';
 	if ($result !== null && isset($result)) {
 		if ($adb->num_rows($result) > 0) {
@@ -252,7 +193,7 @@ function vtws_getCalendarEntityType($id)
 			}
 		}
 	}
-	Vtiger_Cache::set('vtws_getCalendarEntityType', $id, $seType);
+	\App\Cache::save('vtws_getCalendarEntityType', $id, $seType);
 	return $seType;
 }
 /* * *
@@ -783,7 +724,12 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 	vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
 }
 
-function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
+/**
+ * Webservice transfer ownership for workflow tasks
+ * @param Users_Record_Model $ownerModel
+ * @param Users_Record_Model $newOwnerModel
+ */
+function vtws_transferOwnershipForWorkflowTasks(Users_Record_Model $ownerModel, Users_Record_Model $newOwnerModel)
 {
 	$db = \App\Db::getInstance();
 	//update workflow tasks Assigned User from Deleted User to Transfer User

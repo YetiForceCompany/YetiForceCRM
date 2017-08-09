@@ -19,7 +19,7 @@ class Vtiger_EditFieldByModal_Action extends Vtiger_Save_Action
 		$fieldName = $params['fieldName'];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->set('id', $recordId);
+		$recordModel->setId($recordId);
 		$recordModel->set($fieldName, $state);
 		$recordModel->save();
 

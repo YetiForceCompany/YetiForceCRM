@@ -23,7 +23,7 @@ require_once('install/models/Utils.php');
 require_once('install/models/ConfigFileUtils.php');
 require_once('install/models/InitSchema.php');
 
-Vtiger_Session::init();
+App\Session::init();
 
 $request = App\Request::init();
 $install = new Install_Index_view();

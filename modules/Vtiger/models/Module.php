@@ -272,9 +272,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
 		}
 
-		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
 				if ($workflow->evaluate($recordModel)) {
@@ -696,7 +696,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$tabId = \App\Module::getModuleId('Events');
 		}
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($tabId, false) as &$field) {
+		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
@@ -827,17 +827,15 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		if (!empty($this->fields)) {
 			$fieldList = $this->getFields();
-			foreach ($fieldList as $fieldName => $fieldModel) {
+			foreach ($fieldList as $fieldModel) {
 				if ($fieldModel->get('uitype') === '4') {
 					return true;
 				}
 			}
 		} else {
-			$db = PearDatabase::getInstance();
-			$query = 'SELECT 1 FROM vtiger_field WHERE uitype=4 and tabid=?';
-			$params = array($this->getId());
-			$result = $db->pquery($query, $params);
-			return $db->num_rows($result) > 0 ? true : false;
+			return (new App\Db\Query())->from('vtiger_field')
+					->where(['uitype' => 4, 'tabid' => $this->getId()])
+					->exists();
 		}
 		return false;
 	}
@@ -1306,7 +1304,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$this->isEntityModule()) {
 			return [];
 		}
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
@@ -1372,21 +1370,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 			);
 		}
 		return $settingsLinks;
-	}
-
-	public function isCustomizable()
-	{
-		return $this->customized == '1' ? true : false;
-	}
-
-	public function isModuleUpgradable()
-	{
-		return $this->isCustomizable() ? true : false;
-	}
-
-	public function isExportable()
-	{
-		return $this->isCustomizable() ? true : false;
 	}
 
 	/**

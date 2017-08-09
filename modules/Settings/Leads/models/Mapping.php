@@ -125,9 +125,9 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 		$leadModel = Vtiger_Module_Model::getInstance($this->getName());
 		$leadId = $leadModel->getId();
 		$dataReader = (new App\Db\Query())->select(['fieldid', 'fieldlabel', 'uitype', 'typeofdata', 'fieldname', 'tablename', 'tabid'])
-			->from('vtiger_field')
-			->where(['fieldid' => $fieldIdsList])
-			->createCommand()->query();
+				->from('vtiger_field')
+				->where(['fieldid' => $fieldIdsList])
+				->createCommand()->query();
 		$fieldLabelsList = [];
 		while ($rowData = $dataReader->read()) {
 			$fieldInfo = ['id' => $rowData['fieldid'], 'label' => $rowData['fieldlabel']];
@@ -147,11 +147,11 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to save the mapping info
-	 * @param <Array> $mapping info
+	 * @param array $mapping info
 	 */
 	public function save($mapping)
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = [];
 		foreach ($mapping as $mappingDetails) {
 
@@ -174,35 +174,31 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				}
 			}
 		}
-
 		if ($deleteMappingsList) {
 			self::deleteMapping($deleteMappingsList, true);
 		}
-
 		if ($createMappingsList) {
 			$count = count($createMappingsList);
 			$insertedData = [];
 			for ($i = 0; $i < $count; $i++) {
 				$mappingDetails = $createMappingsList[$i];
-				$insertedData []= [$mappingDetails['lead'], $mappingDetails['account']];
+				$insertedData [] = [$mappingDetails['lead'], $mappingDetails['account']];
 			}
-			\App\Db::getInstance()->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
+			$db->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
 				->execute();
 		}
-
 		if ($updateMappingsList) {
-			$leadQuery = ' SET leadfid = CASE ';
-			$accountQuery = ' accountfid = CASE ';
+			$leadExpression = 'CASE ';
+			$accountExpression = 'CASE ';
 
 			foreach ($updateMappingsList as $mappingDetails) {
 				$mappingId = $mappingDetails['mappingId'];
-				$leadQuery .= " WHEN cfmid = $mappingId THEN " . $mappingDetails['lead'];
-				$accountQuery .= " WHEN cfmid = $mappingId THEN " . $mappingDetails['account'];
+				$leadExpression .= " WHEN cfmid = {$db->quoteValue($mappingId)} THEN {$db->quoteValue($mappingDetails['lead'])}";
+				$accountExpression .= " WHEN cfmid = {$db->quoteValue($mappingId)} THEN {$db->quoteValue($mappingDetails['account'])}";
 			}
-			$leadQuery .= ' ELSE leadfid END ';
-			$accountQuery .= ' ELSE accountfid END ';
-
-			$db->pquery("UPDATE vtiger_convertleadmapping $leadQuery, $accountQuery WHERE editable = ?", array(1));
+			$leadExpression .= ' ELSE leadfid END';
+			$accountExpression .= ' ELSE accountfid END';
+			$db->createCommand()->update('vtiger_convertleadmapping', ['leadfid' => new yii\db\Expression($leadExpression), 'accountfid' => new yii\db\Expression($accountExpression)], ['editable' => 1])->execute();
 		}
 	}
 
@@ -213,8 +209,8 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	public static function getRestrictedFieldIdsList()
 	{
 		$dataReader = (new \App\Db\Query)->select(['accountfid'])->from('vtiger_convertleadmapping')
-			->where(['editable' => 0])
-			->createCommand()->query();
+				->where(['editable' => 0])
+				->createCommand()->query();
 		$restrictedIdsList = [];
 		while ($accountfId = $dataReader->readColumn(0)) {
 			if ($accountfId) {
@@ -261,7 +257,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function deleteMapping($mappingIdsList, $editableParam = false)
 	{
-		if($conditions)
+		if ($conditions)
 			$params = ['cfmid' => $mappingIdsList, 'editable' => 1];
 		else
 			$params = ['cfmid' => $mappingIdsList];

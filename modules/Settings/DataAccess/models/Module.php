@@ -231,7 +231,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		unset($form_data['sid']);
 		$dataAccess = self::getDataAccessInfo($ID, false);
 		$actionArray = explode(self::$separator, $action);
-		vimport("~~modules/{$actionArray[0]}/data_access/{$actionArray[1]}.php");
+		Vtiger_Loader::includeOnce("~~modules/{$actionArray[0]}/data_access/{$actionArray[1]}.php");
 		$class = "DataAccess_" . $actionArray[1];
 		$actionObject = new $class();
 		$form_data['cf'] = $actionObject->config;
@@ -261,7 +261,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		if (!is_array($actionsName)) {
 			$actionsNameA = explode(self::$separator, $actionsName);
 		}
-		vimport("~~modules/{$actionsNameA[0]}/data_access/{$actionsNameA[1]}.php");
+		Vtiger_Loader::includeOnce("~~modules/{$actionsNameA[0]}/data_access/{$actionsNameA[1]}.php");
 		$class = "DataAccess_" . $actionsNameA[1];
 		$actionObject = new $class();
 		return $actionObject->getConfig($tpl_id, $actionsName, $baseModule);
@@ -323,7 +323,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public static function executeAjaxHandlers($module, $param)
 	{
-		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
+		Vtiger_Loader::includeOnce('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 		$conditions = new DataAccess_Conditions();
 		$DataAccessList = self::getDataAccessList($module);
 		$success = true;
@@ -352,7 +352,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				$action = explode(self::$separator, $row['an']);
 				$file = "modules/{$action[0]}/data_access/{$action[1]}.php";
 				if (file_exists($file)) {
-					vimport("~~$file");
+					Vtiger_Loader::includeOnce("~~$file");
 					$class = "DataAccess_" . $action[1];
 					$actionObject = new $class();
 					$output[] = $resp = $actionObject->process($module, $recordId, $param, $row);
@@ -387,7 +387,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		if (key_exists($record, self::$colorListCache)) {
 			return self::$colorListCache[$record];
 		}
-		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
+		Vtiger_Loader::includeOnce('~~modules/Settings/DataAccess/helpers/DataAccess_Conditions.php');
 
 		if (\App\Cache::has('DataAccess:colorList', $moduleName)) {
 			$colorList = \App\Cache::get('DataAccess:colorList', $moduleName);

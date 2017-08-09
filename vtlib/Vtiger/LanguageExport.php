@@ -48,19 +48,16 @@ class LanguageExport extends Package
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	public function export($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
+	public function exportLanguage($languageCode, $todir = '', $zipfilename = '', $directDownload = false)
 	{
-
 		$this->__initExport($languageCode);
-
 		// Call language export function
-		$this->export_Language($languageCode);
-
+		$this->generateLangMainfest($languageCode);
 		$this->__finishExport();
-
 		// Export as Zip
-		if ($zipfilename == '')
-			$zipfilename = "$languageCode-" . date('YmdHis') . ".zip";
+		if ($zipfilename === '') {
+			$zipfilename = "$languageCode-" . date('YmdHis') . '.zip';
+		}
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
 		$zip = new Zip($zipfilename);
@@ -88,7 +85,7 @@ class LanguageExport extends Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	public function export_Language($prefix)
+	private function generateLangMainfest($prefix)
 	{
 		$db = \PearDatabase::getInstance();
 		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
@@ -105,23 +102,13 @@ class LanguageExport extends Package
 		$this->outputNode('YetiForce - yetiforce.com', 'author');
 		$this->outputNode('YetiForce - yetiforce.com', 'license');
 		// Export dependency information
-		$this->export_Dependencies($moduleInstance);
-
-		$this->closeNode('module');
-	}
-
-	/**
-	 * Export vtiger dependencies
-	 * @access private
-	 */
-	public function export_Dependencies($moduleInstance)
-	{
 		$minVersion = current(explode('.', \App\Version::get())) . '.*';
 		$this->openNode('dependencies');
-		$this->outputNode($vtigerMinVersion, 'vtiger_version');
-		if ($minVersion !== false)
-			$this->outputNode($minVersion, 'vtiger_max_version');
+		if ($minVersion !== false) {
+			$this->outputNode($minVersion, 'vtiger_version');
+		}
 		$this->closeNode('dependencies');
+		$this->closeNode('module');
 	}
 
 	/**

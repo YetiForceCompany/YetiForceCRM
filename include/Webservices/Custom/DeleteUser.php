@@ -8,7 +8,6 @@
  * All Rights Reserved.
  *
  * ******************************************************************************* */
-require_once("include/events/include.php");
 
 /**
  * @author MAK

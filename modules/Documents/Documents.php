@@ -328,7 +328,7 @@ class Documents extends CRMEntity
 	 * Function to check the module active and user action permissions before showing as link in other modules
 	 * like in more actions of detail view.
 	 */
-	static function isLinkPermitted($linkData)
+	public static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
 		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {

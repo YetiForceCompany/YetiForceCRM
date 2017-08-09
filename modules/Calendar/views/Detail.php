@@ -39,7 +39,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
+		$navigationInfo = false;
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);

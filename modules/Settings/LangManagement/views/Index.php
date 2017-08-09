@@ -9,14 +9,17 @@
 class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process function
+	 * @param App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
-		$langs = $moduleModel->getLang();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('LANGS', $langs);
+		$viewer->assign('LANGS', App\Language::getAll());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);

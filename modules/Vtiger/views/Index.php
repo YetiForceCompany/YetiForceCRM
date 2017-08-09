@@ -37,16 +37,8 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			$userPrivilegesModel = Users_Privileges_Model::getInstanceById($currentUser->getId());
-			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-			if (!$permission) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-			}
-
-			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+			$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->get('view')];
 			$linkModels = $moduleModel->getSideBarLinks($linkParams);
-
 			$viewer->assign('QUICK_LINKS', $linkModels);
 		}
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
@@ -59,12 +51,6 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		return 'IndexViewPreProcess.tpl';
 	}
-
-	//Note : To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
 
 	public function postProcess(\App\Request $request)
 	{

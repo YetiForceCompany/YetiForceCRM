@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -21,7 +20,7 @@ class ModuleManager extends TestCase
 	public function testLanguageExport()
 	{
 		$package = new \vtlib\LanguageExport();
-		$package->export('pl_pl', ROOT_DIRECTORY . '/PL.zip', 'PL.zip');
+		$package->exportLanguage('pl_pl', ROOT_DIRECTORY . '/PL.zip', 'PL.zip');
 		$this->assertTrue(file_exists(ROOT_DIRECTORY . '/PL.zip') && filesize(ROOT_DIRECTORY . '/PL.zip') > 0);
 		unlink(ROOT_DIRECTORY . '/PL.zip');
 	}

@@ -19,7 +19,7 @@ class SQuotes_EditFieldByModal_Action extends Vtiger_EditFieldByModal_Action
 		$fieldName = $params['fieldName'];
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->set('id', $recordId);
+		$recordModel->setId($recordId);
 		$recordModel->set($fieldName, $state);
 		if (in_array($state, ['PLL_CANCELLED', 'PLL_ACCEPTED'])) {
 			$currentTime = date('Y-m-d H:i:s');

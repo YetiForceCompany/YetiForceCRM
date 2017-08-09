@@ -32,7 +32,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isViewEnabled()
 	{
-		if ($this->getDisplayType() == '4' || in_array($this->get('presence'), array(1, 3))) {
+		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
 		return true;
@@ -82,15 +82,11 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->get('uitype') == 32) {
 			return Vtiger_Language_Handler::getAllLanguages();
 		} else if ($this->get('uitype') == '115') {
-			$db = PearDatabase::getInstance();
-
-			$query = 'SELECT %s FROM vtiger_%s';
-			$query = sprintf($query, $this->getFieldName(), $this->getFieldName());
-			$result = $db->pquery($query, []);
-			$num_rows = $db->num_rows($result);
 			$fieldPickListValues = [];
-			for ($i = 0; $i < $num_rows; $i++) {
-				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
+			$query = (new \App\Db\Query())->select([$this->getFieldName()])->from('vtiger_' . $this->getFieldName());
+			$dataReader = $query->createCommand($db)->query();
+			while ($row = $dataReader->read()) {
+				$picklistValue = $row[$this->getFieldName()];
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
 			return $fieldPickListValues;
@@ -100,7 +96,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to returns all skins(themes)
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAllSkins()
 	{
@@ -114,8 +110,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getLanguageLabel($value);
+		if ($this->get('uitype') === 32) {
+			return \App\Language::getLanguageLabel($value);
 		}
 		$fieldName = $this->getFieldName();
 		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
@@ -126,7 +122,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function returns all the User Roles
-	 * @return
+	 * @return array
 	 */
 	public function getAllRoles()
 	{
@@ -141,7 +137,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to check whether this field editable or not
-	 * return <boolen> true/false
+	 * @return boolean true/false
 	 */
 	public function isEditable()
 	{
@@ -154,6 +150,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function which will check if empty piclist option should be given
+	 * @return boolean
 	 */
 	public function isEmptyPicklistOptionAllowed()
 	{

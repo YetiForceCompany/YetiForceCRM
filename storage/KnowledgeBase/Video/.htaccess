@@ -1,5 +1,0 @@
-deny from all
-<Files ~ "\.(mp4)$">
-	Order allow,deny
-	Allow from all
-</Files>

@@ -31,21 +31,6 @@ class Functions
 		return \Vtiger_Language_Handler::getTranslatedString($str, $module);
 	}
 
-	// CURRENCY
-	protected static $userIdCurrencyIdCache = [];
-
-	public static function userCurrencyId($userid)
-	{
-		$adb = \PearDatabase::getInstance();
-		if (!isset(self::$userIdCurrencyIdCache[$userid])) {
-			$result = $adb->pquery('SELECT id,currency_id FROM vtiger_users', []);
-			while ($row = $adb->fetch_array($result)) {
-				self::$userIdCurrencyIdCache[$row['id']] = $row['currency_id'];
-			}
-		}
-		return self::$userIdCurrencyIdCache[$userid];
-	}
-
 	protected static function getCurrencyInfo($currencyid)
 	{
 		if (\App\Cache::has('AllCurrency', 'All')) {
@@ -360,7 +345,6 @@ class Functions
 			'"' => '&quot;',
 			"'" => '&#039;',
 		);
-		//if($encode && is_string($string))$string = html_entity_decode($string, ENT_QUOTES);
 		if ($encode && is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
@@ -660,6 +644,7 @@ class Functions
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {
+				$response->setHeader('HTTP/1.1 ' . $e->getCode() . ' ' . $e->getMessage());
 				$response->setError($e->getCode(), $e->getMessage(), $trace);
 			} else {
 				$response->setError('error', $message, $trace);

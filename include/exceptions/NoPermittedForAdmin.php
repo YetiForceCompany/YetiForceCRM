@@ -20,10 +20,10 @@ class NoPermittedForAdmin extends \Exception
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\Vtiger_Session::init();
+		\App\Session::init();
 
 		$request = \App\Request::init();
-		$userName = \Vtiger_Session::get('full_user_name');
+		$userName = \App\Session::get('full_user_name');
 
 		$data = [
 			'username' => empty($userName) ? '-' : $userName,

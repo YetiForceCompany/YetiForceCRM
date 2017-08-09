@@ -16,11 +16,13 @@ class Encryption
 	protected $vector = false;
 	protected $options = true;
 
+	/**
+	 * Class contructor
+	 */
 	public function __construct()
 	{
-		$db = \PearDatabase::getInstance();
-		$result = $db->query('SELECT * FROM a_yf_encryption');
-		if ($row = $db->getRow($result)) {
+		$row = (new \App\Db\Query())->from('a_#__encryption')->one(\App\Db::getInstance('admin'));
+		if ($row) {
 			$this->method = $row['method'];
 			$this->vector = $row['pass'];
 			$this->pass = \AppConfig::securityKeys('encryptionPass');

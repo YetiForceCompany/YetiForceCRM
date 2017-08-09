@@ -16,13 +16,13 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_WIDGET_NAME'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_WIDGET_NAME')}</td>
 										<td class="fieldValue">
 											<input type="text" class="form-control" name="widgetTitle" value="">
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_CHART'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_CHART')}</td>
 										<td class="fieldValue">
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
@@ -37,7 +37,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SELECT_MODULE'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_MODULE')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="module">
 												<option></option>
@@ -48,7 +48,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_FILTER'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTER')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="filterid">
 												<option></option>
@@ -56,7 +56,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_GROUP_FIELD'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_FIELD')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="groupField" size="2" >
 												<option></option>
@@ -64,7 +64,7 @@
 										</td>
 									</tr>
 									<tr class="hide sectorContainer">
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{'LBL_SECTOR'|vtranslate}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SECTOR')}</td>
 										<td class="fieldValue">
 											<select class="form-control select2" multiple name="sectorField" size="2" >
 											</select>

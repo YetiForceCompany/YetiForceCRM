@@ -31,7 +31,7 @@ class PackageUpdate extends PackageImport
 			self::log('Module name mismatch!');
 			return false;
 		}
-		if ($module != null) {
+		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
@@ -73,7 +73,7 @@ class PackageUpdate extends PackageImport
 	public function update($moduleInstance, $zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module != null) {
+		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {

@@ -14,19 +14,18 @@ class Users_Save_Action extends Vtiger_Save_Action
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		// Check for operation access.
 		$allowed = Users_Privileges_Model::isPermitted($moduleName, 'Save', $record);
-
 		if ($allowed) {
 			// Deny access if not administrator or account-owner or self
 			if (!$currentUserModel->isAdminUser()) {
 				if (empty($record)) {
 					$allowed = false;
-				} else if ($currentUserModel->get('id') !== $recordModel->getId()) {
+				} else if ((int) $currentUserModel->get('id') !== $recordModel->getId()) {
 					$allowed = false;
 				}
 			}
@@ -61,7 +60,9 @@ class Users_Save_Action extends Vtiger_Save_Action
 	{
 		$result = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		$_FILES = $result['imagename'];
-
+		if (!empty($_FILES[0]['name'])) {
+			$request->set('imagename', $_FILES[0]['name']);
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance('Users');
 		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
 			$recordModel = $this->saveRecord($request);

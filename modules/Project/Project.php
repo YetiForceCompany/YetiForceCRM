@@ -381,7 +381,6 @@ class Project extends CRMEntity
 	 *
 	 * @see data/CRMEntity#save_related_module($module, $crmid, $with_module, $with_crmid)
 	 */
-	//function save_related_module($module, $crmid, $with_module, $with_crmid) {    }
 
 	/**
 	 * Here we override the parent's method

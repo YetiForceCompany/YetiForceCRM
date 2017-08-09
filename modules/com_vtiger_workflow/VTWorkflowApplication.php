@@ -22,17 +22,6 @@ class VTWorkflowApplication
 
 	function currentUrl()
 	{
-		// $req = $this->request;
-		// $url = "index.php?module={$this->name}&action={$this->action}";
-		// if($this->action=='editworkflow'){
-		// 	if(isset($req['workflow_id'])){
-		// 		$url.="&workflow_id=".$req['workflow_id'];
-		// 	}
-		// }else if($this->action=='edittask'){
-		// 	if(isset($req['task_id'])){
-		// 		$url.="&task_id=".$req['task_id'];
-		// 	}
-		// }
 		return $_SERVER["REQUEST_URI"];
 	}
 
@@ -48,7 +37,7 @@ class VTWorkflowApplication
 
 	function editWorkflowUrl($id = null)
 	{
-		if ($id != null) {
+		if ($id !== null) {
 			$idPart = "&workflow_id=$id";
 		}
 		return "index.php?module={$this->name}&action=editworkflow$idPart&return_url=" . urlencode($this->returnUrl());
@@ -62,7 +51,7 @@ class VTWorkflowApplication
 
 	function editTaskUrl($id = null)
 	{
-		if ($id != null) {
+		if ($id !== null) {
 			$idPart = "&task_id=$id";
 		}
 		return "index.php?module={$this->name}&action=edittask$idPart&return_url=" . urlencode($this->returnUrl());

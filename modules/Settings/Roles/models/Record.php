@@ -181,10 +181,10 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$row = (new App\Db\Query())->select(['directly_related_to_role', 'vtiger_profile.profileid'])
-				->from('vtiger_role2profile')
-				->innerJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_role2profile.profileid')
-				->where(['vtiger_role2profile.roleid' => $this->getId()])
-				->one();
+			->from('vtiger_role2profile')
+			->innerJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_role2profile.profileid')
+			->where(['vtiger_role2profile.roleid' => $this->getId()])
+			->one();
 		if ($row && (int) $row['directly_related_to_role'] === 1) {
 			return $row['profileid'];
 		}
@@ -300,7 +300,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleId = 'H' . $roleIdNumber;
 		}
 		$parentRole = $this->getParent();
-		if ($parentRole != null) {
+		if ($parentRole !== null) {
 			$this->set('depth', $parentRole->getDepth() + 1);
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
@@ -347,10 +347,10 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
 				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
 				$oldRole['searchunpriv'] != $searchunpriv) {
-					if (!empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds)))) {
-						$oldProfileIds = array_keys($this->getProfiles());
-						\App\Privilege::setAllUpdater();
-					}
+				if (!empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds)))) {
+					$oldProfileIds = array_keys($this->getProfiles());
+					\App\Privilege::setAllUpdater();
+				}
 			}
 		}
 		if (empty($profileIds)) {
@@ -384,15 +384,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2role', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2rs', ['roleandsubid' => $roleId])->execute();
-		/*
-		  $noOfUsers = $db->num_rows($user_result);
-		  $array_users = [];
-		  if($noOfUsers > 0) {
-		  for($i=0; $i<$noOfUsers; ++$i) {
-		  $array_users[] = $db->query_result($user_result, $i, 'userid');
-		  }
-		  }
-		 */
 		//delete handling for sharing rules
 		deleteRoleRelatedSharingRules($roleId);
 		$db->createCommand()->delete('vtiger_role', ['roleid' => $roleId])->execute();
@@ -457,7 +448,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$query = (new App\Db\Query())->from('vtiger_role');
 		if (!$baseRole) {
-			$query->where(['<>', 'depth' , 0]);
+			$query->where(['<>', 'depth', 0]);
 		}
 		$dataReader = $query->orderBy(['parentrole' => SORT_DESC])
 				->createCommand()->query();
@@ -533,9 +524,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	public function getUsers()
 	{
 		$userIds = (new App\Db\Query())->select(['userid'])
-				->from('vtiger_user2role')
-				->where(['roleid' => $this->getId()])
-				->column();
+			->from('vtiger_user2role')
+			->where(['roleid' => $this->getId()])
+			->column();
 		$usersList = [];
 		foreach ($userIds as $userId) {
 			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');

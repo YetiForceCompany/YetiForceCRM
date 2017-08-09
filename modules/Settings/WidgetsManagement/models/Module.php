@@ -305,7 +305,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 	public function addBlock($data, $moduleName, $addToUser)
 	{
-		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$db = App\Db::getInstance();
 		$tabId = \App\Module::getModuleId($moduleName);
 		$db->createCommand()
@@ -314,7 +313,6 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'tabid' => $tabId,
 				'dashboard_id' => $data['dashboardId']
 			])->execute();
-		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::addBlock() method ...");
 		return [
 			'success' => true,
 			'id' => $db->getLastInsertID('vtiger_module_dashboard_blocks_id_seq')

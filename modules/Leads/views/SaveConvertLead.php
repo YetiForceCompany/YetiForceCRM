@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~include/Webservices/ConvertLead.php');
+Vtiger_Loader::includeOnce('~include/Webservices/ConvertLead.php');
 
 class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 {

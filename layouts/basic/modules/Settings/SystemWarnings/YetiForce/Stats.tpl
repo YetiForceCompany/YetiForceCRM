@@ -1,4 +1,5 @@
 {strip}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<form class="form-horizontal row validateForm" method="post" action="index.php">
 		<h3 class="marginTB3">
 			{App\Language::translate('LBL_STATS','Settings:SystemWarnings')}
@@ -7,9 +8,9 @@
 		{assign var=COMPANY value=\App\Company::getInstanceById()}
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input type="checkbox" checked>
+				<input type="checkbox" checked disabled>
 			</span>
-			<input type="text" name="company_name" class="form-control" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
+			<input type="text" name="company_name" class="form-control" data-validation-engine="validate[required]" placeholder="{App\Language::translate('LBL_NAME','Settings:Companies')}" value="{$COMPANY->get('name')}">
 		</div><br />
 		<div class="input-group">
 			<span class="input-group-addon">

@@ -25,7 +25,7 @@ class Settings_Vtiger_Tracker_Model
 		if ($type == 'view' && App\Request::_isAjax()) {
 			self::lockTracking();
 		}
-		if (self::$id != false || self::$lockTrack) {
+		if (self::$id !== false || self::$lockTrack) {
 			return true;
 		}
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
@@ -53,7 +53,7 @@ class Settings_Vtiger_Tracker_Model
 		if (self::$lockTrack) {
 			return true;
 		}
-		if (self::$id != false) {
+		if (self::$id !== false) {
 			self::addBasic('save');
 		}
 		$db = App\Db::getInstance('log');

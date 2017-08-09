@@ -80,7 +80,7 @@ class VTScheduledReport extends Reports
 
 			if (!empty($recipientsInfo['roles'])) {
 				foreach ($recipientsInfo['roles'] as $roleId) {
-					$roleUsers = getRoleUsers($roleId);
+					$roleUsers = \App\PrivilegeUtil::getUsersNameByRole($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}

@@ -1,4 +1,5 @@
 {strip}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<h3 class="marginTB3">
 		{App\Language::translate('LBL_SAVE_TO_NEWSLETTER','Settings:SystemWarnings')}
 	</h3>

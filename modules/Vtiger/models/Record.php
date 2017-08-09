@@ -29,7 +29,7 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Function to get the id of the record
-	 * @return <Number> - Record Id
+	 * @return int - Record Id
 	 */
 	public function getId()
 	{
@@ -38,11 +38,11 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Function to set the id of the record
-	 * @param <type> $value - id value
+	 * @param int $value - id value
 	 */
 	public function setId($value)
 	{
-		return $this->set('id', $value);
+		return $this->set('id', (int) $value);
 	}
 
 	/**
@@ -529,7 +529,7 @@ class Vtiger_Record_Model extends \App\Base
 
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$recordModel = new $modelClassName();
-		$recordModel->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
+		$recordModel->setData($focus->column_fields)->setId($recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
 		return $recordModel;
 	}
 
@@ -619,40 +619,50 @@ class Vtiger_Record_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * The function decide about locking the record by field
+	 * @return boolean
+	 */
 	public function checkLockFields()
 	{
-		$moduleName = $this->getModuleName();
-		$recordId = $this->getId();
-		$focus = $this->getEntity();
-		if (!$focus) {
-			$focus = CRMEntity::getInstance($moduleName);
-			$this->setEntity($focus);
-		}
-		$lockFields = $focus->getLockFields();
-		if ($lockFields) {
-			$loadData = false;
-			foreach ($lockFields as $fieldName => $values) {
-				if (!$this->has($fieldName)) {
-					$loadData = true;
-				}
-			}
-			if ($loadData && $recordId) {
-				$focus->id = $recordId;
-				$focus->retrieve_entity_info($recordId, $moduleName);
+		if (!isset($this->privileges['isNoLockByField'])) {
+			$isNoLock = true;
+			$moduleName = $this->getModuleName();
+			$recordId = $this->getId();
+			$focus = $this->getEntity();
+			if (!$focus) {
+				$focus = CRMEntity::getInstance($moduleName);
 				$this->setEntity($focus);
 			}
-			foreach ($lockFields as $fieldName => $values) {
-				foreach ($values as $value) {
-					if ($this->get($fieldName) == $value) {
-						return false;
+			$lockFields = $focus->getLockFields();
+			if ($lockFields) {
+				$loadData = false;
+				foreach ($lockFields as $fieldName => $values) {
+					if (!$this->has($fieldName)) {
+						$loadData = true;
 					}
-					if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
-						return false;
+				}
+				if ($loadData && $recordId) {
+					$focus->id = $recordId;
+					$focus->retrieve_entity_info($recordId, $moduleName);
+					$this->setEntity($focus);
+				}
+				foreach ($lockFields as $fieldName => $values) {
+					foreach ($values as $value) {
+						if ($this->get($fieldName) == $value) {
+							$isNoLock = false;
+							break 2;
+						}
+						if (isset($focus->column_fields[$fieldName]) && $focus->column_fields[$fieldName] == $value) {
+							$isNoLock = false;
+							break 2;
+						}
 					}
 				}
 			}
+			$this->privileges['isNoLockByField'] = $isNoLock;
 		}
-		return true;
+		return $this->privileges['isNoLockByField'];
 	}
 
 	public function isDeletable()
@@ -1018,9 +1028,12 @@ class Vtiger_Record_Model extends \App\Base
 		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
 	}
 
-	public function clearPrivilegesCache($name = false)
+	/**
+	 * Clear privileges
+	 */
+	public function clearPrivilegesCache()
 	{
-		$privilegesName = ['isEditable', 'isCreateable', 'isViewable'];
+		$privilegesName = ['isEditable', 'isCreateable', 'isViewable', 'isNoLockByField'];
 		foreach ($privilegesName as $name) {
 			if (!empty($name) && isset($this->privileges[$name])) {
 				unset($this->privileges[$name]);
@@ -1044,7 +1057,7 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
-		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) ? $fileDetails['original_name'] : $fileDetails['name'];
+		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] !== null) ? $fileDetails['original_name'] : $fileDetails['name'];
 		$db = \App\Db::getInstance();
 		$date = date('Y-m-d H:i:s');
 		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);

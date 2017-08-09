@@ -38,7 +38,7 @@ class ModComments extends ModCommentsCore
 	 * @param CRMID Source parent record id
 	 * @param CRMID Target parent record id
 	 */
-	static function transferRecords($currentParentId, $targetParentId)
+	public static function transferRecords($currentParentId, $targetParentId)
 	{
 		$adb = PearDatabase::getInstance();
 		$adb->pquery("UPDATE vtiger_modcomments SET related_to=? WHERE related_to=?", array($targetParentId, $currentParentId));
@@ -47,7 +47,7 @@ class ModComments extends ModCommentsCore
 	/**
 	 * Get widget instance by name
 	 */
-	static function getWidget($name)
+	public static function getWidget($name)
 	{
 		if ($name == 'DetailViewBlockCommentWidget' &&
 			isPermitted('ModComments', 'DetailView') == 'yes') {
@@ -62,7 +62,7 @@ class ModComments extends ModCommentsCore
 	 * @param unknown_type $moduleNames
 	 * @return unknown_type
 	 */
-	static function addWidgetTo($moduleNames, $widgetType = 'DETAILVIEWWIDGET', $widgetName = 'DetailViewBlockCommentWidget')
+	public static function addWidgetTo($moduleNames, $widgetType = 'DETAILVIEWWIDGET', $widgetName = 'DetailViewBlockCommentWidget')
 	{
 		if (empty($moduleNames))
 			return;
@@ -93,7 +93,7 @@ class ModComments extends ModCommentsCore
 	 * @param unknown_type $widgetName
 	 * @return unknown_type
 	 */
-	static function removeWidgetFrom($moduleNames, $widgetType = 'DETAILVIEWWIDGET', $widgetName = 'DetailViewBlockCommentWidget')
+	public static function removeWidgetFrom($moduleNames, $widgetType = 'DETAILVIEWWIDGET', $widgetName = 'DetailViewBlockCommentWidget')
 	{
 		if (empty($moduleNames))
 			return;

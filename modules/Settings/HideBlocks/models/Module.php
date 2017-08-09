@@ -11,10 +11,10 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public $baseTable = 'vtiger_blocks_hide';
 	public $baseIndex = 'id';
-	public $nameFields = array('name');
-	public $listFields = array('name' => 'LBL_MODULE', 'blocklabel' => 'LBL_BLOCK_LABEL', 'enabled' => 'LBL_ENABLED', 'view' => 'LBL_VIEW');
+	public $nameFields = ['name'];
+	public $listFields = ['name' => 'LBL_MODULE', 'blocklabel' => 'LBL_BLOCK_LABEL', 'enabled' => 'LBL_ENABLED', 'view' => 'LBL_VIEW'];
 	public $name = 'HideBlocks';
-	public $views = array('Detail', 'Edit');
+	public $views = ['Detail', 'Edit'];
 
 	/**
 	 * Function to get Create view url
@@ -22,7 +22,7 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCreateRecordUrl()
 	{
-		return "index.php?module=HideBlocks&parent=Settings&view=Edit";
+		return 'index.php?module=HideBlocks&parent=Settings&view=Edit';
 	}
 
 	/**
@@ -31,18 +31,15 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getListViewUrl()
 	{
-		return "index.php?module=HideBlocks&parent=Settings&view=List";
+		return 'index.php?module=HideBlocks&parent=Settings&view=List';
 	}
 
 	/**
 	 * Function to get list of Blocks
-	 * @return <Array> list of Block models Settings_HideBlocks_Module_Model
+	 * @return array list of Block models Settings_HideBlocks_Module_Model
 	 */
 	public function getBlocks()
 	{
-		if (empty($this->blocks)) {
-			//$this->blocks = Settings_Webforms_Block_Model::getAllForModule($this);
-		}
 		return $this->blocks;
 	}
 

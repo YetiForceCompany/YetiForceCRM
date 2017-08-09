@@ -55,7 +55,7 @@ class Faq_Edit_View extends Vtiger_Edit_View
 			$viewer->assign('VIEW_MODE', $viewMode);
 		}
 
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$isRelationOperation = $request->get('relationOperation');
 		//if it is relation edit

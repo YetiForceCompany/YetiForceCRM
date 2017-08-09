@@ -41,7 +41,7 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 				continue;
 			}
 			$recordModel = $this->getRecordFromArray($row);
-			$recordModel->set('id', $row['id']);
+			$recordModel->setId($row['id']);
 			$this->announcements[] = $recordModel;
 		}
 	}

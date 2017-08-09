@@ -877,7 +877,7 @@ var app = {
 			todayHighlight: true
 		}
 		if (typeof customParams != 'undefined') {
-			var params = jQuery.extend(params, customParams);
+			params = jQuery.extend(params, customParams);
 		}
 		element.datepicker(params);
 	},
@@ -903,6 +903,10 @@ var app = {
 		ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
 		ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
 		ranges[app.vtranslate('JS_LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
+		if($.fn.datepicker.dates[language] == undefined){
+			var langCodes = Object.keys($.fn.datepicker.dates);
+			language = langCodes[0];
+		}
 		var params = {
 			autoUpdateInput: false,
 			autoApply: true,
@@ -917,6 +921,9 @@ var app = {
 				firstDay: $.fn.datepicker.dates[language].weekStart
 			},
 		};
+		if (typeof customParams != 'undefined') {
+			params = jQuery.extend(params, customParams);
+		}
 		elements.each(function (index, element) {
 			element = $(element);
 			element.daterangepicker(params);

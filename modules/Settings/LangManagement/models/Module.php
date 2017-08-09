@@ -12,20 +12,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	const url_separator = '^';
 
-	public function getLang($data = false)
-	{
-		$query = (new \App\Db\Query())->from('vtiger_language');
-		if ($data && $data['prefix'] != '') {
-			$query->where(['prefix' => $data['prefix']]);
-		}
-		$output = false;
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$output[$row['prefix']] = $row;
-		}
-		return $output;
-	}
-
 	/**
 	 * Remove translation
 	 * @param array $params
@@ -334,12 +320,19 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return array('mods' => $langs, 'settings' => $settings);
 	}
 
-	public function add($params)
+	/**
+	 * Function added new language
+	 * @param array $params
+	 * @return array
+	 */
+	public static function add($params)
 	{
-		if (self::getLang($params)) {
+		if (App\Language::getAll(['prefix' => $params['prefix']])) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
-		self::CopyDir('languages/en_us/', 'languages/' . $params['prefix'] . '/');
+		$destiny = 'languages/' . $params['prefix'] . '/';
+		mkdir($destiny);
+		vtlib\Functions::recurseCopy('languages/en_us/', $destiny);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),
@@ -417,22 +410,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		closedir($fd);
 		rmdir($dir);
-	}
-
-	public function CopyDir($src, $dst)
-	{
-		$dir = opendir($src);
-		@mkdir($dst);
-		while (false !== ( $file = readdir($dir))) {
-			if (( $file != '.' ) && ( $file != '..' )) {
-				if (is_dir($src . '/' . $file)) {
-					self::CopyDir($src . '/' . $file, $dst . '/' . $file);
-				} else {
-					copy($src . '/' . $file, $dst . '/' . $file);
-				}
-			}
-		}
-		closedir($dir);
 	}
 
 	public function setAsDefault($lang)

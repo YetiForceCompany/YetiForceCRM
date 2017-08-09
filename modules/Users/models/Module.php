@@ -313,9 +313,15 @@ class Users_Module_Model extends Vtiger_Module_Model
 		//After adding new user, set the default activity types for new user
 		Vtiger_Util_Helper::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
-			Vtiger_Session::set('language', $recordModel->get('language'));
+			App\Session::set('language', $recordModel->get('language'));
 		}
-		vimport('~/modules/Users/CreateUserPrivilegeFile.php');
+		foreach ($_FILES as $fileindex => $files) {
+			if ($files['name'] !== '' && $files['size'] > 0) {
+				$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
+				$recordModel->getEntity()->uploadAndSaveFile($recordModel->getId(), $moduleName, $files);
+			}
+		}
+		Vtiger_Loader::includeOnce('~/modules/Users/CreateUserPrivilegeFile.php');
 		createUserPrivilegesfile($recordModel->getId());
 		createUserSharingPrivilegesfile($recordModel->getId());
 
@@ -332,7 +338,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
 	{
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return $editFields;

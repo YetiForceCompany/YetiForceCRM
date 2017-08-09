@@ -284,34 +284,34 @@ abstract class EntityMeta
 	public function getEntityDeletedQuery()
 	{
 		if ($this->getEntityName() == 'Leads') {
-			return "vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0";
+			return ['vtiger_crmentity.deleted' => 0, 'vtiger_leaddetails.converted' => 0];
 		}
 		if ($this->getEntityName() != "Users") {
-			return "vtiger_crmentity.deleted=0";
+			return ['vtiger_crmentity.deleted' => 0];
 		}
 		// not sure whether inactive users should be considered deleted or not.
-		return "vtiger_users.status='Active'";
+		return ['vtiger_users.status' => 'Active'];
 	}
 
-	abstract function hasPermission($operation, $webserviceId);
+	abstract public function hasPermission($operation, $webserviceId);
 
-	abstract function hasAssignPrivilege($ownerWebserviceId);
+	abstract public function hasAssignPrivilege($ownerWebserviceId);
 
-	abstract function hasDeleteAccess();
+	abstract public function hasDeleteAccess();
 
-	abstract function hasAccess();
+	abstract public function hasAccess();
 
-	abstract function hasReadAccess();
+	abstract public function hasReadAccess();
 
-	abstract function hasWriteAccess();
+	abstract public function hasWriteAccess();
 
-	abstract function getEntityName();
+	abstract public function getEntityName();
 
-	abstract function getEntityId();
+	abstract public function getEntityId();
 
-	abstract function exists($recordId);
+	abstract public function exists($recordId);
 
-	abstract function getObjectEntityName($webserviceId);
+	abstract public function getObjectEntityName($webserviceId);
 
 	abstract public function getNameFields();
 

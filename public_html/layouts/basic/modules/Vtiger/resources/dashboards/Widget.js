@@ -392,32 +392,15 @@ jQuery.Class('Vtiger_Widget_Js', {
 	registerFilter: function () {
 		var thisInstance = this;
 		var container = this.getContainer();
-		var dateRangeElement = container.find('input.dateRange');
-		var dateChanged = false;
+		var dateRangeElement = container.find('input.dateRangeField');
 		if (dateRangeElement.length <= 0) {
 			return;
 		}
-		var customParams = {
-			calendars: 3,
-			mode: 'range',
-			className: 'rangeCalendar',
-			onChange: function (formated) {
-				dateChanged = true;
-				var element = jQuery(this).data('datepicker').el;
-				jQuery(element).val(formated);
-			},
-			onHide: function () {
-				if (dateChanged) {
-					container.find('a[name="drefresh"]').trigger('click');
-					dateChanged = false;
-				}
-			},
-			onBeforeShow: function (elem) {
-				jQuery(elem).css('z-index', '3');
-			}
-		}
-		dateRangeElement.addClass('dateField').attr('data-date-format', thisInstance.getUserDateFormat());
-		app.registerEventForDatePickerFields(dateRangeElement, false, customParams);
+		dateRangeElement.addClass('dateRangeField').attr('data-date-format', thisInstance.getUserDateFormat());
+		app.registerDateRangePickerFields(dateRangeElement, {opens: "auto"});
+		dateRangeElement.on('apply.daterangepicker', function (ev, picker) {
+			container.find('a[name="drefresh"]').trigger('click');
+		});
 	},
 	registerFilterChangeEvent: function () {
 		var container = this.getContainer();

@@ -347,7 +347,13 @@ class API_CalDAV_Model
 		return true;
 	}
 
-	public function recordUpdate($record, $cal)
+	/**
+	 * Record update
+	 * @param Vtiger_Record_Model $record
+	 * @param array $cal
+	 * @return boolean
+	 */
+	public function recordUpdate(Vtiger_Record_Model $record, $cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
@@ -407,7 +413,12 @@ class API_CalDAV_Model
 		return true;
 	}
 
-	public function getEventDates($component)
+	/**
+	 * Get event dates
+	 * @param Sabre\VObject\Component $component
+	 * @return array
+	 */
+	public function getEventDates(Sabre\VObject\Component $component)
 	{
 		$allday = 0;
 		$endField = $this->getEndFieldName($component->name);
@@ -452,7 +463,13 @@ class API_CalDAV_Model
 		return ($type == 'VEVENT') ? 'DTEND' : 'DUE';
 	}
 
-	public function getState($component, $toCrm = true)
+	/**
+	 * Get state
+	 * @param Sabre\VObject\Component $component
+	 * @param boolean $toCrm
+	 * @return string
+	 */
+	public function getState(Sabre\VObject\Component $component, $toCrm = true)
 	{
 		$state = '';
 		if ($toCrm) {
@@ -479,7 +496,12 @@ class API_CalDAV_Model
 		return $state;
 	}
 
-	public function getVisibility($component)
+	/**
+	 * Get Visibility
+	 * @param Sabre\VObject\Component $component
+	 * @return string
+	 */
+	public function getVisibility(Sabre\VObject\Component $component)
 	{
 		$visibility = 'Private';
 		if (isset($component->CLASS)) {
@@ -495,7 +517,13 @@ class API_CalDAV_Model
 		return $visibility;
 	}
 
-	public function getPriority($component, $toCrm = true)
+	/**
+	 * Get priority
+	 * @param Sabre\VObject\Component $component
+	 * @param boolean $toCrm
+	 * @return int|string
+	 */
+	public function getPriority(Sabre\VObject\Component $component, $toCrm = true)
 	{
 		$values = [
 			1 => 'High',
@@ -516,9 +544,16 @@ class API_CalDAV_Model
 		return $return;
 	}
 
-	public function getStatus($component, $toCrm = true, $calType)
+	/**
+	 * Get status
+	 * @param Sabre\VObject\Component $component
+	 * @param boolean $toCrm
+	 * @param string $calType
+	 * @return array
+	 */
+	public function getStatus(Sabre\VObject\Component $component, $toCrm = true, $calType)
 	{
-		if ($calType == 'VEVENT') {
+		if ($calType === 'VEVENT') {
 			$values = [
 				'PLL_PLANNED' => 'TENTATIVE',
 				'PLL_OVERDUE' => 'CANCELLED',
@@ -680,12 +715,22 @@ class API_CalDAV_Model
 		];
 	}
 
-	public function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0)
+	/**
+	 * Get vtime zone
+	 * @param Sabre\VObject\Component $vcalendar
+	 * @param type $tzid
+	 * @param int $from
+	 * @param int $to
+	 * @return boolean
+	 */
+	public function getVTimeZone(Sabre\VObject\Component $vcalendar, $tzid, $from = 0, $to = 0)
 	{
-		if (!$from)
+		if (!$from) {
 			$from = time();
-		if (!$to)
+		}
+		if (!$to) {
 			$to = $from;
+		}
 
 		try {
 			$tz = new \DateTimeZone($tzid);

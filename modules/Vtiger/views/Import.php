@@ -249,7 +249,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$user = Users_Record_Model::getCurrentUserModel();
 
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
-		if ($importInfo != null) {
+		if ($importInfo !== null) {
 			if ($importInfo['user_id'] == $user->id || $user->isAdminUser()) {
 				$importUser = Users_Record_Model::getInstanceById($importInfo['user_id'], 'Users');
 				$importDataController = new Import_Data_Action($importInfo, $importUser);
@@ -268,7 +268,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 		// Check if import on the module is locked
 		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
-		if ($lockInfo != null) {
+		if ($lockInfo !== null) {
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
@@ -291,7 +291,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 		if (Import_Module_Model::isUserImportBlocked($user)) {
 			$importInfo = Import_Queue_Action::getUserCurrentImportInfo($user);
-			if ($importInfo != null) {
+			if ($importInfo !== null) {
 				Import_Main_View::showImportStatus($importInfo, $user);
 				return;
 			} else {

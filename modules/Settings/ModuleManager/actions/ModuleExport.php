@@ -30,14 +30,13 @@ Class Settings_ModuleManager_ModuleExport_Action extends Settings_Vtiger_IndexAj
 	{
 		$moduleName = $request->get('forModule');
 
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
+		$moduleModel = \vtlib\Module::getInstance($moduleName);
 		if (!$moduleModel->isExportable()) {
 			echo 'Module not exportable!';
 			return;
 		}
 
 		$package = new vtlib\PackageExport();
-		$package->export($moduleModel, '', sprintf("%s-%s.zip", $moduleModel->get('name'), $moduleModel->get('version')), true);
+		$package->export($moduleModel, '', sprintf("%s-%s.zip", $moduleModel->name, $moduleModel->version), true);
 	}
 }

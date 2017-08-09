@@ -418,6 +418,10 @@ var Vtiger_Index_Js = {
 		});
 		$('.headerLinkChat').on('click', function (e) {
 			e.stopPropagation();
+			var remindersNoticeContainer = $('.remindersNoticeContainer,.remindersNotificationContainer');
+			if (remindersNoticeContainer.hasClass('toggled')) {
+				remindersNoticeContainer.removeClass('toggled');
+			}
 			$('.chatModal').modal({backdrop: false});
 		});
 		this.registerChatLoadItems(modal.data('timer'));
@@ -459,6 +463,8 @@ var Vtiger_Index_Js = {
 			if (html) {
 				$('.chatModal .modal-body').append(html);
 			}
+		}, function (error, err) {
+			clearTimeout(Vtiger_Index_Js.chatTimer);
 		});
 	},
 	/**

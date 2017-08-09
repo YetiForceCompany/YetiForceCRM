@@ -23,8 +23,8 @@ class RecordNumber
 		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$result = $db->pquery('SELECT 1 FROM vtiger_modentity_num WHERE tabid = ?', [$tabId]);
-		if ($result && $db->num_rows($result) > 0) {
+		$exist = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->exists();
+		if ($exist) {
 			return true;
 		}
 		return false;
@@ -77,11 +77,7 @@ class RecordNumber
 	 */
 	public static function incrementNumber($moduleId)
 	{
-		$db = \PearDatabase::getInstance();
-		//when we save new invoice we will increment the invoice id and write
-		$result = $db->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ?', [$moduleId]);
-		$row = $db->getRow($result);
-
+		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $moduleId])->one();
 		$prefix = $row['prefix'];
 		$postfix = $row['postfix'];
 		$curId = $row['cur_id'];
@@ -93,7 +89,7 @@ class RecordNumber
 		$temp = str_repeat('0', $strip);
 		$reqNo = $temp . ($curId + 1);
 		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
-		return decode_html($fullPrefix);
+		return \App\Purifier::decodeHtml($fullPrefix);
 	}
 
 	/**
@@ -116,6 +112,12 @@ class RecordNumber
 
 	protected static $numberCache = [];
 
+	/**
+	 * Function returns information about module numbering
+	 * @param int $tabId
+	 * @param boolen $cache
+	 * @return array
+	 */
 	public static function getNumber($tabId, $cache = true)
 	{
 		if (isset(self::$numberCache[$tabId]) && $cache) {
@@ -124,9 +126,7 @@ class RecordNumber
 		if (is_string($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT cur_id, prefix, postfix FROM vtiger_modentity_num WHERE tabid = ? ', [$tabId]);
-		$row = $adb->getRow($result);
+		$row = (new \App\Db\Query())->select(['cur_id', 'prefix', 'postfix'])->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
 
 		$number = [
 			'prefix' => $row['prefix'],

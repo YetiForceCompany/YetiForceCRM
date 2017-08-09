@@ -88,7 +88,7 @@ function IsDateField($reportColDetails)
  * @param String $fieldName
  * @return String
  */
-function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fieldName)
+function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $valueArray, $fieldName)
 {
 	$defaultCharset = vglobal('default_charset');
 

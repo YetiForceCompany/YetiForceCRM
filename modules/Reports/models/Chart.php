@@ -391,7 +391,7 @@ abstract class Base_Chart extends \App\Base
 
 		// Special handling for date fields
 		$comparator = 'e';
-		$dataFieldInfo = @explode(':', $field);
+		$dataFieldInfo = explode(':', $field);
 		if (($dataFieldInfo[4] == 'D' || $dataFieldInfo[4] == 'DT') && !empty($dataFieldInfo[5])) {
 			$dataValue = explode(' ', $value);
 			if (count($dataValue) > 1) {
@@ -421,7 +421,7 @@ abstract class Base_Chart extends \App\Base
 		foreach ($filter as $index => $filterInfo) {
 			foreach ($filterInfo['columns'] as $i => $column) {
 				if ($column) {
-					$fieldInfo = @explode(':', $column['columnname']);
+					$fieldInfo = explode(':', $column['columnname']);
 					$filter[$index]['columns'][$i]['columnname'] = $fieldInfo[3];
 				}
 			}

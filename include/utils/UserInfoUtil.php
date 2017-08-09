@@ -11,7 +11,6 @@
 require_once 'include/database/PearDatabase.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/GetUserGroups.php';
-require_once 'include/events/include.php';
 require_once 'include/runtime/Globals.php';
 require_once 'include/runtime/Cache.php';
 
@@ -68,7 +67,7 @@ function isPermitted($module, $actionname, $record_id = '')
 	$userPrivileges = App\User::getPrivilegesFile($current_user->id);
 
 	$permission = 'no';
-	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && \App\Request::_get('parenttab') != 'Settings') {
+	if (($module === 'Users' || $module === 'Home' || $module === 'uploads') && \App\Request::_get('parenttab') !== 'Settings') {
 		//These modules dont have security right now
 		vglobal('isPermittedLog', 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT');
 		\App\Log::trace('Exiting isPermitted method ...');
@@ -89,10 +88,10 @@ function isPermitted($module, $actionname, $record_id = '')
 
 	//Retreiving the Tabid and Action Id
 	$tabid = \App\Module::getModuleId($module);
-	$actionid = getActionid($actionname);
+	$actionid = \App\Module::getActionId($actionname);
 	$checkModule = $module;
 
-	if ($checkModule == 'Events') {
+	if ($checkModule === 'Events') {
 		$checkModule = 'Calendar';
 	}
 
@@ -644,35 +643,6 @@ function getAllRoleDetails()
 	return $role_det;
 }
 
-/** Function to get the vtiger_role related vtiger_users
- * @param $roleid -- RoleId :: Type varchar
- * @returns $roleUsers-- Role Related User Array in the following format:
- *       $roleUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName));
- */
-function getRoleUsers($roleId)
-{
-
-	\App\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
-
-	$roleRelatedUsers = Vtiger_Cache::get('getRoleUsers', $roleId);
-	if ($roleRelatedUsers !== false) {
-		return $roleRelatedUsers;
-	}
-
-	$adb = PearDatabase::getInstance();
-	$query = 'select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
-	$result = $adb->pquery($query, array($roleId));
-	$num_rows = $adb->num_rows($result);
-	$roleRelatedUsers = [];
-	for ($i = 0; $i < $num_rows; $i++) {
-		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
-	}
-
-	Vtiger_Cache::set('getRoleUsers', $roleId, $roleRelatedUsers);
-	\App\Log::trace('Exiting getRoleUsers method ...');
-	return $roleRelatedUsers;
-}
-
 /** Function to get the vtiger_role related user ids
  * @param $roleid -- RoleId :: Type varchar
  * @returns $roleUserIds-- Role Related User Array in the following format:
@@ -1053,7 +1023,7 @@ function getSubordinateRoleAndUsers($roleId)
 	$subRoleAndUsers = [];
 	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
 	foreach ($subordinateRoles as $subRoleId) {
-		$userArray = getRoleUsers($subRoleId);
+		$userArray = \App\PrivilegeUtil::getUsersNameByRole($subRoleId);
 		$subRoleAndUsers[$subRoleId] = $userArray;
 	}
 	\App\Log::trace("Exiting getSubordinateRoleAndUsers method ...");
@@ -1303,15 +1273,13 @@ function getPermittedModuleIdList()
  */
 function RecalculateSharingRules()
 {
-
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
-	$adb = PearDatabase::getInstance();
 	require_once('modules/Users/CreateUserPrivilegeFile.php');
-	$query = "select id from vtiger_users where deleted=0";
-	$result = $adb->pquery($query, []);
-	$num_rows = $adb->num_rows($result);
-	for ($i = 0; $i < $num_rows; $i++) {
-		$id = $adb->query_result($result, $i, 'id');
+	$userIds = (new App\Db\Query())->select(['id'])
+		->from('vtiger_users')
+		->where(['deleted' => 0])
+		->column();
+	foreach ($userIds as $id) {
 		createUserPrivilegesfile($id);
 		createUserSharingPrivilegesfile($id);
 	}

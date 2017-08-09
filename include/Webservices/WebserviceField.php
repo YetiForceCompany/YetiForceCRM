@@ -404,14 +404,15 @@ class WebserviceField
 		}else {
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
 			$details = \App\Fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
-			for ($i = 0; $i < sizeof($details); ++$i) {
+			foreach ($details as $value) {
 				$elem = [];
-				$picklistValue = decode_html($details[$i]);
+				$picklistValue = \App\Purifier::decodeHtml($value);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
-				if ($moduleName == 'Events')
+				if ($moduleName === 'Events') {
 					$moduleName = 'Calendar';
-				$elem["label"] = \App\Language::translate($picklistValue, $moduleName);
-				$elem["value"] = $picklistValue;
+				}
+				$elem['label'] = \App\Language::translate($picklistValue, $moduleName);
+				$elem['value'] = $picklistValue;
 				array_push($options, $elem);
 			}
 		}

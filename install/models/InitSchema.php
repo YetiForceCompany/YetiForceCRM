@@ -29,7 +29,7 @@ class Install_InitSchema_Model
 		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
 
 		// recalculate all sharing rules for users
-		vimport('~include/utils/UserInfoUtil.php');
+		Vtiger_Loader::includeOnce('~include/utils/UserInfoUtil.php');
 		RecalculateSharingRules();
 	}
 

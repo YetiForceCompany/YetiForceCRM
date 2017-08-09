@@ -9,15 +9,9 @@
  * *********************************************************************************** */
 
 require_once 'include/Webservices/Utils.php';
-require_once("include/Webservices/State.php");
-require_once("include/Webservices/OperationManager.php");
-require_once("include/Webservices/SessionManager.php");
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
@@ -31,8 +25,8 @@ $adb = PearDatabase::getInstance();
 $workflowScheduler = new WorkFlowScheduler($adb);
 $workflowScheduler->queueScheduledWorkflowTasks();
 $readyTasks = (new VTTaskQueue($adb))->getReadyTasks();
-$tm = new VTTaskManager($adb);
-foreach ($readyTasks as $taskDetails) {
+$tm = new VTTaskManager();
+foreach ($readyTasks as $tasdkDetails) {
 	list($taskId, $entityId, $taskContents) = $taskDetails;
 	$task = $tm->retrieveTask($taskId);
 	//If task is not there then continue

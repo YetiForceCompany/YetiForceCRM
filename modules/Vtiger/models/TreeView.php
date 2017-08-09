@@ -62,7 +62,7 @@ class Vtiger_TreeView_Model extends \App\Base
 			->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
 			->one();
 		if (!$fieldTemp) {
-			vtlib\Functions::throwNewException(\App\Language::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+			throw new \Exception\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
 		}
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;

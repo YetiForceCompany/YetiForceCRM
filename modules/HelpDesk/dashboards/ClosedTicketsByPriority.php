@@ -9,6 +9,7 @@
  */
 class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 {
+
 	/**
 	 * Return search params (use to in bulding address URL to listview)
 	 * @param string $priority
@@ -46,10 +47,10 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$query = (new App\Db\Query())->select([
-			'count' => new \yii\db\Expression('COUNT(*)'),
-			'priority',
-			'vtiger_ticketpriorities.color'
-		])->from('vtiger_troubletickets')
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'priority',
+				'vtiger_ticketpriorities.color'
+			])->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
 			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
@@ -89,14 +90,14 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		$time = $request->get('time');
+		$time = $request->getDateRange('time');
 		$owner = $request->get('owner');
 		if (empty($owner)) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time === false) {
+			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}

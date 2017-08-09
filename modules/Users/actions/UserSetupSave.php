@@ -23,15 +23,11 @@ class Users_UserSetupSave_Action extends Users_Save_Action
 		$userRecordModel->set('time_zone', $request->get('time_zone'));
 		$userRecordModel->set('date_format', $request->get('date_format'));
 		$userRecordModel->save();
-		//End 
 		//Handling the System Setup
 		$currencyName = $request->get('currency_name');
 		if (!empty($currencyName))
 			$userModuleModel->updateBaseCurrency($currencyName);
 		$userModuleModel->insertEntryIntoCRMSetup($userRecordModel->getId());
-		//End
-
 		header("Location: index.php");
-		//End
 	}
 }

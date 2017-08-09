@@ -119,7 +119,7 @@ class PackageExport
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	public function export($moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
 	{
 		$this->moduleInstance = $moduleInstance;
 		$module = $this->moduleInstance->name;
@@ -132,7 +132,6 @@ class PackageExport
 		$this->__finishExport();
 
 		// Export as Zip
-		// if($zipfilename == '') $zipfilename = "$module-" . date('YmdHis') . ".zip";
 		$zipfilename = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
 		$zipfilename = "$this->_export_tmpdir/$zipfilename";
 
@@ -322,9 +321,6 @@ class PackageExport
 		// Export Sharing Access
 		$this->export_SharingAccess($this->moduleInstance);
 
-		// Export Events
-		$this->export_Events($this->moduleInstance);
-
 		// Export Actions
 		$this->export_Actions($this->moduleInstance);
 
@@ -346,9 +342,7 @@ class PackageExport
 	 */
 	public function export_Tables()
 	{
-		$_exportedTables = [];
 		$modulename = $this->moduleInstance->name;
-
 		$this->openNode('tables');
 
 		if ($this->moduleInstance->isentitytype) {
@@ -365,8 +359,6 @@ class PackageExport
 				$this->outputNode($table, 'name');
 				$this->outputNode('<![CDATA[' . Utils::CreateTableSql($table) . ']]>', 'sql');
 				$this->closeNode('table');
-
-				$_exportedTables[] = $table;
 			}
 		}
 		$this->closeNode('tables');
@@ -627,30 +619,6 @@ class PackageExport
 			}
 		}
 		$this->closeNode('sharingaccess');
-	}
-
-	/**
-	 * Export Events of the module
-	 * @access private
-	 */
-	public function export_Events($moduleInstance)
-	{
-		//TODU: needs updating
-		return false;
-		//$events = Event::getAll($moduleInstance);
-		if (!$events)
-			return;
-
-		$this->openNode('events');
-		foreach ($events as $event) {
-			$this->openNode('event');
-			$this->outputNode($event->eventname, 'eventname');
-			$this->outputNode('<![CDATA[' . $event->classname . ']]>', 'classname');
-			$this->outputNode('<![CDATA[' . $event->filename . ']]>', 'filename');
-			$this->outputNode('<![CDATA[' . $event->condition . ']]>', 'condition');
-			$this->closeNode('event');
-		}
-		$this->closeNode('events');
 	}
 
 	public function export_Actions($moduleInstance)

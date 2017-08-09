@@ -18,7 +18,7 @@ class VTJsonCondition
 	 * @param Vtiger_Record_Model $recordModel
 	 * @return string
 	 */
-	public function evaluate($condition, $recordModel)
+	public function evaluate($condition, Vtiger_Record_Model $recordModel)
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
@@ -127,7 +127,7 @@ class VTJsonCondition
 	 * @return boolean
 	 * @throws Exception
 	 */
-	public function checkCondition($recordModel, $cond, $referredRecordModel = null)
+	public function checkCondition(Vtiger_Record_Model $recordModel, $cond, Vtiger_Record_Model $referredRecordModel = null)
 	{
 		$condition = $cond['operation'];
 		if (empty($condition)) {
@@ -148,7 +148,7 @@ class VTJsonCondition
 		$value = trim(html_entity_decode($cond['value']));
 		$expressionType = $cond['valuetype'];
 		if ($expressionType === 'fieldname') {
-			if ($referredEntityData !== null) {
+			if ($referredRecordModel !== null) {
 				$value = $referredRecordModel->get($value);
 			} else {
 				$value = $recordModel->get($value);
@@ -158,7 +158,7 @@ class VTJsonCondition
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();
 			$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-			if ($referredEntityData !== null) {
+			if ($referredRecordModel !== null) {
 				$value = $exprEvaluater->evaluate($referredRecordModel);
 			} else {
 				$value = $exprEvaluater->evaluate($recordModel);
@@ -168,17 +168,6 @@ class VTJsonCondition
 		if ($fieldInstance) {
 			switch ($fieldInstance->getFieldDataType()) {
 				case 'datetime':
-					//Convert the DB Date Time Format to User Date Time Format
-					/*
-					  $rawFieldValue = $fieldValue;
-					  $date = new DateTimeField($fieldValue);
-					  $fieldValue = $date->getDisplayDateTimeValue();
-					  $valueArray = explode(' ', $value);
-					  if (count($valueArray) == 1) {
-					  $fieldValueArray = explode(' ', $fieldValue);
-					  $fieldValue = $fieldValueArray[0];
-					  }
-					 */
 					$fieldValue = $recordModel->getDisplayName($fieldInstance->getName());
 					break;
 				case 'date':

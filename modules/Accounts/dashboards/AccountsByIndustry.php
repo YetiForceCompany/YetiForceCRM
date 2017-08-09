@@ -94,7 +94,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if ($owner == 'all')
 			$owner = '';
 
-		$createdTime = $request->get('createdtime');
+		$createdTime = $request->getDateRange('createdtime');
 
 		//Date conversion from user to database format
 		$dates = [];
