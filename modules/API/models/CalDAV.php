@@ -10,26 +10,70 @@
 class API_CalDAV_Model
 {
 
+	/**
+	 * Prod id
+	 * @var string
+	 */
 	const PRODID = 'YetiForce';
+
+	/**
+	 * Calendar name
+	 * @var string
+	 */
 	const CALENDAR_NAME = 'YFCalendar';
+
+	/**
+	 * Components
+	 * @var string
+	 */
 	const COMPONENTS = 'VEVENT,VTODO';
 
+	/**
+	 * User
+	 * @var array|bool
+	 */
 	public $user = false;
+
+	/**
+	 * Record
+	 * @var array
+	 */
 	public $record = false;
+
+	/**
+	 * Calendar id
+	 * @var int
+	 */
 	public $calendarId = false;
+
+	/**
+	 * Dav users
+	 * @var array
+	 */
 	public $davUsers = [];
+
+	/**
+	 * Crm records
+	 * @var array
+	 */
 	protected $crmRecords = [];
 
+	/**
+	 * Max date
+	 * @var string
+	 */
 	const MAX_DATE = '2038-01-01';
 
+	/**
+	 * calDavCrm2Dav
+	 */
 	public function calDavCrm2Dav()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
 
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.dav_status = 1;';
-		$result = $db->query($query);
-		while ($row = $db->getRow($result)) {
+		$query = (new \App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.deleted', 'vtiger_crmentity.createdtime', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.description'])->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_activity.dav_status' => 1]);
+		$dataReader = $query->createCommand($db)->query();
+		while ($row = $dataReader->read()) {
 			$this->record = $row;
 			$this->davSync();
 		}
