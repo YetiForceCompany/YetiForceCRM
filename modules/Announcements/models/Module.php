@@ -13,8 +13,16 @@
 class Announcements_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * Announcements
+	 * @var array
+	 */
 	protected $announcements = [];
 
+	/**
+	 * Check active
+	 * @return boolean
+	 */
 	public function checkActive()
 	{
 		if (\App\Request::_get('view') == 'Login' || !$this->isActive()) {
@@ -24,6 +32,9 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		return !empty($this->announcements);
 	}
 
+	/**
+	 * Load announcements
+	 */
 	public function loadAnnouncements()
 	{
 		$queryGenerator = new \App\QueryGenerator($this->getName());
@@ -49,6 +60,10 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Get announcements
+	 * @return array
+	 */
 	public function getAnnouncements()
 	{
 		if (empty($this->announcements)) {
@@ -57,6 +72,11 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		return $this->announcements;
 	}
 
+	/**
+	 * Set mark
+	 * @param int $record
+	 * @param int $state
+	 */
 	public function setMark($record, $state)
 	{
 		$db = \App\Db::getInstance();
