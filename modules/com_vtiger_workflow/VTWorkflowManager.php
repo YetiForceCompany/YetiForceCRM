@@ -506,7 +506,7 @@ class Workflow
 	 * Perform tasks
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public function performTasks($recordModel)
+	public function performTasks(Vtiger_Record_Model $recordModel)
 	{
 		require_once('modules/com_vtiger_workflow/VTTaskManager.php');
 		require_once('modules/com_vtiger_workflow/VTTaskQueue.php');
