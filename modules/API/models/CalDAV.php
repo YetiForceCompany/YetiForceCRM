@@ -206,6 +206,10 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Dav update
+	 * @param array $calendar
+	 */
 	public function davUpdate($calendar)
 	{
 		$record = $this->record;
@@ -268,8 +272,7 @@ class API_CalDAV_Model
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = PearDatabase::getInstance();
-		$db->update('dav_calendarobjects', [
+		\App\Db::getInstance()->createCommand()->update('dav_calendarobjects', [
 			'calendardata' => $calendarData,
 			'lastmodified' => $modifiedtime,
 			'etag' => $extraData['etag'],
@@ -279,8 +282,8 @@ class API_CalDAV_Model
 			'lastoccurence' => $extraData['lastOccurence'],
 			'uid' => $extraData['uid'],
 			'crmid' => $record['crmid']
-			], 'id = ?', [$calendar['id']]
-		);
+			], ['id' => $calendar['id']]
+		)->execute();
 		$this->addChange($calendar['uri'], 2);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
