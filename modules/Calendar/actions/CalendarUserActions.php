@@ -67,7 +67,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$count = (new \App\Db\Query())->from('vtiger_shareduserinfo')->where(['userid' => $userId, 'shareduserid' => $sharedUserId])->count();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if ($count) {
-			$dbCommand->update('vtiger_shareduserinfo', ['visible' => 0], ['userid' => 0, 'shareduserid' => $sharedUserId])->execute();
+			$dbCommand->update('vtiger_shareduserinfo', ['visible' => 0], ['userid' => $userId, 'shareduserid' => $sharedUserId])->execute();
 		} else {
 			$dbCommand->insert('vtiger_shareduserinfo', [
 				'userid' => $userId, 'shareduserid' => $sharedUserId, 'visible' => 0
@@ -92,16 +92,13 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$sharedUserId = $request->get('selectedUser');
 		$color = $request->get('selectedColor');
 
-		$db = PearDatabase::getInstance();
-
-		$queryResult = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? && shareduserid=?', array($userId, $sharedUserId));
-
-		if ($db->num_rows($queryResult) > 0) {
-			$db->pquery('UPDATE vtiger_shareduserinfo SET color=?, visible=? WHERE userid=? && shareduserid=?', array($color, '1', $userId, $sharedUserId));
+		$count = (new \App\Db\Query())->from('vtiger_shareduserinfo')->where(['userid' => $userId, 'shareduserid' => $sharedUserId])->count();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($count) {
+			$dbCommand->update('vtiger_shareduserinfo', ['color' => $color, 'visible' => 1], ['userid' => $userId, 'shareduserid' => $sharedUserId])->execute();
 		} else {
-			$db->pquery('INSERT INTO vtiger_shareduserinfo (userid, shareduserid, color, visible) VALUES(?, ?, ?, ?)', array($userId, $sharedUserId, $color, '1'));
+			$dbCommand->insert('vtiger_shareduserinfo', ['userid' => $userId, 'shareduserid' => $sharedUserId, 'color' => $color, 'visible' => 1])->execute();
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult(array('success' => true));
 		$response->emit();
