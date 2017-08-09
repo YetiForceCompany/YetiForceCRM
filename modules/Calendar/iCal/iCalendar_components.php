@@ -136,7 +136,7 @@ class iCalendar_component
 
 	public function get_property_list($name)
 	{
-		
+
 	}
 
 	public function invariant_holds()
@@ -293,7 +293,7 @@ class iCalendar_component
 			}
 			if (!empty($ical_activity['VALARM'])) {
 				$temp = str_replace("P", '', $ical_activity['VALARM']['TRIGGER']);
-				//if there is negative value then ignore it because in vtiger even though its negative or postiview we 
+				//if there is negative value then ignore it because in vtiger even though its negative or postiview we
 				//make reminder to be before the event
 				$temp = str_replace("-", '', $temp);
 				$durationTypeCharacters = array('W', 'D', 'T', 'H', 'M', 'S');
@@ -521,11 +521,16 @@ class iCalendar_event extends iCalendar_component
 		return true;
 	}
 
+	/**
+	 * iCalendar event attendee
+	 * @param array $activity
+	 * @return boolean
+	 */
 	public function iCalendar_event_attendee($activity)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', array($activity['id']));
-		while ($row = $adb->getRow($result)) {
+		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $activity['id']]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
 				$this->add_property('ATTENDEE', 'mailto:' . $row['email'], ['CN' => vtlib\Functions::getCRMRecordLabel($row['crmid'])]);
 			}
@@ -634,12 +639,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-	
+
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-	
+
 }
 
 class iCalendar_alarm extends iCalendar_component
