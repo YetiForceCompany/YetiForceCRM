@@ -940,14 +940,20 @@ class API_CalDAV_Model
 		}
 	}
 
+	/**
+	 * Dav save attendee
+	 * @param array $record
+	 * @param Sabre\VObject\Component\VCalendar $vcalendar
+	 * @param Sabre\VObject\Component\VEvent $component
+	 */
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = PearDatabase::getInstance();
 		$owner = Users_Privileges_Model::getInstanceById($record['smownerid']);
 
 		$invities = [];
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record['activityid']]);
-		while ($row = $db->getRow($result)) {
+		$query = (new App\Db\Query())->from('u_yf_activity_invitation')->where(['activityid' => $record['activityid']]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
 				$invities[$row['email']] = $row;
 			}
