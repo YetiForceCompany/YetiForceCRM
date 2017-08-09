@@ -669,16 +669,21 @@ class API_CalDAV_Model
 	/**
 	 * Adds a change record to the addressbookchanges table.
 	 *
-	 * @param mixed $addressBookId
 	 * @param string $objectUri
 	 * @param int $operation 1 = add, 2 = modify, 3 = delete
 	 * @return void
 	 */
 	protected function addChange($objectUri, $operation)
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$selectQuery = (new \App\Db\Query())->select([$objectUri, 'synctoken', $operation])->from('dav_calendars')->where(['id' => $this->calendarId]);
+		$insertData = [];
+		$dataReader = $selectQuery->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$insertData[] = [$row[$objectUri], $row['synctoken'], $this->calendarId, $row[$operation]];
+		}
+		$dbCommand->batchInsert('dav_calendarchanges', ['uri', 'synctoken', 'calendarid', 'operation'], $insertData)->execute();
 		$db = PearDatabase::getInstance();
-		$query = 'INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?';
-		$db->pquery($query, [$objectUri, $this->calendarId, $operation, $this->calendarId]);
 		$db->pquery('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?', [$this->calendarId]);
 	}
 
