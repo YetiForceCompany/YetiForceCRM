@@ -523,6 +523,11 @@ class API_CalDAV_Model
 		return ['allday' => $allday, 'date_start' => $dateStart, 'due_date' => $dueDate, 'time_start' => $timeStart, 'time_end' => $timeEnd];
 	}
 
+	/**
+	 * Get end field name
+	 * @param string $type
+	 * @return string
+	 */
 	public function getEndFieldName($type)
 	{
 		return ($type == 'VEVENT') ? 'DTEND' : 'DUE';
