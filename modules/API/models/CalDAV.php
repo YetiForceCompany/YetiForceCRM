@@ -30,7 +30,7 @@ class API_CalDAV_Model
 
 	/**
 	 * User
-	 * @var array|bool
+	 * @var object|array|bool
 	 */
 	public $user = false;
 
@@ -288,15 +288,21 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Dav delete
+	 * @param array $calendar
+	 */
 	public function davDelete($calendar)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
-		$db = PearDatabase::getInstance();
-		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
+		\App\Db::getInstance()->createCommand()->delete('dav_calendarobjects', ['id' => $calendar['id']])->execute();
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Cal dav to crm
+	 */
 	public function calDav2Crm()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
