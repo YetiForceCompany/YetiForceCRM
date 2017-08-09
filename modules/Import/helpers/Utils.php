@@ -11,12 +11,12 @@
 class Import_Utils_Helper
 {
 
-	static $AUTO_MERGE_NONE = 0;
-	static $AUTO_MERGE_IGNORE = 1;
-	static $AUTO_MERGE_OVERWRITE = 2;
-	static $AUTO_MERGE_MERGEFIELDS = 3;
-	static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
-	static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
+	public static $AUTO_MERGE_NONE = 0;
+	public static $AUTO_MERGE_IGNORE = 1;
+	public static $AUTO_MERGE_OVERWRITE = 2;
+	public static $AUTO_MERGE_MERGEFIELDS = 3;
+	public static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
+	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
 
 	public function getSupportedFileExtensions($moduleName = null)
 	{
@@ -178,7 +178,7 @@ class Import_Utils_Helper
 		return true;
 	}
 
-	static function fileUploadErrorMessage($error_code)
+	public static function fileUploadErrorMessage($error_code)
 	{
 		switch ($error_code) {
 			case 1:
