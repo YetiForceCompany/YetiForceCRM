@@ -1317,6 +1317,7 @@ $languageStrings = [
 	'LBL_TABLE_DISCOUNT_SUMMARY' => 'Resumen del Descuento',
 	'LBL_TABLE_TAX_SUMMARY' => 'Resumen del Impuesto',
 	'LBL_RELATED_RECORDS_LIST' => 'List of related records',
+	'LBL_RECORDS_LIST' => 'List of all records',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Número de direcciones de correo electrónico encontradas',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Número de registros seleccionados',
