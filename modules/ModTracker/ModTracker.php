@@ -24,7 +24,7 @@ class ModTracker
 	public static $CONVERTTOACCOUNT = '6';
 	public static $DISPLAYED = '7';
 
-	static function getAllActionsTypes()
+	public static function getAllActionsTypes()
 	{
 		return [
 			self::$UPDATED => 'LBL_AT_UPDATE',

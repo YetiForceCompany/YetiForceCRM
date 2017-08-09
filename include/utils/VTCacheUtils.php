@@ -287,12 +287,12 @@ class VTCacheUtils
 	/** ProfileId information caching */
 	public static $_userprofileid_cache = [];
 
-	static function updateUserProfileId($userid, $profileid)
+	public static function updateUserProfileId($userid, $profileid)
 	{
 		self::$_userprofileid_cache[$userid] = $profileid;
 	}
 
-	static function lookupUserProfileId($userid)
+	public static function lookupUserProfileId($userid)
 	{
 		if (isset(self::$_userprofileid_cache[$userid])) {
 			return self::$_userprofileid_cache[$userid];
@@ -301,9 +301,9 @@ class VTCacheUtils
 	}
 
 	/** Profile2Field information caching */
-	static $_profile2fieldpermissionlist_cache = [];
+	public static $_profile2fieldpermissionlist_cache = [];
 
-	static function lookupProfile2FieldPermissionList($module, $profileid)
+	public static function lookupProfile2FieldPermissionList($module, $profileid)
 	{
 		$pro2fld_perm = self::$_profile2fieldpermissionlist_cache;
 		if (isset($pro2fld_perm[$module]) && isset($pro2fld_perm[$module][$profileid])) {
@@ -312,15 +312,15 @@ class VTCacheUtils
 		return false;
 	}
 
-	static function updateProfile2FieldPermissionList($module, $profileid, $value)
+	public static function updateProfile2FieldPermissionList($module, $profileid, $value)
 	{
 		self::$_profile2fieldpermissionlist_cache[$module][$profileid] = $value;
 	}
 
 	/** Record Owner Id */
-	static $_record_ownerid_cache = [];
+	public static $_record_ownerid_cache = [];
 
-	static function lookupRecordOwner($record)
+	public static function lookupRecordOwner($record)
 	{
 		if (isset(self::$_record_ownerid_cache[$record])) {
 			return self::$_record_ownerid_cache[$record];
@@ -328,15 +328,15 @@ class VTCacheUtils
 		return false;
 	}
 
-	static function updateRecordOwner($record, $ownerId)
+	public static function updateRecordOwner($record, $ownerId)
 	{
 		self::$_record_ownerid_cache[$record] = $ownerId;
 	}
 
 	/** Record Owner Type */
-	static $_record_ownertype_cache = [];
+	public static $_record_ownertype_cache = [];
 
-	static function lookupOwnerType($ownerId)
+	public static function lookupOwnerType($ownerId)
 	{
 		if (isset(self::$_record_ownertype_cache[$ownerId])) {
 			return self::$_record_ownertype_cache[$ownerId];
@@ -344,20 +344,20 @@ class VTCacheUtils
 		return false;
 	}
 
-	static function updateOwnerType($ownerId, $count)
+	public static function updateOwnerType($ownerId, $count)
 	{
 		self::$_record_ownertype_cache[$ownerId] = $count;
 	}
 
 	/** Related module information for Report */
-	static $_report_listofmodules_cache = false;
+	public static $_report_listofmodules_cache = false;
 
-	static function lookupReport_ListofModuleInfos()
+	public static function lookupReport_ListofModuleInfos()
 	{
 		return self::$_report_listofmodules_cache;
 	}
 
-	static function updateReport_ListofModuleInfos($module_list, $related_modules)
+	public static function updateReport_ListofModuleInfos($module_list, $related_modules)
 	{
 		if (self::$_report_listofmodules_cache === false) {
 			self::$_report_listofmodules_cache = array(
@@ -368,9 +368,9 @@ class VTCacheUtils
 	}
 
 	/** Report module information based on used. */
-	static $_reportmodule_infoperuser_cache = [];
+	public static $_reportmodule_infoperuser_cache = [];
 
-	static function lookupReport_Info($userid, $reportid)
+	public static function lookupReport_Info($userid, $reportid)
 	{
 
 		if (isset(self::$_reportmodule_infoperuser_cache[$userid])) {
@@ -381,7 +381,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	static function updateReport_Info($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
+	public static function updateReport_Info($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
 	{
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid])) {
 			self::$_reportmodule_infoperuser_cache[$userid] = [];
@@ -401,9 +401,9 @@ class VTCacheUtils
 	}
 
 	/** Report module sub-ordinate users information. */
-	static $_reportmodule_subordinateuserid_cache = [];
+	public static $_reportmodule_subordinateuserid_cache = [];
 
-	static function lookupReport_SubordinateUsers($reportid)
+	public static function lookupReport_SubordinateUsers($reportid)
 	{
 		if (isset(self::$_reportmodule_subordinateuserid_cache[$reportid])) {
 			return self::$_reportmodule_subordinateuserid_cache[$reportid];
@@ -411,15 +411,15 @@ class VTCacheUtils
 		return false;
 	}
 
-	static function updateReport_SubordinateUsers($reportid, $userids)
+	public static function updateReport_SubordinateUsers($reportid, $userids)
 	{
 		self::$_reportmodule_subordinateuserid_cache[$reportid] = $userids;
 	}
 
 	/** Report module information based on used. */
-	static $_reportmodule_scheduledinfoperuser_cache = [];
+	public static $_reportmodule_scheduledinfoperuser_cache = [];
 
-	static function lookupReport_ScheduledInfo($userid, $reportid)
+	public static function lookupReport_ScheduledInfo($userid, $reportid)
 	{
 
 		if (isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
@@ -430,7 +430,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	static function updateReport_ScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
+	public static function updateReport_ScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
 	{
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
 			self::$_reportmodule_scheduledinfoperuser_cache[$userid] = [];
@@ -447,7 +447,7 @@ class VTCacheUtils
 		}
 	}
 
-	static $_userSignature = [];
+	public static $_userSignature = [];
 
 	public static function setUserSignature($userName, $signature)
 	{
@@ -459,7 +459,7 @@ class VTCacheUtils
 		return self::$_userSignature[$userName];
 	}
 
-	static $_userFullName = [];
+	public static $_userFullName = [];
 
 	public static function setUserFullName($userName, $fullName)
 	{
@@ -471,7 +471,7 @@ class VTCacheUtils
 		return self::$_userFullName[$userName];
 	}
 
-	static $_report_field_bylabel = [];
+	public static $_report_field_bylabel = [];
 
 	public static function getReportFieldByLabel($module, $label)
 	{
