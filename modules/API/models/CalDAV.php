@@ -683,8 +683,7 @@ class API_CalDAV_Model
 			$insertData[] = [$row[$objectUri], $row['synctoken'], $this->calendarId, $row[$operation]];
 		}
 		$dbCommand->batchInsert('dav_calendarchanges', ['uri', 'synctoken', 'calendarid', 'operation'], $insertData)->execute();
-		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?', [$this->calendarId]);
+		$dbCommand->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
 	}
 
 	protected function recordMarkComplete()
