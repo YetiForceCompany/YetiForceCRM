@@ -589,7 +589,7 @@ class API_CalDAV_Model
 	 */
 	public function getDavDetail()
 	{
-		return (new \App\Db\Query())->from('dav_calendarobjects')->where(['calendarid' => $this->calendarId, 'crmid' => $this->record['crmid']])->all();
+		return (new \App\Db\Query())->from('dav_calendarobjects')->where(['calendarid' => $this->calendarId, 'crmid' => $this->record['crmid']])->one();
 	}
 
 	/**
