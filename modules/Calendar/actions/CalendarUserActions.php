@@ -8,9 +8,15 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+/**
+ * Class Calendar_CalendarUserActions_Action
+ */
 class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Class constructor
+	 */
 	public function __construct()
 	{
 		$this->exposeMethod('deleteUserCalendar');
@@ -19,6 +25,11 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('addCalendarView');
 	}
 
+	/**
+	 * Check permissions
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -29,6 +40,11 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @return null
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -41,7 +57,6 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	/**
 	 * Function to delete the user calendar from shared calendar
 	 * @param \App\Request $request
-	 * @return Vtiger_Response $response
 	 */
 	public function deleteUserCalendar(\App\Request $request)
 	{
@@ -49,12 +64,14 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$userId = $currentUser->getId();
 		$sharedUserId = $request->get('userid');
 
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT 1 FROM vtiger_shareduserinfo WHERE userid=? && shareduserid=?', array($userId, $sharedUserId));
-		if ($db->num_rows($result) > 0) {
-			$db->pquery('UPDATE vtiger_shareduserinfo SET visible=? WHERE userid=? && shareduserid=?', array('0', $userId, $sharedUserId));
+		$count = (new \App\Db\Query())->from('vtiger_shareduserinfo')->where(['userid' => $userId, 'shareduserid' => $sharedUserId])->count();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($count) {
+			$dbCommand->update('vtiger_shareduserinfo', ['visible' => 0], ['userid' => 0, 'shareduserid' => $sharedUserId])->execute();
 		} else {
-			$db->pquery('INSERT INTO vtiger_shareduserinfo (userid, shareduserid, visible) VALUES(?, ?, ?)', array($userId, $sharedUserId, '0'));
+			$dbCommand->insert('vtiger_shareduserinfo', [
+				'userid' => $userId, 'shareduserid' => $sharedUserId, 'visible' => 0
+			])->execute();
 		}
 
 		$result = array('userid' => $userId, 'sharedid' => $sharedUserId, 'username' => \App\Fields\Owner::getUserLabel($sharedUserId));
@@ -104,7 +121,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
+		$db->pquery('UPDATE vtiger_calendar_user_activitytypes
 			INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
 			SET vtiger_calendar_user_activitytypes.visible=? WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array('0', $userId, $viewmodule, $viewfieldname));
 
@@ -129,9 +146,9 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 
 		$db = PearDatabase::getInstance();
 
-		$db->pquery('UPDATE vtiger_calendar_user_activitytypes 
+		$db->pquery('UPDATE vtiger_calendar_user_activitytypes
 					INNER JOIN vtiger_calendar_default_activitytypes ON vtiger_calendar_default_activitytypes.id = vtiger_calendar_user_activitytypes.defaultid
-					SET vtiger_calendar_user_activitytypes.color=?, vtiger_calendar_user_activitytypes.visible=? 
+					SET vtiger_calendar_user_activitytypes.color=?, vtiger_calendar_user_activitytypes.visible=?
 					WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.module=? && vtiger_calendar_default_activitytypes.fieldname=?', array($viewcolor, '1', $userId, $viewmodule, $viewfieldname));
 
 		$response = new Vtiger_Response();
