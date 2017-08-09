@@ -686,6 +686,9 @@ class API_CalDAV_Model
 		$dbCommand->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
 	}
 
+	/**
+	 * Record mark complete
+	 */
 	protected function recordMarkComplete()
 	{
 		App\Db::getInstance()->createCommand()->update('vtiger_activity', [
@@ -694,19 +697,22 @@ class API_CalDAV_Model
 		)->execute();
 	}
 
+	/**
+	 * To delete
+	 * @param array $cal
+	 * @return boolean
+	 */
 	protected function toDelete($cal)
 	{
 		if ($cal['smownerid'] == '') {
 			return true;
 		}
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
-		$result = $db->pquery($query, [$cal['crmid'], 0]);
-		if ($db->num_rows($result) == 0) {
+		$result = (new App\Db\Query())->select(['visibility'])->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['activityid' => $cal['crmid'], 'vtiger_crmentity.deleted' => 0])->one();
+		if (!$result) {
 			return true;
 		}
-		$visibility = $db->query_result_raw($result, 0, 'visibility');
+		$visibility = $result['visibility'];
 		if ($cal['smownerid'] != $this->user->get('id') && (!array_key_exists($cal['smownerid'], $accessibleGroups)) && $visibility != 'Public') {
 			return true;
 		}
