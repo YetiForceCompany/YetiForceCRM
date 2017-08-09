@@ -80,6 +80,9 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Dav sync
+	 */
 	public function davSync()
 	{
 		foreach ($this->davUsers as &$user) {
@@ -116,6 +119,9 @@ class API_CalDAV_Model
 		$this->recordMarkComplete();
 	}
 
+	/**
+	 * Dav create
+	 */
 	public function davCreate()
 	{
 		$record = $this->record;
@@ -183,8 +189,7 @@ class API_CalDAV_Model
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = PearDatabase::getInstance();
-		$db->insert('dav_calendarobjects', [
+		\App\Db::getInstance()->createCommand()->insert('dav_calendarobjects', [
 			'calendarid' => $this->calendarId,
 			'uri' => $calUri,
 			'calendardata' => $calendarData,
@@ -196,7 +201,7 @@ class API_CalDAV_Model
 			'lastoccurence' => $extraData['lastOccurence'],
 			'uid' => $uid,
 			'crmid' => $record['crmid']
-		]);
+		])->execute();
 		$this->addChange($calUri, 1);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
