@@ -1,11 +1,14 @@
 <?php
-
 /**
  * Announcements Module Model Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Class Announcements_Module_Model
  */
 class Announcements_Module_Model extends Vtiger_Module_Model
 {
@@ -79,14 +82,17 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		$this->checkStatus($record);
 	}
 
+	/**
+	 * Check status
+	 * @param int $record
+	 */
 	public function checkStatus($record)
 	{
 		$archive = true;
-		$db = PearDatabase::getInstance();
 		$users = $this->getUsers(true);
 		foreach ($users as $userId => $name) {
-			$result = $db->pquery('SELECT count(*) FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ? && status = ?', [$record, $userId, 1]);
-			if ($db->getSingleValue($result) == 0) {
+			$result = (new App\Db\Query())->from('u_#__announcement_mark')->where(['announcementid' => $record, 'userid' => $userId, 'status' => 1])->count();
+			if (!$result) {
 				$archive = false;
 			}
 		}
@@ -108,13 +114,14 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 		return $users;
 	}
 
+	/**
+	 * Get mark info
+	 * @param int $record
+	 * @param int $userId
+	 * @return array
+	 */
 	public function getMarkInfo($record, $userId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_announcement_mark WHERE announcementid = ? && userid = ?', [$record, $userId]);
-		while ($row = $db->getRow($result)) {
-			return $row;
-		}
-		return [];
+		return (new App\Db\Query())->from('u_#__announcement_mark')->where(['announcementid' => $record, 'userid' => $userId])->one();
 	}
 }
