@@ -43,7 +43,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * Returns Roundcube configuration
 	 * @return array
 	 */
-	public static function load_roundcube_config()
+	public static function loadRoundcubeConfig()
 	{
 		include 'public_html/modules/OSSMail/roundcube/config/defaults.inc.php';
 		include 'config/modules/OSSMail.php';
@@ -76,7 +76,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , $password , $folder) method ...");
 		if (!$config) {
-			$config = self::load_roundcube_config();
+			$config = self::loadRoundcubeConfig();
 		}
 		$cacheName = $user . $host . $folder;
 		if (isset(self::$imapConnectCache[$cacheName])) {
@@ -205,7 +205,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		$header = imap_header($mbox, $msgno);
-		$structure = self::_get_body_attach($mbox, $id, $msgno);
+		$structure = self::getBodyAttach($mbox, $id, $msgno);
 
 		$msgid = '';
 		if (property_exists($header, 'message_id')) {
@@ -222,7 +222,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('ccaddress', $mail->getEmail('cc'));
 		$mail->set('bccaddress', $mail->getEmail('bcc'));
 		$mail->set('senderaddress', $mail->getEmail('sender'));
-		$mail->set('subject', self::_decode_text($header->subject));
+		$mail->set('subject', self::decodeText($header->subject));
 		$mail->set('MailDate', $header->MailDate);
 		$mail->set('date', $header->date);
 		$mail->set('udate', $header->udate);
@@ -273,7 +273,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $text
 	 * @return string
 	 */
-	public static function _decode_text($text)
+	public static function decodeText($text)
 	{
 		$data = imap_mime_header_decode($text);
 		$text = '';
@@ -293,7 +293,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param string $text
 	 * @return string
 	 */
-	public static function get_full_name($text)
+	public static function getFullName($text)
 	{
 		$return = '';
 		foreach ($text as $row) {
@@ -303,7 +303,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			if ($row->personal == '') {
 				$return .= $row->mailbox . '@' . $row->host;
 			} else {
-				$return .= self::_decode_text($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
+				$return .= self::decodeText($row->personal) . ' - ' . $row->mailbox . '@' . $row->host;
 			}
 		}
 		return $return;
@@ -316,7 +316,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param int $msgno
 	 * @return array
 	 */
-	public static function _get_body_attach($mbox, $id, $msgno)
+	public static function getBodyAttach($mbox, $id, $msgno)
 	{
 		$struct = imap_fetchstructure($mbox, $id, FT_UID);
 		$mail = ['id' => $id];
@@ -389,7 +389,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$fileName = $attachmentId . '.' . strtolower($partStructure->subtype);
 			} else {
 				$fileName = !empty($params['filename']) ? $params['filename'] : $params['name'];
-				$fileName = self::_decode_text($fileName);
+				$fileName = self::decodeText($fileName);
 				$fileName = self::decodeRFC2231($fileName);
 			}
 			$mail['attachments'][$attachmentId]['filename'] = $fileName;

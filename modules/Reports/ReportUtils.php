@@ -21,11 +21,11 @@ function getFieldByReportLabel($module, $label)
 	// this is required so the internal cache is populated or reused.
 	getColumnFields($module);
 	//lookup all the accessible fields
-	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+	$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 	$label = \App\Purifier::decodeHtml($label);
 
 	if ($module === 'Calendar') {
-		$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+		$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 		if ($cachedEventsFields) {
 			if (empty($cachedModuleFields))
 				$cachedModuleFields = $cachedEventsFields;

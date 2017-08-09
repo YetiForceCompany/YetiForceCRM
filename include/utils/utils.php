@@ -58,7 +58,7 @@ function getColumnFields($module)
 	\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
 
 	// Lookup in cache for information
-	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+	$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 
 	if ($cachedModuleFields === false) {
 		$fieldsInfo = vtlib\Functions::getModuleFieldInfos($module);
@@ -71,14 +71,14 @@ function getColumnFields($module)
 			}
 		}
 		// For consistency get information from cache
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 	}
 
 	if ($module == 'Calendar') {
-		$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+		$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 		if (!$cachedEventsFields) {
 			getColumnFields('Events');
-			$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+			$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 		}
 
 		if (!$cachedModuleFields) {
