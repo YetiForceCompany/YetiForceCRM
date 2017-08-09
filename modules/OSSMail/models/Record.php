@@ -18,7 +18,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param bool $password
 	 * @return array
 	 */
-	static function getAccountsList($user = false, $onlyMy = false, $password = false)
+	public static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
 		$users = [];
 		$query = (new \App\Db\Query())->from('roundcube_users');
@@ -644,7 +644,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param int $user
 	 * @return array
 	 */
-	static function getMailsFromIMAP($user = false)
+	public static function getMailsFromIMAP($user = false)
 	{
 		$account = self::getAccountsList($user, true);
 		$mails = [];
