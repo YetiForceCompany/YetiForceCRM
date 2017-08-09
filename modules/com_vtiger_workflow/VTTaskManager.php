@@ -155,7 +155,7 @@ class VTTaskManager
 	 * @param string $taskType
 	 * @param VTTaskType $taskTypeInstance
 	 */
-	private function requireTask($taskType, VTTaskType $taskTypeInstance = '')
+	private function requireTask($taskType, $taskTypeInstance = '')
 	{
 		if (!empty($taskTypeInstance)) {
 			$taskClassPath = $taskTypeInstance->get('classpath');
