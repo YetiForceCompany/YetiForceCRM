@@ -9,9 +9,16 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Documents_Record_Model
+ */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
 
+	/**
+	 * Get download file url
+	 * @return string
+	 */
 	public function getDownloadFileURL()
 	{
 		if ($this->get('filelocationtype') == 'I') {
@@ -22,6 +29,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Check file integrity url
+	 * @return string
+	 */
 	public function checkFileIntegrityURL()
 	{
 		return "javascript:Documents_Detail_Js.checkFileIntegrity('index.php?module=" . $this->getModuleName() . "&action=CheckFileIntegrity&record=" . $this->getId() . "')";
@@ -46,6 +57,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return $returnValue;
 	}
 
+	/**
+	 * Get file details
+	 * @return array
+	 */
 	public function getFileDetails()
 	{
 		return (new \App\Db\Query())->from('vtiger_attachments')
@@ -95,6 +110,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		echo $fileContent;
 	}
 
+	/**
+	 * Update file status
+	 * @param int $status
+	 */
 	public function updateFileStatus($status)
 	{
 		App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
