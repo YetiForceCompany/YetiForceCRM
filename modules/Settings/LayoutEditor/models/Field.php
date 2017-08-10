@@ -100,16 +100,21 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		}
 	}
 
+	/**
+	 * Function to activate field
+	 * @param integer[] $fieldIdsList
+	 * @param integer $blockId
+	 */
 	public static function makeFieldActive($fieldIdsList = [], $blockId)
 	{
 		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
-
+		$db = \App\Db::getInstance();
 		$caseExpression = 'CASE';
 		foreach ($fieldIdsList as $fieldId) {
-			$caseExpression .= " WHEN fieldid = $fieldId THEN " . ($maxSequence + 1);
+			$caseExpression .= " WHEN fieldid = {$db->quoteValue($fieldId)} THEN {$db->quoteValue($maxSequence + 1)}";
 		}
 		$caseExpression .= ' ELSE sequence END';
-		\App\Db::getInstance()->createCommand()
+		$db->createCommand()
 			->update('vtiger_field', [
 				'presence' => 2,
 				'sequence' => new \yii\db\Expression($caseExpression),
