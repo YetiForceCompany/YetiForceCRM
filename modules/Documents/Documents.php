@@ -294,7 +294,7 @@ class Documents extends CRMEntity
 	 */
 	public function getFolderDefault()
 	{
-		return (new \App\Db\Query())->select(['tree', 'name'])->from('vtiger_trees_templates_data')->innerJoin('vtiger_field', 'vtiger_trees_templates_data.templateid = vtiger_field.fieldparams')->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes', 'vtiger_trees_templates_data.name' => 'Default'])->column();
+		return (new \App\Db\Query())->select(['tree', 'name'])->from('vtiger_trees_templates_data')->innerJoin('vtiger_field', 'vtiger_trees_templates_data.templateid = vtiger_field.fieldparams')->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes', 'vtiger_trees_templates_data.name' => 'Default'])->scalar();
 	}
 
 	/**
@@ -306,7 +306,7 @@ class Documents extends CRMEntity
 	{
 		parent::restore($modulename, $id);
 		$folderId = (new App\Db\Query())->select(['folderid'])->from('vtiger_notes')->where(['notesid' => $id])->scalar();
-		if (!$this->isFolderPresent($folderid)) {
+		if ($folderid && !$this->isFolderPresent($folderid)) {
 			// Re-link to default folder
 			\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['folderid' => self::getFolderDefault()], ['notesid' => self::getFolderDefault()]);
 		}
