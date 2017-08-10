@@ -128,34 +128,6 @@ function getUserId_Ol($username)
 	}
 }
 
-/** Function to get a action for a given action id
- * @param $action id -- action id :: Type integer
- * @returns $actionname-- action name :: Type string
- */
-function getActionname($actionid)
-{
-
-	\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
-	$adb = PearDatabase::getInstance();
-
-	$actionName = Vtiger_Cache::get('getActionName', $actionid);
-	if ($actionName) {
-		\App\Log::trace('Exiting getActionname method ...');
-		return $actionName;
-	}
-	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
-		include('user_privileges/tabdata.php');
-		$actionName = $action_name_array[$actionid];
-	} else {
-		$query = 'select actionname from vtiger_actionmapping where actionid=? and securitycheck=0';
-		$result = $adb->pquery($query, array($actionid));
-		$actionName = $adb->getSingleValue($result);
-	}
-	Vtiger_Cache::set('getActionName', $actionid, $actionName);
-	\App\Log::trace('Exiting getActionname method ...');
-	return $actionName;
-}
-
 /** Function to get a user id or group id for a given entity
  * @param $record -- entity id :: Type integer
  * @returns $ownerArr -- owner id :: Type array

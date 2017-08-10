@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('VTJsonCondition.php');
-require_once 'include/utils/ConfigReader.php';
 require_once 'include/runtime/Cache.php';
 
 class VTWorkflowManager
@@ -220,13 +219,8 @@ class VTWorkflowManager
 	 */
 	protected function getWorkflowInstance($type = 'basic')
 	{
-		$configReader = new ConfigReader('modules/com_vtiger_workflow/config.inc', 'workflowConfig');
-		$workflowTypeConfig = $configReader->getConfig($type);
-		$workflowClassPath = $workflowTypeConfig['classpath'];
-		$workflowClass = $workflowTypeConfig['class'];
-
-		require_once $workflowClassPath;
-		$workflow = new $workflowClass();
+		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
+		$workflow = new Workflow();
 		return $workflow;
 	}
 
