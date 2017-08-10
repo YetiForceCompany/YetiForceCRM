@@ -280,14 +280,12 @@ class Documents extends CRMEntity
 
 	/**
 	 * Check the existence of folder by folderid
+	 * @param int $folderId
+	 * @return bool
 	 */
-	public function isFolderPresent($folderid)
+	public function isFolderPresent($folderId)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?', array($folderid));
-		if (!empty($result) && $adb->num_rows($result) > 0)
-			return true;
-		return false;
+		return (new \App\Db\Query())->select(['tree'])->from('vtiger_trees_templates_data')->where(['tree' => $folderId])->exists();
 	}
 
 	/**
@@ -297,10 +295,10 @@ class Documents extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data` 
-			INNER JOIN `vtiger_field` 
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
-			WHERE `vtiger_field`.`columnname` = ? 
+				`vtiger_trees_templates_data`
+			INNER JOIN `vtiger_field`
+				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
+			WHERE `vtiger_field`.`columnname` = ?
 				AND `vtiger_field`.`tablename` = ?
 				AND `vtiger_trees_templates_data`.`name` = ?;', array('folderid', 'vtiger_notes', 'Default'));
 		return $adb->query_result($result, 0, 'tree');
