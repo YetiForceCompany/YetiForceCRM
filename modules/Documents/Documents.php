@@ -290,18 +290,11 @@ class Documents extends CRMEntity
 
 	/**
 	 * Get Folder Default
+	 * @return string
 	 */
 	public function getFolderDefault()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data`
-			INNER JOIN `vtiger_field`
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
-			WHERE `vtiger_field`.`columnname` = ?
-				AND `vtiger_field`.`tablename` = ?
-				AND `vtiger_trees_templates_data`.`name` = ?;', array('folderid', 'vtiger_notes', 'Default'));
-		return $adb->query_result($result, 0, 'tree');
+		return (new \App\Db\Query())->select(['tree', 'name'])->from('vtiger_trees_templates_data')->innerJoin('vtiger_field', 'vtiger_trees_templates_data.templateid = vtiger_field.fieldparams')->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes', 'vtiger_trees_templates_data.name' => 'Default'])->column();
 	}
 
 	/**
