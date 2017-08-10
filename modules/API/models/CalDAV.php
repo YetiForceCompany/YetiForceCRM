@@ -465,11 +465,11 @@ class API_CalDAV_Model
 
 	/**
 	 * Get state
-	 * @param Sabre\VObject\Component $component
+	 * @param string|Sabre\VObject\Component $component
 	 * @param boolean $toCrm
 	 * @return string
 	 */
-	public function getState(Sabre\VObject\Component $component, $toCrm = true)
+	public function getState($component, $toCrm = true)
 	{
 		$state = '';
 		if ($toCrm) {
@@ -519,11 +519,11 @@ class API_CalDAV_Model
 
 	/**
 	 * Get priority
-	 * @param Sabre\VObject\Component $component
+	 * @param string|Sabre\VObject\Component $component
 	 * @param boolean $toCrm
 	 * @return int|string
 	 */
-	public function getPriority(Sabre\VObject\Component $component, $toCrm = true)
+	public function getPriority($component, $toCrm = true)
 	{
 		$values = [
 			1 => 'High',
@@ -546,12 +546,12 @@ class API_CalDAV_Model
 
 	/**
 	 * Get status
-	 * @param Sabre\VObject\Component $component
+	 * @param string|Sabre\VObject\Component $component
 	 * @param boolean $toCrm
 	 * @param string $calType
 	 * @return array
 	 */
-	public function getStatus(Sabre\VObject\Component $component, $toCrm = true, $calType)
+	public function getStatus($component, $toCrm = true, $calType)
 	{
 		if ($calType === 'VEVENT') {
 			$values = [
