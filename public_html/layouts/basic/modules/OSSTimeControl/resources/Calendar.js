@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerUserListWidget: function () {
-		var thisInstance = new OSSTimeControl_Calendar_Js();
 		var widgetContainer = $('.widgetContainer');
 		widgetContainer.hover(
 				function () {
@@ -112,7 +111,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=OSSTimeControl&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto right',

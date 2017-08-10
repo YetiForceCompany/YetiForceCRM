@@ -35,8 +35,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		if (strpos($filename, 'modules') === 0) {
 			$filename = $filename;
 		}
-
-		return file_exists($filename);
+		return file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filename);
 	}
 
 	/**
