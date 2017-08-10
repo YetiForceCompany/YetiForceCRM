@@ -932,11 +932,11 @@ class API_CalDAV_Model
 				if ($status) {
 					$params['time'] = $timeFormated;
 				}
-				$dbCommand->insert('u_yf_activity_invitation', $params)->execute();
+				$dbCommand->insert('u_#__activity_invitation', $params)->execute();
 			}
 		}
 		foreach ($invities as &$invitation) {
-			$dbCommand->delete('u_yf_activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
+			$dbCommand->delete('u_#__activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
 		}
 	}
 
@@ -951,7 +951,7 @@ class API_CalDAV_Model
 		$owner = Users_Privileges_Model::getInstanceById($record['smownerid']);
 
 		$invities = [];
-		$query = (new App\Db\Query())->from('u_yf_activity_invitation')->where(['activityid' => $record['activityid']]);
+		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $record['activityid']]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
