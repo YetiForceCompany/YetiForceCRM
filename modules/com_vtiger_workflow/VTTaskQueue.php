@@ -15,11 +15,6 @@
 class VTTaskQueue
 {
 
-	public function __construct($adb = false)
-	{
-		$this->adb = $adb;
-	}
-
 	/**
 	 * Queue a task for execution.
 	 *
