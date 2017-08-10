@@ -915,7 +915,7 @@ class API_CalDAV_Model
 			if (isset($invities[$value])) {
 				$row = $invities[$value];
 				if ($row['status'] !== $status) {
-					$dbCommand->update('u_yf_activity_invitation', [
+					$dbCommand->update('u_#__activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
 						], ['activityid' => $record->getId(), 'email' => $value]
