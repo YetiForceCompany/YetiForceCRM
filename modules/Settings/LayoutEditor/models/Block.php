@@ -44,6 +44,10 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		return true;
 	}
 
+	/**
+	 * Function to save sequence number of fields
+	 * @param array $blockFieldSequence
+	 */
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
 		$fieldIdList = [];
@@ -51,22 +55,19 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 		$caseSequence = 'CASE';
 		foreach ($blockFieldSequence as $newFieldSequence) {
 			$fieldId = $newFieldSequence['fieldid'];
-			$sequence = $newFieldSequence['sequence'];
 			$fieldIdList[] = $fieldId;
-			$caseSequence .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $sequence;
+			$caseSequence .= " WHEN fieldid = {$db->quoteValue($fieldId)} THEN {$db->quoteValue($newFieldSequence['sequence'])}";
 		}
 		$caseSequence .= ' END';
 		$caseBlock = 'CASE';
 		foreach ($blockFieldSequence as $newFieldSequence) {
-			$fieldId = $newFieldSequence['fieldid'];
-			$block = $newFieldSequence['block'];
-			$caseBlock .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $block;
+			$caseBlock .= " WHEN fieldid = {$db->quoteValue($newFieldSequence['fieldid'])} THEN {$db->quoteValue($newFieldSequence['block'])}";
 		}
 		$caseBlock .= ' END';
 		$db->createCommand()->update('vtiger_field', [
 			'sequence' => new yii\db\Expression($caseSequence),
 			'block' => new yii\db\Expression($caseBlock)
-		], ['fieldid' => $fieldIdList])->execute();
+			], ['fieldid' => $fieldIdList])->execute();
 	}
 
 	public static function getInstance($value, $moduleInstance = false)
