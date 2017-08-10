@@ -10,32 +10,79 @@
 class API_CalDAV_Model
 {
 
+	/**
+	 * Prod id
+	 * @var string
+	 */
 	const PRODID = 'YetiForce';
+
+	/**
+	 * Calendar name
+	 * @var string
+	 */
 	const CALENDAR_NAME = 'YFCalendar';
+
+	/**
+	 * Components
+	 * @var string
+	 */
 	const COMPONENTS = 'VEVENT,VTODO';
 
+	/**
+	 * User
+	 * @var mixed|bool
+	 */
 	public $user = false;
+
+	/**
+	 * Record
+	 * @var array
+	 */
 	public $record = false;
+
+	/**
+	 * Calendar id
+	 * @var int
+	 */
 	public $calendarId = false;
+
+	/**
+	 * Dav users
+	 * @var array
+	 */
 	public $davUsers = [];
+
+	/**
+	 * Crm records
+	 * @var array
+	 */
 	protected $crmRecords = [];
 
+	/**
+	 * Max date
+	 * @var string
+	 */
 	const MAX_DATE = '2038-01-01';
 
+	/**
+	 * calDavCrm2Dav
+	 */
 	public function calDavCrm2Dav()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
 
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.dav_status = 1;';
-		$result = $db->query($query);
-		while ($row = $db->getRow($result)) {
+		$query = (new \App\Db\Query())->select(['vtiger_activity.*', 'vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.deleted', 'vtiger_crmentity.createdtime', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.description'])->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_activity.dav_status' => 1]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$this->record = $row;
 			$this->davSync();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Dav sync
+	 */
 	public function davSync()
 	{
 		foreach ($this->davUsers as &$user) {
@@ -72,6 +119,9 @@ class API_CalDAV_Model
 		$this->recordMarkComplete();
 	}
 
+	/**
+	 * Dav create
+	 */
 	public function davCreate()
 	{
 		$record = $this->record;
@@ -139,8 +189,7 @@ class API_CalDAV_Model
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = PearDatabase::getInstance();
-		$db->insert('dav_calendarobjects', [
+		\App\Db::getInstance()->createCommand()->insert('dav_calendarobjects', [
 			'calendarid' => $this->calendarId,
 			'uri' => $calUri,
 			'calendardata' => $calendarData,
@@ -152,11 +201,15 @@ class API_CalDAV_Model
 			'lastoccurence' => $extraData['lastOccurence'],
 			'uid' => $uid,
 			'crmid' => $record['crmid']
-		]);
+		])->execute();
 		$this->addChange($calUri, 1);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Dav update
+	 * @param array $calendar
+	 */
 	public function davUpdate($calendar)
 	{
 		$record = $this->record;
@@ -219,8 +272,7 @@ class API_CalDAV_Model
 		$calendarData = $vcalendar->serialize();
 		$modifiedtime = strtotime($record['modifiedtime']);
 		$extraData = $this->getDenormalizedData($calendarData);
-		$db = PearDatabase::getInstance();
-		$db->update('dav_calendarobjects', [
+		\App\Db::getInstance()->createCommand()->update('dav_calendarobjects', [
 			'calendardata' => $calendarData,
 			'lastmodified' => $modifiedtime,
 			'etag' => $extraData['etag'],
@@ -230,21 +282,27 @@ class API_CalDAV_Model
 			'lastoccurence' => $extraData['lastOccurence'],
 			'uid' => $extraData['uid'],
 			'crmid' => $record['crmid']
-			], 'id = ?', [$calendar['id']]
-		);
+			], ['id' => $calendar['id']]
+		)->execute();
 		$this->addChange($calendar['uri'], 2);
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Dav delete
+	 * @param array $calendar
+	 */
 	public function davDelete($calendar)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
-		$db = PearDatabase::getInstance();
-		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
+		\App\Db::getInstance()->createCommand()->delete('dav_calendarobjects', ['id' => $calendar['id']])->execute();
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Cal dav to crm
+	 */
 	public function calDav2Crm()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
@@ -256,15 +314,17 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Sync record
+	 */
 	public function recordSync()
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
-		$result = $db->pquery($query, [$this->calendarId]);
-
+		$query = (new \App\Db\Query())->select(['dav_calendarobjects.*', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype', 'vtiger_crmentity.smownerid'])->from('dav_calendarobjects')->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_calendarobjects.crmid')->where(['calendarid' => $this->calendarId]);
 		$skipped = $create = $deletes = $updates = 0;
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
 			if (!$row['crmid']) { //Creating
 				if ($this->recordCreate($row))
 					$create++;
@@ -285,6 +345,11 @@ class API_CalDAV_Model
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
+	/**
+	 * Record create
+	 * @param array $cal
+	 * @return boolean
+	 */
 	public function recordCreate($cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID' . $cal['id']);
@@ -328,15 +393,15 @@ class API_CalDAV_Model
 				}
 				$record->save();
 
-				$db = PearDatabase::getInstance();
-				$db->update('dav_calendarobjects', [
+				$dbCommand = \App\Db::getInstance()->createCommand();
+				$dbCommand->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
-					], 'id = ?', [$cal['id']]
-				);
-				$db->update('vtiger_crmentity', [
+					], ['id' => $cal['id']]
+				)->execute();
+				$dbCommand->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
-					], 'crmid = ?', [$record->getId()]
-				);
+					], ['crmid' => $record->getId()]
+				)->execute();
 				if ($type === 'VEVENT') {
 					$this->recordSaveAttendee($record, $component);
 				}
@@ -395,15 +460,15 @@ class API_CalDAV_Model
 					$record->set('visibility', AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
-				$db = PearDatabase::getInstance();
-				$db->update('dav_calendarobjects', [
+				$dbCommand = \App\Db::getInstance()->createCommand();
+				$dbCommand->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
-					], 'id = ?', [$cal['id']]
-				);
-				$db->update('vtiger_crmentity', [
+					], ['id' => $cal['id']]
+				)->execute();
+				$dbCommand->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
-					], 'crmid = ?', [$record->getId()]
-				);
+					], ['crmid' => $record->getId()]
+				)->execute();
 				if ($type === 'VEVENT') {
 					$this->recordSaveAttendee($record, $component);
 				}
@@ -458,6 +523,11 @@ class API_CalDAV_Model
 		return ['allday' => $allday, 'date_start' => $dateStart, 'due_date' => $dueDate, 'time_start' => $timeStart, 'time_end' => $timeEnd];
 	}
 
+	/**
+	 * Get end field name
+	 * @param string $type
+	 * @return string
+	 */
 	public function getEndFieldName($type)
 	{
 		return ($type == 'VEVENT') ? 'DTEND' : 'DUE';
@@ -587,30 +657,38 @@ class API_CalDAV_Model
 		return $return;
 	}
 
+	/**
+	 * Get dav detail
+	 * @return array|bool
+	 */
 	public function getDavDetail()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM dav_calendarobjects WHERE calendarid = ? && crmid = ?;';
-		$result = $db->pquery($sql, [$this->calendarId, $this->record['crmid']]);
-		return $db->getRowCount($result) > 0 ? $db->getRow($result) : false;
+		return (new \App\Db\Query())->from('dav_calendarobjects')->where(['calendarid' => $this->calendarId, 'crmid' => $this->record['crmid']])->one();
 	}
 
 	/**
 	 * Adds a change record to the addressbookchanges table.
 	 *
-	 * @param mixed $addressBookId
 	 * @param string $objectUri
 	 * @param int $operation 1 = add, 2 = modify, 3 = delete
 	 * @return void
 	 */
 	protected function addChange($objectUri, $operation)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'INSERT INTO dav_calendarchanges (uri, synctoken, calendarid, operation) SELECT ?, synctoken, ?, ? FROM dav_calendars WHERE id = ?';
-		$db->pquery($query, [$objectUri, $this->calendarId, $operation, $this->calendarId]);
-		$db->pquery('UPDATE dav_calendars SET synctoken = synctoken + 1 WHERE id = ?', [$this->calendarId]);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$selectQuery = (new \App\Db\Query())->select([$objectUri, 'synctoken', $operation])->from('dav_calendars')->where(['id' => $this->calendarId]);
+		$insertData = [];
+		$dataReader = $selectQuery->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$insertData[] = [$row[$objectUri], $row['synctoken'], $this->calendarId, $row[$operation]];
+		}
+		$dbCommand->batchInsert('dav_calendarchanges', ['uri', 'synctoken', 'calendarid', 'operation'], $insertData)->execute();
+		$dbCommand->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
 	}
 
+	/**
+	 * Record mark complete
+	 */
 	protected function recordMarkComplete()
 	{
 		App\Db::getInstance()->createCommand()->update('vtiger_activity', [
@@ -619,19 +697,22 @@ class API_CalDAV_Model
 		)->execute();
 	}
 
+	/**
+	 * To delete
+	 * @param array $cal
+	 * @return boolean
+	 */
 	protected function toDelete($cal)
 	{
 		if ($cal['smownerid'] == '') {
 			return true;
 		}
 		$accessibleGroups = \App\Fields\Owner::getInstance(false, $this->user)->getAccessibleGroups();
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT visibility FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE activityid = ? And vtiger_crmentity.deleted=?';
-		$result = $db->pquery($query, [$cal['crmid'], 0]);
-		if ($db->num_rows($result) == 0) {
+		$result = (new App\Db\Query())->select(['visibility'])->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['activityid' => $cal['crmid'], 'vtiger_crmentity.deleted' => 0])->one();
+		if (!$result) {
 			return true;
 		}
-		$visibility = $db->query_result_raw($result, 0, 'visibility');
+		$visibility = $result['visibility'];
 		if ($cal['smownerid'] != $this->user->get('id') && (!array_key_exists($cal['smownerid'], $accessibleGroups)) && $visibility != 'Public') {
 			return true;
 		}
@@ -798,23 +879,29 @@ class API_CalDAV_Model
 		return $vt;
 	}
 
+	/**
+	 * Record save attendee
+	 * @param Vtiger_Record_Model $record
+	 * @param Sabre\VObject\Component\VEvent $component
+	 */
 	protected function recordSaveAttendee(Vtiger_Record_Model $record, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record->getId()]);
+		$query = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $record->getId()]);
 		$invities = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
 				$invities[$row['email']] = $row;
 			}
 		}
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
-
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
 		$attendees = $component->select('ATTENDEE');
 		foreach ($attendees as &$attendee) {
 			$value = ltrim($attendee->getValue(), 'mailto:');
-			if ($attendee['ROLE']->getValue() == 'CHAIR') {
+			if ($attendee['ROLE']->getValue() === 'CHAIR') {
 				$users = App\Fields\Email::findCrmidByEmail($value, ['Users']);
 				if (!empty($users)) {
 					continue;
@@ -829,12 +916,12 @@ class API_CalDAV_Model
 			$status = $this->getAttendeeStatus($attendee['PARTSTAT']->getValue());
 			if (isset($invities[$value])) {
 				$row = $invities[$value];
-				if ($row['status'] != $status) {
-					$db->update('u_yf_activity_invitation', [
+				if ($row['status'] !== $status) {
+					$dbCommand->update('u_#__activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
-						], 'activityid=? && email=?', [$record->getId(), $value]
-					);
+						], ['activityid' => $record->getId(), 'email' => $value]
+					)->execute();
 				}
 				unset($invities[$value]);
 			} else {
@@ -844,25 +931,31 @@ class API_CalDAV_Model
 					'status' => $status,
 					'activityid' => $record->getId()
 				];
-				if ($status != 0) {
+				if ($status) {
 					$params['time'] = $timeFormated;
 				}
-				$db->insert('u_yf_activity_invitation', $params);
+				$dbCommand->insert('u_#__activity_invitation', $params)->execute();
 			}
 		}
 		foreach ($invities as &$invitation) {
-			$db->delete('u_yf_activity_invitation', 'inviteesid = ?', [$invitation['inviteesid']]);
+			$dbCommand->delete('u_#__activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
 		}
 	}
 
+	/**
+	 * Dav save attendee
+	 * @param array $record
+	 * @param Sabre\VObject\Component\VCalendar $vcalendar
+	 * @param Sabre\VObject\Component\VEvent $component
+	 */
 	protected function davSaveAttendee(array $record, Sabre\VObject\Component\VCalendar $vcalendar, Sabre\VObject\Component\VEvent $component)
 	{
-		$db = PearDatabase::getInstance();
 		$owner = Users_Privileges_Model::getInstanceById($record['smownerid']);
 
 		$invities = [];
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [$record['activityid']]);
-		while ($row = $db->getRow($result)) {
+		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $record['activityid']]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
 				$invities[$row['email']] = $row;
 			}
@@ -902,6 +995,12 @@ class API_CalDAV_Model
 		}
 	}
 
+	/**
+	 * Get attendee status
+	 * @param string $value
+	 * @param bool $toCrm
+	 * @return string
+	 */
 	public function getAttendeeStatus($value, $toCrm = true)
 	{
 		$statuses = ['NEEDS-ACTION', 'ACCEPTED', 'DECLINED'];
