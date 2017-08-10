@@ -11,7 +11,7 @@
 interface VTExpressionEnv
 {
 
-	function get($var);
+	public function get($var);
 }
 
 function __vt_add($arr)
@@ -220,7 +220,7 @@ function __vt_sub_time($arr)
 class VTFieldExpressionEvaluater
 {
 
-	function __construct($expr)
+	public function __construct($expr)
 	{
 
 		$this->operators = array(
@@ -249,13 +249,13 @@ class VTFieldExpressionEvaluater
 		$this->expr = $expr;
 	}
 
-	function evaluate($env)
+	public function evaluate($env)
 	{
 		$this->env = $env;
 		return $this->exec($this->expr);
 	}
 
-	function exec($expr)
+	public function exec($expr)
 	{
 		if ($expr instanceof VTExpressionSymbol) {
 			return $this->env($expr);
@@ -279,7 +279,7 @@ class VTFieldExpressionEvaluater
 		}
 	}
 
-	function env($sym)
+	public function env($sym)
 	{
 		if ($this->env) {
 			return $this->env->get($sym->value);
