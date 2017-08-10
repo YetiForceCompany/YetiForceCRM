@@ -120,6 +120,9 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		foreach ($headerScripts as $headerType => $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
+					if (!IS_PUBLIC_DIR) {
+						$headerScript->linkurl = 'public_html/' . $headerScript->linkurl;
+					}
 					$headerScriptInstances[] = Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
 				}
 			}
