@@ -490,11 +490,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public function removeWidget($data)
 	{
-		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::removeWidget({$data['id']}) method ...");
 		\App\Db::getInstance()->createCommand()
-			->update('vtiger_module_dashboard', ['vtiger_module_dashboard.id' => $data['id']])
+			->delete('vtiger_module_dashboard', ['vtiger_module_dashboard.id' => $data['id']])
 			->execute();
-		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::removeWidget() method ...');
 		return ['success' => true];
 	}
 
