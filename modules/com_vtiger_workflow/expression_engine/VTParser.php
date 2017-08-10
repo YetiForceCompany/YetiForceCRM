@@ -97,23 +97,23 @@ class VTExpressionParser
 	{
 		$token = $this->nextToken();
 		switch ($token->label) {
-			case "STRING":
+			case 'STRING':
 				return $token->value;
-			case "INTEGER":
+			case 'INTEGER':
 				return $token->value;
-			case "FLOAT":
+			case 'FLOAT':
 				return $token->value;
-			case "SYMBOL":
+			case 'SYMBOL':
 				return $token->value;
-			case "OPEN_BRACKET":
+			case 'OPEN_BRACKET':
 				$val = $this->expression();
 				$close = $this->nextToken();
-				if ($close->label != 'CLOSE_BRACKET') {
+				if ($close->label !== 'CLOSE_BRACKET') {
 					throw new Exception("Was expecting a close bracket");
 				}
 				return $val;
 			default:
-				throw new Exception($token);
+				throw new Exception('Token not found: ' . $token->label);
 		}
 	}
 
