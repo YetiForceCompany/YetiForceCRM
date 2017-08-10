@@ -120,7 +120,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function lookupFieldInfo_Module($module, $presencein = array('0', '2'))
+	public static function lookupFieldInfoModule($module, $presencein = array('0', '2'))
 	{
 		$tabid = \App\Module::getModuleId($module);
 		$modulefields = false;
@@ -352,12 +352,12 @@ class VTCacheUtils
 	/** Related module information for Report */
 	public static $_report_listofmodules_cache = false;
 
-	public static function lookupReport_ListofModuleInfos()
+	public static function lookupReportListOfModuleInfos()
 	{
 		return self::$_report_listofmodules_cache;
 	}
 
-	public static function updateReport_ListofModuleInfos($module_list, $related_modules)
+	public static function updateReportListOfModuleInfos($module_list, $related_modules)
 	{
 		if (self::$_report_listofmodules_cache === false) {
 			self::$_report_listofmodules_cache = array(
@@ -370,7 +370,7 @@ class VTCacheUtils
 	/** Report module information based on used. */
 	public static $_reportmodule_infoperuser_cache = [];
 
-	public static function lookupReport_Info($userid, $reportid)
+	public static function lookupReportInfo($userid, $reportid)
 	{
 
 		if (isset(self::$_reportmodule_infoperuser_cache[$userid])) {
@@ -381,7 +381,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function updateReport_Info($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
+	public static function updateReportInfo($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
 	{
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid])) {
 			self::$_reportmodule_infoperuser_cache[$userid] = [];
@@ -403,7 +403,7 @@ class VTCacheUtils
 	/** Report module sub-ordinate users information. */
 	public static $_reportmodule_subordinateuserid_cache = [];
 
-	public static function lookupReport_SubordinateUsers($reportid)
+	public static function lookupReportSubordinateUsers($reportid)
 	{
 		if (isset(self::$_reportmodule_subordinateuserid_cache[$reportid])) {
 			return self::$_reportmodule_subordinateuserid_cache[$reportid];
@@ -411,7 +411,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function updateReport_SubordinateUsers($reportid, $userids)
+	public static function updateReportSubordinateUsers($reportid, $userids)
 	{
 		self::$_reportmodule_subordinateuserid_cache[$reportid] = $userids;
 	}
@@ -419,7 +419,7 @@ class VTCacheUtils
 	/** Report module information based on used. */
 	public static $_reportmodule_scheduledinfoperuser_cache = [];
 
-	public static function lookupReport_ScheduledInfo($userid, $reportid)
+	public static function lookupReportScheduledInfo($userid, $reportid)
 	{
 
 		if (isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
@@ -430,7 +430,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function updateReport_ScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
+	public static function updateReportScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
 	{
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
 			self::$_reportmodule_scheduledinfoperuser_cache[$userid] = [];

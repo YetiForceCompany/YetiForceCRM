@@ -128,7 +128,7 @@ class Calendar
 	 * Function to get date info depends on calendarview
 	 * @param  string   $type  - string 'increment' or 'decrment'
 	 */
-	public function get_datechange_info($type)
+	public function getDateChangeInfo($type)
 	{
 		if ($type == 'next')
 			$mode = 'increment';

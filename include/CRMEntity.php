@@ -161,15 +161,15 @@ class CRMEntity
 		// Lookup module field cache
 		if ($module == 'Calendar' || $module == 'Events') {
 			getColumnFields('Calendar');
-			if (VTCacheUtils::lookupFieldInfo_Module('Events'))
-				$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+			if (VTCacheUtils::lookupFieldInfoModule('Events'))
+				$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 			else
 				$cachedEventsFields = [];
-			$cachedCalendarFields = VTCacheUtils::lookupFieldInfo_Module('Calendar');
+			$cachedCalendarFields = VTCacheUtils::lookupFieldInfoModule('Calendar');
 			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
 			$module = 'Calendar';
 		} else {
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		}
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
@@ -187,7 +187,7 @@ class CRMEntity
 					);
 				}
 				// Get only active field information
-				$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+				$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 			}
 		}
 
@@ -1146,11 +1146,11 @@ class CRMEntity
 			return;
 		}
 		// Look for fields that has presence value NOT IN (0,2)
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, array('1'));
 		if ($cachedModuleFields === false) {
 			// Initialize the fields calling suitable API
 			getColumnFields($module);
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
+			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, array('1'));
 		}
 
 		$hiddenFields = [];

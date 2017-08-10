@@ -28,8 +28,8 @@ class Vtiger_Report_Model extends Reports
 
 		if ($reportId != "") {
 			// Lookup information in cache first
-			$cachedInfo = VTCacheUtils::lookupReport_Info($userId, $reportId);
-			$subOrdinateUsers = VTCacheUtils::lookupReport_SubordinateUsers($reportId);
+			$cachedInfo = VTCacheUtils::lookupReportInfo($userId, $reportId);
+			$subOrdinateUsers = VTCacheUtils::lookupReportSubordinateUsers($reportId);
 
 			if ($cachedInfo === false) {
 				$ssql = "SELECT vtiger_reportmodules.*, vtiger_report.* FROM vtiger_report
@@ -69,7 +69,7 @@ class Vtiger_Report_Model extends Reports
 					$reportModulesRow = $db->fetch_array($result);
 
 					// Update information in cache now
-					VTCacheUtils::updateReport_Info(
+					VTCacheUtils::updateReportInfo(
 						$userId, $reportId, $reportModulesRow["primarymodule"], $reportModulesRow["secondarymodules"], $reportModulesRow["reporttype"], $reportModulesRow["reportname"], $reportModulesRow["description"], $reportModulesRow["folderid"], $reportModulesRow["owner"]
 					);
 				}
@@ -88,10 +88,10 @@ class Vtiger_Report_Model extends Reports
 				}
 
 				// Update subordinate user information for re-use
-				VTCacheUtils::updateReport_SubordinateUsers($reportId, $subOrdinateUsers);
+				VTCacheUtils::updateReportSubordinateUsers($reportId, $subOrdinateUsers);
 
 				// Re-look at cache to maintain code-consistency below
-				$cachedInfo = VTCacheUtils::lookupReport_Info($userId, $reportId);
+				$cachedInfo = VTCacheUtils::lookupReportInfo($userId, $reportId);
 			}
 
 			if ($cachedInfo) {
