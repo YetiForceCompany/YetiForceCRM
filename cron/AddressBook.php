@@ -10,7 +10,8 @@
 \App\Log::trace('Start create AddressBook');
 
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
-$db = PearDatabase::getInstance();
+$db = \App\Db::getInstance();
+$dbCommand = $db->createCommand();
 $currentUser = Users::getActiveAdminUser();
 $usersIds = \App\Fields\Owner::getUsersIds();
 $i = ['rows' => [], 'users' => count($usersIds)];
@@ -69,11 +70,11 @@ while ($row = $dataReader->read()) {
 			}
 		}
 		$added = [];
-		$db->delete($table, 'id = ?', [$record]);
+		$dbCommand->delete($table, ['id' => $record])->execute();
 		foreach ($emailFields as &$fieldName) {
 			if (!empty($row[$fieldName]) && !in_array($row[$fieldName], $added)) {
 				$added[] = $row[$fieldName];
-				$db->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users]);
+				$dbCommand->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users])->execute();
 			}
 		}
 		$i['rows'][$moduleName] ++;
