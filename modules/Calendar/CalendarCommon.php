@@ -22,7 +22,7 @@ function getSharedCalendarId($sharedid)
 	while ($column = $dataReader->readColumn(0)) {
 		$userid[] = $column;
 	}
-	return implode(",", $userid);
+	return implode(',', $userid);
 }
 
 /**
