@@ -100,15 +100,16 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
 	}
 
+	/**
+	 * Update download count
+	 */
 	public function updateDownloadCount()
 	{
 		$db = PearDatabase::getInstance();
 		$notesId = $this->get('id');
-
-		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
-		$downloadCount = $db->query_result($result, 0, 'filedownloadcount') + 1;
-
-		$db->pquery("UPDATE vtiger_notes SET filedownloadcount = ? WHERE notesid = ?", array($downloadCount, $notesId));
+		$downloadCount = (new \App\Db\Query())->select(['filedownloadcount'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
+		$downloadCount++;
+		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filedownloadcount' => $downloadCount], ['notesid' => $notesId]);
 	}
 
 	public function getDownloadCountUpdateUrl()
