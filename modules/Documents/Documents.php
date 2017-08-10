@@ -299,19 +299,16 @@ class Documents extends CRMEntity
 
 	/**
 	 * Customizing the restore procedure.
+	 * @param string $moduleName
+	 * @param int $id
 	 */
 	public function restore($modulename, $id)
 	{
 		parent::restore($modulename, $id);
-
-		$adb = PearDatabase::getInstance();
-		$fresult = $adb->pquery('SELECT folderid FROM vtiger_notes WHERE notesid = ?', array($id));
-		if (!empty($fresult) && $adb->num_rows($fresult)) {
-			$folderid = $adb->query_result($fresult, 0, 'folderid');
-			if (!$this->isFolderPresent($folderid)) {
-				// Re-link to default folder
-				$adb->pquery('UPDATE vtiger_notes set folderid = ? WHERE notesid = ?', array(self::getFolderDefault()));
-			}
+		$folderId = (new App\Db\Query())->select(['folderid'])->from('vtiger_notes')->where(['notesid' => $id])->scalar();
+		if (!$this->isFolderPresent($folderid)) {
+			// Re-link to default folder
+			\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['folderid' => self::getFolderDefault()], ['notesid' => self::getFolderDefault()]);
 		}
 	}
 
