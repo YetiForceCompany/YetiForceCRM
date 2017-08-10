@@ -11,18 +11,18 @@
 class VTExpressionTreeNode
 {
 
-	function __construct($arr)
+	public function __construct($arr)
 	{
 		$this->arr = $arr;
 	}
 
-	function getParams()
+	public function getParams()
 	{
 		$arr = $this->arr;
 		return array_slice($arr, 1, sizeof($arr) - 1);
 	}
 
-	function getName()
+	public function getName()
 	{
 		return $this->arr[0];
 	}
@@ -31,12 +31,12 @@ class VTExpressionTreeNode
 class VTExpressionSymbol
 {
 
-	function __construct($value)
+	public function __construct($value)
 	{
 		$this->value = $value;
 	}
 
-	function __toString()
+	public function __toString()
 	{
 		return "VTExpressionSymbol({$this->value})";
 	}
@@ -45,13 +45,13 @@ class VTExpressionSymbol
 class VTExpressionParser
 {
 
-	function __construct($tokens)
+	public function __construct($tokens)
 	{
 		$this->tokens = $tokens;
 		$this->tokenQueue = [];
 	}
 
-	function nextToken()
+	public function nextToken()
 	{
 		if (sizeof($this->tokenQueue) == 0) {
 			return $this->tokens->nextToken();
@@ -60,7 +60,7 @@ class VTExpressionParser
 		}
 	}
 
-	function la($n = 1)
+	public function la($n = 1)
 	{
 		for ($i = sizeof($this->tokenQueue); $i < $n; $i++) {
 			$token = $this->tokens->nextToken();
@@ -69,7 +69,7 @@ class VTExpressionParser
 		return $this->tokenQueue[$n - 1];
 	}
 
-	function consume($label, $value)
+	public function consume($label, $value)
 	{
 		$token = $this->nextToken();
 		if ($token->label != $label || $token->value != $value) {
@@ -78,22 +78,22 @@ class VTExpressionParser
 		}
 	}
 
-	function consumeSymbol($sym)
+	public function consumeSymbol($sym)
 	{
 		$this->consume('SYMBOL', new VTExpressionSymbol($sym));
 	}
 
-	function check($token, $label, $value)
+	public function check($token, $label, $value)
 	{
 		return $token->label == $label && $token->value == $value;
 	}
 
-	function checkSymbol($token, $sym)
+	public function checkSymbol($token, $sym)
 	{
 		return $this->check($token, 'SYMBOL', new VTExpressionSymbol($sym));
 	}
 
-	function atom()
+	public function atom()
 	{
 		$token = $this->nextToken();
 		switch ($token->label) {
@@ -117,7 +117,7 @@ class VTExpressionParser
 		}
 	}
 
-	function ifCondition()
+	public function ifCondition()
 	{
 		$this->consumeSymbol('if');
 		$cond = $this->expression();
@@ -133,7 +133,7 @@ class VTExpressionParser
 		return new VTExpressionTreeNode(array(new VTExpressionSymbol('if'), $cond, $ifTrue, $ifFalse));
 	}
 
-	function expression()
+	public function expression()
 	{
 		$la1 = $this->la(1);
 		$la2 = $this->la(2);
@@ -168,7 +168,7 @@ class VTExpressionParser
 		array('==', '>=', '<=', '>', '<')
 	);
 
-	function binOp()
+	public function binOp()
 	{
 		return $this->binOpPrec(sizeof($this->precedence) - 1);
 	}
@@ -190,7 +190,7 @@ class VTExpressionParser
 		}
 	}
 
-	function unaryOp()
+	public function unaryOp()
 	{
 		$la = $this->la();
 		if ($la->label == "OPERATOR" && in_array($la->value->value, array('+', '-'))) {

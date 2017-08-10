@@ -117,7 +117,7 @@ class VTTaskManager
 	 * Return all tasks
 	 * @return array
 	 */
-	function getTasks()
+	public function getTasks()
 	{
 		$result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
 		return $this->getTasksForResult($result);

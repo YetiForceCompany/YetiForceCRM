@@ -21,13 +21,13 @@ class VTWorkflowUtils
 	 * User stack
 	 * @var array
 	 */
-	static $userStack;
+	public static $userStack;
 
 	/**
 	 * Logged in user id
 	 * @var int
 	 */
-	static $loggedInUser;
+	public static $loggedInUser;
 
 	/**
 	 * Constructor

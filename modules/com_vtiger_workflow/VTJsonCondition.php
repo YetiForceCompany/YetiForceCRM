@@ -97,7 +97,7 @@ class VTJsonCondition
 		return $finalResult;
 	}
 
-	function startsWith($str, $subStr)
+	public function startsWith($str, $subStr)
 	{
 		$sl = strlen($str);
 		$ssl = strlen($subStr);
@@ -108,7 +108,7 @@ class VTJsonCondition
 		}
 	}
 
-	function endsWith($str, $subStr)
+	public function endsWith($str, $subStr)
 	{
 		$sl = strlen($str);
 		$ssl = strlen($subStr);

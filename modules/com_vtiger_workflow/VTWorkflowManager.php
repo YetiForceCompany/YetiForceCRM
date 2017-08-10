@@ -19,7 +19,7 @@ class VTWorkflowManager
 	 * On first save
 	 * @var int
 	 */
-	static $ON_FIRST_SAVE = 1;
+	public static $ON_FIRST_SAVE = 1;
 
 	/**
 	 * Once
