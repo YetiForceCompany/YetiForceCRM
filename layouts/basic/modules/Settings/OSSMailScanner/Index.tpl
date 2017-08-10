@@ -93,7 +93,7 @@
 									</optgroup>
 									<optgroup label="{\App\Language::translate('Group list', 'OSSMailScanner')}">
 										{foreach item=item from=$RECORD_MODEL->getGroupList()}
-											<option value="{$item['id']}" {if $row['crm_user_id'] == $item['id'] } selected="selected"{/if} >{$item['groupname']}</option>
+											<option value="{$item['groupid']}" {if $row['crm_user_id'] == $item['groupid'] } selected="selected"{/if} >{$item['groupname']}</option>
 										{/foreach}
 									</optgroup>
 								</select>
