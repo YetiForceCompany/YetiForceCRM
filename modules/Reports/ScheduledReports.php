@@ -40,7 +40,7 @@ class VTScheduledReport extends Reports
 		$adb = PearDatabase::getInstance();
 
 		if (!empty($this->id)) {
-			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
+			$cachedInfo = VTCacheUtils::lookupReportScheduledInfo($this->user->id, $this->id);
 
 			if ($cachedInfo === false) {
 				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
@@ -51,9 +51,9 @@ class VTScheduledReport extends Reports
 					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : [];
 					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : [];
 
-					VTCacheUtils::updateReport_ScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'], $scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
+					VTCacheUtils::updateReportScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'], $scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
 
-					$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
+					$cachedInfo = VTCacheUtils::lookupReportScheduledInfo($this->user->id, $this->id);
 				}
 			}
 			if ($cachedInfo) {
