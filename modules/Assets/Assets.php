@@ -306,7 +306,6 @@ class Assets extends CRMEntity
 
 			$accountInstance = vtlib\Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($assetInstance, $assetLabel, ['ADD'], 'getDependentsList');
-			]
 			$productInstance = vtlib\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, ['ADD'], 'getDependentsList');
 
