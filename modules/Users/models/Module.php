@@ -338,7 +338,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function getFieldsForSave(\Vtiger_Record_Model $recordModel)
 	{
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return $editFields;

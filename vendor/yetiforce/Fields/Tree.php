@@ -51,6 +51,7 @@ class Tree
 	 */
 	public static function getPicklistValue($templateId, $moduleName)
 	{
+		$values = [];
 		$dataTree = self::getValuesById((int) $templateId);
 		foreach ($dataTree as $row) {
 			$tree = $row['tree'];

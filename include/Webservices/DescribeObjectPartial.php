@@ -11,25 +11,3 @@
 
 include_once 'include/Webservices/DescribeObject.php';
 
-function vtws_describe_partial($elementType, $user)
-{
-
-	$adb = PearDatabase::getInstance();
-
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, $elementType);
-	$handlerPath = $webserviceObject->getHandlerPath();
-	$handlerClass = $webserviceObject->getHandlerClass();
-
-	require_once $handlerPath;
-
-	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
-
-	$types = vtws_listtypes(null, $user);
-	if (!in_array($elementType, $types['types'])) {
-		throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED, "Permission to perform the operation is denied");
-	}
-
-	$entity = $handler->describePartial($elementType, array('picklist', 'multipicklist'));
-	VTWS_PreserveGlobal::flush();
-	return $entity;
-}

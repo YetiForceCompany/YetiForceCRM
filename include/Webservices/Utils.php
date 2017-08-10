@@ -14,7 +14,6 @@ require_once("modules/Users/Users.php");
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
@@ -60,21 +59,6 @@ function vtws_generateRandomAccessKey($length = 10)
 		$accesskey = $accesskey . substr($source, rand(null, $maxIndex), 1);
 	}
 	return $accesskey;
-}
-
-/**
- * get current vtiger version from the database.
- */
-function vtws_getVtigerVersion()
-{
-	$adb = PearDatabase::getInstance();
-	$query = 'select * from vtiger_version';
-	$result = $adb->pquery($query, []);
-	$version = '';
-	while ($row = $adb->fetch_array($result)) {
-		$version = $row['current_version'];
-	}
-	return $version;
 }
 
 function vtws_getUserAccessibleGroups($moduleId, $user)
@@ -132,24 +116,6 @@ function vtws_getId($objId, $elemId)
 	return $objId . "x" . $elemId;
 }
 
-function vtws_getParameter($parameterArray, $paramName, $default = null)
-{
-
-	if (!get_magic_quotes_gpc()) {
-		if (is_array($parameterArray[$paramName])) {
-			$param = array_map('addslashes', $parameterArray[$paramName]);
-		} else {
-			$param = addslashes($parameterArray[$paramName]);
-		}
-	} else {
-		$param = $parameterArray[$paramName];
-	}
-	if (!$param) {
-		$param = $default;
-	}
-	return $param;
-}
-
 function vtws_getEntityNameFields($moduleName)
 {
 
@@ -202,17 +168,6 @@ function vtws_getWebserviceEntities()
 		}
 	}
 	return array('module' => $moduleArray, 'entity' => $entityArray);
-}
-
-/**
- *
- * @param VtigerWebserviceObject $webserviceObject
- * @return CRMEntity
- */
-function vtws_getModuleInstance($webserviceObject)
-{
-	$moduleName = $webserviceObject->getEntityName();
-	return CRMEntity::getInstance($moduleName);
 }
 
 function vtws_getOwnerType($ownerId)

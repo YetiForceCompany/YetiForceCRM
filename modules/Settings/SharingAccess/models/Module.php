@@ -79,12 +79,14 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 		return Settings_SharingAccess_Rule_Model::getAllByModule($this);
 	}
 
+	/**
+	 * Save permission
+	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
-		$params = [$this->get('permission'), $this->getId()];
-		$db->pquery($sql, $params);
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_def_org_share', ['permission' => $this->get('permission')], ['tabid' => $this->getId()])
+			->execute();
 	}
 
 	/**

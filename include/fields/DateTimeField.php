@@ -393,7 +393,7 @@ class DateTimeField
 		return $time;
 	}
 
-	static function getDBTimeZone()
+	public static function getDBTimeZone()
 	{
 		if (empty(self::$databaseTimeZone)) {
 			$defaultTimeZone = date_default_timezone_get();
@@ -405,7 +405,7 @@ class DateTimeField
 		return self::$databaseTimeZone;
 	}
 
-	static function getPHPDateFormat($user = null)
+	public static function getPHPDateFormat($user = null)
 	{
 		$current_user = vglobal('current_user');
 		if (empty($user)) {

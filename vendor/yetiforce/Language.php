@@ -40,7 +40,7 @@ class Language
 		}
 		if (vglobal('translated_language')) {
 			$language = vglobal('translated_language');
-		} elseif (\App\Session::get('language') !== '') {
+		} elseif (!empty(\App\Session::get('language'))) {
 			$language = \App\Session::get('language');
 		} else {
 			$language = User::getCurrentUserModel()->getDetail('language');

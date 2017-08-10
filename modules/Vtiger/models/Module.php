@@ -696,7 +696,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$tabId = \App\Module::getModuleId('Events');
 		}
 		$editFields = [];
-		foreach (App\Field::getFieldsPermissions($tabId, false) as &$field) {
+		foreach (App\Field::getFieldsPermissions($tabId, false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);

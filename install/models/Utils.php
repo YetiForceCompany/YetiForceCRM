@@ -53,7 +53,7 @@ class Install_Utils_Model
 	 * @param type $dbType
 	 * @return type
 	 */
-	static function isMySQL($dbType)
+	public static function isMySQL($dbType)
 	{
 		return (stripos($dbType, 'mysql') === 0);
 	}

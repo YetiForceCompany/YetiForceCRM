@@ -172,6 +172,9 @@ class Importer
 	 */
 	public function getColumns(Base $importer, $table)
 	{
+		if (empty($table['columns'])) {
+			return [];
+		}
 		$type = $importer->db->getDriverName();
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {

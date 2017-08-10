@@ -11,7 +11,7 @@
 class Import_Map_Model extends \App\Base
 {
 
-	static $tableName = 'vtiger_import_maps';
+	public static $tableName = 'vtiger_import_maps';
 	public $map;
 	public $user;
 

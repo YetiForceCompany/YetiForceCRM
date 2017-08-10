@@ -353,6 +353,11 @@ $languageStrings = [
 	'LBL_COMPANY_LOGO_IN_SYSTEM' => 'Logo da empresa visível no sistema',
 	'LBL_COMPANY_LOGO_IN_LOGIN' => 'Logo da empresa visível no painel de login',
 	'LBL_HEIGHT_LOGO' => 'Altura da Logo',
+	'LBL_SECURITY' => 'Security',
+	'LBL_LOG_ACCESS_TO_RECORD' => 'No access to records',
+	'LBL_LOG_ACCESS_FOR_ADMIN' => 'No access to administration',
+	'LBL_LOG_ACCESS_FOR_API' => 'No access to API',
+	'LBL_LOG_ACCESS_FOR_USER' => 'No access to the system',
 	//Pluralized
 	'PLU_USERS_0' => 'User',
 	'PLU_USERS_1' => 'Users',

@@ -418,7 +418,7 @@ class API_CalDAV_Model
 	 * @param array $cal
 	 * @return boolean
 	 */
-	public function recordUpdate($record, $cal)
+	public function recordUpdate(Vtiger_Record_Model $record, $cal)
 	{
 		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
@@ -535,11 +535,11 @@ class API_CalDAV_Model
 
 	/**
 	 * Get state
-	 * @param Sabre\VObject\Component $component
+	 * @param string|Sabre\VObject\Component $component
 	 * @param boolean $toCrm
 	 * @return string
 	 */
-	public function getState(Sabre\VObject\Component $component, $toCrm = true)
+	public function getState($component, $toCrm = true)
 	{
 		$state = '';
 		if ($toCrm) {
@@ -589,11 +589,11 @@ class API_CalDAV_Model
 
 	/**
 	 * Get priority
-	 * @param Sabre\VObject\Component $component
+	 * @param string|Sabre\VObject\Component $component
 	 * @param boolean $toCrm
 	 * @return int|string
 	 */
-	public function getPriority(Sabre\VObject\Component $component, $toCrm = true)
+	public function getPriority($component, $toCrm = true)
 	{
 		$values = [
 			1 => 'High',
@@ -616,12 +616,12 @@ class API_CalDAV_Model
 
 	/**
 	 * Get status
-	 * @param Sabre\VObject\Component $component
+	 * @param string|Sabre\VObject\Component $component
 	 * @param boolean $toCrm
 	 * @param string $calType
 	 * @return array
 	 */
-	public function getStatus(Sabre\VObject\Component $component, $toCrm = true, $calType)
+	public function getStatus($component, $toCrm = true, $calType)
 	{
 		if ($calType === 'VEVENT') {
 			$values = [
@@ -797,19 +797,21 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 *
-	 * @param Document $vcalendar
-	 * @param string $tzid
+	 * Get vtime zone
+	 * @param Sabre\VObject\Component $vcalendar
+	 * @param type $tzid
 	 * @param int $from
 	 * @param int $to
 	 * @return boolean
 	 */
-	public function getVTimeZone($vcalendar, $tzid, $from = 0, $to = 0)
+	public function getVTimeZone(Sabre\VObject\Component $vcalendar, $tzid, $from = 0, $to = 0)
 	{
-		if (!$from)
+		if (!$from) {
 			$from = time();
-		if (!$to)
+		}
+		if (!$to) {
 			$to = $from;
+		}
 
 		try {
 			$tz = new \DateTimeZone($tzid);

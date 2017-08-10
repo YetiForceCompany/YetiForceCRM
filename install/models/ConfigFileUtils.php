@@ -65,7 +65,7 @@ class Install_ConfigFileUtils_Model
 		$this->cacheDir = 'cache/';
 	}
 
-	static function getDbDefaultPort($dbType)
+	public static function getDbDefaultPort($dbType)
 	{
 		if (Install_Utils_Model::isMySQL($dbType)) {
 			return "3306";

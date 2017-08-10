@@ -173,7 +173,7 @@ class VTTaskManager
 	 * @param VTTaskType $taskTypeInstance
 	 * @return string
 	 */
-	public function retrieveTemplatePath($moduleName, $taskTypeInstance)
+	public function retrieveTemplatePath($moduleName, VTTaskType $taskTypeInstance)
 	{
 		$taskTemplatePath = $taskTypeInstance->get('templatepath');
 		if (!empty($taskTemplatePath)) {

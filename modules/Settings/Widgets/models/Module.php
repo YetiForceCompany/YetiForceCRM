@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Settings OSSMailView index view class
+ * Settings Widgets Module Model class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -9,6 +9,11 @@
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	/**
+	 * Function to get widgets
+	 * @param integer|string $module
+	 * @return array
+	 */
 	public static function getWidgets($module = false)
 	{
 		if ($module && !is_numeric($module)) {
@@ -32,6 +37,10 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $widgets;
 	}
 
+	/**
+	 * Return list of modules which have summary view
+	 * @return array
+	 */
 	public function getModulesList()
 	{
 		$modules = \vtlib\Functions::getAllModules();
@@ -44,11 +53,20 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $modules;
 	}
 
+	/**
+	 * Return available sizes of widgets
+	 * @return integer[]
+	 */
 	public function getSize()
 	{
 		return [1, 2, 3];
 	}
 
+	/**
+	 * Function to get types
+	 * @param integer $module
+	 * @return array
+	 */
 	public function getType($module = false)
 	{
 		$moduleName = vtlib\Functions::getModuleName($module);
@@ -71,29 +89,39 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $folderFiles;
 	}
 
+	/**
+	 * Return available columns of widgets
+	 * @return integer[]
+	 */
 	public function getColumns()
 	{
 		return [1, 2, 3, 4, 5, 6];
 	}
 
+	/**
+	 * Function to get related modules for module
+	 * @param integer $tabid
+	 * @return array
+	 */
 	public function getRelatedModule($tabid)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = 'SELECT vtiger_relatedlists.*,vtiger_tab.name FROM vtiger_relatedlists
-				LEFT JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_relatedlists.related_tabid WHERE vtiger_relatedlists.tabid = ? AND vtiger_relatedlists.related_tabid != 0';
-		$result = $adb->pquery($sql, array($tabid));
-		$relation = [];
-		while ($row = $adb->fetch_array($result)) {
-			$relation[$row['relation_id']] = $row;
-		}
-		return $relation;
+		return (new \App\Db\Query())->select(['vtiger_relatedlists.*', 'vtiger_tab.name'])
+				->from('vtiger_relatedlists')
+				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_relatedlists.related_tabid')
+				->where(['and', ['vtiger_relatedlists.tabid' => $tabid], ['<>', 'vtiger_relatedlists.related_tabid', '0']])
+				->indexBy('relation_id')->all();
 	}
 
+	/**
+	 * Function to get filters
+	 * @param array $modules
+	 * @return array
+	 */
 	public function getFiletrs($modules)
 	{
 		$filetrs = [];
 		$tabid = [];
-		foreach ($modules as $key => $value) {
+		foreach ($modules as $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
 				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
 						->from('vtiger_field')
@@ -108,11 +136,16 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $filetrs;
 	}
 
+	/**
+	 * Function to get checkboxes
+	 * @param array $modules
+	 * @return array
+	 */
 	public function getCheckboxs($modules)
 	{
 		$checkboxs = [];
 		$tabid = [];
-		foreach ($modules as $key => $value) {
+		foreach ($modules as $value) {
 			if (!in_array($value['related_tabid'], $tabid)) {
 				$dataReader = (new \App\Db\Query())->select('columnname,tablename,fieldlabel,fieldname')
 						->from('vtiger_field')
@@ -128,24 +161,34 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		return $checkboxs;
 	}
 
+	/**
+	 * Return list of fields for module and uitypes
+	 * @param integer $tabid
+	 * @param integer[]|boolean $uitype
+	 * @return array
+	 */
 	public function getFields($tabid, $uitype = false)
 	{
-		$adb = PearDatabase::getInstance();
 		$fieldlabel = $fieldsList = [];
-		$params = [$tabid];
-		$sql = "SELECT fieldid,columnname,tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND displaytype <> '2' AND vtiger_field.presence in (0,2)";
+		$query = (new \App\Db\Query())->select(['fieldid', 'columnname', 'tablename', 'fieldname', 'fieldlabel'])
+			->from('vtiger_field')
+			->where(['and', ['tabid' => $tabid], ['<>', 'displaytype', 2], ['presence' => [0, 2]]]);
 		if ($uitype) {
-			$uitype = implode("','", $uitype);
-			$sql .= " AND uitype in ('$uitype')";
+			$query->andWhere(['uitype' => $uitype]);
 		}
-		$result = $adb->pquery($sql, $params, true);
-		while ($row = $adb->fetch_array($result)) {
-			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $value['name']);
-			$fieldsList[$value['related_tabid']][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $value['name']);
+		$dataReader = $query->createCommand()->query();
+		$moduleName = App\Module::getModuleName($tabid);
+		while ($row = $dataReader->read()) {
+			$fieldlabel[$row['fieldid']] = \App\Language::translate($row['fieldlabel'], $moduleName);
+			$fieldsList[$tabid][$row['tablename'] . '::' . $row['columnname'] . '::' . $row['fieldname']] = \App\Language::translate($row['fieldlabel'], $moduleName);
 		}
-		return array('labels' => $fieldlabel, 'table' => $fieldsList);
+		return ['labels' => $fieldlabel, 'table' => $fieldsList];
 	}
 
+	/**
+	 * Save widget
+	 * @param array $params
+	 */
 	public static function saveWidget($params)
 	{
 		$db = App\Db::getInstance();
@@ -193,30 +236,43 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Remove widget
+	 * @param integer $wid
+	 */
 	public static function removeWidget($wid)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE FROM vtiger_widgets WHERE id = ?;', array($wid));
+		\App\Db::getInstance()->createCommand()->delete('vtiger_widgets', ['id' => $wid])->execute();
 	}
 
+	/**
+	 * Return information about widget
+	 * @param integer $wid
+	 * @return type
+	 */
 	public function getWidgetInfo($wid)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
-		$result = $adb->pquery($sql, array($wid));
-		$resultrow = $adb->raw_query_result_rowdata($result);
+		$resultrow = (new \App\Db\Query())->from('vtiger_widgets')
+			->where(['id' => $wid])
+			->one();
 		$resultrow['data'] = \App\Json::decode($resultrow['data']);
 		return $resultrow;
 	}
 
+	/**
+	 * Function to get last sequence number
+	 * @param integer $tabid
+	 * @return integer
+	 */
 	public static function getLastSequence($tabid)
 	{
-		$adb = PearDatabase::getInstance();
-		$sql = 'SELECT MAX(sequence) as max FROM vtiger_widgets WHERE tabid = ?';
-		$result = $adb->pquery($sql, array($tabid));
-		return $adb->query_result($result, 0, 'max');
+		return (new \App\Db\Query())->from('vtiger_widgets')->where(['tabid' => $tabid])->max('sequence');
 	}
 
+	/**
+	 * Update sequence number
+	 * @param array $params
+	 */
 	public static function updateSequence($params)
 	{
 		$db = App\Db::getInstance();
@@ -229,18 +285,30 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 		}
 	}
 
+	/**
+	 * Return available fields with WYSIWYG
+	 * @param integer $tabid
+	 * @param string $module
+	 * @return array
+	 */
 	public function getWYSIWYGFields($tabid, $module)
 	{
 		$field = [];
-		$adb = PearDatabase::getInstance();
-		$sql = "SELECT fieldlabel,fieldname FROM vtiger_field WHERE tabid = ? AND uitype = ?;";
-		$result = $adb->pquery($sql, [$tabid, '300']);
-		while ($row = $adb->fetch_array($result)) {
+		$dataReader = (new \App\Db\Query())->select(['fieldlabel', 'fieldname'])
+				->from('vtiger_field')
+				->where(['tabid' => $tabid, 'uitype' => 300])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$field[$row['fieldname']] = \App\Language::translate($row['fieldlabel'], $module);
 		}
 		return $field;
 	}
 
+	/**
+	 * Function to get switch buttons for widget
+	 * @param integer $index
+	 * @return array
+	 */
 	public static function getHeaderSwitch($index = [])
 	{
 		$data = [

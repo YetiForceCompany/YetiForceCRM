@@ -149,7 +149,7 @@ class QueryGenerator
 
 	/**
 	 * Set query fields
-	 * @param type $fields
+	 * @param string[] $fields
 	 */
 	public function setFields($fields)
 	{
@@ -184,7 +184,7 @@ class QueryGenerator
 
 	/**
 	 * Set query field
-	 * @param type $fields
+	 * @param string|string[] $fields
 	 */
 	public function setField($fields)
 	{
@@ -934,7 +934,7 @@ class QueryGenerator
 
 	/**
 	 * Parse base search condition to db condition 
-	 * @param array $searchParams
+	 * @param array $searchParams Example: [[["firstname","a","Tom"]]]
 	 * @return array
 	 */
 	public function parseBaseSearchParamsToCondition($searchParams)

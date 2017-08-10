@@ -13,7 +13,7 @@ class ConfigReader
 
 	protected $properties = [];
 	protected $name;
-	static $propertiesCache = [];
+	public static $propertiesCache = [];
 
 	public function __construct($path, $name, $force = false)
 	{

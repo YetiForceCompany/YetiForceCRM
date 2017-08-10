@@ -1306,6 +1306,8 @@ $languageStrings = [
 	'LBL_COPY_VALUE' => 'Feldwert',
 	'LBL_COPY_LABEL' => 'Feldname',
 	'LBL_AUTOMATIC' => 'Automatisch',
+	'LBL_RELATED_RECORDS_LIST' => 'List of related records',
+	'LBL_RECORDS_LIST' => 'List of all records',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Anzahl gefundener E-Mail Adressen',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Anzahl selektierter Datensätze',

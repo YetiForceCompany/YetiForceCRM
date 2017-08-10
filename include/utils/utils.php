@@ -326,7 +326,6 @@ function getRelationTables($module, $secmodule)
 function DeleteEntity($destinationModule, $sourceModule, CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 {
 	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
-	require_once('include/events/include.php');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setModuleName($sourceModule);

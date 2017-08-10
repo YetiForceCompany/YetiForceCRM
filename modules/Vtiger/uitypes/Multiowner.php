@@ -8,6 +8,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+/**
+ * Class Vtiger_Multiowner_UIType
+ */
 class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 {
 
@@ -22,8 +25,11 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param array $values
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return object
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -59,15 +65,13 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to know owner is either User or Group
-	 * @param <Integer> userId/GroupId
+	 * @param integer $id userId/GroupId
 	 * @return string User/Group
 	 */
 	public static function getOwnerType($id)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
-		if ($db->num_rows($result) > 0) {
+		$result = (new \App\Db\Query())->from('vtiger_users')->where(['id' => $id])->exists();
+		if ($result) {
 			return 'User';
 		}
 		return 'Group';
