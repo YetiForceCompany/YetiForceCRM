@@ -83,13 +83,9 @@ function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 	$mail = false;
 	if (!empty($relatedToId) && $moduleName == 'HelpDesk') {
 		if ($moduleName == 'HelpDesk') {
-			$sql = 'SELECT vtiger_account.email1 FROM vtiger_account
-INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid
-INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.parent_id = vtiger_account.accountid
-WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtiger_account.emailoptout = 1';
-			$result = $db->pquery($sql, [$relatedToId]);
-			if ($result->rowCount() > 0) {
-				$mail = $db->getSingleValue($result);
+			$result = (new \App\Db\Query())->select(['vtiger_account.email1'])->from('vtiger_account')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_account.accountid')->innerJoin('vtiger_troubletickets', 'vtiger_troubletickets.parent_id = vtiger_account.accountid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_troubletickets.ticketid' => $relatedToId, 'vtiger_account.emailoptout' => 1])->scalar();
+			if ($result) {
+				$mail = $result;
 			}
 		}
 	}
