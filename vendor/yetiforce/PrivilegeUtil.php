@@ -134,7 +134,7 @@ class PrivilegeUtil
 	 */
 	public static function getRoleByUsers($userId)
 	{
-		if (Cache::has('getRoleByUsers', $roleId)) {
+		if (Cache::has('getRoleByUsers', $userId)) {
 			return Cache::get('getRoleByUsers', $userId);
 		}
 		if (isset(static::$roleByUsersCache[$userId])) {
