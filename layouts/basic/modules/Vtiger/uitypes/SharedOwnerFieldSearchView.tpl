@@ -3,7 +3,7 @@
     {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
     <div class="picklistSearchField">
 		{assign var=ASSIGNED_USER_ID value=$FIELD_MODEL->get('name')}
-		{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+		{assign var=SEARCH_VALUES value=explode('##',$SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUES)}
 		{if $VIEWID && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 			{assign var=USERS_GROUP_LIST value=Vtiger_SharedOwner_UIType::getSearchViewList($MODULE, $VIEWID)}

@@ -680,10 +680,10 @@ class CustomView_Record_Model extends \App\Base
 				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
+				$advFilterVal = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
 				$col = explode(":", $relcriteriarow["columnname"]);
-				$temp_val = explode(",", $relcriteriarow["value"]);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
+					$temp_val = explode('##', $relcriteriarow["value"]);
 					$val = [];
 					$countTempVal = count($temp_val);
 					for ($x = 0; $x < $countTempVal; $x++) {
@@ -712,9 +712,9 @@ class CustomView_Record_Model extends \App\Base
 							$val[$x] = $date->getDisplayTime();
 						}
 					}
-					$advfilterval = implode(",", $val);
+					$advFilterVal = implode(",", $val);
 				}
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
+				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal)));
 				$criteria['column_condition'] = $relcriteriarow["column_condition"];
 
 				$groupId = $relcriteriarow['groupid'];
@@ -813,15 +813,15 @@ class CustomView_Record_Model extends \App\Base
 	public function approve()
 	{
 		App\Db::getInstance()->createCommand()
-				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
-				->execute();
+			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
+			->execute();
 	}
 
 	public function deny()
 	{
 		App\Db::getInstance()->createCommand()
-				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
-				->execute();
+			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
+			->execute();
 	}
 
 	/**

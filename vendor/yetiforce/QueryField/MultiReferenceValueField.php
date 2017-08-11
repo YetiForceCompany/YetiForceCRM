@@ -13,7 +13,7 @@ class MultiReferenceValueField extends BaseField
 
 	public function getValue()
 	{
-		$valueArray = explode(',', $this->value);
+		$valueArray = explode('##', $this->value);
 		foreach ($valueArray as $key => $value) {
 			$valueArray[$key] = '|#|' . $value . '|#|';
 		}
