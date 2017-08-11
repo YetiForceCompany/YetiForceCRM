@@ -899,14 +899,7 @@ class CustomView extends CRMEntity
 	 */
 	public function getCustomActionDetails($cvid)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = (new App\Db\Query())->select(['vtiger_customaction.*'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
-		$calist["subject"] = $result["subject"];
-		$calist["module"] = $result["module"];
-		$calist["content"] = $result["content"];
-		$calist["cvid"] = $result["cvid"];
-
-		return $calist;
+		return (new App\Db\Query())->select(['vtiger_customaction.subject as subject', 'vtiger_customaction.module as module', 'vtiger_customaction.content as content', 'vtiger_customaction.cvid as cvid'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
 	}
 
 	public function isPermittedChangeStatus($status)
