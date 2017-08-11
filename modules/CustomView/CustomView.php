@@ -384,7 +384,10 @@ class CustomView extends CRMEntity
 	public function isFieldPresent_ByColumnTable($columnName, $tableName)
 	{
 		if (!isset($this->_fieldby_tblcol_cache[$tableName])) {
-			$this->_fieldby_tblcol_cache[$tableName] = (new App\Db\Query())->select(['columnname'])->from('vtiger_field')->where(['tablename' => $tableName, 'presence' => [0, 2]])->column();
+			$rows = (new App\Db\Query())->select(['columnname'])->from('vtiger_field')->where(['tablename' => $tableName, 'presence' => [0, 2]])->column();
+			if ($rows) {
+				$this->_fieldby_tblcol_cache[$tableName] = $rows;
+			}
 		}
 		// If still the field was not found (might be disabled or deleted?)
 		if (!isset($this->_fieldby_tblcol_cache[$tableName])) {
