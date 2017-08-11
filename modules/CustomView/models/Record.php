@@ -311,7 +311,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
@@ -325,7 +325,7 @@ class CustomView_Record_Model extends \App\Base
 				$this->set('status', $status);
 			}
 		}
-		$db->startTransaction();
+		$transaction = $db->beginTransaction();
 		if (!$cvId) {
 			$this->addCustomView();
 			$cvId = $this->getId();
@@ -351,7 +351,7 @@ class CustomView_Record_Model extends \App\Base
 		} elseif (!empty($setDefault)) {
 			$this->setDefaultFilter();
 		}
-		$db->completeTransaction();
+		$transaction->commit();
 		\App\Cache::clear();
 	}
 
@@ -368,7 +368,7 @@ class CustomView_Record_Model extends \App\Base
 		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
-		// To Delete the mini list widget associated with the filter 
+		// To Delete the mini list widget associated with the filter
 		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
 		App\Cache::clear();
 	}
@@ -688,7 +688,7 @@ class CustomView_Record_Model extends \App\Base
 					$countTempVal = count($temp_val);
 					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] == 'D') {
-							/** while inserting in db for due_date it was taking date and time values also as it is 
+							/** while inserting in db for due_date it was taking date and time values also as it is
 							 * date time field. We only need to take date from that value
 							 */
 							if ($col[0] == 'vtiger_activity' && $col[1] == 'due_date') {
@@ -813,15 +813,15 @@ class CustomView_Record_Model extends \App\Base
 	public function approve()
 	{
 		App\Db::getInstance()->createCommand()
-				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
-				->execute();
+			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PUBLIC], ['cvid' => $this->getId()])
+			->execute();
 	}
 
 	public function deny()
 	{
 		App\Db::getInstance()->createCommand()
-				->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
-				->execute();
+			->update('vtiger_customview', ['status' => App\CustomView::CV_STATUS_PRIVATE], ['cvid' => $this->getId()])
+			->execute();
 	}
 
 	/**
