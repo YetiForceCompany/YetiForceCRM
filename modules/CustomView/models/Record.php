@@ -605,23 +605,15 @@ class CustomView_Record_Model extends \App\Base
 
 	/**
 	 * Function to get the Standard filter condition for the current custom view
-	 * @return <Array> Standard filter condition
+	 * @return array Standard filter condition
 	 */
 	public function getStandardCriteria()
 	{
-		$db = PearDatabase::getInstance();
-
 		$cvId = $this->getId();
 		if (empty($cvId)) {
 			return [];
 		}
-
-		$query = 'SELECT vtiger_cvstdfilter.* FROM vtiger_cvstdfilter
-					INNER JOIN vtiger_customview ON vtiger_customview.cvid = vtiger_cvstdfilter.cvid
-				WHERE vtiger_cvstdfilter.cvid = ?';
-		$params = array($this->getId());
-		$result = $db->pquery($query, $params);
-		$stdfilterrow = $db->fetch_array($result);
+		$stdfilterrow = (new App\Db\Query())->select('vtiger_cvstdfilter.*')->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_customview.cvid = vtiger_cvstdfilter.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
 		if (!empty($stdfilterrow)) {
 			$stdfilterlist = [];
 			$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
