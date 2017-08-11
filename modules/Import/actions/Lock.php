@@ -84,24 +84,24 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 				$where['tabid'] = \App\Module::getModuleId($module);
 			}
 			\App\Db::getInstance()->createCommand()->delete('vtiger_import_locks', $where);
-
-			$adb->pquery($query, $params);
 		}
 	}
 
+	/**
+	 * Is locked for module
+	 * @param string $module
+	 * @return null
+	 */
 	public static function isLockedForModule($module)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Module::getModuleId($module)));
-
-			if ($lockResult && $adb->num_rows($lockResult) > 0) {
-				$lockInfo = $adb->query_result_rowdata($lockResult, 0);
-				return $lockInfo;
+			$lockResult = (new \App\Db\Query())
+					->from('vtiger_import_locks')
+					->where(['tabid' => \App\Module::getModuleId($module)])->one();
+			if ($lockResult) {
+				return $lockResult;
 			}
 		}
-
 		return null;
 	}
 }
