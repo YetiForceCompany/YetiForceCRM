@@ -653,13 +653,12 @@ class CustomView_Record_Model extends \App\Base
 		if (empty($cvId)) {
 			return $advft_criteria;
 		}
-
-		$sql = 'SELECT * FROM vtiger_cvadvfilter_grouping WHERE cvid = ? ORDER BY groupid';
-		$groupsresult = $db->pquery($sql, array($this->getId()));
+		$query = (new App\Db\Query())->from('vtiger_cvadvfilter_grouping')->where(['cvid' => $this->getId()])->orderBy(['groupid']);
+		$dataReader = $query->createCommand()->query();
 
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $db->fetch_array($groupsresult)) {
+		while ($relcriteriagroup = $dataReader->read()) {
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
