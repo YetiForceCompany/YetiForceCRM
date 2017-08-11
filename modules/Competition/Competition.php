@@ -142,8 +142,8 @@ class Competition extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
@@ -223,7 +223,14 @@ class Competition extends Vtiger_CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink an entity with given Id from another entity
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param it $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param string $relatedName
+	 * @return null
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 
@@ -236,6 +243,14 @@ class Competition extends Vtiger_CRMEntity
 		}
 	}
 
+	/**
+	 * Save related module
+	 * @param string $module
+	 * @param int $crmid
+	 * @param string $withModule
+	 * @param array|int $withCrmids
+	 * @param string $relatedName
+	 */
 	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		if (!is_array($withCrmids))
