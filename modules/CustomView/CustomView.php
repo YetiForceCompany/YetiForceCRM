@@ -378,25 +378,13 @@ class CustomView extends CRMEntity
 	/**
 	 * Function to check if field is present based on
 	 *
-	 * @param String $columnname
-	 * @param String $tablename
+	 * @param string $columnname
+	 * @param string $tablename
 	 */
 	public function isFieldPresent_ByColumnTable($columnname, $tablename)
 	{
-		$adb = PearDatabase::getInstance();
-
 		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
-			$query = 'SELECT columnname FROM vtiger_field WHERE tablename = ? and presence in (0,2)';
-
-			$result = $adb->pquery($query, array($tablename));
-			$numrows = $adb->num_rows($result);
-
-			if ($numrows) {
-				$this->_fieldby_tblcol_cache[$tablename] = [];
-				for ($index = 0; $index < $numrows; ++$index) {
-					$this->_fieldby_tblcol_cache[$tablename][] = $adb->query_result($result, $index, 'columnname');
-				}
-			}
+			$this->_fieldby_tblcol_cache[$tablename] = (new App\Db\Query())->select(['columnname'])->from('vtiger_field')->where(['tablename' => $tablename, 'presence' => [0, 2]])->column();
 		}
 		// If still the field was not found (might be disabled or deleted?)
 		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
@@ -912,17 +900,12 @@ class CustomView extends CRMEntity
 	public function getCustomActionDetails($cvid)
 	{
 		$adb = PearDatabase::getInstance();
+		$result = (new App\Db\Query())->select(['vtiger_customaction.*'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
+		$calist["subject"] = $result["subject"];
+		$calist["module"] = $result["module"];
+		$calist["content"] = $result["content"];
+		$calist["cvid"] = $result["cvid"];
 
-		$sSQL = "select vtiger_customaction.* from vtiger_customaction inner join vtiger_customview on vtiger_customaction.cvid = vtiger_customview.cvid";
-		$sSQL .= " where vtiger_customaction.cvid=?";
-		$result = $adb->pquery($sSQL, array($cvid));
-
-		while ($carow = $adb->fetch_array($result)) {
-			$calist["subject"] = $carow["subject"];
-			$calist["module"] = $carow["module"];
-			$calist["content"] = $carow["content"];
-			$calist["cvid"] = $carow["cvid"];
-		}
 		return $calist;
 	}
 
