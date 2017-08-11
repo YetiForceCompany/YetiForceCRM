@@ -76,7 +76,6 @@ function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
  */
 function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 {
-	$db = PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
 	$moduleName = vtlib\Functions::getCRMRecordType($relatedToId);
@@ -126,13 +125,11 @@ function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
-	$db = PearDatabase::getInstance();
 	$relatedToId = $recordModel->get('related_to');
 	$mails = [];
-	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 && crmid = ? ';
-	$result = $db->pquery($sql, [$relatedToId]);
-	if ($result->rowCount() > 0) {
-		$smownerid = $db->getSingleValue($result);
+	$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
+	if ($result) {
+		$smownerid = $result;
 		$ownerType = vtws_getOwnerType($smownerid);
 		if ($ownerType == 'Users') {
 			$user = new Users();
