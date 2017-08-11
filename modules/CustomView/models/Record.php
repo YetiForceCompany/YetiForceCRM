@@ -390,9 +390,11 @@ class CustomView_Record_Model extends \App\Base
 		])->execute();
 	}
 
+	/**
+	 * Set conditions for filter
+	 */
 	public function setConditionsForFilter()
 	{
-		$db = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
@@ -549,11 +551,15 @@ class CustomView_Record_Model extends \App\Base
 		$this->setConditionsForFilter();
 	}
 
+	/**
+	 * Get next sequence
+	 * @param string $moduleName
+	 * @return int
+	 */
 	public function getNextSeq($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$moduleName]);
-		$id = (int) $db->getSingleValue($result) + 1;
+		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->max('sequence')->where(['entitytype' => $moduleName]);
+		$id = (int) $maxSequence + 1;
 		return $id;
 	}
 
