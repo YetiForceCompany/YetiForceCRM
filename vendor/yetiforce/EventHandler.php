@@ -271,7 +271,7 @@ class EventHandler
 	/**
 	 * Trigger an event
 	 * @param string $name Event name
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function trigger($name)
 	{
@@ -287,7 +287,7 @@ class EventHandler
 				$handlerInstance->$function($this);
 			} else {
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
-				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		}
 	}

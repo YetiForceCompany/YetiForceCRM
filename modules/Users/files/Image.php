@@ -51,7 +51,7 @@ class Users_Image_File
 			}
 		}
 		if (!$allowed) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

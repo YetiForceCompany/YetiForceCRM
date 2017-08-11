@@ -213,7 +213,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$dbconfig = AppConfig::main('dbconfig');
 		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
-				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
+				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model();

@@ -20,13 +20,13 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

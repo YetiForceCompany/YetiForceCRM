@@ -54,7 +54,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		$folderModel->set('description', $request->get('description'));
 
 		if ($folderModel->checkDuplicate()) {
-			throw new \Exception\AppException(\App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName));
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName));
 		}
 
 		$folderModel->save();

@@ -296,7 +296,7 @@ class Request
 	/**
 	 * Get request method
 	 * @return string
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getRequestMethod()
 	{
@@ -307,7 +307,7 @@ class Request
 			} else if ($_SERVER['HTTP_X_HTTP_METHOD'] === 'PUT') {
 				$method = 'PUT';
 			} else {
-				throw new Exceptions\AppException('Unexpected Header');
+				throw new \App\Exceptions\AppException('Unexpected Header');
 			}
 		}
 		return $method;
@@ -443,7 +443,7 @@ class Request
 	 * @param string $name
 	 * @param null|array $arguments
 	 * @return mied
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{
@@ -452,7 +452,7 @@ class Request
 		}
 		$function = ltrim($name, '_');
 		if (!method_exists(static::$request, $function)) {
-			throw new Exceptions\AppException('Method not found');
+			throw new \App\Exceptions\AppException('Method not found');
 		}
 		if (empty($arguments)) {
 			return static::$request->$function();

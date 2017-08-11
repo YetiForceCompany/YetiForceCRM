@@ -98,7 +98,7 @@ class Vtiger_Loader
 	 * @param string $componentName
 	 * @param string $moduleName
 	 * @return string Required Class Name
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function getComponentClassName($componentType, $componentName, $moduleName = 'Vtiger', $throwException = true)
 	{
@@ -161,7 +161,7 @@ class Vtiger_Loader
 
 		if ($throwException) {
 			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
-			throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		return false;
 	}
