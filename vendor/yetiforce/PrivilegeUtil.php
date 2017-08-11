@@ -134,13 +134,16 @@ class PrivilegeUtil
 	 */
 	public static function getRoleByUsers($userId)
 	{
+		if (Cache::has('getRoleByUsers', $roleId)) {
+			return Cache::get('getRoleByUsers', $userId);
+		}
 		if (isset(static::$roleByUsersCache[$userId])) {
 			return static::$roleByUsersCache[$userId];
 		}
 		$roleId = (new \App\Db\Query())->select('roleid')
 			->from('vtiger_user2role')->where(['userid' => $userId])
 			->scalar();
-		static::$roleByUsersCache[$userId] = $roleId;
+		Cache::save('getRoleByUsers', $userId, $roleId);
 		return $roleId;
 	}
 
