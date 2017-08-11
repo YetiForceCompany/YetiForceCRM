@@ -27,19 +27,17 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getCommentsList()
 	{
-		$db = PearDatabase::getInstance();
-		$commentsList = [];
-
-		$result = $db->pquery("SELECT commentcontent AS comments FROM vtiger_modcomments WHERE related_to = ?", array($this->getId()));
-		$numOfRows = $db->num_rows($result);
-
-		for ($i = 0; $i < $numOfRows; $i++) {
-			array_push($commentsList, $db->query_result($result, $i, 'comments'));
-		}
-
-		return $commentsList;
+		return (new \App\Db\Query())
+				->select(['commentcontent as comments'])
+				->from('vtiger_modcomments')
+				->where(['related_to' => $this->getId()])->column();
 	}
 
+	/**
+	 * Update ticket range time field
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param bool $updateFieldImmediately
+	 */
 	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
 	{
 		if (!$recordModel->isNew() && ($recordModel->getPreviousValue('ticketstatus') || $updateFieldImmediately)) {
@@ -64,6 +62,10 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Get active service contracts
+	 * @return array
+	 */
 	public function getActiveServiceContracts()
 	{
 		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
