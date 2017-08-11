@@ -159,7 +159,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'HolidaysEntitlement'])->execute();
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
-			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'getDependentsList');
+			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', ['ADD'], 'getDependentsList');
 		} else if ($eventType === 'module.disabled') {
 
 		} else if ($eventType === 'module.preuninstall') {
