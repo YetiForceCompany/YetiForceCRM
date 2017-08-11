@@ -13,7 +13,7 @@ class Chat
 {
 
 	/**
-	 *
+	 * Invoked when special actions are performed on the module.
 	 * @param string $moduleName
 	 * @param string $eventType
 	 */
