@@ -299,8 +299,6 @@ class PrivilegeUtil
 		if (isset(static::$usersByGroupCache[$roleId])) {
 			return static::$usersByGroupCache[$roleId];
 		}
-		$users = [];
-		$adb = \PearDatabase::getInstance();
 		//Retreiving from the user2grouptable
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_users2group')->where(['groupid' => $groupId])->column();
 		//Retreiving from the vtiger_group2role
@@ -318,7 +316,7 @@ class PrivilegeUtil
 		if ($i < 5) {
 			//Retreving from group2group
 			$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
-			while ($roleId = $dataReader->readColumn(0)) {
+			while ($containsGroupId = $dataReader->readColumn(0)) {
 				$roleUsers = static::getUsersByGroup($containsGroupId, $i++);
 				$users = array_merge($users, $roleUsers);
 			}
