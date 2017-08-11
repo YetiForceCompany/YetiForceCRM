@@ -65,7 +65,7 @@ class Request extends \App\Request
 	{
 		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('privateKey');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
-			throw new \Exception\AppException('Private Key failed');
+			throw new \App\Exceptions\AppException('Private Key failed');
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey);

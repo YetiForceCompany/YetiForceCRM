@@ -18,7 +18,7 @@ class Users_DeleteAjax_View extends Vtiger_Index_View
 		if (!$currentUserModel->isAdminUser()) {
 			return true;
 		} else {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

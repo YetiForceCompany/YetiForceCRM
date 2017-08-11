@@ -35,7 +35,7 @@ class Json
 		if (function_exists('json_decode')) {
 			return json_decode($encodedValue, $objectDecodeType);
 		}
-		throw new \Exception\AppException('ERR_NO_JSON_DECODE');
+		throw new \App\Exceptions\AppException('ERR_NO_JSON_DECODE');
 	}
 
 	/**
@@ -57,6 +57,6 @@ class Json
 		if (function_exists('json_encode')) {
 			return json_encode($valueToEncode);
 		}
-		throw new \Exception\AppException('ERR_NO_JSON_ENCODE');
+		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
 	}
 }

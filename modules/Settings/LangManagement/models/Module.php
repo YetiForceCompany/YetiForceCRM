@@ -191,7 +191,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function creates directory structure
 	 * @param array $params
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function createCustomLangDirectory($params)
 	{
@@ -205,7 +205,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (!file_exists(ROOT_DIRECTORY . $loc)) {
 				if (!mkdir(ROOT_DIRECTORY . $loc)) {
 					\App\Log::warning("No permissions to create directories: $loc");
-					throw new \Exception\AppException('No permissions to create directories');
+					throw new \App\Exceptions\AppException('No permissions to create directories');
 				}
 			}
 		}

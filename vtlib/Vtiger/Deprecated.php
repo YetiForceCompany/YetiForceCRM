@@ -215,7 +215,7 @@ class Deprecated
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -238,7 +238,7 @@ class Deprecated
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -248,7 +248,7 @@ class Deprecated
 		if (!self::isFileAccessible($filepath)) {
 
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 

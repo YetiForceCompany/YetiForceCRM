@@ -27,7 +27,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	/**
 	 * Function to check if the User has logged in
 	 * @param \App\Request $request
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	protected function checkLogin(\App\Request $request)
 	{
@@ -41,7 +41,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if (!$request->isAjax()) {
 				header('Location: index.php');
 			}
-			throw new \Exception\AppException('Login is required', 401);
+			throw new \App\Exceptions\AppException('Login is required', 401);
 		}
 	}
 
@@ -70,7 +70,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_HANDLER_NOT_FOUND'));
+			throw new \App\Exceptions\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -207,7 +207,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
-				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());

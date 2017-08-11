@@ -107,7 +107,7 @@ class PearDatabase
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
 			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
-		} catch (\Exception\AppException $e) {
+		} catch (\App\Exceptions\AppException $e) {
 			// Catch any errors
 			\App\Log::error('Database connect : ' . $e->getMessage());
 			$this->checkError($e->getMessage());
@@ -371,7 +371,7 @@ class PearDatabase
 		try {
 			$this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (\Exception\AppException $e) {
+		} catch (\App\Exceptions\AppException $e) {
 			$error = $this->database->errorInfo();
 			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());

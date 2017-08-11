@@ -15,7 +15,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 	public function getPickListTableName($fieldName)
 	{
 		if (empty($fieldName) || !preg_match("/^[_a-zA-Z0-9]+$/", $fieldName)) {
-			throw new \Exception\AppException('Incorrect picklist name');
+			throw new \App\Exceptions\AppException('Incorrect picklist name');
 		}
 		return 'vtiger_' . $fieldName;
 	}

@@ -15,7 +15,6 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	/**
 	 * Checking permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)

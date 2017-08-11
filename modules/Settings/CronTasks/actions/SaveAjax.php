@@ -17,7 +17,7 @@ class Settings_CronTasks_SaveAjax_Action extends Settings_Vtiger_Index_Action
 
 		$recordId = $request->get('record');
 		if (!$recordId) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

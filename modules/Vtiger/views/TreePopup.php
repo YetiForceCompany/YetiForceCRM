@@ -44,10 +44,10 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			throw new \Exception\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			throw new \App\App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if (!$recordModel) {
-			throw new \Exception\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			throw new \App\App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if ($request->get('multiple')) {
 			$type = 'category';

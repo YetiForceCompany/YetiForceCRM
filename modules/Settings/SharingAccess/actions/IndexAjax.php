@@ -55,7 +55,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->save();
-		} catch (\Exception\AppException $e) {
+		} catch (\App\Exceptions\AppException $e) {
 			$response->setError('Saving Sharing Access Rule failed');
 		}
 		$response->emit();
@@ -76,7 +76,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->delete();
-		} catch (\Exception\AppException $e) {
+		} catch (\App\Exceptions\AppException $e) {
 			$response->setError('Deleting Sharing Access Rule failed');
 		}
 		$response->emit();

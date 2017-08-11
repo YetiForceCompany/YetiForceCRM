@@ -343,7 +343,7 @@ class CRMEntity
 	public function trash($moduleName, $id)
 	{
 		if (vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		$this->mark_deleted($id);
 	}

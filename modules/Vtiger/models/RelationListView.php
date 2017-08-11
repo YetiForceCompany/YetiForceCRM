@@ -158,7 +158,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$this->set('Query', $query);
 			return $query;
 		}
-		throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification 2 <<<");
+		throw new \App\App\Exceptions\AppException(">>> No relationModel instance, requires verification 2 <<<");
 	}
 
 	/**

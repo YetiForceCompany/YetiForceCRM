@@ -173,7 +173,7 @@ class Mailer
 	public function setSmtp()
 	{
 		if (!$this->smtp) {
-			throw new Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
+			throw new \App\Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
 		}
 		switch ($this->smtp['mailer_type']) {
 			case 'smtp': $this->mailer->isSMTP();
