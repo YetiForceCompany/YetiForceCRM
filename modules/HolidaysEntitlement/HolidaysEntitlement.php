@@ -153,21 +153,20 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'HolidaysEntitlement'])->execute();
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
 			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'getDependentsList');
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 
-		} else if ($eventType == 'module.preuninstall') {
+		} else if ($eventType === 'module.preuninstall') {
 
-		} else if ($eventType == 'module.preupdate') {
+		} else if ($eventType === 'module.preupdate') {
 
-		} else if ($eventType == 'module.postupdate') {
+		} else if ($eventType === 'module.postupdate') {
 
 		}
 	}
