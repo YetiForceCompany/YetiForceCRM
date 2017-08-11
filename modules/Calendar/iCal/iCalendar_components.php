@@ -80,7 +80,7 @@ class iCalendar_component
 
 			// Some parameters interact among themselves (e.g. ENCODING and VALUE)
 			// so make sure that after the dust settles, these invariants hold true
-			if (!$property->invariant_holds()) {
+			if (!$property->invariantHolds()) {
 				return false;
 			}
 		}
@@ -101,7 +101,7 @@ class iCalendar_component
 		}
 
 		// Finally: after all these, does the component invariant hold?
-		if (!$this->invariant_holds()) {
+		if (!$this->invariantHolds()) {
 			// If not, completely undo the property addition
 			array_pop($this->properties[$name]);
 			if (empty($this->properties[$name])) {
@@ -113,7 +113,7 @@ class iCalendar_component
 		return true;
 	}
 
-	public function add_component($component)
+	public function addComponent($component)
 	{
 
 		// With the detailed interface, you can add only components with this function
@@ -136,21 +136,21 @@ class iCalendar_component
 
 	public function get_property_list($name)
 	{
-
+		
 	}
 
-	public function invariant_holds()
+	public function invariantHolds()
 	{
 		return true;
 	}
 
-	public function is_valid()
+	public function isValidICalendar()
 	{
 		// If we have any child components, check that they are all valid
 		if (!empty($this->components)) {
 			foreach ($this->components as $component => $instances) {
 				foreach ($instances as $number => $instance) {
-					if (!$instance->is_valid()) {
+					if (!$instance->isValidICalendar()) {
 						return false;
 					}
 				}
@@ -175,7 +175,7 @@ class iCalendar_component
 	public function serialize()
 	{
 		// Check for validity of the object
-		if (!$this->is_valid()) {
+		if (!$this->isValidICalendar()) {
 			return false;
 		}
 
@@ -639,12 +639,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_alarm extends iCalendar_component
