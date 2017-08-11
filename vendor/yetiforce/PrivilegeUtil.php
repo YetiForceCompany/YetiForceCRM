@@ -89,8 +89,6 @@ class PrivilegeUtil
 		return static::$defaultSharingActionCache;
 	}
 
-	protected static $usersByRoleCache = [];
-
 	/**
 	 * Function to get the vtiger_role related user ids
 	 * @param int $roleId RoleId :: Type varchar
@@ -98,11 +96,14 @@ class PrivilegeUtil
 	 */
 	public static function getUsersByRole($roleId)
 	{
+		if (Cache::has('getUsersByRole', $roleId)) {
+			return Cache::get('getUsersByRole', $roleId);
+		}
 		if (isset(static::$usersByRoleCache[$roleId])) {
 			return static::$usersByRoleCache[$roleId];
 		}
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->column();
-		static::$usersByRoleCache[$roleId] = $users;
+		Cache::save('getUsersByRole', $roleId, $users);
 		return $users;
 	}
 
@@ -113,8 +114,8 @@ class PrivilegeUtil
 	 */
 	public static function getUsersNameByRole($roleId)
 	{
-		if (\App\Cache::has('getUsersNameByRole', $roleId)) {
-			return \App\Cache::get('getUsersNameByRole', $roleId);
+		if (Cache::has('getUsersNameByRole', $roleId)) {
+			return Cache::get('getUsersNameByRole', $roleId);
 		}
 		$users = static::getUsersByRole($roleId);
 		$roleRelatedUsers = [];
@@ -123,11 +124,9 @@ class PrivilegeUtil
 				$roleRelatedUsers[$userId] = Fields\Owner::getUserLabel($userId);
 			}
 		}
-		\App\Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
+		Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
 		return $users;
 	}
-
-	protected static $roleByUsersCache = [];
 
 	/**
 	 * Function to get the role related user ids
@@ -255,8 +254,6 @@ class PrivilegeUtil
 		return static::$membersCache;
 	}
 
-	protected static $usersByMemberCache = [];
-
 	/**
 	 * Get list of users based on members, eg. Users:2, Roles:H2
 	 * @param string $member
@@ -264,8 +261,8 @@ class PrivilegeUtil
 	 */
 	public static function getUserByMember($member)
 	{
-		if (isset(static::$usersByMemberCache[$member])) {
-			return static::$usersByMemberCache[$member];
+		if (Cache::has('getUserByMember', $member)) {
+			return Cache::get('getUserByMember', $member);
 		}
 		list($type, $id) = explode(':', $member);
 		$users = [];
@@ -283,10 +280,10 @@ class PrivilegeUtil
 				$users = array_merge($users, static::getUsersByRoleAndSubordinate($id));
 				break;
 		}
-		return static::$usersByMemberCache[$member] = array_unique($users);
+		$users = array_unique($users);
+		Cache::save('getUserByMember', $member, $users, Cache::LONG);
+		return array_unique($users);
 	}
-
-	protected static $usersByGroupCache = [];
 
 	/**
 	 * Get list of users based on group id
@@ -296,8 +293,8 @@ class PrivilegeUtil
 	 */
 	public static function getUsersByGroup($groupId, $i = 0)
 	{
-		if (isset(static::$usersByGroupCache[$roleId])) {
-			return static::$usersByGroupCache[$roleId];
+		if (Cache::has('getUsersByGroup', $groupId)) {
+			return Cache::get('getUsersByGroup', $groupId);
 		}
 		//Retreiving from the user2grouptable
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_users2group')->where(['groupid' => $groupId])->column();
@@ -323,10 +320,10 @@ class PrivilegeUtil
 		} else {
 			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
-		return static::$usersByGroupCache[$groupId] = array_unique($users);
+		$users = array_unique($users);
+		Cache::save('getUsersByGroup', $groupId, $users, Cache::LONG);
+		return $users;
 	}
-
-	protected static $usersBySubordinateCache = [];
 
 	/**
 	 * Function to get the roles and subordinate users
@@ -335,14 +332,14 @@ class PrivilegeUtil
 	 */
 	public static function getUsersByRoleAndSubordinate($roleId)
 	{
-		if (isset(static::$usersBySubordinateCache[$roleId])) {
-			return static::$usersBySubordinateCache[$roleId];
+		if (Cache::has('getUsersByRoleAndSubordinate', $roleId)) {
+			return Cache::get('getUsersByRoleAndSubordinate', $roleId);
 		}
 		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
 		$users = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
 				->where(['like', 'vtiger_role.parentrole', "$parentRole%", false])->column();
-		static::$usersBySubordinateCache[$roleId] = $users;
+		Cache::save('getUsersByRoleAndSubordinate', $roleId, $users, Cache::LONG);
 		return $users;
 	}
 
@@ -399,8 +396,8 @@ class PrivilegeUtil
 	 */
 	public static function getRoleSubordinates($roleId)
 	{
-		if (\App\Cache::has('getRoleSubordinates', $roleId)) {
-			return \App\Cache::get('getRoleSubordinates', $roleId);
+		if (Cache::has('getRoleSubordinates', $roleId)) {
+			return Cache::get('getRoleSubordinates', $roleId);
 		}
 		$roleDetails = static::getRoleDetail($roleId);
 		$roleSubordinates = (new \App\Db\Query())
@@ -409,7 +406,7 @@ class PrivilegeUtil
 			->where(['like', 'parentrole', $roleDetails['parentrole'] . '::%', false])
 			->column();
 
-		\App\Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, \App\Cache::LONG);
+		Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, Cache::LONG);
 		return $roleSubordinates;
 	}
 
@@ -540,8 +537,8 @@ class PrivilegeUtil
 	public static function getDatashare($type, $tabId, $data)
 	{
 		$cacheKey = "$type|$tabId|" . (is_array($data) ? implode(',', $data) : $data);
-		if (\App\Cache::staticHas('getDatashare', $cacheKey)) {
-			return \App\Cache::staticGet('getDatashare', $cacheKey);
+		if (Cache::staticHas('getDatashare', $cacheKey)) {
+			return Cache::staticGet('getDatashare', $cacheKey);
 		}
 		$structure = self::$dataShareStructure[$type];
 		$query = (new \App\Db\Query())->select([$structure[0] . '.*'])->from($structure[0])
@@ -551,7 +548,7 @@ class PrivilegeUtil
 			$query->andWhere([$structure[1] => $data]);
 		}
 		$rows = $query->all();
-		\App\Cache::staticSave('getDatashare', $cacheKey, $rows);
+		Cache::staticSave('getDatashare', $cacheKey, $rows);
 		return $rows;
 	}
 
