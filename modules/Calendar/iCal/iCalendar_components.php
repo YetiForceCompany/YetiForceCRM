@@ -496,8 +496,8 @@ class iCalendar_event extends iCalendar_component
 
 	public function iCalendar_event_dtstamp($activity)
 	{
-		$components = gmdate('Ymd', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "T" . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "Z";
-		$this->addProperty("DTSTAMP", $components);
+		$components = gmdate('Ymd', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . 'T' . gmdate('His', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . 'Z';
+		$this->addProperty('DTSTAMP', $components);
 		return true;
 	}
 
@@ -510,7 +510,7 @@ class iCalendar_event extends iCalendar_component
 			}
 		}
 		$components = str_replace('-', '', $activity['date_start']) . 'T' . $time . 'Z';
-		$this->addProperty("DTSTART", $components);
+		$this->addProperty('DTSTART', $components);
 		return true;
 	}
 
@@ -523,7 +523,7 @@ class iCalendar_event extends iCalendar_component
 			}
 		}
 		$components = str_replace('-', '', $activity['due_date']) . 'T' . $time . 'Z';
-		$this->addProperty("DTEND", $components);
+		$this->addProperty('DTEND', $components);
 		return true;
 	}
 
@@ -617,8 +617,8 @@ class iCalendar_todo extends iCalendar_component
 
 	public function iCalendar_event_dtstamp($activity)
 	{
-		$components = gmdate('Ymd', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "T" . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "Z";
-		$this->addProperty("DTSTAMP", $components);
+		$components = gmdate('Ymd', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . 'T' . gmdate('His', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . "Z";
+		$this->addProperty('DTSTAMP', $components);
 		return true;
 	}
 
@@ -631,14 +631,14 @@ class iCalendar_todo extends iCalendar_component
 			}
 		}
 		$components = str_replace('-', '', $activity['date_start']) . 'T' . $time . 'Z';
-		$this->addProperty("DTSTART", $components);
+		$this->addProperty('DTSTART', $components);
 		return true;
 	}
 
 	public function iCalendar_event_dtend($activity)
 	{
 		$components = str_replace('-', '', $activity['due_date']) . 'T000000Z';
-		$this->addProperty("DUE", $components);
+		$this->addProperty('DUE', $components);
 		return true;
 	}
 }
