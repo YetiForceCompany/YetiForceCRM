@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * @package YetiForce.Workflows
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -16,11 +16,9 @@ function getContactsMailsFromTicket($id)
 	if (empty($id)) {
 		return [];
 	}
-	$db = PearDatabase::getInstance();
 	$mails = [];
-	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
-	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
-	while ($contactId = $db->getSingleValue($result)) {
+	$query = (new \App\Db\Query())->select(['relcrmid as contactid'])->from('vtiger_crmentityrel')->where(['module' => 'HelpDesk', 'relmodule' => 'Contacts', 'crmid' => $id])->createCommand()->query();
+	while ($contactId = $query->readColumn(0)) {
 		if (App\Record::isExists($contactId)) {
 			$contactRecord = Vtiger_Record_Model::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
