@@ -83,7 +83,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 			$imageName = $result['name'];
 
 			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = decode_html($imageName);
+			$imageOriginalName = App\Purifier::decodeHtml($imageName);
 
 			if (!empty($imageName)) {
 				$imageDetails[] = array(
