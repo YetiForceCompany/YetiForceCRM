@@ -83,7 +83,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 			if ($module !== false) {
 				$where['tabid'] = \App\Module::getModuleId($module);
 			}
-			\App\Db::getInstance()->createCommand()->delete('vtiger_import_locks', $where);
+			\App\Db::getInstance()->createCommand()->delete('vtiger_import_locks', $where)->execute();
 		}
 	}
 
