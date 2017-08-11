@@ -1,5 +1,5 @@
 <?php
-namespace Exception;
+namespace App\Exceptions;
 
 /**
  * Csrf exception class
