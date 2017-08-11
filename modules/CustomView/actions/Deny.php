@@ -17,11 +17,11 @@ class CustomView_Deny_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!CustomView_Record_Model::getInstanceById($request->get('record'))->isPublic()){
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!CustomView_Record_Model::getInstanceById($request->get('record'))->isPublic()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
-	
+
 	/**
 	 * Main function
 	 * @param \App\Request $request

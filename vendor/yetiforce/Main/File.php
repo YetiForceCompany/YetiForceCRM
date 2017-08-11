@@ -28,7 +28,7 @@ class File
 		$moduleName = $request->getModule();
 		$action = $request->get('action');
 		if (!$moduleName || !$action) {
-			throw new \Exception\NoPermitted('Method Not Allowed', 405);
+			throw new \App\Exceptions\NoPermitted('Method Not Allowed', 405);
 		}
 		\App\Config::$processName = $action;
 		\App\Config::$processType = 'File';
@@ -38,7 +38,7 @@ class File
 			$method = $request->getRequestMethod();
 			$permissionFunction = $method . 'CheckPermission';
 			if (!$handler->$permissionFunction($request)) {
-				throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE', 403);
+				throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 403);
 			}
 			$handler->$method($request);
 		}
@@ -59,6 +59,6 @@ class File
 				return $user;
 			}
 		}
-		throw new \Exception\NoPermitted('Unauthorized', 401);
+		throw new \App\Exceptions\NoPermitted('Unauthorized', 401);
 	}
 }
