@@ -7,58 +7,89 @@
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
+/**
+ * Class HolidaysEntitlement
+ */
 class HolidaysEntitlement extends Vtiger_CRMEntity
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public $table_name = 'vtiger_holidaysentitlement';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	public $table_index = 'holidaysentitlementid';
+
+	/**
+	 * Column fields
+	 * @var array
+	 */
 	public $column_fields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.
+	 * @var array
 	 */
-	public $customFieldTable = Array('vtiger_holidaysentitlementcf', 'holidaysentitlementid');
+	public $customFieldTable = ['vtiger_holidaysentitlementcf', 'holidaysentitlementid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
+	 * @var array
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_holidaysentitlement', 'vtiger_holidaysentitlementcf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_holidaysentitlement', 'vtiger_holidaysentitlementcf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
+	 * @var array
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_holidaysentitlement' => 'holidaysentitlementid',
-		'vtiger_holidaysentitlementcf' => 'holidaysentitlementid');
+		'vtiger_holidaysentitlementcf' => 'holidaysentitlementid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
+	 * @var array
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
-		'LBL_NO' => Array('holidaysentitlement', 'holidaysentitlement_no'),
-		'LBL_EMPLOYEE' => Array('holidaysentitlement', 'ossemployeesid'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
+// tablename should not have prefix 'vtiger_'
+		'LBL_NO' => ['holidaysentitlement', 'holidaysentitlement_no'],
+		'LBL_EMPLOYEE' => ['holidaysentitlement', 'ossemployeesid'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+
+	/**
+	 * List fields name
+	 * @var array
+	 */
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_NO' => 'holidaysentitlement_no',
 		'LBL_EMPLOYEE' => 'ossemployeesid',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 
 	/**
-	 * @var string[] List of fields in the RelationListView
+	 *  List of fields in the RelationListView
+	 * @var string[]
 	 */
 	public $relationFields = ['holidaysentitlement_no', 'ossemployeesid', 'assigned_user_id'];
-	// Make the field link to detail view
+
+	/**
+	 * Make the field link to detail view
+	 * @var string
+	 */
 	public $list_link_field = 'subject';
-	// For Popup listview and UI type support
+// For Popup listview and UI type support
 	public $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
+// tablename should not have prefix 'vtiger_'
 		'LBL_NO' => Array('holidaysentitlement', 'holidaysentitlement_no'),
 		'LBL_EMPLOYEE' => Array('holidaysentitlement', 'ossemployeesid'),
 		'Assigned To' => Array('crmentity', 'assigned_user_id'),
@@ -69,14 +100,14 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 		'LBL_EMPLOYEE' => 'ossemployeesid',
 		'Assigned To' => 'assigned_user_id',
 	);
-	// For Popup window record selection
+// For Popup window record selection
 	public $popup_fields = Array('ossemployeesid');
-	// For Alphabetical search
+// For Alphabetical search
 	public $def_basicsearch_col = 'ossemployeesid';
-	// Column value to use on detail view record text display
+// Column value to use on detail view record text display
 	public $def_detailview_recname = 'ossemployeesid';
-	// Used when enabling/disabling the mandatory fields for the module.
-	// Refers to vtiger_field.fieldname values.
+// Used when enabling/disabling the mandatory fields for the module.
+// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = Array('ossemployeesid', 'assigned_user_id', 'holidaysentitlement_year', 'days');
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -97,13 +128,13 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
 			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'getDependentsList');
 		} else if ($eventType == 'module.disabled') {
-			
+
 		} else if ($eventType == 'module.preuninstall') {
-			
+
 		} else if ($eventType == 'module.preupdate') {
-			
+
 		} else if ($eventType == 'module.postupdate') {
-			
+
 		}
 	}
 }
