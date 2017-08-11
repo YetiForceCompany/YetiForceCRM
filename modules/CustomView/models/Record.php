@@ -814,6 +814,9 @@ class CustomView_Record_Model extends \App\Base
 			->execute();
 	}
 
+	/**
+	 * Function deny
+	 */
 	public function deny()
 	{
 		App\Db::getInstance()->createCommand()
