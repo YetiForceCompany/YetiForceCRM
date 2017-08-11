@@ -406,7 +406,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	{
 		$dbCommand = App\Db::getInstance();
 		if ($value === null || $value == 'null') {
-			$dbCommand->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
+			$dbCommand->createCommand()->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
 		} else {
 			$isExists = (new App\Db\Query())->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'emailsearch', 'parameter' => 'fields'])->exists();
 			if (!$isExists) {
@@ -416,7 +416,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 					'value' => $value
 				])->execute();
 			} else {
-				$dbCommand->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
+				$dbCommand->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
 			}
 		}
 	}
