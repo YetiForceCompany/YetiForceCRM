@@ -12,7 +12,7 @@ class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Module_Model::getSwitchUsers()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

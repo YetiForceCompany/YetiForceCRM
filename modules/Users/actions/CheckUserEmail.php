@@ -7,7 +7,7 @@ class Users_CheckUserEmail_Action extends Vtiger_Action_Controller
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->get('cUser')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

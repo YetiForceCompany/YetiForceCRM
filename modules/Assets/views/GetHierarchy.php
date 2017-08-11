@@ -23,7 +23,7 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 			$permissionHierarchyModule = $userPrivilegesModel->hasModulePermission($hierarchyModuleName);
 
 			if (!$permission || !$permissionHierarchyModule) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

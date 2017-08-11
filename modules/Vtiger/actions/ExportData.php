@@ -15,7 +15,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \Exception\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{

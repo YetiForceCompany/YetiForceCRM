@@ -28,7 +28,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -152,7 +152,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 				}
 			} else {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (!empty($categoryToAdd)) {
@@ -166,7 +166,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelTree($sourceRecordId, $category);
 				}
 			} else {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 
