@@ -1069,14 +1069,11 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function gives default custom view for a module
 	 * @param string $module
-	 * @return <CustomView_Record_Model>
+	 * @return CustomView_Record_Model
 	 */
 	public static function getAllFilterByModule($module)
 	{
-		$db = PearDatabase::getInstance();
-		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' AND entitytype = ?";
-		$result = $db->pquery($query, array($module));
-		$viewId = $db->query_result($result, 0, 'cvid');
+		$viewId = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['viewname' => 'All', 'entitytype' => $module])->scalar();
 		if (!$viewId) {
 			$viewId = App\CustomView::getInstance($module)->getViewId();
 		}
