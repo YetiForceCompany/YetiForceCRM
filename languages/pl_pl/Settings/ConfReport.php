@@ -69,7 +69,7 @@ $languageStrings = [
 	'LBL_LIB_NAME' => 'Nazwa biblioteki',
 	'LBL_VULNERABILITY_NAME' => 'Nazwa podatności',
 	'LBL_VULNERABILITY_URL' => 'Adres',
-	'HTTPS_HELP_TEXT' => 'SSL to technologia zabezpieczeń służąca do tworzenia zaszyfrowanego połaczenia między serwerem internetowym a przeglądarką. Zalecamy właczenie aby nikt nie kopiował Twojich danych.',
+	'HTTPS_HELP_TEXT' => 'SSL to technologia zabezpieczeń służąca do tworzenia zaszyfrowanego połączenia między serwerem internetowym a przeglądarką. Zalecamy włączenie jej aby uniemożliwić podsłuchiwanie komunikacji pomiędzy Tobą a serwerem.',
 	'HTACCESS_HELP_TEXT' => 'Plik .htaccess jest nieaktywny, jest on potrzebny do prawidłowej obsługi wszystkich integracji oraz do zabezpieczenia dostępu do katalogów z danymi użytkownika.',
 	'PUBLIC_HTML_HELP_TEXT' => 'Zalecamy aby domena kierowała do katalogu public_html, dzięki temu pliki systemu oraz twoje dane nie będą publiczne i nikt nie będzie mógł ich pobrać.'
 ];
