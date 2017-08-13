@@ -39,9 +39,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
-		$fieldTemp = $db->getRow($result);
+		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])->one();
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
 	}

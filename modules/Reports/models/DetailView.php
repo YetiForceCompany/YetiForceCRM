@@ -36,8 +36,6 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams = '')
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
 		$moduleModel = $this->getModule();
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();

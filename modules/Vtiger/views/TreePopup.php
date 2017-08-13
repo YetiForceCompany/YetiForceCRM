@@ -13,7 +13,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -44,10 +44,11 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			vtlib\Functions::throwNewException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			throw new \App\App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
-		if (!$recordModel)
-			vtlib\Functions::throwNewException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+		if (!$recordModel) {
+			throw new \App\App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+		}
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}
@@ -100,7 +101,6 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
 		$cssFileNames = array(
 			'~libraries/jquery/jstree/themes/proton/style.css',
 		);

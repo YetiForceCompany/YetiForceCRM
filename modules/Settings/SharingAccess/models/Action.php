@@ -36,45 +36,40 @@ class Settings_SharingAccess_Action_Model extends \App\Base
 				->exists();
 	}
 
-	public static function getInstanceFromQResult($result, $rowNo = 0)
-	{
-		$db = PearDatabase::getInstance();
-		$row = $db->query_result_rowdata($result, $rowNo);
-		$actionModel = new self();
-		return $actionModel->setData($row);
-	}
-
+	/**
+	 * Function to get instance of class
+	 * @param integer|string $value
+	 * @return \self
+	 */
 	public static function getInstance($value)
 	{
-		$db = PearDatabase::getInstance();
-
+		$query = (new App\Db\Query())->from('vtiger_org_share_action_mapping');
 		if (vtlib\Utils::isNumber($value)) {
-			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_id = ?';
+			$query->where(['share_action_id' => $value]);
 		} else {
-			$sql = 'SELECT * FROM vtiger_org_share_action_mapping WHERE share_action_name = ?';
+			$query->where(['share_action_name' => $value]);
 		}
-		$params = array($value);
-		$result = $db->pquery($sql, $params);
-		if ($db->getRowCount($result) > 0) {
-			$actionModel = new self();
-			return $actionModel->setData($db->getRow($result));
+		$result = $query->one();
+		if ($result) {
+			return (new self())->setData($result);
 		}
 		return null;
 	}
 
+	/**
+	 * Function to get all action
+	 * @param boolean $configurable
+	 * @return \self[]
+	 */
 	public static function getAll($configurable = true)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_org_share_action_mapping';
-		$params = [];
+		$query = (new App\Db\Query())->from('vtiger_org_share_action_mapping');
 		if ($configurable) {
-			$sql .= sprintf(' WHERE share_action_name NOT IN (%s)', generateQuestionMarks(self::$nonConfigurableActions));
-			array_push($params, self::$nonConfigurableActions);
+			$query->where(['NOT IN', 'share_action_name', self::$nonConfigurableActions]);
 		}
-		$result = $db->pquery($sql, $params);
+		$dataReader = $query->createCommand()->query();
 		$actionModels = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$actionModel = new self();
 			$actionModel->setData($row);
 			$actionModels[] = $actionModel;

@@ -23,7 +23,7 @@ class Updater
 	public static function addRoleToPicklist($fiels)
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-		$db = App\Db::getInstance();
+		$db = \App\Db::getInstance();
 		$schema = $db->getSchema();
 		$dbCommand = $db->createCommand();
 		$roleIds = (new \App\Db\Query)->select('roleid')->from('vtiger_role')->column();
@@ -97,11 +97,28 @@ class Updater
 	}
 
 	/**
+	 * Batch insert rows
+	 * 
+	 * $rows = [
+	 * 		['vtiger_cvcolumnlist', ['cvid' => 43]],
+	 * ];
+	 * @param array $rows
+	 */
+	public static function batchDelete($rows)
+	{
+		$db = \App\Db::getInstance();
+		$dbCommand = $db->createCommand();
+		foreach ($rows as $row) {
+			$dbCommand->delete($row[0], $row[1])->execute();
+		}
+	}
+
+	/**
 	 * Function to add and remove cron
 	 * 
 	 * $crons = [
 	 * 		['type' => 'add', 'data' => ['LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, NULL, 29, NULL]],
-	 * 		['remove' => 'add', 'data' => ['LBL_BATCH_PROCESSES']],
+	 * 		['type' => 'remove', 'data' => ['LBL_BATCH_PROCESSES']],
 	 * ];
 	 * @param array $crons
 	 */

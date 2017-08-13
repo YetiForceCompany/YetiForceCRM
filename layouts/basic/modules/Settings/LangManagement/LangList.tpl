@@ -19,7 +19,7 @@
 		</tr>*}
 	</thead>
 	<tbody>
-		{foreach from=$MODULE_MODEL->getLang() item=LANG key=ID}
+		{foreach from=App\Language::getAll() item=LANG key=ID}
 			<tr data-prefix="{$LANG['prefix']}">
 				<td>{$LANG['label']}</td>
 				<td>{$LANG['name']}</td>

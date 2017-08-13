@@ -56,8 +56,6 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$moduleName = $request->getModule();
-
 		$cssFileNames = array(
 			'libraries.jquery.jqTree.jqtree'
 		);

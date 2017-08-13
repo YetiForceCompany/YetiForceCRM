@@ -99,7 +99,7 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 				function (data) {
 					var response = data['result'];
 					var params = {

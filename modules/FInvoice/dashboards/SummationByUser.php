@@ -22,7 +22,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$userId = $currentUser->getId();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
 		if ($request->has('time')) {
-			$time = $request->get('time');
+			$time = $request->getDateRange('time');
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {

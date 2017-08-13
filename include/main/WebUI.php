@@ -13,7 +13,7 @@ require_once 'include/ConfigUtils.php';
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/Loader.php';
-vimport('include.runtime.EntryPoint');
+Vtiger_Loader::includeOnce('include.runtime.EntryPoint');
 App\Debuger::init();
 App\Cache::init();
 App\Db::$connectCache = AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
@@ -27,7 +27,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	/**
 	 * Function to check if the User has logged in
 	 * @param \App\Request $request
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	protected function checkLogin(\App\Request $request)
 	{
@@ -36,10 +36,12 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($return_params && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
 				$return_params = urlencode($return_params);
-				Vtiger_Session::set('return_params', $return_params);
+				App\Session::set('return_params', $return_params);
 			}
-			header('Location: index.php');
-			throw new \Exception\AppException('Login is required');
+			if (!$request->isAjax()) {
+				header('Location: index.php');
+			}
+			throw new \App\Exceptions\AppException('Login is required', 401);
 		}
 	}
 
@@ -50,9 +52,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	public function getLogin()
 	{
 		$user = parent::getLogin();
-		if (!$user && Vtiger_Session::has('authenticated_user_id')) {
-			$userid = Vtiger_Session::get('authenticated_user_id');
-			if ($userid && AppConfig::main('application_unique_key') === Vtiger_Session::get('app_unique_key')) {
+		if (!$user && App\Session::has('authenticated_user_id')) {
+			$userid = App\Session::get('authenticated_user_id');
+			if ($userid && AppConfig::main('application_unique_key') === App\Session::get('app_unique_key')) {
 				\App\User::getCurrentUserModel();
 				$user = CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
@@ -68,7 +70,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_HANDLER_NOT_FOUND'));
+			throw new \App\Exceptions\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -78,7 +80,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
+		throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, \App\Request $request)
@@ -98,22 +100,10 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$handler->postProcess($request);
 	}
 
-	public function isInstalled()
-	{
-		$dbconfig = AppConfig::main('dbconfig');
-		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_') {
-			return false;
-		}
-		return true;
-	}
-
 	public function process(\App\Request $request)
 	{
 		if (AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
-		}
-		if (!$this->isInstalled()) {
-			header('Location:install/Install.php');
 		}
 		if (AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -121,18 +111,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				header('Location: ' . AppConfig::main('site_URL'), true, 301);
 			}
 		}
-		if (\App\RequestUtil::getBrowserInfo()->https) {
-			$params = session_get_cookie_params();
-			session_set_cookie_params($params['lifetime'], $params['path'], $params['domain'], true, true);
-		}
-		Vtiger_Session::init();
+		App\Session::init();
 		// Better place this here as session get initiated
 		//skipping the csrf checking for the forgot(reset) password
 		if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->get('action') !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
 			require_once('config/csrf_config.php');
 			require_once('libraries/csrf-magic/csrf-magic.php');
 		}
-		//$this->cspInitToken();
 		// common utils api called, depend on this variable right now
 		$currentUser = $this->getLogin();
 		vglobal('current_user', $currentUser);
@@ -222,7 +207,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$response = $handler->process($request);
 				$this->triggerPostProcess($handler, $request);
 			} else {
-				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
@@ -250,9 +235,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	 */
 	public function cspInitToken()
 	{
-		if (!Vtiger_Session::has('CSP_TOKEN') || Vtiger_Session::get('CSP_TOKEN_TIME') < time()) {
-			Vtiger_Session::set('CSP_TOKEN', sha1(AppConfig::main('application_unique_key') . time()));
-			Vtiger_Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
+		if (!App\Session::has('CSP_TOKEN') || App\Session::get('CSP_TOKEN_TIME') < time()) {
+			App\Session::set('CSP_TOKEN', sha1(AppConfig::main('application_unique_key') . time()));
+			App\Session::set('CSP_TOKEN_TIME', strtotime('+5 minutes'));
 		}
 	}
 }

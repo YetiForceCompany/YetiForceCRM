@@ -7,90 +7,150 @@
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
+/**
+ * Class Competition
+ */
 class Competition extends Vtiger_CRMEntity
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public $table_name = 'u_yf_competition';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	public $table_index = 'competitionid';
 
 	/**
 	 * Mandatory table for supporting custom fields.
+	 * @var array
 	 */
-	public $customFieldTable = Array('u_yf_competitioncf', 'competitionid');
+	public $customFieldTable = ['u_yf_competitioncf', 'competitionid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
+	 * @var array
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'u_yf_competition', 'u_yf_competitioncf', 'u_yf_competition_address', 'vtiger_entity_stats');
+	public $tab_name = ['vtiger_crmentity', 'u_yf_competition', 'u_yf_competitioncf', 'u_yf_competition_address', 'vtiger_entity_stats'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
+	 * @var array
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_competition' => 'competitionid',
 		'u_yf_competitioncf' => 'competitionid',
 		'u_yf_competition_address' => 'competitionaddressid',
 		'vtiger_entity_stats' => 'crmid'
-	);
+	];
 
 	/**
 	 * Mandatory for Listing (Related listview)
+	 * @var array
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => Array('competition', 'subject'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
-		/* Format: Field Label => fieldname */
-		'LBL_SUBJECT' => 'subject',
-		'Assigned To' => 'assigned_user_id',
-	);
+		'LBL_SUBJECT' => ['competition', 'subject'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
 
 	/**
-	 * @var string[] List of fields in the RelationListView
+	 * List fields name
+	 * @var array
 	 */
-	public $relationFields = ['subject', 'assigned_user_id'];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
-	// For Popup listview and UI type support
-	public $search_fields = Array(
-		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => Array('competition', 'subject'),
-		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
-	);
-	public $search_fields_name = Array(
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
-	// For Popup window record selection
-	public $popup_fields = Array('subject');
-	// For Alphabetical search
+	];
+
+	/**
+	 * List of fields in the RelationListView
+	 * @var string[]
+	 */
+	public $relationFields = ['subject', 'assigned_user_id'];
+
+	/**
+	 * Make the field link to detail view
+	 * @var string
+	 */
+	public $list_link_field = 'subject';
+
+	/**
+	 * For Popup listview and UI type support
+	 * @var array
+	 */
+	public $search_fields = [
+		/* Format: Field Label => Array(tablename, columnname) */
+		// tablename should not have prefix 'vtiger_'
+		'LBL_SUBJECT' => ['competition', 'subject'],
+		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+	];
+
+	/**
+	 * Search fields name
+	 * @var array
+	 */
+	public $search_fields_name = [
+		/* Format: Field Label => fieldname */
+		'LBL_SUBJECT' => 'subject',
+		'Assigned To' => 'assigned_user_id',
+	];
+
+	/**
+	 * For Popup window record selection
+	 * @var array
+	 */
+	public $popup_fields = ['subject'];
+
+	/**
+	 * For Alphabetical search
+	 * @var string
+	 */
 	public $def_basicsearch_col = 'subject';
-	// Column value to use on detail view record text display
+
+	/**
+	 * Column value to use on detail view record text display
+	 * @var string
+	 */
 	public $def_detailview_recname = 'subject';
-	// Used when enabling/disabling the mandatory fields for the module.
-	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('subject', 'assigned_user_id');
+
+	/**
+	 * Used when enabling/disabling the mandatory fields for the module.
+	 * Refers to vtiger_field.fieldname values.
+	 * @var array
+	 */
+	public $mandatory_fields = ['subject', 'assigned_user_id'];
+
+	/**
+	 * Default order by
+	 * @var string
+	 */
 	public $default_order_by = '';
+
+	/**
+	 * Default sort order
+	 * @var string
+	 */
 	public $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type
 	 */
 	public function vtlib_handler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Competition');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Competition']);
+			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => 'Competition'])->execute();
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -100,21 +160,21 @@ class Competition extends Vtiger_CRMEntity
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId('Competition'));
 		} else if ($eventType == 'module.disabled') {
-			
+
 		} else if ($eventType == 'module.preuninstall') {
-			
+
 		} else if ($eventType == 'module.preupdate') {
-			
+
 		} else if ($eventType == 'module.postupdate') {
-			
+
 		}
 	}
 
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param String This module name
-	 * @param Array List of Entity Id's from which related records need to be transfered
-	 * @param Integer Id of the the Record to which the related records are to be moved
+	 * @param string $module This module name
+	 * @param array $transferEntityIds List of Entity Id's from which related records need to be transfered
+	 * @param integer $entityId Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
@@ -146,12 +206,12 @@ class Competition extends Vtiger_CRMEntity
 		}
 		\App\Log::trace("Exiting transferRelatedRecords...");
 	}
-	/*
-	 * Function to get the relation tables for related modules
-	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
-	 */
 
+	/**
+	 * Function to get the relation tables for related modules
+	 * @param string $secmodule secondary module name
+	 * @return array with table names and fieldnames storing relations between module and this module
+	 */
 	public function setRelationTables($secmodule = false)
 	{
 		$relTables = [
@@ -163,7 +223,14 @@ class Competition extends Vtiger_CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink an entity with given Id from another entity
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param it $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param string $relatedName
+	 * @return null
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 
@@ -176,6 +243,14 @@ class Competition extends Vtiger_CRMEntity
 		}
 	}
 
+	/**
+	 * Save related module
+	 * @param string $module
+	 * @param int $crmid
+	 * @param string $withModule
+	 * @param array|int $withCrmids
+	 * @param string $relatedName
+	 */
 	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		if (!is_array($withCrmids))

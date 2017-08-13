@@ -479,9 +479,9 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => [
 					'uid' => $this->stringType()->notNull(),
 					'channel' => $this->stringType(100),
-					'from_number' => $this->integer(10),
+					'from_number' => $this->bigInteger(10),
 					'from_name' => $this->stringType(100),
-					'to_number' => $this->integer(10),
+					'to_number' => $this->bigInteger(10),
 					'callertype' => $this->stringType(100),
 					'timer' => $this->integer(10),
 					'flag' => $this->stringType(3),
@@ -1971,7 +1971,7 @@ class Base2 extends \App\Db\Importers\Base
 			],
 			'vtiger_eventhandlers' => [
 				'columns' => [
-					'eventhandler_id' => $this->smallInteger(5)->unsigned()->notNull(),
+					'eventhandler_id' => $this->primaryKey(5)->unsigned(),
 					'event_name' => $this->stringType(50)->notNull(),
 					'handler_class' => $this->stringType(100)->notNull(),
 					'is_active' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
@@ -1985,10 +1985,7 @@ class Base2 extends \App\Db\Importers\Base
 					'priority' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(5),
 				],
 				'index' => [
-					['eventhandler_idx', 'eventhandler_id', true],
-				],
-				'primaryKeys' => [
-					['eventhandlers_pk', ['eventhandler_id', 'event_name', 'handler_class']]
+					['event_name_class', ['event_name', 'handler_class']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3167,7 +3164,7 @@ class Base2 extends \App\Db\Importers\Base
 					[3, 'LBL_SEND_REMINDER', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 12, 'Recommended frequency for SendReminder is 15 mins'],
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
 					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],
-					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 1, 'Vtiger', 2, NULL],
+					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 0, 'Vtiger', 2, NULL],
 					[7, 'LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 					[8, 'LBL_SCHEDULED_IMPORT', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 4, 'Recommended frequency for MailScanner is 15 mins'],
 					[9, 'LBL_SCHEDULE_REPORTS', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 24, 'Recommended frequency for ScheduleReports is 15 mins'],

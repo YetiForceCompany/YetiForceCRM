@@ -67,7 +67,7 @@ class ErrorHandler
 		$msg = reset($errorString) . ": $errstr in $errfile, line $errline";
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
 			$file = ROOT_DIRECTORY . '/cache/logs/errors.log';
-			$content = print_r($msg, true) . PHP_EOL . \App\Debuger::getBacktrace() . PHP_EOL;
+			$content = print_r($msg, true) . PHP_EOL . \App\Debuger::getBacktrace(2) . PHP_EOL;
 			file_put_contents($file, $content, FILE_APPEND);
 		}
 		if (\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {

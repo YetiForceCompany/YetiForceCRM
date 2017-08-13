@@ -701,7 +701,7 @@ class PackageImport extends PackageExport
 			return;
 
 		foreach ($blocknode->fields->field as $fieldnode) {
-			$fieldInstance = $this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
+			$this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 		}
 	}
 
@@ -1012,7 +1012,9 @@ class PackageImport extends PackageExport
 				if (method_exists($updateInstance, 'afterCopy')) {
 					$updateInstance->afterCopy();
 				}
-				file_put_contents('cache/logs/update.log', ob_get_clean(), FILE_APPEND);
+				if ($content = ob_get_clean()) {
+					file_put_contents('cache/logs/update.log', $content, FILE_APPEND);
+				}
 				ob_start();
 				$result = $updateInstance->postupdate();
 			}

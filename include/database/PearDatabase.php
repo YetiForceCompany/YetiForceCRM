@@ -107,7 +107,7 @@ class PearDatabase
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
 			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
-		} catch (\Exception\AppException $e) {
+		} catch (\App\Exceptions\AppException $e) {
 			// Catch any errors
 			\App\Log::error('Database connect : ' . $e->getMessage());
 			$this->checkError($e->getMessage());
@@ -202,7 +202,6 @@ class PearDatabase
 			return $this->hasActiveTransaction;
 		} else {
 			$this->autoCommit = false;
-			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 			$this->hasActiveTransaction = $this->database->beginTransaction();
 			return $this->hasActiveTransaction;
 		}
@@ -215,7 +214,6 @@ class PearDatabase
 		if ($this->transCnt == 0) {
 			$this->database->commit();
 			$this->autoCommit = false;
-			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
 			$this->hasActiveTransaction = false;
 		}
 	}
@@ -231,14 +229,13 @@ class PearDatabase
 			$this->hasFailedTransaction = true;
 			$result = $this->database->rollback();
 			$this->autoCommit = false;
-			//$this->setAttribute(PDO::ATTR_AUTOCOMMIT, true);
 			$this->transCnt -= 1;
 			return $result;
 		}
 		return false;
 	}
 
-	public function getRowCount(&$result)
+	public function getRowCount(PDOStatement $result)
 	{
 		if (method_exists($result, 'rowCount')) {
 			return $result->rowCount();
@@ -247,42 +244,42 @@ class PearDatabase
 		return 0;
 	}
 
-	public function num_rows(&$result)
+	public function num_rows(PDOStatement $result)
 	{
 		return $result->rowCount();
 	}
 
-	public function getFieldsCount(&$result)
+	public function getFieldsCount(PDOStatement $result)
 	{
 		return $result->columnCount();
 	}
 
-	public function fetch_array(&$result)
+	public function fetch_array(PDOStatement $result)
 	{
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function getSingleValue(&$result)
+	public function getSingleValue(PDOStatement $result)
 	{
 		return $result->fetchColumn();
 	}
 
-	public function getRow(&$result)
+	public function getRow(PDOStatement $result)
 	{
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function getColumnByGroup(&$result)
+	public function getColumnByGroup(PDOStatement $result)
 	{
 		return $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_COLUMN);
 	}
 
-	public function getArray(&$result)
+	public function getArray(PDOStatement $result)
 	{
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function getArrayColumn(&$result, $column = 0)
+	public function getArrayColumn(PDOStatement $result, $column = 0)
 	{
 		return $result->fetchAll(PDO::FETCH_COLUMN, $column);
 	}
@@ -374,7 +371,7 @@ class PearDatabase
 		try {
 			$this->stmt->execute($params);
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
-		} catch (\Exception\AppException $e) {
+		} catch (\App\Exceptions\AppException $e) {
 			$error = $this->database->errorInfo();
 			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
@@ -669,7 +666,7 @@ class PearDatabase
 		return $val;
 	}
 
-	public function getFieldsDefinition(&$result)
+	public function getFieldsDefinition(PDOStatement $result)
 	{
 		$fieldArray = [];
 		if (!isset($result) || empty($result)) {
@@ -686,7 +683,7 @@ class PearDatabase
 		return $fieldArray;
 	}
 
-	public function getFieldsArray(&$result)
+	public function getFieldsArray(PDOStatement $result)
 	{
 		$fieldArray = [];
 		if (!isset($result) || empty($result)) {
@@ -740,7 +737,7 @@ class PearDatabase
 		return ' ( ' . $l . ' ) ';
 	}
 
-	public function getAffectedRowCount(&$result)
+	public function getAffectedRowCount(PDOStatement $result)
 	{
 		$rows = $result->rowCount();
 		return $rows;
@@ -770,7 +767,7 @@ class PearDatabase
 		return '';
 	}
 
-	public function columnMeta(&$result, $col)
+	public function columnMeta(PDOStatement $result, $col)
 	{
 		$meta = $result->getColumnMeta($col);
 		$column = new stdClass();

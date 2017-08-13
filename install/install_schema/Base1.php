@@ -89,7 +89,7 @@ class Base1 extends \App\Db\Importers\Base
 					'task' => $this->text(),
 				],
 				'index' => [
-					['com_vtiger_workflowtasks_idx', 'task_id', true],
+					['workflow_id', 'workflow_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -290,7 +290,7 @@ class Base1 extends \App\Db\Importers\Base
 					'crmid' => $this->integer(10)->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'uri' => $this->varbinary(255),
+					'uri' => $this->varbinary(200),
 					'etag' => $this->varbinary(32),
 				],
 				'index' => [
@@ -362,7 +362,7 @@ class Base1 extends \App\Db\Importers\Base
 				],
 				'columns_mysql' => [
 					'principaluri' => $this->varbinary(),
-					'uri' => $this->varbinary(),
+					'uri' => $this->varbinary(200),
 					'etag' => $this->varbinary(32),
 				],
 				'engine' => 'InnoDB',
@@ -1004,7 +1004,7 @@ class Base1 extends \App\Db\Importers\Base
 					'relcrmid' => $this->integer(10),
 					'relmodule' => $this->stringType(30),
 					'userid' => $this->integer(10),
-					'data' => $this->timestamp(),
+					'data' => $this->timestamp()->null(),
 				],
 				'index' => [
 					['crmid', 'crmid'],
@@ -1581,13 +1581,10 @@ class Base1 extends \App\Db\Importers\Base
 			],
 			'u_#__github' => [
 				'columns' => [
-					'github_id' => $this->integer(10)->notNull(),
+					'github_id' => $this->primaryKey(10),
 					'client_id' => $this->stringType(20),
 					'token' => $this->stringType(100),
 					'username' => $this->stringType(32),
-				],
-				'index' => [
-					['github_id', 'github_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3599,6 +3596,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
+			['com_vtiger_workflowtasks_ibfk_1', 'com_vtiger_workflowtasks', 'workflow_id', 'com_vtiger_workflows', 'workflow_id', 'CASCADE', 'RESTRICT'],
 			['dav_addressbooks_ibfk_1', 'dav_addressbooks', 'principaluri', 'dav_principals', 'uri', 'CASCADE', 'RESTRICT'],
 			['dav_calendarobjects_ibfk_1', 'dav_calendarobjects', 'calendarid', 'dav_calendars', 'id', 'CASCADE', 'RESTRICT'],
 			['dav_cards_ibfk_1', 'dav_cards', 'addressbookid', 'dav_addressbooks', 'id', 'CASCADE', 'RESTRICT'],

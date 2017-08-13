@@ -38,7 +38,7 @@ class Vtiger_Processes_Model
 			} else {
 				$config[$param] = $value;
 			}
-			if ($procesParam != false && $param == $procesParam) {
+			if ($procesParam !== false && $param == $procesParam) {
 				Vtiger_Cache::set('ProcessesModel', $process . $type . $procesParam, $value);
 				\App\Log::trace('End ' . __METHOD__);
 				return $value;

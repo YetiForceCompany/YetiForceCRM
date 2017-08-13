@@ -57,7 +57,7 @@
 	}
 }
 .noWrap{
-	white-space:nowrap;
+	white-space:nowrap !important;
 }
 .input-block-level {
 	display: block;
@@ -356,7 +356,7 @@ hr {
 }
 .commonActionsContainer .dropdown-menu.commonActionsButtonDropDown {
 	min-width: 715px;
-	top: 28px;
+	top: 50px;
 	margin: 0;
 	padding-top: 0;
 }
@@ -5376,7 +5376,8 @@ select.form-control {
 .customViewList table td{
 	vertical-align: middle !important;
 }
-.customViewList .ui-sortable-helper{
+.customViewList .ui-sortable-helper,
+.SearchFieldsEdit .ui-sortable-helper{
 	background-color: #dff0d8 !important;
 }
 .detailViewContainer .contents .knowledgeBaseDetails {
@@ -5819,7 +5820,8 @@ select.form-control {
 .leftRecordActions .actions .actionImages a{
 	color: inherit;
 }
-.listViewSearchTd{
+.listViewSearchTd,
+.widthMin{
 	width: 1%;
 }
 .openStreetMapModalBody .descriptionContainer{

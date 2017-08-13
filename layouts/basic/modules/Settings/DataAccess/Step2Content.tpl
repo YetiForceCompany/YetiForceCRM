@@ -68,7 +68,7 @@
 										<div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="clockPicker form-control" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
 											{else if $cnd_item['field_type'] eq 'date'}
 												{if $cnd_item['comparator'] == 'between'}
-											<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
+											<div class="date"><input class="dateRangeField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
 											{else if in_array($cnd_item['comparator'], array("less than days ago", "more than days ago", "in less than", "in more than", "days ago", "days later"))}
 											<input name="val" data-value="value" class="form-control" type="text" value="{$cnd_item['val']|escape}" />
 										{else}
@@ -133,7 +133,7 @@
 										<div class="input-group time"><input type="text" data-format="24" value="{$cnd_item['val']}" class="timepicker-default input-sm ui-timepicker-input" name="val" autocomplete="off"><span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span></div>
 											{else if $cnd_item['field_type'] eq 'date'}
 												{if $cnd_item['comparator'] == 'between'}
-											<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
+											<div class="date"><input class="dateRangeField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" value="{$cnd_item['val']|escape}" data-value="value"></div>
 											{else if in_array($cnd_item['comparator'], array("less than days ago", "more than days ago", "in less than", "in more than", "days ago", "days later"))}
 											<input name="val" data-value="value" class="form-control" type="text" value="{$cnd_item['val']|escape}" />
 										{else}

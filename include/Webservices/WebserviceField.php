@@ -350,16 +350,10 @@ class WebserviceField
 
 	private function getFieldTypeFromUIType()
 	{
-
 		// Cache all the information for futher re-use
 		if (empty(self::$fieldTypeMapping)) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('select * from vtiger_ws_fieldtype', []);
-			while ($resultrow = $db->fetch_array($result)) {
-				self::$fieldTypeMapping[$resultrow['uitype']] = $resultrow;
-			}
+			self::$fieldTypeMapping = (new App\Db\Query())->from('vtiger_ws_fieldtype')->indexBy('uitype')->all();
 		}
-
 		if (isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 			if (WebserviceField::$fieldTypeMapping[$this->getUIType()] === false) {
 				return null;
@@ -410,14 +404,15 @@ class WebserviceField
 		}else {
 			$user = VTWS_PreserveGlobal::getGlobal('current_user');
 			$details = \App\Fields\Picklist::getRoleBasedPicklistValues($fieldName, $user->roleid);
-			for ($i = 0; $i < sizeof($details); ++$i) {
+			foreach ($details as $value) {
 				$elem = [];
-				$picklistValue = decode_html($details[$i]);
+				$picklistValue = \App\Purifier::decodeHtml($value);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
-				if ($moduleName == 'Events')
+				if ($moduleName === 'Events') {
 					$moduleName = 'Calendar';
-				$elem["label"] = \App\Language::translate($picklistValue, $moduleName);
-				$elem["value"] = $picklistValue;
+				}
+				$elem['label'] = \App\Language::translate($picklistValue, $moduleName);
+				$elem['value'] = $picklistValue;
 				array_push($options, $elem);
 			}
 		}

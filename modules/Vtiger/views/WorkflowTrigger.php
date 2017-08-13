@@ -20,8 +20,8 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		vimport('~~modules/com_vtiger_workflow/include.php');
-		$workflows = (new VTWorkflowManager(PearDatabase::getInstance()))->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 		foreach ($workflows as $id => $workflow) {
 			if (!$workflow->evaluate(Vtiger_Record_Model::getInstanceById($record))) {
 				unset($workflows[$id]);

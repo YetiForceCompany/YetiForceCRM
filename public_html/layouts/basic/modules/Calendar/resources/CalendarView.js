@@ -144,8 +144,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				app.showPopoverElementView(element.find('.fc-content'),{
-					title: event.title,
+				app.showPopoverElementView(element.find('.fc-content'), {
+					title: event.title + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto',
@@ -283,7 +283,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			filters.push({name: name, value: value});
 		});
 		if (allEvents == true || types.length > 0) {
-			console.log(formatDate, view.start.format(formatDate));
 			var params = {
 				module: 'Calendar',
 				action: 'Calendar',
@@ -350,6 +349,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 				return;
 			}
 			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+				startDate = startDate + 'T' + start_hour + ':00';
+				endDate = endDate + 'T' + start_hour + ':00';
 				if (startDate == endDate) {
 					var defaulDuration = 0;
 					if (data.find('[name="activitytype"]').val() == 'Call') {
@@ -357,10 +358,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 					} else {
 						defaulDuration = data.find('[name="defaultOtherEventDuration"]').val();
 					}
-					end_hour = moment(start_hour).add(defaulDuration, 'minutes').format('HH:mm');
+					endDate = moment(endDate).add(defaulDuration, 'minutes').toISOString();
 				}
-				startDate = startDate + 'T' + start_hour + ':00';
-				endDate = endDate + 'T' + end_hour + ':00';
 			}
 			var dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase();
 			var timeFormat = data.find('[name="time_start"]').data('format');
@@ -524,7 +523,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (app.getMainParams('switchingDays') == 'workDays' && app.moduleCacheGet('defaultSwitchingDays') != 'all') {
 			checked = ' checked ';
 		}
-		if (app.getMainParams('hiddenDays', true) !== false){
+		if (app.getMainParams('hiddenDays', true) !== false) {
 			switchBtn = jQuery('<span class=""><input class="switchBtn switchingDays" type="checkbox" id="defaultSwitchingDays" title="' + app.vtranslate('JS_SWITCHING_DAYS') + '" ' + checked + ' data-size="small" data-handle-width="90" data-label-width="5" data-on-text="' + app.vtranslate('JS_WORK_DAYS') + '" data-off-text="' + app.vtranslate('JS_ALL') + '"></span>')
 					.prependTo(calendarview.find('.fc-toolbar .fc-right'))
 					.on('switchChange.bootstrapSwitch', function (e, state) {

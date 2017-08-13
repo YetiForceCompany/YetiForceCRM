@@ -107,30 +107,29 @@ class PaymentsOut extends Vtiger_CRMEntity
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
-			
+
 		} else if ($event_type == 'module.enabled') {
-			
+
 		} else if ($event_type == 'module.preuninstall') {
-			
+
 		} else if ($event_type == 'module.preupdate') {
-			
+
 		} else if ($event_type == 'module.postupdate') {
-			
+
 		}
 	}
 
 	private function addWorkflow($moduleName)
 	{
-		vimport('~~modules/com_vtiger_workflow/include.php');
-		vimport('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php');
-		vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		$db = PearDatabase::getInstance();
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/tasks/VTEntityMethodTask.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager();
 		$emm->addEntityMethod($moduleName, $functionName, "modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
 
-		$workflowManager = new VTWorkflowManager($db);
-		$taskManager = new VTTaskManager($db);
+		$workflowManager = new VTWorkflowManager();
+		$taskManager = new VTTaskManager();
 
 		$newWorkflow = $workflowManager->newWorkFlow($moduleName);
 		$newWorkflow->test = '[]';

@@ -393,7 +393,7 @@ class Vtiger_Relation_Model extends \App\Base
 
 	/**
 	 * Get Activities for related module
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getActivities()
 	{
@@ -415,7 +415,7 @@ class Vtiger_Relation_Model extends \App\Base
 				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
 					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
 				} else {
-					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}

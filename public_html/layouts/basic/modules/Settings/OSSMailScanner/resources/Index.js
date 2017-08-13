@@ -112,7 +112,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 					type: "changeTicketStatus",
 					vale: $(this).val()
 				}
-			}).then(
+			}).done(
 					function (data) {
 						if (data.success) {
 							var params = {
@@ -135,7 +135,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				var userid = jQuery(this).data('user-id');
 				ajaxParams.data = {module: 'OSSMailScanner', action: "AccontRemove", id: userid};
 				ajaxParams.async = true;
-				AppConnector.request(ajaxParams).then(
+				AppConnector.request(ajaxParams).done(
 						function (data) {
 							var params = {
 								text: data.result.data,
@@ -158,7 +158,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 				ajaxParams.data = {module: 'OSSMailScanner', action: "IdentitiesDel", id: jQuery(this).data('id')};
 				ajaxParams.async = true;
 
-				AppConnector.request(ajaxParams).then(
+				AppConnector.request(ajaxParams).done(
 						function (data) {
 							var params = {
 								text: app.vtranslate('removed_identity'),

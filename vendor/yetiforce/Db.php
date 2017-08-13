@@ -211,6 +211,9 @@ class Db extends \yii\db\Connection
 		if (Cache::has('getTableKeys', $tableName)) {
 			return Cache::get('getTableKeys', $tableName);
 		}
+		if (!$this->isTableExists($tableName)) {
+			return [];
+		}
 		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
 		$keys = [];
 		switch ($this->getDriverName()) {

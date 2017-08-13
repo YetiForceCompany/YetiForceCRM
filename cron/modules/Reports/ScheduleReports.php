@@ -8,6 +8,6 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-vimport ('include.runtime.Globals');
+Vtiger_Loader::includeOnce ('include.runtime.Globals');
 require_once 'modules/Reports/models/ScheduleReports.php';
 Reports_ScheduleReports_Model::runScheduledReports();

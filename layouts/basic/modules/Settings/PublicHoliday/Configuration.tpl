@@ -28,7 +28,7 @@
 												<strong>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 											</div>
 											<div class="col-xs-8 col-xs-pull-1">
-												<input type="text" class="dateField dateFilter marginbottomZero form-control" data-date-format="{$CURRENTUSER->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
+												<input type="text" class="dateRangeField dateFilter marginbottomZero form-control" data-date-format="{$CURRENTUSER->get('date_format')}" data-calendar-type="range" value="{$DATE}" />
 											</div>
 										</div>
 									</div>

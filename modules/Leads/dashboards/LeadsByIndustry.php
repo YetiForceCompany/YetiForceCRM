@@ -85,10 +85,10 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		else
 			$owner = $request->get('owner');
 		$ownerForwarded = $owner;
-		if ($owner == 'all')
+		if ($owner == 'all') {
 			$owner = '';
-
-		$createdTime = $request->get('createdtime');
+		}
+		$createdTime = $request->getDateRange('createdtime');
 
 		$dates = [];
 		//Date conversion from user to database format

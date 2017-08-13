@@ -134,6 +134,50 @@ class Request
 	}
 
 	/**
+	 * Function to get the exploded values for a given key
+	 * @param string $key
+	 * @param string $delimiter
+	 * @return array
+	 */
+	public function getExploded($key, $delimiter = ',')
+	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			if ($this->rawValues[$key] === '') {
+				return [];
+			}
+			$value = explode($delimiter, $this->rawValues[$key]);
+			if ($value) {
+				$value = Purifier::purify($value);
+			}
+			return $this->parseValues[$key] = $value;
+		}
+		return $value;
+	}
+
+	/**
+	 * Function to get the date range values for a given key
+	 * @param string $key
+	 * @return array
+	 */
+	public function getDateRange($key)
+	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
+				return [];
+			}
+			$value = Purifier::purify(explode(',', $this->rawValues[$key]));
+			return $this->parseValues[$key] = ['start' => $value[0], 'end' => $value[1]];
+		}
+		return $value;
+	}
+
+	/**
 	 * Function to get html the value for a given key
 	 * @param string $key
 	 * @param mixed $value
@@ -252,7 +296,7 @@ class Request
 	/**
 	 * Get request method
 	 * @return string
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getRequestMethod()
 	{
@@ -263,7 +307,7 @@ class Request
 			} else if ($_SERVER['HTTP_X_HTTP_METHOD'] === 'PUT') {
 				$method = 'PUT';
 			} else {
-				throw new Exceptions\AppException('Unexpected Header');
+				throw new \App\Exceptions\AppException('Unexpected Header');
 			}
 		}
 		return $method;
@@ -351,7 +395,7 @@ class Request
 
 	/**
 	 * Validating read access request
-	 * @throws \Exception\Csrf
+	 * @throws \App\Exceptions\Csrf
 	 */
 	public function validateReadAccess()
 	{
@@ -359,7 +403,7 @@ class Request
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
 			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
-				throw new \Exception\Csrf('Illegal request');
+				throw new \App\Exceptions\Csrf('Illegal request');
 			}
 		}
 	}
@@ -367,17 +411,17 @@ class Request
 	/**
 	 * Validating write access request
 	 * @param boolean $skipRequestTypeCheck
-	 * @throws \Exception\Csrf
+	 * @throws \App\Exceptions\Csrf
 	 */
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
 		if (!$skipRequestTypeCheck) {
 			if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-				throw new \Exception\Csrf('Invalid request - validate Write Access');
+				throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		if (class_exists('CSRF') && !\CSRF::check(false)) {
-			throw new \Exception\Csrf('Unsupported request');
+			throw new \App\Exceptions\Csrf('Unsupported request');
 		}
 	}
 
@@ -399,7 +443,7 @@ class Request
 	 * @param string $name
 	 * @param null|array $arguments
 	 * @return mied
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{
@@ -408,7 +452,7 @@ class Request
 		}
 		$function = ltrim($name, '_');
 		if (!method_exists(static::$request, $function)) {
-			throw new Exceptions\AppException('Method not found');
+			throw new \App\Exceptions\AppException('Method not found');
 		}
 		if (empty($arguments)) {
 			return static::$request->$function();

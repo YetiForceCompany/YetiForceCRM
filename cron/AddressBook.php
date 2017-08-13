@@ -10,19 +10,31 @@
 \App\Log::trace('Start create AddressBook');
 
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_ADDRESS_BOOK_UPDATER');
-$db = PearDatabase::getInstance();
+$db = \App\Db::getInstance();
+$dbCommand = $db->createCommand();
 $currentUser = Users::getActiveAdminUser();
 $usersIds = \App\Fields\Owner::getUsersIds();
 $i = ['rows' => [], 'users' => count($usersIds)];
 $l = 0;
 $break = false;
+$processOrder = ['OSSEmployees', 'Contacts'];
 $table = OSSMail_AddressBook_Model::TABLE;
 $last = OSSMail_AddressBook_Model::getLastRecord();
-$dataReader = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
+$rows = (new App\Db\Query())->select(['module_name', 'task'])->from('com_vtiger_workflows')
 		->leftJoin('com_vtiger_workflowtasks', 'com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id')
 		->where(['like', 'task', 'VTAddressBookTask'])
-		->createCommand()->query();
-while ($row = $dataReader->read()) {
+		->indexBy('module_name')->all();
+$workflows = [];
+foreach ($processOrder as $processModule) {
+	if ($rows[$processModule]) {
+		$workflows[] = $rows[$processModule];
+		unset($rows[$processModule]);
+	}
+}
+foreach ($rows as $row) {
+	$workflows = array_merge($workflows, $row);
+}
+foreach ($workflows as $row) {
 	$task = (array) unserialize($row['task']);
 	$moduleName = $row['module_name'];
 	if (empty($task['active']) || ($last !== false && $last['module'] != $moduleName)) {
@@ -69,11 +81,11 @@ while ($row = $dataReader->read()) {
 			}
 		}
 		$added = [];
-		$db->delete($table, 'id = ?', [$record]);
+		$dbCommand->delete($table, ['id' => $record])->execute();
 		foreach ($emailFields as &$fieldName) {
 			if (!empty($row[$fieldName]) && !in_array($row[$fieldName], $added)) {
 				$added[] = $row[$fieldName];
-				$db->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users]);
+				$dbCommand->insert($table, ['id' => $record, 'email' => $row[$fieldName], 'name' => trim($name), 'users' => $users])->execute();
 			}
 		}
 		$i['rows'][$moduleName] ++;

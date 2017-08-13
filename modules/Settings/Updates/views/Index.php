@@ -14,7 +14,6 @@ class Settings_Updates_Index_View extends Settings_Vtiger_Index_View
 		$updates = Settings_Updates_Module_Model::getUpdates();
 
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
 		$viewer->assign('UPDATES', $updates);

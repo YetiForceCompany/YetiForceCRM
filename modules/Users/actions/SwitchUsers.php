@@ -13,7 +13,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	/**
 	 * Function checks permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -33,7 +33,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
 				'status' => 'Failed login - No permission',
 			])->execute();
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -50,20 +50,20 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();
 		$userName = $currentUser->column_fields['user_name'];
-		Vtiger_Session::set('authenticated_user_id', $userId);
-		Vtiger_Session::set('user_name', $userName);
-		Vtiger_Session::set('full_user_name', $name);
+		App\Session::set('authenticated_user_id', $userId);
+		App\Session::set('user_name', $userName);
+		App\Session::set('full_user_name', $name);
 
 		$status = 'Switched';
-		if (empty(Vtiger_Session::get('baseUserId'))) {
-			Vtiger_Session::set('baseUserId', $baseUserId);
+		if (empty(App\Session::get('baseUserId'))) {
+			App\Session::set('baseUserId', $baseUserId);
 			$status = 'Signed in';
-		} elseif ($userId === Vtiger_Session::get('baseUserId')) {
+		} elseif ($userId === App\Session::get('baseUserId')) {
 			$baseUserId = $userId;
-			Vtiger_Session::set('baseUserId', '');
+			App\Session::set('baseUserId', '');
 			$status = 'Signed out';
 		} else {
-			$baseUserId = Vtiger_Session::get('baseUserId');
+			$baseUserId = App\Session::get('baseUserId');
 		}
 
 		$db = \App\Db::getInstance('log');

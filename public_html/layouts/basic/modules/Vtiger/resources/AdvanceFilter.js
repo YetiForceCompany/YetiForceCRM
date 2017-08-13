@@ -327,20 +327,9 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				app.showSelect2ElementView(fieldSpecificUi);
 			}
 		} else if (fieldSpecificUi.has('input.dateField').length > 0) {
-			var calendarType = fieldSpecificUi.find('.dateField').data('calendarType');
-			if (calendarType == 'range') {
-				var customParams = {
-					calendars: 3,
-					mode: 'range',
-					className: 'rangeCalendar',
-					onChange: function (formated) {
-						fieldSpecificUi.find('.dateField').val(formated.join(','));
-					}
-				};
-				app.registerEventForDatePickerFields(fieldSpecificUi, false, customParams);
-			} else {
-				app.registerEventForDatePickerFields(fieldSpecificUi);
-			}
+			app.registerEventForDatePickerFields(fieldSpecificUi);
+		} else if (fieldSpecificUi.has('input.dateRangeField').length > 0) {
+			app.registerDateRangePickerFields(fieldSpecificUi,{ranges: false});
 		} else if (fieldSpecificUi.has('input.timepicker-default').length > 0) {
 			app.registerEventForTimeFields(fieldSpecificUi);
 		}
@@ -715,9 +704,9 @@ Vtiger_Date_Field_Js('AdvanceFilter_Date_Field_Js', {}, {
 		var comparatorSelectedOptionVal = this.get('comparatorElementVal');
 		var dateSpecificConditions = this.get('dateSpecificConditions');
 		if (comparatorSelectedOptionVal == 'bw' || comparatorSelectedOptionVal == 'custom') {
-			var html = '<div class="date"><input class="dateField form-control" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
+			var html = '<div class="date"><input class="dateRangeField form-control" data-calendar-type="range" name="' + this.getName() + '" data-date-format="' + this.getDateFormat() + '" type="text" ReadOnly="true" value="' + this.getValue() + '"></div>';
 			var element = jQuery(html);
-			var dateFieldUi = element.find('.dateField');
+			var dateFieldUi = element.find('.dateRangeField');
 			if (dateFieldUi.val().indexOf(',') !== -1) {
 				var valueArray = this.getValue().split(',');
 				var startDateTime = valueArray[0];

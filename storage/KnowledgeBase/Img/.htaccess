@@ -1,5 +1,0 @@
-deny from all
-<Files ~ "\.(bmp|gif|jpg|jpe|png)$">
-	Order allow,deny
-	Allow from all
-</Files>

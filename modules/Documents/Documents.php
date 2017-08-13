@@ -280,47 +280,35 @@ class Documents extends CRMEntity
 
 	/**
 	 * Check the existence of folder by folderid
+	 * @param int $folderId
+	 * @return bool
 	 */
-	public function isFolderPresent($folderid)
+	public function isFolderPresent($folderId)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?', array($folderid));
-		if (!empty($result) && $adb->num_rows($result) > 0)
-			return true;
-		return false;
+		return (new \App\Db\Query())->select(['tree'])->from('vtiger_trees_templates_data')->where(['tree' => $folderId])->exists();
 	}
 
 	/**
 	 * Get Folder Default
+	 * @return string
 	 */
 	public function getFolderDefault()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data` 
-			INNER JOIN `vtiger_field` 
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
-			WHERE `vtiger_field`.`columnname` = ? 
-				AND `vtiger_field`.`tablename` = ?
-				AND `vtiger_trees_templates_data`.`name` = ?;', array('folderid', 'vtiger_notes', 'Default'));
-		return $adb->query_result($result, 0, 'tree');
+		return (new \App\Db\Query())->select(['tree', 'name'])->from('vtiger_trees_templates_data')->innerJoin('vtiger_field', 'vtiger_trees_templates_data.templateid = vtiger_field.fieldparams')->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes', 'vtiger_trees_templates_data.name' => 'Default'])->scalar();
 	}
 
 	/**
 	 * Customizing the restore procedure.
+	 * @param string $moduleName
+	 * @param int $id
 	 */
 	public function restore($modulename, $id)
 	{
 		parent::restore($modulename, $id);
-
-		$adb = PearDatabase::getInstance();
-		$fresult = $adb->pquery('SELECT folderid FROM vtiger_notes WHERE notesid = ?', array($id));
-		if (!empty($fresult) && $adb->num_rows($fresult)) {
-			$folderid = $adb->query_result($fresult, 0, 'folderid');
-			if (!$this->isFolderPresent($folderid)) {
-				// Re-link to default folder
-				$adb->pquery('UPDATE vtiger_notes set folderid = ? WHERE notesid = ?', array(self::getFolderDefault()));
-			}
+		$folderId = (new App\Db\Query())->select(['folderid'])->from('vtiger_notes')->where(['notesid' => $id])->scalar();
+		if ($folderid && !$this->isFolderPresent($folderid)) {
+			// Re-link to default folder
+			\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['folderid' => self::getFolderDefault()], ['notesid' => self::getFolderDefault()]);
 		}
 	}
 
@@ -328,7 +316,7 @@ class Documents extends CRMEntity
 	 * Function to check the module active and user action permissions before showing as link in other modules
 	 * like in more actions of detail view.
 	 */
-	static function isLinkPermitted($linkData)
+	public static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
 		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {

@@ -82,7 +82,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			], ['crmid' => $relatedModuleRecordIds]
 		)->execute();
-		vimport('~modules/ModTracker/ModTracker.php');
+		Vtiger_Loader::includeOnce('~modules/ModTracker/ModTracker.php');
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
@@ -139,8 +139,6 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 	{
 		$module = $this->get('module');
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$relatedModelFields = $moduleModel->getFields();
-
 		$relatedModules = [];
 		$relations = $moduleModel->getRelations();
 		foreach ($relations as $relation) {

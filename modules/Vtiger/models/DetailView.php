@@ -75,10 +75,9 @@ class Vtiger_DetailView_Model extends \App\Base
 		$linkModelList = $detailViewLinks = [];
 
 		if ($moduleModel->isPermitted('WorkflowTrigger')) {
-			$adb = PearDatabase::getInstance();
-			vimport('~~modules/com_vtiger_workflow/include.php');
-			vimport('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-			$wfs = new VTWorkflowManager($adb);
+			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+			$wfs = new VTWorkflowManager();
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
 				$detailViewLinks[] = [
@@ -235,7 +234,6 @@ class Vtiger_DetailView_Model extends \App\Base
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();
-		$moduleName = $recordModel->getModuleName();
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
@@ -334,8 +332,6 @@ class Vtiger_DetailView_Model extends \App\Base
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$moduleLinks = $this->getModule()->getSideBarLinks($linkTypes);
 

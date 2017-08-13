@@ -181,7 +181,7 @@ class Vtiger_AdvancedFilter_Helper
 			return self::$recordStructure[$recordId];
 		}
 		$values = [];
-		$baseModuleModel = $moduleModel = $recordModel->getModule();
+		$moduleModel = $recordModel->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();

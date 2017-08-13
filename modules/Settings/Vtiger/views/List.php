@@ -42,7 +42,6 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');

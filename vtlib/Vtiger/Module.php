@@ -302,4 +302,31 @@ class Module extends ModuleBasic
 			$menuRecordModel->refreshMenuFiles();
 		}
 	}
+
+	/**
+	 * Check if this module is customized
+	 * @return bool
+	 */
+	public function isCustomizable()
+	{
+		return $this->customized === 1 ? true : false;
+	}
+
+	/**
+	 * Check if this module is upgradable
+	 * @return bool
+	 */
+	public function isModuleUpgradable()
+	{
+		return $this->isCustomizable() ? true : false;
+	}
+
+	/**
+	 * Check if this module is exportable
+	 * @return bool
+	 */
+	public function isExportable()
+	{
+		return $this->isCustomizable() ? true : false;
+	}
 }

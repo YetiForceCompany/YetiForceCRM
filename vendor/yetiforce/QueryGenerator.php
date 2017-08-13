@@ -149,7 +149,7 @@ class QueryGenerator
 
 	/**
 	 * Set query fields
-	 * @param type $fields
+	 * @param string[] $fields
 	 */
 	public function setFields($fields)
 	{
@@ -184,7 +184,7 @@ class QueryGenerator
 
 	/**
 	 * Set query field
-	 * @param type $fields
+	 * @param string|string[] $fields
 	 */
 	public function setField($fields)
 	{
@@ -775,7 +775,7 @@ class QueryGenerator
 	 * Get query field instance
 	 * @param string $fieldName
 	 * @return QueryField\BaseField
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	private function getQueryField($fieldName)
 	{
@@ -789,12 +789,12 @@ class QueryGenerator
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
 			Log::error('Not found field model');
-			throw new \Exception\AppException('LBL_NOT_FOUND_FIELD_MODEL');
+			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_FIELD_MODEL');
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
-			throw new \Exception\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
+			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
 		return $this->queryFields[$fieldName] = $queryField;
@@ -851,7 +851,7 @@ class QueryGenerator
 	 * @param \Vtiger_Field_Model $field
 	 * @param array $relatedInfo
 	 * @return QueryField\BaseField
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	private function getQueryRelatedField($field, $relatedInfo)
 	{
@@ -867,7 +867,7 @@ class QueryGenerator
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
 			Log::error('Not found query field condition');
-			throw new \Exception\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
+			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
 		$queryField->setRelated($relatedInfo);
@@ -934,7 +934,7 @@ class QueryGenerator
 
 	/**
 	 * Parse base search condition to db condition 
-	 * @param array $searchParams
+	 * @param array $searchParams Example: [[["firstname","a","Tom"]]]
 	 * @return array
 	 */
 	public function parseBaseSearchParamsToCondition($searchParams)

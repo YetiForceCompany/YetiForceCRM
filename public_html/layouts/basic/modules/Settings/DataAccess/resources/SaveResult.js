@@ -29,7 +29,7 @@ function SaveResult() {
 		};
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 				function (response) {
 					resp = response['result']['data'];
 					Vtiger_Helper_Js.hidePnotify();

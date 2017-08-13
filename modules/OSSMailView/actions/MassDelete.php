@@ -14,7 +14,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -49,7 +49,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		}
 
 		if (!$permission) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 
 		$cvId = $request->get('viewname');

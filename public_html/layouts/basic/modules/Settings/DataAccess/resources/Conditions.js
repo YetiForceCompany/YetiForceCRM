@@ -267,25 +267,12 @@ function DataAccessConditions() {
 	};
 	this.showBetweenDateInput = function (element) {
 		var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder'),
-				html = '<div class="date"><input class="dateField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
+				html = '<div class="date"><input class="dateRangeField bw form-control" data-calendar-type="range" name="val" data-date-format="yyyy-mm-dd" type="text" readonly="true" placeholder="Click me" value="" data-value="value"></div>';
 
 		valPlace.children().remove();
 		valPlace.append(html);
-
 		var valElement = jQuery(valPlace).find('div.date');
-
-		var customParams = {
-			calendars: 3,
-			mode: 'range',
-			className: 'rangeCalendar',
-			onChange: function (formated) {
-				valElement.find('.dateField').val(formated.join(','));
-			}
-		}
-
-		app.registerEventForDatePickerFields(valElement, false, customParams);
-
-
+		app.registerDateRangePickerFields(valElement,{ranges: false});
 	};
 	this.showPicklist = function (element) {
 		var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
@@ -440,16 +427,7 @@ function DataAccessConditions() {
 		this.comparatorHasChanged();
 		this.fieldTypeHasChanged();
 		app.registerEventForDatePickerFields(jQuery('input.dateFieldNormal'), true);
-
-		var customParams = {
-			calendars: 3,
-			mode: 'range',
-			className: 'rangeCalendar',
-			onChange: function (formated) {
-				jQuery('input.bw').val(formated.join(','));
-			}
-		};
-		app.registerEventForDatePickerFields(jQuery('input.bw'), false, customParams);
+		app.registerDateRangePickerFields(jQuery('input.bw'),{ranges: false});
 		app.registerEventForClockPicker();
 	};
 }

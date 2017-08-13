@@ -19,6 +19,10 @@ class Settings_LangManagement_EditHelpIcon_View extends Settings_Vtiger_Index_Vi
 		
 	}
 
+	/**
+	 * Process function
+	 * @param App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -30,13 +34,12 @@ class Settings_LangManagement_EditHelpIcon_View extends Settings_Vtiger_Index_Vi
 		if ($lang != '' && $mod != '') {
 			$data = $moduleModel->loadAllFieldsFromModule($lang, $mod, $ShowDifferences);
 		}
-		$Langs = $moduleModel->getLang();
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('REQUEST', $request);
-		$viewer->assign('LANGS', $Langs);
+		$viewer->assign('LANGS', App\Language::getAll());
 		$viewer->assign('DATA', $data);
-		$viewer->assign('LANGS', $Langs);
 		$viewer->assign('SD', $ShowDifferences);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);

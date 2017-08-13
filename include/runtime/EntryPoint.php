@@ -7,17 +7,15 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-vimport('include.http.Request');
-vimport('include.http.Response');
-vimport('include.http.Session');
-vimport('include.runtime.Globals');
-vimport('include.runtime.Controller');
-vimport('include.runtime.Viewer');
-vimport('include.runtime.Theme');
-vimport('include.runtime.JavaScript');
-vimport('include.runtime.LanguageHandler');
-vimport('include.runtime.Cache');
-vimport('include.runtime.Layout');
+Vtiger_Loader::includeOnce('include.http.Response');
+Vtiger_Loader::includeOnce('include.runtime.Globals');
+Vtiger_Loader::includeOnce('include.runtime.Controller');
+Vtiger_Loader::includeOnce('include.runtime.Viewer');
+Vtiger_Loader::includeOnce('include.runtime.Theme');
+Vtiger_Loader::includeOnce('include.runtime.JavaScript');
+Vtiger_Loader::includeOnce('include.runtime.LanguageHandler');
+Vtiger_Loader::includeOnce('include.runtime.Cache');
+Vtiger_Loader::includeOnce('include.runtime.Layout');
 
 abstract class Vtiger_EntryPoint
 {
@@ -41,7 +39,7 @@ abstract class Vtiger_EntryPoint
 	public function setLogin($login)
 	{
 		if ($this->login)
-			throw new \Exception\AppException('Login is already set.');
+			throw new \App\Exceptions\AppException('Login is already set.');
 		$this->login = $login;
 	}
 
@@ -53,5 +51,5 @@ abstract class Vtiger_EntryPoint
 		return $this->getLogin() ? true : false;
 	}
 
-	abstract function process(\App\Request $request);
+	abstract public function process(\App\Request $request);
 }

@@ -28,7 +28,7 @@ class ModuleBasic
 	public $ownedby = 0; // 0 - Sharing Access Enabled, 1 - Sharing Access Disabled
 	public $tabsequence = false;
 	public $parent = false;
-	public $customized = 0;
+	public $customized = 1;
 	public $isentitytype = true; // Real module or an extension?
 	public $entityidcolumn = false;
 	public $entityidfield = false;
@@ -52,36 +52,23 @@ class ModuleBasic
 	 */
 	public function initialize($valuemap)
 	{
-		$this->id = $valuemap['tabid'];
+		$this->id = (int) $valuemap['tabid'];
 		$this->name = $valuemap['name'];
 		$this->label = $valuemap['tablabel'];
 		$this->version = $valuemap['version'];
-
-		$this->presence = $valuemap['presence'];
+		$this->presence = (int) $valuemap['presence'];
 		$this->ownedby = $valuemap['ownedby'];
-		$this->tabsequence = $valuemap['tabsequence'];
+		$this->tabsequence = (int) $valuemap['tabsequence'];
 		$this->parent = $valuemap['parent'];
-		$this->customized = $valuemap['customized'];
-		$this->type = $valuemap['type'];
-
-		$this->isentitytype = $valuemap['isentitytype'];
-
-		if ($this->isentitytype || $this->name == 'Users') {
-			// Initialize other details too
-			$this->initialize2();
-		}
-	}
-
-	/**
-	 * Initialize more information of this instance
-	 * @access private
-	 */
-	public function initialize2()
-	{
-		$entitydata = \App\Module::getEntityInfo($this->name);
-		if ($entitydata) {
-			$this->basetable = $entitydata['tablename'];
-			$this->basetableid = $entitydata['entityidfield'];
+		$this->customized = (int) $valuemap['customized'];
+		$this->type = (int) $valuemap['type'];
+		$this->isentitytype = (int) $valuemap['isentitytype'];
+		if ($this->isentitytype || $this->name === 'Users') {
+			$entitydata = \App\Module::getEntityInfo($this->name);
+			if ($entitydata) {
+				$this->basetable = $entitydata['tablename'];
+				$this->basetableid = $entitydata['entityidfield'];
+			}
 		}
 	}
 
@@ -100,9 +87,6 @@ class ModuleBasic
 		if (!$this->label) {
 			$this->label = $this->name;
 		}
-
-		$customized = 1; // To indicate this is a Custom Module
-
 		$db->createCommand()->insert('vtiger_tab', [
 			'tabid' => $this->id,
 			'name' => $this->name,
@@ -111,7 +95,7 @@ class ModuleBasic
 			'tablabel' => $this->label,
 			'modifiedby' => NULL,
 			'modifiedtime' => NULL,
-			'customized' => $customized,
+			'customized' => $this->customized,
 			'ownedby' => $this->ownedby,
 			'version' => $this->version,
 			'parent' => $this->parent,
@@ -150,12 +134,6 @@ class ModuleBasic
 
 		if ($this->isentitytype) {
 			Access::initSharing($this);
-		}
-
-		$moduleInstance = Module::getInstance($this->name);
-		$parentTab = $this->parent;
-		if (!empty($parentTab)) {
-			
 		}
 		self::log("Creating Module $this->name ... DONE");
 	}

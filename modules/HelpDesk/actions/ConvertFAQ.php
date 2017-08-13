@@ -16,7 +16,7 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
 		$recordPermission = Users_Privileges_Model::isPermitted('Faq', 'EditView');
 
 		if (!$recordPermission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -57,7 +57,7 @@ class Admin extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->primaryKey(10),
 					'ip' => $this->stringType(50)->notNull(),
-					'time' => $this->timestamp(),
+					'time' => $this->timestamp()->null(),
 					'attempts' => $this->smallInteger(2)->defaultValue(0),
 					'blocked' => $this->smallInteger(1)->defaultValue(0),
 					'userid' => $this->integer(10),

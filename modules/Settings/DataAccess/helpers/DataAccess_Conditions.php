@@ -48,14 +48,14 @@ class DataAccess_Conditions
 		}
 		$countResponeListRequired = count($responeListRequired);
 		for ($i = 0; $i < $countResponeListRequired; $i++) {
-			if (true != $responeListRequired[$i]) {
+			if (true !== $responeListRequired[$i]) {
 				$responeListRequiredStatus = false;
 			}
 		}
 		if (count($responeListOptional)) {
 			$countResponeListOptional = count($responeListOptional);
 			for ($i = 0; $i < $countResponeListOptional; $i++) {
-				if (true == $responeListOptional[$i]) {
+				if (true === $responeListOptional[$i]) {
 					$responeListOptionalStatus = true;
 				}
 			}
@@ -125,7 +125,7 @@ class DataAccess_Conditions
 
 	private function checkSingleCondition($form, $cndArray)
 	{
-		vimport('~~modules/Settings/DataAccess/helpers/DataAccess_ConditionsTest.php');
+		Vtiger_Loader::includeOnce('~~modules/Settings/DataAccess/helpers/DataAccess_ConditionsTest.php');
 		$methodName = $this->createFunctionName($cndArray['comparator']);
 		$class = new ReflectionClass('DataAccess_ConditionsTest');
 		$methodList = $class->getMethods(ReflectionMethod::IS_STATIC);

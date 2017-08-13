@@ -505,7 +505,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params.data = data;
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 				function (reponseData) {
 					aDeferred.resolve(reponseData);
 				}
@@ -1132,7 +1132,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
 					return;
 				}
-				fieldElement.inputmask('remove');
 				currentTdElement.removeAttr('tabindex');
 				var previousValue = elementTarget.data('prevValue');
 				var formElement = thisInstance.getForm();

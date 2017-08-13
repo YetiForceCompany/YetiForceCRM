@@ -23,7 +23,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -70,7 +70,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $primaryModule);
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$detailViewLinks = $detailViewModel->getDetailViewLinks();
@@ -152,8 +152,6 @@ class Reports_Detail_View extends Vtiger_Index_View
 		if (empty($data)) {
 			$reportModel = Reports_Record_Model::getInstanceById($record);
 			$reportModel->setModule('Reports');
-			$reportType = $reportModel->get('reporttype');
-
 			$pagingModel = new Vtiger_Paging_Model();
 			$pagingModel->set('page', $page);
 			$pagingModel->set('limit', self::REPORT_LIMIT + 1);

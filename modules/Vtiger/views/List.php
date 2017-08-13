@@ -96,12 +96,6 @@ class Vtiger_List_View extends Vtiger_Index_View
 		return 'ListViewPreProcess.tpl';
 	}
 
-	//Note : To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
-
 	protected function preProcessDisplay(\App\Request $request)
 	{
 		parent::preProcessDisplay($request);

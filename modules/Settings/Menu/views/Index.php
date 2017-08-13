@@ -35,8 +35,6 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
 		$jsFileNames = array(
 			'~libraries/jquery/jstree/jstree.min.js',
 		);

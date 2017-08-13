@@ -227,7 +227,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public function changeModuleState($state, $member = false)
 	{
-		$config = false;
 		if (empty($member)) {
 			$member = 'Users:' . $this->get('userId');
 			$isExists = $this->isWatchingModule();

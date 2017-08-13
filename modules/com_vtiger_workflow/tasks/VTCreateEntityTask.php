@@ -87,7 +87,6 @@ class VTCreateEntityTask extends VTTask
 			}
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
-			//$newEntity->_from_workflow = true;
 			$newRecordModel->save();
 			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {

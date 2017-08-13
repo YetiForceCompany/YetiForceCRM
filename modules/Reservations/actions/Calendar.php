@@ -28,15 +28,12 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function getEvent(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$id = $request->get('id');
-
 		$record = Reservations_Calendar_Model::getInstance();
 		$record->set('user', $request->get('user'));
 		$record->set('types', $request->get('types'));
@@ -69,7 +66,7 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
 					$due_date = $end['date'];
 					$time_end = $end['time'];
-					$recordModel->set('id', $recordId);
+					$recordModel->setId('id', $recordId);
 					$recordModel->set('date_start', $date_start);
 					$recordModel->set('time_start', $time_start);
 					$recordModel->set('due_date', $due_date);

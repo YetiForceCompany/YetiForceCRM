@@ -69,7 +69,7 @@ class Utils
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
 				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}
@@ -102,7 +102,7 @@ class Utils
 		if (stripos($realfilepath, $rootdirpath) !== 0) {
 			if ($dieOnFail) {
 				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-				throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;
 		}

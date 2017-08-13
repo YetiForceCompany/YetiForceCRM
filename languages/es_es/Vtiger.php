@@ -1316,6 +1316,8 @@ $languageStrings = [
 	'LBL_PRODUCTS_TABLE_RELATED_MODULE' => 'Tabla de productos de módulo relacionado',
 	'LBL_TABLE_DISCOUNT_SUMMARY' => 'Resumen del Descuento',
 	'LBL_TABLE_TAX_SUMMARY' => 'Resumen del Impuesto',
+	'LBL_RELATED_RECORDS_LIST' => 'List of related records',
+	'LBL_RECORDS_LIST' => 'List of all records',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Número de direcciones de correo electrónico encontradas',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Número de registros seleccionados',
@@ -1641,4 +1643,9 @@ $jsLanguageStrings = [
 	'JS_EMAIL_RESET_RELATIONS_CONFIRMATION' => '¿Está seguro de que desea restablecer los correos relacionados una vez más?',
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => '¿Está seguro de que desea revisar los cambios en los registros seleccionados?',
 	'JS_MARKED_AS_READ' => 'Marcado como leído',
+	'JS_LAST_7_DAYS' => 'Last 7 days',
+ 	'JS_LAST_30_DAYS' => 'Last 30 days',
+ 	'JS_CURRENT_MONTH' => 'Current month',
+ 	'JS_LAST_MONTH' => 'Last month',
+ 	'JS_CUSTOM' => 'Custom date range',
 ];

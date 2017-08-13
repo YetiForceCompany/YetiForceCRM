@@ -133,7 +133,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).then(
+		AppConnector.request(params).done(
 				function (data) {
 					var result = data.result;
 					if (result.success) {

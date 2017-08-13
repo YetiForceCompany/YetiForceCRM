@@ -48,7 +48,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 		saveData['action'] = 'Save';
 		saveData['step'] = 1;
 		saveData['async'] = false;
-		AppConnector.request(saveData).then(
+		AppConnector.request(saveData).done(
 				function (data) {
 					data = JSON.parse(data);
 					if (data.success == true) {
@@ -60,7 +60,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit1_Js", {}, {
 						}
 
 						formData['record'] = data.result.id;
-						AppConnector.request(formData).then(
+						AppConnector.request(formData).done(
 								function (data) {
 									form.hide();
 									progressIndicatorElement.progressIndicator({

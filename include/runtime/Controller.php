@@ -25,9 +25,9 @@ abstract class Vtiger_Controller
 		return true;
 	}
 
-	abstract function getViewer(\App\Request $request);
+	abstract public function getViewer(\App\Request $request);
 
-	abstract function process(\App\Request $request);
+	abstract public function process(\App\Request $request);
 
 	public function validateRequest(\App\Request $request)
 	{
@@ -89,7 +89,7 @@ abstract class Vtiger_Controller
 		if (!empty($name) && $this->isMethodExposed($name)) {
 			return call_user_func_array(array($this, $name), $parameters);
 		}
-		throw new \Exception\AppException('LBL_NOT_ACCESSIBLE');
+		throw new \App\Exceptions\AppException('LBL_NOT_ACCESSIBLE');
 	}
 
 	/**
@@ -120,8 +120,8 @@ abstract class Vtiger_Controller
 		header('X-Robots-Tag: none');
 		header('X-Permitted-Cross-Domain-Policies: none');
 		if (AppConfig::security('CSP_ACTIVE')) {
-			// 'nonce-" . Vtiger_Session::get('CSP_TOKEN') . "'
-			header("Content-Security-Policy: default-src 'self'; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;");
+			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
+			header("Content-Security-Policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' ; form-action 'self' ;");
 		}
 		if ($keys = AppConfig::security('HPKP_KEYS')) {
 			header('Public-Key-Pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
@@ -142,11 +142,11 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
-	abstract function checkPermission(\App\Request $request);
+	abstract public function checkPermission(\App\Request $request);
 
 	public function getViewer(\App\Request $request)
 	{
-		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
+		throw new \App\Exceptions\AppException('Action - implement getViewer - JSONViewer');
 	}
 
 	public function validateRequest(\App\Request $request)

@@ -112,6 +112,8 @@ var AppConnector = {
 		if (pjaxMode) {
 			if (fullUrl === '') {
 				fullUrl = 'index.php?' + $.param(params.data);
+			} else if (fullUrl.indexOf('index.php?') === -1) {
+				fullUrl = 'index.php?' + fullUrl;
 			}
 			if (history.pushState && fullUrl !== '') {
 				window.history.replaceState("text", "Title", fullUrl);

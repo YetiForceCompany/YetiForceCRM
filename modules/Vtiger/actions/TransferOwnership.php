@@ -14,7 +14,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -13,7 +13,7 @@ class Calendar_SharedCalendar_View extends Calendar_Calendar_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
 	public function process(\App\Request $request)

@@ -129,7 +129,12 @@ class Profile
 	 */
 	public static function getAllIds()
 	{
-		return (new \App\Db\Query())->select(['profileid'])->from('vtiger_profile')->column();
+		if (\App\Cache::has('AllProfileIds', '')) {
+			return \App\Cache::get('AllProfileIds', '');
+		}
+		$profiles = (new \App\Db\Query())->select(['profileid'])->from('vtiger_profile')->column();
+		\App\Cache::save('AllProfileIds', '', $profiles);
+		return $profiles;
 	}
 
 	/**

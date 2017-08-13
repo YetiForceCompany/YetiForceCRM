@@ -6,9 +6,10 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'SVendorEnquiries' => 'Sales enquiries',
+	'SVendorEnquiries' => 'Vendor enquiries',
 	'SQuoteEnquiries' => 'Sales enquiries',
 	'SINGLE_SQuoteEnquiries' => 'Sales enquiry',
+	'SINGLE_SVendorEnquiries' => 'Vendor enquiry',
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Basic information',
 	'LBL_CUSTOM_INFORMATION' => 'System information',

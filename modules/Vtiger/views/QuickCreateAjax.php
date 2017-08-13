@@ -17,7 +17,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 
 		if (!(Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -39,7 +39,7 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		}
 
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
 

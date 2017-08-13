@@ -115,7 +115,7 @@ class Deprecated
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
-					throw new \Exception\NoPermitted("Cannot open file ($filename)");
+					throw new \App\Exceptions\NoPermitted("Cannot open file ($filename)");
 				}
 				require_once('modules/Users/CreateUserPrivilegeFile.php');
 				$newbuf = "<?php\n";
@@ -215,7 +215,7 @@ class Deprecated
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -238,7 +238,7 @@ class Deprecated
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -248,7 +248,7 @@ class Deprecated
 		if (!self::isFileAccessible($filepath)) {
 
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 

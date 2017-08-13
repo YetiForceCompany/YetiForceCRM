@@ -13,7 +13,6 @@ class Settings_Inventory_ModalAjax_View extends Settings_Inventory_CreditLimits_
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
 		$type = $request->get('type');

@@ -478,7 +478,7 @@ $languageStrings = [
 	'LBL_Sat' => 'Sat',
 	'LBL_SAVE' => 'Save',
 	'BTN_SAVE' => 'Save',
-  	'BTN_CLOSE' => 'Close',
+	'BTN_CLOSE' => 'Close',
 	'LBL_SAVE_AS_DRAFT' => 'Save as draft',
 	'LBL_SAVE_AS_FILTER' => 'Save as filter',
 	'LBL_SAVE_FILTER' => 'Save filter',
@@ -1258,6 +1258,7 @@ $languageStrings = [
 	'LBL_UPDATE_FIELD' => 'Update field',
 	'FL_IS_PRIVATE' => 'Private',
 	'LBL_SHOW_QUICK_DETAILS' => 'Quick preview',
+	'LBL_SEND_MESSAGE' => 'Send message',
 	//TextParser
 	'LBL_TRANSLATE' => 'Translation',
 	'LBL_COMPANY_VARIABLES' => 'Company details',
@@ -1287,6 +1288,8 @@ $languageStrings = [
 	'LBL_COPY_VALUE' => 'Field value',
 	'LBL_COPY_LABEL' => 'Field name',
 	'LBL_AUTOMATIC' => 'Automatic',
+	'LBL_RELATED_RECORDS_LIST' => 'List of related records',
+	'LBL_RECORDS_LIST' => 'List of all records',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Number of found e-mail addresses',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Number of selected records',
@@ -1619,4 +1622,9 @@ $jsLanguageStrings = [
 	'JS_MASS_REVIEWING_CHANGES_CONFIRMATION' => 'Are you sure you want to review changes in the selected records?',
 	'JS_MARKED_AS_READ' => 'Marked as read',
 	'JS_FILE_EXCEEDS_MAX_UPLOAD_SIZE' => 'At least one of the attached files is too large',
+	'JS_LAST_7_DAYS' => 'Last 7 days',
+	'JS_LAST_30_DAYS' => 'Last 30 days',
+	'JS_CURRENT_MONTH' => 'Current month',
+	'JS_LAST_MONTH' => 'Last month',
+	'JS_CUSTOM' => 'Custom date range',
 ];

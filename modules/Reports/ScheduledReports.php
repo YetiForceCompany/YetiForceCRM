@@ -40,7 +40,7 @@ class VTScheduledReport extends Reports
 		$adb = PearDatabase::getInstance();
 
 		if (!empty($this->id)) {
-			$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
+			$cachedInfo = VTCacheUtils::lookupReportScheduledInfo($this->user->id, $this->id);
 
 			if ($cachedInfo === false) {
 				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
@@ -51,9 +51,9 @@ class VTScheduledReport extends Reports
 					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : [];
 					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : [];
 
-					VTCacheUtils::updateReport_ScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'], $scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
+					VTCacheUtils::updateReportScheduledInfo($this->user->id, $this->id, true, $reportScheduleInfo['format'], $scheduledInterval, $scheduledRecipients, $reportScheduleInfo['next_trigger_time']);
 
-					$cachedInfo = VTCacheUtils::lookupReport_ScheduledInfo($this->user->id, $this->id);
+					$cachedInfo = VTCacheUtils::lookupReportScheduledInfo($this->user->id, $this->id);
 				}
 			}
 			if ($cachedInfo) {
@@ -80,7 +80,7 @@ class VTScheduledReport extends Reports
 
 			if (!empty($recipientsInfo['roles'])) {
 				foreach ($recipientsInfo['roles'] as $roleId) {
-					$roleUsers = getRoleUsers($roleId);
+					$roleUsers = \App\PrivilegeUtil::getUsersNameByRole($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -144,8 +144,6 @@ class VTScheduledReport extends Reports
 		if ($reportFormat === 'pdf' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.pdf';
 			$filePath = 'storage/' . $fileName;
-			$attachments[$filePath] = $fileName;
-			$pdf = $oReportRun->getReportPDF();
 		}
 		if ($reportFormat === 'excel' || $reportFormat === 'both') {
 			$fileName = $baseFileName . '.xls';
@@ -240,11 +238,7 @@ class VTScheduledReport extends Reports
 	public function updateNextTriggerTime()
 	{
 		$adb = $this->db;
-
-		$currentTime = date('Y-m-d H:i:s');
-		$scheduledInterval = $this->scheduledInterval;
 		$nextTriggerTime = $this->getNextTriggerTime(); // Compute based on the frequency set
-
 		$adb->pquery('UPDATE vtiger_scheduled_reports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->id));
 	}
 

@@ -26,6 +26,5 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js", {
 }, {
 	registerEvents: function () {
 		this._super();
-		this.registerHoliday();
 	}
 });

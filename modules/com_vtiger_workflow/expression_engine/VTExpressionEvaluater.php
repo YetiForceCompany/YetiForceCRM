@@ -11,7 +11,7 @@
 interface VTExpressionEnv
 {
 
-	function get($var);
+	public function get($var);
 }
 
 function __vt_add($arr)
@@ -102,7 +102,6 @@ function __vt_time_diff($arr)
 	} else {
 
 		// Added as we need to compare with the values based on the user date format and timezone
-		$default_timezone = vglobal('default_timezone');
 
 		$time_operand1 = date('Y-m-d H:i:s'); // Current time
 
@@ -149,7 +148,7 @@ function __vt_add_days($arr)
 	} else {
 		$noOfDays = $arr[0];
 	}
-	if ($baseDate == null || empty($baseDate)) {
+	if ($baseDate === null || empty($baseDate)) {
 		$baseDate = date('Y-m-d'); // Current date
 	}
 	preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
@@ -167,7 +166,7 @@ function __vt_sub_days($arr)
 	} else {
 		$noOfDays = $arr[0];
 	}
-	if ($baseDate == null || empty($baseDate)) {
+	if ($baseDate === null || empty($baseDate)) {
 		$baseDate = date('Y-m-d'); // Current date
 	}
 	preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
@@ -221,7 +220,7 @@ function __vt_sub_time($arr)
 class VTFieldExpressionEvaluater
 {
 
-	function __construct($expr)
+	public function __construct($expr)
 	{
 
 		$this->operators = array(
@@ -250,13 +249,13 @@ class VTFieldExpressionEvaluater
 		$this->expr = $expr;
 	}
 
-	function evaluate($env)
+	public function evaluate($env)
 	{
 		$this->env = $env;
 		return $this->exec($this->expr);
 	}
 
-	function exec($expr)
+	public function exec($expr)
 	{
 		if ($expr instanceof VTExpressionSymbol) {
 			return $this->env($expr);
@@ -280,7 +279,7 @@ class VTFieldExpressionEvaluater
 		}
 	}
 
-	function env($sym)
+	public function env($sym)
 	{
 		if ($this->env) {
 			return $this->env->get($sym->value);

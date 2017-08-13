@@ -28,17 +28,31 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$textParser = \App\TextParser::getInstance();
 			$textParser->setContent($value)->parseTranslations();
 		}
-		return $textParser->getContent();
+		return nl2br($textParser->getContent());
 	}
 
+	/**
+	 * Title
+	 * @return string
+	 */
 	public function getTitle()
 	{
-		return $this->getParseField('title');
+		return $this->getDisplayValue('title', $this->getId(), $this);
 	}
 
+	/**
+	 * Fuction to get the Name of the record
+	 * @return string - Entity Name of the record
+	 */
 	public function getName()
 	{
-		return $this->getParseField('title');
+		$labelName = [];
+		$metaInfo = \App\Module::getEntityInfo($this->getModuleName());
+		foreach ($metaInfo['fieldnameArr'] as $columnName) {
+			$field = $this->getModule()->getFieldByColumn($columnName);
+			$labelName[] = $this->getDisplayValue($field->getName(), $this->getId(), $this);
+		}
+		return trim(implode(' ', $labelName));
 	}
 
 	/**
@@ -65,7 +79,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getMessage()
 	{
-		return $this->getParseField('description');
+		return $this->getDisplayValue('description', $this->getId(), $this);
 	}
 
 	/**

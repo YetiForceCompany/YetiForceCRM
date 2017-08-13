@@ -292,9 +292,11 @@ class Vtiger_InventoryField_Model extends App\Base
 		if (!$return || empty($taxParam['aggregationType'])) {
 			$return = [];
 		}
-		foreach ($taxParam['aggregationType'] as $aggregationType) {
-			$precent = $taxParam[$aggregationType . 'Tax'];
-			$return[$precent] += $net * ($precent / 100);
+		if (isset($taxParam['aggregationType'])) {
+			foreach ($taxParam['aggregationType'] as $aggregationType) {
+				$precent = $taxParam[$aggregationType . 'Tax'];
+				$return[$precent] += $net * ($precent / 100);
+			}
 		}
 		return $return;
 	}
@@ -483,12 +485,13 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function saveSequence($sequenceList)
 	{
+		$db = \App\Db::getInstance();
 		$case = 'CASE id';
 		foreach ($sequenceList as $sequence => $id) {
-			$case .= ' WHEN ' . $id . ' THEN ' . $sequence;
+			$case .= " WHEN {$db->quoteValue($id)} THEN {$db->quoteValue($sequence)}";
 		}
 		$case .= ' END ';
-		return \App\Db::getInstance()->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
+		return $db->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
 	}
 
 	/**
@@ -540,21 +543,21 @@ class Vtiger_InventoryField_Model extends App\Base
 		return $summaryFields;
 	}
 
+	/**
+	 * Function return autocomplete fields
+	 * @return array
+	 */
 	public function getAutoCompleteFields()
 	{
-		$instance = Vtiger_Cache::get('AutoCompleteFields', $this->get('module'));
-		if ($instance) {
-			return $instance;
+		if (\App\Cache::has('AutoCompleteFields', $this->get('module'))) {
+			return \App\Cache::get('AutoCompleteFields', $this->get('module'));
 		}
-
-		$db = PearDatabase::getInstance();
-		$table = $this->getTableName('autofield');
-		$result = $db->pquery(sprintf('SELECT * FROM %s', $table));
+		$dataReader = (new \App\Db\Query())->from($this->getTableName('autofield'))->createCommand()->query();
 		$fields = [];
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$fields[$row['tofield']] = $row;
 		}
-		Vtiger_Cache::set('AutoCompleteFields', $this->get('module'), $fields);
+		App\Cache::save('AutoCompleteFields', $this->get('module'), $fields);
 		return $fields;
 	}
 

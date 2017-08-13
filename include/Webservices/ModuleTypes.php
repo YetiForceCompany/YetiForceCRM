@@ -8,7 +8,16 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-function vtws_listtypes($fieldTypeList, $user)
+/**
+ * Webservice list types
+ * @staticvar boolean $webserviceEntities
+ * @staticvar array $types
+ * @param array $fieldTypeList
+ * @param Users_Record_Model $user
+ * @return array
+ * @throws WebServiceException
+ */
+function vtws_listtypes($fieldTypeList, Users_Record_Model $user)
 {
 	// Bulk Save Mode: For re-using information
 	static $webserviceEntities = false;
@@ -27,10 +36,6 @@ function vtws_listtypes($fieldTypeList, $user)
 	}
 	try {
 
-		/**
-		 * @var PearDatabase
-		 */
-		$db = PearDatabase::getInstance();
 
 		vtws_preserveGlobal('current_user', $user);
 		//get All the modules the current user is permitted to Access.
@@ -40,41 +45,25 @@ function vtws_listtypes($fieldTypeList, $user)
 		}
 
 		if (!empty($fieldTypeList)) {
-			$sql = "SELECT distinct(vtiger_field.tabid) as tabid FROM vtiger_field LEFT JOIN vtiger_ws_fieldtype ON " .
-				"vtiger_field.uitype=vtiger_ws_fieldtype.uitype
-				 INNER JOIN vtiger_profile2field ON vtiger_field.fieldid = vtiger_profile2field.fieldid
-				 INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-				 INNER JOIN vtiger_role2profile ON vtiger_profile2field.profileid = vtiger_role2profile.profileid
-				 INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role2profile.roleid
-				 where vtiger_profile2field.visible=0 and vtiger_def_org_field.visible = 0
-				 and vtiger_field.presence in (0,2)
-				 and vtiger_user2role.userid=? and fieldtype in (" .
-				generateQuestionMarks($fieldTypeList) . ')';
-			$params = [];
-			$params[] = $user->id;
-			foreach ($fieldTypeList as $fieldType)
-				$params[] = $fieldType;
-			$result = $db->pquery($sql, $params);
-			$it = new SqlResultIterator($db, $result);
+			$query = (new \App\Db\Query())->select(['(vtiger_field.tabid) as tabid'])
+					->from('vtiger_field')
+					->leftJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype=vtiger_ws_fieldtype.uitype')
+					->innerJoin('vtiger_profile2field', 'vtiger_field.fieldid = vtiger_profile2field.fieldid')
+					->innerJoin('vtiger_def_org_field', 'vtiger_def_org_field.fieldid = vtiger_field.fieldid')
+					->innerJoin('vtiger_role2profile', 'vtiger_profile2field.profileid = vtiger_role2profile.profileid')
+					->innerJoin('vtiger_user2role', 'vtiger_user2role.roleid = vtiger_role2profile.roleid')
+					->where(['vtiger_profile2field.visible' => 0, 'vtiger_def_org_field.visible' => 0, 'vtiger_field.presence' => [0, 2], 'vtiger_user2role.userid' => $user->id, 'fieldtype' => $fieldTypeList])->distinct();
 			$moduleList = [];
-			foreach ($it as $row) {
-				$moduleList[] = \App\Module::getModuleName($row->tabid);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$moduleList[] = \App\Module::getModuleName($row['tabid']);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
 
-			$params = $fieldTypeList;
-
-			$sql = "select name from vtiger_ws_entity inner join vtiger_ws_entity_tables on " .
-				"vtiger_ws_entity.id=vtiger_ws_entity_tables.webservice_entity_id inner join " .
-				"vtiger_ws_entity_fieldtype on vtiger_ws_entity_fieldtype.table_name=" .
-				"vtiger_ws_entity_tables.table_name where fieldtype=(" .
-				generateQuestionMarks($fieldTypeList) . ')';
-			$result = $db->pquery($sql, $params);
-			$it = new SqlResultIterator($db, $result);
-			$entityList = [];
-			foreach ($it as $row) {
-				$entityList[] = $row->name;
-			}
+			$entityList = (new \App\Db\Query())->select(['name'])->from('vtiger_ws_entity')
+					->innerJoin('vtiger_ws_entity_tables', 'vtiger_ws_entity.id=vtiger_ws_entity_tables.webservice_entity_id')
+					->innerJoin('vtiger_ws_entity_fieldtype', 'vtiger_ws_entity_fieldtype.table_name=vtiger_ws_entity_tables.table_name')
+					->where(['fieldtype' => $fieldTypeList])->column();
 		}
 		//get All the CRM entity names.
 		if ($webserviceEntities === false) {

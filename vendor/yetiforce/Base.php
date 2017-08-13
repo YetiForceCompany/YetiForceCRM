@@ -117,7 +117,7 @@ class Base
 	 */
 	public function isEmpty($key)
 	{
-		return (!isset($this->value[$key]) || $this->value[$key] === '');
+		return empty($this->value[$key]);
 	}
 
 	/**

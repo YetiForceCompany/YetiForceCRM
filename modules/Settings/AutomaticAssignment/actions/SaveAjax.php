@@ -53,7 +53,6 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	public function changeRoleType(\App\Request $request)
 	{
 		$member = $request->get('param');
-		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		if ($recordId) {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
@@ -73,8 +72,6 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	 */
 	public function deleteElement(\App\Request $request)
 	{
-		$member = $request->get('param');
-		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
 		$recordModel->deleteElement($request->get('name'), $request->get('value'));

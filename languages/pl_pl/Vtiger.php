@@ -1271,6 +1271,7 @@ $languageStrings = [
 	'DW_TEAMS_ESTIMATED_SALES' => 'Szacowana sprzedaż zespołu',
 	'LBL_COMPARE_TO_LAST_PERIOD' => 'Porównaj z poprzednim okresem o tej samej długości co obecny zakres dat.',
 	'DW_ACTUAL_SALES_OF_TEAM' => 'Rzeczywista sprzedaż zespołu',
+	'LBL_SEND_MESSAGE' => 'Wyślij wiadomość',
 	//TextParser
 	'LBL_TRANSLATE' => 'Tłumaczenie',
 	'LBL_COMPANY_VARIABLES' => 'Dane firmy',
@@ -1300,6 +1301,8 @@ $languageStrings = [
 	'LBL_COPY_VALUE' => 'Wartość pola',
 	'LBL_COPY_LABEL' => 'Nazwa pola',
 	'LBL_AUTOMATIC' => 'Automatyczny',
+	'LBL_RELATED_RECORDS_LIST' => 'Lista rekordów powiązanych',
+	'LBL_RECORDS_LIST' => 'Lista wszystkich rekordów',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Ilość znalezionych adresów e-mail',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Ilość zaznaczonych rekordów',

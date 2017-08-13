@@ -22,7 +22,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -99,7 +99,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	{
 		$record = $request->get('record');
 		$recordModule = $request->get('recordModule');
-		$moduleName = $request->getModule();
 		$unitPriceValues = false;
 
 		if (in_array($recordModule, ['Products', 'Services'])) {

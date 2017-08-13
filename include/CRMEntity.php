@@ -36,7 +36,7 @@ class CRMEntity
 		$this->column_fields = getColumnFields(get_class($this));
 	}
 
-	static function getInstance($module)
+	public static function getInstance($module)
 	{
 		$modName = $module;
 		if (is_numeric($module)) {
@@ -161,15 +161,15 @@ class CRMEntity
 		// Lookup module field cache
 		if ($module == 'Calendar' || $module == 'Events') {
 			getColumnFields('Calendar');
-			if (VTCacheUtils::lookupFieldInfo_Module('Events'))
-				$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+			if (VTCacheUtils::lookupFieldInfoModule('Events'))
+				$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 			else
 				$cachedEventsFields = [];
-			$cachedCalendarFields = VTCacheUtils::lookupFieldInfo_Module('Calendar');
+			$cachedCalendarFields = VTCacheUtils::lookupFieldInfoModule('Calendar');
 			$cachedModuleFields = array_merge($cachedEventsFields, $cachedCalendarFields);
 			$module = 'Calendar';
 		} else {
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		}
 		if ($cachedModuleFields === false) {
 			// Pull fields and cache for further use
@@ -187,7 +187,7 @@ class CRMEntity
 					);
 				}
 				// Get only active field information
-				$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+				$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 			}
 		}
 
@@ -266,10 +266,7 @@ class CRMEntity
 	 */
 	public function mark_deleted($id)
 	{
-		$current_user = vglobal('current_user');
-		$date_var = date("Y-m-d H:i:s");
-		$query = "UPDATE vtiger_crmentity set deleted=1,modifiedtime=?,modifiedby=? where crmid=?";
-		$this->db->pquery($query, array($this->db->formatDate($date_var, true), $current_user->id, $id), true, "Error marking record deleted: ");
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $id])->execute();
 	}
 
 	/**
@@ -346,7 +343,7 @@ class CRMEntity
 	public function trash($moduleName, $id)
 	{
 		if (vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		$this->mark_deleted($id);
 	}
@@ -608,25 +605,30 @@ class CRMEntity
 		}
 	}
 
+	/**
+	 * Function add info about relations
+	 * @param string $module
+	 * @param int $crmid
+	 * @param string $withModule
+	 * @param int $withCrmid
+	 */
 	public function saveRelatedToDB($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = PearDatabase::getInstance();
 		foreach ($withCrmid as $relcrmid) {
-			if ($withModule == 'Documents') {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_senotesrel WHERE crmid = ? AND notesid = ?', [$crmid, $relcrmid]);
-				// Relation already exists? No need to add again
-				if ($checkpresence && $db->getRowCount($checkpresence))
+			if ($withModule === 'Documents') {
+				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_senotesrel')->where(['crmid' => $crmid, 'notesid' => $relcrmid])->exists();
+				if ($checkpresence) {
 					continue;
+				}
 				\App\Db::getInstance()->createCommand()->insert('vtiger_senotesrel', [
 					'crmid' => $crmid,
 					'notesid' => $relcrmid
 				])->execute();
 			} else {
-				$checkpresence = $db->pquery('SELECT crmid FROM vtiger_crmentityrel WHERE crmid = ? AND module = ? AND relcrmid = ? AND relmodule = ?', [$crmid, $module, $relcrmid, $withModule]
-				);
-				// Relation already exists? No need to add again
-				if ($checkpresence && $db->getRowCount($checkpresence))
+				$checkpresence = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentityrel')->where(['crmid' => $crmid, 'module' => $module, 'relcrmid' => $relcrmid, 'relmodule' => $withModule])->exists();
+				if ($checkpresence) {
 					continue;
+				}
 				\App\Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
 					'crmid' => $crmid,
 					'module' => $module,
@@ -1144,11 +1146,11 @@ class CRMEntity
 			return;
 		}
 		// Look for fields that has presence value NOT IN (0,2)
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, array('1'));
 		if ($cachedModuleFields === false) {
 			// Initialize the fields calling suitable API
 			getColumnFields($module);
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
+			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, array('1'));
 		}
 
 		$hiddenFields = [];

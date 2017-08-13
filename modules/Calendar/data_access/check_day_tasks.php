@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Lock saving events after exceeding the limit
  * @package YetiForce.DataAccess
@@ -8,18 +7,33 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+/**
+ * Class DataAccess_check_day_tasks
+ */
 class DataAccess_check_day_tasks
 {
 
+	/**
+	 * Config
+	 * @var bool
+	 */
 	public $config = true;
 
+	/**
+	 * Process
+	 * @param string $moduleName
+	 * @param int $ID
+	 * @param array $recordData
+	 * @param array $config
+	 * @return array
+	 */
 	public function process($moduleName, $ID, $recordData, $config)
 	{
 		if (!in_array($moduleName, ['Calendar', 'Events'])) {
 			return ['save_record' => true];
 		}
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
-		$db = PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$statusType = $config['statusType'];
 		switch ($statusType) {
@@ -33,21 +47,16 @@ class DataAccess_check_day_tasks
 				$status = empty($config['status']) ? [] : $config['status'];
 				break;
 		}
-		$sql = 'SELECT count(*) as count FROM vtiger_activity 
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_activity.activityid 
-			WHERE vtiger_crmentity.deleted = ? && vtiger_activity.date_start = ? && vtiger_activity.smownerid = ?';
-		$params = [0, $recordData['date_start'], $userRecordModel->getId()];
+		$query = (new App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_activity.date_start' => $recordData['date_start'], 'vtiger_activity.smownerid' => $userRecordModel->getId()]);
 		if (!empty($status)) {
-			$sql .= ' && vtiger_activity.status IN (' . generateQuestionMarks($status) . ')';
-			$params[] = $status;
+			$query->andWhere(['vtiger_activity.status' => $status]);
 		}
-		$result = $db->pquery($sql, $params);
 
 		if ($config['lockSave'] == 1) {
 			$typeInfo = 'error';
 		}
 
-		$count = $db->getSingleValue($result);
+		$count = $query->count();
 		if ($count >= $config['maxActivites']) {
 			$title = '<strong>' . \App\Language::translate('Message', 'DataAccess') . '</strong>';
 
@@ -68,6 +77,13 @@ class DataAccess_check_day_tasks
 		}
 	}
 
+	/**
+	 * Get config
+	 * @param id $id
+	 * @param string $module
+	 * @param string $baseModule
+	 * @return array
+	 */
 	public function getConfig($id, $module, $baseModule)
 	{
 		return [];

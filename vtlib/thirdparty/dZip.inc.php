@@ -73,8 +73,6 @@ class dZip
 		$lastmod_dateM = str_pad(decbin(date('m')), 4, '0', STR_PAD_LEFT);
 		$lastmod_dateY = str_pad(decbin(date('Y') - 1980), 7, '0', STR_PAD_LEFT);
 
-		# echo "ModTime: $lastmod_timeS-$lastmod_timeM-$lastmod_timeH (".date("s H H").")\n";
-		# echo "ModDate: $lastmod_dateD-$lastmod_dateM-$lastmod_dateY (".date("d m Y").")\n";
 		$details['modtime'] = bindec("$lastmod_timeH$lastmod_timeM$lastmod_timeS");
 		$details['moddate'] = bindec("$lastmod_dateY$lastmod_dateM$lastmod_dateD");
 

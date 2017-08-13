@@ -160,38 +160,30 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		return $this->module;
 	}
 
+	/**
+	 * Function to get rules
+	 * @return array
+	 */
 	protected function getRuleComponents()
 	{
 		if (!isset($this->rule_details) && $this->getId()) {
-			$db = PearDatabase::getInstance();
-
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
 			$targetType = $relationTypeComponents[1];
-
 			$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
 			$tableName = $tableColumnInfo['table'];
 			$sourceColumnName = $tableColumnInfo['source_id'];
 			$targetColumnName = $tableColumnInfo['target_id'];
-
-			$sql = sprintf('SELECT * FROM %s WHERE shareid = ?', $tableName);
-			$params = array($this->getId());
-			$result = $db->pquery($sql, $params);
-			if ($db->num_rows($result)) {
-				$sourceId = $db->query_result($result, 0, $sourceColumnName);
+			$row = (new App\Db\Query())->from($tableName)->where(['shareid' => $this->getId()])
+				->one();
+			if ($row) {
 				$sourceMemberType = self::$ruleMemberToRelationMapping[$sourceType];
-				$qualifiedSourceId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($sourceMemberType, $sourceId);
-				$sourceMember = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedSourceId);
-				$this->rule_details['source_member'] = $sourceMember;
-
-				$targetId = $db->query_result($result, 0, $targetColumnName);
+				$qualifiedSourceId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($sourceMemberType, $row[$sourceColumnName]);
+				$this->rule_details['source_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedSourceId);
 				$targetMemberType = self::$ruleMemberToRelationMapping[$targetType];
-				$qualifiedTargetId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($targetMemberType, $targetId);
-				$targetMember = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedTargetId);
-				$this->rule_details['target_member'] = $targetMember;
-
-				$this->rule_details['permission'] = $db->query_result($result, 0, 'permission');
-				;
+				$qualifiedTargetId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($targetMemberType, $row[$targetColumnName]);
+				$this->rule_details['target_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedTargetId);
+				$this->rule_details['permission'] = $row['permission'];
 			}
 		}
 		return $this->rule_details;
@@ -392,20 +384,17 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 
+	/**
+	 * Delete the rule
+	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$dbCommand = App\Db::getInstance()->createCommand();
 		$ruleId = $this->getId();
-
 		$relationTypeComponents = explode('::', $this->get('relationtype'));
-		$sourceType = $relationTypeComponents[0];
-		$targetType = $relationTypeComponents[1];
-		$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
-		$tableName = $tableColumnInfo['table'];
-
-		$db->delete($tableName, 'shareid = ?', [$ruleId]);
-		$db->delete('vtiger_datashare_module_rel', 'shareid = ?', [$ruleId]);
-
+		$tableColumnInfo = self::$dataShareTableColArr[$relationTypeComponents[0]][$relationTypeComponents[1]];
+		$dbCommand->delete($tableColumnInfo['table'], ['shareid' => $ruleId])->execute();
+		$dbCommand->delete('vtiger_datashare_module_rel', ['shareid' => $ruleId])->execute();
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 
@@ -425,20 +414,15 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 	/**
 	 * Function to get all the rules
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return Settings_Groups_Record_Model[]
 	 */
 	public static function getAllByModule($moduleModel)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ?';
-		$params = array($moduleModel->getId());
-		$result = $db->pquery($sql, $params);
-		$noOfRules = $db->num_rows($result);
-
+		$dataReader = (new App\Db\Query())->from('vtiger_datashare_module_rel')
+				->where(['tabid' => $moduleModel->getId()])
+				->createCommand()->query();
 		$ruleModels = [];
-		for ($i = 0; $i < $noOfRules; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			$ruleModel = new self();
 			$ruleModels[$row['shareid']] = $ruleModel->setData($row)->setModuleFromInstance($moduleModel);
 		}

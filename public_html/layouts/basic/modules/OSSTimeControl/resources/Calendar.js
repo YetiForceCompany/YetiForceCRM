@@ -1,7 +1,6 @@
 /* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerUserListWidget: function () {
-		var thisInstance = new OSSTimeControl_Calendar_Js();
 		var widgetContainer = $('.widgetContainer');
 		widgetContainer.hover(
 				function () {
@@ -111,14 +110,17 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				element.find('.fc-content').popover({
-					title: event.title,
-					placement: 'auto right',
-					html: true,
-					trigger: 'hover',
-					delay: 500,
+				app.showPopoverElementView(element.find('.fc-content'), {
+					title: event.title + '<a href="index.php?module=OSSTimeControl&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
+					html: true,
+					placement: 'auto right',
+					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 					content: '<i class="icon-time"></i> ' + app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat)
+				});
+				element.find('.fc-content, .fc-info').click(function () {
+					var event = $(this).closest('.fc-event');
+					window.location.href = event.attr('href');
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -282,14 +284,15 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
+					
 				}});
 			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
 		// convert dates to db format
-		calendarDetails.date_start.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.date_start.display_value);
-		calendarDetails.due_date.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.due_date.display_value);
+		calendarDetails.date_start.display_value = moment(calendarDetails.date_start.display_value).format(dateFormat);
+		calendarDetails.due_date.display_value = moment(calendarDetails.due_date.display_value).format(dateFormat);
 		var calendar = this.getCalendarView();
 
 		var eventObject = {};
@@ -298,7 +301,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
 		eventObject.start = startDate.toString();
 		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
-		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId;
 		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value + ' calCol_' + calendarDetails.timecontrol_type.value;

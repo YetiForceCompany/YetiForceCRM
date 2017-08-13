@@ -21,9 +21,9 @@ class Users_Logout_Action extends Vtiger_Action_Controller
 		$eventHandler = new App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
 		if (AppConfig::main('session_regenerate_id')) {
-			Vtiger_Session::regenerateId(true); // to overcome session id reuse.
+			App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		Vtiger_Session::destroy();
+		App\Session::destroy();
 
 		//Track the logout History
 		$moduleName = $request->getModule();

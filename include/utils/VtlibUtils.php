@@ -14,31 +14,6 @@
  * use the common one.
  */
 
-// Let us create cache to improve performance
-
-
-function vtiger_imageurl($imagename, $themename)
-{
-	static $cacheVtigerImagepath = [];
-	if ($cacheVtigerImagepath[$imagename]) {
-		$imagepath = $cacheVtigerImagepath[$imagename];
-	} else {
-		$imagepath = false;
-		// Check in theme specific folder
-		if (file_exists("themes/$themename/images/$imagename")) {
-			$imagepath = "themes/$themename/images/$imagename";
-		} else if (file_exists("themes/images/$imagename")) {
-			// Search in common image folder
-			$imagepath = "themes/images/$imagename";
-		} else {
-			// Not found anywhere? Return whatever is sent
-			$imagepath = $imagename;
-		}
-		$cacheVtigerImagepath[$imagename] = $imagepath;
-	}
-	return $imagepath;
-}
-
 /**
  * Fetch module active information at one shot, but return all the information fetched.
  */

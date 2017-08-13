@@ -112,7 +112,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(1) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 			if ($indexes = $this->getIndexes($importer, $table)) {
@@ -124,7 +124,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= " | Error(2) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
-							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -138,7 +138,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= " | Error(3) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
-							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -172,6 +172,9 @@ class Importer
 	 */
 	public function getColumns(Base $importer, $table)
 	{
+		if (empty($table['columns'])) {
+			return [];
+		}
 		$type = $importer->db->getDriverName();
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {
@@ -226,7 +229,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(4) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
@@ -254,7 +257,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(5) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
@@ -277,13 +280,13 @@ class Importer
 				} catch (\Exception $e) {
 					$this->logs .= " | Error(6) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 					if ($this->dieOnError) {
-						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+						throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
 				if ($this->redundantTables && isset($importer->data[$tableName . '_seq'])) {
 					$this->logs .= "   > Error: redundant table {$tableName}_seq !!!\n";
 					if ($this->dieOnError) {
-						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+						throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
 			}
@@ -302,13 +305,23 @@ class Importer
 	 */
 	public function renameTables($tables)
 	{
+		$this->logs .= "> start rename tables\n";
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		foreach ($tables as $table) {
+			$this->logs .= "  > rename table, {$table[0]} ... ";
 			if ($db->isTableExists($table[0])) {
-				$dbCommand->renameTable($table[0], $table[1])->execute();
+				try {
+					$dbCommand->renameTable($table[0], $table[1])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(11) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "error table does not exist\n";
 			}
 		}
+		$this->logs .= "# end rename tables\n";
 	}
 
 	/**
@@ -317,15 +330,25 @@ class Importer
 	 */
 	public function dropTable($tables)
 	{
+		$this->logs .= "> start drop tables\n";
 		$db = \App\Db::getInstance();
 		if (is_string($tables)) {
 			$tables = [$tables];
 		}
 		foreach ($tables as $tableName) {
+			$this->logs .= "  > drop table, $tableName ... ";
 			if ($db->isTableExists($tableName)) {
-				$db->createCommand()->dropTable($tableName)->execute();
+				try {
+					$db->createCommand()->dropTable($tableName)->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(12) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "error table does not exist\n";
 			}
 		}
+		$this->logs .= "# end drop tables\n";
 	}
 
 	/**
@@ -339,15 +362,25 @@ class Importer
 	 */
 	public function renameColumns($columns)
 	{
+		$this->logs .= "> start rename columns\n";
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
 		foreach ($columns as $column) {
 			$tableSchema = $schema->getTableSchema($column[0]);
+			$this->logs .= "  > rename column: {$column[0]}:{$column[1]} ... ";
 			if ($tableSchema && isset($tableSchema->columns[$column[1]]) && !isset($tableSchema->columns[$column[2]])) {
-				$dbCommand->renameColumn($column[0], $column[1], $column[2])->execute();
+				try {
+					$dbCommand->renameColumn($column[0], $column[1], $column[2])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(13) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "error table or column does not exist\n";
 			}
 		}
+		$this->logs .= "# end rename columns\n";
 	}
 
 	/**
@@ -361,15 +394,25 @@ class Importer
 	 */
 	public function dropColumns($columns)
 	{
+		$this->logs .= "> start drop columns\n";
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
 		foreach ($columns as $column) {
 			$tableSchema = $schema->getTableSchema($column[0]);
+			$this->logs .= "  > drop column: {$column[0]}:{$column[1]} ... ";
 			if ($tableSchema && isset($tableSchema->columns[$column[1]])) {
-				$dbCommand->dropColumn($column[0], $column[1])->execute();
+				try {
+					$dbCommand->dropColumn($column[0], $column[1])->execute();
+					$this->logs .= "done\n";
+				} catch (\Exception $e) {
+					$this->logs .= " | Error(14) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
+				}
+			} else {
+				$this->logs .= "error table or column does not exist\n";
 			}
 		}
+		$this->logs .= "# end drop columns\n";
 	}
 
 	/**
@@ -406,7 +449,7 @@ class Importer
 	/**
 	 * Update tables structure
 	 * @param Base $importer
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function updateTables(Base $importer)
 	{
@@ -439,7 +482,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(7) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 			if ($indexes = $this->getIndexes($importer, $table)) {
@@ -471,7 +514,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= " | Error(8) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
-							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -479,10 +522,10 @@ class Importer
 			if (isset($table['primaryKeys'])) {
 				$dbPrimaryKeys = $importer->db->getPrimaryKey($tableName);
 				foreach ($table['primaryKeys'] as $primaryKey) {
-					$status = false;
+					$status = true;
 					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
-						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) === 1 && $primaryKey[1] === $dbPrimaryKey[0]) : array_diff($primaryKey[1], $dbPrimaryKey)) {
-							$status = true;
+						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) !== 1 && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
+							$status = false;
 						}
 					}
 					if ($status) {
@@ -490,7 +533,7 @@ class Importer
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
 								$dbCommand->dropPrimaryKey($primaryKey[0], $tableName)->execute();
-							} else {
+							} elseif ($dbPrimaryKeys) {
 								$dbCommand->dropPrimaryKey(key($dbPrimaryKeys), $tableName)->execute();
 							}
 							$dbCommand->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
@@ -498,7 +541,7 @@ class Importer
 						} catch (\Exception $e) {
 							$this->logs .= " | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 							if ($this->dieOnError) {
-								throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+								throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 							}
 						}
 					}

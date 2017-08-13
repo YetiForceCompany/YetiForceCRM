@@ -17,7 +17,7 @@ while ($row = $dataReader->read()) {
 	$state = Calendar_Module_Model::getCalendarState($row);
 	if ($state && $state != $row['activitystatus']) {
 		$recordModel = Vtiger_Record_Model::getInstanceById($row['activityid']);
-		$recordModel->set('id', $row['activityid']);
+		$recordModel->setId($row['activityid']);
 		$recordModel->set('activitystatus', $state);
 		$recordModel->save();
 	}

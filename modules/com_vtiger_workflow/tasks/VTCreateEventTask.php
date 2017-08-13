@@ -8,9 +8,6 @@
  * All Rights Reserved.
  * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/Webservices/ModuleTypes.php';
 require_once('include/Webservices/Create.php');
@@ -18,7 +15,6 @@ require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
 require_once 'include/Webservices/VtigerWebserviceObject.php';
-
 require_once("modules/Users/Users.php");
 
 class VTCreateEventTask extends VTTask
@@ -34,7 +30,7 @@ class VTCreateEventTask extends VTTask
 			'status', 'priority', 'assigned_user_id');
 	}
 
-	function getAdmin()
+	public function getAdmin()
 	{
 		$user = Users::getActiveAdminUser();
 		$currentUser = vglobal('current_user');
@@ -129,7 +125,7 @@ class VTCreateEventTask extends VTTask
 	 * @param type $timeStr
 	 * @return time
 	 */
-	static function convertToDBFormat($timeStr)
+	public static function convertToDBFormat($timeStr)
 	{
 		$date = new DateTime();
 		$time = Vtiger_Time_UIType::getTimeValueWithSeconds($timeStr);
@@ -137,7 +133,7 @@ class VTCreateEventTask extends VTTask
 		return $dbInsertDateTime->format('H:i:s');
 	}
 
-	static function conv12to24hour($timeStr)
+	public static function conv12to24hour($timeStr)
 	{
 		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);

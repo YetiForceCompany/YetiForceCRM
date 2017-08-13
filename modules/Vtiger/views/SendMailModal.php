@@ -15,7 +15,6 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	/**
 	 * Checking permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\AppException
 	 * @throws \Exception\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
@@ -23,7 +22,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->get('sourceModule'), 'DetailView', $request->get('sourceRecord'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');

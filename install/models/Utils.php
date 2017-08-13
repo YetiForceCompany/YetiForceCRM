@@ -53,7 +53,7 @@ class Install_Utils_Model
 	 * @param type $dbType
 	 * @return type
 	 */
-	static function isMySQL($dbType)
+	public static function isMySQL($dbType)
 	{
 		return (stripos($dbType, 'mysql') === 0);
 	}
@@ -76,8 +76,6 @@ class Install_Utils_Model
 		$create_db = false;
 		$createDB = $request->get('create_db');
 		if ($createDB == 'on') {
-			$root_user = $request->get('db_username');
-			$root_password = $request->getRaw('db_password');
 			$create_db = true;
 		}
 		$db_type = $request->get('db_type');

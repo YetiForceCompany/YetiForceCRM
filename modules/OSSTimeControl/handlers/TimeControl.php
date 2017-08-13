@@ -7,9 +7,9 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-vimport('~~modules/com_vtiger_workflow/include.php');
-vimport('~~include/Webservices/Utils.php');
-vimport('~~include/Webservices/Retrieve.php');
+Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+Vtiger_Loader::includeOnce('~~include/Webservices/Utils.php');
+Vtiger_Loader::includeOnce('~~include/Webservices/Retrieve.php');
 
 class OSSTimeControl_TimeControl_Handler
 {

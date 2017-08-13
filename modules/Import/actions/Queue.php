@@ -12,11 +12,11 @@
 class Import_Queue_Action extends Vtiger_Action_Controller
 {
 
-	static $IMPORT_STATUS_NONE = 0;
-	static $IMPORT_STATUS_SCHEDULED = 1;
-	static $IMPORT_STATUS_RUNNING = 2;
-	static $IMPORT_STATUS_HALTED = 3;
-	static $IMPORT_STATUS_COMPLETED = 4;
+	public static $IMPORT_STATUS_NONE = 0;
+	public static $IMPORT_STATUS_SCHEDULED = 1;
+	public static $IMPORT_STATUS_RUNNING = 2;
+	public static $IMPORT_STATUS_HALTED = 3;
+	public static $IMPORT_STATUS_COMPLETED = 4;
 
 	public function __construct()
 	{
@@ -27,7 +27,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -155,7 +155,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		];
 	}
 
-	static function updateStatus($importId, $temp_status)
+	public static function updateStatus($importId, $temp_status)
 	{
 		$db = PearDatabase::getInstance();
 		$db->pquery('UPDATE vtiger_import_queue SET temp_status=? WHERE importid=?', array($temp_status, $importId));

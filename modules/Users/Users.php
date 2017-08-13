@@ -309,8 +309,9 @@ class Users extends CRMEntity
 				ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
 				ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
 				ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
-				if ($port != 636) {
-					//ldap_start_tls($ds);
+				$parser = parse_url($auth['ldap']['server']);
+				if ($parser['scheme'] === 'tls') {
+					ldap_start_tls($ds);
 				}
 				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
@@ -457,26 +458,6 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/**
-	 * Function to insert values into the attachment table
-	 * @param $id -- entity id:: Type integer
-	 * @param $module -- module:: Type varchar
-	 */
-	public function insertIntoAttachment($id, $module)
-	{
-
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
-
-		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
-				$this->uploadAndSaveFile($id, $module, $files);
-			}
-		}
-
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
-	}
-
 	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
@@ -573,7 +554,7 @@ class Users extends CRMEntity
 		])->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 		//upload the file in server
-		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId . "_" . $binFile);
+		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId);
 		if ($success) {
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,
@@ -686,10 +667,10 @@ class Users extends CRMEntity
 					}
 				}
 			} else {
-				$result = $db->query("SELECT id FROM vtiger_users WHERE is_admin = 'on' AND status = 'Active' limit 1");
 				$adminId = 1;
-				while (($id = $db->getSingleValue($result)) !== false) {
-					$adminId = $id;
+				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['is_admin' => 'on', 'status' => 'Active'])->limit(1)->scalar();
+				if ($result) {
+					$adminId = $result;
 				}
 			}
 			$cache->setAdminUserId($adminId);

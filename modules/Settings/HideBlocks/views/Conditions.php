@@ -37,7 +37,6 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$fieldModelList = $blockModel->getFields();
 		$mandatoryFields = [];
 		if (!empty($fieldModelList)) {
-			$values[$blockLabel] = [];
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				if ($fieldModel->isMandatory()) {
 					$mandatoryFields[$fieldName] = $fieldModel;

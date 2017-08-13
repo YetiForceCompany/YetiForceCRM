@@ -12,6 +12,55 @@
 class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * Base module tools
+	 * @var string[] 
+	 */
+	public static $baseModuleTools = ['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
+		'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
+		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
+		'QuickExportToExcel', 'ExportPdf',
+		'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
+		'WatchingModule', 'RemoveRelation', 'ReviewingUpdates'];
+
+	/**
+	 * Base module tools exceptions
+	 * @var array 
+	 */
+	public static $baseModuleToolsExceptions = [
+		'Documents' => ['notAllowed' => ['Import', 'DuplicatesHandling']],
+		'Calendar' => ['notAllowed' => ['DuplicatesHandling']],
+		'Faq' => ['notAllowed' => ['Import', 'Export', 'DuplicatesHandling']],
+		'Events' => ['notAllowed' => 'all'],
+		'PBXManager' => ['notAllowed' => 'all'],
+		'OSSMailView' => ['notAllowed' => 'all'],
+		'CallHistory' => ['allowed' => ['QuickExportToExcel']],
+	];
+
+	/**
+	 * Get module base tools exceptions parse to ids
+	 * @return array
+	 */
+	public static function getBaseModuleToolsExceptions()
+	{
+		$exceptions = [];
+		$actionIds = (new \App\Db\Query())->select(['actionname', 'actionid'])->from('vtiger_actionmapping')->createCommand()->queryAllByGroup();
+		foreach (static::$baseModuleToolsExceptions as $moduleName => $moduleException) {
+			foreach ($moduleException as $type => $exception) {
+				if (is_array($exception)) {
+					$moduleExceptions = [];
+					foreach ($exception as $actionName) {
+						$moduleExceptions[$actionIds[$actionName]] = $actionName;
+					}
+					$exceptions[App\Module::getModuleId($moduleName)][$type] = $moduleExceptions;
+				} else {
+					$exceptions[App\Module::getModuleId($moduleName)][$type] = false;
+				}
+			}
+		}
+		return $exceptions;
+	}
+
 	public static function getNonVisibleModulesList()
 	{
 		return ['ModTracker', 'Portal', 'Users', 'Integration',
@@ -201,12 +250,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		$module->setDefaultSharing();
 
 		// Enable and Disable available tools
-		$module->enableTools(['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
-			'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
-			'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
-			'QuickExportToExcel', 'DetailTransferOwnership', 'ExportPdf',
-			'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
-			'WatchingModule', 'RemoveRelation', 'ReviewingUpdates']);
+		$module->enableTools(static::$baseModuleTools);
 
 		// Initialize Webservice support
 		$module->initWebservice();

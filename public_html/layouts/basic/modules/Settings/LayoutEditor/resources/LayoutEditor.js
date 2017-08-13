@@ -803,73 +803,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		} else {
 			sortable1.append(fieldCopy.removeClass('hide newCustomFieldCopy'));
 		}
-		var form = fieldCopy.find('form.fieldDetailsForm');
-		thisInstance.setFieldDetails(result, form);
 		thisInstance.makeFieldsListSortable();
-	},
-	/**
-	 * Function to set the field info for edit field actions
-	 */
-	setFieldDetails: function (result, form) {
-		var thisInstance = this;
-		//add field label to the field details
-		form.find('.modal-header').html(jQuery('<strong>' + result['label'] + '</strong><div class="pull-right"><a href="javascript:void(0)" class="cancel">X</a></div>'));
-
-		var defaultValueUi = form.find('.defaultValueUi');
-		if (result['mandatory']) {
-			form.find('[name="mandatory"]').filter(':checkbox').attr('checked', true);
-		}
-		if (result['presence']) {
-			form.find('[name="presence"]').filter(':checkbox').attr('checked', true);
-		}
-		if (result['quickcreate']) {
-			form.find('[name="quickcreate"]').filter(':checkbox').attr('checked', true);
-		}
-		if (result['isQuickCreateDisabled']) {
-			form.find('[name="quickcreate"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
-		}
-		if (result['isSummaryField']) {
-			form.find('[name="summaryfield"]').filter(':checkbox').attr('checked', true);
-		}
-		if (result['isSummaryFieldDisabled']) {
-			form.find('[name="summaryfield"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
-		}
-		if (result['masseditable']) {
-			form.find('[name="masseditable"]').filter(':checkbox').attr('checked', true);
-		}
-		if (result['isMassEditDisabled']) {
-			form.find('[name="masseditable"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
-		}
-		if (result['isDefaultValueDisabled']) {
-			form.find('[name="defaultvalue"]').filter(':checkbox').attr('readonly', 'readonly').addClass('optionDisabled');
-		}
-		if (result['defaultvalue']) {
-			form.find('[name="defaultvalue"]').filter(':checkbox').attr('checked', true);
-			defaultValueUi.removeClass('zeroOpacity');
-		} else {
-			defaultValueUi.addClass('zeroOpacity');
-		}
-		//based on the field model it will give the respective ui for the field
-		var fieldModel = Vtiger_Field_Js.getInstance(result);
-		var fieldUi = fieldModel.getUiTypeSpecificHtml();
-		defaultValueUi.html(fieldUi);
-		defaultValueUi.find('.chzn-select').removeClass('chzn-select');
-
-		//Handled Time field UI
-		var timeField = defaultValueUi.find('.timepicker-default');
-		timeField.removeClass('timePicker timepicker-default');
-		timeField.attr('data-toregister', 'time');
-
-		//Handled date field UI
-		var dateField = defaultValueUi.find('.dateField')
-		dateField.removeClass('dateField');
-		dateField.attr('data-toregister', 'date');
-
-		defaultValueUi.find('[data-validation-engine]').attr('data-validation-engine', 'validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]');
-		defaultValueUi.find('[name*=' + result['name'] + ']').attr('name', 'fieldDefaultValue');
-		defaultValueUi.find('[name="fieldDefaultValue"]').attr('disabled', 'disabled');
-		defaultValueUi.find('input').addClass('input-medium');
-		defaultValueUi.find('.select2').addClass('row');
 	},
 	/**
 	 * Function to register click event for add custom block button
@@ -1490,9 +1424,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			if (currentTarget.attr('readonly') === 'readonly') {
 				var status = $(e.currentTarget).is(':checked');
 				if (!status) {
-					$(e.currentTarget).attr('checked', 'checked');
+					$(e.currentTarget).prop('checked', true);
 				} else {
-					$(e.currentTarget).removeAttr('checked');
+					$(e.currentTarget).prop('checked', false);
 				}
 				e.preventDefault();
 			}
@@ -1578,9 +1512,9 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			if (currentTarget.attr('readonly') == 'readonly') {
 				var status = jQuery(e.currentTarget).is(':checked');
 				if (!status) {
-					jQuery(e.currentTarget).attr('checked', 'checked')
+					jQuery(e.currentTarget).prop('checked', true)
 				} else {
-					jQuery(e.currentTarget).removeAttr('checked');
+					jQuery(e.currentTarget).prop('checked', false);
 				}
 				e.preventDefault();
 			}

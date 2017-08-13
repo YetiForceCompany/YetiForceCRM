@@ -42,16 +42,19 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response->emit();
 	}
 
+	/**
+	 * Action to save locks
+	 * @param \App\Request $request
+	 */
 	public function saveLocks(\App\Request $request)
 	{
 		$param = $request->get('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
 		$moduleModel->saveLocks($param);
-
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 }

@@ -16,7 +16,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -91,7 +91,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
-					throw new \Exception\AppException(\App\Language::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \App\Exceptions\AppException(\App\Language::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
 				}
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
@@ -141,9 +141,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						vglobal('default_language', $template->get('language'));
-
-						// building parameters
-						$parameters = $template->getParameters();
 
 						$styles .= " @page template_{$record}_{$id} {
 							sheet-size: {$template->getFormat()};

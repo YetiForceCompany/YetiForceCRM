@@ -63,6 +63,6 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		$db = App\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->select(['id', 'name', 'default'])->from('s_#__companies');
-		return $query->createCommand()->queryAllByGroup(1);
+		return $query->createCommand($db)->queryAllByGroup(1);
 	}
 }

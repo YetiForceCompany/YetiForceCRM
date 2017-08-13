@@ -108,7 +108,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getRecordValues(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$db = PearDatabase::getInstance();
 		$params = $this->get('field')->getFieldParams();
 		$fieldModel = $this->get('field');
 		// Get current value

@@ -21,7 +21,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 				function (data) {
 					var response = data['result'];
 					var parametres = {
@@ -61,7 +61,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 					function (data) {
 						var response = data['result'];
 						if (response['success']) {
@@ -99,7 +99,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 					function (data) {
 						var response = data['result'];
 						if (response['success']) {

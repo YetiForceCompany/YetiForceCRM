@@ -31,7 +31,7 @@ class PackageUpdate extends PackageImport
 			self::log('Module name mismatch!');
 			return false;
 		}
-		if ($module != null) {
+		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
@@ -73,7 +73,7 @@ class PackageUpdate extends PackageImport
 	public function update($moduleInstance, $zipfile, $overwrite = true)
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
-		if ($module != null) {
+		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
@@ -121,7 +121,6 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_Module($moduleInstance)
 	{
-		$tabname = $this->_modulexml->name;
 		$tablabel = $this->_modulexml->label;
 		$tabversion = $this->_modulexml->version;
 
@@ -188,7 +187,6 @@ class PackageUpdate extends PackageImport
 				self::log("Migrating to $migversion ... STARTED");
 				if (!empty($migrationnode->tables) && !empty($migrationnode->tables->table)) {
 					foreach ($migrationnode->tables->table as $tablenode) {
-						$tablename = $tablenode->name;
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
 						if (Utils::IsDestructiveSql($tablesql)) {

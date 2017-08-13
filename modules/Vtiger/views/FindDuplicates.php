@@ -41,7 +41,6 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
 		unset($headerScriptInstances['modules.Vtiger.resources.FindDuplicates']);
 		$jsFileNames = [
 			'modules.Vtiger.resources.List',
@@ -82,7 +81,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$ignoreEmptyValue = false;
 		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
-		}			
+		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $dataModelInstance->getListViewEntries($pagingModel);

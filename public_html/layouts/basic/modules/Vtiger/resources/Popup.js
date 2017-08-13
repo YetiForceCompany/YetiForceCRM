@@ -322,9 +322,9 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var isMainCheckBoxChecked = currentElement.is(':checked');
 		var tableElement = currentElement.closest('table');
 		if (isMainCheckBoxChecked) {
-			jQuery('input.entryCheckBox', tableElement).attr('checked', 'checked').closest('tr').addClass('highlightBackgroundColor');
+			jQuery('input.entryCheckBox', tableElement).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
 		} else {
-			jQuery('input.entryCheckBox', tableElement).removeAttr('checked').closest('tr').removeClass('highlightBackgroundColor');
+			jQuery('input.entryCheckBox', tableElement).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
 		}
 	},
 
@@ -843,32 +843,20 @@ jQuery.Class("Vtiger_Popup_Js", {
 			})
 		}
 	},
-
 	triggerListSearch: function () {
 		var thisInstance = this;
 		var popupPageContentsContainer = thisInstance.getPopupPageContainer();
 		popupPageContentsContainer.find('button[data-trigger="listSearch"]').trigger("click");
 	},
-
 	registerTimeListSearch: function (container) {
 		app.registerEventForClockPicker();
 	},
-
 	registerDateListSearch: function (container) {
 		container.find('.dateField').each(function (index, element) {
 			var dateElement = jQuery(element);
-			var customParams = {
-				calendars: 2,
-				mode: 'range',
-				className: 'rangeCalendar',
-				onChange: function (formated) {
-					dateElement.val(formated.join(','));
-				}
-			}
-			app.registerEventForDatePickerFields(dateElement, false, customParams);
+			app.registerDateRangePickerFields(dateElement, {ranges: false});
 		});
 	},
-
 	getListSearchParams: function () {
 		var popupPageContentsContainer = this.getPopupPageContainer();
 		var listViewTable = popupPageContentsContainer.find('.listViewEntriesTable');
@@ -884,7 +872,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 				if (searchValue == null) {
 					searchValue = "";
 				} else {
-					searchValue = searchValue.join(',');
+					searchValue = searchValue.join('##');
 				}
 			}
 			searchValue = searchValue.trim();
@@ -931,7 +919,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 		var documentHeight = (jQuery(document).height()) + 'px';
 		jQuery('#popupPageContainer').css('height', documentHeight);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
-		
+
 		this.registerEventForSelectAllInCurrentPage();
 		this.registerSelectButton();
 		this.registerSwitchButton();

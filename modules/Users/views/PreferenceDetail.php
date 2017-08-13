@@ -15,12 +15,10 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$record = $request->get('record');
-
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
-		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
+		if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
 			return true;
 		} else {
 			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');

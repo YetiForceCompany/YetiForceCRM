@@ -11,8 +11,6 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 
 	public function process(\App\Request $request)
 	{
-
-		\App\Log::trace("Entering Settings_PublicHoliday_Configuration_View::process() method ...");
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$date = $request->get('date');
@@ -27,12 +25,10 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 			];
 		}
 		$holidays = Settings_PublicHoliday_Module_Model::getHolidays($date);
-		$viewer->assign('DATE', implode(" - ", $date));
+		$viewer->assign('DATE', implode(',', $date));
 		$viewer->assign('HOLIDAYS', $holidays);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-
-		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
-		\App\Log::trace("Exiting Settings_PublicHoliday_Configuration_View::process() method ...");
+		$viewer->view('Configuration.tpl', $request->getModule(false));
 	}
 }

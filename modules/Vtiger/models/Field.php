@@ -147,17 +147,20 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to retieve display value for a value
-	 * @param string $value - value which need to be converted to display value
-	 * @return string - converted display value
+	 * @param mixed $value value which need to be converted to display value
+	 * @param bool|int $recordId
+	 * @param bool|Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return mixed converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText);
+		return $this->getUITypeModel()->getDisplayValue($value, $recordId, $recordInstance, $rawText);
 	}
 
 	/**
 	 * Function to retrieve display type of a field
-	 * @return string - display type of the field
+	 * @return string display type of the field
 	 */
 	public function getDisplayType()
 	{
@@ -769,12 +772,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 			case 'categoryMultipicklist':
 			case 'tree':
-				$tree = $this->getUITypeModel()->getAllValue();
-				$pickListValues = [];
-				foreach ($tree as $key => $labels) {
-					$pickListValues[$key] = $labels[0];
-				}
-				$this->fieldInfo['picklistvalues'] = $pickListValues;
+				$this->fieldInfo['picklistvalues'] = \App\Fields\Tree::getPicklistValue($this->getFieldParams(), $this->getModuleName());
 				break;
 			case 'email':
 				if (AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {

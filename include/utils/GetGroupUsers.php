@@ -51,7 +51,7 @@ class GetGroupUsers
 		for ($i = 0; $i < $num_rows; $i++) {
 			$now_role_id = $adb->query_result($result, $i, 'roleid');
 			$now_role_users = [];
-			$now_role_users = getRoleUsers($now_role_id);
+			$now_role_users = \App\PrivilegeUtil::getUsersNameByRole($now_role_id);
 
 			foreach ($now_role_users as $now_role_userid => $now_role_username) {
 				if (!in_array($now_role_userid, $this->group_users)) {

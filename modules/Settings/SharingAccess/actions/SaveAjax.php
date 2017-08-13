@@ -29,7 +29,7 @@ Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 			}
 			try {
 				$moduleModel->save();
-			} catch (\Exception\AppException $e) {
+			} catch (\App\Exceptions\AppException $e) {
 				
 			}
 		}

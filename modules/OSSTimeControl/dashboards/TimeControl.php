@@ -144,7 +144,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$linkId = $request->get('linkid');
 		$user = $request->get('user');
-		$time = $request->get('time');
+		$time = $request->getDateRange('time');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);

@@ -68,8 +68,8 @@ class Reports extends CRMEntity
 		$this->initListOfModules();
 		if ($reportid != "") {
 			// Lookup information in cache first
-			$cachedInfo = VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
-			$subordinate_users = VTCacheUtils::lookupReport_SubordinateUsers($reportid);
+			$cachedInfo = VTCacheUtils::lookupReportInfo($currentUser->id, $reportid);
+			$subordinate_users = VTCacheUtils::lookupReportSubordinateUsers($reportid);
 
 			if ($cachedInfo === false) {
 				$ssql = "select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid";
@@ -99,20 +99,20 @@ class Reports extends CRMEntity
 				}
 
 				// Update subordinate user information for re-use
-				VTCacheUtils::updateReport_SubordinateUsers($reportid, $subordinate_users);
+				VTCacheUtils::updateReportSubordinateUsers($reportid, $subordinate_users);
 
 				$result = $adb->pquery($ssql, $params);
 				if ($result && $adb->num_rows($result)) {
 					$reportmodulesrow = $adb->fetch_array($result);
 
 					// Update information in cache now
-					VTCacheUtils::updateReport_Info(
+					VTCacheUtils::updateReportInfo(
 						$current_user->id, $reportid, $reportmodulesrow["primarymodule"], $reportmodulesrow["secondarymodules"], $reportmodulesrow["reporttype"], $reportmodulesrow["reportname"], $reportmodulesrow["description"], $reportmodulesrow["folderid"], $reportmodulesrow["owner"]
 					);
 				}
 
 				// Re-look at cache to maintain code-consistency below
-				$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
+				$cachedInfo = VTCacheUtils::lookupReportInfo($current_user->id, $reportid);
 			}
 
 			if ($cachedInfo) {
@@ -127,7 +127,7 @@ class Reports extends CRMEntity
 				else
 					$this->is_editable = 'false';
 			} else {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
@@ -172,7 +172,7 @@ class Reports extends CRMEntity
 		// Prefetch module info to check active or not and also get list of tabs
 		$modulerows = vtlib_prefetchModuleActiveInfo(false);
 
-		$cachedInfo = VTCacheUtils::lookupReport_ListofModuleInfos();
+		$cachedInfo = VTCacheUtils::lookupReportListOfModuleInfos();
 
 		if ($cachedInfo !== false) {
 			$this->module_list = $cachedInfo['module_list'];
@@ -266,7 +266,7 @@ class Reports extends CRMEntity
 					}
 				}
 				// Put the information in cache for re-use
-				VTCacheUtils::updateReport_ListofModuleInfos($this->module_list, $this->related_modules);
+				VTCacheUtils::updateReportListOfModuleInfos($this->module_list, $this->related_modules);
 			}
 		}
 	}

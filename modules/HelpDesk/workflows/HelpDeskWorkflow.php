@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  * @package YetiForce.Workflows
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -16,11 +16,9 @@ function getContactsMailsFromTicket($id)
 	if (empty($id)) {
 		return [];
 	}
-	$db = PearDatabase::getInstance();
 	$mails = [];
-	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
-	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
-	while ($contactId = $db->getSingleValue($result)) {
+	$query = (new \App\Db\Query())->select(['relcrmid as contactid'])->from('vtiger_crmentityrel')->where(['module' => 'HelpDesk', 'relmodule' => 'Contacts', 'crmid' => $id])->createCommand()->query();
+	while ($contactId = $query->readColumn(0)) {
 		if (App\Record::isExists($contactId)) {
 			$contactRecord = Vtiger_Record_Model::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
@@ -78,22 +76,12 @@ function HelpDeskClosedNotifyContacts(Vtiger_Record_Model $recordModel)
  */
 function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 {
-	$db = PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
 	$moduleName = vtlib\Functions::getCRMRecordType($relatedToId);
 	$mail = false;
-	if (!empty($relatedToId) && $moduleName == 'HelpDesk') {
-		if ($moduleName == 'HelpDesk') {
-			$sql = 'SELECT vtiger_account.email1 FROM vtiger_account
-INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_account.accountid
-INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.parent_id = vtiger_account.accountid
-WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtiger_account.emailoptout = 1';
-			$result = $db->pquery($sql, [$relatedToId]);
-			if ($result->rowCount() > 0) {
-				$mail = $db->getSingleValue($result);
-			}
-		}
+	if (!empty($relatedToId) && $moduleName === 'HelpDesk') {
+		$mail = (new \App\Db\Query())->select(['vtiger_account.email1'])->from('vtiger_account')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_account.accountid')->innerJoin('vtiger_troubletickets', 'vtiger_troubletickets.parent_id = vtiger_account.accountid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_troubletickets.ticketid' => $relatedToId, 'vtiger_account.emailoptout' => 1])->scalar();
 	}
 	if ($mail) {
 		\App\Mailer::sendFromTemplate([
@@ -132,13 +120,11 @@ function HelpDeskNewCommentContacts(Vtiger_Record_Model $recordModel)
 function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
-	$db = PearDatabase::getInstance();
 	$relatedToId = $recordModel->get('related_to');
 	$mails = [];
-	$sql = 'SELECT smownerid FROM vtiger_crmentity WHERE deleted = 0 && crmid = ? ';
-	$result = $db->pquery($sql, [$relatedToId]);
-	if ($result->rowCount() > 0) {
-		$smownerid = $db->getSingleValue($result);
+	$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
+	if ($result) {
+		$smownerid = $result;
 		$ownerType = vtws_getOwnerType($smownerid);
 		if ($ownerType == 'Users') {
 			$user = new Users();

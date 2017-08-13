@@ -24,7 +24,12 @@ class Settings_Mail_Autologin_Model
 				->createCommand()->queryColumn();
 	}
 
-	public function updateUsersAutologin($id, $users)
+	/**
+	 * Update users autologin
+	 * @param int $id
+	 * @param array $users
+	 */
+	public static function updateUsersAutologin($id, $users)
 	{
 		if (!$users) {
 			$users = [];
@@ -37,8 +42,7 @@ class Settings_Mail_Autologin_Model
 			foreach ($users as $user) {
 				$insertData [] = [$id, $user];
 			}
-			$db->createCommand()->batchInsert('roundcube_users_autologin', ['rcuser_id', 'crmuser_id'], $insertData)
-				->execute();
+			$db->createCommand()->batchInsert('roundcube_users_autologin', ['rcuser_id', 'crmuser_id'], $insertData)->execute();
 		}
 	}
 

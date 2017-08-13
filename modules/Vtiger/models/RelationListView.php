@@ -12,11 +12,35 @@
 class Vtiger_RelationListView_Model extends \App\Base
 {
 
-	protected $relationModel = false;
-	protected $parentRecordModel = false;
-	protected $relatedModuleModel = false;
+	/**
+	 * Relation model instance
+	 * @var Vtiger_Relation_Model 
+	 */
+	protected $relationModel;
+
+	/**
+	 * Parent record model instance
+	 * @var Vtiger_Record_Model 
+	 */
+	protected $parentRecordModel;
+
+	/**
+	 * Related module model instance
+	 * @var Vtiger_Module_Model 
+	 */
+	protected $relatedModuleModel;
+
+	/**
+	 * Mandatory columns
+	 * @var array 
+	 */
 	protected $mandatoryColumns = [];
 
+	/**
+	 * Set relation model instance
+	 * @param Vtiger_Relation_Model $relation
+	 * @return $this
+	 */
 	public function setRelationModel($relation)
 	{
 		$this->relationModel = $relation;
@@ -24,7 +48,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
-	 * Get relation model
+	 * Get relation model instance
 	 * @return Vtiger_Relation_Model
 	 */
 	public function getRelationModel()
@@ -32,6 +56,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 		return $this->relationModel;
 	}
 
+	/**
+	 * Set parent record model instance
+	 * @param Vtiger_Record_Model $parentRecord
+	 * @return $this
+	 */
 	public function setParentRecordModel($parentRecord)
 	{
 		$this->parentRecordModel = $parentRecord;
@@ -39,7 +68,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
-	 * Get parent record model
+	 * Get parent record model instance
 	 * @return Vtiger_Record_Model
 	 */
 	public function getParentRecordModel()
@@ -47,6 +76,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 		return $this->parentRecordModel;
 	}
 
+	/**
+	 * Set related module model instance
+	 * @param Vtiger_Module_Model $relatedModuleModel
+	 * @return $this
+	 */
 	public function setRelatedModuleModel($relatedModuleModel)
 	{
 		$this->relatedModuleModel = $relatedModuleModel;
@@ -54,7 +88,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	}
 
 	/**
-	 * Function that returns the relation's related module model
+	 * Get related module model instance
 	 * @return Vtiger_Module_Model
 	 */
 	public function getRelatedModuleModel()
@@ -124,46 +158,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$this->set('Query', $query);
 			return $query;
 		}
-		throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification 2 <<<");
-		/*
-		  $relatedModuleModel = $this->getRelatedModuleModel();
-
-		  $relatedModuleBaseTable = $relatedModuleModel->basetable;
-		  $relatedModuleEntityIdField = $relatedModuleModel->basetableid;
-
-		  $parentModuleModel = $relationModel->getParentModuleModel();
-		  $parentModuleBaseTable = $parentModuleModel->basetable;
-		  $parentModuleEntityIdField = $parentModuleModel->basetableid;
-		  $parentRecordId = $this->getParentRecordModel()->getId();
-		  $parentModuleDirectRelatedField = $parentModuleModel->get('directRelatedFieldName');
-
-		  $relatedModuleFields = array_keys($this->getHeaders());
-
-		  $queryGenerator->setFields($relatedModuleFields);
-
-		  $joinQuery = ' INNER JOIN ' . $parentModuleBaseTable . ' ON ' . $parentModuleBaseTable . '.' . $parentModuleDirectRelatedField . " = " . $relatedModuleBaseTable . '.' . $relatedModuleEntityIdField;
-
-		  $query = $queryGenerator->getQuery();
-		  $queryComponents = preg_split('/FROM/i', $query);
-		  foreach ($queryComponents as $key => $val) {
-		  if ($key == 0) {
-		  $query = sprintf('%s ,vtiger_crmentity.crmid', $queryComponents[0]);
-		  } else {
-		  $query .= sprintf('FROM %s', $val);
-		  }
-		  }
-		  $whereSplitQueryComponents = preg_split('/WHERE/i', $query);
-		  $query = $whereSplitQueryComponents[0] . $joinQuery;
-		  foreach ($whereSplitQueryComponents as $key => $val) {
-		  if ($key == 0) {
-		  $query .= "WHERE $parentModuleBaseTable.$parentModuleEntityIdField = $parentRecordId && ";
-		  } else {
-		  $query .= $val . ' WHERE ';
-		  }
-		  }
-		  $this->query = trim($query, ' WHERE ');
-		  return $this->query;
-		 */
+		throw new \App\App\Exceptions\AppException(">>> No relationModel instance, requires verification 2 <<<");
 	}
 
 	/**
@@ -538,5 +533,24 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'crmid' => $this->getParentRecordModel()->getId(),
 					'userid' => App\User::getCurrentUserId()])
 				->column();
+	}
+
+	/**
+	 * Set fileds
+	 * @param string|string[] $fields
+	 */
+	public function setFields($fields)
+	{
+		if (is_string($fields)) {
+			$fields = explode(',', $fields);
+		}
+		$relatedListFields = [];
+		foreach ($fields as $fieldName) {
+			$fieldModel = $this->relatedModuleModel->getFieldByName($fieldName);
+			if ($fieldModel) {
+				$relatedListFields[$fieldName] = $fieldModel;
+			}
+		}
+		$this->relationModel->set('QueryFields', $relatedListFields);
 	}
 }

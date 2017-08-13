@@ -146,7 +146,7 @@ $default_timezone = '_TIMEZONE_';
 
 /** If timezone is configured, try to set it */
 if (isset($default_timezone) && function_exists('date_default_timezone_set')) {
-	@date_default_timezone_set($default_timezone);
+	date_default_timezone_set($default_timezone);
 }
 
 // Maximum length of characters for title

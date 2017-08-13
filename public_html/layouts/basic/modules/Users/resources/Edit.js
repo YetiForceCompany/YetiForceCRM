@@ -239,7 +239,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		params.data = {module: 'Users', action: 'CheckUserEmail', email: email, cUser: userId};
 		params.async = false;
 		if (email) {
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 					function (data) {
 						if (data.result) {
 							aDeferred.resolve(data);
@@ -257,7 +257,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		if (pass.length) {
 			params.data = {module: 'Users', action: 'CheckUserPass', pass: pass};
 			params.async = false;
-			AppConnector.request(params).then(
+			AppConnector.request(params).done(
 					function (data) {
 						if (data.result) {
 							aDeferred.resolve(data);

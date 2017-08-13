@@ -9,9 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/Webservices/ModuleTypes.php';
 require_once('include/Webservices/Create.php');
@@ -50,8 +47,6 @@ class VTCreateTodoTask extends VTTask
 		if (!\App\Module::isModuleActive('Calendar')) {
 			return;
 		}
-		$currentUser = vglobal('current_user');
-
 		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$adminUser = $this->getAdmin();
 		$userId = $recordModel->get('assigned_user_id');
@@ -188,8 +183,6 @@ class VTCreateTodoTask extends VTTask
 				'task_id' => $this->id,
 			])->execute();
 		}
-		$currentUser = vglobal('current_user');
-		$currentUser = $this->originalUser;
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 

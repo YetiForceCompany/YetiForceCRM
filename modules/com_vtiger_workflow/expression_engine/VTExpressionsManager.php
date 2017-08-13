@@ -7,38 +7,60 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once("include/events/SqlResultIterator.php");
 
+/**
+ * Class VTExpressionsManager
+ */
 class VTExpressionsManager
 {
 
-	function __construct($adb)
+	public function __construct($adb)
 	{
 		$this->adb = $adb;
 	}
 
-	/** Caching logic * */
+	/**
+	 * Cache array
+	 * @var array
+	 */
 	private static $cache = [];
 
-	static function addToCache($key, $value)
+	/**
+	 * Add parameter to cache
+	 * @param string $key
+	 * @param mixed $value
+	 */
+	public static function addToCache($key, $value)
 	{
 		self::$cache[$key] = $value;
 	}
 
-	static function fromCache($key)
+	/**
+	 * Get parameter from cache
+	 * @param string $key
+	 * @return mixed|boolean
+	 */
+	public static function fromCache($key)
 	{
 		if (isset(self::$cache[$key]))
 			return self::$cache[$key];
 		return false;
 	}
 
-	static function clearCache()
+	/**
+	 * Clear cache array
+	 */
+	public static function clearCache()
 	{
 		self::$cache = [];
 	}
 
-	/** END * */
-	function fields($moduleName)
+	/**
+	 * Get fields info
+	 * @param string $moduleName
+	 * @return array
+	 */
+	public function fields($moduleName)
 	{
 		$current_user = vglobal('current_user');
 		$result = vtws_describe($moduleName, $current_user);
@@ -50,10 +72,14 @@ class VTExpressionsManager
 		return $arr;
 	}
 
-	function expressionFunctions()
+	/**
+	 * Get expression functions
+	 * @return array
+	 */
+	public function expressionFunctions()
 	{
-		return array('concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
+		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
 			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
-			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')");
+			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')"];
 	}
 }

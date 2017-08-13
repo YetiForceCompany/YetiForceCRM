@@ -29,7 +29,6 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$selectedIds = $request->get('selected_ids');
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$db = \App\Db::getInstance('admin');
 		$dataReader = (new \App\Db\Query())->from('s_#__mail_queue')

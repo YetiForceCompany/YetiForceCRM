@@ -91,19 +91,22 @@ class Vtiger_ShortURL_Helper
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
 	}
 
-	public function getInstance($id)
+	/**
+	 * Return object instance
+	 * @param int $id
+	 * @return Vtiger_ShortURL_Helper
+	 */
+	public static function getInstance($id)
 	{
-		$db = PearDatabase::getInstance();
 		$self = new self();
-		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($id));
-		if ($rs && $db->num_rows($rs)) {
-			$row = $db->fetch_array($rs);
+		$row = (new App\Db\Query())->from('vtiger_shorturls')->where(['uid' => $id])->one();
+		if ($row) {
 			$self->id = $row['id'];
 			$self->uid = $row['uid'];
 			$self->handler_path = $row['handler_path'];
 			$self->handler_class = $row['handler_class'];
 			$self->handler_function = $row['handler_function'];
-			$self->handler_data = json_decode(decode_html($row['handler_data']), true);
+			$self->handler_data = App\Json::decode(App\Purifier::decodeHtml($row['handler_data']), true);
 		}
 		return $self;
 	}

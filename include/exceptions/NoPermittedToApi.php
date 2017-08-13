@@ -14,10 +14,10 @@ class NoPermittedToApi extends \Exception
 	public function __construct($message = '', $code = 0, Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
-		\Vtiger_Session::init();
+		\App\Session::init();
 
 		$dbLog = \PearDatabase::getInstance('log');
-		$userName = \Vtiger_Session::get('full_user_name');
+		$userName = \App\Session::get('full_user_name');
 		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
