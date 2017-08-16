@@ -147,7 +147,7 @@ class TextParser
 
 	/**
 	 * Set without translations
-	 * @param string $content
+	 * @param string $type
 	 * @return $this
 	 */
 	public function withoutTranslations($type = true)
@@ -479,24 +479,29 @@ class TextParser
 			$ownerType = Fields\Owner::getType($relatedId);
 			if ($ownerType === 'Users') {
 				$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
-				$instance = static::getInstanceByModel($userRecordModel);
-				foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-					if (isset($this->$key)) {
-						$instance->$key = $this->$key;
+				if ($userRecordModel->get('status') === 'Active') {
+					$instance = static::getInstanceByModel($userRecordModel);
+					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+						if (isset($this->$key)) {
+							$instance->$key = $this->$key;
+						}
 					}
+					return $instance->record($relatedField, false);
 				}
-				return $instance->record($relatedField, false);
+				return '';
 			}
 			$return = [];
 			foreach (PrivilegeUtil::getUsersByGroup($relatedId)as $userId) {
 				$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
-				$instance = static::getInstanceByModel($userRecordModel);
-				foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-					if (isset($this->$key)) {
-						$instance->$key = $this->$key;
+				if ($userRecordModel->get('status') === 'Active') {
+					$instance = static::getInstanceByModel($userRecordModel);
+					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+						if (isset($this->$key)) {
+							$instance->$key = $this->$key;
+						}
 					}
+					$return[] = $instance->record($relatedField, false);
 				}
-				$return[] = $instance->record($relatedField, false);
 			}
 			return implode($this->relatedRecordSeparator, $return);
 		}
