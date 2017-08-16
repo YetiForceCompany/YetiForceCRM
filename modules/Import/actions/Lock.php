@@ -53,15 +53,17 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public static function lock($importId, $module, $user)
 	{
-		if (!vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			vtlib\Utils::CreateTable(
-				'vtiger_import_locks', "(vtiger_import_lock_id INT NOT NULL PRIMARY KEY,
-				userid INT NOT NULL,
-				tabid INT NOT NULL,
-				importid INT NOT NULL,
-				locked_since DATETIME)", true);
+		$db = \App\Db::getInstance();
+		if (!$db->isTableExists('vtiger_import_locks')) {
+			$db->createTable(
+				'vtiger_import_locks', [
+				'vtiger_import_lock_id' => 'INT NOT NULL PRIMARY KEY',
+				'userid' => 'INT NOT NULL',
+				'tabid' => 'INT NOT NULL',
+				'importid' => 'INT NOT NULL',
+				'locked_since' => 'DATETIME']);
 		}
-		\App\Db::getInstance()->createCommand()
+		$db->createCommand()
 			->insert('vtiger_import_locks', [
 				'vtiger_import_lock_id' => \App\Db::getInstance()->getUniqueID('vtiger_import_locks'),
 				'userid' => $user->id,
@@ -78,12 +80,13 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public static function unLock($user, $module = false)
 	{
-		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
+		$db = \App\Db::getInstance();
+		if ($db->isTableExists('vtiger_import_locks')) {
 			$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
 			if ($module !== false) {
 				$where['tabid'] = \App\Module::getModuleId($module);
 			}
-			\App\Db::getInstance()->createCommand()->delete('vtiger_import_locks', $where)->execute();
+			$db->createCommand()->delete('vtiger_import_locks', $where)->execute();
 		}
 	}
 
