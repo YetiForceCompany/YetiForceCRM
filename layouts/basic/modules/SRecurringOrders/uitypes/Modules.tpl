@@ -8,9 +8,9 @@
 	{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 		{if $FIELD_MODEL->getFieldName() eq 'target_module'}
 			{if $PICKLIST_VALUE.name neq 'SSingleOrders'}{continue}{/if}
-        <option value="{$PICKLIST_VALUE.name}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_VALUE.name)} selected {/if}>{$PICKLIST_VALUE.label}</option>
+        <option value="{$PICKLIST_VALUE.name}" {if trim(App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_VALUE.name)} selected {/if}>{$PICKLIST_VALUE.label}</option>
 		{else}
-			<option value="{$PICKLIST_VALUE.name}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_VALUE.name)} selected {/if}>{$PICKLIST_VALUE.label}</option>	
+			<option value="{$PICKLIST_VALUE.name}" {if trim(App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_VALUE.name)} selected {/if}>{$PICKLIST_VALUE.label}</option>	
 		{/if}
 		{/foreach}
 </select>

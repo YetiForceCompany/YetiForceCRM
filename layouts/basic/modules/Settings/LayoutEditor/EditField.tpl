@@ -79,7 +79,7 @@
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 								<select class="col-md-2 select2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}'>
 									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-										<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if decode_html($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{App\Language::translate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
+										<option value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}" {if App\Purifier::decodeHtml($FIELD_MODEL->get('defaultvalue')) eq $PICKLIST_NAME} selected {/if}>{App\Language::translate($PICKLIST_VALUE, $SELECTED_MODULE_NAME)}</option>
 									{/foreach}
 								</select>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "multipicklist"}
