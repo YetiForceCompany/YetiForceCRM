@@ -142,10 +142,10 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 				$temp['id'] = $id;
 
 				$iCalTask = new iCalendar_event;
-				$iCalTask->assign_values($temp);
+				$iCalTask->assignValues($temp);
 
 				$iCalAlarm = new iCalendar_alarm;
-				$iCalAlarm->assign_values($temp);
+				$iCalAlarm->assignValues($temp);
 				$iCalTask->add_component($iCalAlarm);
 			} else {
 				$temp = $moduleModel->get('todoFields');
@@ -162,7 +162,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 						$temp[$fieldName] = $eventFields[$fieldName];
 				}
 				$iCalTask = new iCalendar_todo;
-				$iCalTask->assign_values($temp);
+				$iCalTask->assignValues($temp);
 			}
 			$myiCal->add_component($iCalTask);
 		}

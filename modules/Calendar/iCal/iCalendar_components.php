@@ -136,7 +136,7 @@ class iCalendar_component
 
 	public function get_property_list($name)
 	{
-
+		
 	}
 
 	public function invariant_holds()
@@ -212,7 +212,12 @@ class iCalendar_component
 		return $string;
 	}
 
-	public function assign_values($activity)
+	/**
+	 * Assign values
+	 * @param array $activity
+	 * @return boolean
+	 */
+	public function assignValues($activity)
 	{
 		foreach ($this->mapping_arr as $key => $components) {
 			if (!is_array($components['component']) && empty($components['function'])) {
@@ -639,12 +644,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_alarm extends iCalendar_component
