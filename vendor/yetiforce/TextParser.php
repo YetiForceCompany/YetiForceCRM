@@ -94,6 +94,12 @@ class TextParser
 	protected $params;
 
 	/**
+	 * Separator to display data when there are several values
+	 * @var string 
+	 */
+	public $relatedRecordSeparator = ',';
+
+	/**
 	 * Get instanace by record id
 	 * @param int $record Record id
 	 * @param string $moduleName Module name
@@ -410,7 +416,7 @@ class TextParser
 					if (!$fieldModel) {
 						continue;
 					}
-					$oldValue = $this->getDisplayValueByField($oldValue, $fieldModel);
+					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations !== true) {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
@@ -470,14 +476,29 @@ class TextParser
 			return '';
 		}
 		if ($relatedModule === 'Users') {
-			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
-			$instance = static::getInstanceByModel($userRecordModel);
-			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-				if (isset($this->$key)) {
-					$instance->$key = $this->$key;
+			$ownerType = Fields\Owner::getType($relatedId);
+			if ($ownerType === 'Users') {
+				$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
+				$instance = static::getInstanceByModel($userRecordModel);
+				foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+					if (isset($this->$key)) {
+						$instance->$key = $this->$key;
+					}
 				}
+				return $instance->record($relatedField, false);
 			}
-			return $instance->record($relatedField, false);
+			$return = [];
+			foreach (PrivilegeUtil::getUsersByGroup($relatedId)as $userId) {
+				$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
+				$instance = static::getInstanceByModel($userRecordModel);
+				foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+					if (isset($this->$key)) {
+						$instance->$key = $this->$key;
+					}
+				}
+				$return[] = $instance->record($relatedField, false);
+			}
+			return implode($this->relatedRecordSeparator, $return);
 		}
 		$moduleName = Record::getType($relatedId);
 		if (!empty($moduleName)) {
@@ -717,7 +738,6 @@ class TextParser
 				break;
 			default:
 				return $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
-				break;
 		}
 		return $value;
 	}
