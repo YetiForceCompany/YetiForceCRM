@@ -239,7 +239,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		if (!is_array($blockId)) {
 			$blockId = [$blockId];
 		}
-		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'displaytype' => [1, 2, 3, 4, 5, 9, 10]])->orderBy('sequence');
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId])->orderBy('sequence');
 		$dataReader = $query->createCommand()->query();
 		$fieldModelsList = [];
 		while ($row = $dataReader->read()) {
