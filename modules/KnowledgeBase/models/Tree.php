@@ -62,23 +62,34 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		return $folders;
 	}
 
+	/**
+	 * Get template
+	 * @return array
+	 */
 	public function getTemplate()
 	{
 		return $this->getTreeField()['fieldparams'];
 	}
 
+	/**
+	 * Get tree field
+	 * @return array
+	 */
 	public function getTreeField()
 	{
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? && tabid = ?', [302, vtlib\Functions::getModuleId($this->getModuleName())]);
-		$fieldTemp = $db->getRow($result);
+		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => vtlib\Functions::getModuleId($this->getModuleName())])->one();
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
 	}
 
+	/**
+	 * Get all records
+	 * @return array
+	 */
 	public function getAllRecords()
 	{
 		$queryGenerator = new App\QueryGenerator($this->getModuleName());
@@ -86,6 +97,10 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		return $queryGenerator->createQuery()->all();
 	}
 
+	/**
+	 * Get documents
+	 * @return array
+	 */
 	public function getDocuments()
 	{
 		$records = $this->getAllRecords();
@@ -105,6 +120,11 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		return $tree;
 	}
 
+	/**
+	 * Get instance
+	 * @param KnowledgeBase_Module_Model $moduleModel
+	 * @return \self
+	 */
 	static public function getInstance($moduleModel)
 	{
 		$model = new self();
