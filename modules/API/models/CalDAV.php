@@ -394,11 +394,11 @@ class API_CalDAV_Model
 				$record->save();
 
 				$dbCommand = \App\Db::getInstance()->createCommand();
-				$dbCommand->update('dav_calendarobjects', [
+				$dbCommand->createCommand()->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], ['id' => $cal['id']]
 				)->execute();
-				$dbCommand->update('vtiger_crmentity', [
+				$dbCommand->createCommand()->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
 					], ['crmid' => $record->getId()]
 				)->execute();
@@ -461,11 +461,11 @@ class API_CalDAV_Model
 				}
 				$record->save();
 				$dbCommand = \App\Db::getInstance()->createCommand();
-				$dbCommand->update('dav_calendarobjects', [
+				$dbCommand->createCommand()->update('dav_calendarobjects', [
 					'crmid' => $record->getId()
 					], ['id' => $cal['id']]
 				)->execute();
-				$dbCommand->update('vtiger_crmentity', [
+				$dbCommand->createCommand()->update('vtiger_crmentity', [
 					'modifiedtime' => date('Y-m-d H:i:s', $cal['lastmodified'])
 					], ['crmid' => $record->getId()]
 				)->execute();
@@ -683,7 +683,7 @@ class API_CalDAV_Model
 			$insertData[] = [$row[$objectUri], $row['synctoken'], $this->calendarId, $row[$operation]];
 		}
 		$dbCommand->batchInsert('dav_calendarchanges', ['uri', 'synctoken', 'calendarid', 'operation'], $insertData)->execute();
-		$dbCommand->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
+		$dbCommand->createCommand()->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
 	}
 
 	/**
@@ -917,7 +917,7 @@ class API_CalDAV_Model
 			if (isset($invities[$value])) {
 				$row = $invities[$value];
 				if ($row['status'] !== $status) {
-					$dbCommand->update('u_#__activity_invitation', [
+					$dbCommand->createCommand()->update('u_#__activity_invitation', [
 						'status' => $status,
 						'time' => $timeFormated,
 						], ['activityid' => $record->getId(), 'email' => $value]

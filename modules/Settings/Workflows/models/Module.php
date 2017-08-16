@@ -207,8 +207,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				$taskObject = unserialize($task['task']);
 				$taskObject->workflowId = intval($workflowId);
 				$taskObject->id = intval($taskId);
-				$dbCommand->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
-				$dbCommand->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
+				$dbCommand->createCommand()->update('com_vtiger_workflowtasks', ['task' => serialize($taskObject)], ['task_id' => $taskId])->execute();
+				$dbCommand->createCommand()->update('com_vtiger_workflowtasks_seq', ['id' => $taskId])->execute();
 			}
 		}
 
