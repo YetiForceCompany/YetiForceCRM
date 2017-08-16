@@ -104,13 +104,13 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$zoneId = $timeZoneId[0];
 		}
 
-		$timeZone->add_property('TZID', $zoneId);
-		$timeZone->add_property('TZOFFSETTO', date('O'));
+		$timeZone->addProperty('TZID', $zoneId);
+		$timeZone->addProperty('TZOFFSETTO', date('O'));
 
 		if (date('I') == 1) {
-			$timeZone->add_property('DAYLIGHTC', date('I'));
+			$timeZone->addProperty('DAYLIGHTC', date('I'));
 		} else {
-			$timeZone->add_property('STANDARDC', date('I'));
+			$timeZone->addProperty('STANDARDC', date('I'));
 		}
 
 		$myiCal = new iCalendar;

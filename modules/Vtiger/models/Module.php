@@ -1039,7 +1039,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getExportQuery($focus, $where)
 	{
-		return $this->getEntityInstance()->create_export_query($where);
+		return $this->getEntityInstance()->createExportQuery($where);
 	}
 
 	/**

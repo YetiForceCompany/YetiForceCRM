@@ -261,20 +261,20 @@ class Module extends ModuleBasic
 	}
 
 	/**
-	 * Fire the event for the module (if vtlib_handler is defined)
+	 * Fire the event for the module (if moduleHandler is defined)
 	 */
 	public static function fireEvent($modulename, $eventType)
 	{
 		$return = true;
 		$instance = self::getClassInstance((string) $modulename);
 		if ($instance) {
-			if (method_exists($instance, 'vtlib_handler')) {
-				self::log("Invoking vtlib_handler for $eventType ...START");
-				$fire = $instance->vtlib_handler((string) $modulename, (string) $eventType);
+			if (method_exists($instance, 'moduleHandler')) {
+				self::log("Invoking moduleHandler for $eventType ...START");
+				$fire = $instance->moduleHandler((string) $modulename, (string) $eventType);
 				if ($fire !== null && $fire !== true) {
 					$return = false;
 				}
-				self::log("Invoking vtlib_handler for $eventType ...DONE");
+				self::log("Invoking moduleHandler for $eventType ...DONE");
 			}
 		}
 		return $return;

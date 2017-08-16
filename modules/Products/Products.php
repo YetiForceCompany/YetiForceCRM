@@ -87,13 +87,13 @@ class Products extends CRMEntity
 	 * 	@param reference $where - reference of the where variable which will be added with the query
 	 * 	@return string $query - return the query which will give the list of products to export
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 
 		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("Products", "detail_view");

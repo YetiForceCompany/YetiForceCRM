@@ -151,7 +151,7 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 	 * @param string Module name
 	 * @param string Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
@@ -161,13 +161,13 @@ class HolidaysEntitlement extends Vtiger_CRMEntity
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
 			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', ['ADD'], 'getDependentsList');
 		} else if ($eventType === 'module.disabled') {
-
+			
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
-
+			
 		}
 	}
 }
