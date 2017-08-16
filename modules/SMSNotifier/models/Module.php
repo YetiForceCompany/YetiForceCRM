@@ -124,7 +124,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		if ($data) {
 			$provider = self::getProviderInstance($data['providertype']);
 			if (!empty($data['parameters'])) {
-				$parameters = \App\Json::decode(decode_html($data['parameters']));
+				$parameters = \App\Json::decode(App\Purifier::decodeHtml($data['parameters']));
 				foreach ($parameters as $k => $v) {
 					$provider->set($k, $v);
 				}

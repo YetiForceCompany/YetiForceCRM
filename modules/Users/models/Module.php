@@ -118,8 +118,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
 		$num_rows = $db->num_rows($result);
 		if ($num_rows > 0) {
-			$currency_code = decode_html($db->query_result($result, 0, 'currency_code'));
-			$currency_symbol = decode_html($db->query_result($result, 0, 'currency_symbol'));
+			$currency_code = App\Purifier::decodeHtml($db->query_result($result, 0, 'currency_code'));
+			$currency_symbol = App\Purifier::decodeHtml($db->query_result($result, 0, 'currency_symbol'));
 		}
 
 		//Updating Database
@@ -201,9 +201,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$result = $adb->pquery($currency_query, []);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$currencyname = decode_html($adb->query_result($result, $i, 'currency_name'));
-			$currencycode = decode_html($adb->query_result($result, $i, 'currency_code'));
-			$currencysymbol = decode_html($adb->query_result($result, $i, 'currency_symbol'));
+			$currencyname = App\Purifier::decodeHtml($adb->query_result($result, $i, 'currency_name'));
+			$currencycode = App\Purifier::decodeHtml($adb->query_result($result, $i, 'currency_code'));
+			$currencysymbol = App\Purifier::decodeHtml($adb->query_result($result, $i, 'currency_symbol'));
 			$currencies[$currencyname] = array($currencycode, $currencysymbol);
 		}
 		return $currencies;
@@ -220,7 +220,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$result = $adb->pquery($timezone_query, []);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$time_zone = decode_html($adb->query_result($result, $i, 'time_zone'));
+			$time_zone = App\Purifier::decodeHtml($adb->query_result($result, $i, 'time_zone'));
 			$time_zones_list[$time_zone] = $time_zone;
 		}
 		return $time_zones_list;
@@ -246,8 +246,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$result = $adb->query($language_query);
 		$num_rows = $adb->num_rows($result);
 		for ($i = 0; $i < $num_rows; $i++) {
-			$lang_prefix = decode_html($adb->query_result($result, $i, 'prefix'));
-			$label = decode_html($adb->query_result($result, $i, 'label'));
+			$lang_prefix = App\Purifier::decodeHtml($adb->query_result($result, $i, 'prefix'));
+			$label = App\Purifier::decodeHtml($adb->query_result($result, $i, 'label'));
 			$languages[$lang_prefix] = $label;
 		}
 		asort($languages);

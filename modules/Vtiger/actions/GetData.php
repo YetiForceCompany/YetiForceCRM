@@ -34,7 +34,7 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 			vglobal('showsAdditionalLabels', true);
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
 			$data = $recordModel->getData();
-			$response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));
+			$response->setResult(array('success' => true, 'data' => array_map('App\Purifier::decodeHtml', $data)));
 		} else {
 			$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_PERMISSION_DENIED')));
 		}

@@ -117,7 +117,7 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$groupColors[] = [
 				'id' => $row[$primaryKey],
-				'value' => decode_html(decode_html($row[$fieldName])),
+				'value' => App\Purifier::decodeHtml(App\Purifier::decodeHtml($row[$fieldName])),
 				'color' => $row['color']
 			];
 		}
