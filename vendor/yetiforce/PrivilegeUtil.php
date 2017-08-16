@@ -279,7 +279,7 @@ class PrivilegeUtil
 		}
 		$users = array_unique($users);
 		Cache::save('getUserByMember', $member, $users, Cache::LONG);
-		return array_unique($users);
+		return $users;
 	}
 
 	/**
