@@ -35,7 +35,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 			$assignedto = $currenUserModel->getId();
 		}
 		if ($assignedto != 'all') {
-			$ownerType = vtws_getOwnerType($assignedto);
+			$ownerType = \App\Fields\Owner::getType($assignedto);
 			if ($ownerType == 'Users')
 				array_push($conditions, array("assigned_user_id", "e", \App\Fields\Owner::getUserLabel($assignedto)));
 			else {
