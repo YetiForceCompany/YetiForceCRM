@@ -49,7 +49,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 * Lock
 	 * @param int $importId
 	 * @param string $module
-	 * @param object $user
+	 * @param Users_Record_Model $user
 	 */
 	public static function lock($importId, $module, $user)
 	{
@@ -73,7 +73,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Unlock
-	 * @param object $user
+	 * @param Users_Record_Model $user
 	 * @param string $module
 	 */
 	public static function unLock($user, $module = false)
