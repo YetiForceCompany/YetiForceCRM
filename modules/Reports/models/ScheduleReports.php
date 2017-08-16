@@ -161,11 +161,8 @@ class Reports_ScheduleReports_Model extends \App\Base
 			}
 
 			if (!empty($recipients['Groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
 				foreach ($recipients['Groups'] as $groupId) {
-					$userGroups = new GetGroupUsers();
-					$userGroups->getAllUsersInGroup($groupId);
-					$recipientsList = array_merge($recipientsList, $userGroups->group_users);
+					$recipientsList = array_merge($recipientsList, App\PrivilegeUtil::getUsersByGroup($groupId));
 				}
 			}
 		}
