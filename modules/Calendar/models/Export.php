@@ -146,7 +146,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 
 				$iCalAlarm = new iCalendar_alarm;
 				$iCalAlarm->assignValues($temp);
-				$iCalTask->add_component($iCalAlarm);
+				$iCalTask->addComponent($iCalAlarm);
 			} else {
 				$temp = $moduleModel->get('todoFields');
 				foreach ($temp as $fieldName => $access) {
