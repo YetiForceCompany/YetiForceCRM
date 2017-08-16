@@ -68,6 +68,10 @@ class VTScheduledReport extends Reports
 		return false;
 	}
 
+	/**
+	 * Get recipient emails
+	 * @return array
+	 */
 	public function getRecipientEmails()
 	{
 		$recipientsInfo = $this->scheduledRecipients;
@@ -98,11 +102,8 @@ class VTScheduledReport extends Reports
 
 
 			if (!empty($recipientsInfo['groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
 				foreach ($recipientsInfo['groups'] as $groupId) {
-					$userGroups = new GetGroupUsers();
-					$userGroups->getAllUsersInGroup($groupId);
-					$recipientsList = array_merge($recipientsList, $userGroups->group_users);
+					$recipientsList = array_merge($recipientsList, App\PrivilegeUtil::getUsersByGroup($groupId));
 				}
 			}
 		}
