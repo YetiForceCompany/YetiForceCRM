@@ -59,7 +59,7 @@ class Cron
 	 */
 	public function getName()
 	{
-		return App\Purifier::decodeHtml($this->data['name']);
+		return \App\Purifier::decodeHtml($this->data['name']);
 	}
 
 	/**
