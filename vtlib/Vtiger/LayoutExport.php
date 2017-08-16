@@ -94,8 +94,8 @@ class LayoutExport extends Package
 		$sqlresult = $adb->pquery($query, [$layoutName]);
 		$layoutresultrow = $adb->fetch_array($sqlresult);
 
-		$layoutname = decode_html($layoutresultrow['name']);
-		$layoutlabel = decode_html($layoutresultrow['label']);
+		$layoutname = App\Purifier::decodeHtml($layoutresultrow['name']);
+		$layoutlabel = App\Purifier::decodeHtml($layoutresultrow['label']);
 
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');

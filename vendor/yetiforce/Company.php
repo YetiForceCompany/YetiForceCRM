@@ -49,7 +49,7 @@ class Company extends Base
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
 		}
-		$logoName = decode_html($this->get($type ? $type : 'logo_main'));
+		$logoName = App\Purifier::decodeHtml($this->get($type ? $type : 'logo_main'));
 		if (!$logoName) {
 			return false;
 		}

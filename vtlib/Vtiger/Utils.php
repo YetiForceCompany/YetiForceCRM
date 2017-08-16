@@ -226,7 +226,7 @@ class Utils
 
 		$result = $adb->query("SHOW CREATE TABLE $tablename");
 		$createTable = $adb->fetch_array($result);
-		$sql = decode_html($createTable['Create Table']);
+		$sql = App\Purifier::decodeHtml($createTable['Create Table']);
 		return $sql;
 	}
 
