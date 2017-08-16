@@ -32,7 +32,7 @@ class TotalComments
 
 	/**
 	 * Process
-	 * @param object $instance
+	 * @param Vtiger_Record_Model $instance
 	 * @return int
 	 */
 	public function process($instance)
