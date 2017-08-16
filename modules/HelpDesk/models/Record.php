@@ -28,7 +28,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	public function getCommentsList()
 	{
 		return (new \App\Db\Query())
-				->select(['commentcontent as comments'])
+				->select(['comments' => 'commentcontent'])
 				->from('vtiger_modcomments')
 				->where(['related_to' => $this->getId()])->column();
 	}
