@@ -39,7 +39,7 @@ class GetUserGroups
 		$rsGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
 		$this->user_groups = array_unique(array_merge($this->user_groups, $userGroups, $roleGroups, $rsGroups));
 		foreach ($this->user_groups as $groupId) {
-			foreach (App\PrivilegeUtil::getGroupsByUser($groupId) as $parentGroupId) {
+			foreach (App\PrivilegeUtil::getParentGroups($groupId) as $parentGroupId) {
 				if (!in_array($parentGroupId, $this->user_groups)) {
 					$this->user_groups[] = $parentGroupId;
 				}
