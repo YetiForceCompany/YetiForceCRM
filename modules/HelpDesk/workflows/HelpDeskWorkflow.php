@@ -128,14 +128,14 @@ function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 		$ownerType = vtws_getOwnerType($smownerId);
 		if ($ownerType === 'Users') {
 			$user = App\User::getUserModel($smownerId);
-			if ($currentUser->column_fields['emailoptout'] === 1) {
+			if ($user->getDetail('emailoptout') == 1) {
 				$mails[] = $user->getDetail('email1');
 			}
 		} else {
 			$groupUsers = \App\PrivilegeUtil::getUsersByGroup($smownerId);
 			foreach ($groupUsers as $userId) {
 				$user = App\User::getUserModel($userId);
-				if ($user->getDetail('emailoptout') === 1) {
+				if ($user->getDetail('emailoptout') == 1) {
 					$mails[] = $user->getDetail('email1');
 				}
 			}
