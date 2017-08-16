@@ -902,7 +902,7 @@ class CustomView extends CRMEntity
 	 */
 	public function getCustomActionDetails($cvid)
 	{
-		return (new App\Db\Query())->select(['vtiger_customaction.subject as subject', 'vtiger_customaction.module as module', 'vtiger_customaction.content as content', 'vtiger_customaction.cvid as cvid'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
+		return (new App\Db\Query())->select(['subject' => 'vtiger_customaction.subject', 'module' => 'vtiger_customaction.module', 'content' => 'vtiger_customaction.content', 'cvid' => 'vtiger_customaction.cvid'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
 	}
 
 	public function isPermittedChangeStatus($status)
