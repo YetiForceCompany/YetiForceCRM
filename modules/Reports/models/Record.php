@@ -756,7 +756,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$tmpDir = vglobal('tmp_dir');
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
-		$fileName = decode_html($this->getName()) . '.xls';
+		$fileName = App\Purifier::decodeHtml($this->getName()) . '.xls';
 		$reportRun->writeReportToExcelFile($tempFileName, $advanceFilterSql);
 
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
@@ -783,7 +783,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);
-		$fileName = decode_html($this->getName()) . '.csv';
+		$fileName = App\Purifier::decodeHtml($this->getName()) . '.csv';
 
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
 			header('Pragma: public');
