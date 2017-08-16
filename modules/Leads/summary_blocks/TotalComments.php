@@ -1,18 +1,40 @@
 <?php
-
 /**
  * TotalComments class
  * @package YetiForce.SummaryBlock
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
+
+/**
+ * Summary block total comments for module leads
+ */
 class TotalComments
 {
 
+	/**
+	 * Name
+	 * @var string
+	 */
 	public $name = 'Total comments';
+
+	/**
+	 * Sequence
+	 * @var int
+	 */
 	public $sequence = 2;
+
+	/**
+	 * Reference
+	 * @var string
+	 */
 	public $reference = 'Comments';
 
+	/**
+	 * Process
+	 * @param object $instance
+	 * @return int
+	 */
 	public function process($instance)
 	{
 
