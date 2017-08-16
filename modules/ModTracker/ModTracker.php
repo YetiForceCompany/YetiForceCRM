@@ -296,8 +296,8 @@ class ModTracker
 			$field['postvalue'] = $adb->query_result($fieldResult, $i, 'postvalue');
 			$field['prevalue'] = $adb->query_result($fieldResult, $i, 'prevalue');
 			if ($decodeHTML) {
-				$field['postvalue'] = decode_html($field['postvalue']);
-				$field['prevalue'] = decode_html($field['prevalue']);
+				$field['postvalue'] = App\Purifier::decodeHtml($field['postvalue']);
+				$field['prevalue'] = App\Purifier::decodeHtml($field['prevalue']);
 			}
 			$fields[$fieldName] = $field;
 		}

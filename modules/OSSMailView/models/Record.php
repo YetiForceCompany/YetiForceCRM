@@ -29,7 +29,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			return vtlib\Functions::getHtmlOrPlainText($value);
 		}
 		if ($key === 'uid' || $key === 'content') {
-			return decode_html($value);
+			return App\Purifier::decodeHtml($value);
 		}
 		return $value;
 	}

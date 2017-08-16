@@ -36,6 +36,6 @@ class ModComments_CommentsModel
 
 	public function content()
 	{
-		return decode_html($this->data['commentcontent']);
+		return App\Purifier::decodeHtml($this->data['commentcontent']);
 	}
 }

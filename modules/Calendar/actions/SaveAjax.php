@@ -87,7 +87,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			} else if ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;
-				$result[$fieldName]['display_value'] = decode_html($fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel));
+				$result[$fieldName]['display_value'] = App\Purifier::decodeHtml($fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel));
 			} else {
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldValue;
 			}
