@@ -33,7 +33,7 @@ class Picklist
 				->createCommand()->query();
 		$fldVal = [];
 		while (($val = $dataReader->readColumn(0)) !== false) {
-			$fldVal[] = decode_html($val);
+			$fldVal[] = App\Purifier::decodeHtml($val);
 		}
 		\App\Cache::save('getRoleBasedPicklistValues', $cacheKey, $fldVal);
 		return $fldVal;
@@ -56,7 +56,7 @@ class Picklist
 				->createCommand()->query();
 		$values = [];
 		while ($row = $dataReader->read()) {
-			$values[$row[$primaryKey]] = decode_html(decode_html($row[$fieldName]));
+			$values[$row[$primaryKey]] = App\Purifier::decodeHtml(App\Purifier::decodeHtml($row[$fieldName]));
 		}
 		\App\Cache::save('getPickListValues', $fieldName, $values);
 		return $values;
@@ -96,7 +96,7 @@ class Picklist
 				->createCommand()->query();
 		$values = [];
 		while ($row = $dataReader->read()) {
-			$values[$row[$primaryKey]] = decode_html(decode_html($row[$fieldName]));
+			$values[$row[$primaryKey]] = App\Purifier::decodeHtml(App\Purifier::decodeHtml($row[$fieldName]));
 		}
 		\App\Cache::save('getNonEditablePicklistValues', $fieldName, $values);
 		return $values;

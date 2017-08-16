@@ -93,7 +93,7 @@ class Vtiger_Record_Model extends \App\Base
 		if (empty($displayName)) {
 			$displayName = $this->getDisplayName();
 		}
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml($displayName));
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getSearchName()
 	{
 		$displayName = $this->get('searchlabel');
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml($displayName));
 	}
 
 	public function isWatchingRecord()

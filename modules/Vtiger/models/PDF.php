@@ -67,7 +67,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml($displayName));
 	}
 
 	/**
