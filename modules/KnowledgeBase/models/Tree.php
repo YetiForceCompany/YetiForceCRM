@@ -36,8 +36,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 	{
 		$folders = [];
 		$lastId = 0;
-		$dataReader = (new \App\Db\Query())
-				->from('vtiger_trees_templates_data')->where(['templateid' => $this->getTemplate()])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => $this->getTemplate()])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
 			$pieces = explode('::', $row['parenttrre']);
@@ -80,7 +79,6 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$db = PearDatabase::getInstance();
 		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => vtlib\Functions::getModuleId($this->getModuleName())])->one();
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
