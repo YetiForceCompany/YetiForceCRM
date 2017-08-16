@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Model of tree
  * @package YetiForce.Model
@@ -7,23 +6,39 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+/**
+ * Class tree model for module knowledge base
+ */
 class KnowledgeBase_Tree_Model extends \App\Base
 {
 
+	/**
+	 * Last id in tree
+	 * @var int
+	 */
 	private $lastIdinTree;
 
+	/**
+	 * Get module name
+	 * @return string
+	 */
 	public function getModuleName()
 	{
 		return $this->get('moduleName');
 	}
 
+	/**
+	 * Get folders
+	 * @return array
+	 */
 	public function getFolders()
 	{
 		$folders = [];
-		$db = PearDatabase::getInstance();
 		$lastId = 0;
-		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new \App\Db\Query())
+				->from('vtiger_trees_templates_data')->where(['templateid' => $this->getTemplate()])->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
 			$pieces = explode('::', $row['parenttrre']);
 			end($pieces);
