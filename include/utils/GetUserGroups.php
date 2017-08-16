@@ -33,14 +33,14 @@ class GetUserGroups
 		//Setting the User Role
 		$userRole = \App\PrivilegeUtil::getRoleByUsers($userid);
 		//Retreiving from the vtiger_user2role
-		$roleGroups = App\PrivilegeUtil::getRoleGroups($userRole);
+		$roleGroups = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $userRole])->column();
 		//Retreiving from the user2rs
-		$rsGroups = \App\PrivilegeUtil::getRoleSubordinatesGroups($userRole);
+		$roles = \App\PrivilegeUtil::getParentRole($userRole);
+		$roles[] = $userRole;
+		$rsGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
 		$this->user_groups = array_unique(array_merge($this->user_groups, $userGroups, $roleGroups, $rsGroups));
 		foreach ($this->user_groups as $groupId) {
-			$focus = new GetParentGroups();
-			$focus->getAllParentGroups($groupId);
-			foreach ($focus->parent_groups as $parentGroupId) {
+			foreach (App\PrivilegeUtil::getGroupsByUser($groupId) as $parentGroupId) {
 				if (!in_array($parentGroupId, $this->user_groups)) {
 					$this->user_groups[] = $parentGroupId;
 				}
