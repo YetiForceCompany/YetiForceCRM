@@ -3393,7 +3393,7 @@ class ReportRun extends CRMEntity
 				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, App\Language::translate($moduleName, $moduleName) . '-' . App\Language::translate($fieldLabel, $moduleName));
 				$count++;
 				foreach ($array_value as $hdr => $value) {
-					$value = decode_html($value);
+					$value = \App\Purifier::decodeHtml($value);
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value);
 					$count = $count + 1;
 				}
