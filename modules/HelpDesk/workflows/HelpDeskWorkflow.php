@@ -125,20 +125,18 @@ function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 	$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
 	if ($result) {
 		$smownerId = $result;
-		$ownerType = vtws_getOwnerType($smownerid);
+		$ownerType = vtws_getOwnerType($smownerId);
 		if ($ownerType === 'Users') {
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($smownerId);
+			$user = App\User::getUserModel($smownerId);
 			if ($currentUser->column_fields['emailoptout'] === 1) {
-				$mails[] = $currentUser->column_fields['email1'];
+				$mails[] = $user->getDetail('email1');
 			}
 		} else {
 			$groupUsers = \App\PrivilegeUtil::getUsersByGroup($smownerId);
 			foreach ($groupUsers as $userId) {
-				$user = new Users();
-				$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-				if ($currentUser->column_fields['emailoptout'] == '1') {
-					$mails[] = $currentUser->column_fields['email1'];
+				$user = App\User::getUserModel($userId);
+				if ($user->getDetail('emailoptout') === 1) {
+					$mails[] = $user->getDetail('email1');
 				}
 			}
 		}
