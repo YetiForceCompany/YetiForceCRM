@@ -107,7 +107,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	public function getUrl()
 	{
 		$url = $this->get('linkto');
-		$url = decode_html($url);
+		$url = App\Purifier::decodeHtml($url);
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}

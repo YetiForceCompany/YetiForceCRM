@@ -248,7 +248,7 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(decode_html($value), "\"");
+			$value = trim(App\Purifier::decodeHtml($value), "\"");
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 
