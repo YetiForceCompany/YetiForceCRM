@@ -312,7 +312,7 @@ class TextParser
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
 			$logo = $company->getLogo($fieldName);
-			if (!$logo || $logo['fileExists'] === false) {
+			if (!$logo || $logo->get('fileExists') === false) {
 				return '';
 			}
 			$path = $logo->get('imagePath');
