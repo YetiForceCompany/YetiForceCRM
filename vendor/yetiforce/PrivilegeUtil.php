@@ -157,39 +157,6 @@ class PrivilegeUtil
 	}
 
 	/**
-	 * Function to get role groups
-	 * @param string $roleId
-	 * @return array
-	 */
-	public static function getRoleGroups($roleId)
-	{
-		if (Cache::has('RoleGroups', $roleId)) {
-			return Cache::get('RoleGroups', $roleId);
-		}
-		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $roleId])->column();
-		Cache::save('RoleGroups', $roleId, $groupIds);
-		return $groupIds;
-	}
-
-	/**
-	 * Function to get role subordinates groups
-	 * @param string $roleId
-	 * @return array
-	 */
-	public static function getRoleSubordinatesGroups($roleId)
-	{
-		if (Cache::has('RoleSubordinatesGroups', $roleId)) {
-			return Cache::get('RoleSubordinatesGroups', $roleId);
-		}
-
-		$roles = self::getParentRole($roleId);
-		$roles [] = $roleId;
-		$groupIds = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
-		Cache::save('RoleSubordinatesGroups', $roleId, $groupIds);
-		return $groupIds;
-	}
-
-	/**
 	 * This function is to retreive the vtiger_profiles associated with the  the specified role
 	 * @param string $roleId
 	 * @return array
@@ -279,7 +246,7 @@ class PrivilegeUtil
 		}
 		$users = array_unique($users);
 		Cache::save('getUserByMember', $member, $users, Cache::LONG);
-		return array_unique($users);
+		return $users;
 	}
 
 	/**
@@ -1117,5 +1084,53 @@ class PrivilegeUtil
 			'write' => $modShareWritePermission,
 			'sharingrules' => $shareIdMembers,
 		];
+	}
+
+	/**
+	 * Get all groups by user id
+	 * @param int $userId
+	 * @return int[]
+	 */
+	public static function getAllGroupsByUser($userId)
+	{
+		if (Cache::has('getAllGroupsByUser', $userId)) {
+			return Cache::get('getAllGroupsByUser', $userId);
+		}
+		$userGroups = static::getUserGroups($userId);
+		$userRole = static::getRoleByUsers($userId);
+		$roleGroups = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $userRole])->column();
+		$roles = static::getParentRole($userRole);
+		$roles[] = $userRole;
+		$rsGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
+		$allGroups = array_unique(array_merge($userGroups, $roleGroups, $rsGroups));
+		$parentGroups = [];
+		foreach ($allGroups as $groupId) {
+			$parentGroups = array_merge($parentGroups, static::getParentGroups($groupId));
+		}
+		if ($parentGroups) {
+			$allGroups = array_unique(array_merge($allGroups, $parentGroups));
+		}
+		Cache::save('getAllGroupsByUser', $userId, $allGroups, Cache::LONG);
+		return $allGroups;
+	}
+
+	/**
+	 * Get parent grioups by group id
+	 * @param int $groupId
+	 * @param int $i
+	 * @return int[]
+	 */
+	public static function getParentGroups($groupId, $i = 0)
+	{
+		$groups = [];
+		if ($i < 5) {
+			$dataReader = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2grouprel')->where(['containsgroupid' => $groupId])->createCommand()->query();
+			while ($parentGroupId = $dataReader->readColumn(0)) {
+				$groups = array_merge($groups, [$parentGroupId], static::getParentGroups($parentGroupId, $i++));
+			}
+		} else {
+			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+		}
+		return $groups;
 	}
 }

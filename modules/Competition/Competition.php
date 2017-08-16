@@ -145,7 +145,7 @@ class Competition extends Vtiger_CRMEntity
 	 * @param string $moduleName Module name
 	 * @param string $eventType Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Competition');
@@ -160,13 +160,13 @@ class Competition extends Vtiger_CRMEntity
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId('Competition'));
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 

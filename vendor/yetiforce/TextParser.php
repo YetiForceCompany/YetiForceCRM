@@ -94,6 +94,12 @@ class TextParser
 	protected $params;
 
 	/**
+	 * Separator to display data when there are several values
+	 * @var string 
+	 */
+	public $relatedRecordSeparator = ',';
+
+	/**
 	 * Get instanace by record id
 	 * @param int $record Record id
 	 * @param string $moduleName Module name
@@ -141,7 +147,7 @@ class TextParser
 
 	/**
 	 * Set without translations
-	 * @param string $content
+	 * @param string $type
 	 * @return $this
 	 */
 	public function withoutTranslations($type = true)
@@ -305,15 +311,17 @@ class TextParser
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName, true);
-			if (!$logo) {
+			$logo = $company->getLogo($fieldName);
+			if (!$logo || $logo->get('fileExists') === false) {
 				return '';
 			}
-			$logoName = $logo->get('imageUrl');
+			$path = $logo->get('imagePath');
 			$logoTitle = $company->get('name');
 			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
 			$logoHeight = $company->get($fieldName . '_height');
-			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
+			$type = pathinfo($path, PATHINFO_EXTENSION);
+			$base64 = base64_encode(file_get_contents($path));
+			return "<img class=\"organizationLogo\" src=\"data:image/$type;base64,$base64\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
 			return Company::$logoPath . $company->get($fieldName);
 		}
@@ -410,7 +418,7 @@ class TextParser
 					if (!$fieldModel) {
 						continue;
 					}
-					$oldValue = $this->getDisplayValueByField($oldValue, $fieldModel);
+					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations !== true) {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
@@ -470,14 +478,34 @@ class TextParser
 			return '';
 		}
 		if ($relatedModule === 'Users') {
-			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
-			$instance = static::getInstanceByModel($userRecordModel);
-			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-				if (isset($this->$key)) {
-					$instance->$key = $this->$key;
+			$ownerType = Fields\Owner::getType($relatedId);
+			if ($ownerType === 'Users') {
+				$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
+				if ($userRecordModel->get('status') === 'Active') {
+					$instance = static::getInstanceByModel($userRecordModel);
+					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+						if (isset($this->$key)) {
+							$instance->$key = $this->$key;
+						}
+					}
+					return $instance->record($relatedField, false);
+				}
+				return '';
+			}
+			$return = [];
+			foreach (PrivilegeUtil::getUsersByGroup($relatedId) as $userId) {
+				$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
+				if ($userRecordModel->get('status') === 'Active') {
+					$instance = static::getInstanceByModel($userRecordModel);
+					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+						if (isset($this->$key)) {
+							$instance->$key = $this->$key;
+						}
+					}
+					$return[] = $instance->record($relatedField, false);
 				}
 			}
-			return $instance->record($relatedField, false);
+			return implode($this->relatedRecordSeparator, $return);
 		}
 		$moduleName = Record::getType($relatedId);
 		if (!empty($moduleName)) {
@@ -717,7 +745,6 @@ class TextParser
 				break;
 			default:
 				return $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
-				break;
 		}
 		return $value;
 	}

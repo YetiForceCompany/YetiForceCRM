@@ -45,7 +45,7 @@ class iCalendar_property
 		return iCalendar_parameter::is_valid_value($this, $parameter, $value);
 	}
 
-	public function invariant_holds()
+	public function invariantHolds()
 	{
 		return true;
 	}
@@ -305,7 +305,7 @@ class iCalendar_property_attach extends iCalendar_property
 		);
 	}
 
-	public function invariant_holds()
+	public function invariantHolds()
 	{
 		if (isset($this->parameters['ENCODING']) && !isset($this->parameters['VALUE'])) {
 			return false;

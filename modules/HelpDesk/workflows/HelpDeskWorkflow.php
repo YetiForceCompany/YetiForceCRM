@@ -124,23 +124,19 @@ function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 	$mails = [];
 	$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
 	if ($result) {
-		$smownerid = $result;
-		$ownerType = vtws_getOwnerType($smownerid);
-		if ($ownerType == 'Users') {
-			$user = new Users();
-			$currentUser = $user->retrieveCurrentUserInfoFromFile($smownerid);
-			if ($currentUser->column_fields['emailoptout'] == '1') {
-				$mails[] = $currentUser->column_fields['email1'];
+		$smownerId = $result;
+		$ownerType = vtws_getOwnerType($smownerId);
+		if ($ownerType === 'Users') {
+			$user = App\User::getUserModel($smownerId);
+			if ($user->getDetail('emailoptout') == 1) {
+				$mails[] = $user->getDetail('email1');
 			}
 		} else {
-			require_once('include/utils/GetGroupUsers.php');
-			$ggu = new GetGroupUsers();
-			$ggu->getAllUsersInGroup($smownerid);
-			foreach ($ggu->group_users as $userId) {
-				$user = new Users();
-				$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-				if ($currentUser->column_fields['emailoptout'] == '1') {
-					$mails[] = $currentUser->column_fields['email1'];
+			$groupUsers = \App\PrivilegeUtil::getUsersByGroup($smownerId);
+			foreach ($groupUsers as $userId) {
+				$user = App\User::getUserModel($userId);
+				if ($user->getDetail('emailoptout') == 1) {
+					$mails[] = $user->getDetail('email1');
 				}
 			}
 		}

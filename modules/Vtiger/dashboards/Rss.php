@@ -23,7 +23,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
-		$data = \App\Json::decode(decode_html($data));
+		$data = \App\Json::decode(App\Purifier::decodeHtml($data));
 		$listSubjects = [];
 		foreach ($data['channels'] as $rss) {
 			try {

@@ -90,7 +90,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $event_type)
+	public function moduleHandler($modulename, $event_type)
 	{
 		$registerLink = false;
 		$displayLabel = 'Time Control';

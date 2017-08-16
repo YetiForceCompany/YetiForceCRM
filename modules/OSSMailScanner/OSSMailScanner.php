@@ -9,7 +9,7 @@
 class OSSMailScanner
 {
 
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
 

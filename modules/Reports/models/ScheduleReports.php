@@ -37,12 +37,12 @@ class Reports_ScheduleReports_Model extends \App\Base
 			$scheduledReportResult = $db->pquery('SELECT * FROM vtiger_schedulereports WHERE reportid = ?', array($recordId));
 			if ($db->num_rows($scheduledReportResult) > 0) {
 				$reportScheduleInfo = $db->query_result_rowdata($scheduledReportResult, 0);
-				$reportScheduleInfo['schdate'] = decode_html($reportScheduleInfo['schdate']);
-				$reportScheduleInfo['schdayoftheweek'] = decode_html($reportScheduleInfo['schdayoftheweek']);
-				$reportScheduleInfo['schdayofthemonth'] = decode_html($reportScheduleInfo['schdayofthemonth']);
-				$reportScheduleInfo['schannualdates'] = decode_html($reportScheduleInfo['schannualdates']);
-				$reportScheduleInfo['recipients'] = decode_html($reportScheduleInfo['recipients']);
-				$reportScheduleInfo['specificemails'] = decode_html($reportScheduleInfo['specificemails']);
+				$reportScheduleInfo['schdate'] = App\Purifier::decodeHtml($reportScheduleInfo['schdate']);
+				$reportScheduleInfo['schdayoftheweek'] = App\Purifier::decodeHtml($reportScheduleInfo['schdayoftheweek']);
+				$reportScheduleInfo['schdayofthemonth'] = App\Purifier::decodeHtml($reportScheduleInfo['schdayofthemonth']);
+				$reportScheduleInfo['schannualdates'] = App\Purifier::decodeHtml($reportScheduleInfo['schannualdates']);
+				$reportScheduleInfo['recipients'] = App\Purifier::decodeHtml($reportScheduleInfo['recipients']);
+				$reportScheduleInfo['specificemails'] = App\Purifier::decodeHtml($reportScheduleInfo['specificemails']);
 				$reportScheduleInfo['scheduleFileType'] = $reportScheduleInfo['filetype'];
 				$scheduledReportModel->setData($reportScheduleInfo);
 			}
@@ -161,11 +161,8 @@ class Reports_ScheduleReports_Model extends \App\Base
 			}
 
 			if (!empty($recipients['Groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
 				foreach ($recipients['Groups'] as $groupId) {
-					$userGroups = new GetGroupUsers();
-					$userGroups->getAllUsersInGroup($groupId);
-					$recipientsList = array_merge($recipientsList, $userGroups->group_users);
+					$recipientsList = array_merge($recipientsList, App\PrivilegeUtil::getUsersByGroup($groupId));
 				}
 			}
 		}

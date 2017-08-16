@@ -13,13 +13,13 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public function getContent()
 	{
-		$data = \App\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(App\Purifier::decodeHtml($this->get('data')));
 		return $data['contents'];
 	}
 
 	public function getLastSavedDate()
 	{
-		$data = \App\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(App\Purifier::decodeHtml($this->get('data')));
 		return $data['lastSavedOn'];
 	}
 

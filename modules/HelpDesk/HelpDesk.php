@@ -111,13 +111,13 @@ class HelpDesk extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Tickets Query.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 
 		$current_user = vglobal('current_user');
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
 
-		include("include/utils/ExportUtils.php");
+		include('include/utils/ExportUtils.php');
 
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");

@@ -29,20 +29,16 @@ require_once 'include/Webservices/PreserveGlobal.php';
 
 function vtws_getUsersInTheSameGroup($id)
 {
-	require_once('include/utils/GetGroupUsers.php');
 	require_once('include/utils/GetUserGroups.php');
-
-	$groupUsers = new GetGroupUsers();
 	$userGroups = new GetUserGroups();
 	$allUsers = [];
 	$userGroups->getAllUserGroups($id);
 	$groups = $userGroups->user_groups;
 
 	foreach ($groups as $group) {
-		$groupUsers->getAllUsersInGroup($group);
-		$usersInGroup = $groupUsers->group_users;
+		$usersInGroup = App\PrivilegeUtil::getUsersByGroup($group);
 		foreach ($usersInGroup as $user) {
-			if ($user != $id) {
+			if ($user !== $id) {
 				$allUsers[$user] = \App\Fields\Owner::getUserLabel($user);
 			}
 		}

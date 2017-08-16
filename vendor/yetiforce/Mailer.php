@@ -403,13 +403,14 @@ class Mailer
 		}
 		if ($mailer->getSmtp('individual_delivery')) {
 			foreach (Json::decode($rowQueue['to']) as $email => $name) {
-				$separateMailer = clone $mailer;
+				$separateMailer = $mailer->cloneMailer();
 				if (is_numeric($email)) {
 					$email = $name;
 					$name = '';
 				}
 				$separateMailer->to($email, $name);
 				$status = $separateMailer->send();
+				unset($separateMailer);
 				if (!$status) {
 					return false;
 				}
@@ -423,6 +424,7 @@ class Mailer
 				$mailer->to($email, $name);
 			}
 			$status = $mailer->send();
+			unset($mailer);
 		}
 		if ($status) {
 			foreach ($attachmentsToRemove as $file) {
@@ -474,5 +476,16 @@ class Mailer
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), "\\Seen");
 		imap_close($mbox);
 		return true;
+	}
+
+	/**
+	 * Clone the mailer object for individual shipment
+	 * @return \App\Mailer
+	 */
+	public function cloneMailer()
+	{
+		$clonedThis = clone $this;
+		$clonedThis->mailer = clone $this->mailer;
+		return $clonedThis;
 	}
 }

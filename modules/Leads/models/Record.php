@@ -9,11 +9,15 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Record model for module leads
+ */
 class Leads_Record_Model extends Vtiger_Record_Model
 {
 
 	/**
 	 * Function returns the url for converting lead
+	 * @return string
 	 */
 	public function getConvertLeadUrl()
 	{
@@ -22,7 +26,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns Account fields for Lead Convert
-	 * @return Array
+	 * @return array
 	 */
 	public function getAccountFieldsForLeadConvert()
 	{
@@ -75,6 +79,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function returns field mapped to Leads field, used in Lead Convert for settings the field values
 	 * @param string $fieldName
+	 * @param string $moduleName
 	 * @return string
 	 */
 	public function getConvertLeadMappedField($fieldName, $moduleName)
@@ -82,11 +87,8 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		$mappingFields = $this->get('mappingFields');
 
 		if (!$mappingFields) {
-			$db = PearDatabase::getInstance();
 			$mappingFields = [];
-
-			$result = $db->pquery('SELECT * FROM vtiger_convertleadmapping', []);
-			$numOfRows = $db->num_rows($result);
+			$query = (new \App\Db\Query())->from('vtiger_convertleadmapping');
 
 			$accountInstance = Vtiger_Module_Model::getInstance('Accounts');
 			$accountFieldInstances = $accountInstance->getFieldsById();
@@ -94,8 +96,8 @@ class Leads_Record_Model extends Vtiger_Record_Model
 			$leadInstance = Vtiger_Module_Model::getInstance('Leads');
 			$leadFieldInstances = $leadInstance->getFieldsById();
 
-			for ($i = 0; $i < $numOfRows; $i++) {
-				$row = $db->query_result_rowdata($result, $i);
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				if (empty($row['leadfid']))
 					continue;
 
@@ -116,7 +118,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the fields required for Lead Convert
-	 * @return <Array of Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model[]
 	 */
 	public function getConvertLeadFields()
 	{

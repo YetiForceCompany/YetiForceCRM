@@ -39,7 +39,7 @@ class Record
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					$recordLabel = \vtlib\Functions::textLength(decode_html($computeLabel[$id]), 254, false);
+					$recordLabel = \vtlib\Functions::textLength(Purifier::decodeHtml($computeLabel[$id]), 254, false);
 					Cache::save('recordLabel', $id, $recordLabel);
 				}
 			}
@@ -179,8 +179,8 @@ class Record
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$db = \App\Db::getInstance();
-			$label = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['name']), 254, false);
-			$search = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['search']), 254, false);
+			$label = \vtlib\Functions::textLength(Purifier::decodeHtml($labelInfo[$id]['name']), 254, false);
+			$search = \vtlib\Functions::textLength(Purifier::decodeHtml($labelInfo[$id]['search']), 254, false);
 			if (!is_numeric($label) && empty($label)) {
 				$label = '';
 			}

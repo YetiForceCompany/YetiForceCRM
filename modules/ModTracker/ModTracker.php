@@ -43,7 +43,7 @@ class ModTracker
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
@@ -296,8 +296,8 @@ class ModTracker
 			$field['postvalue'] = $adb->query_result($fieldResult, $i, 'postvalue');
 			$field['prevalue'] = $adb->query_result($fieldResult, $i, 'prevalue');
 			if ($decodeHTML) {
-				$field['postvalue'] = decode_html($field['postvalue']);
-				$field['prevalue'] = decode_html($field['prevalue']);
+				$field['postvalue'] = App\Purifier::decodeHtml($field['postvalue']);
+				$field['prevalue'] = App\Purifier::decodeHtml($field['prevalue']);
 			}
 			$fields[$fieldName] = $field;
 		}

@@ -91,7 +91,7 @@ class PaymentsOut extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $event_type)
+	public function moduleHandler($modulename, $event_type)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
@@ -107,15 +107,15 @@ class PaymentsOut extends Vtiger_CRMEntity
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
-
+			
 		}
 	}
 
