@@ -250,7 +250,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		return $child_accounts;
 	}
 
-	public function vtlib_handler($modulename, $event_type)
+	public function moduleHandler($modulename, $event_type)
 	{
 		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {

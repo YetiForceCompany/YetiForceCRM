@@ -186,7 +186,7 @@ class Assets extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -229,11 +229,11 @@ class Assets extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
 		if ($key == 'owner')
 			return \App\Fields\Owner::getLabel($value);
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -289,7 +289,7 @@ class Assets extends CRMEntity
 	 * @param string Module name
 	 * @param string Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
 		if ($eventType === 'module.postinstall') {
@@ -311,13 +311,13 @@ class Assets extends CRMEntity
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType === 'module.disabled') {
-
+			
 		} else if ($eventType === 'module.enabled') {
-
+			
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		}
