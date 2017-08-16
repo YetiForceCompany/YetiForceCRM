@@ -1087,14 +1087,14 @@ class PrivilegeUtil
 	}
 
 	/**
-	 * Get groups by user id
+	 * Get all groups by user id
 	 * @param int $userId
 	 * @return int[]
 	 */
-	public static function getGroupsByUser($userId)
+	public static function getAllGroupsByUser($userId)
 	{
-		if (Cache::has('getGroupsByUser', $userId)) {
-			return Cache::get('getGroupsByUser', $userId);
+		if (Cache::has('getAllGroupsByUser', $userId)) {
+			return Cache::get('getAllGroupsByUser', $userId);
 		}
 		$userGroups = static::getUserGroups($userId);
 		$userRole = static::getRoleByUsers($userId);
@@ -1110,7 +1110,7 @@ class PrivilegeUtil
 		if ($parentGroups) {
 			$allGroups = array_unique(array_merge($allGroups, $parentGroups));
 		}
-		Cache::save('getGroupsByUser', $userId, $allGroups, Cache::LONG);
+		Cache::save('getAllGroupsByUser', $userId, $allGroups, Cache::LONG);
 		return $allGroups;
 	}
 
