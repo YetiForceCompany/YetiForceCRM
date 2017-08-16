@@ -645,7 +645,7 @@ class CustomView_Record_Model extends \App\Base
 	public function getAdvancedCriteria()
 	{
 		$db = PearDatabase::getInstance();
-		$default_charset = vglobal('default_charset');
+		$defaultCharset = vglobal('default_charset');
 
 		$cvId = $this->getId();
 		$advft_criteria = [];
@@ -657,9 +657,9 @@ class CustomView_Record_Model extends \App\Base
 
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $dataReader->read()) {
-			$groupId = $relcriteriagroup["groupid"];
-			$groupCondition = $relcriteriagroup["group_condition"];
+		while ($relCriteriaGroup = $dataReader->read()) {
+			$groupId = $relCriteriaGroup['groupid'];
+			$groupCondition = $relCriteriaGroup['group_condition'];
 
 			$ssql = 'select vtiger_cvadvfilter.* from vtiger_customview
 						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
@@ -672,29 +672,29 @@ class CustomView_Record_Model extends \App\Base
 			if ($noOfColumns <= 0)
 				continue;
 
-			while ($relcriteriarow = $db->fetch_array($result)) {
+			while ($relCriteriaRow = $db->fetch_array($result)) {
 				$criteria = [];
-				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
-				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
-				$col = explode(":", $relcriteriarow["columnname"]);
-				$temp_val = explode(",", $relcriteriarow["value"]);
-				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
+				$criteria['columnname'] = html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, $defaultCharset);
+				$criteria['comparator'] = $relCriteriaRow['comparator'];
+				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
+				$col = explode(":", $relCriteriaRow["columnname"]);
+				$temp_val = explode(",", $relCriteriaRow['value']);
+				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = [];
 					$countTempVal = count($temp_val);
 					for ($x = 0; $x < $countTempVal; $x++) {
-						if ($col[4] == 'D') {
+						if ($col[4] === 'D') {
 							/** while inserting in db for due_date it was taking date and time values also as it is
 							 * date time field. We only need to take date from that value
 							 */
-							if ($col[0] == 'vtiger_activity' && $col[1] == 'due_date') {
+							if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
 								$originalValue = $temp_val[$x];
 								$dateTime = explode(' ', $originalValue);
 								$temp_val[$x] = $dateTime[0];
 							}
 							$date = new DateTimeField(trim($temp_val[$x]));
 							$val[$x] = $date->getDisplayDate();
-						} elseif ($col[4] == 'DT') {
+						} elseif ($col[4] === 'DT') {
 							$comparator = array('e', 'n', 'b', 'a');
 							if (in_array($criteria['comparator'], $comparator)) {
 								$originalValue = $temp_val[$x];
@@ -708,12 +708,12 @@ class CustomView_Record_Model extends \App\Base
 							$val[$x] = $date->getDisplayTime();
 						}
 					}
-					$advfilterval = implode(",", $val);
+					$advFilterVal = implode(",", $val);
 				}
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advfilterval));
-				$criteria['column_condition'] = $relcriteriarow["column_condition"];
+				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advFilterVal));
+				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
 
-				$groupId = $relcriteriarow['groupid'];
+				$groupId = $relCriteriaRow['groupid'];
 				$advft_criteria[$groupId]['columns'][$j] = $criteria;
 				$advft_criteria[$groupId]['condition'] = $groupCondition;
 				$j++;
