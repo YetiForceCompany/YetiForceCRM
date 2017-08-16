@@ -84,8 +84,8 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 			$imagePath = $db->query_result($result, 0, 'path');
 			$imageName = $db->query_result($result, 0, 'name');
 
-			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = decode_html($imageName);
+			//App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
+			$imageOriginalName = App\Purifier::decodeHtml($imageName);
 
 			if (!empty($imageName)) {
 				$imageDetails[] = array(
@@ -146,7 +146,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
 				->leftJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid')
 				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
-		$imageName = decode_html($imageName);
+		$imageName = App\Purifier::decodeHtml($imageName);
 		//Inserting image information of record into base table
 		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => $imageName], ['contactid' => $id])
 			->execute();

@@ -117,7 +117,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		foreach ($mandatoryFieldModels as $mandatoryField) {
 			$fieldName = $mandatoryField->get('name');
 			$fieldType = $mandatoryField->getFieldDataType();
-			$defaultValue = decode_html($mandatoryField->get('defaultvalue'));
+			$defaultValue = App\Purifier::decodeHtml($mandatoryField->get('defaultvalue'));
 			if (!empty($element[$fieldName])) {
 				continue;
 			} else {

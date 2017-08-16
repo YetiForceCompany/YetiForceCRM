@@ -880,8 +880,8 @@ class CustomView_Record_Model extends \App\Base
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {
 			$customView = new self();
-			if (strlen(decode_html($row['viewname'])) > 40) {
-				$row['viewname'] = substr(decode_html($row['viewname']), 0, 36) . '...';
+			if (strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
+				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}

@@ -128,8 +128,8 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$imagePathList[] = $db->query_result($result, $i, 'path');
 				$imageName = $db->query_result($result, $i, 'name');
 
-				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalNamesList[] = decode_html($imageName);
+				//App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
+				$imageOriginalNamesList[] = App\Purifier::decodeHtml($imageName);
 
 				//urlencode - added to handle special characters like #, %, etc.,
 				$imageNamesList[] = $imageName;
@@ -544,7 +544,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				->createCommand()->query();
 		$productImageMap = [];
 		while ($imageName = $dataReader->readColumn(0)) {
-			$productImageMap [] = decode_html($imageName);
+			$productImageMap [] = App\Purifier::decodeHtml($imageName);
 		}
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();

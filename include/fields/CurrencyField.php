@@ -477,7 +477,7 @@ class CurrencyField
 			else
 				$decimalSeparator = $user->currency_decimal_separator;
 
-			$fieldValue = explode(decode_html($decimalSeparator), $value);
+			$fieldValue = explode(App\Purifier::decodeHtml($decimalSeparator), $value);
 			if (strlen($fieldValue[1]) <= 1) {
 				if (strlen($fieldValue[1]) == 1) {
 					return $value = $fieldValue[0] . $decimalSeparator . $fieldValue[1];

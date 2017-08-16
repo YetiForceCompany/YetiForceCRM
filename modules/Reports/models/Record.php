@@ -347,7 +347,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
 			$order = $db->query_result($result, $i, 'sortorder');
-			$sortColumns[decode_html($column)] = $order;
+			$sortColumns[App\Purifier::decodeHtml($column)] = $order;
 		}
 		return $sortColumns;
 	}
@@ -556,7 +556,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			$countSelectedFields = count($selectedFields);
 			for ($i = 0; $i < $countSelectedFields; $i++) {
 				if (!empty($selectedFields[$i])) {
-					$db->pquery("INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)", array($this->getId(), $i, decode_html($selectedFields[$i])));
+					$db->pquery('INSERT INTO vtiger_selectcolumn(queryid, columnindex, columnname) VALUES (?,?,?)', array($this->getId(), $i, App\Purifier::decodeHtml($selectedFields[$i])));
 				}
 			}
 		}
