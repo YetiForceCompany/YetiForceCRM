@@ -43,7 +43,7 @@ class Link
 	{
 		foreach ($valuemap as $key => $value) {
 			if ($key == 'linkurl' || $key == 'linkicon') {
-				$this->$key = App\Purifier::decodeHtml($value);
+				$this->$key = \App\Purifier::decodeHtml($value);
 			} else {
 				$this->$key = $value;
 			}
