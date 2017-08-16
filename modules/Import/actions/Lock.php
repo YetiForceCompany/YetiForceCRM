@@ -93,7 +93,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	/**
 	 * Is locked for module
 	 * @param string $module
-	 * @return null
+	 * @return array|null
 	 */
 	public static function isLockedForModule($module)
 	{
