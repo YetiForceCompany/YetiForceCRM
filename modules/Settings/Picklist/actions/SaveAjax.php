@@ -153,7 +153,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 		$response = new Vtiger_Response();
 		try {
-			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assignValues'), [], $roleIdList);
+			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assign_values'), [], $roleIdList);
 			$response->setResult(array('success', true));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
