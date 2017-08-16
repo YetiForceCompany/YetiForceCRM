@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 /**
- * Class Contacts_Record_Model
+ * Class contacts record model
  */
 class Contacts_Record_Model extends Vtiger_Record_Model
 {
