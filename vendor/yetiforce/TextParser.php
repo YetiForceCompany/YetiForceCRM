@@ -311,15 +311,17 @@ class TextParser
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName, true);
-			if (!$logo) {
+			$logo = $company->getLogo($fieldName);
+			if (!$logo || $logo['fileExists'] === false) {
 				return '';
 			}
-			$logoName = $logo->get('imageUrl');
+			$path = $logo->get('imagePath');
 			$logoTitle = $company->get('name');
 			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
 			$logoHeight = $company->get($fieldName . '_height');
-			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
+			$type = pathinfo($path, PATHINFO_EXTENSION);
+			$base64 = base64_encode(file_get_contents($path));
+			return "<img class=\"organizationLogo\" src=\"data:image/$type;base64,$base64\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
 			return Company::$logoPath . $company->get($fieldName);
 		}
@@ -491,7 +493,7 @@ class TextParser
 				return '';
 			}
 			$return = [];
-			foreach (PrivilegeUtil::getUsersByGroup($relatedId)as $userId) {
+			foreach (PrivilegeUtil::getUsersByGroup($relatedId) as $userId) {
 				$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
 				if ($userRecordModel->get('status') === 'Active') {
 					$instance = static::getInstanceByModel($userRecordModel);
