@@ -64,13 +64,13 @@ $config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../../cache/mail/';
 $config['imap_conn_options'] = [
 	'ssl' => [
 		'verify_peer' => false,
-		'verfify_peer_name' => false,
+		'verify_peer_name' => false,
 	],
 ];
 $config['smtp_conn_options'] = [
 	'ssl' => [
 		'verify_peer' => false,
-		'verfify_peer_name' => false,
+		'verify_peer_name' => false,
 	],
 ];
 $config['smtp_timeout'] = 5;
