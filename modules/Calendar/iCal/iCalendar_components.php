@@ -136,7 +136,7 @@ class iCalendar_component
 
 	public function get_property_list($name)
 	{
-
+		
 	}
 
 	public function invariant_holds()
@@ -212,7 +212,12 @@ class iCalendar_component
 		return $string;
 	}
 
-	public function assign_values($activity)
+	/**
+	 * 
+	 * @param array $activity
+	 * @return boolean
+	 */
+	public function assignValues($activity)
 	{
 		foreach ($this->mapping_arr as $key => $components) {
 			if (!is_array($components['component']) && empty($components['function'])) {
@@ -401,15 +406,15 @@ class iCalendar_event extends iCalendar_component
 	public $properties;
 	public $mapping_arr = array(
 		'CLASS' => array('component' => 'visibility', 'type' => 'string'),
-		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstart', 'type' => 'datetime'),
-		'DTEND' => array('component' => array('due_date', 'time_end'), 'function' => 'iCalendar_event_dtend', 'type' => 'datetime'),
-		'DTSTAMP' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstamp', 'type' => 'datetime'),
+		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'),
+		'DTEND' => array('component' => array('due_date', 'time_end'), 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'),
+		'DTSTAMP' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStamp', 'type' => 'datetime'),
 		'LOCATION' => array('component' => 'location', 'type' => 'string'),
 		'ORGANIZER' => array('component' => 'activityid', 'function' => 'icalendar_event_organizer', 'type' => 'user'),
 		'STATUS' => array('component' => 'activitystatus', 'type' => 'string'),
 		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
 		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
-		'ATTENDEE' => array('component' => 'activityid', 'function' => 'iCalendar_event_attendee', 'type' => 'user'),
+		'ATTENDEE' => array('component' => 'activityid', 'function' => 'iCalendarEventAttendee', 'type' => 'user'),
 		'RESOURCES' => array('component' => array('location', 'activitystatus'), 'type' => 'string'),
 		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
 	);
@@ -488,14 +493,14 @@ class iCalendar_event extends iCalendar_component
 		return true;
 	}
 
-	public function iCalendar_event_dtstamp($activity)
+	public function iCalendarEventDtStamp($activity)
 	{
 		$components = gmdate('Ymd', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "T" . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "Z";
 		$this->add_property("DTSTAMP", $components);
 		return true;
 	}
 
-	public function iCalendar_event_dtstart($activity)
+	public function iCalendarEventDtStart($activity)
 	{
 		$time = str_replace(':', '', $activity['time_start']);
 		if (strlen($time) < 6) {
@@ -508,7 +513,7 @@ class iCalendar_event extends iCalendar_component
 		return true;
 	}
 
-	public function iCalendar_event_dtend($activity)
+	public function iCalendarEventDtEnd($activity)
 	{
 		$time = str_replace(':', '', $activity['time_end']);
 		if (strlen($time) < 6) {
@@ -526,7 +531,7 @@ class iCalendar_event extends iCalendar_component
 	 * @param array $activity
 	 * @return boolean
 	 */
-	public function iCalendar_event_attendee($activity)
+	public function iCalendarEventAttendee($activity)
 	{
 		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $activity['id']]);
 		$dataReader = $query->createCommand()->query();
@@ -553,9 +558,9 @@ class iCalendar_todo extends iCalendar_component
 	public $properties;
 	public $mapping_arr = array(
 		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
-		//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
-		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstart', 'type' => 'datetime'),
-		'DUE' => array('component' => array('due_date'), 'function' => 'iCalendar_event_dtend', 'type' => 'datetime'),
+		//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendarEventDtStamp','type'=>'datetime'),
+		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'),
+		'DUE' => array('component' => array('due_date'), 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'),
 		'STATUS' => array('component' => 'status', 'type' => 'string'),
 		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
 		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
@@ -609,14 +614,14 @@ class iCalendar_todo extends iCalendar_component
 		parent::construct();
 	}
 
-	public function iCalendar_event_dtstamp($activity)
+	public function iCalendarEventDtStamp($activity)
 	{
 		$components = gmdate('Ymd', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "T" . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "Z";
 		$this->add_property("DTSTAMP", $components);
 		return true;
 	}
 
-	public function iCalendar_event_dtstart($activity)
+	public function iCalendarEventDtStart($activity)
 	{
 		$time = str_replace(':', '', $activity['time_start']);
 		if (strlen($time) < 6) {
@@ -629,7 +634,7 @@ class iCalendar_todo extends iCalendar_component
 		return true;
 	}
 
-	public function iCalendar_event_dtend($activity)
+	public function iCalendarEventDtEnd($activity)
 	{
 		$components = str_replace('-', '', $activity['due_date']) . 'T000000Z';
 		$this->add_property("DUE", $components);
@@ -639,12 +644,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-
+	
 }
 
 class iCalendar_alarm extends iCalendar_component
