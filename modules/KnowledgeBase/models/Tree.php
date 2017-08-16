@@ -79,7 +79,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 		if ($this->has('fieldTemp')) {
 			return $this->get('fieldTemp');
 		}
-		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => vtlib\Functions::getModuleId($this->getModuleName())])->one();
+		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldlabel', 'fieldparams'])->from('vtiger_field')->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])->one();
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;
 	}
