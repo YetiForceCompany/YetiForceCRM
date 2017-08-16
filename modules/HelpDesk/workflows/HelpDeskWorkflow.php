@@ -125,7 +125,7 @@ function HelpDeskNewCommentOwner(Vtiger_Record_Model $recordModel)
 	$result = (new \App\Db\Query())->select(['smownerid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'crmid' => $relatedToId])->scalar();
 	if ($result) {
 		$smownerId = $result;
-		$ownerType = vtws_getOwnerType($smownerId);
+		$ownerType = \App\Fields\Owner::getType($smownerId);
 		if ($ownerType === 'Users') {
 			$user = App\User::getUserModel($smownerId);
 			if ($user->getDetail('emailoptout') == 1) {
