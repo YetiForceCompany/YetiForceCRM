@@ -66,8 +66,8 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Image Details
-	 * @return array Image Details List
+	 * Get image details
+	 * @return array image details List
 	 */
 	public function getImageDetails()
 	{
@@ -75,7 +75,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 		$recordId = $this->getId();
 
 		if ($recordId) {
-			$result = (new App\Db\Query())->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $recordId]);
+			$result = (new App\Db\Query())->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $recordId])->one();
 
 
 			$imageId = $result['attachmentsid'];
