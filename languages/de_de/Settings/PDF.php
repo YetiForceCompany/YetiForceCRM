@@ -161,7 +161,7 @@ $languageStrings = [
 	'B' => 'B',
 	'A' => 'A',
 	'DEMY' => 'Demy',
-	'ROYAL' => 'Royal'
+	'ROYAL' => 'Royal',
 ];
 $jsLanguageStrings = [
 	'JS_PDF_SAVED_SUCCESSFULLY' => 'PDF Template gespeichert.',

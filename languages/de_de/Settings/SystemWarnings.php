@@ -16,8 +16,7 @@ $languageStrings = [
 	'LBL_CONFIG_REPORT_LINK' => 'Fehlende Library zeigen',
 	'LBL_CONFIG_REPORT_DESC' => 'Der Server wurde nicht korrekt konfiguriert. Das System kann dadurch instabil sein und eingegeben Daten eventuell fehlerhaft. Mehr Informationen finden Sie in folgenden Artikel <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>on server requirements at yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',
-	'LBL_NEWSLETTER_DESC' => 'Anmelden für den kostenlosen YetiForce Newsletter. Werden Sie über die aktuellen Systemfunktionen im CRM Bereich informiert. Wir senden Ihnen Informationen über neue Versionen, Updates, Events, Neuentwicklungen, und vieles mehr.<br />Treten Sie unserer Community bei und bleiben Sie auf dem aktuellen Stand.<br />
-	Eine Internetverbindung wird für die Anmeldung benötigt.',
+	'LBL_NEWSLETTER_DESC' => 'Anmelden für den kostenlosen YetiForce Newsletter. Werden Sie über die aktuellen Systemfunktionen im CRM Bereich informiert. Wir senden Ihnen Informationen über neue Versionen, Updates, Events, Neuentwicklungen, und vieles mehr.<br />Treten Sie unserer Community bei und bleiben Sie auf dem aktuellen Stand.<br />Eine Internetverbindung wird für die Anmeldung benötigt.',
 	'LBL_STATS' => 'Statistische Informationen senden',
 	'LBL_STATS_DESC' => 'Helfen Sie uns YetiForce und unsere Services zu verbessern indem Sie Anonyme Daten über Ihr CRM System zukommen lassen. Die von uns gesammelten Daten enthalten folgendes: <ul><li>Die eindeutige CRM Instanznummer für den Newsletter</li><li>System Version</li><li>Sprache</li><li>Zeitzone</li></ul>Wir behandeln die Daten unter hohen Sicherheitsaspekten und versichern das diese ausschließlich für statistische Zwecke verwendet werden.<br />Hilfen Sie uns und unserer Community.',
 	// Alerts
