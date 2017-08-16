@@ -114,7 +114,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 		}
 
 		$myiCal = new iCalendar;
-		$myiCal->add_component($timeZone);
+		$myiCal->addComponent($timeZone);
 
 		while ($row = $dataReader->read()) {
 			$eventFields = $row;
@@ -146,7 +146,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 
 				$iCalAlarm = new iCalendar_alarm;
 				$iCalAlarm->assign_values($temp);
-				$iCalTask->add_component($iCalAlarm);
+				$iCalTask->addComponent($iCalAlarm);
 			} else {
 				$temp = $moduleModel->get('todoFields');
 				foreach ($temp as $fieldName => $access) {
@@ -164,7 +164,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 				$iCalTask = new iCalendar_todo;
 				$iCalTask->assign_values($temp);
 			}
-			$myiCal->add_component($iCalTask);
+			$myiCal->addComponent($iCalTask);
 		}
 		if ($toFile) {
 			return $myiCal->serialize();
