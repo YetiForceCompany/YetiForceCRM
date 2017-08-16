@@ -9,11 +9,15 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Record model for module leads
+ */
 class Leads_Record_Model extends Vtiger_Record_Model
 {
 
 	/**
 	 * Function returns the url for converting lead
+	 * @return string
 	 */
 	public function getConvertLeadUrl()
 	{
@@ -22,7 +26,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns Account fields for Lead Convert
-	 * @return Array
+	 * @return array
 	 */
 	public function getAccountFieldsForLeadConvert()
 	{
@@ -114,7 +118,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the fields required for Lead Convert
-	 * @return <Array of Vtiger_Field_Model>
+	 * @return Vtiger_Field_Model[]
 	 */
 	public function getConvertLeadFields()
 	{
