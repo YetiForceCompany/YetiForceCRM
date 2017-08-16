@@ -50,7 +50,7 @@ class Events_Record_Model extends Calendar_Record_Model
 	 */
 	public function getInvities()
 	{
-		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->createCommand()->all();
+		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
 	}
 
 	/**
