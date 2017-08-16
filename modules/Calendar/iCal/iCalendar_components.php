@@ -213,7 +213,7 @@ class iCalendar_component
 	}
 
 	/**
-	 * 
+	 * Assign values
 	 * @param array $activity
 	 * @return boolean
 	 */
