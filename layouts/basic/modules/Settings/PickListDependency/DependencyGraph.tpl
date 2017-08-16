@@ -62,7 +62,7 @@
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
                             <th data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}" style="
-								{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
+								{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
 								{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
 						{/foreach}</tr>
 				</thead>
@@ -75,12 +75,12 @@
 								{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 								{assign var=IS_SELECTED value=false}
 
-								{if empty($targetValues) || in_array($TARGET_VALUE, array_map('decode_html',$targetValues))}
+								{if empty($targetValues) || in_array($TARGET_VALUE, array_map('App\Purifier::decodeHtml',$targetValues))}
 									{assign var=IS_SELECTED value=true}
 								{/if}
 								<td	data-source-value='{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}' data-target-value='{Vtiger_Util_Helper::toSafeHTML($TARGET_VALUE)}'
 									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
-									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
+									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
 									{if $IS_SELECTED}
 										<i class="glyphicon glyphicon-ok pull-left"></i>
 									{/if}
@@ -113,7 +113,7 @@
 											<div class="controls checkbox">
 												<label class=""><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
 																	   data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
-																	   {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('decode_html', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
+																	   {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
 													&nbsp;{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
 											</div>
 										</div>

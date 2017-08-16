@@ -80,7 +80,7 @@
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
 													{assign var="_TRANSLATED_FIELD_LABEL" value=\App\Language::translate($_FIELD_INFO->get('label'),$FOR_MODULE)}
 													<option value="{$_FIELD_NAME}" 
-															{if $HEADER_FIELD_LABELS && decode_html($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && decode_html($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && decode_html($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if} 
+															{if $HEADER_FIELD_LABELS && App\Purifier::decodeHtml($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && App\Purifier::decodeHtml($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && App\Purifier::decodeHtml($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if} 
 															data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}
 														{if $_FIELD_INFO->isMandatory() eq 'true'}&nbsp; (*){/if}</option>
 													{/foreach}

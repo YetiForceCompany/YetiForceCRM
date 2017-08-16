@@ -47,15 +47,15 @@
 														<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 														{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 															&nbsp;{\App\Language::translate('LBL_FROM')} <strong style="white-space:pre-wrap;">
-															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
+															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-															&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
+															&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
 														{else}
 															&nbsp;{\App\Language::translate('LBL_CHANGED')}
 														{/if}
 														{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 															&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
+															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
 														{/if}
 													</div>
 												{/if}
@@ -76,15 +76,15 @@
 												<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
 													{if $FIELDMODEL->get('prevalue') neq '' && $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELDMODEL->get('postvalue') eq '0' || $FIELDMODEL->get('prevalue') eq '0'))}
 														&nbsp;{\App\Language::translate('LBL_FROM')} <strong style="white-space:pre-wrap;">
-														{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
+														{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
 													{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-														&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('prevalue'))))}</del> )
+														&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
 													{else}
 														&nbsp;{\App\Language::translate('LBL_CHANGED')}
 													{/if}
 													{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 														&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-														{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(decode_html($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
+														{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
 													{/if}
 											</div>
 										{/if}
