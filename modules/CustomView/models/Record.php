@@ -644,7 +644,6 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getAdvancedCriteria()
 	{
-		$db = PearDatabase::getInstance();
 		$defaultCharset = vglobal('default_charset');
 
 		$cvId = $this->getId();
@@ -660,44 +659,44 @@ class CustomView_Record_Model extends \App\Base
 		while ($relCriteriaGroup = $dataReader->read()) {
 			$groupId = $relCriteriaGroup['groupid'];
 			$groupCondition = $relCriteriaGroup['group_condition'];
-			$result = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')->leftJoin('vtiger_cvadvfilter_grouping', ['and', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid', 'vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid'])->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId])->orderBy('vtiger_cvadvfilter.columnindex')->all();
+			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId, 'vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid'])->orderBy('vtiger_cvadvfilter.columnindex')->all();
 
-			if (!$result)
+			if (!$rows)
 				continue;
 
-			foreach ($result as $relCriteriaRow) {
+			foreach ($rows as $relCriteriaRow) {
 				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, $defaultCharset);
 				$criteria['comparator'] = $relCriteriaRow['comparator'];
 				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
 				$col = explode(':', $relCriteriaRow['columnname']);
-				$temp_val = explode(',', $relCriteriaRow['value']);
+				$tempVal = explode(',', $relCriteriaRow['value']);
 				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = [];
-					$countTempVal = count($temp_val);
+					$countTempVal = count($tempVal);
 					for ($x = 0; $x < $countTempVal; $x++) {
 						if ($col[4] === 'D') {
 							/** while inserting in db for due_date it was taking date and time values also as it is
 							 * date time field. We only need to take date from that value
 							 */
 							if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
-								$originalValue = $temp_val[$x];
+								$originalValue = $tempVal[$x];
 								$dateTime = explode(' ', $originalValue);
-								$temp_val[$x] = $dateTime[0];
+								$tempVal[$x] = $dateTime[0];
 							}
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDate();
 						} elseif ($col[4] === 'DT') {
 							$comparator = array('e', 'n', 'b', 'a');
 							if (in_array($criteria['comparator'], $comparator)) {
-								$originalValue = $temp_val[$x];
+								$originalValue = $tempVal[$x];
 								$dateTime = explode(' ', $originalValue);
-								$temp_val[$x] = $dateTime[0];
+								$tempVal[$x] = $dateTime[0];
 							}
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDateTimeValue();
 						} else {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayTime();
 						}
 					}
