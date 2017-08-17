@@ -40,30 +40,29 @@ class ModTracker
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string Module name
+	 * @param string Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
+		if ($eventType === 'module.postinstall') {
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
 				'name' => 'ModTracker',
 				'iconpath' => 'adminIcon-modules-track-chanegs',
 				'description' => 'LBL_MODTRACKER_DESCRIPTION',
 				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker'
 			]);
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
-		} else if ($eventType == 'module.enabled') {
+		} else if ($eventType === 'module.enabled') {
 			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+
 		}
 	}
 
