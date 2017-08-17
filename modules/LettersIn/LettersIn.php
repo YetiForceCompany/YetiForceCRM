@@ -311,7 +311,7 @@ class LettersIn extends CRMEntity
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('LettersIn'));
+					ModComments::addWidgetTo(['LettersIn']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
 			$dbCommand = \App\Db::getInstance()->createCommand();
