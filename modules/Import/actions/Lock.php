@@ -8,14 +8,25 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+/**
+ * Import lock action
+ */
 class Import_Lock_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
-		
+
 	}
 
+	/**
+	 * Check permission
+	 * @param \App\Request $request
+	 * @throws \Exception\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -24,11 +35,22 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @return boolean
+	 */
 	public function process(\App\Request $request)
 	{
 		return false;
 	}
 
+	/**
+	 * Lock
+	 * @param int $importId
+	 * @param string $module
+	 * @param Users_Record_Model $user
+	 */
 	public static function lock($importId, $module, $user)
 	{
 		$adb = PearDatabase::getInstance();
