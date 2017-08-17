@@ -568,8 +568,9 @@ class CustomView_Record_Model extends \App\Base
 	public function updateCustomView()
 	{
 		$db = App\Db::getInstance();
+		$dbCommand = $db->createCommand();
 		$cvId = $this->getId();
-		$db->createCommand()->update('vtiger_customview', [
+		$dbCommand->update('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
@@ -577,10 +578,10 @@ class CustomView_Record_Model extends \App\Base
 			'description' => $this->get('description')
 			], ['cvid' => $cvId]
 		)->execute();
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}
