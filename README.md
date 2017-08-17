@@ -10,7 +10,7 @@ We design an innovative CRM system that is dedicated for large and medium sized 
 2. [GitDeveloper] (https://gitdeveloper.yetiforce.com)
 3. [YetiPortal2] (https://gitdeveloper.yetiforce.com/portal/)
 
-Read the [documentation] (https://yetiforce.com/en/documentation.html) to learn more.
+Read the [documentation] (https://yetiforce.com/en/knowledge-base/documentation) to learn more.
 
 Join our [LinkedIn group] (https://www.linkedin.com/groups/8177576) and connect with other users and community members to discuss topics surrounding CRM and YetiForce.
 
@@ -23,7 +23,7 @@ Where else can you find YetiForce?
 - [Softaculous] (http://www.softaculous.com/apps/erp/YetiForce)
 - [Packagist] (https://packagist.org/packages/yetiforce/yetiforce-crm)
 
-1. The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/developer-documentation/changes.html).
+1. The lists of changes for previous versions of YetiForce CRM are available at [our website] (https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes).
 2. Check Milestone to verify release due date
 https://github.com/YetiForceCompany/YetiForceCRM/milestones
 3. Update PKG link.
