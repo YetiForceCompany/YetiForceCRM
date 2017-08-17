@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_LIBRARY_CHAT' => 'Bibliothèque AJAXChat',
 	'LBL_CONFIG_REPORT' => 'Configuration du serveur',
 	'LBL_CONFIG_REPORT_LINK' => 'Afficher la bibliothèque manquante',
-	'LBL_CONFIG_REPORT_DESC' => 'Le serveur n\'a pas été correctement configuré. Le système peut ne pas fonctionner correctement ou les données saisies peuvent être endommagées ou supprimées. Plus d\'informations dans l\'article <a href=\"https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html\"><u>Exigences du serveur pour yetiforce</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'Le serveur n\'a pas été correctement configuré. Le système peut ne pas fonctionner correctement ou les données saisies peuvent être endommagées ou supprimées. Plus d\'informations dans l\'article <a href=\"https://www.yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements\"><u>Exigences du serveur pour yetiforce</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',
 	'LBL_NEWSLETTER_DESC' => 'Inscrivez-vous à la newsletter gratuite de YetiForce. Suivez toutes les dernières fonctionnalités du système et découvrez davantage sur le secteur CRM. Nous vous enverrons des informations sur les nouvelles versions, les mises à jour, les événements, les nouveaux ajouts au système et bien plus encore. Joignez-vous à notre communauté et restez à jour.<br />Une connexion à Internet est nécessaire pour vous inscrire.',
 	'LBL_STATS' => 'Envoyer des informations statistiques',
