@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 /**
- * Class Import_Lock_Action
+ * Import lock action
  */
 class Import_Lock_Action extends Vtiger_Action_Controller
 {
@@ -53,19 +53,8 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public static function lock($importId, $module, $user)
 	{
-		$db = \App\Db::getInstance();
-		if (!$db->isTableExists('vtiger_import_locks')) {
-			$db->createTable(
-				'vtiger_import_locks', [
-				'vtiger_import_lock_id' => 'INT NOT NULL PRIMARY KEY',
-				'userid' => 'INT NOT NULL',
-				'tabid' => 'INT NOT NULL',
-				'importid' => 'INT NOT NULL',
-				'locked_since' => 'DATETIME']);
-		}
-		$db->createCommand()
+		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_import_locks', [
-				'vtiger_import_lock_id' => \App\Db::getInstance()->getUniqueID('vtiger_import_locks'),
 				'userid' => $user->id,
 				'tabid' => \App\Module::getModuleId($module),
 				'importid' => $importId,
@@ -81,13 +70,11 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	public static function unLock($user, $module = false)
 	{
 		$db = \App\Db::getInstance();
-		if ($db->isTableExists('vtiger_import_locks')) {
-			$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
-			if ($module !== false) {
-				$where['tabid'] = \App\Module::getModuleId($module);
-			}
-			$db->createCommand()->delete('vtiger_import_locks', $where)->execute();
+		$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
+		if ($module !== false) {
+			$where['tabid'] = \App\Module::getModuleId($module);
 		}
+		$db->createCommand()->delete('vtiger_import_locks', $where)->execute();
 	}
 
 	/**
@@ -97,13 +84,11 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public static function isLockedForModule($module)
 	{
-		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			$lockResult = (new \App\Db\Query())
-					->from('vtiger_import_locks')
-					->where(['tabid' => \App\Module::getModuleId($module)])->one();
-			if ($lockResult) {
-				return $lockResult;
-			}
+		$lockResult = (new \App\Db\Query())
+				->from('vtiger_import_locks')
+				->where(['tabid' => \App\Module::getModuleId($module)])->one();
+		if ($lockResult) {
+			return $lockResult;
 		}
 		return null;
 	}
