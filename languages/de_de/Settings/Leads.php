@@ -48,7 +48,7 @@ $jsLanguageStrings = [
 	'JS_email' => 'E-Mail',
 	'JS_integer' => 'Integer',
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'ist bereits zugeordnet',
-	'JS_MAPPING_DELETED_SUCCESSFULLY' => 'Zuordnung erfolgreich gelöscht',
+	'JS_MAPPING_DELETED_SUCCESSFULLY' => 'Feldzuordnung erfolgreich gelöscht',
 	'JS_multiSelectCombo' => 'Mehrfachauswahlliste',
 	'JS_NONE' => 'Keine',
 	'JS_None' => 'Keine',
@@ -62,6 +62,6 @@ $jsLanguageStrings = [
 	'JS_time' => 'Zeit',
 	'JS_url' => 'Url',
 	'JS_WITH' => 'mit',
-	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feld Zuordnung gespeichert',
+	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Feldzuordnung gespeichert',
 	'JS_sharedOwner' => ' ',
 ];

@@ -15,7 +15,7 @@ $languageStrings = [
 	//Mixpbx
 	'LBL_URL' => 'Serveradresse',
 	'LBL_USERNAME' => 'Login',
-	'LBL_PASSWORD' => 'Paßwort',
+	'LBL_PASSWORD' => 'Passwort',
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_SUCCESS' => 'Änderungen Sichern',
