@@ -127,7 +127,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function initializeImport()
 	{
 		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
-		if ($lockInfo !== null) {
+		if ($lockInfo) {
 			if ($lockInfo['userid'] != $this->user->id) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				return false;
