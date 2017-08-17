@@ -23,8 +23,8 @@ class PrivilegeUtil
 		$parentRecOwner = [];
 		$parentTabName = \vtlib\Functions::getModuleName($parModId);
 		$relTabName = \vtlib\Functions::getModuleName($tabid);
-		$fn_name = 'get' . $relTabName . 'Related' . $parentTabName;
-		$entId = static::$fn_name($recordId);
+		$fnName = 'get' . $relTabName . 'Related' . $parentTabName;
+		$entId = static::$fnName($recordId);
 		if ($entId != '') {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
@@ -252,13 +252,15 @@ class PrivilegeUtil
 	/**
 	 * Get list of users based on group id
 	 * @param int $groupId
+	 * @param bool|array $subGroups
 	 * @param int $i
 	 * @return array
 	 */
-	public static function getUsersByGroup($groupId, $i = 0)
+	public static function getUsersByGroup($groupId, $subGroups = false, $i = 0)
 	{
-		if (Cache::has('getUsersByGroup', $groupId)) {
-			return Cache::get('getUsersByGroup', $groupId);
+		$cacheKey = $groupId . ($subGroups === false ? '' : '#');
+		if (Cache::has('getUsersByGroup', $cacheKey)) {
+			return Cache::get('getUsersByGroup', $cacheKey);
 		}
 		//Retreiving from the user2grouptable
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_users2group')->where(['groupid' => $groupId])->column();
@@ -274,19 +276,39 @@ class PrivilegeUtil
 			$roleUsers = static::getUsersByRoleAndSubordinate($roleId);
 			$users = array_merge($users, $roleUsers);
 		}
-		if ($i < 5) {
+		if ($i < 10) {
+			if ($subGroups === true) {
+				$subGroups = [];
+			}
 			//Retreving from group2group
 			$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
+			$containsGroups = [];
 			while ($containsGroupId = $dataReader->readColumn(0)) {
-				$roleUsers = static::getUsersByGroup($containsGroupId, $i++);
-				$users = array_merge($users, $roleUsers);
+				$roleUsers = static::getUsersByGroup($containsGroupId, $subGroups, $i++);
+				if ($subGroups === false) {
+					$containsGroups = array_merge($containsGroups, $roleUsers);
+				} else {
+					$containsGroups = array_merge($containsGroups, $roleUsers['users']);
+					if (!isset($subGroups[$containsGroupId])) {
+						$subGroups[$containsGroupId] = $containsGroups;
+					}
+					foreach ($roleUsers['subGroups'] as $key => $value) {
+						if (!isset($subGroups[$key])) {
+							$subGroups[$key] = $containsGroups;
+						}
+					}
+				}
+			}
+			if ($containsGroups) {
+				$users = array_merge($users, $containsGroups);
 			}
 		} else {
 			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
 		$users = array_unique($users);
-		Cache::save('getUsersByGroup', $groupId, $users, Cache::LONG);
-		return $users;
+		$return = ($subGroups === false ? $users : ['users' => $users, 'subGroups' => $subGroups]);
+		Cache::save('getUsersByGroup', $cacheKey, $return, Cache::LONG);
+		return $return;
 	}
 
 	/**
@@ -307,11 +329,9 @@ class PrivilegeUtil
 		return $users;
 	}
 
-	protected static $roleInfoCache = [];
-
 	/**
 	 * Function to get the vtiger_role information of the specified vtiger_role
-	 * @param $roleid -- RoleId :: Type varchar
+	 * @param $roleId -- RoleId :: Type varchar
 	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
 	 */
 	public static function getRoleDetail($roleId)
@@ -769,10 +789,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -783,10 +802,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -797,10 +815,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -824,10 +841,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -838,10 +854,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -852,10 +867,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -879,10 +893,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -893,10 +906,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -907,10 +919,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -934,10 +945,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -948,10 +958,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -962,10 +971,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -1123,7 +1131,7 @@ class PrivilegeUtil
 	public static function getParentGroups($groupId, $i = 0)
 	{
 		$groups = [];
-		if ($i < 5) {
+		if ($i < 10) {
 			$dataReader = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2grouprel')->where(['containsgroupid' => $groupId])->createCommand()->query();
 			while ($parentGroupId = $dataReader->readColumn(0)) {
 				$groups = array_merge($groups, [$parentGroupId], static::getParentGroups($parentGroupId, $i++));

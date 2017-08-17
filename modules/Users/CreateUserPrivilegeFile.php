@@ -13,7 +13,6 @@ require_once('modules/Users/Users.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/GetUserGroups.php');
-require_once('include/utils/GetGroupUsers.php');
 
 /** Creates a file with all the user, user-role,user-profile, user-groups informations 
  * @param $userid -- user id:: Type integer
@@ -238,11 +237,9 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 									} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
 										$share_grp_users = $mod_share_write_per['GROUP'][$shareEntId];
 									} else {
-										$focusGrpUsers = new GetGroupUsers();
-										$focusGrpUsers->getAllUsersInGroup($shareEntId);
-										$share_grp_users = $focusGrpUsers->group_users;
-
-										foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+										$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareEntId, true);
+										$share_grp_users = $usersByGroup['users'];
+										foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 											if (!array_key_exists($subgrpid, $grp_read_per)) {
 												$grp_read_per[$subgrpid] = $subgrpusers;
 											}
@@ -259,10 +256,9 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 									} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
 										$share_grp_users = $mod_share_write_per['GROUP'][$shareEntId];
 									} else {
-										$focusGrpUsers = new GetGroupUsers();
-										$focusGrpUsers->getAllUsersInGroup($shareEntId);
-										$share_grp_users = $focusGrpUsers->group_users;
-										foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+										$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareEntId, true);
+										$share_grp_users = $usersByGroup['users'];
+										foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 											if (!array_key_exists($subgrpid, $grp_write_per)) {
 												$grp_write_per[$subgrpid] = $subgrpusers;
 											}
@@ -279,10 +275,9 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 								} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
 									$share_grp_users = $mod_share_write_per['GROUP'][$shareEntId];
 								} else {
-									$focusGrpUsers = new GetGroupUsers();
-									$focusGrpUsers->getAllUsersInGroup($shareEntId);
-									$share_grp_users = $focusGrpUsers->group_users;
-									foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+									$usersByGroup = App\PrivilegeUtil::getUsersByGroup($shareEntId, true);
+									$share_grp_users = $usersByGroup['users'];
+									foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 										if (!array_key_exists($subgrpid, $grp_read_per)) {
 											$grp_read_per[$subgrpid] = $subgrpusers;
 										}
