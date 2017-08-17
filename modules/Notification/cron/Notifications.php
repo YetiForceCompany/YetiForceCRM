@@ -7,10 +7,12 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'include/main/WebUI.php';
-$db = PearDatabase::getInstance();
 $notifications = new Cron_Notification();
-$result = $db->query('SELECT * FROM u_yf_watchdog_schedule');
-while ($row = $db->getRow($result)) {
+$query = (new \App\Db\Query())->from('u_#__watchdog_schedule');
+
+$dataReader = $query->createCommand()->query();
+
+while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
 $notifications->markAsRead();
