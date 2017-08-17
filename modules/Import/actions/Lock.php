@@ -71,7 +71,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	{
 		$db = \App\Db::getInstance();
 		$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
-		if ($module !== false) {
+		if ($module) {
 			$where['tabid'] = \App\Module::getModuleId($module);
 		}
 		$db->createCommand()->delete('vtiger_import_locks', $where)->execute();
