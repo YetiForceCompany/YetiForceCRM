@@ -648,9 +648,9 @@ class CustomView_Record_Model extends \App\Base
 		$defaultCharset = vglobal('default_charset');
 
 		$cvId = $this->getId();
-		$advft_criteria = [];
+		$advFtCriteria = [];
 		if (empty($cvId)) {
-			return $advft_criteria;
+			return $advFtCriteria;
 		}
 		$query = (new App\Db\Query())->from('vtiger_cvadvfilter_grouping')->where(['cvid' => $this->getId()])->orderBy(['groupid']);
 		$dataReader = $query->createCommand()->query();
@@ -660,25 +660,18 @@ class CustomView_Record_Model extends \App\Base
 		while ($relCriteriaGroup = $dataReader->read()) {
 			$groupId = $relCriteriaGroup['groupid'];
 			$groupCondition = $relCriteriaGroup['group_condition'];
+			$result = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')->leftJoin('vtiger_cvadvfilter_grouping', ['and', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid', 'vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid'])->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId])->orderBy('vtiger_cvadvfilter.columnindex')->all();
 
-			$ssql = 'select vtiger_cvadvfilter.* from vtiger_customview
-						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
-						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
-								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql .= " where vtiger_customview.cvid = ? AND vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
-
-			$result = $db->pquery($ssql, array($this->getId(), $groupId));
-			$noOfColumns = $db->num_rows($result);
-			if ($noOfColumns <= 0)
+			if (!$result)
 				continue;
 
-			while ($relCriteriaRow = $db->fetch_array($result)) {
+			foreach ($result as $relCriteriaRow) {
 				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, $defaultCharset);
 				$criteria['comparator'] = $relCriteriaRow['comparator'];
 				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
-				$col = explode(":", $relCriteriaRow["columnname"]);
-				$temp_val = explode(",", $relCriteriaRow['value']);
+				$col = explode(':', $relCriteriaRow['columnname']);
+				$temp_val = explode(',', $relCriteriaRow['value']);
 				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = [];
 					$countTempVal = count($temp_val);
@@ -708,25 +701,25 @@ class CustomView_Record_Model extends \App\Base
 							$val[$x] = $date->getDisplayTime();
 						}
 					}
-					$advFilterVal = implode(",", $val);
+					$advFilterVal = implode(',', $val);
 				}
 				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advFilterVal));
 				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
 
 				$groupId = $relCriteriaRow['groupid'];
-				$advft_criteria[$groupId]['columns'][$j] = $criteria;
-				$advft_criteria[$groupId]['condition'] = $groupCondition;
+				$advFtCriteria[$groupId]['columns'][$j] = $criteria;
+				$advFtCriteria[$groupId]['condition'] = $groupCondition;
 				$j++;
 			}
-			if (!empty($advft_criteria[$groupId]['columns'][$j - 1]['column_condition'])) {
-				$advft_criteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
+			if (!empty($advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'])) {
+				$advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
 			}
 			$i++;
 		}
 		// Clear the condition (and/or) for last group, if any.
-		if (!empty($advft_criteria[$i - 1]['condition']))
-			$advft_criteria[$i - 1]['condition'] = '';
-		return $advft_criteria;
+		if (!empty($advFtCriteria[$i - 1]['condition']))
+			$advFtCriteria[$i - 1]['condition'] = '';
+		return $advFtCriteria;
 	}
 
 	/**
