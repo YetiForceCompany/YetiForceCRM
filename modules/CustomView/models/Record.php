@@ -24,6 +24,7 @@ class CustomView_Record_Model extends \App\Base
 	 * @return <Number> Custom View Id
 	 */
 	public function getId()
+		
 	{
 		return $this->get('cvid');
 	}
@@ -703,7 +704,7 @@ class CustomView_Record_Model extends \App\Base
 					}
 					$advFilterVal = implode(',', $val);
 				}
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal));
+				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal)));
 				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
 
 				$groupId = $relCriteriaRow['groupid'];
