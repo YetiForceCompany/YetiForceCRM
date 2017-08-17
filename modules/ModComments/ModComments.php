@@ -48,7 +48,7 @@ class ModComments extends ModCommentsCore
 	{
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_modcomments', [
-				'related_to' => $$targetParentId,
+				'related_to' => $targetParentId,
 				], ['related_to' => $currentParentId])
 			->execute();
 	}
