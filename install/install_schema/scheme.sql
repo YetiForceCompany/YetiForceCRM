@@ -5579,7 +5579,7 @@ CREATE TABLE `vtiger_iidn_status` (
 /*Table structure for table `vtiger_import_locks` */
 
 CREATE TABLE `vtiger_import_locks` (
-  `vtiger_import_lock_id` int(10) NOT NULL,
+  `vtiger_import_lock_id` int(10) NOT NULL AUTO_INCREMENT,
   `userid` int(10) NOT NULL,
   `tabid` smallint(5) NOT NULL,
   `importid` int(10) NOT NULL,

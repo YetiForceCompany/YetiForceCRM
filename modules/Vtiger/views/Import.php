@@ -268,7 +268,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 		// Check if import on the module is locked
 		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
-		if ($lockInfo !== null) {
+		if ($lockInfo) {
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
