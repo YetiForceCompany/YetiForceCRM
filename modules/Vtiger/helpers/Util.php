@@ -346,15 +346,6 @@ class Vtiger_Util_Helper
 			return $db->query_result_rowdata($result, 0);
 	}
 
-	public static function getGroupsIdsForUsers($userId)
-	{
-		Vtiger_Loader::includeOnce('~include/utils/GetUserGroups.php');
-
-		$userGroupInstance = new GetUserGroups();
-		$userGroupInstance->getAllUserGroups($userId);
-		return $userGroupInstance->user_groups;
-	}
-
 	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
 	{
 		if (empty($searchParams)) {

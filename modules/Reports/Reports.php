@@ -75,15 +75,11 @@ class Reports extends CRMEntity
 				$ssql = "select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid";
 				$ssql .= " where vtiger_report.reportid = ?";
 				$params = array($reportid);
-
-				require_once('include/utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $currentUser->id . '.php');
-				$userGroups = new GetUserGroups();
-				$userGroups->getAllUserGroups($currentUser->id);
-				$user_groups = $userGroups->user_groups;
-				if (!empty($user_groups) && $is_admin === false) {
-					$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
-					array_push($params, $user_groups);
+				$userGroups = App\PrivilegeUtil::getAllGroupsByUser($currentUser->id);
+				if (!empty($userGroups) && $is_admin === false) {
+					$user_group_query = " (shareid IN (" . generateQuestionMarks($userGroups) . ") AND setype='groups') OR";
+					array_push($params, $userGroups);
 				}
 
 				$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";
@@ -396,15 +392,11 @@ class Reports extends CRMEntity
 			$sql .= " where vtiger_reportfolder.folderid=?";
 			$params[] = $rpt_fldr_id;
 		}
-
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
-		require_once('include/utils/GetUserGroups.php');
-		$userGroups = new GetUserGroups();
-		$userGroups->getAllUserGroups($currentUser->getId());
-		$user_groups = $userGroups->user_groups;
-		if (!empty($user_groups) && $is_admin === false) {
-			$user_group_query = " (shareid IN (" . generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
-			array_push($params, $user_groups);
+		$userGroups = App\PrivilegeUtil::getAllGroupsByUser($currentUser->getId());
+		if (!empty($userGroups) && $is_admin === false) {
+			$user_group_query = " (shareid IN (" . generateQuestionMarks($userGroups) . ") AND setype='groups') OR";
+			array_push($params, $userGroups);
 		}
 
 		$non_admin_query = " vtiger_report.reportid IN (SELECT reportid from vtiger_reportsharing WHERE $user_group_query (shareid=? AND setype='users'))";

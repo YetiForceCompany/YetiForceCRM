@@ -29,13 +29,8 @@ require_once 'include/Webservices/PreserveGlobal.php';
 
 function vtws_getUsersInTheSameGroup($id)
 {
-	require_once('include/utils/GetUserGroups.php');
-	$userGroups = new GetUserGroups();
 	$allUsers = [];
-	$userGroups->getAllUserGroups($id);
-	$groups = $userGroups->user_groups;
-
-	foreach ($groups as $group) {
+	foreach (App\PrivilegeUtil::getAllGroupsByUser($id) as $group) {
 		$usersInGroup = App\PrivilegeUtil::getUsersByGroup($group);
 		foreach ($usersInGroup as $user) {
 			if ($user !== $id) {

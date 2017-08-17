@@ -36,14 +36,9 @@ class Vtiger_Report_Model extends Reports
 							INNER JOIN vtiger_reportmodules ON vtiger_report.reportid = vtiger_reportmodules.reportmodulesid
 							WHERE vtiger_report.reportid = ?";
 				$params = array($reportId);
-
-				require_once('include/utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $userId . '.php');
 
-				$userGroups = new GetUserGroups();
-				$userGroups->getAllUserGroups($userId);
-				$userGroupsList = $userGroups->user_groups;
-
+				$userGroupsList = App\PrivilegeUtil::getAllGroupsByUser($userId);
 				if (!empty($userGroupsList) && $currentUser->isAdminUser() === false) {
 					$userGroupsQuery = " (shareid IN (" . generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
 					array_push($params, $userGroupsList);

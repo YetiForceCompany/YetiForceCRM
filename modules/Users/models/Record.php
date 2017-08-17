@@ -468,12 +468,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		if (empty($this->get('groups'))) {
 			if ($this->isAdminUser()) {
-				$userGroupFocus = new GetUserGroups();
-				$userGroupFocus->getAllUserGroups($this->getId());
-				$userGroups = $userGroupFocus->user_groups;
+				$userGroups = App\PrivilegeUtil::getAllGroupsByUser($this->getId());
 			} else {
-				$privilegesModel = $this->getPrivileges();
-				$userGroups = $privilegesModel->get('groups');
+				$userGroups = $this->getPrivileges()->get('groups');
 			}
 			$this->set('groups', $userGroups);
 		}

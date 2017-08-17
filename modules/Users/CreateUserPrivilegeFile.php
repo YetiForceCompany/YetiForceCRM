@@ -12,7 +12,6 @@ require_once('config/config.php');
 require_once('modules/Users/Users.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('include/utils/utils.php');
-require_once('include/utils/GetUserGroups.php');
 
 /** Creates a file with all the user, user-role,user-profile, user-groups informations 
  * @param $userid -- user id:: Type integer
@@ -56,7 +55,7 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
 			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
 			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray(\Vtiger_Util_Helper::getGroupsIdsForUsers($userid)) . ";\n";
+			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\PrivilegeUtil::getAllGroupsByUser($userid)) . ";\n";
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
