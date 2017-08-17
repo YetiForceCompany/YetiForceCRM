@@ -8,7 +8,7 @@
  */
 
 /**
- * Class DataAccess_checkType
+ * Class data access check type for module istorages
  */
 class DataAccess_checkType
 {
@@ -20,7 +20,7 @@ class DataAccess_checkType
 	public $config = false;
 
 	/**
-	 *
+	 * Process
 	 * @param string $moduleName
 	 * @param int $id
 	 * @param array $recordData
@@ -30,7 +30,7 @@ class DataAccess_checkType
 	public function process($moduleName, $id, $recordData, $config)
 	{
 		if ((empty($recordData['storage_type']) || $recordData['storage_type'] == 'PLL_INTERNAL') && empty($recordData['parentid'])) {
-			$result = (new App\Db\Query())->select(['u_yf_istorages.istorageid'])->from('u_#__istorages')->innerJoin('vtiger_crmentity', 'u_yf_istorages.istorageid = vtiger_crmentity.crmid')->where(['parentid' => 0, 'vtiger_crmentity.deleted' => 0])->scalar();
+			$result = (new App\Db\Query())->select(['u_#__istorages.istorageid'])->from('u_#__istorages')->innerJoin('vtiger_crmentity', 'u_#__istorages.istorageid = vtiger_crmentity.crmid')->where(['parentid' => 0, 'vtiger_crmentity.deleted' => 0])->scalar();
 			if ($result) {
 				if (!empty($id) && $row == $id) {
 					$saveRecord = true;
@@ -57,6 +57,13 @@ class DataAccess_checkType
 			return ['save_record' => true];
 	}
 
+	/**
+	 * Get config
+	 * @param int $id
+	 * @param string $module
+	 * @param string $baseModule
+	 * @return boolean
+	 */
 	public function getConfig($id, $module, $baseModule)
 	{
 		return false;
