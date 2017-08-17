@@ -659,7 +659,7 @@ class CustomView_Record_Model extends \App\Base
 		while ($relCriteriaGroup = $dataReader->read()) {
 			$groupId = $relCriteriaGroup['groupid'];
 			$groupCondition = $relCriteriaGroup['group_condition'];
-			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId, 'vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid'])->orderBy('vtiger_cvadvfilter.columnindex')->all();
+			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId, 'vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid'])->orderBy('vtiger_cvadvfilter.columnindex')->all();
 
 			if (!$rows)
 				continue;
