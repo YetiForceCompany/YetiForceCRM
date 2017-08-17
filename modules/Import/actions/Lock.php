@@ -53,18 +53,13 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public static function lock($importId, $module, $user)
 	{
-		$adb = PearDatabase::getInstance();
-
-		if (!vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			vtlib\Utils::CreateTable(
-				'vtiger_import_locks', "(vtiger_import_lock_id INT NOT NULL PRIMARY KEY,
-				userid INT NOT NULL,
-				tabid INT NOT NULL,
-				importid INT NOT NULL,
-				locked_since DATETIME)", true);
-		}
-
-		$adb->pquery('INSERT INTO vtiger_import_locks VALUES(?,?,?,?,?)', array($adb->getUniqueID('vtiger_import_locks'), $user->id, \App\Module::getModuleId($module), $importId, date('Y-m-d H:i:s')));
+		\App\Db::getInstance()->createCommand()
+			->insert('vtiger_import_locks', [
+				'userid' => $user->id,
+				'tabid' => \App\Module::getModuleId($module),
+				'importid' => $importId,
+				'locked_since' => date('Y-m-d H:i:s')
+			])->execute();
 	}
 
 	public static function unLock($user, $module = false)
