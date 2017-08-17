@@ -62,18 +62,19 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 			])->execute();
 	}
 
+	/**
+	 * Unlock
+	 * @param Users_Record_Model $user
+	 * @param string $module
+	 */
 	public static function unLock($user, $module = false)
 	{
-		$adb = PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			$query = 'DELETE FROM vtiger_import_locks WHERE userid=?';
-			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
-			if ($module !== false) {
-				$query .= ' && tabid=?';
-				array_push($params, \App\Module::getModuleId($module));
-			}
-			$adb->pquery($query, $params);
+		$db = \App\Db::getInstance();
+		$where = ['userid' => method_exists($user, 'get') ? $user->get('id') : $user->id];
+		if ($module !== false) {
+			$where['tabid'] = \App\Module::getModuleId($module);
 		}
+		$db->createCommand()->delete('vtiger_import_locks', $where)->execute();
 	}
 
 	public static function isLockedForModule($module)
