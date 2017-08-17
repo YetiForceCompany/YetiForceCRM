@@ -41,13 +41,16 @@ class ModComments extends ModCommentsCore
 
 	/**
 	 * Transfer the comment records from one parent record to another.
-	 * @param CRMID Source parent record id
-	 * @param CRMID Target parent record id
+	 * @param int Source parent record id
+	 * @param int Target parent record id
 	 */
 	public static function transferRecords($currentParentId, $targetParentId)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("UPDATE vtiger_modcomments SET related_to=? WHERE related_to=?", array($targetParentId, $currentParentId));
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_modcomments', [
+				'related_to' => $$targetParentId,
+				], ['related_to' => $currentParentId])
+			->execute();
 	}
 
 	/**
