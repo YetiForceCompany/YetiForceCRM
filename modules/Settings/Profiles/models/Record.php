@@ -490,7 +490,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			if ($profileCount > 1) {
 				$dbCommand->delete('vtiger_role2profile', ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			} else {
-				$dbCommand->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
+				$dbCommand->createCommand()->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			}
 		}
 		$dbCommand->delete('vtiger_profile', ['profileid' => $profileId])->execute();
@@ -639,7 +639,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 							}
 						}
 						$caseExpression .= 'ELSE permissions END ';
-						$dbCommand->update('vtiger_profile2standardpermissions', [
+						$dbCommand->createCommand()->update('vtiger_profile2standardpermissions', [
 							'permissions' => new \yii\db\Expression($caseExpression),
 							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}
@@ -658,7 +658,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 							$caseExpression .= " WHEN activityid = {$db->quoteValue($actionId)} THEN {$db->quoteValue($permissionValue)} ";
 						}
 						$caseExpression .= " ELSE {$db->quoteValue(1)} END ";
-						$dbCommand->update('vtiger_profile2utility', [
+						$dbCommand->createCommand()->update('vtiger_profile2utility', [
 							'permission' => new \yii\db\Expression($caseExpression),
 							], ['profileid' => $profileId, 'tabid' => $tabId])->execute();
 					}

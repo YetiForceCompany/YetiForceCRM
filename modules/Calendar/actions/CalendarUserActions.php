@@ -67,7 +67,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$exist = (new \App\Db\Query())->from('vtiger_shareduserinfo')->where(['userid' => $userId, 'shareduserid' => $sharedUserId])->exists();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if ($exist) {
-			$dbCommand->update('vtiger_shareduserinfo', ['visible' => 0], ['userid' => $userId, 'shareduserid' => $sharedUserId])->execute();
+			$dbCommand->createCommand()->update('vtiger_shareduserinfo', ['visible' => 0], ['userid' => $userId, 'shareduserid' => $sharedUserId])->execute();
 		} else {
 			$dbCommand->insert('vtiger_shareduserinfo', [
 				'userid' => $userId, 'shareduserid' => $sharedUserId, 'visible' => 0
@@ -95,7 +95,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$exist = (new \App\Db\Query())->from('vtiger_shareduserinfo')->where(['userid' => $userId, 'shareduserid' => $sharedUserId])->exists();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if ($exist) {
-			$dbCommand->update('vtiger_shareduserinfo', ['color' => $color, 'visible' => 1], ['userid' => $userId, 'shareduserid' => $sharedUserId])->execute();
+			$dbCommand->createCommand()->update('vtiger_shareduserinfo', ['color' => $color, 'visible' => 1], ['userid' => $userId, 'shareduserid' => $sharedUserId])->execute();
 		} else {
 			$dbCommand->insert('vtiger_shareduserinfo', ['userid' => $userId, 'shareduserid' => $sharedUserId, 'color' => $color, 'visible' => 1])->execute();
 		}

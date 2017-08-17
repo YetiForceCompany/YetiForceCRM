@@ -154,7 +154,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (!$query->count()) {
 			return false;
 		}
-		$dbCommand->update('yetiforce_mail_quantities', ['status' => 1], ['userid' => $sUsers])->execute();
+		$dbCommand->createCommand()->update('yetiforce_mail_quantities', ['status' => 1], ['userid' => $sUsers])->execute();
 		foreach ($users as $user) {
 			$account = self::getMailAccountDetail($user);
 			if ($account !== false) {
@@ -163,7 +163,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				if ($mbox) {
 					$info = imap_mailboxmsginfo($mbox);
 					if ($result > 0) {
-						$dbCommand->update('yetiforce_mail_quantities', ['num' => $info->Unread, 'status' => 0], ['userid' => $user])->execute();
+						$dbCommand->createCommand()->update('yetiforce_mail_quantities', ['num' => $info->Unread, 'status' => 0], ['userid' => $user])->execute();
 					} else {
 						$dbCommand->insert('yetiforce_mail_quantities', ['num' => $info->Unread, 'userid' => $user])->execute();
 					}
