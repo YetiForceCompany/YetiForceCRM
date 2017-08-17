@@ -612,7 +612,7 @@ class CustomView_Record_Model extends \App\Base
 		if (empty($cvId)) {
 			return [];
 		}
-		$stdFilterRow = (new App\Db\Query())->select(['vtiger_cvstdfilter.*'])->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_customview.cvid = vtiger_cvstdfilter.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
+		$stdFilterRow = (new App\Db\Query())->select(['vtiger_cvstdfilter.*'])->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
 		if ($stdFilterRow) {
 			$stdFilterList = [];
 			$stdFilterList['columnname'] = $stdFilterRow['columnname'];
