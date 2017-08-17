@@ -311,7 +311,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 		$cvIdOrg = $cvId = $this->getId();
@@ -325,7 +325,7 @@ class CustomView_Record_Model extends \App\Base
 				$this->set('status', $status);
 			}
 		}
-		$db->startTransaction();
+		$transaction = $db->beginTransaction();
 		if (!$cvId) {
 			$this->addCustomView();
 			$cvId = $this->getId();
@@ -351,7 +351,7 @@ class CustomView_Record_Model extends \App\Base
 		} elseif (!empty($setDefault)) {
 			$this->setDefaultFilter();
 		}
-		$db->completeTransaction();
+		$transaction->commit();
 		\App\Cache::clear();
 	}
 
@@ -368,7 +368,7 @@ class CustomView_Record_Model extends \App\Base
 		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
-		// To Delete the mini list widget associated with the filter 
+		// To Delete the mini list widget associated with the filter
 		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
 		App\Cache::clear();
 	}
@@ -390,9 +390,11 @@ class CustomView_Record_Model extends \App\Base
 		])->execute();
 	}
 
+	/**
+	 * Set conditions for filter
+	 */
 	public function setConditionsForFilter()
 	{
-		$db = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
@@ -549,12 +551,15 @@ class CustomView_Record_Model extends \App\Base
 		$this->setConditionsForFilter();
 	}
 
+	/**
+	 * Get next sequence
+	 * @param string $moduleName
+	 * @return int
+	 */
 	public function getNextSeq($moduleName)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT MAX(sequence) AS max  FROM vtiger_customview WHERE entitytype = ?;', [$moduleName]);
-		$id = (int) $db->getSingleValue($result) + 1;
-		return $id;
+		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->max('sequence')->where(['entitytype' => $moduleName]);
+		return (int) $maxSequence + 1;
 	}
 
 	/**
@@ -563,8 +568,9 @@ class CustomView_Record_Model extends \App\Base
 	public function updateCustomView()
 	{
 		$db = App\Db::getInstance();
+		$dbCommand = $db->createCommand();
 		$cvId = $this->getId();
-		$db->createCommand()->update('vtiger_customview', [
+		$dbCommand->update('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
@@ -572,10 +578,10 @@ class CustomView_Record_Model extends \App\Base
 			'description' => $this->get('description')
 			], ['cvid' => $cvId]
 		)->execute();
-		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvstdfilter', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvadvfilter', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_cvadvfilter_grouping', ['cvid' => $cvId])->execute();
 		$this->setColumnlist();
 		$this->setConditionsForFilter();
 	}
@@ -599,46 +605,38 @@ class CustomView_Record_Model extends \App\Base
 
 	/**
 	 * Function to get the Standard filter condition for the current custom view
-	 * @return <Array> Standard filter condition
+	 * @return array Standard filter condition
 	 */
 	public function getStandardCriteria()
 	{
-		$db = PearDatabase::getInstance();
-
 		$cvId = $this->getId();
 		if (empty($cvId)) {
 			return [];
 		}
+		$stdFilterRow = (new App\Db\Query())->select(['vtiger_cvstdfilter.*'])->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
+		if ($stdFilterRow) {
+			$stdFilterList = [];
+			$stdFilterList['columnname'] = $stdFilterRow['columnname'];
+			$stdFilterList['stdfilter'] = $stdFilterRow['stdfilter'];
 
-		$query = 'SELECT vtiger_cvstdfilter.* FROM vtiger_cvstdfilter
-					INNER JOIN vtiger_customview ON vtiger_customview.cvid = vtiger_cvstdfilter.cvid
-				WHERE vtiger_cvstdfilter.cvid = ?';
-		$params = array($this->getId());
-		$result = $db->pquery($query, $params);
-		$stdfilterrow = $db->fetch_array($result);
-		if (!empty($stdfilterrow)) {
-			$stdfilterlist = [];
-			$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
-			$stdfilterlist["stdfilter"] = $stdfilterrow["stdfilter"];
-
-			if ($stdfilterrow["stdfilter"] == "custom" || $stdfilterrow["stdfilter"] == "") {
-				if ($stdfilterrow["startdate"] != "0000-00-00" && $stdfilterrow["startdate"] != "") {
-					$startDateTime = new DateTimeField($stdfilterrow["startdate"] . ' ' . date('H:i:s'));
-					$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
+			if ($stdFilterRow['stdfilter'] === 'custom' || $stdFilterRow['stdfilter'] === '') {
+				if ($stdFilterRow['startdate'] != '0000-00-00' && $stdFilterRow['startdate'] != '') {
+					$startDateTime = new DateTimeField($stdFilterRow['startdate'] . ' ' . date('H:i:s'));
+					$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
 				}
-				if ($stdfilterrow["enddate"] != "0000-00-00" && $stdfilterrow["enddate"] != "") {
-					$endDateTime = new DateTimeField($stdfilterrow["enddate"] . ' ' . date('H:i:s'));
-					$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+				if ($stdFilterRow['enddate'] != '0000-00-00' && $stdFilterRow['enddate'] != '') {
+					$endDateTime = new DateTimeField($stdFilterRow['enddate'] . ' ' . date('H:i:s'));
+					$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
 				}
 			} else { //if it is not custom get the date according to the selected duration
-				$datefilter = DateTimeRange::getDateRangeByType($stdfilterrow['stdfilter']);
-				$startDateTime = new DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
-				$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
-				$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+				$dateFilter = DateTimeRange::getDateRangeByType($stdFilterRow['stdfilter']);
+				$startDateTime = new DateTimeField($dateFilter[0] . ' ' . date('H:i:s'));
+				$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
+				$endDateTime = new DateTimeField($dateFilter[1] . ' ' . date('H:i:s'));
+				$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
 			}
 		}
-		return $stdfilterlist;
+		return $stdFilterList;
 	}
 
 	/**
@@ -647,90 +645,81 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getAdvancedCriteria()
 	{
-		$db = PearDatabase::getInstance();
-		$default_charset = vglobal('default_charset');
+		$defaultCharset = AppConfig::main('default_charset');
 
 		$cvId = $this->getId();
-		$advft_criteria = [];
+		$advFtCriteria = [];
 		if (empty($cvId)) {
-			return $advft_criteria;
+			return $advFtCriteria;
 		}
-
-		$sql = 'SELECT * FROM vtiger_cvadvfilter_grouping WHERE cvid = ? ORDER BY groupid';
-		$groupsresult = $db->pquery($sql, array($this->getId()));
+		$query = (new App\Db\Query())->from('vtiger_cvadvfilter_grouping')->where(['cvid' => $this->getId()])->orderBy(['groupid']);
+		$dataReader = $query->createCommand()->query();
 
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $db->fetch_array($groupsresult)) {
-			$groupId = $relcriteriagroup["groupid"];
-			$groupCondition = $relcriteriagroup["group_condition"];
+		while ($relCriteriaGroup = $dataReader->read()) {
+			$groupId = $relCriteriaGroup['groupid'];
+			$groupCondition = $relCriteriaGroup['group_condition'];
+			$rows = (new App\Db\Query())->select(['vtiger_cvadvfilter.*'])->from('vtiger_customview')->innerJoin('vtiger_cvadvfilter', 'vtiger_customview.cvid = vtiger_cvadvfilter.cvid')->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid')->where(['vtiger_customview.cvid' => $this->getId(), 'vtiger_cvadvfilter.groupid' => $groupId, 'vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid'])->orderBy('vtiger_cvadvfilter.columnindex')->all();
 
-			$ssql = 'select vtiger_cvadvfilter.* from vtiger_customview
-						inner join vtiger_cvadvfilter on vtiger_cvadvfilter.cvid = vtiger_customview.cvid
-						left join vtiger_cvadvfilter_grouping on vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid
-								and vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid';
-			$ssql .= " where vtiger_customview.cvid = ? AND vtiger_cvadvfilter.groupid = ? order by vtiger_cvadvfilter.columnindex";
-
-			$result = $db->pquery($ssql, array($this->getId(), $groupId));
-			$noOfColumns = $db->num_rows($result);
-			if ($noOfColumns <= 0)
+			if (!$rows)
 				continue;
 
-			while ($relcriteriarow = $db->fetch_array($result)) {
+			foreach ($rows as $relCriteriaRow) {
 				$criteria = [];
-				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
-				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advFilterVal = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
-				$col = explode(":", $relcriteriarow["columnname"]);
-				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
-					$temp_val = explode('##', $relcriteriarow["value"]);
+				$criteria['columnname'] = html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, $defaultCharset);
+				$criteria['comparator'] = $relCriteriaRow['comparator'];
+				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
+				$col = explode(':', $relCriteriaRow['columnname']);
+				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
+          $tempVal = explode('##', $relCriteriaRow['value']);
 					$val = [];
-					$countTempVal = count($temp_val);
+					$countTempVal = count($tempVal);
 					for ($x = 0; $x < $countTempVal; $x++) {
-						if ($col[4] == 'D') {
-							/** while inserting in db for due_date it was taking date and time values also as it is 
+						if ($col[4] === 'D') {
+							/** while inserting in db for due_date it was taking date and time values also as it is
 							 * date time field. We only need to take date from that value
 							 */
-							if ($col[0] == 'vtiger_activity' && $col[1] == 'due_date') {
-								$originalValue = $temp_val[$x];
+							if ($col[0] === 'vtiger_activity' && $col[1] === 'due_date') {
+								$originalValue = $tempVal[$x];
 								$dateTime = explode(' ', $originalValue);
-								$temp_val[$x] = $dateTime[0];
+								$tempVal[$x] = $dateTime[0];
 							}
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDate();
-						} elseif ($col[4] == 'DT') {
+						} elseif ($col[4] === 'DT') {
 							$comparator = array('e', 'n', 'b', 'a');
 							if (in_array($criteria['comparator'], $comparator)) {
-								$originalValue = $temp_val[$x];
+								$originalValue = $tempVal[$x];
 								$dateTime = explode(' ', $originalValue);
-								$temp_val[$x] = $dateTime[0];
+								$tempVal[$x] = $dateTime[0];
 							}
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDateTimeValue();
 						} else {
-							$date = new DateTimeField(trim($temp_val[$x]));
+							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayTime();
 						}
 					}
-					$advFilterVal = implode(",", $val);
+					$advFilterVal = implode(',', $val);
 				}
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal)));
-				$criteria['column_condition'] = $relcriteriarow["column_condition"];
+				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal));
+				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
 
-				$groupId = $relcriteriarow['groupid'];
-				$advft_criteria[$groupId]['columns'][$j] = $criteria;
-				$advft_criteria[$groupId]['condition'] = $groupCondition;
+				$groupId = $relCriteriaRow['groupid'];
+				$advFtCriteria[$groupId]['columns'][$j] = $criteria;
+				$advFtCriteria[$groupId]['condition'] = $groupCondition;
 				$j++;
 			}
-			if (!empty($advft_criteria[$groupId]['columns'][$j - 1]['column_condition'])) {
-				$advft_criteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
+			if (!empty($advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'])) {
+				$advFtCriteria[$groupId]['columns'][$j - 1]['column_condition'] = '';
 			}
 			$i++;
 		}
 		// Clear the condition (and/or) for last group, if any.
-		if (!empty($advft_criteria[$i - 1]['condition']))
-			$advft_criteria[$i - 1]['condition'] = '';
-		return $advft_criteria;
+		if (!empty($advFtCriteria[$i - 1]['condition']))
+			$advFtCriteria[$i - 1]['condition'] = '';
+		return $advFtCriteria;
 	}
 
 	/**
@@ -817,6 +806,9 @@ class CustomView_Record_Model extends \App\Base
 			->execute();
 	}
 
+	/**
+	 * Function deny
+	 */
 	public function deny()
 	{
 		App\Db::getInstance()->createCommand()
@@ -1072,14 +1064,11 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Function gives default custom view for a module
 	 * @param string $module
-	 * @return <CustomView_Record_Model>
+	 * @return CustomView_Record_Model
 	 */
 	public static function getAllFilterByModule($module)
 	{
-		$db = PearDatabase::getInstance();
-		$query = "SELECT cvid FROM vtiger_customview WHERE viewname='All' AND entitytype = ?";
-		$result = $db->pquery($query, array($module));
-		$viewId = $db->query_result($result, 0, 'cvid');
+		$viewId = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['viewname' => 'All', 'entitytype' => $module])->scalar();
 		if (!$viewId) {
 			$viewId = App\CustomView::getInstance($module)->getViewId();
 		}
