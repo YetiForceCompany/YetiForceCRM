@@ -612,30 +612,30 @@ class CustomView_Record_Model extends \App\Base
 		if (empty($cvId)) {
 			return [];
 		}
-		$stdfilterrow = (new App\Db\Query())->select('vtiger_cvstdfilter.*')->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_customview.cvid = vtiger_cvstdfilter.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
-		if (!empty($stdfilterrow)) {
-			$stdfilterlist = [];
-			$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
-			$stdfilterlist["stdfilter"] = $stdfilterrow["stdfilter"];
+		$stdFilterRow = (new App\Db\Query())->select(['vtiger_cvstdfilter.*'])->from('vtiger_cvstdfilter')->innerJoin('vtiger_customview', 'vtiger_customview.cvid = vtiger_cvstdfilter.cvid')->where(['vtiger_cvstdfilter.cvid' => $this->getId()])->one();
+		if ($stdFilterRow) {
+			$stdFilterList = [];
+			$stdFilterList['columnname'] = $stdFilterRow['columnname'];
+			$stdFilterList['stdfilter'] = $stdFilterRow['stdfilter'];
 
-			if ($stdfilterrow["stdfilter"] == "custom" || $stdfilterrow["stdfilter"] == "") {
-				if ($stdfilterrow["startdate"] != "0000-00-00" && $stdfilterrow["startdate"] != "") {
-					$startDateTime = new DateTimeField($stdfilterrow["startdate"] . ' ' . date('H:i:s'));
-					$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
+			if ($stdFilterRow['stdfilter'] === 'custom' || $stdFilterRow['stdfilter'] === '') {
+				if ($stdFilterRow['startdate'] != '0000-00-00' && $stdFilterRow['startdate'] != '') {
+					$startDateTime = new DateTimeField($stdFilterRow['startdate'] . ' ' . date('H:i:s'));
+					$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
 				}
-				if ($stdfilterrow["enddate"] != "0000-00-00" && $stdfilterrow["enddate"] != "") {
-					$endDateTime = new DateTimeField($stdfilterrow["enddate"] . ' ' . date('H:i:s'));
-					$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+				if ($stdFilterRow['enddate'] != '0000-00-00' && $stdFilterRow['enddate'] != '') {
+					$endDateTime = new DateTimeField($stdFilterRow['enddate'] . ' ' . date('H:i:s'));
+					$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
 				}
 			} else { //if it is not custom get the date according to the selected duration
-				$datefilter = DateTimeRange::getDateRangeByType($stdfilterrow['stdfilter']);
-				$startDateTime = new DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
-				$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
-				$endDateTime = new DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
-				$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+				$dateFilter = DateTimeRange::getDateRangeByType($stdFilterRow['stdfilter']);
+				$startDateTime = new DateTimeField($dateFilter[0] . ' ' . date('H:i:s'));
+				$stdFilterList['startdate'] = $startDateTime->getDisplayDate();
+				$endDateTime = new DateTimeField($dateFilter[1] . ' ' . date('H:i:s'));
+				$stdFilterList['enddate'] = $endDateTime->getDisplayDate();
 			}
 		}
-		return $stdfilterlist;
+		return $stdFilterList;
 	}
 
 	/**
@@ -644,7 +644,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getAdvancedCriteria()
 	{
-		$defaultCharset = vglobal('default_charset');
+		$defaultCharset = AppConfig::main('default_charset');
 
 		$cvId = $this->getId();
 		$advFtCriteria = [];
