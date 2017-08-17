@@ -40,7 +40,7 @@ class TotalContacts
 	{
 
 		\App\Log::trace("Entering TotalContacts::process() method ...");
-		$count = $query = (new \App\Db\Query())->from('vtiger_contactdetails')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid=vtiger_contactdetails.contactid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.parentid' => $instance->getId()])->count();
+		$count = $query = (new \App\Db\Query())->from('vtiger_contactdetails')->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid=vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.parentid' => $instance->getId()])->count();
 		\App\Log::trace("Exiting TotalContacts::process() method ...");
 		return $count;
 	}
