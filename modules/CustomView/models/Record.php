@@ -671,8 +671,8 @@ class CustomView_Record_Model extends \App\Base
 				$criteria['comparator'] = $relCriteriaRow['comparator'];
 				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
 				$col = explode(':', $relCriteriaRow['columnname']);
-				$tempVal = explode(',', $relCriteriaRow['value']);
-				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
+				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
+          $tempVal = explode('##', $relCriteriaRow['value']);
 					$val = [];
 					$countTempVal = count($tempVal);
 					for ($x = 0; $x < $countTempVal; $x++) {
@@ -703,7 +703,7 @@ class CustomView_Record_Model extends \App\Base
 					}
 					$advFilterVal = implode(',', $val);
 				}
-				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(decode_html($advFilterVal));
+				$criteria['value'] = Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal));
 				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
 
 				$groupId = $relCriteriaRow['groupid'];
@@ -872,8 +872,8 @@ class CustomView_Record_Model extends \App\Base
 		$customViews = [];
 		while ($row = $db->fetch_array($result)) {
 			$customView = new self();
-			if (strlen(decode_html($row['viewname'])) > 40) {
-				$row['viewname'] = substr(decode_html($row['viewname']), 0, 36) . '...';
+			if (strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
+				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}

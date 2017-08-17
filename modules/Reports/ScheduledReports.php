@@ -68,6 +68,10 @@ class VTScheduledReport extends Reports
 		return false;
 	}
 
+	/**
+	 * Get recipient emails
+	 * @return array
+	 */
 	public function getRecipientEmails()
 	{
 		$recipientsInfo = $this->scheduledRecipients;
@@ -98,11 +102,8 @@ class VTScheduledReport extends Reports
 
 
 			if (!empty($recipientsInfo['groups'])) {
-				require_once 'include/utils/GetGroupUsers.php';
 				foreach ($recipientsInfo['groups'] as $groupId) {
-					$userGroups = new GetGroupUsers();
-					$userGroups->getAllUsersInGroup($groupId);
-					$recipientsList = array_merge($recipientsList, $userGroups->group_users);
+					$recipientsList = array_merge($recipientsList, App\PrivilegeUtil::getUsersByGroup($groupId));
 				}
 			}
 		}
@@ -247,23 +248,23 @@ class VTScheduledReport extends Reports
 		switch ($type) {
 			case 'users' : if (empty($name))
 					$name = \App\Fields\Owner::getUserLabel($value);
-				$optionName = 'User::' . addslashes(decode_html($name));
+				$optionName = 'User::' . addslashes(App\Purifier::decodeHtml($name));
 				$optionValue = 'users::' . $value;
 				break;
 			case 'groups' : if (empty($name)) {
 					$name = \App\Fields\Owner::getGroupName($value);
 				}
-				$optionName = 'Group::' . addslashes(decode_html($name));
+				$optionName = 'Group::' . addslashes(App\Purifier::decodeHtml($name));
 				$optionValue = 'groups::' . $value;
 				break;
 			case 'roles' : if (empty($name))
 					$name = \App\PrivilegeUtil::getRoleName($value);
-				$optionName = 'Roles::' . addslashes(decode_html($name));
+				$optionName = 'Roles::' . addslashes(App\Purifier::decodeHtml($name));
 				$optionValue = 'roles::' . $value;
 				break;
 			case 'rs' : if (empty($name))
 					$name = \App\PrivilegeUtil::getRoleName($value);
-				$optionName = 'RoleAndSubordinates::' . addslashes(decode_html($name));
+				$optionName = 'RoleAndSubordinates::' . addslashes(App\Purifier::decodeHtml($name));
 				$optionValue = 'rs::' . $value;
 				break;
 		}

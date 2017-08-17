@@ -378,31 +378,22 @@ class CustomView extends CRMEntity
 	/**
 	 * Function to check if field is present based on
 	 *
-	 * @param String $columnname
-	 * @param String $tablename
+	 * @param string $columnName
+	 * @param string $tableName
 	 */
-	public function isFieldPresent_ByColumnTable($columnname, $tablename)
+	public function isFieldPresent_ByColumnTable($columnName, $tableName)
 	{
-		$adb = PearDatabase::getInstance();
-
-		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
-			$query = 'SELECT columnname FROM vtiger_field WHERE tablename = ? and presence in (0,2)';
-
-			$result = $adb->pquery($query, array($tablename));
-			$numrows = $adb->num_rows($result);
-
-			if ($numrows) {
-				$this->_fieldby_tblcol_cache[$tablename] = [];
-				for ($index = 0; $index < $numrows; ++$index) {
-					$this->_fieldby_tblcol_cache[$tablename][] = $adb->query_result($result, $index, 'columnname');
-				}
+		if (!isset($this->_fieldby_tblcol_cache[$tableName])) {
+			$rows = (new App\Db\Query())->select(['columnname'])->from('vtiger_field')->where(['tablename' => $tableName, 'presence' => [0, 2]])->column();
+			if ($rows) {
+				$this->_fieldby_tblcol_cache[$tableName] = $rows;
 			}
 		}
 		// If still the field was not found (might be disabled or deleted?)
-		if (!isset($this->_fieldby_tblcol_cache[$tablename])) {
+		if (!isset($this->_fieldby_tblcol_cache[$tableName])) {
 			return false;
 		}
-		return in_array($columnname, $this->_fieldby_tblcol_cache[$tablename]);
+		return in_array($columnName, $this->_fieldby_tblcol_cache[$tableName]);
 	}
 
 	/** to get the customview Columnlist Query for the given customview Id
@@ -911,19 +902,7 @@ class CustomView extends CRMEntity
 	 */
 	public function getCustomActionDetails($cvid)
 	{
-		$adb = PearDatabase::getInstance();
-
-		$sSQL = "select vtiger_customaction.* from vtiger_customaction inner join vtiger_customview on vtiger_customaction.cvid = vtiger_customview.cvid";
-		$sSQL .= " where vtiger_customaction.cvid=?";
-		$result = $adb->pquery($sSQL, array($cvid));
-
-		while ($carow = $adb->fetch_array($result)) {
-			$calist["subject"] = $carow["subject"];
-			$calist["module"] = $carow["module"];
-			$calist["content"] = $carow["content"];
-			$calist["cvid"] = $carow["cvid"];
-		}
-		return $calist;
+		return (new App\Db\Query())->select(['subject' => 'vtiger_customaction.subject', 'module' => 'vtiger_customaction.module', 'content' => 'vtiger_customaction.content', 'cvid' => 'vtiger_customaction.cvid'])->from('vtiger_customaction')->innerJoin('vtiger_customview', 'vtiger_customaction.cvid = vtiger_customview.cvid')->where(['vtiger_customaction.cvid' => $cvid])->one();
 	}
 
 	public function isPermittedChangeStatus($status)

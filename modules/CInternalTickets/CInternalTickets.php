@@ -78,7 +78,7 @@ class CInternalTickets extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
 			

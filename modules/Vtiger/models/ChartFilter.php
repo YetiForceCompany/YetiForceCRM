@@ -160,7 +160,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = \App\Json::decode(decode_html($this->extraData));
+			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
 			throw new Exception("Invalid data");

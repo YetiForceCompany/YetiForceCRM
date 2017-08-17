@@ -53,7 +53,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -489,7 +489,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
 				if (\App\Module::isModuleActive($referenceModuleName)) {
-					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, decode_html($entityLabel));
+					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, App\Purifier::decodeHtml($entityLabel));
 				} else {
 					$referenceModuleName = $defaultFieldValues[$fieldName];
 					$referencedModules = $fieldInstance->getReferenceList();
@@ -510,7 +510,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					} elseif ($referenceModule === 'Currency') {
 						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
 					} else {
-						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, decode_html($entityLabel));
+						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, App\Purifier::decodeHtml($entityLabel));
 					}
 					if ($referenceEntityId) {
 						$entityId = $referenceEntityId;

@@ -8,6 +8,8 @@
 $languageStrings = [
 	'SQuoteEnquiries' => 'Запросы',
 	'SINGLE_SQuoteEnquiries' => 'Запрос',
+	'SINGLE_SVendorEnquiries' => 'Vendor enquiry',
+	'SVendorEnquiries' => 'Vendor enquiries',
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'Системная информация',

@@ -20,9 +20,9 @@ class ModComments extends ModCommentsCore
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $event_type)
+	public function moduleHandler($modulename, $event_type)
 	{
-		parent::vtlib_handler($modulename, $event_type);
+		parent::moduleHandler($modulename, $event_type);
 		if ($event_type == 'module.postinstall') {
 			self::addWidgetTo(array('Leads', 'Contacts', 'Accounts', 'Project', 'ProjectTask'));
 			$adb = PearDatabase::getInstance();

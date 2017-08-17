@@ -22,7 +22,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -136,7 +136,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [
 			'id' => $recordId,
-			'name' => decode_html($recordModel->getName()),
+			'name' => App\Purifier::decodeHtml($recordModel->getName()),
 			'description' => $recordModel->get('description'),
 		];
 		if (in_array($recordModuleName, ['Products', 'Services'])) {

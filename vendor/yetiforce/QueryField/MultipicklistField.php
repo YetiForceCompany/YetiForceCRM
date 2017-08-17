@@ -49,7 +49,7 @@ class MultipicklistField extends BaseField
 	public function getValue()
 	{
 		$value = $this->value;
-		$valueArray = explode(',', $value);
+		$valueArray = explode('##', $value);
 		if (in_array($this->operator, ['e', 'n'])) {
 			foreach ($this->getCombinations($valueArray) as $key => $value) {
 				$valueArray[$key] = ltrim($value, $this->separator);

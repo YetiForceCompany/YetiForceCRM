@@ -80,7 +80,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler->checkPermission($request);
 			return;
 		}
-		throw new \Exception\NoPermitted('LBL_NOT_ACCESSIBLE');
+		throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE');
 	}
 
 	protected function triggerPreProcess($handler, \App\Request $request)

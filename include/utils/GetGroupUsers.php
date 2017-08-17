@@ -14,7 +14,6 @@
  *
  */
 require_once('include/utils/UserInfoUtil.php');
-require_once('include/utils/GetParentGroups.php');
 
 class GetGroupUsers
 {

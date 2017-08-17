@@ -13,12 +13,12 @@ class Vtiger_BrowsingHistory_Action extends Vtiger_Action_Controller
 	/**
 	 * Checking permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!AppConfig::performance('BROWSING_HISTORY_WORKING')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

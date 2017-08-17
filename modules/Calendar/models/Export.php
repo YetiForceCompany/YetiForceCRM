@@ -104,17 +104,17 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$zoneId = $timeZoneId[0];
 		}
 
-		$timeZone->add_property('TZID', $zoneId);
-		$timeZone->add_property('TZOFFSETTO', date('O'));
+		$timeZone->addProperty('TZID', $zoneId);
+		$timeZone->addProperty('TZOFFSETTO', date('O'));
 
 		if (date('I') == 1) {
-			$timeZone->add_property('DAYLIGHTC', date('I'));
+			$timeZone->addProperty('DAYLIGHTC', date('I'));
 		} else {
-			$timeZone->add_property('STANDARDC', date('I'));
+			$timeZone->addProperty('STANDARDC', date('I'));
 		}
 
 		$myiCal = new iCalendar;
-		$myiCal->add_component($timeZone);
+		$myiCal->addComponent($timeZone);
 
 		while ($row = $dataReader->read()) {
 			$eventFields = $row;
@@ -142,11 +142,11 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 				$temp['id'] = $id;
 
 				$iCalTask = new iCalendar_event;
-				$iCalTask->assign_values($temp);
+				$iCalTask->assignValues($temp);
 
 				$iCalAlarm = new iCalendar_alarm;
-				$iCalAlarm->assign_values($temp);
-				$iCalTask->add_component($iCalAlarm);
+				$iCalAlarm->assignValues($temp);
+				$iCalTask->addComponent($iCalAlarm);
 			} else {
 				$temp = $moduleModel->get('todoFields');
 				foreach ($temp as $fieldName => $access) {
@@ -162,9 +162,9 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 						$temp[$fieldName] = $eventFields[$fieldName];
 				}
 				$iCalTask = new iCalendar_todo;
-				$iCalTask->assign_values($temp);
+				$iCalTask->assignValues($temp);
 			}
-			$myiCal->add_component($iCalTask);
+			$myiCal->addComponent($iCalTask);
 		}
 		if ($toFile) {
 			return $myiCal->serialize();

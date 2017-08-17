@@ -13,14 +13,14 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'CreateView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

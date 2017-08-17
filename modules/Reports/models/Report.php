@@ -98,8 +98,8 @@ class Vtiger_Report_Model extends Reports
 				$this->primodule = $cachedInfo["primarymodule"];
 				$this->secmodule = $cachedInfo["secondarymodules"];
 				$this->reporttype = $cachedInfo["reporttype"];
-				$this->reportname = decode_html($cachedInfo["reportname"]);
-				$this->reportdescription = decode_html($cachedInfo["description"]);
+				$this->reportname = \App\Purifier::decodeHtml($cachedInfo["reportname"]);
+				$this->reportdescription = \App\Purifier::decodeHtml($cachedInfo["description"]);
 				$this->folderid = $cachedInfo["folderid"];
 				if ($currentUser->isAdminUser() === true || in_array($cachedInfo["owner"], $subOrdinateUsers) || $cachedInfo["owner"] == $userId) {
 					$this->is_editable = true;

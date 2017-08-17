@@ -67,7 +67,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return Vtiger_Util_Helper::toSafeHTML(App\Purifier::decodeHtml($displayName));
 	}
 
 	/**
@@ -489,7 +489,7 @@ class Vtiger_PDF_Model extends \App\Base
 	/**
 	 * Compress files and send to browser
 	 * @param array $fileNames
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public static function zipAndDownload(array $fileNames)
 	{
@@ -506,7 +506,7 @@ class Vtiger_PDF_Model extends \App\Base
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
 			\App\Log::error("cannot open <$zipPath.$zipName>\n");
-			throw new \Exception\NoPermitted("cannot open <$zipPath.$zipName>");
+			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive

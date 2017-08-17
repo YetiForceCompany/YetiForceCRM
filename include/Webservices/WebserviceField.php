@@ -393,7 +393,7 @@ class WebserviceField
 			for ($i = 0; $i < $numRows; ++$i) {
 				$elem = [];
 				$picklistValue = $db->query_result($result, $i, $fieldName);
-				$picklistValue = decode_html($picklistValue);
+				$picklistValue = App\Purifier::decodeHtml($picklistValue);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';

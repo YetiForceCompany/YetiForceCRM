@@ -31,11 +31,11 @@
 			{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
 				{assign var=PICKLIST_VALUE value=\App\Language::translate('LBL_SPACE', 'Users')}
 				{assign var=OPTION_VALUE value='&nbsp;'}
-				<option value="{$OPTION_VALUE}" {if decode_html($FIELD_MODEL->get('fieldvalue')) eq decode_html($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
+				<option value="{$OPTION_VALUE}" {if App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue')) eq App\Purifier::decodeHtml($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{elseif $FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator'}
-				<option value="{$OPTION_VALUE}" {if decode_html($FIELD_MODEL->get('fieldvalue')) eq decode_html($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
+				<option value="{$OPTION_VALUE}" {if App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue')) eq App\Purifier::decodeHtml($OPTION_VALUE)} selected {/if}>{$PICKLIST_VALUE}</option>
 			{else}
-				<option value="{$OPTION_VALUE}" {if trim(decode_html($FIELD_MODEL->get('fieldvalue'))) eq trim(decode_html($OPTION_VALUE))} selected {/if}>{$PICKLIST_VALUE}</option>
+				<option value="{$OPTION_VALUE}" {if trim(App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue'))) eq trim(App\Purifier::decodeHtml($OPTION_VALUE))} selected {/if}>{$PICKLIST_VALUE}</option>
 			{/if}
         {/foreach}
     </select>

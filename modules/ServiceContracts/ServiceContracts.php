@@ -249,7 +249,7 @@ class ServiceContracts extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
@@ -351,7 +351,7 @@ class ServiceContracts extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 
 		require_once('include/utils/utils.php');

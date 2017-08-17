@@ -318,7 +318,7 @@ class CRMEntity
 	/**
 	 * Function invoked during export of module record value.
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
 		// NOTE: The sub-class can override this function as required.
 		return $value;
@@ -1428,7 +1428,7 @@ class CRMEntity
 	 * @param String $moduleName Module name
 	 * @param String $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		
 	}

@@ -670,7 +670,7 @@ class Functions
 	public static function getHtmlOrPlainText($content)
 	{
 		if ($content !== strip_tags($content)) {
-			$content = decode_html($content);
+			$content = \App\Purifier::decodeHtml($content);
 		} else {
 			$content = nl2br($content);
 		}

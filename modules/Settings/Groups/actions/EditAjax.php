@@ -31,7 +31,7 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 		$groupName = $request->get('groupname');
 		$recordId = $request->get('record');
 
-		$recordModel = Settings_Groups_Record_Model::getInstanceByName(decode_html($groupName), array($recordId));
+		$recordModel = Settings_Groups_Record_Model::getInstanceByName(App\Purifier::decodeHtml($groupName), array($recordId));
 
 		$response = new Vtiger_Response();
 		if (!empty($recordModel)) {

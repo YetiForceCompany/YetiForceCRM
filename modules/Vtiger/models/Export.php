@@ -201,7 +201,7 @@ class Vtiger_Export_Model extends \App\Base
 	public function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(\App\Language::translate($moduleName, $moduleName))) . '.csv';
+		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
@@ -248,7 +248,7 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(decode_html($value), "\"");
+			$value = trim(App\Purifier::decodeHtml($value), "\"");
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 

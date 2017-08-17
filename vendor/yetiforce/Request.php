@@ -395,7 +395,7 @@ class Request
 
 	/**
 	 * Validating read access request
-	 * @throws \Exception\Csrf
+	 * @throws \App\Exceptions\Csrf
 	 */
 	public function validateReadAccess()
 	{
@@ -403,7 +403,7 @@ class Request
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
 			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
-				throw new \Exception\Csrf('Illegal request');
+				throw new \App\Exceptions\Csrf('Illegal request');
 			}
 		}
 	}
@@ -411,17 +411,17 @@ class Request
 	/**
 	 * Validating write access request
 	 * @param boolean $skipRequestTypeCheck
-	 * @throws \Exception\Csrf
+	 * @throws \App\Exceptions\Csrf
 	 */
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
 		if (!$skipRequestTypeCheck) {
 			if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-				throw new \Exception\Csrf('Invalid request - validate Write Access');
+				throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		if (class_exists('CSRF') && !\CSRF::check(false)) {
-			throw new \Exception\Csrf('Unsupported request');
+			throw new \App\Exceptions\Csrf('Unsupported request');
 		}
 	}
 

@@ -40,7 +40,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(decode_html($row['parameters']));
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}
@@ -55,7 +55,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 		if ($row !== false) {
 			$recordModel = new self();
 			$recordModel->setData($row);
-			$parameters = \App\Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}

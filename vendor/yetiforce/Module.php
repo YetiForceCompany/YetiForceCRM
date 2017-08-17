@@ -141,17 +141,18 @@ class Module
 	 */
 	public static function getSqlForNameInDisplayFormat($moduleName)
 	{
+		$db = \App\Db::getInstance();
 		$entityFieldInfo = static::getEntityInfo($moduleName);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
 		if (count($fieldsName) > 1) {
 			$sqlString = 'CONCAT(';
 			foreach ($fieldsName as &$column) {
-				$sqlString .= "{$entityFieldInfo['tablename']}.$column,' ',";
+				$sqlString .= "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($column)},' ',";
 			}
 			$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
 		} else {
 			$fieldsName = array_pop($fieldsName);
-			$formattedName = "{$entityFieldInfo['tablename']}.$fieldsName";
+			$formattedName = "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($fieldsName)}";
 		}
 		return $formattedName;
 	}

@@ -16,7 +16,7 @@
 			<ul class="nav list-group">
 				{foreach item=recordsModel from=$RECORDS}
 				<li>
-					<a data-id={$recordsModel->getId()} href="{$recordsModel->getDetailViewUrl()}" title="{decode_html($recordsModel->getName())}">{decode_html($recordsModel->getName())}</a>
+					<a data-id={$recordsModel->getId()} href="{$recordsModel->getDetailViewUrl()}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
 				</li>
 				{foreachelse}
 					<li style="text-align:center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}

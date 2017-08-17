@@ -8,6 +8,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+/**
+ * Class contacts record model
+ */
 class Contacts_Record_Model extends Vtiger_Record_Model
 {
 
@@ -33,59 +36,54 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get List of Fields which are related from Contacts to Inventory Record
-	 * @return <array>
+	 * @return array
 	 */
 	public function getInventoryMappingFields()
 	{
-		return array(
-			array('parentField' => 'parent_id', 'inventoryField' => 'account_id', 'defaultValue' => ''),
-			array('parentField' => 'buildingnumbera', 'inventoryField' => 'buildingnumbera', 'defaultValue' => ''),
-			array('parentField' => 'localnumbera', 'inventoryField' => 'localnumbera', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel1a', 'inventoryField' => 'addresslevel1a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel2a', 'inventoryField' => 'addresslevel2a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel3a', 'inventoryField' => 'addresslevel3a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel4a', 'inventoryField' => 'addresslevel4a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel5a', 'inventoryField' => 'addresslevel5a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel6a', 'inventoryField' => 'addresslevel6a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel7a', 'inventoryField' => 'addresslevel7a', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel8a', 'inventoryField' => 'addresslevel8a', 'defaultValue' => ''),
-			array('parentField' => 'buildingnumberb', 'inventoryField' => 'buildingnumberb', 'defaultValue' => ''),
-			array('parentField' => 'localnumberb', 'inventoryField' => 'localnumberb', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel1b', 'inventoryField' => 'addresslevel1b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel2b', 'inventoryField' => 'addresslevel2b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel3b', 'inventoryField' => 'addresslevel3b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel4b', 'inventoryField' => 'addresslevel4b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel5b', 'inventoryField' => 'addresslevel5b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel6b', 'inventoryField' => 'addresslevel6b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel7b', 'inventoryField' => 'addresslevel7b', 'defaultValue' => ''),
-			array('parentField' => 'addresslevel8b', 'inventoryField' => 'addresslevel8b', 'defaultValue' => ''),
-		);
+		return [
+			['parentField' => 'parent_id', 'inventoryField' => 'account_id', 'defaultValue' => ''],
+			['parentField' => 'buildingnumbera', 'inventoryField' => 'buildingnumbera', 'defaultValue' => ''],
+			['parentField' => 'localnumbera', 'inventoryField' => 'localnumbera', 'defaultValue' => ''],
+			['parentField' => 'addresslevel1a', 'inventoryField' => 'addresslevel1a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel2a', 'inventoryField' => 'addresslevel2a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel3a', 'inventoryField' => 'addresslevel3a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel4a', 'inventoryField' => 'addresslevel4a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel5a', 'inventoryField' => 'addresslevel5a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel6a', 'inventoryField' => 'addresslevel6a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel7a', 'inventoryField' => 'addresslevel7a', 'defaultValue' => ''],
+			['parentField' => 'addresslevel8a', 'inventoryField' => 'addresslevel8a', 'defaultValue' => ''],
+			['parentField' => 'buildingnumberb', 'inventoryField' => 'buildingnumberb', 'defaultValue' => ''],
+			['parentField' => 'localnumberb', 'inventoryField' => 'localnumberb', 'defaultValue' => ''],
+			['parentField' => 'addresslevel1b', 'inventoryField' => 'addresslevel1b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel2b', 'inventoryField' => 'addresslevel2b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel3b', 'inventoryField' => 'addresslevel3b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel4b', 'inventoryField' => 'addresslevel4b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel5b', 'inventoryField' => 'addresslevel5b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel6b', 'inventoryField' => 'addresslevel6b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel7b', 'inventoryField' => 'addresslevel7b', 'defaultValue' => ''],
+			['parentField' => 'addresslevel8b', 'inventoryField' => 'addresslevel8b', 'defaultValue' => ''],
+		];
 	}
 
 	/**
-	 * Function to get Image Details
-	 * @return <array> Image Details List
+	 * Get image details
+	 * @return array image details List
 	 */
 	public function getImageDetails()
 	{
-		$db = PearDatabase::getInstance();
 		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Contacts Image' and vtiger_seattachmentsrel.crmid = ?";
+			$result = (new App\Db\Query())->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $recordId])->one();
 
-			$result = $db->pquery($sql, array($recordId));
 
-			$imageId = $db->query_result($result, 0, 'attachmentsid');
-			$imagePath = $db->query_result($result, 0, 'path');
-			$imageName = $db->query_result($result, 0, 'name');
+			$imageId = $result['attachmentsid'];
+			$imagePath = $result['path'];
+			$imageName = $result['name'];
 
-			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = decode_html($imageName);
+			//\App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
+			$imageOriginalName = App\Purifier::decodeHtml($imageName);
 
 			if (!empty($imageName)) {
 				$imageDetails[] = array(
@@ -101,7 +99,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * The function decide about mandatory save record
-	 * @return type
+	 * @return bool
 	 */
 	public function isMandatorySave()
 	{
