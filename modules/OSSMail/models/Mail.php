@@ -8,7 +8,7 @@
  */
 
 /**
- * OssMail mail model
+ * Mail Scanner bind email action
  */
 class OSSMail_Mail_Model extends \App\Base
 {
