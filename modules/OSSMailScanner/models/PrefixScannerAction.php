@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Base for action creating relations on the basis of prefix
  * @package YetiForce.Model
@@ -7,25 +6,36 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+/**
+ * Base for action creating relations on the basis of prefix
+ */
 abstract class OSSMailScanner_PrefixScannerAction_Model
 {
 
 	public $prefix, $moduleName, $mail, $tableName, $tableColumn;
 
+	/**
+	 * Process
+	 */
 	public abstract function process(OSSMail_Mail_Model $mail);
 
+	/**
+	 * Find and bind
+	 * @return boolean|int
+	 */
 	public function findAndBind()
 	{
-		$db = PearDatabase::getInstance();
 		$mailId = $this->mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;
 		}
 		$returnIds = [];
-		$result = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;', [$mailId]);
-		while ($crmid = $db->getSingleValue($result)) {
+		$query = $crmId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
+		$dataReader = $query->createCommand()->query();
+		while ($crmid = $dataReader->readColumn(0)) {
 			$type = \App\Record::getType($crmid);
-			if ($type == $this->moduleName) {
+			if ($type === $this->moduleName) {
 				$returnIds[] = $crmid;
 			}
 		}
@@ -40,6 +50,10 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		return $this->add();
 	}
 
+	/**
+	 * Add
+	 * @return array
+	 */
 	protected function add()
 	{
 		$returnIds = [];
