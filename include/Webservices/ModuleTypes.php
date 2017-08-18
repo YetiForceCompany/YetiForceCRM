@@ -76,14 +76,7 @@ function vtws_listtypes($fieldTypeList, Users_Record_Model $user)
 		$accessibleEntities = [];
 		if (empty($fieldTypeList)) {
 			foreach ($entities as $entity) {
-				$webserviceObject = VtigerWebserviceObject::fromName($db, $entity);
-				$handlerPath = $webserviceObject->getHandlerPath();
-				$handlerClass = $webserviceObject->getHandlerClass();
-
-				require_once $handlerPath;
-				$handler = new $handlerClass($webserviceObject, $user, $db, $log);
-				$meta = $handler->getMeta();
-				if ($meta->hasAccess() === true) {
+				if (in_array($entity, ['Groups', 'Currency', 'DocumentFolders']) || App\Privilege::isPermitted($entity)) {
 					array_push($accessibleEntities, $entity);
 				}
 			}

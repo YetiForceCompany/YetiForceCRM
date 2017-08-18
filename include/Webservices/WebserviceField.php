@@ -271,8 +271,7 @@ class WebserviceField
 				$this->getFieldTypeFromUIType();
 			}
 			$fieldTypeData = WebserviceField::$fieldTypeMapping[$this->getUIType()];
-			$current_user = vglobal('current_user');
-			$types = vtws_listtypes(null, $current_user);
+			$types = vtws_listtypes(null, Users_Privileges_Model::getCurrentUserModel());
 
 			$accessibleTypes = $types['types'];
 			//If it is non admin user or the edit and view is there for profile then users module will be accessible
