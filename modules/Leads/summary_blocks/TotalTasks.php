@@ -7,7 +7,7 @@
  */
 
 /**
- * Summary block total tasks for leads
+ * TotalTasks class
  */
 class TotalTasks
 {
