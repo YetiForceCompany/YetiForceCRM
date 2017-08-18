@@ -193,21 +193,19 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function delete_rel($recordId)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT * FROM vtiger_ossmailview_files WHERE ossmailviewid = ? ", array($recordId), true);
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$row = $adb->query_result_rowdata($result, $i);
-			$adb->pquery("UPDATE vtiger_crmentity SET deleted = '1' WHERE crmid = ?", array($row['documentsid']), true);
-			$adb->pquery("UPDATE vtiger_crmentity SET deleted = '1' WHERE crmid = ?; ", array($row['attachmentsid']), true);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$query = (new \App\Db\Query())->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $recordId]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$dbCommand->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $row['documentsid']])->execute();
+			$dbCommand->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $row['attachmentsid']])->execute();
 		}
 	}
 
 	public function bindSelectedRecords($selectedIds)
 	{
-		$db = PearDatabase::getInstance();
 		$this->addLog('Action_Bind', count($selectedIds));
-		$db->pquery(sprintf('UPDATE vtiger_ossmailview SET `verify` = ? WHERE ossmailviewid in (%s);', $db->generateQuestionMarks($selectedIds)), [1, $selectedIds]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['verify' => 1], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
 	public function getMailType()
@@ -218,18 +216,15 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function ChangeTypeAllRecords($mail_type)
 	{
 		$MailType = $this->getMailType();
-		$adb = PearDatabase::getInstance();
 		$this->addLog('Action_ChangeType', 'all');
-		$adb->pquery("UPDATE vtiger_ossmailview SET `ossmailview_sendtype` = ?, `type` = ?;", array($MailType[$mail_type], $mail_type), true);
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $MailType[$mail_type], 'type' => $mail_type], [])->execute();
 	}
 
 	public function ChangeTypeSelectedRecords($selectedIds, $mail_type)
 	{
-		$adb = PearDatabase::getInstance();
 		$MailType = $this->getMailType();
 		$this->addLog('Action_ChangeType', count($selectedIds));
-		$selectedIdsSql = implode(",", $selectedIds);
-		$adb->pquery("UPDATE vtiger_ossmailview SET `ossmailview_sendtype` = ?, `type` = ? where ossmailviewid in (?);", array($MailType[$mail_type], $mail_type, $selectedIdsSql), true);
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $MailType[$mail_type], 'type' => $mail_type], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
 	public function addLog($action, $info)
@@ -241,13 +236,13 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	public function getMailsQuery($recordId, $moduleName)
 	{
 		$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$sql = "SELECT vtiger_crmentity.*, vtiger_ossmailview.*, CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $usersSqlFullName ELSE vtiger_groups.groupname END AS user_name 
-			FROM vtiger_ossmailview 
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid 
-			INNER JOIN vtiger_ossmailviewcf ON vtiger_ossmailviewcf.ossmailviewid = vtiger_ossmailview.ossmailviewid 
-			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid 
-			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
+		$sql = "SELECT vtiger_crmentity.*, vtiger_ossmailview.*, CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $usersSqlFullName ELSE vtiger_groups.groupname END AS user_name
+			FROM vtiger_ossmailview
+			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid
+			INNER JOIN vtiger_ossmailviewcf ON vtiger_ossmailviewcf.ossmailviewid = vtiger_ossmailview.ossmailviewid
+			INNER JOIN vtiger_ossmailview_relation ON vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid
+			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
+			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = '$recordId'";
 		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
 		return $sql;
@@ -258,28 +253,21 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_ossmailview_relation SET `deleted` = ? WHERE ossmailviewid = ?;', [1, $this->getId()]);
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview_relation', ['deleted' => 1], ['ossmailviewid' => $this->getId()])->execute();
 		parent::delete();
 	}
 
 	public function checkMailExist($uid, $folder, $rcId)
 	{
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT ossmailviewid FROM vtiger_ossmailview WHERE id = ? && mbox = ? && rc_user = ?';
-		$result = $db->pquery($query, [$uid, $folder, $rcId]);
-		return $db->getRowCount($result) > 0 ? $db->getSingleValue($result) : false;
+		return (new App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['id' => $uid, 'mbox' => $folder, 'rc_user' => $rcId])->scalar();
 	}
 
 	public function getRelatedRecords($record)
 	{
-		$db = PearDatabase::getInstance();
 		$relations = [];
-		$query = 'SELECT vtiger_crmentity.crmid, vtiger_crmentity.setype FROM vtiger_ossmailview_relation'
-			. ' INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview_relation.crmid'
-			. ' WHERE ossmailviewid = ? && vtiger_crmentity.deleted = ? ';
-		$result = $db->pquery($query, [$record, 0]);
-		while ($row = $db->getRow($result)) {
+		$query = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])->from('vtiger_ossmailview_relation')->innerJoin('vtiger_crmentity', 'vtiger_ossmailview_relation.crmid = vtiger_crmentity.crmid')->where(['ossmailviewid' => $record, 'vtiger_crmentity.deleted' => 0]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$module = $row['setype'];
 			$relations[$module][] = [
 				'id' => $row['crmid'],
@@ -292,7 +280,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public static function addRelated($params)
 	{
-		$db = PearDatabase::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$crmid = $params['crmid'];
@@ -301,20 +289,20 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$mailId = $params['mailId'];
 
 		if ($newModule == 'Products') {
-			$db->insert('vtiger_seproductsrel', [
+			$dbCommand->insert('vtiger_seproductsrel', [
 				'crmid' => $crmid,
 				'productid' => $newCrmId,
 				'setype' => $params['mod'],
 				'rel_created_user' => $currentUser->getId(),
 				'rel_created_time' => date('Y-m-d H:i:s')
-			]);
+			])->execute();
 		} elseif ($newModule == 'Services') {
-			$db->insert('vtiger_crmentityrel', [
+			$dbCommand->insert('vtiger_crmentityrel', [
 				'crmid' => $crmid,
 				'module' => $params['mod'],
 				'relcrmid' => $newCrmId,
 				'relmodule' => $newModule
-			]);
+			])->execute();
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
@@ -323,8 +311,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public static function removeRelated($params)
 	{
-		$db = PearDatabase::getInstance();
-		$db->delete('vtiger_ossmailview_relation', 'ossmailviewid = ? && crmid = ?', [$params['mailId'], $params['crmid']]);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['ossmailviewid' => $params['mailId'], 'crmid' => $params['crmid']]);
 		return \App\Language::translate('Removed relationship', 'OSSMail');
 	}
 
@@ -335,9 +322,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function setReloadRelationRecord($moduleName, $record = 0)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM s_yf_mail_relation_updater WHERE crmid = ?', [$record]);
-		if ($db->getRowCount($result) == 0) {
+		$exists = (new App\Db\Query())->from('s_#__mail_relation_updater')->where(['crmid' => $record])->exists();
+		if (!$exists) {
 			\App\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [
 				'tabid' => \App\Module::getModuleId($moduleName),
 				'crmid' => $record
