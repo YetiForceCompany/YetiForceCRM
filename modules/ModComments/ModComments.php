@@ -13,7 +13,7 @@ include_once dirname(__FILE__) . '/models/Comments.php';
 require_once 'include/utils/VtlibUtils.php';
 
 /**
- * Module comments
+ * ModComments main class
  */
 class ModComments extends ModCommentsCore
 {
