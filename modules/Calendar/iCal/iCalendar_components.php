@@ -58,7 +58,7 @@ class iCalendar_component
 		}
 		// If $value is NULL, then this property must define a default value.
 		if ($value === NULL) {
-			$value = $property->default_value();
+			$value = $property->defaultValueICal();
 			if ($value === NULL) {
 				return false;
 			}
@@ -162,7 +162,7 @@ class iCalendar_component
 			if (($propdata & RFC2445_REQUIRED) && empty($this->properties[$property])) {
 				$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $property));
 				$object = new $classname;
-				if ($object->default_value() === NULL) {
+				if ($object->defaultValueICal() === NULL) {
 					return false;
 				}
 				unset($object);
