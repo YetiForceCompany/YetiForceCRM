@@ -25,7 +25,7 @@ function createUserPrivilegesfile($userid)
 		$newbuf = '';
 		$newbuf .= "<?php\n";
 		$user_focus = CRMEntity::getInstance('Users');
-		$user_focus->retrieve_entity_info($userid, 'Users');
+		$user_focus->retrieveEntityInfo($userid, 'Users');
 		$userInfo = [];
 		$user_focus->column_fields["id"] = '';
 		$user_focus->id = $userid;
@@ -82,7 +82,7 @@ function createUserSharingPrivilegesfile($userid)
 	if ($handle) {
 		$newbuf = "<?php\n";
 		$user_focus = CRMEntity::getInstance('Users');
-		$user_focus->retrieve_entity_info($userid, 'Users');
+		$user_focus->retrieveEntityInfo($userid, 'Users');
 		if ($user_focus->is_admin == 'on') {
 			fputs($handle, $newbuf);
 			fclose($handle);

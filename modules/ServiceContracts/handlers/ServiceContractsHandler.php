@@ -44,7 +44,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 					while ($contractId = $dataReader->readColumn(0)) {
 						$scFocus = CRMEntity::getInstance('ServiceContracts');
 						$scFocus->id = $contractId;
-						$scFocus->retrieve_entity_info($contractId, 'ServiceContracts');
+						$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 
 						$prevUsedUnits = $scFocus->column_fields['used_units'];
 						if (empty($prevUsedUnits))
@@ -71,7 +71,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 				$scFocus->updateServiceContractState($contractId);
 			} else {
 				$scFocus->id = $contractId;
-				$scFocus->retrieve_entity_info($contractId, 'ServiceContracts');
+				$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 				$scFocus->calculateProgress();
 			}
 		}

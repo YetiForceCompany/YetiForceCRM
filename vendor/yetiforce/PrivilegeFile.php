@@ -56,7 +56,7 @@ class PrivilegeFile
 		$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges' . DIRECTORY_SEPARATOR . "user_privileges_$userId.php";
 		$user = [];
 		$userInstance = \CRMEntity::getInstance('Users');
-		$userInstance->retrieve_entity_info($userId, 'Users');
+		$userInstance->retrieveEntityInfo($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
 		$entityData = Module::getEntityInfo('Users');
 		$displayName = '';

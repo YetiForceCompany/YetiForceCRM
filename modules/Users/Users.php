@@ -462,10 +462,10 @@ class Users extends CRMEntity
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 */
-	public function retrieve_entity_info($record, $module)
+	public function retrieveEntityInfo($record, $module)
 	{
 
-		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
+		\App\Log::trace("Entering into retrieveEntityInfo($record, $module) method.");
 
 		if ($record == '') {
 			\App\Log::error('record is empty. returning null');
@@ -514,7 +514,7 @@ class Users extends CRMEntity
 			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '1.0$';
 		}
 		$this->id = $record;
-		\App\Log::trace('Exit from retrieve_entity_info() method.');
+		\App\Log::trace('Exit from retrieveEntityInfo() method.');
 		return $this;
 	}
 

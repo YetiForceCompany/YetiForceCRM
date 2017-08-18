@@ -512,7 +512,7 @@ class Vtiger_Record_Model extends \App\Base
 
 		$focus = CRMEntity::getInstance($moduleName);
 		$focus->id = $recordId;
-		$focus->retrieve_entity_info($recordId, $moduleName);
+		$focus->retrieveEntityInfo($recordId, $moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setEntity($focus)->setData($focus->column_fields)->setModuleFromInstance($module);
@@ -644,7 +644,7 @@ class Vtiger_Record_Model extends \App\Base
 				}
 				if ($loadData && $recordId) {
 					$focus->id = $recordId;
-					$focus->retrieve_entity_info($recordId, $moduleName);
+					$focus->retrieveEntityInfo($recordId, $moduleName);
 					$this->setEntity($focus);
 				}
 				foreach ($lockFields as $fieldName => $values) {
