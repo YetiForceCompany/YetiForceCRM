@@ -66,14 +66,14 @@ class iCalendar_component
 
 		// Set this property's parent component to ourselves, because some
 		// properties behave differently according to what component they apply to.
-		$property->set_parent_component($this->name);
+		$property->setParentComponent($this->name);
 
 		// Set parameters before value; this helps with some properties which
 		// accept a VALUE parameter, and thus change their default value type.
 		// The parameters must be valid according to property specifications
 		if (!empty($parameters)) {
 			foreach ($parameters as $paramname => $paramvalue) {
-				if (!$property->set_parameter($paramname, $paramvalue)) {
+				if (!$property->setParameterICal($paramname, $paramvalue)) {
 					return false;
 				}
 			}
@@ -86,7 +86,7 @@ class iCalendar_component
 		}
 
 		// $value MUST be valid according to the property data type
-		if (!$property->set_value($value)) {
+		if (!$property->setValueICal($value)) {
 			return false;
 		}
 
