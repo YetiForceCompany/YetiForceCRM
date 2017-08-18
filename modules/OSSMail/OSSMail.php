@@ -7,7 +7,7 @@
  */
 
 /**
- * Oss mail
+ * OSSMail CRMEntity class
  */
 class OSSMail
 {
