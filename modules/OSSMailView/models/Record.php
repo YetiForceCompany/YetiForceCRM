@@ -257,11 +257,23 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		parent::delete();
 	}
 
+	/**
+	 * Check if mail exist
+	 * @param int $uid
+	 * @param string $folder
+	 * @param int $rcId
+	 * @return int|bool
+	 */
 	public function checkMailExist($uid, $folder, $rcId)
 	{
 		return (new App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['id' => $uid, 'mbox' => $folder, 'rc_user' => $rcId])->scalar();
 	}
 
+	/**
+	 * Get related records
+	 * @param int $record
+	 * @return array
+	 */
 	public function getRelatedRecords($record)
 	{
 		$relations = [];
@@ -278,6 +290,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return $relations;
 	}
 
+	/**
+	 * Add related
+	 * @param array $params
+	 * @return string
+	 */
 	public static function addRelated($params)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
@@ -289,37 +306,40 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$mailId = $params['mailId'];
 
 		if ($newModule == 'Products') {
-			$dbCommand->insert('vtiger_seproductsrel', [
-				'crmid' => $crmid,
-				'productid' => $newCrmId,
-				'setype' => $params['mod'],
-				'rel_created_user' => $currentUser->getId(),
-				'rel_created_time' => date('Y-m-d H:i:s')
-			])->execute();
+			$dbCommand->insert('vtiger_seproductsrel', ['crmid' => $crmid, 'productid' => $newCrmId, 'setype' => $params['mod'], 'rel_created_user' => $currentUser->getId(), 'rel_created_time' => date('Y-m-d H:i:s')])->execute();
 		} elseif ($newModule == 'Services') {
-			$dbCommand->insert('vtiger_crmentityrel', [
-				'crmid' => $crmid,
-				'module' => $params['mod'],
-				'relcrmid' => $newCrmId,
-				'relmodule' => $newModule
-			])->execute();
+			$dbCommand->insert('vtiger_crmentityrel', ['crmid' => $crmid, 'module' => $params['mod'], 'relcrmid' => $newCrmId, 'relmodule' => $newModule])->execute();
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
 		return \App\Language::translate('Add relationship', 'OSSMail');
 	}
 
+	/**
+	 * Remove related
+	 * @param array $params
+	 * @return string
+	 */
 	public static function removeRelated($params)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['ossmailviewid' => $params['mailId'], 'crmid' => $params['crmid']]);
 		return \App\Language::translate('Removed relationship', 'OSSMail');
 	}
 
+	/**
+	 * Check if record is editable
+	 * @return boolean
+	 */
 	public function isEditable()
 	{
 		return false;
 	}
 
+	/**
+	 * Set reload relation record
+	 * @param string $moduleName
+	 * @param int $record
+	 */
 	public function setReloadRelationRecord($moduleName, $record = 0)
 	{
 		$exists = (new App\Db\Query())->from('s_#__mail_relation_updater')->where(['crmid' => $record])->exists();
