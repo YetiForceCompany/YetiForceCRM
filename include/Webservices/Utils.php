@@ -568,10 +568,16 @@ function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 	return true;
 }
 
-function vtws_getFieldfromFieldId($fieldId, $fieldObjectList)
+/**
+ * vtws_getFieldfromFieldId
+ * @param int $fieldId
+ * @param Vtiger_Module_Model $moduleModel
+ * @return null|Vtiger_Field_Model
+ */
+function vtws_getFieldfromFieldId($fieldId, $moduleModel)
 {
-	foreach ($fieldObjectList as $field) {
-		if ($fieldId == $field->getFieldId()) {
+	foreach ($moduleModel->getFields() as $field) {
+		if ($fieldId == $field->getId()) {
 			return $field;
 		}
 	}
