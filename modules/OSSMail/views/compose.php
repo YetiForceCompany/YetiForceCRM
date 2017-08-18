@@ -10,11 +10,20 @@
 class OSSMail_compose_View extends OSSMail_index_View
 {
 
+	/**
+	 * Pre process
+	 * @param \App\Request $request
+	 * @param bool $display
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$this->initAutologin();
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -27,19 +36,19 @@ class OSSMail_compose_View extends OSSMail_index_View
 		$params = OSSMail_Module_Model::getComposeParam($request);
 		$key = md5(count($params) . microtime());
 
-		$db = PearDatabase::getInstance();
-		$db->delete('u_yf_mail_compose_data', '`userid` = ?;', [$currentUser->getId()]);
-		$db->insert('u_yf_mail_compose_data', [
-			'key' => $key,
-			'userid' => $currentUser->getId(),
-			'data' => json_encode($params),
-		]);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->delete('u_#__mail_compose_data', ['userid' => $currentUser->getId()])->execute();
+		$dbCommand->insert('u_#__mail_compose_data', ['key' => $key, 'userid' => $currentUser->getId(), 'data' => json_encode($params)])->execute();
 		$this->mainUrl .= '&_composeKey=' . $key;
 		header('Location: ' . $this->mainUrl);
 	}
 
+	/**
+	 * Post process
+	 * @param \App\Request $request
+	 */
 	public function postProcess(\App\Request $request)
 	{
-		
+
 	}
 }
