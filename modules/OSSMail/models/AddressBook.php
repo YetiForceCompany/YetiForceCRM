@@ -8,7 +8,7 @@
  */
 
 /**
- * Oss mail address book model
+ * Address book model class
  */
 class OSSMail_AddressBook_Model
 {
