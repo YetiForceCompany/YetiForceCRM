@@ -17,7 +17,7 @@ class iCalendar_parameter
 		}
 	}
 
-	public function default_value($parameter)
+	public function defaultValueICal($parameter)
 	{
 		switch ($parameter) {
 			case 'CUTYPE': return 'INDIVIDUAL';
@@ -31,7 +31,7 @@ class iCalendar_parameter
 		}
 	}
 
-	public function is_valid_value(&$parent_property, $parameter, $value)
+	public function isValidValue(&$parent_property, $parameter, $value)
 	{
 		switch ($parameter) {
 			// These must all be a URI

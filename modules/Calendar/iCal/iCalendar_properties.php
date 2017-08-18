@@ -27,7 +27,7 @@ class iCalendar_property
 
 	// If some property needs extra care with its parameters, override this
 	// IMPORTANT: the parameter name MUST BE CAPITALIZED!
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		if (is_array($value)) {
@@ -35,14 +35,14 @@ class iCalendar_property
 				return false;
 			}
 			foreach ($value as $item) {
-				if (!iCalendar_parameter::is_valid_value($this, $parameter, $item)) {
+				if (!iCalendar_parameter::isValidValue($this, $parameter, $item)) {
 					return false;
 				}
 			}
 			return true;
 		}
 
-		return iCalendar_parameter::is_valid_value($this, $parameter, $value);
+		return iCalendar_parameter::isValidValue($this, $parameter, $value);
 	}
 
 	public function invariantHolds()
@@ -52,7 +52,7 @@ class iCalendar_property
 
 	// If some property is very picky about its values, it should do the work itself
 	// Only data type validation is done here
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		if (is_array($value)) {
 			if (!$this->val_multi) {
@@ -74,7 +74,7 @@ class iCalendar_property
 		return $this->val_default;
 	}
 
-	public function set_parent_component($componentname)
+	public function setParentComponent($componentname)
 	{
 		if (class_exists('iCalendar_' . strtolower(substr($componentname, 1)))) {
 			$this->parent_component = strtoupper($componentname);
@@ -84,9 +84,9 @@ class iCalendar_property
 		return false;
 	}
 
-	public function set_value($value)
+	public function setValueICal($value)
 	{
-		if ($this->is_valid_value($value)) {
+		if ($this->isValidValue($value)) {
 			// This transparently formats any value type according to the iCalendar specs
 			if (is_array($value)) {
 				foreach ($value as $key => $item) {
@@ -102,7 +102,7 @@ class iCalendar_property
 		return false;
 	}
 
-	public function get_value()
+	public function getValueICal()
 	{
 		// First of all, assume that we have multiple values
 		$valarray = explode('\\,', $this->value);
@@ -120,7 +120,7 @@ class iCalendar_property
 		return $valarray;
 	}
 
-	public function set_parameter($name, $value)
+	public function setParameterICal($name, $value)
 	{
 
 		// Uppercase
@@ -135,7 +135,7 @@ class iCalendar_property
 			// No more checks -- all components are supposed to allow x-name parameters
 		}
 
-		if (!$this->is_valid_parameter($name, $value)) {
+		if (!$this->isValidParameter($name, $value)) {
 			return false;
 		}
 
@@ -158,7 +158,7 @@ class iCalendar_property
 		return true;
 	}
 
-	public function get_parameter($name)
+	public function getParameterICal($name)
 	{
 
 		// Uppercase
@@ -220,7 +220,7 @@ class iCalendar_property_calscale extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		// This is case-sensitive
 		return ($value === 'GREGORIAN');
@@ -240,7 +240,7 @@ class iCalendar_property_method extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		// This is case-sensitive
 		// Methods from RFC 2446
@@ -280,7 +280,7 @@ class iCalendar_property_version extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		return($value === '2.0' || $value === 2.0);
 	}
@@ -317,12 +317,12 @@ class iCalendar_property_attach extends iCalendar_property
 		return true;
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 
@@ -368,7 +368,7 @@ class iCalendar_property_class extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		$value = strtoupper($value);
 		// If this is not an xname, it is case-sensitive
@@ -423,7 +423,7 @@ class iCalendar_property_geo extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		// This MUST be two floats separated by a semicolon
 		if (!is_string($value)) {
@@ -438,11 +438,11 @@ class iCalendar_property_geo extends iCalendar_property
 		return rfc2445_is_valid_value($floats[0], RFC2445_TYPE_FLOAT) && rfc2445_is_valid_value($floats[1], RFC2445_TYPE_FLOAT);
 	}
 
-	public function set_value($value)
+	public function setValueICal($value)
 	{
 		// Must override this, otherwise the semicolon separating
 		// the two floats would get auto-quoted, which is illegal
-		if ($this->is_valid_value($value)) {
+		if ($this->isValidValue($value)) {
 			$this->value = $value;
 			return true;
 		}
@@ -480,10 +480,10 @@ class iCalendar_property_percent_complete extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		// Only integers between 0 and 100 inclusive allowed
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		$value = intval($value);
@@ -504,10 +504,10 @@ class iCalendar_property_priority extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		// Only integers between 0 and 9 inclusive allowed        
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		return true;
@@ -543,7 +543,7 @@ class iCalendar_property_status extends iCalendar_property
 			RFC2445_XNAME => RFC2445_OPTIONAL
 		);
 	}
-	/*    function is_valid_value($value) {
+	/*    function isValidValue($value) {
 	  // This is case-sensitive
 	  switch ($this->parent_component) {
 	  case 'VEVENT':
@@ -594,9 +594,9 @@ class iCalendar_property_completed extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		// Time MUST be in UTC format
@@ -619,9 +619,9 @@ class iCalendar_property_dtend extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 
@@ -633,12 +633,12 @@ class iCalendar_property_dtend extends iCalendar_property
 		return true;
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 		if ($parameter == 'VALUE' && !($value == 'DATE' || $value == 'DATE-TIME')) {
@@ -664,9 +664,9 @@ class iCalendar_property_due extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 
@@ -678,12 +678,12 @@ class iCalendar_property_due extends iCalendar_property
 		return true;
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 		if ($parameter == 'VALUE' && !($value == 'DATE' || $value == 'DATE-TIME')) {
@@ -709,9 +709,9 @@ class iCalendar_property_dtstart extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		// If present in a FREEBUSY component, must be in UTC format
@@ -722,11 +722,11 @@ class iCalendar_property_dtstart extends iCalendar_property
 		return true;
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 		if ($parameter == 'VALUE' && !($value == 'DATE' || $value == 'DATE-TIME')) {
@@ -750,9 +750,9 @@ class iCalendar_property_duration extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 
@@ -776,9 +776,9 @@ class iCalendar_property_freebusy extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 
@@ -810,7 +810,7 @@ class iCalendar_property_transp extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		return ($value === 'TRANSPARENT' || $value === 'OPAQUE');
 	}
@@ -840,9 +840,9 @@ class iCalendar_property_attendee extends iCalendar_property
 		);
 	}
 
-	public function set_parent_component($componentname)
+	public function setParentComponent($componentname)
 	{
-		if (!parent::set_parent_component($componentname)) {
+		if (!parent::setParentComponent($componentname)) {
 			return false;
 		}
 
@@ -908,12 +908,12 @@ class iCalendar_property_recurrence_id extends iCalendar_property
 		);
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 		if ($parameter == 'VALUE' && !($value == 'DATE' || $value == 'DATE-TIME')) {
@@ -991,12 +991,12 @@ class iCalendar_property_exdate extends iCalendar_property
 		);
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 		if ($parameter == 'VALUE' && !($value == 'DATE' || $value == 'DATE-TIME')) {
@@ -1037,12 +1037,12 @@ class iCalendar_property_rdate extends iCalendar_property
 		);
 	}
 
-	public function is_valid_parameter($parameter, $value)
+	public function isValidParameter($parameter, $value)
 	{
 
 		$parameter = strtoupper($parameter);
 
-		if (!parent::is_valid_parameter($parameter, $value)) {
+		if (!parent::isValidParameter($parameter, $value)) {
 			return false;
 		}
 		if ($parameter == 'VALUE' && !($value == 'DATE' || $value == 'DATE-TIME' || $value == 'PERIOD')) {
@@ -1080,9 +1080,9 @@ class iCalendar_property_created extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		// Time MUST be in UTC format
@@ -1103,9 +1103,9 @@ class iCalendar_property_dtstamp extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		// Time MUST be in UTC format
@@ -1126,9 +1126,9 @@ class iCalendar_property_last_modified extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		// Time MUST be in UTC format
@@ -1150,9 +1150,9 @@ class iCalendar_property_sequence extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
-		if (!parent::is_valid_value($value)) {
+		if (!parent::isValidValue($value)) {
 			return false;
 		}
 		$value = intval($value);
@@ -1210,7 +1210,7 @@ class iCalendar_property_request_status extends iCalendar_property
 		);
 	}
 
-	public function is_valid_value($value)
+	public function isValidValue($value)
 	{
 		if (!is_string($value) || empty($value)) {
 			return false;
@@ -1310,10 +1310,10 @@ class iCalendar_property_request_status extends iCalendar_property
 		return true;
 	}
 
-	public function set_value($value)
+	public function setValueICal($value)
 	{
 		// Must override this, otherwise the value would be quoted again
-		if ($this->is_valid_value($value)) {
+		if ($this->isValidValue($value)) {
 			$this->value = $value;
 			return true;
 		}
