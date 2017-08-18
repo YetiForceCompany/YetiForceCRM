@@ -394,17 +394,17 @@ class ServiceContracts extends CRMEntity
 	 * NOTE: This function has been added to CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
-	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		if (!is_array($with_crmids))
 			$with_crmids = Array($with_crmids);
 		foreach ($with_crmids as $with_crmid) {
 			if ($with_module == 'HelpDesk') {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
 				$this->updateHelpDeskRelatedTo($crmid, $with_crmid);
 				$this->updateServiceContractState($crmid);
 			} else {
-				parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
+				parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName);
 			}
 		}
 	}

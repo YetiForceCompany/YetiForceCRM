@@ -302,7 +302,7 @@ class Products extends CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmIds, $relatedName = false)
 	{
 		if (!is_array($withCrmIds))
 			$withCrmIds = [$withCrmIds];
@@ -324,7 +324,7 @@ class Products extends CRMEntity
 					])->execute();
 				}
 			} else {
-				parent::save_related_module($module, $crmid, $withModule, $withCrmId, $relatedName);
+				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmId, $relatedName);
 			}
 		}
 	}

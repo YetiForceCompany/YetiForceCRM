@@ -234,7 +234,7 @@ class Leads extends CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
@@ -254,7 +254,7 @@ class Leads extends CRMEntity
 					'campaignrelstatusid' => 0
 				])->execute();
 			} else {
-				parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
+				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
 			}
 		}
 	}

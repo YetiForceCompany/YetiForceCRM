@@ -345,7 +345,7 @@ function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $desti
 		$data['destinationRecordId'] = $destinationRecordId;
 		$eventHandler->setParams($data);
 		$eventHandler->trigger('EntityBeforeLink');
-		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
+		$focus->saveRelatedModule($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
 		CRMEntity::trackLinkedInfo($sourceRecordId);
 		$eventHandler->trigger('EntityAfterLink');
 	}

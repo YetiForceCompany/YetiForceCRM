@@ -176,12 +176,12 @@ class Partners extends Vtiger_CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
 		if ($withModule !== 'Campaigns') {
-			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
+			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
 			foreach ($withCrmids as $withCrmid) {
 				App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [

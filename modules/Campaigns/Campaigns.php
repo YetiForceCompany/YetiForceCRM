@@ -148,12 +148,12 @@ class Campaigns extends CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
 		if (!in_array($withModule, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
+			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
 			foreach ($withCrmids as $withCrmid) {
 				$checkResult = (new App\Db\Query())->from('vtiger_campaign_records')

@@ -251,7 +251,7 @@ class Competition extends Vtiger_CRMEntity
 	 * @param array|int $withCrmids
 	 * @param string $relatedName
 	 */
-	public function save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmids, $relatedName = false)
 	{
 		if (!is_array($withCrmids))
 			$withCrmids = [$withCrmids];
@@ -263,7 +263,7 @@ class Competition extends Vtiger_CRMEntity
 					'campaignrelstatusid' => 0
 				])->execute();
 			} else {
-				parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
+				parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
 			}
 		}
 	}

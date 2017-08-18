@@ -314,12 +314,12 @@ class Contacts extends CRMEntity
 		}
 	}
 
-	public function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
 		if (!is_array($withCrmid))
 			$withCrmid = [$withCrmid];
 		if (!in_array($withModule, ['Products', 'Campaigns', 'Vendors'])) {
-			parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
+			parent::saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName);
 		} else {
 			foreach ($withCrmid as $id) {
 				if ($withModule === 'Campaigns') {
