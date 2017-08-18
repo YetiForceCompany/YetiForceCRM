@@ -120,9 +120,9 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		}
 	}
 
-	public function retrieve_entity_info($record, $module)
+	public function retrieveEntityInfo($record, $module)
 	{
-		parent::retrieve_entity_info($record, $module);
+		parent::retrieveEntityInfo($record, $module);
 		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
 		$this->column_fields['date_start'] = $start->format('Y-m-d');
 		$end = DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);

@@ -787,7 +787,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$userId = $importInfo['user_id'];
 			$user = new Users();
 			$user->id = $userId;
-			$user->retrieve_entity_info($userId, 'Users');
+			$user->retrieveEntityInfo($userId, 'Users');
 
 			$scheduledImports[$importId] = new Import_Data_Action($importInfo, $user);
 		}

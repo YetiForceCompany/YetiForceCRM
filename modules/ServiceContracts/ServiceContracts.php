@@ -443,7 +443,7 @@ class ServiceContracts extends CRMEntity
 	public function updateServiceContractState($focusId)
 	{
 		$this->id = $focusId;
-		$this->retrieve_entity_info($focusId, 'ServiceContracts');
+		$this->retrieveEntityInfo($focusId, 'ServiceContracts');
 
 		$contractTicketsResult = $this->db->pquery("SELECT relcrmid FROM vtiger_crmentityrel
 														WHERE module = 'ServiceContracts'
@@ -460,7 +460,7 @@ class ServiceContracts extends CRMEntity
 			$ticketId = $this->db->query_result($contractTicketsResult, $i, 'relcrmid');
 			$ticketFocus->id = $ticketId;
 			if (isRecordExists($ticketId)) {
-				$ticketFocus->retrieve_entity_info($ticketId, 'HelpDesk');
+				$ticketFocus->retrieveEntityInfo($ticketId, 'HelpDesk');
 				if (strtolower($ticketFocus->column_fields['ticketstatus']) == 'closed') {
 					$totalUsedUnits += $this->computeUsedUnits($ticketFocus->column_fields);
 				}

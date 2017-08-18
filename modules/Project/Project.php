@@ -402,7 +402,7 @@ class Project extends CRMEntity
 			$with_crmid = Array($with_crmid);
 		foreach ($with_crmid as $relcrmid) {
 			$child = CRMEntity::getInstance($destinationModule);
-			$child->retrieve_entity_info($relcrmid, $destinationModule);
+			$child->retrieveEntityInfo($relcrmid, $destinationModule);
 			$child->mode = 'edit';
 			$child->column_fields['projectid'] = '';
 			$child->save($destinationModule, $relcrmid);

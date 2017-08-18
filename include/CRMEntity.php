@@ -141,7 +141,7 @@ class CRMEntity
 	 * @param integer $record - crmid of record
 	 * @param string $module - module name
 	 */
-	public function retrieve_entity_info($record, $module)
+	public function retrieveEntityInfo($record, $module)
 	{
 		if (!isset($record)) {
 			throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
