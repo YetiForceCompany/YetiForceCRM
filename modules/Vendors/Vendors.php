@@ -239,12 +239,12 @@ class Vendors extends CRMEntity
 		parent::deletePerminently($moduleName, $recordId);
 	}
 
-	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Contacts', 'Products', 'Campaigns'])) {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName);
+			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName);
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module === 'Contacts') {

@@ -379,7 +379,7 @@ class Project extends CRMEntity
 	 * This is done because the related lists for this module use a custom query
 	 * that queries the child module's table (column of the uitype10 field)
 	 *
-	 * @see data/CRMEntity#save_related_module($module, $crmid, $with_module, $with_crmid)
+	 * @see data/CRMEntity#saveRelatedModule($module, $crmid, $with_module, $with_crmid)
 	 */
 
 	/**

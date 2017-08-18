@@ -94,15 +94,15 @@ class HelpDesk extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'ticket_title';
 
-	public function save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName = false)
 	{
 		if ($with_module == 'ServiceContracts') {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
+			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
 			$serviceContract = CRMEntity::getInstance("ServiceContracts");
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmid, $relatedName);
+			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid, $relatedName);
 		}
 	}
 

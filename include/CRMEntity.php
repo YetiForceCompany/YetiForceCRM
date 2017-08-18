@@ -572,7 +572,7 @@ class CRMEntity
 	 * @param mixed Integer or Array of related module record number
 	 * @param String function name
 	 */
-	public function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $withModule, $withCrmid, $relatedName = false)
 	{
 		if (!is_array($withCrmid))
 			$withCrmid = [$withCrmid];
