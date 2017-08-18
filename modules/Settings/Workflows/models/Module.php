@@ -65,7 +65,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * Workflow triggers list
 	 * @var array
 	 */
-	static $triggerTypes = [
+	public static $triggerTypes = [
 		1 => 'ON_FIRST_SAVE',
 		4 => 'ON_MODIFY',
 		3 => 'ON_EVERY_SAVE',
@@ -177,7 +177,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * Delete all worklflows associated with module
 	 * @param vtlib\Module Instnace of module to use
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule($moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflows', ['module_name' => $moduleInstance->name])->execute();
 	}

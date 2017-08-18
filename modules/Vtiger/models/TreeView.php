@@ -10,7 +10,7 @@
 class Vtiger_TreeView_Model extends \App\Base
 {
 
-	static $_cached_instance;
+	public static $_cached_instance;
 
 	/**
 	 * Function to get the Module Name

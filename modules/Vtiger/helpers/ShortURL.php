@@ -25,7 +25,7 @@ class Vtiger_ShortURL_Helper
 	 * 	));
 	 */
 
-	static function generateURL(array $options)
+	public static function generateURL(array $options)
 	{
 		$site_URL = AppConfig::main('site_URL');
 		if (!isset($options['onetime']))
@@ -34,7 +34,7 @@ class Vtiger_ShortURL_Helper
 		return rtrim($site_URL, '/') . "/shorturl.php?id=" . $uid;
 	}
 
-	static function generate(array $options)
+	public static function generate(array $options)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -56,7 +56,7 @@ class Vtiger_ShortURL_Helper
 		return $uid;
 	}
 
-	static function handle($uid)
+	public static function handle($uid)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -85,7 +85,7 @@ class Vtiger_ShortURL_Helper
 	/**
 	 * Function will send tracker image of 1X1 pixel transparent Image 
 	 */
-	static function sendTrackerImage()
+	public static function sendTrackerImage()
 	{
 		header('Content-Type: image/png');
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
