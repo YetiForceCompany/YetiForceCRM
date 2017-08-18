@@ -19,17 +19,17 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	const READ_ONLY_PERMISSION = 0;
 	const READ_WRITE_PERMISSION = 1;
 
-	static $allPermissions = [
+	public static $allPermissions = [
 		self::READ_ONLY_PERMISSION => 'Read Only',
 		self::READ_WRITE_PERMISSION => 'Read Write'
 	];
-	static $ruleMemberToRelationMapping = [
+	public static $ruleMemberToRelationMapping = [
 		self::RULE_TYPE_GROUPS => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_GROUPS,
 		self::RULE_TYPE_ROLE => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLES,
 		self::RULE_TYPE_ROLE_AND_SUBORDINATES => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES,
 		self::RULE_TYPE_USERS => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_USERS
 	];
-	static $dataShareTableColArr = [
+	public static $dataShareTableColArr = [
 		self::RULE_TYPE_GROUPS => [
 			self::RULE_TYPE_GROUPS => [
 				'table' => 'vtiger_datashare_grp2grp',

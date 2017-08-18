@@ -12,11 +12,11 @@ class Reports_ScheduleReports_Model extends \App\Base
 {
 
 	public $scheduledFormat = 'CSV';
-	static $SCHEDULED_DAILY = 1;
-	static $SCHEDULED_WEEKLY = 2;
-	static $SCHEDULED_MONTHLY_BY_DATE = 3;
-	static $SCHEDULED_ANNUALLY = 4;
-	static $SCHEDULED_ON_SPECIFIC_DATE = 5;
+	public static $SCHEDULED_DAILY = 1;
+	public static $SCHEDULED_WEEKLY = 2;
+	public static $SCHEDULED_MONTHLY_BY_DATE = 3;
+	public static $SCHEDULED_ANNUALLY = 4;
+	public static $SCHEDULED_ON_SPECIFIC_DATE = 5;
 
 	public static function getInstance()
 	{
