@@ -1,16 +1,26 @@
 <?php
-
 /**
  * OSSMail index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
+
+/**
+ * OSSMail index view class
+ */
 class OSSMail_index_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Main url
+	 * @var string
+	 */
 	protected $mainUrl = 'modules/OSSMail/roundcube/';
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,6 +30,9 @@ class OSSMail_index_View extends Vtiger_Index_View
 		$this->mainUrl = OSSMail_Record_Model::getSiteUrl() . $this->mainUrl;
 	}
 
+	/**
+	 * Init autologin
+	 */
 	public function initAutologin()
 	{
 		$config = Settings_Mail_Config_Model::getConfig('autologin');
@@ -35,21 +48,21 @@ class OSSMail_index_View extends Vtiger_Index_View
 					$this->mainUrl .= '?';
 				}
 				$this->mainUrl .= '_autologin=1&_autologinKey=' . $key;
-				$db = PearDatabase::getInstance();
 				$currentUserModel = Users_Record_Model::getCurrentUserModel();
 				$userId = $currentUserModel->getId();
 				$params = ['language' => \App\Language::getLanguage()];
-				$db->delete('u_yf_mail_autologin', '`cuid` = ?;', [$userId]);
-				$db->insert('u_yf_mail_autologin', [
-					'key' => $key,
-					'ruid' => $rcUser['rcuser_id'],
-					'cuid' => $userId,
-					'params' => \App\Json::encode($params)
-				]);
+				$dbCommand = \App\Db::getInstance()->createCommand();
+				$dbCommand->delete('u_#__mail_autologin', ['cuid' => $userId])->execute();
+				$dbCommand->insert('u_#__mail_autologin', ['key' => $key, 'ruid' => $rcUser['rcuser_id'], 'cuid' => $userId, 'params' => \App\Json::encode($params)])->execute();
 			}
 		}
 	}
 
+	/**
+	 * Pre process
+	 * @param \App\Request $request
+	 * @param bool $display
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$this->initAutologin();
@@ -57,6 +70,10 @@ class OSSMail_index_View extends Vtiger_Index_View
 		parent::preProcess($request, $display);
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
