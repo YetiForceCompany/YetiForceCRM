@@ -98,7 +98,7 @@ class HelpDesk extends CRMEntity
 	{
 		if ($with_module == 'ServiceContracts') {
 			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmid);
-			$serviceContract = CRMEntity::getInstance("ServiceContracts");
+			$serviceContract = CRMEntity::getInstance('ServiceContracts');
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
