@@ -33,7 +33,7 @@ class TotalTasks
 	/**
 	 * Process
 	 * @param Vtiger_Record_Model $instance
-	 * @return type
+	 * @return int
 	 */
 	public function process($instance)
 	{
