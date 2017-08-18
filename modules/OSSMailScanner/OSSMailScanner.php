@@ -36,18 +36,18 @@ class OSSMailScanner
 			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
 			$moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id])->execute();
+			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();
 		} else if ($eventType === 'module.disabled') {
 			$this->turn_off($moduleName);
 			$dbCommand->update('vtiger_cron_task', ['status' => 0], ['module' => 'OSSMailScanner'])->execute();
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} else if ($eventType === 'module.enabled') {
 			$dbCommand->update('vtiger_cron_task', ['status' => 1], ['module' => 'OSSMailScanner'])->execute();
 			$this->turn_on($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} else if ($eventType === 'module.preuninstall') {
 
 		} else if ($eventType === 'module.preupdate') {
@@ -55,8 +55,8 @@ class OSSMailScanner
 		} else if ($eventType === 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
-				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-				$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+				$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
+				$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 			}
 		}
 	}
