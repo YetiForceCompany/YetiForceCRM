@@ -22,7 +22,7 @@ class Utils
 	 * Check if given value is a number or not
 	 * @param mixed String or Integer
 	 */
-	static function isNumber($value)
+	public static function isNumber($value)
 	{
 		return is_numeric($value) ? intval($value) == $value : false;
 	}
@@ -33,7 +33,7 @@ class Utils
 	 * @param Integer Number of times 
 	 * @param String suffix to use (optional)
 	 */
-	static function implodestr($prefix, $count, $suffix = false)
+	public static function implodestr($prefix, $count, $suffix = false)
 	{
 		$strvalue = '';
 		for ($index = 0; $index < $count; ++$index) {
@@ -50,7 +50,7 @@ class Utils
 	 * @param String File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
-	static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
+	public static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
 	{
 		$unsafeDirectories = array('storage', 'cache', 'test');
 		$realfilepath = realpath($filepath);
@@ -81,7 +81,7 @@ class Utils
 	 * @param String File path to check
 	 * @param Boolean False to avoid die() if check fails
 	 */
-	static function checkFileAccess($filepath, $dieOnFail = true)
+	public static function checkFileAccess($filepath, $dieOnFail = true)
 	{
 		// Set the base directory to compare with
 		$use_root_directory = \AppConfig::main('root_directory');
@@ -114,7 +114,7 @@ class Utils
 	 * @param String Log message
 	 * @param Boolean true to append end-of-line, false otherwise
 	 */
-	static function Log($message, $delimit = true)
+	public static function Log($message, $delimit = true)
 	{
 		$utilsLog = vglobal('tiger_Utils_Log');
 
@@ -135,7 +135,7 @@ class Utils
 	 * Escape the string to avoid SQL Injection attacks.
 	 * @param String Sql statement string
 	 */
-	static function SQLEscape($value)
+	public static function SQLEscape($value)
 	{
 		if ($value === null)
 			return $value;
@@ -147,7 +147,7 @@ class Utils
 	 * Check if table is present in database
 	 * @param String tablename to check
 	 */
-	static function CheckTable($tableName)
+	public static function CheckTable($tableName)
 	{
 		return \App\Db::getInstance()->isTableExists($tableName);
 	}
@@ -160,7 +160,7 @@ class Utils
 	 * <br />
 	 * will be appended to CREATE TABLE $tablename SQL
 	 */
-	static function CreateTable($tablename, $criteria, $suffixTableMeta = false)
+	public static function CreateTable($tablename, $criteria, $suffixTableMeta = false)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -203,7 +203,7 @@ class Utils
 	 * Get SQL query
 	 * @param String SQL query statement
 	 */
-	static function ExecuteQuery($sqlquery, $supressdie = false)
+	public static function ExecuteQuery($sqlquery, $supressdie = false)
 	{
 		$adb = \PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
@@ -220,7 +220,7 @@ class Utils
 	 * Get CREATE SQL for given table
 	 * @param String tablename for which CREATE SQL is requried
 	 */
-	static function CreateTableSql($tablename)
+	public static function CreateTableSql($tablename)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -234,7 +234,7 @@ class Utils
 	 * Check if the given SQL is a CREATE statement
 	 * @param String SQL String
 	 */
-	static function IsCreateSql($sql)
+	public static function IsCreateSql($sql)
 	{
 		if (preg_match('/(CREATE TABLE)/', strtoupper($sql))) {
 			return true;
