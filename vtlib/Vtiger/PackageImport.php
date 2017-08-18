@@ -539,7 +539,7 @@ class PackageImport extends PackageExport
 			} else {
 				$this->initImport($zipfile, $overwrite);
 				// Call module import function
-				$this->importModulePackage();
+				$this->importModule();
 			}
 		}
 	}
@@ -548,7 +548,7 @@ class PackageImport extends PackageExport
 	 * Import Module
 	 * @access private
 	 */
-	public function importModulePackage()
+	public function importModule()
 	{
 		$tabname = $this->_modulexml->name;
 		$tabLabel = $this->_modulexml->label;
