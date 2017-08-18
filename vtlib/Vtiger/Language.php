@@ -28,7 +28,7 @@ class Language extends LanguageImport
 	 * Function to remove language files related to a module
 	 * @param Vtiger_Module Instance of module
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule($moduleInstance)
 	{
 		$query = (new \App\Db\Query())->select(['prefix'])->from('vtiger_language');
 		foreach ($query->column() as $lang) {

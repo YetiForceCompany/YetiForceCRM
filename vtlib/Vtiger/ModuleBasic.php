@@ -431,7 +431,7 @@ class ModuleBasic
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delimit = true)
+	public static function log($message, $delimit = true)
 	{
 		Utils::Log($message, $delimit);
 	}
@@ -440,7 +440,7 @@ class ModuleBasic
 	 * Synchronize the menu information to flat file
 	 * @access private
 	 */
-	static function syncfile()
+	public static function syncfile()
 	{
 		self::log('Updating tabdata file ... ', false);
 		Deprecated::createModuleMetaFile();

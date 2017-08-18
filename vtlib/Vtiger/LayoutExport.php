@@ -22,7 +22,7 @@ class LayoutExport extends Package
 	 * Generate unique id for insertion
 	 * @access private
 	 */
-	static function __getUniqueId()
+	public static function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
@@ -125,7 +125,7 @@ class LayoutExport extends Package
 	/**
 	 * Register layout pack information.
 	 */
-	static function register($name, $label = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register($name, $label = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
@@ -161,7 +161,7 @@ class LayoutExport extends Package
 		self::log("Registering Layout $name ... DONE");
 	}
 
-	static function deregister($name)
+	public static function deregister($name)
 	{
 		if (strtolower($name) == 'basic')
 			return;

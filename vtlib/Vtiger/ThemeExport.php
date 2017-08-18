@@ -22,7 +22,7 @@ class ThemeExport extends Package
 	 * Generate unique id for insertion
 	 * @access private
 	 */
-	static function __getUniqueId()
+	public static function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
@@ -146,7 +146,7 @@ class ThemeExport extends Package
 	 * Initialize Language Schema
 	 * @access private
 	 */
-	static function __initSchema()
+	public static function __initSchema()
 	{
 		$hastable = Utils::CheckTable(self::TABLENAME);
 		if (!$hastable) {
@@ -165,7 +165,7 @@ class ThemeExport extends Package
 	/**
 	 * Register language pack information.
 	 */
-	static function register($label, $name = '', $parent = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register($label, $name = '', $parent = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
 		self::__initSchema();
 

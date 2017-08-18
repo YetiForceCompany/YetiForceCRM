@@ -769,7 +769,7 @@ class PackageExport
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
 		Utils::Log($message, $delim);
 	}
