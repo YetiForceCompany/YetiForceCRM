@@ -69,7 +69,7 @@ class iCalendar_property
 		return rfc2445_is_valid_value($value, $this->val_type);
 	}
 
-	public function default_value()
+	public function defaultValueICal()
 	{
 		return $this->val_default;
 	}
