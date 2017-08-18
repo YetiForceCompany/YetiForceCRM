@@ -1,60 +1,70 @@
 <?php
-
 /**
  * OSSMailScanner CRMEntity class
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
+
+/**
+ * OSSMailScanner CRMEntity class
+ */
 class OSSMailScanner
 {
 
+	/**
+	 * Module handler
+	 * @param string $moduleName
+	 * @param string $eventType
+	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-
-		if ($eventType == 'module.postinstall') {
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($eventType === 'module.postinstall') {
 			$this->turn_on($moduleName);
-			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='OSSMailScanner'");
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('folders', 'Received'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('folders', 'Sent'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('folders', 'Spam'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('folders', 'Trash'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('folders', 'All'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter) VALUES (?,?)", array('emailsearch', 'fields'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'email', ''));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('cron', 'time', ''));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('emailsearch', 'changeTicketStatus', 'false'));
+			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => 'OSSMailScanner'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Received'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Sent'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Spam'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Trash'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'All'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'emailsearch', 'parameter' => 'fields'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'cron', 'parameter' => 'email', 'value' => ''])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'cron', 'parameter' => 'time', 'value' => ''])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'emailsearch', 'parameter' => 'changeTicketStatus', 'value' => 'false'])->execute();
 			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
 			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
 			$moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = vtlib\Module::getInstance($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
-		} else if ($eventType == 'module.disabled') {
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id])->execute();
+		} else if ($eventType === 'module.disabled') {
 			$this->turn_off($moduleName);
-			$adb->pquery('UPDATE vtiger_cron_task SET status=0 WHERE module=?', array('OSSMailScanner'));
+			$dbCommand->update('vtiger_cron_task', ['status' => 0], ['module' => 'OSSMailScanner'])->execute();
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} else if ($eventType == 'module.enabled') {
-			$adb->pquery('UPDATE vtiger_cron_task SET status=1 WHERE module=?', array('OSSMailScanner'));
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+		} else if ($eventType === 'module.enabled') {
+			$dbCommand->update('vtiger_cron_task', ['status' => 1], ['module' => 'OSSMailScanner'])->execute();
 			$this->turn_on($moduleName);
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			$adb = PearDatabase::getInstance();
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
 				$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-				App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+				$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 			}
 		}
 	}
 
+	/**
+	 * Turn on
+	 * @param string $moduleName
+	 */
 	public function turn_on($moduleName)
 	{
 		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
@@ -71,10 +81,14 @@ class OSSMailScanner
 		]);
 	}
 
+	/**
+	 * Turn off
+	 * @param string $moduleName
+	 */
 	public function turn_off($moduleName)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Scanner'));
-		$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array('Mail Logs'));
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->delete('vtiger_settings_field', ['name' => 'Mail Scanner'])->execute();
+		$dbCommand->delete('vtiger_settings_field', ['name' => 'Mail Logs'])->execute();
 	}
 }
