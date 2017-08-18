@@ -34,8 +34,7 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
 		$dataReader = $query->createCommand()->query();
 		while ($crmId = $dataReader->readColumn(0)) {
-			$type = \App\Record::getType($crmId);
-			if ($type === $this->moduleName) {
+			if (\App\Record::getType($crmId) === $this->moduleName) {
 				$returnIds[] = $crmId;
 			}
 		}
