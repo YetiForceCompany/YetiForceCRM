@@ -7,7 +7,7 @@
  */
 
 /**
- * TotalTasks class
+ * Summary block gets tasks count
  */
 class TotalTasks
 {
