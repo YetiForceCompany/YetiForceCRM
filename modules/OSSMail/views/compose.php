@@ -41,7 +41,7 @@ class OSSMail_compose_View extends OSSMail_index_View
 
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dbCommand->delete('u_#__mail_compose_data', ['userid' => $currentUser->getId()])->execute();
-		$dbCommand->insert('u_#__mail_compose_data', ['key' => $key, 'userid' => $currentUser->getId(), 'data' => json_encode($params)])->execute();
+		$dbCommand->insert('u_#__mail_compose_data', ['key' => $key, 'userid' => $currentUser->getId(), 'data' => \App\Json::encode($params)])->execute();
 		$this->mainUrl .= '&_composeKey=' . $key;
 		header('Location: ' . $this->mainUrl);
 	}
