@@ -315,34 +315,13 @@ class LettersIn extends CRMEntity
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
 			$dbCommand = \App\Db::getInstance()->createCommand();
-			$dbCommand->update('vtiger_tab', [
-					'customized' => 0,
-					], ['name' => $moduleName])
-				->execute();
-			$dbCommand->update('vtiger_field', [
-					'summaryfield' => 1,
-					], ['tablename' => 'vtiger_lettersin', 'columnname' => 'title'])
-				->execute();
-			$dbCommand->update('vtiger_field', [
-					'summaryfield' => 1,
-					], ['tablename' => 'vtiger_lettersin', 'columnname' => 'smownerid'])
-				->execute();
-			$dbCommand->update('vtiger_field', [
-					'summaryfield' => 1,
-					], ['tablename' => 'vtiger_lettersin', 'columnname' => 'lin_type_ship'])
-				->execute();
-			$dbCommand->update('vtiger_field', [
-					'summaryfield' => 1,
-					], ['tablename' => 'vtiger_lettersin', 'columnname' => 'lin_type_doc'])
-				->execute();
-			$dbCommand->update('vtiger_field', [
-					'summaryfield' => 1,
-					], ['tablename' => 'vtiger_lettersin', 'columnname' => 'date_adoption'])
-				->execute();
-			$dbCommand->update('vtiger_field', [
-					'summaryfield' => 1,
-					], ['tablename' => 'vtiger_lettersin', 'columnname' => 'relatedid'])
-				->execute();
+			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
+			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersin', 'columnname' => 'title'])->execute();
+			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersin', 'columnname' => 'smownerid'])->execute();
+			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersin', 'columnname' => 'lin_type_ship'])->execute();
+			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersin', 'columnname' => 'lin_type_doc'])->execute();
+			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersin', 'columnname' => 'date_adoption'])->execute();
+			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersin', 'columnname' => 'relatedid'])->execute();
 		} else if ($eventType === 'module.disabled') {
 
 		} else if ($eventType === 'module.enabled') {
