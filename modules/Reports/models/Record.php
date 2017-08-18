@@ -1014,7 +1014,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		}
 
 		$this->reportRun = ReportRun::getInstance($this->getId());
-		$filterQuery = $this->reportRun->RunTimeAdvFilter($advancedFilterCriteria, $advancedFilterCriteriaGroup);
+		$filterQuery = $this->reportRun->runTimeAdvFilter($advancedFilterCriteria, $advancedFilterCriteriaGroup);
 		return $filterQuery;
 	}
 

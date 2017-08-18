@@ -648,7 +648,7 @@ class CRMEntity
 	 * @param String Related module name
 	 * @param mixed Integer or Array of related module record number
 	 */
-	public function delete_related_module($module, $crmid, $withModule, $withCrmid)
+	public function deleteRelatedModule($module, $crmid, $withModule, $withCrmid)
 	{
 		$db = PearDatabase::getInstance();
 		if (!is_array($withCrmid))

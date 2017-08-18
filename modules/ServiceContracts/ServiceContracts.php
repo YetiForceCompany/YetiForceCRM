@@ -568,9 +568,9 @@ class ServiceContracts extends CRMEntity
 	 * NOTE: This function has been added to CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
-	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
 	{
-		parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
+		parent::deleteRelatedModule($module, $crmid, $with_module, $with_crmid);
 		if ($with_module == 'HelpDesk') {
 			$this->updateServiceContractState($crmid);
 		}
