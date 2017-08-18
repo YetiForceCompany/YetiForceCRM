@@ -387,12 +387,12 @@ class Project extends CRMEntity
 	 * This is done because the related lists for this module use a custom query
 	 * that queries the child module's table (column of the uitype10 field)
 	 *
-	 * @see data/CRMEntity#delete_related_module($module, $crmid, $with_module, $with_crmid)
+	 * @see data/CRMEntity#deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
 	 */
-	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
 	{
 		if (!in_array($with_module, array('ProjectMilestone', 'ProjectTask'))) {
-			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
+			parent::deleteRelatedModule($module, $crmid, $with_module, $with_crmid);
 			return;
 		}
 		$destinationModule = \App\Request::_get('destination_module');

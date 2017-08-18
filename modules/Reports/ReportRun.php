@@ -1355,44 +1355,13 @@ class ReportRun extends CRMEntity
 		return $stdfilterlist;
 	}
 
-	/** Function to get the RunTime filter columns for the given $filtercolumn,$filter,$startdate,$enddate
-	 *  @ param $filtercolumn : Type String
-	 *  @ param $filter : Type String
-	 *  @ param $startdate: Type String
-	 *  @ param $enddate : Type String
-	 *  This function returns  $stdfilterlist Array($columnname => $tablename:$columnname:$fieldlabel=>$tablename.$columnname 'between' $startdate 'and' $enddate)
-	 *
-	 */
-	public function RunTimeFilter($filtercolumn, $filter, $startdate, $enddate)
-	{
-		if ($filtercolumn != "none") {
-			$selectedfields = explode(":", $filtercolumn);
-			if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule)
-				$selectedfields[0] = "vtiger_crmentity";
-			if ($filter == "custom") {
-				if ($startdate != "0000-00-00" && $enddate != "0000-00-00" && $startdate != "" &&
-					$enddate != "" && $selectedfields[0] != "" && $selectedfields[1] != "") {
-					$stdfilterlist[$filtercolumn] = $selectedfields[0] . "." . $selectedfields[1] . " between '" . $startdate . " 00:00:00' and '" . $enddate . " 23:59:00'";
-				}
-			} else {
-				if ($startdate != "" && $enddate != "") {
-					$startenddate = $this->getStandarFiltersStartAndEndDate($filter);
-					if ($startenddate[0] != "" && $startenddate[1] != "" && $selectedfields[0] != "" && $selectedfields[1] != "") {
-						$stdfilterlist[$filtercolumn] = $selectedfields[0] . "." . $selectedfields[1] . " between '" . $startenddate[0] . " 00:00:00' and '" . $startenddate[1] . " 23:59:00'";
-					}
-				}
-			}
-		}
-		return $stdfilterlist;
-	}
-
 	/** Function to get the RunTime Advanced filter conditions
 	 *  @ param $advft_criteria : Type Array
 	 *  @ param $advft_criteria_groups : Type Array
 	 *  This function returns  $advfiltersql
 	 *
 	 */
-	public function RunTimeAdvFilter($advft_criteria, $advft_criteria_groups)
+	public function runTimeAdvFilter($advft_criteria, $advft_criteria_groups)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -1596,17 +1565,17 @@ class ReportRun extends CRMEntity
 				} else {
 					$sqlvalue = "`" . self::replaceSpecialChar($selectedfields[2]) . "` " . $sortorder;
 				}
-				if ($selectedfields[4] == "D" && strtolower($reportsortrow["dategroupbycriteria"]) != "none") {
+				if ($selectedfields[4] == 'D' && strtolower($reportsortrow['dategroupbycriteria']) != 'none') {
 					$groupField = $module_field;
-					$groupCriteria = $reportsortrow["dategroupbycriteria"];
+					$groupCriteria = $reportsortrow['dategroupbycriteria'];
 					if (in_array($groupCriteria, array_keys($this->groupByTimeParent))) {
 						$parentCriteria = $this->groupByTimeParent[$groupCriteria];
 						foreach ($parentCriteria as $criteria) {
-							$groupByCondition[] = $this->GetTimeCriteriaCondition($criteria, $groupField) . " " . $sortorder;
+							$groupByCondition[] = $this->getTimeCriteriaCondition($criteria, $groupField) . ' ' . $sortorder;
 						}
 					}
-					$groupByCondition[] = $this->GetTimeCriteriaCondition($groupCriteria, $groupField) . " " . $sortorder;
-					$sqlvalue = implode(", ", $groupByCondition);
+					$groupByCondition[] = $this->getTimeCriteriaCondition($groupCriteria, $groupField) . ' ' . $sortorder;
+					$sqlvalue = implode(', ', $groupByCondition);
 				}
 				$grouplist[$fieldcolname] = $sqlvalue;
 				$temp = explode('__', $selectedfields[2], 2);
@@ -2239,7 +2208,7 @@ class ReportRun extends CRMEntity
 		$reportquery = $instance->listQueryNonAdminChange($reportquery, '');
 		if (trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL') {
 			if ($chartReport === true) {
-				$reportquery .= sprintf(' group by %s', $this->GetFirstSortByField($reportid));
+				$reportquery .= sprintf(' group by %s', $this->getFirstSortByField($reportid));
 			} else {
 				$reportquery .= sprintf(' order by %s', $groupsquery);
 			}
@@ -2305,7 +2274,7 @@ class ReportRun extends CRMEntity
 	 * 		HTML strings for
 	 */
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
-	public function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
+	public function generateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -3438,18 +3407,18 @@ class ReportRun extends CRMEntity
 			if (in_array($groupCriteria, array_keys($this->groupByTimeParent))) {
 				$parentCriteria = $this->groupByTimeParent[$groupCriteria];
 				foreach ($parentCriteria as $criteria) {
-					$groupByCondition[] = $this->GetTimeCriteriaCondition($criteria, $groupField);
+					$groupByCondition[] = $this->getTimeCriteriaCondition($criteria, $groupField);
 				}
 			}
-			$groupByCondition[] = $this->GetTimeCriteriaCondition($groupCriteria, $groupField);
+			$groupByCondition[] = $this->getTimeCriteriaCondition($groupCriteria, $groupField);
 			$this->queryPlanner->addTable($tablename);
 		}
 		return $groupByCondition;
 	}
 
-	public function GetTimeCriteriaCondition($criteria, $dateField)
+	public function getTimeCriteriaCondition($criteria, $dateField)
 	{
-		$condition = "";
+		$condition = '';
 		if (strtolower($criteria) == 'year') {
 			$condition = "DATE_FORMAT($dateField, '%Y' )";
 		} else if (strtolower($criteria) == 'month') {
@@ -3460,7 +3429,7 @@ class ReportRun extends CRMEntity
 		return $condition;
 	}
 
-	public function GetFirstSortByField($reportid)
+	public function getFirstSortByField($reportid)
 	{
 		$adb = PearDatabase::getInstance();
 		$groupByField = "";
@@ -3480,15 +3449,15 @@ class ReportRun extends CRMEntity
 					if (in_array($groupCriteria, array_keys($this->groupByTimeParent))) {
 						$parentCriteria = $this->groupByTimeParent[$groupCriteria];
 						foreach ($parentCriteria as $criteria) {
-							$groupByCondition[] = $this->GetTimeCriteriaCondition($criteria, $groupByField);
+							$groupByCondition[] = $this->getTimeCriteriaCondition($criteria, $groupByField);
 						}
 					}
-					$groupByCondition[] = $this->GetTimeCriteriaCondition($groupCriteria, $groupByField);
-					$groupByField = implode(", ", $groupByCondition);
+					$groupByCondition[] = $this->getTimeCriteriaCondition($groupCriteria, $groupByField);
+					$groupByField = implode(', ', $groupByCondition);
 				}
 			} elseif (!\App\Field::getFieldPermission($modulename, $fieldname)) {
 				if (!(in_array($modulename, $inventoryModules) && $fieldname === 'serviceid')) {
-					$groupByField = $tablename . "." . $colname;
+					$groupByField = $tablename . '.' . $colname;
 				}
 			}
 		}
