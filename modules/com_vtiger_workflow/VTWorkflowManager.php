@@ -24,55 +24,55 @@ class VTWorkflowManager
 	 * Once
 	 * @var int
 	 */
-	static $ONCE = 2;
+	public static $ONCE = 2;
 
 	/**
 	 * On every save
 	 * @var int
 	 */
-	static $ON_EVERY_SAVE = 3;
+	public static $ON_EVERY_SAVE = 3;
 
 	/**
 	 * On modify
 	 * @var int
 	 */
-	static $ON_MODIFY = 4;
+	public static $ON_MODIFY = 4;
 
 	/**
 	 * On delete
 	 * @var int
 	 */
-	static $ON_DELETE = 5;
+	public static $ON_DELETE = 5;
 
 	/**
 	 * On schedule
 	 * @var int
 	 */
-	static $ON_SCHEDULE = 6;
+	public static $ON_SCHEDULE = 6;
 
 	/**
 	 * Manual
 	 * @var int
 	 */
-	static $MANUAL = 7;
+	public static $MANUAL = 7;
 
 	/**
 	 * Trigger
 	 * @var int
 	 */
-	static $TRIGGER = 8;
+	public static $TRIGGER = 8;
 
 	/**
 	 * Block edit
 	 * @var int
 	 */
-	static $BLOCK_EDIT = 9;
+	public static $BLOCK_EDIT = 9;
 
 	/**
 	 * On related
 	 * @var int
 	 */
-	static $ON_RELATED = 10;
+	public static $ON_RELATED = 10;
 
 	/**
 	 * Save workflow data
@@ -380,43 +380,43 @@ class Workflow
 	 * Scheduled hourly
 	 * @var int
 	 */
-	static $SCHEDULED_HOURLY = 1;
+	public static $SCHEDULED_HOURLY = 1;
 
 	/**
 	 * Scheduled daily
 	 * @var int
 	 */
-	static $SCHEDULED_DAILY = 2;
+	public static $SCHEDULED_DAILY = 2;
 
 	/**
 	 * Scheduled weekly
 	 * @var int
 	 */
-	static $SCHEDULED_WEEKLY = 3;
+	public static $SCHEDULED_WEEKLY = 3;
 
 	/**
 	 * Scheduled on specific date
 	 * @var int
 	 */
-	static $SCHEDULED_ON_SPECIFIC_DATE = 4;
+	public static $SCHEDULED_ON_SPECIFIC_DATE = 4;
 
 	/**
 	 * Scheduled monthly by date
 	 * @var int
 	 */
-	static $SCHEDULED_MONTHLY_BY_DATE = 5;
+	public static $SCHEDULED_MONTHLY_BY_DATE = 5;
 
 	/**
 	 * Scheduled monthly by weekday
 	 * @var int
 	 */
-	static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
+	public static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
 
 	/**
 	 * Scheduled annually
 	 * @var int
 	 */
-	static $SCHEDULED_ANNUALLY = 7;
+	public static $SCHEDULED_ANNUALLY = 7;
 
 	/**
 	 * Constructor

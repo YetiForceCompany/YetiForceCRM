@@ -370,7 +370,7 @@ class Project extends CRMEntity
 		}
 	}
 
-	static function registerLinks()
+	public static function registerLinks()
 	{
 		
 	}

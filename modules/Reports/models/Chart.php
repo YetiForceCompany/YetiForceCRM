@@ -323,7 +323,7 @@ abstract class Base_Chart extends \App\Base
 		return $listURL;
 	}
 
-	abstract function generateData();
+	abstract public function generateData();
 
 	public function getQuery()
 	{

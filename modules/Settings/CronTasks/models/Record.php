@@ -11,10 +11,10 @@
 class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 {
 
-	static $STATUS_DISABLED = 0;
-	static $STATUS_ENABLED = 1;
-	static $STATUS_RUNNING = 2;
-	static $STATUS_COMPLETED = 3;
+	public static $STATUS_DISABLED = 0;
+	public static $STATUS_ENABLED = 1;
+	public static $STATUS_RUNNING = 2;
+	public static $STATUS_COMPLETED = 3;
 
 	/**
 	 * Function to get Id of this record instance

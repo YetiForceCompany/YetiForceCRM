@@ -28,7 +28,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 		return new Settings_PBXManager_Module_Model;
 	}
 
-	static function getCleanInstance()
+	public static function getCleanInstance()
 	{
 		return new self;
 	}

@@ -12,13 +12,13 @@ Vtiger_Loader::includeOnce('~modules/Reports/Reports.php');
 class Vtiger_Report_Model extends Reports
 {
 
-	static function getInstance($reportId = "")
+	public static function getInstance($reportId = '')
 	{
 		$self = new self();
 		return $self->Reports($reportId);
 	}
 
-	public function Reports($reportId = "")
+	public function Reports($reportId = '')
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();

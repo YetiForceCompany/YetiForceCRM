@@ -111,7 +111,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	 * Array with instances, kay as number id element of menu
 	 * @var array 
 	 */
-	static $cacheInstance = false;
+	public static $cacheInstance = false;
 
 	/**
 	 * Static Function to get the instance of Settings Menu model for given menu id
