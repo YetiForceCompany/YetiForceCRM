@@ -539,7 +539,7 @@ class PackageImport extends PackageExport
 			} else {
 				$this->initImport($zipfile, $overwrite);
 				// Call module import function
-				$this->import_Module();
+				$this->importModulePackage();
 			}
 		}
 	}
@@ -548,7 +548,7 @@ class PackageImport extends PackageExport
 	 * Import Module
 	 * @access private
 	 */
-	public function import_Module()
+	public function importModulePackage()
 	{
 		$tabname = $this->_modulexml->name;
 		$tabLabel = $this->_modulexml->label;
@@ -583,19 +583,19 @@ class PackageImport extends PackageExport
 			$moduleInstance->initWebservice();
 			$this->moduleInstance = $moduleInstance;
 
-			$this->import_Tables($this->_modulexml);
-			$this->import_Blocks($this->_modulexml, $moduleInstance);
+			$this->importTables($this->_modulexml);
+			$this->importBlocks($this->_modulexml, $moduleInstance);
 			$this->importInventory();
-			$this->import_CustomViews($this->_modulexml, $moduleInstance);
-			$this->import_SharingAccess($this->_modulexml, $moduleInstance);
-			$this->import_Events($this->_modulexml, $moduleInstance);
-			$this->import_Actions($this->_modulexml, $moduleInstance);
-			$this->import_RelatedLists($this->_modulexml, $moduleInstance);
-			$this->import_CustomLinks($this->_modulexml, $moduleInstance);
-			$this->import_CronTasks($this->_modulexml);
+			$this->importCustomViews($this->_modulexml, $moduleInstance);
+			$this->importSharingAccess($this->_modulexml, $moduleInstance);
+			$this->importEvents($this->_modulexml, $moduleInstance);
+			$this->importActions($this->_modulexml, $moduleInstance);
+			$this->importRelatedLists($this->_modulexml, $moduleInstance);
+			$this->importCustomLinks($this->_modulexml, $moduleInstance);
+			$this->importCronTasks($this->_modulexml);
 			Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_POSTINSTALL);
 		} else {
-			$this->import_update($this->_modulexml);
+			$this->importUpdate($this->_modulexml);
 		}
 	}
 
@@ -603,7 +603,7 @@ class PackageImport extends PackageExport
 	 * Import Tables of the module
 	 * @access private
 	 */
-	public function import_Tables($modulenode)
+	public function importTables($modulenode)
 	{
 		if (empty($modulenode->tables) || empty($modulenode->tables->table))
 			return;
@@ -638,13 +638,13 @@ class PackageImport extends PackageExport
 	 * Import Blocks of the module
 	 * @access private
 	 */
-	public function import_Blocks($modulenode, $moduleInstance)
+	public function importBlocks($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->blocks) || empty($modulenode->blocks->block))
 			return;
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$blockInstance = $this->import_Block($modulenode, $moduleInstance, $blocknode);
-			$this->import_Fields($blocknode, $blockInstance, $moduleInstance);
+			$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
+			$this->importFields($blocknode, $blockInstance, $moduleInstance);
 		}
 	}
 
@@ -652,7 +652,7 @@ class PackageImport extends PackageExport
 	 * Import Block of the module
 	 * @access private
 	 */
-	public function import_Block($modulenode, $moduleInstance, $blocknode)
+	public function importBlock($modulenode, $moduleInstance, $blocknode)
 	{
 		$blocklabel = $blocknode->label;
 
@@ -681,13 +681,13 @@ class PackageImport extends PackageExport
 	 * Import Fields of the module
 	 * @access private
 	 */
-	public function import_Fields($blocknode, $blockInstance, $moduleInstance)
+	public function importFields($blocknode, $blockInstance, $moduleInstance)
 	{
 		if (empty($blocknode->fields) || empty($blocknode->fields->field))
 			return;
 
 		foreach ($blocknode->fields->field as $fieldnode) {
-			$this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
+			$this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 		}
 	}
 
@@ -695,7 +695,7 @@ class PackageImport extends PackageExport
 	 * Import Field of the module
 	 * @access private
 	 */
-	public function import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode)
+	public function importField($blocknode, $blockInstance, $moduleInstance, $fieldnode)
 	{
 		$fieldInstance = new Field();
 		$fieldInstance->name = (string) $fieldnode->fieldname;
@@ -771,12 +771,12 @@ class PackageImport extends PackageExport
 	 * Import Custom views of the module
 	 * @access private
 	 */
-	public function import_CustomViews($modulenode, $moduleInstance)
+	public function importCustomViews($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
+			$this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 		}
 	}
 
@@ -784,7 +784,7 @@ class PackageImport extends PackageExport
 	 * Import Custom View of the module
 	 * @access private
 	 */
-	public function import_CustomView($modulenode, $moduleInstance, $customviewnode)
+	public function importCustomView($modulenode, $moduleInstance, $customviewnode)
 	{
 		$filterInstance = new Filter();
 		$filterInstance->name = $customviewnode->viewname;
@@ -815,7 +815,7 @@ class PackageImport extends PackageExport
 	 * Import Sharing Access of the module
 	 * @access private
 	 */
-	public function import_SharingAccess($modulenode, $moduleInstance)
+	public function importSharingAccess($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->sharingaccess))
 			return;
@@ -831,7 +831,7 @@ class PackageImport extends PackageExport
 	 * Import Events of the module
 	 * @access private
 	 */
-	public function import_Events($modulenode, $moduleInstance)
+	public function importEvents($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
@@ -846,12 +846,12 @@ class PackageImport extends PackageExport
 	 * Import actions of the module
 	 * @access private
 	 */
-	public function import_Actions($modulenode, $moduleInstance)
+	public function importActions($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->actions) || empty($modulenode->actions->action))
 			return;
 		foreach ($modulenode->actions->action as $actionnode) {
-			$this->import_Action($modulenode, $moduleInstance, $actionnode);
+			$this->importAction($modulenode, $moduleInstance, $actionnode);
 		}
 	}
 
@@ -859,7 +859,7 @@ class PackageImport extends PackageExport
 	 * Import action of the module
 	 * @access private
 	 */
-	public function import_Action($modulenode, $moduleInstance, $actionnode)
+	public function importAction($modulenode, $moduleInstance, $actionnode)
 	{
 		$actionstatus = (string) $actionnode->status;
 		if ($actionstatus === 'enabled') {
@@ -873,16 +873,16 @@ class PackageImport extends PackageExport
 	 * Import related lists of the module
 	 * @access private
 	 */
-	public function import_RelatedLists($modulenode, $moduleInstance)
+	public function importRelatedLists($modulenode, $moduleInstance)
 	{
 		if (!empty($modulenode->relatedlists) && !empty($modulenode->relatedlists->relatedlist)) {
 			foreach ($modulenode->relatedlists->relatedlist as $relatedlistnode) {
-				$this->import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode);
+				$this->importRelatedlist($modulenode, $moduleInstance, $relatedlistnode);
 			}
 		}
 		if (!empty($modulenode->inrelatedlists) && !empty($modulenode->inrelatedlists->inrelatedlist)) {
 			foreach ($modulenode->inrelatedlists->inrelatedlist as $inRelatedListNode) {
-				$this->import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode);
+				$this->importInRelatedlist($modulenode, $moduleInstance, $inRelatedListNode);
 			}
 		}
 	}
@@ -891,7 +891,7 @@ class PackageImport extends PackageExport
 	 * Import related list of the module.
 	 * @access private
 	 */
-	public function import_Relatedlist($modulenode, $moduleInstance, $relatedlistnode)
+	public function importRelatedlist($modulenode, $moduleInstance, $relatedlistnode)
 	{
 		$relModuleInstance = Module::getInstance($relatedlistnode->relatedmodule);
 		$label = $relatedlistnode->label;
@@ -908,7 +908,7 @@ class PackageImport extends PackageExport
 		return $relModuleInstance;
 	}
 
-	public function import_InRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
+	public function importInRelatedlist($modulenode, $moduleInstance, $inRelatedListNode)
 	{
 		$inRelModuleInstance = Module::getInstance($inRelatedListNode->inrelatedmodule);
 		$label = $inRelatedListNode->label;
@@ -929,7 +929,7 @@ class PackageImport extends PackageExport
 	 * Import custom links of the module.
 	 * @access private
 	 */
-	public function import_CustomLinks($modulenode, $moduleInstance)
+	public function importCustomLinks($modulenode, $moduleInstance)
 	{
 		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
 			return;
@@ -952,7 +952,7 @@ class PackageImport extends PackageExport
 	 * Import cron jobs of the module.
 	 * @access private
 	 */
-	public function import_CronTasks($modulenode)
+	public function importCronTasks($modulenode)
 	{
 		if (empty($modulenode->crons) || empty($modulenode->crons->cron))
 			return;
@@ -969,7 +969,7 @@ class PackageImport extends PackageExport
 		}
 	}
 
-	public function import_update($modulenode)
+	public function importUpdate($modulenode)
 	{
 		$dirName = 'cache/updates';
 		$result = false;
