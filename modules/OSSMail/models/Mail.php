@@ -144,7 +144,7 @@ class OSSMail_Mail_Model extends \App\Base
 		$notFound = 0;
 		if (!empty($emails)) {
 			foreach (explode(',', $emails) as $email) {
-				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['email' => $email])->scalar();
+				$result = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['email1' => $email])->scalar();
 				if ($result) {
 					$return[] = $result;
 				} else {
