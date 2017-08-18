@@ -210,7 +210,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function update_Tables($modulenode)
 	{
-		$this->import_Tables($modulenode);
+		$this->importTables($modulenode);
 	}
 
 	/**
@@ -226,7 +226,7 @@ class PackageUpdate extends PackageImport
 			$this->listBlocks[] = strval($blocknode->label);
 			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance);
 			if (!$blockInstance) {
-				$blockInstance = $this->import_Block($modulenode, $moduleInstance, $blocknode);
+				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
 				$this->update_Block($modulenode, $moduleInstance, $blocknode, $blockInstance);
 			}
@@ -279,7 +279,7 @@ class PackageUpdate extends PackageImport
 			$this->listFields[] = strval($fieldnode->fieldname);
 			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
 			if (!$fieldInstance) {
-				$fieldInstance = $this->import_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode);
+				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
 			} else {
 				$this->update_Field($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance);
 			}
@@ -384,7 +384,7 @@ class PackageUpdate extends PackageImport
 		foreach ($modulenode->customviews->customview as $customviewnode) {
 			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance);
 			if (!$filterInstance) {
-				$filterInstance = $this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
+				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
 				$this->update_CustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance);
 			}
@@ -399,7 +399,7 @@ class PackageUpdate extends PackageImport
 	{
 
 		$filterInstance->delete();
-		$this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
+		$this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 	}
 
 	/**
@@ -514,7 +514,7 @@ class PackageUpdate extends PackageImport
 		if (empty($modulenode->customlinks) || empty($modulenode->customlinks->customlink))
 			return;
 		Link::deleteAll($moduleInstance->id);
-		$this->import_CustomLinks($modulenode, $moduleInstance);
+		$this->importCustomLinks($modulenode, $moduleInstance);
 	}
 
 	public function update_CronTasks($modulenode)
