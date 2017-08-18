@@ -7,7 +7,7 @@
  */
 
 /**
- * Oss mail autologin model
+ * OSSMail autologin model class
  */
 class OSSMail_Autologin_Model
 {
