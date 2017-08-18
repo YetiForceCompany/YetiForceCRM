@@ -15,7 +15,7 @@ class Vtiger_ModuleMeta_Model extends \App\Base
 	public $moduleName = false;
 	public $webserviceMeta = false;
 	public $user;
-	static $_cached_module_meta;
+	public static $_cached_module_meta;
 
 	/**
 	 * creates an instance of Vtiger_ModuleMeta_Model

@@ -81,7 +81,7 @@ class FieldBasic
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
-	static $__cacheSchemaChanges = [];
+	public static $__cacheSchemaChanges = [];
 
 	/**
 	 * Get unique id for this instance
@@ -316,7 +316,7 @@ class FieldBasic
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
 		Utils::Log($message, $delim);
 	}

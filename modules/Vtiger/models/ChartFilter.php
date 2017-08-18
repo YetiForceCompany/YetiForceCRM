@@ -19,7 +19,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return '&search_params=' . json_encode([[[$column, 'e', $value]]]);
 	}
 
-	static function getInstance($linkId = 0, $userId = 0)
+	public static function getInstance($linkId = 0, $userId = 0)
 	{
 		return new self();
 	}
