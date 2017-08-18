@@ -91,20 +91,6 @@ class PackageImport extends PackageExport
 	}
 
 	/**
-	 * Get the value of matching path (instead of complete xpath result)
-	 * @param String Path expression for which value is required
-	 */
-	public function xpath_value($path)
-	{
-		$xpathres = $this->xpath($path);
-		foreach ($xpathres as $pathkey => $pathvalue) {
-			if ($pathkey == $path)
-				return $pathvalue;
-		}
-		return false;
-	}
-
-	/**
 	 * Are we trying to import language package?
 	 */
 	public function isLanguageType($zipfile = null)
