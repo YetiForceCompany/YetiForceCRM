@@ -31,12 +31,12 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 			return 0;
 		}
 		$returnIds = [];
-		$query = $crmId = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
+		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
 		$dataReader = $query->createCommand()->query();
-		while ($crmid = $dataReader->readColumn(0)) {
-			$type = \App\Record::getType($crmid);
+		while ($crmId = $dataReader->readColumn(0)) {
+			$type = \App\Record::getType($crmId);
 			if ($type === $this->moduleName) {
-				$returnIds[] = $crmid;
+				$returnIds[] = $crmId;
 			}
 		}
 		if (!empty($returnIds)) {
