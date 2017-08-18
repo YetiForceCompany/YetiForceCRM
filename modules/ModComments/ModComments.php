@@ -29,11 +29,7 @@ class ModComments extends ModCommentsCore
 		if ($eventType === 'module.postinstall') {
 			self::addWidgetTo(['Leads', 'Contacts', 'Accounts', 'Project', 'ProjectTask']);
 			// Mark the module as Standard module
-			\App\Db::getInstance()->createCommand()
-				->update('vtiger_tab', [
-					'customized' => 0,
-					], ['name' => $moduleName])
-				->execute();
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0,], ['name' => $moduleName])->execute();
 		} elseif ($eventType === 'module.postupdate') {
 
 		}
@@ -46,11 +42,7 @@ class ModComments extends ModCommentsCore
 	 */
 	public static function transferRecords($currentParentId, $targetParentId)
 	{
-		\App\Db::getInstance()->createCommand()
-			->update('vtiger_modcomments', [
-				'related_to' => $targetParentId,
-				], ['related_to' => $currentParentId])
-			->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_modcomments', ['related_to' => $targetParentId], ['related_to' => $currentParentId])->execute();
 	}
 
 	/**
