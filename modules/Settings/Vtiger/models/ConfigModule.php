@@ -114,7 +114,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get editable fields
-	 * @return <Array> list of field names
+	 * @return array list of field names
 	 */
 	public function getEditableFields()
 	{
@@ -145,7 +145,6 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		$validationInfo = $this->validateFieldValues($updatedFields);
 		if ($validationInfo === true) {
 			foreach ($updatedFields as $fieldName => $fieldValue) {
-				$patternString = "\$%s = %s;";
 				if ($fieldName === 'upload_maxsize') {
 					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
 				} else if (in_array($fieldName, ['title_max_length', 'listview_max_textlength', 'listMaxEntriesMassEdit', 'list_max_entries_per_page', 'MINIMUM_CRON_FREQUENCY', 'href_max_length'])) {
@@ -153,9 +152,8 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				} else if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView', 'backgroundClosingModal', 'breadcrumbs'])) {
 					$fieldValue = strcasecmp('true', (string) $fieldValue) === 0;
 				}
-				$pattern = '/\$' . $fieldName . '[\s]+=([^;]+);/';
-				$replacement = sprintf($patternString, $fieldName, \vtlib\Functions::varExportMin($fieldValue));
-				$fileContent = preg_replace($pattern, $replacement, $fileContent);
+				$replacement = sprintf("\$%s = %s;", $fieldName, \vtlib\Functions::varExportMin($fieldValue));
+				$fileContent = preg_replace('/\$' . $fieldName . '[\s]+=([^;]+);/', $replacement, $fileContent);
 			}
 			$filePointer = fopen($this->fileName, 'w');
 			fwrite($filePointer, $fileContent);
