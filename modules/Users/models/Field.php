@@ -44,18 +44,21 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getFieldDataType()
 	{
-		if ($this->get('uitype') == 99) {
-			return 'password';
-		} else if (in_array($this->get('uitype'), array(32, 115))) {
-			return 'picklist';
-		} else if ($this->get('uitype') == 101) {
-			return 'userReference';
-		} else if ($this->get('uitype') == 98) {
-			return 'userRole';
-		} elseif ($this->get('uitype') == 105) {
-			return 'image';
-		} else if ($this->get('uitype') == 31) {
-			return 'theme';
+		switch ($this->get('uitype')) {
+			case 99:
+				return 'password';
+			case 115:
+				return 'picklist';
+			case 98:
+				return 'userRole';
+			case 101:
+				return 'userReference';
+			case 105:
+				return 'image';
+			case 31:
+				return 'theme';
+			default:
+				break;
 		}
 		return parent::getFieldDataType();
 	}
@@ -79,9 +82,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
-		if ($this->get('uitype') == 32) {
-			return Vtiger_Language_Handler::getAllLanguages();
-		} else if ($this->get('uitype') == '115') {
+		if ($this->get('uitype') == '115') {
 			$fieldPickListValues = [];
 			$query = (new \App\Db\Query())->select([$this->getFieldName()])->from('vtiger_' . $this->getFieldName());
 			$dataReader = $query->createCommand($db)->query();
@@ -110,9 +111,6 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($this->get('uitype') === 32) {
-			return \App\Language::getLanguageLabel($value);
-		}
 		$fieldName = $this->getFieldName();
 		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
 			return \App\Language::translate('LBL_SPACE', 'Users');
