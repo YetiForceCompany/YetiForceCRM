@@ -17,7 +17,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to read config file
-	 * @return <Array> The data of config file
+	 * @return array The data of config file
 	 */
 	public function readFile()
 	{
@@ -59,7 +59,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to get Viewable data of config details
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getViewableData()
 	{
@@ -125,7 +125,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),
 			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'),
 			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox'],
-			'title_max_length ' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input'],
+			'title_max_length' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input'],
 			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input'],
 			'listMaxEntriesMassEdit' => ['label' => 'LBL_LIST_MAX_ENTRIES_MASSEDIT', 'fieldType' => 'input'],
 			'backgroundClosingModal' => ['label' => 'LBL_BG_CLOSING_MODAL', 'fieldType' => 'checkbox'],
@@ -145,16 +145,16 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 		$validationInfo = $this->validateFieldValues($updatedFields);
 		if ($validationInfo === true) {
 			foreach ($updatedFields as $fieldName => $fieldValue) {
-				$patternString = "\$%s = '%s';";
+				$patternString = "\$%s = %s;";
 				if ($fieldName === 'upload_maxsize') {
 					$fieldValue = $fieldValue * 1048576; //(1024 * 1024)
-					$patternString = "\$%s = %s;";
-				}
-				if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView'])) {
-					$patternString = "\$%s = %s;";
+				} else if (in_array($fieldName, ['title_max_length', 'listview_max_textlength', 'listMaxEntriesMassEdit', 'list_max_entries_per_page', 'MINIMUM_CRON_FREQUENCY', 'href_max_length'])) {
+					$fieldValue = (int) $fieldValue;
+				} else if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView', 'backgroundClosingModal', 'breadcrumbs'])) {
+					$fieldValue = strcasecmp('true', (string) $fieldValue) === 0;
 				}
 				$pattern = '/\$' . $fieldName . '[\s]+=([^;]+);/';
-				$replacement = sprintf($patternString, $fieldName, ltrim($fieldValue, '0'));
+				$replacement = sprintf($patternString, $fieldName, \vtlib\Functions::varExportMin($fieldValue));
 				$fileContent = preg_replace($pattern, $replacement, $fileContent);
 			}
 			$filePointer = fopen($this->fileName, 'w');
@@ -166,22 +166,31 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to validate the field values
-	 * @param <Array> $updatedFields
-	 * @return string True/Error message
+	 * @param array $updatedFields
+	 * @return boolean|string True/Error message
 	 */
 	public function validateFieldValues($updatedFields)
 	{
-		if (!preg_match('/[a-zA-z0-9]/', $updatedFields['default_module'])) {
+		if (!in_array($updatedFields['default_module'], $this->getPicklistValues('default_module'))) {
 			return 'LBL_INVALID_MODULE';
-		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) || !filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT)) {
+		} else if (!filter_var(ltrim($updatedFields['upload_maxsize'], '0'), FILTER_VALIDATE_INT) ||
+			!filter_var(ltrim($updatedFields['list_max_entries_per_page'], '0'), FILTER_VALIDATE_INT) ||
+			!filter_var(ltrim($updatedFields['title_max_length'], '0'), FILTER_VALIDATE_INT) ||
+			!filter_var(ltrim($updatedFields['listMaxEntriesMassEdit'], '0'), FILTER_VALIDATE_INT) ||
+			!filter_var(ltrim($updatedFields['href_max_length'], '0'), FILTER_VALIDATE_INT) ||
+			!filter_var(ltrim($updatedFields['MINIMUM_CRON_FREQUENCY'], '0'), FILTER_VALIDATE_INT) ||
+			!filter_var(ltrim($updatedFields['listview_max_textlength'], '0'), FILTER_VALIDATE_INT)) {
 			return 'LBL_INVALID_NUMBER';
+		}
+		if (array_diff(array_keys($updatedFields), array_keys($this->getEditableFields()))) {
+			return false;
 		}
 		return true;
 	}
 
 	/**
 	 * Function to get the instance of Config module model
-	 * @return <Settings_Vtiger_ConfigModule_Model> $moduleModel
+	 * @return /self $moduleModel
 	 */
 	public static function getInstance($name = false)
 	{
