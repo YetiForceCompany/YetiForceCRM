@@ -10,7 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="contentsDiv">
 		{assign var=QUALIFIED_MODULE value={$MODULE_NAME}}
 		{include file="EditViewBlocks.tpl"|@vtemplate_path:$MODULE}
 		<input type="hidden" name="isPreference" value="{$IS_PREFERENCE}" />
