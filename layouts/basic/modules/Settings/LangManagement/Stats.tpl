@@ -5,16 +5,16 @@
 			<label for="langs_list" class="control-label col-md-2" >{\App\Language::translate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select class="form-control selectize" name="langs_basic">
-					{foreach from=$LANGS item=LANG key=ID}
-						<option value="{$LANG['prefix']}">{$LANG['label']}</option>
+					{foreach from=$LANGS item=LABEL key=PREFIX}
+						<option value="{$PREFIX}">{$LABEL}</option>
 					{/foreach}
 				</select>
 			</div>
 			<label class="col-md-2 control-label">{\App\Language::translate('LBL_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control selectize" name="langs" placeholder="{\App\Language::translate('LBL_SELECT_SOME_OPTIONS',$QUALIFIED_MODULE)}" >
-					{foreach from=$LANGS item=LANG key=ID}
-						<option value="{$LANG['prefix']}">{$LANG['label']}</option>
+					{foreach from=$LANGS item=LABEL key=PREFIX}
+						<option value="{$PREFIX}">{$LABEL}</option>
 					{/foreach}
 				</select>
 			</div>

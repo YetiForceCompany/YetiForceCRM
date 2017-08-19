@@ -5,8 +5,8 @@
 			<label class="control-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control" id="langs_list">
-					{foreach from=$LANGS item=LANG key=ID}
-						<option value="{$LANG['prefix']}" {if $MODULE_MODEL->parse_data($LANG['prefix'],$REQUEST->get('lang'))}selected{/if}>{$LANG['label']}</option>
+					{foreach from=$LANGS item=LABEL key=PREFIX}
+						<option value="{$PREFIX}" {if in_array($PREFIX,$SELECTED_LANGS)}selected{/if}>{$LABEL}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -14,7 +14,7 @@
 			<div class="col-md-3">
 				<select class="form-control mods_list" name="mods_list" id="mods_list" data-target="HelpInfo">
 					{foreach item=MODULE_INFO from=\vtlib\Functions::getAllModules(true, false, 0)}
-						<option value="{$MODULE_INFO['name']}" {if $MODULE_INFO['name'] eq $REQUEST->get('mod')}selected{/if}>{App\Language::translate($MODULE_INFO['name'], $MODULE_INFO['name'])}</option>
+						<option value="{$MODULE_INFO['name']}" {if $MODULE_INFO['name'] eq $SELECTED_MODE}selected{/if}>{App\Language::translate($MODULE_INFO['name'], $MODULE_INFO['name'])}</option>
 					{/foreach}
 				</select>
 			</div>

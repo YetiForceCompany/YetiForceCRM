@@ -327,7 +327,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function add($params)
 	{
-		if (App\Language::getAll(['prefix' => $params['prefix']])) {
+		if (isset(App\Language::getAll(false)[$params['prefix']])) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		$destiny = 'languages/' . $params['prefix'] . '/';

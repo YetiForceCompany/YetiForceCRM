@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 /**
@@ -213,15 +214,6 @@ class Vtiger_Language_Handler
 
 		return $resultantLanguageString;
 		;
-	}
-
-	/**
-	 * Function to returns all language information
-	 * @return <Array>
-	 */
-	public static function getAllLanguages()
-	{
-		return vtlib\Language::getAll();
 	}
 
 	public static function getTranslateSingularModuleName($moduleName)
