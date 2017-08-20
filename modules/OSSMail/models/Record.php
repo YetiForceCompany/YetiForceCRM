@@ -566,30 +566,30 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		$fileName = 'config/modules/OSSMail.php';
 		$fileContent = file_get_contents($fileName);
-		$Fields = self::getEditableFields();
+		$fields = self::getEditableFields();
 		foreach ($param as $fieldName => $fieldValue) {
-			$type = $Fields[$fieldName]['fieldType'];
-			$pattern = '/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^;]+);/';
-			if ($type == 'checkbox' || $type == 'int') {
-				$patternString = "\$config['%s'] = %s;";
+			if (!isset($fields[$fieldName])) {
+				continue;
+			}
+			$type = $fields[$fieldName]['fieldType'];
+			if ($type == 'checkbox') {
+				$fieldValue = strcasecmp('true', $fieldValue) === 0;
+			} elseif ($type === 'int') {
+				$fieldValue = (int) $fieldValue;
 			} elseif ($type == 'multipicklist') {
 				if (!is_array($fieldValue)) {
 					$fieldValue = [$fieldValue];
 				}
-				$saveValue = '[';
+				$saveValue = [];
 				foreach ($fieldValue as $value) {
-					$saveValue .= "'$value' => '$value',";
+					$saveValue[$value] = $value;
 				}
-				$saveValue .= ']';
 				$fieldValue = $saveValue;
-				$patternString = "\$config['%s'] = %s;";
 			} elseif ($fieldName == 'skin_logo') {
-				$patternString = "\$config['%s'] = array(\"*\" => \"%s\");";
-			} else {
-				$patternString = "\$config['%s'] = '%s';";
+				$fieldValue = ['*' => $fieldValue];
 			}
-			$replacement = sprintf($patternString, $fieldName, $fieldValue);
-			$fileContent = preg_replace($pattern, $replacement, $fileContent);
+			$replacement = sprintf("\$config['%s'] = %s;", $fieldName, vtlib\Functions::varExportMin($fieldValue));
+			$fileContent = preg_replace('/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^\n]+);/', $replacement, $fileContent);
 		}
 		$filePointer = fopen($fileName, 'w');
 		fwrite($filePointer, $fileContent);
