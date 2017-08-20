@@ -127,7 +127,7 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		if (timeFormat == 24) {
 			var defaultTimeFormat = 'HH:mm';
 		} else {
-			defaultTimeFormat = 'hh:mm tt';
+			defaultTimeFormat = 'hh:mm A';
 		}
 		endDateElement.val(endDateString);
 		endTimeElement.val(moment(startDateTime).format(defaultTimeFormat));

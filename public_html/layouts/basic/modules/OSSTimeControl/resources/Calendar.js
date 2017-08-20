@@ -248,7 +248,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
 			} else {
-				defaultTimeFormat = 'hh:mm tt';
+				defaultTimeFormat = 'hh:mm A';
 			}
 			var startDateInstance = Date.parse(date);
 			var startDateString = moment(date).format(dateFormat);
