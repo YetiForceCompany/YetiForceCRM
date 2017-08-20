@@ -1,11 +1,12 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<style>
 	{if empty($COLOR_LIST)}	
 		{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
-			.borderColor{$ITEM['name']}{
+			.borderColor{$ITEM['label']}{
 				border-color: {$ITEM['value']};
 			}
-			.headingColor{$ITEM['name']}{
+			.headingColor{$ITEM['label']}{
 				background-color: {$ITEM['value']} !important;
 				border-color: {$ITEM['value']};
 			}
