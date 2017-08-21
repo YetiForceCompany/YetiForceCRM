@@ -41,7 +41,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 			$sourceData = $entity->column_fields;
 			if ($sourceModule === 'HelpDesk') {
 				$sourceData['contact_label'] = \App\Record::getLabel($sourceData['contact_id']);
-				if (vtlib\Functions::getCRMRecordType($sourceData['parent_id']) !== 'Accounts') {
+				if (\App\Record::getType($sourceData['parent_id']) !== 'Accounts') {
 					unset($sourceData['parent_id']);
 				} else {
 					$sourceData['account_label'] = \App\Record::getLabel($sourceData['parent_id']);
