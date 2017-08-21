@@ -1545,6 +1545,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			} else {
 				summaryWidgetContainer.find('.ativitiesPagination').addClass('hide');
 				url += 'history';
+				url = url.replace('&sortorder=ASC', '').replace('&sortorder=DESC', '');
 			}
 			widget.data('url', url);
 			thisInstance.loadWidget($(widget));
