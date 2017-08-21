@@ -39,11 +39,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$accessibleUsers[$user] = Users_Record_Model::getInstanceById($user, 'Users')->getName();
 			$user = [$user];
 		}
-		$query = (new App\Db\Query())->select(['timecontrol_type', 'color'])->from('vtiger_timecontrol_type');
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$colors[$row['timecontrol_type']] = $row['color'];
-		}
+		$colors = (new App\Db\Query())->select(['timecontrol_type', 'color'])->from('vtiger_timecontrol_type')->createCommand()->queryAllByGroup(0);
 		$module = 'OSSTimeControl';
 		$param[] = $module;
 		$param = array_merge($param, $user);
