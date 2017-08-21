@@ -24,6 +24,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}
+		return parent::isReadOnly();
 	}
 
 	/**
@@ -35,7 +36,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
-		return true;
+		return parent::isViewEnabled();
 	}
 
 	/**
@@ -73,7 +74,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName()) {
 			return false;
 		}
-		return true;
+		return parent::isAjaxEditable();
 	}
 
 	/**

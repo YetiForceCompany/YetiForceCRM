@@ -29,19 +29,19 @@ class Privilege
 		}
 		$userPrivileges = \App\User::getPrivilegesFile($userId);
 		$permission = false;
-		if ($moduleName === 'Home' && Request::_get('parenttab') !== 'Settings') {
+		if ($moduleName === 'Home' && Request::_get('parent') !== 'Settings') {
 			//These modules dont have security right now
 			static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
 			\App\Log::trace('Exiting isPermitted method ... - yes');
 			return true;
 		}
-		if ($moduleName === 'Users' && Request::_get('parenttab') !== 'Settings' && $record == \App\User::getCurrentUserId()) {
+		if ($moduleName === 'Users' && Request::_get('parent') !== 'Settings' && $record == \App\User::getCurrentUserId()) {
 			static::$isPermittedLevel = 'SEC_IS_CURRENT_USER';
 			\App\Log::trace('Exiting isPermitted method ... - yes');
 			return true;
 		}
 		//Checking the Access for the Settings Module
-		if ($moduleName == 'Settings' || $moduleName === 'Administration' || $moduleName === 'System' || Request::_get('parenttab') === 'Settings') {
+		if ($moduleName == 'Settings' || $moduleName === 'Administration' || $moduleName === 'System' || Request::_get('parent') === 'Settings') {
 			if (!$userPrivileges['is_admin']) {
 				$permission = false;
 			} else {
