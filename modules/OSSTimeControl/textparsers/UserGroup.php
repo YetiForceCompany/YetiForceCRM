@@ -68,8 +68,6 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 
 	public function getRoleName($userId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT rolename FROM vtiger_role INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role.roleid WHERE vtiger_user2role.userid = ?', [$userId]);
-		return $db->getSingleValue($result);
+		return (new \App\Db\Query())->select(['rolename'])->from('vtiger_role')->innerJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')->where(['vtiger_user2role.userid' => $userId])->scalar();
 	}
 }
