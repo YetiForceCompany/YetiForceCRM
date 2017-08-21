@@ -262,11 +262,11 @@ class PBXManager extends CRMEntity
 		$moduleInstance = $module->getInstance('PBXManager');
 
 		$moduleInstance->disableTools('ReceiveIncomingcalls');
-		$dbCommand->createCommand()->delete('vtiger_actionmapping', ['actionname' => 'ReceiveIncomingCalls'])->execute();
+		$dbCommand->delete('vtiger_actionmapping', ['actionname' => 'ReceiveIncomingCalls'])->execute();
 		\App\Log::info('ReceiveIncomingcalls ActionName Removed');
 
 		$moduleInstance->disableTools('MakeOutgoingCalls');
-		$dbCommand->createCommand()->delete('vtiger_actionmapping', ['actionname' => 'MakeOutgoingCalls'])->execute();
+		$dbCommand->delete('vtiger_actionmapping', ['actionname' => 'MakeOutgoingCalls'])->execute();
 		\App\Log::info('MakeOutgoingCalls ActionName Removed');
 	}
 
