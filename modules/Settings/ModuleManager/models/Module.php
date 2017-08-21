@@ -105,6 +105,16 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
+	 * Function to check module name
+	 * @param string $name
+	 * @return boolean
+	 */
+	public static function checkModuleName($name)
+	{
+		return (bool) preg_match('/[^A-Za-z]/i', $name);
+	}
+
+	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
