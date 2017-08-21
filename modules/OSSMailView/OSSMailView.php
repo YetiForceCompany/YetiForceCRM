@@ -305,10 +305,10 @@ class OSSMailView extends CRMEntity
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'widget_limit', 'value' => '10'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'target', 'value' => '_blank'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'permissions', 'value' => 'vtiger'])->execute();
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 			$registerLink = true;
 			$Module = vtlib\Module::getInstance($moduleName);
-			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$userId = \App\User::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();
 		} else if ($eventType === 'module.disabled') {
 			$registerLink = false;
@@ -320,7 +320,7 @@ class OSSMailView extends CRMEntity
 
 		} else if ($eventType === 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
-			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
+			$userId = \App\User::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		}
 		$displayLabel = 'Mail View';

@@ -213,11 +213,11 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return array(2 => 'Internal', 0 => 'Sent', 1 => 'Received');
 	}
 
-	public function ChangeTypeAllRecords($mail_type)
+	public function ChangeTypeAllRecords($mailType)
 	{
-		$MailType = $this->getMailType();
+		$mailTypeData = $this->getMailType();
 		$this->addLog('Action_ChangeType', 'all');
-		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $MailType[$mail_type], 'type' => $mail_type], [])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailTypeData[$mailType], 'type' => $mailType], [])->execute();
 	}
 
 	public function ChangeTypeSelectedRecords($selectedIds, $mail_type)
@@ -306,9 +306,20 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$mailId = $params['mailId'];
 
 		if ($newModule == 'Products') {
-			$dbCommand->insert('vtiger_seproductsrel', ['crmid' => $crmid, 'productid' => $newCrmId, 'setype' => $params['mod'], 'rel_created_user' => $currentUser->getId(), 'rel_created_time' => date('Y-m-d H:i:s')])->execute();
+			$dbCommand->insert('vtiger_seproductsrel', [
+				'crmid' => $crmid,
+				'productid' => $newCrmId,
+				'setype' => $params['mod'],
+				'rel_created_user' => $currentUser->getId(),
+				'rel_created_time' => date('Y-m-d H:i:s')
+			])->execute();
 		} elseif ($newModule == 'Services') {
-			$dbCommand->insert('vtiger_crmentityrel', ['crmid' => $crmid, 'module' => $params['mod'], 'relcrmid' => $newCrmId, 'relmodule' => $newModule])->execute();
+			$dbCommand->insert('vtiger_crmentityrel', [
+				'crmid' => $crmid,
+				'module' => $params['mod'],
+				'relcrmid' => $newCrmId,
+				'relmodule' => $newModule
+			])->execute();
 		} else {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $newCrmId);
 		}
