@@ -161,7 +161,7 @@ class VTExpressionParser
 		}
 	}
 
-	var $precedence = array(
+	public $precedence = array(
 		array('*', '/'),
 		array('+', '-'),
 		array('and', 'or'),

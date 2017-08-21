@@ -22,7 +22,7 @@ class Webservice
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
 		Utils::Log($message, $delim);
 	}
@@ -31,7 +31,7 @@ class Webservice
 	 * Initialize webservice for the given module
 	 * @param Module Instance of the module.
 	 */
-	static function initialize($moduleInstance)
+	public static function initialize($moduleInstance)
 	{
 		if ($moduleInstance->isentitytype) {
 			if (function_exists('vtws_addDefaultModuleTypeEntity')) {
@@ -45,7 +45,7 @@ class Webservice
 	 * Initialize webservice for the given module
 	 * @param Module Instance of the module.
 	 */
-	static function uninitialize($moduleInstance)
+	public static function uninitialize($moduleInstance)
 	{
 		if ($moduleInstance->isentitytype) {
 

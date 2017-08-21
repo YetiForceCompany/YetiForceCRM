@@ -194,7 +194,7 @@ abstract class VTTask
 	 * Task contents
 	 * @var Vtiger_Record_Model
 	 */
-	var $contents;
+	public $contents;
 
 	/**
 	 * Do task
@@ -272,7 +272,7 @@ class VTTaskType
 	 * Data array
 	 * @var array
 	 */
-	var $data;
+	public $data;
 
 	/**
 	 * Return value for $data key
