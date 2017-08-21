@@ -246,7 +246,7 @@ class Utils
 	 * Check if the given SQL is destructive (DELETE's DATA)
 	 * @param String SQL String
 	 */
-	static function IsDestructiveSql($sql)
+	public static function IsDestructiveSql($sql)
 	{
 		if (preg_match('/(DROP TABLE)|(DROP COLUMN)|(DELETE FROM)/', strtoupper($sql))) {
 			return true;
@@ -263,7 +263,7 @@ class Utils
 	 * @param <boolean> $backtrace flag to enable or disable backtrace in log  
 	 * @param <boolean> $request flag to enable or disable request in log
 	 */
-	static function ModuleLog($module, $mixed, $extra = [])
+	public static function ModuleLog($module, $mixed, $extra = [])
 	{
 		if (ALLOW_MODULE_LOGGING) {
 			$date = date('Y-m-d H:i:s');
