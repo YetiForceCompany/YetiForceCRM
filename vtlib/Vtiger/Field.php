@@ -180,7 +180,7 @@ class Field extends FieldBasic
 		$db = \App\Db::getInstance();
 		foreach ($moduleNames as &$relmodule) {
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
-			Utils::Log("Unsetting $this->name relation with $relmodule ... DONE");
+			Utils::log("Unsetting $this->name relation with $relmodule ... DONE");
 		}
 		return true;
 	}

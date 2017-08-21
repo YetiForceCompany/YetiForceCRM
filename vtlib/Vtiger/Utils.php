@@ -114,7 +114,7 @@ class Utils
 	 * @param String Log message
 	 * @param Boolean true to append end-of-line, false otherwise
 	 */
-	public static function Log($message, $delimit = true)
+	public static function log($message, $delimit = true)
 	{
 		$utilsLog = vglobal('tiger_Utils_Log');
 
@@ -246,7 +246,7 @@ class Utils
 	 * Check if the given SQL is destructive (DELETE's DATA)
 	 * @param String SQL String
 	 */
-	static function isDestructiveSql($sql)
+	public static function isDestructiveSql($sql)
 	{
 		if (preg_match('/(DROP TABLE)|(DROP COLUMN)|(DELETE FROM)/', strtoupper($sql))) {
 			return true;
@@ -263,7 +263,7 @@ class Utils
 	 * @param <boolean> $backtrace flag to enable or disable backtrace in log  
 	 * @param <boolean> $request flag to enable or disable request in log
 	 */
-	static function moduleLog($module, $mixed, $extra = [])
+	public static function moduleLog($module, $mixed, $extra = [])
 	{
 		if (ALLOW_MODULE_LOGGING) {
 			$date = date('Y-m-d H:i:s');

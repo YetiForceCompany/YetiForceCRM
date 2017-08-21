@@ -85,7 +85,7 @@ class Profile
 	 */
 	public static function log($message, $delimit = true)
 	{
-		Utils::Log($message, $delimit);
+		Utils::log($message, $delimit);
 	}
 
 	/**
