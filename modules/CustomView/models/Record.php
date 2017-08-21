@@ -558,7 +558,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getNextSeq($moduleName)
 	{
-		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->max('sequence')->where(['entitytype' => $moduleName]);
+		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->max('sequence');
 		return (int) $maxSequence + 1;
 	}
 
