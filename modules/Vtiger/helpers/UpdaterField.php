@@ -33,14 +33,14 @@ class Vtiger_UpdaterField_Helper
 	/**
 	 * Function to get value for field
 	 * @return mixed
-	 * @throws Exception\NotAllowedMethod
+	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
 	public function getValue()
 	{
 		$fieldName = $this->fieldModel->getFieldName();
 		$functionName = 'get' . ucwords($fieldName) . 'Value';
 		if (!method_exists($this, $functionName)) {
-			throw new Exception\NotAllowedMethod();
+			throw new \App\Exceptions\NotAllowedMethod();
 		}
 		return $this->$functionName();
 	}
