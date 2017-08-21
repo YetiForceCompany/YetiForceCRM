@@ -24,7 +24,6 @@ class CustomView_Record_Model extends \App\Base
 	 * @return <Number> Custom View Id
 	 */
 	public function getId()
-		
 	{
 		return $this->get('cvid');
 	}
@@ -559,7 +558,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getNextSeq($moduleName)
 	{
-		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->max('sequence')->where(['entitytype' => $moduleName]);
+		$maxSequence = (new \App\Db\Query())->from('vtiger_customview')->where(['entitytype' => $moduleName])->max('sequence');
 		return (int) $maxSequence + 1;
 	}
 
@@ -673,7 +672,7 @@ class CustomView_Record_Model extends \App\Base
 				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
 				$col = explode(':', $relCriteriaRow['columnname']);
 				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
-          $tempVal = explode('##', $relCriteriaRow['value']);
+					$tempVal = explode('##', $relCriteriaRow['value']);
 					$val = [];
 					$countTempVal = count($tempVal);
 					for ($x = 0; $x < $countTempVal; $x++) {
