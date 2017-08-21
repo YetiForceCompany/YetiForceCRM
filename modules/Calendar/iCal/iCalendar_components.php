@@ -51,7 +51,7 @@ class iCalendar_component
 		// Create a property object of the correct class
 		if ($xname) {
 			$property = new iCalendar_property_x;
-			$property->set_name($name);
+			$property->setName($name);
 		} else {
 			$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $name));
 			$property = new $classname;

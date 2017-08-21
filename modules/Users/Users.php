@@ -605,7 +605,7 @@ class Users extends CRMEntity
 	/** Function to delete an entity with given Id */
 	public function trash($module, $id)
 	{
-		$this->mark_deleted($id);
+		$this->markDeleted($id);
 	}
 
 	/**
@@ -637,7 +637,7 @@ class Users extends CRMEntity
 	 * This function should be overridden in each module.  It marks an item as deleted.
 	 * @param <type> $id
 	 */
-	public function mark_deleted($id)
+	public function markDeleted($id)
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');

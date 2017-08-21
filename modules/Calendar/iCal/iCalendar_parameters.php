@@ -5,7 +5,7 @@
 class iCalendar_parameter
 {
 
-	public function multiple_values_allowed($parameter)
+	public function multipleValuesAllowed($parameter)
 	{
 		switch ($parameter) {
 			case 'DELEGATED-FROM':
@@ -183,7 +183,7 @@ class iCalendar_parameter
 		}
 	}
 
-	public function do_value_formatting($parameter, $value)
+	public function doValueFormatting($parameter, $value)
 	{
 		switch ($parameter) {
 			// Parameters of type CAL-ADDRESS or URI MUST be double-quoted
