@@ -16,7 +16,7 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 	/**
 	 * Check Permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -26,7 +26,7 @@ class Settings_SMSNotifier_Edit_View extends Settings_Vtiger_BasicModal_View
 		if ($record) {
 			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($record, $moduleName);
 			if (!$recordModel->getProviderInstance()) {
-				throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
