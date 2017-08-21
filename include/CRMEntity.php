@@ -144,7 +144,7 @@ class CRMEntity
 	public function retrieveEntityInfo($record, $module)
 	{
 		if (!isset($record)) {
-			throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
 
 		// Tables which has multiple rows for the same record
@@ -224,10 +224,10 @@ class CRMEntity
 			}
 			$resultRow = $query->one();
 			if (empty($resultRow)) {
-				throw new \Exception\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
 				if (!empty($resultRow['deleted'])) {
-					throw new \Exception\NoPermittedToRecord('LBL_RECORD_DELETE');
+					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
 				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldInfo) {

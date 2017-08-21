@@ -22,7 +22,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		$recordId = $request->get('record');
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
