@@ -57,7 +57,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 	public function createTable()
 	{
 		$tableName = Import_Module_Model::getDbTableName($this->user);
-		if (!\vtlib\Utils::CheckTable($tableName)) {
+		if (!\vtlib\Utils::checkTable($tableName)) {
 			parent::createTable();
 		}
 	}

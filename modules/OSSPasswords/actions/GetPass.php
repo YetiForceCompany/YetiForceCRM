@@ -22,7 +22,7 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 		if ($record) {
 			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
 			if (!$recordPermission) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
 	}

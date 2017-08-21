@@ -189,13 +189,13 @@ class PackageUpdate extends PackageImport
 					foreach ($migrationnode->tables->table as $tablenode) {
 						$tablesql = "$tablenode->sql"; // Convert to string
 						// Skip SQL which are destructive
-						if (Utils::IsDestructiveSql($tablesql)) {
+						if (Utils::isDestructiveSql($tablesql)) {
 							self::log("SQL: $tablesql ... SKIPPED");
 						} else {
 							// Supress any SQL query failures
 							self::log("SQL: $tablesql ... ", false);
-							Utils::ExecuteQuery($tablesql, true);
-							self::log("DONE");
+							Utils::executeQuery($tablesql, true);
+							self::log('DONE');
 						}
 					}
 				}

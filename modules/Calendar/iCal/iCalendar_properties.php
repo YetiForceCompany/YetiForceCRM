@@ -31,7 +31,7 @@ class iCalendar_property
 	{
 
 		if (is_array($value)) {
-			if (!iCalendar_parameter::multiple_values_allowed($parameter)) {
+			if (!iCalendar_parameter::multipleValuesAllowed($parameter)) {
 				return false;
 			}
 			foreach ($value as $item) {
@@ -141,10 +141,10 @@ class iCalendar_property
 
 		if (is_array($value)) {
 			foreach ($value as $key => $element) {
-				$value[$key] = iCalendar_parameter::do_value_formatting($name, $element);
+				$value[$key] = iCalendar_parameter::doValueFormatting($name, $element);
 			}
 		} else {
-			$value = iCalendar_parameter::do_value_formatting($name, $value);
+			$value = iCalendar_parameter::doValueFormatting($name, $value);
 		}
 
 		$this->parameters[$name] = $value;
@@ -1177,7 +1177,7 @@ class iCalendar_property_x extends iCalendar_property
 		);
 	}
 
-	public function set_name($name)
+	public function setName($name)
 	{
 
 		$name = strtoupper($name);

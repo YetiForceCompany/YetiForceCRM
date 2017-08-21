@@ -17,15 +17,15 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record);
 			if (!$recordModel->getModule()->isTrackingEnabled()) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} elseif (!empty($sourceModule)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			if (!$moduleModel || $moduleModel->isTrackingEnabled()) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

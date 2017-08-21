@@ -305,11 +305,11 @@ class OSSMailView extends CRMEntity
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'widget_limit', 'value' => '10'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'target', 'value' => '_blank'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'permissions', 'value' => 'vtiger'])->execute();
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 			$registerLink = true;
-			$Module = vtlib\Module::getInstance($moduleName);
-			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();
+			$module = vtlib\Module::getInstance($moduleName);
+			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $module->version, 'user' => $userName])->execute();
 		} else if ($eventType === 'module.disabled') {
 			$registerLink = false;
 		} else if ($eventType === 'module.enabled') {
@@ -319,9 +319,9 @@ class OSSMailView extends CRMEntity
 		} else if ($eventType === 'module.preupdate') {
 
 		} else if ($eventType === 'module.postupdate') {
-			$Module = vtlib\Module::getInstance($moduleName);
-			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
+			$module = vtlib\Module::getInstance($moduleName);
+			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $module->version, 'user' => $userName, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {

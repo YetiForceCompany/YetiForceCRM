@@ -13,13 +13,13 @@ class Settings_Mail_MassSend_Action extends Vtiger_Mass_Action
 	/**
 	 * Checking permission 
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

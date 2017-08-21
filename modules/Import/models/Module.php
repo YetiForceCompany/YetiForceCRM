@@ -250,7 +250,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 	public static function isUserImportBlocked($user)
 	{
 		$tableName = self::getDbTableName($user);
-		if (vtlib\Utils::CheckTable($tableName)) {
+		if (vtlib\Utils::checkTable($tableName)) {
 			return (new \App\Db\Query())->from($tableName)->where(['temp_status' => Import_Data_Action::IMPORT_RECORD_NONE])->exists();
 		}
 		return false;

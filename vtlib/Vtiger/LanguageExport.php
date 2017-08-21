@@ -117,9 +117,9 @@ class LanguageExport extends Package
 	 */
 	public static function __initSchema()
 	{
-		$hastable = Utils::CheckTable(self::TABLENAME);
+		$hastable = Utils::checkTable(self::TABLENAME);
 		if (!$hastable) {
-			Utils::CreateTable(
+			Utils::createTable(
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
 				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
 			);

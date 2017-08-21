@@ -13,16 +13,16 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 	/**
 	 * Checking permission 
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = \App\User::getCurrentUserModel();
 		if (!$currentUserModel->isAdmin()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
-	
+
 	/**
 	 * Process
 	 * @param \App\Request $request
@@ -43,7 +43,7 @@ class Settings_Mail_DownloadAttachment_Action extends Vtiger_Mass_Action
 			readfile($filePath);
 		}
 	}
-	
+
 	/**
 	 * Validate Request
 	 * @param \App\Request $request

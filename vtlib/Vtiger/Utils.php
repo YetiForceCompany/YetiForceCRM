@@ -147,7 +147,7 @@ class Utils
 	 * Check if table is present in database
 	 * @param String tablename to check
 	 */
-	public static function CheckTable($tableName)
+	public static function checkTable($tableName)
 	{
 		return \App\Db::getInstance()->isTableExists($tableName);
 	}
@@ -160,7 +160,7 @@ class Utils
 	 * <br />
 	 * will be appended to CREATE TABLE $tablename SQL
 	 */
-	public static function CreateTable($tablename, $criteria, $suffixTableMeta = false)
+	public static function createTable($tablename, $criteria, $suffixTableMeta = false)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -187,7 +187,7 @@ class Utils
 	 * @param string $columnName to add
 	 * @param array|string $criteria ([\yii\db\Schema::TYPE_STRING, 1024] | string(1024)) 
 	 */
-	public static function AddColumn($tableName, $columnName, $criteria)
+	public static function addColumn($tableName, $columnName, $criteria)
 	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($tableName, true);
@@ -203,7 +203,7 @@ class Utils
 	 * Get SQL query
 	 * @param String SQL query statement
 	 */
-	public static function ExecuteQuery($sqlquery, $supressdie = false)
+	public static function executeQuery($sqlquery, $supressdie = false)
 	{
 		$adb = \PearDatabase::getInstance();
 		$old_dieOnError = $adb->dieOnError;
@@ -220,7 +220,7 @@ class Utils
 	 * Get CREATE SQL for given table
 	 * @param String tablename for which CREATE SQL is requried
 	 */
-	public static function CreateTableSql($tablename)
+	public static function createTableSql($tablename)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -234,7 +234,7 @@ class Utils
 	 * Check if the given SQL is a CREATE statement
 	 * @param String SQL String
 	 */
-	public static function IsCreateSql($sql)
+	public static function isCreateSql($sql)
 	{
 		if (preg_match('/(CREATE TABLE)/', strtoupper($sql))) {
 			return true;
@@ -246,7 +246,7 @@ class Utils
 	 * Check if the given SQL is destructive (DELETE's DATA)
 	 * @param String SQL String
 	 */
-	public static function IsDestructiveSql($sql)
+	public static function isDestructiveSql($sql)
 	{
 		if (preg_match('/(DROP TABLE)|(DROP COLUMN)|(DELETE FROM)/', strtoupper($sql))) {
 			return true;
@@ -263,7 +263,7 @@ class Utils
 	 * @param <boolean> $backtrace flag to enable or disable backtrace in log  
 	 * @param <boolean> $request flag to enable or disable request in log
 	 */
-	public static function ModuleLog($module, $mixed, $extra = [])
+	public static function moduleLog($module, $mixed, $extra = [])
 	{
 		if (ALLOW_MODULE_LOGGING) {
 			$date = date('Y-m-d H:i:s');

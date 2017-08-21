@@ -236,7 +236,7 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Get query form relation
 	 * @return \App\QueryGenerator
-	 * @throws \Exception\NotAllowedMethod
+	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
 	public function getQuery()
 	{
@@ -247,7 +247,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$this->$functionName();
 		} else {
 			App\Log::error("Not exist relation: $functionName in " . __METHOD__);
-			throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
+			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
 		}
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');

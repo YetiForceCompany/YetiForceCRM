@@ -1,5 +1,5 @@
 <?php
-namespace Exception;
+namespace App\Exceptions;
 
 /**
  * Not allowed method exception class

@@ -290,9 +290,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		'Calendar': {
 			'Accounts': 'link',
 			'Leads': 'link',
-			'Contacts': 'link',
 			'Vendors': 'link',
 			'OSSEmployees': 'link',
+			'Contacts': 'process',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
 			'Projects': 'process',
@@ -1542,10 +1542,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (state) {
 				summaryWidgetContainer.find('.ativitiesPagination').removeClass('hide');
 				url += 'current';
+				url = url.replace('&sortorder=DESC', '&sortorder=ASC');
 			} else {
 				summaryWidgetContainer.find('.ativitiesPagination').addClass('hide');
 				url += 'history';
-				url = url.replace('&sortorder=ASC', '').replace('&sortorder=DESC', '');
+				url = url.replace('&sortorder=ASC', '&sortorder=DESC');
 			}
 			widget.data('url', url);
 			thisInstance.loadWidget($(widget));

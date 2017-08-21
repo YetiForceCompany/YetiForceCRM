@@ -16,7 +16,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$record = $request->get('record');
 		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

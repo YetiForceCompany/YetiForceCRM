@@ -38,7 +38,7 @@ class iCalLastImport
 	 */
 	public function clearRecords($userId)
 	{
-		if (vtlib\Utils::CheckTable($this->tableName)) {
+		if (vtlib\Utils::checkTable($this->tableName)) {
 			\App\Db::getInstance()->createCommand()->delete($this->tableName, ['userid' => $userId])->execute();
 		}
 	}
@@ -67,8 +67,8 @@ class iCalLastImport
 		if (count($this->fieldData) == 0)
 			return;
 
-		if (!vtlib\Utils::CheckTable($this->tableName)) {
-			vtlib\Utils::CreateTable(
+		if (!vtlib\Utils::checkTable($this->tableName)) {
+			vtlib\Utils::createTable(
 				$this->tableName, "(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					userid INT NOT NULL,
 					entitytype VARCHAR(200) NOT NULL,
@@ -88,7 +88,7 @@ class iCalLastImport
 	 */
 	public function undo($moduleName, $userId)
 	{
-		if (vtlib\Utils::CheckTable($this->tableName)) {
+		if (vtlib\Utils::checkTable($this->tableName)) {
 			$selectResult = (new \App\Db\Query())->select(['crmid'])->from($this->tableName)->where(['userid' => $userId, 'entitytype' => $moduleName])->column();
 			return \App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $selectResult])->execute();
 		}
