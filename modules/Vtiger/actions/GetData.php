@@ -11,32 +11,52 @@
 class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Check permission
+	 * @param \App\Request $request
+	 * @return boolean
+	 * @throws \Exception\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
-		$recordId = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $recordId);
-		if (!$recordPermission) {
+		if (!\App\Privilege::isPermitted($request->get('source_module'), 'DetailView', $request->getInteger('record'))) {
 			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$sourceModule = $request->get('source_module');
 		$response = new Vtiger_Response();
-
 		$permitted = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
 			vglobal('showsAdditionalLabels', true);
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
-			$data = $recordModel->getData();
-			$response->setResult(array('success' => true, 'data' => array_map('App\Purifier::decodeHtml', $data)));
+			$labels = $data = $display = [];
+			foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
+				if ($fieldModel->isViewable()) {
+					$data[$fieldName] = $recordModel->get($fieldName);
+					$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
+					$display[$fieldName] = $fieldModel->getDisplayValue($recordModel->get($fieldName), $record, $recordModel, true);
+				}
+			}
+			$response->setResult([
+				'success' => true,
+				'data' => array_map('App\Purifier::decodeHtml', $data),
+				'displayData' => array_map('App\Purifier::decodeHtml', $display),
+				'labels' => $labels
+			]);
 		} else {
-			$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_PERMISSION_DENIED')));
+			$response->setResult([
+				'success' => false,
+				'message' => \App\Language::translate('LBL_PERMISSION_DENIED')
+			]);
 		}
 		$response->emit();
 	}
