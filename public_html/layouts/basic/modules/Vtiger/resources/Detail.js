@@ -290,9 +290,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		'Calendar': {
 			'Accounts': 'link',
 			'Leads': 'link',
-			'Contacts': 'link',
 			'Vendors': 'link',
 			'OSSEmployees': 'link',
+			'Contacts': 'process',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
 			'Projects': 'process',
