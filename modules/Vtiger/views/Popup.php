@@ -21,6 +21,12 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
+		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->get('related_parent_module'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if (!$request->isEmpty('src_module') && !$currentUserPrivilegesModel->hasModulePermission($request->get('src_module'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	/**
