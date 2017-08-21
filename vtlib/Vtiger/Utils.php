@@ -114,7 +114,7 @@ class Utils
 	 * @param String Log message
 	 * @param Boolean true to append end-of-line, false otherwise
 	 */
-	public static function Log($message, $delimit = true)
+	public static function log($message, $delimit = true)
 	{
 		$utilsLog = vglobal('tiger_Utils_Log');
 

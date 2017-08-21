@@ -155,7 +155,7 @@ class Block
 	 */
 	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**

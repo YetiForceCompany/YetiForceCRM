@@ -181,7 +181,7 @@ class Filter
 			'groupid' => $group,
 			'column_condition' => $condition
 		])->execute();
-		Utils::Log("Adding Condition " . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
+		Utils::log('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
 		return $this;
 	}
 
@@ -248,7 +248,7 @@ class Filter
 	 */
 	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**
