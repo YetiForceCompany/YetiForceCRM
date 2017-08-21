@@ -13,17 +13,17 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 	/**
 	 * Checking permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$recordPermission = Users_Privileges_Model::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

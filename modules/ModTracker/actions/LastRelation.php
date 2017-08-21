@@ -13,7 +13,7 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 	/**
 	 * Checking permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -21,15 +21,15 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 		$records = $request->get('recordsId');
 		if (!empty($sourceModule)) {
 			if (!in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 			foreach ($records as $key => $recordId) {
 				if (!App\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
-					throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+					throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 				}
 			}
 		} else {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

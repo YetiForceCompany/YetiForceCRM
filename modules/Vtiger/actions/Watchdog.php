@@ -17,17 +17,17 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 		$recordId = $request->get('record');
 		if (empty($recordId)) {
 			if (!Users_Privileges_Model::isPermitted($moduleName, 'WatchingModule')) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		} else {
 			if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId) || !Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
 			if (!in_array($request->get('user'), $userList)) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
 		return true;

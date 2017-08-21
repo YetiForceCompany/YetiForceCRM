@@ -13,7 +13,7 @@ class Vtiger_VariablePanel_View extends Vtiger_View_Controller
 	/**
 	 * Checking permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,7 +24,7 @@ class Vtiger_VariablePanel_View extends Vtiger_View_Controller
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if ($recordId && !\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

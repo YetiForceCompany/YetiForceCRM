@@ -28,7 +28,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 	/**
 	 * Check permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -36,7 +36,7 @@ class Calendar_CalendarUserActions_Action extends Vtiger_Action_Controller
 		$record = $request->get('record');
 
 		if (!Users_Privileges_Model::isPermitted($moduleName, 'Save', $record)) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

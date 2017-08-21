@@ -212,7 +212,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		} catch (Exception $e) {
 			\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 			$tpl = 'OperationNotPermitted.tpl';
-			if ($e instanceof \Exception\NoPermittedToRecord || $e instanceof WebServiceException) {
+			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);

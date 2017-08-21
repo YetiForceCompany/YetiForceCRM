@@ -16,7 +16,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 	/**
 	 * Checking permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
