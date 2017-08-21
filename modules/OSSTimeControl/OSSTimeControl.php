@@ -90,16 +90,15 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function moduleHandler($modulename, $event_type)
+	public function moduleHandler($modulename, $eventType)
 	{
 		$registerLink = false;
 		$displayLabel = 'Time Control';
-		$adb = PearDatabase::getInstance();
 
-		if ($event_type == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 
 			$tabid = \App\Module::getModuleId($modulename);
-			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
+			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => $tabid, 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time', 'platnosc']])->execute();
 			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -107,16 +106,16 @@ class OSSTimeControl extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
-			
+		} else if ($eventType === 'module.disabled') {
+
+		} else if ($eventType === 'module.enabled') {
+
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+
 		}
 	}
 
