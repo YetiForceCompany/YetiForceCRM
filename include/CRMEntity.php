@@ -229,19 +229,12 @@ class CRMEntity
 				if (!empty($resultRow['deleted'])) {
 					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
-				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldInfo);
 					//Note : value is retrieved with a tablename+fieldname as we are using alias while building query
 					if (isset($resultRow[$fieldkey])) {
 						$fieldvalue = $resultRow[$fieldkey];
-					}
-					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [10, 51, 73])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getCRMRecordLabel($fieldvalue);
-					}
-					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = vtlib\Functions::getOwnerRecordLabel($fieldvalue);
 					}
 					if ($fieldInfo['uitype'] === 120) {
 						$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();

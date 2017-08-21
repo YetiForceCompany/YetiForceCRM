@@ -36,7 +36,6 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 		$response = new Vtiger_Response();
 		$permitted = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
-			vglobal('showsAdditionalLabels', true);
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
 			$labels = $data = $display = [];
 			foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
