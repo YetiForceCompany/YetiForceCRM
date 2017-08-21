@@ -56,15 +56,13 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * To update call status from 'ringing' to 'no-response', if status not updated 
+	 * To update call status from 'ringing' to 'no-response', if status not updated
 	 * for more than 5 minutes
 	 * @param type $recordIds
 	 */
 	public function updateCallStatus($recordIds)
 	{
-		$db = PearDatabase::getInstance();
-		$where = sprintf("pbxmanagerid IN (%s) && callstatus='ringing'", generateQuestionMarks($recordIds));
-		$db->update(self::moduletableName, ['callstatus' => 'no-response'], $where, $recordIds);
+		\App\Db::getInstance()->createCommand()->update(self::moduletableName, ['callstatus' => 'no-response'], ['pbxmanagerid' => $recordIds, 'callstatus' => 'ringing'])->execute();
 	}
 
 	/**
@@ -97,41 +95,25 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 	 */
 	public function updateCallDetails($details)
 	{
-		$db = PearDatabase::getInstance();
-		$sourceuuid = $this->get('sourceuuid');
-		$query = sprintf('UPDATE %s SET ', self::moduletableName);
-		foreach ($details as $key => $value) {
-			$query .= $key . '=?,';
-			$params[] = $value;
-		}
-		$query = substr_replace($query, "", -1);
-		$query .= ' WHERE sourceuuid = ?';
-		$params[] = $sourceuuid;
-		$db->pquery($query, $params);
+		\App\Db::getInstance()->createCommand()->update(self::moduletableName, $details, ['sourceuuid' => $this->get('sourceuuid')])->execute();
 		return true;
 	}
 
 	/**
-	 * To update Assigned to with user who answered the call 
+	 * To update Assigned to with user who answered the call
+	 * @param int $userId
 	 */
-	public function updateAssignedUser($userid)
+	public function updateAssignedUser($userId)
 	{
-		$callid = $this->get('pbxmanagerid');
-		$db = PearDatabase::getInstance();
-		$db->update(self::entitytableName, ['smownerid' => $userid], 'crmid=?', [$callid]);
+		\App\Db::getInstance()->createCommand()->update(self::entitytableName, ['smownerid' => $userId], ['crmid' => $this->get('pbxmanagerid')])->execute();
 		return true;
 	}
 
 	public static function getInstanceById($recordId, $module = null)
 	{
-		$db = PearDatabase::getInstance();
 		$record = new self();
-		$query = sprintf('SELECT * FROM %s WHERE pbxmanagerid=?', self::moduletableName);
-		$params = [$recordId];
-		$result = $db->pquery($query, $params);
-		$rowCount = $db->num_rows($result);
-		if ($rowCount) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = (new App\Db\Query())->from(self::moduletableName)->where(['pbxmanagerid' => $recordId])->one();
+		if ($rowData) {
 			$record->setData($rowData);
 		}
 		return $record;
@@ -139,14 +121,9 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	public static function getInstanceBySourceUUID($sourceuuid)
 	{
-		$db = PearDatabase::getInstance();
 		$record = new self();
-		$query = sprintf('SELECT * FROM %s WHERE sourceuuid=?', self::moduletableName);
-		$params = [$sourceuuid];
-		$result = $db->pquery($query, $params);
-		$rowCount = $db->num_rows($result);
-		if ($rowCount) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = (new App\Db\Query())->from(self::moduletableName)->where(['sourceuuid' => $sourceuuid])->one();
+		if ($rowData) {
 			$record->setData($rowData);
 		}
 		return $record;
@@ -183,12 +160,11 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to delete contact/account/lead record in Phonelookup table on every delete
-	 * @param string $recordid
+	 * @param string $recordId
 	 */
-	public function deletePhoneLookUpRecord($recordid)
+	public function deletePhoneLookUpRecord($recordId)
 	{
-		$db = PearDatabase::getInstance();
-		$db->delete(self::lookuptableName, 'crmid=?', [$recordid]);
+		\App\Db::getInstance()->createCommand()->delete(self::lookuptableName, ['crmid' => $recordId])->execute();
 	}
 
 	/**
@@ -241,7 +217,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		return;
 	}
 
-	// Because, User is not related to crmentity 
+	// Because, User is not related to crmentity
 	public function buildSearchQueryWithUIType($uitype, $value, $module)
 	{
 		if (empty($value)) {
