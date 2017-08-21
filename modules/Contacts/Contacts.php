@@ -284,7 +284,7 @@ class Contacts extends CRMEntity
 	 * @param - $recordId 
 	 */
 
-	public function mark_deleted($recordId)
+	public function markDeleted($recordId)
 	{
 
 		$db = \App\Db::getInstance();
@@ -293,7 +293,7 @@ class Contacts extends CRMEntity
 			'support_start_date' => null,
 			'support_end_date' => null
 			], ['customerid' => $recordId])->execute();
-		parent::mark_deleted($recordId);
+		parent::markDeleted($recordId);
 	}
 
 	// Function to unlink an entity with given Id from another entity

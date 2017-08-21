@@ -615,14 +615,14 @@ class PackageImport extends PackageExport
 			$tableName = $tablenode->name;
 			$sql = (string) $tablenode->sql; // Convert to string format
 			// Avoid executing SQL that will DELETE or DROP table data
-			if (Utils::IsCreateSql($sql)) {
+			if (Utils::isCreateSql($sql)) {
 				if (!Utils::checkTable($tableName)) {
 					self::log("SQL: $sql ... ", false);
 					Utils::ExecuteQuery($sql);
 					self::log("DONE");
 				}
 			} else {
-				if (Utils::IsDestructiveSql($sql)) {
+				if (Utils::isDestructiveSql($sql)) {
 					self::log("SQL: $sql ... SKIPPED");
 				} else {
 					self::log("SQL: $sql ... ", false);

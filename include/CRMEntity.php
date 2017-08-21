@@ -264,7 +264,7 @@ class CRMEntity
 	 * All Rights Reserved..
 	 * Contributor(s): ______________________________________..
 	 */
-	public function mark_deleted($id)
+	public function markDeleted($id)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $id])->execute();
 	}
@@ -345,7 +345,7 @@ class CRMEntity
 		if (vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
-		$this->mark_deleted($id);
+		$this->markDeleted($id);
 	}
 
 	/**

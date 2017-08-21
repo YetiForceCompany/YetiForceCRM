@@ -40,7 +40,7 @@ class Response
 		$this->body = $body;
 	}
 
-	private function _requestStatus()
+	private function requestStatus()
 	{
 		$status = [
 			200 => 'OK',
@@ -64,7 +64,7 @@ class Response
 		header('Access-Control-Allow-Methods: *');
 		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
 		header("Content-Type: $requestContentType");
-		header('HTTP/1.1 ' . $this->status . ' ' . $this->_requestStatus());
+		header('HTTP/1.1 ' . $this->status . ' ' . $this->requestStatus());
 		header('Encrypted: ' . $encryptDataTransfer);
 		foreach ($this->headers as $key => $header) {
 			header($key . ': ' . $header);
