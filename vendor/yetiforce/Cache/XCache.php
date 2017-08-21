@@ -4,7 +4,7 @@ namespace App\Cache;
 use App\Exceptions\CacheException;
 
 /**
- * XCache Caching Class
+ * XCache caching class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -34,7 +34,7 @@ class XCache
 	}
 
 	/**
-	 * Returns a Cache Item representing the specified key.
+	 * Returns a cache item representing the specified key.
 	 * @param string|array $key Cache ID
 	 * @return string|array
 	 */
@@ -54,7 +54,7 @@ class XCache
 	}
 
 	/**
-	 * Cache Save
+	 * Cache save
 	 * @param string $key Cache ID
 	 * @param string|array $value Data to store
 	 * @param int $duration Cache TTL (in seconds)

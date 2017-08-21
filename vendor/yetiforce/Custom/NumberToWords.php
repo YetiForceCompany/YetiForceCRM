@@ -12,10 +12,14 @@ class NumberToWords
 {
 
 	/**
+	 * Contains an array of translations
 	 * @var array
 	 */
 	protected static $words = [];
 
+	/**
+	 * Initializes the translation
+	 */
 	public static function initialize()
 	{
 		$minus = \App\Language::translate('LBL_MINUS');
@@ -125,7 +129,7 @@ class NumberToWords
 	}
 
 	/**
-	 * Podaje słowną wartość liczby całkowitej (równierz podaną w postaci stringa)
+	 * Provides a verbal value of integer (also provided as string)
 	 *
 	 * @param integer $int
 	 * @return string
@@ -166,8 +170,8 @@ class NumberToWords
 	}
 
 	/**
-	 * Podaje słowną wartość kwoty wraz z wartościami po kropce.
-	 * Nie przyjmuje wartości przedzielonych przecinkami (jako wartości nie numerycznych).
+	 * Provides a verbal value of total amount with numbers after a comma.
+	 * Does not accept values separated with a comma (as non-numerical values)
 	 *
 	 * @param integer|string $amount
 	 * @param string $currencyName
@@ -193,7 +197,7 @@ class NumberToWords
 	}
 
 	/**
-	 * Czyści podwójne spacje i trimuje
+	 * Cleans double spaces and trimms
 	 *
 	 * @param $string
 	 * @return mixed
@@ -204,11 +208,11 @@ class NumberToWords
 	}
 
 	/**
-	 * $inflections = Array('jeden','dwa','pięć')
-	 *
-	 * @param string[] $inflections
-	 * @param $int
-	 * @return mixed
+	 * Array inflection
+	 *  
+	 * @param array $inflections
+	 * @param int $int
+	 * @return array
 	 */
 	protected static function inflection(array $inflections, $int)
 	{
@@ -230,7 +234,7 @@ class NumberToWords
 	}
 
 	/**
-	 * Odmiana dla liczb < 1000
+	 * Variety for numbers < 1000
 	 *
 	 * @param integer $int
 	 * @return string
