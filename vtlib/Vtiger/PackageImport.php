@@ -618,16 +618,16 @@ class PackageImport extends PackageExport
 			if (Utils::isCreateSql($sql)) {
 				if (!Utils::checkTable($tableName)) {
 					self::log("SQL: $sql ... ", false);
-					Utils::ExecuteQuery($sql);
-					self::log("DONE");
+					Utils::executeQuery($sql);
+					self::log('DONE');
 				}
 			} else {
 				if (Utils::isDestructiveSql($sql)) {
 					self::log("SQL: $sql ... SKIPPED");
 				} else {
 					self::log("SQL: $sql ... ", false);
-					Utils::ExecuteQuery($sql);
-					self::log("DONE");
+					Utils::executeQuery($sql);
+					self::log('DONE');
 				}
 			}
 		}
@@ -1049,9 +1049,9 @@ class PackageImport extends PackageExport
 		$table = $inventoryFieldInstance->getTableName();
 
 		if ($instance->isColumnType()) {
-			Utils::AddColumn($table, $fieldNode->columnname, $instance->getDBType());
+			Utils::addColumn($table, $fieldNode->columnname, $instance->getDBType());
 			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				Utils::AddColumn($table, $column, $criteria);
+				Utils::addColumn($table, $column, $criteria);
 			}
 		}
 		$db = \PearDatabase::getInstance();

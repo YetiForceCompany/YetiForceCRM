@@ -194,8 +194,8 @@ class PackageUpdate extends PackageImport
 						} else {
 							// Supress any SQL query failures
 							self::log("SQL: $tablesql ... ", false);
-							Utils::ExecuteQuery($tablesql, true);
-							self::log("DONE");
+							Utils::executeQuery($tablesql, true);
+							self::log('DONE');
 						}
 					}
 				}

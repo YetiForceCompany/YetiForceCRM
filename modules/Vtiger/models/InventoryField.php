@@ -432,9 +432,9 @@ class Vtiger_InventoryField_Model extends App\Base
 		}
 
 		if ($instance->isColumnType()) {
-			vtlib\Utils::AddColumn($table, $columnName, $instance->getDBType());
+			vtlib\Utils::addColumn($table, $columnName, $instance->getDBType());
 			foreach ($instance->getCustomColumn() as $column => $criteria) {
-				vtlib\Utils::AddColumn($table, $column, $criteria);
+				vtlib\Utils::addColumn($table, $column, $criteria);
 			}
 		}
 		$tableName = $this->getTableName('fields');

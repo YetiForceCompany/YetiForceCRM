@@ -357,7 +357,7 @@ class PackageExport
 			foreach ($tables as $table) {
 				$this->openNode('table');
 				$this->outputNode($table, 'name');
-				$this->outputNode('<![CDATA[' . Utils::CreateTableSql($table) . ']]>', 'sql');
+				$this->outputNode('<![CDATA[' . Utils::createTableSql($table) . ']]>', 'sql');
 				$this->closeNode('table');
 			}
 		}

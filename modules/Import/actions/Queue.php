@@ -57,7 +57,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	public static function remove($importId)
 	{
 		$db = PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', array($importId));
 		}
 	}
@@ -65,7 +65,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	public static function removeForUser($user)
 	{
 		$db = PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
 			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
 		}
 	}
@@ -74,7 +74,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		$db = PearDatabase::getInstance();
 
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
 
 			if ($queueResult && $db->num_rows($queueResult) > 0) {
@@ -104,7 +104,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		$db = PearDatabase::getInstance();
 
-		if (vtlib\Utils::CheckTable('vtiger_import_queue')) {
+		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
 
 			if ($queueResult && $db->num_rows($queueResult) > 0) {
