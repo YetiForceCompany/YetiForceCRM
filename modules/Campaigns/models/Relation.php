@@ -13,23 +13,20 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 
 	/**
 	 * Function to update the status of relation
-	 * @param <Number> Campaign record id
-	 * @param <array> $statusDetails
+	 * @param integer $sourceRecordId
+	 * @param array $statusDetails
 	 */
 	public function updateStatus($sourceRecordId, $statusDetails = [])
 	{
 		if ($sourceRecordId && $statusDetails) {
-			$relatedModuleName = $this->getRelationModuleModel()->getName();
-
-			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-				$db = PearDatabase::getInstance();
-
-				$updateQuery = 'UPDATE vtiger_campaign_records SET campaignrelstatusid = CASE crmid ';
+			if (in_array($this->getRelationModuleModel()->getName(), ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
+				$db = App\Db::getInstance();
+				$case = ' CASE crmid ';
 				foreach ($statusDetails as $relatedRecordId => $status) {
-					$updateQuery .= " WHEN $relatedRecordId THEN $status ";
+					$case .= " WHEN {$db->quoteValue($relatedRecordId)} THEN {$db->quoteValue($status)}";
 				}
-				$updateQuery .= 'ELSE campaignrelstatusid END WHERE campaignid = ?';
-				$db->pquery($updateQuery, array($sourceRecordId));
+				$case .= ' END';
+				$db->createCommand()->update('vtiger_campaign_records', ['campaignrelstatusid' => new yii\db\Expression($case)], ['campaignid' => $sourceRecordId])->execute();
 			}
 		}
 	}
