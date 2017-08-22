@@ -16,6 +16,11 @@ class DateTime
 		'yyyy/mm/dd' => 'Y/m/d',
 	];
 
+	/**
+	 * Current user JS date format.
+	 * @param boolean $format
+	 * @return type
+	 */
 	public static function currentUserJSDateFormat($format = false)
 	{
 		if ($format) {
