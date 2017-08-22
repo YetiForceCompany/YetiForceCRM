@@ -81,16 +81,15 @@ class Partners extends Vtiger_CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Partners');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PR', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Partners']);
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Partners'])->execute();
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -98,53 +97,45 @@ class Partners extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Partners'));
 			}
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
+		} else if ($eventType === 'module.disabled') {
+
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+
 		}
 	}
 
 	/**
 	 * Move the related records of the specified list of id's to the given record.
-	 * @param String This module name
-	 * @param Array List of Entity Id's from which related records need to be transfered
-	 * @param Integer Id of the the Record to which the related records are to be moved
+	 * @param string $module This module name
+	 * @param array $transferEntityIds List of Entity Id's from which related records need to be transfered
+	 * @param integer $entityId Id of the the Record to which the related records are to be moved
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
-
-		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
-
-		$tbl_field_arr = ['vtiger_campaign_records' => 'campaignid'];
-
-		$entity_tbl_field_arr = ['vtiger_campaign_records' => 'crmid'];
-
+		$relTableArr = ['Campaigns' => 'vtiger_campaign_records'];
+		$tblFieldArr = ['vtiger_campaign_records' => 'campaignid'];
+		$entityTblFieldArr = ['vtiger_campaign_records' => 'crmid'];
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relModule => $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->num_rows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; $i++) {
-						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
-						$adb->update($rel_table, [$entity_id_field => $entityId], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]);
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new \App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					\App\Db::getInstance()->createCommand()->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
 			}
 		}
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 	/*
 	 * Function to get the relation tables for related modules
