@@ -17,7 +17,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	public function loadListViewOrderBy()
 	{
 		//List view will be displayed on recently created/modified records
-		if (empty($this->getForSql('orderby')) && empty($this->getForSql('sortorder')) && $this->getModule()->get('name') != "Users") {
+		if (empty($this->getForSql('orderby')) && empty($this->getForSql('sortorder')) && $this->getModule()->get('name') != 'Users') {
 			$this->set('orderby', 'modifiedtime');
 			$this->set('sortorder', 'DESC');
 		}
@@ -93,7 +93,7 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	public function getSubProducts($subProductId)
 	{
 		$flag = false;
-		if (!empty($subProductId)) {
+		if ($subProductId) {
 			$flag = (new App\Db\Query())
 					->select(['vtiger_seproductsrel.crmid'])
 					->from('vtiger_seproductsrel')->innerJoin('vtiger_crmentity', 'vtiger_seproductsrel.crmid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seproductsrel.setype' => $this->getModule()->get('name'), 'vtiger_seproductsrel.productid' => $subProductId])->exists();
