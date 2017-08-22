@@ -312,67 +312,62 @@ class Project extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function moduleHandler($modulename, $event_type)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($event_type == 'module.postinstall') {
-			$adb = PearDatabase::getInstance();
+		if ($eventType === 'module.postinstall') {
 
-			$moduleInstance = vtlib\Module::getInstance($modulename);
-			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
-			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
 			// Add Project module to the related list of Accounts module
 			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
+			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', ['ADD', 'SELECT'], 'getDependentsList');
 
 			// Add Project module to the related list of Accounts module
 			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
-			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
+			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', ['ADD', 'SELECT'], 'getDependentsList');
 
 			// Add Project module to the related list of HelpDesk module
 			$helpDeskModuleInstance = vtlib\Module::getInstance('HelpDesk');
-			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('SELECT'), 'getRelatedList');
+			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', ['SELECT'], 'getRelatedList');
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('Project'));
+					ModComments::addWidgetTo(['Project']);
 			}
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
-			$adb = PearDatabase::getInstance();
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
+		} else if ($eventType === 'module.disabled') {
 
-			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
-			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
+		} else if ($eventType === 'module.enabled') {
+
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('Project'));
+					ModComments::addWidgetTo(['Project']);
 			}
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
 		}
 	}
 
 	public static function registerLinks()
 	{
-		
+
 	}
 	/**
 	 * Here we override the parent's method,
