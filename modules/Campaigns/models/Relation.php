@@ -25,7 +25,7 @@ class Campaigns_Relation_Model extends Vtiger_Relation_Model
 				foreach ($statusDetails as $relatedRecordId => $status) {
 					$case .= " WHEN {$db->quoteValue($relatedRecordId)} THEN {$db->quoteValue($status)}";
 				}
-				$case .= ' END';
+				$case .= 'ELSE campaignrelstatusid END';
 				$db->createCommand()->update('vtiger_campaign_records', ['campaignrelstatusid' => new yii\db\Expression($case)], ['campaignid' => $sourceRecordId])->execute();
 			}
 		}
