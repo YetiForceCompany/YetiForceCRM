@@ -432,36 +432,31 @@ class Project extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("ProjectTask" => "vtiger_projecttask", 'ProjectMilestone' => 'vtiger_projectmilestone',
-			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
+		$relTableArr = ['ProjectTask' => 'vtiger_projecttask', 'ProjectMilestone' => 'vtiger_projectmilestone',
+			'Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
 
-		$tbl_field_arr = Array("vtiger_projecttask" => "projecttaskid", 'vtiger_projectmilestone' => 'projectmilestoneid',
-			"vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid");
+		$tblFieldArr = ['vtiger_projecttask' => 'projecttaskid', 'vtiger_projectmilestone' => 'projectmilestoneid',
+			'vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
 
-		$entity_tbl_field_arr = Array("vtiger_projecttask" => "projectid", 'vtiger_projectmilestone' => 'projectid',
-			"vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid");
+		$entityTblFieldArr = ['vtiger_projecttask' => 'projectid', 'vtiger_projectmilestone' => 'projectid',
+			'vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relModule => $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
-				$res_cnt = $adb->num_rows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; $i++) {
-						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new \App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					\App\Db::getInstance()->createCommand()->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 }
