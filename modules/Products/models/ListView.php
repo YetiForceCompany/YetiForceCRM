@@ -94,22 +94,16 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	{
 		$flag = false;
 		if (!empty($subProductId)) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT vtiger_seproductsrel.crmid from vtiger_seproductsrel INNER JOIN
-                vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid 
-					AND vtiger_crmentity.deleted = 0 && vtiger_seproductsrel.setype=? 
-				WHERE vtiger_seproductsrel.productid=?", array($this->getModule()->get('name'), $subProductId));
-			if ($db->num_rows($result) > 0) {
-				$flag = true;
-			}
+			$flag = (new App\Db\Query())
+					->select(['vtiger_seproductsrel.crmid'])
+					->from('vtiger_seproductsrel')->innerJoin('vtiger_crmentity', 'vtiger_seproductsrel.crmid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seproductsrel.setype' => $this->getModule()->get('name'), 'vtiger_seproductsrel.productid' => $subProductId])->exists();
 		}
 		return $flag;
 	}
 
 	/**
-	 * Function to get the list view entries
-	 * @param Vtiger_Paging_Model $pagingModel
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * Function to get the list view count
+	 * @return int
 	 */
 	public function getListViewCount()
 	{
