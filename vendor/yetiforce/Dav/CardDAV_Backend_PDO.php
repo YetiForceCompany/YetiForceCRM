@@ -17,11 +17,15 @@ class CardDAV_Backend_PDO extends CardDAV\Backend\PDO
 
 	/**
 	 * The PDO table name used to store addressbooks
+	 * 
+	 * @var string
 	 */
 	public $addressBooksTableName = 'dav_addressbooks';
 
 	/**
 	 * The PDO table name used to store cards
+	 * 
+	 * @var string
 	 */
 	public $cardsTableName = 'dav_cards';
 

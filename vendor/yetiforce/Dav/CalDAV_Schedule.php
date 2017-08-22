@@ -17,6 +17,11 @@ class CalDAV_Schedule extends DAV\ServerPlugin
 	const DEBUG_FILE = 'cache/logs/davDebug.log';
 	const EXCEPTION_FILE = 'cache/logs/davException.log';
 
+	/**
+	 * Initializes the schedule
+	 * 
+	 * @param \Sabre\DAV\Server $server
+	 */
 	public function initialize(DAV\Server $server)
 	{
 		$this->server = $server;
