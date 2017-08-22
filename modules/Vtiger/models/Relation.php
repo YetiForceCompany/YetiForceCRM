@@ -699,31 +699,6 @@ class Vtiger_Relation_Model extends \App\Base
 		return $fields;
 	}
 
-	public static function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_relatedlists SET sequence=CASE ';
-		$relation_ids = [];
-		foreach ($relatedInfoList as $relatedInfo) {
-			$relation_id = $relatedInfo['relation_id'];
-			$relation_ids[] = $relation_id;
-			$sequence = $relatedInfo['sequence'];
-			$presence = $relatedInfo['presence'];
-			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $sequence;
-		}
-		$query .= ' END , ';
-		$query .= ' presence = CASE ';
-		foreach ($relatedInfoList as $relatedInfo) {
-			$relation_id = $relatedInfo['relation_id'];
-			$relation_ids[] = $relation_id;
-			$sequence = $relatedInfo['sequence'];
-			$presence = $relatedInfo['presence'];
-			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
-		}
-		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
-		$db->pquery($query, array($sourceModuleTabId, $relation_ids));
-	}
-
 	/**
 	 * Function to set presence relation
 	 * @param int $relationId

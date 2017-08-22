@@ -166,47 +166,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	}
 
 	/**
-	 * Function returns the record Ids selected in the current filter
-	 * @param \App\Request $request
-	 * @return integer
-	 */
-	public function getRecordsListFromRequest(\App\Request $request, $module = false)
-	{
-		$cvId = $request->get('viewname');
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-		if (empty($module)) {
-			$module = $request->getModule();
-		}
-		if (!empty($selectedIds) && $selectedIds != 'all') {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				return $selectedIds;
-			}
-		}
-
-		$sourceRecord = $request->get('sourceRecord');
-		$sourceModule = $request->get('sourceModule');
-		if ($sourceRecord && $sourceModule) {
-			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
-			return $sourceRecordModel->getSelectedIdsList($module, $excludedIds);
-		}
-
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
-		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
-			$searchValue = $request->get('search_value');
-			$operator = $request->get('operator');
-			if (!empty($operator)) {
-				$customViewModel->set('operator', $operator);
-				$customViewModel->set('search_key', $searchKey);
-				$customViewModel->set('search_value', $searchValue);
-			}
-			$customViewModel->set('search_params', $request->get('search_params'));
-			return $customViewModel->getRecordIds($excludedIds, $module);
-		}
-	}
-
-	/**
 	 * Function shows the List of Mail Merge Templates
 	 * @param \App\Request $request
 	 */
