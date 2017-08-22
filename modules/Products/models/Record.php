@@ -104,29 +104,24 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Image Details
-	 * @return <array> Image Details List
+	 * @return array Image Details List
 	 */
 	public function getImageDetails()
 	{
-		$db = PearDatabase::getInstance();
 		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
+			$query = (new \App\Db\Query())
+					->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.setype' => 'Products Image', 'vtiger_seattachmentsrel.crmid' => $recordId]);
 
-			$result = $db->pquery($sql, array($recordId));
-			$count = $db->num_rows($result);
-
+			$dataReader = $query->createCommand()->query();
 			$imageOriginalNamesList = [];
 
-			for ($i = 0; $i < $count; $i++) {
-				$imageIdsList[] = $db->query_result($result, $i, 'attachmentsid');
-				$imagePathList[] = $db->query_result($result, $i, 'path');
-				$imageName = $db->query_result($result, $i, 'name');
+			while ($row = $dataReader->read()) {
+				$imageIdsList[] = $row['attachmentsid'];
+				$imagePathList[] = $row['path'];
+				$imageName = $row['name'];
 
 				//App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
 				$imageOriginalNamesList[] = App\Purifier::decodeHtml($imageName);
@@ -251,10 +246,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT discontinued FROM vtiger_products WHERE productid = ?', array($recordId));
-		$activeStatus = $db->query_result($result, 'discontinued');
-		return $activeStatus;
+		return (new \App\Db\Query())->select(['discontinued'])->from('vtiger_products')->where(['productid' => $recordId])->scalar();
 	}
 
 	/**
@@ -387,7 +379,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * 
+	 *
 	 * @param int $productId
 	 * @param string $module
 	 * @return int
@@ -404,27 +396,20 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return $currencyid;
 	}
 
-	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
+	public function getBaseConversionRateForProduct($productId, $mode = 'edit', $module = 'Products')
 	{
-		$adb = PearDatabase::getInstance();
+		$query = (new \App\Db\Query());
 		if ($mode === 'edit') {
 			if ($module === 'Services') {
-				$sql = 'select conversion_rate from vtiger_service inner join vtiger_currency_info
-					on vtiger_service.currency_id = vtiger_currency_info.id where vtiger_service.serviceid=?';
+				$convRate = $query->select(['conversion_rate'])->from('vtiger_service')->innerJoin('vtiger_currency_info', 'vtiger_service.currency_id = vtiger_currency_info.id')->where(['vtiger_service.serviceid' => $productId])->scalar();
 			} else {
-				$sql = 'select conversion_rate from vtiger_products inner join vtiger_currency_info
-					on vtiger_products.currency_id = vtiger_currency_info.id where vtiger_products.productid=?';
+				$convRate = $query->select(['conversion_rate'])->from('vtiger_products')->innerJoin('vtiger_currency_info', 'vtiger_products.currency_id = vtiger_currency_info.id')->where(['vtiger_products.productid' => $productId])->scalar();
 			}
-			$params = array($productid);
 		} else {
-			$sql = 'select conversion_rate from vtiger_currency_info where id=?';
-			$params = [\App\User::getCurrentUserModel()->getDetail('currency_id')];
+			$convRate = $query->select(['conversion_rate'])->from('vtiger_currency_info')->where(['id' => \App\User::getCurrentUserModel()->getDetail('currency_id')])->scalar();
 		}
 
-		$res = $adb->pquery($sql, $params);
-		$conv_rate = $adb->query_result($res, 0, 'conversion_rate');
-
-		return 1 / $conv_rate;
+		return 1 / $convRate;
 	}
 
 	/**
@@ -455,7 +440,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Update unit price 
+	 * Update unit price
 	 */
 	public function updateUnitPrice()
 	{
