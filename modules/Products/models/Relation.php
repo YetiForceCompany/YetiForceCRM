@@ -22,7 +22,7 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 		$sourceModuleName = $this->getParentModuleModel()->get('name');
 		$relatedModuleName = $this->getRelationModuleModel()->get('name');
 		if (($sourceModuleName == 'Products' || $sourceModuleName == 'Services') && $relatedModuleName == 'PriceBooks') {
-			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service 
+			//Description: deleteListPrice function is deleting the relation between Pricebook and Product/Service
 			return Vtiger_Record_Model::getInstanceById($relatedRecordId, $relatedModuleName)->deleteListPrice($sourceRecordId);
 		} else if ($sourceModuleName == $relatedModuleName) {
 			return $this->deleteProductToProductRelation($sourceRecordId, $relatedRecordId);
@@ -48,12 +48,8 @@ class Products_Relation_Model extends Vtiger_Relation_Model
 
 	public function isSubProduct($subProductId)
 	{
-		if (!empty($subProductId)) {
-			$db = PearDatabase::getInstance();
-			$result = $db->pquery('SELECT crmid FROM vtiger_seproductsrel WHERE crmid = ?', array($subProductId));
-			if ($db->num_rows($result) > 0) {
-				return true;
-			}
+		if ($subProductId) {
+			return (new \App\Db\Query())->select(['crmid'])->from('vtiger_seproductsrel')->where(['crmid' => $subProductId])->exists();
 		}
 	}
 
