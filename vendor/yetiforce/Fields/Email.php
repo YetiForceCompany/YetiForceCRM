@@ -33,10 +33,10 @@ class Email
 
 	/**
 	 * Find crm id by email.
-	 * @param type $value
+	 * @param string|int $value
 	 * @param array $allowedModules
 	 * @param array $skipModules
-	 * @return type
+	 * @return string
 	 */
 	public static function findCrmidByEmail($value, $allowedModules = [], $skipModules = [])
 	{
@@ -99,7 +99,7 @@ class Email
 
 	/**
 	 * Get user mail.
-	 * @param type $userId
+	 * @param int $userId
 	 * @return string
 	 */
 	public static function getUserMail($userId)

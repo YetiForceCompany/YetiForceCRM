@@ -19,7 +19,7 @@ class DateTime
 	/**
 	 * Current user JS date format.
 	 * @param boolean $format
-	 * @return type
+	 * @return boolean|string
 	 */
 	public static function currentUserJSDateFormat($format = false)
 	{
