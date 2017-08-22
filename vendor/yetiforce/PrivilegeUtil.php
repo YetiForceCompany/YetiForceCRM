@@ -100,6 +100,7 @@ class PrivilegeUtil
 			return Cache::get('getUsersByRole', $roleId);
 		}
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->column();
+		$users = array_map('intval', $users);
 		Cache::save('getUsersByRole', $roleId, $users);
 		return $users;
 	}
@@ -152,6 +153,7 @@ class PrivilegeUtil
 			return Cache::get('UserGroups', $userId);
 		}
 		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_users2group')->where(['userid' => $userId])->column();
+		$groupIds = array_map('intval', $groupIds);
 		Cache::save('UserGroups', $userId, $groupIds);
 		return $groupIds;
 	}
@@ -172,6 +174,7 @@ class PrivilegeUtil
 			->from('vtiger_role2profile')
 			->where(['roleid' => $roleId])
 			->column();
+		$profiles = array_map('intval', $profiles);
 		Cache::staticSave('getProfilesByRole', $roleId, $profiles);
 		return $profiles;
 	}
@@ -325,6 +328,7 @@ class PrivilegeUtil
 		$parentRole = $roleInfo['parentrole'];
 		$users = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
 				->where(['like', 'vtiger_role.parentrole', "$parentRole%", false])->column();
+		$users = array_map('intval', $users);
 		Cache::save('getUsersByRoleAndSubordinate', $roleId, $users, Cache::LONG);
 		return $users;
 	}
