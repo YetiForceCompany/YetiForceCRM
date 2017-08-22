@@ -20,38 +20,38 @@ class PaymentsIn extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_paymentsincf', 'paymentsinid');
+	public $customFieldTable = ['vtiger_paymentsincf', 'paymentsinid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_paymentsin', 'vtiger_paymentsincf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_paymentsin', 'vtiger_paymentsincf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_paymentsin' => 'paymentsinid',
-		'vtiger_paymentsincf' => 'paymentsinid');
+		'vtiger_paymentsincf' => 'paymentsinid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = array(
-		'LBL_PAYMENTSNO' => array('vtiger_paymentsin' => 'paymentsno'),
-		'LBL_PAYMENTSNAME' => array('vtiger_paymentsin' => 'paymentsname'),
-		'LBL_PAYMENTSVALUE' => array('vtiger_paymentsin' => 'paymentsvalue'),
-		'LBL_PAYMENTSCURRENCY' => array('vtiger_paymentsin' => 'paymentscurrency'),
-		'LBL_PAYMENTSSTATUS' => array('vtiger_paymentsin' => 'paymentsin_status')
-	);
-	public $list_fields_name = array(
+	public $list_fields = [
+		'LBL_PAYMENTSNO' => ['vtiger_paymentsin' => 'paymentsno'],
+		'LBL_PAYMENTSNAME' => ['vtiger_paymentsin' => 'paymentsname'],
+		'LBL_PAYMENTSVALUE' => ['vtiger_paymentsin' => 'paymentsvalue'],
+		'LBL_PAYMENTSCURRENCY' => ['vtiger_paymentsin' => 'paymentscurrency'],
+		'LBL_PAYMENTSSTATUS' => ['vtiger_paymentsin' => 'paymentsin_status']
+	];
+	public $list_fields_name = [
 		'LBL_PAYMENTSNO' => 'paymentsno',
 		'LBL_PAYMENTSNAME' => 'paymentsname',
 		'LBL_PAYMENTSVALUE' => 'paymentsvalue',
 		'LBL_PAYMENTSCURRENCY' => 'paymentscurrency',
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -60,55 +60,54 @@ class PaymentsIn extends Vtiger_CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'paymentsname';
 	// For Popup listview and UI type support
-	public $search_fields = array(
-		'LBL_PAYMENTSNO' => array('paymentsin', 'paymentsno'),
-		'LBL_PAYMENTSNAME' => array('paymentsin', 'paymentsname'),
-		'LBL_PAYMENTSVALUE' => array('paymentsin', 'paymentsvalue'),
-		'LBL_PAYMENTSCURRENCY' => array('paymentsin', 'paymentscurrency'),
-		'LBL_PAYMENTSSTATUS' => array('paymentsin', 'paymentsin_status'),
-	);
-	public $search_fields_name = array(
+	public $search_fields = [
+		'LBL_PAYMENTSNO' => ['paymentsin', 'paymentsno'],
+		'LBL_PAYMENTSNAME' => ['paymentsin', 'paymentsname'],
+		'LBL_PAYMENTSVALUE' => ['paymentsin', 'paymentsvalue'],
+		'LBL_PAYMENTSCURRENCY' => ['paymentsin', 'paymentscurrency'],
+		'LBL_PAYMENTSSTATUS' => ['paymentsin', 'paymentsin_status'],
+	];
+	public $search_fields_name = [
 		'LBL_PAYMENTSNO' => 'paymentsno',
 		'LBL_PAYMENTSNAME' => 'paymentsname',
 		'LBL_PAYMENTSVALUE' => 'paymentsvalue',
 		'LBL_PAYMENTSCURRENCY' => 'paymentscurrency',
 		'LBL_PAYMENTSSTATUS' => 'paymentsin_status',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = array('paymentsname');
+	public $popup_fields = ['paymentsname'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'paymentsname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'paymentsname';
 	// Required Information for enabling Import feature
-	public $required_fields = array('paymentsname' => 1);
+	public $required_fields = ['paymentsname' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = array('createdtime', 'modifiedtime', 'paymentsname');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'paymentsname'];
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function moduleHandler($modulename, $event_type)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($event_type == 'module.postinstall') {
-			$ModuleInstance = CRMEntity::getInstance($modulename);
-			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
+		if ($eventType === 'module.postinstall') {
+			$ModuleInstance = CRMEntity::getInstance($moduleName);
+			\App\Fields\RecordNumber::setNumber($moduleName, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('Payments'));
+					ModComments::addWidgetTo(['Payments']);
 			}
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($modulename));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 
 			$moduleInstance = vtlib\Module::getInstance('Accounts');
 			$blockInstance = vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
@@ -123,17 +122,17 @@ class PaymentsIn extends Vtiger_CRMEntity
 			$fieldInstance->displaytype = 2;
 			$blockInstance->addField($fieldInstance);
 
-			$this->addWorkflow($modulename);
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
-			
+			$this->addWorkflow($moduleName);
+		} else if ($eventType === 'module.disabled') {
+
+		} else if ($eventType === 'module.enabled') {
+
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+
 		}
 	}
 
@@ -144,7 +143,7 @@ class PaymentsIn extends Vtiger_CRMEntity
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 		$functionName = 'UpdateBalance';
 		$emm = new VTEntityMethodManager();
-		$emm->addEntityMethod($moduleName, $functionName, "modules/PaymentsIn/workflow/UpdateBalance.php", $functionName);
+		$emm->addEntityMethod($moduleName, $functionName, 'modules/PaymentsIn/workflow/UpdateBalance.php', $functionName);
 
 		$workflowManager = new VTWorkflowManager();
 		$taskManager = new VTTaskManager();
