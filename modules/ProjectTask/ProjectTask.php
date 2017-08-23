@@ -324,7 +324,7 @@ class ProjectTask extends CRMEntity
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('ProjectTask'));
+					ModComments::addWidgetTo(['ProjectTask']);
 			}
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
