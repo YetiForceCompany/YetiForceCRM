@@ -17,7 +17,7 @@ class Contacts_Detail_View extends Vtiger_Detail_View
 			$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
+		$viewer->assign('IMAGE_DETAILS', $this->record->getRecord()->getImageDetails());
 
 		return parent::showModuleDetailView($request);
 	}
