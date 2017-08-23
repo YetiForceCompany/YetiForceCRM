@@ -23,11 +23,11 @@ class OSSMailView_ChangeType_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$selectedIds = $request->get('data');
-		$mail_type = $request->get('mail_type');
+		$mailType = $request->get('mail_type');
 		if ($selectedIds == 'all') {
-			$recordModel->ChangeTypeAllRecords($mail_type);
+			$recordModel->changeTypeAllRecords($mailType);
 		} else {
-			$recordModel->ChangeTypeSelectedRecords($selectedIds, $mail_type);
+			$recordModel->changeTypeSelectedRecords($selectedIds, $mailType);
 		}
 		$response = new Vtiger_Response();
 		$response->setResult(\App\Language::translate('LBL_ChangeTypeOK', $moduleName));

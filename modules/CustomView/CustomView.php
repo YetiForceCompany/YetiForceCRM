@@ -381,7 +381,7 @@ class CustomView extends CRMEntity
 	 * @param string $columnName
 	 * @param string $tableName
 	 */
-	public function isFieldPresent_ByColumnTable($columnName, $tableName)
+	public function isFieldPresentByColumnTable($columnName, $tableName)
 	{
 		if (!isset($this->_fieldby_tblcol_cache[$tableName])) {
 			$rows = (new App\Db\Query())->select(['columnname'])->from('vtiger_field')->where(['tablename' => $tableName, 'presence' => [0, 2]])->column();
@@ -437,7 +437,7 @@ class CustomView extends CRMEntity
 					$fieldlabel = $fieldinfo[1];
 					$fieldlabel = str_replace("_", " ", $fieldlabel);
 
-					if ($this->isFieldPresent_ByColumnTable($list[1], $list[0])) {
+					if ($this->isFieldPresentByColumnTable($list[1], $list[0])) {
 
 						$this->list_fields[$fieldlabel] = $tablefield;
 						$this->list_fields_name[$fieldlabel] = $list[2];

@@ -47,7 +47,7 @@ class IStorages_RecalculateStockHandler_Handler
 		$moduleName = $recordModel->getModuleName();
 		$inventoryData = $recordModel->getInventoryData();
 		if (!empty($inventoryData) && $recordModel->get('storageid')) {
-			IStorages_Module_Model::RecalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
+			IStorages_Module_Model::recalculateStock($moduleName, $inventoryData, $recordModel->get('storageid'), $action);
 		}
 	}
 }

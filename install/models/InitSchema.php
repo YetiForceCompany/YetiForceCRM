@@ -55,7 +55,7 @@ class Install_InitSchema_Model
 		$insert_query = substr_count($splitQueries, 'INSERT INTO');
 		$alter_query = substr_count($splitQueries, 'ALTER TABLE');
 		$executed_query = 0;
-		$queries = $this->_splitQueries($splitQueries);
+		$queries = $this->splitQueries($splitQueries);
 		foreach ($queries as $query) {
 			// Trim any whitespace.
 			$query = trim($query);
@@ -96,7 +96,7 @@ class Install_InitSchema_Model
 		createUserPrivilegesfile(1);
 	}
 
-	public function _splitQueries($query)
+	public function splitQueries($query)
 	{
 		$buffer = [];
 		$queries = [];

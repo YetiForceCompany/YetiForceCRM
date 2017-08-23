@@ -410,7 +410,7 @@ class iCalendar_event extends iCalendar_component
 		'DTEND' => array('component' => array('due_date', 'time_end'), 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'),
 		'DTSTAMP' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStamp', 'type' => 'datetime'),
 		'LOCATION' => array('component' => 'location', 'type' => 'string'),
-		'ORGANIZER' => array('component' => 'activityid', 'function' => 'icalendar_event_organizer', 'type' => 'user'),
+		'ORGANIZER' => array('component' => 'activityid', 'function' => 'icalendarEventOrganizer', 'type' => 'user'),
 		'STATUS' => array('component' => 'activitystatus', 'type' => 'string'),
 		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
 		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
@@ -543,7 +543,7 @@ class iCalendar_event extends iCalendar_component
 		return true;
 	}
 
-	public function icalendar_event_organizer($activity)
+	public function icalendarEventOrganizer($activity)
 	{
 		$email = App\Fields\Email::getUserMail($activity['assigned_user_id']);
 		$this->addProperty('ORGANIZER', 'mailto:' . $email);
@@ -658,7 +658,7 @@ class iCalendar_alarm extends iCalendar_component
 	public $name = 'VALARM';
 	public $properties;
 	public $mapping_arr = array(
-		'TRIGGER' => array('component' => 'reminder_time', 'function' => 'iCalendar_event_trigger'),
+		'TRIGGER' => array('component' => 'reminder_time', 'function' => 'iCalendarEventTrigger'),
 	);
 
 	public function construct()
@@ -676,7 +676,7 @@ class iCalendar_alarm extends iCalendar_component
 		parent::construct();
 	}
 
-	public function iCalendar_event_trigger($activity)
+	public function iCalendarEventTrigger($activity)
 	{
 		$reminder_time = $activity['reminder_time'];
 		if ($reminder_time > 60) {

@@ -191,7 +191,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return $returnEmail;
 	}
 
-	public function delete_rel($recordId)
+	public function deleteRel($recordId)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$query = (new \App\Db\Query())->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $recordId]);
@@ -213,18 +213,18 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		return array(2 => 'Internal', 0 => 'Sent', 1 => 'Received');
 	}
 
-	public function ChangeTypeAllRecords($mailType)
+	public function changeTypeAllRecords($mailType)
 	{
 		$mailTypeData = $this->getMailType();
 		$this->addLog('Action_ChangeType', 'all');
 		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailTypeData[$mailType], 'type' => $mailType], [])->execute();
 	}
 
-	public function ChangeTypeSelectedRecords($selectedIds, $mail_type)
+	public function changeTypeSelectedRecords($selectedIds, $mail_type)
 	{
-		$MailType = $this->getMailType();
+		$mailType = $this->getMailType();
 		$this->addLog('Action_ChangeType', count($selectedIds));
-		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $MailType[$mail_type], 'type' => $mail_type], ['ossmailviewid' => $selectedIds])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', ['ossmailview_sendtype' => $mailType[$mail_type], 'type' => $mail_type], ['ossmailviewid' => $selectedIds])->execute();
 	}
 
 	public function addLog($action, $info)
