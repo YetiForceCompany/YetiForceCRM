@@ -40,7 +40,7 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 			}
 		}
 		if (strcmp($newPassword, $confirmPassword) === 0) {
-			$success = $newUser->change_password($oldPassword, $newPassword);
+			$success = $newUser->changePassword($oldPassword, $newPassword);
 			$error = $newUser->db->hasFailedTransaction();
 			if ($error) {
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .

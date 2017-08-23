@@ -294,10 +294,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
-			$this->set('confirm_password', $entityInstance->encrypt_password($this->get('confirm_password'), $cryptType));
+			$this->set('confirm_password', $entityInstance->encryptPassword($this->get('confirm_password'), $cryptType));
 		}
 		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$this->set('user_password', $entityInstance->encrypt_password($this->get('user_password'), $cryptType));
+			$this->set('user_password', $entityInstance->encryptPassword($this->get('user_password'), $cryptType));
 			$values['vtiger_users']['crypt_type'] = $cryptType;
 		}
 		return $values;

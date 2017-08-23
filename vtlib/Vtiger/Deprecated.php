@@ -310,7 +310,7 @@ class Deprecated
 		return $sqlString;
 	}
 
-	public static function return_app_list_strings_language($language, $module = 'Vtiger')
+	public static function returnAppListStringsLanguage($language, $module = 'Vtiger')
 	{
 		$strings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
 		return $strings['languageStrings'];

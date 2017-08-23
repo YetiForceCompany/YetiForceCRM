@@ -93,8 +93,8 @@ function vtws_listtypes($fieldTypeList, Users_Record_Model $user)
 		$current_language = $default_language;
 	$current_language = vtws_preserveGlobal('current_language', $current_language);
 
-	$appStrings = \vtlib\Deprecated::return_app_list_strings_language($current_language);
-	$appListString = \vtlib\Deprecated::return_app_list_strings_language($current_language);
+	$appStrings = \vtlib\Deprecated::returnAppListStringsLanguage($current_language);
+	$appListString = \vtlib\Deprecated::returnAppListStringsLanguage($current_language);
 	vtws_preserveGlobal('app_strings', $appStrings);
 	vtws_preserveGlobal('app_list_strings', $appListString);
 
