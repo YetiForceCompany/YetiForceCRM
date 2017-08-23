@@ -18,9 +18,9 @@ class Assets_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$ID = $request->get('record');
+		$recordId = $request->getInteger('record');
 
-		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $ID)->getRecord();
+		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId)->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
 		$fields = [];

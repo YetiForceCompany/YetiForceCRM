@@ -10,21 +10,22 @@
 class Assets_GetHierarchy_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$hierarchyModuleName = 'Accounts';
-
-		if (!empty($moduleName)) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$permissionHierarchyModule = $userPrivilegesModel->hasModulePermission($hierarchyModuleName);
-
-			if (!$permission || !$permissionHierarchyModule) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-			}
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModulePermission($moduleName) || !$userPrivilegesModel->hasModulePermission($hierarchyModuleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if (!\App\Privilege::isPermitted($hierarchyModuleName, 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -35,8 +36,6 @@ class Assets_GetHierarchy_View extends Vtiger_Index_View
 		$recordId = $request->get('record');
 		$fields = $request->get('fields');
 		$hierarchyModuleName = 'Accounts';
-
-
 		$focus = CRMEntity::getInstance($hierarchyModuleName);
 		$hierarchy = $focus->getAccountHierarchy($recordId, $fields);
 
