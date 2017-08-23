@@ -52,13 +52,12 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		if (!self::checkID($ProjectTaskID)) {
 			return false;
 		}
-		$db = PearDatabase::getInstance();
-		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projecttaskid = ?;", array(0, self::recalculateStatus, $ProjectTaskID), true);
-		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
+		$sumTime = 0;
+		$sumResult = (new \App\Db\Query())->from('vtiger_reservations')->where(['deleted' => 0, 'reservations_status' => self::recalculateStatus, 'projecttaskid' => $ProjectTaskID])->sum('sum_time');
+		$sumTime = number_format($sumResult, 2);
 //		$db->pquery( "UPDATE vtiger_projecttask SET sum_time = ? WHERE projecttaskid = ?;",
 //			array($sum_time,$ProjectTaskID), true );
-		return $sum_time;
+		return $sumTime;
 	}
 
 	public function recalculateServiceContracts($ServiceContractsID)
@@ -68,21 +67,21 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		}
 		$db = PearDatabase::getInstance();
 		$sum_time = 0;
-		$sum_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && servicecontractsid = ? && projecttaskid = ? && ticketid = ? && projectid = ?;", array(0, self::recalculateStatus, $ServiceContractsID, 0, 0, 0), true);
-		$sum_time = number_format($db->query_result($sum_result, 0, 'sum'), 2);
+		$sumResult = (new \App\Db\Query())->from('vtiger_reservations')->where(['deleted' => 0, 'reservations_status' => self::recalculateStatus, 'servicecontractsid' => $ServiceContractsID, 'projecttaskid' => 0, 'ticketid' => 0, 'projectid' => 0])->sum('sum_time');
+		$sum_time = number_format($sumResult, 2);
 		//////// sum_time_h
-		$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
-			FROM vtiger_reservations 
+		$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum
+			FROM vtiger_reservations
 			INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
-			WHERE vtiger_reservations.deleted = ? 
-			AND vtiger_reservations.ticketid <> ? 
+			WHERE vtiger_reservations.deleted = ?
+			AND vtiger_reservations.ticketid <> ?
 			AND vtiger_reservations.projectid = ?
 			AND reservations_status = ?
 			AND vtiger_troubletickets.servicecontractsid = ?;';
 		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, 0, self::recalculateStatus, $ServiceContractsID), true);
 		$sum_time_h = number_format($db->query_result($sum_time_h_result, 0, 'sum'), 2);
 		//////// sum_time_p
-		$project_result = $db->pquery("SELECT projectid 
+		$project_result = $db->pquery("SELECT projectid
 			FROM vtiger_project
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_project.projectid
 			WHERE deleted = ? && servicecontractsid = ?;", array(0, $ServiceContractsID), true);
@@ -92,23 +91,23 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 			$ProjectID = $db->query_result($project_result, $i, 'projectid');
 			$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
 			$sum_time_p += number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
-			$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
-							FROM vtiger_reservations 
+			$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum
+							FROM vtiger_reservations
 							INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
-							WHERE vtiger_reservations.deleted = ? 
-							AND vtiger_reservations.ticketid <> ? 
+							WHERE vtiger_reservations.deleted = ?
+							AND vtiger_reservations.ticketid <> ?
 							AND vtiger_reservations.projectid = ?
 							AND vtiger_reservations.servicecontractsid = ?
 							AND reservations_status = ?
 							AND vtiger_troubletickets.projectid = ?;';
 			$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, 0, 0, self::recalculateStatus, $ProjectID), true);
 			$sum_time_p += number_format($db->query_result($sum_time_h_result, 0, 'sum'), 2);
-			$sql_sum_time_pt = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
-							FROM vtiger_reservations 
+			$sql_sum_time_pt = 'SELECT SUM(vtiger_reservations.sum_time) AS sum
+							FROM vtiger_reservations
 							INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_reservations.projecttaskid
-							WHERE vtiger_reservations.deleted = ? 
-							AND vtiger_reservations.projecttaskid <> ? 
-							AND vtiger_reservations.ticketid = ? 
+							WHERE vtiger_reservations.deleted = ?
+							AND vtiger_reservations.projecttaskid <> ?
+							AND vtiger_reservations.ticketid = ?
 							AND vtiger_reservations.projectid = ?
 							AND vtiger_reservations.servicecontractsid = ?
 							AND vtiger_reservations.reservations_status = ?
@@ -135,22 +134,22 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
 		$sum_time = number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
 		//////// sum_time_h
-		$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
-						FROM vtiger_reservations 
+		$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum
+						FROM vtiger_reservations
 						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
-						WHERE vtiger_reservations.deleted = ? 
-						AND vtiger_reservations.ticketid <> ? 
+						WHERE vtiger_reservations.deleted = ?
+						AND vtiger_reservations.ticketid <> ?
 						AND reservations_status = ?
 						AND vtiger_troubletickets.projectid = ?;';
 		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
 		$sum_time_h = number_format($db->query_result($sum_time_h_result, 0, 'sum'), 2);
 		//////// sum_time_pt
-		$sql_sum_time_pt = 'SELECT SUM(vtiger_reservations.sum_time) AS sum 
-						FROM vtiger_reservations 
+		$sql_sum_time_pt = 'SELECT SUM(vtiger_reservations.sum_time) AS sum
+						FROM vtiger_reservations
 						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_reservations.projecttaskid
-						WHERE vtiger_reservations.deleted = ? 
-						AND vtiger_reservations.projecttaskid <> ? 
-						AND vtiger_reservations.ticketid = ? 
+						WHERE vtiger_reservations.deleted = ?
+						AND vtiger_reservations.projecttaskid <> ?
+						AND vtiger_reservations.ticketid = ?
 						AND vtiger_reservations.reservations_status = ?
 						AND vtiger_projecttask.projectid = ?;';
 		$sum_time_pt_result = $db->pquery($sql_sum_time_pt, array(0, 0, 0, self::recalculateStatus, $ProjectID), true);
@@ -192,11 +191,11 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		}
 		//////// sum_time_h
 		$ticketsIDS = [];
-		$sql_sum_time_h = 'SELECT reservationsid 
-						FROM vtiger_reservations 
+		$sql_sum_time_h = 'SELECT reservationsid
+						FROM vtiger_reservations
 						INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
-						WHERE vtiger_reservations.deleted = ? 
-						AND vtiger_reservations.ticketid <> ? 
+						WHERE vtiger_reservations.deleted = ?
+						AND vtiger_reservations.ticketid <> ?
 						AND reservations_status = ?
 						AND vtiger_troubletickets.projectid = ?;';
 		$sum_time_h_result = $db->pquery($sql_sum_time_h, array(0, 0, self::recalculateStatus, $ProjectID), true);
@@ -207,12 +206,12 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		}
 		//////// sum_time_pt
 		$taskIDS = [];
-		$sql_sum_time_pt = 'SELECT reservationsid 
-						FROM vtiger_reservations 
+		$sql_sum_time_pt = 'SELECT reservationsid
+						FROM vtiger_reservations
 						INNER JOIN vtiger_projecttask ON vtiger_projecttask.projecttaskid = vtiger_reservations.projecttaskid
-						WHERE vtiger_reservations.deleted = ? 
-						AND vtiger_reservations.projecttaskid <> ? 
-						AND vtiger_reservations.ticketid = ? 
+						WHERE vtiger_reservations.deleted = ?
+						AND vtiger_reservations.projecttaskid <> ?
+						AND vtiger_reservations.ticketid = ?
 						AND vtiger_reservations.projectid = ?
 						AND vtiger_reservations.reservations_status = ?
 						AND vtiger_projecttask.projectid = ?;';
