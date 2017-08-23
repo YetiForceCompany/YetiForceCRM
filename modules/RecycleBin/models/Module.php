@@ -202,8 +202,6 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 	public function getDeletedRecordsTotalCount()
 	{
-		$db = PearDatabase::getInstance();
-		$totalCount = $db->pquery('select count(*) as count from vtiger_crmentity where deleted=1', []);
-		return $db->query_result($totalCount, 0, 'count');
+		return (new App\Db\Query())->from('vtiger_crmentity')->where(['deleted' => 1])->count();
 	}
 }
