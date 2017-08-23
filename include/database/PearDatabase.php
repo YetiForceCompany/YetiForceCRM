@@ -163,7 +163,7 @@ class PearDatabase
 		}
 	}
 
-	public function errorMsg()
+	public function ErrorMsg()
 	{
 		$error = $this->database->errorInfo();
 		return $error[2];
