@@ -58,10 +58,10 @@ class Tree
 			$parent = '';
 			$parentName = '';
 			if ($row['depth'] > 0) {
-				$parenttrre = $row['parenttrre'];
+				$parentTrre = $row['parenttrre'];
 				$cut = strlen('::' . $tree);
-				$parenttrre = substr($parenttrre, 0, - $cut);
-				$pieces = explode('::', $parenttrre);
+				$parentTrre = substr($parentTrre, 0, - $cut);
+				$pieces = explode('::', $parentTrre);
 				$parent = end($pieces);
 				$parentName = $dataTree[$parent]['name'];
 				$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
