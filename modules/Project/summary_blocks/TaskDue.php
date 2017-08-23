@@ -18,7 +18,7 @@ class TaskDue
 
 		\App\Log::trace('Entering TaskDue::process() method ...');
 		$currentDate = date('Y-m-d');
-		$count = (new App\Db\Query())->from('vtiger_projecttask')->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')->where(['vtiger_projecttask.projectid' => $instance->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_projecttask.projecttaskstatus' => ['Open', 'In Progress']])->andWhere(['and', 'vtiger_projecttask.enddate IS NOT NULL', ['<', 'vtiger_projecttask.enddate', $currentDate]])->count();
+		$count = (new App\Db\Query())->from('vtiger_projecttask')->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')->where(['vtiger_projecttask.projectid' => $instance->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_projecttask.projecttaskstatus' => ['Open', 'In Progress']])->andWhere(['and', ['not', ['vtiger_projecttask.enddate' => null]], ['<', 'vtiger_projecttask.enddate', $currentDate]])->count();
 		\App\Log::trace('Exiting TaskDue::process() method ...');
 		return $count;
 	}
