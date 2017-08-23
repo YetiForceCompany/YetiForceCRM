@@ -104,6 +104,8 @@ class Picklist
 
 	/**
 	 * Function to get picklist key for a picklist
+	 * @param string $fieldName
+	 * @return string
 	 */
 	public static function getPickListId($fieldName)
 	{
@@ -144,28 +146,28 @@ class Picklist
 	/**
 	 * this function returns all the assigned picklist values for the given tablename for the given roleid
 	 * @param string $tableName - the picklist tablename
-	 * @param integer $roleid - the roleid of the role for which you want data
+	 * @param integer $roleId - the roleid of the role for which you want data
 	 * @return array $val - the assigned picklist values in array format
 	 */
-	public static function getAssignedPicklistValues($tableName, $roleid)
+	public static function getAssignedPicklistValues($tableName, $roleId)
 	{
-		if (\App\Cache::has('getAssignedPicklistValues', $tableName . $roleid)) {
-			return \App\Cache::get('getAssignedPicklistValues', $tableName . $roleid);
+		if (\App\Cache::has('getAssignedPicklistValues', $tableName . $roleId)) {
+			return \App\Cache::get('getAssignedPicklistValues', $tableName . $roleId);
 		}
 		$values = [];
 		$exists = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $tableName])->exists();
 		if ($exists) {
-			$sub = getSubordinateRoleAndUsers($roleid);
-			$subRoles = [$roleid];
+			$sub = getSubordinateRoleAndUsers($roleId);
+			$subRoles = [$roleId];
 			$subRoles = array_merge($subRoles, array_keys($sub));
 
-			$roleids = [];
+			$roleIds = [];
 			foreach ($subRoles as $role) {
-				$roleids[] = $role;
+				$roleIds[] = $role;
 			}
 			$dataReader = (new \App\Db\Query())->select([$tableName, 'sortid'])->from("vtiger_$tableName")
 					->innerJoin('vtiger_role2picklist', "$tableName.picklist_valueid = vtiger_role2picklist.picklistvalueid")
-					->where(['roleid' => $roleids])->orderBy('sortid')->distinct($tableName)->createCommand()->query();
+					->where(['roleid' => $roleIds])->orderBy('sortid')->distinct($tableName)->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				/** Earlier we used to save picklist values by encoding it. Now, we are directly saving those(getRaw()).
 				 *  If value in DB is like "test1 &amp; test2" then $abd->fetch_[] is giving it as
@@ -175,7 +177,7 @@ class Picklist
 				$values[$pickVal] = $pickVal;
 			}
 			// END
-			\App\Cache::save('getAssignedPicklistValues', $tableName . $roleid, $values);
+			\App\Cache::save('getAssignedPicklistValues', $tableName . $roleId, $values);
 			return $values;
 		}
 	}

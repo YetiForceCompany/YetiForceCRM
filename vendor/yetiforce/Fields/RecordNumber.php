@@ -103,6 +103,11 @@ class RecordNumber
 		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [date('Y'), date('y'), date('m'), date('n'), date('d'), date('j')], $content);
 	}
 
+	/**
+	 * Function updates module number
+	 * @param int $curId
+	 * @param int $tabId
+	 */
 	public static function updateNumber($curId, $tabId)
 	{
 		\App\Db::getInstance()->createCommand()
