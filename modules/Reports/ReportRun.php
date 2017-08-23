@@ -283,24 +283,18 @@ class ReportRun extends CRMEntity
 	 * 				      	     )
 	 *
 	 */
-	public function getQueryColumnsList($reportid, $outputformat = '')
+	public function getQueryColumnsList($reportId, $outputformat = '')
 	{
 		// Have we initialized information already?
 		if ($this->_columnslist !== false) {
 			return $this->_columnslist;
 		}
 
-		$adb = PearDatabase::getInstance();
-
 		$current_user = vglobal('current_user');
-		$ssql = 'select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid';
-		$ssql .= ' left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid';
-		$ssql .= ' where vtiger_report.reportid = ?';
-		$ssql .= ' order by vtiger_selectcolumn.columnindex';
-		$result = $adb->pquery($ssql, array($reportid));
 		$permitted_fields = [];
-
-		while ($columnslistrow = $adb->fetch_array($result)) {
+		$query = (new App\Db\Query())->select(['vtiger_selectcolumn.*'])->from('vtiger_report')->innerJoin('vtiger_selectquery', 'vtiger_report.queryid = vtiger_selectquery.queryid')->leftJoin('vtiger_selectcolumn', 'vtiger_selectquery.queryid = vtiger_selectcolumn.queryid')->where(['vtiger_report.reportid' => $reportId])->orderBy('vtiger_selectcolumn.columnindex');
+		$dataReader = $query->createCommand()->query();
+		while ($columnslistrow = $dataReader->read()) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
@@ -375,7 +369,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnslist = $columnslist;
 
-		\App\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
+		\App\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportId);
 		return $columnslist;
 	}
 
@@ -626,27 +620,22 @@ class ReportRun extends CRMEntity
 	}
 
 	/** Function to get selectedcolumns for the given reportid
-	 *  @ param $reportid : Type Integer
-	 *  returns the query of columnlist for the selected columns
+	 *  @param int $reportid Type Integer
+	 *  returns string the query of columnlist for the selected columns
 	 */
-	public function getSelectedColumnsList($reportid)
+	public function getSelectedColumnsList($reportId)
 	{
-		$adb = PearDatabase::getInstance();
-		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
-		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid where vtiger_report.reportid = ? ";
-		$ssql .= " order by vtiger_selectcolumn.columnindex";
+		$query = (new App\Db\Query())->select(['vtiger_selectcolumn.*'])->from('vtiger_report')->innerJoin('vtiger_selectquery', 'vtiger_report.queryid = vtiger_selectquery.queryid')->leftJoin('vtiger_selectcolumn', 'vtiger_selectquery.queryid = vtiger_selectcolumn.queryid')->where(['vtiger_report.reportid' => $reportId])->orderBy('vtiger_selectcolumn.columnindex');
 
-		$result = $adb->pquery($ssql, array($reportid));
-		$noofrows = $adb->num_rows($result);
-
-		if ($this->orderbylistsql != "") {
-			$sSQL .= $this->orderbylistsql . ", ";
+		if ($this->orderbylistsql != '') {
+			$sSQL .= $this->orderbylistsql . ', ';
 		}
 
-		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldcolname = $adb->query_result($result, $i, "columnname");
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$fieldcolname = $row['columnname'];
 			$ordercolumnsequal = true;
-			if ($fieldcolname != "") {
+			if ($fieldcolname != '') {
 				$countOrderByListColumns = count($this->orderbylistcolumns);
 				for ($j = 0; $j < $countOrderByListColumns; $j++) {
 					if ($this->orderbylistcolumns[$j] == $fieldcolname) {
@@ -657,16 +646,16 @@ class ReportRun extends CRMEntity
 					}
 				}
 				if ($ordercolumnsequal) {
-					$selectedfields = explode(":", $fieldcolname);
-					if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule)
-						$selectedfields[0] = "vtiger_crmentity";
-					$sSQLList[] = $selectedfields[0] . "." . $selectedfields[1] . " '" . $selectedfields[2] . "'";
+					$selectedfields = explode(':', $fieldcolname);
+					if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule)
+						$selectedfields[0] = 'vtiger_crmentity';
+					$sSQLList[] = $selectedfields[0] . '.' . $selectedfields[1] . ' \'' . $selectedfields[2] . '\'';
 				}
 			}
 		}
-		$sSQL .= implode(",", $sSQLList);
+		$sSQL .= implode(',', $sSQLList);
 
-		\App\Log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
+		\App\Log::trace('ReportRun :: Successfully returned getSelectedColumnsList' . $reportId);
 		return $sSQL;
 	}
 
