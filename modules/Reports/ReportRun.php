@@ -751,12 +751,11 @@ class ReportRun extends CRMEntity
 	}
 
 	/** Function to get field that is to be compared in query form for the given Comparator and field
-	 *  @ param $field : field
-	 *  returns the value for the comparator
+	 *  @param string $field : field
+	 *  @return string returns the value for the comparator
 	 */
 	public function getFilterComparedField($field)
 	{
-		$adb = PearDatabase::getInstance();
 		if (!empty($this->secondarymodule)) {
 			$secModules = explode(':', $this->secondarymodule);
 			foreach ($secModules as $secModule) {
@@ -768,26 +767,26 @@ class ReportRun extends CRMEntity
 		$module = $field[0];
 		$fieldname = trim($field[1]);
 		$tabid = \App\Module::getModuleId($module);
-		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
-		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
-		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
-		if ($fieldtablename == "vtiger_crmentity" && $module != $this->primarymodule) {
+		$fieldQuery = (new \App\Db\Query())->select(['tablename', 'columnname', 'typeofdata', 'fieldname', 'uitype'])->from('vtiger_field')->where(['tabid' => $tabid, 'fieldname' => $fieldname])->one();
+		$fieldtablename = $fieldQuery['tablename'];
+		$fieldcolname = $fieldQuery['columnname'];
+		if ($fieldtablename == 'vtiger_crmentity' && $module != $this->primarymodule) {
 			$fieldtablename = $fieldtablename . $module;
 		}
-		if ($fieldname == "assigned_user_id") {
-			$fieldtablename = "vtiger_users" . $module;
-			$fieldcolname = "user_name";
+		if ($fieldname == 'assigned_user_id') {
+			$fieldtablename = 'vtiger_users' . $module;
+			$fieldcolname = 'user_name';
 		}
-		if ($fieldtablename == "vtiger_crmentity" && $fieldname == "modifiedby") {
-			$fieldtablename = "vtiger_lastModifiedBy" . $module;
-			$fieldcolname = "user_name";
+		if ($fieldtablename == 'vtiger_crmentity' && $fieldname == 'modifiedby') {
+			$fieldtablename = 'vtiger_lastModifiedBy' . $module;
+			$fieldcolname = 'user_name';
 		}
-		if ($fieldname == "assigned_user_id1") {
-			$fieldtablename = "vtiger_usersRel1";
-			$fieldcolname = "user_name";
+		if ($fieldname == 'assigned_user_id1') {
+			$fieldtablename = 'vtiger_usersRel1';
+			$fieldcolname = 'user_name';
 		}
 
-		$value = $fieldtablename . "." . $fieldcolname;
+		$value = $fieldtablename . '.' . $fieldcolname;
 
 		$this->queryPlanner->addTable($fieldtablename);
 		return $value;
@@ -810,11 +809,11 @@ class ReportRun extends CRMEntity
 		$advft_criteria = [];
 
 		$sql = 'SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
-		$groupsresult = $adb->pquery($sql, array($reportid));
-
+		$groupsQuery = (new \App\Db\Query())->from('vtiger_relcriteria_grouping')->where(['queryid' => $reportid]);
+		$dataReader = $query->createCommand()->query();
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $adb->fetch_array($groupsresult)) {
+		while ($relcriteriagroup = $dataReader->read()) {
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
