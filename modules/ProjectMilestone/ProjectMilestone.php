@@ -302,28 +302,25 @@ class ProjectMilestone extends CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function moduleHandler($modulename, $event_type)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($event_type == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
+		} else if ($eventType === 'module.disabled') {
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PM', 1);
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
+		} else if ($eventType === 'module.enabled') {
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PM', 1);
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
 		}
 	}
 }
