@@ -310,13 +310,12 @@ class ProjectTask extends CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String $moduleName Module name
-	 * @param String $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$projecttaskTabid = (new App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'ProjectTask'])->scalar();
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
