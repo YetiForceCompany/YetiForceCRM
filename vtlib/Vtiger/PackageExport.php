@@ -240,7 +240,7 @@ class PackageExport
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	public function export_Dependencies($moduleInstance)
+	public function exportDependencies($moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 		$moduleid = $moduleInstance->id;
@@ -302,7 +302,7 @@ class PackageExport
 		}
 
 		// Export dependency information
-		$this->export_Dependencies($this->moduleInstance);
+		$this->exportDependencies($this->moduleInstance);
 
 		// Export module tables
 		$this->export_Tables();

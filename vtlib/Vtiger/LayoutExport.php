@@ -104,7 +104,7 @@ class LayoutExport extends Package
 		$this->outputNode('layout', 'type');
 
 		// Export dependency information
-		$this->export_Dependencies();
+		$this->exportDependencies();
 		$this->closeNode('module');
 	}
 
@@ -112,7 +112,7 @@ class LayoutExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	public function export_Dependencies()
+	public function exportDependencies()
 	{
 		$maxVersion = false;
 		$this->openNode('dependencies');

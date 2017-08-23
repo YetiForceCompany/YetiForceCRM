@@ -123,7 +123,7 @@ class ThemeExport extends Package
 		$this->outputNode('theme', 'type');
 
 		// Export dependency information
-		$this->export_Dependencies();
+		$this->exportDependencies();
 
 		$this->closeNode('module');
 	}
@@ -132,7 +132,7 @@ class ThemeExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	public function export_Dependencies()
+	public function exportDependencies()
 	{
 		$maxVersion = false;
 		$this->openNode('dependencies');

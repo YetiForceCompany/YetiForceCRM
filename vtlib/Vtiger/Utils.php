@@ -132,18 +132,6 @@ class Utils
 	}
 
 	/**
-	 * Escape the string to avoid SQL Injection attacks.
-	 * @param String Sql statement string
-	 */
-	public static function SQLEscape($value)
-	{
-		if ($value === null)
-			return $value;
-		$adb = \PearDatabase::getInstance();
-		return $adb->sql_escape_string($value);
-	}
-
-	/**
 	 * Check if table is present in database
 	 * @param String tablename to check
 	 */

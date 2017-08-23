@@ -62,7 +62,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
 		$result = get_current_user_access_groups($tabName);
 	} else {
-		$result = \vtlib\Functions::get_group_options();
+		$result = \vtlib\Functions::getGroupOptions();
 	}
 
 	$groups = [];
