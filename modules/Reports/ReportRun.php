@@ -283,24 +283,18 @@ class ReportRun extends CRMEntity
 	 * 				      	     )
 	 *
 	 */
-	public function getQueryColumnsList($reportid, $outputformat = '')
+	public function getQueryColumnsList($reportId, $outputformat = '')
 	{
 		// Have we initialized information already?
 		if ($this->_columnslist !== false) {
 			return $this->_columnslist;
 		}
 
-		$adb = PearDatabase::getInstance();
-
 		$current_user = vglobal('current_user');
-		$ssql = 'select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid';
-		$ssql .= ' left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid';
-		$ssql .= ' where vtiger_report.reportid = ?';
-		$ssql .= ' order by vtiger_selectcolumn.columnindex';
-		$result = $adb->pquery($ssql, array($reportid));
 		$permitted_fields = [];
-
-		while ($columnslistrow = $adb->fetch_array($result)) {
+		$query = (new App\Db\Query())->select(['vtiger_selectcolumn.*'])->from('vtiger_report')->innerJoin('vtiger_selectquery', 'vtiger_report.queryid = vtiger_selectquery.queryid')->leftJoin('vtiger_selectcolumn', 'vtiger_selectquery.queryid = vtiger_selectcolumn.queryid')->where(['vtiger_report.reportid' => $reportId])->orderBy('vtiger_selectcolumn.columnindex');
+		$dataReader = $query->createCommand()->query();
+		while ($columnslistrow = $dataReader->read()) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
@@ -375,7 +369,7 @@ class ReportRun extends CRMEntity
 		// Save the information
 		$this->_columnslist = $columnslist;
 
-		\App\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
+		\App\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportId);
 		return $columnslist;
 	}
 
@@ -626,27 +620,22 @@ class ReportRun extends CRMEntity
 	}
 
 	/** Function to get selectedcolumns for the given reportid
-	 *  @ param $reportid : Type Integer
-	 *  returns the query of columnlist for the selected columns
+	 *  @param int $reportid Type Integer
+	 *  returns string the query of columnlist for the selected columns
 	 */
-	public function getSelectedColumnsList($reportid)
+	public function getSelectedColumnsList($reportId)
 	{
-		$adb = PearDatabase::getInstance();
-		$ssql = "select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid";
-		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid where vtiger_report.reportid = ? ";
-		$ssql .= " order by vtiger_selectcolumn.columnindex";
+		$query = (new App\Db\Query())->select(['vtiger_selectcolumn.*'])->from('vtiger_report')->innerJoin('vtiger_selectquery', 'vtiger_report.queryid = vtiger_selectquery.queryid')->leftJoin('vtiger_selectcolumn', 'vtiger_selectquery.queryid = vtiger_selectcolumn.queryid')->where(['vtiger_report.reportid' => $reportId])->orderBy('vtiger_selectcolumn.columnindex');
 
-		$result = $adb->pquery($ssql, array($reportid));
-		$noofrows = $adb->num_rows($result);
-
-		if ($this->orderbylistsql != "") {
-			$sSQL .= $this->orderbylistsql . ", ";
+		if ($this->orderbylistsql != '') {
+			$sSQL .= $this->orderbylistsql . ', ';
 		}
 
-		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldcolname = $adb->query_result($result, $i, "columnname");
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$fieldcolname = $row['columnname'];
 			$ordercolumnsequal = true;
-			if ($fieldcolname != "") {
+			if ($fieldcolname != '') {
 				$countOrderByListColumns = count($this->orderbylistcolumns);
 				for ($j = 0; $j < $countOrderByListColumns; $j++) {
 					if ($this->orderbylistcolumns[$j] == $fieldcolname) {
@@ -657,16 +646,16 @@ class ReportRun extends CRMEntity
 					}
 				}
 				if ($ordercolumnsequal) {
-					$selectedfields = explode(":", $fieldcolname);
-					if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule)
-						$selectedfields[0] = "vtiger_crmentity";
-					$sSQLList[] = $selectedfields[0] . "." . $selectedfields[1] . " '" . $selectedfields[2] . "'";
+					$selectedfields = explode(':', $fieldcolname);
+					if ($selectedfields[0] == 'vtiger_crmentity' . $this->primarymodule)
+						$selectedfields[0] = 'vtiger_crmentity';
+					$sSQLList[] = $selectedfields[0] . '.' . $selectedfields[1] . ' \'' . $selectedfields[2] . '\'';
 				}
 			}
 		}
-		$sSQL .= implode(",", $sSQLList);
+		$sSQL .= implode(',', $sSQLList);
 
-		\App\Log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
+		\App\Log::trace('ReportRun :: Successfully returned getSelectedColumnsList' . $reportId);
 		return $sSQL;
 	}
 
@@ -762,12 +751,11 @@ class ReportRun extends CRMEntity
 	}
 
 	/** Function to get field that is to be compared in query form for the given Comparator and field
-	 *  @ param $field : field
-	 *  returns the value for the comparator
+	 *  @param string $field : field
+	 *  @return string returns the value for the comparator
 	 */
 	public function getFilterComparedField($field)
 	{
-		$adb = PearDatabase::getInstance();
 		if (!empty($this->secondarymodule)) {
 			$secModules = explode(':', $this->secondarymodule);
 			foreach ($secModules as $secModule) {
@@ -779,26 +767,26 @@ class ReportRun extends CRMEntity
 		$module = $field[0];
 		$fieldname = trim($field[1]);
 		$tabid = \App\Module::getModuleId($module);
-		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
-		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
-		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
-		if ($fieldtablename == "vtiger_crmentity" && $module != $this->primarymodule) {
+		$fieldQuery = (new \App\Db\Query())->select(['tablename', 'columnname', 'typeofdata', 'fieldname', 'uitype'])->from('vtiger_field')->where(['tabid' => $tabid, 'fieldname' => $fieldname])->one();
+		$fieldtablename = $fieldQuery['tablename'];
+		$fieldcolname = $fieldQuery['columnname'];
+		if ($fieldtablename == 'vtiger_crmentity' && $module != $this->primarymodule) {
 			$fieldtablename = $fieldtablename . $module;
 		}
-		if ($fieldname == "assigned_user_id") {
-			$fieldtablename = "vtiger_users" . $module;
-			$fieldcolname = "user_name";
+		if ($fieldname == 'assigned_user_id') {
+			$fieldtablename = 'vtiger_users' . $module;
+			$fieldcolname = 'user_name';
 		}
-		if ($fieldtablename == "vtiger_crmentity" && $fieldname == "modifiedby") {
-			$fieldtablename = "vtiger_lastModifiedBy" . $module;
-			$fieldcolname = "user_name";
+		if ($fieldtablename == 'vtiger_crmentity' && $fieldname == 'modifiedby') {
+			$fieldtablename = 'vtiger_lastModifiedBy' . $module;
+			$fieldcolname = 'user_name';
 		}
-		if ($fieldname == "assigned_user_id1") {
-			$fieldtablename = "vtiger_usersRel1";
-			$fieldcolname = "user_name";
+		if ($fieldname == 'assigned_user_id1') {
+			$fieldtablename = 'vtiger_usersRel1';
+			$fieldcolname = 'user_name';
 		}
 
-		$value = $fieldtablename . "." . $fieldcolname;
+		$value = $fieldtablename . '.' . $fieldcolname;
 
 		$this->queryPlanner->addTable($fieldtablename);
 		return $value;
@@ -815,39 +803,26 @@ class ReportRun extends CRMEntity
 	 */
 	public function getAdvFilterList($reportid)
 	{
-		$adb = PearDatabase::getInstance();
-
-
 		$advft_criteria = [];
-
-		$sql = 'SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
-		$groupsresult = $adb->pquery($sql, array($reportid));
-
+		$groupsQuery = (new \App\Db\Query())->from('vtiger_relcriteria_grouping')->where(['queryid' => $reportid])->orderBy('groupid');
+		$dataReader = $groupsQuery->createCommand()->query();
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $adb->fetch_array($groupsresult)) {
-			$groupId = $relcriteriagroup["groupid"];
-			$groupCondition = $relcriteriagroup["group_condition"];
-
-			$ssql = 'select vtiger_relcriteria.* from vtiger_report
-						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
-						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
-								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
-
-			$result = $adb->pquery($ssql, array($reportid, $groupId));
-			$noOfColumns = $adb->num_rows($result);
-			if ($noOfColumns <= 0)
+		while ($relcriteriagroup = $dataReader->read()) {
+			$groupId = $relcriteriagroup['groupid'];
+			$groupCondition = $relcriteriagroup['group_condition'];
+			$rows = (new \App\Db\Query())->select(['vtiger_relcriteria.*'])->from('vtiger_report')->innerJoin('vtiger_relcriteria', 'vtiger_report.queryid = vtiger_relcriteria.queryid')->leftJoin('vtiger_relcriteria_grouping', 'vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid')->where(['vtiger_report.reportid' => $reportid, 'vtiger_relcriteria.groupid' => $groupId])->andWhere(['and', new \yii\db\Expression('`vtiger_relcriteria`.`groupid` = `vtiger_relcriteria_grouping`.`groupid`')])->orderBy('vtiger_relcriteria.columnindex')->all();
+			if (!$rows)
 				continue;
 
-			while ($relcriteriarow = $adb->fetch_array($result)) {
+			foreach ($rows as $relcriteriarow) {
 				$criteria = [];
-				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"]);
-				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advfilterval = $relcriteriarow["value"];
-				$col = explode(":", $relcriteriarow["columnname"]);
+				$criteria['columnname'] = html_entity_decode($relcriteriarow['columnname']);
+				$criteria['comparator'] = $relcriteriarow['comparator'];
+				$advfilterval = $relcriteriarow['value'];
+				$col = explode(':', $relcriteriarow['columnname']);
 				$criteria['value'] = $advfilterval;
-				$criteria['column_condition'] = $relcriteriarow["column_condition"];
+				$criteria['column_condition'] = $relcriteriarow['column_condition'];
 
 				$advft_criteria[$i]['columns'][$j] = $criteria;
 				$advft_criteria[$i]['condition'] = $groupCondition;
