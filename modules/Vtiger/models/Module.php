@@ -282,11 +282,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 		}
-		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('u_yf_crmentity_label', ['crmid' => $recordModel->getId()])->execute();
-		$db->createCommand()->delete('u_yf_crmentity_search_label', ['crmid' => $recordModel->getId()])->execute();
-		$db = \App\Db::getInstance('admin');
-		$db->createCommand()->delete('s_#__privileges_updater', ['crmid' => $recordModel->getId()])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->delete('u_#__crmentity_label', ['crmid' => $recordModel->getId()])->execute();
+		$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $recordModel->getId()])->execute();
+		\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $recordModel->getId()])->execute();
 	}
 
 	/**
