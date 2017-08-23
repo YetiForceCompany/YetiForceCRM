@@ -9,6 +9,11 @@
 class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -21,8 +26,8 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$module = $request->getModule();
-		$transferOwnerId = $request->get('transferOwnerId');
-		$record = $request->get('record');
+		$transferOwnerId = $request->getInteger('transferOwnerId');
+		$record = $request->getInteger('record');
 		$relatedModules = $request->get('related_modules');
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();

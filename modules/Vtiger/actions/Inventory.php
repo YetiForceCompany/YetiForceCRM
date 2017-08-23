@@ -42,7 +42,10 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	public function checkLimits(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$currency = $request->get('currency');
 		$price = $request->get('price');
 		$limitFieldName = 'creditlimit';
@@ -97,8 +100,11 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getUnitPrice(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$recordModule = $request->get('recordModule');
+		if (!\App\Privilege::isPermitted($recordModule, 'EditView', $record)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$unitPriceValues = false;
 
 		if (in_array($recordModule, ['Products', 'Services'])) {
@@ -112,9 +118,9 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getDetails(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$idList = $request->get('idlist');
-		$currencyId = $request->get('currency_id');
+		$currencyId = $request->getInteger('currency_id');
 		$fieldName = $request->get('fieldname');
 		$moduleName = $request->getModule();
 
@@ -132,6 +138,9 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [

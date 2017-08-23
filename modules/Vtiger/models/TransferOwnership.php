@@ -86,19 +86,21 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
-				$db->createCommand()->insert('vtiger_modtracker_basic', [
-					'crmid' => $record,
-					'module' => $module,
-					'whodid' => $currentUser->id,
-					'changedon' => date('Y-m-d H:i:s', time())
-				])->execute();
-				$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-				$db->createCommand()->insert('vtiger_modtracker_detail', [
-					'id' => $id,
-					'fieldname' => 'assigned_user_id',
-					'postvalue' => $transferOwnerId,
-					'prevalue' => $oldOwners[$record]['smownerid']
-				])->execute();
+				if (\App\Privilege::isPermitted($module, 'DetailView', $record)) {
+					$db->createCommand()->insert('vtiger_modtracker_basic', [
+						'crmid' => $record,
+						'module' => $module,
+						'whodid' => $currentUser->id,
+						'changedon' => date('Y-m-d H:i:s', time())
+					])->execute();
+					$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+					$db->createCommand()->insert('vtiger_modtracker_detail', [
+						'id' => $id,
+						'fieldname' => 'assigned_user_id',
+						'postvalue' => $transferOwnerId,
+						'prevalue' => $oldOwners[$record]['smownerid']
+					])->execute();
+				}
 			}
 		}
 	}

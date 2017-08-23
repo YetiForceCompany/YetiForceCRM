@@ -10,16 +10,6 @@
 class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(\App\Request $request)
-	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
-		if (!$permission) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-		return true;
-	}
-
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();

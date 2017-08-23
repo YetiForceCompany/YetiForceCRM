@@ -11,6 +11,11 @@
 class Vtiger_Fields_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -84,7 +89,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	public function searchValues(\App\Request $request)
 	{
 		$searchValue = $request->get('value');
-		$fieldId = (int) $request->get('fld');
+		$fieldId = $request->getInteger('fld');
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
 		if (empty($searchValue)) {
@@ -106,26 +111,29 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 
 	public function searchReference(\App\Request $request)
 	{
-		$fieldId = $request->get('fid');
+		$fieldId = $request->getInteger('fid');
 		$searchValue = $request->get('value');
-
-		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
-		$reference = $fieldModel->getReferenceList();
-		$rows = (new \App\RecordSearch($searchValue, $reference))->search();
-		$data = $modules = $ids = [];
-		foreach ($rows as &$row) {
-			$ids[] = $row['crmid'];
-			$modules[$row['setype']][] = $row['crmid'];
-		}
-		$labels = \App\Record::getLabel($ids);
-		foreach ($modules as $moduleName => &$rows) {
-			$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
-			foreach ($rows as &$id) {
-				$data[] = ['id' => $id, 'name' => $labels[$id]];
-			}
-		}
 		$response = new Vtiger_Response();
-		$response->setResult(['items' => $data]);
+		if (\App\Field::getFieldPermission($request->getModule(), $fieldId)) {
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+			$reference = $fieldModel->getReferenceList();
+			$rows = (new \App\RecordSearch($searchValue, $reference))->search();
+			$data = $modules = $ids = [];
+			foreach ($rows as &$row) {
+				$ids[] = $row['crmid'];
+				$modules[$row['setype']][] = $row['crmid'];
+			}
+			$labels = \App\Record::getLabel($ids);
+			foreach ($modules as $moduleName => &$rows) {
+				$data[] = ['name' => Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
+				foreach ($rows as &$id) {
+					$data[] = ['id' => $id, 'name' => $labels[$id]];
+				}
+			}
+			$response->setResult(['items' => $data]);
+		} else {
+			$response->setError('NO');
+		}
 		$response->emit();
 	}
 }

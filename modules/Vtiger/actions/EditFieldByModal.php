@@ -10,16 +10,21 @@
 class Vtiger_EditFieldByModal_Action extends Vtiger_Save_Action
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function process(\App\Request $request)
 	{
-		$params = $request->get('param');
-		$moduleName = $request->getModule();
-		$recordId = $params['record'];
+		$params = $request->getArray('param');
 		$state = $params['state'];
 		$fieldName = $params['fieldName'];
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->setId($recordId);
+		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if (!$recordModel->getField($fieldName)->isEditable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$recordModel->set($fieldName, $state);
 		$recordModel->save();
 

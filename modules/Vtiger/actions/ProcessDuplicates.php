@@ -13,7 +13,7 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Check Permission
+	 * Function to check permission
 	 * @param \App\Request $request
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
@@ -31,6 +31,10 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

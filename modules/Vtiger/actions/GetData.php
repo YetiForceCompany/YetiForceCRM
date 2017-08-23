@@ -19,10 +19,13 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->get('source_module'), 'DetailView', $request->getInteger('record'))) {
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		return true;
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 	}
 
 	/**
@@ -33,30 +36,22 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 	{
 		$record = $request->getInteger('record');
 		$sourceModule = $request->get('source_module');
-		$response = new Vtiger_Response();
-		$permitted = Users_Privileges_Model::isPermitted($sourceModule, 'DetailView', $record);
-		if ($permitted) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
-			$labels = $data = $display = [];
-			foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
-				if ($fieldModel->isViewable()) {
-					$data[$fieldName] = $recordModel->get($fieldName);
-					$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
-					$display[$fieldName] = $fieldModel->getDisplayValue($recordModel->get($fieldName), $record, $recordModel, true);
-				}
+		$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
+		$labels = $data = $display = [];
+		foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->isViewable()) {
+				$data[$fieldName] = $recordModel->get($fieldName);
+				$labels[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $recordModel->getModuleName());
+				$display[$fieldName] = $fieldModel->getDisplayValue($recordModel->get($fieldName), $record, $recordModel, true);
 			}
-			$response->setResult([
-				'success' => true,
-				'data' => array_map('App\Purifier::decodeHtml', $data),
-				'displayData' => array_map('App\Purifier::decodeHtml', $display),
-				'labels' => $labels
-			]);
-		} else {
-			$response->setResult([
-				'success' => false,
-				'message' => \App\Language::translate('LBL_PERMISSION_DENIED')
-			]);
 		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'data' => array_map('App\Purifier::decodeHtml', $data),
+			'displayData' => array_map('App\Purifier::decodeHtml', $display),
+			'labels' => $labels
+		]);
 		$response->emit();
 	}
 }

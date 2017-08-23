@@ -12,6 +12,10 @@
 class Vtiger_Detail_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Record model instance
+	 * @var Vtiger_Record_Model 
+	 */
 	protected $record = false;
 	protected $recordStructure = false;
 	public $defaultMode = false;

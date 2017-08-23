@@ -21,9 +21,11 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
-		foreach ($fieldModelList as $fieldName => &$fieldModel) {
+		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if (!$fieldModel->isViewable()) {
+				continue;
+			}
 			$recordFieldValue = $recordModel->get($fieldName);
-
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() === 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes'])) {

@@ -32,9 +32,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
-
-		if ($mode) {
+		if ($mode = $request->getMode()) {
 			$this->invokeExposedMethod($mode, $request);
 		}
 	}

@@ -12,10 +12,15 @@
 class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Delete')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -35,29 +40,21 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
-		if ($request->get('selected_ids') == 'all' && $request->get('mode') == 'FindDuplicates') {
+		if ($request->get('selected_ids') === 'all' && $request->get('mode') === 'FindDuplicates') {
 			$recordIds = Vtiger_FindDuplicate_Model::getMassDeleteRecords($request);
 		} else {
-			$recordIds = $this->getRecordsListFromRequest($request);
+			$recordIds = static::getRecordsListFromRequest($request);
 		}
 		foreach ($recordIds as $recordId) {
-			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-				if ($recordModel->isDeletable()) {
-					$recordModel->delete();
-				}
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
+			if ($recordModel->isDeletable()) {
+				$recordModel->delete();
 			} else {
-				$permission = 'No';
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
-
-		if ($permission === 'No') {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-		}
-
-		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();
-		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName));
+		$response->setResult(array('viewname' => $request->get('viewname'), 'module' => $moduleName));
 		$response->emit();
 	}
 }

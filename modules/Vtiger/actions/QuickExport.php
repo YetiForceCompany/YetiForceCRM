@@ -9,6 +9,11 @@
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -62,7 +67,10 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $id) {
 			$col = 0;
 			$record = Vtiger_Record_Model::getInstanceById($id, $module);
-			foreach ($headers as &$fieldsModel) {
+			if (!$record->isViewable()) {
+				continue;
+			}
+			foreach ($headers as $fieldsModel) {
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
 				//phone numbers need to be explicit strings
