@@ -12,23 +12,47 @@
 class Vtiger_RelatedList_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('relatedModule'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
+
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @return type
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
-		$parentId = $request->get('record');
+		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
-		$pageNumber = $request->get('page');
-		$totalCount = $request->get('totalCount');
+		$pageNumber = $request->getInteger('page');
+		$totalCount = $request->getInteger('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if ($request->has('limit')) {
-			$pagingModel->set('limit', $request->get('limit'));
+			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
-
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->get('orderby');

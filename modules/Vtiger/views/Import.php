@@ -27,10 +27,15 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$this->exposeMethod('checkImportStatus');
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Import')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Import') || !$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

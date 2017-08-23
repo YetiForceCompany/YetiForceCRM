@@ -20,12 +20,11 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		if (!is_numeric($recordId)) {
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = Users_Privileges_Model::isPermitted($request->getModule(), 'DetailView', $recordId);
-		if (!$recordPermission) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

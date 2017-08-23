@@ -13,24 +13,29 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 	protected $showFields = [];
 	protected $restrictItems = [];
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId);
-		if (!$recordPermission) {
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		return true;
+		if (!\App\Privilege::isPermitted($moduleName, 'Save', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$ID = $request->get('record');
+		$recordId = $request->getInteger('record');
 
-		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $ID)->getRecord();
+		$recordModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId)->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
 		$structuredValues = $recordStrucure->getStructure();
 
@@ -40,7 +45,7 @@ class Vtiger_EditFieldByModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('SHOW_FIELDS', $this->getFieldsToShow());
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('RESTRICTS_ITEM', $this->getRestrictItems());
-		$viewer->assign('CONDITION_TO_RESTRICTS', $this->getConditionToRestricts($moduleName, $ID));
+		$viewer->assign('CONDITION_TO_RESTRICTS', $this->getConditionToRestricts($moduleName, $recordId));
 		$this->preProcess($request);
 		$viewer->view('EditFieldByModal.tpl', $moduleName);
 		$this->postProcess($request);

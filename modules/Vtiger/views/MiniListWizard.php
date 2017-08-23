@@ -28,11 +28,17 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				break;
 			case 'step2':
 				$selectedModule = $request->get('selectedModule');
+				if (!\App\Privilege::isPermitted($selectedModule)) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
 				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':
 				$selectedModule = $request->get('selectedModule');
+				if (!\App\Privilege::isPermitted($selectedModule)) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
 				$queryGenerator = new \App\QueryGenerator($selectedModule);
 				$queryGenerator->initForCustomViewById($request->getInteger('filterid'));
 				$viewer->assign('QUERY_GENERATOR', $queryGenerator);

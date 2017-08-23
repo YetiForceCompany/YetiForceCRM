@@ -15,10 +15,13 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_NOT_ACCESSIBLE'));
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-
-		if (!Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
+		$recordId = $request->getInteger('src_record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!\App\Privilege::isPermitted($request->get('src_module'), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -38,7 +41,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$srcRecord = $request->get('src_record');
+		$srcRecord = $request->getInteger('src_record');
 		$srcModule = $request->get('src_module');
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

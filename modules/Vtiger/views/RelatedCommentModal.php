@@ -10,12 +10,19 @@
 class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$record = $request->get('record');
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
-		if (!$recordPermission) {
+		$recordId = $request->getInteger('record');
+		$relatedRecord = $request->getInteger('relid');
+		if (!$recordId || !$relatedRecord) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || !\App\Privilege::isPermitted($request->get('relmodule'), 'DetailView', $relatedRecord)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -23,12 +30,12 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$relatedRecord = $request->get('relid');
 		$relatedModuleName = $request->get('relmodule');
 
-		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
-		if (!$rcmModel->isEditable()) {
+		$relatedCommentModal = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
+		if (!$relatedCommentModal->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
@@ -36,7 +43,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RELATED_RECORD', $relatedRecord);
 		$viewer->assign('RELATED_MODULE', $relatedModuleName);
-		$viewer->assign('COMMENT', $rcmModel->getComment());
+		$viewer->assign('COMMENT', $relatedCommentModal->getComment());
 
 		$this->preProcess($request);
 		$viewer->view('RelatedCommentModal.tpl', $moduleName);

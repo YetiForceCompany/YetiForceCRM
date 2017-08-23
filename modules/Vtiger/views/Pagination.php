@@ -19,20 +19,20 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 	public function getRelationPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
+		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
 		$relatedModuleName = $request->get('relatedModule');
-		$parentId = $request->get('record');
+		$parentId = $request->getInteger('record');
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
@@ -52,7 +52,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$cvId = $request->get('viewname');
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$moduleName = $request->getModule();
 		if (empty($cvId)) {
 			$cvId = App\CustomView::getInstance($moduleName)->getViewId();

@@ -51,15 +51,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
 		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		return true;
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -391,7 +389,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showRecentActivities(\App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted('ModComments')) {
+		if (!\App\Privilege::isPermitted('ModTracker')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$type = 'changes';

@@ -15,6 +15,12 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -26,6 +32,12 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		}
 		if (!$request->isEmpty('src_module') && !$currentUserPrivilegesModel->hasModulePermission($request->get('src_module'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if (!$request->isEmpty('related_parent_id') && !\App\Privilege::isPermitted($request->get('related_parent_module'), 'DetailView', $request->getInteger('related_parent_id'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->get('src_module'), 'DetailView', $request->getInteger('src_record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -95,12 +107,12 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$sortOrder = $request->get('sortorder');
 		$sourceModule = $request->get('src_module');
 		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
+		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->get('currency_id');
 		$relatedParentModule = $request->get('related_parent_module');
-		$relatedParentId = $request->get('related_parent_id');
+		$relatedParentId = $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 
 		//To handle special operation when selecting record from Popup
@@ -133,7 +145,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
+			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}
@@ -276,7 +288,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->get('src_module');
 		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
+		$sourceRecord = $request->getInteger('src_record');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		$currencyId = $request->get('currency_id');
@@ -285,11 +297,11 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$searchValue = $request->get('search_value');
 
 		$relatedParentModule = $request->get('related_parent_module');
-		$relatedParentId = $request->get('related_parent_id');
+		$relatedParentId = $request->getInteger('related_parent_id');
 
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
-			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName, $label);
+			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}

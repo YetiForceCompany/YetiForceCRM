@@ -11,11 +11,21 @@
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ExportPdf')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -23,8 +33,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
-		$allRecords = [];
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$view = $request->get('fromview');
 		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 

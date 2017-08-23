@@ -26,7 +26,7 @@ class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View
 	{
 		$moduleName = $this->getModule($request);
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$tooltipViewModel = Vtiger_TooltipView_Model::getInstance($moduleName, $recordId);
 
 		$viewer->assign('MODULE', $moduleName);
