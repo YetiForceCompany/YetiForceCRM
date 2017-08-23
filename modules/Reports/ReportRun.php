@@ -803,39 +803,26 @@ class ReportRun extends CRMEntity
 	 */
 	public function getAdvFilterList($reportid)
 	{
-		$adb = PearDatabase::getInstance();
-
-
 		$advft_criteria = [];
-
-		$sql = 'SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
-		$groupsQuery = (new \App\Db\Query())->from('vtiger_relcriteria_grouping')->where(['queryid' => $reportid]);
-		$dataReader = $query->createCommand()->query();
+		$groupsQuery = (new \App\Db\Query())->from('vtiger_relcriteria_grouping')->where(['queryid' => $reportid])->orderBy('groupid');
+		$dataReader = $groupsQuery->createCommand()->query();
 		$i = 1;
 		$j = 0;
 		while ($relcriteriagroup = $dataReader->read()) {
-			$groupId = $relcriteriagroup["groupid"];
-			$groupCondition = $relcriteriagroup["group_condition"];
-
-			$ssql = 'select vtiger_relcriteria.* from vtiger_report
-						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
-						left join vtiger_relcriteria_grouping on vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid
-								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
-			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
-
-			$result = $adb->pquery($ssql, array($reportid, $groupId));
-			$noOfColumns = $adb->num_rows($result);
-			if ($noOfColumns <= 0)
+			$groupId = $relcriteriagroup['groupid'];
+			$groupCondition = $relcriteriagroup['group_condition'];
+			$rows = (new \App\Db\Query())->select(['vtiger_relcriteria.*'])->from('vtiger_report')->innerJoin('vtiger_relcriteria', 'vtiger_report.queryid = vtiger_relcriteria.queryid')->leftJoin('vtiger_relcriteria_grouping', 'vtiger_relcriteria.queryid = vtiger_relcriteria_grouping.queryid')->where(['vtiger_report.reportid' => $reportid, 'vtiger_relcriteria.groupid' => $groupId])->andWhere(['and', new \yii\db\Expression('`vtiger_relcriteria`.`groupid` = `vtiger_relcriteria_grouping`.`groupid`')])->orderBy('vtiger_relcriteria.columnindex')->all();
+			if (!$rows)
 				continue;
 
-			while ($relcriteriarow = $adb->fetch_array($result)) {
+			foreach ($rows as $relcriteriarow) {
 				$criteria = [];
-				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"]);
-				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advfilterval = $relcriteriarow["value"];
-				$col = explode(":", $relcriteriarow["columnname"]);
+				$criteria['columnname'] = html_entity_decode($relcriteriarow['columnname']);
+				$criteria['comparator'] = $relcriteriarow['comparator'];
+				$advfilterval = $relcriteriarow['value'];
+				$col = explode(':', $relcriteriarow['columnname']);
 				$criteria['value'] = $advfilterval;
-				$criteria['column_condition'] = $relcriteriarow["column_condition"];
+				$criteria['column_condition'] = $relcriteriarow['column_condition'];
 
 				$advft_criteria[$i]['columns'][$j] = $criteria;
 				$advft_criteria[$i]['condition'] = $groupCondition;
