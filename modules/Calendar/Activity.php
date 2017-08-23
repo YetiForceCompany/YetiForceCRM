@@ -161,7 +161,7 @@ class Activity extends CRMEntity
 	 * @param  integer   $recurid         - recuring eventid
 	 * @param  string    $reminderMode    - string like 'edit'
 	 */
-	public function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
+	public function activityReminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 
 		\App\Log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
