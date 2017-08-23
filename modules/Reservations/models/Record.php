@@ -77,9 +77,9 @@ Class Reservations_Record_Model extends Vtiger_Record_Model
 		$sum_time_h = number_format($sumTimeHResult, 2);
 		//////// sum_time_p
 		$projectResult = (new \App\Db\Query())->select(['projectid'])->from('vtiger_project')->innerJoin('vtiger_crmentity', 'vtiger_project.projectid = vtiger_crmentity.crmid')->where(['deleted' => 0, 'servicecontractsid' => $ServiceContractsID])->createCommand()->query();
-		while ($ProjectID = $dataReader->readColumn(0)) {
-			$sum_time_result = $db->pquery("SELECT SUM(sum_time) as sum FROM vtiger_reservations WHERE deleted = ? && reservations_status = ? && projectid = ? && projecttaskid = ? && ticketid = ?;", array(0, self::recalculateStatus, $ProjectID, 0, 0), true);
-			$sum_time_p += number_format($db->query_result($sum_time_result, 0, 'sum'), 2);
+		while ($ProjectID = $projectResult->readColumn(0)) {
+			$sumTimeResult = (new \App\Db\Query())->from('vtiger_reservations')->where(['deleted' => 0, 'reservations_status' => self::recalculateStatus, 'projectid' => $ProjectID, 'projecttaskid' => 0, 'ticketid' => 0])->sum('sum_time');
+			$sum_time_p += number_format($sumTimeResult, 2);
 			$sql_sum_time_h = 'SELECT SUM(vtiger_reservations.sum_time) AS sum
 							FROM vtiger_reservations
 							INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.ticketid
