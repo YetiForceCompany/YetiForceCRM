@@ -2312,7 +2312,7 @@ class ReportRun extends CRMEntity
 			$sSQL .= " LIMIT 0, " . (self::$HTMLVIEW_MAX_ROWS + 1); // Pull a record more than limit
 
 			$result = $adb->query($sSQL);
-			$error_msg = $adb->database->errorMsg();
+			$error_msg = $adb->database->ErrorMsg();
 			if (!$result && $error_msg != '') {
 				// Performance Optimization: If direct output is requried
 				if ($directOutput) {
