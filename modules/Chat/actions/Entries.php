@@ -11,14 +11,15 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Check permission
+	 * Function to check permission
 	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!App\Privilege::isPermitted($request->getModule())) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

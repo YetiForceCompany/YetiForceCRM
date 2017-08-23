@@ -48,9 +48,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	}
 
 	/**
-	 * Check Permission
+	 * Function to check permission
 	 * @param \App\Request $request
-	 * @return boolean
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)

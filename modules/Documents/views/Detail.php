@@ -20,7 +20,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
 		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
@@ -52,7 +52,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 
 	public function showDocumentRelations(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$data = Documents_Record_Model::getReferenceModuleByDocId($recordId);

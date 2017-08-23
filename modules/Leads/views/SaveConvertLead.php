@@ -13,23 +13,32 @@ Vtiger_Loader::includeOnce('~include/Webservices/ConvertLead.php');
 class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 {
 
+	/**
+	 * Record model instance
+	 * @var Vtiger_Record_Model 
+	 */
+	protected $record = false;
+
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ConvertLead')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-
-		$recordPermission = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
-		if (!$recordPermission) {
+		$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		if (!$this->record->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		if (!Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
+		if (!Leads_Module_Model::checkIfAllowedToConvert($this->record->get('leadstatus'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -41,7 +50,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$modules = $request->get('modules');
 		$assignId = $request->get('assigned_user_id');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -52,8 +61,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		$entityValues['leadId'] = $recordId;
 		$createAlways = Vtiger_Processes_Model::getConfig('marketing', 'conversion', 'create_always');
 
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
-		$convertLeadFields = $recordModel->getConvertLeadFields();
+		$convertLeadFields = $this->record->getConvertLeadFields();
 		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
 			if (\App\Module::isModuleActive($module) && in_array($module, $modules)) {
@@ -70,7 +78,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			$results = true;
 			if ($createAlways === true || $createAlways === 'true') {
 				$leadModel = Vtiger_Module_Model::getCleanInstance($request->getModule());
-				$results = $leadModel->searchAccountsToConvert($recordModel);
+				$results = $leadModel->searchAccountsToConvert($this->record);
 				$entityValues['entities']['Accounts']['convert_to_id'] = $results;
 			}
 			if (!$results) {

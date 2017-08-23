@@ -11,12 +11,24 @@
 class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!App\Field::getFieldPermission($request->getModule(), 'activitystatus')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$state = $request->get('state');
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModel->set('activitystatus', $state);
 		$recordModel->save();
 

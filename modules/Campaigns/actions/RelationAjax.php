@@ -24,8 +24,16 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 */
 	public function addRelationsFromRelatedModuleViewId(\App\Request $request)
 	{
+		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->get('sourceRecord');
+		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$relatedModuleName = $request->get('relatedModule');
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($relatedModuleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 		$viewId = $request->get('viewId');
 		if ($viewId) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
@@ -58,16 +66,18 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	public function updateStatus(\App\Request $request)
 	{
 		$relatedModuleName = $request->get('relatedModule');
-		$relatedRecordId = $request->get('relatedRecord');
+		$relatedRecordId = $request->getInteger('relatedRecord');
 		$status = $request->get('status');
 		$response = new Vtiger_Response();
-
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord')) || !\App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		if ($relatedRecordId && $status && $status < 5) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
 
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-			$relationModel->updateStatus($request->get('sourceRecord'), array($relatedRecordId => $status));
+			$relationModel->updateStatus($request->getInteger('sourceRecord'), array($relatedRecordId => $status));
 
 			$response->setResult(array(true));
 		} else {

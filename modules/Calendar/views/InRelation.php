@@ -8,14 +8,14 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Calendar_InRelation_View extends Vtiger_Index_View
+class Calendar_InRelation_View extends Vtiger_RelatedList_View
 {
 
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
-		$parentId = $request->get('record');
+		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->get('page');
 		$time = $request->get('time');
@@ -138,5 +138,4 @@ class Calendar_InRelation_View extends Vtiger_Index_View
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		return $viewer->view('RelatedList.tpl', $relatedModuleName, 'true');
 	}
-
 }

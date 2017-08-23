@@ -11,12 +11,19 @@
 class Documents_DownloadFile_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Check Permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord(\App\Language::translate('LBL_PERMISSION_DENIED', $moduleName));
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -24,7 +31,7 @@ class Documents_DownloadFile_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 
-		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$documentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		//Download the file
 		$documentRecordModel->downloadFile();
 		//Update the Download Count

@@ -12,11 +12,14 @@
 class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+		if (!Users_Privileges_Model::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -30,7 +33,7 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 		if (!empty($documentIdsList)) {
 			foreach ($documentIdsList as $documentId) {
 				$documentModel = Vtiger_Record_Model::getInstanceById($documentId, $moduleName);
-				if (Users_Privileges_Model::isPermitted($moduleName, 'EditView', $documentId)) {
+				if ($documentModel->isEditable()) {
 					$documentModel->set('folderid', $folderId);
 					$documentModel->save();
 				} else {

@@ -16,7 +16,7 @@ class Faq_Edit_View extends Vtiger_Edit_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
